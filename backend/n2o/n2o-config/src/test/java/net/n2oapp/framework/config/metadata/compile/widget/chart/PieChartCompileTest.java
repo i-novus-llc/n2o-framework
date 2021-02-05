@@ -48,6 +48,7 @@ public class PieChartCompileTest extends SourceCompileTestBase {
 
         assertThat(pieChart1.getComponent().getValueFieldId(), is("valueField"));
         assertThat(pieChart1.getComponent().getNameFieldId(), is("name"));
+        assertThat(pieChart1.getComponent().getTooltipFieldId(), is("tooltip"));
         assertThat(pieChart1.getComponent().getCenterX(), is(100));
         assertThat(pieChart1.getComponent().getCenterY(), is(150));
         assertThat(pieChart1.getComponent().getInnerRadius(), is(15));

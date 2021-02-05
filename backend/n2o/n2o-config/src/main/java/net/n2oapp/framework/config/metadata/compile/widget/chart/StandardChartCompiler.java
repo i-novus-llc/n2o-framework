@@ -30,6 +30,8 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
                 .toString());
         yAxis.setHasLabel(p.cast(source.getYHasLabel(),
                 p.resolve(property("n2o.api.widget.chart.axis.has_label"), Boolean.class)));
+        yAxis.setMin(source.getYMin());
+        yAxis.setMax(source.getYMax());
         chart.setYAxis(yAxis);
         ChartGrid grid = new ChartGrid();
         grid.setStrokeDashArray(source.getGridStrokeDashArray());
