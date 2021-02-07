@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тест стандартного филдсета
+ * Тестирование простого филдсета
  */
 public class SetFieldSetCompileTest extends SourceCompileTestBase {
 

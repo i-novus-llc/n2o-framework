@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.fieldset.LineFieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
@@ -18,7 +17,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тест филсета с горизонтальной линией
+ * Тестирование филдсета с горизонтальной линией
  */
 public class LineFieldSetCompileTest extends SourceCompileTestBase {
 
@@ -31,8 +30,7 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack())
-                .ios(new LineFieldsetElementIOv4());
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack());
     }
 
     @Test
@@ -42,19 +40,18 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
         List<FieldSet> fields = form.getComponent().getFieldsets();
         assertThat(fields.size(), is(2));
 
-        assertThat(fields.get(0), instanceOf(LineFieldSet.class));
-        assertThat(fields.get(1), instanceOf(LineFieldSet.class));
+        LineFieldSet lineFieldSet = (LineFieldSet) fields.get(0);
+        assertThat(lineFieldSet.getSrc(), is("LineFieldset"));
+        assertThat(lineFieldSet.getLabel(), is(nullValue()));
+        assertThat(lineFieldSet.getCollapsible(), is(true));
+        assertThat(lineFieldSet.getHasSeparator(), is(true));
+        assertThat(lineFieldSet.getExpand(), is(true));
 
-        assertThat(fields.get(0).getSrc(), is("LineFieldset"));
-        assertThat(((LineFieldSet)fields.get(0)).getLabel(), is(nullValue()));
-        assertThat(((LineFieldSet)fields.get(0)).getCollapsible(), is(true));
-        assertThat(((LineFieldSet)fields.get(0)).getHasSeparator(), is(true));
-        assertThat(((LineFieldSet)fields.get(0)).getExpand(), is(true));
-
-        assertThat(fields.get(1).getSrc(), is("testLine"));
-        assertThat(((LineFieldSet)fields.get(1)).getLabel(), is("test"));
-        assertThat(((LineFieldSet)fields.get(1)).getCollapsible(), is(false));
-        assertThat(((LineFieldSet)fields.get(1)).getHasSeparator(), is(false));
-        assertThat(((LineFieldSet)fields.get(1)).getExpand(), is(false));
+        LineFieldSet lineFieldSet2 = (LineFieldSet) fields.get(1);
+        assertThat(lineFieldSet2.getSrc(), is("testLine"));
+        assertThat(lineFieldSet2.getLabel(), is("test"));
+        assertThat(lineFieldSet2.getCollapsible(), is(false));
+        assertThat(lineFieldSet2.getHasSeparator(), is(false));
+        assertThat(lineFieldSet2.getExpand(), is(false));
     }
 }

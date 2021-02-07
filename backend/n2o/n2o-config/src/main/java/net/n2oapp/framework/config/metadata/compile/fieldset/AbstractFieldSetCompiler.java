@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Абстрактная реализация компиляции филдсета
+ * Компиляции абстрактного филдсета
  */
 public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2oFieldSet>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
@@ -26,15 +26,14 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
-        if (source.getVisible() != null)
-            compiled.getVisibilityConditions().add(source.getVisible());
+
         if (source.getFieldLabelLocation() != null) {
             compiled.setLabelPosition(FieldSet.LabelPosition.map(source.getFieldLabelLocation(), source.getFieldLabelAlign()));
         }
         if (source.getFieldLabelAlign() != null) {
             compiled.setLabelAlignment(FieldSet.LabelAlignment.map(source.getFieldLabelAlign()));
         }
-        compiled.setLabelWidth(source.getLabelWidth());
+        compiled.setLabelWidth(source.getFieldLabelWidth());
 
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));

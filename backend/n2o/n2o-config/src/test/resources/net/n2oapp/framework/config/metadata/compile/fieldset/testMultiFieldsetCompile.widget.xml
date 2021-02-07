@@ -5,6 +5,6 @@
                    can-remove-first="true" can-add="false" can-remove="false"
                    can-remove-all="true" can-copy="true">
         </multi-set>
-        <multi-set children-label="{members[index].name}"/>
+        <multi-set src="test" children-label="{members[index].name}"/>
     </fields>
 </form>

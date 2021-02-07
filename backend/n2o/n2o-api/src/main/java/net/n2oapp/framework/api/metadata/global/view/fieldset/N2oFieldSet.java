@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -25,10 +24,9 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private String style;
     private FieldLabelLocation fieldLabelLocation;
     private FieldLabelAlign fieldLabelAlign;
-    private String labelWidth;
+    private String fieldLabelWidth;
     private String dependencyCondition;
     private String[] dependsOn;
-    private Set<String> visibilityConditions;
     private String visible;
     private String enabled;
     private Map<N2oNamespace, Map<String, String>> extAttributes;

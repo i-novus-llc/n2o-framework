@@ -586,8 +586,7 @@
             <xs:documentation>Поля формы.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="fs:fields">
-            </xs:extension>
+            <xs:extension base="fs:fields"/>
         </xs:complexContent>
     </xs:complexType>
 
