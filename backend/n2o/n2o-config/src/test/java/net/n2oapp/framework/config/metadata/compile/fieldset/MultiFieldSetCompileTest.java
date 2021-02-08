@@ -31,8 +31,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack())
-                .ios(new MultiFieldsetElementIOv4());
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack());
     }
 
     @Test
