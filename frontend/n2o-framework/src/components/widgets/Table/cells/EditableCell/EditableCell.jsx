@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys/cjs';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 import set from 'lodash/set';
 
@@ -38,10 +39,18 @@ export class EditableCell extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!isEqual(prevProps.model, this.props.model)) {
+    if (
+      prevProps.editable !== this.props.editable &&
+      !isEqual(prevProps.model, this.props.model) &&
+      !isEqual(this.state.model, this.props.prevResolveModel)
+    ) {
+      this.setState({ model: this.props.model });
+    } else if (!isEqual(prevProps.model, this.props.model)) {
       this.setState({
         prevModel: this.state.model,
-        model: this.props.prevResolveModel,
+        model: isEmpty(this.props.prevResolveModel)
+          ? this.props.model
+          : this.props.prevResolveModel,
       });
     } else if (
       !isEqual(prevProps.prevResolveModel, this.props.prevResolveModel) &&
