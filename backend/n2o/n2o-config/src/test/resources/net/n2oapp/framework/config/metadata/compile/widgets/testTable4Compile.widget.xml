@@ -43,7 +43,7 @@
         <column text-field-id="name"/>
     </columns>
     <rows class="red"/>
-    <filters place="left">
+    <filters place="left" default-values-query-id="test">
         <input-text id="name" required="true"/>
     </filters>
 </table>
