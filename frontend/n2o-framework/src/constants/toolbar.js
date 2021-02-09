@@ -17,3 +17,4 @@ export const REGISTER_BUTTON = 'n2o/toolbar/REGISTER_BUTTON';
 export const CALL_ACTION_IMPL = 'n2o/actionsImpl/CALL_ACTION_IMPL';
 export const REMOVE_BUTTON = 'n2o/toolbar/REMOVE_BUTTON';
 export const RESET_STATE = 'n2o/toolbar/RESET_STATE';
+export const PRINT_BUTTON = 'n2o/toolbar/PRINT_BUTTON';

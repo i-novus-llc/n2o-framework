@@ -13,6 +13,7 @@ import { conditionsSaga } from './sagas/conditions';
 import { widgetDependencySagas } from './sagas/widgetDependency';
 import regionsSagas from './sagas/regions';
 import { overlaysSagas } from './sagas/overlays';
+import toolbarSagas from './sagas/toolbar';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -30,6 +31,7 @@ export default function generateSagas(dispatch, config) {
       ...widgetDependencySagas,
       ...overlaysSagas,
       ...regionsSagas,
+      ...toolbarSagas,
       ...defaultTo(config.customSagas, []),
     ]);
   };
