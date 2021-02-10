@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.ModelAware;
+import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
@@ -13,16 +15,21 @@ import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
  */
 @Getter
 @Setter
-public abstract class N2oAbstractButton extends N2oComponent implements IdAware {
+public abstract class N2oAbstractButton extends N2oComponent implements IdAware, WidgetIdAware, ModelAware {
     private String id;
     private String label;
     private String icon;
     private LabelType type;
     private String color;
+    private ReduxModel model;
     private String visible;
     private String enabled;
     private String description;
     private String tooltipPosition;
+    private String widgetId;
+    private DisableOnEmptyModelType disableOnEmptyModel;
+
+    private Dependency[] dependencies;
 
     @Deprecated
     private N2oButtonCondition[] enablingConditions;

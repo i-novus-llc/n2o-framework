@@ -5,44 +5,39 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButtonCondition;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция ToolbarItem
  */
-public abstract class BaseButtonCompiler<S extends GroupItem, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
+public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
 
-    protected void initItem(MenuItem button, N2oAbstractButton source, IndexScope idx,
+    protected void initItem(AbstractButton button, N2oAbstractButton source, IndexScope idx,
                             CompileContext<?, ?> context, CompileProcessor p) {
-        button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
-        source.setId(button.getId());
+        button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
         if (source.getType() != null && source.getType() == LabelType.icon) {
             button.setIcon(source.getIcon());
@@ -52,33 +47,14 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }
-        CompiledObject.Operation operation = null;
-        CompiledObject compiledObject = null;
+
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-        if (widgetObjectScope != null) {
-            if (widgetObjectScope.size() == 1 && source.getWidgetId() == null)
-                source.setWidgetId(widgetObjectScope.keySet().iterator().next());
-            if (widgetObjectScope.containsKey(source.getWidgetId())) {
-                compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-            }
-        }
-        if (compiledObject == null)
-            compiledObject = p.getScope(CompiledObject.class);
-        Action action = compileAction(button, source, context, p, compiledObject);
+        if (source.getWidgetId() == null && widgetObjectScope != null && widgetObjectScope.size() == 1)
+            source.setWidgetId(widgetObjectScope.keySet().iterator().next());
 
-        if (action != null) {
-            button.setAction(action);
-            if (action instanceof InvokeAction) {
-                operation = compiledObject != null && compiledObject.getOperations() != null
-                        && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
-                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-            }
-            //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
-        }
-
-        initConfirm(button, source, context, p, operation);
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        initColor(source, p, button);
 
         String hint;
         if (LabelType.icon.equals(source.getType()))
@@ -102,49 +78,20 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
         compileConditionsAndDependencies(button, source, context, p);
-        button.setValidate(source.getValidate());
     }
 
-    private Action compileAction(MenuItem button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p,
-                                 CompiledObject compiledObject) {
-        Action action = null;
-        if (source.getActionId() != null) {
-            MetaActions metaActions = p.getScope(MetaActions.class);
-            action = metaActions.get(source.getActionId());
+    private void initColor(N2oAbstractButton source, CompileProcessor p, AbstractButton button) {
+        if (source.getColor() == null) {
+            ComponentScope componentScope = p.getScope(ComponentScope.class);
+            if (componentScope != null) {
+                N2oCell cell = componentScope.unwrap(N2oCell.class);
+                if (cell != null) {
+                    button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
+                }
+            }
         } else {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
-            }
+            button.setColor(source.getColor());
         }
-        return action;
-    }
-
-    private void initConfirm(MenuItem button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
-        if ((source.getConfirm() == null || !source.getConfirm()) &&
-                (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
-            return;
-        Confirm confirm = new Confirm();
-        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
-        confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
-        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
-        if (StringUtils.hasLink(confirm.getText())) {
-            Set<String> links = StringUtils.collectLinks(confirm.getText());
-            String text = js("'" + confirm.getText() + "'");
-            for (String link : links) {
-                text = text.replace(ref(link), "' + this." + link + " + '");
-            }
-            confirm.setText(text);
-        }
-        if (StringUtils.isJs(confirm.getText())) {
-            String widgetId = initWidgetId(source, context, p);
-            ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, widgetId).getBindLink());
-        }
-        button.setConfirm(confirm);
     }
 
     protected String initWidgetId(N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p) {
@@ -168,7 +115,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
      * @param button клиентская модель кнопки
      * @param source исходная модель поля
      */
-    protected void compileConditionsAndDependencies(MenuItem button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileConditionsAndDependencies(AbstractButton button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p) {
         String widgetId = initWidgetId(source, context, p);
         List<Condition> enabledConditions = new ArrayList<>();
 
@@ -246,7 +193,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         return result;
     }
 
-    private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type,
+    private void compileLinkCondition(AbstractButton button, String widgetId, ValidationType type,
                                       String linkCondition, ReduxModel model) {
         Condition condition = new Condition();
         condition.setExpression(linkCondition.substring(1, linkCondition.length() - 1));
@@ -256,7 +203,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.getConditions().get(type).add(condition);
     }
 
-    private void compileDependencies(N2oAbstractButton.Dependency[] dependencies, MenuItem button, String widgetId, CompileProcessor p) {
+    private void compileDependencies(N2oAbstractButton.Dependency[] dependencies, AbstractButton button, String widgetId, CompileProcessor p) {
         for (N2oAbstractButton.Dependency d : dependencies) {
             ValidationType validationType = null;
             if (d instanceof N2oAbstractButton.EnablingDependency)
@@ -268,7 +215,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         }
     }
 
-    private void compileCondition(N2oAbstractButton.Dependency dependency, MenuItem menuItem, ValidationType validationType,
+    private void compileCondition(N2oAbstractButton.Dependency dependency, AbstractButton button, ValidationType validationType,
                                   String widgetId, CompileProcessor p) {
         String refWidgetId = null;
         if (dependency.getRefWidgetId() != null) {
@@ -286,8 +233,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (dependency instanceof N2oAbstractButton.EnablingDependency)
             condition.setMessage(((N2oAbstractButton.EnablingDependency) dependency).getMessage());
 
-        if (!menuItem.getConditions().containsKey(validationType))
-            menuItem.getConditions().put(validationType, new ArrayList<>());
-        menuItem.getConditions().get(validationType).add(condition);
+        if (!button.getConditions().containsKey(validationType))
+            button.getConditions().put(validationType, new ArrayList<>());
+        button.getConditions().get(validationType).add(condition);
     }
 }

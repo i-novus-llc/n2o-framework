@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <toolbar>
-        <sub-menu id="menu1" color="primary" enabled="true" label="Menu" class="class"
+        <sub-menu id="menu1" color="primary" enabled="true" label="Menu" class="class" widget-id="table"
                   visible="false" description="desc" generate="crud" icon="icon" show-toggle-icon="false"
                   src="src" style="color: red" tooltip-position="right" type="icon">
             <menu-item id="btn" label="label" widget-id="table" model="resolve" icon="icon" color="primary"
