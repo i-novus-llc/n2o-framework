@@ -2,20 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
-
+import some from 'lodash/some';
+import isEqual from 'lodash/isEqual';
+import cx from 'classnames';
+import { findDOMNode } from 'react-dom';
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
-import Icon from '../../snippets/Icon/Icon';
-import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import propsResolver from '../../../utils/propsResolver';
-import { UNKNOWN_GROUP_FIELD_ID } from './utils';
-import cx from 'classnames';
-import { findDOMNode } from 'react-dom';
 
-import { groupData, inArray, isDisabled } from './utils';
+import Icon from '../../snippets/Icon/Icon';
 import StatusText from '../../snippets/StatusText/StatusText';
+
+import CheckboxN2O from '../Checkbox/CheckboxN2O';
+
+import { UNKNOWN_GROUP_FIELD_ID } from './utils';
+import { groupData, inArray, isDisabled } from './utils';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -99,6 +102,8 @@ function PopupItems({
   const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
       ? !item[enabledFieldId]
+      : some(selected, selectedItem => isEqual(selectedItem, item))
+      ? true
       : !hasCheckboxes &&
         isDisabled(
           autocomplete ? item[valueFieldId] : item,

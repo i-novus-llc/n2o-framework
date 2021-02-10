@@ -4,6 +4,7 @@ import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -142,7 +143,7 @@ public abstract class AbstractController {
         criteria.setCount(count);
         if (query != null) {
             criteria.setSortings(getSortings(data, queryCtx.getSortingMap()));
-            prepareRestrictions(query, criteria, data);
+            prepareRestrictions(query, criteria, queryCtx, data);
         }
         return criteria;
     }
@@ -162,21 +163,39 @@ public abstract class AbstractController {
         return sortings;
     }
 
-    private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, DataSet data) {
-        for (Map.Entry<String, String> paramEntry : query.getParamToFilterIdMap().entrySet()) {
-            Object value = data.get(paramEntry.getKey());
-            if (value != null) {
-                String filterId = paramEntry.getValue();
-                if (query.getInvertFiltersMap().containsKey(filterId)) {
-                    Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
-                    String fieldId = typeEntry.getKey();
-                    FilterType filterType = typeEntry.getValue();
-                    Restriction restriction = new Restriction(fieldId, value, filterType);
-                    criteria.addRestriction(restriction);
-                } else {
-                    criteria.putAdditionalField(filterId, value);
+    private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, QueryContext queryCtx, DataSet data) {
+        //todo @Deprecated убрать использование этой настройки и старого метода фильтрации данных (по фильтрам query)
+        Boolean filterModeOld = environment.getSystemProperties().getProperty("n2o.config.filter.old_mode", Boolean.class);
+        if (filterModeOld != null && filterModeOld) {
+            for (Map.Entry<String, String> paramEntry : query.getParamToFilterIdMap().entrySet()) {
+                Object value = data.get(paramEntry.getKey());
+                if (value != null) {
+                    String filterId = paramEntry.getValue();
+                    createFilter(query, criteria, value, filterId);
                 }
             }
+        } else {
+            if (queryCtx.getFilters() != null)
+                for (Filter filter : queryCtx.getFilters()) {
+                    String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
+                    Object value = data.get(key);
+                    if (value != null) {
+                        String filterId = query.getParamToFilterIdMap().get(key);
+                        createFilter(query, criteria, value, filterId);
+                    }
+                }
+        }
+    }
+
+    private void createFilter(CompiledQuery query, N2oPreparedCriteria criteria, Object value, String filterId) {
+        if (query.getInvertFiltersMap().containsKey(filterId)) {
+            Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
+            String fieldId = typeEntry.getKey();
+            FilterType filterType = typeEntry.getValue();
+            Restriction restriction = new Restriction(fieldId, value, filterType);
+            criteria.addRestriction(restriction);
+        } else {
+            criteria.putAdditionalField(filterId, value);
         }
     }
 

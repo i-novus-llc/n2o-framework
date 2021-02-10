@@ -79,10 +79,6 @@ class WidgetFilters extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.resetFilter();
-  }
-
   handleChangeModel(values) {
     const {
       widgetId,

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Компиляция компонента ввода текста с автоподбором
@@ -65,10 +66,9 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
-        String route = query.getRoute();
-        p.addRoute(new QueryContext(source.getQueryId(), route));
+        p.addRoute(prepareQueryContextForRouteRegister(query));
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setUrl(route);
+        dataProvider.setUrl(query.getRoute());
         dataProvider.setQuickSearchParam(p.cast(source.getSearchFilterId(), "name"));
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }

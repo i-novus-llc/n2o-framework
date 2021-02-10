@@ -21,5 +21,8 @@
             </line>
             <text-area id="note" label="${note}" enabled="false"/>
         </fields>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
     </form>
 </simple-page>

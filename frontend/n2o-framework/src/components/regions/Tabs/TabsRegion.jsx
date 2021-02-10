@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
-import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
 import some from 'lodash/some';
@@ -40,27 +39,26 @@ class TabRegion extends React.Component {
     this.props.changeActiveEntity(null);
   }
 
-  handleChangeActive(id, prevId) {
+  handleChangeActive(event, id, prevId) {
     const {
-      tabs,
       lazy,
       alwaysRefresh,
       getWidgetProps,
       fetchWidget,
       changeActiveEntity,
     } = this.props;
-    const { readyTabs } = this.state;
-    const widgetId = get(
-      find(tabs, ({ id: tabId }) => tabId === id),
-      'widgetId'
-    );
 
+    const { readyTabs } = this.state;
+
+    const widgetId = id.replace('_', '');
     const widgetProps = getWidgetProps(widgetId);
 
     if (lazy) {
       if (alwaysRefresh) {
         pull(readyTabs, prevId);
+        fetchWidget(widgetId);
       }
+
       readyTabs.push(id);
       this.setState(() => ({
         readyTabs: [...readyTabs],
