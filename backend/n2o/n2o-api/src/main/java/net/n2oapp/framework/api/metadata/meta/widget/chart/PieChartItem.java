@@ -26,7 +26,7 @@ public class PieChartItem extends AbstractChartItem {
     private String nameFieldId;
     @JsonProperty("dataKey")
     private String valueFieldId;
-    @JsonProperty
+    @JsonProperty("tooltipKey")
     private String tooltipFieldId;
     @JsonProperty("fill")
     private String color;
