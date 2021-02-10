@@ -18,7 +18,6 @@ import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -28,6 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
 
@@ -136,13 +136,29 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
-        p.addRoute(new QueryContext(source.getQueryId(), route));
+        p.addRoute(prepareQueryContextForRouteRegister(query));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setTargetModel(modelsScope.getModel());
-        dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
+        if (modelsScope != null) {
+            dataProvider.setTargetModel(modelsScope.getModel());
+            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
+        }
         dataProvider.setUrl(route);
 
+        initPreFilters(source, query, dataProvider);
+
+        if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
+            String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
+            if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
+                dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
+            } else if (searchFilterId != null && listControl.getHasSearch()) {
+                throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
+            }
+        }
+        listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
+    }
+
+    private void initPreFilters(N2oListField source, CompiledQuery query, N2oClientDataProvider dataProvider) {
         N2oPreFilter[] preFilters = source.getPreFilters();
         if (preFilters != null) {
             N2oParam[] queryParams = new N2oParam[preFilters.length];
@@ -169,16 +185,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             }
             dataProvider.setQueryParams(queryParams);
         }
-
-        if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
-            String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
-            if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
-                dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
-            } else if (searchFilterId != null && listControl.getHasSearch()) {
-                throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
-            }
-        }
-        listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
     }
 
     private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {

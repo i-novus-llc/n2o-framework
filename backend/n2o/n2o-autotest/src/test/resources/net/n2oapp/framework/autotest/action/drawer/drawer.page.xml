@@ -8,6 +8,9 @@
                     <input-text id="id" enabled="false"/>
                     <input-text id="name" enabled="false"/>
                 </fields>
+                <pre-filters>
+                    <eq field-id="id" param="id"/>
+                </pre-filters>
             </form>
         </region>
     </regions>

@@ -5,4 +5,7 @@
         <input-text id="name"/>
         <input-text id="surname" copied="true"/>
     </fields>
+    <pre-filters>
+        <eq field-id="id" param="id"/>
+    </pre-filters>
 </form>

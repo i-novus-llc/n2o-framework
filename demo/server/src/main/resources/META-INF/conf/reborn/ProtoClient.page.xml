@@ -18,5 +18,8 @@
                 </checkbox>
             </row>
         </fields>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
     </form>
 </simple-page>
