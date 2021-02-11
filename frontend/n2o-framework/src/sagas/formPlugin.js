@@ -10,7 +10,7 @@ import merge from 'lodash/merge';
 import setWith from 'lodash/setWith';
 
 import { removeFieldMessage } from '../actions/formPlugin';
-import { makeFieldByName } from '../selectors/formPlugin';
+import { makeFieldByName, messageSelector } from '../selectors/formPlugin';
 import { setModel } from '../actions/models';
 import { COPY } from '../constants/models';
 import {
@@ -25,10 +25,11 @@ export function* removeMessage(action) {
 
   if (formName && fieldName) {
     const field = yield select(makeFieldByName(formName, fieldName));
+    const message = yield select(messageSelector(formName, fieldName));
     const fieldValidation = get(field, 'validation');
 
-    if (!fieldValidation || isEmpty(fieldValidation)) {
-      yield put(removeFieldMessage(action.meta.form, action.meta.field));
+    if (message && (!fieldValidation || isEmpty(fieldValidation))) {
+      yield put(removeFieldMessage(formName, fieldName));
     }
   }
 }
@@ -101,7 +102,10 @@ export function* copyAction({ payload }) {
 }
 
 export const formPluginSagas = [
-  takeEvery('@@redux-form/START_ASYNC_VALIDATION', removeMessage),
+  takeEvery(
+    ['@@redux-form/START_ASYNC_VALIDATION', '@@redux-form/CHANGE'],
+    removeMessage
+  ),
   takeEvery(action => action.meta && action.meta.isTouched, addTouched),
   takeEvery(COPY, copyAction),
 ];
