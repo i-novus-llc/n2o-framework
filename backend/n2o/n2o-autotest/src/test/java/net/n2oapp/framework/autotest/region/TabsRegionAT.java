@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.region;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
@@ -28,7 +27,6 @@ public class TabsRegionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless=false;
     }
 
     @Override
