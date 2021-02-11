@@ -33,12 +33,12 @@
             </invocation>
             <in>
                 <field id="id" mapping="mapping" default-value="val1" mapper="groovy" normalize="norm" domain="string"/>
-                <field id="testSet" param="param" validation-fail-key="update.person.id">
+                <field id="testSet" param="param" validation-fail-key="update.person.id" enabled="type=='type1'">
                 </field>
             </in>
             <out>
                 <field id="id" mapping="mapping" default-value="val2" mapper="spel" normalize="norm"
-                       domain="boolean[]"/>
+                       domain="boolean[]" enabled="type=='type2'"/>
             </out>
             <fail-out>
                 <field id="message" mapping="#this.getMessage()"/>

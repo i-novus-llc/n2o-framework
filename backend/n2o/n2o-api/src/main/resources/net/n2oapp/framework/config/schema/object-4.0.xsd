@@ -374,7 +374,7 @@
                 <xs:documentation>Обязательность параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapping-condition" type="xs:string">
+        <xs:attribute name="enabled" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>

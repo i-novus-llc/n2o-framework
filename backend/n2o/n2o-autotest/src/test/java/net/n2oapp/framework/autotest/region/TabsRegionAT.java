@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.region;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
@@ -12,6 +13,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 /**
  * Автотест для региона в виде вкладок
@@ -26,6 +28,7 @@ public class TabsRegionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        Configuration.headless=false;
     }
 
     @Override

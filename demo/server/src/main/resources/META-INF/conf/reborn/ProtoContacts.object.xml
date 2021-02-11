@@ -16,8 +16,8 @@
             <in-parameters>
                 <param id="type.id" mapping="['type_id']"/>
                 <param id="individualId"  mapping="['indiv_id']"/>
-                <param id="phone" mapping-condition="type.id == 2" mapping="['value']"/>
-                <param id="email" mapping-condition="type.id == 4" mapping="['value']"/>
+                <param id="phone" enabled="type.id == 2" mapping="['value']"/>
+                <param id="email" enabled="type.id == 4" mapping="['value']"/>
             </in-parameters>
             <out-parameters>
                 <param id="id" mapping="[0]"/>
@@ -31,8 +31,8 @@
                 <param id="id" mapping="['id']"/>
                 <param id="type.id" mapping="['type_id']"/>
                 <param id="individualId"  mapping="['indiv_id']"/>
-                <param id="phone" mapping-condition="type.id == 2" mapping="['value']"/>
-                <param id="email" mapping-condition="type.id == 4" mapping="['value']"/>
+                <param id="phone" enabled="type.id == 2" mapping="['value']"/>
+                <param id="email" enabled="type.id == 4" mapping="['value']"/>
             </in-parameters>
         </operation>
         <operation id="delete">

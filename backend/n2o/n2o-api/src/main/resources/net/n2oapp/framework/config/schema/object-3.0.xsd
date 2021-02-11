@@ -284,7 +284,7 @@
                             <xs:documentation>Обязательность поля</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="mapping-condition" type="xs:string" use="optional">
+                    <xs:attribute name="enabled" type="xs:string" use="optional">
                         <xs:annotation>
                             <xs:documentation>Условие, при котором должен быть выполнен маппинг</xs:documentation>
                         </xs:annotation>
