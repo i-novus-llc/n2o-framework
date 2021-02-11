@@ -50,7 +50,7 @@ function PieChart({ width, height, margin, pie, data, ...rest }) {
     return (
       <div className="n2o-pie-chart-custom-tooltip">
         <h4 className="n2o-pie-chart-custom-tooltip__content">
-          {get(payload[0], tooltipFieldId)}
+          {get(payload[0], `payload.payload.${tooltipFieldId}`)}
         </h4>
       </div>
     );
