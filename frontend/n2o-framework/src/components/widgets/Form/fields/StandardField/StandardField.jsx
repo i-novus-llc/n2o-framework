@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
+import Toolbar from '../../../../buttons/Toolbar';
+import Spinner from '../../../../snippets/Spinner/Spinner';
+
 import Control from './Control';
 import Label from './Label';
-import Toolbar from '../../../../buttons/Toolbar';
-
 import Measure from './Measure';
 import Description from './Description';
 import FieldActions from './FieldActions';
-import Spinner from '../../../../snippets/Spinner/Spinner';
-
 import { FieldActionsPropTypes } from './FieldPropTypes';
 
 /**
@@ -88,8 +87,6 @@ class StandardField extends React.Component {
       noLabelBlock,
       ...props
     } = this.props;
-
-    const flexStyle = { display: 'flex' };
 
     const validationMap = {
       'is-valid': 'text-success',
