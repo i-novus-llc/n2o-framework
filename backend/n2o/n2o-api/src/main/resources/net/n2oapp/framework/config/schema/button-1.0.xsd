@@ -9,9 +9,6 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="acn:actions">
-                <xs:sequence>
-                    <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0"/>
-                </xs:sequence>
                 <xs:attribute name="id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -62,6 +59,71 @@
                 <xs:attribute name="tooltip-position" type="tooltipPositionType" default="bottom">
                     <xs:annotation>
                         <xs:documentation>Позиция подсказки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="buttonDefinition">
+        <xs:complexContent>
+            <xs:extension base="baseButtonDefinition">
+                <xs:annotation>
+                    <xs:documentation>Кнопка.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Действие виджета, которое будет вызвано при нажатии на кнопку.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="validate" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Валидирование формы при нажатии на кнопку.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="rounded" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Круглая форма кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст предупреждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-type" type="confirmType" default="modal">
+                    <xs:annotation>
+                        <xs:documentation>Тип предупреждения перед выполнением действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок окна предупреждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-ok-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст кнопки подтверждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-cancel-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="model" type="clientModel" default="resolve">
@@ -115,68 +177,6 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:anyAttribute>
-                    <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-                    </xs:annotation>
-                </xs:anyAttribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="buttonDefinition">
-        <xs:complexContent>
-            <xs:extension base="baseButtonDefinition">
-                <xs:annotation>
-                    <xs:documentation>Кнопка.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Действие виджета, которое будет вызвано при нажатии на кнопку.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="validate" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Валидирование формы при нажатии на кнопку.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="rounded" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Круглая форма кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-text" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст предупреждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-type" type="confirmType" default="modal">
-                    <xs:annotation>
-                        <xs:documentation>Тип предупреждения перед выполнением действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-title" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок окна предупреждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-ok-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст кнопки подтверждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-cancel-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст кнопки отмены.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -197,6 +197,11 @@
                 <xs:attribute name="generate" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости кнопки..</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">

@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция N2oSubmenu
+ * Компиляция кнопки с выпадающим меню
  */
 @Component
 public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> implements MetadataEnvironmentAware {
@@ -47,6 +47,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         source.setId(submenu.getId());
         submenu.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.submenu.src"), String.class)));
         submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(), true));
+        submenu.setVisible(source.getVisible());
         initMenuItems(source, context, p, submenu, idx);
         initGenerate(source, context, p, submenu, idx);
 
@@ -57,7 +58,11 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                                Submenu button, IndexScope idx) {
         if (sub.getMenuItems() != null) {
             button.setSubMenu(Stream.of(sub.getMenuItems())
-                    .map(mi -> (PerformButton) p.compile(mi, context, p, idx))
+                    .map(mi -> {
+                        PerformButton menuItem = p.compile(mi, context, p, idx);
+                        menuItem.setColor(null);
+                        return menuItem;
+                    })
                     .collect(Collectors.toList()));
         }
     }
