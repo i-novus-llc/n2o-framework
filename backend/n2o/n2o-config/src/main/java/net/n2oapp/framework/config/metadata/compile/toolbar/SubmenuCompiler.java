@@ -77,8 +77,9 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
             for (String generate : sub.getGenerate()) {
                 N2oToolbar source = p.getScope(N2oToolbar.class);
                 for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate.trim(), source, context, p)) {
-                    PerformButton toolbarButton = p.compile(toolbarItem, context, p, idx);
-                    button.getSubMenu().add(toolbarButton);
+                    PerformButton menuItem = p.compile(toolbarItem, context, p, idx);
+                    menuItem.setColor(null);
+                    button.getSubMenu().add(menuItem);
                 }
             }
         }

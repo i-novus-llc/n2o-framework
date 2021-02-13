@@ -3,7 +3,6 @@ package net.n2oapp.demo;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
@@ -23,15 +22,13 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static com.codeborne.selenide.Configuration.browserSize;
-import static com.codeborne.selenide.Configuration.headless;
-import static com.codeborne.selenide.Configuration.timeout;
+import static com.codeborne.selenide.Configuration.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = DemoApplication.class, properties = { "n2o.i18n.enabled=false",  "n2o.i18n.default-locale=ru" },
+@SpringBootTest(classes = DemoApplication.class, properties = {"n2o.i18n.enabled=false", "n2o.i18n.default-locale=ru"},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoIntegrationAT {
@@ -524,7 +521,7 @@ public class DemoIntegrationAT {
         protoPage.acceptDialog("Предупреждение");
 
         protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
-        protoPage.tableAlertTextShouldBe("Клиент "+ surnames.get(8)+" удален");
+        protoPage.tableAlertTextShouldBe("Клиент " + surnames.get(8) + " удален");
         protoPage.clientsCountShouldBe(count - 1);
         List<String> nSurnames = protoPage.getSurnameColumn();
         for (int i = 0; i < 8; i++) {
@@ -550,7 +547,7 @@ public class DemoIntegrationAT {
         protoPage.acceptDialog("Предупреждение");
 
         protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
-        protoPage.tableAlertTextShouldBe("Клиент "+ surnames.get(8)+" удален");
+        protoPage.tableAlertTextShouldBe("Клиент " + surnames.get(8) + " удален");
         protoPage.clientsCountShouldBe(count - 1);
         List<String> nSurnames = protoPage.getSurnameColumn();
         for (int i = 0; i < 8; i++) {
