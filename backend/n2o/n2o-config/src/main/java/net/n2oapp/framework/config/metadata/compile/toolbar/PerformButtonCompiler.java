@@ -55,7 +55,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setRounded(p.cast(source.getRounded(), false));
         button.setValidate(source.getValidate());
         button.setProperties(p.mapAttributes(source));
-        initValidate(source, context, p, button);
+        initValidate(source, button, context, p);
 
         CompiledObject.Operation operation = null;
         CompiledObject compiledObject = null;
@@ -69,7 +69,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (compiledObject == null)
             compiledObject = p.getScope(CompiledObject.class);
 
-        Action action = compileAction(button, source, context, p, compiledObject);
+        Action action = compileAction(source, button, compiledObject, context, p);
 
         if (action != null) {
             button.setAction(action);
@@ -82,11 +82,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
 
         initLinkAction(button);
-        initConfirm(button, source, context, p, operation);
+        initConfirm(source, button, operation, context, p);
 
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
-        compileConditionsAndDependencies(button, source, context, p);
+        compileConditionsAndDependencies(source, button, context, p);
 
         return button;
     }
@@ -103,12 +103,13 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
     }
 
-    private void initValidate(N2oButton but, CompileContext<?, ?> context, CompileProcessor p, PerformButton button) {
-        if (Boolean.TRUE.equals(but.getValidate()))
-            button.setValidatedWidgetId(initWidgetId(but, context, p));
+    private void initValidate(N2oButton source, PerformButton button, CompileContext<?, ?> context, CompileProcessor p) {
+        if (Boolean.TRUE.equals(source.getValidate()))
+            button.setValidatedWidgetId(initWidgetId(source, context, p));
     }
 
-    private void initConfirm(PerformButton button, N2oButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
+    private void initConfirm(N2oButton source, PerformButton button, CompiledObject.Operation operation,
+                             CompileContext<?, ?> context, CompileProcessor p) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
@@ -134,8 +135,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setConfirm(confirm);
     }
 
-    private Action compileAction(PerformButton button, N2oButton source, CompileContext<?, ?> context, CompileProcessor p,
-                                 CompiledObject compiledObject) {
+    private Action compileAction(N2oButton source, PerformButton button, CompiledObject compiledObject,
+                                 CompileContext<?, ?> context, CompileProcessor p) {
         Action action = null;
         if (source.getActionId() != null) {
             MetaActions metaActions = p.getScope(MetaActions.class);
@@ -173,7 +174,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      * @param context Контекст сборки метаданных
      * @param p       Процессор сборки метаданных
      */
-    protected void compileConditionsAndDependencies(PerformButton button, N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileConditionsAndDependencies(N2oButton source, PerformButton button,
+                                                    CompileContext<?, ?> context, CompileProcessor p) {
         String widgetId = initWidgetId(source, context, p);
         List<Condition> enabledConditions = new ArrayList<>();
 

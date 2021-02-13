@@ -122,14 +122,14 @@ http://n2oapp.net/framework/config/schema/button-1.0
 |resolve
 
 |visible
-|true false
+|Строка
 |Видимость по умолчанию.
-|true
+|
 
 |enabled
-|true false
+|Строка
 |Доступность по умолчанию.
-|true
+|
 
 |widget-id
 |Строка
@@ -154,7 +154,7 @@ link:#_Зависимости_компонента[Зависимости ком
 Пример::
 [source,xml]
 ----
-<button action-id="create"/>
+<button action-id="create" enabled="{type=='type1'}"/>
 ----
 
 [source,xml]

@@ -48,16 +48,17 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         submenu.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.submenu.src"), String.class)));
         submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(), true));
         submenu.setVisible(source.getVisible());
-        initMenuItems(source, context, p, submenu, idx);
-        initGenerate(source, context, p, submenu, idx);
+
+        initMenuItems(source, submenu, idx, context, p);
+        initGenerate(source, submenu, idx, context, p);
 
         return submenu;
     }
 
-    private void initMenuItems(N2oSubmenu sub, CompileContext<?, ?> context, CompileProcessor p,
-                               Submenu button, IndexScope idx) {
-        if (sub.getMenuItems() != null) {
-            button.setSubMenu(Stream.of(sub.getMenuItems())
+    private void initMenuItems(N2oSubmenu source, Submenu button, IndexScope idx,
+                               CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getMenuItems() != null) {
+            button.setSubMenu(Stream.of(source.getMenuItems())
                     .map(mi -> {
                         PerformButton menuItem = p.compile(mi, context, p, idx);
                         menuItem.setColor(null);
@@ -67,8 +68,8 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         }
     }
 
-    private void initGenerate(N2oSubmenu sub, CompileContext<?, ?> context, CompileProcessor p,
-                              Submenu button, IndexScope idx) {
+    private void initGenerate(N2oSubmenu sub, Submenu button, IndexScope idx,
+                              CompileContext<?, ?> context, CompileProcessor p) {
         if (sub.getGenerate() != null) {
             if (button.getSubMenu() == null) {
                 button.setSubMenu(new ArrayList<>());

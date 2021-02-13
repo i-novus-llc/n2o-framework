@@ -133,12 +133,12 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:string" default="true">
+                <xs:attribute name="visible" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие видимости кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string" default="true">
+                <xs:attribute name="enabled" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие доступности кнопки.</xs:documentation>
                     </xs:annotation>
@@ -201,7 +201,7 @@
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки..</xs:documentation>
+                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">
