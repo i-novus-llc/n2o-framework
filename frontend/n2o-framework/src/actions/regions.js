@@ -11,4 +11,4 @@ export const registerRegion = (regionId, initProps) =>
 export const setActiveEntity = (regionId, activeEntity) =>
   createActionHelper(SET_ACTIVE_REGION_ENTITY)({ regionId, activeEntity });
 
-export const mapUrl = () => createActionHelper(MAP_URL)();
+export const mapUrl = value => createActionHelper(MAP_URL)(value);
