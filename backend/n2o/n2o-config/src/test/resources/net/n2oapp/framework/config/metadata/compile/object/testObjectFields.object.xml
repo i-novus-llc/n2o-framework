@@ -24,9 +24,9 @@
             <in-parameters>
                 <param id="test"/>
                 <param id="test3"/>
-                <param id="test4" mapping="test4" normalize="test" enabled="test != null" />
-                <param id="test5" mapping="test5" normalize="test" enabled="test != null" entity-class="java.lang.Object" />
-                <param id="test6" mapping="test6" normalize="test" enabled="test != null"/>
+                <param id="test4" mapping="test4" normalize="test" mapping-condition="test != null" />
+                <param id="test5" mapping="test5" normalize="test" mapping-condition="test != null" entity-class="java.lang.Object" />
+                <param id="test6" mapping="test6" normalize="test" mapping-condition="test != null"/>
                 <param id="test7"/>
             </in-parameters>
             <out-parameters>
