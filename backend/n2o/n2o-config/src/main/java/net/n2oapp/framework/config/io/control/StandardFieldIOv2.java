@@ -73,7 +73,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
-        p.attribute(e, "mappingCondition", t::getEnabled, t::setEnabled);
+        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
@@ -112,7 +112,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "mapper", t::getMapper, t::setMapper, MapperType.class);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
-        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
         p.children(e, null, "child-param", t::getChildParams, t::setChildParams, N2oObject.Parameter.class, this::param);
     }
