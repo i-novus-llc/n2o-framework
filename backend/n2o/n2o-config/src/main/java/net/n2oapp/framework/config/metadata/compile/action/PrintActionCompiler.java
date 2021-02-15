@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -39,6 +38,7 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         PrintAction print = new PrintAction();
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.link.src"), String.class)));
         compileAction(print, source, p);
+        print.setType(p.resolve(property("n2o.api.action.print.type"), String.class));
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null);
         print.getPayload().setUrl(path);
