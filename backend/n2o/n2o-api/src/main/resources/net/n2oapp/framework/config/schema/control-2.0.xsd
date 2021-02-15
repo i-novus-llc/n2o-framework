@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://n2oapp.net/framework/config/schema/control-2.0"
-           xmlns:obj="http://n2oapp.net/framework/config/schema/object-3.0"
+           xmlns:obj="http://n2oapp.net/framework/config/schema/object-4.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
