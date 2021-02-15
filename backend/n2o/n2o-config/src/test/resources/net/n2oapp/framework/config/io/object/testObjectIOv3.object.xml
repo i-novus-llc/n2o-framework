@@ -21,12 +21,11 @@
             </invocation>
             <in-parameters>
                 <param id="id" mapping="mapping" default-value="val1" mapper="groovy" normalize="norm" domain="string"/>
-                <param id="testSet">
-                </param>
+                <param id="testSet" mapping-condition="type=='type1'"/>
             </in-parameters>
             <out-parameters>
                 <param id="id" mapping="mapping" default-value="val2" mapper="spel" normalize="norm"
-                       domain="boolean[]"/>
+                       domain="boolean[]" mapping-condition="type=='type1'"/>
             </out-parameters>
             <validations black-list="id2">
                 <condition id="id1" severity="danger" server-moment="after-success-operation"
