@@ -2,14 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oPrint;
+import net.n2oapp.framework.api.metadata.event.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.print.Print;
+import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
@@ -22,21 +21,22 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 
 
 /**
  * Компиляция действия печати
  */
 @Component
-public class PrintCompiler extends AbstractActionCompiler<Print, N2oPrint> {
+public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2oPrintAction> {
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oPrint.class;
+        return N2oPrintAction.class;
     }
 
     @Override
-    public Print compile(N2oPrint source, CompileContext<?, ?> context, CompileProcessor p) {
-        Print print = new Print();
+    public PrintAction compile(N2oPrintAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        PrintAction print = new PrintAction();
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.link.src"), String.class)));
         compileAction(print, source, p);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
@@ -54,7 +54,7 @@ public class PrintCompiler extends AbstractActionCompiler<Print, N2oPrint> {
         return print;
     }
 
-    private void initMappings(Print compiled, N2oPrint source, CompileProcessor p, ParentRouteScope routeScope) {
+    private void initMappings(PrintAction compiled, N2oPrintAction source, CompileProcessor p, ParentRouteScope routeScope) {
         Map<String, ModelLink> pathMapping = new StrictMap<>();
         Map<String, ModelLink> queryMapping = new StrictMap<>();
         if (routeScope != null && routeScope.getPathMapping() != null) {
@@ -93,15 +93,8 @@ public class PrintCompiler extends AbstractActionCompiler<Print, N2oPrint> {
     }
 
     private String getDefaultClientWidgetId(CompileProcessor p, WidgetScope scope, ComponentScope componentScope) {
-        String defaultClientWidgetId = scope.getClientWidgetId();
-        if (componentScope != null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                PageScope pageScope = p.getScope(PageScope.class);
-                defaultClientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
-            }
-        }
-        return defaultClientWidgetId;
+        String widgetIdByComponentScope = getWidgetIdByComponentScope(componentScope, p);
+        return widgetIdByComponentScope != null ? widgetIdByComponentScope : scope.getClientWidgetId();
     }
 
 }

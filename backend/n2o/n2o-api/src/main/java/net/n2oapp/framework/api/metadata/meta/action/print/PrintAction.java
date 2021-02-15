@@ -10,9 +10,9 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
  */
 @Getter
 @Setter
-public class Print extends AbstractAction<PrintPayload, MetaSaga> {
+public class PrintAction extends AbstractAction<PrintActionPayload, MetaSaga> {
 
-    public Print() {
-        super(new PrintPayload(), null);
+    public PrintAction() {
+        super(new PrintActionPayload(), null);
     }
 }

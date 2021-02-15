@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
  */
 @Getter
 @Setter
-public class N2oPrint extends N2oAbstractAction implements N2oAction {
+public class N2oPrintAction extends N2oAbstractAction implements N2oAction {
     private String url;
     private N2oParam[] pathParams;
     private N2oParam[] queryParams;

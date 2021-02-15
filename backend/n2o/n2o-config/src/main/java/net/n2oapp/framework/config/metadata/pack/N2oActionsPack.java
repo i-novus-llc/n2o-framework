@@ -39,7 +39,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ClearActionCompiler(),
                 new CopyActionCompiler(),
                 new SetValueActionCompiler(),
-                new PrintCompiler());
+                new PrintActionCompiler());
         b.binders(new InvokeActionBinder(),
                 new ReduxActionBinder(),
                 new LinkActionBinder(),
@@ -50,6 +50,6 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
                 new SubMenuBinder(),
-                new PrintBinder());
+                new PrintActionBinder());
     }
 }

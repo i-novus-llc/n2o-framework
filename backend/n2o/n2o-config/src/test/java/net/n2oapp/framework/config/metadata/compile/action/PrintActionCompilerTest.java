@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.meta.action.print.Print;
+import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест компиляции действия печати
  */
-public class PrintCompilerTest extends SourceCompileTestBase {
+public class PrintActionCompilerTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -45,13 +45,13 @@ public class PrintCompilerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testPrintAction2.page.xml")
                 .get(new PageContext("testPrintAction2"));
         Map actions = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getActions();
-        Print print = (Print) actions.get("id1");
+        PrintAction print = (PrintAction) actions.get("id1");
 
         assertThat(print.getPayload().getUrl(), is("/test"));
         assertThat(print.getPayload().getPathMapping().size(), is(0));
         assertThat(print.getPayload().getQueryMapping().size(), is(0));
 
-        Print print2 = (Print) actions.get("id2");
+        PrintAction print2 = (PrintAction) actions.get("id2");
 
         assertThat(print2.getPayload().getUrl(), is("/page/widget/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
@@ -65,17 +65,17 @@ public class PrintCompilerTest extends SourceCompileTestBase {
         PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/widget/test2/:param1/:param2?param3=:param3");
         assertThat(anchor.getIsOtherPage(), is(true));
 
-        Print print3 = (Print) actions.get("id3");
+        PrintAction print3 = (PrintAction) actions.get("id3");
         assertThat(print3.getPayload().getUrl(), is("http://google.com"));
 
         PageContext modalContext = (PageContext) route("/page/widget/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
-        print = (Print) modalPage.getWidget().getActions().get("id1");
+        print = (PrintAction) modalPage.getWidget().getActions().get("id1");
         assertThat(print.getPayload().getUrl(), is("/page/widget/id4/widget2/test"));
         assertThat(print.getPayload().getPathMapping().size(), is(0));
         assertThat(print.getPayload().getQueryMapping().size(), is(0));
 
-        print2 = (Print) modalPage.getWidget().getActions().get("id2");
+        print2 = (PrintAction) modalPage.getWidget().getActions().get("id2");
         assertThat(print2.getPayload().getUrl(), is("/page/widget/id4/widget2/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
         assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_widget_id4_test']"));
@@ -86,12 +86,12 @@ public class PrintCompilerTest extends SourceCompileTestBase {
         assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_widget_id4_test']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
 
-        print3 = (Print) modalPage.getWidget().getActions().get("id3");
+        print3 = (PrintAction) modalPage.getWidget().getActions().get("id3");
         assertThat(print3.getPayload().getUrl(), is("/page/widget/test3"));
         assertThat(print3.getPayload().getPathMapping().size(), is(0));
         assertThat(print3.getPayload().getQueryMapping().size(), is(0));
 
-        Print linkSecond = (Print) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+        PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
                 .getActions().get("secWgt");
 
         assertThat(linkSecond.getPayload().getUrl(), is("/page/second/test/:minPrice"));

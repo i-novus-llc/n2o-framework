@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class PrintPayload implements ActionPayload {
+public class PrintActionPayload implements ActionPayload {
     @JsonProperty
     private String url;
     @JsonProperty

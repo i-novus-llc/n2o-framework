@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oPrint;
+import net.n2oapp.framework.api.metadata.event.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
  * Чтение/запись действия печати
  */
 @Component
-public class PrintElementIOV1 extends AbstractActionElementIOV1<N2oPrint> {
+public class PrintElementIOV1 extends AbstractActionElementIOV1<N2oPrintAction> {
     @Override
-    public void io(Element e, N2oPrint a, IOProcessor p) {
+    public void io(Element e, N2oPrintAction a, IOProcessor p) {
         super.io(e, a, p);
         p.attribute(e,"url", a::getUrl,a::setUrl);
         p.children(e, null, "path-param", a::getPathParams, a::setPathParams, N2oParam::new, this::param);
@@ -26,8 +26,8 @@ public class PrintElementIOV1 extends AbstractActionElementIOV1<N2oPrint> {
     }
 
     @Override
-    public Class<N2oPrint> getElementClass() {
-        return N2oPrint.class;
+    public Class<N2oPrintAction> getElementClass() {
+        return N2oPrintAction.class;
     }
 
 
