@@ -468,6 +468,10 @@ image::images/button-submenu.png[]
 |n2o/widgets/DATA_REQUEST
 |link:https://n2oapp.net/sandbox/new/manual/action/copy[Копирование данных виджета из одной модели в другую]
 
+|<print>
+|n2o/toolbar/PRINT_BUTTON
+|Печать документа
+
 |===
 
 Действие можно задать внутри кнопки:
