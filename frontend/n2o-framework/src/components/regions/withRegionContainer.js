@@ -35,7 +35,14 @@ const createRegionContainer = config => WrappedComponent => {
     ),
     withHandlers({
       initIfNeeded: props => () => {
-        const { dispatch, id, isInit, activeEntity } = props;
+        const {
+          dispatch,
+          id,
+          isInit,
+          activeEntity,
+          lazy,
+          alwaysRefresh,
+        } = props;
 
         if (!isInit) {
           dispatch(
@@ -43,6 +50,8 @@ const createRegionContainer = config => WrappedComponent => {
               regionId: id,
               activeEntity,
               isInit: true,
+              lazy,
+              alwaysRefresh,
               [listKey]: get(props, listKey, []),
             })
           );
@@ -51,7 +60,7 @@ const createRegionContainer = config => WrappedComponent => {
       changeActiveEntity: props => value => {
         const { dispatch, id } = props;
 
-        dispatch(batchActions([setActiveEntity(id, value), mapUrl()]));
+        dispatch(batchActions([setActiveEntity(id, value), mapUrl(value)]));
       },
     }),
     lifecycle({
