@@ -6,18 +6,23 @@ import reduce from 'lodash/reduce';
 import first from 'lodash/first';
 import some from 'lodash/some';
 import each from 'lodash/each';
+import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 
 import { MAP_URL } from '../constants/regions';
-import { DATA_SUCCESS } from '../constants/widgets';
+import { METADATA_SUCCESS } from '../constants/pages';
 import { makeWidgetVisibleSelector } from '../selectors/widgets';
+import { dataRequestWidget } from '../actions/widgets';
 import { getLocation, rootPageSelector } from '../selectors/global';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { regionsSelector } from '../selectors/regions';
+import { modelsSelector } from '../selectors/models';
 import { setActiveEntity } from '../actions/regions';
 
 import { routesQueryMapping } from './widgets';
 
-function* mapUrl() {
+function* mapUrl(value) {
   const state = yield select();
   const location = yield select(getLocation);
   const rootPageId = yield select(rootPageSelector);
@@ -25,6 +30,7 @@ function* mapUrl() {
 
   if (routes) {
     yield call(routesQueryMapping, state, routes, location);
+    yield call(lazyFetch, value.payload);
   }
 }
 
@@ -88,4 +94,92 @@ function* switchTab() {
   mapUrl();
 }
 
-export default [takeEvery(MAP_URL, mapUrl), takeEvery(DATA_SUCCESS, switchTab)];
+function* lazyFetch(id) {
+  const regions = yield select(regionsSelector);
+  const models = yield select(modelsSelector);
+  const regionCollection = values(regions);
+  let targetTab = {};
+  const idsToFetch = [];
+
+  if (!isEmpty(regionCollection)) {
+    each(regionCollection, region => {
+      const { activeEntity, lazy, alwaysRefresh } = region;
+      targetTab = { ...find(region.tabs, tab => tab.id === activeEntity) };
+
+      if (!isEmpty(targetTab.content)) {
+        each(targetTab.content, item => {
+          if (alwaysRefresh && targetTab.id === id) {
+            idsToFetch.push(item.id);
+          } else if (!includes(Object.keys(models.datasource), item.id)) {
+            idsToFetch.push(item.id);
+          }
+        });
+      }
+    });
+
+    for (let i = 0; i < idsToFetch.length; i++) {
+      yield put(dataRequestWidget(idsToFetch[i]));
+    }
+
+    idsToFetch.length = 0;
+  }
+}
+
+export function* checkIdBeforeLazyFetch() {
+  const regions = yield select(regionsSelector);
+  const regionsCollection = values(regions);
+  const activeWidgetIds = [];
+  let tabsWidgetIds = {};
+  const firstTabs = [];
+
+  const mapRegions = (tabs, activeEntity, lazy, regionId) => {
+    if (tabs) {
+      each(tabs, (tab, index) => {
+        if (!isEmpty(tab.content)) {
+          each(tab.content, contentItem => {
+            if (tab.id === activeEntity) {
+              activeWidgetIds.push(contentItem.id);
+            } else if (!activeEntity && index === 0) {
+              // если lazy=true и нет активных табов, первый таб добавляется в массив
+              firstTabs.push({ regionId, id: tab.id });
+              activeWidgetIds.push(contentItem.id);
+            }
+
+            tabsWidgetIds = { ...tabsWidgetIds, [contentItem.id]: lazy };
+
+            if (!isEmpty(contentItem.tabs)) {
+              const { activeEntity, lazy, tabs } = contentItem;
+
+              mapRegions(tabs, activeEntity, lazy);
+            }
+          });
+        }
+      });
+    }
+  };
+
+  if (!isEmpty(regionsCollection)) {
+    each(regionsCollection, region => {
+      const { activeEntity, lazy, tabs, regionId } = region;
+
+      mapRegions(tabs, activeEntity, lazy, regionId);
+    });
+  }
+
+  if (firstTabs) {
+    for (let i = 0; i < firstTabs.length; i++) {
+      const { regionId, id } = firstTabs[i];
+      yield put(setActiveEntity(regionId, id));
+    }
+  }
+
+  return {
+    activeWidgetIds,
+    tabsWidgetIds,
+  };
+}
+
+export default [
+  takeEvery(MAP_URL, mapUrl),
+  takeEvery(METADATA_SUCCESS, switchTab),
+];
