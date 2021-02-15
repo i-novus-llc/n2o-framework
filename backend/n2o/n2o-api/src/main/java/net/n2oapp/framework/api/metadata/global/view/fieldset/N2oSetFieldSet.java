@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
 /**
- * Исходная модель прозрачного набора полей.
+ * Исходная модель простого филдсета.
  */
 public class N2oSetFieldSet extends N2oFieldSet {
 

@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тест стандартного филдсета
+ * Тестирование простого филдсета
  */
 public class SetFieldSetCompileTest extends SourceCompileTestBase {
 
@@ -60,112 +60,122 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         FormWidgetComponent component = form.getComponent();
         assertThat(component.getFieldsets().size(), is(4));
 
-        assertThat(component.getFieldsets().get(0).getSrc(), is("StandardFieldset"));
-        assertThat(component.getFieldsets().get(0).getLabel(), is("set"));
-        assertThat(component.getFieldsets().get(0).getRows().size(), is(3));
-        assertThat(component.getFieldsets().get(0).getRows().get(0).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput1"));
-        assertThat(component.getFieldsets().get(0).getRows().get(1).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput2"));
-        assertThat(component.getFieldsets().get(0).getRows().get(2).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput3"));
+        FieldSet fieldSet = component.getFieldsets().get(0);
+        assertThat(fieldSet.getSrc(), is("StandardFieldset"));
+        assertThat(fieldSet.getLabel(), is("set"));
 
+        List<FieldSet.Row> rows = fieldSet.getRows();
+        assertThat(rows.size(), is(3));
+        assertThat(rows.get(0).getCols().size(), is(1));
+        assertThat(rows.get(0).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput1"));
+        assertThat(rows.get(1).getCols().size(), is(1));
+        assertThat(rows.get(1).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput2"));
+        assertThat(rows.get(2).getCols().size(), is(1));
+        assertThat(rows.get(2).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput3"));
+
+        rows = component.getFieldsets().get(1).getRows();
         assertThat(component.getFieldsets().get(1).getSrc(), is("StandardFieldset"));
-        assertThat(component.getFieldsets().get(1).getRows().size(), is(4));
-        assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol1"));
-        assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getFields().size(), is(1));
-        assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getVisible(), is(false));
-        assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol2"));
-        assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getFields().size(), is(1));
-        assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getVisible(), is("`a==b`"));
-        assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol3"));
-        assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol4"));
+        assertThat(rows.size(), is(4));
+        assertThat(rows.get(0).getCols().size(), is(1));
+        assertThat(rows.get(0).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol1"));
+        assertThat(rows.get(1).getCols().size(), is(1));
+        assertThat(rows.get(1).getCols().get(0).getFields().size(), is(1));
+        assertThat(rows.get(1).getCols().get(0).getVisible(), is(false));
+        assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol2"));
+        assertThat(rows.get(2).getCols().size(), is(1));
+        assertThat(rows.get(2).getCols().get(0).getFields().size(), is(1));
+        assertThat(rows.get(2).getCols().get(0).getVisible(), is("`a==b`"));
+        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol3"));
+        assertThat(rows.get(3).getCols().size(), is(1));
+        assertThat(rows.get(3).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol4"));
 
-        assertThat(component.getFieldsets().get(2).getSrc(), is("StandardFieldset"));
-        assertThat(component.getFieldsets().get(2).getRows().size(), is(9));
-        assertThat(component.getFieldsets().get(2).getRows().get(0).getCols().size(), is(3));
-        assertThat(component.getFieldsets().get(2).getRows().get(0).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput1"));
-        assertThat(component.getFieldsets().get(2).getRows().get(0).getCols().get(1).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(0).getCols().get(1).getFields().get(0)).getControl().getId(), is("testInput2"));
-        assertThat(component.getFieldsets().get(2).getRows().get(0).getCols().get(2).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(0).getCols().get(2).getFields().get(0)).getControl().getId(), is("testInput3"));
-        assertThat(component.getFieldsets().get(2).getRows().get(1).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(2).getRows().get(1).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput4"));
-        assertThat(component.getFieldsets().get(2).getRows().get(2).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(2).getRows().get(2).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput5"));
-        assertThat(component.getFieldsets().get(2).getRows().get(3).getCols().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput6"));
-        assertThat(component.getFieldsets().get(2).getRows().get(4).getCols().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(4).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput7"));
-        assertThat(component.getFieldsets().get(2).getRows().get(5).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(2).getRows().get(5).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(5).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput8"));
-        assertThat(component.getFieldsets().get(2).getRows().get(6).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(2).getRows().get(6).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(6).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput9"));
-        assertThat(component.getFieldsets().get(2).getRows().get(7).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(2).getRows().get(7).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(7).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput10"));
-        assertThat(component.getFieldsets().get(2).getRows().get(8).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(2).getRows().get(8).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
-
+        rows = component.getFieldsets().get(2).getRows();
         assertThat(component.getFieldsets().get(3).getSrc(), is("StandardFieldset"));
-        assertThat(component.getFieldsets().get(3).getRows().size(), is(9));
-        assertThat(component.getFieldsets().get(3).getRows().get(0).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(0).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(0).getCols().get(0).getFields(), nullValue());
-        assertThat(component.getFieldsets().get(3).getRows().get(1).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(1).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(1).getCols().get(0).getFields(), nullValue());
-        assertThat(component.getFieldsets().get(3).getRows().get(2).getCols().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(2).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(2).getCols().get(0).getFields(), nullValue());
+        assertThat(rows.size(), is(9));
+        assertThat(rows.get(0).getCols().size(), is(3));
+        assertThat(rows.get(0).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput1"));
+        assertThat(rows.get(0).getCols().get(1).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(0).getCols().get(1).getFields().get(0)).getControl().getId(), is("testInput2"));
+        assertThat(rows.get(0).getCols().get(2).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(0).getCols().get(2).getFields().get(0)).getControl().getId(), is("testInput3"));
+        assertThat(rows.get(1).getCols().size(), is(1));
+        assertThat(rows.get(1).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput4"));
+        assertThat(rows.get(2).getCols().size(), is(1));
+        assertThat(rows.get(2).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput5"));
+        assertThat(rows.get(3).getCols().size(), is(1));
+        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput6"));
+        assertThat(rows.get(4).getCols().size(), is(1));
+        assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput7"));
+        assertThat(rows.get(5).getCols().size(), is(1));
+        assertThat(rows.get(5).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(5).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput8"));
+        assertThat(rows.get(6).getCols().size(), is(1));
+        assertThat(rows.get(6).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(6).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput9"));
+        assertThat(rows.get(7).getCols().size(), is(1));
+        assertThat(rows.get(7).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(7).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput10"));
+        assertThat(rows.get(8).getCols().size(), is(1));
+        assertThat(rows.get(8).getCols().get(0).getFields().size(), is(1));
+        assertThat(((StandardField) rows.get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
 
-        assertThat(((StandardField)component.getFieldsets().get(3).getRows().get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput7"));
-        assertThat(((StandardField)component.getFieldsets().get(3).getRows().get(4).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput8"));
-        assertThat(component.getFieldsets().get(3).getRows().get(5).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(component.getFieldsets().get(3).getRows().get(5).getCols().get(0).getFields(), nullValue());
-        assertThat(((StandardField)component.getFieldsets().get(3).getRows().get(6).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput10"));
-        assertThat(((StandardField)component.getFieldsets().get(3).getRows().get(7).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
-        assertThat(((StandardField)component.getFieldsets().get(3).getRows().get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput12"));
+        rows = component.getFieldsets().get(3).getRows();
+        assertThat(component.getFieldsets().get(3).getSrc(), is("StandardFieldset"));
+        assertThat(rows.size(), is(9));
+        assertThat(rows.get(0).getCols().size(), is(1));
+        assertThat(rows.get(0).getCols().get(0).getFieldsets().size(), is(1));
+        assertThat(rows.get(0).getCols().get(0).getFields(), nullValue());
+        assertThat(rows.get(1).getCols().size(), is(1));
+        assertThat(rows.get(1).getCols().get(0).getFieldsets().size(), is(1));
+        assertThat(rows.get(1).getCols().get(0).getFields(), nullValue());
+        assertThat(rows.get(2).getCols().size(), is(1));
+        assertThat(rows.get(2).getCols().get(0).getFieldsets().size(), is(1));
+        assertThat(rows.get(2).getCols().get(0).getFields(), nullValue());
+
+        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput7"));
+        assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput8"));
+        assertThat(rows.get(5).getCols().get(0).getFieldsets().size(), is(1));
+        assertThat(rows.get(5).getCols().get(0).getFields(), nullValue());
+        assertThat(((StandardField) rows.get(6).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput10"));
+        assertThat(((StandardField) rows.get(7).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
+        assertThat(((StandardField) rows.get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput12"));
     }
 
     @Test
     public void testFieldSetDependency() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetEVDCompile.widget.xml")
                 .get(new WidgetContext("testFieldsetEVDCompile"));
-        java.util.List<FieldSet> fieldSets = form.getComponent().getFieldsets();
+        List<FieldSet> fieldSets = form.getComponent().getFieldsets();
         assertThat(fieldSets.size(), is(4));
 
-        assertThat(fieldSets.get(0).getEnabled(), nullValue());
-        assertThat(fieldSets.get(0).getVisible(), nullValue());
-        assertThat(fieldSets.get(0).getDependency(), nullValue());
+        FieldSet fieldSet = fieldSets.get(0);
+        assertThat(fieldSet.getEnabled(), nullValue());
+        assertThat(fieldSet.getVisible(), nullValue());
+        assertThat(fieldSet.getDependency(), nullValue());
 
-        assertThat(fieldSets.get(1).getEnabled(), is(true));
-        assertThat(fieldSets.get(1).getVisible(), is(true));
-        assertThat(fieldSets.get(1).getDependency(), nullValue());
+        fieldSet = fieldSets.get(1);
+        assertThat(fieldSet.getEnabled(), is(true));
+        assertThat(fieldSet.getVisible(), is(true));
+        assertThat(fieldSet.getDependency(), nullValue());
 
-        assertThat(fieldSets.get(2).getEnabled(), is(false));
-        assertThat(fieldSets.get(2).getVisible(), is(false));
-        assertThat(fieldSets.get(2).getDependency(), nullValue());
+        fieldSet = fieldSets.get(2);
+        assertThat(fieldSet.getEnabled(), is(false));
+        assertThat(fieldSet.getVisible(), is(false));
+        assertThat(fieldSet.getDependency(), nullValue());
 
-        assertThat(fieldSets.get(3).getEnabled(), is("`x < 5`"));
-        assertThat(fieldSets.get(3).getVisible(), is("`x > 1`"));
-        ControlDependency dependency = fieldSets.get(3).getDependency()[0];
-        assertThat(dependency.getOn(), is(Arrays.asList("a.b.c","z.x.c")));
+        fieldSet = fieldSets.get(3);
+        assertThat(fieldSet.getEnabled(), is("`x < 5`"));
+        assertThat(fieldSet.getVisible(), is("`x > 1`"));
+        ControlDependency dependency = fieldSet.getDependency()[0];
+        assertThat(dependency.getOn(), is(Arrays.asList("a.b.c", "z.x.c")));
         assertThat(dependency.getType().toString(), is("reRender"));
     }
 
@@ -187,31 +197,37 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         CompiledObject object = pipeline.get(context);
 
         List<Validation> validations = object.getOperations().get("test").getValidationList();
-        assertThat(validations.get(1).getId(), is("id1"));
-        assertThat(validations.get(1).getEnablingConditions().size(), is(0));
+        Validation validation = validations.get(1);
+        assertThat(validation.getId(), is("id1"));
+        assertThat(validation.getEnablingConditions().size(), is(0));
 
-        assertThat(validations.get(2).getId(), is("id2"));
-        assertThat(validations.get(2).getEnablingConditions().size(), is(1));
-        assertThat(validations.get(2).getEnablingConditions().get(0), is("{fieldset1Condition}"));
+        validation = validations.get(2);
+        assertThat(validation.getId(), is("id2"));
+        assertThat(validation.getEnablingConditions().size(), is(1));
+        assertThat(validation.getEnablingConditions().get(0), is("{fieldset1Condition}"));
 
-        assertThat(validations.get(3).getId(), is("id3"));
-        assertThat(validations.get(3).getEnablingConditions().size(), is(1));
-        assertThat(validations.get(3).getEnablingConditions().get(0), is("{fieldset1Condition}"));
+        validation = validations.get(3);
+        assertThat(validation.getId(), is("id3"));
+        assertThat(validation.getEnablingConditions().size(), is(1));
+        assertThat(validation.getEnablingConditions().get(0), is("{fieldset1Condition}"));
 
-        assertThat(validations.get(4).getId(), is("id4"));
-        assertThat(validations.get(4).getEnablingConditions().size(), is(3));
-        assertThat(validations.get(4).getEnablingConditions().get(0), is("{id4Condition}"));
-        assertThat(validations.get(4).getEnablingConditions().get(1), is("{fieldset2Condition}"));
-        assertThat(validations.get(4).getEnablingConditions().get(2), is("{fieldset1Condition}"));
+        validation = validations.get(4);
+        assertThat(validation.getId(), is("id4"));
+        assertThat(validation.getEnablingConditions().size(), is(3));
+        assertThat(validation.getEnablingConditions().get(0), is("{id4Condition}"));
+        assertThat(validation.getEnablingConditions().get(1), is("{fieldset2Condition}"));
+        assertThat(validation.getEnablingConditions().get(2), is("{fieldset1Condition}"));
 
-        assertThat(validations.get(5).getId(), is("id5Required2"));
-        assertThat(validations.get(5).getEnablingConditions().size(), is(2));
-        assertThat(validations.get(5).getEnablingConditions().get(0), is("{fieldset3Condition}"));
-        assertThat(validations.get(5).getEnablingConditions().get(1), is("{fieldset1Condition}"));
+        validation = validations.get(5);
+        assertThat(validation.getId(), is("id5Required2"));
+        assertThat(validation.getEnablingConditions().size(), is(2));
+        assertThat(validation.getEnablingConditions().get(0), is("{fieldset3Condition}"));
+        assertThat(validation.getEnablingConditions().get(1), is("{fieldset1Condition}"));
 
-        assertThat(validations.get(6).getId(), is("id5IsNotNull"));
-        assertThat(validations.get(6).getEnablingConditions().size(), is(2));
-        assertThat(validations.get(6).getEnablingConditions().get(0), is("{fieldset3Condition}"));
-        assertThat(validations.get(6).getEnablingConditions().get(1), is("{fieldset1Condition}"));
+        validation = validations.get(6);
+        assertThat(validation.getId(), is("id5IsNotNull"));
+        assertThat(validation.getEnablingConditions().size(), is(2));
+        assertThat(validation.getEnablingConditions().get(0), is("{fieldset3Condition}"));
+        assertThat(validation.getEnablingConditions().get(1), is("{fieldset1Condition}"));
     }
 }
