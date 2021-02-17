@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
+import some from 'lodash/some';
+import isEqual from 'lodash/isEqual';
 
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
@@ -98,7 +100,9 @@ function PopupItems({
 
   const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
-      ? item[enabledFieldId]
+      ? !item[enabledFieldId]
+      : some(selected, selectedItem => isEqual(selectedItem, item))
+      ? true
       : !hasCheckboxes &&
         isDisabled(
           autocomplete ? item[valueFieldId] : item,
