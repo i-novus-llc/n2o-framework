@@ -25,4 +25,31 @@
     <col>
         <input-text id="testInput11"/>
     </col>
+
+    <row>
+        <col>
+            <row>
+                <input-text id="id1"/>
+                <input-text id="id2"/>
+            </row>
+            <row>
+                <input-text id="id3"/>
+            </row>
+            <set>
+                <input-text id="id4"/>
+            </set>
+            <row>
+                <input-text id="id5"/>
+            </row>
+            <set>
+                <input-text id="id6"/>
+            </set>
+            <row>
+                <input-text id="id7"/>
+            </row>
+            <row>
+                <input-text id="id8"/>
+            </row>
+        </col>
+    </row>
 </set>

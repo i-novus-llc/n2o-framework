@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -8,6 +9,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.fieldset.SetFieldSet;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -41,13 +43,36 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                 column.setFields(fields);
             } else {
                 List<FieldSet> fieldSets = new ArrayList<>();
+                List<FieldSet.Row> rows = new ArrayList<>();
                 for (NamespaceUriAware item : source.getItems()) {
-                    fieldSets.add(p.compile(item, context));
+                    Compiled compiled = p.compile(item, context);
+                    if (compiled instanceof FieldSet) {
+                        if (!rows.isEmpty())
+                            fieldSets.add(createWrappingFieldset(rows));
+                        fieldSets.add((FieldSet) compiled);
+                    } else {
+                        rows.add((FieldSet.Row) compiled);
+                    }
                 }
+                if (!rows.isEmpty())
+                    fieldSets.add(createWrappingFieldset(rows));
                 column.setFieldsets(fieldSets);
             }
         }
         return column;
+    }
+
+    /**
+     * Создание филдсета, который будет оборачивать одну или несколько подряд идущих строк,
+     * лежащих вне филдсетов
+     * @param rows Список строк филдсета
+     * @return Филдсет, содержащий все входящие строки
+     */
+    private FieldSet createWrappingFieldset(List<FieldSet.Row> rows) {
+        FieldSet fieldSet = new SetFieldSet();
+        fieldSet.setRows(new ArrayList<>(rows));
+        rows.clear();
+        return fieldSet;
     }
 
     @Override
