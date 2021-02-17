@@ -32,6 +32,7 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
                 p.resolve(property("n2o.api.widget.chart.pie.end_angle"), Integer.class)));
         chart.getComponent().setNameFieldId(source.getNameFieldId());
         chart.getComponent().setValueFieldId(source.getValueFieldId());
+        chart.getComponent().setTooltipFieldId(source.getTooltipFieldId());
         chart.getComponent().setColor(source.getColor());
         chart.getComponent().setHasLabel(p.cast(source.getHasLabel(),
                 p.resolve(property("n2o.api.widget.chart.has_label"), Boolean.class)));

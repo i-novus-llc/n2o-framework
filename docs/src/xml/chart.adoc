@@ -45,6 +45,16 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Наличие подписи оси y
 |false
 
+|y-min
+|Число
+|Минимальное значение по оси y
+|
+
+|y-max
+|Число
+|Максимальное значение по оси y
+|
+
 |grid-stroke-dasharray
 |Строка
 |Паттерн линий сетки
@@ -165,6 +175,11 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Строка
 |Идентификатор поля выборки значений секторов
 |value
+
+|tooltip-field-id
+|Строка
+|Идентификатор поля выборки тултипов секторов
+|
 
 |color
 |Строка

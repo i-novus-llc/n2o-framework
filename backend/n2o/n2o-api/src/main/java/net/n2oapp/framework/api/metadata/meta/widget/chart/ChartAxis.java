@@ -16,6 +16,10 @@ public class ChartAxis implements Serializable {
     private String fieldId;
     @JsonProperty("orientation")
     private String position;
+    @JsonProperty
+    private Integer min;
+    @JsonProperty
+    private Integer max;
     @JsonProperty("label")
     private Boolean hasLabel;
 }

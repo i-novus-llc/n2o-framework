@@ -22,6 +22,7 @@ public class PieChartIOv4 extends AbstractChartIOv4<N2oPieChart> {
         p.attributeInteger(e, "end-angle", c::getEndAngle, c::setEndAngle);
         p.attribute(e, "name-field-id", c::getNameFieldId, c::setNameFieldId);
         p.attribute(e, "value-field-id", c::getValueFieldId, c::setValueFieldId);
+        p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "color", c::getColor, c::setColor);
         p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
     }
