@@ -530,10 +530,42 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 
 |===
 
+Тело::
+- <query-param> - query параметр в route
+- <path-param> - параметр в route
+
 Пример::
 [source,xml]
 ----
 <a href="https://google.com"/>
+----
+
+=== <print>
+Печать документа
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|url
+|Строка
+|Адрес документа для печати
+|
+
+|===
+
+Тело::
+- <query-param> - query параметр в route
+- <path-param> - параметр в route
+
+Пример::
+[source,xml]
+----
+<print href="/files/:doc_id">
+      <path-param name="doc_id" value="{doc_id}"/>
+</print>
+
 ----
 
 === <invoke>
@@ -604,9 +636,9 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |===
 
 Тело::
-<form-param> - свойство в json в request body
-<path-param> - параметр в route
-<header-param> - параметр заголовка запроса (request headers)
+- <form-param> - свойство в json в request body
+- <path-param> - параметр в route
+- <header-param> - параметр заголовка запроса (request headers)
 
 Пример::
 [source,xml]
