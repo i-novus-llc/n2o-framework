@@ -13,23 +13,25 @@ import java.util.Map;
 import static net.n2oapp.framework.config.factory.FactoryPredicates.isCompiledAssignableFrom;
 import static net.n2oapp.framework.config.factory.FactoryPredicates.isOptionalContextAssignableFrom;
 
-public class N2oCompileTransformerFactory extends BaseMetadataFactory<CompileTransformer> implements CompileTransformerFactory {
+public class N2oCompileTransformerFactory extends BaseMetadataFactory<CompileTransformer<?, ?>> implements CompileTransformerFactory {
 
     public N2oCompileTransformerFactory() {
     }
 
-    public N2oCompileTransformerFactory(Map<String, CompileTransformer> beans) {
+    public N2oCompileTransformerFactory(Map<String, CompileTransformer<?, ?>> beans) {
         super(beans);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <D extends Compiled> D transform(D compiled, CompileContext<?, ?> context, CompileProcessor p) {
-        List<CompileTransformer> transformers = produceList((g, d) ->
+        List<CompileTransformer<?, ?>> transformers = produceList((g, d) ->
                 isCompiledAssignableFrom(g, d) && isOptionalContextAssignableFrom(g, context),
                 compiled);
         D result = compiled;
-        for (CompileTransformer transformer : transformers) {
-            result = (D) transformer.transform(result, context, p);
+        for (CompileTransformer<?, ?> transformer : transformers) {
+            CompileTransformer<D, CompileContext<?, ?>> castedTransformer = (CompileTransformer<D, CompileContext<?, ?>>) transformer;
+            result = castedTransformer.transform(result, context, p);
         }
         return result;
     }
