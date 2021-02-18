@@ -16,6 +16,24 @@
 - Убрана неявная фильтрация виджетов, если параметр URL страницы совпадает с `filter-id`
 выборки виджета. Например:
 
+*Изменения в Java API*
+
+- Создан класс `AbstractFilteredPageBinder` для упрощения биндинга конкретных страниц. Пример использования:
+[source,java]
+````
+@Component
+class MyPageBinder extends AbstractFilteredPageBinder {
+    public MyPageBinder() {
+        super("myPage");///Идентификатор конкретной страницы
+    }
+
+    @Override
+    public Page bind(Page page, BindProcessor p) {
+        //Изменение myPage
+    }
+}
+````
+
 [source,xml]
 ----
 <open-page page-id="card" route="/:id/update">

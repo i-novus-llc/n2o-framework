@@ -250,7 +250,7 @@ public class N2oEnvironmentConfiguration {
         }
 
         @Bean
-        MetadataBinderFactory metadataBinderFactory(Optional<Map<String, MetadataBinder>> binders) {
+        MetadataBinderFactory metadataBinderFactory(Optional<Map<String, MetadataBinder<?>>> binders) {
             return new N2oMetadataBinderFactory(binders.orElse(Collections.emptyMap()));
         }
 

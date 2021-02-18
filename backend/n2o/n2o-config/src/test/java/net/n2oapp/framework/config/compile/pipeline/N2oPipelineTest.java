@@ -346,7 +346,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockBinderFactory extends MockMetadataFactory<MetadataBinder> implements MetadataBinderFactory {
+    class MockBinderFactory extends MockMetadataFactory<MetadataBinder<?>> implements MetadataBinderFactory {
 
         @Override
         public <D extends Compiled> D bind(D compiled, BindProcessor processor) {
