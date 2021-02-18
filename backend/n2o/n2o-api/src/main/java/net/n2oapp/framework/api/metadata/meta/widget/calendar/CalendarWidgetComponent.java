@@ -16,6 +16,8 @@ import java.util.Map;
 @Setter
 public class CalendarWidgetComponent extends WidgetComponent {
     @JsonProperty
+    private Integer size;
+    @JsonProperty
     private String height;
     @JsonProperty
     private Date date;
