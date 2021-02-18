@@ -271,7 +271,7 @@ public class N2oPipelineTest {
     }
 
 
-    class MockSourceTransformer extends MockMetadataFactory<SourceTransformer> implements SourceTransformerFactory {
+    static class MockSourceTransformer extends MockMetadataFactory<SourceTransformer<?>> implements SourceTransformerFactory {
 
         @Override
         public <S> S transform(S source) {
@@ -280,7 +280,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockCompileTransformer extends MockMetadataFactory<CompileTransformer> implements CompileTransformerFactory {
+    static class MockCompileTransformer extends MockMetadataFactory<CompileTransformer<?, ?>> implements CompileTransformerFactory {
 
         @Override
         public <D extends Compiled> D transform(D compiled, CompileContext<?, ?> context, CompileProcessor processor) {

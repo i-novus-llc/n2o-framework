@@ -235,12 +235,12 @@ public class N2oEnvironmentConfiguration {
         }
 
         @Bean
-        CompileTransformerFactory compileTransformerFactory(Optional<Map<String, CompileTransformer>> transformers) {
+        CompileTransformerFactory compileTransformerFactory(Optional<Map<String, CompileTransformer<?, ?>>> transformers) {
             return new N2oCompileTransformerFactory(transformers.orElse(Collections.emptyMap()));
         }
 
         @Bean
-        SourceTransformerFactory sourceTransformerFactory(Optional<Map<String, SourceTransformer>> transformers) {
+        SourceTransformerFactory sourceTransformerFactory(Optional<Map<String, SourceTransformer<?>>> transformers) {
             return new N2oSourceTransformerFactory(transformers.orElse(Collections.emptyMap()));
         }
 

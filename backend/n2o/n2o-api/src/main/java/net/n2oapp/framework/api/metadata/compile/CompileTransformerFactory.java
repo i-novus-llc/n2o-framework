@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 /**
  * Фабрика трансформаторов собранных метаданных {@link CompileTransformer}
  */
-public interface CompileTransformerFactory extends MetadataFactory<CompileTransformer> {
+public interface CompileTransformerFactory extends MetadataFactory<CompileTransformer<?, ?>> {
 
     /**
      * Трансформировать собранные метаданные
