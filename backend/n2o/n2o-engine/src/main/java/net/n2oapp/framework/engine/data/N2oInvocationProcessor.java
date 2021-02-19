@@ -17,6 +17,10 @@ import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.util.MappingProcessor;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
@@ -29,12 +33,13 @@ import static net.n2oapp.framework.engine.util.InvocationParametersMapping.*;
 /**
  * Процессор вызова процедур
  */
-public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvironmentAware {
+public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvironmentAware, ApplicationContextAware {
     private static final ExpressionParser parser = new SpelExpressionParser();
 
     private N2oInvocationFactory invocationFactory;
     private ContextProcessor contextProcessor;
     private DomainProcessor domainProcessor;
+    private ApplicationContext applicationContext;
 
     public N2oInvocationProcessor(N2oInvocationFactory invocationFactory) {
         this.invocationFactory = invocationFactory;
@@ -146,7 +151,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             if (parameter.getNormalize() != null) {
                 Object value = inDataSet.get(parameter.getId());
                 if (value != null) {
-                    value = normalizeValue(value, parameter.getNormalize(), inDataSet, parser);
+                    value = normalizeValue(value, parameter.getNormalize(), inDataSet, parser, applicationContext);
                     copiedDataSet.put(parameter.getId(), value);
                 }
             }
@@ -168,5 +173,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     public void setEnvironment(MetadataEnvironment environment) {
         this.contextProcessor = environment.getContextProcessor();
         this.domainProcessor = environment.getDomainProcessor();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

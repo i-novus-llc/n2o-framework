@@ -1,5 +1,6 @@
 package net.n2oapp.framework.controller.dao.util;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
@@ -8,6 +9,9 @@ import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import org.junit.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,6 +19,8 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Тестирование преобразования аргументов при вызове действий
@@ -57,5 +63,24 @@ public class InvocationParametersMappingTest {
         assertThat(objects[0], is(true));
         assertThat(objects[1], nullValue());
         assertThat(objects[2], is(123));
+    }
+
+    @Test
+    public void normalizeValue() {
+        ExpressionParser parser = new SpelExpressionParser();
+        BeanFactory beanFactory = mock(BeanFactory.class);
+        when(beanFactory.getBean("myBean")).thenReturn(new MyBean());
+        String obj = "test";
+        DataSet data = new DataSet();
+        data.put("name", "John");
+        assertThat(InvocationParametersMapping.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
+        assertThat(InvocationParametersMapping.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
+        assertThat(InvocationParametersMapping.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
+    }
+
+    public static class MyBean {
+        public String call() {
+            return "Doe";
+        }
     }
 }
