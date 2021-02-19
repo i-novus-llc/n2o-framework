@@ -37,6 +37,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>net.n2oapp.criteria</groupId>
             <artifactId>criteria-api</artifactId>
         </dependency>
