@@ -31,7 +31,8 @@ public class N2oCompileTransformerFactory extends BaseMetadataFactory<CompileTra
         D result = compiled;
         for (CompileTransformer<?, ?> transformer : transformers) {
             CompileTransformer<D, CompileContext<?, ?>> castedTransformer = (CompileTransformer<D, CompileContext<?, ?>>) transformer;
-            result = castedTransformer.transform(result, context, p);
+            if (castedTransformer.matches(result, context))
+                result = castedTransformer.transform(result, context, p);
         }
         return result;
     }

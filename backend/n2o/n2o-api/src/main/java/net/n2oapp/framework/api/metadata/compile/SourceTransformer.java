@@ -12,4 +12,14 @@ public interface SourceTransformer<S> {
      * @return Трансформированные исходные метаданные
      */
     S transform(S source);
+
+    /**
+     * Подходит ли исходная метаданная для трансформации?
+     *
+     * @param source Исходные метаданные
+     * @return true - подходит, false - не подходит
+     */
+    default boolean matches(S source) {
+        return true;
+    }
 }

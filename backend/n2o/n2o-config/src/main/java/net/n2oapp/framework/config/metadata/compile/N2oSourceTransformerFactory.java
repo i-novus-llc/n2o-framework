@@ -24,7 +24,8 @@ public class N2oSourceTransformerFactory extends BaseMetadataFactory<SourceTrans
         S result = source;
         for (SourceTransformer<?> transformer : transformers) {
             SourceTransformer<S> castedTransformer = (SourceTransformer<S>) transformer;
-            result = castedTransformer.transform(result);
+            if (castedTransformer.matches(result))
+                result = castedTransformer.transform(result);
         }
         return result;
     }
