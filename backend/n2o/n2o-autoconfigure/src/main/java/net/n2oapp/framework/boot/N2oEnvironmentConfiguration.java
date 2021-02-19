@@ -245,7 +245,7 @@ public class N2oEnvironmentConfiguration {
         }
 
         @Bean
-        SourceMergerFactory sourceMergerFactory(Optional<Map<String, SourceMerger>> mergers) {
+        SourceMergerFactory sourceMergerFactory(Optional<Map<String, SourceMerger<?>>> mergers) {
             return new N2oSourceMergerFactory(mergers.orElse(Collections.emptyMap()));
         }
 

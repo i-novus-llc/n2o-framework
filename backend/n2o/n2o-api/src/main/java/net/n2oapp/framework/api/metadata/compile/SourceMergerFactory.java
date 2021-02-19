@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.factory.MetadataFactory;
 /**
  * Фабрика слияний метаданных в одну {@link SourceMerger}
  */
-public interface SourceMergerFactory extends MetadataFactory<SourceMerger> {
+public interface SourceMergerFactory extends MetadataFactory<SourceMerger<?>> {
     /**
      * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
      *
