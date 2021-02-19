@@ -7,7 +7,10 @@ import evalExpression, { parseExpression } from './evalExpression';
 import isObject from 'lodash/isObject';
 import isEmpty from 'lodash/isEmpty';
 import values from 'lodash/values';
+import keys from 'lodash/keys';
 import some from 'lodash/some';
+import every from 'lodash/every';
+import isNaN from 'lodash/isNaN';
 
 /**
  * Получение значения по ссылке и выражению.
@@ -26,13 +29,18 @@ export default function linkResolver(state, { link, value }) {
   if (isNumber(value)) return value;
 
   const context = get(state, link);
+  const isMultiKeys = every(keys(context), key => !isNaN(Number(key)));
 
   if (isUndefined(value) && link) return context;
 
   const json = JSON.stringify(value);
   const str = JSON.parse(json, (k, val) => {
     const isMulti =
-      context && values(context).every(elem => isObject(elem)) && hasMultiModel;
+      context &&
+      values(context).every(elem => isObject(elem)) &&
+      hasMultiModel &&
+      isMultiKeys;
+
     const parsedValue = parseExpression(val);
     if (parsedValue) {
       if (isMulti) {
