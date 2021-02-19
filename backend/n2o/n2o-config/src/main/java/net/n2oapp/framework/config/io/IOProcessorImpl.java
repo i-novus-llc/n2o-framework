@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.io;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.*;
@@ -41,6 +42,7 @@ public final class IOProcessorImpl implements IOProcessor {
     private NamespacePersisterFactory persisterFactory;
     private MessageSourceAccessor messageSourceAccessor;
     private PropertyResolver systemProperties;
+    private boolean failFast = true;
 
     public IOProcessorImpl(boolean read) {
         this.r = read;
@@ -1025,9 +1027,12 @@ public final class IOProcessorImpl implements IOProcessor {
         if (text == null) {
             return null;
         }
-        String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
-        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(resolve, systemProperties::getProperty);
-        return messageSourceAccessor == null ? resolve : StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
+        String resolved = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
+        resolved = systemProperties == null ? resolved : StringUtils.resolveProperties(resolved, systemProperties::getProperty);
+        resolved = messageSourceAccessor == null ? resolved : StringUtils.resolveProperties(resolved, (msg) -> messageSourceAccessor.getMessage(msg, msg));
+        if (failFast && StringUtils.hasProperty(resolved))
+            throw new N2oException("Cannot resolve property in '" + text + "'");
+        return resolved;
     }
 
     /**
@@ -1143,5 +1148,9 @@ public final class IOProcessorImpl implements IOProcessor {
 
     public void setSystemProperties(PropertyResolver systemProperties) {
         this.systemProperties = systemProperties;
+    }
+
+    public void setFailFast(boolean failFast) {
+        this.failFast = failFast;
     }
 }
