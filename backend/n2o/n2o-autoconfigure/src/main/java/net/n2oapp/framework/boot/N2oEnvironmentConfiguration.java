@@ -340,6 +340,7 @@ public class N2oEnvironmentConfiguration {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
+            ioProcessor.setFailFast(environment.getProperty("n2o.config.fail_fast", Boolean.class, true));
             return ioProcessor;
         }
 
@@ -350,6 +351,7 @@ public class N2oEnvironmentConfiguration {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(persisterFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
+            ioProcessor.setFailFast(environment.getProperty("n2o.config.fail_fast", Boolean.class, true));
             return ioProcessor;
         }
     }
