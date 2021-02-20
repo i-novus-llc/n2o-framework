@@ -67,7 +67,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
 
     @Override
     protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "tab", p);
+        return createId(regionPlace, "tabs", p);
     }
 
 
