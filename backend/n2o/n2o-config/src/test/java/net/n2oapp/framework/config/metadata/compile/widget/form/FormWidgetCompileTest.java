@@ -15,16 +15,22 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
+import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
+import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
+import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
+import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
+import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -52,9 +58,9 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
-                new N2oWidgetsPack())
-                .ios(new SimplePageElementIOv2())
-                .compilers(new SimplePageCompiler())
+                new N2oWidgetsPack(), new N2oRegionsPack())
+                .ios(new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv2(), new StandardPageElementIOv2())
+                .compilers(new SimplePageCompiler(), new StandardPageCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
@@ -222,5 +228,14 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) detailPage.getWidget();
         assertThat(form.getFormDataProvider().getPathMapping().size(), is(1));
         assertThat(form.getFormDataProvider().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open"));
+    }
+
+    @Test
+    public void testFormAsFilter () {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.query.xml")
+                .get(new PageContext("testFormAsFilter"));
+        assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getBindLink(), is("models.resolve['testFormAsFilter_filters'].period"));
+        assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getValue(), is("`id`"));
     }
 }
