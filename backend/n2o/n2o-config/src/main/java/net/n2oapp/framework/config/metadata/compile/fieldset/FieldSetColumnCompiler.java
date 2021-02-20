@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -16,6 +15,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,31 +33,35 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setVisible(ScriptProcessor.resolveExpression(source.getVisible()));
 
         if (source.getItems() != null && source.getItems().length > 0) {
-            if (source.getItems()[0] instanceof N2oField) {
-                List<Field> fields = new ArrayList<>();
-                for (NamespaceUriAware item : source.getItems()) {
-                    fields.add(p.compile(item, context));
-                }
-                if (fields.size() == 1)
-                    column.setSize(column.getSize());
-                column.setFields(fields);
-            } else {
-                List<FieldSet> fieldSets = new ArrayList<>();
-                List<FieldSet.Row> rows = new ArrayList<>();
-                for (NamespaceUriAware item : source.getItems()) {
-                    Compiled compiled = p.compile(item, context);
-                    if (compiled instanceof FieldSet) {
+            List<FieldSet> fieldSets = new ArrayList<>();
+            List<FieldSet.Row> rows = new ArrayList<>();
+            List<Field> fields = new ArrayList<>();
+            for (NamespaceUriAware item : source.getItems()) {
+                Compiled compiled = p.compile(item, context);
+                if (compiled instanceof FieldSet) {
+                    if (!rows.isEmpty())
+                        fieldSets.add(createWrappingFieldsetUnderRows(rows));
+                    else if (!fields.isEmpty())
+                        fieldSets.add(createWrappingFieldsetUnderFields(fields));
+                    fieldSets.add((FieldSet) compiled);
+                } else {
+                    if (compiled instanceof Field) {
                         if (!rows.isEmpty())
-                            fieldSets.add(createWrappingFieldset(rows));
-                        fieldSets.add((FieldSet) compiled);
-                    } else {
+                            fieldSets.add(createWrappingFieldsetUnderRows(rows));
+                        fields.add((Field) compiled);
+                    } else if (compiled instanceof FieldSet.Row) {
+                        if (!fields.isEmpty())
+                            fieldSets.add(createWrappingFieldsetUnderFields(fields));
                         rows.add((FieldSet.Row) compiled);
                     }
                 }
-                if (!rows.isEmpty())
-                    fieldSets.add(createWrappingFieldset(rows));
-                column.setFieldsets(fieldSets);
             }
+            if (!rows.isEmpty())
+                fieldSets.add(createWrappingFieldsetUnderRows(rows));
+            else if (!fields.isEmpty())
+                fieldSets.add(createWrappingFieldsetUnderFields(fields));
+
+            column.setFieldsets(fieldSets);
         }
         return column;
     }
@@ -65,13 +69,33 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
     /**
      * Создание филдсета, который будет оборачивать одну или несколько подряд идущих строк,
      * лежащих вне филдсетов
-     * @param rows Список строк филдсета
+     *
+     * @param rows Список строк
      * @return Филдсет, содержащий все входящие строки
      */
-    private FieldSet createWrappingFieldset(List<FieldSet.Row> rows) {
+    private FieldSet createWrappingFieldsetUnderRows(List<FieldSet.Row> rows) {
         FieldSet fieldSet = new SetFieldSet();
         fieldSet.setRows(new ArrayList<>(rows));
         rows.clear();
+        return fieldSet;
+    }
+
+    /**
+     * Создание филдсета, который будет оборачивать одну или несколько подряд идущих полей,
+     * лежащих вне филдсетов
+     *
+     * @param fields Список полей
+     * @return Филдсет, содержащий все входящие поля
+     */
+    private FieldSet createWrappingFieldsetUnderFields(List<Field> fields) {
+        FieldSet.Column column = new FieldSet.Column();
+        column.setFields(fields);
+
+        FieldSet.Row row = new FieldSet.Row();
+        row.setCols(Collections.singletonList(column));
+
+        FieldSet fieldSet = new SetFieldSet();
+        fieldSet.setRows(Collections.singletonList(row));
         return fieldSet;
     }
 
