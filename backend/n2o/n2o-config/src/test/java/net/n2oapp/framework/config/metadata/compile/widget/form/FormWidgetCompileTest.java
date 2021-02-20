@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -52,9 +53,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
-                new N2oWidgetsPack())
-                .ios(new SimplePageElementIOv2())
-                .compilers(new SimplePageCompiler())
+                new N2oWidgetsPack(), new N2oPagesPack(), new N2oRegionsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
@@ -222,5 +221,14 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) detailPage.getWidget();
         assertThat(form.getFormDataProvider().getPathMapping().size(), is(1));
         assertThat(form.getFormDataProvider().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open"));
+    }
+
+    @Test
+    public void testForm () {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.query.xml")
+                .get(new PageContext("testFormAsFilter"));
+        assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getBindLink(), is("models.resolve['testFormAsFilter_filters'].period"));
+        assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getValue(), is("`id`"));
     }
 }
