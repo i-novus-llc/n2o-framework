@@ -77,7 +77,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         if (source.getTabs() != null)
             for (N2oTabsRegion.Tab t : source.getTabs()) {
                 TabsRegion.Tab tab = new TabsRegion.Tab();
-                tab.setId(createId(null, source.getAlias(), p));
+                tab.setId(p.cast(t.getId(), createId(null, source.getAlias(), p)));
                 tab.setLabel(t.getName());
                 tab.setProperties(p.mapAttributes(t));
                 List<Compiled> content = new ArrayList<>();
