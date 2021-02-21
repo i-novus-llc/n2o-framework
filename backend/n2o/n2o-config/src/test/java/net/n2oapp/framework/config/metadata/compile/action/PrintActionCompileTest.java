@@ -23,9 +23,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тест компиляции действия печати
+ * Тестирование компиляции действия печати
  */
-public class PrintActionCompilerTest extends SourceCompileTestBase {
+public class PrintActionCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -91,7 +91,7 @@ public class PrintActionCompilerTest extends SourceCompileTestBase {
         assertThat(print3.getPayload().getPathMapping().size(), is(0));
         assertThat(print3.getPayload().getQueryMapping().size(), is(0));
 
-        PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+        PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getActions().get("secWgt");
 
         assertThat(linkSecond.getPayload().getUrl(), is("/page/second/test/:minPrice"));

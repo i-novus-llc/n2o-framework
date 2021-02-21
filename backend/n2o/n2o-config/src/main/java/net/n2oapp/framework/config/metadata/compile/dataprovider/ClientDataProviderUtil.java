@@ -73,8 +73,9 @@ public class ClientDataProviderUtil {
         return dataProvider;
     }
 
-    public static String getWidgetIdByComponentScope(ComponentScope componentScope, CompileProcessor p) {
+    public static String getWidgetIdByComponentScope(CompileProcessor p) {
         String widgetId = null;
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             PageScope pageScope = p.getScope(PageScope.class);
             WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);

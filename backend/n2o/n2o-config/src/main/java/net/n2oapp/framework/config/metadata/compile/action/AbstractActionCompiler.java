@@ -50,9 +50,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     protected String initTargetWidget(N2oAction source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = null;
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        targetWidgetId = getWidgetIdByComponentScope(componentScope, p);
+        String targetWidgetId = getWidgetIdByComponentScope(p);
         if (targetWidgetId == null) {
             if (widgetScope != null) {
                 targetWidgetId = widgetScope.getClientWidgetId();

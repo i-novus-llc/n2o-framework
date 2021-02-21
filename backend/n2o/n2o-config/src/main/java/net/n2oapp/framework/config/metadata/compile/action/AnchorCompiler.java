@@ -12,9 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -67,13 +65,9 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         }
 
         WidgetScope scope = p.getScope(WidgetScope.class);
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (scope != null) {
-            String clientWidgetId = scope.getClientWidgetId();
-            String widgetIdByScope = getWidgetIdByComponentScope(componentScope, p);
-            if (widgetIdByScope != null) {
-                clientWidgetId = widgetIdByScope;
-            }
+            String widgetIdByScope = getWidgetIdByComponentScope(p);
+            String clientWidgetId = widgetIdByScope != null ? widgetIdByScope : scope.getClientWidgetId();
             if (clientWidgetId != null) {
                 ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
                 if (source.getPathParams() != null) {
