@@ -68,6 +68,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oTilesWidget.class, N2oTile.class,
                 N2oTableWidget.class, N2oTableSimpleHeader.class, N2oTableFilterHeader.class, N2oTableMultiHeader.class,
                 N2oCardsWidget.class, N2oCard.class,
+                // widgets (chart)
                 N2oAreaChartWidget.class, N2oArea.class,
                 // widgets (calendar)
                 N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class,

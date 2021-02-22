@@ -1,14 +1,13 @@
 package net.n2oapp.framework.autotest.api.component.widget.chart;
 
-import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
+import net.n2oapp.framework.autotest.api.component.widget.Widget;
 
 /**
  * Виджет - Диаграмма для автотестирования
  */
-public interface ChartWidget extends StandardWidget {
+public interface ChartWidget extends Widget {
 
-    void shouldHaveWidth(String width);
+    void shouldHaveWidth(int width);
 
-    void shouldHaveHeight(String height);
-
+    void shouldHaveHeight(int height);
 }

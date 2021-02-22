@@ -5,6 +5,5 @@ package net.n2oapp.framework.autotest.api.component.widget.chart;
  */
 public interface AreaChartWidget extends ChartWidget {
 
-    Area area(Integer idx);
-
+    Area area(int index);
 }
