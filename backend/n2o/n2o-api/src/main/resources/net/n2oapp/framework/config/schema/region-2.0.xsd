@@ -24,6 +24,8 @@
             <xs:element name="calendar" type="wgt:calendarReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="widget" type="wgt:customReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="html" type="wgt:htmlReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="cards" type="wgt:cardsReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="tiles" type="wgt:tilesReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -147,6 +149,11 @@
                 <xs:annotation>
                     <xs:documentation>Вкладка.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="id">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор вкладки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="name">
                     <xs:annotation>
                         <xs:documentation>Наименование вкладки.</xs:documentation>

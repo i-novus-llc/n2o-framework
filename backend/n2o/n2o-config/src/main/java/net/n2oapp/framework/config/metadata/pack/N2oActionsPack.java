@@ -21,7 +21,8 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new N2oValidateActionElementIOV1(),
                 new PerformElementIOv1(),
                 new CopyActionElementIOV1(),
-                new ClearActionElementIOV1());
+                new ClearActionElementIOV1(),
+                new PrintElementIOV1());
         b.readers(new InvokeActionReaderV1(),
                 new ShowModalFormReaderV1(),
                 new ShowModalWithActionReaderV1(),
@@ -37,7 +38,8 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new AnchorCompiler(),
                 new ClearActionCompiler(),
                 new CopyActionCompiler(),
-                new SetValueActionCompiler());
+                new SetValueActionCompiler(),
+                new PrintActionCompiler());
         b.binders(new InvokeActionBinder(),
                 new ReduxActionBinder(),
                 new LinkActionBinder(),
@@ -47,6 +49,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ButtonFieldBinder(),
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
-                new SubMenuBinder());
+                new SubMenuBinder(),
+                new PrintActionBinder());
     }
 }

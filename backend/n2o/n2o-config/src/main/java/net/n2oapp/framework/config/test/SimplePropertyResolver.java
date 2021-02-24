@@ -94,4 +94,8 @@ public class SimplePropertyResolver implements PropertyResolver {
     public Object setProperty(String key, Object value) {
         return properties.put(key, value);
     }
+
+    public Properties getProperties() {
+        return properties;
+    }
 }

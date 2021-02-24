@@ -47,7 +47,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
                 .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(),
                         new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler())
                 .packs(new N2oObjectsPack(), new N2oActionsPack())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
+                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
+                .propertySources("application-test.properties");
     }
 
     @Test

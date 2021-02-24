@@ -33,7 +33,7 @@
     </scm>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <maven.source.version>3.2.0</maven.source.version>

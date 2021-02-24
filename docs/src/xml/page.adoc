@@ -670,6 +670,11 @@ http://n2oapp.net/framework/config/schema/region-2.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|id
+|Строка
+|Идентификатор вкладки
+|
+
 |name
 |Строка
 |Наименование вкладки
@@ -680,7 +685,7 @@ http://n2oapp.net/framework/config/schema/region-2.0
 Пример::
 [source,xml]
 ----
-<tab name="Tab1">
+<tab id="tab1" name="Вкладка">
   <form/>
   <panel/>
   <table/>

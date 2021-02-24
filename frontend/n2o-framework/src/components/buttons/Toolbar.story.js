@@ -590,7 +590,7 @@ stories
         ],
       },
     ];
-    const dropDownNonVisisble = [
+    const dropDownNonVisible = [
       {
         buttons: [
           {
@@ -652,7 +652,7 @@ stories
         <div className="row mb-2">
           Дропдаун не видно, потому что он скрыт
           <Toolbar
-            toolbar={dropDownNonVisisble}
+            toolbar={dropDownNonVisible}
             entityKey="notVisibleDropDown"
           />
         </div>
@@ -661,5 +661,37 @@ stories
           <Toolbar toolbar={dropDownDisabled} entityKey="dropdownDisabled" />
         </div>
       </React.Fragment>
+    );
+  })
+  .add('Кнопка с print action', () => {
+    const toolbar = [
+      {
+        buttons: [
+          {
+            id: 'btn_print',
+            src: 'StandardButton',
+            label: 'Печать',
+            action: {
+              type: 'n2o/toolbar/PRINT_BUTTON',
+              payload: {
+                url: '/files/:id?name=:name',
+                pathMapping: {
+                  id: { value: '`id`', link: "models.resolve['main']" },
+                },
+                queryMapping: {
+                  name: { value: '`name`', link: "models.resolve['main']" },
+                },
+              },
+            },
+          },
+        ],
+      },
+    ];
+    return (
+      <div>
+        <small>Нажмите кнопку, чтобы вызвать печать</small>
+        <br />
+        <Toolbar toolbar={toolbar} entityKey="metaBtns" />
+      </div>
     );
   });

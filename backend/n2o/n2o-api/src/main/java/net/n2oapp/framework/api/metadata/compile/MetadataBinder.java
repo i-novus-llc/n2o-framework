@@ -15,4 +15,14 @@ public interface MetadataBinder<D extends Compiled> {
      * @return Связанные метаданные с данными
      */
     D bind(D compiled, BindProcessor p);
+
+    /**
+     * Подходит ли метаданная для связывания?
+     * @param compiled Собранная метаданная
+     * @param p Процессор связывания
+     * @return true - подходит, false - не подходит
+     */
+    default boolean matches(D compiled, BindProcessor p) {
+        return true;
+    }
 }

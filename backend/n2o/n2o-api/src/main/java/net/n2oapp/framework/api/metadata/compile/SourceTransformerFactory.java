@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.factory.MetadataFactory;
 /**
  * Фабрика трансформаторов исходных метаданных {@link SourceTransformer}
  */
-public interface SourceTransformerFactory extends MetadataFactory<SourceTransformer> {
+public interface SourceTransformerFactory extends MetadataFactory<SourceTransformer<?>> {
 
     /**
      * Трансформировать исходные метаданные

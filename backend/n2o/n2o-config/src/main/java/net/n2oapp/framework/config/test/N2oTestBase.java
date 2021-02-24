@@ -32,8 +32,11 @@ public abstract class N2oTestBase {
         Locale locale = new Locale("ru");
         LocaleContextHolder.setLocale(locale);
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
-        OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
-        environment.setSystemProperties(new SimplePropertyResolver(properties));
+
+        OverrideProperties n2oProperties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
+        OverrideProperties appProperties = PropertiesReader.getPropertiesFromClasspath("application.properties");
+        appProperties.setBaseProperties(n2oProperties);
+        environment.setSystemProperties(new SimplePropertyResolver(appProperties));
 
         builder = new N2oApplicationBuilder(environment);
         configure(builder);

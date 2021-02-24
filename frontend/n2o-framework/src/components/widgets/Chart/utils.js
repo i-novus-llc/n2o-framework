@@ -1,5 +1,6 @@
 import filter from 'lodash/filter';
 import merge from 'lodash/merge';
+import get from 'lodash/get';
 
 export const COLORS = [
   '#9E2B0E',
@@ -38,4 +39,11 @@ export const setLineColors = lines => {
 
     return merge(lines, linesWithColor);
   }
+};
+
+export const createDomain = yaxis => {
+  const yMin = get(yaxis, 'min');
+  const yMax = get(yaxis, 'max');
+
+  return [yMin ? yMin : 'auto', yMax ? yMax : 'dataMax'];
 };

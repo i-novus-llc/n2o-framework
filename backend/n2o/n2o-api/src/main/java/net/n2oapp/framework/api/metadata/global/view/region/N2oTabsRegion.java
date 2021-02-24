@@ -29,6 +29,7 @@ public class N2oTabsRegion extends N2oRegion {
     @Getter
     @Setter
     public static class Tab implements Source, ExtensionAttributesAware {
+        private String id;
         private String name;
         private SourceComponent[] content;
         private Map<N2oNamespace, Map<String, String>> extAttributes;

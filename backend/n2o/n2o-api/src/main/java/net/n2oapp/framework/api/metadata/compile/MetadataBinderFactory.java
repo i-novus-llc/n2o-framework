@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 /**
  * Фабрика связывателей метаданных с данными {@link MetadataBinder}
  */
-public interface MetadataBinderFactory extends MetadataFactory<MetadataBinder> {
+public interface MetadataBinderFactory extends MetadataFactory<MetadataBinder<? extends Compiled>> {
 
     /**
      * Связать метаданные с данными

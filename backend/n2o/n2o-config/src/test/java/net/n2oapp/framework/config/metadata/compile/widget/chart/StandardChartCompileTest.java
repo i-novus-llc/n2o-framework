@@ -49,6 +49,8 @@ public class StandardChartCompileTest extends SourceCompileTestBase {
         assertThat(chart1.getYAxis().getFieldId(), is("yField"));
         assertThat(chart1.getYAxis().getPosition(), is("right"));
         assertThat(chart1.getYAxis().getHasLabel(), is(true));
+        assertThat(chart1.getYAxis().getMin(), is(100));
+        assertThat(chart1.getYAxis().getMax(), is(1000));
         assertThat(chart1.getGrid().getStrokeDashArray(), is("3 3"));
         assertThat(chart1.getGrid().getHorizontal(), is(false));
         assertThat(chart1.getGrid().getVertical(), is(false));

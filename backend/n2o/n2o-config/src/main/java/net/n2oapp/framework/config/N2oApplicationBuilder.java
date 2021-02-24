@@ -24,6 +24,8 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.properties.OverrideProperties;
+import net.n2oapp.properties.reader.PropertiesReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.PropertyResolver;
@@ -31,6 +33,7 @@ import org.springframework.core.env.PropertyResolver;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 /**
@@ -68,6 +71,9 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    /**
+     * Добавить ридеры метаданных
+     */
     @Override
     @SafeVarargs
     public final N2oApplicationBuilder readers(NamespaceReader<? extends NamespaceUriAware>... readers) {
@@ -75,6 +81,9 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    /**
+     * Добавить i/o ридеры/персистеры метаданных
+     */
     @Override
     @SafeVarargs
     public final N2oApplicationBuilder ios(NamespaceIO<? extends NamespaceUriAware>... ios) {
@@ -83,36 +92,57 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    /**
+     * Добавить персистеры метаданных
+     */
     public N2oApplicationBuilder persisters(NamespacePersister<? extends NamespaceUriAware>... persisters) {
         Stream.of(persisters).forEach(environment.getNamespacePersisterFactory()::add);
         return this;
     }
 
-    public N2oApplicationBuilder compilers(SourceCompiler... compilers) {
+    /**
+     * Добавить сборщики метаданных
+     */
+    public N2oApplicationBuilder compilers(SourceCompiler<?, ?, ?>... compilers) {
         environment.getSourceCompilerFactory().add(compilers);
         return this;
     }
 
+    /**
+     * Добавить динамические провайдеры метаданных метаданных
+     */
     public N2oApplicationBuilder providers(DynamicMetadataProvider... providers) {
         environment.getDynamicMetadataProviderFactory().add(providers);
         return this;
     }
 
-    public N2oApplicationBuilder binders(MetadataBinder... binders) {
+    /**
+     * Добавить биндеры метаданных
+     */
+    public N2oApplicationBuilder binders(MetadataBinder<?>... binders) {
         environment.getMetadataBinderFactory().add(binders);
         return this;
     }
 
-    public N2oApplicationBuilder scanners(MetadataScanner... scanners) {
+    /**
+     * Добавить сканеры метаданных
+     */
+    public N2oApplicationBuilder scanners(MetadataScanner<?>... scanners) {
         environment.getMetadataScannerFactory().add(scanners);
         return this;
     }
 
-    public N2oApplicationBuilder loaders(SourceLoader... loaders) {
+    /**
+     * Добавить лоадеры метаданных
+     */
+    public N2oApplicationBuilder loaders(SourceLoader<?>... loaders) {
         environment.getSourceLoaderFactory().add(loaders);
         return this;
     }
 
+    /**
+     * Добавить маршруты получения метаданных
+     */
     public N2oApplicationBuilder routes(RouteInfo... routes) {
         Stream.of(routes).forEach(
                 routeInfo -> environment.getRouteRegister().addRoute(routeInfo.getUrlPattern(), routeInfo.getContext())
@@ -120,52 +150,96 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    /**
+     * Добавить информацию об исходных метаданных
+     */
     public N2oApplicationBuilder sources(SourceInfo... sources) {
         Stream.of(sources).forEach(environment.getMetadataRegister()::add);
         return this;
     }
 
-    public N2oApplicationBuilder validators(SourceValidator... validators) {
+    /**
+     * Добавить валидаторы метаданных
+     */
+    public N2oApplicationBuilder validators(SourceValidator<?>... validators) {
         Stream.of(validators).forEach(environment.getSourceValidatorFactory()::add);
         return this;
     }
 
-    public N2oApplicationBuilder mergers(SourceMerger... mergers) {
+    /**
+     * Добавить мержеры метаданных
+     */
+    public N2oApplicationBuilder mergers(SourceMerger<?>... mergers) {
         Stream.of(mergers).forEach(environment.getSourceMergerFactory()::add);
         return this;
     }
 
-    public N2oApplicationBuilder transformers(SourceTransformer... transformers) {
+    /**
+     * Добавить трансформаторы исходных метаданных
+     */
+    public N2oApplicationBuilder transformers(SourceTransformer<?>... transformers) {
         Stream.of(transformers).forEach(environment.getSourceTransformerFactory()::add);
         return this;
     }
 
-    public N2oApplicationBuilder transformers(CompileTransformer... transformers) {
+    /**
+     * Добавить трансформаторы собранных метаданных
+     */
+    public N2oApplicationBuilder transformers(CompileTransformer<?, ?>... transformers) {
         Stream.of(transformers).forEach(environment.getCompileTransformerFactory()::add);
         return this;
     }
 
+    /**
+     * Добавить преобразователи дополнительных атрибутов метаданных
+     */
     public N2oApplicationBuilder extensions(ExtensionAttributeMapper... extensions) {
         Stream.of(extensions).forEach(environment.getExtensionAttributeMapperFactory()::add);
         return this;
     }
 
+    /**
+     * Добавить генераторы метаданных
+     */
     public N2oApplicationBuilder generators(ButtonGenerator... generators) {
         Stream.of(generators).forEach(environment.getButtonGeneratorFactory()::add);
         return this;
     }
 
+    /**
+     * Добавить системные свойства (key=value)
+     */
     public N2oApplicationBuilder properties(String... properties) {
+        PropertyResolver systemProperties = environment.getSystemProperties();
+        if (!(systemProperties instanceof SimplePropertyResolver))
+            throw new IllegalArgumentException("System properties is readonly");
         Stream.of(properties).forEach(p -> {
-            PropertyResolver systemProperties = environment.getSystemProperties();
-            if (!(systemProperties instanceof SimplePropertyResolver))
-                throw new IllegalArgumentException("System properties is readonly");
             String[] split = p.contains("=") ? p.split("=") : p.split(":");
-            ((SimplePropertyResolver)systemProperties).setProperty(split[0], split[1]);
+            ((SimplePropertyResolver) systemProperties).setProperty(split[0], split[1]);
         });
         return this;
     }
 
+    /**
+     * Добавить файлы properties из classpath
+     */
+    public N2oApplicationBuilder propertySources(String... propertySources) {
+        PropertyResolver systemProperties = environment.getSystemProperties();
+        if (!(systemProperties instanceof SimplePropertyResolver))
+            throw new IllegalArgumentException("System properties is readonly");
+        Properties baseProperties = ((SimplePropertyResolver) systemProperties).getProperties();
+        for (String propertySource : propertySources) {
+            OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath(propertySource);
+            properties.setBaseProperties(baseProperties);
+            baseProperties = properties;
+        }
+        ((N2oEnvironment) environment).setSystemProperties(new SimplePropertyResolver(baseProperties));
+        return this;
+    }
+
+    /**
+     * Запустить сканирование метаданных
+     */
     public N2oApplicationBuilder scan() {
         build();
         List<? extends SourceInfo> sources = environment.getMetadataScannerFactory().scan();
@@ -174,36 +248,59 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    /**
+     * Запустить конвейер чтения метаданных
+     */
     @Override
     public ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>> read() {
         build();
         return N2oPipelineSupport.readPipeline(environment).read();
     }
 
+    /**
+     * Запустить конвейер сборки метаданных
+     */
     @Override
     public CompileTerminalPipeline<CompileBindTerminalPipeline> compile() {
         build();
         return N2oPipelineSupport.compilePipeline(environment).compile();
     }
 
+    /**
+     * Запустить конвейер слияния метаданных
+     */
     @Override
     public CompilePipeline merge() {
         build();
         return N2oPipelineSupport.compilePipeline(environment).merge();
     }
 
+    /**
+     * Запустить конвейер связывания метаданных с данными
+     */
     public BindTerminalPipeline bind() {
         build();
         return N2oPipelineSupport.bindPipeline(environment).bind();
     }
 
+    /**
+     * Запустить конвейер записи метаданных
+     */
     @Override
     public PersistTerminalPipeline persist() {
         build();
         return N2oPipelineSupport.persistPipeline(environment).persist();
     }
 
-    public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass, Map<String, String[]> params) {
+    /**
+     * Найти контекст метаданной по маршруту
+     *
+     * @param url           Адрес маршрута
+     * @param compiledClass Класс собранной метаданной
+     * @param params        Параметры маршрута
+     * @return Контекст найденной метаданной или null
+     */
+    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass, Map<String, String[]> params) {
         build();
         return new N2oRouter(environment, read()
                 .transform().validate().cache().copy()
@@ -211,6 +308,11 @@ public class N2oApplicationBuilder implements
                 .get(url, compiledClass, params);
     }
 
+    /**
+     * Получить окружение сборки метаданных
+     *
+     * @return Окруждение сборки метаданных
+     */
     public MetadataEnvironment getEnvironment() {
         return environment;
     }

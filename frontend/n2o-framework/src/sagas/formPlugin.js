@@ -1,5 +1,5 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
-import { touch } from 'redux-form';
+import { touch, change } from 'redux-form';
 
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -10,7 +10,7 @@ import merge from 'lodash/merge';
 import setWith from 'lodash/setWith';
 
 import { removeFieldMessage } from '../actions/formPlugin';
-import { makeFieldByName } from '../selectors/formPlugin';
+import { makeFieldByName, messageSelector } from '../selectors/formPlugin';
 import { setModel } from '../actions/models';
 import { COPY } from '../constants/models';
 import {
@@ -25,10 +25,11 @@ export function* removeMessage(action) {
 
   if (formName && fieldName) {
     const field = yield select(makeFieldByName(formName, fieldName));
+    const message = yield select(messageSelector(formName, fieldName));
     const fieldValidation = get(field, 'validation');
 
-    if (!fieldValidation || isEmpty(fieldValidation)) {
-      yield put(removeFieldMessage(action.meta.form, action.meta.field));
+    if (message && (!fieldValidation || isEmpty(fieldValidation))) {
+      yield put(removeFieldMessage(formName, fieldName));
     }
   }
 }
@@ -98,10 +99,14 @@ export function* copyAction({ payload }) {
     }
   }
   yield put(setModel(target.prefix, target.key, newModel));
+  yield put(change(target.key, target.field, newModel[path]));
 }
 
 export const formPluginSagas = [
-  takeEvery('@@redux-form/START_ASYNC_VALIDATION', removeMessage),
+  takeEvery(
+    ['@@redux-form/START_ASYNC_VALIDATION', '@@redux-form/CHANGE'],
+    removeMessage
+  ),
   takeEvery(action => action.meta && action.meta.isTouched, addTouched),
   takeEvery(COPY, copyAction),
 ];
