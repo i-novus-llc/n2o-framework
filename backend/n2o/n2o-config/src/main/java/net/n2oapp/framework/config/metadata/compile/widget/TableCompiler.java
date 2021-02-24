@@ -113,11 +113,11 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, String queryId,
+    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route,
                                            ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = super.getQueryContext(widget, source, context, route, queryId, validationList,
-                subModelsScope, copiedFieldScope, p, object);
+                                           CopiedFieldScope copiedFieldScope, CompiledObject object) {
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, validationList,
+                subModelsScope, copiedFieldScope, object);
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
             for (AbstractColumn column : source.getColumns()) {
