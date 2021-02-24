@@ -24,6 +24,8 @@
             <xs:element name="calendar" type="wgt:calendarReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="widget" type="wgt:customReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="html" type="wgt:htmlReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="cards" type="wgt:cardsReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="tiles" type="wgt:tilesReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
