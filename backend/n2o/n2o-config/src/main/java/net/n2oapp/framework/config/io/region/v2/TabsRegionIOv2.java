@@ -28,6 +28,7 @@ public class TabsRegionIOv2 extends AbstractRegionIOv2<N2oTabsRegion> {
     }
 
     private void tabs(Element e, N2oTabsRegion.Tab t, IOProcessor p) {
+        p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "name", t::getName, t::setName);
         p.anyChildren(e, null, t::getContent, t::setContent, p.anyOf(SourceComponent.class),
                 WidgetIOv4.NAMESPACE, RegionIOv2.NAMESPACE);

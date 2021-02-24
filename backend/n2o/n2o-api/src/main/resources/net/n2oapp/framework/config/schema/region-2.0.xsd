@@ -147,6 +147,11 @@
                 <xs:annotation>
                     <xs:documentation>Вкладка.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="id">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор вкладки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="name">
                     <xs:annotation>
                         <xs:documentation>Наименование вкладки.</xs:documentation>
