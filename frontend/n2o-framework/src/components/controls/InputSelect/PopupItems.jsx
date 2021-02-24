@@ -3,21 +3,31 @@ import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
 import some from 'lodash/some';
+import keys from 'lodash/keys';
+import values from 'lodash/values';
+import map from 'lodash/map';
+import forEach from 'lodash/forEach';
+import toString from 'lodash/toString';
 import isEqual from 'lodash/isEqual';
-
+import cx from 'classnames';
+import { findDOMNode } from 'react-dom';
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
-import Icon from '../../snippets/Icon/Icon';
-import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import propsResolver from '../../../utils/propsResolver';
-import { UNKNOWN_GROUP_FIELD_ID } from './utils';
-import cx from 'classnames';
-import { findDOMNode } from 'react-dom';
 
-import { groupData, inArray, isDisabled } from './utils';
+import Icon from '../../snippets/Icon/Icon';
 import StatusText from '../../snippets/StatusText/StatusText';
+
+import CheckboxN2O from '../Checkbox/CheckboxN2O';
+
+import {
+  groupData,
+  inArray,
+  isDisabled,
+  UNKNOWN_GROUP_FIELD_ID,
+} from './utils';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -98,10 +108,34 @@ function PopupItems({
     return item[labelFieldId];
   };
 
+  const isSelectedItem = (selected, item) => {
+    const valuesToString = object => {
+      let acc = {};
+
+      const objectKeys = keys(object);
+      const objectValues = values(object);
+
+      forEach(objectKeys, (key, index) => {
+        acc[key] = toString(objectValues[index]);
+      });
+
+      return acc;
+    };
+
+    const itemToCompare = valuesToString(item);
+    const selectedToCompare = map(selected, selectedItem =>
+      valuesToString(selectedItem)
+    );
+
+    return some(selectedToCompare, selectedItem =>
+      isEqual(selectedItem, itemToCompare)
+    );
+  };
+
   const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
       ? !item[enabledFieldId]
-      : some(selected, selectedItem => isEqual(selectedItem, item))
+      : isSelectedItem(selected, item)
       ? true
       : !hasCheckboxes &&
         isDisabled(
