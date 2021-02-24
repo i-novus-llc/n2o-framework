@@ -19,6 +19,9 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
@@ -32,7 +35,7 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
 /**
  * Процессор выборок
  */
-public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAware {
+public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAware, ApplicationContextAware {
     private static final ExpressionParser parser = new SpelExpressionParser();
 
     private ContextProcessor contextProcessor;
@@ -40,6 +43,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
     private DomainProcessor domainProcessor;
     private QueryExceptionHandler exceptionHandler;
+    private ApplicationContext applicationContext;
     private boolean pageStartsWith0;
 
     public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
@@ -238,7 +242,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Object result = value;
         result = contextProcessor.resolve(result);
         result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
-        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser);
+        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser, applicationContext);
         return result;
     }
 
@@ -354,7 +358,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             if (f.getNormalize() != null) {
                 Object obj = dataSet.get(f.getId());
                 obj = contextProcessor.resolve(obj);
-                dataSet.put(f.getId(), normalizeValue(obj, f.getNormalize(), dataSet, parser));
+                dataSet.put(f.getId(), normalizeValue(obj, f.getNormalize(), dataSet, parser, applicationContext));
             }
         }
         return dataSet;
@@ -386,5 +390,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     public void setEnvironment(MetadataEnvironment environment) {
         this.contextProcessor = environment.getContextProcessor();
         this.domainProcessor = environment.getDomainProcessor();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

@@ -26,6 +26,7 @@ public class N2oApplicationBuilderTest {
                 .compilers( new StandardPageCompiler())
                 .sources(new XmlInfo("test", N2oPage.class, "classpath:", "net/n2oapp/framework/config/test.page.xml"))
                 .routes(new RouteInfo("/test", new PageContext("test")))
+                .propertySources("application-test.properties")
                 .scan()
                 .read()
                 .compile()

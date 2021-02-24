@@ -19,6 +19,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
+import { createDomain } from './utils';
 
 /**
  * График "Гистограмы"
@@ -145,6 +146,8 @@ function BarChart({
   bars,
   data,
 }) {
+  const domain = createDomain(yaxis);
+
   return (
     <Chart
       layout={layout}
@@ -161,7 +164,7 @@ function BarChart({
     >
       <CartesianGrid {...cartesianGrid} />
       <XAxis {...xaxis} />
-      <YAxis />
+      <YAxis {...yaxis} domain={domain} />
       <Tooltip {...tooltip} />
       <Legend {...legend} />
       {map(bars, bar => (

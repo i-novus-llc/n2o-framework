@@ -73,6 +73,20 @@ public class ClientDataProviderUtil {
         return dataProvider;
     }
 
+    public static String getWidgetIdByComponentScope(CompileProcessor p) {
+        String widgetId = null;
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                widgetId = pageScope == null ? widgetIdAware.getWidgetId()
+                        : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
+            }
+        }
+        return widgetId;
+    }
+
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
                                                         CompileProcessor p, ReduxModel model, String targetWidgetId) {
         if (params == null)

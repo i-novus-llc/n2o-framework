@@ -615,6 +615,8 @@ public class ScriptProcessor {
     private static synchronized void createScriptEngine() {
         if (scriptEngine == null) {
             scriptEngine = engineMgr.getEngineByName("JavaScript");
+            if (scriptEngine == null)
+                throw new N2oException("ScriptEngine 'JavaScript' not found in classpath");
             Bindings bindings = scriptEngine.createBindings();
             URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/moment.js");
             URL lodashUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/lodash.js");

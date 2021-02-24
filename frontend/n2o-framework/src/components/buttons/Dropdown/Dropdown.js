@@ -81,11 +81,7 @@ class DropdownButton extends React.Component {
               />
             )}
           </Reference>
-          <Popper
-            key={popperKey}
-            placement="bottom-start"
-            strategy="fixed"
-          >
+          <Popper key={popperKey} placement="bottom-start" strategy="fixed">
             {({ ref, style, placement }) => (
               <div
                 ref={ref}

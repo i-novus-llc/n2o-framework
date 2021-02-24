@@ -19,12 +19,10 @@
 
         <field id="name" domain="string">
             <select/>
-            <sorting>sortingColumn=name&amp;sortingOrder=:direction</sorting>
         </field>
 
         <field id="price" domain="long">
             <select/>
-            <sorting>sortingColumn=price&amp;sortingOrder=:direction</sorting>
             <filters>
                 <more filter-id="minPrice">minPrice={minPrice}</more>
                 <less filter-id="maxPrice">maxPrice={maxPrice}</less>

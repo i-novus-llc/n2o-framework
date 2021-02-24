@@ -19119,6 +19119,11 @@ pretty-hrtime@^1.0.3:
   resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
   integrity sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
 
+print-js@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/print-js/-/print-js-1.5.0.tgz#6f7e68c6d542ed5eeb535b2ad2469fc24fc9888c"
+  integrity sha512-Vy7UG2NGpNRMR1CcwoaK813tM3uUB0I4vTylxmFLXMb77gJb+6GB5aUmeasyT+CetddbmXUZsHr9BF+0VDN/fg==
+
 prismjs@^1.8.4:
   version "1.22.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.22.0.tgz#73c3400afc58a823dd7eed023f8e1ce9fd8977fa"

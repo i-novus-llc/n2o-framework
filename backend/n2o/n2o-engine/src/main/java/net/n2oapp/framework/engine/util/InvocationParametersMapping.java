@@ -13,7 +13,8 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import org.springframework.expression.EvaluationContext;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -197,12 +198,16 @@ public class InvocationParametersMapping {
         return inMapping;
     }
 
-    public static Object normalizeValue(Object value, String normalizer, DataSet allData, ExpressionParser parser) {
+    public static Object normalizeValue(Object value, String normalizer, DataSet allData,
+                                        ExpressionParser parser,
+                                        BeanFactory beanFactory) {
         if (normalizer == null)
             return value;
-        EvaluationContext context = new StandardEvaluationContext(value);
+        StandardEvaluationContext context = new StandardEvaluationContext(value);
         if (allData != null)
             context.setVariable("data", allData);
+        if (beanFactory != null)
+            context.setBeanResolver(new BeanFactoryResolver(beanFactory));
         Expression exp = parser.parseExpression(normalizer);
         return exp.getValue(context);
     }
