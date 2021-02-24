@@ -61,8 +61,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         field.setId(source.getId());
 
-        field.setVisible(source.getVisible());
-        field.setEnabled(source.getEnabled());
+        compileVisibleCondition(field, source);
+        compileEnabledCondition(field, source);
+        compileRequiredCondition(source);
 
         compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
@@ -73,6 +74,42 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
         compileDependencies(field, source, context, p);
+    }
+
+    private void compileVisibleCondition(D field, S source) {
+        if (StringUtils.isLink(source.getVisible())) {
+            field.setVisible(true);
+            N2oField.VisibilityDependency visibilityDependency = new N2oField.VisibilityDependency();
+            Set<String> onFields = ScriptProcessor.extractVars(source.getVisible());
+            visibilityDependency.setValue(source.getVisible().substring(1, source.getVisible().length() - 1));
+            visibilityDependency.setOn(onFields.toArray(String[]::new));
+            source.addDependency(visibilityDependency);
+        } else {
+            field.setVisible(!"false".equals(source.getVisible()));
+        }
+    }
+
+    private void compileEnabledCondition(D field, S source) {
+        if (StringUtils.isLink(source.getEnabled())) {
+            field.setEnabled(true);
+            N2oField.EnablingDependency enablingDependency = new N2oField.EnablingDependency();
+            Set<String> onFields = ScriptProcessor.extractVars(source.getVisible());
+            enablingDependency.setValue(source.getVisible().substring(1, source.getVisible().length() - 1));
+            enablingDependency.setOn(onFields.toArray(String[]::new));
+            source.addDependency(enablingDependency);
+        } else {
+            field.setEnabled(!"false".equals(source.getEnabled()));
+        }
+    }
+
+    private void compileRequiredCondition(S source) {
+        if (StringUtils.isLink(source.getRequired())) {
+            N2oField.RequiringDependency requiringDependency = new N2oField.RequiringDependency();
+            Set<String> onFields = ScriptProcessor.extractVars(source.getRequired());
+            requiringDependency.setValue(source.getRequired().substring(1, source.getRequired().length() - 1));
+            requiringDependency.setOn(onFields.toArray(String[]::new));
+            source.addDependency(requiringDependency);
+        }
     }
 
     protected String initLabel(S source, CompileProcessor p) {
@@ -256,7 +293,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         String REQUIRED_MESSAGE = momentScope != null
                 && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
-        if (source.getRequired() != null && source.getRequired()) {
+        if ("true".equals(source.getRequired())) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());

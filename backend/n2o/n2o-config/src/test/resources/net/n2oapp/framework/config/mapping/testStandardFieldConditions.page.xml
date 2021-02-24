@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <input-text id="f1"/>
+            <input-text id="f2" visible="false" enabled="false" required="true"/>
+            <input-text id="f3">
+                <dependencies>
+                    <visibility on="f1">f1 == 'test'</visibility>
+                    <enabling on="f2">f2 == 'test'</enabling>
+                    <requiring on="f3">f3 == 'test'</requiring>
+                </dependencies>
+            </input-text>
+            <input-text id="f4"
+                        visible="{f1 == 'test' &amp;&amp; f3 &lt; 5 || typeof(f2) === 'undefined'}"
+                        enabled="{f1 == 'test' &amp;&amp; f3 &lt; 5 || typeof(f2) === 'undefined'}"
+                        required="{f1 == 'test' &amp;&amp; f3 &lt; 5 || typeof(f2) === 'undefined'}"/>
+        </fields>
+    </form>
+</simple-page>
