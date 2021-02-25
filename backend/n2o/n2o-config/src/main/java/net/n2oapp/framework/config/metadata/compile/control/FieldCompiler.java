@@ -343,7 +343,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 MomentScope momentScope = p.getScope(MomentScope.class);
                 if (momentScope != null)
                     compiledValidation.setMoment(momentScope.getMoment());
-                if (!enablingConditions.isEmpty()) {
+                if ("false".equals(source.getVisible())) {
+                    continue;
+                } else if (!enablingConditions.isEmpty()) {
                     compiledValidation.addEnablingConditions(enablingConditions);
                 }
                 compiledValidation.addEnablingConditions(visibilityConditions);
