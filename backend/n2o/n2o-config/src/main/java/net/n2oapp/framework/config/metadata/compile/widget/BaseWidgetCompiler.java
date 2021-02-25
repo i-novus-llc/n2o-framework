@@ -93,7 +93,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (source.getQueryId() != null) {
                 compiled.setQueryId(source.getQueryId());
                 compiled.setUpload(UploadType.query);
-            } else if (source.getDefaultValuesQueryId() != null) {
+            } else {
                 compiled.setQueryId(source.getDefaultValuesQueryId());
                 compiled.setUpload(UploadType.defaults);
             }
