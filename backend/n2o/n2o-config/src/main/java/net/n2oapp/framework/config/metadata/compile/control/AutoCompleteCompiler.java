@@ -1,18 +1,16 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAutoComplete;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
+import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import org.springframework.stereotype.Component;
 
@@ -64,20 +62,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
     private ClientDataProvider compileDataProvider(N2oAutoComplete source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(source.getPreFilters(), source.getQueryId(), p);
         dataProvider.setQuickSearchParam(p.cast(source.getSearchFilterId(), "name"));
-        compileResetOnChangeDependency(source);
+        source.addDependencies(FieldCompileUtil.getResetOnChangeDependency(source));
         return ClientDataProviderUtil.compile(dataProvider, context, p);
-    }
-
-    protected void compileResetOnChangeDependency(N2oAutoComplete source) {
-        if (source.getPreFilters() != null) {
-            for (N2oPreFilter preFilter : source.getPreFilters()) {
-                if (Boolean.TRUE.equals(preFilter.getResetOnChange())
-                        && StringUtils.isLink(preFilter.getValue())) {
-                    N2oField.ResetDependency reset = new N2oField.ResetDependency();
-                    reset.setOn(new String[]{preFilter.getValue().substring(1, preFilter.getValue().length() - 1)});
-                    source.addDependency(reset);
-                }
-            }
-        }
     }
 }

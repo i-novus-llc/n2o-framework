@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -20,6 +19,7 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
 import java.util.*;
@@ -134,7 +134,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             dataProvider.setTargetModel(modelsScope.getModel());
             dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
         }
-        compileResetOnChangeDependency(source);
+        source.addDependencies(FieldCompileUtil.getResetOnChangeDependency(source));
 
         QueryContext queryContext = new QueryContext(source.getQueryId());
         CompiledQuery query = p.getCompiled(queryContext);
@@ -148,18 +148,5 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             }
         }
         listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
-    }
-
-    protected void compileResetOnChangeDependency(N2oListField source) {
-        if (source.getPreFilters() != null) {
-            for (N2oPreFilter preFilter : source.getPreFilters()) {
-                if (Boolean.TRUE.equals(preFilter.getResetOnChange())
-                        && StringUtils.isLink(preFilter.getValue())) {
-                    N2oField.ResetDependency reset = new N2oField.ResetDependency();
-                    reset.setOn(new String[]{preFilter.getValue().substring(1, preFilter.getValue().length() - 1)});
-                    source.addDependency(reset);
-                }
-            }
-        }
     }
 }
