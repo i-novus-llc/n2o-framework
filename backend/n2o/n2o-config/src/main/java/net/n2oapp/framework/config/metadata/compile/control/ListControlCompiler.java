@@ -79,7 +79,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
                 onSet.setParam(source.getParam());
                 onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
-                onSet.setValue("`" + id + "`");
+                onSet.setValue("`id`");
                 ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);

@@ -25,10 +25,10 @@ import java.util.List;
 public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.routes(new RouteInfo("/test/sql/v3", new QueryContext("testSqlQuery3", "/test/sql/v3")),
-                new RouteInfo("/test/sql/v4", new QueryContext("testSqlQuery4", "/test/sql/v4")),
-                new RouteInfo("/test/rest/v4", new QueryContext("testRestQuery4")),
-                new RouteInfo("/test/java/v3", new QueryContext("testJavaQuery3", "/test/java/v3")),
+        b.routes(new RouteInfo("/test/sql/v3", getTestQueryContext("testSqlQuery3", "/test/sql/v3")),
+                new RouteInfo("/test/sql/v4", getTestQueryContext("testSqlQuery4", "/test/sql/v4")),
+                new RouteInfo("/test/rest/v4", getTestQueryContext("testRestQuery4", "/test/rest/v4")),
+                new RouteInfo("/test/java/v3", getTestQueryContext("testJavaQuery3", "/test/java/v3")),
                 new RouteInfo("/test/java/spring/v4", new QueryContext("testSpringQuery4", "/test/java/spring/v4")),
                 new RouteInfo("/test/java/static/v4", new QueryContext("testStaticQuery4", "/test/java/static/v4")),
                 new RouteInfo("/test/invoke/action", getActionContext()),
@@ -39,9 +39,43 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/testInsertMongo", getTestInsertMongodbContext("create", "/testInsertMongo")),
                 new RouteInfo("/testUpdateMongo", getTestInsertMongodbContext("update", "/testUpdateMongo")),
                 new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
-                new RouteInfo("/test/mongodb", new QueryContext("testMongodbQuery4", "/test/mongodb")),
-                new RouteInfo("/test/mongodbCount", new QueryContext("testMongodbQuery4", "/test/mongodbCount")),
+                new RouteInfo("/test/mongodb", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodb")),
+                new RouteInfo("/test/mongodbCount", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodbCount")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
+    }
+
+    private QueryContext getTestQueryContext(String testQuery, String s) {
+        QueryContext queryContext = new QueryContext(testQuery, s);
+        ArrayList<Filter> filters = new ArrayList<>();
+        createFilter(filters, "id");
+        queryContext.setFilters(filters);
+        return queryContext;
+    }
+
+    private QueryContext getTestMongoQueryContext(String testQuery, String s) {
+        QueryContext queryContext = new QueryContext(testQuery, s);
+        ArrayList<Filter> filters = new ArrayList<>();
+        createFilter(filters, "id");
+        createFilter(filters, "name");
+        createFilter(filters, "gender_id");
+        createFilter(filters, "nameLike");
+        createFilter(filters, "nameStart");
+        createFilter(filters, "notName");
+        createFilter(filters, "birthdayMore");
+        createFilter(filters, "userAgeNotIn");
+        createFilter(filters, "idIn");
+        createFilter(filters, "userNameIn");
+        createFilter(filters, "userAgeIn");
+        createFilter(filters, "birthdayLess");
+        queryContext.setFilters(filters);
+        return queryContext;
+    }
+
+    private void createFilter(ArrayList<Filter> filters, String id) {
+        Filter filter1 = new Filter();
+        filter1.setFilterId(id);
+        filter1.setParam(id);
+        filters.add(filter1);
     }
 
     private QueryContext getQueryContext() {

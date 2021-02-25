@@ -32,17 +32,29 @@ import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
  *     animationEasing: тип анимации
  * }
  * @param data
+ * @param rest
  * @return {*}
  * @constructor
  */
 
-function PieChart({ width, height, margin, pie, data }) {
+function PieChart({ width, height, margin, pie, data, ...rest }) {
   const valueFieldId = get(pie, 'dataKey');
+  const tooltipFieldId = get(pie, 'tooltipKey');
   const customFill = get(pie, 'fill');
 
   const pieData = valueFieldId
     ? map(data, elem => ({ ...elem, value: Number(elem[valueFieldId]) }))
     : data;
+
+  const CustomTooltip = ({ payload }) => {
+    return (
+      <div className="n2o-pie-chart-custom-tooltip">
+        <h4 className="n2o-pie-chart-custom-tooltip__content">
+          {get(payload[0], `payload.payload.${tooltipFieldId}`)}
+        </h4>
+      </div>
+    );
+  };
 
   return (
     <Chart width={width} height={height} margin={margin}>
@@ -61,7 +73,7 @@ function PieChart({ width, height, margin, pie, data }) {
           />
         ))}
       </Pie>
-      <Tooltip />
+      {tooltipFieldId ? <Tooltip content={<CustomTooltip />} /> : <Tooltip />}
     </Chart>
   );
 }

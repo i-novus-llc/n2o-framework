@@ -17,5 +17,8 @@
                 <invoke operation-id="delete" close-on-success="true"/>
             </button>
         </toolbar>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
     </form>
 </simple-page>

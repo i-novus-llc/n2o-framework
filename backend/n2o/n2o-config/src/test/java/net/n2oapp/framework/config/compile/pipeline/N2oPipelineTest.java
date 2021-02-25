@@ -271,7 +271,7 @@ public class N2oPipelineTest {
     }
 
 
-    class MockSourceTransformer extends MockMetadataFactory<SourceTransformer> implements SourceTransformerFactory {
+    static class MockSourceTransformer extends MockMetadataFactory<SourceTransformer<?>> implements SourceTransformerFactory {
 
         @Override
         public <S> S transform(S source) {
@@ -280,7 +280,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockCompileTransformer extends MockMetadataFactory<CompileTransformer> implements CompileTransformerFactory {
+    static class MockCompileTransformer extends MockMetadataFactory<CompileTransformer<?, ?>> implements CompileTransformerFactory {
 
         @Override
         public <D extends Compiled> D transform(D compiled, CompileContext<?, ?> context, CompileProcessor processor) {
@@ -290,7 +290,7 @@ public class N2oPipelineTest {
     }
 
 
-    class MockSourceValidatorFactory extends MockMetadataFactory<SourceValidator> implements SourceValidatorFactory {
+    static class MockSourceValidatorFactory extends MockMetadataFactory<SourceValidator> implements SourceValidatorFactory {
 
         @Override
         public <S> void validate(S source, ValidateProcessor p) throws N2oMetadataValidationException {
@@ -300,7 +300,7 @@ public class N2oPipelineTest {
     }
 
 
-    class MockSourceCacheTemplate extends CacheTemplate {
+    static class MockSourceCacheTemplate extends CacheTemplate {
         private N2oSimplePage cache;
 
         @Override
@@ -318,7 +318,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockCompiledCacheTemplate extends CacheTemplate {
+    static class MockCompiledCacheTemplate extends CacheTemplate {
         private Page cache;
 
         @Override
@@ -336,7 +336,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockSourceCompilerFactory extends MockMetadataFactory<SourceCompiler> implements SourceCompilerFactory {
+    static class MockSourceCompilerFactory extends MockMetadataFactory<SourceCompiler> implements SourceCompilerFactory {
 
         @Override
         public <D extends Compiled, S, C extends CompileContext<?, ?>> D compile(S source, C context, CompileProcessor p) {
@@ -346,7 +346,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockBinderFactory extends MockMetadataFactory<MetadataBinder> implements MetadataBinderFactory {
+    static class MockBinderFactory extends MockMetadataFactory<MetadataBinder<?>> implements MetadataBinderFactory {
 
         @Override
         public <D extends Compiled> D bind(D compiled, BindProcessor processor) {
@@ -355,7 +355,7 @@ public class N2oPipelineTest {
         }
     }
 
-    class MockMergeFactory extends MockMetadataFactory<SourceMerger> implements SourceMergerFactory {
+    static class MockMergeFactory extends MockMetadataFactory<SourceMerger<?>> implements SourceMergerFactory {
 
         @Override
         public <S> S merge(S source, S override) {

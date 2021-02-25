@@ -18,4 +18,15 @@ public interface CompileTransformer<D extends Compiled, C extends CompileContext
      * @return Трансформированные собранные метаданные
      */
     D transform(D compiled, C context, CompileProcessor p);
+
+    /**
+     * Подходит ли собранная метаданная для трансформации?
+     *
+     * @param compiled Собранные метаданные
+     * @param context  Контекст сборки
+     * @return true - подходит, false - не подходит
+     */
+    default boolean matches(D compiled, C context) {
+        return true;
+    }
 }

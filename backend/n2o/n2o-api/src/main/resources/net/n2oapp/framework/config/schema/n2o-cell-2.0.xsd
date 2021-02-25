@@ -300,8 +300,8 @@
                     <xs:documentation>Изображение.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="statuses" type="ctr2:statusesType"/>
-                    <xs:element name="action" type="acn:actions"/>
+                    <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
+                    <xs:element name="action" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
@@ -335,7 +335,7 @@
                 </xs:attribute>
                 <xs:attribute name="data" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ссылка на изображение в БД в байтах.</xs:documentation>
+                        <xs:documentation>Данные изображения в формате base64.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text-position" default="right">

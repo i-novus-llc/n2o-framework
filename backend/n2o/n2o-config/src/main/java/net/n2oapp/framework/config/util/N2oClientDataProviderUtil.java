@@ -16,6 +16,8 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 
+import static net.n2oapp.framework.config.util.QueryContextUtil.*;
+
 /**
  * Утилита для инициализации исходной модели клиентского провайдера данных
  */
@@ -30,11 +32,10 @@ public class N2oClientDataProviderUtil {
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
-        String route = query.getRoute();
-        p.addRoute(new QueryContext(queryId, route));
+        p.addRoute(prepareQueryContextForRouteRegister(query));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setUrl(route);
+        dataProvider.setUrl(query.getRoute());
 
         if (preFilters != null) {
             N2oParam[] queryParams = new N2oParam[preFilters.length];

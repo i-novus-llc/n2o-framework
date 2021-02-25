@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>n2o</artifactId>
-    <version>7.14.0-SNAPSHOT</version>
+    <version>7.15.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>n2o</name>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.14.0-SNAPSHOT</version>
+        <version>7.15.0-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -82,6 +82,12 @@
                 <groupId>org.mozilla</groupId>
                 <artifactId>rhino</artifactId>
                 <version>1.7R5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openjdk.nashorn</groupId>
+                <artifactId>nashorn-core</artifactId>
+                <version>15.2</version>
             </dependency>
 
             <dependency>

@@ -1,8 +1,9 @@
-import { call, put, select } from '@redux-saga/core/effects';
+import { call, put, select, takeEvery } from '@redux-saga/core/effects';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import every from 'lodash/every';
 import some from 'lodash/some';
+import printJS from 'print-js';
 
 import { resolveConditions } from './conditions';
 import {
@@ -11,6 +12,8 @@ import {
   changeButtonMessage,
 } from '../actions/toolbar';
 import { getContainerButtons } from '../selectors/toolbar';
+import { dataProviderResolver } from '../core/dataProviderResolver';
+import { PRINT_BUTTON } from '../constants/toolbar';
 
 /**
  * Resolve buttons conditions
@@ -80,9 +83,35 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
   }
 }
 
+function* print(action) {
+  const state = yield select();
+  const {
+    url,
+    pathMapping,
+    queryMapping,
+    fileType = 'pdf',
+    loader = false,
+    base64 = false,
+  } = action.payload;
+  const { url: printUrl } = yield dataProviderResolver(state, {
+    url,
+    pathMapping,
+    queryMapping,
+  });
+
+  printJS({
+    printable: printUrl,
+    fileType: fileType,
+    showModal: loader,
+    base64: base64,
+  });
+}
+
 // export function* handleAction(action) {
 //   const buttons = yield select(
 //     getContainerButtons(action.payload.key || action.payload.widgetId)
 //   );
 //   yield all(values(buttons || []).map(v => call(resolveEntity, v)));
 // }
+
+export default [takeEvery(PRINT_BUTTON, print)];

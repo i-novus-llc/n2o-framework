@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io;
 
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.*;
@@ -36,6 +37,7 @@ import java.util.Properties;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
 
 
 /**
@@ -344,14 +346,14 @@ public class IOProcessorTest {
     @Test
     public void testRead() throws Exception {
         new IOProcessorImpl(false).read(dom("net/n2oapp/framework/config/io/ioprocessor1.xml"), new EmptyEntity(), (e, t) -> {
-            Assert.fail();
+            fail();
         });
     }
 
     @Test
     public void testPersist() {
         new IOProcessorImpl(true).persist(new EmptyEntity(), new Element("test"), (t, e) -> {
-            Assert.fail();
+            fail();
         });
     }
 
@@ -636,6 +638,29 @@ public class IOProcessorTest {
             testElementWithProperty(p, "testProp2");//самый приоритетный params
         } finally {
             MetadataParamHolder.setParams(null);
+        }
+
+        //test fail fast
+        p = new IOProcessorImpl(readerFactory);
+        p.setFailFast(true);
+        //p.setSystemProperties(systemProperties); not set to fail
+        try {
+            testElementWithProperty(p, "testProp1");
+            fail();
+        } catch (N2oException ignored) {
+        }
+
+        //test fail tolerance
+        p = new IOProcessorImpl(readerFactory);
+        p.setFailFast(false);
+        //p.setSystemProperties(systemProperties); not set to fail
+        try {
+            Element in = dom("net/n2oapp/framework/config/io/ioprocessor22.xml");
+            BaseEntity baseEntity = new BaseEntity();
+            p.element(in, "attr", baseEntity::getAttr, baseEntity::setAttr);
+            assertThat(baseEntity.getAttr(), equalTo("${testProp1}"));
+        } catch (N2oException e) {
+            fail();
         }
     }
 
@@ -946,7 +971,7 @@ public class IOProcessorTest {
         p.attributeEnum(e, "enum1", t::getEn, t::setEn, MyEnum.class);
     }
 
-    class EnumNamespaceEntityIO implements NamespaceIO<EnumNamespaceEntity> {
+    static class EnumNamespaceEntityIO implements NamespaceIO<EnumNamespaceEntity> {
 
         @Override
         public Class<EnumNamespaceEntity> getElementClass() {
@@ -970,7 +995,7 @@ public class IOProcessorTest {
         }
     }
 
-    class BodyNamespaceEntityIO implements NamespaceIO<BodyNamespaceEntity> {
+    static class BodyNamespaceEntityIO implements NamespaceIO<BodyNamespaceEntity> {
 
         @Override
         public Class<BodyNamespaceEntity> getElementClass() {

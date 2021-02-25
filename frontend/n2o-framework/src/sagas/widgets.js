@@ -9,12 +9,18 @@ import keys from 'lodash/keys';
 import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
 import get from 'lodash/get';
+import last from 'lodash/last';
 import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
 import queryString from 'query-string';
 
 import { dataProviderResolver } from '../core/dataProviderResolver';
-import { DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
+import {
+  CHANGE_PAGE,
+  DATA_REQUEST,
+  DISABLE,
+  RESOLVE,
+} from '../constants/widgets';
 import { CLEAR, PREFIXES } from '../constants/models';
 import {
   changeCountWidget,
@@ -24,13 +30,14 @@ import {
   resetWidgetState,
   setWidgetMetadata,
 } from '../actions/widgets';
-import { setModel } from '../actions/models';
+import { removeModel, setModel } from '../actions/models';
 import {
   makeSelectedIdSelector,
   makeWidgetByIdSelector,
   makeWidgetDataProviderSelector,
   makeWidgetPageIdSelector,
 } from '../selectors/widgets';
+import { checkIdBeforeLazyFetch } from './regions';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { getLocation, rootPageSelector } from '../selectors/global';
 import { makeGetModelByPrefixSelector } from '../selectors/models';
@@ -130,6 +137,7 @@ export function* setWidgetDataSuccess(
   currentDatasource
 ) {
   const { basePath, baseQuery, headersParams } = resolvedProvider;
+
   const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
     basePath,
     baseQuery,
@@ -220,13 +228,30 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
         yield* routesQueryMapping(state, routes, location);
       }
 
-      yield call(
-        setWidgetDataSuccess,
-        widgetId,
-        widgetState,
-        resolvedProvider,
-        currentDatasource
+      const { activeWidgetIds, tabsWidgetIds } = yield call(
+        checkIdBeforeLazyFetch
       );
+
+      if (tabsWidgetIds[widgetId] && activeWidgetIds.includes(widgetId)) {
+        yield call(
+          setWidgetDataSuccess,
+          widgetId,
+          widgetState,
+          resolvedProvider,
+          currentDatasource
+        );
+      } else if (
+        !Object.keys(tabsWidgetIds).includes(widgetId) ||
+        !tabsWidgetIds[widgetId]
+      ) {
+        yield call(
+          setWidgetDataSuccess,
+          widgetId,
+          widgetState,
+          resolvedProvider,
+          currentDatasource
+        );
+      }
     } else {
       yield put(dataFailWidget(widgetId));
     }
@@ -268,6 +293,29 @@ export function* clearOnDisable(action) {
   yield put(changeCountWidget(widgetId, 0));
 }
 
+let pagesHash = [];
+
+function* clearFilters(action) {
+  const widgetId = action.payload.widgetId;
+
+  if (last(pagesHash) === widgetId) {
+    return;
+  }
+
+  if (pagesHash.includes(widgetId)) {
+    const currentPageIndex = pagesHash.indexOf(widgetId);
+    const filterResetIds = pagesHash.splice(currentPageIndex + 1);
+
+    for (let index = 0; index < filterResetIds.length; index += 1) {
+      let filterResetId = filterResetIds[index];
+
+      yield put(removeModel(PREFIXES.filter, filterResetId));
+    }
+  } else {
+    pagesHash.push(widgetId);
+  }
+}
+
 /**
  * Сайд-эффекты для виджет редюсера
  * @ignore
@@ -278,5 +326,6 @@ export default apiProvider => {
     takeEvery(CLEAR, clearForm),
     takeEvery(RESOLVE, runResolve),
     takeEvery(DISABLE, clearOnDisable),
+    takeEvery(CHANGE_PAGE, clearFilters),
   ];
 };
