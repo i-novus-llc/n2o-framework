@@ -41,6 +41,8 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -61,9 +63,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         field.setId(source.getId());
 
-        compileVisibleCondition(field, source);
-        compileEnabledCondition(field, source);
-        compileRequiredCondition(source);
+        compileCondition(source, source::getVisible, new N2oField.VisibilityDependency(), field::setVisible, !"false".equals(source.getVisible()));
+        compileCondition(source, source::getEnabled, new N2oField.EnablingDependency(), field::setEnabled, !"false".equals(source.getEnabled()));
+        compileCondition(source, source::getRequired, new N2oField.RequiringDependency(), field::setRequired, "true".equals(source.getRequired()));
 
         compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
@@ -76,39 +78,18 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compileDependencies(field, source, context, p);
     }
 
-    private void compileVisibleCondition(D field, S source) {
-        if (StringUtils.isLink(source.getVisible())) {
-            field.setVisible(true);
-            N2oField.VisibilityDependency visibilityDependency = new N2oField.VisibilityDependency();
-            Set<String> onFields = ScriptProcessor.extractVars(source.getVisible());
-            visibilityDependency.setValue(source.getVisible().substring(1, source.getVisible().length() - 1));
-            visibilityDependency.setOn(onFields.toArray(String[]::new));
-            source.addDependency(visibilityDependency);
+    private void compileCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
+                                  Consumer<Boolean> conditionSetter, Boolean defaultValue) {
+        if (StringUtils.isLink(conditionGetter.get())) {
+            conditionSetter.accept(false);
+            Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
+            dependency.setValue(conditionGetter.get().substring(1, conditionGetter.get().length() - 1));
+            dependency.setOn(onFields.toArray(String[]::new));
+            source.addDependency(dependency);
+        } else if (source.containsDependency(dependency.getClass())) {
+            conditionSetter.accept(false);
         } else {
-            field.setVisible(!"false".equals(source.getVisible()));
-        }
-    }
-
-    private void compileEnabledCondition(D field, S source) {
-        if (StringUtils.isLink(source.getEnabled())) {
-            field.setEnabled(true);
-            N2oField.EnablingDependency enablingDependency = new N2oField.EnablingDependency();
-            Set<String> onFields = ScriptProcessor.extractVars(source.getVisible());
-            enablingDependency.setValue(source.getVisible().substring(1, source.getVisible().length() - 1));
-            enablingDependency.setOn(onFields.toArray(String[]::new));
-            source.addDependency(enablingDependency);
-        } else {
-            field.setEnabled(!"false".equals(source.getEnabled()));
-        }
-    }
-
-    private void compileRequiredCondition(S source) {
-        if (StringUtils.isLink(source.getRequired())) {
-            N2oField.RequiringDependency requiringDependency = new N2oField.RequiringDependency();
-            Set<String> onFields = ScriptProcessor.extractVars(source.getRequired());
-            requiringDependency.setValue(source.getRequired().substring(1, source.getRequired().length() - 1));
-            requiringDependency.setOn(onFields.toArray(String[]::new));
-            source.addDependency(requiringDependency);
+            conditionSetter.accept(defaultValue);
         }
     }
 

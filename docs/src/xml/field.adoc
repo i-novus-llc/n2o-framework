@@ -59,13 +59,13 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |
 
 |required
-|Выражение
-|Условие обязательности
+|true false
+|Обязательность поля. Поддерживаются плейсхолдеры условия.
 |false
 
 |visible
-|Выражение
-|Условие видимости
+|true false
+|Видимость поля. Поддерживаются плейсхолдеры условия.
 |true
 
 |readonly
@@ -74,8 +74,8 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |false
 
 |enabled
-|Выражение
-|Условие доступности
+|true false
+|Доступность поля. Поддерживаются плейсхолдеры условия.
 |true
 
 |description

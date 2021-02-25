@@ -308,7 +308,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         Field field1 = rows.get(0).getCols().get(0).getFields().get(0);
         assertThat(field1.getVisible(), is(true));
         assertThat(field1.getEnabled(), is(true));
-        assertThat(field1.getRequired(), nullValue());
+        assertThat(field1.getRequired(), is(false));
         assertThat(field1.getDependencies().size(), is(0));
 
         Field field2 = rows.get(1).getCols().get(0).getFields().get(0);
@@ -318,8 +318,9 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field2.getDependencies().size(), is(0));
 
         Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
-        assertThat(field3.getVisible(), is(true));
-        assertThat(field3.getEnabled(), is(true));
+        assertThat(field3.getVisible(), is(false));
+        assertThat(field3.getEnabled(), is(false));
+        assertThat(field3.getRequired(), is(false));
         assertThat(field3.getDependencies().size(), is(3));
         assertThat(field3.getDependencies().get(0).getType(), is(ValidationType.visible));
         assertThat(field3.getDependencies().get(0).getOn(), is(Arrays.asList("f1")));
@@ -332,8 +333,9 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field3.getDependencies().get(2).getExpression(), is("f3 == 'test'"));
 
         Field field4 = rows.get(3).getCols().get(0).getFields().get(0);
-        assertThat(field4.getVisible(), is(true));
-        assertThat(field4.getEnabled(), is(true));
+        assertThat(field4.getVisible(), is(false));
+        assertThat(field4.getEnabled(), is(false));
+        assertThat(field4.getRequired(), is(false));
         assertThat(field4.getDependencies().size(), is(3));
         assertThat(field4.getDependencies().get(0).getType(), is(ValidationType.visible));
         assertThat(field4.getDependencies().get(0).getOn(), is(Arrays.asList("f1", "f2", "f3")));
