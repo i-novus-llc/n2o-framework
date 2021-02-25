@@ -4,6 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -69,7 +71,10 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         Tiles.Tile tile = new Tiles.Tile();
         source.setId(p.cast(source.getId(), source.getTextFieldId()));
         tile.setId(source.getId());
-        tile.setComponent(p.compile(source.getComponent(), context, p, new IndexScope(), new ComponentScope(source), scopes));
+        N2oCell cell = source.getComponent();
+        if (cell == null)
+            cell = new N2oTextCell();
+        tile.setComponent(p.compile(cell, context, p, new IndexScope(), new ComponentScope(source), scopes));
         return tile;
     }
 }

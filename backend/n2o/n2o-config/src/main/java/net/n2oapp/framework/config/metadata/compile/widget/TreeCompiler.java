@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
@@ -62,8 +61,10 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Tree widget, N2oTree source, CompileContext<?, ?> context, String route, String queryId, ValidationList validationList, SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = super.getQueryContext(widget, source, context, route, queryId, validationList, subModelsScope, copiedFieldScope, p, object);
+    protected QueryContext getQueryContext(Tree widget, N2oTree source, CompileContext<?, ?> context, String route,
+                                           ValidationList validationList, SubModelsScope subModelsScope,
+                                           CopiedFieldScope copiedFieldScope, CompiledObject object) {
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, validationList, subModelsScope, copiedFieldScope, object);
         queryContext.setQuerySize(source.getSize() != null ? source.getSize() : 200);
         return queryContext;
     }
