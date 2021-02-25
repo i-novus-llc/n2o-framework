@@ -67,18 +67,6 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
             this.serverMoment = ServerMoment.afterFailQuery;
     }
 
-    // необходим для обратной совместимости после замены mapping-condition на enabled
-    @Deprecated
-    public String getMappingCondition() {
-        return getEnabled();
-    }
-
-    // необходим для обратной совместимости после замены mapping-condition на enabled
-    @Deprecated
-    public void setMappingCondition(String mappingCondition) {
-        this.enabled = mappingCondition;
-    }
-
     //для персистеров 1.0, 2.0
     @Deprecated
     public Level getLevel() {
