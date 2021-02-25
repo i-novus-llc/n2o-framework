@@ -41,7 +41,6 @@ public abstract class BasePageElementIOv3<T extends N2oBasePage> implements Name
         p.attribute(e, "widget-id", a::getWidgetId, a::setWidgetId);
         p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
         p.attribute(e, "icon", a::getIcon, a::setIcon);
-        p.attribute(e, "hotkey", a::getHotkey, a::setHotkey);
         p.attribute(e, "visible", a::getVisible, a::setVisible);
         p.attribute(e, "enabled", a::getEnabled, a::setEnabled);
         p.anyChild(e, null, a::getAction, a::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);

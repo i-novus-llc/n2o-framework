@@ -55,8 +55,7 @@
                     </column>
                     <column text-field-id="">
                         <toolbar>
-                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update">
-                            </sub-menu>
+                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update"/>
                         </toolbar>
                         <!--<toolbar>-->
                         <!--<button label="${delete}" icon="fa fa-trash">-->

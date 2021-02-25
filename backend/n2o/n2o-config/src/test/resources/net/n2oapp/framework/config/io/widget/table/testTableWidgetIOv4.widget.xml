@@ -7,7 +7,7 @@
        checkboxes="true" check-on-select="false">
 <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true" src="MyTableHeader" class="my-table-header" style="color: red">
-            <toolbar generate="update,delete" src="test">
+            <toolbar generate="update,delete">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">
                         <invoke operation-id="testId" route="route" src="src"
@@ -84,7 +84,7 @@
         </set>
     </filters>
     <actions>
-        <action id="test" default="false" enabled="false" hotkey="test" icon="test" name="test"
+        <action id="test" default="false" enabled="false" icon="test" name="test"
                 visible="false">
             <close src="test"/>
         </action>

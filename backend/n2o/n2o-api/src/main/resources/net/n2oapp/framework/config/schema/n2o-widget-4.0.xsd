@@ -198,11 +198,6 @@
                         <xs:documentation>Действие по умолчанию. Вызов по двойному клику или Enter.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="hotkey" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="visible" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Видимость действия.</xs:documentation>

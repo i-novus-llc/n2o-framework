@@ -2,7 +2,7 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-1.0"
            xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-2.0"
-           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 
@@ -393,45 +393,13 @@
     </xs:complexType>
 
     <xs:complexType name="toolbarDefinition">
-        <xs:annotation>
-            <xs:documentation>Ячейка с кнопками.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="generate" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Генерация стандартных действий. Возможные значения: update, delete. Можно писать
-                    несколько идентификаторов через запятую.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="subMenuDefinition">
-        <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDefinition" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="label" type="xs:string" use="optional"/>
-        <xs:attribute name="icon" type="xs:string" use="optional"/>
-        <xs:attribute name="type" type="textType" use="optional"/>
-        <xs:attribute name="class" type="xs:string" use="optional"/>
-        <xs:attribute name="style" type="xs:string" use="optional"/>
-        <xs:attribute name="generate" type="xs:string" use="optional"/>
-    </xs:complexType>
-
-    <xs:complexType name="menuItemDefinition">
-        <xs:attribute name="action-id" type="xs:string"/>
-        <xs:attribute name="label" type="xs:string" use="optional"/>
-        <xs:attribute name="icon" type="xs:string" use="optional"/>
-        <xs:attribute name="class" type="xs:string" use="optional"/>
-        <xs:attribute name="style" type="xs:string" use="optional"/>
-        <xs:attribute name="validate" type="xs:boolean" use="optional" default="false"/>
-        <xs:attribute name="visible" type="xs:boolean" use="optional"/>
-        <xs:attribute name="visibility-condition" type="xs:string"/>
-        <xs:attribute name="enabling-condition" type="xs:string"/>
-        <xs:anyAttribute/>
+        <xs:complexContent>
+            <xs:extension base="tool:toolbarDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с кнопками.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:simpleType name="textType">
@@ -633,57 +601,6 @@
         <xs:attribute name="value-field-id" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-
-    <xs:complexType name="buttonDefinition">
-        <xs:annotation>
-            <xs:documentation>Кнопка ячейки.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:annotation>
-                <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
-            </xs:annotation>
-            <xs:element name="open-page" type="acn:openPageDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="a" type="acn:aDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="invoke" type="acn:invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform-validation" type="acn:performValidationDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="close" type="acn:closeDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="set-value" type="acn:setValueDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="execute-query" type="acn:executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
-            <xs:any namespace="##other" processContents="strict" maxOccurs="1" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
-                </xs:annotation>
-            </xs:any>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="optional"/>
-        <xs:attribute name="label" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Подпись кнопки.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="icon" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Иконка кнопки.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="action-id" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Действие виджета, которое выполнится при нажатии на кнопку.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="class" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>CSS класс кнопки.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="style" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

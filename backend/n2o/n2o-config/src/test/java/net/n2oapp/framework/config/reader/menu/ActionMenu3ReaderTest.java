@@ -1,10 +1,8 @@
 package net.n2oapp.framework.config.reader.menu;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.*;
+import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
@@ -40,32 +38,21 @@ public class ActionMenu3ReaderTest {
         N2oButton mi2 = (N2oButton) toolbars[0].getItems()[1];
         assertThat(mi1.getId(), is("mi1"));
         assertThat(mi1.getLabel(), is("test"));
-        assertThat(mi1.getBulk(), is(true));
         assertThat(mi1.getColor(), is("test"));
         assertThat(mi1.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(mi1.getDefaultAction(), is(true));
-        assertThat(mi1.getPrimary(), is(true));
         assertThat(mi1.getIcon(), is("test"));
-        assertThat(mi1.getKey(), is("test"));
         assertThat(mi1.getType(), is(LabelType.textAndIcon));
         assertThat(mi1.getVisible(), is("true"));
         assertThat(!mi1.getValidate(), is(true));
-        assertThat(mi1.getRefreshPolity(), is(RefreshPolity.selected));
 
         assertThat(mi2.getId(), is("mi2"));
         assertThat(mi2.getLabel(), nullValue());
-        assertThat(mi2.getBulk(), nullValue());
         assertThat(mi2.getColor(), nullValue());
         assertThat(mi2.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(mi2.getDefaultAction(), nullValue());
-        assertThat(mi2.getPrimary(), nullValue());
         assertThat(mi2.getIcon(), nullValue());
-        assertThat(mi2.getKey(), nullValue());
-        assertThat(mi2.getReadonly(), nullValue());
         assertThat(mi2.getType(), nullValue());
         assertThat(mi2.getVisible(), nullValue());
         assertThat(mi2.getValidate(), nullValue());
-        assertThat(mi2.getRefreshPolity(), nullValue());
     }
 
      @Test
