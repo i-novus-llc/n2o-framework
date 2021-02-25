@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тест филдсета с динамическим числом полей
+ * Тестирование филдсета с динамическим числом полей
  */
 public class MultiFieldSetCompileTest extends SourceCompileTestBase {
 
@@ -31,34 +31,35 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack())
-                .ios(new MultiFieldsetElementIOv4());
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack());
     }
 
     @Test
     public void testMultiFieldSetWithField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testMultiFieldsetCompile.widget.xml")
                 .get(new WidgetContext("testMultiFieldsetCompile"));
-        List<FieldSet> fields = form.getComponent().getFieldsets();
+        List<FieldSet> fieldsets = form.getComponent().getFieldsets();
 
-        assertThat(fields.get(0).getSrc(), is("MultiFieldset"));
-        assertThat(((MultiFieldSet) fields.get(0)).getLabel(), is("Заголовок"));
-        assertThat(((MultiFieldSet) fields.get(0)).getChildrenLabel(), is("`'Участник '+index`"));
-        assertThat(((MultiFieldSet) fields.get(0)).getName(), is("members"));
-        assertThat(((MultiFieldSet) fields.get(0)).getAddButtonLabel(), is("Добавить участника"));
-        assertThat(((MultiFieldSet) fields.get(0)).getRemoveAllButtonLabel(), is("Удалить всех участников"));
-        assertThat(((MultiFieldSet) fields.get(0)).getCanRemoveFirstItem(), is(true));
-        assertThat(((MultiFieldSet) fields.get(0)).getNeedAddButton(), is(false));
-        assertThat(((MultiFieldSet) fields.get(0)).getNeedRemoveButton(), is(false));
-        assertThat(((MultiFieldSet) fields.get(0)).getNeedRemoveAllButton(), is(true));
-        assertThat(((MultiFieldSet) fields.get(0)).getNeedCopyButton(), is(true));
+        MultiFieldSet multiFieldSet = (MultiFieldSet) fieldsets.get(0);
+        assertThat(multiFieldSet.getSrc(), is("MultiFieldset"));
+        assertThat(multiFieldSet.getLabel(), is("Заголовок"));
+        assertThat(multiFieldSet.getChildrenLabel(), is("`'Участник '+index`"));
+        assertThat(multiFieldSet.getName(), is("members"));
+        assertThat(multiFieldSet.getAddButtonLabel(), is("Добавить участника"));
+        assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("Удалить всех участников"));
+        assertThat(multiFieldSet.getCanRemoveFirstItem(), is(true));
+        assertThat(multiFieldSet.getNeedAddButton(), is(false));
+        assertThat(multiFieldSet.getNeedRemoveButton(), is(false));
+        assertThat(multiFieldSet.getNeedRemoveAllButton(), is(true));
+        assertThat(multiFieldSet.getNeedCopyButton(), is(true));
 
-        assertThat(fields.get(1).getSrc(), is("MultiFieldset"));
-        assertThat(((MultiFieldSet) fields.get(1)).getChildrenLabel(), is("`members[index].name`"));
-        assertThat(((MultiFieldSet) fields.get(1)).getCanRemoveFirstItem(), is(false));
-        assertThat(((MultiFieldSet) fields.get(1)).getNeedAddButton(), is(true));
-        assertThat(((MultiFieldSet) fields.get(1)).getNeedRemoveButton(), is(true));
-        assertThat(((MultiFieldSet) fields.get(1)).getNeedRemoveAllButton(), is(false));
-        assertThat(((MultiFieldSet) fields.get(1)).getNeedCopyButton(), is(false));
+        MultiFieldSet multiFieldSet2 = (MultiFieldSet) fieldsets.get(1);
+        assertThat(multiFieldSet2.getSrc(), is("test"));
+        assertThat(multiFieldSet2.getChildrenLabel(), is("`members[index].name`"));
+        assertThat(multiFieldSet2.getCanRemoveFirstItem(), is(false));
+        assertThat(multiFieldSet2.getNeedAddButton(), is(true));
+        assertThat(multiFieldSet2.getNeedRemoveButton(), is(true));
+        assertThat(multiFieldSet2.getNeedRemoveAllButton(), is(false));
+        assertThat(multiFieldSet2.getNeedCopyButton(), is(false));
     }
 }

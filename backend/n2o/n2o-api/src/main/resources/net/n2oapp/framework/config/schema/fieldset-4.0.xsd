@@ -52,12 +52,12 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль филдсета.</xs:documentation>
+                        <xs:documentation>Реализация филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Местоположение региона на странице.</xs:documentation>
+                        <xs:documentation>Класс филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
@@ -113,7 +113,7 @@
         <xs:complexContent>
             <xs:extension base="fieldsetDefinition">
                 <xs:annotation>
-                    <xs:documentation>Филдсет прозрачный.</xs:documentation>
+                    <xs:documentation>Простой филдсет.</xs:documentation>
                 </xs:annotation>
             </xs:extension>
         </xs:complexContent>
@@ -237,17 +237,17 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Css класс строки.</xs:documentation>
+                        <xs:documentation>Css класс столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль строки.</xs:documentation>
+                        <xs:documentation>Стиль столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Видимость.</xs:documentation>
+                        <xs:documentation>Условие видимости.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import pull from 'lodash/pull';
 import some from 'lodash/some';
 import { compose, setDisplayName } from 'recompose';
 import classNames from 'classnames';
@@ -39,33 +38,8 @@ class TabRegion extends React.Component {
     this.props.changeActiveEntity(null);
   }
 
-  handleChangeActive(event, id, prevId) {
-    const {
-      lazy,
-      alwaysRefresh,
-      getWidgetProps,
-      fetchWidget,
-      changeActiveEntity,
-    } = this.props;
-
-    const { readyTabs } = this.state;
-
-    const widgetId = id.replace('_', '');
-    const widgetProps = getWidgetProps(widgetId);
-
-    if (lazy) {
-      if (alwaysRefresh) {
-        pull(readyTabs, prevId);
-        fetchWidget(widgetId);
-      }
-
-      readyTabs.push(id);
-      this.setState(() => ({
-        readyTabs: [...readyTabs],
-      }));
-    } else if (alwaysRefresh || isEmpty(widgetProps.datasource)) {
-      widgetProps.dataProvider && fetchWidget(widgetId);
-    }
+  handleChangeActive(event, id) {
+    const { changeActiveEntity } = this.props;
 
     changeActiveEntity(id);
   }
@@ -104,7 +78,6 @@ class TabRegion extends React.Component {
   render() {
     const {
       tabs,
-      lazy,
       activeEntity,
       className,
       hideSingleTab,
@@ -113,7 +86,7 @@ class TabRegion extends React.Component {
       title,
     } = this.props;
 
-    const { readyTabs, permissionsVisibleTabs } = this.state;
+    const { permissionsVisibleTabs } = this.state;
 
     return (
       <div
@@ -143,21 +116,12 @@ class TabRegion extends React.Component {
               active: tab.opened,
               visible: visible,
             };
-            const tabEl = (
+            const tabElement = (
               <Tab {...tabProps}>
-                {lazy ? (
-                  readyTabs.includes(tab.id) && (
-                    <RegionContent
-                      content={content}
-                      tabSubContentClass={'tab-sub-content'}
-                    />
-                  )
-                ) : (
-                  <RegionContent
-                    content={content}
-                    tabSubContentClass={'tab-sub-content'}
-                  />
-                )}
+                <RegionContent
+                  content={content}
+                  tabSubContentClass={'tab-sub-content'}
+                />
               </Tab>
             );
             const onPermissionsSet = permissions => {
@@ -170,7 +134,7 @@ class TabRegion extends React.Component {
             };
 
             return isEmpty(security) ? (
-              tabEl
+              tabElement
             ) : (
               <SecurityCheck
                 {...tabProps}
@@ -178,7 +142,7 @@ class TabRegion extends React.Component {
                 onPermissionsSet={onPermissionsSet}
                 render={({ permissions, active, visible }) => {
                   return permissions
-                    ? React.cloneElement(tabEl, { active, visible })
+                    ? React.cloneElement(tabElement, { active, visible })
                     : null;
                 }}
               />

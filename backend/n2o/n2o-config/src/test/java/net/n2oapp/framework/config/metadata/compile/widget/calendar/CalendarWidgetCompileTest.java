@@ -47,6 +47,7 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         Calendar calendar = (Calendar) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(calendar.getSrc(), is("CalendarWidget"));
         assertThat(calendar.getName(), is("calendar1"));
+        assertThat(calendar.getComponent().getSize(), is(20));
         assertThat(calendar.getComponent().getDefaultView(), is("month"));
         assertThat(calendar.getComponent().getMarkDaysOff(), is(true));
         assertThat(calendar.getComponent().getSelectable(), is(true));
@@ -64,6 +65,7 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
 
         Calendar calendar2 = (Calendar) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(calendar2.getName(), is("calendar2"));
+        assertThat(calendar2.getComponent().getSize(), is(50));
         assertThat(calendar2.getComponent().getHeight(), is("500px"));
         assertThat(calendar2.getComponent().getDate(), is(simpleDateFormat.parse("2020-04-29T00:00:00")));
         assertThat(calendar2.getComponent().getDefaultView(), is("work_week"));

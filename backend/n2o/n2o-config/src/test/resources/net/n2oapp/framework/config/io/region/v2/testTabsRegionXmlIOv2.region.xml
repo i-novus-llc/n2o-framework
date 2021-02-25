@@ -2,7 +2,7 @@
       id="tabs" class="test" src="test" style="test" hide-single-tab="true"
       always-refresh="true" lazy="false" active-param="param" routable="false"
       max-height="300px" scrollbar="true">
-    <tab name="Tab1">
+    <tab id="tab1" name="Tab1">
         <form/>
         <tabs>
             <tab>
@@ -12,7 +12,7 @@
         <table/>
         <line/>
     </tab>
-    <tab name="Tab2">
+    <tab id="tab2" name="Tab2">
         <panel/>
         <form/>
         <table/>

@@ -19,6 +19,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
+import { createDomain } from './utils';
 
 /**
  * График "Зоны"
@@ -137,6 +138,8 @@ function AreaChart({
   data,
   areas,
 }) {
+  const domain = createDomain(yaxis);
+
   return (
     <Chart
       width={width}
@@ -150,7 +153,7 @@ function AreaChart({
       <CartesianGrid {...cartesianGrid} />
       <Legend {...legend} />
       <XAxis {...xaxis} />
-      <YAxis {...yaxis} />
+      <YAxis {...yaxis} domain={domain} />
       <Tooltip {...tooltip} />
       {map(areas, area => (
         <Area {...area} />

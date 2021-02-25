@@ -10,7 +10,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 /**
- * Чтение\запись филдсета  версии 4.0
+ * Чтение\запись филдсета версии 4.0
  */
 public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements NamespaceIO<T> {
     private static final Namespace fieldsetDefaultNamespace = FieldsetIOv4.NAMESPACE;
@@ -26,7 +26,7 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
         p.attribute(e, "label", fs::getLabel, fs::setLabel);
         p.attributeEnum(e, "field-label-location", fs::getFieldLabelLocation, fs::setFieldLabelLocation, N2oFieldSet.FieldLabelLocation.class);
         p.attributeEnum(e, "field-label-align", fs::getFieldLabelAlign, fs::setFieldLabelAlign, N2oFieldSet.FieldLabelAlign.class);
-        p.attribute(e, "field-label-width", fs::getLabelWidth, fs::setLabelWidth);
+        p.attribute(e, "field-label-width", fs::getFieldLabelWidth, fs::setFieldLabelWidth);
         p.attribute(e, "enabled", fs::getEnabled, fs::setEnabled);
         p.attribute(e, "visible", fs::getVisible, fs::setVisible);
         p.attributeArray(e, "depends-on", ",", fs::getDependsOn, fs::setDependsOn);

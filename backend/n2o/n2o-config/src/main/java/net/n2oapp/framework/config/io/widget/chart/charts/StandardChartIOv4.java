@@ -21,6 +21,8 @@ public abstract class StandardChartIOv4<T extends N2oStandardChart>  extends Abs
         p.attribute(e, "y-field-id", c::getYAxisFieldId, c::setYAxisFieldId);
         p.attributeEnum(e, "y-position", c::getYAxisPosition, c::setYAxisPosition, N2oStandardChart.YAxisPosition.class);
         p.attributeBoolean(e, "y-has-label", c::getYHasLabel, c::setYHasLabel);
+        p.attributeInteger(e, "y-min", c::getYMin, c::setYMin);
+        p.attributeInteger(e, "y-max", c::getYMax, c::setYMax);
         p.attribute(e, "grid-stroke-dasharray", c::getGridStrokeDashArray, c::setGridStrokeDashArray);
         p.attributeBoolean(e, "grid-horizontal", c::getGridHorizontal, c::setGridHorizontal);
         p.attributeBoolean(e, "grid-vertical", c::getGridVertical, c::setGridVertical);

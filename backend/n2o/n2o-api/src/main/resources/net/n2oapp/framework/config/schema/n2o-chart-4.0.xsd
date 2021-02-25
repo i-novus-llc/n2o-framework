@@ -76,6 +76,16 @@
                 <xs:documentation>Наличие подписи оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="y-min" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Минимальное значение по оси y.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-max" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Максимальное значение по оси y.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="grid-stroke-dasharray" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Паттерн линий сетки.</xs:documentation>
@@ -282,6 +292,11 @@
         <xs:attribute name="value-field-id" type="xs:string" default="value">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля выборки значений секторов.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля выборки тултипов секторов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">

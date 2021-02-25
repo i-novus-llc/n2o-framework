@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция полей для филдсета с горизонтальной линией
+ * Компиляция филдсета с горизонтальной линией
  */
 @Component
 public class LineFieldSetCompiler extends AbstractFieldSetCompiler<LineFieldSet, N2oLineFieldSet> {

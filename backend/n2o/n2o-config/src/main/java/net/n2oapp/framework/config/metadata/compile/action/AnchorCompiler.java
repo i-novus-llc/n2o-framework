@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -10,18 +9,18 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 
 
 /**
@@ -66,16 +65,9 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         }
 
         WidgetScope scope = p.getScope(WidgetScope.class);
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (scope != null) {
-            String clientWidgetId = scope.getClientWidgetId();
-            if (componentScope != null) {
-                WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-                if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    clientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
-                }
-            }
+            String widgetIdByScope = getWidgetIdByComponentScope(p);
+            String clientWidgetId = widgetIdByScope != null ? widgetIdByScope : scope.getClientWidgetId();
             if (clientWidgetId != null) {
                 ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
                 if (source.getPathParams() != null) {

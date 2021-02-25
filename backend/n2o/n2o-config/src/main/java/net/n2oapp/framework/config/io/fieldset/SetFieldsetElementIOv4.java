@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись прозрачного набора полей.
+ * Чтение/запись простого филдсета.
  */
 @Component
 public class SetFieldsetElementIOv4 extends FieldsetElementIOv4<N2oSetFieldSet> {

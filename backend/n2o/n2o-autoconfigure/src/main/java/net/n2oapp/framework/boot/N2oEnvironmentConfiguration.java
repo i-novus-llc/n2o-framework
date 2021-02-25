@@ -235,22 +235,22 @@ public class N2oEnvironmentConfiguration {
         }
 
         @Bean
-        CompileTransformerFactory compileTransformerFactory(Optional<Map<String, CompileTransformer>> transformers) {
+        CompileTransformerFactory compileTransformerFactory(Optional<Map<String, CompileTransformer<?, ?>>> transformers) {
             return new N2oCompileTransformerFactory(transformers.orElse(Collections.emptyMap()));
         }
 
         @Bean
-        SourceTransformerFactory sourceTransformerFactory(Optional<Map<String, SourceTransformer>> transformers) {
+        SourceTransformerFactory sourceTransformerFactory(Optional<Map<String, SourceTransformer<?>>> transformers) {
             return new N2oSourceTransformerFactory(transformers.orElse(Collections.emptyMap()));
         }
 
         @Bean
-        SourceMergerFactory sourceMergerFactory(Optional<Map<String, SourceMerger>> mergers) {
+        SourceMergerFactory sourceMergerFactory(Optional<Map<String, SourceMerger<?>>> mergers) {
             return new N2oSourceMergerFactory(mergers.orElse(Collections.emptyMap()));
         }
 
         @Bean
-        MetadataBinderFactory metadataBinderFactory(Optional<Map<String, MetadataBinder>> binders) {
+        MetadataBinderFactory metadataBinderFactory(Optional<Map<String, MetadataBinder<?>>> binders) {
             return new N2oMetadataBinderFactory(binders.orElse(Collections.emptyMap()));
         }
 
@@ -340,6 +340,7 @@ public class N2oEnvironmentConfiguration {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
+            ioProcessor.setFailFast(environment.getProperty("n2o.config.fail_fast", Boolean.class, true));
             return ioProcessor;
         }
 
@@ -350,6 +351,7 @@ public class N2oEnvironmentConfiguration {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(persisterFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
+            ioProcessor.setFailFast(environment.getProperty("n2o.config.fail_fast", Boolean.class, true));
             return ioProcessor;
         }
     }

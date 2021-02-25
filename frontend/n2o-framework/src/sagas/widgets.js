@@ -37,6 +37,7 @@ import {
   makeWidgetDataProviderSelector,
   makeWidgetPageIdSelector,
 } from '../selectors/widgets';
+import { checkIdBeforeLazyFetch } from './regions';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { getLocation, rootPageSelector } from '../selectors/global';
 import { makeGetModelByPrefixSelector } from '../selectors/models';
@@ -136,6 +137,7 @@ export function* setWidgetDataSuccess(
   currentDatasource
 ) {
   const { basePath, baseQuery, headersParams } = resolvedProvider;
+
   const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
     basePath,
     baseQuery,
@@ -226,13 +228,30 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
         yield* routesQueryMapping(state, routes, location);
       }
 
-      yield call(
-        setWidgetDataSuccess,
-        widgetId,
-        widgetState,
-        resolvedProvider,
-        currentDatasource
+      const { activeWidgetIds, tabsWidgetIds } = yield call(
+        checkIdBeforeLazyFetch
       );
+
+      if (tabsWidgetIds[widgetId] && activeWidgetIds.includes(widgetId)) {
+        yield call(
+          setWidgetDataSuccess,
+          widgetId,
+          widgetState,
+          resolvedProvider,
+          currentDatasource
+        );
+      } else if (
+        !Object.keys(tabsWidgetIds).includes(widgetId) ||
+        !tabsWidgetIds[widgetId]
+      ) {
+        yield call(
+          setWidgetDataSuccess,
+          widgetId,
+          widgetState,
+          resolvedProvider,
+          currentDatasource
+        );
+      }
     } else {
       yield put(dataFailWidget(widgetId));
     }
