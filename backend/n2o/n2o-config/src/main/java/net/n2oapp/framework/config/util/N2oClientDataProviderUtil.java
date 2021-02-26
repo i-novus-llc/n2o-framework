@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 
-import static net.n2oapp.framework.config.util.QueryContextUtil.*;
+import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Утилита для инициализации исходной модели клиентского провайдера данных
@@ -27,6 +27,14 @@ public class N2oClientDataProviderUtil {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * Инициализация провайдера данных клиента по данным поля с выборкой
+     *
+     * @param preFilters Массив префильтров
+     * @param queryId    Идентификатор выборки
+     * @param p          Процессор сборки метаданных
+     * @return Инициализированный провайдер данных клиента
+     */
     public static N2oClientDataProvider initFromField(N2oPreFilter[] preFilters, String queryId, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(queryId);
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
@@ -60,6 +68,15 @@ public class N2oClientDataProviderUtil {
         return dataProvider;
     }
 
+    /**
+     * Инициализация провайдера данных клиента по метаданной, содержащей действие submit
+     *
+     * @param submit         Действие отправки данных
+     * @param id             Идентификатор метаданной
+     * @param compiledObject Скомпилированный объект
+     * @param p              Процессор сборки метаданных
+     * @return Инициализированный провайдер данных клиента
+     */
     public static N2oClientDataProvider initFromSubmit(Submit submit, String id, CompiledObject compiledObject, CompileProcessor p) {
         if (compiledObject == null)
             throw new N2oException("For compilation submit for field [{0}] is necessary object!").addData(id);

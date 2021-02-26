@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -23,6 +22,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -64,9 +65,9 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (widgetScope != null)
             tableId = widgetScope.getWidgetId();
 
-        if (StringUtils.isLink(source.getVisible())) {
+        if (isLink(source.getVisible())) {
             Condition condition = new Condition();
-            condition.setExpression(source.getVisible().substring(1, source.getVisible().length() - 1));
+            condition.setExpression(unwrapLink(source.getVisible()));
             condition.setModelLink(new ModelLink(ReduxModel.FILTER, tableId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());

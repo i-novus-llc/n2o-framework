@@ -46,6 +46,11 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
 
+    /**
+     * Добавление зависимости к списку зависимостей поля
+     *
+     * @param d Зависимость
+     */
     public void addDependency(Dependency d) {
         if (d == null) return;
         if (dependencies == null) {
@@ -57,6 +62,11 @@ public abstract class N2oField extends N2oComponent implements IdAware {
         }
     }
 
+    /**
+     * Добавление зависимостей к списку зависимостей поля
+     *
+     * @param d Массив зависимостей
+     */
     public void addDependencies(Dependency[] d) {
         if (d == null || d.length == 0) return;
 
