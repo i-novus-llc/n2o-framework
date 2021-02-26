@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oListField extends N2oStandardField {
+public abstract class N2oListField extends N2oStandardField implements PreFiltersAware {
     protected Boolean search;
     protected Boolean autoselectAlone;
     protected Boolean autoselectFirst;

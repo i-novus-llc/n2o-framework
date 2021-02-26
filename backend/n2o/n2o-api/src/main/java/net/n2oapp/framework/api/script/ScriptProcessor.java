@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.script;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
@@ -21,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static net.n2oapp.framework.api.StringUtils.*;
 
 /**
  * Утилитный класс для генерации js скриптов
@@ -44,7 +45,7 @@ public class ScriptProcessor {
     public static String resolveLinks(String text) {
         if (text == null)
             return null;
-        if (StringUtils.hasLink(text)) {
+        if (hasLink(text)) {
             String expr = text;
             if (expr.contains("${")) {
                 while (expr.contains("${")) {
@@ -71,7 +72,7 @@ public class ScriptProcessor {
                     }
                 }
             }
-            if (StringUtils.hasLink(expr)) {
+            if (hasLink(expr)) {
                 expr = resolveToJsString(expr);
                 return toJsExpression(expr.replaceAll("#<", "#{").replaceAll("\\$<", "\\${").replaceAll(">>", "}"));
             } else {
@@ -95,7 +96,7 @@ public class ScriptProcessor {
     public static String resolveFunction(String text) {
         if (text == null)
             return null;
-        String trimmedText = StringUtils.simplify(text);
+        String trimmedText = simplify(text);
         if (trimmedText.startsWith("(function")) {
             return text;
         }
@@ -139,7 +140,7 @@ public class ScriptProcessor {
     }
 
     /**
-     * Изменить значение JS выраждения на обратное
+     * Изменить значение JS выражения на обратное
      *
      * @param text JS выражение или текст
      * @return Обратное JS выражение или объект
@@ -150,7 +151,7 @@ public class ScriptProcessor {
             return null;
         if (result instanceof Boolean)
             return !(Boolean) result;
-        if (!StringUtils.isJs(result))
+        if (!isJs(result))
             return result;
         String expr = (String) result;
         expr = expr.substring(1, expr.length() - 1);
@@ -654,7 +655,7 @@ public class ScriptProcessor {
             if (resultKey instanceof String)
                 resultKey = "'" + resultKey + "'";
             String resultValue;
-            if (StringUtils.hasLink(entry.getValue())) {
+            if (hasLink(entry.getValue())) {
                 resultValue = ScriptProcessor.resolveLinks(entry.getValue());
                 resultValue = resultValue.substring(1, resultValue.length() - 1);
             } else

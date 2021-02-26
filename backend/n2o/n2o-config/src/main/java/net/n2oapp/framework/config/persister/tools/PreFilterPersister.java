@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.persister.tools;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
+import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setElementString;
 
@@ -17,8 +18,8 @@ public class PreFilterPersister {
             Element preFilterElement = new Element("pre-filter", namespace);
             setAttribute(preFilterElement, "field-id", preFilter.getFieldId());
             //это сделано только для поддержки старых персистеров
-            if (StringUtils.hasLink(preFilter.getValue())) {
-                String value = preFilter.getValue().substring(1, preFilter.getValue().length() - 1);
+            if (hasLink(preFilter.getValue())) {
+                String value = unwrapLink(preFilter.getValue());
                 setAttribute(preFilterElement, "ref", value);
                 setAttribute(preFilterElement, "value", value);
             } else {
