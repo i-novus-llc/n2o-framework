@@ -657,7 +657,7 @@ public class ScriptProcessor {
             String resultValue;
             if (hasLink(entry.getValue())) {
                 resultValue = ScriptProcessor.resolveLinks(entry.getValue());
-                resultValue = unwrapLink(resultValue);
+                resultValue = resultValue.substring(1, resultValue.length() - 1);
             } else
                 resultValue = "'" + entry.getValue() + "'";
             result.put(resultKey, resultValue);

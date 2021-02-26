@@ -95,7 +95,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             for (N2oPreFilter filter : source.getPreFilters()) {
                 if (StringUtils.hasLink(filter.getValue())) {
                     String resolveOnJS = p.resolveJS(filter.getValue());
-                    resolveOnJS = StringUtils.unwrapLink(resolveOnJS);
+                    resolveOnJS = resolveOnJS.substring(1, resolveOnJS.length() - 1);
                     setOn.add(resolveOnJS);
                 }
             }
