@@ -52,10 +52,10 @@
                     select * from table
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="dasdf" required="true" default-value="fdsf" domain="boolean" entity-class="fsdf"
-                       mapper="dataset" mapping="fsd" mapping-condition="fsd" normalize="fsd"/>
-            </in-parameters>
+            <in>
+                <field id="dasdf" required="true" default-value="fdsf" domain="boolean" entity-class="fsdf"
+                       mapper="dataset" mapping="fsd" enabled="fsd" normalize="fsd"/>
+            </in>
         </constraint>
         <condition id="testId2" field-id="fieldId" server-moment="after-success-query"
                    severity="info" message="test message" side="client,server"/>
