@@ -32,8 +32,8 @@ public class AreaChartAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oHeaderPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/chart/area/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/chart/area/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/chart/area/area.query.xml"));
     }
 
@@ -41,11 +41,13 @@ public class AreaChartAT extends AutoTestBase {
     public void testArea() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
+
         AreaChartWidget areaChartWidget = page.widget(AreaChartWidget.class);
-        areaChartWidget.shouldHaveHeight("250px");
-        areaChartWidget.shouldHaveWidth("730px");
+        areaChartWidget.shouldHaveHeight(250);
+        areaChartWidget.shouldHaveWidth(730);
+
         Area area1 = areaChartWidget.area(0);
-        area1.shouldHaveHeight("186");
-        area1.shouldHaveWidth("660");
+        area1.shouldHaveHeight(186);
+        area1.shouldHaveWidth(660);
     }
 }

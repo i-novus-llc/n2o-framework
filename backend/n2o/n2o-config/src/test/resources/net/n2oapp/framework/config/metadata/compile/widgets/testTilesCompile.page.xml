@@ -8,9 +8,7 @@
                     <block text-field-id="test1">
                         <cell src="cell1"/>
                     </block>
-                    <block id="id2" text-field-id="test2" tooltip-field-id="tooltip">
-                        <text/>
-                    </block>
+                    <block id="id2" text-field-id="test2" tooltip-field-id="tooltip"/>
                     <block text-field-id="test3">
                         <image url="/test"/>
                     </block>

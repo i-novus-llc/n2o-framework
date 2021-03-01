@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 
 /**
- * Клиентская модель печати
+ * Клиентская модель действия печати
  */
 @Getter
 @Setter

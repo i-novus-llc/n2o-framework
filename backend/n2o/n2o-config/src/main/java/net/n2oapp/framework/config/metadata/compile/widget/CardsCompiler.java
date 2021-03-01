@@ -51,7 +51,8 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
-        cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
+        if (source.getContent() != null)
+            cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
         cards.setVerticalAlign(p.cast(source.getVerticalAlign(),
                 p.resolve(property("n2o.api.widget.cards.vertical_align"), Cards.Position.class)));
         cards.setHeight(p.cast(source.getHeight(),
@@ -61,19 +62,20 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     }
 
     private List<Cards.Card> compileCols(N2oCards.Col[] source, CompileContext<?, ?> context, CompileProcessor p,
-                                     CompiledObject object, WidgetScope widgetScope, MetaActions widgetActions) {
+                                         CompiledObject object, WidgetScope widgetScope, MetaActions widgetActions) {
         List<Cards.Card> cards = new ArrayList<>(source.length);
         for (N2oCards.Col col : source) {
             Cards.Card card = new Cards.Card();
             card.setSize(col.getSize());
-            card.setContent(compileBlock(col.getBlocks(), context, p, object, widgetScope, widgetActions));
+            if (col.getBlocks() != null)
+                card.setContent(compileBlock(col.getBlocks(), context, p, object, widgetScope, widgetActions));
             cards.add(card);
         }
         return cards;
     }
 
     private List<N2oCell> compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
-                                   Object... scopes) {
+                                       Object... scopes) {
         List<N2oCell> cells = new ArrayList<>(source.length);
         for (N2oCards.Block block : source) {
             block.setId(p.cast(block.getId(), block.getTextFieldId()));

@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -67,9 +66,8 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         }
 
         WidgetScope scope = p.getScope(WidgetScope.class);
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (scope != null) {
-            String defaultClientWidgetId = getDefaultClientWidgetId(p, scope, componentScope);
+            String defaultClientWidgetId = getDefaultClientWidgetId(p, scope);
             ReduxModel defaultModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
             if (source.getPathParams() != null) {
                 initMapping(p, pathMapping, defaultClientWidgetId, defaultModel, source.getPathParams());
@@ -92,8 +90,8 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         }
     }
 
-    private String getDefaultClientWidgetId(CompileProcessor p, WidgetScope scope, ComponentScope componentScope) {
-        String widgetIdByComponentScope = getWidgetIdByComponentScope(componentScope, p);
+    private String getDefaultClientWidgetId(CompileProcessor p, WidgetScope scope) {
+        String widgetIdByComponentScope = getWidgetIdByComponentScope(p);
         return widgetIdByComponentScope != null ? widgetIdByComponentScope : scope.getClientWidgetId();
     }
 

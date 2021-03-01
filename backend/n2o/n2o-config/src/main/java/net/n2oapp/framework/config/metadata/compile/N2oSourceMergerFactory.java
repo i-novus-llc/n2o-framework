@@ -9,21 +9,23 @@ import org.springframework.util.SerializationUtils;
 import java.util.List;
 import java.util.Map;
 
-public class N2oSourceMergerFactory extends BaseMetadataFactory<SourceMerger> implements SourceMergerFactory {
+public class N2oSourceMergerFactory extends BaseMetadataFactory<SourceMerger<?>> implements SourceMergerFactory {
 
     public N2oSourceMergerFactory() {
     }
 
-    public N2oSourceMergerFactory(Map<String, SourceMerger> beans) {
+    public N2oSourceMergerFactory(Map<String, SourceMerger<?>> beans) {
         super(beans);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <S> S merge(S source, S override) {
-        List<SourceMerger> mergers = produceList(FactoryPredicates::isSourceAssignableFrom, source);
+        List<SourceMerger<?>> mergers = produceList(FactoryPredicates::isSourceAssignableFrom, source);
         S result = (S) SerializationUtils.deserialize(SerializationUtils.serialize(source));
-        for (SourceMerger merger : mergers) {
-            result = (S) merger.merge(result, override);
+        for (SourceMerger<?> merger : mergers) {
+            SourceMerger<S> castedMerger = (SourceMerger<S>) merger;
+            result = castedMerger.merge(result, override);
         }
         return result;
     }

@@ -1,21 +1,21 @@
 package net.n2oapp.framework.autotest.impl.component.widget.chart;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.widget.chart.AreaChartWidget;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
+import net.n2oapp.framework.autotest.api.component.widget.chart.ChartWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.N2oWidget;
 
 /**
  * Реализация виджета диаграмма для автотестирования
  */
-public abstract class N2oChartWidget extends N2oStandardWidget implements AreaChartWidget {
+public abstract class N2oChartWidget extends N2oWidget implements ChartWidget {
 
     @Override
-    public void shouldHaveWidth(String width) {
-        element().$(".recharts-wrapper").shouldHave(Condition.cssValue("width", width));
+    public void shouldHaveWidth(int width) {
+        element().$(".recharts-wrapper").shouldHave(Condition.cssValue("width", width + "px"));
     }
 
     @Override
-    public void shouldHaveHeight(String height) {
-        element().$(".recharts-wrapper").shouldHave(Condition.cssValue("height", height));
+    public void shouldHaveHeight(int height) {
+        element().$(".recharts-wrapper").shouldHave(Condition.cssValue("height", height + "px"));
     }
 }

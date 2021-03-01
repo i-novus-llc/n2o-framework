@@ -997,7 +997,7 @@
             </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
-                    <xs:element name="statuses" type="statusesType"/>
+                    <xs:element name="statuses" type="statusesType" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
@@ -1006,7 +1006,7 @@
                 </xs:attribute>
                 <xs:attribute name="data" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ссылка на изображение в БД в байтах.</xs:documentation>
+                        <xs:documentation>Данные изображения в формате Base64.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="title" type="xs:string">

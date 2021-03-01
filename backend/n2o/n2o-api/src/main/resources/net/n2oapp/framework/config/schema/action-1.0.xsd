@@ -31,7 +31,7 @@
             <xs:element name="set-value" type="setValueDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="execute-query" type="executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="print" type="printDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -853,7 +853,7 @@
 
     <xs:complexType name="printDefinition">
         <xs:annotation>
-            <xs:documentation>Печать</xs:documentation>
+            <xs:documentation>Действие печати.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="actionDefinition">
@@ -863,7 +863,7 @@
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Адрес документа для печати</xs:documentation>
+                        <xs:documentation>Адрес документа для печати.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

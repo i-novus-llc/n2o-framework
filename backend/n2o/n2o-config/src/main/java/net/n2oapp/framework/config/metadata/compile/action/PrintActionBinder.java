@@ -17,7 +17,8 @@ import java.util.Map;
 public class PrintActionBinder implements BaseMetadataBinder<PrintAction> {
     @Override
     public PrintAction bind(PrintAction print, BindProcessor p) {
-        print.getPayload().setUrl(p.resolveUrl(print.getPayload().getUrl(), print.getPayload().getPathMapping(), print.getPayload().getQueryMapping()));
+        print.getPayload().setUrl(
+                p.resolveUrl(print.getPayload().getUrl(), print.getPayload().getPathMapping(), print.getPayload().getQueryMapping()));
         if (print.getPayload().getQueryMapping() != null) {
             Map<String, ModelLink> result = new HashMap<>();
             print.getPayload().getQueryMapping().forEach((k, v) -> result.put(k, (ModelLink) p.resolveLink(v)));

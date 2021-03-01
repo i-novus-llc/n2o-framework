@@ -10,6 +10,8 @@ import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция виджета диаграммы
  */
@@ -35,6 +37,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         compileToolbarAndAction(chart, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
         chart.setComponent(p.compile(source.getComponent(), context, p));
+        chart.getComponent().setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));
         chart.getComponent().setFetchOnInit(source.getFetchOnInit());
         chart.getComponent().setWidth(source.getWidth());
         chart.getComponent().setHeight(source.getHeight());
