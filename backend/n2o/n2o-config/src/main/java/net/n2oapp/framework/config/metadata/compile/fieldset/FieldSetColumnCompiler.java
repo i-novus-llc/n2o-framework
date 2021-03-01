@@ -1,21 +1,21 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
-import net.n2oapp.framework.api.metadata.meta.fieldset.SetFieldSet;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,70 +33,43 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setVisible(ScriptProcessor.resolveExpression(source.getVisible()));
 
         if (source.getItems() != null && source.getItems().length > 0) {
-            List<FieldSet> fieldSets = new ArrayList<>();
-            List<FieldSet.Row> rows = new ArrayList<>();
-            List<Field> fields = new ArrayList<>();
-            for (NamespaceUriAware item : source.getItems()) {
-                Compiled compiled = p.compile(item, context);
-                if (compiled instanceof FieldSet) {
-                    if (!rows.isEmpty())
-                        fieldSets.add(createWrappingFieldsetUnderRows(rows));
-                    else if (!fields.isEmpty())
-                        fieldSets.add(createWrappingFieldsetUnderFields(fields));
-                    fieldSets.add((FieldSet) compiled);
-                } else {
-                    if (compiled instanceof Field) {
-                        if (!rows.isEmpty())
-                            fieldSets.add(createWrappingFieldsetUnderRows(rows));
-                        fields.add((Field) compiled);
-                    } else if (compiled instanceof FieldSet.Row) {
-                        if (!fields.isEmpty())
-                            fieldSets.add(createWrappingFieldsetUnderFields(fields));
-                        rows.add((FieldSet.Row) compiled);
-                    }
+            boolean onlyFields = true;
+            for (SourceComponent item : source.getItems())
+                if (!(item instanceof N2oField)) {
+                    onlyFields = false;
+                    break;
                 }
-            }
-            if (!rows.isEmpty())
-                fieldSets.add(createWrappingFieldsetUnderRows(rows));
-            else if (!fields.isEmpty())
-                fieldSets.add(createWrappingFieldsetUnderFields(fields));
 
-            column.setFieldsets(fieldSets);
+            if (onlyFields) {
+                List<Field> compiledFields = new ArrayList<>();
+                for (SourceComponent field : source.getItems())
+                    compiledFields.add(p.compile(field, context));
+                column.setFields(compiledFields);
+            } else {
+                List<FieldSet> fieldSets = new ArrayList<>();
+                int i = 0;
+                while (i < source.getItems().length) {
+                    N2oFieldSet fieldSet;
+                    if (source.getItems()[i] instanceof N2oFieldSet) {
+                        fieldSet = (N2oFieldSet) source.getItems()[i];
+                        i++;
+                    } else {
+                        N2oSetFieldSet newFieldSet = new N2oSetFieldSet();
+                        List<SourceComponent> fieldSetItems = new ArrayList<>();
+                        while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oFieldSet)) {
+                            fieldSetItems.add(source.getItems()[i]);
+                            i++;
+                        }
+                        SourceComponent[] items = new SourceComponent[fieldSetItems.size()];
+                        newFieldSet.setItems(fieldSetItems.toArray(items));
+                        fieldSet = newFieldSet;
+                    }
+                    fieldSets.add(p.compile(fieldSet, context));
+                }
+                column.setFieldsets(fieldSets);
+            }
         }
         return column;
-    }
-
-    /**
-     * Создание филдсета, который будет оборачивать одну или несколько подряд идущих строк,
-     * лежащих вне филдсетов
-     *
-     * @param rows Список строк
-     * @return Филдсет, содержащий все входящие строки
-     */
-    private FieldSet createWrappingFieldsetUnderRows(List<FieldSet.Row> rows) {
-        FieldSet fieldSet = new SetFieldSet();
-        fieldSet.setRows(new ArrayList<>(rows));
-        rows.clear();
-        return fieldSet;
-    }
-
-    /**
-     * Создание филдсета, который будет оборачивать одну или несколько подряд идущих полей,
-     * лежащих вне филдсетов
-     *
-     * @param fields Список полей
-     * @return Филдсет, содержащий все входящие поля
-     */
-    private FieldSet createWrappingFieldsetUnderFields(List<Field> fields) {
-        FieldSet.Column column = new FieldSet.Column();
-        column.setFields(fields);
-
-        FieldSet.Row row = new FieldSet.Row();
-        row.setCols(Collections.singletonList(column));
-
-        FieldSet fieldSet = new SetFieldSet();
-        fieldSet.setRows(Collections.singletonList(row));
-        return fieldSet;
     }
 
     @Override
