@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, mapProps } from 'recompose';
 import map from 'lodash/map';
@@ -60,7 +60,7 @@ class DropdownButton extends React.Component {
 
         const storesSubMenuItem = storesSubMenu[subMenuItem.id];
 
-        return storesSubMenuItem.visible;
+        return get(storesSubMenuItem, 'visible');
       });
     }
 
