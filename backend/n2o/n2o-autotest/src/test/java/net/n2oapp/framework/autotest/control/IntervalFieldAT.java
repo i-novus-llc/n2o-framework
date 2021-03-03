@@ -62,12 +62,17 @@ public class IntervalFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         IntervalField interval = page.widget(FormWidget.class).fields().field("Дата", IntervalField.class);
-        DateInput inputBegin = interval.begin(DateInput.class);
-        DateInput inputEnd = interval.end(DateInput.class);
+        DateInput beginDate = interval.begin(DateInput.class);
+        DateInput endDate = interval.end(DateInput.class);
 
-        inputBegin.shouldHaveValue("21.11.1999");
-        inputEnd.shouldHaveValue("");
-        inputEnd.val("29042020");
-        inputEnd.shouldHaveValue("29.04.2020");
+        beginDate.shouldHaveValue("21.11.1999");
+        endDate.shouldHaveValue("");
+        endDate.val("29042020");
+        endDate.shouldHaveValue("29.04.2020");
+        endDate.shouldBeActiveDay("29");
+        endDate.clickNextMonthButton();
+        endDate.shouldHaveCurrentMonth("Май");
+        endDate.clickDay("15");
+        endDate.shouldHaveValue("15.05.2020");
     }
 }
