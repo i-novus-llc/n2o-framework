@@ -4,7 +4,7 @@ import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.IntervalField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -42,7 +42,7 @@ public class IntervalFieldAT extends AutoTestBase {
     public void testInput() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        IntervalField interval = page.widget(N2oFormWidget.class).fields().field("Интервал", IntervalField.class);
+        IntervalField interval = page.widget(FormWidget.class).fields().field("Интервал", IntervalField.class);
         InputText inputBegin = interval.begin(InputText.class);
         InputText inputEnd = interval.end(InputText.class);
 
@@ -61,13 +61,18 @@ public class IntervalFieldAT extends AutoTestBase {
     public void testIntervalWithDate() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        IntervalField interval = page.widget(N2oFormWidget.class).fields().field("Дата", IntervalField.class);
-        DateInput inputBegin = interval.begin(DateInput.class);
-        DateInput inputEnd = interval.end(DateInput.class);
+        IntervalField interval = page.widget(FormWidget.class).fields().field("Дата", IntervalField.class);
+        DateInput beginDate = interval.begin(DateInput.class);
+        DateInput endDate = interval.end(DateInput.class);
 
-        inputBegin.shouldHaveValue("21.11.1999");
-        inputEnd.shouldHaveValue("");
-        inputEnd.val("29042020");
-        inputEnd.shouldHaveValue("29.04.2020");
+        beginDate.shouldHaveValue("21.11.1999");
+        endDate.shouldHaveValue("");
+        endDate.val("29042020");
+        endDate.shouldHaveValue("29.04.2020");
+        endDate.shouldBeActiveDay("29");
+        endDate.clickNextMonthButton();
+        endDate.shouldHaveCurrentMonth("Май");
+        endDate.clickDay("15");
+        endDate.shouldHaveValue("15.05.2020");
     }
 }
