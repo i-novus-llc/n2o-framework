@@ -4,7 +4,7 @@ import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.IntervalField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -42,7 +42,7 @@ public class IntervalFieldAT extends AutoTestBase {
     public void testInput() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        IntervalField interval = page.widget(N2oFormWidget.class).fields().field("Интервал", IntervalField.class);
+        IntervalField interval = page.widget(FormWidget.class).fields().field("Интервал", IntervalField.class);
         InputText inputBegin = interval.begin(InputText.class);
         InputText inputEnd = interval.end(InputText.class);
 
