@@ -47,14 +47,6 @@ public class PlaceHoldersResolver {
         this.onlyJavaVariable = false;
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
     /**
      * Создать замену плейсхолдеров
      *
