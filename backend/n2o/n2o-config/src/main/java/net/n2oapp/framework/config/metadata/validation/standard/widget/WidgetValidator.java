@@ -100,7 +100,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                                     preFilter.getType()));
 
                 if (n2oWidget.getDependsOn() == null && n2oWidget.getDetailFieldId() == null &&
-                        preFilter.getRefWidgetId() == null && StringUtils.isLink(preFilter.getValue())) {
+                        preFilter.getRefWidgetId() == null && StringUtils.hasLink(preFilter.getValue())) {
                     throw new N2oMetadataValidationException(
                             String.format("В виджете '%s' значение префильтра '%s' является ссылкой, но зависимость для нее не прописана!",
                                     n2oWidget.getId() == null ? "" : n2oWidget.getId(),

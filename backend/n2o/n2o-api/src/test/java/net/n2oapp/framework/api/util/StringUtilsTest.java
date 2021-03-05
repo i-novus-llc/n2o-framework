@@ -61,6 +61,21 @@ public class StringUtilsTest {
     }
 
     @Test
+    public void hasLink() {
+        assertThat(StringUtils.hasLink("{test}"), is(true));
+        assertThat(StringUtils.hasLink("{}"), is(false));
+        assertThat(StringUtils.hasLink("#{test}"), is(false));
+        assertThat(StringUtils.hasLink("test"), is(false));
+        assertThat(StringUtils.hasLink("test1 {test2} test3"), is(true));
+        assertThat(StringUtils.hasLink("test1 #{test2} test3"), is(false));
+        assertThat(StringUtils.hasLink("test1 {{test2}} test3"), is(false));
+        assertThat(StringUtils.hasLink("#{test} - #{test2}"), is(false));
+        assertThat(StringUtils.hasLink("{test} - #{test2}"), is(true));
+        assertThat(StringUtils.hasLink("#{test} - {test2}"), is(true));
+        assertThat(StringUtils.hasLink("{{test}}"), is(false));
+    }
+
+    @Test
     public void testMaskEquals() {
         assert StringUtils.maskMatch("*","test");
         assert StringUtils.maskMatch("1Aba?","1Aba?");
