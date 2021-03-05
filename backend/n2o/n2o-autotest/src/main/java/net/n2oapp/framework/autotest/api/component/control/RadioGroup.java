@@ -8,4 +8,6 @@ public interface RadioGroup extends Control {
     void shouldBeChecked(String label);
 
     void check(String label);
+
+    void shouldHaveOptions(String... options);
 }
