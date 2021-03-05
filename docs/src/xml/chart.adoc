@@ -214,6 +214,11 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Идентификатор поля выборки значений области
 |
 
+|label
+|Строка
+|Заголовок линии
+|
+
 |line-type
 |basis basisClosed basisOpen linear linearClosed natural
  monotoneX monotoneY monotone step stepBefore stepAfter
@@ -256,6 +261,11 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Идентификатор поля выборки значений столбцов
 |
 
+|label
+|Строка
+|Заголовок столбцов
+|
+
 |color
 |Строка
 |Цвет столбцов
@@ -286,6 +296,11 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |field-id
 |Строка
 |Идентификатор поля выборки значений линии
+|
+
+|label
+|Строка
+|Заголовок линии
 |
 
 |type

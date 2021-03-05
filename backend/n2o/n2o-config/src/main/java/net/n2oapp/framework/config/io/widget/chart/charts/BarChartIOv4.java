@@ -18,10 +18,8 @@ public class BarChartIOv4 extends StandardChartIOv4<N2oBarChart> {
         p.children(e, null, "bar", c::getItems, c::setItems, N2oBarChartItem.class, this::barChartIOv4);
     }
 
-    private void barChartIOv4(Element e, N2oBarChartItem c, IOProcessor p) {
-        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
-        p.attribute(e, "color", c::getColor, c::setColor);
-        p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
+    private void barChartIOv4(Element e, N2oBarChartItem i, IOProcessor p) {
+        item(e, i, p);
     }
 
     @Override
