@@ -124,7 +124,7 @@ public abstract class StringUtils {
      * @return Содержит (true) или нет (false)
      */
     public static boolean hasLink(String text) {
-        return text.matches(".*(?<![#{])\\{[a-zA-Z0-9$_]+}[^}]?.*");
+        return text.matches(".*(?<![#${])\\{[a-zA-Z0-9$_]+}[^}]?.*");
     }
 
     /**
