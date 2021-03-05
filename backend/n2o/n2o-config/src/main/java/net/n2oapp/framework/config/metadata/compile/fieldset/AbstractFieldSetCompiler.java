@@ -50,18 +50,20 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
             compiled.setDependency(dependency);
         }
 
+        compileContent(compiled, source, context, p);
+    }
+
+    private void compileContent(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getItems() == null)
             return;
         FieldSetVisibilityScope scope = initVisibilityScope(source, p);
         List<FieldSet.Row> rows = new ArrayList<>();
-        for (int i = 0; i < source.getItems().length; i++) {
-            if (source.getItems()[i] instanceof N2oFieldsetRow) {
-                rows.add(p.compile(source.getItems()[i], context));
+        for (SourceComponent item : source.getItems()) {
+            if (item instanceof N2oFieldsetRow) {
+                rows.add(p.compile(item, context));
             } else {
                 N2oFieldsetRow newRow = new N2oFieldsetRow();
-                SourceComponent[] items = new SourceComponent[1];
-                items[0] = source.getItems()[i];
-                newRow.setItems(items);
+                newRow.setItems(new SourceComponent[]{item});
                 rows.add(p.compile(newRow, context, scope));
             }
         }
