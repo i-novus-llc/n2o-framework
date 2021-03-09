@@ -9,7 +9,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oBarChartItem extends N2oStandardChartItem {
-    private String fieldId;
-    private String color;
-    private Boolean hasLabel;
 }

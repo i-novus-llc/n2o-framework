@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.widget.chart.charts;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oStandardChart;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oStandardChartItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
 import org.jdom2.Element;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись стандартного компонента диаграммы
  */
 @Component
-public abstract class StandardChartIOv4<T extends N2oStandardChart>  extends AbstractChartIOv4<T> {
+public abstract class StandardChartIOv4<T extends N2oStandardChart> extends AbstractChartIOv4<T> {
 
     @Override
     public void io(Element e, T c, IOProcessor p) {
@@ -28,5 +29,12 @@ public abstract class StandardChartIOv4<T extends N2oStandardChart>  extends Abs
         p.attributeBoolean(e, "grid-vertical", c::getGridVertical, c::setGridVertical);
         p.attribute(e, "tooltip-separator", c::getTooltipSeparator, c::setTooltipSeparator);
         p.attributeEnum(e, "legend-icon-type", c::getLegendIconType, c::setLegendIconType, ChartLegendIconType.class);
+    }
+
+    protected void item(Element e, N2oStandardChartItem i, IOProcessor p) {
+        p.attribute(e, "field-id", i::getFieldId, i::setFieldId);
+        p.attribute(e, "label", i::getLabel, i::setLabel);
+        p.attribute(e, "color", i::getColor, i::setColor);
+        p.attributeBoolean(e, "has-label", i::getHasLabel, i::setHasLabel);
     }
 }

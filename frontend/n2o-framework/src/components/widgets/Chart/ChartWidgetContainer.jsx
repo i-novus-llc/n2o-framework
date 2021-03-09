@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
 import widgetContainer from '../WidgetContainer';
 import { CHART } from '../widgetTypes';
 import ChartType from './ChartType';
@@ -45,14 +44,12 @@ ChartWidgetContainer.defaultProps = {
   datasource: [],
 };
 
-export default compose(
-  widgetContainer(
-    {
-      mapProps: props => ({
-        chart: props.chart,
-        datasource: props.datasource,
-      }),
-    },
-    CHART
-  )
+export default widgetContainer(
+  {
+    mapProps: props => ({
+      chart: props.chart,
+      datasource: props.datasource,
+    }),
+  },
+  CHART
 )(ChartWidgetContainer);
