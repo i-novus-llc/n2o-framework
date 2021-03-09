@@ -6,7 +6,7 @@
         service-name="service-name" table-name="table-name">
     <fields>
         <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
-               mapper="dataset" normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
+               normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
         <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
              required="true">
             <field id="id" mapping="id"/>
@@ -20,12 +20,11 @@
                 <sql>select 1</sql>
             </invocation>
             <in-parameters>
-                <param id="id" mapping="mapping" default-value="val1" mapper="groovy" normalize="norm" domain="string"/>
-                <param id="testSet">
-                </param>
+                <param id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
+                <param id="testSet"/>
             </in-parameters>
             <out-parameters>
-                <param id="id" mapping="mapping" default-value="val2" mapper="spel" normalize="norm"
+                <param id="id" mapping="mapping" default-value="val2" normalize="norm"
                        domain="boolean[]"/>
             </out-parameters>
             <validations black-list="id2">

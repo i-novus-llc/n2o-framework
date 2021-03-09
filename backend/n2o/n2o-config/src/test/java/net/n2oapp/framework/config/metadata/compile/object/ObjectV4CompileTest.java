@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.object;
 
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -57,7 +56,6 @@ public class ObjectV4CompileTest extends SourceCompileTestBase {
         assertThat(inParam.getParam(), is("param"));
         assertThat(inParam.getMapping(), is("mapping"));
         assertThat(inParam.getDefaultValue(), is("val1"));
-        assertThat(inParam.getMapper(), is(MapperType.groovy));
         assertThat(inParam.getNormalize(), is("norm"));
         assertThat(inParam.getDomain(), is("string"));
 
@@ -65,7 +63,6 @@ public class ObjectV4CompileTest extends SourceCompileTestBase {
         assertThat(outParam.getParam(), is(nullValue()));
         assertThat(outParam.getMapping(), is("mapping"));
         assertThat(outParam.getDefaultValue(), is("val2"));
-        assertThat(outParam.getMapper(), is(MapperType.spel));
         assertThat(outParam.getNormalize(), is("norm"));
         assertThat(outParam.getDomain(), is("boolean[]"));
     }

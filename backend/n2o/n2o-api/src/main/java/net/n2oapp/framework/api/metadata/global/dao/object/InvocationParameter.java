@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InvocationParameter extends AbstractParameter {
     private String domain;
-    private MapperType mapper;
     protected String defaultValue;
     protected String normalize;
     private String mappingCondition;
@@ -25,7 +24,6 @@ public class InvocationParameter extends AbstractParameter {
         this.defaultValue = parameter.getDefaultValue();
         this.setRequired(parameter.getRequired());
         this.normalize = parameter.getNormalize();
-        this.mapper = parameter.getMapper();
         this.mappingCondition = parameter.getMappingCondition();
         this.entityClass = parameter.getEntityClass();
     }

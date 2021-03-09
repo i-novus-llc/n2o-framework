@@ -109,7 +109,6 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
-        p.attributeEnum(e, "mapper", t::getMapper, t::setMapper, MapperType.class);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
         p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);

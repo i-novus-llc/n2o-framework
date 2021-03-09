@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.object;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
@@ -60,14 +59,14 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
-        p.attributeEnum(e, "mapper", t::getMapperType, t::setMapperType, MapperType.class);
     }
 
     private void reference(Element e, ObjectReferenceField t, IOProcessor p) {
         abstractParameter(e, t, p);
         p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
-        p.children(e, null, "field", t::getFields, t::setFields, ObjectScalarField.class, this::field);
+        p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectScalarField.class, this::field));
     }
 
     private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
@@ -99,12 +98,10 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
-        p.attributeEnum(e, "mapper", t::getMapper, t::setMapper, MapperType.class);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
         p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
-        p.children(e, null, "child-param", t::getChildParams, t::setChildParams, N2oObject.Parameter.class, this::param);
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {
