@@ -29,7 +29,6 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
@@ -71,7 +70,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setObjectId(object != null ? object.getId() : null);
         if (p.getScope(WidgetObjectScope.class) != null)
             p.getScope(WidgetObjectScope.class).put(source.getId(), object);
-        compiled.setQueryId(source.getQueryId());
+        compileWidgetQueryId(source, compiled);
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
         compileMasterLink(compiled, p);
@@ -80,11 +79,41 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
         compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
         compiled.setIcon(source.getIcon());
-        compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
         compileAutoFocus(source, compiled, p);
         compiled.setProperties(p.mapAttributes(source));
         compileDependencies(compiled, source, p);
         initFilters(compiled, source, p);
+    }
+
+    /**
+     * Компиляция идентификатора выборки виджета, учитывая источник данных
+     */
+    private void compileWidgetQueryId(S source, D compiled) {
+        if (source.getUpload() == null) {
+            if (source.getQueryId() != null) {
+                compiled.setQueryId(source.getQueryId());
+                compiled.setUpload(UploadType.query);
+            } else {
+                compiled.setQueryId(source.getDefaultValuesQueryId());
+                compiled.setUpload(UploadType.defaults);
+            }
+        } else {
+            String queryId = null;
+            switch (source.getUpload()) {
+                case query:
+                    if (source.getQueryId() == null)
+                        throw new N2oException("Upload is 'query', but queryId isn't set in widget");
+                    queryId = source.getQueryId();
+                    break;
+                case copy:
+                    queryId = source.getQueryId();
+                    break;
+                case defaults:
+                    queryId = source.getDefaultValuesQueryId();
+            }
+            compiled.setUpload(source.getUpload());
+            compiled.setQueryId(queryId);
+        }
     }
 
     /**
@@ -170,11 +199,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
                                                 SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
                                                 CompiledObject object) {
-        String queryId = getDataProviderQueryId(source);
         String widgetRoute = widgetRouteScope.getUrl();
-        compiled.setDataProvider(initDataProvider(compiled, source, context, widgetRoute, queryId, p, validationList,
+        compiled.setDataProvider(initDataProvider(compiled, source, context, widgetRoute, p, validationList,
                 widgetRouteScope, subModelsScope, copiedFieldScope, object));
-        compileRouteWidget(compiled, source, getDataProviderQuery(queryId, p), p, widgetRouteScope);
+        compileRouteWidget(compiled, source, getDataProviderQuery(compiled.getQueryId(), p), p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
     }
 
@@ -366,11 +394,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, String queryId,
+    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute,
                                                 CompileProcessor p, ValidationList validationList,
                                                 ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
                                                 CopiedFieldScope copiedFieldScope, CompiledObject object) {
-        if (queryId == null)
+        if (widget.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
@@ -395,15 +423,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
         }
 
-        p.addRoute(getQueryContext(widget, source, context, widgetRoute, queryId, validationList, subModelsScope,
-                copiedFieldScope, p, object));
+        p.addRoute(getQueryContext(widget, source, context, widgetRoute, validationList, subModelsScope, copiedFieldScope, object));
         return dataProvider;
     }
 
-    protected QueryContext getQueryContext(D widget, S source, CompileContext<?, ?> context, String route, String queryId,
+    protected QueryContext getQueryContext(D widget, S source, CompileContext<?, ?> context, String route,
                                            ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = new QueryContext(queryId, route, context.getUrlPattern());
+                                           CopiedFieldScope copiedFieldScope, CompiledObject object) {
+        QueryContext queryContext = new QueryContext(widget.getQueryId(), route, context.getUrlPattern());
         List<Validation> validations = validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
             if (object == null)
@@ -493,25 +520,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     /**
-     * Получение ID выборки виджета, учитывая источник данных
-     */
-    private String getDataProviderQueryId(S source) {
-        UploadType upload = source.getUpload();
-        if (upload == null) return source.getQueryId();
-        switch (upload) {
-            case query:
-                if (source.getQueryId() == null)
-                    throw new N2oException("Upload is 'query', but queryId isn't set in widget");
-            case copy:
-                return source.getQueryId();
-            case defaults:
-                return source.getDefaultValuesQueryId();
-            default:
-                return null;
-        }
-    }
-
-    /**
      * Инициализация выборки виджета по id
      */
     private CompiledQuery getDataProviderQuery(String queryId, CompileProcessor p) {
@@ -594,7 +602,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void initFilters(D compiled, S source, CompileProcessor p) {
-        CompiledQuery query = getDataProviderQuery(getDataProviderQueryId(source), p);
+        CompiledQuery query = getDataProviderQuery(compiled.getQueryId(), p);
         if (query == null)
             return;
         List<Filter> filters = new ArrayList<>();
