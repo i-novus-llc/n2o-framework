@@ -1,5 +1,5 @@
-import { modify, checkAndModify, fetchValue } from './fieldDependency';
-import { REGISTER_FIELD_EXTRA, SET_LOADING } from '../constants/formPlugin';
+import { modify, fetchValue } from './fieldDependency';
+import { SET_LOADING } from '../constants/formPlugin';
 import {
   DISABLE_FIELD,
   ENABLE_FIELD,
@@ -22,35 +22,12 @@ const setupModify = (
 ) => {
   const formName = 'testForm';
   const fieldName = 'testField';
-
-  return modify(values, formName, fieldName, type, options, () => {});
-};
-
-const setupCheckAndModify = () => {
-  const values = {
-    first: 'first value',
-    second: 'second value',
+  const field = {
+    visible: true,
+    disabled: true,
   };
-  const fields = {
-    first: {
-      fieldId: 'first',
-      field: {
-        dependency: {
-          on: ['first'],
-          type: 'enabled',
-        },
-      },
-    },
-  };
-  const formName = 'testForm';
-  const fieldName = 'first';
-  return checkAndModify(
-    values,
-    fields,
-    formName,
-    fieldName,
-    REGISTER_FIELD_EXTRA
-  );
+
+  return modify(values, formName, fieldName, { type, ...options }, field);
 };
 
 describe('Проверка саги dependency', () => {
@@ -80,36 +57,28 @@ describe('Проверка саги dependency', () => {
         { testField: 1 }
       );
       let next = gen.next();
-      expect(next.value.payload.action.type).toEqual(DISABLE_FIELD);
-      expect(next.value.payload.action.payload).toEqual({
-        name: 'testField',
-        form: 'testForm',
-      });
-      expect(next.value.payload.action.meta).toEqual({
-        form: 'testForm',
-      });
-      next = gen.next();
+      expect(next.value).toBe(undefined);
       expect(next.done).toEqual(true);
     });
     it('Проверка type visible с истинным expression', () => {
       const gen = setupModify('visible', {
-        expression: `testField === 0`,
+        expression: `testField === 1`,
       });
       let next = gen.next();
-      expect(next.value.payload.action.type).toEqual(SHOW_FIELD);
+      expect(next.value.payload.action.type).toEqual(HIDE_FIELD);
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type visible с ложным expression', () => {
       const gen = setupModify(
         'visible',
         {
-          expression: `testField != 2`,
+          expression: `testField === 1`,
         },
-        { testField: 2 }
+        { testField: 1 }
       );
       let next = gen.next();
-      expect(next.value.payload.action.type).toEqual(HIDE_FIELD);
-      expect(gen.next().done).toEqual(true);
+      expect(next.value).toBe(undefined);
+      expect(next.done).toEqual(true);
     });
     it('Проверка type setValue', () => {
       const gen = setupModify('setValue', {
@@ -125,7 +94,7 @@ describe('Проверка саги dependency', () => {
       const gen = setupModify('reset', {
         expression: `testField != 0`,
       });
-      expect(gen.next().done).toEqual(false);
+      expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с истинным expression', () => {
       const gen = setupModify(
@@ -151,9 +120,12 @@ describe('Проверка саги dependency', () => {
         },
         'testForm',
         'field.id',
-        'visible',
         {
+          type: 'visible',
           expression: `field.id === 0`,
+        },
+        {
+          visible: false,
         }
       );
       let next = gen.next();

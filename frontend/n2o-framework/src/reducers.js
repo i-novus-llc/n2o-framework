@@ -15,6 +15,7 @@ import user from './reducers/auth';
 import regions from './reducers/regions';
 
 const formHack = (state, action) => {
+  // ToDo: Переписать
   return action.meta && action.meta.form
     ? formReducer.plugin({
         [action.meta.form]: (formState, formAction) => {
