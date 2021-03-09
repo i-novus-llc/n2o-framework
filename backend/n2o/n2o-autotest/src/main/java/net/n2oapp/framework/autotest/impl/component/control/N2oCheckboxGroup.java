@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
@@ -41,8 +42,12 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
         inputElement(label).shouldNotBe(Condition.checked);
     }
 
+    @Override
+    public void shouldHaveOptions(String... options) {
+        element().$$(".n2o-checkbox").shouldHave(CollectionCondition.exactTexts(options));
+    }
+
     private SelenideElement inputElement(String label) {
         return element().$$(".n2o-checkbox").findBy(Condition.text(label)).$(".n2o-input");
     }
-
 }

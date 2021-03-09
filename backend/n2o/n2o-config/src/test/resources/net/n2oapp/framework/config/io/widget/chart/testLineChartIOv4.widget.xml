@@ -2,7 +2,7 @@
 <chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        width="600" height="400">
     <lines x-field-id="name" y-field-id="value" y-min="100" y-max="1000">
-        <line field-id="aaa" color="#111111" type="monotone" has-label="true"/>
+        <line field-id="aaa" label="test" color="#111111" type="monotone" has-label="true"/>
         <line field-id="bbb" color="#ffffff" type="basis" has-label="false"/>
     </lines>
 </chart>

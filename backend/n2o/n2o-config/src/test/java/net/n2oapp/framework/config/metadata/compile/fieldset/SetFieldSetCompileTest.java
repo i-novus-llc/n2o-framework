@@ -3,21 +3,17 @@ package net.n2oapp.framework.config.metadata.compile.fieldset;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.fieldset.LineFieldSet;
+import net.n2oapp.framework.api.metadata.meta.fieldset.SetFieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
-import net.n2oapp.framework.api.metadata.meta.widget.form.FormWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.fieldset.ColElementIO4;
-import net.n2oapp.framework.config.io.fieldset.RowElementIO4;
-import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +23,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тестирование простого филдсета
@@ -42,116 +39,96 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
-                new N2oControlsPack(), new N2oActionsPack(), new N2oObjectsPack(), new N2oDataProvidersPack())
-                .ios(new SetFieldsetElementIOv4(), new ColElementIO4(), new RowElementIO4())
-                .compilers(new FieldSetRowCompiler(), new FieldSetColumnCompiler(), new SetFieldSetCompiler())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithCols.fieldset.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFields.fieldset.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFieldsets.fieldset.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithRow.fieldset.xml"))
-                .mergers(new N2oFieldSetMerger());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
+                new N2oControlsPack(), new N2oActionsPack(), new N2oObjectsPack(), new N2oDataProvidersPack());
     }
 
     @Test
-    public void testSetFielsetWithField() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetCompile.widget.xml")
-                .get(new WidgetContext("testFieldsetCompile"));
-        FormWidgetComponent component = form.getComponent();
-        assertThat(component.getFieldsets().size(), is(4));
+    public void testFieldSetWithFields() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFields.widget.xml")
+                .get(new WidgetContext("testSetFieldsetCompileWithFields"));
 
-        FieldSet fieldSet = component.getFieldsets().get(0);
-        assertThat(fieldSet.getSrc(), is("StandardFieldset"));
-        assertThat(fieldSet.getLabel(), is("set"));
+        List<FieldSet> fieldsets = form.getComponent().getFieldsets();
+        assertThat(fieldsets.size(), is(2));
 
-        List<FieldSet.Row> rows = fieldSet.getRows();
-        assertThat(rows.size(), is(3));
-        assertThat(rows.get(0).getCols().size(), is(1));
-        assertThat(rows.get(0).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput1"));
-        assertThat(rows.get(1).getCols().size(), is(1));
-        assertThat(rows.get(1).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput2"));
-        assertThat(rows.get(2).getCols().size(), is(1));
-        assertThat(rows.get(2).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput3"));
+        assertThat(fieldsets.get(0).getRows().size(), is(2));
+        assertThat(fieldsets.get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id1"));
+        assertThat(fieldsets.get(0).getRows().get(1).getCols().get(0).getFields().get(0).getId(), is("id2"));
 
-        rows = component.getFieldsets().get(1).getRows();
-        assertThat(component.getFieldsets().get(1).getSrc(), is("StandardFieldset"));
-        assertThat(rows.size(), is(4));
-        assertThat(rows.get(0).getCols().size(), is(1));
-        assertThat(rows.get(0).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol1"));
-        assertThat(rows.get(1).getCols().size(), is(1));
-        assertThat(rows.get(1).getCols().get(0).getFields().size(), is(1));
-        assertThat(rows.get(1).getCols().get(0).getVisible(), is(false));
-        assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol2"));
-        assertThat(rows.get(2).getCols().size(), is(1));
-        assertThat(rows.get(2).getCols().get(0).getFields().size(), is(1));
-        assertThat(rows.get(2).getCols().get(0).getVisible(), is("`a==b`"));
-        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol3"));
-        assertThat(rows.get(3).getCols().size(), is(1));
-        assertThat(rows.get(3).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol4"));
+        assertThat(fieldsets.get(1), instanceOf(LineFieldSet.class));
+        List<FieldSet.Row> fieldSetRows = fieldsets.get(1).getRows();
+        assertThat(fieldSetRows.size(), is(3));
+        assertThat(fieldSetRows.get(0).getCols().get(0).getFields().get(0).getId(), is("id3"));
+        assertThat(fieldSetRows.get(1).getCols().get(0).getFields().get(0).getId(), is("id4"));
+        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0), instanceOf(LineFieldSet.class));
+        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0).getRows().size(), is(2));
+        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id5"));
+        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0).getId(), is("id6"));
+    }
 
-        rows = component.getFieldsets().get(2).getRows();
-        assertThat(component.getFieldsets().get(3).getSrc(), is("StandardFieldset"));
-        assertThat(rows.size(), is(9));
-        assertThat(rows.get(0).getCols().size(), is(3));
-        assertThat(rows.get(0).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput1"));
-        assertThat(rows.get(0).getCols().get(1).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(0).getCols().get(1).getFields().get(0)).getControl().getId(), is("testInput2"));
-        assertThat(rows.get(0).getCols().get(2).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(0).getCols().get(2).getFields().get(0)).getControl().getId(), is("testInput3"));
-        assertThat(rows.get(1).getCols().size(), is(1));
-        assertThat(rows.get(1).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput4"));
-        assertThat(rows.get(2).getCols().size(), is(1));
-        assertThat(rows.get(2).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput5"));
-        assertThat(rows.get(3).getCols().size(), is(1));
-        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput6"));
-        assertThat(rows.get(4).getCols().size(), is(1));
-        assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput7"));
-        assertThat(rows.get(5).getCols().size(), is(1));
-        assertThat(rows.get(5).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(5).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput8"));
-        assertThat(rows.get(6).getCols().size(), is(1));
-        assertThat(rows.get(6).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(6).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput9"));
-        assertThat(rows.get(7).getCols().size(), is(1));
-        assertThat(rows.get(7).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(7).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput10"));
-        assertThat(rows.get(8).getCols().size(), is(1));
-        assertThat(rows.get(8).getCols().get(0).getFields().size(), is(1));
-        assertThat(((StandardField) rows.get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
+    @Test
+    public void testFieldSetRows() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithRow.widget.xml")
+                .get(new WidgetContext("testSetFieldsetCompileWithRow"));
 
-        rows = component.getFieldsets().get(3).getRows();
-        assertThat(component.getFieldsets().get(3).getSrc(), is("StandardFieldset"));
-        assertThat(rows.size(), is(9));
-        assertThat(rows.get(0).getCols().size(), is(1));
-        assertThat(rows.get(0).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(rows.get(0).getCols().get(0).getFields(), nullValue());
-        assertThat(rows.get(1).getCols().size(), is(1));
-        assertThat(rows.get(1).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(rows.get(1).getCols().get(0).getFields(), nullValue());
-        assertThat(rows.get(2).getCols().size(), is(1));
-        assertThat(rows.get(2).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(rows.get(2).getCols().get(0).getFields(), nullValue());
+        List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
+        assertThat(rows.size(), is(2));
 
-        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput7"));
-        assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput8"));
-        assertThat(rows.get(5).getCols().get(0).getFieldsets().size(), is(1));
-        assertThat(rows.get(5).getCols().get(0).getFields(), nullValue());
-        assertThat(((StandardField) rows.get(6).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput10"));
-        assertThat(((StandardField) rows.get(7).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
-        assertThat(((StandardField) rows.get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput12"));
+        FieldSet.Row row = rows.get(0);
+        assertThat(row.getCols().size(), is(2));
+        assertThat(row.getCols().get(0).getFields().size(), is(1));
+        assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id1"));
+        assertThat(row.getCols().get(1).getFields().size(), is(1));
+        assertThat(row.getCols().get(1).getFields().get(0).getId(), is("id2"));
+
+        row = rows.get(1);
+        assertThat(row.getCols().size(), is(4));
+        assertThat(row.getCols().get(0).getFields().size(), is(1));
+        assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id3"));
+        assertThat(row.getCols().get(1).getFields().size(), is(1));
+        assertThat(row.getCols().get(1).getFields().get(0).getId(), is("id4"));
+        assertThat(row.getCols().get(2).getFieldsets().get(0), instanceOf(SetFieldSet.class));
+        assertThat(row.getCols().get(2).getFieldsets().get(0).getRows().get(0).getCols().size(), is(2));
+        assertThat(row.getCols().get(2).getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id5"));
+        assertThat(row.getCols().get(2).getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0).getId(), is("id6"));
+        assertThat(row.getCols().get(3).getFieldsets().get(0), instanceOf(LineFieldSet.class));
+        assertThat(row.getCols().get(3).getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id7"));
+    }
+
+    @Test
+    public void testFieldSetCols() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithCols.widget.xml")
+                .get(new WidgetContext("testSetFieldsetCompileWithCols"));
+
+        List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
+        assertThat(rows.size(), is(2));
+
+        FieldSet.Row row = rows.get(0);
+        assertThat(row.getCols().size(), is(1));
+        assertThat(row.getCols().get(0).getVisible(), is("`a==b`"));
+        assertThat(row.getCols().get(0).getFields().size(), is(2));
+        assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id1"));
+        assertThat(row.getCols().get(0).getFields().get(1).getId(), is("id2"));
+
+        row = rows.get(1);
+        assertThat(row.getCols().size(), is(1));
+        assertThat(row.getCols().get(0).getFieldsets().size(), is(2));
+        List<FieldSet.Row> fieldSetRows = row.getCols().get(0).getFieldsets().get(0).getRows();
+        assertThat(fieldSetRows.size(), is(4));
+        assertThat(fieldSetRows.get(0).getCols().get(0).getFields().get(0).getId(), is("id3"));
+        assertThat(fieldSetRows.get(1).getCols().get(0).getFields().get(0).getId(), is("id4"));
+        assertThat(fieldSetRows.get(2).getCols().size(), is(2));
+        assertThat(fieldSetRows.get(2).getCols().get(0).getFields().get(0).getId(), is("id5"));
+        assertThat(fieldSetRows.get(2).getCols().get(1).getFields().get(0).getId(), is("id6"));
+        assertThat(fieldSetRows.get(3).getCols().get(0).getFields().get(0).getId(), is("id7"));
+
+        assertThat(row.getCols().get(0).getFieldsets().get(1), instanceOf(LineFieldSet.class));
     }
 
     @Test
     public void testFieldSetDependency() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetEVDCompile.widget.xml")
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetEVDCompile.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFields.fieldset.xml")
                 .get(new WidgetContext("testFieldsetEVDCompile"));
         List<FieldSet> fieldSets = form.getComponent().getFieldsets();
         assertThat(fieldSets.size(), is(4));
