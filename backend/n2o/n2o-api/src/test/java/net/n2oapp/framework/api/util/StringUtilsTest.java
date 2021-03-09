@@ -70,11 +70,9 @@ public class StringUtilsTest {
         assertThat(StringUtils.hasLink("test1 {test2} test3"), is(true));
         assertThat(StringUtils.hasLink("test1 #{test2} test3"), is(false));
         assertThat(StringUtils.hasLink("test1 ${test2} test3"), is(false));
-        assertThat(StringUtils.hasLink("test1 {{test2}} test3"), is(false));
         assertThat(StringUtils.hasLink("#{test} - #{test2}"), is(false));
         assertThat(StringUtils.hasLink("{test} - #{test2}"), is(true));
         assertThat(StringUtils.hasLink("#{test} - {test2}"), is(true));
-        assertThat(StringUtils.hasLink("{{test}}"), is(false));
     }
 
     @Test
