@@ -7,7 +7,10 @@ import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -18,10 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCompileTest extends SourceCompileTestBase {
@@ -128,7 +129,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         assertThat(f.getToolbar().size(), is(2));
         Submenu button = (Submenu)f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
-        MenuItem item = button.getSubMenu().get(0);
+        PerformButton item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
         assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));

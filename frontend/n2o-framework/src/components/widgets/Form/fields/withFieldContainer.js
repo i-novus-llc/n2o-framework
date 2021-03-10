@@ -249,10 +249,7 @@ export default Field => {
     ),
     withProps(props => ({
       ref: props.setReRenderRef,
-      disabled:
-        isBoolean(props.enabled) && !props.disabled
-          ? !props.enabled
-          : props.disabled,
+      disabled: props.disabled,
     })),
     pure
   )(FieldContainer);

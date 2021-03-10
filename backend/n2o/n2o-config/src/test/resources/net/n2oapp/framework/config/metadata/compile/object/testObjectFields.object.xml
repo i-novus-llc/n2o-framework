@@ -22,7 +22,7 @@
     <operations>
         <operation id="test">
             <in-parameters>
-                <param id="test"></param>
+                <param id="test"/>
                 <param id="test3"/>
                 <param id="test4" mapping="test4" normalize="test" mapping-condition="test != null" />
                 <param id="test5" mapping="test5" normalize="test" mapping-condition="test != null" entity-class="java.lang.Object" />

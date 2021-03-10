@@ -48,8 +48,12 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         validation(e, t, p);
         p.childrenText(e, "result", t::getResult, t::setResult);
         p.childAttributeEnum(e, "result", "mapper", t::getMapper, t::setMapper, MapperType.class);
-        p.children(e, "in-parameters", "param", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::param);
-        p.children(e, "out-parameters", "param", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::param);
+        p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::param);
+        if (t.getInParameters() == null)
+            p.children(e, "in-parameters", "param", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::param);
+        p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::param);
+        if (t.getOutParameters() == null)
+            p.children(e, "out-parameters", "param", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::param);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), dataProviderNamespace);
     }
 
@@ -74,6 +78,8 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        if (t.getEnabled() == null)
+            p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
@@ -112,7 +118,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "mapper", t::getMapper, t::setMapper, MapperType.class);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
-        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
+        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
         p.children(e, null, "child-param", t::getChildParams, t::setChildParams, N2oObject.Parameter.class, this::param);
     }

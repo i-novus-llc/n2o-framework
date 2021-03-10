@@ -16,7 +16,6 @@ import java.util.Map;
 @Getter
 @Setter
 public class PerformButton extends AbstractButton implements UrlAware {
-
     @JsonProperty
     private String url;
     @JsonProperty

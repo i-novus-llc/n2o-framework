@@ -10,5 +10,8 @@ import net.n2oapp.framework.api.metadata.control.N2oComponent;
 @Getter
 @Setter
 public abstract class N2oStandardChartItem extends N2oComponent {
-
+    private String fieldId;
+    private String label;
+    private String color;
+    private Boolean hasLabel;
 }

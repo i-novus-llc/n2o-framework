@@ -1,12 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <toolbar>
-        <sub-menu>
+        <sub-menu id="menu1" color="primary" label="Menu" class="class"
+                  visible="false" description="desc" generate="crud" icon="icon" show-toggle-icon="false"
+                  src="src" style="color: red" tooltip-position="right" type="icon">
             <menu-item id="btn" label="label" widget-id="table" model="resolve" icon="icon" color="primary"
                 visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
-                visibility-condition="{a==b}" enabling-condition="{c==d}" description="desc" tooltip-position="right"
+                description="desc" tooltip-position="right" disable-on-empty-model="false"
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
-                confirm-cancel-label="cancel">
+                confirm-cancel-label="cancel" type="icon" rounded="true" src="test">
             <dependencies>
                 <enabling ref-model="resolve" ref-widget-id="ref" message="Не указана дата"/>
                 <visibility ref-model="resolve" ref-widget-id="ref"/>

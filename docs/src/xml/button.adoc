@@ -2,7 +2,7 @@
 
 Библиотека компонентов::
 ```
-http://n2oapp.net/framework/config/schema/button-2.0
+http://n2oapp.net/framework/config/schema/button-1.0
 ```
 
 === Базовые свойства
@@ -11,15 +11,20 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|id
+|Строка
+|Идентификатор кнопки
+|Вычисляется из `action-id`
+
 |label
 |Строка
 |Заголовок кнопки
-|Вычисляется из `action-id`
+|
 
 |icon
 |http://fontawesome.io/icons/[CSS класс]
 |Иконка
-|Вычисляется из `action-id`
+|
 
 |type
 |text, icon, iconAndText
@@ -43,52 +48,12 @@ http://n2oapp.net/framework/config/schema/button-2.0
 
 |src
 |Строка
-|Реализация действия.
+|Реализация кнопки.
 |
 
-|visible
-|true false
-|Видимость по умолчанию.
-|true
-
-|enabled
-|true false
-|Доступность по умолчанию.
-|true
-
-|===
-
-===== <button>
-Кнопка.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|id
+|description
 |Строка
-|Идентификатор кнопки
-|Вычисляется из `action-id`
-
-|action-id
-|Ссылка на link:#__action[действие страницы]
-|Действие страницы, которое будет вызвано при нажатии на кнопку
-|
-
-|validate
-|true false
-|Валидировать ли форму при нажатии на кнопку.
-|
-
-|visibility-condition
-|Строка
-|Условие видимости.
-|
-
-|enabling-condition
-|Строка
-|Условие доступности.
+|Описание при наведении на кнопку
 |
 
 |tooltip-position
@@ -96,10 +61,40 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Позиция подсказки.
 |
 
+|===
+
+==== <button>
+Кнопка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|action-id
+|Ссылка на link:#__action[действие страницы]
+|Действие страницы, которое будет вызвано при нажатии на кнопку
+|
+
+|rounded
+|true false
+|Круглая форма кнопки
+|false
+
+|validate
+|true false
+|Валидировать ли форму при нажатии на кнопку.
+|false
+
 |confirm
 |true false
 |Показать предупреждение перед выполнением действия.
-|
+|false
+
+|confirm-type
+|Строка
+|popover modal
+|modal
 
 |confirm-text
 |Строка
@@ -121,6 +116,21 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Текст кнопки отмены.
 |
 
+|model
+|resolve filter edit multi
+|Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.
+|resolve
+
+|visible
+|Строка
+|Видимость по умолчанию.
+|
+
+|enabled
+|Строка
+|Доступность по умолчанию.
+|
+
 |widget-id
 |Строка
 |Идентификатор виджета над которым будет выполнена операция. По умолчанию главный виджет страницы(если он один).
@@ -134,15 +144,17 @@ http://n2oapp.net/framework/config/schema/button-2.0
 `auto` - недоступна только при пустой модели resolve,
 для всех остальных моделей доступна всегда.
 |auto
+
 |===
 
 Тело::
-link:#_Действия[Обработчик действия]
+link:#_Действия[Обработчик действия],
+link:#_Зависимости_компонента[Зависимости компонента]
 
 Пример::
 [source,xml]
 ----
-<button action-id="create"/>
+<button action-id="create" enabled="{type=='type1'}"/>
 ----
 
 [source,xml]
@@ -167,21 +179,31 @@ link:#_Действия[Обработчик действия]
 |Строка
 |Генерация стандартных кнопок.
 |
+
 |show-toggle-icon
 |true false
-|Отображать переключатель выпадающего меню.
+|Показывать иконку переключателя.
 |true
+
+|visible
+|true false
+|Условие видимости кнопки.
+|true
+
 |===
 
 Пример::
 [source,xml]
 ----
 <sub-menu>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
+  <menu-item>...</menu-item>
+  <menu-item>...</menu-item>
+  <menu-item>...</menu-item>
 </sub-menu>
 ----
+
+Тело::
+link:#_Кнопка[Элементы выпадающего меню]
 
 ==== <dependencies>
 Зависимости компонента
@@ -218,7 +240,6 @@ link:#_Действия[Обработчик действия]
 |Строка
 |Сообщение о причине недоступности
 |
-
 
 |===
 
@@ -264,88 +285,4 @@ Java Script выражение
   <visibility ref-widget-id="main" ref-model="resolve">type.id == 1</visibility>
   <!-- Поле видимо, если type.id равен 1 -->
 </dependencies>
-----
-
-===== <copy>
-Копирование данных.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|source-model
-|resolve edit filter multi
-|Модель, которая будет скопирована
-|resolve
-
-|source-widget-id
-|Строка
-|Идентификатор виджета источника
-|Текущий виджет
-
-|source-field-id
-|Строка
-|Идентификатор копируемого поля источника
-|Вся модель
-
-|target-model
-|resolve edit filter multi
-|Модель, в которую будут скопированы данные
-|resolve
-
-|target-widget-id
-|Строка
-|Идентификатор целевого виджета
-|Текущий виджет
-
-|target-field-id
-|Строка
-|Идентификатор поля целевого виджета, в которое будут скопированы данные
-|Вся модель
-
-|mode
-|merge replace add
-|Тип слияния данных
-|merge
-
-|===
-
-Пример::
-[source,xml]
-----
-<copy source-field-id="id" target-widget-id="table"
-      target-field-id="dictionary.id"/>
-----
-
-===== <link>
-Ссылка.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|href
-|Строка
-|URL
-|
-
-|target
-|Строка
-|
-|
-
-|===
-
-Тело::
-link:#_Параметры_запроса[Параметры действия]
-
-Пример::
-[source,xml]
-----
-  <link href="../" target="application">
-    <path-param>...</path-param>
-    <query-param>...</query-param>
-  </link>
 ----
