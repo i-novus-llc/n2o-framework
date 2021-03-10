@@ -9,15 +9,18 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
  */
 @Getter
 @Setter
-public class ObjectScalarField extends AbstractParameter {
+public class ObjectSimpleField extends AbstractParameter {
     private String domain;
     private String defaultValue;
     private String normalize;
+    private String mappingCondition;
+    private String param;
+    private String validationFailKey;
 
-    public ObjectScalarField() {
+    public ObjectSimpleField() {
     }
 
-    public ObjectScalarField(String id, String name, String mapping, Boolean required, String domain) {
+    public ObjectSimpleField(String id, String name, String mapping, Boolean required, String domain) {
         this.setId(id);
         this.setName(name);
         this.setMapping(mapping);

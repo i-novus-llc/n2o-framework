@@ -16,7 +16,7 @@ public class ObjectReferenceField extends AbstractParameter {
     private String referenceObjectId;
     private String entityClass;
     private AbstractParameter[] fields;
-    private List<ObjectScalarField> objectReferenceFields = new ArrayList<>();
+    private List<ObjectSimpleField> objectReferenceFields = new ArrayList<>();
 
     public ObjectReferenceField() {
     }

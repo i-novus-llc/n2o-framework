@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
@@ -37,7 +37,7 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "module-name", t::getModuleName, t::setModuleName);
         p.children(e, "operations", "operation", t::getOperations, t::setOperations, N2oObject.Operation::new, this::operation);
         p.anyChildren(e, "fields", t::getObjectFields, t::setObjectFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectScalarField.class, this::field)
+                .add("field", ObjectSimpleField.class, this::field)
                 .add("reference", ObjectReferenceField.class, this::reference)
                 .add("list", ObjectListField.class, this::reference)
                 .add("set", ObjectSetField.class, this::reference));
@@ -54,7 +54,7 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
     }
 
-    private void field(Element e, ObjectScalarField t, IOProcessor p) {
+    private void field(Element e, ObjectSimpleField t, IOProcessor p) {
         abstractParameter(e, t, p);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
@@ -65,8 +65,7 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         abstractParameter(e, t, p);
         p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
-        p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectScalarField.class, this::field));
+//        p.children(e, null, "field", t::getFields, t::setFields, AbstractParameter.class, this::field);
     }
 
     private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
@@ -79,8 +78,8 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
         p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
-        p.children(e, "in-parameters", "param", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::param);
-        p.children(e, "out-parameters", "param", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::param);
+        p.children(e, "in-parameters", "param", t::getInFields, t::setInFields, AbstractParameter.class, this::param);
+        p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
 
@@ -93,7 +92,7 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
                 .add("mandatory", N2oMandatory.class, this::mandatory));
     }
 
-    private void param(Element e, N2oObject.Parameter t, IOProcessor p) {
+    private void param(Element e, ObjectSimpleField t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
@@ -101,7 +100,6 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
         p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {
@@ -117,8 +115,8 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
     private void constraint(Element e, N2oConstraint t, IOProcessor p) {
         validation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
-        p.children(e, "in-parameters", "param", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::param);
-        p.children(e, "out-parameters", "param", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::param);
+        p.children(e, "in-parameters", "param", t::getInFields, t::setInFields, ObjectSimpleField.class, this::param);
+        p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
     }
 

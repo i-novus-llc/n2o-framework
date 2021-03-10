@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -223,8 +223,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             AbstractParameter of = objectFields.get(field.getId());
             if (field.getDomain() == null) {
                 String domain = "string";
-                if ((of instanceof ObjectScalarField) && (((ObjectScalarField) of).getDomain() != null)) {
-                    domain = ((ObjectScalarField) of).getDomain();
+                if ((of instanceof ObjectSimpleField) && (((ObjectSimpleField) of).getDomain() != null)) {
+                    domain = ((ObjectSimpleField) of).getDomain();
                 }
                 field.setDomain(domain);
             }

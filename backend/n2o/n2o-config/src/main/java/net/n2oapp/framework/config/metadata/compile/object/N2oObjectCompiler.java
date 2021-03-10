@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -94,15 +94,15 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     private void initRefField(ObjectReferenceField field, CompiledObject compiled) {
         AbstractParameter[] referenceFields = field.getFields();
         if (referenceFields == null || referenceFields.length == 0) {
-            ObjectScalarField innerField = new ObjectScalarField();
+            ObjectSimpleField innerField = new ObjectSimpleField();
             innerField.setId("id");
             innerField.setMapping("id");
             field.getObjectReferenceFields().add(innerField);
             field.setNullIgnore(true);
         } else
             for (AbstractParameter objectScalarField : referenceFields)
-                if (objectScalarField instanceof ObjectScalarField)
-                    field.getObjectReferenceFields().add((ObjectScalarField) objectScalarField);
+                if (objectScalarField instanceof ObjectSimpleField)
+                    field.getObjectReferenceFields().add((ObjectSimpleField) objectScalarField);
         if (compiled.getObjectReferenceFieldsMap() == null)
             compiled.setObjectReferenceFieldsMap(new HashMap<>());
         if (field.getId().contains("."))
@@ -194,7 +194,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private void initRefFieldChildParams(N2oObject.Parameter parameter, ObjectReferenceField compiledParameter, CompileProcessor p) {
         List<N2oObject.Parameter> childParams = new ArrayList<>();
-        for (ObjectScalarField field : compiledParameter.getObjectReferenceFields()) {
+        for (ObjectSimpleField field : compiledParameter.getObjectReferenceFields()) {
             N2oObject.Parameter childParam = new N2oObject.Parameter();
             childParam.setId(field.getId());
             childParam.setMapping(field.getMapping());
@@ -524,8 +524,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private String resolveDefaultDomain(AbstractParameter field) {
         String domain = null;
-        if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getDomain() != null)
-            domain = ((ObjectScalarField) field).getDomain();
+        if (field instanceof ObjectSimpleField && ((ObjectSimpleField) field).getDomain() != null)
+            domain = ((ObjectSimpleField) field).getDomain();
         return domain;
     }
 
@@ -550,8 +550,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private String resolveDefaultValue(AbstractParameter field) {
         String defaultValue = null;
-        if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getDefaultValue() != null)
-            defaultValue = ((ObjectScalarField) field).getDefaultValue();
+        if (field instanceof ObjectSimpleField && ((ObjectSimpleField) field).getDefaultValue() != null)
+            defaultValue = ((ObjectSimpleField) field).getDefaultValue();
         return defaultValue;
     }
 
@@ -563,8 +563,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private String resolveDefaultNormalize(AbstractParameter field) {
         String normalizer = null;
-        if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getNormalize() != null)
-            normalizer = ((ObjectScalarField) field).getNormalize();
+        if (field instanceof ObjectSimpleField && ((ObjectSimpleField) field).getNormalize() != null)
+            normalizer = ((ObjectSimpleField) field).getNormalize();
         return normalizer;
     }
 

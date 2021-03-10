@@ -22,11 +22,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |Наименование таблицы БД, ассоциированной с объектом
 |
 
-|entity-class
-|Строка
-|Класс сущности, ассоциированной с объектом
-|
-
 |service-class
 |Строка
 |Класс сервиса, выполняющего действия над объектом
@@ -555,6 +550,7 @@ after-success-operation, after-fail-operation
     <in>
       <field id="name"/>
       <field id="validated"/>
+      <list id="statuses"/>
     </in>
     <out>
       <field id="name"/>

@@ -277,6 +277,9 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="field" type="operationInParameterField"/>
+            <xs:element name="reference" type="operationInParameterReference"/>
+            <xs:element name="list" type="operationInParameterReference"/>
+            <xs:element name="set" type="operationInParameterReference"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -300,13 +303,10 @@
 
     <xs:complexType name="operationInParameterField">
         <xs:annotation>
-            <xs:documentation>Входящий параметр операции.</xs:documentation>
+            <xs:documentation>Входящий простой параметр операции.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:annotation>
-                <xs:documentation>Входящий параметр операции.</xs:documentation>
-            </xs:annotation>
-            <xs:extension base="operationOutParameterField">
+            <xs:extension base="fieldDefinition">
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр содержащий url.</xs:documentation>
@@ -318,6 +318,15 @@
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="operationInParameterReference">
+        <xs:annotation>
+            <xs:documentation>Входящий составной параметр операции.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="referenceDefinition"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -358,11 +367,6 @@
         <xs:attribute name="mapping-condition" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="entity-class" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Класс, которому соответствует параметр.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
