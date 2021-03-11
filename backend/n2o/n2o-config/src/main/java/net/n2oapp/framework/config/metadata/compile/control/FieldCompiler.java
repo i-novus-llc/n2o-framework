@@ -83,7 +83,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (StringUtils.isLink(conditionGetter.get())) {
             conditionSetter.accept(false);
             Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
-            dependency.setValue(conditionGetter.get().substring(1, conditionGetter.get().length() - 1));
+            dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
         } else if (source.containsDependency(dependency.getClass())) {
