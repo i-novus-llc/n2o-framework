@@ -1,6 +1,7 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <input-text id="field" no-label-block="true">
+        <input-text id="field" no-label-block="true"
+                    enabled="{type == 'test1'}" visible="{type == 'test2'}" required="{type == 'test3'}">
             <dependencies>
                 <enabling on="type">type.id == 1</enabling>
                 <enabling on="type2">type.id == 2</enabling>
