@@ -147,19 +147,19 @@
                 <xs:documentation>Подсказка для ввода</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean" default="false">
+        <xs:attribute name="required" type="xs:string" default="false">
             <xs:annotation>
-                <xs:documentation>Обязательность поля</xs:documentation>
+                <xs:documentation>Обязательность поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="visible" type="xs:boolean" default="true">
+        <xs:attribute name="visible" type="xs:string" default="true">
             <xs:annotation>
-                <xs:documentation>Видимость поля</xs:documentation>
+                <xs:documentation>Видимость поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="enabled" type="xs:boolean" default="true">
+        <xs:attribute name="enabled" type="xs:string" default="true">
             <xs:annotation>
-                <xs:documentation>Блокирование поля</xs:documentation>
+                <xs:documentation>Доступность поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="description" type="xs:string">

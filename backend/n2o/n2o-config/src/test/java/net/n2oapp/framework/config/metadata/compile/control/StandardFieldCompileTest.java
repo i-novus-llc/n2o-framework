@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -31,6 +32,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -294,5 +296,55 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(component.getProperties().size(), is(2));
         assertThat(component.getProperties().get("attr2"), is("extAttr2"));
         assertThat(component.getProperties().get("roles"), is("admin"));
+    }
+
+    @Test
+    public void testConditions() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldConditions.page.xml")
+                .get(new PageContext("testStandardFieldConditions"));
+
+        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows();
+
+        Field field1 = rows.get(0).getCols().get(0).getFields().get(0);
+        assertThat(field1.getVisible(), is(true));
+        assertThat(field1.getEnabled(), is(true));
+        assertThat(field1.getRequired(), is(false));
+        assertThat(field1.getDependencies().size(), is(0));
+
+        Field field2 = rows.get(1).getCols().get(0).getFields().get(0);
+        assertThat(field2.getVisible(), is(false));
+        assertThat(field2.getEnabled(), is(false));
+        assertThat(field2.getRequired(), is(true));
+        assertThat(field2.getDependencies().size(), is(0));
+
+        Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
+        assertThat(field3.getVisible(), is(false));
+        assertThat(field3.getEnabled(), is(false));
+        assertThat(field3.getRequired(), is(false));
+        assertThat(field3.getDependencies().size(), is(3));
+        assertThat(field3.getDependencies().get(0).getType(), is(ValidationType.visible));
+        assertThat(field3.getDependencies().get(0).getOn(), is(Arrays.asList("f1")));
+        assertThat(field3.getDependencies().get(0).getExpression(), is("f1 == 'test'"));
+        assertThat(field3.getDependencies().get(1).getType(), is(ValidationType.enabled));
+        assertThat(field3.getDependencies().get(1).getOn(), is(Arrays.asList("f2")));
+        assertThat(field3.getDependencies().get(1).getExpression(), is("f2 == 'test'"));
+        assertThat(field3.getDependencies().get(2).getType(), is(ValidationType.required));
+        assertThat(field3.getDependencies().get(2).getOn(), is(Arrays.asList("f3")));
+        assertThat(field3.getDependencies().get(2).getExpression(), is("f3 == 'test'"));
+
+        Field field4 = rows.get(3).getCols().get(0).getFields().get(0);
+        assertThat(field4.getVisible(), is(false));
+        assertThat(field4.getEnabled(), is(false));
+        assertThat(field4.getRequired(), is(false));
+        assertThat(field4.getDependencies().size(), is(3));
+        assertThat(field4.getDependencies().get(0).getType(), is(ValidationType.visible));
+        assertThat(field4.getDependencies().get(0).getOn(), is(Arrays.asList("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().get(0).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
+        assertThat(field4.getDependencies().get(1).getType(), is(ValidationType.enabled));
+        assertThat(field4.getDependencies().get(1).getOn(), is(Arrays.asList("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().get(1).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
+        assertThat(field4.getDependencies().get(2).getType(), is(ValidationType.required));
+        assertThat(field4.getDependencies().get(2).getOn(), is(Arrays.asList("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().get(2).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
     }
 }

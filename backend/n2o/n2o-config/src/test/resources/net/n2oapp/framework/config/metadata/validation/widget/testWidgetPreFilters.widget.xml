@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="utBlank">
     <pre-filters>
-        <eq field-id="name" value="test {name}"/>
+        <eq field-id="name" value="{name}"/>
     </pre-filters>
 </table>

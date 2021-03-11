@@ -12,8 +12,10 @@ import lombok.Setter;
 public class BarChartItem extends AbstractChartItem {
     @JsonProperty("dataKey")
     private String fieldId;
+    @JsonProperty
+    private String label;
     @JsonProperty("fill")
     private String color;
-    @JsonProperty("label")
+    @JsonProperty
     private Boolean hasLabel;
 }

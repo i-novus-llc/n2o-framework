@@ -72,9 +72,9 @@ function Cards(props) {
 
   return (
     <div className={cn('n2o-cards__container col-12', className)}>
-      {data &&
-        data.length &&
-        map(data, (item, index) => renderCard(item, index))}
+      {data && data.length
+        ? map(data, (item, index) => renderCard(item, index))
+        : ''}
     </div>
   );
 }

@@ -27,6 +27,8 @@ const NavItemContainer = ({
   options,
   direction,
 }) => {
+  const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />;
+
   const getInnerLink = (item, className) => (
     <NavLink
       exact
@@ -35,7 +37,7 @@ const NavItemContainer = ({
       activeClassName="active"
       target={item.target}
     >
-      {item.icon && <NavItemIcon />}
+      {item.icon && <NavItemIcon icon={item.icon} />}
       {item.label}
     </NavLink>
   );
@@ -43,8 +45,6 @@ const NavItemContainer = ({
   const renderBadge = item => (
     <Badge color={item.badgeColor}>{item.badge}</Badge>
   );
-
-  const NavItemIcon = () => <i className={cx('mr-1', item.icon)} />;
 
   const handleLink = (item, className) => {
     if (item.linkType === 'outer') {
@@ -71,7 +71,7 @@ const NavItemContainer = ({
             activeClassName="active"
             target={item.target}
           >
-            {item.icon && <NavItemIcon />}
+            {item.icon && <NavItemIcon icon={item.icon} />}
             {item.label}
           </NavLink>
           {renderBadge(item)}
@@ -84,7 +84,7 @@ const NavItemContainer = ({
     return (
       <UncontrolledDropdown nav inNavbar direction={direction}>
         <DropdownToggle nav caret>
-          {item.icon && <NavItemIcon />}
+          {item.icon && <NavItemIcon icon={item.icon} />}
           {item.label}
         </DropdownToggle>
         <DropdownMenu right={get(options, 'right', false)}>
@@ -106,7 +106,7 @@ const NavItemContainer = ({
     ) {
       dropdownItems = [
         <DropdownItem key={-1} onClick={e => e.preventDefault()}>
-          {item.icon && <NavItemIcon />}
+          {item.icon && <NavItemIcon icon={item.icon} />}
           <a className="dropdown-item">{item.oldLabel || item.label}</a>
         </DropdownItem>,
         ...dropdownItems,
@@ -115,7 +115,7 @@ const NavItemContainer = ({
   } else if (type === 'sidebar' && item.type === 'dropdown' && sidebarOpen) {
     const defaultLink = item => (
       <Link className="dropdown-item" to={item.href} target={item.target}>
-        {item.icon && <NavItemIcon />}
+        {item.icon && <NavItemIcon icon={item.icon} />}
         {item.label}
       </Link>
     );
@@ -135,7 +135,7 @@ const NavItemContainer = ({
     (item.type === 'link' && handleLink(item)) ||
     (item.type === 'text' && (
       <NavItem>
-        {item.icon && <NavItemIcon />}
+        {item.icon && <NavItemIcon icon={item.icon} />}
         <span className="nav-link">{item.label}</span>
       </NavItem>
     )) ||
