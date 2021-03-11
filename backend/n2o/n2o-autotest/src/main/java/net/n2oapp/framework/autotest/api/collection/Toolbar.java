@@ -14,9 +14,9 @@ public interface Toolbar extends ComponentsCollection {
 
     StandardButton button(Condition findBy);
 
-    DropdownButton dropdown();
+    DropdownButton subMenu();
 
-    DropdownButton dropdown(Condition findBy);
+    DropdownButton subMenu(Condition findBy);
 
     <T extends Button> T button(String label, Class<T> componentClass);
 

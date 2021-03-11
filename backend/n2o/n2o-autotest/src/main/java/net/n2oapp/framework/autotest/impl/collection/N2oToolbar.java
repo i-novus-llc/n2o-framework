@@ -22,12 +22,12 @@ public class N2oToolbar extends N2oComponentsCollection implements Toolbar {
     }
 
     @Override
-    public DropdownButton dropdown() {
+    public DropdownButton subMenu() {
         return button(Condition.cssClass("n2o-dropdown-control"), DropdownButton.class);
     }
 
     @Override
-    public DropdownButton dropdown(Condition findBy) {
+    public DropdownButton subMenu(Condition findBy) {
         return button(findBy, DropdownButton.class);
     }
 

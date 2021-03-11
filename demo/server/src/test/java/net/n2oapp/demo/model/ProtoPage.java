@@ -173,14 +173,14 @@ public class ProtoPage {
     }
 
     public ProtoClient editClientFromTableCell(int row) {
-        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().dropdown();
+        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().subMenu();
         dropdown.click();
         dropdown.menuItem("Изменить").click();
         return getModalProtoClient();
     }
 
     public void deleteClientFromTableCell(int row) {
-        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().dropdown();
+        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().subMenu();
         dropdown.click();
         dropdown.menuItem("Удалить").click();
     }
