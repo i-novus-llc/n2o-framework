@@ -10,13 +10,13 @@ public class DynamicUtilTest {
 
     @Test
     public void testResolveTokens() throws Exception {
-        Assert.assertEquals("provider$test", DynamicUtil.resolveTokens("provider${name}", "test"));
+        Assert.assertEquals("provider$_test", DynamicUtil.resolveTokens("provider$_{name}", "test"));
         Assert.assertEquals("provider$table_test", DynamicUtil.resolveTokens("provider$table_{name}", "test"));
-        Assert.assertEquals("provider$a,b,c", DynamicUtil.resolveTokens("provider${a},{b},{c}", "a", "b", "c"));
-        Assert.assertEquals("provider$a,b,a,b", DynamicUtil.resolveTokens("provider${a},{b},{a},{b}", "a", "b"));
-        Assert.assertEquals("provider$a,b,a,b", DynamicUtil.resolveTokens("provider${a},{b},{a},{b}", "a", "b", "c"));
+        Assert.assertEquals("provider$_a,b,c", DynamicUtil.resolveTokens("provider$_{a},{b},{c}", "a", "b", "c"));
+        Assert.assertEquals("provider$_a,b,a,b", DynamicUtil.resolveTokens("provider$_{a},{b},{a},{b}", "a", "b"));
+        Assert.assertEquals("provider$_a,b,a,b", DynamicUtil.resolveTokens("provider$_{a},{b},{a},{b}", "a", "b", "c"));
         try {
-            Assert.assertEquals("provider$a,b,a,b", DynamicUtil.resolveTokens("provider${a},{b},{a},{b}", "a"));
+            Assert.assertEquals("provider$_a,b,a,b", DynamicUtil.resolveTokens("provider$_{a},{b},{a},{b}", "a"));
             Assert.fail();
         } catch (IllegalStateException ignored) {
         }
