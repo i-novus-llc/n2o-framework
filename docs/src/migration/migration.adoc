@@ -9,6 +9,8 @@
 - Атрибут `mapping-condition` поля операции переименован в `enabled`.
 - Валидации полей теперь работают аналогично валидациям в object-4.0, а не object-3.0, как было раньше.
 Таким образом `<in-parameters>` и `<out-parameters>` переименованы в `<in>` и `<out>`, а `<param>` в `<field>`.
+- У всех кнопок упраздняются атрибуты `visibility-condition` и `enabled-condition`.
+Пока что только на уровне xml. Вместо них рекомендуется использовать атрибуты `visible` и `enabled`.
 
 
 ==== Миграция с 7.13 на 7.14
@@ -16,8 +18,6 @@
 *Изменения в XML API*
 
 - Атрибут `backdrop-closable` в `<open-drawer>` заменен на `close-on-backdrop`.
-- У всех кнопок упраздняются атрибуты `visibility-condition` и `enabled-condition`.
-Пока что только на уровне xml. Вместо них рекомендуется использовать атрибуты `visible` и `enabled`.
 
 *Изменения в сборке*
 
