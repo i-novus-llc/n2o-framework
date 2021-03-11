@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.button;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -31,7 +30,6 @@ public class ButtonEnabledAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless = false;
     }
 
     @Override
