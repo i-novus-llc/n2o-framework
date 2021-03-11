@@ -121,10 +121,10 @@ public abstract class StringUtils {
      *      hasLink("ab ${username} cd");        //false
      *      }
      * @param text Текст
-     * @return Соджержит (true) или нет (false)
+     * @return Содержит (true) или нет (false)
      */
     public static boolean hasLink(String text) {
-        return isLink(text) || linkPlaceHoldersResolver.hasPlaceHolders(text);
+        return text != null && text.matches(".*(?<![#$])\\{.+}.*");
     }
 
     /**
