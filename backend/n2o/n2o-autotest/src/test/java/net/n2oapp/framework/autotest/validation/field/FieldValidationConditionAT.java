@@ -58,6 +58,7 @@ public class FieldValidationConditionAT extends AutoTestBase {
         sendBtn.click();
         message.shouldHaveValidationMessage(Condition.exist);
 
+        type.shouldBeChecked("on");
         type.check("off");
         sendBtn.click();
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
