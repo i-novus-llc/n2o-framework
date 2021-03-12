@@ -18,7 +18,6 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
@@ -159,7 +158,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     private boolean isMappingEnabled(InvocationParameter inParam, Map<String, String> inMapping, DataSet inDataSet) {
-        boolean unmappable = inParam.getNullIgnore() != null && inParam.getNullIgnore() && inDataSet.get(inParam.getId()) == null
+        boolean unmappable = Boolean.TRUE.equals(inParam.getNullIgnore()) && inDataSet.get(inParam.getId()) == null
                 || inParam.getEnabled() != null && !ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
         if (unmappable) {
             inMapping.remove(inParam.getId());
