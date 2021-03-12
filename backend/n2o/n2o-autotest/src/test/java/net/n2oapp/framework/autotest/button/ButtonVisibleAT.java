@@ -49,7 +49,7 @@ public class ButtonVisibleAT extends AutoTestBase {
         RadioGroup type = form.fields().field("type").control(RadioGroup.class);
         Toolbar toolbar = form.toolbar().bottomLeft();
         StandardButton button = toolbar.button("Button");
-        DropdownButton subMenu = toolbar.subMenu();
+        DropdownButton subMenu = toolbar.dropdown();
         StandardButton item1 = subMenu.menuItem("item1");
         StandardButton item2 = subMenu.menuItem("item2");
 

@@ -91,7 +91,7 @@ public class FieldToolbarAT extends AutoTestBase {
         page.shouldExists();
         Fields fields = page.widget(FormWidget.class).fields();
 
-        DropdownButton dropdownButton = fields.field("sub").toolbar().subMenu();
+        DropdownButton dropdownButton = fields.field("sub").toolbar().dropdown();
         dropdownButton.shouldHaveItems(4);
         dropdownButton.click();
         dropdownButton.menuItem("Ссылка").shouldBeDisabled();

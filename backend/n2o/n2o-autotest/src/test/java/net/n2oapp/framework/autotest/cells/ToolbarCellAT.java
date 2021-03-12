@@ -56,7 +56,7 @@ public class ToolbarCellAT extends AutoTestBase {
         StandardButton button = toolbar.button("Кнопка");
         button.shouldExists();
 
-        DropdownButton dropdownButton = toolbar.subMenu();
+        DropdownButton dropdownButton = toolbar.dropdown();
         dropdownButton.shouldHaveItems(3);
         dropdownButton.click();
         dropdownButton.menuItem("one").shouldExists();
