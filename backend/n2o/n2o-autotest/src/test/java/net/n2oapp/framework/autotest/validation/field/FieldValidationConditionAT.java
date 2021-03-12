@@ -52,15 +52,14 @@ public class FieldValidationConditionAT extends AutoTestBase {
         RadioGroup type = widget.fields().field("validation").control(RadioGroup.class);
         StandardField message = widget.fields().field("message");
 
+        type.check("off");
+        sendBtn.click();
+        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+
         type.shouldBeEmpty();
         message.control(InputText.class).shouldBeEmpty();
         type.check("on");
         sendBtn.click();
         message.shouldHaveValidationMessage(Condition.exist);
-
-        type.shouldBeChecked("on");
-        type.check("off");
-        sendBtn.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
     }
 }
