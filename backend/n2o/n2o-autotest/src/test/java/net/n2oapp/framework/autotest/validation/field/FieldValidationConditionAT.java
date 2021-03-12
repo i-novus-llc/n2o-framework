@@ -52,11 +52,13 @@ public class FieldValidationConditionAT extends AutoTestBase {
         RadioGroup type = widget.fields().field("validation").control(RadioGroup.class);
         StandardField message = widget.fields().field("message");
 
+        type.shouldBeEmpty();
         type.check("off");
         sendBtn.click();
+        // ScriptEngine init waiting
+        page.alerts().alert(0).element().waitUntil(Condition.exist, 6000);
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
 
-        type.shouldBeEmpty();
         message.control(InputText.class).shouldBeEmpty();
         type.check("on");
         sendBtn.click();
