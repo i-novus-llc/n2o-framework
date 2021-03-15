@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="send">
+            <invocation>
+                <test file="net/n2oapp/framework/autotest/action/refresh/test.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="name"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+    </operations>
+</object>
