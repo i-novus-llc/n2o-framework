@@ -50,7 +50,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         compileAction(invokeAction, source, p);
         invokeAction.setOperationId(source.getOperationId());
         invokeAction.setType(p.resolve(property("n2o.api.action.invoke.type"), String.class));
-        String targetWidgetId = initTargetWidget(source, context, p);
+        String targetWidgetId = initTargetWidget(context, p);
         ReduxModel targetWidgetModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);

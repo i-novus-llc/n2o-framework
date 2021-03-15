@@ -37,7 +37,6 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testPrintAction.page.xml"));
-
     }
 
     @Test

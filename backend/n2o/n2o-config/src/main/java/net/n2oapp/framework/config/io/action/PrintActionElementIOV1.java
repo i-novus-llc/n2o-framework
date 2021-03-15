@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись действия печати
  */
 @Component
-public class PrintElementIOV1 extends AbstractActionElementIOV1<N2oPrintAction> {
+public class PrintActionElementIOV1 extends AbstractActionElementIOV1<N2oPrintAction> {
     @Override
     public void io(Element e, N2oPrintAction a, IOProcessor p) {
         super.io(e, a, p);
