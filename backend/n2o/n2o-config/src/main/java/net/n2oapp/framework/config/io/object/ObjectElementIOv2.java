@@ -44,7 +44,8 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "form-submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), null);
-        p.children(e, "in-parameters", "param", t::getInFields, t::setInFields, AbstractParameter.class, this::invParameter);
+        p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                .add("param", ObjectSimpleField.class, this::invParameter));
         p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outParameter);
         p.element(e, "confirmation-text", t::getConfirmationText, t::setConfirmationText);
         p.element(e, "bulk-confirmation-text", t::getBulkConfirmationText, t::setBulkConfirmationText);
@@ -82,7 +83,8 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
     private void constraint(Element e, N2oConstraint t, IOProcessor p) {
         validation(e, t, p);
         p.childAttribute(e, "result", "expression", t::getResult, t::setResult);
-        p.children(e, "in-parameters", "param", t::getInFields, t::setInFields, AbstractParameter.class, this::invParameter);
+        p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                .add("param", ObjectSimpleField.class, this::invParameter));
         p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outParameter);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), null);
     }

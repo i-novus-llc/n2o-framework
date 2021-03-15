@@ -317,6 +317,11 @@
                         <xs:documentation>Код ошибки валидации с сервера.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="mapping-condition" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -326,7 +331,13 @@
             <xs:documentation>Входящий составной параметр операции.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="referenceDefinition"/>
+            <xs:extension base="referenceDefinition">
+                <xs:attribute name="mapping-condition" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
@@ -362,11 +373,6 @@
         <xs:attribute name="required" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation>Обязательность параметра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="mapping-condition" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

@@ -62,7 +62,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private AbstractParameter[] inFields;
         private ObjectSimpleField[] outFields;
         private ObjectSimpleField[] failOutFields;
-        // будут убраны в следующей задаче
+        // TODO будут убраны в следующей задаче
         private Parameter[] inParameters;
         private Parameter[] outParameters;
         private Parameter[] failOutParameters;

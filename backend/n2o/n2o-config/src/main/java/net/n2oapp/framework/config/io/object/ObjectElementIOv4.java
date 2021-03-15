@@ -35,16 +35,46 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "module-name", t::getModuleName, t::setModuleName);
         p.children(e, "operations", "operation", t::getOperations, t::setOperations, N2oObject.Operation::new, this::operation);
         p.anyChildren(e, "fields", t::getObjectFields, t::setObjectFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::field)
-                .add("reference", ObjectReferenceField.class, this::reference)
-                .add("list", ObjectListField.class, this::reference)
-                .add("set", ObjectSetField.class, this::reference));
+                .add("field", ObjectSimpleField.class, this::inField)
+                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add("list", ObjectListField.class, this::inReference)
+                .add("set", ObjectSetField.class, this::inReference));
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraint.class, this::constraint)
                 .add("condition", N2oValidationCondition.class, this::condition)
                 .add("mandatory", N2oMandatory.class, this::mandatory)
                 .add("dialog", N2oValidationDialog.class, this::dialog));
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+    }
+
+    private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
+        p.attribute(e, "id", t::getId, t::setId);
+        p.attribute(e, "name", t::getName, t::setName);
+        p.attribute(e, "submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
+        p.attribute(e, "description", t::getDescription, t::setDescription);
+        p.attribute(e, "success-text", t::getSuccessText, t::setSuccessText);
+        p.attribute(e, "fail-text", t::getFailText, t::setFailText);
+        p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
+        p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
+        p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+        p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectSimpleField.class, this::inField)
+                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add("list", ObjectListField.class, this::inReference)
+                .add("set", ObjectSetField.class, this::inReference));
+        p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
+        p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
+        p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
+    }
+
+    private void operationInlineValidations(Element e, N2oObject.Operation.Validations t, IOProcessor p) {
+        p.attributeArray(e, "black-list", ",", t::getBlackList, t::setBlackList);
+        p.attributeArray(e, "white-list", ",", t::getWhiteList, t::setWhiteList);
+        p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
+                .add("constraint", N2oConstraint.class, this::constraint)
+                .add("condition", N2oValidationCondition.class, this::condition)
+                .add("mandatory", N2oMandatory.class, this::mandatory)
+                .add("dialog", N2oValidationDialog.class, this::dialog));
     }
 
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
@@ -61,60 +91,27 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
     }
 
-    private void reference(Element e, ObjectReferenceField t, IOProcessor p) {
-        abstractParameter(e, t, p);
-        p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
-        p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::field)
-                .add("reference", ObjectReferenceField.class, this::reference)
-                .add("list", ObjectListField.class, this::reference)
-                .add("set", ObjectSetField.class, this::reference));
-    }
-
-    private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
-        p.attribute(e, "id", t::getId, t::setId);
-        p.attribute(e, "name", t::getName, t::setName);
-        p.attribute(e, "submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
-        p.attribute(e, "description", t::getDescription, t::setDescription);
-        p.attribute(e, "success-text", t::getSuccessText, t::setSuccessText);
-        p.attribute(e, "fail-text", t::getFailText, t::setFailText);
-        p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
-        p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
-        p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
-        p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::field)
-                .add("reference", ObjectReferenceField.class, this::reference)
-                .add("list", ObjectListField.class, this::reference)
-                .add("set", ObjectSetField.class, this::reference));
-        p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
-        p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
-        p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
-    }
-
-    private void operationInlineValidations(Element e, N2oObject.Operation.Validations t, IOProcessor p) {
-        p.attributeArray(e, "black-list", ",", t::getBlackList, t::setBlackList);
-        p.attributeArray(e, "white-list", ",", t::getWhiteList, t::setWhiteList);
-        p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
-                .add("constraint", N2oConstraint.class, this::constraint)
-                .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory)
-                .add("dialog", N2oValidationDialog.class, this::dialog));
-    }
-
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
         field(e, t, p);
+        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
         p.attribute(e, "param", t::getParam, t::setParam);
         p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
     }
 
     private void inReference(Element e, ObjectReferenceField t, IOProcessor p) {
-        reference(e, t, p);
+        abstractParameter(e, t, p);
+        p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
+        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+        p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectSimpleField.class, this::inField)
+                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add("list", ObjectListField.class, this::inReference)
+                .add("set", ObjectSetField.class, this::inReference));
+        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
     }
 
     private void outField(Element e, ObjectSimpleField t, IOProcessor p) {
         field(e, t, p);
-        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {

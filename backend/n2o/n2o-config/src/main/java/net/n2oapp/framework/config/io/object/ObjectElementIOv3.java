@@ -65,7 +65,8 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         abstractParameter(e, t, p);
         p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
-//        p.children(e, null, "field", t::getFields, t::setFields, AbstractParameter.class, this::field);
+        p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectSimpleField.class, this::param));
     }
 
     private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
@@ -78,7 +79,8 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
         p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
-        p.children(e, "in-parameters", "param", t::getInFields, t::setInFields, AbstractParameter.class, this::param);
+        p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                .add("param", ObjectSimpleField.class, this::param));
         p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
@@ -115,7 +117,8 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
     private void constraint(Element e, N2oConstraint t, IOProcessor p) {
         validation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
-        p.children(e, "in-parameters", "param", t::getInFields, t::setInFields, ObjectSimpleField.class, this::param);
+        p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                .add("param", ObjectSimpleField.class, this::param));
         p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
     }
