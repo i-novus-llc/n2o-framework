@@ -11,4 +11,8 @@ public interface DropdownButton extends Button {
     StandardButton menuItem(String label);
 
     StandardButton menuItem(Condition by);
+
+    void shouldBeVisible();
+
+    void shouldNotBeVisible();
 }

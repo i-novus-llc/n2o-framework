@@ -104,7 +104,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
         assertThat(((ConstraintValidation) v2).getInParametersList().size(), is(1));
         assertThat(((ConstraintValidation) v2).getOutParametersList().size(), is(2));
         assertThat(v3.getId(), is("v3"));
-        assertThat(((MandatoryValidation) v3).getMandatoryExpression(), is("a==b"));
+        assertThat(((MandatoryValidation) v3).getEnablingExpression(), is("a==b"));
         assertThat(((MandatoryValidation) v3).getExpressionOn(), is("test"));
     }
 

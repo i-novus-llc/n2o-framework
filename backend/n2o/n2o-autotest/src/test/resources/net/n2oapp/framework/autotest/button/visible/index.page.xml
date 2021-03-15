@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Проверка условия видимости кнопок">
+    <form>
+        <fields>
+            <radio-group id="type">
+                <options>
+                    <option id="1" name="button and all menu items"/>
+                    <option id="2" name="first menu item"/>
+                    <option id="3" name="second menu item"/>
+                    <option id="4" name="none"/>
+                </options>
+            </radio-group>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Button" visible="{type.id == 1}"/>
+            <sub-menu label="SubMenu">
+                <menu-item label="item1" visible="{type.id == 1 || type.id == 2}"/>
+                <menu-item label="item2" visible="{type.id == 1 || type.id == 3}"/>
+            </sub-menu>
+        </toolbar>
+    </form>
+</simple-page>

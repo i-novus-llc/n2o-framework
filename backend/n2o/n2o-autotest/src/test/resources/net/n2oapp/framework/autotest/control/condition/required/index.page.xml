@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Проверка условия обязательности полей">
+    <form>
+        <fields>
+            <radio-group id="type">
+                <options>
+                    <option id="1" name="required"/>
+                    <option id="2" name="not required"/>
+                </options>
+            </radio-group>
+            <input-text id="field" label="message" required="{type.id == 1}"/>
+        </fields>
+    </form>
+</simple-page>
