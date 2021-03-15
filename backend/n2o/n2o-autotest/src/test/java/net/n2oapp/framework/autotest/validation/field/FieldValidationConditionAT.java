@@ -56,7 +56,7 @@ public class FieldValidationConditionAT extends AutoTestBase {
         type.check("off");
         sendBtn.click();
         // ScriptEngine init waiting
-        page.alerts().alert(0).element().waitUntil(Condition.exist, 6000);
+        page.alerts().alert(0).element().waitUntil(Condition.exist, 8000);
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
 
         message.control(InputText.class).shouldBeEmpty();
