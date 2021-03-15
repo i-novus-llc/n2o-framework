@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Сохранение фильтров при возврате назад">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+            <column text-field-id="type"/>
+        </columns>
+        <rows>
+            <click>
+                <open-page page-id="open" route="/:id/open">
+                    <path-param name="id" value="{id}"/>
+                </open-page>
+            </click>
+        </rows>
+        <filters>
+            <input-text id="name"/>
+        </filters>
+    </table>
+</simple-page>
