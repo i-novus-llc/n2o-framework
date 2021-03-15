@@ -135,7 +135,7 @@ function PopupItems({
   const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
       ? !item[enabledFieldId]
-      : isSelectedItem(selected, item)
+      : isSelectedItem(selected, item) && !hasCheckboxes
       ? true
       : !hasCheckboxes &&
         isDisabled(
