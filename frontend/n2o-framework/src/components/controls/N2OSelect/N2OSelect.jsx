@@ -6,6 +6,8 @@ import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import first from 'lodash/first';
 import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
+import filter from 'lodash/filter';
 import Button from 'reactstrap/lib/Button';
 import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
@@ -96,6 +98,44 @@ class N2OSelect extends React.Component {
     }
 
     this.setState(state);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { initial, options, valueFieldId } = this.props;
+
+    if (Array.isArray(initial) && !isEqual(initial, prevProps.initial)) {
+      const mapOptions = (data, type = 'string') => {
+        return data.map(option => ({
+          ...option,
+          ...{
+            [valueFieldId]:
+              type === 'number'
+                ? Number(option[valueFieldId])
+                : String(option[valueFieldId]),
+          },
+        }));
+      };
+
+      if (isEmpty(options)) {
+        this.setState({
+          selected: mapOptions(initial),
+        });
+      } else {
+        const selected = filter(
+          options,
+          option => {
+            const idType = typeof option[valueFieldId];
+
+            return find(mapOptions(initial, idType), option);
+          },
+          []
+        );
+
+        this.setState({
+          selected: selected,
+        });
+      }
+    }
   }
 
   /**
