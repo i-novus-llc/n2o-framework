@@ -58,13 +58,11 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
         p.read(e, t, (element, entity) -> {
             if (entity.getValidations() == null) {
                 entity.setValidations(new N2oObject.Operation.Validations());
-                entity.getValidations().setActivate(N2oObject.Operation.Validations.Activate.all);
             }
         });
     }
 
     private void actionValidations(Element e, N2oObject.Operation.Validations t, IOProcessor p) {
-        p.attributeEnum(e, "activate", t::getActivate, t::setActivate, N2oObject.Operation.Validations.Activate.class);
         p.children(e, null, "validation", t::getRefValidations, t::setRefValidations,
                 N2oObject.Operation.Validations.Validation.class, this::actionValidation);
     }

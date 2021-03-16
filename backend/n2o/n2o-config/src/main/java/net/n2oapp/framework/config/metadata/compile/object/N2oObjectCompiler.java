@@ -8,9 +8,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -23,7 +21,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -134,7 +131,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                     }
                 prepareOperationInvocation(operation.getInvocation(), source);
                 compiled.getOperations().put(compileOperation.getId(), compileOperation);
-                initOperationValidations(operation, compileOperation, source, compiled, context, p);
+                initOperationValidations(compileOperation, source, compiled, context, p);
             }
         }
     }
@@ -183,31 +180,33 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     /**
      * Инициализация валидаций операции объекта
      *
-     * @param operation         Операция исходной модели объекта
      * @param compiledOperation Операция скомпилированного объекта
      * @param source            Исходная модель объекта
      * @param compiled          Скомпилированный объект
      * @param context           Контекст сборки объекта
      * @param p                 Процессор сборки метаданных
      */
-    private void initOperationValidations(N2oObject.Operation operation, CompiledObject.Operation compiledOperation,
-                                          N2oObject source, CompiledObject compiled, C context, CompileProcessor p) {
+    private void initOperationValidations(CompiledObject.Operation compiledOperation, N2oObject source,
+                                          CompiledObject compiled, C context, CompileProcessor p) {
         if (compiledOperation.getValidations() != null) {
-            if (compiledOperation.getValidations().getActivate() == null
-                    && compiledOperation.getValidations().getBlackList() == null
-                    && compiledOperation.getValidations().getWhiteList() == null)
-                compiledOperation.getValidations().setActivate(N2oObject.Operation.Validations.Activate.all);
-            else if (compiledOperation.getValidations().getBlackList() != null && compiledOperation.getValidations().getWhiteList() != null)
+            boolean activateAll = false;
+            if (compiledOperation.getValidations().getBlackList() == null &&
+                    compiledOperation.getValidations().getWhiteList() == null &&
+                    source.getN2oValidations() != null) {
+                String[] whiteList = Arrays.stream(source.getN2oValidations())
+                        .map(N2oValidation::getId).toArray(String[]::new);
+                compiledOperation.getValidations().setWhiteList(whiteList);
+                activateAll = true;
+            } else if (compiledOperation.getValidations().getBlackList() != null &&
+                    compiledOperation.getValidations().getWhiteList() != null)
                 throw new N2oException("Whitelist is incompatible with blacklist");
-            if (compiledOperation.getValidations().getActivate() != null)
-                fillValidationsByActivate(operation, compiledOperation, source);
 
             List<Validation> validationList = new ArrayList<>();
             List<Validation> whiteListValidationList = new ArrayList<>();
 
             if (compiledOperation.getValidations().getWhiteList() != null)
                 whiteListValidationList = getWhiteListValidations(compiledOperation.getValidations().getWhiteList(),
-                        compiled.getValidationsMap(), validationList, compiledOperation.getValidations().getActivate());
+                        compiled.getValidationsMap(), validationList, activateAll);
             else if (compiledOperation.getValidations().getBlackList() != null)
                 validationList.addAll(getBlackListValidations(
                         compiledOperation.getValidations().getBlackList(), compiled.getValidationsMap()));
@@ -246,18 +245,17 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      * @param whiteList      Массив идентификаторов white валидаций операции скомпилированного объекта
      * @param validationsMap Map валидаций скомпилированного объекта
      * @param validationList Список всех валидаций операции
-     * @param activate       Тип активации валидаций
+     * @param activateAll    Используются ли все валидации
      * @return Список white валидаций операции объекта
      */
     private List<Validation> getWhiteListValidations(String[] whiteList, Map<String, Validation> validationsMap,
-                                                     List<Validation> validationList,
-                                                     N2oObject.Operation.Validations.Activate activate) {
+                                                     List<Validation> validationList, boolean activateAll) {
         List<Validation> whiteListValidations = new ArrayList<>();
         for (String name : whiteList) {
             Validation validation = validationsMap.get(name.trim());
             if (!Boolean.FALSE.equals(validation.getEnabled())) {
                 validationList.add(validation);
-                if (activate != N2oObject.Operation.Validations.Activate.all)
+                if (activateAll)
                     whiteListValidations.add(validation);
             }
         }
@@ -341,42 +339,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         for (Validation cv : controlValidations) {
             operationValidations.removeIf(validation -> validation.getId().equals(cv.getId()));
             operationValidations.add(cv);
-        }
-    }
-
-    /**
-     * Заполнение white или black списка валидаций операции скомпилированного объекта
-     * согласно типу активации его валидаций
-     *
-     * @param operation         Операция исходной модели объекта
-     * @param compiledOperation Операция скомпилированного объекта
-     * @param source            Исходная модель объекта
-     */
-    private void fillValidationsByActivate(N2oObject.Operation operation, CompiledObject.Operation compiledOperation, N2oObject source) {
-        switch (compiledOperation.getValidations().getActivate()) {
-            case all:
-                if (compiledOperation.getValidations().getWhiteList() == null &&
-                        compiledOperation.getValidations().getBlackList() == null &&
-                        source.getN2oValidations() != null) {
-                    String[] whiteList = Arrays.stream(source.getN2oValidations())
-                            .map(N2oValidation::getId).toArray(String[]::new);
-                    compiledOperation.getValidations().setWhiteList(whiteList);
-                }
-                break;
-            case whiteList:
-                String[] whiteList = Arrays.stream(operation.getValidations().getRefValidations())
-                        .map(N2oObject.Operation.Validations.Validation::getRefId)
-                        .toArray(String[]::new);
-                compiledOperation.getValidations().setWhiteList(whiteList);
-                break;
-            case blackList:
-                String[] blackList = Arrays.stream(operation.getValidations().getRefValidations())
-                        .map(N2oObject.Operation.Validations.Validation::getRefId)
-                        .toArray(String[]::new);
-                compiledOperation.getValidations().setBlackList(blackList);
-                break;
-            case nothing:
-                break;
         }
     }
 
