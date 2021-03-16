@@ -90,7 +90,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
       const currentVisible = field.visible === true;
       const nextVisible = Boolean(evalResult);
 
-      if (currentVisible === nextVisible) {
+      if (currentVisible === nextVisible && evalResult !== undefined) {
         break;
       }
 
