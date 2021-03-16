@@ -196,7 +196,7 @@ public class ValidationProcessorTest {
         ((MandatoryValidation) mandatory).setField(f);
         Validation condition = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory, condition));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 
@@ -219,7 +219,7 @@ public class ValidationProcessorTest {
         Validation condition1 = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
         Validation condition2 = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "name !== null");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -254,7 +254,7 @@ public class ValidationProcessorTest {
         mandatory2.setFieldId("widgetId");
         ((MandatoryValidation) mandatory2).setField(f2);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -289,7 +289,7 @@ public class ValidationProcessorTest {
         dataSet.put("id", null);
         dataSet.put("name", null);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 
@@ -318,7 +318,7 @@ public class ValidationProcessorTest {
         ConditionValidation condition1 = conditionValidation("checkEmailContainsAt", null,
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "email.indexOf('@') > -1");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(condition1));
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
@@ -362,7 +362,7 @@ public class ValidationProcessorTest {
         ConditionValidation condition3 = conditionValidation("checkEmailContainsAt3", "email",
                 SeverityType.warning, N2oValidation.ServerMoment.afterFailOperation, "email.indexOf('@') > -1");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
@@ -415,7 +415,7 @@ public class ValidationProcessorTest {
         Validation mandatory4 = mandatoryValidation("number", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
         ((MandatoryValidation) mandatory4).setField(f4);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3, mandatory4));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -444,7 +444,7 @@ public class ValidationProcessorTest {
                         + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(new Date(0)) + "'");
         ((ConditionValidation) condition3).setExpressionOn("date,oneMoreId");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -476,7 +476,7 @@ public class ValidationProcessorTest {
         ConstraintValidation constraint1 = constraintValidation("id", SeverityType.warning,
                 N2oValidation.ServerMoment.beforeOperation, inParamList);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation =new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(constraint1));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 

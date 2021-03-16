@@ -6,7 +6,7 @@ import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.util.Collection;
@@ -41,7 +41,7 @@ public class N2oOperationProcessor {
     public DataSet invoke(CompiledObject.Operation operation,
                           DataSet inDataSet,
                           Collection<? extends InvocationParameter> inParameters,
-                          Collection<? extends InvocationParameter> outParameters) {
+                          Collection<ObjectSimpleField> outParameters) {
         try {
             return invocationProcessor.invoke(
                     operation.getInvocation(),
@@ -62,7 +62,7 @@ public class N2oOperationProcessor {
      * @param e                 Исключение
      * @return Данные исключения по fail-out параметрам
      */
-    private DataSet getFailOutParameters(Map<String, N2oObject.Parameter> failOutParameters, Exception e) {
+    private DataSet getFailOutParameters(Map<String, ObjectSimpleField> failOutParameters, Exception e) {
         if (failOutParameters.isEmpty())
             return new DataSet();
 

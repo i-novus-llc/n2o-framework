@@ -4,6 +4,7 @@ package net.n2oapp.framework.api.data;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 
 import java.util.Collection;
 
@@ -24,7 +25,5 @@ public interface InvocationProcessor {
             N2oInvocation invocation,
             DataSet inDataSet,
             Collection<? extends InvocationParameter> inParameters,
-            Collection<? extends InvocationParameter> outParameters);
-
-
+            Collection<ObjectSimpleField> outParameters);
 }

@@ -13,18 +13,19 @@ public class ObjectSimpleField extends AbstractParameter {
     private String domain;
     private String defaultValue;
     private String normalize;
-    private String mappingCondition;
     private String param;
     private String validationFailKey;
 
     public ObjectSimpleField() {
     }
 
-    public ObjectSimpleField(String id, String name, String mapping, Boolean required, String domain) {
-        this.setId(id);
-        this.setName(name);
-        this.setMapping(mapping);
-        this.setRequired(required);
-        this.domain = domain;
+    public ObjectSimpleField(ObjectSimpleField field) {
+        this.setId(field.getId());
+        this.setMapping(field.getMapping());
+        this.setMappingCondition(field.getMappingCondition());
+        this.setRequired(field.getRequired());
+        this.setDomain(field.getDomain());
+        this.setDefaultValue(field.getDefaultValue());
+        this.setNormalize(field.getNormalize());
     }
 }

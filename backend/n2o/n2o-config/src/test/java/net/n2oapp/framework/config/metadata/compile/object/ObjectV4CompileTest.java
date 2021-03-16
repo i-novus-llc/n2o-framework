@@ -47,8 +47,6 @@ public class ObjectV4CompileTest extends SourceCompileTestBase {
         assertThat(op1.getFailText(), is("test"));
         assertThat(op1.getSuccessText(), is("test"));
         assertThat(op1.getConfirm(), is(true));
-        assertThat(op1.getInParamsSet().size(), is(1));
-        assertThat(op1.getOutParamsSet().size(), is(1));
         assertThat(((N2oSqlDataProvider) op1.getInvocation()).getQuery(), is("select 1"));
         assertThat(object.getOperations().get("op2").getId(), is("op2"));
 

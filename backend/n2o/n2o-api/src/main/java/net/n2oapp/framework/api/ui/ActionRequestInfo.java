@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
@@ -33,7 +34,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
 
     //mutable
     private Map<String, N2oObject.Parameter> inParametersMap = new LinkedHashMap<>();
-    private Map<String, N2oObject.Parameter> outParametersMap = new LinkedHashMap<>();
+    private Map<String, ObjectSimpleField> outParametersMap = new LinkedHashMap<>();
     /**
      * "Сырые" данные, не приведенные к домену
      */
@@ -48,8 +49,8 @@ public class ActionRequestInfo<D> extends RequestInfo {
             }
         if (operation.getOutParametersMap() != null)
             for (String paramName : operation.getOutParametersMap().keySet()) {
-                N2oObject.Parameter srcParam = operation.getOutParametersMap().get(paramName);
-                outParametersMap.put(paramName, new N2oObject.Parameter(srcParam));
+                ObjectSimpleField srcParam = operation.getOutParametersMap().get(paramName);
+                outParametersMap.put(paramName, new ObjectSimpleField(srcParam));
             }
     }
 

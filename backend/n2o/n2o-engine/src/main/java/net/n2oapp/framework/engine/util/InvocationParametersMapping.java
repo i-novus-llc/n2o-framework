@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
@@ -29,11 +29,11 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.inMap;
  */
 public class InvocationParametersMapping {
 
-    public static Map<String, String> extractMapping(Collection<? extends InvocationParameter> parameters) {
+    public static Map<String, String> extractMapping(Collection<? extends AbstractParameter> parameters) {
         Map<String, String> mapping = new LinkedHashMap<>();
-        if (parameters != null) for (InvocationParameter parameter : parameters) {
-            mapping.put(parameter.getId(), parameter.getMapping());
-        }
+        if (parameters != null)
+            for (AbstractParameter parameter : parameters)
+                mapping.put(parameter.getId(), parameter.getMapping());
         return mapping;
     }
 

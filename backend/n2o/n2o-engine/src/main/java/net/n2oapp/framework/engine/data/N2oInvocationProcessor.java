@@ -11,9 +11,11 @@ import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.util.MappingProcessor;
@@ -50,7 +52,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             N2oInvocation invocation,
             DataSet inDataSet,
             Collection<? extends InvocationParameter> inParameters,
-            Collection<? extends InvocationParameter> outParameters) {
+            Collection<ObjectSimpleField> outParameters) {
         final Map<String, String> inMapping = InvocationParametersMapping.extractMapping(inParameters);
         final Map<String, String> outMapping = InvocationParametersMapping.extractMapping(outParameters);
         DataSet resolvedInDataSet = resolveInValues(inMapping, inParameters, inDataSet);
@@ -77,14 +79,12 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
 
-    protected void resolveOutValues(Collection<? extends InvocationParameter> invocationParameters, DataSet resultDataSet) {
+    protected void resolveOutValues(Collection<ObjectSimpleField> invocationParameters, DataSet resultDataSet) {
         if (invocationParameters == null) return;
-        for (InvocationParameter parameter : invocationParameters) {
-            if (parameter.getDefaultValue() != null)
-                if (parameter.getMapping() == null) {
-                    resultDataSet.put(parameter.getId(), contextProcessor.resolve(parameter.getDefaultValue()));
-                }
-        }
+
+        for (ObjectSimpleField parameter : invocationParameters)
+            if (parameter.getDefaultValue() != null && parameter.getMapping() == null)
+                resultDataSet.put(parameter.getId(), contextProcessor.resolve(parameter.getDefaultValue()));
     }
 
     protected DataSet resolveInValues(Map<String, String> inMapping,
