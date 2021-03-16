@@ -16,7 +16,7 @@ describe('Тесты HelpPopover', () => {
   });
   it('Показывает подсказку', () => {
     const wrapper = setupPopover();
-    wrapper.find('.n2o-popover-btn').simulate('click');
+    wrapper.find('.n2o-popover-btn').simulate('focus');
     expect(wrapper.find('.n2o-popover-body').exists()).toEqual(true);
   });
 });
