@@ -48,6 +48,7 @@
                     <artifactId>junit</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
