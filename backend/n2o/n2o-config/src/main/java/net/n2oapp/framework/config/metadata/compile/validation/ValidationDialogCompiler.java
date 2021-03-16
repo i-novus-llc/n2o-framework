@@ -4,8 +4,9 @@ import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -32,19 +33,19 @@ public class ValidationDialogCompiler extends BaseValidationCompiler<ValidationD
         validation.setId(source.getId());
 
         //in
-        List<InvocationParameter> inParams = new ArrayList<>();
+        List<AbstractParameter> inParams = new ArrayList<>();
         if (source.getInParameters() != null)
-            for (N2oObject.Parameter parameter : source.getInParameters())
+            for (AbstractParameter parameter : source.getInFields())
                 inParams.add(new InvocationParameter(parameter));
         validation.setInParametersList(inParams);
 
         //out
-        List<InvocationParameter> outParams = new ArrayList<>();
-        if (source.getOutParameters() != null)
-            for (N2oObject.Parameter parameter : source.getOutParameters())
-                outParams.add(new InvocationParameter(parameter));
+        List<ObjectSimpleField> outParams = new ArrayList<>();
+        if (source.getOutFields() != null)
+            for (ObjectSimpleField parameter : source.getOutFields())
+                outParams.add(new ObjectSimpleField(parameter));
 
-        InvocationParameter resultParam = new InvocationParameter();
+        ObjectSimpleField resultParam = new ObjectSimpleField();
         resultParam.setId(CompiledObject.VALIDATION_RESULT_PARAM);
         resultParam.setMapping(source.getResult());
         outParams.add(resultParam);

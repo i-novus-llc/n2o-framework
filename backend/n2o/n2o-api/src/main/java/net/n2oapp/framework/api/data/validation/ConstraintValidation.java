@@ -8,7 +8,9 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.util.List;
@@ -24,8 +26,8 @@ import java.util.stream.Collectors;
 public class ConstraintValidation extends Validation {
     private Set<String> requiredFields;
     private N2oInvocation invocation;
-    private List<InvocationParameter> inParametersList;
-    private List<InvocationParameter> outParametersList;
+    private List<AbstractParameter> inParametersList;
+    private List<ObjectSimpleField> outParametersList;
 
     public ConstraintValidation(ConstraintValidation validation) {
         super(validation);
@@ -35,10 +37,10 @@ public class ConstraintValidation extends Validation {
         this.outParametersList = validation.getOutParametersList();
     }
 
-    public void setInParametersList(List<InvocationParameter> inParametersList) {
+    public void setInParametersList(List<AbstractParameter> inParametersList) {
         this.requiredFields = inParametersList.stream()
                 .filter(p -> p.getRequired() != null && p.getRequired())
-                .map(InvocationParameter::getId)
+                .map(AbstractParameter::getId)
                 .collect(Collectors.toSet());
         this.inParametersList = inParametersList;
     }

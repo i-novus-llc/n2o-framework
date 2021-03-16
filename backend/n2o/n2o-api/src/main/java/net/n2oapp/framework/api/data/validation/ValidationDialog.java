@@ -8,7 +8,8 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
@@ -24,8 +25,8 @@ import java.util.Map;
 public class ValidationDialog extends Validation {
     private N2oInvocation invocation;
     private N2oDialog dialog;
-    private List<InvocationParameter> inParametersList;
-    private List<InvocationParameter> outParametersList;
+    private List<AbstractParameter> inParametersList;
+    private List<ObjectSimpleField> outParametersList;
 
     @Override
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
@@ -36,7 +37,7 @@ public class ValidationDialog extends Validation {
         else {
             Map<String, String> outMapping = new LinkedHashMap<>();
             if (outParametersList != null)
-                for (InvocationParameter parameter : outParametersList)
+                for (ObjectSimpleField parameter : outParametersList)
                     outMapping.put(parameter.getId(), parameter.getMapping());
             result = DataSetMapper.extract(dataSet, outMapping);
         }

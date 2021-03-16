@@ -4,8 +4,9 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import org.springframework.stereotype.Component;
@@ -32,18 +33,18 @@ public class ConstraintValidationCompiler extends BaseValidationCompiler<Constra
         validation.setSeverity(source.getSeverity());
 
         //in
-        List<InvocationParameter> inParams = new ArrayList<>();
+        List<AbstractParameter> inParams = new ArrayList<>();
         if (source.getInParameters() != null)
-            for (N2oObject.Parameter parameter : source.getInParameters())
+            for (AbstractParameter parameter : source.getInFields())
                 inParams.add(new InvocationParameter(parameter));
         validation.setInParametersList(inParams);
 
         //out
-        List<InvocationParameter> outParams = new ArrayList<>();
+        List<ObjectSimpleField> outParams = new ArrayList<>();
         if (source.getOutParameters() != null)
-            for (N2oObject.Parameter parameter : source.getOutParameters())
-                outParams.add(new InvocationParameter(parameter));
-        InvocationParameter resultParam = new InvocationParameter();
+            for (ObjectSimpleField parameter : source.getOutFields())
+                outParams.add(new ObjectSimpleField(parameter));
+        ObjectSimpleField resultParam = new ObjectSimpleField();
 
         resultParam.setId(CompiledObject.VALIDATION_RESULT_PARAM);
         resultParam.setMapping(source.getResult());
