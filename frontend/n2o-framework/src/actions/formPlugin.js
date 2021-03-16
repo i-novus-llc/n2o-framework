@@ -238,7 +238,7 @@ export function setRequired(form, name) {
   return createActionHelper(
     SET_REQUIRED,
     payload => payload,
-    ({ form }) => ({ form })
+    ({ form }) => ({ form, field: name })
   )({
     name,
     form,
@@ -254,7 +254,7 @@ export function unsetRequired(form, name) {
   return createActionHelper(
     UNSET_REQUIRED,
     payload => payload,
-    ({ form }) => ({ form })
+    ({ form }) => ({ form, field: name })
   )({
     name,
     form,

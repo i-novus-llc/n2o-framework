@@ -218,7 +218,7 @@ export function* resolveDependency(action) {
 export function* catchAction() {
   yield takeEvery(actionTypes.INITIALIZE, resolveDependency);
   // ToDo: Убрать debounce и вообще по возможности REGISTER_FIELD_EXTRA
-  yield debounce(300, REGISTER_FIELD_EXTRA, resolveDependency);
+  yield debounce(50, REGISTER_FIELD_EXTRA, resolveDependency);
   yield takeEvery(actionTypes.CHANGE, resolveDependency);
 }
 
