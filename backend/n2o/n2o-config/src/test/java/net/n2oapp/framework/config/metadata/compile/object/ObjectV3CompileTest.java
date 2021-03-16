@@ -120,8 +120,6 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
         assertThat(operationInParam.getNormalize(), is("#{ T(java.lang.Math).random() * 100.0 }"));
         assertThat(operationInParam.getDefaultValue(), is("test"));
 
-        assertThat(object.getOperations().get("test").getInParametersMap().get("test7").getNullIgnore(), is(true));
-
         InvocationParameter inParam = object.getOperations().get("test").getInParametersMap().get("test5").getChildParams()[0];
         assertThat(inParam.getId(), is("testField1"));
         assertThat(inParam.getMapping(), is("testField1"));
@@ -146,7 +144,6 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
 
         operationInParam = object.getOperations().get("test").getInParametersMap().get("test3");
         assertThat(operationInParam.getId(), is("test3"));
-        assertThat(operationInParam.getNullIgnore(), is(true));
 
         assertThat(validationInParam.getId(), is("test"));
         assertThat(validationInParam.getDomain(), is("string"));

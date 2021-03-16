@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -124,9 +125,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                         AbstractParameter compiledParameter = compiled.getObjectFieldsMap().get(parameter.getId());
                         if (compiledParameter != null) {
                             parameter.setPluralityType(compiledParameter.getPluralityType());
-                            parameter.setNullIgnore(p.cast(parameter.getNullIgnore(), compiledParameter.getNullIgnore()));
-//                            if (compiledParameter instanceof ObjectReferenceField)
-//                                initRefFieldChildParams(parameter, ((ObjectReferenceField) compiledParameter), p);
+                            if (compiledParameter instanceof ObjectReferenceField)
+                                initRefFieldChildParams(parameter, ((ObjectReferenceField) compiledParameter), p);
                         }
                     }
                 prepareOperationInvocation(operation.getInvocation(), source);

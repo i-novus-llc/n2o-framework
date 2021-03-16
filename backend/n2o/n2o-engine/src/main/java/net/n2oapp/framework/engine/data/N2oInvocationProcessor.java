@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
-import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
@@ -20,7 +19,6 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
@@ -162,8 +160,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     private void resolveMappingCondition(InvocationParameter inParam,
                                          Map<String, String> inMapping,
                                          DataSet inDataSet) {
-        boolean unmappable = inParam.getNullIgnore() != null && inParam.getNullIgnore() && inDataSet.get(inParam.getId()) == null
-                || inParam.getMappingCondition() != null && !ScriptProcessor.evalForBoolean(inParam.getMappingCondition(), inDataSet);
+        boolean unmappable = inDataSet.get(inParam.getId()) == null ||
+                inParam.getMappingCondition() != null && !ScriptProcessor.evalForBoolean(inParam.getMappingCondition(), inDataSet);
         if (unmappable) {
             inMapping.remove(inParam.getId());
         }

@@ -110,7 +110,6 @@ public class N2oObject extends N2oMetadata implements NameAware {
         public Parameter(Parameter parameter) {
             super(parameter);
             setChildParams(parameter.getChildParams());
-            setNullIgnore(parameter.getNullIgnore());
             setPluralityType(parameter.getPluralityType());
             setParam(parameter.getParam());
         }

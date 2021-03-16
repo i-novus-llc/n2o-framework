@@ -150,8 +150,6 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(field.getId(), is("f2"));
         assertThat(field.getName(), is("F2"));
         assertThat(((ObjectReferenceField) field).getReferenceObjectId(), is("utAction"));
-        assertThat(((ObjectReferenceField) field).getObjectReferenceFields().size(), is(1));
-        assertThat(((ObjectReferenceField) field).getObjectReferenceFields().get(0).getId(), is("id"));
 
         field = object.getOperations().get("create").getInParametersMap().get("f1");
         assertThat(field.getMapping(), is("['test']"));
