@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Вторая страница">
+    <regions>
+        <form query-id="test">
+            <fields>
+                <row>
+                    <input-text id="id" enabled="false"/>
+                    <input-text id="name" enabled="false"/>
+                </row>
+            </fields>
+            <pre-filters>
+                <eq field-id="id" param="id"/>
+            </pre-filters>
+        </form>
+
+        <table query-id="test">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </columns>
+            <filters>
+                <input-text id="type"/>
+            </filters>
+        </table>
+    </regions>
+</page>
+
