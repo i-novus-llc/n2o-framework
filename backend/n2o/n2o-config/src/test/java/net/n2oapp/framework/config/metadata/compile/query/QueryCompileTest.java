@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -97,21 +96,21 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testQuery.widget.xml");
         Form form = (Form) pipeline.get(new WidgetContext("testQuery"));
 
-        //label филда приходит из объекта
-        assertThat(((StandardField) form.getComponent().getFieldsets()
-                .get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getLabel(), is("F1"));
+        //label филда приходит из query
+        assertThat(form.getComponent().getFieldsets()
+                .get(0).getRows().get(0).getCols().get(0).getFields().get(0).getLabel(), is("f1"));
 
         //label филда приходит из query
-        assertThat(((StandardField) form.getComponent().getFieldsets()
-                .get(0).getRows().get(0).getCols().get(1).getFields().get(0)).getLabel(), is("AUTO"));
+        assertThat(form.getComponent().getFieldsets()
+                .get(0).getRows().get(0).getCols().get(1).getFields().get(0).getLabel(), is("AUTO"));
 
         //label филда проставлен в виджете
-        assertThat(((StandardField) form.getComponent().getFieldsets()
-                .get(0).getRows().get(0).getCols().get(2).getFields().get(0)).getLabel(), is("testManual"));
+        assertThat(form.getComponent().getFieldsets()
+                .get(0).getRows().get(0).getCols().get(2).getFields().get(0).getLabel(), is("testManual"));
 
-        //label филда проставлен в объекте, самого филда нет в query
-        assertThat(((StandardField) form.getComponent().getFieldsets()
-                .get(0).getRows().get(0).getCols().get(3).getFields().get(0)).getLabel(), is("F2"));
+        //label филда проставлен в виджете
+        assertThat(form.getComponent().getFieldsets()
+                .get(0).getRows().get(0).getCols().get(3).getFields().get(0).getLabel(), is("f2"));
     }
 
     /**

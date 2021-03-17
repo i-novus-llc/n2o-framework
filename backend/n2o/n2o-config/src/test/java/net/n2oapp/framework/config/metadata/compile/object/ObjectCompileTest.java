@@ -140,14 +140,12 @@ public class ObjectCompileTest extends SourceCompileTestBase {
 
         AbstractParameter field = object.getObjectFieldsMap().get("f1");
         assertThat(field.getId(), is("f1"));
-        assertThat(field.getName(), is("F1"));
         assertThat(field.getRequired(), is(true));
         assertThat(field.getMapping(), is("['test']"));
         assertThat(((ObjectSimpleField) field).getDomain(), is("integer"));
 
         field = object.getObjectFieldsMap().get("f2");
         assertThat(field.getId(), is("f2"));
-        assertThat(field.getName(), is("F2"));
         assertThat(((ObjectReferenceField) field).getReferenceObjectId(), is("utAction"));
 
         field = object.getOperations().get("create").getInParametersMap().get("f1");

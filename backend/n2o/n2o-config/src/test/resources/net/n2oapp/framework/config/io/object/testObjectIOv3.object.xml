@@ -5,9 +5,9 @@
         module-name="module-name" service-class="service-class"
         service-name="service-name" table-name="table-name">
     <fields>
-        <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
+        <field id="test" domain="string" mapping="birth_date" required="true" default-value="test"
                normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
-        <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
+        <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
              required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>

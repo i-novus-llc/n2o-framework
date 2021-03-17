@@ -8,10 +8,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -54,7 +51,6 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setCounts(initSeparators(source.getCounts(), p));
         query.setValidations(context.getValidations());
         List<N2oQuery.Field> fields = Arrays.asList(source.getFields());
-        fields = initDefaultByObject(fields, query.getObject());
         fields = initDefaultFields(fields);
         fields = initDefaultFilters(fields, p);
         fields = initDefaultMapping(fields);
@@ -211,30 +207,6 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             result.put(queryField.getId(), filters);
         });
         return result;
-    }
-
-
-    private List<N2oQuery.Field> initDefaultByObject(List<N2oQuery.Field> fields, CompiledObject object) {
-        if (object == null) return fields;
-        Map<String, AbstractParameter> objectFields = object.getObjectFieldsMap();
-        for (N2oQuery.Field field : fields) {
-            if (!objectFields.containsKey(field.getId()))
-                continue;
-            AbstractParameter of = objectFields.get(field.getId());
-            if (field.getDomain() == null) {
-                String domain = "string";
-                if ((of instanceof ObjectSimpleField) && (((ObjectSimpleField) of).getDomain() != null)) {
-                    domain = ((ObjectSimpleField) of).getDomain();
-                }
-                field.setDomain(domain);
-            }
-            if (field.getName() == null) {
-                field.setName(of.getName());
-            }
-            if (field.getSelectMapping() == null)
-                field.setSelectMapping(of.getMapping());
-        }
-        return fields;
     }
 
     private List<N2oQuery.Field> initDefaultFilters(List<N2oQuery.Field> fields, CompileProcessor p) {

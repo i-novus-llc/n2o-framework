@@ -91,8 +91,8 @@ public class Validator {
                 for (AbstractParameter inParam : v.getInParametersList()) {
                     if (inParam.getRequired() != null
                             && inParam.getRequired()
-                            && v.getRequiredFields().contains(inParam.getName())
-                            && !dataSet.containsKey(inParam.getName())) {
+                            && v.getRequiredFields().contains(inParam.getId())
+                            && !dataSet.containsKey(inParam.getId())) {
                         return false;
                     }
                 }

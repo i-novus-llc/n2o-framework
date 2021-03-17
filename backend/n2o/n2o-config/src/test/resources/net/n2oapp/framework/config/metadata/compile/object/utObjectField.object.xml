@@ -3,8 +3,8 @@
         name="utObjectField">
 
     <fields>
-        <field id="f1" domain="integer" mapping="['test']" name="F1" required="true"/>
-        <reference id="f2" object-id="utAction" name="F2"/>
+        <field id="f1" domain="integer" mapping="['test']" required="true"/>
+        <reference id="f2" object-id="utAction"/>
     </fields>
 
     <operations>

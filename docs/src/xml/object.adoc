@@ -71,11 +71,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |Идентификатор поля
 |
 
-|name
-|Строка
-|Наименование поля
-|
-
 |default-value
 |Строка
 |Значение по умолчанию
@@ -128,11 +123,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |object-id
 |Ссылка
 |Объект, в котором представлено описание поля
-|
-
-|name
-|Строка
-|Наименование поля
 |
 
 |entity-class

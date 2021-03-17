@@ -8,12 +8,10 @@ import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
-import net.n2oapp.framework.config.metadata.compile.query.N2oQueryCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -34,17 +32,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oDataProvidersPack())
                 .ios(new QueryElementIOv4(), new ObjectElementIOv2())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query_field_defaults/utQueryFieldDefaults.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/query_field_defaults/utQueryFieldDefaults.object.xml"));
-    }
-
-    @Test
-    public void defaultsByObject() {
-        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
-        N2oQuery.Field objectName = query.getFieldsMap().get("objectName");
-        assertThat(objectName.getName(), is("object name"));
-        assertThat(objectName.getDomain(), is("string"));
-        assertThat(objectName.getSelectMapping(), is("mapping"));
+                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query_field_defaults/utQueryFieldDefaults.query.xml"));
     }
 
     @Test
@@ -57,7 +45,6 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
         assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getMapping(), is("['gender.id']"));
         assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getText(), nullValue());
     }
-
 
     @Test
     public void defaultsBodyAndMappingWithExpression() {

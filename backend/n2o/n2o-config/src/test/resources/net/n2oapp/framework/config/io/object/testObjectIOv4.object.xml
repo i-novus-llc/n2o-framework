@@ -5,17 +5,17 @@
         module-name="module-name" service-class="service-class"
         service-name="service-name" table-name="table-name">
     <fields>
-        <reference id="ref" name="refName" object-id="utBlank" mapping="ref2"
+        <reference id="ref" object-id="utBlank" mapping="ref2"
                    entity-class="ref" required="true">
-            <field id="id" name="id"/>
-            <field id="name" name="title"/>
+            <field id="id"/>
+            <field id="name"/>
             <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
             <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
             <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
         </reference>
-        <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
+        <field id="test" domain="string" mapping="birth_date" required="true" default-value="test"
                normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
-        <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
+        <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
              required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
@@ -23,7 +23,7 @@
             <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
             <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
         </set>
-        <list id="testSet2" object-id="utBlank" name="testSet2" mapping="birth_date" entity-class="list"
+        <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
               required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
@@ -41,21 +41,21 @@
             <in>
                 <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
                 <field id="testSet" param="param" validation-fail-key="update.person.id" enabled="type=='type1'"/>
-                <reference id="ref" name="refName" object-id="utBlank" mapping="ref2"
+                <reference id="ref" object-id="utBlank" mapping="ref2"
                            entity-class="ref" required="true" enabled="type=='type1'">
-                    <field id="id" name="id"/>
+                    <field id="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
                     <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
                     <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
                 </reference>
-                <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
+                <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
                      required="true">
                     <field id="id" mapping="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
                     <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
                     <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
                 </set>
-                <list id="testSet2" object-id="utBlank" name="testSet2" mapping="birth_date" entity-class="list"
+                <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
                       required="true">
                     <field id="id" mapping="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
