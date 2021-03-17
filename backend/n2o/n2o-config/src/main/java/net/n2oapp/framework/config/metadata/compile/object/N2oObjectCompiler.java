@@ -20,6 +20,7 @@ import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import org.springframework.stereotype.Component;
+import org.springframework.util.SerializationUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -96,7 +97,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 if (validation instanceof N2oInvocationValidation) {
                     N2oInvocationValidation invocationValidation = (N2oInvocationValidation) validation;
                     if (invocationValidation.getInParameters() != null)
-                        for (N2oObject.Parameter parameter : invocationValidation.getInParameters()) {
+                        for (AbstractParameter parameter : invocationValidation.getInParameters()) {
                             resolveDefaultParameter(parameter, compiled);
                             parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                         }
@@ -120,15 +121,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (source.getOperations() != null) {
             for (N2oObject.Operation operation : source.getOperations()) {
                 final CompiledObject.Operation compileOperation = compileOperation(operation, compiled, p);
-                if (operation.getInFields() != null)
-                    for (AbstractParameter parameter : operation.getInFields()) {
-                        AbstractParameter compiledParameter = compiled.getObjectFieldsMap().get(parameter.getId());
-                        if (compiledParameter != null) {
-                            parameter.setPluralityType(compiledParameter.getPluralityType());
-                            if (compiledParameter instanceof ObjectReferenceField)
-                                initRefFieldChildParams(parameter, ((ObjectReferenceField) compiledParameter), p);
-                        }
-                    }
                 prepareOperationInvocation(operation.getInvocation(), source);
                 compiled.getOperations().put(compileOperation.getId(), compileOperation);
                 initOperationValidations(compileOperation, source, compiled, context, p);
@@ -153,29 +145,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                         .forEach(arg -> arg.setClassName(source.getEntityClass()));
         }
     }
-
-//    /**
-//     * Инициализация дочерних полей ссылочного поля объекта
-//     *
-//     * @param parameter         Параметр исходной модели объекта
-//     * @param compiledParameter Параметр скомпилированного объекта
-//     * @param p                 Процессор сборки метаданных
-//     */
-//    private void initRefFieldChildParams(N2oObject.Parameter parameter, ObjectReferenceField compiledParameter, CompileProcessor p) {
-//        List<N2oObject.Parameter> childParams = new ArrayList<>();
-//        for (ObjectSimpleField field : compiledParameter.getObjectReferenceFields()) {
-//            N2oObject.Parameter childParam = new N2oObject.Parameter();
-//            childParam.setId(field.getId());
-//            childParam.setMapping(field.getMapping());
-//            childParam.setNormalize(field.getNormalize());
-//            childParam.setDomain(field.getDomain());
-//            childParam.setDefaultValue(field.getDefaultValue());
-//            childParams.add(childParam);
-//        }
-//        parameter.setEntityClass(p.cast(parameter.getEntityClass(), compiledParameter.getEntityClass()));
-//        parameter.setMapping(p.cast(parameter.getMapping(), compiledParameter.getMapping()));
-//        parameter.setChildParams(childParams.toArray(new N2oObject.Parameter[0]));
-//    }
 
     /**
      * Инициализация валидаций операции объекта
@@ -363,18 +332,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private CompiledObject.Operation compileOperation(N2oObject.Operation operation, CompiledObject compiled, CompileProcessor processor) {
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation();
-        Map<String, AbstractParameter> inParamMap = prepareOperationParameters(operation.getInFields(), compiled,
-                p -> p.setRequired(castDefault(p.getRequired(), false)));
-
-        compiledOperation.setOutParametersMap(prepareOperationOutParameters(operation.getOutFields(), compiled));
-        compiledOperation.setFailOutParametersMap(prepareOperationOutParameters(operation.getFailOutFields(), compiled));
+        compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled));
+        compiledOperation.setOutParametersMap(
+                Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())));
+        compiledOperation.setFailOutParametersMap(
+                Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())));
 
         compileOperationProperties(operation, compiledOperation, processor);
-        if (compiledOperation.getInParametersMap() != null)
-            for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values())
-                resolveDefaultParameter(parameter, compiled);
-
-        compiledOperation.setProperties((processor.mapAttributes(operation)));
+        compiledOperation.setProperties(processor.mapAttributes(operation));
         return compiledOperation;
     }
 
@@ -408,41 +373,70 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     }
 
     /**
-     * Выполнение подготовительных действий над исходящими параметрами (out или fail-out) операции объекта
+     * Выполнение подготовительных действий над входящими параметрами операции объекта
      * и сборка их в map
      *
-     * @param parameters Исходящие параметры операции исходной модели объекта
+     * @param parameters Входящие параметры операции исходной модели объекта
      * @param compiled   Скомпилированный объект
-     * @return Map исходящих параметров операции исходной модели объекта
+     * @return Map входящих параметров операции исходной модели объекта
      */
-    private Map<String, ObjectSimpleField> prepareOperationOutParameters(ObjectSimpleField[] parameters, CompiledObject compiled) {
-        Map<String, ObjectSimpleField> outParamsMap = new LinkedHashMap<>();
+    private Map<String, AbstractParameter> prepareOperationInParameters(AbstractParameter[] parameters, CompiledObject compiled) {
+        Map<String, AbstractParameter> inFieldsMap = new LinkedHashMap<>();
         if (parameters != null)
-            for (ObjectSimpleField p : parameters) {
-                resolveDefault(p, compiled);
-                outParamsMap.put(p.getId(), p);
+            for (AbstractParameter parameter : parameters) {
+                AbstractParameter field = compiled.getObjectFieldsMap().get(parameter.getId());
+                if (field != null)
+                    prepareOperationInParameter(parameter, field);
+                inFieldsMap.put(parameter.getId(), parameter);
             }
-        return outParamsMap;
+        return inFieldsMap;
+    }
+
+    private void prepareOperationInParameter(AbstractParameter parameter, AbstractParameter field) {
+        if (parameter instanceof ObjectSimpleField && field instanceof ObjectSimpleField) {
+            resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
+        } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField) {
+            ObjectReferenceField refParam = (ObjectReferenceField) parameter;
+            ObjectReferenceField refField = (ObjectReferenceField) field;
+            resolveFieldDefault(refParam, refField);
+            if (refParam.getFields() != null) {
+                Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(
+                        refField.getFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
+                for (AbstractParameter refParamField : refParam.getFields())
+                    if (nestedFieldsMap.containsKey(refParamField.getId()))
+                        prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()));
+            } else if (refField.getFields() != null) {
+                // copy structure of nesting fields
+                refParam.setFields((AbstractParameter[]) SerializationUtils.deserialize(SerializationUtils.serialize(refField.getFields())));
+            }
+        }
     }
 
     /**
      * Присвоение значений по умолчанию простым полям параметра, если они не были заданы
      *
      * @param parameter Параметр вызова
-     * @param compiled  Скомпилированный объект
+     * @param field     Скомпилированный объект
      */
-    private void resolveDefault(ObjectSimpleField parameter, CompiledObject compiled) {
-        ObjectSimpleField field = (ObjectSimpleField) compiled.getObjectFieldsMap().get(parameter.getId());
-        if (field == null) return;
-
+    private void resolveSimpleFieldDefault(ObjectSimpleField parameter, ObjectSimpleField field) {
+        resolveFieldDefault(parameter, field);
         if (parameter.getDomain() == null)
             parameter.setDomain(field.getDomain());
-        if (parameter.getRequired() == null)
-            parameter.setRequired(field.getRequired());
         if (parameter.getDefaultValue() == null)
             parameter.setDefaultValue(field.getDefaultValue());
         if (parameter.getNormalize() == null)
             parameter.setNormalize(field.getNormalize());
+    }
+
+    /**
+     * Присвоение значений по умолчанию простым полям параметра, если они не были заданы
+     *
+     * @param parameter Параметр вызова
+     * @param field     Скомпилированный объект
+     */
+    private void resolveFieldDefault(AbstractParameter parameter, AbstractParameter field) {
+        if (parameter.getRequired() == null)
+            parameter.setRequired(field.getRequired());
         if (parameter.getMapping() == null)
             parameter.setMapping(field.getMapping());
     }

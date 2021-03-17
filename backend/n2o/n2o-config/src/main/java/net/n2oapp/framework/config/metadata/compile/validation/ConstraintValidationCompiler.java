@@ -41,7 +41,7 @@ public class ConstraintValidationCompiler extends BaseValidationCompiler<Constra
 
         //out
         List<ObjectSimpleField> outParams = new ArrayList<>();
-        if (source.getOutParameters() != null)
+        if (source.getOutFields() != null)
             for (ObjectSimpleField parameter : source.getOutFields())
                 outParams.add(new ObjectSimpleField(parameter));
         ObjectSimpleField resultParam = new ObjectSimpleField();

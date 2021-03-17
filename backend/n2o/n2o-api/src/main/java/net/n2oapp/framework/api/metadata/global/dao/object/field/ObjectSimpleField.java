@@ -22,7 +22,7 @@ public class ObjectSimpleField extends AbstractParameter {
     public ObjectSimpleField(ObjectSimpleField field) {
         this.setId(field.getId());
         this.setMapping(field.getMapping());
-        this.setMappingCondition(field.getMappingCondition());
+        this.setEnabled(field.getEnabled());
         this.setRequired(field.getRequired());
         this.setDomain(field.getDomain());
         this.setDefaultValue(field.getDefaultValue());

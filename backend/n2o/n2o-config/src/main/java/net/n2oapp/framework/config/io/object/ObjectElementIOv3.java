@@ -101,7 +101,7 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
-        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
+        p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {

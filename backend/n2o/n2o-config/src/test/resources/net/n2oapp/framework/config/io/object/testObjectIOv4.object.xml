@@ -40,9 +40,9 @@
             </invocation>
             <in>
                 <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
-                <field id="testSet" param="param" validation-fail-key="update.person.id"/>
+                <field id="testSet" param="param" validation-fail-key="update.person.id" enabled="type=='type1'"/>
                 <reference id="ref" name="refName" object-id="utBlank" mapping="ref2"
-                           entity-class="ref" required="true">
+                           entity-class="ref" required="true" enabled="type=='type1'">
                     <field id="id" name="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
                     <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>

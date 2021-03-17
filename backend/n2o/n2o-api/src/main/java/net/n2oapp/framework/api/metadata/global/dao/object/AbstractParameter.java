@@ -14,8 +14,7 @@ public abstract class AbstractParameter implements IdAware, Source {
     private String id;
     private String name;
     private String mapping;
-    private String mappingCondition;
+    private String enabled;
     private Boolean required;
     private PluralityType pluralityType;
-    private Boolean nullIgnore;
 }

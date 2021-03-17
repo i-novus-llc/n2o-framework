@@ -18,5 +18,4 @@ public abstract class N2oInvocationValidation extends N2oValidation {
     private ObjectSimpleField[] outFields;
     // TODO будут убраны в следующей задаче
     private N2oObject.Parameter[] inParameters;
-    private N2oObject.Parameter[] outParameters;
 }

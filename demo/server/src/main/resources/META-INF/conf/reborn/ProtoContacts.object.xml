@@ -1,4 +1,5 @@
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0" name="Контакты">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Контакты">
     <fields>
         <field id="id" domain="integer" mapping="['id']"/>
         <reference id="individual" object-id="ProtoClient" name="${client}" required="true" mapping="['indiv_id']"/>
@@ -13,35 +14,35 @@
             <invocation>
                 <sql>insert into pim_indiv_contact (indiv_id, value, type_id) values (:indiv_id, :value, :type_id)</sql>
             </invocation>
-            <in-parameters>
-                <param id="type.id" mapping="['type_id']"/>
-                <param id="individualId"  mapping="['indiv_id']"/>
-                <param id="phone" mapping-condition="type.id == 2" mapping="['value']"/>
-                <param id="email" mapping-condition="type.id == 4" mapping="['value']"/>
-            </in-parameters>
-            <out-parameters>
-                <param id="id" mapping="[0]"/>
-            </out-parameters>
+            <in>
+                <field id="type.id" mapping="['type_id']"/>
+                <field id="individualId"  mapping="['indiv_id']"/>
+                <field id="phone" enabled="type.id == 2" mapping="['value']"/>
+                <field id="email" enabled="type.id == 4" mapping="['value']"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0]"/>
+            </out>
         </operation>
         <operation id="update">
             <invocation>
                 <sql>update pim_indiv_contact set indiv_id = :indiv_id, value = :value, type_id = :type_id where id = :id</sql>
             </invocation>
-            <in-parameters>
-                <param id="id" mapping="['id']"/>
-                <param id="type.id" mapping="['type_id']"/>
-                <param id="individualId"  mapping="['indiv_id']"/>
-                <param id="phone" mapping-condition="type.id == 2" mapping="['value']"/>
-                <param id="email" mapping-condition="type.id == 4" mapping="['value']"/>
-            </in-parameters>
+            <in>
+                <field id="id" mapping="['id']"/>
+                <field id="type.id" mapping="['type_id']"/>
+                <field id="individualId"  mapping="['indiv_id']"/>
+                <field id="phone" enabled="type.id == 2" mapping="['value']"/>
+                <field id="email" enabled="type.id == 4" mapping="['value']"/>
+            </in>
         </operation>
         <operation id="delete">
             <invocation>
                 <sql>delete from pim_indiv_contact where id = :id</sql>
             </invocation>
-            <in-parameters>
-                <param id="id"/>
-            </in-parameters>
+            <in>
+                <field id="id"/>
+            </in>
         </operation>
     </operations>
 </object>

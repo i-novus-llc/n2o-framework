@@ -93,12 +93,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
         for (InvocationParameter parameter : invocationParameters) {
             prepareValue(parameter, inDataSet);
-            resolveMappingCondition(parameter, inMapping, inDataSet);
-            if (!inMapping.containsKey(parameter.getId())) continue;
-
-            if (parameter instanceof N2oObject.Parameter
-                    && parameter.getEntityClass() != null
-                    && ((N2oObject.Parameter) parameter).getChildParams() != null) {
+            if (isMappingEnabled(parameter, inMapping, inDataSet) &&
+                    parameter instanceof N2oObject.Parameter &&
+                    parameter.getEntityClass() != null &&
+                    ((N2oObject.Parameter) parameter).getChildParams() != null) {
 
                 if (parameter.getPluralityType() == PluralityType.list
                         || parameter.getPluralityType() == PluralityType.set) {
@@ -157,14 +155,14 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         return copiedDataSet;
     }
 
-    private void resolveMappingCondition(InvocationParameter inParam,
-                                         Map<String, String> inMapping,
-                                         DataSet inDataSet) {
+    private boolean isMappingEnabled(InvocationParameter inParam, Map<String, String> inMapping, DataSet inDataSet) {
         boolean unmappable = inDataSet.get(inParam.getId()) == null ||
-                inParam.getMappingCondition() != null && !ScriptProcessor.evalForBoolean(inParam.getMappingCondition(), inDataSet);
+                inParam.getEnabled() != null && !ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
         if (unmappable) {
             inMapping.remove(inParam.getId());
+            return false;
         }
+        return true;
     }
 
     @Override

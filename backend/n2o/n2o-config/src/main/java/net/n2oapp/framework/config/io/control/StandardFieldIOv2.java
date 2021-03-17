@@ -8,8 +8,9 @@ import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -48,8 +49,14 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         validation(e, t, p);
         p.childrenText(e, "result", t::getResult, t::setResult);
         p.childAttributeEnum(e, "result", "mapper", t::getMapper, t::setMapper, MapperType.class);
-        p.children(e, "in-parameters", "param", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::param);
-        p.children(e, "out-parameters", "param", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::param);
+        p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectSimpleField.class, this::param));
+        if (t.getInFields() == null)
+            p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
+                    .add("param", ObjectSimpleField.class, this::param));
+        p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
+        if (t.getOutFields() == null)
+            p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), dataProviderNamespace);
     }
 
@@ -74,6 +81,8 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        if (t.getEnabled() == null)
+            p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
@@ -104,15 +113,13 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
     }
 
-    private void param(Element e, N2oObject.Parameter t, IOProcessor p) {
+    private void param(Element e, ObjectSimpleField t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
-        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
-        p.children(e, null, "child-param", t::getChildParams, t::setChildParams, N2oObject.Parameter.class, this::param);
+        p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
     }
 }

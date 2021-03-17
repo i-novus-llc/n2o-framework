@@ -93,7 +93,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
         field(e, t, p);
-        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
+        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "param", t::getParam, t::setParam);
         p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
     }
@@ -107,7 +107,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add("reference", ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
-        p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
+        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
     }
 
     private void outField(Element e, ObjectSimpleField t, IOProcessor p) {

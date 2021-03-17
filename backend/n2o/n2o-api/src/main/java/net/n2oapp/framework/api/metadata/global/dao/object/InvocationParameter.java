@@ -20,7 +20,7 @@ public class InvocationParameter extends AbstractParameter {
         this.domain = parameter.getDomain();
         this.setId(parameter.getId());
         this.setMapping(parameter.getMapping());
-        this.setMappingCondition(parameter.getMappingCondition());
+        this.setEnabled(parameter.getEnabled());
         this.defaultValue = parameter.getDefaultValue();
         this.setRequired(parameter.getRequired());
         this.normalize = parameter.getNormalize();
