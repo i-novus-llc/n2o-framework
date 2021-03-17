@@ -15,4 +15,5 @@ public abstract class N2oInvocationValidation extends N2oValidation {
     private N2oInvocation n2oInvocation;
     private AbstractParameter[] inFields;
     private ObjectSimpleField[] outFields;
+    private String result;
 }

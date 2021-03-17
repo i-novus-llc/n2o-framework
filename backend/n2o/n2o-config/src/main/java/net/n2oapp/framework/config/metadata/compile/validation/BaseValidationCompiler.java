@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.validation;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 
@@ -15,7 +14,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
  */
 public abstract class BaseValidationCompiler<D extends Validation, S extends N2oValidation> implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected void compileValidation(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileValidation(D compiled, S source) {
         compiled.setId(source.getId());
         compiled.setFieldId(source.getFieldId());
         compiled.setSide(source.getSide());

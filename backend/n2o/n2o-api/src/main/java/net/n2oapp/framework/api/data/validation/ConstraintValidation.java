@@ -1,15 +1,12 @@
 package net.n2oapp.framework.api.data.validation;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.util.List;
@@ -21,27 +18,23 @@ import java.util.stream.Collectors;
  */
 @Getter
 @Setter
-@NoArgsConstructor
-public class ConstraintValidation extends Validation {
+public class ConstraintValidation extends InvocationValidation {
     private Set<String> requiredFields;
-    private N2oInvocation invocation;
-    private List<AbstractParameter> inParametersList;
-    private List<ObjectSimpleField> outParametersList;
+
+    public ConstraintValidation() {
+    }
 
     public ConstraintValidation(ConstraintValidation validation) {
         super(validation);
         this.requiredFields = validation.getRequiredFields();
-        this.invocation = validation.getInvocation();
-        this.inParametersList = validation.getInParametersList();
-        this.outParametersList = validation.getOutParametersList();
     }
 
     public void setInParametersList(List<AbstractParameter> inParametersList) {
+        super.setInParametersList(inParametersList);
         this.requiredFields = inParametersList.stream()
                 .filter(p -> Boolean.TRUE.equals(p.getRequired()))
                 .map(AbstractParameter::getId)
                 .collect(Collectors.toSet());
-        this.inParametersList = inParametersList;
     }
 
     @Override

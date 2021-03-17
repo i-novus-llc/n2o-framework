@@ -10,6 +10,5 @@ import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 @Getter
 @Setter
 public class N2oConstraint extends N2oInvocationValidation {
-    private String result;
     private MapperType mapper;
 }
