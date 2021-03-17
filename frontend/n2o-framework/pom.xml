@@ -5,14 +5,14 @@
 
   <groupId>net.n2oapp.framework</groupId>
   <artifactId>n2o-react</artifactId>
-  <version>7.12.13-SNAPSHOT</version>
+  <version>7.12.13</version>
   <name>n2o-react</name>
   <packaging>jar</packaging>
 
   <parent>
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
-    <version>7.12.13-SNAPSHOT</version>
+    <version>7.12.13</version>
     <relativePath>../..</relativePath>
   </parent>
 
