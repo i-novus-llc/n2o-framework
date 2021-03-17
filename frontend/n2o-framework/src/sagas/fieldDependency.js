@@ -31,6 +31,7 @@ import {
 import { FETCH_VALUE } from '../core/api';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
+import warning from '../utils/warning';
 
 import fetchSaga from './fetch';
 
@@ -67,9 +68,20 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 
 export function* modify(values, formName, fieldName, dependency = {}, field) {
   const { type, expression } = dependency;
-  const evalResult = expression
-    ? evalExpression(expression, values)
-    : undefined;
+
+  if (!expression) {
+    warning(`В form[${formName}].field[${fieldName}].dependency нет expression'а`);
+
+    return;
+  }
+
+  const evalResult = evalExpression(expression, values);
+
+  if (evalResult === undefined) {
+    warning(`В eval expression undefined недопустим. (form[${formName}].field[${fieldName}].expression = ${expression})`);
+
+    return;
+  }
 
   switch (type) {
     case 'enabled':
@@ -87,10 +99,10 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
       }
       break;
     case 'visible':
-      const currentVisible = field.visible === true;
+      const currentVisible = field.visible === undefined || field.visible === true;
       const nextVisible = Boolean(evalResult);
 
-      if (currentVisible === nextVisible && evalResult !== undefined) {
+      if (currentVisible === nextVisible) {
         break;
       }
 
@@ -102,7 +114,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
       break;
     case 'setValue':
-      if (evalResult === undefined || isEqual(evalResult, values[fieldName])) {
+      if (isEqual(evalResult, values[fieldName])) {
         break;
       }
 
@@ -164,14 +176,18 @@ export function* checkAndModify(
     if (field.dependency) {
       for (const dep of field.dependency) {
         if (
-          (actionType === actionTypes.INITIALIZE && dep.applyOnInit) ||
-          includes(dep.on, fieldName) ||
-          some(
-            dep.on,
-            field => includes(field, '.') && includes(field, fieldName)
-          )
+          ([actionTypes.INITIALIZE, REGISTER_FIELD_EXTRA].includes(actionType) && dep.applyOnInit) ||
+          (fieldName && includes(dep.on, fieldName)) ||
+          (fieldName && some(dep.on, field => includes(field, '.') && includes(field, fieldName)))
         ) {
-          yield call(modify, values, formName, fieldId, dep, field);
+          yield call(
+            modify,
+            values,
+            formName,
+            fieldId,
+            dep,
+            field
+          );
         }
       }
     }
