@@ -54,4 +54,8 @@ public class N2oSelenide {
     public static Drawer drawer() {
         return drawer(Drawer.class);
     }
+
+    public static String getCurrentUrl(){
+        return Selenide.switchTo().defaultContent().getCurrentUrl();
+    }
 }

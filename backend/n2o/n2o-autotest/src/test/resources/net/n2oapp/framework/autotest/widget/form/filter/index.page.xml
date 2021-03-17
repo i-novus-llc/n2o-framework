@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                 name="Форма как фильтры таблицы">
+    <regions>
+        <form id="filters" name="Фильтры" >
+            <fields>
+                <select id="period" label="Period" param="period" inline="true">
+                    <options>
+                        <option id="WEEK" name="Week"/>
+                        <option id="MONTH" name="Month"/>
+                        <option id="HALF_YEAR" name="Half year"/>
+                        <option id="YEAR" name="Year"/>
+                        <option id="FIVE_YEARS" name="5 years"/>
+                    </options>
+                </select>
+                <input-text id="id" param="uid" domain="integer"/>
+            </fields>
+        </form>
+        <table depends-on="filters" query-id="test" route="/w1" fetch-on-init="true">
+            <columns>
+                <column text-field-id="period.id">
+                    <text/>
+                </column>
+            </columns>
+            <pre-filters>
+                <eq field-id="id" value="{id}"/>
+                <eq field-id="period.id" value="{period.id}"/>
+            </pre-filters>
+        </table>
+    </regions>
+
+</page>
