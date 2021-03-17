@@ -276,8 +276,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (validation.getInFields() != null)
             for (AbstractParameter parameter : validation.getInFields()) {
                 AbstractParameter field = compiled.getObjectFieldsMap().get(parameter.getId());
-                if (parameter instanceof ObjectSimpleField && field instanceof ObjectSimpleField) {
-                    resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
+                if (parameter instanceof ObjectSimpleField) {
+                    if (field instanceof ObjectSimpleField)
+                        resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
                     parameter.setRequired(p.cast(parameter.getRequired(), ((ObjectSimpleField) parameter).getDefaultValue() == null));
                 } else
                     resolveFieldDefault(parameter, field);
@@ -295,7 +296,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     private List<Validation> getRequiredParamValidations(Map<String, AbstractParameter> inParamsMap, CompileProcessor p) {
         List<Validation> requiredParamValidations = new ArrayList<>();
         for (AbstractParameter parameter : inParamsMap.values()) {
-            if (parameter.getRequired() != null && parameter.getRequired()) {
+            if (Boolean.TRUE.equals(parameter.getRequired())) {
                 MandatoryValidation validation = new MandatoryValidation(parameter.getId(),
                         p.getMessage("n2o.required.field"), parameter.getId());
                 validation.setMoment(N2oValidation.ServerMoment.beforeOperation);
@@ -393,6 +394,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (parameters != null)
             for (AbstractParameter parameter : parameters) {
                 prepareOperationInParameter(parameter, compiled.getObjectFieldsMap().get(parameter.getId()));
+                parameter.setRequired(castDefault(parameter.getRequired(), false));
                 inFieldsMap.put(parameter.getId(), parameter);
             }
         return inFieldsMap;

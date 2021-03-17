@@ -81,8 +81,6 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
-        if (t.getEnabled() == null)
-            p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
@@ -120,6 +118,8 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
-        p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
+        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        if (t.getEnabled() == null)
+            p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);
     }
 }

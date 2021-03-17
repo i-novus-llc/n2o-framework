@@ -53,7 +53,7 @@
                 </sql>
             </invocation>
             <in>
-                <field id="dasdf" required="true" default-value="fdsf" domain="boolean" entity-class="fsdf"
+                <field id="dasdf" required="true" default-value="fdsf" domain="boolean"
                        mapping="fsd" enabled="fsd" normalize="fsd"/>
             </in>
         </constraint>
