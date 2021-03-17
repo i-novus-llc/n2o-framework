@@ -8,7 +8,8 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
@@ -45,10 +46,10 @@ public class ValidationProcessorTest {
      */
     @Test
     public void testSorting() {
-        InvocationParameter inParam = new InvocationParameter();
+        ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setId("id");
         inParam.setRequired(true);
-        List<InvocationParameter> inParamList = Arrays.asList(inParam);
+        List<AbstractParameter> inParamList = Arrays.asList(inParam);
 
         Validation dfm = mandatoryValidation("id", danger, beforeOperation);
         Validation dfCond = conditionValidation(null, "id", danger, beforeOperation, "id != null");
@@ -456,12 +457,12 @@ public class ValidationProcessorTest {
 
     @Test
     public void testConstraint() {
-        InvocationParameter inParam = new InvocationParameter();
+        ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setName("id");
         inParam.setId("id");
         inParam.setDomain("integer");
         inParam.setRequired(true);
-        List<InvocationParameter> inParamList = Arrays.asList(inParam);
+        List<AbstractParameter> inParamList = Arrays.asList(inParam);
 
         N2oInvocationProcessor invocationProcessor = mock(N2oInvocationProcessor.class);
         ValidationProcessor processor = new ValidationProcessor(invocationProcessor);
@@ -501,7 +502,8 @@ public class ValidationProcessorTest {
         return mandatory;
     }
 
-    private ConditionValidation conditionValidation(String id, String fieldId, SeverityType severity, N2oValidation.ServerMoment moment, String expression) {
+    private ConditionValidation conditionValidation(String id, String fieldId, SeverityType severity,
+                                                    N2oValidation.ServerMoment moment, String expression) {
         ConditionValidation condition = new ConditionValidation();
         condition.setId(id == null ? fieldId + "Required" : id);
         condition.setMoment(moment);
@@ -512,7 +514,8 @@ public class ValidationProcessorTest {
         return condition;
     }
 
-    private ConstraintValidation constraintValidation(String fieldId, SeverityType severity, N2oValidation.ServerMoment moment, List<InvocationParameter> inParams) {
+    private ConstraintValidation constraintValidation(String fieldId, SeverityType severity,
+                                                      N2oValidation.ServerMoment moment, List<AbstractParameter> inParams) {
         ConstraintValidation constraint = new ConstraintValidation();
         constraint.setId(fieldId + "Constraint");
         constraint.setMoment(moment);

@@ -9,7 +9,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -177,11 +178,13 @@ public class ClientDataProviderUtil {
                 Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getId()));
 
             Map<String, String> operationMapping = new StrictMap<>();
-            for (N2oObject.Parameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
-                String param = inParameter.getParam();
-                // form params from this source should be ignored in operationMapping
-                if (param != null && !formParams.contains(param))
-                    operationMapping.put(param, inParameter.getId());
+            for (AbstractParameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
+                if (inParameter instanceof ObjectSimpleField) {
+                    String param = ((ObjectSimpleField) inParameter).getParam();
+                    // form params from this source should be ignored in operationMapping
+                    if (param != null && !formParams.contains(param))
+                        operationMapping.put(param, inParameter.getId());
+                }
             }
             actionContext.setOperationMapping(operationMapping);
             p.addRoute(actionContext);

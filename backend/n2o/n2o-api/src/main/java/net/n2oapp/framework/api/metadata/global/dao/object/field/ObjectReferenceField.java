@@ -13,4 +13,13 @@ public class ObjectReferenceField extends AbstractParameter {
     private String referenceObjectId;
     private String entityClass;
     private AbstractParameter[] fields;
+
+    public ObjectReferenceField() {
+    }
+
+    public ObjectReferenceField(ObjectReferenceField field) {
+        super(field);
+        this.entityClass = field.getEntityClass();
+        this.fields = field.getFields();
+    }
 }

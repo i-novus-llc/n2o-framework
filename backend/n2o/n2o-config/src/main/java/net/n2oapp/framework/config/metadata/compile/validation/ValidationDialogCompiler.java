@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
@@ -34,9 +34,11 @@ public class ValidationDialogCompiler extends BaseValidationCompiler<ValidationD
 
         //in
         List<AbstractParameter> inParams = new ArrayList<>();
-        if (source.getInParameters() != null)
+        if (source.getInFields() != null)
             for (AbstractParameter parameter : source.getInFields())
-                inParams.add(new InvocationParameter(parameter));
+                inParams.add(parameter instanceof ObjectSimpleField ?
+                        new ObjectSimpleField((ObjectSimpleField) parameter) :
+                        new ObjectReferenceField((ObjectReferenceField) parameter));
         validation.setInParametersList(inParams);
 
         //out

@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.dao.object;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
@@ -91,27 +90,6 @@ public class N2oObject extends N2oMetadata implements NameAware {
             public static class Validation implements Serializable {
                 private String refId;
             }
-        }
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class Parameter extends InvocationParameter {
-        private Parameter[] childParams;
-        private String param;
-        private String validationFailKey;
-
-        public Parameter(String name, String mapping) {
-            this.setMapping(mapping);
-            this.setId(name);
-        }
-
-        public Parameter(Parameter parameter) {
-            super(parameter);
-            setChildParams(parameter.getChildParams());
-            setPluralityType(parameter.getPluralityType());
-            setParam(parameter.getParam());
         }
     }
 }

@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -153,6 +152,6 @@ public class ObjectCompileTest extends SourceCompileTestBase {
 
         field = object.getOperations().get("create").getInParametersMap().get("f1");
         assertThat(field.getMapping(), is("['test']"));
-        assertThat(((N2oObject.Parameter) field).getDomain(), is("integer"));
+        assertThat(((ObjectSimpleField) field).getDomain(), is("integer"));
     }
 }

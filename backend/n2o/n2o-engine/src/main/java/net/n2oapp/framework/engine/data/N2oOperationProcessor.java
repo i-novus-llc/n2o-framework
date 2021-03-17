@@ -5,7 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
@@ -40,7 +40,7 @@ public class N2oOperationProcessor {
 
     public DataSet invoke(CompiledObject.Operation operation,
                           DataSet inDataSet,
-                          Collection<? extends InvocationParameter> inParameters,
+                          Collection<AbstractParameter> inParameters,
                           Collection<ObjectSimpleField> outParameters) {
         try {
             return invocationProcessor.invoke(
@@ -71,14 +71,14 @@ public class N2oOperationProcessor {
         return DataSetMapper.extract(e, failOutParamsMapping);
     }
 
-    private void validateRequiredFields(Collection<? extends InvocationParameter> inParameters, DataSet inDataSet) {
+    private void validateRequiredFields(Collection<AbstractParameter> inParameters, DataSet inDataSet) {
         if (inParameters == null || inParameters.isEmpty()) {
             return;
         }
 
         List<String> requiredFields = inParameters.stream()
                 .filter(in -> in.getRequired() != null && in.getRequired())
-                .map(InvocationParameter::getId)
+                .map(AbstractParameter::getId)
                 .collect(Collectors.toList());
 
         boolean allMatch = requiredFields.stream()

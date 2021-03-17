@@ -20,12 +20,11 @@ public class ObjectSimpleField extends AbstractParameter {
     }
 
     public ObjectSimpleField(ObjectSimpleField field) {
-        this.setId(field.getId());
-        this.setMapping(field.getMapping());
-        this.setEnabled(field.getEnabled());
-        this.setRequired(field.getRequired());
+        super(field);
         this.setDomain(field.getDomain());
         this.setDefaultValue(field.getDefaultValue());
         this.setNormalize(field.getNormalize());
+        this.setParam(field.getParam());
+        this.setValidationFailKey(field.getValidationFailKey());
     }
 }
