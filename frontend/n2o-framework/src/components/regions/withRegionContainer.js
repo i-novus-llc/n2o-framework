@@ -44,18 +44,16 @@ const createRegionContainer = config => WrappedComponent => {
           alwaysRefresh,
         } = props;
 
-        if (!isInit) {
-          dispatch(
-            registerRegion(id, {
-              regionId: id,
-              activeEntity,
-              isInit: true,
-              lazy,
-              alwaysRefresh,
-              [listKey]: get(props, listKey, []),
-            })
-          );
-        }
+        dispatch(
+          registerRegion(id, {
+            regionId: id,
+            activeEntity,
+            isInit: true,
+            lazy,
+            alwaysRefresh,
+            [listKey]: get(props, listKey, []),
+          })
+        );
       },
       changeActiveEntity: props => value => {
         const { dispatch, id } = props;
