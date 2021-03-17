@@ -4,6 +4,8 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.Page;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +41,22 @@ public class AutoTestBase extends N2oTestBase {
         n2oController.setUp(builder);
     }
 
+    @Override
+    protected void configure(N2oApplicationBuilder builder) {
+        super.configure(builder);
+        builder.transformers(new TestEngineQueryTransformer());
+    }
+
     protected String getBaseUrl() {
         return "http://localhost:" + port;
     }
 
     protected <T extends Page> T open(Class<T> clazz) {
         return N2oSelenide.open(getBaseUrl(), clazz);
+    }
+
+    protected <T extends Page> T open(Class<T> clazz, String queryParams) {
+        return N2oSelenide.open(getBaseUrl() + "/#/?" + queryParams, clazz);
     }
 
     protected void setUserInfo(Map<String, Object> user) {

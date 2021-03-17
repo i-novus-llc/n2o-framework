@@ -1,22 +1,18 @@
 [
   {
     "id": 1,
-    "name": "test1",
     "period.id": "YEAR"
   },
   {
     "id": 2,
-    "name": "test2",
     "period.id": "WEEK"
   },
   {
     "id": 3,
-    "name": "test3",
     "period.id": "YEAR"
   },
   {
     "id": 4,
-    "name": "test4",
     "period.id": "MONTH"
   }
 ]

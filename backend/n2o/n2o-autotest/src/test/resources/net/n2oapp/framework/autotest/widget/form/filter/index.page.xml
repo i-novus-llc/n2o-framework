@@ -13,7 +13,7 @@
                         <option id="FIVE_YEARS" name="5 years"/>
                     </options>
                 </select>
-                <input-text id="id" param="uid" domain="integer"/>
+                <input-text id="id" label="Uid" param="uid" domain="integer"/>
             </fields>
         </form>
         <table depends-on="filters" query-id="test" route="/w1" fetch-on-init="true">

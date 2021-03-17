@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.widget.form;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -28,7 +29,6 @@ public class FormAsFilterAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-        com.codeborne.selenide.Configuration.headless = false;
     }
 
     @BeforeEach
@@ -49,6 +49,7 @@ public class FormAsFilterAT extends AutoTestBase {
     @Test
     public void openWithoutParam() {
         StandardPage page = open(StandardPage.class);
+        Selenide.refresh();
         page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
@@ -63,9 +64,71 @@ public class FormAsFilterAT extends AutoTestBase {
 
         Select select = form.fields().field("Period").control(Select.class);
         select.select(0);
+        select.shouldSelected("Week");
+
+        table.columns().rows().shouldHaveSize(1);
+        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?period=WEEK"));
+
+        select.clear();
+
+        table.columns().rows().shouldHaveSize(4);
+        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/"));
+
+        InputText inputText = form.fields().field("Uid").control(InputText.class);
+        inputText.val("1");
+
+        table.columns().rows().shouldHaveSize(1);
+        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?uid=1"));
+
+        inputText.clear();
+        table.columns().rows().shouldHaveSize(4);
+        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/"));
+    }
+
+    @Test
+    public void openWithIdParam() {
+        StandardPage page = open(StandardPage.class, "uid=3");
+        Selenide.refresh();
+        page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        form.shouldExists();
+        form.fields().shouldHaveSize(2);
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+        table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-//        while (true)
-//        Selenide.sleep(1000);
+        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?uid=3"));
+
+        InputText inputText = form.fields().field("Uid").control(InputText.class);
+        inputText.shouldHaveValue("3");
+        inputText.clear();
+        table.columns().rows().shouldHaveSize(4);
+    }
+
+    @Test
+    public void openWithPeriodParam() {
+        StandardPage page = open(StandardPage.class, "period=MONTH");
+        Selenide.refresh();
+        page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        form.shouldExists();
+        form.fields().shouldHaveSize(2);
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(1);
+
+        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?period=MONTH"));
+
+        InputText inputText = form.fields().field("Uid").control(InputText.class);
+        inputText.shouldBeEmpty();
+
+        Select select = form.fields().field("Period").control(Select.class);
+        select.shouldSelected("Month");
+        select.clear();
+        table.columns().rows().shouldHaveSize(4);
     }
 }
