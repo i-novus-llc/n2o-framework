@@ -35,8 +35,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
                 .ios(new QueryElementIOv4())
                 .packs(new N2oObjectsPack(), new N2oDataProvidersPack(), new N2oWidgetsPack(),
                         new N2oFieldSetsPack(), new N2oControlsPack())
@@ -48,7 +47,6 @@ public class QueryCompileTest extends SourceCompileTestBase {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml")
                 .get(new QueryContext("utExpression"));
         assert query.getName().equals("utExpression");
-        assert query.getObject().getId().equals("utObjectField");
         N2oQuery.Field manual = query.getFieldsMap().get("manual");
         assert "_test_".equals(manual.getSelectBody());
         assert "_test_".equals(manual.getSortingBody());

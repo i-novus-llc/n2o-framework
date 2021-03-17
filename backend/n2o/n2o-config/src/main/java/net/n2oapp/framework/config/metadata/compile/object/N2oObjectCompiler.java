@@ -280,8 +280,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                     if (field instanceof ObjectSimpleField)
                         resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
                     parameter.setRequired(p.cast(parameter.getRequired(), ((ObjectSimpleField) parameter).getDefaultValue() == null));
-                } else
-                    resolveFieldDefault(parameter, field);
+                } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField)
+                    resolveReferenceFieldDefault((ObjectReferenceField) parameter, (ObjectReferenceField) field);
             }
         prepareOperationInvocation(validation.getN2oInvocation(), source);
     }
@@ -412,8 +412,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField) {
             ObjectReferenceField refParam = (ObjectReferenceField) parameter;
             ObjectReferenceField refField = (ObjectReferenceField) field;
-            resolveFieldDefault(refParam, refField);
-            if (refParam.getFields() != null) {
+            resolveReferenceFieldDefault(refParam, refField);
+            if (refParam.getFields() != null && refParam.getFields().length != 0) {
                 Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(
                         refField.getFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
                 for (AbstractParameter refParamField : refParam.getFields())
@@ -445,14 +445,28 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     }
 
     /**
+     * Присвоение значений по умолчанию составным полям параметра, если они не были заданы
+     *
+     * @param parameter Параметр вызова
+     * @param field     Скомпилированный объект
+     */
+    private void resolveReferenceFieldDefault(ObjectReferenceField parameter, ObjectReferenceField field) {
+        if (field == null) return;
+
+        resolveFieldDefault(parameter, field);
+        if (parameter.getEntityClass() == null)
+            parameter.setEntityClass(field.getEntityClass());
+        if (parameter.getReferenceObjectId() == null)
+            parameter.setReferenceObjectId(field.getReferenceObjectId());
+    }
+
+    /**
      * Присвоение значений по умолчанию полям параметра, если они не были заданы
      *
      * @param parameter Параметр вызова
      * @param field     Скомпилированный объект
      */
     private void resolveFieldDefault(AbstractParameter parameter, AbstractParameter field) {
-        if (field == null) return;
-
         if (parameter.getRequired() == null)
             parameter.setRequired(field.getRequired());
         if (parameter.getMapping() == null)

@@ -6,7 +6,9 @@ import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -17,6 +19,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -134,22 +138,146 @@ public class ObjectCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCompileFields() {
-        CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml")
-                .get(new ObjectContext("utObjectField"));
-        assertThat(object.getObjectFields().size(), is(2));
+        CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectField.object.xml")
+                .get(new ObjectContext("testObjectField"));
+        assertThat(object.getObjectFields().size(), is(4));
 
-        AbstractParameter field = object.getObjectFieldsMap().get("f1");
+
+        // 1. object fields
+        ObjectSimpleField field = (ObjectSimpleField) object.getObjectFieldsMap().get("f1");
         assertThat(field.getId(), is("f1"));
         assertThat(field.getRequired(), is(true));
-        assertThat(field.getMapping(), is("['test']"));
-        assertThat(((ObjectSimpleField) field).getDomain(), is("integer"));
+        assertThat(field.getMapping(), is("test"));
+        assertThat(field.getDomain(), is("integer"));
 
-        field = object.getObjectFieldsMap().get("f2");
+        ObjectReferenceField refField = (ObjectReferenceField) object.getObjectFieldsMap().get("entity");
+        assertThat(refField.getId(), is("entity"));
+        assertThat(refField.getMapping(), is("test2"));
+        assertThat(refField.getRequired(), is(false));
+        assertThat(refField.getReferenceObjectId(), is("utAction"));
+        assertThat(refField.getEntityClass(), is("com.example.Object"));
+        assertThat(refField.getFields().length, is(1));
+        ObjectSimpleField child = (ObjectSimpleField) refField.getFields()[0];
+        assertThat(child.getId(), is("id"));
+        assertThat(child.getMapping(), is("code"));
+        assertThat(child.getDomain(), is("integer"));
+        assertThat(child.getRequired(), is(true));
+        assertThat(child.getDefaultValue(), is("1"));
+        assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
+
+        ObjectListField listField = (ObjectListField) object.getObjectFieldsMap().get("list");
+        assertThat(listField.getId(), is("list"));
+        assertThat(listField.getMapping(), is("test3"));
+        assertThat(listField.getRequired(), is(true));
+        assertThat(listField.getFields().length, is(1));
+        child = (ObjectSimpleField) listField.getFields()[0];
+        assertThat(child.getId(), is("id"));
+        assertThat(child.getMapping(), is("pk"));
+        assertThat(child.getRequired(), is(true));
+
+        ObjectSetField setField = (ObjectSetField) object.getObjectFieldsMap().get("set");
+        assertThat(setField.getId(), is("set"));
+        assertThat(setField.getMapping(), is("test4"));
+        assertThat(setField.getRequired(), is(false));
+        assertThat(setField.getFields().length, is(1));
+        child = (ObjectSimpleField) setField.getFields()[0];
+        assertThat(child.getId(), is("name"));
+        assertThat(child.getMapping(), is("name2"));
+
+        // 2. operation1 fields (defined in operation and use object fields attribute definition by default)
+        Map<String, AbstractParameter> op1InFields = object.getOperations().get("op1").getInParametersMap();
+        assertThat(op1InFields.size(), is(5));
+
+        field = (ObjectSimpleField) op1InFields.get("f1");
+        assertThat(field.getId(), is("f1"));
+        assertThat(field.getRequired(), is(false));
+        assertThat(field.getMapping(), is("f1"));
+        assertThat(field.getDomain(), is("string"));
+
+        field = (ObjectSimpleField) op1InFields.get("f2");
         assertThat(field.getId(), is("f2"));
-        assertThat(((ObjectReferenceField) field).getReferenceObjectId(), is("utAction"));
+        assertThat(field.getRequired(), is(false));
+        assertThat(field.getMapping(), is("f2"));
+        assertThat(field.getDomain(), is("string"));
 
-        field = object.getOperations().get("create").getInParametersMap().get("f1");
-        assertThat(field.getMapping(), is("['test']"));
-        assertThat(((ObjectSimpleField) field).getDomain(), is("integer"));
+        refField = (ObjectReferenceField) op1InFields.get("entity");
+        assertThat(refField.getId(), is("entity"));
+        assertThat(refField.getMapping(), is("entity2"));
+        assertThat(refField.getRequired(), is(false));
+        assertThat(refField.getReferenceObjectId(), is("utAction"));
+        assertThat(refField.getEntityClass(), is("com.example.Object"));
+        assertThat(refField.getFields().length, is(2));
+        child = (ObjectSimpleField) refField.getFields()[0];
+        assertThat(child.getId(), is("id"));
+        assertThat(child.getMapping(), is("code"));
+        assertThat(child.getDomain(), is("integer"));
+        assertThat(child.getRequired(), is(true));
+        assertThat(child.getDefaultValue(), is("1"));
+        assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
+        child = (ObjectSimpleField) refField.getFields()[1];
+        assertThat(child.getId(), is("name"));
+        assertThat(child.getMapping(), is("title"));
+        assertThat(child.getDomain(), nullValue());
+        assertThat(child.getRequired(), nullValue());
+        assertThat(child.getDefaultValue(), nullValue());
+        assertThat(child.getNormalize(), nullValue());
+
+        listField = (ObjectListField) op1InFields.get("list");
+        assertThat(listField.getId(), is("list"));
+        assertThat(listField.getMapping(), is("list"));
+        assertThat(listField.getRequired(), is(false));
+        assertThat(listField.getFields().length, is(1));
+        child = (ObjectSimpleField) listField.getFields()[0];
+        assertThat(child.getId(), is("id"));
+        assertThat(child.getMapping(), is("id2"));
+        assertThat(child.getRequired(), is(false));
+
+        setField = (ObjectSetField) op1InFields.get("set");
+        assertThat(setField.getId(), is("set"));
+        assertThat(setField.getMapping(), is("set"));
+        assertThat(setField.getRequired(), is(true));
+        assertThat(setField.getFields().length, is(1));
+        child = (ObjectSimpleField) setField.getFields()[0];
+        assertThat(child.getId(), is("name"));
+        assertThat(child.getMapping(), is("title"));
+        assertThat(child.getDomain(), is("string"));
+
+        // 3. operation2 fields (without attributes and body use object fields definition)
+        Map<String, AbstractParameter> op2InFields = object.getOperations().get("op2").getInParametersMap();
+        assertThat(op2InFields.size(), is(3));
+
+        refField = (ObjectReferenceField) op2InFields.get("entity");
+        assertThat(refField.getId(), is("entity"));
+        assertThat(refField.getMapping(), is("test2"));
+        assertThat(refField.getRequired(), is(false));
+        assertThat(refField.getReferenceObjectId(), is("utAction"));
+        assertThat(refField.getEntityClass(), is("com.example.Object"));
+        assertThat(refField.getFields().length, is(1));
+        child = (ObjectSimpleField) refField.getFields()[0];
+        assertThat(child.getId(), is("id"));
+        assertThat(child.getMapping(), is("code"));
+        assertThat(child.getDomain(), is("integer"));
+        assertThat(child.getRequired(), is(true));
+        assertThat(child.getDefaultValue(), is("1"));
+        assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
+
+        listField = (ObjectListField) op2InFields.get("list");
+        assertThat(listField.getId(), is("list"));
+        assertThat(listField.getMapping(), is("test3"));
+        assertThat(listField.getRequired(), is(true));
+        assertThat(listField.getFields().length, is(1));
+        child = (ObjectSimpleField) listField.getFields()[0];
+        assertThat(child.getId(), is("id"));
+        assertThat(child.getMapping(), is("pk"));
+        assertThat(child.getRequired(), is(true));
+
+        setField = (ObjectSetField) op2InFields.get("set");
+        assertThat(setField.getId(), is("set"));
+        assertThat(setField.getMapping(), is("test4"));
+        assertThat(setField.getRequired(), is(false));
+        assertThat(setField.getFields().length, is(1));
+        child = (ObjectSimpleField) setField.getFields()[0];
+        assertThat(child.getId(), is("name"));
+        assertThat(child.getMapping(), is("name2"));
     }
 }

@@ -266,10 +266,10 @@
             <xs:documentation>Входящие параметры операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="field" type="operationInParameterField"/>
-            <xs:element name="reference" type="operationInParameterReference"/>
-            <xs:element name="list" type="operationInParameterReference"/>
-            <xs:element name="set" type="operationInParameterReference"/>
+            <xs:element name="field" type="operationInParameterField" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 

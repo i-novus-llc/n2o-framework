@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       name="utExpression"
-       object-id="utObjectField">
+       name="utExpression">
     <list>
         <sql>test</sql>
     </list>

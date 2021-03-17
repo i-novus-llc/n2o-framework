@@ -38,7 +38,6 @@ public class ListWidgetBinderTest extends SourceCompileTestBase {
     @Test
     public void rowClickResolve() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml");
         PageContext context = new PageContext("testListWidgetRowClick", "/p/w/:param/row");
         ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
