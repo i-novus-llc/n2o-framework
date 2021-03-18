@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>n2o-demo-server</artifactId>
-    <version>7.12.14</version>
+    <version>7.12.15-SNAPSHOT</version>
     <packaging>${packaging.type}</packaging>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>demo</artifactId>
-        <version>7.12.14</version>
+        <version>7.12.15-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
