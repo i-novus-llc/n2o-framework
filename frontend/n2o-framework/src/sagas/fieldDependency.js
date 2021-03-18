@@ -91,12 +91,6 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
   const evalResult = evalExpression(expression, values);
 
-  if (evalResult === undefined) {
-    warning(`В eval expression undefined недопустим. (form[${formName}].field[${fieldName}].expression = ${expression})`);
-
-    return;
-  }
-
   switch (type) {
     case 'enabled':
       const currentEnabled = field.disabled === false;
@@ -128,7 +122,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
       break;
     case 'setValue':
-      if (isEqual(evalResult, values[fieldName])) {
+      if (evalResult === undefined || isEqual(evalResult, values[fieldName])) {
         break;
       }
 
