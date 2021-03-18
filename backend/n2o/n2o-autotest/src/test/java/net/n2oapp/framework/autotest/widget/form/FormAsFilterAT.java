@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.widget.form;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -18,8 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.util.Collections;
 
 /**
  * Автотест Форма как фильтры таблицы
@@ -60,34 +58,34 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(4);
 
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/"));
+        page.urlShouldMatches(getBaseUrl() + "/#/");
 
         Select select = form.fields().field("Period").control(Select.class);
         select.select(0);
         select.shouldSelected("Week");
 
         table.columns().rows().shouldHaveSize(1);
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?period=WEEK"));
+        page.urlShouldMatches(getBaseUrl() + "/#/\\?period=WEEK");
 
         select.clear();
 
         table.columns().rows().shouldHaveSize(4);
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/"));
+        page.urlShouldMatches(getBaseUrl() + "/#/");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.val("1");
 
         table.columns().rows().shouldHaveSize(1);
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?uid=1"));
+        page.urlShouldMatches(getBaseUrl() + "/#/\\?uid=1");
 
         inputText.clear();
         table.columns().rows().shouldHaveSize(4);
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/"));
+        page.urlShouldMatches(getBaseUrl() + "/#/");
     }
 
     @Test
     public void openWithIdParam() {
-        StandardPage page = open(StandardPage.class, "uid=3");
+        StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("uid", "3"));  //"uid=3"
         Selenide.refresh();
         page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
 
@@ -99,7 +97,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?uid=3"));
+        page.urlShouldMatches(getBaseUrl() + "/#/\\?uid=3");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldHaveValue("3");
@@ -109,7 +107,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void openWithPeriodParam() {
-        StandardPage page = open(StandardPage.class, "period=MONTH");
+        StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("period", "MONTH")); //"period=MONTH"
         Selenide.refresh();
         page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
 
@@ -121,7 +119,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        assertThat(N2oSelenide.getCurrentUrl(), is(getBaseUrl() + "/#/?period=MONTH"));
+        page.urlShouldMatches(getBaseUrl() + "/#/\\?period=MONTH");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldBeEmpty();

@@ -14,6 +14,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Configuration.headless;
 
@@ -55,8 +56,13 @@ public class AutoTestBase extends N2oTestBase {
         return N2oSelenide.open(getBaseUrl(), clazz);
     }
 
-    protected <T extends Page> T open(Class<T> clazz, String queryParams) {
-        return N2oSelenide.open(getBaseUrl() + "/#/?" + queryParams, clazz);
+    protected <T extends Page> T open(Class<T> clazz, String pageUrl, Map<String, String> queryParams) {
+        if (pageUrl == null) pageUrl = "/";
+        String strQP = queryParams != null && !queryParams.isEmpty() ?
+                "?" + queryParams.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue())
+                        .collect(Collectors.joining("&")) : "";
+
+        return N2oSelenide.open(getBaseUrl() + "/#" + pageUrl + strQP, clazz);
     }
 
     protected void setUserInfo(Map<String, Object> user) {
