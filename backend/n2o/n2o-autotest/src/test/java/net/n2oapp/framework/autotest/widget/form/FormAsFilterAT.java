@@ -58,29 +58,29 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(4);
 
-        page.urlShouldMatches(getBaseUrl() + "/#/");
+        page.urlShouldMatches(".*/#/");
 
         Select select = form.fields().field("Period").control(Select.class);
         select.select(0);
         select.shouldSelected("Week");
 
         table.columns().rows().shouldHaveSize(1);
-        page.urlShouldMatches(getBaseUrl() + "/#/\\?period=WEEK");
+        page.urlShouldMatches(".*/#/\\?period=WEEK");
 
         select.clear();
 
         table.columns().rows().shouldHaveSize(4);
-        page.urlShouldMatches(getBaseUrl() + "/#/");
+        page.urlShouldMatches(".*/#/");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.val("1");
 
         table.columns().rows().shouldHaveSize(1);
-        page.urlShouldMatches(getBaseUrl() + "/#/\\?uid=1");
+        page.urlShouldMatches(".*/#/\\?uid=1");
 
         inputText.clear();
         table.columns().rows().shouldHaveSize(4);
-        page.urlShouldMatches(getBaseUrl() + "/#/");
+        page.urlShouldMatches(".*/#/");
     }
 
     @Test
@@ -97,7 +97,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        page.urlShouldMatches(getBaseUrl() + "/#/\\?uid=3");
+        page.urlShouldMatches(".*/#/\\?uid=3");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldHaveValue("3");
@@ -119,7 +119,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        page.urlShouldMatches(getBaseUrl() + "/#/\\?period=MONTH");
+        page.urlShouldMatches(".*/#/\\?period=MONTH");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldBeEmpty();
