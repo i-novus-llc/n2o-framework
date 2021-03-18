@@ -120,8 +120,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     // TODO - будет переписано в следующей задаче
     private void prepareValue(AbstractParameter inParameter, DataSet inDataSet) {
         Object value = inDataSet.get(inParameter.getId());
-        if (inParameter instanceof ObjectSimpleField && value == null) {
-            value = ((ObjectSimpleField) inParameter).getDefaultValue();
+        if (inParameter instanceof ObjectSimpleField) {
+            if (value == null)
+                value = ((ObjectSimpleField) inParameter).getDefaultValue();
             value = contextProcessor.resolve(value);
             value = domainProcessor.deserialize(value, ((ObjectSimpleField) inParameter).getDomain());
         } else if (inParameter instanceof ObjectReferenceField && ((ObjectReferenceField) inParameter).getFields() != null) {
@@ -151,8 +152,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     private boolean isMappingEnabled(AbstractParameter inParam, Map<String, String> inMapping, DataSet inDataSet) {
-        boolean unmappable = inDataSet.get(inParam.getId()) == null ||
-                inParam.getEnabled() != null && !ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
+        boolean unmappable = inParam.getEnabled() != null && !ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
         if (unmappable) {
             inMapping.remove(inParam.getId());
             return false;
