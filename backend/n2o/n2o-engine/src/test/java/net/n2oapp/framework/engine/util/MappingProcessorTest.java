@@ -168,7 +168,7 @@ public class MappingProcessorTest {
         DataSet outerDataSetWithSet = new DataSet();
         outerDataSetWithSet.put("entities", set);
 
-        MappingProcessor.mapParameter(listParam, outerDataSetWithSet);
+        MappingProcessor.mapParameter(setParam, outerDataSetWithSet);
 
         assert outerDataSetWithSet.get("entities") instanceof Set;
         assert ((Set) outerDataSetWithSet.get("entities")).containsAll((List) outerDataSetWithList.get("entities"));

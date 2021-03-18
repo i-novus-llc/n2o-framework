@@ -341,12 +341,13 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     private CompiledObject.Operation compileOperation(N2oObject.Operation operation, CompiledObject compiled, CompileProcessor processor) {
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation();
         compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled));
-        if (operation.getOutFields() != null)
-            compiledOperation.setOutParametersMap(
-                    Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())));
-        if (operation.getFailOutFields() != null)
-            compiledOperation.setFailOutParametersMap(
-                    Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())));
+
+        compiledOperation.setOutParametersMap(operation.getOutFields() != null ?
+                Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
+                Collections.emptyMap());
+        compiledOperation.setFailOutParametersMap(operation.getFailOutFields() != null ?
+                Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
+                Collections.emptyMap());
 
         compileOperationProperties(operation, compiledOperation, processor);
         compiledOperation.setProperties(processor.mapAttributes(operation));

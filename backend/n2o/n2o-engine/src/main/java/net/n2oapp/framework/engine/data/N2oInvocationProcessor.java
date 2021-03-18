@@ -84,6 +84,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 resultDataSet.put(parameter.getId(), contextProcessor.resolve(parameter.getDefaultValue()));
     }
 
+    // TODO - будет переписано в следующей задаче
     protected DataSet resolveInValues(Map<String, String> inMapping,
                                       Collection<AbstractParameter> invocationParameters,
                                       DataSet inDataSet) {
@@ -116,27 +117,23 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         return normalize(invocationParameters, inDataSet);
     }
 
+    // TODO - будет переписано в следующей задаче
     private void prepareValue(AbstractParameter inParameter, DataSet inDataSet) {
-//        Object value = inDataSet.get(inParameter.getId());
-//        if (inParameter.getDefaultValue() != null && value == null) {
-//            value = inParameter.getDefaultValue();
-//        }
-//        value = contextProcessor.resolve(value);
-//        value = domainProcessor.deserialize(value, inParameter.getDomain());
-//        if (value != null && inParameter instanceof N2oObject.Parameter &&
-//                ((N2oObject.Parameter) inParameter).getChildParams() != null) {
-//            for (InvocationParameter childParam : ((N2oObject.Parameter) inParameter).getChildParams()) {
-//                if (inParameter.getPluralityType() == PluralityType.list
-//                        || inParameter.getPluralityType() == PluralityType.set) {
-//                    for (Object dataSet : (Collection) value) {
-//                        prepareValue(childParam, (DataSet) dataSet);
-//                    }
-//                } else {
-//                    prepareValue(childParam, (DataSet) value);
-//                }
-//            }
-//        }
-//        inDataSet.put(inParameter.getId(), value);
+        Object value = inDataSet.get(inParameter.getId());
+        if (inParameter instanceof ObjectSimpleField && value == null) {
+            value = ((ObjectSimpleField) inParameter).getDefaultValue();
+            value = contextProcessor.resolve(value);
+            value = domainProcessor.deserialize(value, ((ObjectSimpleField) inParameter).getDomain());
+        } else if (inParameter instanceof ObjectReferenceField && ((ObjectReferenceField) inParameter).getFields() != null) {
+            for (AbstractParameter childParam : ((ObjectReferenceField) inParameter).getFields()) {
+                if (inParameter.getClass().equals(ObjectReferenceField.class))
+                    prepareValue(childParam, (DataSet) value);
+                else
+                    for (Object dataSet : (Collection) value)
+                        prepareValue(childParam, (DataSet) dataSet);
+            }
+        }
+        inDataSet.put(inParameter.getId(), value);
     }
 
     private DataSet normalize(Collection<AbstractParameter> invocationParameters, DataSet inDataSet) {
