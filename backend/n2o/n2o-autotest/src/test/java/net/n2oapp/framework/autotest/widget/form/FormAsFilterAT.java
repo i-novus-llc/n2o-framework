@@ -85,7 +85,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void openWithIdParam() {
-        StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("uid", "3"));  //"uid=3"
+        StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("uid", "3"));
         Selenide.refresh();
         page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
 
@@ -107,7 +107,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void openWithPeriodParam() {
-        StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("period", "MONTH")); //"period=MONTH"
+        StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("period", "MONTH"));
         Selenide.refresh();
         page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
 

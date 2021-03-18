@@ -58,11 +58,11 @@ public class AutoTestBase extends N2oTestBase {
 
     protected <T extends Page> T open(Class<T> clazz, String pageUrl, Map<String, String> queryParams) {
         if (pageUrl == null) pageUrl = "/";
-        String strQP = queryParams != null && !queryParams.isEmpty() ?
-                "?" + queryParams.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue())
-                        .collect(Collectors.joining("&")) : "";
-
-        return N2oSelenide.open(getBaseUrl() + "/#" + pageUrl + strQP, clazz);
+        if (queryParams != null && !queryParams.isEmpty()) {
+            pageUrl += "?" + queryParams.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue())
+                    .collect(Collectors.joining("&"));
+        }
+        return N2oSelenide.open(getBaseUrl() + "/#" + pageUrl, clazz);
     }
 
     protected void setUserInfo(Map<String, Object> user) {
