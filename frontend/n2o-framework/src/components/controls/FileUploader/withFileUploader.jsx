@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
@@ -8,12 +8,14 @@ import every from 'lodash/every';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import isFunction from 'lodash/isFunction';
-import { post, deleteFile, everyIsValid } from './utils';
-import { id } from '../../../utils/id';
+
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
+import { id } from '../../../utils/id';
+
+import { post, deleteFile, everyIsValid } from './utils';
 
 const FileUploaderControl = WrappedComponent => {
-  class ReturnedComponent extends React.Component {
+  class ReturnedComponent extends Component {
     constructor(props) {
       super(props);
 
@@ -22,6 +24,7 @@ const FileUploaderControl = WrappedComponent => {
         imgFiles: [],
         imgError: {},
       };
+
       this.requests = {};
 
       this.handleDrop = this.handleDrop.bind(this);
@@ -49,7 +52,12 @@ const FileUploaderControl = WrappedComponent => {
 
     componentDidUpdate(prevProps) {
       const { value, files, mapper } = this.props;
+
       if (!isEqual(prevProps.value, value)) {
+        if (value === '') {
+          this.setState({ files: [] });
+        }
+
         const newFiles = mapper
           ? mapper(value || [])
           : this.mapFiles(value || []);
