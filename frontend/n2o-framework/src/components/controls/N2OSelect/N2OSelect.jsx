@@ -23,6 +23,7 @@ import declensionNoun from '../../../utils/declensionNoun';
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
+ * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
  * @reactProps {boolean} disabled - флаг неактивности
@@ -412,6 +413,7 @@ class N2OSelect extends React.Component {
       disabled,
       disabledValues,
       imageFieldId,
+      statusFieldId,
       groupFieldId,
       descriptionFieldId,
       format,
@@ -468,6 +470,8 @@ class N2OSelect extends React.Component {
               valueFieldId={valueFieldId}
               labelFieldId={labelFieldId}
               iconFieldId={iconFieldId}
+              imageFieldId={imageFieldId}
+              statusFieldId={statusFieldId}
               badgeFieldId={badgeFieldId}
               descriptionFieldId={descriptionFieldId}
               badgeColorFieldId={badgeColorFieldId}
@@ -515,6 +519,10 @@ N2OSelect.propTypes = {
    * Ключ image в данных
    */
   imageFieldId: PropTypes.string,
+  /**
+   * Ключ image в данных
+   */
+  statusFieldId: PropTypes.string,
   /**
    * Ключ badge в данных
    */
