@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -13,14 +12,10 @@ import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
-
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 
 
 /**
@@ -49,47 +44,16 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             pageRoute.setIsOtherPage(true);
             pageRoutes.addRoute(pageRoute);
         }
-        initPathMapping(linkAction, source, p, routeScope);
+        initMappings(linkAction, source, p, routeScope);
         return linkAction;
     }
 
-    private void initPathMapping(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRouteScope routeScope ) {
-        Map<String, ModelLink> pathMapping = new StrictMap<>();
-        if (routeScope != null && routeScope.getPathMapping() != null) {
-            List<String> pathParams = RouteUtil.getParams(compiled.getUrl());
-            routeScope.getPathMapping().forEach((k, v) -> {
-                if (pathParams.contains(k)) {
-                    pathMapping.put(k, v);
-                }
-            });
-        }
+    private void initMappings(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRouteScope routeScope) {
+        Map<String, ModelLink> pathMapping = initParentRoutePathMappings(routeScope, compiled.getUrl());
+        Map<String, ModelLink> queryMapping = new StrictMap<>();
+        initMappings(source.getPathParams(), source.getQueryParams(), pathMapping, queryMapping, p);
 
-        WidgetScope scope = p.getScope(WidgetScope.class);
-        if (scope != null) {
-            String widgetIdByScope = getWidgetIdByComponentScope(p);
-            String clientWidgetId = widgetIdByScope != null ? widgetIdByScope : scope.getClientWidgetId();
-            if (clientWidgetId != null) {
-                ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
-                if (source.getPathParams() != null) {
-                    for (N2oAnchor.Param pathParam : source.getPathParams()) {
-                        ModelLink link = new ModelLink(model, clientWidgetId);
-                        link.setValue(p.resolveJS(pathParam.getValue()));
-                        pathMapping.put(pathParam.getName(), link);
-                    }
-
-                }
-                if (source.getQueryParams() != null) {
-                    Map<String, ModelLink> queryMapping = new StrictMap<>();
-                    for (N2oAnchor.Param pathParam : source.getQueryParams()) {
-                        ModelLink link = new ModelLink(model, clientWidgetId);
-                        link.setValue(p.resolveJS(pathParam.getValue()));
-                        queryMapping.put(pathParam.getName(), link);
-                    }
-                    compiled.setQueryMapping(queryMapping);
-                }
-            }
-        }
+        compiled.setQueryMapping(queryMapping);
         compiled.setPathMapping(pathMapping);
     }
-
 }
