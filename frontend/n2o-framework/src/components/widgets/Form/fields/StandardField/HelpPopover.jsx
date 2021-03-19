@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import UncontrolledPopover from 'reactstrap/lib/UncontrolledPopover';
-import Button from 'reactstrap/lib/Button';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
+
 import { id } from '../../../../../utils/id';
 
 class HelpPopover extends React.Component {
@@ -10,15 +10,25 @@ class HelpPopover extends React.Component {
     super(props);
 
     this.fieldId = id();
+    this.button = createRef();
   }
+
+  focusOnClick = () => {
+    this.button.current.focus();
+  };
 
   render() {
     const { help, placement, icon } = this.props;
     return (
       <div className={'n2o-popover'}>
-        <Button className={'n2o-popover-btn'} id={this.fieldId} color="link">
+        <button
+          onClick={this.focusOnClick}
+          className={'n2o-popover-btn'}
+          id={this.fieldId}
+          ref={this.button}
+        >
           <i className={icon} />
-        </Button>
+        </button>
         <UncontrolledPopover
           className={'n2o-popover-body'}
           placement={placement}
