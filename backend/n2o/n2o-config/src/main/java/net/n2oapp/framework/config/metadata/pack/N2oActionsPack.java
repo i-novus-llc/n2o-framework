@@ -22,7 +22,8 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new PerformElementIOv1(),
                 new CopyActionElementIOV1(),
                 new ClearActionElementIOV1(),
-                new PrintElementIOV1());
+                new PrintActionElementIOV1(),
+                new RefreshActionElementIOV1());
         b.readers(new InvokeActionReaderV1(),
                 new ShowModalFormReaderV1(),
                 new ShowModalWithActionReaderV1(),

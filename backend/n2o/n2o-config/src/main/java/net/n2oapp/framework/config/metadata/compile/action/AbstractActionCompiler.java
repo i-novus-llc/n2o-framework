@@ -56,7 +56,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация целевого виджета действия
      */
-    protected String initTargetWidget(N2oAction source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initTargetWidget(CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String targetWidgetId = getWidgetIdByComponentScope(p);
