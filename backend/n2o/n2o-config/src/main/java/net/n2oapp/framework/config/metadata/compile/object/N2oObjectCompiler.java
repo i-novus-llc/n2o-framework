@@ -20,7 +20,6 @@ import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import org.springframework.stereotype.Component;
-import org.springframework.util.SerializationUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -421,8 +420,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                     if (nestedFieldsMap.containsKey(refParamField.getId()))
                         prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()));
             } else if (refField.getFields() != null) {
-                // copy structure of nesting fields
-                refParam.setFields((AbstractParameter[]) SerializationUtils.deserialize(SerializationUtils.serialize(refField.getFields())));
+                refParam.setFields(refField.getFields());
             }
         }
     }
