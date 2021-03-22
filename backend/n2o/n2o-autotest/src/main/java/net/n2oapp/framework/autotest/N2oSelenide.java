@@ -54,4 +54,5 @@ public class N2oSelenide {
     public static Drawer drawer() {
         return drawer(Drawer.class);
     }
+
 }
