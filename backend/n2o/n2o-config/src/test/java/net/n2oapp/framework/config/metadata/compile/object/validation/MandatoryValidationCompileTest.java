@@ -49,11 +49,11 @@ public class MandatoryValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getSide(), is("client,server"));
         assertThat(validations.get(0).getFieldId(), is("field1"));
         assertThat(((MandatoryValidation) validations.get(0)).getExpressionOn(), is("field1"));
-        assertThat(((MandatoryValidation) validations.get(0)).getMandatoryExpression(), is("field1 != null"));
+        assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("field1 != null"));
 
         assertThat(validations.get(1).getId(), is("man2"));
         assertThat(validations.get(1).getSeverity(), is(SeverityType.info));
         assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMoment.afterSuccessOperation));
-        assertThat(((MandatoryValidation) validations.get(1)).getMandatoryExpression(), is("field1 != null"));
+        assertThat(((MandatoryValidation) validations.get(1)).getEnablingExpression(), is("field1 != null"));
     }
 }

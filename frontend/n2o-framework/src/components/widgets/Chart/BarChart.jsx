@@ -19,7 +19,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
-import { parseData, createDomain} from './utils';
+import { parseData, createDomain } from './utils';
 
 /**
  * График "Гистограмы"

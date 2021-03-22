@@ -36,9 +36,7 @@ public abstract class N2oStandardControlReaderTestBase {
         if (field instanceof N2oStandardField) {
             assert !((N2oStandardField) field).getCopied();
         }
-        assert !field.getRequired();
         assert field.getDomain().equals(test);
-        assert field.getVisible();
         assert field.getDependsOn()[0].equals(test);
         assert field.getCssClass().equals(test);
         assert field.getLabelStyle().equals(test);

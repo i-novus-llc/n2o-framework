@@ -2,8 +2,6 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
@@ -129,13 +127,13 @@ public class InvocationProcessorTest {
         InvocationParameter param2 = new InvocationParameter();
         param2.setId("primitive");
         param2.setMapping("[1]");
-        param2.setMappingCondition("primitive != null");
+        param2.setEnabled("primitive != null");
         inMapping.add(param2);
 
         InvocationParameter param3 = new InvocationParameter();
         param3.setId("primitive2");
         param3.setMapping("[2]");
-        param3.setMappingCondition("primitive2 != null");
+        param3.setEnabled("primitive2 != null");
         inMapping.add(param3);
 
         InvocationParameter param4 = new InvocationParameter();
@@ -146,7 +144,7 @@ public class InvocationProcessorTest {
         InvocationParameter param5 = new InvocationParameter();
         param5.setId("paramWithMappingCondition");
         param5.setMapping("[4]");
-        param5.setMappingCondition("paramWithMappingCondition != null");
+        param5.setEnabled("paramWithMappingCondition != null");
         inMapping.add(param5);
 
         List<InvocationParameter> outMapping = new ArrayList<>();
@@ -190,7 +188,7 @@ public class InvocationProcessorTest {
         N2oObject.Parameter param = new N2oObject.Parameter();
         param.setId("entity");
         param.setMapping("innerObj");
-        param.setMappingCondition("entity.id != null");
+        param.setEnabled("entity.id != null");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         N2oObject.Parameter inParam1 = new N2oObject.Parameter();
         inParam1.setId("name");

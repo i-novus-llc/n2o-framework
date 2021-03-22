@@ -5,7 +5,7 @@
                 visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
                 visibility-condition="{a==b}" enabling-condition="{c==d}" description="desc" tooltip-position="right"
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
-                confirm-cancel-label="cancel" type="icon" src="testSrc" disable-on-empty-model="false">
+                confirm-cancel-label="cancel" type="icon" src="testSrc" disable-on-empty-model="false" rounded="true">
             <dependencies>
                 <enabling ref-model="resolve" ref-widget-id="ref" message="Не указана дата"/>
                 <visibility ref-model="resolve" ref-widget-id="ref"/>

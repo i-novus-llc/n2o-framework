@@ -62,44 +62,44 @@ image::images\processing-fa5c9.png[]
       </query-pointcut>
   </pointcuts>
   <before><!-- Обработка входных данных до передачи в провайдер -->
-      <in-parameters>
+      <in>
         <!-- Получаем входные параметры действия
         или фильтры выборки для дополнительного запроса -->
-      </in-parameters>
+      </in>
       <invocation>
         <!-- Делаем дополнительный запрос к провайдеру данных -->
       </invocation>
-      <out-parameters>
+      <out>
         <!-- Вставляем результат дополнительного запроса во входные параметры действия
         или фильтры выборки -->
-      </out-parameters>
+      </out>
   </before>
   <after-success><!-- Обработка результата успешного выполнения -->
-      <in-parameters>
+      <in>
         <!-- Получаем результаты выполнения действия
         или поля каждой записи выборки для дополнительного запроса -->
-      </in-parameters>
+      </in>
       <invocation>
         <!-- Делаем дополнительный запрос к провайдеру данных -->
       </invocation>
-      <out-parameters>
+      <out>
         <!-- Вставляем результат дополнительного запроса в результаты действия
         или поля выборки -->
-      </out-parameters>
+      </out>
   </after-success>
   <after-fail><!-- Обработка результата прерванного выполнения -->
-      <in-parameters>
+      <in>
         <!-- Получаем параметры исключения
         или входные параметры действия
         или фильтры выборки для дополнительного запроса -->
-      </in-parameters>
+      </in>
       <invocation>
         <!-- Делаем дополнительный запрос к провайдеру данных -->
       </invocation>
-      <out-parameters>
+      <out>
         <!-- Вставляем результат дополнительного запроса в результаты действия
         или поля выборки -->
-      </out-parameters>
+      </out>
   </after-fail>
 </processing>
 ----
@@ -133,11 +133,11 @@ image::images\processing-fa5c9.png[]
   <invocation>
     <sql>INSERT INTO mylog VALUES (:id, :name, :username);
   </invocation>
-  <in-parameters> <!-- Собираем результаты выполненного действия -->
-    <param id="id" mapping="id"/>
-    <param id="name" mapping="name"/>
-    <param id="user" mapping="username" default-value="#{username}"/>
-  </in-parameters>
+  <in> <!-- Собираем результаты выполненного действия -->
+    <field id="id" mapping="id"/>
+    <field id="name" mapping="name"/>
+    <field id="user" mapping="username" default-value="#{username}"/>
+  </in>
 </after>
 ----
 
@@ -147,9 +147,9 @@ image::images\processing-fa5c9.png[]
 [source,xml]
 ----
 <before>    <!-- Действие еще не выполнено -->
-    <out-parameters> <!-- Вставляем данные во входные параметры действия-->
-        <param name="author" default-value="#{username}"/>
-    </out-parameters>
+    <out> <!-- Вставляем данные во входные параметры действия-->
+        <field id="author" default-value="#{username}"/>
+    </out>
 </before>
 ----
 

@@ -56,7 +56,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "id", a::getId, a::setId);
         p.attribute(e, "name", a::getLabel, a::setLabel);
         p.attribute(e, "icon", a::getIcon, a::setIcon);
-        p.attribute(e, "hotkey", a::getHotkey, a::setHotkey);
         p.attribute(e, "widget-id", a::getWidgetId, a::setWidgetId);
         p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
         p.attributeBoolean(e, "default", a::getDefaultValue, a::setDefaultValue);

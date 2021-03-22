@@ -4,10 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,7 +27,7 @@ public class ToolbarAccessTransformer extends BaseAccessTransformer<Toolbar, Com
                     if (b.getAction() != null) {
                         transfer(b.getAction(), b);
                     } else if (b instanceof Submenu && ((Submenu)b).getSubMenu() != null) {
-                        for (MenuItem menuItem : ((Submenu)b).getSubMenu()) {
+                        for (PerformButton menuItem : ((Submenu)b).getSubMenu()) {
                             if (menuItem.getAction() != null) {
                                 transfer(menuItem.getAction(), menuItem);
                             }

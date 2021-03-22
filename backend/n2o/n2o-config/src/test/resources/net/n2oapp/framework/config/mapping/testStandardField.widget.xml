@@ -29,10 +29,10 @@
                         <invocation>
                             <sql>select * from table</sql>
                         </invocation>
-                        <in-parameters>
-                            <param id="param" required="true" domain="boolean" mapper="dataset"
+                        <in>
+                            <field id="param" required="true" domain="boolean" mapper="dataset"
                                    mapping="mapping" normalize="normalize"/>
-                        </in-parameters>
+                        </in>
                     </constraint>
                     <condition id="val2" severity="warning" message="Message" side="client,server"/>
                     <mandatory id="val3" severity="danger" enabled="false" message="Message" side="server"/>

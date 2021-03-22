@@ -43,7 +43,6 @@ public class SubmitGenerator implements ButtonGenerator {
 
         N2oButton saveButton = new N2oButton();
         saveButton.setId(GenerateType.submit.name());
-        saveButton.setPrimary(true);
         saveButton.setColor("primary");
         N2oAction action = null;
         SubmitActionType submitActionType = pageContext.getSubmitActionType() == null ? SubmitActionType.invoke : pageContext.getSubmitActionType();

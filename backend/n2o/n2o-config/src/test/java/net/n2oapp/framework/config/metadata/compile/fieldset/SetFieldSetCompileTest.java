@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тест стандартного филдсета
+ * Тестирование простого филдсета
  */
 public class SetFieldSetCompileTest extends SourceCompileTestBase {
 
@@ -127,7 +127,6 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testFieldSetDependency() {
-
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetEVDCompile.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFields.fieldset.xml")
                 .get(new WidgetContext("testFieldsetEVDCompile"));

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.field;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -29,13 +30,12 @@ public class N2oStandardField extends N2oField implements StandardField {
 
     @Override
     public void shouldBeRequired() {
-        element().$(".n2o-field-label-required").shouldHave(Condition.exist);
+        requiredLabel().shouldHave(Condition.exist);
     }
 
     @Override
     public void shouldNotBeRequired() {
-        //реализовать, когда понадобится
-        throw new UnsupportedOperationException();
+        requiredLabel().shouldNotHave(Condition.exist);
     }
 
     @Override
@@ -63,5 +63,9 @@ public class N2oStandardField extends N2oField implements StandardField {
     @Override
     public void shouldHaveValidationMessage(Condition condition) {
         element().$(".n2o-validation-message").shouldHave(condition);
+    }
+
+    private SelenideElement requiredLabel() {
+        return element().$(".n2o-field-label-required");
     }
 }

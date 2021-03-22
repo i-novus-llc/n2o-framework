@@ -38,15 +38,15 @@ public class CloseWithClearAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
     }
 
     @Test
     public void testCloseWithClearModal() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("close-with-clear-test");
         page.shouldExists();
 
         StandardButton openModalBtn = page.widget(FormWidget.class).toolbar().topLeft().button("openModal");
@@ -85,11 +85,7 @@ public class CloseWithClearAT extends AutoTestBase {
 
     @Test
     public void testCloseWithClearDrawer() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("close-with-clear-test");
         page.shouldExists();
 
         StandardButton openDrawerBtn = page.widget(FormWidget.class).toolbar().topLeft().button("openDrawer");
