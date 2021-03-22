@@ -90,7 +90,6 @@ export const validateField = (
   isTouched = false
 ) => (values, dispatch) => {
   const registeredFields = get(state, ['form', formName, 'registeredFields']);
-  const fields = get(state, ['form', formName, 'fields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)
   );
@@ -146,27 +145,16 @@ export const validateField = (
   });
 
   return Promise.all(promiseList).then(() => {
-    const messagesAction = compact(
-      map(errors, (messages, fieldId) => {
-        if (!isEmpty(messages)) {
-          const message = findPriorityMessage(messages);
-          const dependency = get(registeredFields, [fieldId, 'dependency']);
-          let isDependencyChecked = true;
+    const messagesAction = map(errors, (messages, fieldId) => {
+      if (!isEmpty(messages)) {
+        const message = findPriorityMessage(messages);
+        const nowTouched = get(registeredFields, [fieldId, 'touched']);
 
-          if (!isEmpty(dependency)) {
-            isDependencyChecked = some(dependency, item => !isEmpty(item.on));
-          }
-
-          if (
-            (!isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
-              !get(fields, [fieldId, 'touched'])) &&
-            isDependencyChecked
-          ) {
-            return addFieldMessage(formName, fieldId, message, isTouched);
-          }
+        if (isTouched && !nowTouched || !isEqual(message, get(registeredFields, [fieldId, 'message']))) {
+          return addFieldMessage(formName, fieldId, message, isTouched);
         }
-      })
-    );
+      }
+    }).filter(Boolean);
 
     each(registeredFields, (field, key) => {
       const currentError = has(errors, key);
