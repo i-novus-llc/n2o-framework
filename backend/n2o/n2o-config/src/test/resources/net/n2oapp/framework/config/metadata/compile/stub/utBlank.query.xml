@@ -1,30 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
-       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
-    <object-id>utBlank</object-id>
-    <name>blank</name>
-    <execution>
-        <n2o:sql>
-            <n2o:items-query>select 1
-            </n2o:items-query>
-            <n2o:count-query>select 1
-            </n2o:count-query>
-        </n2o:sql>
-    </execution>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="utBlank" name="blank">
+    <list>
+        <sql>select 1</sql>
+    </list>
+    <unique>
+        <sql>select 1</sql>
+    </unique>
 
     <fields>
-        <field>
-            <id>id</id>
-            <domain>integer</domain>
-            <display>[0]</display>
+        <field id="id" domain="integer">
+            <select/>
         </field>
-        <field>
-            <id>name</id>
+        <field id="name" domain="string">
             <filters>
-                <filter type="eq" filter-field="name"/>
+                <eq filter-id="name"/>
             </filters>
-            <domain>string</domain>
-            <display>[0]</display>
         </field>
     </fields>
 </query>

@@ -19,7 +19,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
- * Шаблонезатор текста.
+ * Шаблонизатор текста.
  * Заменяет плейсхолдеры в строке
  */
 public class PlaceHoldersResolver {
@@ -30,7 +30,7 @@ public class PlaceHoldersResolver {
     private String prefix;
     private String suffix;
     private Boolean onlyJavaVariable;
-    private Function<String, Integer> defaultSiffixIdx = str -> {
+    private Function<String, Integer> defaultSuffixIdx = str -> {
         String[] ends = str.split("\\W");
         return ends.length > 0 ? ends[0].length() : 0;
     };
@@ -39,7 +39,7 @@ public class PlaceHoldersResolver {
      * Создать замену плейсхолдеров
      *
      * @param prefix Начало плейсхолдера
-     * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     * @param suffix Окончание плейсхолдера. Если не задано, то до первого не буквенного символа.
      */
     public PlaceHoldersResolver(String prefix, String suffix) {
         this.prefix = prefix;
@@ -51,14 +51,14 @@ public class PlaceHoldersResolver {
      * Создать замену плейсхолдеров
      *
      * @param prefix           Начало плейсхолдера
-     * @param suffix           Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
-     * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
-     * @param defaultSiffixIdx ункция вычисления индекса конца плейсхолдера
+     * @param suffix           Окончание плейсхолдера. Если не задано, то до первого не буквенного символа.
+     * @param onlyJavaVariable Учитывать плейсхолдеры соответствующие только спецификации java переменных
+     * @param defaultSuffixIdx Функция вычисления индекса конца плейсхолдера
      */
-    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable, Function<String, Integer> defaultSiffixIdx) {
+    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable, Function<String, Integer> defaultSuffixIdx) {
         this.prefix = prefix;
         this.suffix = suffix;
-        this.defaultSiffixIdx = defaultSiffixIdx;
+        this.defaultSuffixIdx = defaultSuffixIdx;
         this.onlyJavaVariable = onlyJavaVariable;
     }
 
@@ -66,8 +66,8 @@ public class PlaceHoldersResolver {
      * Создать замену плейсхолдеров
      *
      * @param prefix           Начало плейсхолдера
-     * @param suffix           Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
-     * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
+     * @param suffix           Окончание плейсхолдера. Если не задано, то до первого не буквенного символа.
+     * @param onlyJavaVariable Учитывать плейсхолдеры соответствующие только спецификации java переменных
      */
     public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable) {
         this.prefix = prefix;
@@ -236,7 +236,7 @@ public class PlaceHoldersResolver {
                     sb.append(split[i].substring(idxNext));
                 }
             } else {
-                idxSuffix = defaultSiffixIdx.apply(split[i]);
+                idxSuffix = defaultSuffixIdx.apply(split[i]);
                 idxNext = idxSuffix;
                 if (idxSuffix == 0) {
                     sb.append(prefix);

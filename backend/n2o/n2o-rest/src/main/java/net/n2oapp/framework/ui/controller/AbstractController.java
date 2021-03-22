@@ -4,7 +4,6 @@ import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -14,6 +13,7 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
@@ -24,7 +24,10 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
@@ -166,7 +169,7 @@ public abstract class AbstractController {
     private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, QueryContext queryCtx, DataSet data) {
         //todo @Deprecated убрать использование этой настройки и старого метода фильтрации данных (по фильтрам query)
         Boolean filterModeOld = environment.getSystemProperties().getProperty("n2o.config.filter.old_mode", Boolean.class);
-        if (filterModeOld != null && filterModeOld) {
+        if (Boolean.TRUE.equals(filterModeOld)) {
             for (Map.Entry<String, String> paramEntry : query.getParamToFilterIdMap().entrySet()) {
                 Object value = data.get(paramEntry.getKey());
                 if (value != null) {
@@ -174,17 +177,15 @@ public abstract class AbstractController {
                     createFilter(query, criteria, value, filterId);
                 }
             }
-        } else {
-            if (queryCtx.getFilters() != null)
-                for (Filter filter : queryCtx.getFilters()) {
-                    String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
-                    Object value = data.get(key);
-                    if (value != null) {
-                        String filterId = query.getParamToFilterIdMap().get(key);
-                        createFilter(query, criteria, value, filterId);
-                    }
+        } else if (queryCtx.getFilters() != null)
+            for (Filter filter : queryCtx.getFilters()) {
+                String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
+                Object value = data.get(key);
+                if (value != null) {
+                    String filterId = query.getParamToFilterIdMap().get(key);
+                    createFilter(query, criteria, value, filterId);
                 }
-        }
+            }
     }
 
     private void createFilter(CompiledQuery query, N2oPreparedCriteria criteria, Object value, String filterId) {

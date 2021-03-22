@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
-import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
@@ -132,7 +131,8 @@ public class N2oController {
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
-        SubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
+        N2oSubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
+        subModelsProcessor.setEnvironment(environment);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, errorMessageBuilder, environment));

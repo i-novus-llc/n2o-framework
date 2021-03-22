@@ -1,6 +1,6 @@
 <chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <lines>
-        <line field-id="test1" color="#8884d8" has-label="true" type="monotone"/>
+        <line field-id="test1" label="name" color="#8884d8" has-label="true" type="monotone"/>
         <line field-id="test2"/>
     </lines>
 </chart>

@@ -27,6 +27,7 @@ public class AreaChartCompiler extends StandardChartCompiler<AreaChart, N2oAreaC
         for (N2oAreaChartItem item : source.getItems()) {
             AreaChartItem component = new AreaChartItem();
             component.setFieldId(item.getFieldId());
+            component.setLabel(item.getLabel());
             component.setLineType(p.cast(item.getLineType(),
                     p.resolve(property("n2o.api.widget.chart.area.line_type"), ChartLineType.class)));
             component.setColor(item.getColor());

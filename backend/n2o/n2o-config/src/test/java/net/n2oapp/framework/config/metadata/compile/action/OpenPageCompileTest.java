@@ -179,6 +179,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void breadcrumb() {
+        // проверка breadcrumb при открытии open-page из таблицы
         DataSet data = new DataSet().add("parent_id", 123);
         PageContext context = new PageContext("testOpenPageSimplePage", "/page/:parent_id/view");
         context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("parent", "/page/:parent_id")));
@@ -227,6 +228,26 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&secondName=test"));
+
+        // проверка breadcrumb при открытии open-page не из таблицы, а другого виджета
+        // при этом в parentId не должны сохраняться id выбранных записей
+        context = new PageContext("testOpenPageSimplePage2", "/page/:parent_id/view2");
+        context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("parent", "/page/:parent_id")));
+        Page page2 = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage2.page.xml")
+                .bind().get(context, data);
+
+        assertThat(page2.getRoutes().findRouteByUrl("/page/123/view2"), notNullValue());
+
+        updatePage = routeAndGet("/page/123/view2/widget/456/action2", Page.class);
+        assertThat(updatePage.getRoutes().findRouteByUrl("/page/123/view2/widget/456/action2"), notNullValue());
+        assertThat(updatePage.getBreadcrumb().size(), is(3));
+        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
+        // не содержит :page_test_id
+        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view2/widget"));
+        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
     }
 
     @Test

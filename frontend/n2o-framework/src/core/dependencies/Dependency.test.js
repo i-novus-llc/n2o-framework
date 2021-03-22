@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { change } from 'redux-form';
+import { change, actionTypes } from 'redux-form';
 import {
   DISABLE_FIELD,
   ENABLE_FIELD,
@@ -15,7 +15,6 @@ import omit from 'lodash/omit';
 import set from 'lodash/set';
 import configureMockStore from 'redux-mock-store';
 import { call, put } from 'redux-saga/effects';
-import { REGISTER_FIELD_EXTRA } from '../../constants/formPlugin';
 import { showField, hideField } from '../../actions/formPlugin';
 import { enableField, disableField } from '../../actions/formPlugin';
 import formPluginReducer from '../../reducers/formPlugin';
@@ -52,7 +51,7 @@ const mockData = {
   formName: 'test',
   fieldName: 'field2',
   dispatch: () => {},
-  actionType: REGISTER_FIELD_EXTRA,
+  actionType: actionTypes.INITIALIZE,
 };
 
 const actions = [
@@ -138,9 +137,8 @@ const setupModify = mockData => {
     mockData.values,
     mockData.formName,
     mockData.fields.field1.name,
-    mockData.fields.field1.dependency[0].type,
     mockData.fields.field1.dependency[0],
-    () => {}
+    mockData.fields.field1
   );
 };
 
@@ -153,9 +151,8 @@ describe('Тестирование саги', () => {
         mockData.values,
         mockData.formName,
         mockData.fields.field1.name,
-        mockData.fields.field1.dependency[0].type,
         mockData.fields.field1.dependency[0],
-        undefined
+        mockData.fields.field1
       )
     );
     expect(gen.next().done).toBe(true);
@@ -188,25 +185,21 @@ describe('Тестирование саги', () => {
     expect(gen.next().done).toBe(true);
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
-    expect(gen.next().value).toEqual(
-      put(showField(mockData.formName, mockData.fields.field1.name))
-    );
+    expect(gen.next().value).toBe(undefined);
     expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора enabled зависимости', () => {
     let gen;
     /* Enabled */
     set(mockData, 'fields.field1.dependency[0].type', 'enabled');
-    gen = setupModify({ ...mockData, values: { field2: 'test' } });
-    expect(gen.next().value).toEqual(
-      put(enableField(mockData.formName, mockData.fields.field1.name))
-    );
-    expect(gen.next().done).toBe(true);
-    set(mockData, 'values.field2', '');
-    gen = setupModify(mockData);
+    gen = setupModify({ ...mockData, values: { field2: 'test2' } });
     expect(gen.next().value).toEqual(
       put(disableField(mockData.formName, mockData.fields.field1.name))
     );
+    expect(gen.next().done).toBe(true);
+    set(mockData, 'values.field2', 'test');
+    gen = setupModify(mockData);
+    expect(gen.next().value).toEqual(undefined);
     expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора setValue зависимости', () => {
@@ -216,8 +209,14 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].expression', 'field2');
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
-    gen.next();
-    expect(gen.next().value.type).toBe('SELECT');
+    expect(gen.next().value).toEqual(
+      put(
+        change(mockData.formName, mockData.fields.field1.name, {
+          keepDirty: false,
+          value: 'test',
+        })
+      )
+    );
     expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора reset зависимости', () => {

@@ -27,14 +27,12 @@ public class FieldSetRowCompiler implements BaseSourceCompiler<FieldSet.Row, N2o
         row.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         if (source.getItems() != null) {
             List<FieldSet.Column> columns = new ArrayList<>();
-            for (int i = 0; i < source.getItems().length; i++) {
-                if (source.getItems()[i] instanceof N2oFieldsetColumn) {
-                    columns.add(p.compile(source.getItems()[i], context));
+            for (SourceComponent item : source.getItems()) {
+                if (item instanceof N2oFieldsetColumn) {
+                    columns.add(p.compile(item, context));
                 } else {
                     N2oFieldsetColumn newCol = new N2oFieldsetColumn();
-                    SourceComponent[] items = new SourceComponent[1];
-                    items[0] = source.getItems()[i];
-                    newCol.setItems(items);
+                    newCol.setItems(new SourceComponent[]{item});
                     columns.add(p.compile(newCol, context));
                 }
             }

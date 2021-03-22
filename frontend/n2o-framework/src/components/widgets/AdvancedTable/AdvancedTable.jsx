@@ -207,6 +207,7 @@ class AdvancedTable extends Component {
         this.setSelectAndFocus(id, id);
       }
     }
+
     if (!isEqual(prevProps, this.props)) {
       let state = {};
       if (
@@ -240,6 +241,7 @@ class AdvancedTable extends Component {
       }
       this.setState({ ...state });
     }
+
     if (
       !isEqual(prevState.checked, checked) &&
       rowSelection === rowSelectionType.CHECKBOX
@@ -260,6 +262,7 @@ class AdvancedTable extends Component {
 
       this.setState({ checkedAll: all });
     }
+
     if (
       resolveModel &&
       rowSelection === rowSelectionType.RADIO &&
@@ -596,11 +599,13 @@ class AdvancedTable extends Component {
       rowClass,
       rowSelection,
       autoCheckboxOnSelect,
+      resolveModel,
     } = this.props;
+
     return {
       index,
       rowClick,
-      isRowActive: model.id === this.state.selectIndex,
+      isRowActive: model.id === get(resolveModel, 'id'),
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,

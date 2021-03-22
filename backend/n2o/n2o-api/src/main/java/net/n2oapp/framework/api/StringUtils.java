@@ -134,7 +134,7 @@ public abstract class StringUtils {
      * @return Содержит (true) или нет (false)
      */
     public static boolean hasLink(String text) {
-        return isLink(text) || linkPlaceHoldersResolver.hasPlaceHolders(text);
+        return text != null && text.matches(".*(?<![#$])\\{.+}.*");
     }
 
     /**

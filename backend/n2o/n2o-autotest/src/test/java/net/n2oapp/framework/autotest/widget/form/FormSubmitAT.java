@@ -50,6 +50,7 @@ public class FormSubmitAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.object.xml"));
+        final int DELAY = 600;
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -71,7 +72,8 @@ public class FormSubmitAT extends AutoTestBase {
         inputText.val("Ann");
         // обновляем страницу и проверяем значения всех полей
         // ожидание отправки поля
-        Selenide.sleep(500);
+        Selenide.sleep(DELAY);
+        inputText.shouldHaveValue("Ann");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Мужской");
@@ -80,7 +82,8 @@ public class FormSubmitAT extends AutoTestBase {
 
         // изменяем списковое поле
         select.select(1);
-        Selenide.sleep(500);
+        Selenide.sleep(DELAY);
+        select.shouldHaveValue("Женский");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
@@ -89,7 +92,8 @@ public class FormSubmitAT extends AutoTestBase {
 
         // изменяем интервальное поле
         dateInterval.beginVal("18.01.2020");
-        Selenide.sleep(500);
+        Selenide.sleep(DELAY);
+        dateInterval.beginShouldHaveValue("18.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
@@ -97,7 +101,8 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         dateInterval.endVal("24.01.2020");
-        Selenide.sleep(500);
+        Selenide.sleep(DELAY);
+        dateInterval.endShouldHaveValue("24.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");

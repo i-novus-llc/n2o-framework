@@ -1,11 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -31,18 +33,38 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setVisible(ScriptProcessor.resolveExpression(source.getVisible()));
 
         if (source.getItems() != null && source.getItems().length > 0) {
-            if (source.getItems()[0] instanceof N2oField) {
-                List<Field> fields = new ArrayList<>();
-                for (NamespaceUriAware item : source.getItems()) {
-                    fields.add(p.compile(item, context));
+            boolean onlyFields = true;
+            for (SourceComponent item : source.getItems())
+                if (!(item instanceof N2oField)) {
+                    onlyFields = false;
+                    break;
                 }
-                if (fields.size() == 1)
-                    column.setSize(column.getSize());
-                column.setFields(fields);
+
+            if (onlyFields) {
+                List<Field> compiledFields = new ArrayList<>();
+                for (SourceComponent field : source.getItems())
+                    compiledFields.add(p.compile(field, context));
+                column.setFields(compiledFields);
             } else {
                 List<FieldSet> fieldSets = new ArrayList<>();
-                for (NamespaceUriAware item : source.getItems()) {
-                    fieldSets.add(p.compile(item, context));
+                int i = 0;
+                while (i < source.getItems().length) {
+                    N2oFieldSet fieldSet;
+                    if (source.getItems()[i] instanceof N2oFieldSet) {
+                        fieldSet = (N2oFieldSet) source.getItems()[i];
+                        i++;
+                    } else {
+                        N2oSetFieldSet newFieldSet = new N2oSetFieldSet();
+                        List<SourceComponent> fieldSetItems = new ArrayList<>();
+                        while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oFieldSet)) {
+                            fieldSetItems.add(source.getItems()[i]);
+                            i++;
+                        }
+                        SourceComponent[] items = new SourceComponent[fieldSetItems.size()];
+                        newFieldSet.setItems(fieldSetItems.toArray(items));
+                        fieldSet = newFieldSet;
+                    }
+                    fieldSets.add(p.compile(fieldSet, context));
                 }
                 column.setFieldsets(fieldSets);
             }

@@ -1,6 +1,7 @@
 import filter from 'lodash/filter';
 import merge from 'lodash/merge';
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 
 export const COLORS = [
   '#9E2B0E',
@@ -24,6 +25,19 @@ export const COLORS = [
   '#63411E',
   '#C99765',
 ];
+
+export const parseData = data => {
+  if (data.length) {
+    return data.map(item => {
+      const { hasLabel, label } = item;
+      return {
+        ...omit(item, ['hasLabel', 'label']),
+        label: hasLabel,
+        name: label,
+      };
+    });
+  }
+};
 
 export const setLineColors = lines => {
   if (lines.length) {

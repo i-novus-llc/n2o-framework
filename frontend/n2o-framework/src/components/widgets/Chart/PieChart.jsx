@@ -30,21 +30,25 @@ import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
  *     fill: заливка цветом
  *     animationBegin: дилей до начала анимации
  *     animationEasing: тип анимации
+ *     size: Максимальное кол-во секторов
  * }
  * @param data
+ * @param size
  * @param rest
  * @return {*}
  * @constructor
  */
 
-function PieChart({ width, height, margin, pie, data, ...rest }) {
+function PieChart({ width, height, margin, pie, data, size, ...rest }) {
   const valueFieldId = get(pie, 'dataKey');
   const tooltipFieldId = get(pie, 'tooltipKey');
   const customFill = get(pie, 'fill');
 
-  const pieData = valueFieldId
+  const mapData = valueFieldId
     ? map(data, elem => ({ ...elem, value: Number(elem[valueFieldId]) }))
     : data;
+
+  const pieData = mapData.slice(0, size);
 
   const CustomTooltip = ({ payload }) => {
     return (

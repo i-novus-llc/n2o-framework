@@ -1,28 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0">
     <row>
-        <input-text id="testInput1"/>
-        <input-text id="testInput2"/>
-        <input-text id="testInput3"/>
+        <input-text id="id1"/>
+        <input-text id="id2"/>
     </row>
     <row>
-        <input-text id="testInput4"/>
+        <input-text id="id3"/>
+        <input-text id="id4"/>
+        <col>
+            <row>
+                <input-text id="id5"/>
+                <input-text id="id6"/>
+            </row>
+            <row>
+                <input-text id="id7"/>
+            </row>
+            <set>
+                <input-text id="id8"/>
+            </set>
+            <row>
+                <input-text id="id9"/>
+            </row>
+            <set>
+                <input-text id="id10"/>
+            </set>
+        </col>
+        <set>
+            <input-text id="id11"/>
+        </set>
     </row>
-    <row>
-        <input-text id="testInput5"/>
-    </row>
-    <col>
-        <input-text id="testInput6"/>
-    </col>
-    <col>
-        <input-text id="testInput7"/>
-    </col>
-    <row>
-        <input-text id="testInput8"/>
-    </row>
-    <input-text id="testInput9"/>
-    <input-text id="testInput10"/>
-    <col>
-        <input-text id="testInput11"/>
-    </col>
 </set>

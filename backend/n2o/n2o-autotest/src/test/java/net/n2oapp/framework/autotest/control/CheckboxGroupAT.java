@@ -45,6 +45,7 @@ public class CheckboxGroupAT extends AutoTestBase {
                 .control(CheckboxGroup.class);
         checkboxGroup.shouldExists();
 
+        checkboxGroup.shouldHaveOptions("One", "Two", "Three");
         checkboxGroup.shouldBeEmpty();
         checkboxGroup.check("One");
         checkboxGroup.check("Two");

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oPerform;
-import net.n2oapp.framework.api.metadata.event.action.N2oRefresh;
+import net.n2oapp.framework.api.metadata.event.action.N2oRefreshAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -54,7 +54,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton refreshButton = new N2oButton();
         refreshButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.refresh.description"));
         refreshButton.setIcon("fa fa-refresh");
-        N2oRefresh refreshAction = new N2oRefresh();
+        N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setAction(refreshAction);
         refreshButton.setModel(ReduxModel.FILTER);
         return refreshButton;

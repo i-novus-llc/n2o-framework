@@ -3,25 +3,22 @@ import {
   put,
   select,
   take,
-  throttle,
   fork,
+  debounce,
   takeEvery,
   delay,
   cancel,
 } from 'redux-saga/effects';
 import isEmpty from 'lodash/isEmpty';
-import isUndefined from 'lodash/isUndefined';
+import isEqual from 'lodash/isEqual';
 import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
-import set from 'lodash/set';
 import { actionTypes, change } from 'redux-form';
 
 import evalExpression from '../utils/evalExpression';
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
-import { makeWidgetValidationSelector } from '../selectors/widgets';
-import { validateField } from '../core/validation/createValidator';
 import {
   enableField,
   disableField,
@@ -30,14 +27,15 @@ import {
   setRequired,
   unsetRequired,
   setLoading,
+  addFieldMessage,
+  removeFieldMessage,
 } from '../actions/formPlugin';
 import { FETCH_VALUE } from '../core/api';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
+import * as presets from '../core/validation/presets';
 
 import fetchSaga from './fetch';
-
-let prevState = {};
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
@@ -84,69 +82,115 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   }
 }
 
-export function* modify(
-  values,
-  formName,
-  fieldName,
-  type,
-  options = {},
-  dispatch
-) {
-  let _evalResult;
+export function* modify(values, formName, fieldName, dependency = {}, field) {
+  const { type, expression } = dependency;
 
-  if (options.expression) {
-    _evalResult = evalExpression(options.expression, values);
-  }
-
-  set(prevState, [formName, fieldName, type], values);
+  const evalResult = expression ? evalExpression(expression, values) : undefined;
 
   switch (type) {
     case 'enabled':
-      yield _evalResult
-        ? put(enableField(formName, fieldName))
-        : put(disableField(formName, fieldName));
-      break;
-    case 'visible':
-      yield _evalResult
-        ? put(showField(formName, fieldName))
-        : put(hideField(formName, fieldName));
-      break;
-    case 'setValue':
-      let newFormValues = { ...values };
+      const currentEnabled = field.disabled === false;
+      const nextEnabled = Boolean(evalResult);
 
-      if (!isUndefined(_evalResult)) {
-        set(newFormValues, fieldName, _evalResult);
-        set(prevState, [formName, fieldName, type], newFormValues);
-
-        yield put(
-          change(formName, fieldName, {
-            keepDirty: false,
-            value: _evalResult,
-          })
-        );
+      if (currentEnabled === nextEnabled) {
+        break;
       }
 
-      const state = yield select();
-      const validation = makeWidgetValidationSelector(formName)(state);
+      if (nextEnabled) {
+        yield put(enableField(formName, fieldName));
+      } else {
+        yield put(disableField(formName, fieldName));
+      }
+      break;
+    case 'visible':
+      const currentVisible = field.visible === undefined || field.visible === true;
+      const nextVisible = Boolean(evalResult);
 
-      validateField(validation, formName, state)(newFormValues, dispatch);
+      if (currentVisible === nextVisible) {
+        break;
+      }
+
+      if (nextVisible) {
+        yield put(showField(formName, fieldName));
+      } else {
+        yield put(hideField(formName, fieldName));
+      }
+
+      break;
+    case 'setValue':
+      if (evalResult === undefined || isEqual(evalResult, values[fieldName])) {
+        break;
+      }
+
+      yield put(
+        change(formName, fieldName, {
+          keepDirty: false,
+          value: evalResult,
+        })
+      );
       break;
     case 'reset':
-      yield evalResultCheck(_evalResult) &&
-        put(
+      if (values[fieldName] !== null && evalResultCheck(evalResult)) {
+        yield put(
           change(formName, fieldName, {
             keepDirty: false,
             value: null,
           })
         );
+      }
       break;
     case 'required':
-      yield _evalResult
-        ? put(setRequired(formName, fieldName))
-        : put(unsetRequired(formName, fieldName));
+      const currentRequired = field.required === true;
+      const nextRequired = Boolean(evalResult);
+
+      if (currentRequired === nextRequired) {
+        break;
+      }
+
+      if (nextRequired) {
+        yield put(setRequired(formName, fieldName));
+      } else {
+        yield put(unsetRequired(formName, fieldName));
+      }
+
       break;
+    case 'reRender': {
+      const state = yield select();
+      const fieldValidationList = get(state, ['widgets', formName, 'validation', fieldName]);
+      const currentMessage = get(field, ['message', 'text']);
+      let i = 0;
+
+      while (i < fieldValidationList.length) {
+        const fieldValidation = fieldValidationList[i];
+        const { type } = fieldValidation;
+
+        if (type === 'condition' && presets[type]) {
+          const isValid = presets[type](fieldName, values, fieldValidation);
+
+          if (!isValid) {
+            if (fieldValidation.text !== currentMessage) {
+              const message = {
+                severity: fieldValidation.severity,
+                text: fieldValidation.text,
+              };
+
+              yield put(addFieldMessage(formName, fieldName, message));
+            }
+
+            break;
+          }
+        }
+
+        i += 1;
+      }
+
+      if (i === fieldValidationList.length && currentMessage) {
+        yield put(removeFieldMessage(formName, fieldName));
+      }
+      break;
+    }
     case 'fetchValue':
-      const watcher = yield fork(fetchValue, formName, fieldName, options);
+      const watcher = yield fork(fetchValue, formName, fieldName, dependency);
       const action = yield take(actionTypes.CHANGE);
 
       if (get(action, 'meta.field') !== fieldName) {
@@ -163,32 +207,28 @@ export function* checkAndModify(
   fields,
   formName,
   fieldName,
-  actionType,
-  dispatch
+  actionType
 ) {
-  for (const entry of Object.entries(fields)) {
-    const [fieldId, field] = entry;
+  for (const fieldId of Object.keys(fields)) {
+    const field = fields[fieldId];
+
     if (field.dependency) {
       for (const dep of field.dependency) {
+        const isInitAction = [actionTypes.INITIALIZE, REGISTER_FIELD_EXTRA].includes(actionType);
+        const isChangeAction = actionType === actionTypes.CHANGE;
+
         if (
-          (fieldName && includes(dep.on, fieldName)) ||
-          (fieldName &&
-            some(
-              dep.on,
-              field => includes(field, '.') && includes(field, fieldName)
-            )) ||
-          ((actionType === actionTypes.INITIALIZE ||
-            actionType === REGISTER_FIELD_EXTRA) &&
-            dep.applyOnInit)
+          (isInitAction && dep.applyOnInit) ||
+          (isChangeAction && includes(dep.on, fieldName)) ||
+          (isChangeAction && some(dep.on, field => includes(field, '.') && includes(field, fieldName)))
         ) {
           yield call(
             modify,
             values,
             formName,
             fieldId,
-            dep.type,
             dep,
-            dispatch
+            field
           );
         }
       }
@@ -196,37 +236,34 @@ export function* checkAndModify(
   }
 }
 
-export function* resolveDependency(action, dispatch) {
+export function* resolveDependency(action) {
   try {
     const { form: formName, field: fieldName } = action.meta;
     const form = yield select(makeFormByName(formName));
-    if (!isEmpty(form)) {
-      const { values, registeredFields: fields } = form;
-      if (!isEmpty(fields)) {
-        yield call(
-          checkAndModify,
-          values,
-          fields,
-          formName,
-          fieldName || action.name,
-          action.type,
-          dispatch
-        );
-      }
+
+    if (isEmpty(form) || isEmpty(form.registeredFields)) {
+      return;
     }
+
+    yield call(
+      checkAndModify,
+      form.values,
+      form.registeredFields,
+      formName,
+      action.type === REGISTER_FIELD_EXTRA ? action.payload.name : fieldName,
+      action.type
+    );
   } catch (e) {
-    // todo: падает тут из-за отсуствия формы
+    // todo: падает тут из-за отсутствия формы
     console.error(e);
   }
 }
 
-export function* catchAction(dispatch) {
-  const resolveDependencyHandler = action =>
-    resolveDependency(action, dispatch);
-
-  yield takeEvery(actionTypes.INITIALIZE, resolveDependencyHandler);
-  yield throttle(300, REGISTER_FIELD_EXTRA, resolveDependencyHandler);
-  yield takeEvery(actionTypes.CHANGE, resolveDependencyHandler);
+export function* catchAction() {
+  yield takeEvery(actionTypes.INITIALIZE, resolveDependency);
+  // ToDo: Убрать debounce и вообще по возможности REGISTER_FIELD_EXTRA
+  yield debounce(50, REGISTER_FIELD_EXTRA, resolveDependency);
+  yield takeEvery(actionTypes.CHANGE, resolveDependency);
 }
 
 export const fieldDependencySagas = [catchAction];

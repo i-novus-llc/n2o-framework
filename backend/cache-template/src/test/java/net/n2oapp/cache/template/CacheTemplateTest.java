@@ -2,7 +2,6 @@ package net.n2oapp.cache.template;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 import static org.junit.Assert.assertEquals;

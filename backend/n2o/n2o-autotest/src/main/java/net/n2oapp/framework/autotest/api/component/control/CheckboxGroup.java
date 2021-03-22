@@ -14,4 +14,5 @@ public interface CheckboxGroup extends Control {
 
     void shouldBeUnchecked(String label);
 
+    void shouldHaveOptions(String... options);
 }

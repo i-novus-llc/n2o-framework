@@ -10,17 +10,11 @@ import get from 'lodash/get';
 import compact from 'lodash/compact';
 import map from 'lodash/map';
 import has from 'lodash/has';
-import getValues from 'lodash/values';
 import some from 'lodash/some';
 import { batchActions } from 'redux-batched-actions';
 
 import { isPromise } from '../../tools/helpers';
-import { addFieldMessage } from '../../actions/formPlugin';
-import {
-  isValidRangeModel,
-  isRequiredRangeModel,
-  modelHasRange,
-} from '../../utils/checkRangeModel';
+import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin'
 
 import * as presets from './presets';
 
@@ -96,7 +90,6 @@ export const validateField = (
   isTouched = false
 ) => (values, dispatch) => {
   const registeredFields = get(state, ['form', formName, 'registeredFields']);
-  const fields = get(state, ['form', formName, 'fields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)
   );
@@ -152,43 +145,23 @@ export const validateField = (
   });
 
   return Promise.all(promiseList).then(() => {
-    const messagesAction = compact(
-      map(errors, (messages, fieldId) => {
-        if (!isEmpty(messages)) {
-          const message = findPriorityMessage(messages);
-          const dependency = get(registeredFields, [fieldId, 'dependency']);
-          let isDependencyChecked = true;
+    const messagesAction = map(errors, (messages, fieldId) => {
+      if (!isEmpty(messages)) {
+        const message = findPriorityMessage(messages);
+        const nowTouched = get(registeredFields, [fieldId, 'touched']);
 
-          if (!isEmpty(dependency)) {
-            isDependencyChecked = some(dependency, item => !isEmpty(item.on));
-          }
-
-          if (
-            (!isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
-              !get(fields, [fieldId, 'touched'])) &&
-            isDependencyChecked
-          ) {
-            return addFieldMessage(formName, fieldId, message, isTouched);
-          }
+        if (isTouched && !nowTouched || !isEqual(message, get(registeredFields, [fieldId, 'message']))) {
+          return addFieldMessage(formName, fieldId, message, isTouched);
         }
-      })
-    );
+      }
+    }).filter(Boolean);
 
-    map(registeredFields, (field, key) => {
-      if (!has(errors, key) && get(field, 'message', null)) {
-        if (!field.validation || isEmpty(field.validation)) {
-          const model = get(state, 'models.resolve')[formName];
-          const modelId = get(model, 'id');
-          const modelValues = getValues(model);
+    each(registeredFields, (field, key) => {
+      const currentError = has(errors, key);
+      const errorInStore = field.message;
 
-          if (
-            modelHasRange(modelValues) &&
-            isRequiredRangeModel(modelValues, modelId) &&
-            !isValidRangeModel(modelValues)
-          ) {
-            return;
-          }
-        }
+      if (!currentError && errorInStore) {
+        dispatch(removeFieldMessage(formName, key));
       }
     });
 

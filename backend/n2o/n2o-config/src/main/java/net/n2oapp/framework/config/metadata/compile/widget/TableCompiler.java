@@ -59,6 +59,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         widgetScope.setClientWidgetId(table.getId());
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
+        widgetScope.setHasIdInParentRoute(true);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = new SubModelsScope();
         UploadScope uploadScope = new UploadScope();

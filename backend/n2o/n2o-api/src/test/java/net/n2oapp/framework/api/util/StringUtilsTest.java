@@ -43,7 +43,6 @@ public class StringUtilsTest {
         System.out.println("after: " + res);
     }
 
-
     @Test
     public void testIsDynamicValue() throws Exception {
         assert !StringUtils.isDynamicValue(1);
@@ -65,6 +64,21 @@ public class StringUtilsTest {
         assert StringUtils.unwrapLink("{text}").equals("text");
         assert StringUtils.unwrapLink("text") == null;
         assert StringUtils.unwrapLink("`text`") == null;
+    }
+
+    @Test
+    public void hasLink() {
+        assertThat(StringUtils.hasLink("{test}"), is(true));
+        assertThat(StringUtils.hasLink("{}"), is(false));
+        assertThat(StringUtils.hasLink("#{test}"), is(false));
+        assertThat(StringUtils.hasLink("${test}"), is(false));
+        assertThat(StringUtils.hasLink("test"), is(false));
+        assertThat(StringUtils.hasLink("test1 {test2} test3"), is(true));
+        assertThat(StringUtils.hasLink("test1 #{test2} test3"), is(false));
+        assertThat(StringUtils.hasLink("test1 ${test2} test3"), is(false));
+        assertThat(StringUtils.hasLink("#{test} - #{test2}"), is(false));
+        assertThat(StringUtils.hasLink("{test} - #{test2}"), is(true));
+        assertThat(StringUtils.hasLink("#{test} - {test2}"), is(true));
     }
 
     @Test

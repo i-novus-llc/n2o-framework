@@ -20,7 +20,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
-import { setLineColors, createDomain } from './utils';
+import { setLineColors, createDomain, parseData } from './utils';
 
 /**
  * График "Линии"
@@ -150,7 +150,7 @@ function LineChart({
       <CartesianGrid {...cartesianGrid} />
       <Tooltip {...tooltip} />
       <Legend {...legend} />
-      {map(setLineColors(lines), line => (
+      {map(setLineColors(parseData(lines)), line => (
         <Line {...line} />
       ))}
     </Chart>

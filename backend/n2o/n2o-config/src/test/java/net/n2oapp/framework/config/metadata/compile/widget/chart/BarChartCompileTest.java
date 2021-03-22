@@ -47,6 +47,7 @@ public class BarChartCompileTest extends SourceCompileTestBase {
         assertThat(items.size(), is(2));
 
         assertThat(items.get(0).getFieldId(), is("test1"));
+        assertThat(items.get(0).getLabel(), is("name"));
         assertThat(items.get(0).getColor(), is("#8884d8"));
         assertThat(items.get(0).getHasLabel(), is(true));
 

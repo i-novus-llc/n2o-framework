@@ -181,6 +181,11 @@
                 <xs:documentation>Идентификатор поля выборки значений области.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок линии.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Цвет области.</xs:documentation>
@@ -212,6 +217,11 @@
                 <xs:documentation>Идентификатор поля выборки значений столбцов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок столбцов.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Цвет столбцов.</xs:documentation>
@@ -231,6 +241,11 @@
         <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля выборки значений линии.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок линии.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">

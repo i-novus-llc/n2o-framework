@@ -19,11 +19,9 @@ public class LineChartIOv4 extends StandardChartIOv4<N2oLineChart> {
         p.children(e, null, "line", c::getItems, c::setItems, N2oLineChartItem.class, this::lineChartIOv4);
     }
 
-    private void lineChartIOv4(Element e, N2oLineChartItem c, IOProcessor p) {
-        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
-        p.attributeEnum(e, "type", c::getType, c::setType, ChartLineType.class);
-        p.attribute(e, "color", c::getColor, c::setColor);
-        p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
+    private void lineChartIOv4(Element e, N2oLineChartItem i, IOProcessor p) {
+        item(e, i, p);
+        p.attributeEnum(e, "type", i::getType, i::setType, ChartLineType.class);
     }
 
     @Override
