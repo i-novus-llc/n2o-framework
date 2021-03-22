@@ -101,7 +101,7 @@ public class ValidationMessageAT extends AutoTestBase {
         field.shouldHaveValidationMessage(Condition.empty);
 
         rg.check("Yes");
-        field.shouldHaveValidationMessage(Condition.empty);
+        field.shouldHaveValidationMessage(Condition.text("Field is not valid"));
         inputText.val("");
         empty.click();
         field.shouldHaveValidationMessage(Condition.text("Field is not valid"));
