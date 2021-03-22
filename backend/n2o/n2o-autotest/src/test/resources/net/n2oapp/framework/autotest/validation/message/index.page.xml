@@ -21,6 +21,7 @@
                                 typeof licenceGroup !== 'undefined' &amp;&amp; licenceGroup !== null
                                 &amp;&amp; licenceGroup.id === 1
                             </requiring>
+                            <visibility>true</visibility>
                         </dependencies>
                     </text-area>
                     <hidden id="id" default-value="1"/>
@@ -35,7 +36,7 @@
         <region>
             <form object-id="test">
                 <fields>
-                    <radio-group id="validator" label="Make valid">
+                    <radio-group id="validator" inline="true" label="Make valid">
                         <options>
                             <option id="1" name="Yes"/>
                             <option id="2" name="No"/>
