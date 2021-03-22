@@ -279,10 +279,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     private void copyActionForToolbarItem(Map<String, ActionsBar> actionMap, ToolbarItem[] toolbarItems) {
         for (ToolbarItem item : toolbarItems) {
-            if (item instanceof N2oButton || item instanceof N2oMenuItem) {
-                copyAction((AbstractMenuItem) item, actionMap);
+            if (item instanceof N2oButton) {
+                copyAction((N2oButton) item, actionMap);
             } else if (item instanceof N2oSubmenu) {
-                for (N2oMenuItem subItem : ((N2oSubmenu) item).getMenuItems()) {
+                for (N2oButton subItem : ((N2oSubmenu) item).getMenuItems()) {
                     copyAction(subItem, actionMap);
                 }
             } else if (item instanceof N2oGroup) {
@@ -291,8 +291,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    private void copyAction(AbstractMenuItem item, Map<String, ActionsBar> actionMap) {
-        AbstractMenuItem mi = item;
+    private void copyAction(N2oButton item, Map<String, ActionsBar> actionMap) {
+        N2oButton mi = item;
         if (mi.getAction() == null && mi.getActionId() != null) {
             ActionsBar action = actionMap.get(mi.getActionId());
             if (action == null) {

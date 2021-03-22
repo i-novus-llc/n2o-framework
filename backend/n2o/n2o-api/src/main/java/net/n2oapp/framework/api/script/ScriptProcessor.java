@@ -120,7 +120,7 @@ public class ScriptProcessor {
      * #{test} -> #{test} (String), ${test} -> ${test} (String)
      * {test*.id} -> `.map(fuct...)`
      *
-     * @param text выражение сождержащее ссылки
+     * @param text выражение, содержащее ссылки
      * @return js код
      */
     public static Object resolveExpression(String text) {

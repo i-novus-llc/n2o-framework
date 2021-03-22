@@ -17,21 +17,19 @@ public class N2oButtonField extends N2oField implements ModelAware, WidgetIdAwar
     private String icon;
     private String iconFieldId;
     private LabelType type;
-
     private N2oAction action;
-    private String eventId;
-
     private String widgetId;
     private ReduxModel model;
-
     private String actionId;
     private String color;
     private Boolean validate;
+    private String tooltipPosition;
+    private Boolean rounded;
+
     private Boolean confirm;
     private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
     private String confirmCancelLabel;
-    private String tooltipPosition;
 }

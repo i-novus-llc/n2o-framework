@@ -10,7 +10,7 @@
                             <query-param name="q" value="{test}"/>
                         </a>
                     </button>
-                    <sub-menu icon="icon" label="label" class="lass" type="text">
+                    <sub-menu icon="icon" label="label" class="class">
                         <menu-item action-id="linkAction" visible="{test==1}" confirm="true"/>
                     </sub-menu>
                 </toolbar>

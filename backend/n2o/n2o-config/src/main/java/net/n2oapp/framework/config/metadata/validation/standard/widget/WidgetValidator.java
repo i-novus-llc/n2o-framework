@@ -29,7 +29,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         checkObjectExists(n2oWidget, p);
 
         if (n2oWidget.getToolbars() != null) {
-            List<AbstractMenuItem> menuItems = new ArrayList<>();
+            List<N2oButton> menuItems = new ArrayList<>();
             for (N2oToolbar toolbar : n2oWidget.getToolbars()) {
                 if (toolbar.getItems() != null) {
                     for (ToolbarItem item : toolbar.getItems()) {

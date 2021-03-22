@@ -25,23 +25,18 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |
 
 |src
-|Путь к файлу
-|Вёрстка филдсета
+|React компонент
+|Реализация филдсета
 |
 
 |class
 |CSS класс
-|Стиль филдсета
+|Класс филдсета
 |
 
 |style
 |CSS свойства
-|Список CSS свойств
-|
-
-|place
-|Строка
-|Место расположения филдсета
+|Стиль филдсета
 |
 
 |label
@@ -67,12 +62,12 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |visible
 |Выражение
 |Условие видимости
-|
+|true
 
 |enabled
 |Выражение
 |Условие доступности
-|
+|true
 
 |depends-on
 |Строка
@@ -126,12 +121,12 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 
 |class
 |CSS класс
-|Стиль строки
+|Css класс строки
 |
 
 |style
 |CSS свойства
-|Список CSS свойств
+|Стиль строки
 |
 
 |===
@@ -174,18 +169,18 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 
 |class
 |CSS класс
-|Стиль столбца
+|Css класс столбца
 |
 
 |style
 |CSS свойства
-|Список CSS свойств
+|Стиль столбца
 |
 
 |visible
-|true false
-|Видимость
-|
+|Строка
+|Условие видимости
+|true
 
 |===
 
