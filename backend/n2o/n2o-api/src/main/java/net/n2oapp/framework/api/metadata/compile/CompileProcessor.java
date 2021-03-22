@@ -130,6 +130,16 @@ public interface CompileProcessor {
     String getMessage(String messageCode, Object... arguments);
 
     /**
+     * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
+     *
+     * @param source   Исходная метаданная
+     * @param override Перекрывающая метаданная
+     * @param <S>      Тип значения
+     * @return Исходная метаданная с перекрытыми свойствами
+     */
+    <S extends SourceMetadata> S merge(S source, S override);
+
+    /**
      * Привести значение к значению по умолчанию, если оно null.
      * Если первое значение по умолчанию тоже null, берется следующее и т.д.
      *

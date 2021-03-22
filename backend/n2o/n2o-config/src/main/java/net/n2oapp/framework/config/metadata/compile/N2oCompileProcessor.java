@@ -236,6 +236,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
+    public <S extends SourceMetadata> S merge(S source, S override) {
+        return env.getSourceMergerFactory().merge(source, override);
+    }
+
+    @Override
     public boolean canResolveParam(String param) {
         return params != null && params.containsKey(param);
     }

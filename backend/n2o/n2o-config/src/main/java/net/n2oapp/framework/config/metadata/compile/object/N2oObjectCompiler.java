@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -32,6 +33,8 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
  */
 @Component
 public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCompiler<CompiledObject, N2oObject, C> {
+
+    private static final int OBJECT_REFERENCE_NESTING_MAX_DEPTH = 3;
 
     @Override
     public Class<N2oObject> getSourceClass() {
@@ -50,7 +53,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiled.setOperations(new StrictMap<>());
         compiled.setObjectFields(new ArrayList<>());
         compiled.setObjectFieldsMap(new HashMap<>());
-        initObjectFields(source.getObjectFields(), compiled);
+        initObjectFields(source, compiled, p);
         compiled.setName(castDefault(source.getName(), source.getId()));
         compiled.setValidationsMap(new HashMap<>());
         compiled.setValidations(initValidations(source, compiled, context, p));
@@ -68,16 +71,55 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     /**
      * Инициализация полей объекта
      *
-     * @param objectFields Массив полей объекта
-     * @param compiled     Скомпилированный объект
+     * @param source   Исходная модель объекта
+     * @param compiled Скомпилированный объект
+     * @param p        Процессор сборки метаданных
      */
-    private void initObjectFields(AbstractParameter[] objectFields, CompiledObject compiled) {
-        if (objectFields != null) {
-            for (AbstractParameter field : objectFields) {
+    private void initObjectFields(N2oObject source, CompiledObject compiled,
+                                  CompileProcessor p) {
+        if (source.getObjectFields() != null) {
+            for (AbstractParameter field : source.getObjectFields()) {
+                if (field instanceof ObjectReferenceField && ((ObjectReferenceField) field).getReferenceObjectId() != null)
+                    initReferenceFieldByObjectId((ObjectReferenceField) field, p, 1);
                 compiled.getObjectFields().add(field);
                 compiled.getObjectFieldsMap().put(field.getId(), field);
             }
         }
+    }
+
+    /**
+     * Инициализация структуры составного поля по содержимому objectId, на который он ссылается
+     *
+     * @param refField     Исходная модель поля, ссылающегося на другой объект
+     * @param p            Процессор сборки метаданных
+     * @param currentDepth Текущая глубина вложенности
+     */
+    private void initReferenceFieldByObjectId(ObjectReferenceField refField, CompileProcessor p, int currentDepth) {
+        if (currentDepth > OBJECT_REFERENCE_NESTING_MAX_DEPTH)
+            throw new N2oException(String.format("Available only %d level nesting in object fields", OBJECT_REFERENCE_NESTING_MAX_DEPTH));
+
+        N2oObject refObject = p.getSource(refField.getReferenceObjectId(), N2oObject.class);
+        refField.setEntityClass(p.cast(refField.getEntityClass(), refObject.getEntityClass()));
+
+        if (ArrayUtils.isNotEmpty(refField.getFields())) {
+            if (ArrayUtils.isNotEmpty(refObject.getObjectFields())) {
+                for (int i = 0; i < refField.getFields().length; i++) {
+                    AbstractParameter parameter = refField.getFields()[i];
+                    Optional<AbstractParameter> objectRefField = Arrays.stream(refObject.getObjectFields())
+                            .filter(f -> f.getId().equals(parameter.getId())).findFirst();
+                    if (objectRefField.isPresent() && objectRefField.get().getClass().equals(parameter.getClass()))
+                        refField.getFields()[i] = p.merge(objectRefField.get(), parameter);
+                }
+            }
+        } else
+            refField.setFields(refObject.getObjectFields());
+        refField.setReferenceObjectId(null);
+
+        // рекурсивная инициализация внутренних вложенных полей
+        if (ArrayUtils.isNotEmpty(refField.getFields()))
+            for (AbstractParameter field : refField.getFields())
+                if (field instanceof ObjectReferenceField && ((ObjectReferenceField) field).getReferenceObjectId() != null)
+                    initReferenceFieldByObjectId((ObjectReferenceField) field, p, currentDepth++);
     }
 
     /**
@@ -334,12 +376,13 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      *
      * @param operation Операция исходного объекта
      * @param compiled  Скомпилированный объект
-     * @param processor Процессор сборки метаданных
+     * @param p         Процессор сборки метаданных
      * @return Операция скомпилированного объекта
      */
-    private CompiledObject.Operation compileOperation(N2oObject.Operation operation, CompiledObject compiled, CompileProcessor processor) {
+    private CompiledObject.Operation compileOperation(N2oObject.Operation operation, CompiledObject compiled,
+                                                      CompileProcessor p) {
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation();
-        compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled));
+        compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled, p));
 
         compiledOperation.setOutParametersMap(operation.getOutFields() != null ?
                 Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
@@ -348,8 +391,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
                 Collections.emptyMap());
 
-        compileOperationProperties(operation, compiledOperation, processor);
-        compiledOperation.setProperties(processor.mapAttributes(operation));
+        compileOperationProperties(operation, compiledOperation, p);
+        compiledOperation.setProperties(p.mapAttributes(operation));
         return compiledOperation;
     }
 
@@ -387,13 +430,15 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      *
      * @param parameters Входящие параметры операции исходной модели объекта
      * @param compiled   Скомпилированный объект
+     * @param p          Процессор сборки метаданных
      * @return Map входящих параметров операции исходной модели объекта
      */
-    private Map<String, AbstractParameter> prepareOperationInParameters(AbstractParameter[] parameters, CompiledObject compiled) {
+    private Map<String, AbstractParameter> prepareOperationInParameters(AbstractParameter[] parameters,
+                                                                        CompiledObject compiled, CompileProcessor p) {
         Map<String, AbstractParameter> inFieldsMap = new LinkedHashMap<>();
         if (parameters != null)
             for (AbstractParameter parameter : parameters) {
-                prepareOperationInParameter(parameter, compiled.getObjectFieldsMap().get(parameter.getId()));
+                prepareOperationInParameter(parameter, compiled.getObjectFieldsMap().get(parameter.getId()), p);
                 parameter.setRequired(castDefault(parameter.getRequired(), false));
                 inFieldsMap.put(parameter.getId(), parameter);
             }
@@ -405,21 +450,24 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      *
      * @param parameter Входящие параметр операции исходной модели объекта
      * @param field     Соответствующее ему поле в объекте
+     * @param p         Процессор сборки метаданных
      */
-    private void prepareOperationInParameter(AbstractParameter parameter, AbstractParameter field) {
+    private void prepareOperationInParameter(AbstractParameter parameter, AbstractParameter field, CompileProcessor p) {
         if (parameter instanceof ObjectSimpleField && field instanceof ObjectSimpleField) {
             resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
         } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField) {
             ObjectReferenceField refParam = (ObjectReferenceField) parameter;
+            if (refParam.getReferenceObjectId() != null)
+                initReferenceFieldByObjectId(refParam, p, 1);
             ObjectReferenceField refField = (ObjectReferenceField) field;
             resolveReferenceFieldDefault(refParam, refField);
-            if (refParam.getFields() != null && refParam.getFields().length != 0) {
+            if (ArrayUtils.isNotEmpty(refParam.getFields())) {
                 Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(
                         refField.getFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
                 for (AbstractParameter refParamField : refParam.getFields())
                     if (nestedFieldsMap.containsKey(refParamField.getId()))
-                        prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()));
-            } else if (refField.getFields() != null) {
+                        prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()), p);
+            } else if (ArrayUtils.isNotEmpty(refField.getFields())) {
                 refParam.setFields(refField.getFields());
             }
         }
