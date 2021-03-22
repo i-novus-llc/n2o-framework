@@ -27,11 +27,13 @@ import {
   setRequired,
   unsetRequired,
   setLoading,
+  addFieldMessage,
+  removeFieldMessage,
 } from '../actions/formPlugin';
 import { FETCH_VALUE } from '../core/api';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
-import warning from '../utils/warning';
+import * as presets from '../core/validation/presets';
 
 import fetchSaga from './fetch';
 
@@ -69,13 +71,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 export function* modify(values, formName, fieldName, dependency = {}, field) {
   const { type, expression } = dependency;
 
-  if (!expression) {
-    warning(`В form[${formName}].field[${fieldName}].dependency нет expression'а`);
-
-    return;
-  }
-
-  const evalResult = evalExpression(expression, values);
+  const evalResult = expression ? evalExpression(expression, values) : undefined;
 
   switch (type) {
     case 'enabled':
@@ -144,6 +140,41 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
       }
 
       break;
+    case 'reRender': {
+      const state = yield select();
+      const fieldValidationList = get(state, ['widgets', formName, 'validation', fieldName]);
+      const currentMessage = get(field, ['message', 'text']);
+      let i = 0;
+
+      while (i < fieldValidationList.length) {
+        const fieldValidation = fieldValidationList[i];
+        const { type } = fieldValidation;
+
+        if (type === 'condition' && presets[type]) {
+          const isValid = presets[type](fieldName, values, fieldValidation);
+
+          if (!isValid) {
+            if (fieldValidation.text !== currentMessage) {
+              const message = {
+                severity: fieldValidation.severity,
+                text: fieldValidation.text,
+              };
+
+              yield put(addFieldMessage(formName, fieldName, message));
+            }
+
+            break;
+          }
+        }
+
+        i += 1;
+      }
+
+      if (i === fieldValidationList.length && currentMessage) {
+        yield put(removeFieldMessage(formName, fieldName));
+      }
+      break;
+    }
     case 'fetchValue':
       const watcher = yield fork(fetchValue, formName, fieldName, dependency);
       const action = yield take(actionTypes.CHANGE);
@@ -169,10 +200,13 @@ export function* checkAndModify(
 
     if (field.dependency) {
       for (const dep of field.dependency) {
+        const isInitAction = [actionTypes.INITIALIZE, REGISTER_FIELD_EXTRA].includes(actionType);
+        const isChangeAction = actionType === actionTypes.CHANGE;
+
         if (
-          ([actionTypes.INITIALIZE, REGISTER_FIELD_EXTRA].includes(actionType) && dep.applyOnInit) ||
-          (fieldName && includes(dep.on, fieldName)) ||
-          (fieldName && some(dep.on, field => includes(field, '.') && includes(field, fieldName)))
+          (isInitAction && dep.applyOnInit) ||
+          (isChangeAction && includes(dep.on, fieldName)) ||
+          (isChangeAction && some(dep.on, field => includes(field, '.') && includes(field, fieldName)))
         ) {
           yield call(
             modify,
