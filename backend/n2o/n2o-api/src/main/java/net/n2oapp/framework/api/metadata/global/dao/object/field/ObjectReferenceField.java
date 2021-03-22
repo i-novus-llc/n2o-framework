@@ -15,8 +15,8 @@ import java.util.List;
 public class ObjectReferenceField extends AbstractParameter {
     private String referenceObjectId;
     private String entityClass;
-    private ObjectScalarField[] fields;
-    private List<ObjectScalarField> objectReferenceFields = new ArrayList<>();
+    private AbstractParameter[] fields;
+    private List<ObjectSimpleField> objectReferenceFields = new ArrayList<>();
 
     public ObjectReferenceField() {
     }

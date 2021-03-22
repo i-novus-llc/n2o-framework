@@ -22,11 +22,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |Наименование таблицы БД, ассоциированной с объектом
 |
 
-|entity-class
-|Строка
-|Класс сущности, ассоциированной с объектом
-|
-
 |service-class
 |Строка
 |Класс сервиса, выполняющего действия над объектом
@@ -96,11 +91,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |SpEL выражение, применяемое к значению перед маппингом
 |
 
-|mapper
-|dataset, spel, javascript, groovy
-|Способ маппинга в параметры провайдера
-|dataset
-
 |mapping
 |Строка
 |Маппинг значения в сущность или провайдер данных
@@ -117,17 +107,13 @@ http://n2oapp.net/framework/config/schema/object-4.0
 [source,xml]
 ----
 <fields>
-  <field
-    id="birthday"
-    name="День рождения"
-    domain="date"
-    mapping="birth_date"/>
+  <field id="birthday" domain="date" mapping="['birthDate']"/>
 </fields>
 ----
 
 
 ==== <reference>
-Поле, ссылающееся на другой объект.
+Составное поле.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -136,18 +122,18 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 |id
 |Строка
-|Идентификатор ссылки (без `.id`)
+|Идентификатор ссылки
 |
 
 |object-id
 |Ссылка
-|Объект, на который ссылается поле
+|Объект, в котором представлено описание поля
 |
 
 |name
 |Строка
-|Наименование ссылки
-|Берется из атрибута `name` у объекта ссылки
+|Наименование поля
+|
 
 |entity-class
 |Строка
@@ -156,7 +142,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 |mapping
 |Строка
-|Маппинг ссылки в сущность или провайдер данных
+|Маппинг составного поля в параметр провайдера
 |
 
 |required
@@ -167,23 +153,21 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |===
 
 Тело::
-Список дочерних link:#__field[полей]
+Список <field>, <reference>, <list>, <set> полей
 
 [NOTE]
-Если тело пустое, то по умолчанию оно состоит из поля `id`.
-Если не пустое, то только из тех, что перечислены.
+Если тело пустое, то маппинг и преобразование дочерних полей не будет производиться.
+Если не пустое, то только для тех, что перечислены.
 
 Пример::
 [source,xml]
 ----
 <fields>
-  <reference
-    id="state"
-    object-id="state"
-    mapping="status">
-    <field id="id" mapping="id"/>
-    <field id="name" mapping="name"/>
-    <field id="code" mapping="code"/>
+  <reference id="person" mapping="['person']">
+    <field id="id" mapping="['id']"/>
+    <field id="name" mapping="['name']"/>
+    <set id="phones" mapping="['phones']" object-id="phone"/>
+    <list id="addresses" mapping="['addresses']" object-id="address"/>
   </reference>
 </fields>
 ----
@@ -198,13 +182,10 @@ http://n2oapp.net/framework/config/schema/object-4.0
 [source,xml]
 ----
 <fields>
-  <list
-    id="statuses"
-    object-id="state"
-    mapping="statusList">
-    <field id="id" mapping="id"/>
-    <field id="name" mapping="name"/>
-    <field id="code" mapping="code"/>
+  <list id="statuses" mapping="['statusList']">
+    <field id="id" mapping="['id]'"/>
+    <field id="name" mapping="['name']"/>
+    <list id="codes" mapping="['codes']" object-id="code"/>
   </list>
 </fields>
 ----
@@ -219,13 +200,10 @@ http://n2oapp.net/framework/config/schema/object-4.0
 [source,xml]
 ----
 <fields>
-  <set
-    id="statuses"
-    object-id="state"
-    mapping="statusList">
-    <field id="id" mapping="id"/>
-    <field id="name" mapping="name"/>
-    <field id="code" mapping="code"/>
+  <set id="statuses" mapping="['statusSet']">
+    <field id="id" mapping="['id]'"/>
+    <field id="name" mapping="['name']"/>
+    <list id="codes" mapping="['codes']" object-id="code"/>
   </set>
 </fields>
 ----
@@ -572,6 +550,7 @@ after-success-operation, after-fail-operation
     <in>
       <field id="name"/>
       <field id="validated"/>
+      <list id="statuses"/>
     </in>
     <out>
       <field id="name"/>

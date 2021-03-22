@@ -44,7 +44,7 @@
                     </invocation>
                     <in-parameters>
                         <param id="dasdf" required="true" default-value="fdsf" domain="boolean" entity-class="fsdf"
-                               mapper="dataset" mapping="fsd" mapping-condition="fsd" normalize="fsd"/>
+                               mapping="fsd" mapping-condition="fsd" normalize="fsd"/>
                     </in-parameters>
                 </constraint>
                 <condition id="testId2" field-id="fieldId" server-moment="after-success-query"

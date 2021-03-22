@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
@@ -144,7 +144,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(field.getName(), is("F1"));
         assertThat(field.getRequired(), is(true));
         assertThat(field.getMapping(), is("['test']"));
-        assertThat(((ObjectScalarField) field).getDomain(), is("integer"));
+        assertThat(((ObjectSimpleField) field).getDomain(), is("integer"));
 
         field = object.getObjectFieldsMap().get("f2");
         assertThat(field.getId(), is("f2"));

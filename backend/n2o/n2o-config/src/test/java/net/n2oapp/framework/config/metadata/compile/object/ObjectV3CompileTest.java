@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -120,7 +119,6 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
         assertThat(operationInParam.getId(), is("test"));
         assertThat(operationInParam.getDomain(), is("string"));
         assertThat(operationInParam.getMapping(), is("birth_date"));
-        assertThat(operationInParam.getMapper(), is(MapperType.dataset));
         assertThat(operationInParam.getNormalize(), is("#{ T(java.lang.Math).random() * 100.0 }"));
         assertThat(operationInParam.getDefaultValue(), is("test"));
 
@@ -155,7 +153,6 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
         assertThat(validationInParam.getId(), is("test"));
         assertThat(validationInParam.getDomain(), is("string"));
         assertThat(validationInParam.getMapping(), is("birth_date"));
-        assertThat(validationInParam.getMapper(), is(MapperType.dataset));
         assertThat(validationInParam.getNormalize(), is("#{ T(java.lang.Math).random() * 100.0 }"));
         assertThat(validationInParam.getDefaultValue(), is("test"));
 

@@ -9,20 +9,27 @@
                    entity-class="ref" required="true">
             <field id="id" name="id"/>
             <field id="name" name="title"/>
+            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
         </reference>
         <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
-               mapper="dataset" normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
+               normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
         <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
              required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
-            <field id="code" mapping="code"/>
+            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
         </set>
         <list id="testSet2" object-id="utBlank" name="testSet2" mapping="birth_date" entity-class="list"
               required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
-            <field id="code" mapping="code"/>
+            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
         </list>
     </fields>
     <operations>
@@ -32,12 +39,32 @@
                 <sql>select 1</sql>
             </invocation>
             <in>
-                <field id="id" mapping="mapping" default-value="val1" mapper="groovy" normalize="norm" domain="string"/>
-                <field id="testSet" param="param" validation-fail-key="update.person.id">
-                </field>
+                <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
+                <field id="testSet" param="param" validation-fail-key="update.person.id"/>
+                <reference id="ref" name="refName" object-id="utBlank" mapping="ref2"
+                           entity-class="ref" required="true">
+                    <field id="id" name="id"/>
+                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                </reference>
+                <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
+                     required="true">
+                    <field id="id" mapping="id"/>
+                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                </set>
+                <list id="testSet2" object-id="utBlank" name="testSet2" mapping="birth_date" entity-class="list"
+                      required="true">
+                    <field id="id" mapping="id"/>
+                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                </list>
             </in>
             <out>
-                <field id="id" mapping="mapping" default-value="val2" mapper="spel" normalize="norm"
+                <field id="id" mapping="mapping" default-value="val2" normalize="norm"
                        domain="boolean[]"/>
             </out>
             <fail-out>

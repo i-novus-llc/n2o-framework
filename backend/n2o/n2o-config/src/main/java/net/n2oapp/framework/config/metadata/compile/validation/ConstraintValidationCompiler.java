@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -48,7 +47,6 @@ public class ConstraintValidationCompiler extends BaseValidationCompiler<Constra
 
         resultParam.setId(CompiledObject.VALIDATION_RESULT_PARAM);
         resultParam.setMapping(source.getResult());
-        resultParam.setMapper(p.cast(source.getMapper(), MapperType.spel));
         outParams.add(resultParam);
 
         validation.setOutParametersList(outParams);

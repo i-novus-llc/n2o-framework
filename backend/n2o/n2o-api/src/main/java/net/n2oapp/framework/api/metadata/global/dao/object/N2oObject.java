@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
 import java.io.Serializable;
@@ -56,10 +57,16 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private String successText;
         private String failText;
         private String description;
+
         private N2oInvocation invocation;
+        private AbstractParameter[] inFields;
+        private ObjectSimpleField[] outFields;
+        private ObjectSimpleField[] failOutFields;
+        // TODO будут убраны в следующей задаче
         private Parameter[] inParameters;
         private Parameter[] outParameters;
         private Parameter[] failOutParameters;
+
         private Validations validations;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
