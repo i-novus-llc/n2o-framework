@@ -25,7 +25,6 @@ import { isBottom } from './utils';
  * @reactProps {function} onSelect - callback при выборе элемента
  * @reactProps {function} onScrollEnd - callback при достижения конца прокрутки попапа
  * @reactProps {function} onRemoveItem - callback при удаление элемента
- * @reactProps {any} inputSelect
  * @reactProps {any} expandPopUp
  * @reactProps {boolean} needAddFilter
  * @reactProps {node} children - элемент потомок компонента PopupList
@@ -33,7 +32,6 @@ import { isBottom } from './utils';
 
 function PopupList({
   children,
-  inputSelect,
   isExpanded,
   onScrollEnd,
   expandPopUp,
@@ -67,7 +65,6 @@ PopupList.propTypes = {
   hasCheckboxes: PropTypes.bool,
   onRemoveItem: PropTypes.func,
   format: PropTypes.string,
-  inputSelect: PropTypes.any,
   expandPopUp: PropTypes.any,
   children: PropTypes.node,
   needAddFilter: PropTypes.bool,
