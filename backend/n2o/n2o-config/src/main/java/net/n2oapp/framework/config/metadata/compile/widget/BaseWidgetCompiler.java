@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
@@ -537,21 +536,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return query;
     }
 
-    protected FieldSetScope initFieldSetScope(CompiledQuery query, CompiledObject object) {
+    protected FieldSetScope initFieldSetScope(CompiledQuery query) {
         FieldSetScope scope = new FieldSetScope();
         if (query != null) {
             Map<String, N2oQuery.Field> fieldsMap = query.getFieldsMap();
             for (Map.Entry<String, N2oQuery.Field> entry : fieldsMap.entrySet()) {
                 if (entry.getValue() != null) {
-                    scope.put(entry.getKey(), entry.getValue().getName());
-                }
-            }
-        }
-
-        if (object != null) {
-            Map<String, AbstractParameter> fieldMap = object.getObjectFieldsMap();
-            for (Map.Entry<String, AbstractParameter> entry : fieldMap.entrySet()) {
-                if (!scope.containsKey(entry.getKey())) {
                     scope.put(entry.getKey(), entry.getValue().getName());
                 }
             }
@@ -575,7 +565,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            Object... scopes) {
         if (fields == null)
             return Collections.emptyList();
-        FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
+        FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery);
         IndexScope indexScope = new IndexScope();
         List<FieldSet> fieldSets = new ArrayList<>();
         int i = 0;

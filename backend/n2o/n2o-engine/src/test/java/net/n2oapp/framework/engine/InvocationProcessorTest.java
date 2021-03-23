@@ -2,15 +2,14 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
@@ -20,7 +19,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -67,16 +69,16 @@ public class InvocationProcessorTest {
 
         method.setArguments(new Argument[]{entityTypeArgument});
 
-        N2oObject.Parameter param = new N2oObject.Parameter();
+        ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
         param.setMapping("innerObj");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        N2oObject.Parameter childParam = new N2oObject.Parameter();
+        ObjectSimpleField childParam = new ObjectSimpleField();
         childParam.setId("name");
         childParam.setMapping("valueStr");
         childParam.setDefaultValue("defaultValue");
         childParam.setNormalize("#this.toLowerCase()");
-        param.setChildParams(new N2oObject.Parameter[]{childParam});
+        param.setFields(new AbstractParameter[]{childParam});
 
         DataSet outerDataSet = new DataSet();
         outerDataSet.put("entity", new DataSet());
@@ -120,37 +122,37 @@ public class InvocationProcessorTest {
         dataSet.put("class", 7);
         dataSet.put("paramWithMappingCondition", null);
 
-        List<InvocationParameter> inMapping = new ArrayList<>();
-        InvocationParameter param1 = new InvocationParameter();
+        List<AbstractParameter> inMapping = new ArrayList<>();
+        ObjectSimpleField param1 = new ObjectSimpleField();
         param1.setId("entity");
         param1.setMapping("testField");
         inMapping.add(param1);
 
-        InvocationParameter param2 = new InvocationParameter();
+        ObjectSimpleField param2 = new ObjectSimpleField();
         param2.setId("primitive");
         param2.setMapping("[1]");
-        param2.setMappingCondition("primitive != null");
+        param2.setEnabled("primitive != null");
         inMapping.add(param2);
 
-        InvocationParameter param3 = new InvocationParameter();
+        ObjectSimpleField param3 = new ObjectSimpleField();
         param3.setId("primitive2");
         param3.setMapping("[2]");
-        param3.setMappingCondition("primitive2 != null");
+        param3.setEnabled("primitive2 != null");
         inMapping.add(param3);
 
-        InvocationParameter param4 = new InvocationParameter();
+        ObjectSimpleField param4 = new ObjectSimpleField();
         param4.setId("class");
         param4.setMapping("[3].testField");
         inMapping.add(param4);
 
-        InvocationParameter param5 = new InvocationParameter();
+        ObjectSimpleField param5 = new ObjectSimpleField();
         param5.setId("paramWithMappingCondition");
         param5.setMapping("[4]");
-        param5.setMappingCondition("paramWithMappingCondition != null");
+        param5.setEnabled("paramWithMappingCondition != null");
         inMapping.add(param5);
 
-        List<InvocationParameter> outMapping = new ArrayList<>();
-        InvocationParameter outParam = new InvocationParameter();
+        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("sum");
         outParam.setMapping("#this");
         outMapping.add(outParam);
@@ -186,23 +188,23 @@ public class InvocationProcessorTest {
         inDataSet.put("id", 123);
         dataSet.put("entity", inDataSet);
 
-        List<InvocationParameter> inMapping = new ArrayList<>();
-        N2oObject.Parameter param = new N2oObject.Parameter();
+        List<AbstractParameter> inMapping = new ArrayList<>();
+        ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
         param.setMapping("innerObj");
-        param.setMappingCondition("entity.id != null");
+        param.setEnabled("entity.id != null");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        N2oObject.Parameter inParam1 = new N2oObject.Parameter();
+        ObjectSimpleField inParam1 = new ObjectSimpleField();
         inParam1.setId("name");
         inParam1.setMapping("valueStr");
-        N2oObject.Parameter inParam2 = new N2oObject.Parameter();
+        ObjectSimpleField inParam2 = new ObjectSimpleField();
         inParam2.setId("id");
         inParam2.setMapping("valueInt");
-        param.setChildParams(new N2oObject.Parameter[]{inParam1, inParam2});
+        param.setFields(new AbstractParameter[]{inParam1, inParam2});
         inMapping.add(param);
 
-        List<InvocationParameter> outMapping = new ArrayList<>();
-        InvocationParameter outParam = new InvocationParameter();
+        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("result");
         outParam.setMapping("#this");
         outMapping.add(outParam);
@@ -251,38 +253,37 @@ public class InvocationProcessorTest {
 
         dataSet.put("entities", list);
 
-        List<InvocationParameter> inMapping = new ArrayList<>();
-        N2oObject.Parameter param = new N2oObject.Parameter();
+        List<AbstractParameter> inMapping = new ArrayList<>();
+        ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
         param.setMapping("innerObj");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        N2oObject.Parameter inParam1 = new N2oObject.Parameter();
+        ObjectSimpleField inParam1 = new ObjectSimpleField();
         inParam1.setId("name");
         inParam1.setMapping("valueStr");
-        N2oObject.Parameter inParam2 = new N2oObject.Parameter();
+        ObjectSimpleField inParam2 = new ObjectSimpleField();
         inParam2.setId("id");
         inParam2.setMapping("valueInt");
-        param.setChildParams(new N2oObject.Parameter[]{inParam1, inParam2});
+        param.setFields(new AbstractParameter[]{inParam1, inParam2});
         inMapping.add(param);
 
-        N2oObject.Parameter listParam = new N2oObject.Parameter();
+        ObjectListField listParam = new ObjectListField();
         listParam.setId("entities");
         listParam.setMapping("innerObjList");
         listParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        listParam.setPluralityType(PluralityType.list);
-        inParam1 = new N2oObject.Parameter();
+        inParam1 = new ObjectSimpleField();
         inParam1.setId("name");
         inParam1.setMapping("valueStr");
         inParam1.setDefaultValue("testName1");
         inParam1.setNormalize("#this.toLowerCase()");
-        inParam2 = new N2oObject.Parameter();
+        inParam2 = new ObjectSimpleField();
         inParam2.setId("id");
         inParam2.setMapping("valueInt");
-        listParam.setChildParams(new N2oObject.Parameter[]{inParam1, inParam2});
+        listParam.setFields(new AbstractParameter[]{inParam1, inParam2});
         inMapping.add(listParam);
 
-        List<InvocationParameter> outMapping = new ArrayList<>();
-        InvocationParameter outParam = new InvocationParameter();
+        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("testValue");
         outParam.setMapping("#this");
         outMapping.add(outParam);
@@ -301,13 +302,13 @@ public class InvocationProcessorTest {
     public void testMapsInvocation() {
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
-        List<InvocationParameter> inMapping = new ArrayList<>();
-        InvocationParameter param1 = new InvocationParameter();
+        List<AbstractParameter> inMapping = new ArrayList<>();
+        ObjectSimpleField param1 = new ObjectSimpleField();
         param1.setId("id");
         param1.setMapping("['id']");
         inMapping.add(param1);
-        List<InvocationParameter> outMapping = new ArrayList<>();
-        InvocationParameter outParam = new InvocationParameter();
+        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("id");
         outParam.setMapping("[0][0][0]");
         outMapping.add(outParam);
@@ -331,14 +332,14 @@ public class InvocationProcessorTest {
 
         method.setArguments(new Argument[]{entityTypeArgument});
 
-        N2oObject.Parameter param = new N2oObject.Parameter();
+        ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity");
-        N2oObject.Parameter childParam = new N2oObject.Parameter();
+        ObjectSimpleField childParam = new ObjectSimpleField();
         childParam.setId("name");
         childParam.setMapping("valueStr");
         childParam.setNormalize("#this.toLowerCase()");
-        param.setChildParams(new N2oObject.Parameter[]{childParam});
+        param.setFields(new AbstractParameter[]{childParam});
 
         DataSet innerDataSet = new DataSet();
         innerDataSet.put("name", "TESTSTRING");

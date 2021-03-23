@@ -88,11 +88,6 @@
                 <xs:documentation>Идентификатор поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="name">
-            <xs:annotation>
-                <xs:documentation>Наименование поля.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="default-value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Значение по умолчанию.</xs:documentation>
@@ -135,11 +130,6 @@
         <xs:attribute name="object-id">
             <xs:annotation>
                 <xs:documentation>Объект, в котором представлено описание поля.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="name">
-            <xs:annotation>
-                <xs:documentation>Наименование поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="entity-class" type="xs:string">
@@ -276,10 +266,10 @@
             <xs:documentation>Входящие параметры операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="field" type="operationInParameterField"/>
-            <xs:element name="reference" type="operationInParameterReference"/>
-            <xs:element name="list" type="operationInParameterReference"/>
-            <xs:element name="set" type="operationInParameterReference"/>
+            <xs:element name="field" type="operationInParameterField" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -317,7 +307,7 @@
                         <xs:documentation>Код ошибки валидации с сервера.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="mapping-condition" type="xs:string">
+                <xs:attribute name="enabled" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
                     </xs:annotation>
@@ -332,7 +322,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="referenceDefinition">
-                <xs:attribute name="mapping-condition" type="xs:string">
+                <xs:attribute name="enabled" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
                     </xs:annotation>

@@ -4,8 +4,11 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -76,16 +79,16 @@ public class MappingProcessorTest {
     }
 
     private void testEntityMapping() {
-        N2oObject.Parameter param = new N2oObject.Parameter();
+        ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        N2oObject.Parameter childParam1 = new N2oObject.Parameter();
+        ObjectSimpleField childParam1 = new ObjectSimpleField();
         childParam1.setId("id");
         childParam1.setMapping("valueInt");
-        N2oObject.Parameter childParam2 = new N2oObject.Parameter();
+        ObjectSimpleField childParam2 = new ObjectSimpleField();
         childParam2.setId("name");
         childParam2.setMapping("valueStr");
-        param.setChildParams(new N2oObject.Parameter[]{childParam1, childParam2});
+        param.setFields(new AbstractParameter[]{childParam1, childParam2});
 
         DataSet innerDataSet = new DataSet();
         innerDataSet.put("id", 666);
@@ -102,19 +105,17 @@ public class MappingProcessorTest {
     }
 
     private void testEntityCollectionMapping() {
-
         //List
-        N2oObject.Parameter param = new N2oObject.Parameter();
-        param.setId("entities");
-        param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        param.setPluralityType(PluralityType.list);
-        N2oObject.Parameter childParam1 = new N2oObject.Parameter();
+        ObjectListField listParam = new ObjectListField();
+        listParam.setId("entities");
+        listParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
+        ObjectSimpleField childParam1 = new ObjectSimpleField();
         childParam1.setId("id");
         childParam1.setMapping("valueInt");
-        N2oObject.Parameter childParam2 = new N2oObject.Parameter();
+        ObjectSimpleField childParam2 = new ObjectSimpleField();
         childParam2.setId("name");
         childParam2.setMapping("valueStr");
-        param.setChildParams(new N2oObject.Parameter[]{childParam1, childParam2});
+        listParam.setFields(new AbstractParameter[]{childParam1, childParam2});
 
         DataSet innerDataSet1 = new DataSet();
         innerDataSet1.put("id", 666);
@@ -131,7 +132,7 @@ public class MappingProcessorTest {
         DataSet outerDataSetWithList = new DataSet();
         outerDataSetWithList.put("entities", list);
 
-        MappingProcessor.mapParameter(param, outerDataSetWithList);
+        MappingProcessor.mapParameter(listParam, outerDataSetWithList);
 
         assert outerDataSetWithList.get("entities") instanceof List;
         assert ((TestEntity.InnerEntity) ((List) outerDataSetWithList.get("entities")).get(0)).getValueInt().equals(666);
@@ -141,17 +142,16 @@ public class MappingProcessorTest {
 
 
         //Set
-        param = new N2oObject.Parameter();
-        param.setId("entities");
-        param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        param.setPluralityType(PluralityType.set);
-        childParam1 = new N2oObject.Parameter();
+        ObjectSetField setParam = new ObjectSetField();
+        setParam.setId("entities");
+        setParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
+        childParam1 = new ObjectSimpleField();
         childParam1.setId("id");
         childParam1.setMapping("valueInt");
-        childParam2 = new N2oObject.Parameter();
+        childParam2 = new ObjectSimpleField();
         childParam2.setId("name");
         childParam2.setMapping("valueStr");
-        param.setChildParams(new N2oObject.Parameter[]{childParam1, childParam2});
+        setParam.setFields(new AbstractParameter[]{childParam1, childParam2});
 
         innerDataSet1 = new DataSet();
         innerDataSet1.put("id", 666);
@@ -168,7 +168,7 @@ public class MappingProcessorTest {
         DataSet outerDataSetWithSet = new DataSet();
         outerDataSetWithSet.put("entities", set);
 
-        MappingProcessor.mapParameter(param, outerDataSetWithSet);
+        MappingProcessor.mapParameter(setParam, outerDataSetWithSet);
 
         assert outerDataSetWithSet.get("entities") instanceof Set;
         assert ((Set) outerDataSetWithSet.get("entities")).containsAll((List) outerDataSetWithList.get("entities"));

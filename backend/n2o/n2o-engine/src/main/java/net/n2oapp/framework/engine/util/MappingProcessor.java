@@ -5,9 +5,9 @@ import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
@@ -144,20 +144,17 @@ public class MappingProcessor {
      * @param parameter параметр операции
      * @param dataSet   исходные данные
      */
-    public static void mapParameter(InvocationParameter parameter, DataSet dataSet) {
+    public static void mapParameter(ObjectReferenceField parameter, DataSet dataSet) {
         Object data = dataSet.get(parameter.getId());
         if (data == null)
             return;
-        if (parameter.getPluralityType() == PluralityType.list
-                || parameter.getPluralityType() == PluralityType.set) {
-            Collection collection = parameter.getPluralityType() == PluralityType.list
-                    ? new ArrayList() : new HashSet();
-            for (Object item : (Collection) data) {
-                collection.add(mapChildParameters(parameter, (DataSet) item));
-            }
-            dataSet.put(parameter.getId(), collection);
-        } else {
+        if (parameter.getClass().equals(ObjectReferenceField.class)) {
             dataSet.put(parameter.getId(), mapChildParameters(parameter, (DataSet) data));
+        } else {
+            Collection collection = parameter instanceof ObjectListField ? new ArrayList() : new HashSet();
+            for (Object item : (Collection) data)
+                collection.add(mapChildParameters(parameter, (DataSet) item));
+            dataSet.put(parameter.getId(), collection);
         }
     }
 
@@ -167,7 +164,7 @@ public class MappingProcessor {
      * @param parameter параметр операции
      * @param dataSet   исходные данные
      */
-    public static Object mapChildParameters(InvocationParameter parameter, DataSet dataSet) {
+    public static Object mapChildParameters(ObjectReferenceField parameter, DataSet dataSet) {
         Object instance;
         try {
             instance = Class.forName(parameter.getEntityClass()).newInstance();
@@ -177,7 +174,7 @@ public class MappingProcessor {
             throw new N2oException(e);
         }
 
-        for (N2oObject.Parameter childParam : ((N2oObject.Parameter) parameter).getChildParams()) {
+        for (AbstractParameter childParam : (parameter).getFields()) {
             writeParser.parseExpression(childParam.getMapping()).setValue(instance, dataSet.get(childParam.getId()));
         }
         return instance;

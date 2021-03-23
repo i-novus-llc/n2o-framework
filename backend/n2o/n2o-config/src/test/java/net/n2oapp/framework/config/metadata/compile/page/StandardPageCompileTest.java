@@ -45,20 +45,19 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/page/utObjectField.page.xml"),
+                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/page/utObjectField.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
-
     }
 
 
     @Test
     public void layout() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(new PageContext("testStandardPage"));
 
         assertThat(page.getId(), is("testRoute"));
-        assertThat(page.getObject().getId(), is("utObjectField"));
+        assertThat(page.getObject().getId(), is("utBlank"));
 
         assertThat(page.getSrc(), is("StandardPage"));
         assertThat(page.getRegions().get("single").size(), is(3));

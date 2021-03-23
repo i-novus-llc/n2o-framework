@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -145,10 +146,11 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation.getInvocation(), instanceOf(N2oSqlDataProvider.class));
         assertThat(((N2oSqlDataProvider) validation.getInvocation()).getQuery(), is("select * from table"));
         assertThat(validation.getInParametersList().size(), is(1));
-        assertThat(validation.getInParametersList().get(0).getDomain(), is("boolean"));
-        assertThat(validation.getInParametersList().get(0).getRequired(), is(true));
-        assertThat(validation.getInParametersList().get(0).getMapping(), is("mapping"));
-        assertThat(validation.getInParametersList().get(0).getNormalize(), is("normalize"));
+        ObjectSimpleField parameter = ((ObjectSimpleField) validation.getInParametersList().get(0));
+        assertThat(parameter.getDomain(), is("boolean"));
+        assertThat(parameter.getRequired(), is(true));
+        assertThat(parameter.getMapping(), is("mapping"));
+        assertThat(parameter.getNormalize(), is("normalize"));
 
         ConditionValidation validation2 = (ConditionValidation) clientValidations.get(1);
         assertThat(validation2.getId(), is("val2"));

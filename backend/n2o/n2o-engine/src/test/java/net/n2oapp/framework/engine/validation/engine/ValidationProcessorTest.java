@@ -8,7 +8,8 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
@@ -45,10 +46,10 @@ public class ValidationProcessorTest {
      */
     @Test
     public void testSorting() {
-        InvocationParameter inParam = new InvocationParameter();
+        ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setId("id");
         inParam.setRequired(true);
-        List<InvocationParameter> inParamList = Arrays.asList(inParam);
+        List<AbstractParameter> inParamList = Arrays.asList(inParam);
 
         Validation dfm = mandatoryValidation("id", danger, beforeOperation);
         Validation dfCond = conditionValidation(null, "id", danger, beforeOperation, "id != null");
@@ -196,7 +197,7 @@ public class ValidationProcessorTest {
         ((MandatoryValidation) mandatory).setField(f);
         Validation condition = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory, condition));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 
@@ -219,7 +220,7 @@ public class ValidationProcessorTest {
         Validation condition1 = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
         Validation condition2 = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "name !== null");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -254,7 +255,7 @@ public class ValidationProcessorTest {
         mandatory2.setFieldId("widgetId");
         ((MandatoryValidation) mandatory2).setField(f2);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -289,7 +290,7 @@ public class ValidationProcessorTest {
         dataSet.put("id", null);
         dataSet.put("name", null);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 
@@ -318,7 +319,7 @@ public class ValidationProcessorTest {
         ConditionValidation condition1 = conditionValidation("checkEmailContainsAt", null,
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "email.indexOf('@') > -1");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(condition1));
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
@@ -362,7 +363,7 @@ public class ValidationProcessorTest {
         ConditionValidation condition3 = conditionValidation("checkEmailContainsAt3", "email",
                 SeverityType.warning, N2oValidation.ServerMoment.afterFailOperation, "email.indexOf('@') > -1");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
@@ -415,7 +416,7 @@ public class ValidationProcessorTest {
         Validation mandatory4 = mandatoryValidation("number", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
         ((MandatoryValidation) mandatory4).setField(f4);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3, mandatory4));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -444,7 +445,7 @@ public class ValidationProcessorTest {
                         + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(new Date(0)) + "'");
         ((ConditionValidation) condition3).setExpressionOn("date,oneMoreId");
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
@@ -456,12 +457,11 @@ public class ValidationProcessorTest {
 
     @Test
     public void testConstraint() {
-        InvocationParameter inParam = new InvocationParameter();
-        inParam.setName("id");
+        ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setId("id");
         inParam.setDomain("integer");
         inParam.setRequired(true);
-        List<InvocationParameter> inParamList = Arrays.asList(inParam);
+        List<AbstractParameter> inParamList = Arrays.asList(inParam);
 
         N2oInvocationProcessor invocationProcessor = mock(N2oInvocationProcessor.class);
         ValidationProcessor processor = new ValidationProcessor(invocationProcessor);
@@ -476,7 +476,7 @@ public class ValidationProcessorTest {
         ConstraintValidation constraint1 = constraintValidation("id", SeverityType.warning,
                 N2oValidation.ServerMoment.beforeOperation, inParamList);
 
-        CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
+        CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(constraint1));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 
@@ -501,7 +501,8 @@ public class ValidationProcessorTest {
         return mandatory;
     }
 
-    private ConditionValidation conditionValidation(String id, String fieldId, SeverityType severity, N2oValidation.ServerMoment moment, String expression) {
+    private ConditionValidation conditionValidation(String id, String fieldId, SeverityType severity,
+                                                    N2oValidation.ServerMoment moment, String expression) {
         ConditionValidation condition = new ConditionValidation();
         condition.setId(id == null ? fieldId + "Required" : id);
         condition.setMoment(moment);
@@ -512,7 +513,8 @@ public class ValidationProcessorTest {
         return condition;
     }
 
-    private ConstraintValidation constraintValidation(String fieldId, SeverityType severity, N2oValidation.ServerMoment moment, List<InvocationParameter> inParams) {
+    private ConstraintValidation constraintValidation(String fieldId, SeverityType severity,
+                                                      N2oValidation.ServerMoment moment, List<AbstractParameter> inParams) {
         ConstraintValidation constraint = new ConstraintValidation();
         constraint.setId(fieldId + "Constraint");
         constraint.setMoment(moment);

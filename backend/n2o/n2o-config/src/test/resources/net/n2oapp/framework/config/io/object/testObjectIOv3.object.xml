@@ -5,9 +5,9 @@
         module-name="module-name" service-class="service-class"
         service-name="service-name" table-name="table-name">
     <fields>
-        <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
+        <field id="test" domain="string" mapping="birth_date" required="true" default-value="test"
                normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
-        <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
+        <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
              required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
@@ -21,11 +21,11 @@
             </invocation>
             <in-parameters>
                 <param id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
-                <param id="testSet"/>
+                <param id="testSet" mapping-condition="type=='type1'"/>
             </in-parameters>
             <out-parameters>
                 <param id="id" mapping="mapping" default-value="val2" normalize="norm"
-                       domain="boolean[]"/>
+                       domain="boolean[]" mapping-condition="type=='type1'"/>
             </out-parameters>
             <validations black-list="id2">
                 <condition id="id1" severity="danger" server-moment="after-success-operation"

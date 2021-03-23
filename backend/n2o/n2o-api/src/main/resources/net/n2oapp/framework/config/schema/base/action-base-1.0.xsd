@@ -124,20 +124,7 @@
         <xs:sequence>
             <xs:element name="validation" type="actionValidationRefDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="activate" type="activatingValidationEnum" use="required"/>
     </xs:complexType>
-    <xs:simpleType name="activatingValidationEnum">
-        <xs:union memberTypes="xs:string">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:enumeration value="nothing"/>
-                    <xs:enumeration value="all"/>
-                    <xs:enumeration value="whiteList"/>
-                    <xs:enumeration value="blackList"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:union>
-    </xs:simpleType>
 
     <xs:complexType name="actionValidationRefDefinition">
         <xs:attribute name="ref-id" type="xs:string" use="required"/>

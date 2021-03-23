@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0">
     <name>Пустой объект для unit тестов</name>
 
     <actions>
@@ -17,5 +16,4 @@
             <invocation/>
         </action>
     </actions>
-
 </object>

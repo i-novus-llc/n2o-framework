@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.dao.object;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
@@ -62,10 +61,6 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private AbstractParameter[] inFields;
         private ObjectSimpleField[] outFields;
         private ObjectSimpleField[] failOutFields;
-        // TODO будут убраны в следующей задаче
-        private Parameter[] inParameters;
-        private Parameter[] outParameters;
-        private Parameter[] failOutParameters;
 
         private Validations validations;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
@@ -85,44 +80,16 @@ public class N2oObject extends N2oMetadata implements NameAware {
         @Getter
         @Setter
         public static class Validations implements Serializable {
-            @Deprecated
-            private Activate activate;
             private String[] whiteList;
             private String[] blackList;
             private Validation[] refValidations;
             private N2oValidation[] inlineValidations;
-
-            public enum Activate {
-                nothing, all, whiteList, blackList
-            }
 
             @Getter
             @Setter
             public static class Validation implements Serializable {
                 private String refId;
             }
-        }
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class Parameter extends InvocationParameter {
-        private Parameter[] childParams;
-        private String param;
-        private String validationFailKey;
-
-        public Parameter(String name, String mapping) {
-            this.setMapping(mapping);
-            this.setId(name);
-        }
-
-        public Parameter(Parameter parameter) {
-            super(parameter);
-            setChildParams(parameter.getChildParams());
-            setNullIgnore(parameter.getNullIgnore());
-            setPluralityType(parameter.getPluralityType());
-            setParam(parameter.getParam());
         }
     }
 }
