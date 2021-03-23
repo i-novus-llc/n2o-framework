@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
@@ -32,9 +33,23 @@ public class InvocationParametersMapping {
     public static Map<String, String> extractMapping(Collection<? extends AbstractParameter> parameters) {
         Map<String, String> mapping = new LinkedHashMap<>();
         if (parameters != null)
-            for (AbstractParameter parameter : parameters)
+            for (AbstractParameter parameter : parameters) {
                 mapping.put(parameter.getId(), parameter.getMapping());
+            }
         return mapping;
+    }
+
+    public static Map<String, Object[]> extractMapping(Collection<AbstractParameter> parameters) {
+        Map<String, Object[]> mappingMap = new LinkedHashMap<>();
+        if (parameters != null)
+            for (AbstractParameter parameter : parameters) {
+                Object[] mapping = new Object[2];
+                mapping[0] = parameter.getMapping();
+                if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null)
+                    mapping[1] = extractMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields()));
+                mappingMap.put(parameter.getId(), mapping);
+            }
+        return mappingMap;
     }
 
     /**
@@ -48,9 +63,8 @@ public class InvocationParametersMapping {
     public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet, Map<String, String> inMapping,
                                      DomainProcessor domainProcessor) {
         inMapping = changeInMappingForEntity(invocation, inMapping);
-        if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
+        if (invocation.getArguments() == null || invocation.getArguments().length == 0)
             return null;
-        }
         return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments(), domainProcessor);
     }
 
@@ -62,7 +76,7 @@ public class InvocationParametersMapping {
      * @return
      */
     public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping) {
-        return DataSetMapper.mapToMap(dataSet, mapping, null);
+        return DataSetMapper.mapToMap(dataSet, mapping);
     }
 
 

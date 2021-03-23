@@ -1,8 +1,6 @@
 package net.n2oapp.criteria.dataset;
 
 import org.junit.Test;
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -80,7 +78,7 @@ public class DataSetMapperTest {
         dataSet.put("id", 1);
         dataSet.put("name", "test");
         dataSet.put("desc", "test");
-        Map<String, Object> value = DataSetMapper.mapToMap(dataSet, mapping, null);
+        Map<String, Object> value = DataSetMapper.mapToMap(dataSet, mapping);
         assert value.size() == 3;
         assert value.get("id").equals(1);
         assert value.get("name").equals("test");
@@ -111,7 +109,7 @@ public class DataSetMapperTest {
         mapping.put("name", "[1]");
         mapping.put("surname", "[2]");
 
-        DataSetMapper.mapToMap(dataSet, mapping, null);
+        DataSetMapper.mapToMap(dataSet, mapping);
     }
 
     public static class Entity {

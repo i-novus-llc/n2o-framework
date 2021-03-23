@@ -48,16 +48,9 @@ public class DataSetMapper {
         return result;
     }
 
-    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping,
-                                               Map<String, String> argumentClasses) {
+    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping) {
         validateMapping(mapping);
-        Map<String, Object> instances = instantiateArguments(argumentClasses);
-        Map<String, Object> result;
-        if (instances == null || instances.isEmpty()) {
-            result = new DataSet();
-        } else {
-            result = instances;
-        }
+        Map<String, Object> result = new DataSet();
 
         for (Map.Entry<String, String> map : mapping.entrySet()) {
             Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
