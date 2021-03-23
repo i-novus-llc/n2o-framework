@@ -1,6 +1,5 @@
 import React from 'react';
 import { compose, setDisplayName } from 'recompose';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
 import cx from 'classnames';
@@ -84,24 +83,12 @@ class InputSelect extends React.Component {
     this._handleDataSearch = this._handleDataSearch.bind(this);
     this._handleElementClear = this._handleElementClear.bind(this);
     this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
-    this.setTextareaRef = this.setTextareaRef.bind(this);
-    this.setSelectedListRef = this.setSelectedListRef.bind(this);
+    this._onButtonClick = this._onButtonClick.bind(this);
     this.onInputBlur = this.onInputBlur.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
     this.addObjectToValue = this.addObjectToValue.bind(this);
     this.toggle = this.toggle.bind(this);
-  }
-
-  setTextareaRef(poperRef) {
-    return r => {
-      this._textarea = r;
-      poperRef(r);
-    };
-  }
-
-  setSelectedListRef(selectedList) {
-    this._selectedList = selectedList;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -438,15 +425,6 @@ class InputSelect extends React.Component {
     this._selectedItems = ref;
   }
 
-  calcSelectedItemsWidth() {
-    if (this._selectedItems) {
-      const element = findDOMNode(this._selectedItems);
-      if (element && element.getBoundingClientRect) {
-        return element.getBoundingClientRect().width || undefined;
-      }
-    }
-  }
-
   onInputBlur() {
     if (!this.state.isExpanded) {
       this.props.onBlur(this._getValue());
@@ -460,6 +438,11 @@ class InputSelect extends React.Component {
 
     if (openOnFocus) {
       this._setIsExpanded(true);
+    }
+  }
+  _onButtonClick() {
+    if (this._input) {
+      this._input.focus();
     }
   }
 
@@ -513,7 +496,6 @@ class InputSelect extends React.Component {
     } = this.props;
 
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
-    const selectedPadding = this.calcSelectedItemsWidth();
     const needAddFilter = !find(
       this.state.value,
       item => item[labelFieldId] === this.state.input
@@ -539,11 +521,12 @@ class InputSelect extends React.Component {
               isInputInFocus={this.state.inputFocus}
               onClearClick={this._handleElementClear}
               disabled={disabled}
-              className={className}
+              className={`${className} ${this.state.isExpanded ? 'focus' : ''}`}
               setSelectedItemsRef={this.setSelectedItemsRef}
+              onButtonClick={this._onButtonClick}
             >
               <InputContent
-                setRef={() => () => {}}
+                setRef={this.setInputRef}
                 onFocus={this.onFocus}
                 onBlur={this.onInputBlur}
                 loading={loading}
@@ -571,11 +554,6 @@ class InputSelect extends React.Component {
                 onClick={this._handleClick}
                 onSelect={this._handleItemSelect}
                 autoFocus={autoFocus}
-                selectedPadding={selectedPadding}
-                setTextareaRef={() => () => {}}
-                setSelectedListRef={this.setSelectedListRef}
-                _textarea={this._textarea}
-                _selectedList={this._selectedList}
                 maxTagTextLength={maxTagTextLength}
               />
             </InputSelectGroup>
@@ -616,7 +594,6 @@ class InputSelect extends React.Component {
               hasCheckboxes={hasCheckboxes}
               onRemoveItem={this._removeSelectedItem}
               format={format}
-              inputSelect={this.inputSelect}
             >
               <div className="n2o-alerts">
                 {alerts &&

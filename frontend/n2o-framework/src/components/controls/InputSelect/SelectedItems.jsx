@@ -74,11 +74,7 @@ function InputElements({
     );
   };
 
-  return (
-    <div className="n2o-input-select-selected-list" ref={setRef}>
-      {selectedList()}
-    </div>
-  );
+  return <>{selectedList()}</>;
 }
 
 InputElements.propTypes = {

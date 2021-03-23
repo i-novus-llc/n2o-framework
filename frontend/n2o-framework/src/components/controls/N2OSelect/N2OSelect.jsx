@@ -450,9 +450,11 @@ class N2OSelect extends React.Component {
             selected={this.state.selected}
             onClearClick={this._clearSelected}
           >
-            {this.state.hasCheckboxes
-              ? this.renderPlaceholder()
-              : !isEmpty(selected) && selected[0][labelFieldId]}
+            <span className="valueText">
+              {this.state.hasCheckboxes
+                ? this.renderPlaceholder()
+                : !isEmpty(selected) && selected[0][labelFieldId]}
+            </span>
           </InputSelectGroup>
         </Button>
         <Popup isExpanded={this.state.isExpanded}>
