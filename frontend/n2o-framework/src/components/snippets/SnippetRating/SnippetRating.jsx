@@ -10,11 +10,27 @@ import { id } from '../../../utils/id';
 
 import { mapToNum } from './utils';
 
+/**
+ * Получение численного значения
+ * @param {number | string | null} rating
+ * @param {boolean} half
+ * @return {number}
+ * @private
+ */
+const prepareValue = (rating, half) => {
+  if (half) {
+    // округление до .5
+    return Math.round(+rating / 0.5) * 0.5;
+  }
+  return Math.round(rating);
+}
+
 class SnippetRating extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.half ? props.rating : Math.ceil(props.rating),
+      rating: props.rating,
+      value: prepareValue(props.rating, props.half),
     };
     this.id = id();
     this.onChangeAndSetState = this.onChangeAndSetState.bind(this);
@@ -26,7 +42,8 @@ class SnippetRating extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== prevState.value && nextProps.value) {
       return {
-        value: nextProps.value,
+        rating: nextProps.value,
+        value: prepareValue(nextProps.value, nextProps.half),
       };
     }
   }
@@ -34,17 +51,20 @@ class SnippetRating extends Component {
   onChangeAndSetState({ target: { value } }) {
     const newValue = Number(value);
     const { onChange } = this.props;
-    this.setState({ value: newValue });
+    this.setState({
+      value: newValue,
+      rating: newValue
+    });
     onChange(newValue);
   }
 
   renderTooltip() {
     const { showTooltip } = this.props;
-    const { value } = this.state;
+    const { rating } = this.state;
 
     return showTooltip ? (
       <UncontrolledTooltip placement="top" target={this.id}>
-        {round(value, 2)}
+        {round(rating, 2)}
       </UncontrolledTooltip>
     ) : null;
   }
@@ -56,7 +76,7 @@ class SnippetRating extends Component {
       <Fragment>
         <input
           className="rating__input rating__input--none"
-          name="rating2"
+          name={`rating-0-${this.id}`}
           id={`rating-0-${this.id}`}
           value="0"
           type="radio"
@@ -101,7 +121,7 @@ class SnippetRating extends Component {
           value={index}
           type="radio"
           onClick={readonly ? null : this.onChangeAndSetState}
-          checked={eq(+index, +value)}
+          checked={eq(index, value)}
         />
       </Fragment>
     );
