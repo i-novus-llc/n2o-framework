@@ -24,7 +24,6 @@ public class VisibilityAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-//        com.codeborne.selenide.Configuration.headless = false;
     }
 
     @BeforeEach
