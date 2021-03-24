@@ -70,9 +70,9 @@ public class DataSetMapperTest {
 
     @Test
     public void testMapToMap() {
-        Map<String, String> mapping = new HashMap<>();
-        mapping.put("id", "['id']");
-        mapping.put("name", "['name']");
+        Map<String, FieldMapping> mapping = new HashMap<>();
+        mapping.put("id", new FieldMapping("['id']"));
+        mapping.put("name", new FieldMapping("['name']"));
         mapping.put("desc", null);
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
@@ -104,10 +104,10 @@ public class DataSetMapperTest {
         dataSet.put("name", "Vladimir");
         dataSet.put("id", 1);
 
-        Map<String, String> mapping = new HashMap<>();
-        mapping.put("id", "[0]");
-        mapping.put("name", "[1]");
-        mapping.put("surname", "[2]");
+        Map<String, FieldMapping> mapping = new HashMap<>();
+        mapping.put("id", new FieldMapping("[0]"));
+        mapping.put("name", new FieldMapping("[1]"));
+        mapping.put("surname", new FieldMapping("[2]"));
 
         DataSetMapper.mapToMap(dataSet, mapping);
     }

@@ -113,6 +113,11 @@
                 <xs:documentation>Обязательность поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="referenceDefinition">
@@ -145,6 +150,11 @@
         <xs:attribute name="required" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Обязательность поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

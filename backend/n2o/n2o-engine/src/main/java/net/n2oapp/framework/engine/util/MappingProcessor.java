@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -82,12 +83,12 @@ public class MappingProcessor {
     /**
      * Генерирует список аргументов для вызова метода.
      *
-     * @param dataSet         исходные данные
-     * @param mapping         правила маппинга
-     * @param arguments       список аргументов
+     * @param dataSet    исходные данные
+     * @param mappingMap правила маппинга
+     * @param arguments  список аргументов
      * @return массив объектов
      */
-    public static Object[] map(DataSet dataSet, Map<String, String> mapping, Argument[] arguments,
+    public static Object[] map(DataSet dataSet, Map<String, FieldMapping> mappingMap, Argument[] arguments,
                                DomainProcessor domainProcessor) {
         List<String> argClasses = new ArrayList<>();
         for (Argument arg : arguments) {
@@ -96,22 +97,21 @@ public class MappingProcessor {
         Object[] instances = instantiateArguments(argClasses);
         Object[] result;
         if (instances == null || instances.length == 0) {
-            result = new Object[mapping.size()];
+            result = new Object[mappingMap.size()];
         } else {
             result = instances;
         }
         int idx = 0;
-        for (Map.Entry<String, String> map : mapping.entrySet()) {
+        for (Map.Entry<String, FieldMapping> map : mappingMap.entrySet()) {
             Object value = dataSet.get(map.getKey());
-            if ((map.getValue() != null && !map.getValue().startsWith("[") && !map.getValue().endsWith("]"))
-                    || value != null) {
-                Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
-                        : "[" + idx + "]");
+            String mapping = map.getValue().getMapping();
+            if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
+                Expression expression = writeParser.parseExpression(mapping != null ? mapping : "[" + idx + "]");
                 expression.setValue(result, value);
             }
             idx++;
         }
-        for (int i=0; i < result.length; i++) {
+        for (int i = 0; i < result.length; i++) {
             if (result[i] == null && arguments[i].getDefaultValue() != null) {
                 result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());
             }

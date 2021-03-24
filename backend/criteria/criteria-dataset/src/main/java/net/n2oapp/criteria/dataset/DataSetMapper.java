@@ -48,12 +48,12 @@ public class DataSetMapper {
         return result;
     }
 
-    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping) {
+    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, FieldMapping> mapping) {
         validateMapping(mapping);
         Map<String, Object> result = new DataSet();
 
-        for (Map.Entry<String, String> map : mapping.entrySet()) {
-            Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
+        for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
+            Expression expression = writeParser.parseExpression(map.getValue().getMapping() != null ? map.getValue().getMapping()
                     : "['" + map.getKey() + "']");
             expression.setValue(result, dataSet.get(map.getKey()));
         }
@@ -136,11 +136,11 @@ public class DataSetMapper {
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\['.+']").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";
 
-    private static void validateMapping(Map<String, String> mapping) {
+    private static void validateMapping(Map<String, FieldMapping> mapping) {
         String errorMapping = mapping.entrySet().stream()
                 .filter(e -> e.getValue() != null)
-                .filter(e -> !MAPPING_PATTERN.test(e.getValue()))
-                .map(e -> String.format(KEY_ERROR, e.getKey(), e.getValue()))
+                .filter(e -> !MAPPING_PATTERN.test(e.getValue().getMapping()))
+                .map(e -> String.format(KEY_ERROR, e.getKey(), e.getValue().getMapping()))
                 .collect(Collectors.joining(", "));
 
         if (errorMapping != null && !errorMapping.isEmpty()) {

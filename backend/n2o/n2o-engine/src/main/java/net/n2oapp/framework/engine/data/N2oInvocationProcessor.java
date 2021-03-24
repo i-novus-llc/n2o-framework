@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.ActionInvocationEngine;
@@ -48,9 +49,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     public DataSet invoke(N2oInvocation invocation, DataSet inDataSet,
                           Collection<AbstractParameter> inParameters,
                           Collection<ObjectSimpleField> outParameters) {
-        final Map<String, String> inMapping = InvocationParametersMapping.extractMapping(inParameters);
-        final Map<String, String> outMapping = InvocationParametersMapping.extractMapping(outParameters);
-        DataSet resolvedInDataSet = resolveInValues(inMapping, inParameters, inDataSet);
+        final Map<String, FieldMapping> inMapping = InvocationParametersMapping.extractInFieldMapping(inParameters);
+        final Map<String, String> outMapping = InvocationParametersMapping.extractOutFieldMapping(outParameters);
+        prepareInValues(inParameters, inDataSet);
+        DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
         resolveOutValues(outParameters, resultDataSet);
         inDataSet.merge(resultDataSet);
@@ -58,7 +60,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     private DataSet invoke(final N2oInvocation invocation, final DataSet inDataSet,
-                           final Map<String, String> inMapping,
+                           final Map<String, FieldMapping> inMapping,
                            final Map<String, String> outMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
@@ -86,63 +88,74 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     /**
-     * Преобразование входящих данных вызова с учетом маппинга, типа полей, значений по умолчанию и нормализации
+     * Преобразование входящих данных вызова с учетом маппинга
      *
-     * @param mappingMap
+     * @param mappingMap           Map маппингов полей
      * @param invocationParameters Входящие поля операции
      * @param inDataSet            Входящие данные вызова
      * @return Преобразованные входящие данные вызова
      */
-    protected DataSet resolveInValues(Map<String, String> mappingMap,
-                                      Collection<AbstractParameter> invocationParameters,
-                                      DataSet inDataSet) {
+    protected DataSet resolveInValuesMapping(Map<String, FieldMapping> mappingMap,
+                                             Collection<AbstractParameter> invocationParameters,
+                                             DataSet inDataSet) {
         if (invocationParameters == null)
             return inDataSet;
 
         for (AbstractParameter parameter : invocationParameters) {
-            prepareValue(parameter, inDataSet);
-            if (isMappingEnabled(parameter, inDataSet)) {
-                if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null) {
-                    ObjectReferenceField refParameter = (ObjectReferenceField) parameter;
-                    if (parameter.getClass().equals(ObjectReferenceField.class))
-                        inDataSet.put(parameter.getId(),
-                                normalize(Arrays.asList(refParameter.getFields()), (DataSet) inDataSet.get(parameter.getId())));
-                    else
-                        for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
-                            ((DataSet) dataSet).putAll(normalize(Arrays.asList(refParameter.getFields()), (DataSet) dataSet));
-                    MappingProcessor.mapParameter(refParameter, inDataSet);
+            boolean mappingEnabled = isMappingEnabled(parameter, inDataSet);
+            if (parameter instanceof ObjectSimpleField) {
+                if (!mappingEnabled)
+                    mappingMap.remove(parameter.getId());
+            } else if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null) {
+                ObjectReferenceField refParameter = (ObjectReferenceField) parameter;
+                if (!mappingEnabled) {
+                    mappingMap.remove(parameter.getId());
+                    continue;
                 }
-            } else
-                mappingMap.remove(parameter.getId());
-        }
 
+                if (parameter.getClass().equals(ObjectReferenceField.class)) {
+                    inDataSet.put(parameter.getId(), resolveInValuesMapping(
+                            mappingMap.get(parameter.getId()).getChildMapping(),
+                            Arrays.asList(refParameter.getFields()),
+                            (DataSet) inDataSet.get(parameter.getId())));
+                } else {
+                    for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                        ((DataSet) dataSet).putAll(resolveInValuesMapping(
+                                mappingMap.get(parameter.getId()).getChildMapping(),
+                                Arrays.asList(refParameter.getFields()),
+                                (DataSet) dataSet));
+                }
+                MappingProcessor.mapParameter(refParameter, inDataSet);
+            }
+        }
         return normalize(invocationParameters, inDataSet);
     }
 
     /**
-     * Установка значений во входящие данные вызова с учетом значения по умолчанию и
+     * Установка значений во входящие поля вызова с учетом значения по умолчанию и
      * типа соответствующего поля операции
      *
-     * @param inParameter Входящее поле операции
-     * @param inDataSet   Входящие данные вызова
+     * @param parameters Входящее поле операции
+     * @param inDataSet  Входящие данные вызова
      */
-    private void prepareValue(AbstractParameter inParameter, DataSet inDataSet) {
-        Object value = inDataSet.get(inParameter.getId());
-        if (inParameter instanceof ObjectSimpleField) {
-            if (value == null)
-                value = ((ObjectSimpleField) inParameter).getDefaultValue();
-            value = contextProcessor.resolve(value);
-            value = domainProcessor.deserialize(value, ((ObjectSimpleField) inParameter).getDomain());
-        } else if (inParameter instanceof ObjectReferenceField && ((ObjectReferenceField) inParameter).getFields() != null) {
-            for (AbstractParameter childParam : ((ObjectReferenceField) inParameter).getFields()) {
-                if (inParameter.getClass().equals(ObjectReferenceField.class))
-                    prepareValue(childParam, (DataSet) value);
+    private void prepareInValues(Collection<AbstractParameter> parameters, DataSet inDataSet) {
+        for (AbstractParameter parameter : parameters)
+            if (parameter instanceof ObjectSimpleField) {
+                ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
+                Object value = inDataSet.get(simpleField.getId());
+                if (value == null)
+                    value = simpleField.getDefaultValue();
+                value = contextProcessor.resolve(value);
+                value = domainProcessor.deserialize(value, simpleField.getDomain());
+                inDataSet.put(simpleField.getId(), value);
+            } else if (parameter instanceof ObjectReferenceField) {
+                if (parameter.getClass().equals(ObjectReferenceField.class))
+                    prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()),
+                            (DataSet) inDataSet.get(parameter.getId()));
                 else
-                    for (Object dataSet : (Collection) value)
-                        prepareValue(childParam, (DataSet) dataSet);
+                    for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                        prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet);
             }
-        }
-        inDataSet.put(inParameter.getId(), value);
     }
 
     /**
