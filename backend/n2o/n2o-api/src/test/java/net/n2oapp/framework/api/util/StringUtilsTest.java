@@ -82,13 +82,6 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void unwrapLink() {
-        assert StringUtils.unwrapLink("{text}").equals("text");
-        assert StringUtils.unwrapLink("text") == null;
-        assert StringUtils.unwrapLink("`text`") == null;
-    }
-
-    @Test
     public void testMaskEquals() {
         assert StringUtils.maskMatch("*", "test");
         assert StringUtils.maskMatch("1Aba?", "1Aba?");
