@@ -32,8 +32,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void removeTag(String value) {
-        inputSelectedList().$$(".selected-item")
-                .findBy(Condition.text(value)).$("button").click();
+        element().$$(".selected-item").findBy(Condition.text(value)).$("button").click();
     }
 
     @Override
@@ -43,7 +42,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void shouldHaveTags(String... tags) {
-        ElementsCollection items = inputSelectedList().$$(".selected-item");
+        ElementsCollection items = element().$$(".selected-item");
         items.shouldHaveSize(tags.length);
         items.shouldHave(CollectionCondition.texts(tags));
     }
@@ -65,9 +64,5 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     private SelenideElement inputElement() {
         return element().$(".n2o-inp");
-    }
-
-    private SelenideElement inputSelectedList() {
-        return element().$(".n2o-input-select-selected-list");
     }
 }

@@ -19,7 +19,6 @@ public abstract class ActionComponent implements Serializable, IdAware, ModelAwa
     private String id;
     private String label;
     private String icon;
-    private String hotkey;
     private String visible;
     private String enabled;
     private N2oAction action;

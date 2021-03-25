@@ -55,8 +55,7 @@
                     </column>
                     <column text-field-id="">
                         <toolbar>
-                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update">
-                            </sub-menu>
+                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update"/>
                         </toolbar>
                         <!--<toolbar>-->
                         <!--<button label="${delete}" icon="fa fa-trash">-->
@@ -98,7 +97,7 @@
                 </toolbar>
                 <toolbar place="topRight">
                     <button id="update2" type="icon" color="light" label="${update}" icon="fa fa-edit"
-                            visibility-condition="name!='Мария'"
+                            visible="{name != 'Мария'}"
                             description="${button.update2.description}">
                         <open-page page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
                                    page-name="${clients.card}: {id}" route="/:id/update2">
@@ -106,7 +105,7 @@
                         </open-page>
                     </button>
                     <button id="view" label="${view}" color="info" icon="fa fa-book"
-                            enabling-condition="name!='Анна'" tooltip-position="right"
+                            enabled="{name != 'Анна'}" tooltip-position="right"
                             description="${button.view.description}">
                         <show-modal page-id="ProtoClientView" route="/:id/view">
                             <path-param name="id" value="{id}"/>

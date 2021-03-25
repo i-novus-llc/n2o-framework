@@ -78,7 +78,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void shouldSelectedMulti(String... values) {
-        ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");
+        ElementsCollection selectedItems = element().$$(".selected-item");
         selectedItems.shouldHaveSize(values.length);
         if (values.length != 0)
             selectedItems.shouldHave(CollectionCondition.textsInAnyOrder(values));
@@ -102,7 +102,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void clearItems(String... items) {
-        ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");
+        ElementsCollection selectedItems = element().$$(".selected-item");
         Arrays.stream(items).forEach(s -> selectedItems.find(Condition.text(s)).$("button").click());
     }
 

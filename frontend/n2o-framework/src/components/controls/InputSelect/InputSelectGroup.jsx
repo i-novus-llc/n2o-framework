@@ -43,7 +43,6 @@ function InputSelectGroup({
   setSelectedItemsRef,
   withoutButtons,
 }) {
-  const iconClass = isExpanded ? 'chevron-up' : 'chevron-down';
   const displayAddon =
     !multiSelect && !!selected.length && (iconFieldId || imageFieldId);
 

@@ -20,9 +20,9 @@ import java.util.Arrays;
 @Setter
 public abstract class N2oField extends N2oComponent implements IdAware {
     private String id;
-    private Boolean visible;
-    private Boolean required;
-    private Boolean enabled;
+    private String visible;
+    private String required;
+    private String enabled;
     private String[] dependsOn;
     @Deprecated
     private String style;

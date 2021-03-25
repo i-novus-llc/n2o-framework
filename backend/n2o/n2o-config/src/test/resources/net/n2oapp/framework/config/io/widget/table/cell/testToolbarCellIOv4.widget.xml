@@ -6,11 +6,11 @@
         </column>
         <column text-field-id="test2">
             <toolbar>
-                <button>
+                <button icon="icon" color="danger">
                     <close/>
                 </button>
                 <sub-menu>
-                    <menu-item/>
+                    <menu-item label="item" icon="icon" color="danger"/>
                 </sub-menu>
             </toolbar>
         </column>

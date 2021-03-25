@@ -15,7 +15,7 @@ public class InvocationParameter extends AbstractParameter {
     private MapperType mapper;
     protected String defaultValue;
     protected String normalize;
-    private String mappingCondition;
+    private String enabled;
     private String entityClass;
 
     public InvocationParameter(InvocationParameter parameter) {
@@ -26,7 +26,7 @@ public class InvocationParameter extends AbstractParameter {
         this.setRequired(parameter.getRequired());
         this.normalize = parameter.getNormalize();
         this.mapper = parameter.getMapper();
-        this.mappingCondition = parameter.getMappingCondition();
+        this.enabled = parameter.getEnabled();
         this.entityClass = parameter.getEntityClass();
     }
 }
