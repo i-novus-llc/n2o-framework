@@ -63,7 +63,6 @@ public class MongodbDataProviderEngineTest {
 
     @BeforeAll
     public void init() {
-        engine.setConnectionUrl("mongodb://localhost:" + port);
         engine.setDatabaseName("dbName");
         engine.setMapper(mongoObjectMapper());
 

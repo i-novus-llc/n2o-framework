@@ -35,7 +35,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     public static final String SELECT = "select";
     public static final String SORTING = "sorting";
     public static final String FILTERS = "filters";
-    private String connectionUrl;
+    private MongoClient mongoClient;
     private String databaseName;
     private ObjectMapper mapper;
     private Function<String, Integer> defaultSiffixIdx = str -> {
@@ -45,26 +45,28 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         return ends[0].replaceAll("\\.+$", "").length();
     };
 
-    public MongoDbDataProviderEngine(String connectionUrl, String databaseName, ObjectMapper objectMapper) {
-        this.connectionUrl = connectionUrl;
+    public MongoDbDataProviderEngine(MongoClient mongoClient, String databaseName, ObjectMapper objectMapper) {
+        this.mongoClient = mongoClient;
         this.databaseName = databaseName;
         this.mapper = objectMapper;
     }
 
     @Override
     public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
-        String connUrl = invocation.getConnectionUrl() != null ? invocation.getConnectionUrl() : connectionUrl;
         String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : databaseName;
 
-        if (connUrl == null)
-            throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
-
-        try (MongoClient mongoClient = new MongoClient(new MongoClientURI(connUrl))) {
+        if (invocation.getConnectionUrl() == null) {
             MongoCollection<Document> collection = mongoClient
                     .getDatabase(dbName)
                     .getCollection(invocation.getCollectionName());
             return execute(invocation, inParams, collection);
-        }
+        } else
+            try (MongoClient mongoClient = new MongoClient(new MongoClientURI(invocation.getConnectionUrl()))) {
+                MongoCollection<Document> collection = mongoClient
+                        .getDatabase(dbName)
+                        .getCollection(invocation.getCollectionName());
+                return execute(invocation, inParams, collection);
+            }
     }
 
     @Override
