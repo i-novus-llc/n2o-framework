@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.Expression;
@@ -67,9 +68,9 @@ public class InvocationParametersMapping {
     /**
      * Собирает аргументы для действия invocation
      *
-     * @param invocation действие
-     * @param inDataSet  входные данные
-     * @param inMapping  маппинг входных данных
+     * @param invocation Вызов действия
+     * @param inDataSet  Входные данные
+     * @param inMapping  Маппинг входных данных
      * @return
      */
     public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet,
@@ -200,10 +201,15 @@ public class InvocationParametersMapping {
      */
     private static Map<String, FieldMapping> changeInMappingForEntity(N2oArgumentsInvocation invocation,
                                                                       Map<String, FieldMapping> inMapping) {
-        if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
+        if (ArrayUtils.isEmpty(invocation.getArguments())) {
             final int[] idx = {0};
             Map<String, FieldMapping> newMap = new HashMap<>();
-            inMapping.forEach((k, v) -> newMap.put(k, new FieldMapping(v.getMapping() != null ? v.getMapping() : String.format("[%s]", idx[0]++))));
+            inMapping.forEach((k, v) -> {
+                String mapping = v.getMapping() != null ? v.getMapping() : String.format("[%s]", idx[0]++);
+                FieldMapping fieldMapping = new FieldMapping(mapping);
+                fieldMapping.setChildMapping(v.getChildMapping());
+                newMap.put(k, fieldMapping);
+            });
             inMapping = newMap;
         } else {
             int entityPosition = findEntityPosition(invocation);
@@ -211,11 +217,10 @@ public class InvocationParametersMapping {
                 // позиция entity используется для создания префикса
                 String prefix = "[" + entityPosition + "].";
                 for (String key : inMapping.keySet()) {
-                    String value = inMapping.get(key).getMapping();
-                    if (value != null) {
-                        if (!value.startsWith("[")) {
-                            inMapping.put(key, new FieldMapping(prefix + value));
-                        }
+                    if (inMapping.get(key) != null) {
+                        String value = inMapping.get(key).getMapping();
+                        if (value != null && !value.startsWith("["))
+                            inMapping.get(key).setMapping(prefix + value);
                     }
                 }
             }

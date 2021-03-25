@@ -424,12 +424,97 @@ public class InvocationProcessorTest {
 
         List<ObjectSimpleField> outParameters = new ArrayList<>();
 
+        // Result
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
         TestEntity entity = (TestEntity) result.get("entity");
         assertThat(entity.getValueInt(), nullValue());
         assertThat(entity.getInnerObj(), nullValue());
         assertThat(entity.getValueStr(), is("test"));
         List<TestEntity.InnerEntity> innerObjList = entity.getInnerObjList();
+        assertThat(innerObjList.size(), is(2));
+        assertThat(innerObjList.get(0).getValueInt(), is(666));
+        assertThat(innerObjList.get(0).getValueStr(), is("testStr1"));
+        Set<TestEntity.InnerEntity.InnerInnerEntity> innerInnerObjSet = innerObjList.get(0).getInnerInnerObjSet();
+        assertThat(innerInnerObjSet.size(), is(2));
+        assertThat(innerInnerObjSet.contains(new TestEntity.InnerEntity.InnerInnerEntity("code1")), is(true));
+        assertThat(innerInnerObjSet.contains(new TestEntity.InnerEntity.InnerInnerEntity("code2")), is(true));
+
+        assertThat(innerObjList.get(1).getValueInt(), is(777));
+        assertThat(innerObjList.get(1).getValueStr(), is("testStr2"));
+        innerInnerObjSet = innerObjList.get(1).getInnerInnerObjSet();
+        assertThat(innerInnerObjSet.size(), is(1));
+        assertThat(innerInnerObjSet.contains(new TestEntity.InnerEntity.InnerInnerEntity("code3")), is(true));
+    }
+
+    @Test
+    public void testAdvancedNestingWithArgumentsInvocationProvider() {
+        N2oJavaDataProvider invocation = new N2oJavaDataProvider();
+        invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+        invocation.setMethod("methodReturnedEntity");
+        Argument argument = new Argument();
+        argument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
+        argument.setType(Argument.Type.ENTITY);
+        invocation.setArguments(new Argument[]{argument});
+
+        // STRUCTURE
+        //Simple
+        ObjectSimpleField simpleParam = new ObjectSimpleField();
+        simpleParam.setId("valueStr");
+
+        //List
+        ObjectListField listParam = new ObjectListField();
+        listParam.setId("entities");
+        listParam.setMapping("innerObjList");
+        listParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
+        ObjectSimpleField childParam1 = new ObjectSimpleField();
+        childParam1.setId("id");
+        childParam1.setMapping("valueInt");
+        ObjectSimpleField childParam2 = new ObjectSimpleField();
+        childParam2.setId("name");
+        childParam2.setMapping("valueStr");
+        //List Set
+        ObjectSetField setParam = new ObjectSetField();
+        setParam.setId("set");
+        setParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity$InnerInnerEntity");
+        setParam.setMapping("innerInnerObjSet");
+        ObjectSimpleField setChildParam = new ObjectSimpleField();
+        setChildParam.setId("name");
+        setChildParam.setMapping("innerName");
+        setParam.setFields(new AbstractParameter[]{setChildParam});
+
+        listParam.setFields(new AbstractParameter[]{childParam1, childParam2, setParam});
+
+        // DATASET
+        DataSet innerDataSet1 = new DataSet();
+        innerDataSet1.put("id", 666);
+        innerDataSet1.put("name", "testStr1");
+        HashSet innerInnerDataSet = new HashSet();
+        innerDataSet1.put("set", innerInnerDataSet);
+        innerInnerDataSet.add(new DataSet("name", "code1"));
+        innerInnerDataSet.add(new DataSet("name", "code2"));
+
+        DataSet innerDataSet2 = new DataSet();
+        innerDataSet2.put("id", 777);
+        innerDataSet2.put("name", "testStr2");
+        innerInnerDataSet = new HashSet();
+        innerDataSet2.put("set", innerInnerDataSet);
+        innerInnerDataSet.add(new DataSet("name", "code3"));
+
+        List list = Arrays.asList(innerDataSet1, innerDataSet2);
+
+        DataSet dataSet = new DataSet();
+        dataSet.put("entities", list);
+        dataSet.put("valueStr", "test");
+
+        List<AbstractParameter> inParameters = Arrays.asList(simpleParam, listParam);
+
+        List<ObjectSimpleField> outParameters = new ArrayList<>();
+
+        // Result
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
+        assertThat(result.size(), is(2));
+        assertThat(result.get("valueStr"), is("test"));
+        List<TestEntity.InnerEntity> innerObjList = (List<TestEntity.InnerEntity>) result.get("entities");
         assertThat(innerObjList.size(), is(2));
         assertThat(innerObjList.get(0).getValueInt(), is(666));
         assertThat(innerObjList.get(0).getValueStr(), is("testStr1"));

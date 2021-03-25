@@ -107,7 +107,8 @@ public class MappingProcessor {
             Object value = dataSet.get(map.getKey());
             String mapping = map.getValue().getMapping();
             if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
-                Expression expression = writeParser.parseExpression(mapping != null ? mapping : "[" + idx + "]");
+                Expression expression = writeParser.parseExpression(
+                        mapping != null ? mapping : "[" + idx + "]." + map.getKey());
                 expression.setValue(result, value);
             }
             idx++;
