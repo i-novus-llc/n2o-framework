@@ -21,4 +21,9 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
     private String selectFormatFew;
     private String selectFormatMany;
     private String descriptionFieldId;
+
+    @Override
+    public boolean isSingle() {
+        return !ListType.multi.equals(type) && !ListType.checkboxes.equals(type);
+    }
 }
