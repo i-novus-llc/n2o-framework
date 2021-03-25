@@ -38,6 +38,7 @@ function withListContainer(WrappedComponent) {
     loading,
     labelFieldId,
     sortFieldId,
+    valueFieldId,
     ...rest
   }) => {
     /**
@@ -45,14 +46,17 @@ function withListContainer(WrappedComponent) {
      * @param optionalParams {object} - дополнительные параметра запроса
      * @param concat {boolean} - флаг добавления новых данных к текущим
      */
+
     const callApiWithParams = (optionalParams = {}, concat = false) => {
-      const sortId = sortFieldId || labelFieldId;
+      const sortId = sortFieldId || valueFieldId || labelFieldId;
+
       const params = {
         size,
         page,
         [`sorting.${sortId}`]: 'ASC',
         ...optionalParams,
       };
+
       _fetchData(params, concat);
     };
 
@@ -117,6 +121,7 @@ function withListContainer(WrappedComponent) {
       <WrappedComponent
         {...rest}
         labelFieldId={labelFieldId}
+        valueFieldId={valueFieldId}
         data={data}
         isLoading={loading}
         onInput={handleInputChange}
