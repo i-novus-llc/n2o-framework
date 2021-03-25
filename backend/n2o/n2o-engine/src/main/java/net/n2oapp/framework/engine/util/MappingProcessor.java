@@ -39,7 +39,8 @@ public class MappingProcessor {
      */
     public static void inMap(Object target, String mapping, Object value) {
         Expression expression = writeParser.parseExpression(mapping);
-        if (target != null) expression.setValue(target, value);
+        if (target != null)
+            expression.setValue(target, value);
     }
 
     /**
@@ -161,21 +162,20 @@ public class MappingProcessor {
     /**
      * Создает инстанс и мапит его поля из dataSet
      *
-     * @param parameter параметр операции
-     * @param dataSet   исходные данные
+     * @param parameter Параметр операции
+     * @param dataSet   Исходные данные
      */
     public static Object mapChildParameters(ObjectReferenceField parameter, DataSet dataSet) {
         Object instance;
         try {
             instance = Class.forName(parameter.getEntityClass()).newInstance();
-        } catch (ClassNotFoundException
-                | IllegalAccessException
-                | InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new N2oException(e);
         }
 
         for (AbstractParameter childParam : (parameter).getFields()) {
-            writeParser.parseExpression(childParam.getMapping()).setValue(instance, dataSet.get(childParam.getId()));
+            String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
+            writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
         }
         return instance;
     }

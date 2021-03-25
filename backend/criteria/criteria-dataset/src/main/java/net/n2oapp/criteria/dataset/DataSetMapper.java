@@ -53,9 +53,27 @@ public class DataSetMapper {
         Map<String, Object> result = new DataSet();
 
         for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
-            Expression expression = writeParser.parseExpression(map.getValue().getMapping() != null ? map.getValue().getMapping()
-                    : "['" + map.getKey() + "']");
-            expression.setValue(result, dataSet.get(map.getKey()));
+            Expression expression;
+            if (map.getValue() != null) {
+                expression = writeParser.parseExpression(
+                        map.getValue().getMapping() != null ? map.getValue().getMapping() : "['" + map.getKey() + "']");
+                if (map.getValue().getChildMapping() != null) {
+                    if (map.getKey() != null) {
+                        Object data = dataSet.get(map.getKey());
+                        if (data instanceof Collection) {
+                            Collection collection = data instanceof List ? new ArrayList() : new HashSet();
+                            for (Object obj : (Collection) data)
+                                collection.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
+                            expression.setValue(result, collection);
+                        } else if (dataSet.get(map.getKey()) instanceof DataSet)
+                            expression.setValue(result, mapToMap((DataSet) dataSet.get(map.getKey()), map.getValue().getChildMapping()));
+                    }
+                } else
+                    expression.setValue(result, dataSet.get(map.getKey()));
+            } else {
+                expression = writeParser.parseExpression("['" + map.getKey() + "']");
+                expression.setValue(result, dataSet.get(map.getKey()));
+            }
         }
         return result;
     }
@@ -118,33 +136,22 @@ public class DataSetMapper {
         return argumentInstances;
     }
 
-    private static Map<String, Object> instantiateArguments(Map<String, String> arguments) {
-        if (arguments == null) return null;
-        Map<String, Object> argumentInstances = new LinkedHashMap<>();
-        for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            Class argumentClass;
-            try {
-                argumentClass = Class.forName(entry.getValue());
-                argumentInstances.put(entry.getKey(), argumentClass.newInstance());
-            } catch (Exception e) {
-                throw new InstantiateArgumentException(entry.getValue(), e);
-            }
-        }
-        return argumentInstances;
-    }
-
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\['.+']").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";
 
+    /**
+     * Проверка корректности формата маппингов
+     *
+     * @param mapping Map маппингов
+     */
     private static void validateMapping(Map<String, FieldMapping> mapping) {
         String errorMapping = mapping.entrySet().stream()
-                .filter(e -> e.getValue() != null)
+                .filter(e -> e.getValue() != null && e.getValue().getMapping() != null)
                 .filter(e -> !MAPPING_PATTERN.test(e.getValue().getMapping()))
                 .map(e -> String.format(KEY_ERROR, e.getKey(), e.getValue().getMapping()))
                 .collect(Collectors.joining(", "));
 
-        if (errorMapping != null && !errorMapping.isEmpty()) {
+        if (!errorMapping.isEmpty())
             throw new IllegalArgumentException("Not valid mapping: " + errorMapping);
-        }
     }
 }

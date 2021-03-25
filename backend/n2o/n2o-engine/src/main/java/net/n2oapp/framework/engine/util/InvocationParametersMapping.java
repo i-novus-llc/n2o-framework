@@ -32,6 +32,12 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.inMap;
  */
 public class InvocationParametersMapping {
 
+    /**
+     * Получение маппингов исходящих полей
+     *
+     * @param parameters Список исходящих полей
+     * @return Маппинги исходящих полей
+     */
     public static Map<String, String> extractOutFieldMapping(Collection<ObjectSimpleField> parameters) {
         Map<String, String> mappingMap = new LinkedHashMap<>();
         if (parameters != null)
@@ -40,6 +46,12 @@ public class InvocationParametersMapping {
         return mappingMap;
     }
 
+    /**
+     * Получение структуры маппингов входящих полей
+     *
+     * @param parameters Список входящих полей
+     * @return Структура маппингов исходящих полей
+     */
     public static Map<String, FieldMapping> extractInFieldMapping(Collection<AbstractParameter> parameters) {
         Map<String, FieldMapping> mappingMap = new LinkedHashMap<>();
         if (parameters != null)
@@ -71,14 +83,13 @@ public class InvocationParametersMapping {
     /**
      * Преобразует входные значения согласно маппингу и собирает их в map
      *
-     * @param dataSet входные данные
-     * @param mapping маппинг
-     * @return
+     * @param dataSet Входные данные
+     * @param mapping Маппинг полей
+     * @return Преобразованные входные значения согласно маппингу
      */
     public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, FieldMapping> mapping) {
         return DataSetMapper.mapToMap(dataSet, mapping);
     }
-
 
     public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
         map.put("select", query.getSelectExpressions());
@@ -93,7 +104,6 @@ public class InvocationParametersMapping {
             N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
             if (!field.getNoJoin())
                 joins.add(field.getJoinBody());
-
         }
 
 
@@ -189,7 +199,7 @@ public class InvocationParametersMapping {
      * @return innMapping вида [0].name
      */
     private static Map<String, FieldMapping> changeInMappingForEntity(N2oArgumentsInvocation invocation,
-                                                                Map<String, FieldMapping> inMapping) {
+                                                                      Map<String, FieldMapping> inMapping) {
         if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
             final int[] idx = {0};
             Map<String, FieldMapping> newMap = new HashMap<>();

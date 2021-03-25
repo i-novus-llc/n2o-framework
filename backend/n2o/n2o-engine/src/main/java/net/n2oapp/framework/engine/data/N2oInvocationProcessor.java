@@ -102,30 +102,25 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             return inDataSet;
 
         for (AbstractParameter parameter : invocationParameters) {
-            boolean mappingEnabled = isMappingEnabled(parameter, inDataSet);
-            if (parameter instanceof ObjectSimpleField) {
-                if (!mappingEnabled)
-                    mappingMap.remove(parameter.getId());
-            } else if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null) {
-                ObjectReferenceField refParameter = (ObjectReferenceField) parameter;
-                if (!mappingEnabled) {
-                    mappingMap.remove(parameter.getId());
-                    continue;
-                }
-
-                if (parameter.getClass().equals(ObjectReferenceField.class)) {
-                    inDataSet.put(parameter.getId(), resolveInValuesMapping(
-                            mappingMap.get(parameter.getId()).getChildMapping(),
-                            Arrays.asList(refParameter.getFields()),
-                            (DataSet) inDataSet.get(parameter.getId())));
-                } else {
-                    for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
-                        ((DataSet) dataSet).putAll(resolveInValuesMapping(
+            if (isMappingEnabled(parameter, inDataSet)) {
+                if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null) {
+                    ObjectReferenceField refParameter = (ObjectReferenceField) parameter;
+                    if (parameter.getClass().equals(ObjectReferenceField.class)) {
+                        inDataSet.put(parameter.getId(), resolveInValuesMapping(
                                 mappingMap.get(parameter.getId()).getChildMapping(),
                                 Arrays.asList(refParameter.getFields()),
-                                (DataSet) dataSet));
+                                (DataSet) inDataSet.get(parameter.getId())));
+                    } else {
+                        for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                            ((DataSet) dataSet).putAll(resolveInValuesMapping(
+                                    mappingMap.get(parameter.getId()).getChildMapping(),
+                                    Arrays.asList(refParameter.getFields()),
+                                    (DataSet) dataSet));
+                    }
+                    MappingProcessor.mapParameter(refParameter, inDataSet);
                 }
-                MappingProcessor.mapParameter(refParameter, inDataSet);
+            } else {
+                mappingMap.remove(parameter.getId());
             }
         }
         return normalize(invocationParameters, inDataSet);
