@@ -318,8 +318,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field2.getDependencies().size(), is(0));
 
         Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
-        assertThat(field3.getVisible(), is(false));
-        assertThat(field3.getEnabled(), is(false));
+        assertThat(field3.getVisible(), is(true));
+        assertThat(field3.getEnabled(), is(true));
         assertThat(field3.getRequired(), is(false));
         assertThat(field3.getDependencies().size(), is(3));
         assertThat(field3.getDependencies().get(0).getType(), is(ValidationType.visible));
