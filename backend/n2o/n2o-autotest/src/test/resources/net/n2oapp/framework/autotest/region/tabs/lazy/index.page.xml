@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Ленивая загрузка вкладок региона &lt;tabs>">
+    <regions>
+        <tabs always-refresh="true" lazy="true" place="left" routable="false">
+            <tab name="tab2">
+                <form id="table1" query-id="test">
+                    <fields>
+                        <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="2"/>
+                    </pre-filters>
+                </form>
+            </tab>
+            <tab name="tab3">
+                <form id="table2" query-id="test">
+                    <fields>
+                        <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="3"/>
+                    </pre-filters>
+                </form>
+            </tab>
+        </tabs>
+        <tabs always-refresh="true" lazy="false" place="right" routable="false">
+            <tab name="tab4">
+                <form id="table3" query-id="test">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="4"/>
+                    </pre-filters>
+                </form>
+            </tab>
+            <tab name="tab5">
+                <form id="table4" query-id="test">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="5"/>
+                    </pre-filters>
+                </form>
+            </tab>
+        </tabs>
+        <tabs always-refresh="false" lazy="true" place="left" routable="false">
+            <tab name="tab6">
+                <form id="table5" query-id="test">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="6"/>
+                    </pre-filters>
+                </form>
+            </tab>
+            <tab name="tab7">
+                <form id="table6" query-id="test">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="7"/>
+                    </pre-filters>
+                </form>
+            </tab>
+        </tabs>
+        <tabs always-refresh="false" lazy="false" place="right" routable="false">
+            <tab name="tab8">
+                <form id="table7" query-id="test">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="8"/>
+                    </pre-filters>
+                </form>
+            </tab>
+            <tab name="tab9">
+                <form id="table9" query-id="test">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                    <pre-filters>
+                        <eq field-id="id" value="9"/>
+                    </pre-filters>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>
