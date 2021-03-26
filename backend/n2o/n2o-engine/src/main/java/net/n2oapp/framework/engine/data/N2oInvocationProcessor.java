@@ -117,7 +117,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                                     Arrays.asList(refParameter.getFields()),
                                     (DataSet) dataSet));
                     }
-                    MappingProcessor.mapParameter(refParameter, inDataSet);
+                    if (refParameter.getEntityClass() != null)
+                        MappingProcessor.mapParameter(refParameter, inDataSet);
                 }
             } else {
                 mappingMap.remove(parameter.getId());
