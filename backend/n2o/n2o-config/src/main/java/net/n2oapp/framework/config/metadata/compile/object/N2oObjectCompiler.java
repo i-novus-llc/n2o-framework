@@ -19,7 +19,6 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -101,8 +100,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         N2oObject refObject = p.getSource(refField.getReferenceObjectId(), N2oObject.class);
         refField.setEntityClass(p.cast(refField.getEntityClass(), refObject.getEntityClass()));
 
-        if (ArrayUtils.isNotEmpty(refField.getFields())) {
-            if (ArrayUtils.isNotEmpty(refObject.getObjectFields())) {
+        if (isNotEmpty(refField.getFields())) {
+            if (isNotEmpty(refObject.getObjectFields())) {
                 for (int i = 0; i < refField.getFields().length; i++) {
                     AbstractParameter parameter = refField.getFields()[i];
                     Optional<AbstractParameter> objectRefField = Arrays.stream(refObject.getObjectFields())
@@ -116,7 +115,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         refField.setReferenceObjectId(null);
 
         // рекурсивная инициализация внутренних вложенных полей
-        if (ArrayUtils.isNotEmpty(refField.getFields()))
+        if (isNotEmpty(refField.getFields()))
             for (AbstractParameter field : refField.getFields())
                 if (field instanceof ObjectReferenceField && ((ObjectReferenceField) field).getReferenceObjectId() != null)
                     initReferenceFieldByObjectId((ObjectReferenceField) field, p, currentDepth++);
@@ -461,13 +460,13 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 initReferenceFieldByObjectId(refParam, p, 1);
             ObjectReferenceField refField = (ObjectReferenceField) field;
             resolveReferenceFieldDefault(refParam, refField);
-            if (ArrayUtils.isNotEmpty(refParam.getFields())) {
+            if (isNotEmpty(refParam.getFields())) {
                 Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(
                         refField.getFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
                 for (AbstractParameter refParamField : refParam.getFields())
                     if (nestedFieldsMap.containsKey(refParamField.getId()))
                         prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()), p);
-            } else if (ArrayUtils.isNotEmpty(refField.getFields())) {
+            } else if (isNotEmpty(refField.getFields())) {
                 refParam.setFields(refField.getFields());
             }
         }
@@ -518,5 +517,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             parameter.setRequired(field.getRequired());
         if (parameter.getMapping() == null)
             parameter.setMapping(field.getMapping());
+    }
+
+    public boolean isNotEmpty(Object[] array) {
+        return array != null && array.length != 0;
     }
 }
