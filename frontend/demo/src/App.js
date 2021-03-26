@@ -29,7 +29,7 @@ const config = {
   messages: {
     timeout: {
       error: 0,
-      success: 5000,
+      success: 0,
       warning: 0,
       info: 0
     }
