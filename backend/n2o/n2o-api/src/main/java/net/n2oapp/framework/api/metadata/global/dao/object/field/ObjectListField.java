@@ -1,11 +1,14 @@
 package net.n2oapp.framework.api.metadata.global.dao.object.field;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Исходная модель поля-списка.
  */
+@NoArgsConstructor
 public class ObjectListField extends ObjectReferenceField {
-    @Override
-    public final String getPostfix() {
-        return "list";
+
+    public ObjectListField(ObjectListField field) {
+        super(field);
     }
 }

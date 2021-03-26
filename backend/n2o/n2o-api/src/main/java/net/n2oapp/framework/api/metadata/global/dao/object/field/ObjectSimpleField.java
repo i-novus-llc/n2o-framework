@@ -26,9 +26,4 @@ public class ObjectSimpleField extends AbstractParameter {
         this.setParam(field.getParam());
         this.setValidationFailKey(field.getValidationFailKey());
     }
-
-    @Override
-    public String getPostfix() {
-        return "field";
-    }
 }
