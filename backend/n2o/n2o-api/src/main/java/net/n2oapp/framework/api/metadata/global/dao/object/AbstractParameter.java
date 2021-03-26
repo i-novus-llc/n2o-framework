@@ -17,7 +17,6 @@ public abstract class AbstractParameter implements IdAware, Source {
     private String mapping;
     private String enabled;
     private Boolean required;
-    private String namespaceUri;
 
     public AbstractParameter(AbstractParameter parameter) {
         this.id = parameter.getId();
