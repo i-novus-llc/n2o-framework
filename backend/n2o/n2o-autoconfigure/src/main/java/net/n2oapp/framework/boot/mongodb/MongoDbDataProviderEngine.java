@@ -3,17 +3,21 @@ package net.n2oapp.framework.boot.mongodb;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import lombok.Setter;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,25 +39,32 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     public static final String SELECT = "select";
     public static final String SORTING = "sorting";
     public static final String FILTERS = "filters";
+
+    @Autowired
     private MongoClient mongoClient;
+    @Value("${n2o.engine.mongodb.database_name:}")
     private String databaseName;
+    @Value("${spring.data.mongodb.database:}")
+    private String springDatabaseName;
+
+    private MongoClientOptions.Builder mongoOptionsBuilder;
     private ObjectMapper mapper;
-    private Function<String, Integer> defaultSiffixIdx = str -> {
+
+    private static final Function<String, Integer> defaultSuffixIdx = str -> {
         if (str.startsWith("."))
             return 0;
         String[] ends = str.split("[^A-Za-z0-9_\\.]");
         return ends[0].replaceAll("\\.+$", "").length();
     };
 
-    public MongoDbDataProviderEngine(MongoClient mongoClient, String databaseName, ObjectMapper objectMapper) {
-        this.mongoClient = mongoClient;
-        this.databaseName = databaseName;
+    public MongoDbDataProviderEngine(MongoClientOptions mongoClientOptions, ObjectMapper objectMapper) {
+        this.mongoOptionsBuilder = MongoClientOptions.builder(mongoClientOptions);
         this.mapper = objectMapper;
     }
 
     @Override
     public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
-        String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : databaseName;
+        String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : !StringUtils.isEmpty(databaseName) ? databaseName : springDatabaseName;
 
         if (invocation.getConnectionUrl() == null) {
             MongoCollection<Document> collection = mongoClient
@@ -61,7 +72,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
                     .getCollection(invocation.getCollectionName());
             return execute(invocation, inParams, collection);
         } else
-            try (MongoClient mongoClient = new MongoClient(new MongoClientURI(invocation.getConnectionUrl()))) {
+            try (MongoClient mongoClient = new MongoClient(new MongoClientURI(invocation.getConnectionUrl(), mongoOptionsBuilder))) {
                 MongoCollection<Document> collection = mongoClient
                         .getDatabase(dbName)
                         .getCollection(invocation.getCollectionName());
@@ -137,7 +148,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     private Bson getFilters(Map<String, Object> inParams) {
         Bson filters = null;
         if (inParams.containsKey(FILTERS) && inParams.get(FILTERS) != null) {
-            PlaceHoldersResolver resolver = new PlaceHoldersResolver("#", "", false, defaultSiffixIdx);
+            PlaceHoldersResolver resolver = new PlaceHoldersResolver("#", "", false, defaultSuffixIdx);
             List<String> filterList = (List<String>) inParams.get(FILTERS);
             List<Bson> filtersByFields = new ArrayList<>();
             for (String filter : filterList) {
