@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.compile;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
@@ -137,7 +138,7 @@ public interface CompileProcessor {
      * @param <S>      Тип значения
      * @return Исходная метаданная с перекрытыми свойствами
      */
-    <S extends SourceMetadata> S merge(S source, S override);
+    <S extends Source> S merge(S source, S override);
 
     /**
      * Привести значение к значению по умолчанию, если оно null.

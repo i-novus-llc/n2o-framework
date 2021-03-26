@@ -96,7 +96,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private void initReferenceFieldByObjectId(ObjectReferenceField refField, CompileProcessor p, int currentDepth) {
         if (currentDepth > OBJECT_REFERENCE_NESTING_MAX_DEPTH)
-            throw new N2oException(String.format("Available only %d level nesting in object fields", OBJECT_REFERENCE_NESTING_MAX_DEPTH));
+            return;
 
         N2oObject refObject = p.getSource(refField.getReferenceObjectId(), N2oObject.class);
         refField.setEntityClass(p.cast(refField.getEntityClass(), refObject.getEntityClass()));

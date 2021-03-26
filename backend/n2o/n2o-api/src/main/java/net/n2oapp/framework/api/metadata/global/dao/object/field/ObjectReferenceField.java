@@ -21,9 +21,4 @@ public class ObjectReferenceField extends AbstractParameter {
         this.entityClass = field.getEntityClass();
         this.fields = field.getFields();
     }
-
-    @Override
-    public String getPostfix() {
-        return "reference";
-    }
 }
