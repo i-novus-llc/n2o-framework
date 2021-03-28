@@ -14,7 +14,7 @@ import some from 'lodash/some';
 import { batchActions } from 'redux-batched-actions';
 
 import { isPromise } from '../../tools/helpers';
-import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin'
+import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
 
 import * as presets from './presets';
 
@@ -150,7 +150,10 @@ export const validateField = (
         const message = findPriorityMessage(messages);
         const nowTouched = get(registeredFields, [fieldId, 'touched']);
 
-        if (isTouched && !nowTouched || !isEqual(message, get(registeredFields, [fieldId, 'message']))) {
+        if (
+          (isTouched && !nowTouched) ||
+          !isEqual(message, get(registeredFields, [fieldId, 'message']))
+        ) {
           return addFieldMessage(formName, fieldId, message, isTouched);
         }
       }
