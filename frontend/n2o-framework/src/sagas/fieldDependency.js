@@ -85,7 +85,9 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 export function* modify(values, formName, fieldName, dependency = {}, field) {
   const { type, expression } = dependency;
 
-  const evalResult = expression ? evalExpression(expression, values) : undefined;
+  const evalResult = expression
+    ? evalExpression(expression, values)
+    : undefined;
 
   switch (type) {
     case 'enabled':
@@ -103,7 +105,8 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
       }
       break;
     case 'visible':
-      const currentVisible = field.visible === undefined || field.visible === true;
+      const currentVisible =
+        field.visible === undefined || field.visible === true;
       const nextVisible = Boolean(evalResult);
 
       if (currentVisible === nextVisible) {
@@ -156,7 +159,12 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
       break;
     case 'reRender': {
       const state = yield select();
-      const fieldValidationList = get(state, ['widgets', formName, 'validation', fieldName]);
+      const fieldValidationList = get(state, [
+        'widgets',
+        formName,
+        'validation',
+        fieldName,
+      ]);
       const currentMessage = get(field, ['message', 'text']);
       let i = 0;
 
@@ -214,22 +222,22 @@ export function* checkAndModify(
 
     if (field.dependency) {
       for (const dep of field.dependency) {
-        const isInitAction = [actionTypes.INITIALIZE, REGISTER_FIELD_EXTRA].includes(actionType);
+        const isInitAction = [
+          actionTypes.INITIALIZE,
+          REGISTER_FIELD_EXTRA,
+        ].includes(actionType);
         const isChangeAction = actionType === actionTypes.CHANGE;
 
         if (
           (isInitAction && dep.applyOnInit) ||
           (isChangeAction && includes(dep.on, fieldName)) ||
-          (isChangeAction && some(dep.on, field => includes(field, '.') && includes(field, fieldName)))
+          (isChangeAction &&
+            some(
+              dep.on,
+              field => includes(field, '.') && includes(field, fieldName)
+            ))
         ) {
-          yield call(
-            modify,
-            values,
-            formName,
-            fieldId,
-            dep,
-            field
-          );
+          yield call(modify, values, formName, fieldId, dep, field);
         }
       }
     }

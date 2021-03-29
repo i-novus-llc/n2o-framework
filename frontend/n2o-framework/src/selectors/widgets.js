@@ -142,9 +142,8 @@ const makeWidgetValidationSelector = widgetId =>
     widgetState => widgetState.validation
   );
 
-export const getWidgetFieldValidation = (state, widgetId, fieldId) => (
-  get(state, ['widgets', widgetId, 'validation', fieldId])
-)
+export const getWidgetFieldValidation = (state, widgetId, fieldId) =>
+  get(state, ['widgets', widgetId, 'validation', fieldId]);
 
 const makeSelectedIdSelector = widgetId =>
   createSelector(
