@@ -138,7 +138,11 @@ public class ObjectCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCompileFields() {
-        CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectField.object.xml")
+        CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectField.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/object/entity.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/object/entity2.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/object/rating.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/object/set.object.xml")
                 .get(new ObjectContext("testObjectField"));
         assertThat(object.getObjectFields().size(), is(4));
 
@@ -154,9 +158,11 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(refField.getId(), is("entity"));
         assertThat(refField.getMapping(), is("test2"));
         assertThat(refField.getRequired(), is(false));
-        assertThat(refField.getReferenceObjectId(), is("utAction"));
+        // define in reference object
+        assertThat(refField.getReferenceObjectId(), nullValue());
         assertThat(refField.getEntityClass(), is("com.example.Object"));
-        assertThat(refField.getFields().length, is(1));
+        assertThat(refField.getFields().length, is(2));
+        // field defined in reference object
         ObjectSimpleField child = (ObjectSimpleField) refField.getFields()[0];
         assertThat(child.getId(), is("id"));
         assertThat(child.getMapping(), is("code"));
@@ -164,6 +170,18 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(child.getRequired(), is(true));
         assertThat(child.getDefaultValue(), is("1"));
         assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
+        ObjectReferenceField refChild = (ObjectReferenceField) refField.getFields()[1];
+        assertThat(refChild.getId(), is("rating"));
+        assertThat(refChild.getMapping(), is("userRating"));
+        assertThat(refChild.getFields().length, is(2));
+        // fields defined in reference object for reference object
+        child = (ObjectSimpleField) refChild.getFields()[0];
+        assertThat(child.getId(), is("code"));
+        assertThat(child.getDomain(), is("string"));
+        child = (ObjectSimpleField) refChild.getFields()[1];
+        assertThat(child.getId(), is("value"));
+        assertThat(child.getDomain(), is("numeric"));
+
 
         ObjectListField listField = (ObjectListField) object.getObjectFieldsMap().get("list");
         assertThat(listField.getId(), is("list"));
@@ -182,7 +200,11 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(setField.getFields().length, is(1));
         child = (ObjectSimpleField) setField.getFields()[0];
         assertThat(child.getId(), is("name"));
+        // current object field attribute has higher priority then in reference object
         assertThat(child.getMapping(), is("name2"));
+        // merged attributes
+        assertThat(child.getRequired(), is(true));
+        assertThat(child.getDomain(), is("string"));
 
         // 2. operation1 fields (defined in operation and use object fields attribute definition by default)
         Map<String, AbstractParameter> op1InFields = object.getOperations().get("op1").getInParametersMap();
@@ -204,20 +226,24 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(refField.getId(), is("entity"));
         assertThat(refField.getMapping(), is("entity2"));
         assertThat(refField.getRequired(), is(false));
-        assertThat(refField.getReferenceObjectId(), is("utAction"));
+        assertThat(refField.getReferenceObjectId(), nullValue());
         assertThat(refField.getEntityClass(), is("com.example.Object"));
         assertThat(refField.getFields().length, is(2));
         child = (ObjectSimpleField) refField.getFields()[0];
         assertThat(child.getId(), is("id"));
         assertThat(child.getMapping(), is("code"));
-        assertThat(child.getDomain(), is("integer"));
-        assertThat(child.getRequired(), is(true));
+        // after merged with reference object field
+        // attribute priority: in operation field -> in operation object-id field -> object field
+        assertThat(child.getDomain(), is("short"));
+        assertThat(child.getRequired(), is(false));
+        // after merged with object field
         assertThat(child.getDefaultValue(), is("1"));
         assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
         child = (ObjectSimpleField) refField.getFields()[1];
         assertThat(child.getId(), is("name"));
         assertThat(child.getMapping(), is("title"));
-        assertThat(child.getDomain(), nullValue());
+        // from reference object field
+        assertThat(child.getDomain(), is("string"));
         assertThat(child.getRequired(), nullValue());
         assertThat(child.getDefaultValue(), nullValue());
         assertThat(child.getNormalize(), nullValue());
@@ -250,9 +276,9 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(refField.getId(), is("entity"));
         assertThat(refField.getMapping(), is("test2"));
         assertThat(refField.getRequired(), is(false));
-        assertThat(refField.getReferenceObjectId(), is("utAction"));
+        assertThat(refField.getReferenceObjectId(), nullValue());
         assertThat(refField.getEntityClass(), is("com.example.Object"));
-        assertThat(refField.getFields().length, is(1));
+        assertThat(refField.getFields().length, is(2));
         child = (ObjectSimpleField) refField.getFields()[0];
         assertThat(child.getId(), is("id"));
         assertThat(child.getMapping(), is("code"));
@@ -260,6 +286,18 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(child.getRequired(), is(true));
         assertThat(child.getDefaultValue(), is("1"));
         assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
+        refChild = (ObjectReferenceField) refField.getFields()[1];
+        assertThat(refChild.getId(), is("rating"));
+        assertThat(refChild.getMapping(), is("userRating"));
+        assertThat(refChild.getFields().length, is(2));
+        // fields defined in reference object for reference object
+        child = (ObjectSimpleField) refChild.getFields()[0];
+        assertThat(child.getId(), is("code"));
+        assertThat(child.getDomain(), is("string"));
+        child = (ObjectSimpleField) refChild.getFields()[1];
+        assertThat(child.getId(), is("value"));
+        assertThat(child.getDomain(), is("numeric"));
+
 
         listField = (ObjectListField) op2InFields.get("list");
         assertThat(listField.getId(), is("list"));
@@ -279,5 +317,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         child = (ObjectSimpleField) setField.getFields()[0];
         assertThat(child.getId(), is("name"));
         assertThat(child.getMapping(), is("name2"));
+        assertThat(child.getRequired(), is(true));
+        assertThat(child.getDomain(), is("string"));
     }
 }

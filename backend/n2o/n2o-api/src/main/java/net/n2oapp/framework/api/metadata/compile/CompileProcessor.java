@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.compile;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
@@ -128,6 +129,16 @@ public interface CompileProcessor {
      * @return Локализованное сообщение
      */
     String getMessage(String messageCode, Object... arguments);
+
+    /**
+     * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
+     *
+     * @param source   Исходная метаданная
+     * @param override Перекрывающая метаданная
+     * @param <S>      Тип значения
+     * @return Исходная метаданная с перекрытыми свойствами
+     */
+    <S extends Source> S merge(S source, S override);
 
     /**
      * Привести значение к значению по умолчанию, если оно null.

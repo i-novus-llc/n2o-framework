@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.selective.CompileInfo;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
