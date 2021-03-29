@@ -324,32 +324,29 @@ public class InvocationProcessorTest {
     @Test
     public void testNormalizing() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
-        method.setMethod("methodWithOneArgument");
+        method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
 
         Argument entityTypeArgument = new Argument();
-        entityTypeArgument.setName("entityTypeArgument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
         entityTypeArgument.setType(Argument.Type.ENTITY);
 
         method.setArguments(new Argument[]{entityTypeArgument});
 
-        ObjectReferenceField param = new ObjectReferenceField();
-        param.setId("entity");
-        param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity");
         ObjectSimpleField childParam = new ObjectSimpleField();
         childParam.setId("name");
         childParam.setMapping("valueStr");
         childParam.setNormalize("#this.toLowerCase()");
-        param.setFields(new AbstractParameter[]{childParam});
 
         DataSet innerDataSet = new DataSet();
         innerDataSet.put("name", "TESTSTRING");
 
-        DataSet outerDataSet = new DataSet();
-        outerDataSet.put("entity", innerDataSet);
+        ObjectSimpleField outField = new ObjectSimpleField();
+        outField.setId("entity");
+        outField.setMapping("#this");
+        Collection<ObjectSimpleField> outMapping = Arrays.asList(outField);
 
-        DataSet resultDataSet = invocationProcessor.invoke(method, outerDataSet, Arrays.asList(param), null);
+        DataSet resultDataSet = invocationProcessor.invoke(method, innerDataSet, Arrays.asList(childParam), outMapping);
 
         assertThat(((TestEntity) resultDataSet.get("entity")).getValueStr(), is("teststring"));
     }
@@ -482,7 +479,7 @@ public class InvocationProcessorTest {
         setChildParam.setMapping("innerName");
         setParam.setFields(new AbstractParameter[]{setChildParam});
 
-        listParam.setFields(new AbstractParameter[]{childParam1, childParam2, setParam});
+        listParam.setFields(new AbstractParameter[]{setParam, childParam2, childParam1});
 
         // DATASET
         DataSet innerDataSet1 = new DataSet();
