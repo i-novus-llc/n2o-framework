@@ -19,6 +19,7 @@ import findIndex from 'lodash/findIndex';
 import values from 'lodash/values';
 import eq from 'lodash/eq';
 import get from 'lodash/get';
+import isUndefined from 'lodash/isUndefined';
 
 import propsResolver from '../../../utils/propsResolver';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -610,12 +611,12 @@ class AdvancedTable extends Component {
       model,
       setRef: this.setRowRef,
       handleRowClick: () => {
-        this.handleRowClick(model.id, model.id, false);
+        this.handleRowClick(model.id, model.id, false, false);
         if (autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX)
           this.handleChangeChecked(model.id);
       },
       handleRowClickFocus: () =>
-        this.handleRowClick(model.id, model.id, true, true),
+        this.handleRowClick(model.id, model.id, true, false),
       clickWithAction: () =>
         this.handleRowClickWithAction(model.id, model.id, false, false, model),
       clickFocusWithAction: () =>
