@@ -444,6 +444,40 @@ public class InvocationProcessorTest {
     }
 
     @Test
+    public void testMappingWithArgumentsInvocationProvider() {
+        N2oJavaDataProvider invocation = new N2oJavaDataProvider();
+        invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+        invocation.setMethod("methodWithTwoArguments");
+        Argument argument1 = new Argument();
+        argument1.setType(Argument.Type.PRIMITIVE);
+        Argument argument2 = new Argument();
+        argument2.setType(Argument.Type.PRIMITIVE);
+        invocation.setArguments(new Argument[]{argument1, argument2});
+
+        // STRUCTURE
+        ObjectSimpleField firstArg = new ObjectSimpleField();
+        firstArg.setId("firstArgument");
+        ObjectSimpleField secondArg = new ObjectSimpleField();
+        secondArg.setId("secondArgument");
+
+        // DATASET
+        DataSet dataSet = new DataSet();
+        dataSet.put("firstArgument", "test");
+        dataSet.put("secondArgument", 123);
+
+        List<AbstractParameter> inParameters = Arrays.asList(firstArg, secondArg);
+
+        ObjectSimpleField response = new ObjectSimpleField();
+        response.setId("result");
+        response.setMapping("#this");
+        List<ObjectSimpleField> outParameters = Arrays.asList(response);
+
+        // Result
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
+        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
+    }
+
+    @Test
     public void testAdvancedNestingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -503,7 +537,7 @@ public class InvocationProcessorTest {
         dataSet.put("entities", list);
         dataSet.put("valueStr", "test");
 
-        List<AbstractParameter> inParameters = Arrays.asList(simpleParam, listParam);
+        List<AbstractParameter> inParameters = Arrays.asList(listParam, simpleParam);
 
         List<ObjectSimpleField> outParameters = new ArrayList<>();
 

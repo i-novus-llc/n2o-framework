@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
@@ -97,18 +98,24 @@ public class MappingProcessor {
         }
         Object[] instances = instantiateArguments(argClasses);
         Object[] result;
-        if (instances == null || instances.length == 0) {
+        if (ArrayUtils.isEmpty(instances)) {
             result = new Object[mappingMap.size()];
         } else {
             result = instances;
         }
+
+        boolean hasOnlyOneEntity = result.length == 1 && result[0] != null;
         int idx = 0;
+
         for (Map.Entry<String, FieldMapping> map : mappingMap.entrySet()) {
             Object value = dataSet.get(map.getKey());
             String mapping = map.getValue().getMapping();
             if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
-                Expression expression = writeParser.parseExpression(
-                        mapping != null ? mapping : "[" + idx + "]." + map.getKey());
+                String resultMapping = mapping;
+                if (resultMapping == null)
+                    resultMapping = hasOnlyOneEntity ? "[0]." + map.getKey() : "[" + idx + "]";
+
+                Expression expression = writeParser.parseExpression(resultMapping);
                 expression.setValue(result, value);
             }
             idx++;
