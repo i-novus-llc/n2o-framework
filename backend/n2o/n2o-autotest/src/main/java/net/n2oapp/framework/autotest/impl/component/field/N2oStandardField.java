@@ -30,12 +30,12 @@ public class N2oStandardField extends N2oField implements StandardField {
 
     @Override
     public void shouldBeRequired() {
-        requiredLabel().shouldHave(Condition.exist);
+        requiredLabel().shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeRequired() {
-        requiredLabel().shouldNotHave(Condition.exist);
+        requiredLabel().shouldNotBe(Condition.exist);
     }
 
     @Override
