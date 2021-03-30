@@ -19,10 +19,18 @@ import "react-app-polyfill/stable";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { unregister } from "./registerServiceWorker";
 
 import "n2o-framework/dist/n2o.css";
 import "./demo.css";
 
 ReactDOM.render(<App />, document.getElementById("n2o"));
-unregister();
+
+if (navigator && navigator.serviceWorker) {
+    navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/serviceWorker.js`).then(() => {
+        console.info('ServiceWorker installing success');
+    }, (error) => {
+        console.warn('ServiceWorker installing error: ', error);
+    });
+} else {
+    console.warn('ServiceWorker installing error: not supported');
+}
