@@ -85,7 +85,7 @@ describe('Проверка саги widgets', () => {
     it('должен вернуть true', () => {
       expect(
         getWithoutSelectedId(
-          {},
+          { option: 1 },
           { pathname: '/test' },
           'widgetSelectedId',
           'prevWidgetSelectedId'
@@ -93,7 +93,7 @@ describe('Проверка саги widgets', () => {
       ).toBeTruthy();
       expect(
         getWithoutSelectedId(
-          {},
+          { option: 1 },
           { pathname: '/widgetSelectedId' },
           'widgetSelectedId',
           'widgetSelectedId'

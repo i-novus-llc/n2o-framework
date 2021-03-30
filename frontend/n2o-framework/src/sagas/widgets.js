@@ -168,8 +168,9 @@ export function getWithoutSelectedId(
   selectedId,
   prevSelectedId
 ) {
-  if (!options) return null;
-  else if (
+  if (!options || isEmpty(options)) {
+    return null;
+  } else if (
     !location.pathname.includes(selectedId) ||
     prevSelectedId === selectedId
   ) {
