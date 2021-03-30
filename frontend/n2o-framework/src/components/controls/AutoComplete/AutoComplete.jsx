@@ -179,7 +179,11 @@ class AutoComplete extends React.Component {
           ? [input]
           : [input];
       this.setState(
-        prevState => ({ input, value: getSelected(prevState) }),
+        prevState => ({
+          input,
+          value: getSelected(prevState),
+          isExpanded: true,
+        }),
         () => onSetNewInputValue(input)
       );
     }
