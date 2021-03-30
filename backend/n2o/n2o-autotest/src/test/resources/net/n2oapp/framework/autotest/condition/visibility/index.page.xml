@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="VisibilityTestPage">
+    <regions>
+        <region>
+            <form>
+                <fields>
+                    <radio-group id="fs1" label="Field Selector 1" inline="true">
+                        <default-value id="1"/>
+                        <options>
+                            <option id="1" name="Show left field"/>
+                            <option id="2" name="Show right field"/>
+                        </options>
+                    </radio-group>
+                    <row>
+                        <col>
+                            <input-text id="Field L11">
+                                <dependencies>
+                                    <visibility on="fs1" apply-on-init="true">
+                                        typeof(fs1)!=='undefined' &amp;&amp; fs1.id==1
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                            <input-text id="Field L21">
+                                <dependencies>
+                                    <visibility on="fs1" apply-on-init="false">
+                                        typeof(fs1)!=='undefined' &amp;&amp; fs1.id==1
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                        </col>
+                        <col>
+                            <input-text id="Field R11">
+                                <dependencies>
+                                    <visibility on="fs1" apply-on-init="true">
+                                        typeof(fs1)!=='undefined' &amp;&amp; fs1.id==2
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                            <input-text id="Field R21">
+                                <dependencies>
+                                    <visibility on="fs1" apply-on-init="false">
+                                        typeof(fs1)!=='undefined' &amp;&amp; fs1.id==2
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                        </col>
+                    </row>
+                </fields>
+            </form>
+        </region>
+        <region>
+            <form>
+                <fields>
+                    <radio-group id="fs2" label="Field Selector 2" inline="true">
+                        <options>
+                            <option id="1" name="Show left field"/>
+                            <option id="2" name="Show right field"/>
+                        </options>
+                    </radio-group>
+                    <row>
+                        <col>
+                            <input-text id="Field L12">
+                                <dependencies>
+                                    <visibility on="fs2" apply-on-init="true">
+                                        fs2.id==1
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                            <input-text id="Field L22">
+                                <dependencies>
+                                    <visibility on="fs2" apply-on-init="false">
+                                        fs2.id==1
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                        </col>
+                        <col>
+                            <input-text id="Field R12">
+                                <dependencies>
+                                    <visibility on="fs2" apply-on-init="true">
+                                        fs2.id==2
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                            <input-text id="Field R22">
+                                <dependencies>
+                                    <visibility on="fs2" apply-on-init="false">
+                                        fs2.id==2
+                                    </visibility>
+                                </dependencies>
+                            </input-text>
+                        </col>
+                    </row>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>

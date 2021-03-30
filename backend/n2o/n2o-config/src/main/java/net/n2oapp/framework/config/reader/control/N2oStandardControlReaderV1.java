@@ -55,7 +55,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
                 ((N2oStandardField) n2oField).setValidations(readValidationReferences(field));
                 ((N2oStandardField) n2oField).setDefaultValue(getAttributeString(field, "default-value"));
             }
-            n2oField.setRequired(getAttributeBoolean(field, "required"));
+            n2oField.setRequired(getAttributeString(field, "required"));
             if (getAttributeString(field, "depends-on") != null) {
                 n2oField.setDependsOn(new String[]{getAttributeString(field, "depends-on")});
             }
@@ -250,7 +250,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
 
     protected void getControlDefinition(Element fieldSetElement, N2oField n2oControl) {
         String label = getAttributeString(fieldSetElement, "label");
-        Boolean visible = getAttributeBoolean(fieldSetElement, "visible");
+        String visible = getAttributeString(fieldSetElement, "visible");
         n2oControl.setLabel(label);
         n2oControl.setVisible(visible);
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));

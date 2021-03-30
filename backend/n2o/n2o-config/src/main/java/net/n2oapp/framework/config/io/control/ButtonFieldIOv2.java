@@ -31,6 +31,7 @@ public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements Contro
         p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
         p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
+        p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
 
         p.attributeBoolean(e, "confirm", m::getConfirm, m::setConfirm);
         p.attribute(e, "confirm-text", m::getConfirmText, m::setConfirmText);

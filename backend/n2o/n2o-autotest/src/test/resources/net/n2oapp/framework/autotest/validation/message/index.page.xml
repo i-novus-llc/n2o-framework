@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Dynamic validation test">
+    <regions>
+        <region>
+            <form object-id="test">
+                <fields>
+                    <radio-group id="licenceGroup" inline="true" label="Requiring text">
+                        <default-value id="1"/>
+                        <options>
+                            <option id="1" name="requiring true"/>
+                            <option id="2" name="requiring false"/>
+                        </options>
+                    </radio-group>
+                    <text-area id="licenses" label="Text-area">
+                        <dependencies>
+                            <enabling on="licenceGroup">
+                                return typeof licenceGroup !== 'undefined' &amp;&amp; licenceGroup !== null
+                                &amp;&amp; licenceGroup.id === 1
+                            </enabling>
+                            <requiring on="licenceGroup">
+                                typeof licenceGroup !== 'undefined' &amp;&amp; licenceGroup !== null
+                                &amp;&amp; licenceGroup.id === 1
+                            </requiring>
+                            <visibility>true</visibility>
+                        </dependencies>
+                    </text-area>
+                    <hidden id="id" default-value="1"/>
+                </fields>
+                <toolbar place="bottomLeft">
+                    <button label="Check" validate="true">
+                        <invoke operation-id="echo"/>
+                    </button>
+                </toolbar>
+            </form>
+        </region>
+        <region>
+            <form object-id="test">
+                <fields>
+                    <radio-group id="validator" inline="true" label="Make valid">
+                        <options>
+                            <option id="1" name="Yes"/>
+                            <option id="2" name="No"/>
+                        </options>
+                    </radio-group>
+
+                    <input-text id="input1" label="Field" depends-on="validator">
+                        <validations>
+                            <condition id="validateKs"
+                                       severity="danger"
+                                       message="Field is not valid"
+                                       on="validator">
+                                return typeof validator !== 'undefined' &amp;&amp; validator !== null
+                                &amp;&amp;  validator.id === 2
+                            </condition>
+                        </validations>
+                    </input-text>
+
+                </fields>
+                <toolbar place="bottomLeft">
+                    <button label="Check" validate="true">
+                        <invoke operation-id="echo"/>
+                    </button>
+                    <button label="Empty" disable-on-empty-model="false"/>
+                </toolbar>
+            </form>
+        </region>
+    </regions>
+</page>

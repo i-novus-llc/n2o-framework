@@ -38,7 +38,7 @@ class AutoComplete extends React.Component {
     };
 
     this._input = null;
-    this._textarea = null;
+    this._onButtonClick = this._onButtonClick.bind(this);
   }
 
   componentDidMount = () => {
@@ -53,10 +53,9 @@ class AutoComplete extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { value, options, tags, valueFieldId } = this.props;
+    const { value, options } = this.props;
     const compareListProps = ['options', 'value'];
     const compareListState = ['input'];
-    const { input } = this.state;
     if (
       !isEqual(
         pick(prevProps, compareListProps),
@@ -89,12 +88,10 @@ class AutoComplete extends React.Component {
   };
 
   calcPopperWidth = () => {
-    const { _input, _textarea } = this;
+    const { _input } = this;
     const { popupAutoSize } = this.props;
-    if ((_input || _textarea) && !popupAutoSize) {
-      return _input
-        ? _input.getBoundingClientRect().width
-        : _textarea.getBoundingClientRect().width;
+    if (_input && !popupAutoSize) {
+      return _input.getBoundingClientRect().width
     }
   };
 
@@ -113,17 +110,6 @@ class AutoComplete extends React.Component {
       this._input = r;
       popperRef(r);
     };
-  };
-
-  setTextareaRef = poperRef => {
-    return r => {
-      this._textarea = r;
-      poperRef(r);
-    };
-  };
-
-  setSelectedListRef = selectedList => {
-    this._selectedList = selectedList;
   };
 
   onFocus = () => {
@@ -178,7 +164,11 @@ class AutoComplete extends React.Component {
           ? [input]
           : [input];
       this.setState(
-        prevState => ({ input, value: getSelected(prevState) }),
+        prevState => ({
+          input,
+          value: getSelected(prevState),
+          isExpanded: true,
+        }),
         () => onSetNewInputValue(input)
       );
     }
@@ -255,6 +245,11 @@ class AutoComplete extends React.Component {
       this.forceUpdate();
     });
   };
+  _onButtonClick() {
+    if (this._input) {
+      this._input.focus();
+    }
+  }
 
   render() {
     const { isExpanded, value, activeValueId, input } = this.state;
@@ -309,10 +304,11 @@ class AutoComplete extends React.Component {
                 imageFieldId={imageFieldId}
                 multiSelect={tags}
                 disabled={disabled}
-                className={className}
+                className={`${className} ${isExpanded ? 'focus' : ''}`}
                 setSelectedItemsRef={this.setSelectedItemsRef}
                 input={input}
                 onClearClick={this._handleElementClear}
+                onButtonClick={this._onButtonClick}
               >
                 <InputContent
                   tags={true}
@@ -331,8 +327,6 @@ class AutoComplete extends React.Component {
                   onClick={this.onClick}
                   onRemoveItem={this._removeSelectedItem}
                   isExpanded={isExpanded}
-                  setTextareaRef={this.setTextareaRef(ref)}
-                  setSelectedListRef={this.setSelectedListRef}
                   valueFieldId={valueFieldId}
                   activeValueId={activeValueId}
                   onSelect={this.onSelect}
@@ -344,8 +338,6 @@ class AutoComplete extends React.Component {
                   imageFieldId={imageFieldId}
                   labelFieldId={valueFieldId}
                   autoFocus={autoFocus}
-                  _textarea={this._textarea}
-                  _selectedList={this._selectedList}
                 />
               </InputSelectGroup>
             )}

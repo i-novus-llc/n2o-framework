@@ -1,4 +1,6 @@
 import { createSelector } from 'reselect';
+import get from 'lodash/get';
+
 import { FORM, TABLE } from '../components/widgets/widgetTypes';
 
 /*
@@ -139,6 +141,9 @@ const makeWidgetValidationSelector = widgetId =>
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.validation
   );
+
+export const getWidgetFieldValidation = (state, widgetId, fieldId) =>
+  get(state, ['widgets', widgetId, 'validation', fieldId]);
 
 const makeSelectedIdSelector = widgetId =>
   createSelector(

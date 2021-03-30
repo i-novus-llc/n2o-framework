@@ -76,7 +76,7 @@ public abstract class StringUtils {
      *      hasContext("ab username cd");          //false
      *      hasContext("ab {username} cd");        //false
      * @param text Текст
-     * @return Соджержит (true) или нет (false)
+     * @return Содержит (true) или нет (false)
      */
     public static boolean hasContext(String text) {
         return contextPlaceHoldersResolver.hasPlaceHolders(text);
@@ -95,6 +95,16 @@ public abstract class StringUtils {
      */
     public static boolean isLink(Object value) {
         return linkPlaceHoldersResolver.isPlaceHolder(value) && !jsonPlaceHoldersResolver.isPlaceHolder(value);
+    }
+
+    /**
+     * Получение текста внутри ссылки
+     *
+     * @param text Ссылка
+     * @return Текст внутри ссылки или null, если входящий текст не является ссылкой
+     */
+    public static String unwrapLink(String text) {
+        return isLink(text) ? text.substring(1, text.length() - 1) : null;
     }
 
     /**
@@ -121,10 +131,10 @@ public abstract class StringUtils {
      *      hasLink("ab ${username} cd");        //false
      *      }
      * @param text Текст
-     * @return Соджержит (true) или нет (false)
+     * @return Содержит (true) или нет (false)
      */
     public static boolean hasLink(String text) {
-        return isLink(text) || linkPlaceHoldersResolver.hasPlaceHolders(text);
+        return text != null && text.matches(".*(?<![#$])\\{.+}.*");
     }
 
     /**

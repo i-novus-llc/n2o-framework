@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author iryabov
@@ -61,30 +61,52 @@ public class StringUtilsTest {
     }
 
     @Test
+    public void hasLink() {
+        assertThat(StringUtils.hasLink("{test}"), is(true));
+        assertThat(StringUtils.hasLink("{}"), is(false));
+        assertThat(StringUtils.hasLink("#{test}"), is(false));
+        assertThat(StringUtils.hasLink("${test}"), is(false));
+        assertThat(StringUtils.hasLink("test"), is(false));
+        assertThat(StringUtils.hasLink("test1 {test2} test3"), is(true));
+        assertThat(StringUtils.hasLink("test1 #{test2} test3"), is(false));
+        assertThat(StringUtils.hasLink("test1 ${test2} test3"), is(false));
+        assertThat(StringUtils.hasLink("#{test} - #{test2}"), is(false));
+        assertThat(StringUtils.hasLink("{test} - #{test2}"), is(true));
+        assertThat(StringUtils.hasLink("#{test} - {test2}"), is(true));
+    }
+
+    @Test
+    public void unwrapLink() {
+        assert StringUtils.unwrapLink("{text}").equals("text");
+        assert StringUtils.unwrapLink("text") == null;
+        assert StringUtils.unwrapLink("`text`") == null;
+    }
+
+    @Test
     public void testMaskEquals() {
-        assert StringUtils.maskMatch("*","test");
-        assert StringUtils.maskMatch("1Aba?","1Aba?");
-        assert !StringUtils.maskMatch("1Aba","0Aba");
+        assert StringUtils.maskMatch("*", "test");
+        assert StringUtils.maskMatch("1Aba?", "1Aba?");
+        assert !StringUtils.maskMatch("1Aba", "0Aba");
 
-        assert StringUtils.maskMatch("1Aba?*","1Aba?");
-        assert !StringUtils.maskMatch("1Aba*","1A000ba");
-        assert !StringUtils.maskMatch("1Aba*","0001Aba");
-        assert StringUtils.maskMatch("1Aba*","1Aba1000");
+        assert StringUtils.maskMatch("1Aba?*", "1Aba?");
+        assert !StringUtils.maskMatch("1Aba*", "1A000ba");
+        assert !StringUtils.maskMatch("1Aba*", "0001Aba");
+        assert StringUtils.maskMatch("1Aba*", "1Aba1000");
 
-        assert StringUtils.maskMatch("*1Aba?","1Aba?");
-        assert !StringUtils.maskMatch("*1Aba","1A000ba");
-        assert StringUtils.maskMatch("*1Aba","0001Aba");
-        assert !StringUtils.maskMatch("*1Aba","1Aba1000");
+        assert StringUtils.maskMatch("*1Aba?", "1Aba?");
+        assert !StringUtils.maskMatch("*1Aba", "1A000ba");
+        assert StringUtils.maskMatch("*1Aba", "0001Aba");
+        assert !StringUtils.maskMatch("*1Aba", "1Aba1000");
 
-        assert StringUtils.maskMatch("1A*ba?","1Aba?");
-        assert StringUtils.maskMatch("1A*ba","1A000ba");
-        assert !StringUtils.maskMatch("1A*ba","0001Aba");
-        assert !StringUtils.maskMatch("1A*ba","1Aba000");
+        assert StringUtils.maskMatch("1A*ba?", "1Aba?");
+        assert StringUtils.maskMatch("1A*ba", "1A000ba");
+        assert !StringUtils.maskMatch("1A*ba", "0001Aba");
+        assert !StringUtils.maskMatch("1A*ba", "1Aba000");
 
-        assert StringUtils.maskMatch("*1Aba?*","1Aba?");
-        assert StringUtils.maskMatch("*1Aba*","zzz1Aba");
-        assert StringUtils.maskMatch("*1Aba*","1Abazzz");
-        assert StringUtils.maskMatch("*1Aba*","zzz1Abazzz");
+        assert StringUtils.maskMatch("*1Aba?*", "1Aba?");
+        assert StringUtils.maskMatch("*1Aba*", "zzz1Aba");
+        assert StringUtils.maskMatch("*1Aba*", "1Abazzz");
+        assert StringUtils.maskMatch("*1Aba*", "zzz1Abazzz");
     }
 
     @Test

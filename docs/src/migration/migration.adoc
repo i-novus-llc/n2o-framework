@@ -2,6 +2,21 @@
 
 В этом разделе рассказывается, как мигрировать проект с предыдущих версий N2O Framework.
 
+==== Миграция с 7.14 на 7.15
+
+*Изменения в XML API*
+
+- Атрибут `mapping-condition` поля операции переименован в `enabled`.
+- Валидации полей теперь работают аналогично валидациям в object-4.0, а не object-3.0, как было раньше.
+Таким образом `<in-parameters>` и `<out-parameters>` переименованы в `<in>` и `<out>`, а `<param>` в `<field>`.
+- У всех кнопок упраздняются атрибуты `visibility-condition` и `enabled-condition`.
+Пока что только на уровне xml. Вместо них рекомендуется использовать атрибуты `visible` и `enabled`.
+
+*Изменения в настройках*
+- Настройки n2o.engine.mongodb.connection_url, n2o.engine.mongodb.database_name будут упразднены в следующих версиях,
+рекомендуется использовать аналогичные org.springframework.boot.autoconfigure.mongo.MongoProperties
+(spring.data.mongodb.uri, spring.data.mongodb.database и т.д.)
+
 ==== Миграция с 7.13 на 7.14
 
 *Изменения в XML API*
