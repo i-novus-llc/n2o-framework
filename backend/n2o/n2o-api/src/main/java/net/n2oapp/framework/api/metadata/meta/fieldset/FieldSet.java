@@ -10,10 +10,8 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Клиентская модель FieldSetа
@@ -37,8 +35,6 @@ public abstract class FieldSet extends Component implements Compiled {
     private Object enabled;
     @JsonProperty
     private ControlDependency[] dependency;
-
-    private Set<String> visibilityConditions = new HashSet<>();
 
     @Getter
     @Setter

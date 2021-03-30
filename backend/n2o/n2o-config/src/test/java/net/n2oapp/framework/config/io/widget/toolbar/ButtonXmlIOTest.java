@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тест на чтение/запись элемента <button>
+ * Тестирование чтения/записи кнопки
  */
 public class ButtonXmlIOTest {
     @Test

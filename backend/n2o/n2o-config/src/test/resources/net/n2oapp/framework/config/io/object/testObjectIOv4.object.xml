@@ -77,8 +77,8 @@
         </operation>
     </operations>
     <validations>
-        <condition id="id2" severity="danger" server-moment="after-success-operation" message="message" on="f" src=""/>
-        <constraint id="id3" severity="success" field-id="fieldId" message="message"
+        <condition id="id2" severity="danger" server-moment="after-success-operation" message="message" on="f" src="" enabled="false"/>
+        <constraint id="id3" severity="success" field-id="fieldId" message="message" enabled="{type=='type1'}"
                     result="#{ T(java.lang.Math).random() * 100.0 }">
             <in>
                 <field id="name" mapping="name" required="true" param="param"/>
@@ -91,7 +91,7 @@
                 <sql>select 1</sql>
             </invocation>
         </constraint>
-        <mandatory id="id4" severity="success" message="test" src="/test" on="test"/>
+        <mandatory id="id4" severity="success" message="test" src="/test" on="test" enabled="{type=='type2'}"/>
         <dialog id="id5" server-moment="after-success-operation" message="message"
                 enabled="false" size="sm" result="name=='Ivan'">
             <invocation>

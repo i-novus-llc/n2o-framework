@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.reader.tools;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
@@ -75,8 +74,8 @@ public class ActionMenuReaderV1 {
         return group;
     }
 
-    private N2oMenuItem getMenuItem(Element popupMenu, Namespace namespace) {
-        N2oMenuItem menuItem = new N2oMenuItem();
+    private N2oButton getMenuItem(Element popupMenu, Namespace namespace) {
+        N2oButton menuItem = new N2oButton();
         readMenuItem(popupMenu, menuItem, namespace);
         return menuItem;
     }
@@ -124,7 +123,7 @@ public class ActionMenuReaderV1 {
         subMenu.setIcon(getAttributeString(subMenuElement, "icon"));
         subMenu.setColor(getAttributeString(subMenuElement, "color"));
         subMenu.setDescription(getElementString(subMenuElement, "description"));
-        N2oMenuItem[] subMenuItems = new N2oMenuItem[popupMenus.size()];
+        N2oButton[] subMenuItems = new N2oButton[popupMenus.size()];
         int i = 0;
         for (Element subPopupMenu : popupMenus) {
             subMenuItems[i] = getMenuItem(subPopupMenu, namespace);
@@ -134,22 +133,15 @@ public class ActionMenuReaderV1 {
         return subMenu;
     }
 
-    private void readMenuItem(Element popupMenu, AbstractMenuItem menuItem, Namespace namespace) {
-        menuItem.setProperties(PropertiesReaderV1.getInstance().read(popupMenu, namespace));
+    private void readMenuItem(Element popupMenu, N2oButton menuItem, Namespace namespace) {
         menuItem.setId(getAttributeString(popupMenu, "id"));
         menuItem.setLabel(getAttributeString(popupMenu, "label"));
         menuItem.setType(getAttributeEnum(popupMenu, "type", LabelType.class));
         menuItem.setIcon(getAttributeString(popupMenu, "icon"));
         menuItem.setColor(getAttributeString(popupMenu, "color"));
         menuItem.setDescription(getElementString(popupMenu, "description"));
-        menuItem.setDefaultAction(getAttributeBoolean(popupMenu, "default"));
-        menuItem.setPrimary(getAttributeBoolean(popupMenu, "primary"));
         menuItem.setVisible(getAttributeString(popupMenu, "visible"));
-        menuItem.setReadonly(getAttributeBoolean(popupMenu, "readonly"));
-        menuItem.setKey(getAttributeString(popupMenu, "key"));
-        menuItem.setBulk(getAttributeBoolean(popupMenu, "bulk"));
         menuItem.setValidate(getAttributeBoolean(popupMenu, "validate"));
-        menuItem.setRefreshPolity(getAttributeEnum(popupMenu, "refresh-policy", RefreshPolity.class));
         Element eventElement = getEventElement(popupMenu, namespace);
         if (eventElement != null) {
             N2oAbstractAction action = (N2oAbstractAction) readerFactory.produce(eventElement,

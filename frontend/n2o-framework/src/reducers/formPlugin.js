@@ -129,6 +129,7 @@ export function resolveChange(state, { payload, meta }) {
  * @ignore
  */
 export default function formPlugin(state = {}, action) {
+  // ToDo: Переписать
   switch (action.type) {
     case REGISTER_FIELD_EXTRA:
     case DISABLE_FIELD:

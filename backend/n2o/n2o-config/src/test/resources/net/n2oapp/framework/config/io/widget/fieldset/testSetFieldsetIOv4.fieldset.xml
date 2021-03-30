@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0" style="margin-left:10px;width:300px"
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0"
+     style="margin-left:10px;width:300px"
      id="fieldset" src="test" class="test" label="label" ref-id="id"
      field-label-align="left" field-label-location="top"
      field-label-width="30" visible="true" enabled="true" depends-on="test">

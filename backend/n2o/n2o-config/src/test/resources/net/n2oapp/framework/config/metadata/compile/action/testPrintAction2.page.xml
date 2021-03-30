@@ -9,9 +9,9 @@
                 </button>
                 <button id="id2">
                     <print url="test2/:param1/:param2?param3=:param3">
-                        <path-param name="param1" value="{field1}"/>
+                        <path-param name="param1" value="{field1}" ref-model="filter" ref-widget-id="secondWgt"/>
                         <path-param name="param2" value="{field2}"/>
-                        <query-param name="param3" value="{field3}"/>
+                        <query-param name="param3" value="{field3}" ref-model="filter" ref-widget-id="secondWgt"/>
                     </print>
                 </button>
                 <button id="id3">

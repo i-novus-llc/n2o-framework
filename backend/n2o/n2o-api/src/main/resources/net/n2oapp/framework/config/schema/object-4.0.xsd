@@ -472,7 +472,7 @@
                 <xs:documentation>Сообщение, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="enabled" type="xs:boolean" default="true">
+        <xs:attribute name="enabled" type="xs:string" default="true">
             <xs:annotation>
                 <xs:documentation>Включение валидации.</xs:documentation>
             </xs:annotation>
@@ -514,7 +514,7 @@
                 <xs:documentation>Результат валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="enabled" type="xs:boolean" default="true">
+        <xs:attribute name="enabled" type="xs:string" default="true">
             <xs:annotation>
                 <xs:documentation>Включение валидации.</xs:documentation>
             </xs:annotation>

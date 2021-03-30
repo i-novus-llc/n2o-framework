@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * Тестирование сервиса для выполнения запросов к MongoDb
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = "spring.main.allow-bean-definition-overriding=true")
+        properties = {"spring.main.allow-bean-definition-overriding=true", "spring.data.mongodb.database=dbName"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @AutoConfigureDataMongo
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -63,12 +63,12 @@ public class MongodbDataProviderEngineTest {
 
     @BeforeAll
     public void init() {
-        engine.setConnectionUrl("mongodb://localhost:" + port);
-        engine.setDatabaseName("dbName");
         engine.setMapper(mongoObjectMapper());
 
         provider = new N2oMongoDbDataProvider();
         provider.setCollectionName(collectionName);
+        provider.setDatabaseName("dbName");
+        provider.setConnectionUrl("mongodb://localhost:" + port);
 
         MongoTemplate mongoTemplate = new MongoTemplate(new MongoClient(new MongoClientURI("mongodb://localhost:" + port)), "dbName");
         mongoTemplate.dropCollection(collectionName);
@@ -136,7 +136,7 @@ public class MongodbDataProviderEngineTest {
         assertThat(document.get("name"), is("Inna"));
         String id = (String) document.get("id");
         restTemplate = new RestTemplate();
-        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id="+id + "&size=10&page=1";
+        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id=" + id + "&size=10&page=1";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
@@ -196,7 +196,7 @@ public class MongodbDataProviderEngineTest {
 
         //in id
         restTemplate = new RestTemplate();
-        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?size=10&page=1&idIn="+id1+"&idIn="+id2;
+        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?size=10&page=1&idIn=" + id1 + "&idIn=" + id2;
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
@@ -210,7 +210,7 @@ public class MongodbDataProviderEngineTest {
         result = response.getBody();
         assertThat(result.getCount(), is(2));
 
-       //more, less
+        //more, less
         restTemplate = new RestTemplate();
         fooResourceUrl = "http://localhost:" + appPort + queryPath + "?size=10&page=1&birthdayMore=1995-01-01&birthdayLess=2004-01-01";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
@@ -233,7 +233,7 @@ public class MongodbDataProviderEngineTest {
 
         restTemplate = new RestTemplate();
         queryPath = "/n2o/data/test/mongodb";
-        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id="+id;
+        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id=" + id;
         ResponseEntity<GetDataResponse> responseList = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert responseList.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = responseList.getBody();
@@ -257,7 +257,7 @@ public class MongodbDataProviderEngineTest {
 
         restTemplate = new RestTemplate();
         queryPath = "/n2o/data/test/mongodb";
-        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id="+id;
+        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id=" + id;
         ResponseEntity<GetDataResponse> responseList = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert responseList.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = responseList.getBody();
@@ -280,7 +280,7 @@ public class MongodbDataProviderEngineTest {
 
         restTemplate = new RestTemplate();
         queryPath = "/n2o/data/test/mongodbCount";
-        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id="+id;
+        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?id=" + id;
         ResponseEntity<GetDataResponse> responseList = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert responseList.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = responseList.getBody();
@@ -383,14 +383,14 @@ public class MongodbDataProviderEngineTest {
     private ObjectMapper mongoObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
-        RestEngineTimeModule module = new RestEngineTimeModule(new String[] {"yyyy-MM-dd'T'hh:mm:ss.SSSZ"});
+        RestEngineTimeModule module = new RestEngineTimeModule(new String[]{"yyyy-MM-dd'T'hh:mm:ss.SSSZ"});
         objectMapper.registerModules(module);
         return objectMapper;
     }
 
     public static String mapIdIn(DataList ids) {
         StringBuilder res = new StringBuilder().append("[");
-        for (int i=0; i < ids.size(); i++)
+        for (int i = 0; i < ids.size(); i++)
             res.append("new ObjectId('").append(ids.get(i)).append("'),");
         res.deleteCharAt(res.lastIndexOf(","));
         res.append("]");

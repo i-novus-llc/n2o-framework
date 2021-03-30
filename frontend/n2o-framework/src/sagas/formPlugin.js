@@ -8,16 +8,25 @@ import split from 'lodash/split';
 import includes from 'lodash/includes';
 import merge from 'lodash/merge';
 import setWith from 'lodash/setWith';
+import isArray from 'lodash/isArray';
+import isFunction from 'lodash/isFunction';
 
-import { removeFieldMessage } from '../actions/formPlugin';
-import { makeFieldByName, messageSelector } from '../selectors/formPlugin';
+import { addFieldMessage, removeFieldMessage } from '../actions/formPlugin';
+import {
+  makeFieldByName,
+  makeFormByName,
+  messageSelector,
+} from '../selectors/formPlugin';
+import { getWidgetFieldValidation } from '../selectors/widgets';
 import { setModel } from '../actions/models';
+import { SET_REQUIRED, UNSET_REQUIRED } from '../constants/formPlugin';
 import { COPY } from '../constants/models';
 import {
   makeGetModelByPrefixSelector,
   modelsSelector,
 } from '../selectors/models';
 import evalExpression, { parseExpression } from '../utils/evalExpression';
+import * as validationPresets from '../core/validation/presets';
 
 export function* removeMessage(action) {
   const formName = get(action, 'meta.form');
@@ -31,6 +40,58 @@ export function* removeMessage(action) {
     if (message && (!fieldValidation || isEmpty(fieldValidation))) {
       yield put(removeFieldMessage(formName, fieldName));
     }
+  }
+}
+
+function* checkFieldValidation({ meta }) {
+  const formName = meta.form;
+  const fieldName = meta.field;
+  const state = yield select();
+  const formMessage = messageSelector(formName, fieldName)(state);
+  const widgetValidation = getWidgetFieldValidation(state, formName, fieldName);
+
+  if (!isArray(widgetValidation)) {
+    return;
+  }
+
+  let isValidResult = true;
+  for (const validationOption of widgetValidation) {
+    if (validationOption.multi) {
+      // ToDo: Делаю пока только для формы
+      continue;
+    }
+
+    const validationFunction = validationPresets[validationOption.type];
+
+    if (isFunction(validationFunction)) {
+      const values = makeFormByName(formName)(state).values;
+      const isValid = validationFunction(
+        fieldName,
+        values,
+        validationOption,
+        () => {}
+      );
+
+      if (!isValid) {
+        isValidResult = false;
+
+        if (!formMessage) {
+          // Add form mesage
+          const message = {
+            text: validationOption.text,
+            severity: validationOption.severity,
+          };
+
+          yield put(addFieldMessage(formName, fieldName, message, false));
+        }
+
+        break;
+      }
+    }
+  }
+
+  if (isValidResult && formMessage) {
+    yield put(removeFieldMessage(formName, fieldName));
   }
 }
 
@@ -107,6 +168,7 @@ export const formPluginSagas = [
     ['@@redux-form/START_ASYNC_VALIDATION', '@@redux-form/CHANGE'],
     removeMessage
   ),
+  takeEvery([SET_REQUIRED, UNSET_REQUIRED], checkFieldValidation),
   takeEvery(action => action.meta && action.meta.isTouched, addTouched),
   takeEvery(COPY, copyAction),
 ];

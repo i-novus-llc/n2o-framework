@@ -22,6 +22,16 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
         return N2oSelenide.component(element().parent().$$("div.dropdown-menu  .btn btn-secondary").findBy(by), N2oStandardButton.class);
     }
 
+    @Override
+    public void shouldBeVisible() {
+        element().parent().shouldHave(Condition.cssClass("visible"));
+    }
+
+    @Override
+    public void shouldNotBeVisible() {
+        element().parent().shouldNotHave(Condition.cssClass("visible"));
+    }
+
     private ElementsCollection menuItems() {
         return element().parent().$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
     }

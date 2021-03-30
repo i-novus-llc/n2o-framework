@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "period.id": "YEAR"
+  },
+  {
+    "id": 2,
+    "period.id": "WEEK"
+  },
+  {
+    "id": 3,
+    "period.id": "YEAR"
+  },
+  {
+    "id": 4,
+    "period.id": "MONTH"
+  }
+]

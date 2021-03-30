@@ -6,6 +6,8 @@ import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import first from 'lodash/first';
 import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
+import filter from 'lodash/filter';
 import Button from 'reactstrap/lib/Button';
 import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
@@ -21,6 +23,7 @@ import declensionNoun from '../../../utils/declensionNoun';
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
+ * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
  * @reactProps {boolean} disabled - флаг неактивности
@@ -54,7 +57,7 @@ class N2OSelect extends React.Component {
       value: '',
       isExpanded: false,
       options: this.props.options,
-      selected: this.props.value ? [this.props.value] : [],
+      selected: this._getSelected(this.props.value),
       hasCheckboxes: this.props.type === selectType.CHECKBOXES,
     };
 
@@ -72,30 +75,92 @@ class N2OSelect extends React.Component {
     this.setControlRef = this.setControlRef.bind(this);
   }
 
+  componentDidMount() {
+    const { initial, options, valueFieldId } = this.props;
+    if (Array.isArray(initial)) {
+      this._setStateFromInitial(initial, options, valueFieldId);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { value, type, options } = this.props;
+    const { options } = this.props;
     let state = {};
 
     if (!isEqual(options, nextProps.options)) {
       state.options = nextProps.options;
     }
-
-    if (type !== selectType.CHECKBOXES) {
-      let selected = [];
-      if (!isEqual(nextProps.value, value)) {
-        if (nextProps.value) {
-          selected = [nextProps.value];
-        } else {
-          selected = [];
-        }
-      } else {
-        selected = this.state.selected;
-      }
-
-      state.selected = selected;
-    }
-
     this.setState(state);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { initial, options, valueFieldId, value } = this.props;
+
+    if (Array.isArray(initial) && !isEqual(initial, prevProps.initial)) {
+      this._setStateFromInitial(initial, options, valueFieldId);
+      return;
+    }
+    if (!isEqual(value, prevProps.value)) {
+      this.setState({
+        selected: this._getSelected(value),
+      });
+    }
+  }
+
+  /**
+   * Хак для мапинга айдишников, которые берутся из адресной строки в виде строк, но ожидается число
+   * TODO удалить после того, как починится поведение парсинга адресной строки будет опираться на указанные типы
+   * @param {Array.<object>} [initial]
+   * @param options
+   * @param {String} valueFieldId
+   * @private
+   */
+  _setStateFromInitial(initial, options, valueFieldId) {
+    const mapOptions = (data, type = 'string') => {
+      return data.map(option => ({
+        ...option,
+        ...{
+          [valueFieldId]:
+            type === 'number'
+              ? Number(option[valueFieldId])
+              : String(option[valueFieldId]),
+        },
+      }));
+    };
+
+    if (isEmpty(options)) {
+      this.setState({
+        selected: mapOptions(initial),
+      });
+    } else {
+      const selected = filter(
+        options,
+        option => {
+          const idType = typeof option[valueFieldId];
+
+          return find(mapOptions(initial, idType), option);
+        },
+        []
+      );
+
+      this.setState({
+        selected: selected,
+      });
+    }
+  }
+
+  /**
+   * @param {Array | string} [value]
+   * @return {Array}
+   * @private
+   */
+  _getSelected(value) {
+    if (Array.isArray(value)) {
+      return value;
+    }
+    if (value) {
+      return [value];
+    }
+    return [];
   }
 
   /**
@@ -105,12 +170,16 @@ class N2OSelect extends React.Component {
    */
 
   _removeSelectedItem(item) {
-    const { valueFieldId } = this.props;
+    const { valueFieldId, onChange } = this.props;
+    const selected = this.state.selected.filter(
+      i => i[valueFieldId] !== item[valueFieldId]
+    );
     this.setState({
-      selected: this.state.selected.filter(
-        i => i[valueFieldId] !== item[valueFieldId]
-      ),
+      selected,
     });
+    if (onChange) {
+      onChange(selected);
+    }
   }
 
   /**
@@ -181,13 +250,15 @@ class N2OSelect extends React.Component {
     e.stopPropagation();
     e.preventDefault();
 
-    if (!this.props.disabled) {
-      this.setState({
-        selected: [],
-      });
-      this.props.onChange(null);
-      this.props.onBlur(null);
+    if (this.props.disabled) {
+      return;
     }
+
+    this.setState({
+      selected: [],
+    });
+    this.props.onChange(null);
+    this.props.onBlur(null);
   }
 
   /**
@@ -217,21 +288,23 @@ class N2OSelect extends React.Component {
    */
 
   _insertSelected(item) {
-    const { options, onChange, onBlur } = this.props;
-    this.setState(
-      prevState => ({
-        selected: this.state.hasCheckboxes
-          ? [...prevState.selected, item]
-          : [item],
-        options,
-      }),
-      () => {
-        if (onChange) {
-          onChange(item);
-          onBlur(item);
-        }
-      }
-    );
+    const { onChange, onBlur } = this.props;
+    let selected = [item];
+    let value = item;
+
+    if (this.state.hasCheckboxes) {
+      selected = [...this.state.selected, item];
+      value = selected;
+    }
+
+    this.setState({
+      selected
+    });
+
+    if (onChange) {
+      onChange(value);
+      onBlur(value);
+    }
   }
 
   /**
@@ -372,6 +445,7 @@ class N2OSelect extends React.Component {
       disabled,
       disabledValues,
       imageFieldId,
+      statusFieldId,
       groupFieldId,
       descriptionFieldId,
       format,
@@ -408,9 +482,11 @@ class N2OSelect extends React.Component {
             selected={this.state.selected}
             onClearClick={this._clearSelected}
           >
-            {this.state.hasCheckboxes
-              ? this.renderPlaceholder()
-              : !isEmpty(selected) && selected[0][labelFieldId]}
+            <span className="valueText">
+              {this.state.hasCheckboxes
+                ? this.renderPlaceholder()
+                : !isEmpty(selected) && selected[0][labelFieldId]}
+            </span>
           </InputSelectGroup>
         </Button>
         <Popup isExpanded={this.state.isExpanded}>
@@ -428,6 +504,8 @@ class N2OSelect extends React.Component {
               valueFieldId={valueFieldId}
               labelFieldId={labelFieldId}
               iconFieldId={iconFieldId}
+              imageFieldId={imageFieldId}
+              statusFieldId={statusFieldId}
               badgeFieldId={badgeFieldId}
               descriptionFieldId={descriptionFieldId}
               badgeColorFieldId={badgeColorFieldId}
@@ -475,6 +553,10 @@ N2OSelect.propTypes = {
    * Ключ image в данных
    */
   imageFieldId: PropTypes.string,
+  /**
+   * Ключ image в данных
+   */
+  statusFieldId: PropTypes.string,
   /**
    * Ключ badge в данных
    */
@@ -543,7 +625,7 @@ N2OSelect.propTypes = {
   /**
    * Флаг наличия поиска
    */
-  hasSearch: PropTypes.func,
+  hasSearch: PropTypes.bool,
 };
 
 N2OSelect.defaultProps = {

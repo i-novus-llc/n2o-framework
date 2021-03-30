@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="Инициализация зависимостей (apply-on-init)">
+    <form>
+        <fields>
+            <line collapsible="false" label="apply-on-init=true">
+                <input-text id="vis"
+                            label="Это поле невидимо при инициализации"
+                            placeholder="Если вы его видите, то это баг">
+                    <dependencies>
+                        <visibility>false</visibility>
+                    </dependencies>
+                </input-text>
+
+                <input-text id="ena"
+                            label="Это поле заблокировано при инициализации"
+                            placeholder="Если поле не заблокировано, то это баг">
+                    <dependencies>
+                        <enabling>false</enabling>
+                    </dependencies>
+                </input-text>
+
+                <input-text id="req"
+                            label="Это поле обязательно при инициализации"
+                            placeholder="Если нет звездочки, то это баг">
+                    <dependencies>
+                        <requiring>true</requiring>
+                    </dependencies>
+                </input-text>
+
+                <input-text id="val"
+                            label="Это поле заполнено при инициализации"
+                            placeholder="Если вы видите плейсхолдер, то это баг">
+                    <dependencies>
+                        <set-value>'заполнено'</set-value>
+                    </dependencies>
+                </input-text>
+            </line>
+
+            <line collapsible="false" label="apply-on-init=false">
+                <input-text id="vis2"
+                            label="Это поле видимо при инициализации"
+                            placeholder="Если вы его не видите, то это баг">
+                    <dependencies>
+                        <visibility apply-on-init="false">false</visibility>
+                    </dependencies>
+                </input-text>
+
+                <input-text id="ena2"
+                            label="Это поле разблокировано при инициализации"
+                            placeholder="Если поле заблокировано, то это баг">
+                    <dependencies>
+                        <enabling apply-on-init="false">false</enabling>
+                    </dependencies>
+                </input-text>
+
+                <input-text id="req2"
+                            label="Это поле не обязательно при инициализации"
+                            placeholder="Если есть звездочка, то это баг">
+                    <dependencies>
+                        <requiring apply-on-init="false">true</requiring>
+                    </dependencies>
+                </input-text>
+
+                <input-text id="val2"
+                            label="Это поле пустое при инициализации"
+                            placeholder="Если вы не видите плейсхолдер, то это баг">
+                    <dependencies>
+                        <set-value apply-on-init="false">123</set-value>
+                    </dependencies>
+                </input-text>
+            </line>
+        </fields>
+    </form>
+</simple-page>

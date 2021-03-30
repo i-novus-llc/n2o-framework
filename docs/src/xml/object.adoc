@@ -363,7 +363,7 @@ after-success-operation, after-fail-operation
 
 |enabled
 |true false
-|Включение валидации
+|Включение валидации. Поддерживаются плейсхолдеры условия.
 |true
 
 |side

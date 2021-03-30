@@ -9,6 +9,7 @@
         </reference>
         <field id="value" domain="string" name="${number}" mapping="['value']"/>
     </fields>
+
     <operations>
         <operation id="create">
             <invocation>
@@ -16,7 +17,7 @@
             </invocation>
             <in>
                 <field id="type.id" mapping="['type_id']"/>
-                <field id="individualId"  mapping="['indiv_id']"/>
+                <field id="individualId" mapping="['indiv_id']"/>
                 <field id="phone" enabled="type.id == 2" mapping="['value']"/>
                 <field id="email" enabled="type.id == 4" mapping="['value']"/>
             </in>
@@ -31,7 +32,7 @@
             <in>
                 <field id="id" mapping="['id']"/>
                 <field id="type.id" mapping="['type_id']"/>
-                <field id="individualId"  mapping="['indiv_id']"/>
+                <field id="individualId" mapping="['indiv_id']"/>
                 <field id="phone" enabled="type.id == 2" mapping="['value']"/>
                 <field id="email" enabled="type.id == 4" mapping="['value']"/>
             </in>

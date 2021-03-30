@@ -4,10 +4,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -89,7 +86,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getExpression(), is("c==d"));
         assertThat(condition.getMessage(), is("Не указана дата"));
 
-        List<MenuItem> submenu = ((Submenu) buttons.get(7)).getSubMenu();
+        List<PerformButton> submenu = ((Submenu) buttons.get(7)).getSubMenu();
         assertThat(submenu.get(0).getVisible(), is(false));
         assertThat(submenu.get(0).getEnabled(), is(false));
         assertThat(submenu.get(1).getVisible(), nullValue());
