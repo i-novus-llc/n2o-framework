@@ -7,9 +7,14 @@ import Factory from '../../../../../core/factory/Factory';
 import { SNIPPETS } from '../../../../../core/factory/factoryLevels';
 import propsResolver from '../../../../../utils/propsResolver';
 
-export default function ImageStatuses({ statuses, className, model }) {
+export default function ImageStatuses({ statuses, className, model, onClick }) {
   return (
-    <div className={classNames('n2o-image-statuses', className)}>
+    <div
+      onClick={onClick}
+      className={classNames('n2o-image-statuses', className, {
+        'with-action': onClick,
+      })}
+    >
       {map(statuses, (status, index) => {
         const { src, fieldId, place } = status;
 
