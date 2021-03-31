@@ -50,7 +50,7 @@
                                        message="Field is not valid"
                                        on="validator">
                                 return typeof validator !== 'undefined' &amp;&amp; validator !== null
-                                &amp;&amp;  validator.id === 2
+                                &amp;&amp; validator.id === 2
                             </condition>
                         </validations>
                     </input-text>
@@ -60,6 +60,23 @@
                     <button label="Check" validate="true">
                         <invoke operation-id="echo"/>
                     </button>
+                    <button label="Empty" disable-on-empty-model="false"/>
+                </toolbar>
+            </form>
+        </region>
+        <region>
+            <form>
+                <fields>
+                    <text-area id="reworkRequirements"
+                               label="Requiring field"
+                               placeholder="Enter text here">
+                        <dependencies>
+                            <requiring>true</requiring>
+                            <visibility>true</visibility>
+                        </dependencies>
+                    </text-area>
+                </fields>
+                <toolbar place="bottomLeft">
                     <button label="Empty" disable-on-empty-model="false"/>
                 </toolbar>
             </form>
