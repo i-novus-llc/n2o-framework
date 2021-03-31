@@ -158,7 +158,7 @@
 
 |ref-model
 |Строка
-|resolve, filters, multi, edit
+|resolve filter multi edit datasource
 |
 
 |param
