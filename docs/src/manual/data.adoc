@@ -1381,8 +1381,8 @@ class MyEntity {
 <object entity-class="com.example.MyEntity">
   <fields>
     <!-- Простые поля -->
-    <field id="id" domain="long" mapping="['id']"/>
-    <field id="birthday" domain="date" mapping="['birthDate']"/>
+    <field id="id" domain="long" mapping="id"/>
+    <field id="birthday" domain="date" mapping="birthDate"/>
   </fields>
 </object>
 ----
@@ -1417,7 +1417,7 @@ class MyEntity {
 </fields>
 ----
 
-.Маппинг полей с @ManyToOne
+====== Вариант с определением полей во внешнем файле
 [source,xml]
 ----
 <fields>
@@ -1427,9 +1427,9 @@ class MyEntity {
 </fields>
 ----
 
+====== address.object.xml
 [source,xml]
 ----
-<!-- определение вложенных полей внутри address.object.xml -->
 <!-- обратите внимание, что класс сущности может быть указан во внешнем файле -->
 <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
         entity-class="org.example.Address">
@@ -1440,9 +1440,21 @@ class MyEntity {
 </object>
 ----
 [NOTE]
-Атрибут entity-class можно указать как в определении составного поля,
-так и в объекте, на который указана ссылка. Делается это стандартным образом в теге `<object>`,
-как это и показано в примере выше.
+Описывать поля можно внутри составного поля (reference, list или set) или во внешнем файле.
+Однако, если вы опишите поля в обоих местах, то более приоритетным будет вариант задания полей внутри составного поля.
+Все поля будут взяты из него, а для полей присутствующих в обоих файлах (т.е. с совпадающим id)
+будет произведено слияние в пользу текущего объекта.
+
+.Маппинг полей с @ManyToOne
+[source,xml]
+----
+<fields>
+  <reference id="sex"
+    mapping="gender"
+    required="true"
+    object-id="gender"/>
+</fields>
+----
 
 ===== Маппинг полей @OneToMany и @ManyToMany
 
@@ -1490,11 +1502,6 @@ class MyEntity {
     object-id="address"/><!--Ссылка на объект-->
 </fields>
 ----
-[NOTE]
-Описание полей внутри составного поля (reference, list или set) или во внешнем файле — два варианта сделать одно и то же.
-Однако, если вы опишите поля в обоих местах, то более приоритетным будет вариант из текущего объекта.
-Все поля будут взяты из текущего объекта, а для полей присутствующих в обоих файлах (т.е. с совпадающим id)
-будет произведено слияние в пользу текущего объекта.
 
 ===== Использование полей объекта
 Если поле было задано в полях объекта, то при описании операций объекта не требуется определять
@@ -1516,7 +1523,7 @@ class MyService {
   <!-- Маппинг и структура полей сущности -->
   <fields>
     <field id="name" mapping="name" normalize="..."/>
-    <reference id="org" mapping="organisation" object-id="org"/>
+    <reference id="org" mapping="organization" object-id="org"/>
     <list id="departments" entity-class="com.example.Department">
       <field id="id"/>
       <field id="name"/>
@@ -1548,9 +1555,7 @@ class MyService {
 </object>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/object/nesting_object_fields_for_map_provider[Пример c Test провайдером]
-
-link:https://n2oapp.net/sandbox/new/data/object/nesting_object_fields_for_args_provider[Пример с Java провайдером]
+link:https://n2oapp.net/sandbox/new/data/object/nesting_object_fields_for_args_provider[Пример]
 
 === Загрузка данных в виджет
 Виджеты могут получать данные из разных источников.
