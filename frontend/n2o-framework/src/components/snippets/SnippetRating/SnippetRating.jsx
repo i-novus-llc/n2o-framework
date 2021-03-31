@@ -23,7 +23,7 @@ const prepareValue = (rating, half) => {
     return Math.round(+rating / 0.5) * 0.5;
   }
   return Math.round(rating);
-}
+};
 
 class SnippetRating extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class SnippetRating extends Component {
     const { onChange } = this.props;
     this.setState({
       value: newValue,
-      rating: newValue
+      rating: newValue,
     });
     onChange(newValue);
   }
