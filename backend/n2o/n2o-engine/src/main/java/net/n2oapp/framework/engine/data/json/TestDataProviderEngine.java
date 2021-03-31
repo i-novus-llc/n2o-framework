@@ -83,7 +83,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             case deleteMany:
                 return deleteMany(invocation, inParams, data);
             case count:
-                return repository.get(invocation.getFile()).size();
+                return repository.get(richKey(invocation.getFile())).size();
             case echo:
                 return inParams;
         }
@@ -461,16 +461,16 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
         if (invocation.getFile() == null)
             return new ArrayList<>();
-        if (!repository.containsKey(invocation.getFile()) ||
+        if (!repository.containsKey(richKey(invocation.getFile())) ||
                 fileExistsOnDisk(invocation.getFile())) {
             initRepository(invocation);
         }
 
-        return repository.get(invocation.getFile());
+        return repository.get(richKey(invocation.getFile()));
     }
 
     private void updateRepository(String key, List<DataSet> newData) {
-        repository.put(key, newData);
+        repository.put(richKey(key), newData);
     }
 
     /**
@@ -485,7 +485,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
         try (InputStream inputStream = resourceLoader.getResource(path).getInputStream()) {
             List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
-            repository.put(invocation.getFile(), data);
+            repository.put(richKey(invocation.getFile()), data);
             if (integer.equals(invocation.getPrimaryKeyType())) {
                 long maxId = data
                         .stream()
@@ -597,11 +597,17 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private void updateFile(String filename) {
         if (fileExistsOnDisk(filename)) {
             try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
-                String mapAsJson = objectMapper.writeValueAsString(repository.get(filename));
+                String mapAsJson = objectMapper.writeValueAsString(repository.get(richKey(filename)));
                 fileWriter.write(mapAsJson);
             } catch (IOException e) {
                 throw new N2oException(e);
             }
         }
+    }
+
+    private String richKey(String key) {
+        if (pathOnDisk != null) return pathOnDisk + "/" + key;
+        if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
+        return key;
     }
 }
