@@ -54,25 +54,23 @@ public class DataSetMapper {
 
         for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
             Expression expression;
+            Object data = dataSet.get(map.getKey());
             if (map.getValue() != null) {
                 expression = writeParser.parseExpression(
                         map.getValue().getMapping() != null ? map.getValue().getMapping() : "['" + map.getKey() + "']");
                 if (map.getValue().getChildMapping() != null) {
-                    if (map.getKey() != null) {
-                        Object data = dataSet.get(map.getKey());
-                        if (data instanceof Collection) {
-                            Collection collection = data instanceof List ? new ArrayList() : new HashSet();
-                            for (Object obj : (Collection) data)
-                                collection.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
-                            expression.setValue(result, collection);
-                        } else if (dataSet.get(map.getKey()) instanceof DataSet)
-                            expression.setValue(result, mapToMap((DataSet) dataSet.get(map.getKey()), map.getValue().getChildMapping()));
-                    }
+                    if (data instanceof Collection) {
+                        List list = new ArrayList();
+                        for (Object obj : (DataList) data)
+                            list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
+                        expression.setValue(result, list);
+                    } else if (data instanceof DataSet)
+                        expression.setValue(result, mapToMap((DataSet) data, map.getValue().getChildMapping()));
                 } else
-                    expression.setValue(result, dataSet.get(map.getKey()));
+                    expression.setValue(result, data);
             } else {
                 expression = writeParser.parseExpression("['" + map.getKey() + "']");
-                expression.setValue(result, dataSet.get(map.getKey()));
+                expression.setValue(result, data);
             }
         }
         return result;

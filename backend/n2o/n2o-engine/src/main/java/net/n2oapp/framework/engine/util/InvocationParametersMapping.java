@@ -59,7 +59,7 @@ public class InvocationParametersMapping {
             for (AbstractParameter parameter : parameters) {
                 FieldMapping mapping = new FieldMapping(parameter.getMapping());
                 if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null)
-                    mapping.setChildMapping(InvocationParametersMapping.extractInFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
+                    mapping.setChildMapping(extractInFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
                 mappingMap.put(parameter.getId(), mapping);
             }
         return mappingMap;

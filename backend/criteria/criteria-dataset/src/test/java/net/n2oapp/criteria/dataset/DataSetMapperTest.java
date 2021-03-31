@@ -111,7 +111,7 @@ public class DataSetMapperTest {
         List listDataSet = Arrays.asList(listItem);
         dataSet.put("personList", listDataSet);
         // set in list
-        Set<DataSet> listItemSet = new HashSet();
+        DataList listItemSet = new DataList();
         listItemSet.add(new DataSet("codeValue", "code1"));
         listItemSet.add(new DataSet("codeValue", "code2"));
         listItem.add("codes", listItemSet);
@@ -133,9 +133,10 @@ public class DataSetMapperTest {
         assertThat(personRatings.size(), is(2));
         assertThat(((DataSet) personRatings.get(0)).get("value"), is(2.34));
         assertThat(((DataSet) personRatings.get(1)).get("value"), is(5.55));
-        HashSet personCodes = (HashSet) ((DataSet) list.get(0)).get("personCodes");
+        DataList personCodes = (DataList) ((DataSet) list.get(0)).get("personCodes");
         assertThat(personCodes.size(), is(2));
-        assertThat(personCodes, is(Set.of(new DataSet("value", "code1"), new DataSet("value", "code2"))));
+        assertThat(personCodes.contains(new DataSet("value", "code1")), is(true));
+        assertThat(personCodes.contains(new DataSet("value", "code2")), is(true));
     }
 
     @Test
