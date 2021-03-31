@@ -97,6 +97,7 @@ function ImageCell(props) {
             statuses={statuses}
             model={model}
             className="image-cell-statuses"
+            onClick={onClick}
           />
         )}
       </div>
