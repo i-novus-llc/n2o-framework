@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
@@ -49,9 +51,15 @@ public class ActionRequestInfo<D> extends RequestInfo {
         if (operation.getInParametersMap() != null)
             for (String paramId : operation.getInParametersMap().keySet()) {
                 AbstractParameter sourceParam = operation.getInParametersMap().get(paramId);
-                AbstractParameter param = sourceParam instanceof ObjectSimpleField ?
-                        new ObjectSimpleField((ObjectSimpleField) sourceParam) :
-                        new ObjectReferenceField((ObjectReferenceField) sourceParam);
+                AbstractParameter param;
+                if (sourceParam instanceof ObjectSimpleField)
+                    param = new ObjectSimpleField((ObjectSimpleField) sourceParam);
+                else if (sourceParam instanceof ObjectListField)
+                    param = new ObjectListField((ObjectListField) sourceParam);
+                else if (sourceParam instanceof ObjectSetField)
+                    param = new ObjectSetField((ObjectSetField) sourceParam);
+                else
+                    param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
                 inParametersMap.put(paramId, param);
             }
         if (operation.getOutParametersMap() != null)

@@ -96,6 +96,11 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |Обязательность поля
 |false
 
+|enabled
+|Строка
+|Условие, при котором должен быть выполнен маппинг
+|
+
 |===
 
 Пример::
@@ -139,6 +144,11 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |true false
 |Обязательность поля
 |false
+
+|enabled
+|Строка
+|Условие, при котором должен быть выполнен маппинг
+|
 
 |===
 

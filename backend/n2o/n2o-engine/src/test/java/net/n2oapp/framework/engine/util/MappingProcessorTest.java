@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
@@ -57,11 +58,11 @@ public class MappingProcessorTest {
         inDataSet.put("valueInt", 11);
         inDataSet.put("innerObjValueStr", "inner");
         inDataSet.put("innerObjValueInt", 14);
-        Map<String, String> mapping = new HashMap<>();
-        mapping.put("valueStr", "[0].valueStr");
-        mapping.put("valueInt", "[0].valueInt");
-        mapping.put("innerObjValueStr", "[0].innerObj.valueStr");
-        mapping.put("innerObjValueInt", "[0].innerObj.valueInt");
+        Map<String, FieldMapping> mapping = new HashMap<>();
+        mapping.put("valueStr", new FieldMapping("[0].valueStr"));
+        mapping.put("valueInt", new FieldMapping("[0].valueInt"));
+        mapping.put("innerObjValueStr", new FieldMapping("[0].innerObj.valueStr"));
+        mapping.put("innerObjValueInt", new FieldMapping("[0].innerObj.valueInt"));
         Argument arg = new Argument();
         arg.setClassName("net.n2oapp.framework.engine.util.TestEntity");
         Object[] res = MappingProcessor.map(inDataSet, mapping, new Argument[]{arg}, new DomainProcessor());

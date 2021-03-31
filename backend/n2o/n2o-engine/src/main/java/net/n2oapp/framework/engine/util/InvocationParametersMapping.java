@@ -3,6 +3,7 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.CriteriaConstructor;
@@ -12,7 +13,10 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.Expression;
@@ -29,42 +33,64 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.inMap;
  */
 public class InvocationParametersMapping {
 
-    public static Map<String, String> extractMapping(Collection<? extends AbstractParameter> parameters) {
-        Map<String, String> mapping = new LinkedHashMap<>();
+    /**
+     * Получение маппингов исходящих полей
+     *
+     * @param parameters Список исходящих полей
+     * @return Маппинги исходящих полей
+     */
+    public static Map<String, String> extractOutFieldMapping(Collection<ObjectSimpleField> parameters) {
+        Map<String, String> mappingMap = new LinkedHashMap<>();
         if (parameters != null)
-            for (AbstractParameter parameter : parameters)
-                mapping.put(parameter.getId(), parameter.getMapping());
-        return mapping;
+            for (ObjectSimpleField parameter : parameters)
+                mappingMap.put(parameter.getId(), parameter.getMapping());
+        return mappingMap;
+    }
+
+    /**
+     * Получение структуры маппингов входящих полей
+     *
+     * @param parameters Список входящих полей
+     * @return Структура маппингов исходящих полей
+     */
+    public static Map<String, FieldMapping> extractInFieldMapping(Collection<AbstractParameter> parameters) {
+        Map<String, FieldMapping> mappingMap = new LinkedHashMap<>();
+        if (parameters != null)
+            for (AbstractParameter parameter : parameters) {
+                FieldMapping mapping = new FieldMapping(parameter.getMapping());
+                if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null)
+                    mapping.setChildMapping(extractInFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
+                mappingMap.put(parameter.getId(), mapping);
+            }
+        return mappingMap;
     }
 
     /**
      * Собирает аргументы для действия invocation
      *
-     * @param invocation действие
-     * @param inDataSet  входные данные
-     * @param inMapping  маппинг входных данных
+     * @param invocation Вызов действия
+     * @param inDataSet  Входные данные
+     * @param inMapping  Маппинг входных данных
      * @return
      */
-    public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet, Map<String, String> inMapping,
-                                     DomainProcessor domainProcessor) {
+    public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet,
+                                     Map<String, FieldMapping> inMapping, DomainProcessor domainProcessor) {
         inMapping = changeInMappingForEntity(invocation, inMapping);
-        if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
+        if (invocation.getArguments() == null || invocation.getArguments().length == 0)
             return null;
-        }
         return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments(), domainProcessor);
     }
 
     /**
      * Преобразует входные значения согласно маппингу и собирает их в map
      *
-     * @param dataSet входные данные
-     * @param mapping маппинг
-     * @return
+     * @param dataSet Входные данные
+     * @param mapping Маппинг полей
+     * @return Преобразованные входные значения согласно маппингу
      */
-    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping) {
-        return DataSetMapper.mapToMap(dataSet, mapping, null);
+    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, FieldMapping> mapping) {
+        return DataSetMapper.mapToMap(dataSet, mapping);
     }
-
 
     public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
         map.put("select", query.getSelectExpressions());
@@ -79,7 +105,6 @@ public class InvocationParametersMapping {
             N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
             if (!field.getNoJoin())
                 joins.add(field.getJoinBody());
-
         }
 
 
@@ -174,11 +199,17 @@ public class InvocationParametersMapping {
      * @param inMapping
      * @return innMapping вида [0].name
      */
-    private static Map<String, String> changeInMappingForEntity(N2oArgumentsInvocation invocation, Map<String, String> inMapping) {
-        if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
+    private static Map<String, FieldMapping> changeInMappingForEntity(N2oArgumentsInvocation invocation,
+                                                                      Map<String, FieldMapping> inMapping) {
+        if (ArrayUtils.isEmpty(invocation.getArguments())) {
             final int[] idx = {0};
-            Map<String, String> newMap = new HashMap<>();
-            inMapping.forEach((k, v) -> newMap.put(k, v != null ? v : String.format("[%s]", idx[0]++)));
+            Map<String, FieldMapping> newMap = new HashMap<>();
+            inMapping.forEach((k, v) -> {
+                String mapping = v.getMapping() != null ? v.getMapping() : String.format("[%s]", idx[0]++);
+                FieldMapping fieldMapping = new FieldMapping(mapping);
+                fieldMapping.setChildMapping(v.getChildMapping());
+                newMap.put(k, fieldMapping);
+            });
             inMapping = newMap;
         } else {
             int entityPosition = findEntityPosition(invocation);
@@ -186,11 +217,10 @@ public class InvocationParametersMapping {
                 // позиция entity используется для создания префикса
                 String prefix = "[" + entityPosition + "].";
                 for (String key : inMapping.keySet()) {
-                    String value = inMapping.get(key);
-                    if (value != null) {
-                        if (!value.startsWith("[")) {
-                            inMapping.put(key, prefix + value);
-                        }
+                    if (inMapping.get(key) != null) {
+                        String value = inMapping.get(key).getMapping();
+                        if (value != null && !value.startsWith("["))
+                            inMapping.get(key).setMapping(prefix + value);
                     }
                 }
             }

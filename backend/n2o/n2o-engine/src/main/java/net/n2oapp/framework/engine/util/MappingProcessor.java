@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -8,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
@@ -38,7 +40,8 @@ public class MappingProcessor {
      */
     public static void inMap(Object target, String mapping, Object value) {
         Expression expression = writeParser.parseExpression(mapping);
-        if (target != null) expression.setValue(target, value);
+        if (target != null)
+            expression.setValue(target, value);
     }
 
     /**
@@ -82,12 +85,12 @@ public class MappingProcessor {
     /**
      * Генерирует список аргументов для вызова метода.
      *
-     * @param dataSet         исходные данные
-     * @param mapping         правила маппинга
-     * @param arguments       список аргументов
+     * @param dataSet    исходные данные
+     * @param mappingMap правила маппинга
+     * @param arguments  список аргументов
      * @return массив объектов
      */
-    public static Object[] map(DataSet dataSet, Map<String, String> mapping, Argument[] arguments,
+    public static Object[] map(DataSet dataSet, Map<String, FieldMapping> mappingMap, Argument[] arguments,
                                DomainProcessor domainProcessor) {
         List<String> argClasses = new ArrayList<>();
         for (Argument arg : arguments) {
@@ -95,23 +98,29 @@ public class MappingProcessor {
         }
         Object[] instances = instantiateArguments(argClasses);
         Object[] result;
-        if (instances == null || instances.length == 0) {
-            result = new Object[mapping.size()];
+        if (ArrayUtils.isEmpty(instances)) {
+            result = new Object[mappingMap.size()];
         } else {
             result = instances;
         }
+
+        boolean hasOnlyOneEntity = result.length == 1 && result[0] != null;
         int idx = 0;
-        for (Map.Entry<String, String> map : mapping.entrySet()) {
+
+        for (Map.Entry<String, FieldMapping> map : mappingMap.entrySet()) {
             Object value = dataSet.get(map.getKey());
-            if ((map.getValue() != null && !map.getValue().startsWith("[") && !map.getValue().endsWith("]"))
-                    || value != null) {
-                Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
-                        : "[" + idx + "]");
+            String mapping = map.getValue().getMapping();
+            if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
+                String resultMapping = mapping;
+                if (resultMapping == null)
+                    resultMapping = hasOnlyOneEntity ? "[0]." + map.getKey() : "[" + idx + "]";
+
+                Expression expression = writeParser.parseExpression(resultMapping);
                 expression.setValue(result, value);
             }
             idx++;
         }
-        for (int i=0; i < result.length; i++) {
+        for (int i = 0; i < result.length; i++) {
             if (result[i] == null && arguments[i].getDefaultValue() != null) {
                 result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());
             }
@@ -161,21 +170,20 @@ public class MappingProcessor {
     /**
      * Создает инстанс и мапит его поля из dataSet
      *
-     * @param parameter параметр операции
-     * @param dataSet   исходные данные
+     * @param parameter Параметр операции
+     * @param dataSet   Исходные данные
      */
     public static Object mapChildParameters(ObjectReferenceField parameter, DataSet dataSet) {
         Object instance;
         try {
             instance = Class.forName(parameter.getEntityClass()).newInstance();
-        } catch (ClassNotFoundException
-                | IllegalAccessException
-                | InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new N2oException(e);
         }
 
         for (AbstractParameter childParam : (parameter).getFields()) {
-            writeParser.parseExpression(childParam.getMapping()).setValue(instance, dataSet.get(childParam.getId()));
+            String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
+            writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
         }
         return instance;
     }

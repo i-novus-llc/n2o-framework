@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.ActionInvocationEngine;
@@ -45,37 +46,39 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     @Override
-    public DataSet invoke(
-            N2oInvocation invocation,
-            DataSet inDataSet,
-            Collection<AbstractParameter> inParameters,
-            Collection<ObjectSimpleField> outParameters) {
-        final Map<String, String> inMapping = InvocationParametersMapping.extractMapping(inParameters);
-        final Map<String, String> outMapping = InvocationParametersMapping.extractMapping(outParameters);
-        DataSet resolvedInDataSet = resolveInValues(inMapping, inParameters, inDataSet);
+    public DataSet invoke(N2oInvocation invocation, DataSet inDataSet,
+                          Collection<AbstractParameter> inParameters,
+                          Collection<ObjectSimpleField> outParameters) {
+        final Map<String, FieldMapping> inMapping = InvocationParametersMapping.extractInFieldMapping(inParameters);
+        final Map<String, String> outMapping = InvocationParametersMapping.extractOutFieldMapping(outParameters);
+        prepareInValues(inParameters, inDataSet);
+        DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
         resolveOutValues(outParameters, resultDataSet);
         inDataSet.merge(resultDataSet);
         return inDataSet;
     }
 
-    private DataSet invoke(
-            final N2oInvocation invocation,
-            final DataSet inDataSet,
-            final Map<String, String> inMapping,
-            final Map<String, String> outMapping) {
+    private DataSet invoke(final N2oInvocation invocation, final DataSet inDataSet,
+                           final Map<String, FieldMapping> inMapping,
+                           final Map<String, String> outMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
-        if (engine instanceof ArgumentsInvocationEngine) {
+        if (engine instanceof ArgumentsInvocationEngine)
             result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) invocation,
                     mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
-        } else {
+        else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
-        }
         return DataSetMapper.extract(result, outMapping);
     }
 
 
+    /**
+     * Преобразование исходящих данных вызова
+     *
+     * @param invocationParameters Исходящие поля операции
+     * @param resultDataSet        Исходящие данные вызова
+     */
     protected void resolveOutValues(Collection<ObjectSimpleField> invocationParameters, DataSet resultDataSet) {
         if (invocationParameters == null) return;
 
@@ -84,59 +87,80 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 resultDataSet.put(parameter.getId(), contextProcessor.resolve(parameter.getDefaultValue()));
     }
 
-    // TODO - будет переписано в следующей задаче
-    protected DataSet resolveInValues(Map<String, String> inMapping,
-                                      Collection<AbstractParameter> invocationParameters,
-                                      DataSet inDataSet) {
+    /**
+     * Преобразование входящих данных вызова с учетом маппинга
+     *
+     * @param mappingMap           Map маппингов полей
+     * @param invocationParameters Входящие поля операции
+     * @param inDataSet            Входящие данные вызова
+     * @return Преобразованные входящие данные вызова
+     */
+    protected DataSet resolveInValuesMapping(Map<String, FieldMapping> mappingMap,
+                                             Collection<AbstractParameter> invocationParameters,
+                                             DataSet inDataSet) {
         if (invocationParameters == null)
             return inDataSet;
 
         for (AbstractParameter parameter : invocationParameters) {
-            prepareValue(parameter, inDataSet);
-            if (isMappingEnabled(parameter, inMapping, inDataSet) &&
-                    parameter instanceof ObjectReferenceField &&
-                    ((ObjectReferenceField) parameter).getEntityClass() != null &&
-                    ((ObjectReferenceField) parameter).getFields() != null) {
-
-                if (parameter.getClass().equals(ObjectReferenceField.class)) {
-                    inDataSet.put(
-                            parameter.getId(),
-                            normalize(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) inDataSet.get(parameter.getId()))
-                    );
-                } else {
-                    for (Object dataSet : (Collection) inDataSet.get(parameter.getId())) {
-                        ((DataSet) dataSet).putAll(
-                                normalize(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet)
-                        );
+            if (isMappingEnabled(parameter, inDataSet)) {
+                if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null) {
+                    ObjectReferenceField refParameter = (ObjectReferenceField) parameter;
+                    if (parameter.getClass().equals(ObjectReferenceField.class)) {
+                        inDataSet.put(parameter.getId(), resolveInValuesMapping(
+                                mappingMap.get(parameter.getId()).getChildMapping(),
+                                Arrays.asList(refParameter.getFields()),
+                                (DataSet) inDataSet.get(parameter.getId())));
+                    } else {
+                        for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                            ((DataSet) dataSet).putAll(resolveInValuesMapping(
+                                    mappingMap.get(parameter.getId()).getChildMapping(),
+                                    Arrays.asList(refParameter.getFields()),
+                                    (DataSet) dataSet));
                     }
+                    if (refParameter.getEntityClass() != null)
+                        MappingProcessor.mapParameter(refParameter, inDataSet);
                 }
-                MappingProcessor.mapParameter((ObjectReferenceField) parameter, inDataSet);
+            } else {
+                mappingMap.remove(parameter.getId());
             }
         }
-
         return normalize(invocationParameters, inDataSet);
     }
 
-    // TODO - будет переписано в следующей задаче
-    private void prepareValue(AbstractParameter inParameter, DataSet inDataSet) {
-        Object value = inDataSet.get(inParameter.getId());
-        if (inParameter instanceof ObjectSimpleField) {
-            if (value == null)
-                value = ((ObjectSimpleField) inParameter).getDefaultValue();
-            value = contextProcessor.resolve(value);
-            value = domainProcessor.deserialize(value, ((ObjectSimpleField) inParameter).getDomain());
-        } else if (inParameter instanceof ObjectReferenceField && ((ObjectReferenceField) inParameter).getFields() != null) {
-            for (AbstractParameter childParam : ((ObjectReferenceField) inParameter).getFields()) {
-                if (inParameter.getClass().equals(ObjectReferenceField.class))
-                    prepareValue(childParam, (DataSet) value);
+    /**
+     * Установка значений во входящие поля вызова с учетом значения по умолчанию и
+     * типа соответствующего поля операции
+     *
+     * @param parameters Входящее поле операции
+     * @param inDataSet  Входящие данные вызова
+     */
+    private void prepareInValues(Collection<AbstractParameter> parameters, DataSet inDataSet) {
+        for (AbstractParameter parameter : parameters)
+            if (parameter instanceof ObjectSimpleField) {
+                ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
+                Object value = inDataSet.get(simpleField.getId());
+                if (value == null)
+                    value = simpleField.getDefaultValue();
+                value = contextProcessor.resolve(value);
+                value = domainProcessor.deserialize(value, simpleField.getDomain());
+                inDataSet.put(simpleField.getId(), value);
+            } else if (parameter instanceof ObjectReferenceField) {
+                if (parameter.getClass().equals(ObjectReferenceField.class))
+                    prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()),
+                            (DataSet) inDataSet.get(parameter.getId()));
                 else
-                    for (Object dataSet : (Collection) value)
-                        prepareValue(childParam, (DataSet) dataSet);
+                    for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                        prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet);
             }
-        }
-        inDataSet.put(inParameter.getId(), value);
     }
 
+    /**
+     * Нормализация входящих данных вызова
+     *
+     * @param invocationParameters Входящие поля операции
+     * @param inDataSet            Входящие данные вызова
+     * @return Нормализованные входящие данные вызова
+     */
     private DataSet normalize(Collection<AbstractParameter> invocationParameters, DataSet inDataSet) {
         DataSet copiedDataSet = new DataSet(inDataSet);
         for (AbstractParameter parameter : invocationParameters) {
@@ -151,13 +175,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         return copiedDataSet;
     }
 
-    private boolean isMappingEnabled(AbstractParameter inParam, Map<String, String> inMapping, DataSet inDataSet) {
-        boolean unmappable = inParam.getEnabled() != null && !ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
-        if (unmappable) {
-            inMapping.remove(inParam.getId());
-            return false;
-        }
-        return true;
+    private boolean isMappingEnabled(AbstractParameter inParam, DataSet inDataSet) {
+        return inParam.getEnabled() == null || ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
     }
 
     @Override
