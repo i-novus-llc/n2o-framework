@@ -1006,6 +1006,10 @@ class Calculator {
 </operation>
 ----
 
+[NOTE]
+Если поля указаны именно в том порядке, в котором и соответствующие
+им аргументы, то указывать маппинг необязательно.
+
 ====== Маппинг сущности
 
 .Метод java класса с аргументом - сущностью
@@ -1043,8 +1047,8 @@ class MyEntity {
   </invocation>
   <in>
     <!-- Для type="entity" в mapping нет [0]. -->
-    <field id="firstName" mapping="['name']"/>
-    <field id="lastName" mapping="['surname']"/>
+    <field id="firstName" mapping="name"/>
+    <field id="lastName" mapping="surname"/>
   </in>
 </operation>
 ----
@@ -1377,13 +1381,13 @@ class MyEntity {
 <object entity-class="com.example.MyEntity">
   <fields>
     <!-- Простые поля -->
-    <field id="id" domain="long" mapping="['id']"/>
-    <field id="birthday" domain="date" mapping="['birthDate']"/>
+    <field id="id" domain="long" mapping="id"/>
+    <field id="birthday" domain="date" mapping="birthDate"/>
   </fields>
 </object>
 ----
 
-Атрибут `id` задаёт поле виджета, атрибут `mapping` - доступ к полю сущности.
+Атрибут `id` задаёт поле виджета, атрибут `mapping` - поле сущности.
 
 ===== Маппинг полей @ManyToOne и @OneToOne
 
@@ -1413,9 +1417,33 @@ class MyEntity {
 </fields>
 ----
 
-Для поля с отношением `@ManyToOne` обычно необходимо заполнить только идентификатор `id`.
-Если в ссылочном поле объекта не заполнить вложенные поля, но указать ссылку на объект,
-то будет заполнено только поле `id`.
+.Вариант с определением полей во внешнем файле
+[source,xml]
+----
+<fields>
+  <reference id="address"
+    mapping="addr"
+    object-id="address"/> <!-- Ссылка на объект address.object.xml -->
+</fields>
+----
+
+====== address.object.xml
+[source,xml]
+----
+<!-- обратите внимание, что класс сущности может быть указан во внешнем файле -->
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        entity-class="org.example.Address">
+    <fields>
+      <field id="home" domain="string"/>
+      <field id="work" domain="string"/>
+    </fields>
+</object>
+----
+[NOTE]
+Описывать поля можно внутри составного поля (reference, list или set) или во внешнем файле.
+Однако, если вы опишите поля в обоих местах, то более приоритетным будет вариант задания полей внутри составного поля.
+Все поля будут взяты из него, а для полей присутствующих в обоих файлах (т.е. с совпадающим id)
+будет произведено слияние в пользу текущего объекта.
 
 .Маппинг полей с @ManyToOne
 [source,xml]
@@ -1424,9 +1452,8 @@ class MyEntity {
   <reference id="sex"
     mapping="gender"
     required="true"
-    object-id="gender"/> <!-- Ссылка на другой объект -->
-  <!-- Будет заполнено только поле gender.id -->
-<fields>
+    object-id="gender"/>
+</fields>
 ----
 
 ===== Маппинг полей @OneToMany и @ManyToMany
@@ -1477,9 +1504,9 @@ class MyEntity {
 ----
 
 ===== Использование полей объекта
-При описании операций объекта не требуется определять маппинг
-и другие параметры, которые уже были заданы в полях объекта.
-Достаточно задать только идентификаторы параметров.
+Если поле было задано в полях объекта, то при описании операций объекта не требуется определять
+маппинг и прочие атрибуты, а также вложенную структуру. Достаточно задать только идентификаторы параметров.
+В случае, если поле будет присутствовать в обоих местах, то будет произведено слияние с приоритетом в пользу поля в операции.
 
 [source,java]
 ----
@@ -1492,10 +1519,17 @@ class MyService {
 .Использование полей объекта в операции
 [source,xml]
 ----
-<object
-  entity-class="com.example.MyEntity"
-  service-class="com.example.MyService">
-  <fields>...</fields><!--Маппинг полей сущности-->
+<object entity-class="com.example.Employee">
+  <!-- Маппинг и структура полей сущности -->
+  <fields>
+    <field id="name" mapping="name" normalize="..."/>
+    <reference id="org" mapping="organization" object-id="org"/>
+    <list id="departments" entity-class="com.example.Department">
+      <field id="id"/>
+      <field id="name"/>
+    </list>
+  </fields>
+
   <operations>
     <operation>
       <invocation>
@@ -1507,10 +1541,11 @@ class MyService {
         </java>
       </invocation>
       <in>
-        <!--Перечисление только нужных полей-->
-        <field id="birthday"/>
-        <field id="sex"/><!--Будет заполнен только sex.id-->
-        <field id="addresses"/><!--Будут заполнены все внутренние поля-->
+        <!-- Перечисление только нужных полей -->
+        <!-- Не нужно задавать ни структуру, ни атрибуты -->
+        <field id="name"/>
+        <reference id="org"/>
+        <list id="departments"/>
       </in>
       <out>
         <field id="id"/>
@@ -1519,6 +1554,8 @@ class MyService {
   </operations>
 </object>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/object/nesting_object_fields_for_args_provider[Пример]
 
 === Загрузка данных в виджет
 Виджеты могут получать данные из разных источников.
