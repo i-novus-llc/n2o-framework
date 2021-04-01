@@ -19,8 +19,8 @@ public class PostgresMapRowMapper implements RowMapper<Map<String, Object>> {
         int columnCount = rs.getMetaData().getColumnCount();
         Map<String, Object> result = new LinkedCaseInsensitiveMap<>(columnCount);
         for (int i = 1; i <= columnCount; i++) {
-            String name = JdbcUtils.lookupColumnName(rs.getMetaData(), i);
-            result.putIfAbsent(name, PostgresUtil.resolveValue(rs.getObject(i)));
+            result.putIfAbsent(JdbcUtils.lookupColumnName(rs.getMetaData(), i),
+                    PostgresUtil.resolveValue(rs.getObject(i)));
         }
         return result;
     }

@@ -16,10 +16,8 @@ public class PostgresIndexRowMapper implements RowMapper<Object[]> {
         Object[] result = new Object[rs.getMetaData().getColumnCount()];
         for (int i = 0; i < result.length; i++) {
             result[i] = PostgresUtil.resolveValue(rs.getObject(i + 1));
-
         }
         return result;
     }
-
 
 }
