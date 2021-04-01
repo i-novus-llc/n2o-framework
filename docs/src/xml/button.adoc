@@ -210,7 +210,7 @@ link:#_Действия[Обработчик действия]
 |
 
 |ref-model
-|resolve, filter
+|resolve filter
 |Модель виджета, по полю которого будет фильтрация
 |
 
@@ -248,7 +248,7 @@ Java Script выражение
 |
 
 |ref-model
-|resolve, filter
+|resolve filter
 |Модель виджета, по полю которого будет фильтрация
 |
 
@@ -275,7 +275,7 @@ Java Script выражение
 |Наименование|Тип|Описание|Значение по умолчанию
 
 |source-model
-|resolve edit filter multi
+|resolve filter multi edit datasource
 |Модель, которая будет скопирована
 |resolve
 
@@ -290,7 +290,7 @@ Java Script выражение
 |Вся модель
 
 |target-model
-|resolve edit filter multi
+|resolve filter multi edit datasource
 |Модель, в которую будут скопированы данные
 |resolve
 
