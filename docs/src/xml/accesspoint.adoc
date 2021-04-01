@@ -150,7 +150,7 @@ link:#_Фильтры_объекта[Фильтры объекта]
 
 |ref-model
 |Строка
-|resolve, filters, multi, edit
+|resolve filters multi edit datasource
 |
 
 |===
