@@ -11,9 +11,6 @@ import java.sql.SQLException;
  */
 public class PostgresIndexRowMapper implements RowMapper<Object[]> {
 
-    public PostgresIndexRowMapper() {
-    }
-
     @Override
     public Object[] mapRow(ResultSet rs, int rowNum) throws SQLException {
         Object[] result = new Object[rs.getMetaData().getColumnCount()];
