@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 @Getter
 @AllArgsConstructor
-public class FiltersScope  {
+public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
      */
@@ -21,13 +21,15 @@ public class FiltersScope  {
 
     /**
      * Добавить фильтр
-     * @param filter    фильтр
+     *
+     * @param filter Фильтр
      */
     public void addFilter(Filter filter) {
-        Optional<Filter> sameFilter = filters.stream().filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink())).findAny();
-        if (!sameFilter.isPresent()) {
+        Optional<Filter> sameFilter = filters.stream()
+                .filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink()))
+                .findAny();
+        if (sameFilter.isEmpty())
             filters.add(filter);
-        }
     }
 
 }

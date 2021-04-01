@@ -45,7 +45,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                                 page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(),
                                         (ModelLink) page.getRoutes().getQueryMapping().get(param).getOnSet());
                             }
-                });
+                        });
             }
 
         }
@@ -91,29 +91,30 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     }
 
     private void collectFiltersToModels(Models models, List<Widget> widgets) {
-        if (widgets != null) {
-            for (Widget w : widgets) {
-                if (w.getFilters() != null) {
-                    for (Filter f : (List<Filter>) w.getFilters()) {
-                        if (f.getRoutable() && f.getLink().getSubModelQuery() != null) {
+        if (widgets != null)
+            for (Widget w : widgets)
+                if (w.getFilters() != null)
+                    for (Filter f : (List<Filter>) w.getFilters())
+                        if (f.getRoutable())
                             addToModels(models, f);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private void addToModels(Models models, Filter f) {
         ReduxModel model = f.getLink().getModel();
         String widgetId = f.getLink().getWidgetId();
-        String fieldId = f.getLink().getSubModelQuery().getSubModel();
+        String fieldId = f.getLink().getSubModelQuery() != null ?
+                    f.getLink().getSubModelQuery().getSubModel() :
+                    f.getFilterId();
+
         ModelLink link = new ModelLink(model, widgetId, fieldId);
         link.setParam(f.getParam());
         link.setSubModelQuery(f.getLink().getSubModelQuery());
-        if (models.get(model, widgetId, fieldId) != null)
-            link.setValue(models.get(model, widgetId, fieldId).getValue());
-        if (link.getValue() == null)
+
+        ModelLink currentLink = models.get(model, widgetId, fieldId);
+        if (currentLink != null)
+            link.setValue(currentLink.getValue());
+        // значение модели фильтра перебивает дефолтное значение
+        if (link.getValue() == null || f.getLink().getValue() != null)
             link.setValue(f.getLink().getValue());
         models.add(model, widgetId, fieldId, link);
     }

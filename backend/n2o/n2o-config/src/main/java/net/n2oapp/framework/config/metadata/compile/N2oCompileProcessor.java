@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
@@ -110,9 +111,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     /**
      * Конструктор процессора сборки метаданных со связыванием и процессором вложенных моделей
      *
-     * @param env     Окружение сборки метаданных
-     * @param params  Параметры запроса
-     * @param context Входной контекст сборки(не используется для компиляции метаданных)
+     * @param env                Окружение сборки метаданных
+     * @param params             Параметры запроса
+     * @param context            Входной контекст сборки(не используется для компиляции метаданных)
      * @param subModelsProcessor Процессор вложенных моделей
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
@@ -156,7 +157,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @Override
     public <D extends Compiled> void bind(D compiled) {
         if (compiled != null)
-            bindPipeline.get(compiled, context, params);
+            bindPipeline.get(compiled, context, params, subModelsProcessor);
     }
 
 
@@ -320,6 +321,23 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (link.getSubModelQuery() == null) return;
         resolveDefaultValues(link);
         executeSubModels(link);
+    }
+
+    @Override
+    public void resolveFiltersModels(String filtersDefaultValuesQueryId, List<Filter> filters) {
+        if (subModelsProcessor == null) return;
+
+        DataSet queryResult = ((List<DataSet>) subModelsProcessor.getQueryResult(filtersDefaultValuesQueryId)
+                .getCollection()).get(0);
+
+        for (Filter filter : filters) {
+            Object value = queryResult.get(filter.getFilterId());
+            if (value != null) {
+                ModelLink link = new ModelLink(filter.getLink());
+                link.setValue(value);
+                filter.setLink(link);
+            }
+        }
     }
 
     @Override
