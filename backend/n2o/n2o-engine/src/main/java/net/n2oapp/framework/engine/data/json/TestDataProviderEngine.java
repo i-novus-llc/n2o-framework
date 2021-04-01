@@ -83,7 +83,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             case deleteMany:
                 return deleteMany(invocation, inParams, data);
             case count:
-                return repository.get(richKey(invocation.getFile())).size();
+                return data.size();
             case echo:
                 return inParams;
         }
@@ -243,7 +243,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private Object generateKey(PrimaryKeyType primaryKeyType, String fileName) {
         if (integer.equals(primaryKeyType)) {
-            return sequences.get(fileName).incrementAndGet();
+            return sequences.get(richKey(fileName)).incrementAndGet();
         } else {
             return UUID.randomUUID().toString();
         }
@@ -461,7 +461,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
         if (invocation.getFile() == null)
             return new ArrayList<>();
-        if (!repository.containsKey(richKey(invocation.getFile())) ||
+        if (getRepositoryData(invocation.getFile()) == null ||
                 fileExistsOnDisk(invocation.getFile())) {
             initRepository(invocation);
         }
@@ -471,6 +471,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private void updateRepository(String key, List<DataSet> newData) {
         repository.put(richKey(key), newData);
+    }
+
+    private List<DataSet> getRepositoryData(String key) {
+        return repository.get(richKey(key));
     }
 
     /**
@@ -492,7 +496,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         .filter(v -> v.get(invocation.getPrimaryKey()) != null)
                         .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
                         .max().orElse(0);
-                sequences.put(invocation.getFile(), new AtomicLong(maxId));
+                sequences.put(richKey(invocation.getFile()), new AtomicLong(maxId));
             }
 
         } catch (IOException e) {
@@ -597,7 +601,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private void updateFile(String filename) {
         if (fileExistsOnDisk(filename)) {
             try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
-                String mapAsJson = objectMapper.writeValueAsString(repository.get(richKey(filename)));
+                String mapAsJson = objectMapper.writeValueAsString(getRepositoryData(filename));
                 fileWriter.write(mapAsJson);
             } catch (IOException e) {
                 throw new N2oException(e);
