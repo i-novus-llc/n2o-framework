@@ -1,8 +1,9 @@
 import isObject from 'lodash/isObject';
+import isPlainObject from 'lodash/isPlainObject';
 import values from 'lodash/values';
-import every from 'lodash/every';
 import isEmpty from 'lodash/isEmpty';
 
+import functions from './functions';
 import warning from './warning';
 
 /**
@@ -43,14 +44,19 @@ export function createContextFn(args, code) {
 const windowKeys = Object.keys(window).filter(v => !v.includes('-'));
 const fooCache = {};
 
-function evalExpressionSingle(expression, context) {
-  try {
-    const contextFinal =
-      isObject(context) && !Array.isArray(context) ? context : {};
-    const vars = { ...window._n2oEvalContext, ...contextFinal };
-    const fn = createContextFn(Object.keys(vars), expression);
+function evalExpressionSingle(expression, context, args = context) {
+  args = isPlainObject(args) ? args : {};
 
-    return fn.apply(context || {}, Object.values(vars));
+  try {
+    const argsExtended = { ...functions, ...window._n2oEvalContext, ...args };
+
+    const entries = Object.entries(argsExtended);
+    const keys = entries.map(arr => arr[0]);
+    const values = entries.map(arr => arr[1]);
+
+    const fn = createContextFn(keys, expression);
+
+    return fn.apply(context || {}, values);
   } catch (e) {
     warning(
       e,
@@ -62,14 +68,18 @@ function evalExpressionSingle(expression, context) {
 }
 
 function evalExpressionMulti(expression, context) {
-  const multiContext = values(context);
+  let multiContext = context;
 
-  if (isEmpty(multiContext)) {
-    return false;
+  if (isObject(multiContext)) {
+    multiContext = values(context);
   }
 
-  return every(multiContext, context =>
-    evalExpressionSingle(expression, context)
+  if (isEmpty(multiContext)) {
+    return evalExpressionSingle(expression, multiContext, {});
+  }
+
+  return multiContext.every(item =>
+    evalExpressionSingle(expression, multiContext, item)
   );
 }
 
