@@ -57,7 +57,7 @@ link:../xml/#_Объект_object[Подробнее об объектах]
   <validations>...</validations><!--Валидации операций-->
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
+link:https://n2oapp.net/sandbox/editor/data_object_operations/[Пример]
 
 ==== Валидации объекта
 
@@ -79,7 +79,7 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
 </validations>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Пример]
+link:https://n2oapp.net/sandbox/editor/data_object_validation_condition/[Пример]
 
 Условия пишутся на языке JavaScript.
 
@@ -104,7 +104,7 @@ link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Приме�
 </validations>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/object/validation_constraint[Пример]
+link:https://n2oapp.net/sandbox/editor/data_object_validation_constraint/[Пример]
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для link:#_Провайдеры_данных[провайдера]
@@ -137,11 +137,11 @@ link:https://n2oapp.net/sandbox/new/data/object/validation_constraint[Приме
 За получение списка записей отвечает элемент `<list>`.
 За получение общего количества записей — элемент `<count>`.
 
-link:https://n2oapp.net/sandbox/new/data/query/list[Пример]
+link:https://n2oapp.net/sandbox/editor/data_query_list/[Пример]
 
 А за получение одной уникальной записи — `<unique>`.
 
-link:https://n2oapp.net/sandbox/new/data/query/unique[Пример]
+link:https://n2oapp.net/sandbox/editor/data_query_unique/[Пример]
 
 Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
 
@@ -259,7 +259,7 @@ link:../xml/#_Выборка_query[Подробнее о выборках]
 </filters>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/query/list_filters[Пример]
+link:https://n2oapp.net/sandbox/editor/data_query_list_filters/[Пример]
 
 Атрибут `filter-id` задаёт уникальный идентификатор фильтра,
 по которому можно определить поле выборки и тип фильтрации.
@@ -356,7 +356,7 @@ SQL провайдер позволяет выполнять SQL запросы 
 </operation>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/providers/sql[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_sql/[Пример]
 
 ==== REST провайдер данных
 REST провайдер выполняет http запросы к backend сервисам.
@@ -396,7 +396,7 @@ REST провайдер выполняет http запросы к backend сер
   </in>
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_rest/[Пример]
 
 ==== Java провайдеры данных
 С помощью java провайдеров можно вызвать метод java класса.
@@ -603,7 +603,7 @@ Mondo DB провайдер выполняет запросы к Mongo DB баз
 
 Доступны операции insertOne, updateOne, deleteOne, deleteMany, countDocuments.
 
-link:https://n2oapp.net/sandbox/new/data/providers/mongodb[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_mongodb/[Пример]
 
 
 === Типы данных
@@ -703,7 +703,7 @@ integer[]
 ----
 Подобная связь называется биндингом.
 
-link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
+link:https://n2oapp.net/sandbox/editor/data_binding_simple/[Пример]
 
 ==== Биндинг составных полей
 Составные поля обычно используются в компонентах выбора одного значения из списка:
@@ -732,7 +732,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
 <field id="gender.id"/> <!-- 1 -->
 ----
 
-link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
+link:https://n2oapp.net/sandbox/editor/data_binding_select/[Пример]
 
 ==== Биндинг интервальных полей
 Интервальные поля — это поля, в которых можно задать начало и окончание:
@@ -763,7 +763,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
 ----
 
 
-link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
+link:https://n2oapp.net/sandbox/editor/data_binding_interval/[Пример]
 
 ==== Биндинг полей множественного выбора
 Поля множественного выбора позволяют выбрать несколько значений из предложенных вариантов:
@@ -845,7 +845,7 @@ Java провайдеры используют тип параметров "ма
   </fields>
 </query>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/sql_mapping[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_sql_mapping/[Пример]
 
 .Маппинг фильтров в rest провайдере
 [source,xml]
@@ -878,7 +878,7 @@ link:https://n2oapp.net/sandbox/new/data/providers/sql_mapping[Пример]
   </fields>
 </query>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/rest_mapping[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_rest_mapping/[Пример]
 
 
 .Маппинг сортировки в mongodb провайдере
