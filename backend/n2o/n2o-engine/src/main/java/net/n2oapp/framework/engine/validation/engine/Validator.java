@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
@@ -88,11 +88,11 @@ public class Validator {
         if (validation instanceof ConstraintValidation) {
             ConstraintValidation v = (ConstraintValidation) validation;
             if (v.getInParametersList() != null) {
-                for (InvocationParameter inParam : v.getInParametersList()) {
+                for (AbstractParameter inParam : v.getInParametersList()) {
                     if (inParam.getRequired() != null
                             && inParam.getRequired()
-                            && v.getRequiredFields().contains(inParam.getName())
-                            && !dataSet.containsKey(inParam.getName())) {
+                            && v.getRequiredFields().contains(inParam.getId())
+                            && !dataSet.containsKey(inParam.getId())) {
                         return false;
                     }
                 }

@@ -91,7 +91,7 @@ class AutoComplete extends React.Component {
     const { _input } = this;
     const { popupAutoSize } = this.props;
     if (_input && !popupAutoSize) {
-      return _input.getBoundingClientRect().width
+      return _input.getBoundingClientRect().width;
     }
   };
 
@@ -164,7 +164,11 @@ class AutoComplete extends React.Component {
           ? [input]
           : [input];
       this.setState(
-        prevState => ({ input, value: getSelected(prevState) }),
+        prevState => ({
+          input,
+          value: getSelected(prevState),
+          isExpanded: true,
+        }),
         () => onSetNewInputValue(input)
       );
     }

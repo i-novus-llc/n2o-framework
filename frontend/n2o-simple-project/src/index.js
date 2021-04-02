@@ -23,3 +23,13 @@ const config = {
 };
 
 ReactDOM.render(<N2O {...createFactoryConfig(config)} />, document.getElementById('n2o'));
+
+if (navigator && navigator.serviceWorker) {
+  navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/serviceWorker.js`).then(() => {
+    console.info('ServiceWorker installing success');
+  }, (error) => {
+    console.warn('ServiceWorker installing error: ', error);
+  });
+} else {
+  console.warn('ServiceWorker installing error: not supported');
+}

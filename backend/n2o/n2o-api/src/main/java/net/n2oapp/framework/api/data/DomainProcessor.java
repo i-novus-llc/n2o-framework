@@ -10,7 +10,8 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.domain.Domain;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.io.IOException;
@@ -173,14 +174,16 @@ public class DomainProcessor {
         return doDomainConversation(inDataSet, operation.getInParametersMap().values());
     }
 
-    public DataSet doDomainConversation(DataSet inDataSet, Collection<? extends InvocationParameter> values) {
-        for (InvocationParameter param : values) {
-            String paramName = param.getId();
-            Object value = inDataSet.get(paramName);
-            if (value == null)
-                continue;
-            String domain = param.getDomain();
-            inDataSet.put(paramName, deserialize(value, domain));
+    public DataSet doDomainConversation(DataSet inDataSet, Collection<AbstractParameter> values) {
+        for (AbstractParameter param : values) {
+            if (param instanceof ObjectSimpleField) {
+                String paramName = param.getId();
+                Object value = inDataSet.get(paramName);
+                if (value == null)
+                    continue;
+                String domain = ((ObjectSimpleField) param).getDomain();
+                inDataSet.put(paramName, deserialize(value, domain));
+            }
         }
         return inDataSet;
     }

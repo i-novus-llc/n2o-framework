@@ -4,7 +4,8 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -60,12 +61,12 @@ public class ConstraintValidationCompileTest extends SourceCompileTestBase {
         assertThat(invocation.getOperation(), is(N2oTestDataProvider.Operation.create));
         assertThat(invocation.getFile(), is("test.json"));
 
-        List<InvocationParameter> inParametersList = ((ConstraintValidation) validations.get(0)).getInParametersList();
+        List<AbstractParameter> inParametersList = ((ConstraintValidation) validations.get(0)).getInParametersList();
         assertThat(inParametersList.size(), is(3));
         Set<String> requiredFields = validations.get(0).getRequiredFields();
         assertThat(requiredFields.size(), is(2));
         assertThat(requiredFields.containsAll(Arrays.asList("id", "name")), is(true));
-        List<InvocationParameter> outParametersList = ((ConstraintValidation) validations.get(0)).getOutParametersList();
+        List<ObjectSimpleField> outParametersList = ((ConstraintValidation) validations.get(0)).getOutParametersList();
         assertThat(outParametersList.size(), is(2));
         assertThat(outParametersList.get(0).getId(), is("id"));
         assertThat(outParametersList.get(1).getId(), is("validation"));

@@ -3,12 +3,19 @@ package net.n2oapp.framework.api.ui;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
@@ -32,8 +39,8 @@ public class ActionRequestInfo<D> extends RequestInfo {
     private boolean messageOnFail = true;
 
     //mutable
-    private Map<String, N2oObject.Parameter> inParametersMap = new LinkedHashMap<>();
-    private Map<String, N2oObject.Parameter> outParametersMap = new LinkedHashMap<>();
+    private Map<String, AbstractParameter> inParametersMap = new LinkedHashMap<>();
+    private Map<String, ObjectSimpleField> outParametersMap = new LinkedHashMap<>();
     /**
      * "Сырые" данные, не приведенные к домену
      */
@@ -42,14 +49,23 @@ public class ActionRequestInfo<D> extends RequestInfo {
     public void setOperation(CompiledObject.Operation operation) {
         this.operation = operation;
         if (operation.getInParametersMap() != null)
-            for (String paramName : operation.getInParametersMap().keySet()) {
-                N2oObject.Parameter srcParam = operation.getInParametersMap().get(paramName);
-                inParametersMap.put(paramName, new N2oObject.Parameter(srcParam));
+            for (String paramId : operation.getInParametersMap().keySet()) {
+                AbstractParameter sourceParam = operation.getInParametersMap().get(paramId);
+                AbstractParameter param;
+                if (sourceParam instanceof ObjectSimpleField)
+                    param = new ObjectSimpleField((ObjectSimpleField) sourceParam);
+                else if (sourceParam instanceof ObjectListField)
+                    param = new ObjectListField((ObjectListField) sourceParam);
+                else if (sourceParam instanceof ObjectSetField)
+                    param = new ObjectSetField((ObjectSetField) sourceParam);
+                else
+                    param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
+                inParametersMap.put(paramId, param);
             }
         if (operation.getOutParametersMap() != null)
             for (String paramName : operation.getOutParametersMap().keySet()) {
-                N2oObject.Parameter srcParam = operation.getOutParametersMap().get(paramName);
-                outParametersMap.put(paramName, new N2oObject.Parameter(srcParam));
+                ObjectSimpleField srcParam = operation.getOutParametersMap().get(paramName);
+                outParametersMap.put(paramName, new ObjectSimpleField(srcParam));
             }
     }
 
