@@ -5,8 +5,9 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -29,16 +30,21 @@ public class InvocationParametersMappingTest {
 
     @Test
     public void testExtractMapping() {
-        Map<String, InvocationParameter> parameters = new LinkedHashMap<>();
-        parameters.put("a", new N2oObject.Parameter("a", "x"));
-        Map<String, String> mapping = InvocationParametersMapping.extractMapping(parameters.values());
-        assertThat(mapping.get("a"), is("x"));
+        Map<String, AbstractParameter> parameters = new LinkedHashMap<>();
+        ObjectSimpleField param = new ObjectSimpleField();
+        param.setId("a");
+        param.setMapping("x");
+        parameters.put("a", param);
+        Map<String, FieldMapping> mapping = InvocationParametersMapping.extractInFieldMapping(parameters.values());
+        assertThat(mapping.get("a").getMapping(), is("x"));
 
         parameters = new LinkedHashMap<>();
-        parameters.put("a", new N2oObject.Parameter("a", null));
-        mapping = InvocationParametersMapping.extractMapping(parameters.values());
+        param = new ObjectSimpleField();
+        param.setId("a");
+        parameters.put("a", param);
+        mapping = InvocationParametersMapping.extractInFieldMapping(parameters.values());
         assertThat(mapping.containsKey("a"), is(true));
-        assertThat(mapping.get("a"), is(nullValue()));
+        assertThat(mapping.get("a").getMapping(), is(nullValue()));
     }
 
     @Test

@@ -6,7 +6,8 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -60,9 +61,9 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         assertThat(invocation.getOperation(), is(N2oTestDataProvider.Operation.create));
         assertThat(invocation.getFile(), is("test.json"));
 
-        List<InvocationParameter> inParametersList = ((ValidationDialog) validations.get(0)).getInParametersList();
+        List<AbstractParameter> inParametersList = ((ValidationDialog) validations.get(0)).getInParametersList();
         assertThat(inParametersList.size(), is(3));
-        List<InvocationParameter> outParametersList = ((ValidationDialog) validations.get(0)).getOutParametersList();
+        List<ObjectSimpleField> outParametersList = ((ValidationDialog) validations.get(0)).getOutParametersList();
         assertThat(outParametersList.size(), is(2));
         assertThat(outParametersList.get(0).getId(), is("name"));
         assertThat(outParametersList.get(1).getId(), is("validation"));

@@ -48,21 +48,30 @@ public class DataSetMapper {
         return result;
     }
 
-    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping,
-                                               Map<String, String> argumentClasses) {
+    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, FieldMapping> mapping) {
         validateMapping(mapping);
-        Map<String, Object> instances = instantiateArguments(argumentClasses);
-        Map<String, Object> result;
-        if (instances == null || instances.isEmpty()) {
-            result = new DataSet();
-        } else {
-            result = instances;
-        }
+        Map<String, Object> result = new DataSet();
 
-        for (Map.Entry<String, String> map : mapping.entrySet()) {
-            Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
-                    : "['" + map.getKey() + "']");
-            expression.setValue(result, dataSet.get(map.getKey()));
+        for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
+            Expression expression;
+            Object data = dataSet.get(map.getKey());
+            if (map.getValue() != null) {
+                expression = writeParser.parseExpression(
+                        map.getValue().getMapping() != null ? map.getValue().getMapping() : "['" + map.getKey() + "']");
+                if (map.getValue().getChildMapping() != null) {
+                    if (data instanceof Collection) {
+                        List list = new ArrayList();
+                        for (Object obj : (DataList) data)
+                            list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
+                        expression.setValue(result, list);
+                    } else if (data instanceof DataSet)
+                        expression.setValue(result, mapToMap((DataSet) data, map.getValue().getChildMapping()));
+                } else
+                    expression.setValue(result, data);
+            } else {
+                expression = writeParser.parseExpression("['" + map.getKey() + "']");
+                expression.setValue(result, data);
+            }
         }
         return result;
     }
@@ -125,33 +134,22 @@ public class DataSetMapper {
         return argumentInstances;
     }
 
-    private static Map<String, Object> instantiateArguments(Map<String, String> arguments) {
-        if (arguments == null) return null;
-        Map<String, Object> argumentInstances = new LinkedHashMap<>();
-        for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            Class argumentClass;
-            try {
-                argumentClass = Class.forName(entry.getValue());
-                argumentInstances.put(entry.getKey(), argumentClass.newInstance());
-            } catch (Exception e) {
-                throw new InstantiateArgumentException(entry.getValue(), e);
-            }
-        }
-        return argumentInstances;
-    }
-
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\['.+']").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";
 
-    private static void validateMapping(Map<String, String> mapping) {
+    /**
+     * Проверка корректности формата маппингов
+     *
+     * @param mapping Map маппингов
+     */
+    private static void validateMapping(Map<String, FieldMapping> mapping) {
         String errorMapping = mapping.entrySet().stream()
-                .filter(e -> e.getValue() != null)
-                .filter(e -> !MAPPING_PATTERN.test(e.getValue()))
-                .map(e -> String.format(KEY_ERROR, e.getKey(), e.getValue()))
+                .filter(e -> e.getValue() != null && e.getValue().getMapping() != null)
+                .filter(e -> !MAPPING_PATTERN.test(e.getValue().getMapping()))
+                .map(e -> String.format(KEY_ERROR, e.getKey(), e.getValue().getMapping()))
                 .collect(Collectors.joining(", "));
 
-        if (errorMapping != null && !errorMapping.isEmpty()) {
+        if (!errorMapping.isEmpty())
             throw new IllegalArgumentException("Not valid mapping: " + errorMapping);
-        }
     }
 }

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <fields>
+        <field id="f1" domain="integer" mapping="test" required="true"/>
+        <reference id="entity" object-id="entity" mapping="test2" required="false"/>
+        <list id="list" required="true" mapping="test3">
+            <field id="id" mapping="pk" required="true"/>
+        </list>
+        <set id="set" required="false" mapping="test4" object-id="set">
+            <field id="name" mapping="name2"/>
+        </set>
+    </fields>
+
+    <operations>
+        <operation id="op1">
+            <invocation/>
+            <in>
+                <field id="f1" domain="string" mapping="f1" required="false"/>
+                <field id="f2" domain="string" mapping="f2" required="false"/>
+                <reference id="entity" object-id="entity2" mapping="entity2">
+                    <field id="id" mapping="code"/>
+                    <field id="name" mapping="title"/>
+                </reference>
+                <list id="list" required="false" mapping="list">
+                    <field id="id" mapping="id2" required="false"/>
+                </list>
+                <set id="set" required="true" mapping="set">
+                    <field id="name" mapping="title" domain="string"/>
+                </set>
+            </in>
+        </operation>
+        <operation id="op2">
+            <invocation/>
+            <in>
+                <reference id="entity"/>
+                <list id="list"/>
+                <set id="set"/>
+            </in>
+        </operation>
+    </operations>
+</object>

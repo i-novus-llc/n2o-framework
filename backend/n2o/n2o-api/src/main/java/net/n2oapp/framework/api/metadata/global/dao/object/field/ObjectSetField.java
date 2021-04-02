@@ -1,12 +1,14 @@
 package net.n2oapp.framework.api.metadata.global.dao.object.field;
 
-import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
+import lombok.NoArgsConstructor;
 
 /**
  * Исходная модель поля-множества.
  */
+@NoArgsConstructor
 public class ObjectSetField extends ObjectReferenceField {
-    public ObjectSetField() {
-        setPluralityType(PluralityType.set);
+
+    public ObjectSetField(ObjectSetField field) {
+        super(field);
     }
 }

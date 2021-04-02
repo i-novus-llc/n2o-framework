@@ -1,7 +1,5 @@
 package net.n2oapp.framework.engine.data.action;
 
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oJavaMethod;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MethodInvoker;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 /**
  * Выполнение java метода. Старая реализация, оставлена для поддержки обратной совместимости
@@ -43,11 +40,6 @@ public class JavaMethodInvocationEngine implements ArgumentsInvocationEngine<N2o
             } else
                 throw e;
         }
-    }
-
-
-    protected Object[] mapping(DataSet dataSet, Map<String, String> inMapping, String[] arguments) {
-        return DataSetMapper.map(dataSet, inMapping, arguments);
     }
 
     @Override
