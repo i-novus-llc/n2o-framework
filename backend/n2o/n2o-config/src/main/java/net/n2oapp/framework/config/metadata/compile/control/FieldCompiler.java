@@ -44,7 +44,6 @@ import java.util.function.Supplier;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -180,11 +179,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                                                                   CompileContext<?, ?> context, CompileProcessor p) {
         N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(field.getPreFilters(), field.getQueryId(), p);
         dataProvider.setSize(field.getSize());
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        if (modelsScope != null) {
-            dataProvider.setTargetModel(modelsScope.getModel());
-            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
-        }
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 

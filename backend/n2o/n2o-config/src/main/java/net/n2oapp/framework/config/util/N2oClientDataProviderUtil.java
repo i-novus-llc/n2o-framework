@@ -38,11 +38,15 @@ public class N2oClientDataProviderUtil {
     public static N2oClientDataProvider initFromField(N2oPreFilter[] preFilters, String queryId, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(queryId);
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
         p.addRoute(prepareQueryContextForRouteRegister(query));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
+        if (modelsScope != null) {
+            dataProvider.setTargetModel(modelsScope.getModel());
+            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
+            queryContext.setFailAlertWidgetId(modelsScope.getWidgetId());
+        }
         dataProvider.setUrl(query.getRoute());
 
         if (preFilters != null) {

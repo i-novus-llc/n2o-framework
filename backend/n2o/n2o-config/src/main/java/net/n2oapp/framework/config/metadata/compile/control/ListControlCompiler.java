@@ -129,11 +129,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     private void initDataProvider(T listControl, N2oListField source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(source.getPreFilters(), source.getQueryId(), p);
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        if (modelsScope != null) {
-            dataProvider.setTargetModel(modelsScope.getModel());
-            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
-        }
         source.addDependencies(FieldCompileUtil.getResetOnChangeDependency(source));
 
         QueryContext queryContext = new QueryContext(source.getQueryId());
