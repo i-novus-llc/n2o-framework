@@ -37,7 +37,7 @@ http://localhost:8080/#/[route]
   <page id="homePage" route="/home">
 </nav>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/header[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_header/[Пример]
 ```
 http://localhost:8080/#/home
 ```
@@ -52,7 +52,7 @@ http://localhost:8080/#/home
   ...
 </nav>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/header[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_header/[Пример]
 ```
 http://localhost:8080/#/
 ```
@@ -69,7 +69,7 @@ http://localhost:8080/#/
   </table>
 <simple-page>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/widget[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_widget/[Пример]
 ```
 http://localhost:8080/#/list
 ```
@@ -93,7 +93,7 @@ http://localhost:8080/#/list
   ...<!-- detail виджет -->
 </table>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/widget_master_detail[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_widget_master_detail/[Пример]
 ```
 http://localhost:8080/#/person/123/docs
 ```
@@ -116,7 +116,7 @@ http://localhost:8080/#/person/123/docs
 </table>
 ----
 
-link:https://n2oapp.net/sandbox/new/manual/routing/widget_master_param[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_widget_master_param/[Пример]
 
 Если `master-param` не задан, имя параметра пути сгенерируется автоматически.
 
@@ -127,7 +127,7 @@ link:https://n2oapp.net/sandbox/new/manual/routing/widget_master_param[Прим�
 ----
 <open-page page-id="childPage" route="/child"/>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/page[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_page/[Пример]
 ```
 http://localhost:8080/#/parent/child
 ```
@@ -230,7 +230,7 @@ http://localhost:8080/#/persons?main_name=Joe
   ...
 </query>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/query[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_query/[Пример]
 ```
 http://localhost:8080/n2o/data/persons
 ```
@@ -245,7 +245,7 @@ http://localhost:8080/n2o/data/persons
   ...
 </field>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/query[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_query/[Пример]
 ```
 http://localhost:8080/n2o/data/persons?name_like=Joe
 ```
@@ -258,7 +258,7 @@ http://localhost:8080/n2o/data/persons?name_like=Joe
   ...
 </field>
 ----
-link:https://n2oapp.net/sandbox/new/manual/routing/query[Пример]
+link:https://n2oapp.net/sandbox/editor/manual_routing_query/[Пример]
 ```
 http://localhost:8080/n2o/data/persons?sorting_name=asc
 ```
