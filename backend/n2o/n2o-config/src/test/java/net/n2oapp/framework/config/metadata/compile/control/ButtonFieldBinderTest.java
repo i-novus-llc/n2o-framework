@@ -43,10 +43,10 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
     public void testField() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.widget.xml");
         Form form = (Form) pipeline.get(new WidgetContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
-        ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getUrl(), Matchers.is("/test2/:param1/2?param3=:param3"));
         assertThat(field.getPathMapping().size(), Matchers.is(2));
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         assertThat(((ShowModal)field.getAction()).getPayload().getPageUrl(), Matchers.is("/test2/:param1/1?param3=:param3"));
         assertThat(((ShowModal)field.getAction()).getPayload().getPathMapping().size(), Matchers.is(1));
     }
