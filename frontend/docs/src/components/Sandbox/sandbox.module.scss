@@ -1,0 +1,30 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--ifm-leading);
+}
+
+.headerList {
+    .headerListItem {
+        margin-top: 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+.iframe {
+    display: none;
+    flex: 1 1 auto;
+    border: 1px solid var(--ifm-toc-border-color);
+}
+
+.fileView {
+    flex: 1 1 auto;
+}
+
+.active {
+    display: block;
+}
