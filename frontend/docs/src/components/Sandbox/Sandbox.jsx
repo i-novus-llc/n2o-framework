@@ -15,7 +15,7 @@ function SandboxBody({ projectId }) {
     const [activeFileName, setActiveFileName] = useState('')
 
     useEffect(() => {
-        fetch(`${CONFIG.sandboxHost}/sandbox/api/project/${projectId}/`)
+        fetch(`${CONFIG.sandboxHost}/api/project/${projectId}/`)
             .then((response) => {
                 if (response.ok) {
                     return response.json()

@@ -264,6 +264,15 @@
             </modules>
         </profile>
         <profile>
+            <id>docusaurus</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>frontend/docs</module>
+            </modules>
+        </profile>
+        <profile>
             <id>release</id>
             <activation>
                 <property>
