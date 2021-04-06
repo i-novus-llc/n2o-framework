@@ -16,7 +16,7 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <sandboxHost>https://n2oapp.net</sandboxHost>
+        <sandboxHost>https://n2oapp.net/sandbox</sandboxHost>
     </properties>
 
 
