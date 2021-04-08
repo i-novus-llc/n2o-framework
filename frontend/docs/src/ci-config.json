@@ -1,4 +1,5 @@
 {
   "sandboxHost": "https://n2oapp.net/sandbox",
-  "url": "https://n2o.i-novus.ru/docs"
+  "url": "https://n2o.i-novus.ru/docs",
+  "baseUrl": "./"
 }
