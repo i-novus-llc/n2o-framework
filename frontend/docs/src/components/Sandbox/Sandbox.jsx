@@ -74,7 +74,7 @@ function SandboxBody({ projectId }) {
                 </ul>
             </div>
             <iframe className={classnames(style.iframe, { [style.active]: activeFileName === '' })}
-                    src={`${CONFIG.sandboxHost}${projectData.viewUrl}`}/>
+                    src={`${CONFIG.sandboxHost}/view/${projectData.id}/`}/>
             {
                 activeFile
                     ? (
