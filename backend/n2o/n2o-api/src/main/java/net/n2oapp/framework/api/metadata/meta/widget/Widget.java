@@ -70,4 +70,8 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
         return filters.stream().filter(f -> f.getFilterId().equals(filterId)).findFirst()
                 .orElseThrow(() -> new N2oException("Filter " + filterId + " not found"));
     }
+
+    public boolean containsFilter(String filterId) {
+        return filters != null && filters.stream().anyMatch(f -> f.getFilterId().equals(filterId));
+    }
 }
