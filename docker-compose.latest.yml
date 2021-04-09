@@ -12,3 +12,6 @@ services:
   storybook:
     ports:
       - "8712:80"
+  docusaurus:
+    ports:
+      - "8713:80"
