@@ -2,12 +2,23 @@ const CONFIG = require('./src/ci-config.json')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
+
+    /* Обязательные поля */
+
+    // Текст вкладки браузера и h1 на дефолтной главной странице (useDocusaurusContext().siteConfig.title)
     title: CONFIG.title || 'N2O',
-    //tagline: 'The tagline of my site',
-    url: CONFIG.url,
+    // Хост вашего сайта без пути и слеша в конце. Ваще ХЗ на кой оно нужно и на что влияет. Скорее что-то для SEO.
+    url: CONFIG.url || 'https://n2o.i-novus.ru',
+    // Путь, по которому нужно открывать документацию (аналог contextPath), н.р. /docusaurus/
+    // Требуется для корректных ссылок на статику
     baseUrl: CONFIG.baseUrl || '/',
+
+    /* Опциональные поля */
+
+    //tagline: 'The tagline of my site',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
+    // Ссылка относительно папки static. Можно указать http адрес
     favicon: 'img/favicon.ico',
     organizationName: CONFIG.organizationName || 'Ай-Новус',
     projectName: 'Документация N2O',

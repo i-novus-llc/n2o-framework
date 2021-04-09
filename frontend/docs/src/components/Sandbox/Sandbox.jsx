@@ -15,7 +15,7 @@ function SandboxBody({ projectId }) {
     const [activeFileName, setActiveFileName] = useState('')
 
     useEffect(() => {
-        fetch(`${CONFIG.sandboxHost}/api/project/${projectId}/`)
+        fetch(`${CONFIG.sandboxUrl}/api/project/${projectId}/`)
             .then((response) => {
                 if (response.ok) {
                     return response.json()
@@ -74,7 +74,7 @@ function SandboxBody({ projectId }) {
                 </ul>
             </div>
             <iframe className={classnames(style.iframe, { [style.active]: activeFileName === '' })}
-                    src={`${CONFIG.sandboxHost}/view/${projectData.id}/`}/>
+                    src={`${CONFIG.sandboxUrl}/view/${projectData.id}/`}/>
             {
                 activeFile
                     ? (

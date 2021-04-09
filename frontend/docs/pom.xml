@@ -16,7 +16,7 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <sandboxHost>https://n2oapp.net/sandbox</sandboxHost>
+        <sandboxUrl>https://n2oapp.net/sandbox</sandboxUrl>
     </properties>
 
 
@@ -35,7 +35,7 @@
                         <configuration>
                             <target>
                                 <echo file="${basedir}/src/ci-config.json">
-                                    {"sandboxHost": "${sandboxHost}", "url": "https://n2o.i-novus.ru/docs"}
+                                    {"sandboxUrl": "${sandboxUrl}","url": "https://n2o.i-novus.ru","baseUrl": "/docusaurus/"}
                                 </echo>
                             </target>
                         </configuration>
