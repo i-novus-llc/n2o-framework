@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import set from 'lodash/set';
 import unset from 'lodash/unset';
+import { isEmpty } from "lodash";
 
 import { PREFIXES } from '../../../constants/models';
 import { callActionImpl } from '../../../actions/toolbar';
@@ -68,12 +69,15 @@ export default function(WrappedComponent) {
     };
 
     const resolveWidget = data => {
-      onResolveWidget(widgetId, data);
+      return onResolveWidget(widgetId, data);
     };
 
     const callAction = data => {
-      const action = Object.assign({}, defaultAction);
-      resolveWidget(data);
+      const resolvedAction = resolveWidget(data);
+      const action = isEmpty(defaultAction) ? resolvedAction: Object.assign(
+        {},
+        defaultAction,
+      );
       set(action, 'payload.data', data);
       unset(action, 'payload.modelLink');
 

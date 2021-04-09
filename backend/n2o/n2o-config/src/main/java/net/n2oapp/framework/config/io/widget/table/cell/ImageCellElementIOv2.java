@@ -20,7 +20,6 @@ public class ImageCellElementIOv2 extends AbstractCellElementIOv2<N2oImageCell> 
     @Override
     public void io(Element e, N2oImageCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
         p.attributeInteger(e, "width", c::getWidth, c::setWidth);
         p.attributeEnum(e, "shape", c::getShape, c::setShape, ImageShape.class);
