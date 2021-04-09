@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -27,14 +28,24 @@ public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oIma
         build(cell, source, context, p, property("n2o.api.cell.image.src"));
         cell.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.cell.image.shape"), ImageShape.class)));
         cell.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.cell.image.width"), Integer.class)));
-        cell.setUrl(p.resolveJS(source.getUrl()));
+
+        compileAction(cell, source, context, p);
+        if (cell.getCompiledAction() != null && cell.getCompiledAction() instanceof LinkAction) {
+            LinkAction linkAction = ((LinkAction) cell.getCompiledAction());
+            cell.setActionId(null);
+            cell.setUrl(linkAction.getUrl());
+            cell.setTarget(linkAction.getTarget());
+            cell.setPathMapping(linkAction.getPathMapping());
+            cell.setQueryMapping(linkAction.getQueryMapping());
+        }
+
         cell.setTitle(p.resolveJS(source.getTitle()));
         cell.setDescription(p.resolveJS(source.getDescription()));
         cell.setData(p.resolveJS(source.getData()));
         cell.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.cell.image.text_position"), N2oImageCell.Position.class)));
         cell.setStatuses(compileStatuses(source.getStatuses(), p));
-        compileAction(cell, source, context, p);
+
         return cell;
     }
 

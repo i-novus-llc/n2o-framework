@@ -258,11 +258,6 @@ link:#_Действия[Обработчик действия]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|url
-|URL
-|URL изображения
-|Берется из значения `text-field-id` в родительском элементе
-
 |class
 |https://getbootstrap.com/docs/4.0/content/images/[CSS class]
 |Стиль обрамления
@@ -307,7 +302,6 @@ link:#_Действия[Обработчик действия]
 [source,xml]
 ----
 <image
-  url="images/user.png"
   width="32"
   class="img-thumbnail">
     <statuses>
