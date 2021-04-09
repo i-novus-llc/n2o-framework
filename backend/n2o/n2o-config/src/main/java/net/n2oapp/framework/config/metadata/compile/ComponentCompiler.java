@@ -11,10 +11,10 @@ import net.n2oapp.framework.config.util.StylesResolver;
 /**
  * Сборка компонента
  */
-public abstract class ComponentCompiler<D extends Component, S extends N2oComponent>
-        implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
+public abstract class ComponentCompiler<D extends Component, S extends N2oComponent, C extends CompileContext<?, ?>>
+        implements BaseSourceCompiler<D, S, C> {
 
-    protected void compileComponent(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileComponent(D compiled, S source, C context, CompileProcessor p) {
         if (getSrcProperty() == null) {
             compiled.setSrc(source.getSrc());
         } else {

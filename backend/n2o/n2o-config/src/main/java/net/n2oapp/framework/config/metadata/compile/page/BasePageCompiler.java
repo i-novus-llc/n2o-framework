@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -62,6 +63,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setProperties(p.mapAttributes(source));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
+        page.setClassName(source.getCssClass());
+        page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Models models = new Models();
         page.setModels(models);
         //init base route
