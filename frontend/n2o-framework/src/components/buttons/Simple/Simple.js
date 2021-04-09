@@ -41,7 +41,7 @@ const SimpleButton = ({
     >
       {icon && <Icon name={icon} />}
       {children || label}
-      {count && <Badge color="secondary">{count}</Badge>}
+      {count ? <Badge color="secondary">{count}</Badge> : ''}
     </Button>
   ) : null;
 
