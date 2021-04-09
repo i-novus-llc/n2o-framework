@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Префильтры в AutoComplete">
+    <form>
+        <fields>
+            <select id="type">
+                <default-value id="1" name="type1"/>
+                <options>
+                    <option id="1" name="type1"/>
+                    <option id="2" name="type2"/>
+                </options>
+            </select>
+            <auto-complete id="auto" query-id="test"
+                           value-field-id="name" search-filter-id="name">
+                <pre-filters>
+                    <eq field-id="type" value="{type.name}"/>
+                </pre-filters>
+            </auto-complete>
+        </fields>
+    </form>
+</simple-page>
