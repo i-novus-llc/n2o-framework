@@ -159,8 +159,9 @@ export function* copyAction({ payload }) {
         : sourceModel;
     }
   }
-  yield put(setModel(target.prefix, target.key, newModel));
+
   yield put(change(target.key, target.field, newModel[path]));
+  yield put(setModel(target.prefix, target.key, newModel));
 }
 
 export const formPluginSagas = [

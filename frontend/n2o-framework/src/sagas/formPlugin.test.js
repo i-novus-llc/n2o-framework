@@ -96,7 +96,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -135,7 +135,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -175,7 +175,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -223,7 +223,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -266,7 +266,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -308,7 +308,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -345,7 +345,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -384,7 +384,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -431,7 +431,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
