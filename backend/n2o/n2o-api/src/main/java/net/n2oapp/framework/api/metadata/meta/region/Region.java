@@ -6,7 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.SrcAware;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class Region  extends Component implements Compiled, SrcAware, IdAware, JsonPropertiesAware {
+public abstract class Region extends Component implements SrcAware, IdAware {
     @JsonProperty
     private String id;
     @JsonProperty

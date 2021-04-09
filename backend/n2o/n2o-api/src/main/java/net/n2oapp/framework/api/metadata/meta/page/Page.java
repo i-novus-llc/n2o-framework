@@ -3,9 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
-import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -18,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Page extends Component implements Compiled, JsonPropertiesAware {
+public class Page extends Component {
     @JsonProperty
     private String id;
     @JsonProperty("page")
