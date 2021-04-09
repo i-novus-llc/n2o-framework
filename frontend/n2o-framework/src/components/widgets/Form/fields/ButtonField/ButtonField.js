@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import StandardButton from '../../../../buttons/StandardButton/StandardButton';
 
-function ButtonField({ className, visible, ...rest }) {
+function ButtonField({ className, style, visible, ...rest }) {
   return (
     visible && (
-      <div className={cn('n2o-button-field n2o-form-group', className)}>
+      <div
+        style={style}
+        className={classNames('n2o-button-field n2o-form-group', className)}
+      >
         <StandardButton {...rest} />
       </div>
     )
