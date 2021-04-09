@@ -3,7 +3,7 @@
     <columns>
         <column text-field-id="test">
             <image src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                   action-id="update" url="/test/" width="100" shape="rounded" title="testTitle" text-position="left"
+                   action-id="update" width="100" shape="rounded" title="testTitle" text-position="left"
                    data="testData" description="testDescription">
                 <action>
                     <close/>

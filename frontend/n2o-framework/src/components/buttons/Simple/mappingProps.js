@@ -15,5 +15,6 @@ export default function mappingProps(props) {
     className: props.className,
     showToggleIcon: props.showToggleIcon,
     toolbar: props.toolbar,
+    children: props.children
   };
 }
