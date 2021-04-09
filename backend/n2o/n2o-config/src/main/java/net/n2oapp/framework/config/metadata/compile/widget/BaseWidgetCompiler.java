@@ -420,6 +420,15 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchBarScope.getWidgetId());
             modelLink.setFieldValue(searchBarScope.getModelKey());
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
+
+            if (!widget.containsFilter(searchBarScope.getModelKey())) {
+                if (widget.getFilters() == null) widget.setFilters(new ArrayList<>());
+                Filter filter = new Filter();
+                filter.setFilterId(searchBarScope.getModelKey());
+                filter.setLink(modelLink);
+                filter.setRoutable(false);
+                widget.getFilters().add(filter);
+            }
         }
 
         p.addRoute(getQueryContext(widget, source, context, widgetRoute, validationList, subModelsScope, copiedFieldScope, object));
