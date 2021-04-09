@@ -151,6 +151,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         fieldSet = fieldSets.get(3);
         assertThat(fieldSet.getEnabled(), is("`x < 5`"));
         assertThat(fieldSet.getVisible(), is("`x > 1`"));
+        assertThat(fieldSet.getLabel(), is("`'Label '+master`"));
         ControlDependency dependency = fieldSet.getDependency()[0];
         assertThat(dependency.getOn(), is(Arrays.asList("a.b.c", "z.x.c")));
         assertThat(dependency.getType().toString(), is("reRender"));
