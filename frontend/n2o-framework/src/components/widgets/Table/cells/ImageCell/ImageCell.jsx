@@ -16,6 +16,24 @@ import withTooltip from '../../withTooltip';
 
 import ImageStatuses from './ImageStatuses';
 import imageShapes from './imageShapes';
+import withLinkAction from "../../../../buttons/StandardButton/withLinkAction";
+
+/**
+ * Обёртка для ХОКа withLinkAction
+ * Необходим т.к. текущая реализация логики открытия завязана на последовательность событий:
+ * 1) callAction из withCell, который кладёт данные модели в стор
+ * 2) onClick самого withLinkAction, который берёт из стора и формирует по ним ссылку для перехода
+ * и разделения параметров, необходимых для отображения картинки и открытия записи
+ * @property {object} props
+ * @property {string} props.url Шаблон адреса открываемой записи
+ * @property {object} props.pathMapping Объект подстановки данных в адрес
+ * @property {object} props.queryMapping Объект параметров запроса в адрес
+ * @property {'application' | '_blank'} [props.target] Тип открытия записи
+ * @property children
+ */
+export const LinkActionWrapper = withLinkAction(function Wrapper(props) {
+  return React.createElement('div', props);
+});
 
 /**
  * Ячейка таблицы с картинкой
@@ -48,6 +66,10 @@ function ImageCell(props) {
     width,
     height,
     data,
+    pathMapping,
+    queryMapping,
+    target,
+    url,
     statuses = [],
   } = props;
 
@@ -55,14 +77,14 @@ function ImageCell(props) {
     return action ? { cursor: 'pointer' } : null;
   };
 
-  const url = get(model, fieldKey);
+  const src = get(model, fieldKey);
   const isEmptyModel = isEmpty(model);
 
   const hasStatuses = !isEmpty(statuses);
   const hasInfo = title || description;
 
   const defaultImageProps = {
-    url: url,
+    url: src,
     data: data,
     title: title,
     description: description,
@@ -73,8 +95,15 @@ function ImageCell(props) {
     : propsResolver(defaultImageProps, model);
 
   return (
-    <span className="n2o-image-cell-container">
-      <div
+    <span
+      className="n2o-image-cell-container"
+      onClick={onClick}
+    >
+      <LinkActionWrapper
+        url={url}
+        pathMapping={pathMapping}
+        queryMapping={queryMapping}
+        target={target}
         className={classNames('n2o-image-cell', {
           'with-statuses': hasStatuses,
         })}
@@ -82,7 +111,6 @@ function ImageCell(props) {
         <Image
           id={id}
           visible={visible}
-          onClick={onClick}
           shape={shape}
           style={{ ...style, ...setCursor(action) }}
           className={className}
@@ -99,7 +127,7 @@ function ImageCell(props) {
             className="image-cell-statuses"
           />
         )}
-      </div>
+      </LinkActionWrapper>
       {hasInfo && <ImageInfo title={title} description={description} />}
     </span>
   );
