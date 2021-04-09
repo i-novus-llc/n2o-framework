@@ -25,6 +25,7 @@ const prepareValue = (rating, half) => {
   return Math.round(rating);
 };
 
+// TODO отказаться от rating  в параметрах в пользу value для единообразия со всеми полями ввода
 class SnippetRating extends Component {
   constructor(props) {
     super(props);
@@ -39,11 +40,12 @@ class SnippetRating extends Component {
     this.renderTooltip = this.renderTooltip.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.value !== prevState.value && nextProps.value) {
+  static getDerivedStateFromProps(props, state) {
+    const rating = props.rating || props.value;
+    if (rating !== state.rating) {
       return {
-        rating: nextProps.value,
-        value: prepareValue(nextProps.value, nextProps.half),
+        rating: rating,
+        value: prepareValue(rating, props.half),
       };
     }
   }
