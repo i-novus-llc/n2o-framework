@@ -2,7 +2,6 @@ import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import { removeMessage, addTouched, copyAction } from './formPlugin';
 import { touch } from 'redux-form';
-import { removeFieldMessage } from '../actions/formPlugin';
 
 const state = {
   models: {
@@ -35,27 +34,6 @@ const state = {
 };
 
 describe('Проверка саги formPlugin', () => {
-  it('Сообщение должно удалиться', () => {
-    const action = {
-      meta: {
-        form: {
-          form: 'test',
-        },
-        field: {
-          field: 'test',
-        },
-      },
-    };
-    const generator = removeMessage(action);
-    const removeFieldMessageAction = put(
-      removeFieldMessage(action.meta.form, action.meta.field)
-    );
-
-    generator.next();
-    expect(generator.next().value).toEqual(removeFieldMessageAction);
-    expect(generator.next().done).toEqual(true);
-  });
-
   it('Сообщение не должно удалиться', () => {
     const genEmptyObject = removeMessage({});
     expect(genEmptyObject.next().value).toEqual(undefined);
@@ -118,7 +96,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -157,7 +135,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -197,7 +175,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -245,7 +223,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -288,7 +266,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -330,7 +308,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -367,7 +345,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -406,7 +384,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
@@ -453,7 +431,7 @@ describe('Проверка саги formPlugin', () => {
         },
       });
 
-      expect(dispatched[0].payload).toEqual({
+      expect(dispatched[1].payload).toEqual({
         prefix: 'resolve',
         key: 'anotherWidget',
         model: {
