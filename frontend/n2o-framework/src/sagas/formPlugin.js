@@ -1,5 +1,5 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
-import { touch } from 'redux-form';
+import { touch, change } from 'redux-form';
 
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -12,7 +12,11 @@ import isArray from 'lodash/isArray';
 import isFunction from 'lodash/isFunction';
 
 import { addFieldMessage, removeFieldMessage } from '../actions/formPlugin';
-import { makeFieldByName, makeFormByName, messageSelector } from '../selectors/formPlugin';
+import {
+  makeFieldByName,
+  makeFormByName,
+  messageSelector,
+} from '../selectors/formPlugin';
 import { getWidgetFieldValidation } from '../selectors/widgets';
 import { setModel } from '../actions/models';
 import { SET_REQUIRED, UNSET_REQUIRED } from '../constants/formPlugin';
@@ -61,7 +65,12 @@ function* checkFieldValidation({ meta }) {
 
     if (isFunction(validationFunction)) {
       const values = makeFormByName(formName)(state).values;
-      const isValid = validationFunction(fieldName, values, validationOption, () => {});
+      const isValid = validationFunction(
+        fieldName,
+        values,
+        validationOption,
+        () => {}
+      );
 
       if (!isValid) {
         isValidResult = false;
@@ -150,6 +159,8 @@ export function* copyAction({ payload }) {
         : sourceModel;
     }
   }
+
+  yield put(change(target.key, target.field, newModel[path]));
   yield put(setModel(target.prefix, target.key, newModel));
 }
 
