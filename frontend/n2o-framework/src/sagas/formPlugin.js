@@ -1,5 +1,5 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
-import { touch } from 'redux-form';
+import { touch, change } from 'redux-form';
 
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -159,6 +159,8 @@ export function* copyAction({ payload }) {
         : sourceModel;
     }
   }
+
+  yield put(change(target.key, target.field, newModel[path]));
   yield put(setModel(target.prefix, target.key, newModel));
 }
 
