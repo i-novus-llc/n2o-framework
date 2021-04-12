@@ -23,7 +23,6 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -56,8 +55,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
-        page.setClassName(source.getCssClass());
-        page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Models models = new Models();
         page.setModels(models);
         WidgetScope widgetScope = new WidgetScope();
@@ -71,7 +68,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
         page.setRoutes(routes);
-        page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
+        compileComponent(page, source, context, p);
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
         if (objectId != null) {
@@ -117,7 +114,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.simple.src";
     }
 }

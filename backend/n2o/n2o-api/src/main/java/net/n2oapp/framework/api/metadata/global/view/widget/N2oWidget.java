@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.aware.CssClassAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oWidget extends N2oMetadata implements CssClassAware, ExtensionAttributesAware {
+public abstract class N2oWidget extends N2oMetadata implements SourceComponent, ExtensionAttributesAware {
     private String src;
     private String customize;
     private String name;

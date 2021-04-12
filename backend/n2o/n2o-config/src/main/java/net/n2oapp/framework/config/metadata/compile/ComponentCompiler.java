@@ -2,16 +2,17 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 /**
  * Сборка компонента
  */
-public abstract class ComponentCompiler<D extends Component, S extends N2oComponent, C extends CompileContext<?, ?>>
+public abstract class ComponentCompiler<D extends Component, S extends SourceComponent & ExtensionAttributesAware, C extends CompileContext<?, ?>>
         implements BaseSourceCompiler<D, S, C> {
 
     protected void compileComponent(D compiled, S source, C context, CompileProcessor p) {

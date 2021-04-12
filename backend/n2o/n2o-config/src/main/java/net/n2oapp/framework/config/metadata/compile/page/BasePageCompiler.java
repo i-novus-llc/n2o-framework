@@ -87,7 +87,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         initRegions(source, page, p, context, pageScope, pageRoutes, new PageWidgetsScope(compiledWidgets));
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
-        page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
+        compileComponent(page, source, context, p);
         page.setProperties(p.mapAttributes(source));
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))
             initToolbarGenerate(source, resultWidget == null ? null : resultWidget.getId());
