@@ -2,9 +2,9 @@ package net.n2oapp.framework.config.metadata.compile.dynamic;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oSqlQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
@@ -44,8 +44,9 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         N2oQuery query = new N2oQuery();
         query.setId(TEST_DYNAMIC + "?" +context);
         N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.Type.list);
-        N2oSqlQuery invocation = new N2oSqlQuery();
+        N2oSqlDataProvider invocation = new N2oSqlDataProvider();
         invocation.setQuery("test select");
+
         selection.setInvocation(invocation);
         query.setLists(new N2oQuery.Selection[]{selection});
         query.setFields(new N2oQuery.Field[]{new N2oQuery.Field("id")});

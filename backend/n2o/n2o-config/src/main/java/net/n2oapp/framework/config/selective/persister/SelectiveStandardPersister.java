@@ -18,7 +18,6 @@ import net.n2oapp.framework.config.persister.control.*;
 import net.n2oapp.framework.config.persister.event.*;
 import net.n2oapp.framework.config.persister.invocation.N2oJavaInvocationPersister;
 import net.n2oapp.framework.config.persister.invocation.N2oRestInvocationPersister;
-import net.n2oapp.framework.config.persister.invocation.N2oSqlInvocationPersister;
 
 /**
  * Сохранение в xml-файл для тестов
@@ -98,8 +97,7 @@ public class SelectiveStandardPersister extends SelectivePersister {
     public SelectiveStandardPersister addInvocationObjectPersister() {
         return addObjectPersister()
                 .addPersister(new N2oJavaInvocationPersister())
-                .addPersister(new N2oRestInvocationPersister())
-                .addPersister(new N2oSqlInvocationPersister());
+                .addPersister(new N2oRestInvocationPersister());
     }
 
     public SelectiveStandardPersister addQueryPersister() {
