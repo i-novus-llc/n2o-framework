@@ -20,6 +20,8 @@ import propsResolver from '../../../utils/propsResolver';
 import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
 
+import Label from '../Form/fields/StandardField/Label';
+
 import FieldsetRow from './FieldsetRow';
 
 const config = {
@@ -244,7 +246,12 @@ class Fieldset extends React.Component {
 
     return (
       <div className={classes} style={style}>
-        {needLabel && <h4 className="n2o-fieldset__label">{label}</h4>}
+        {needLabel && (
+          <Label
+            className="n2o-fieldset__label"
+            value={propsResolver(label, this.props.activeModel)}
+          />
+        )}
         <ElementType
           childrenLabel={childrenLabel}
           enabled={enabled}
