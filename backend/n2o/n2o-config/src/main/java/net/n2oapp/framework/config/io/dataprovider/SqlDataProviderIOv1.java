@@ -20,9 +20,12 @@ public class SqlDataProviderIOv1 implements NamespaceIO<N2oSqlDataProvider>, Dat
 
     @Override
     public void io(Element e, N2oSqlDataProvider m, IOProcessor p) {
-        p.attribute(e, "data-source", m::getDataSource, m::setDataSource);
         p.attribute(e, "file", m::getFilePath, m::setFilePath);
         p.attribute(e, "row-mapper", m::getRowMapper, m::setRowMapper);
+        p.attribute(e, "connection-url", m::getConnectionUrl, m::setConnectionUrl);
+        p.attribute(e, "user", m::getUser, m::setUser);
+        p.attribute(e, "password", m::getPassword, m::setPassword);
+        p.attribute(e, "driver", m::getJdbcDriver, m::setJdbcDriver);
         p.text(e, m::getQuery, m::setQuery);
     }
 }

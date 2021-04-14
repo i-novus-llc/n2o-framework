@@ -13,11 +13,6 @@
         <xs:annotation>
             <xs:documentation>Вызов SQL запросов</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="data-source" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Jndi имя jdbc источника данных</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="file" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Путь к файлу .sql в ресурсах проекта</xs:documentation>
@@ -26,6 +21,26 @@
         <xs:attribute name="row-mapper" type="rowMapperEnum">
             <xs:annotation>
                 <xs:documentation>Способ получения значений из jdbc в запросах sql</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="connection-url" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL подключения к бд</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="user" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Имя пользователя</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Пароль</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="driver" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>JDBC драйвер</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
