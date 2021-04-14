@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.io.dataprovider.*;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
+import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.persister.control.*;
 import net.n2oapp.framework.config.persister.event.*;
@@ -91,7 +91,7 @@ public class SelectiveStandardPersister extends SelectivePersister {
     }
 
     public SelectiveStandardPersister addObjectPersister() {
-        return addPersister(new ObjectElementIOv2()).addPersister(new ObjectElementIOv3());
+        return addPersister(new ObjectElementIOv4()).addPersister(new ObjectElementIOv3());
     }
 
     public SelectiveStandardPersister addInvocationObjectPersister() {

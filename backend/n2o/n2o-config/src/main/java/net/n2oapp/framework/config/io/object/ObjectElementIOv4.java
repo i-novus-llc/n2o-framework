@@ -56,6 +56,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "fail-text", t::getFailText, t::setFailText);
         p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
         p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add("field", ObjectSimpleField.class, this::inField)

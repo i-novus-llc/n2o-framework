@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0">
-    <actions>
-        <action id="create">
-        </action>
-        <action id="update">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+        </operation>
+        <operation id="update">
             <invocation/>
-        </action>
-    </actions>
+        </operation>
+    </operations>
 </object>
