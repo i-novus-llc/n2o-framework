@@ -5,6 +5,7 @@ import net.n2oapp.framework.boot.sql.rowmapper.IndexRowMapper;
 import net.n2oapp.framework.boot.sql.rowmapper.MapRowMapper;
 import net.n2oapp.framework.boot.sql.rowmapper.PostgresIndexRowMapper;
 import net.n2oapp.framework.boot.sql.rowmapper.PostgresMapRowMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,10 +19,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @AutoConfigureAfter(JdbcTemplateAutoConfiguration.class)
 public class N2oSqlAutoConfiguration {
 
+    @Value("${n2o.engine.sql.driverName:org.h2.Driver}")
+    private String defaultJdbcDriver;
+
     @Bean
     @ConditionalOnMissingBean
     public SqlDataProviderEngine sqlDataProviderEngine() {
-        return new SqlDataProviderEngine();
+        SqlDataProviderEngine sqlDataProviderEngine = new SqlDataProviderEngine();
+        sqlDataProviderEngine.setDefaultJdbcDriver(defaultJdbcDriver);
+        return sqlDataProviderEngine;
     }
 
     @Bean

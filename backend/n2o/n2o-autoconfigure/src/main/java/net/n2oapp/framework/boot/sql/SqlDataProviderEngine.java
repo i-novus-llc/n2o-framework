@@ -1,5 +1,7 @@
 package net.n2oapp.framework.boot.sql;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import net.n2oapp.engine.factory.EngineFactory;
 import net.n2oapp.engine.factory.TypicalEngine;
 import net.n2oapp.engine.factory.integration.spring.SpringEngineFactory;
@@ -39,6 +41,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         ApplicationContextAware, ResourceLoaderAware {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private String defaultJdbcDriver;
 
     private EngineFactory<String, RowMapper> rowMapperFactory;
     private ResourceLoader resourceLoader;
@@ -55,7 +58,10 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         query = replacePlaceholder(query, ":limit", args.remove("limit"), "10");
         query = replacePlaceholder(query, ":offset", args.remove("offset"), "0");
         query = replacePlaceholder(query, ":count", args.remove("count"), "-1");
-        return executeQuery(args, query, rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")));
+        if (invocation.getConnectionUrl() == null)
+            return executeQuery(args, query, rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")));
+        return executeQueryByNewConnection(args, query,
+                rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), invocation);
     }
 
     private String replaceSortDirection(String sortCause, Map<String, Object> data) {
@@ -94,10 +100,25 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         }
     }
 
+    private Object executeQueryByNewConnection(Map<String, Object> args, String query, RowMapper<?> mapper, N2oSqlDataProvider invocation) {
+        QueryBlank queryBlank = NamedParameterUtils.prepareQuery(query, args);
+        query = queryBlank.getQuery();
+        args = queryBlank.getArgs();
+        NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
+        if (isSelect(query)) {
+            return jdbcTemplate.query(query, args, mapper);
+        } else {
+            MapSqlParameterSource paramSource = new MapSqlParameterSource(args);
+            GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(query, paramSource, generatedKeyHolder);
+            return getResult(generatedKeyHolder);
+        }
+    }
+
     private Object getResult(GeneratedKeyHolder generatedKeyHolder) {
         List<Map<String, Object>> keyList = generatedKeyHolder.getKeyList();
         if (keyList != null) {
-            if (keyList.size() > 1)  {
+            if (keyList.size() > 1) {
                 List<Object> rows = new ArrayList<>(keyList.size());
                 for (Map<String, Object> row : keyList) {
                     rows.add(row.values().toArray());
@@ -129,7 +150,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             @Override
             public String getType(RowMapper engine) {
                 if (engine instanceof TypicalEngine)
-                    return ((TypicalEngine<String>)engine).getType();
+                    return ((TypicalEngine<String>) engine).getType();
                 else
                     return engine.getClass().getSimpleName();
             }
@@ -143,5 +164,18 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    public void setDefaultJdbcDriver(String defaultJdbcDriver) {
+        this.defaultJdbcDriver = defaultJdbcDriver;
+    }
+
+    private NamedParameterJdbcTemplate createJdbcTemplate(N2oSqlDataProvider invocation) {
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName(invocation.getJdbcDriver() == null ? defaultJdbcDriver : invocation.getJdbcDriver());
+        config.setJdbcUrl(invocation.getConnectionUrl());
+        config.setUsername(invocation.getUser());
+        config.setPassword(invocation.getPassword());
+        return new NamedParameterJdbcTemplate(new HikariDataSource(config));
     }
 }

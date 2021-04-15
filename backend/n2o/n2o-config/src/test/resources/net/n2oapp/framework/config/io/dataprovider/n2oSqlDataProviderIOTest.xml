@@ -1,5 +1,5 @@
 <sql xmlns="http://n2oapp.net/framework/config/schema/data-provider-1.0"
-     file="/dir/test.json" data-source="jdbc/test" row-mapper="index" connection-url="connectionUrl" driver="driver"
+     file="/dir/test.json" row-mapper="index" connection-url="connectionUrl" driver="driver"
 user="user" password="pass">
     INSERT INTO cars (id, name, price) VALUES (null, :name, :price);
 </sql>
