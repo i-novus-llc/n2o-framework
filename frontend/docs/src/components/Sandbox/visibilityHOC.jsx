@@ -30,17 +30,12 @@ export function visibilityHOC(Component) {
         }, [visible, inView])
 
         return (
-            <div
-                ref={ref}
-                style={{ height: finalHeight }}
-                className={style.wrapper}
-            >
+            <div ref={ref} className={style.wrapper} style={{ minHeight: finalHeight }}>
                 {
                     visible
                         ? <Component key={projectId} {...props} height={finalHeight}/>
                         : <Spinner/>
                 }
-
             </div>
         )
     }
