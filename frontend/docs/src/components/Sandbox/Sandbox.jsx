@@ -1,5 +1,4 @@
-import React, { memo, useState, useEffect } from 'react'
-import classnames from 'classnames'
+import React, { memo, useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import CONFIG from '../../ci-config.json'
@@ -7,12 +6,24 @@ import { Spinner } from '../Spinner/Spinner'
 import { Admonition } from '../Admonition/Admonition'
 
 import { visibilityHOC } from './visibilityHOC'
+import { CodeWrapper } from './CodeWrapper'
 import style from './sandbox.module.scss'
 
-function SandboxBody({ projectId }) {
+function SandboxBody({ projectId, height }) {
     const [loadError, setLoadError] = useState(null)
     const [projectData, setProjectData] = useState(null)
-    const [activeFileName, setActiveFileName] = useState('')
+
+    const filesMap = useMemo(() => {
+        const filesMap = {}
+
+        if (projectData) {
+            projectData.files.forEach(({ file, source }) => {
+                filesMap[file] = source
+            })
+        }
+
+        return filesMap
+    }, [projectData])
 
     useEffect(() => {
         fetch(`${CONFIG.sandboxUrl}/api/project/${projectId}/`)
@@ -41,49 +52,15 @@ function SandboxBody({ projectId }) {
         return <Spinner/>
     }
 
-    const activeFile = projectData.files.filter(({ file }) => file === activeFileName)[0]
-
     return (
         <>
-            <div>
-                <ul className={classnames('tabs', style.headerList)}>
-                    <li
-                        className={classnames('tabs__item', style.headerListItem, { ['tabs__item--active']: activeFileName === '' })}
-                        onClick={() => {
-                            setActiveFileName('')
-                        }}
-                    >
-                        N2O
-                    </li>
-                    {
-                        projectData.files
-                            .map(({ file }) => file)
-                            .map(fileName => (
-                                <li
-                                    key={fileName}
-                                    className={classnames('tabs__item', style.headerListItem, { ['tabs__item--active']: activeFileName === fileName })}
-                                    onClick={() => {
-                                        setActiveFileName(fileName)
-                                    }}
-                                >
-                                    {fileName}
-                                </li>
-                            ))
-                    }
+            <iframe
+                style={{ height }}
+                className={style.iframe}
+                src={`${CONFIG.sandboxUrl}/view/${projectData.id}/`}
+            />
 
-                </ul>
-            </div>
-            <iframe className={classnames(style.iframe, { [style.active]: activeFileName === '' })}
-                    src={`${CONFIG.sandboxUrl}/view/${projectData.id}/`}/>
-            {
-                activeFile
-                    ? (
-                        <div className={style.fileView}>
-                            {activeFile.source}
-                        </div>
-                    )
-                    : null
-            }
+            <CodeWrapper projectId={projectId} filesMap={filesMap} />
         </>
     )
 }

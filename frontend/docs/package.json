@@ -25,6 +25,9 @@
     "react-dom": "^17.0.1",
     "react-intersection-observer": "^8.31.0"
   },
+  "peerDependencies": {
+    "prism-react-renderer": "*"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
