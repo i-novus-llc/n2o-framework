@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -27,7 +26,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -70,7 +68,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
         page.setRoutes(routes);
-        page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
+        compileComponent(page, source, context, p);
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
         if (objectId != null) {
@@ -116,7 +114,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.simple.src";
     }
 }

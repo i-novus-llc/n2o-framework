@@ -51,7 +51,7 @@ import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryCont
 /**
  * Абстрактная реализация компиляции поля ввода
  */
-public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S> {
+public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S, CompileContext<?, ?>> {
 
     @Override
     protected String getSrcProperty() {

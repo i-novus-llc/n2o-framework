@@ -75,7 +75,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.top_left_right.src";
     }
 }
