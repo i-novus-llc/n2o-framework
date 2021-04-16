@@ -20,6 +20,13 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>N2O Simple Project</title>
+    <!--
+      SERVICE_WORKER_PATH нужен тут, т.к. на бэке sandbox`а мы должны во время отдачи index.html
+      править пути к статике и прочему
+    -->
+    <script>
+      window.SERVICE_WORKER_PATH = '%PUBLIC_URL%/serviceWorker.js';
+    </script>
   </head>
   <body>
     <noscript>
