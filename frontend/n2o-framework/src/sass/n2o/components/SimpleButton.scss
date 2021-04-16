@@ -5,7 +5,6 @@
   min-height: 31px;
   border-radius: 50%;
   padding: 0;
-  margin: 0 5px 0 5px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -42,7 +41,6 @@
 .btn-rounded__with-content {
   height: 38px;
   min-height: 31px;
-  margin: 0 5px 0 5px !important;
   padding: 0 25px 0 25px;
   border-radius: 100px;
   text-align: center;
@@ -61,11 +59,6 @@
 .btn-rounded__with-content.btn-lg {
   height: 48px;
   min-height: 48px;
-}
-.btn-group {
-  >.btn-rounded {
-    margin: 0 5px 0 5px !important;
-  }
 }
 
 .btn-disabled {
