@@ -1,0 +1,127 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--ifm-leading);
+    min-height: 50px;
+}
+
+.iframe {
+    flex: 1 1 auto;
+    border: 1px solid var(--ifm-toc-border-color);
+}
+
+.codeWrapper {
+    position: relative;
+}
+
+.iframe:hover + .codeWrapper .codeWrapperToggler,
+.codeWrapper:hover .codeWrapperToggler {
+    opacity: 0.4;
+}
+
+.codeWrapperToggler {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    padding: 2px 4px 0 8px;
+    border-top-left-radius: 10px;
+    opacity: 0;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    transition: opacity 300ms;
+
+    html[data-theme="dark"] & {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .codeWrapper &:hover {
+        opacity: 1;
+    }
+}
+
+.headerList {
+    position: relative;
+    //overflow: hidden;
+
+    .headerListItem {
+        margin-top: 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        white-space: nowrap;
+    }
+}
+
+//.headerDropdownItem {
+//    position: relative;
+//    align-items: center;
+//    font-weight: var(--ifm-font-weight-semibold);
+//
+//    &.droppable:after {
+//        background: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem;
+//        margin-left: 0.5em;
+//        content: ' ';
+//        display: block;
+//        filter: var(--ifm-menu-link-sublist-icon-filter);
+//        height: 1.25rem;
+//        transform: rotate(180deg);
+//        width: 1.25rem;
+//        transition: transform var(--ifm-transition-fast) linear;
+//    }
+//
+//    & .dropdownList {
+//        position: absolute;
+//        display: flex;
+//        flex-direction: column;
+//        top: 100%;
+//        right: 0;
+//        background: #F2F2F2;
+//        visibility: hidden;
+//        height: 0;
+//        overflow: hidden;
+//        padding: 0;
+//        border-radius: 0 0 var(--ifm-global-radius) var(--ifm-global-radius);;
+//    }
+//
+//    .dropdownListListItem {
+//        padding: 4px var(--ifm-tabs-padding-horizontal);
+//        font-weight: var(--ifm-font-weight-semibold);
+//        list-style: none;
+//        color: var(--ifm-tabs-color);
+//
+//        &:hover {
+//            background: var(--ifm-menu-color-background-active);
+//        }
+//
+//        &.dropdownListListItemActive {
+//            color: var(--ifm-tabs-color-active);
+//        }
+//    }
+//
+//    &.droppable:hover {
+//        &:after {
+//            transform: rotate(360deg);
+//        }
+//
+//        & .dropdownList {
+//            visibility: visible;
+//            height: auto;
+//            max-height: 300px;
+//            overflow: auto;
+//            transition: height var(--ifm-transition-fast) linear;
+//        }
+//    }
+//}
+
+.code {
+    height: 500px;
+    margin-bottom: 0;
+}
+
+//html[data-theme="dark"] {
+//    .dropdownList {
+//        background: #242526;
+//    }
+//}

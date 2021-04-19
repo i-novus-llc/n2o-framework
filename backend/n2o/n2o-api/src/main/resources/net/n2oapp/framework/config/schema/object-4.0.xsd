@@ -66,7 +66,7 @@
             </xs:element>
             <xs:element name="reference" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Поле, ссылающееся на другой объект.</xs:documentation>
+                    <xs:documentation>Составное поле.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="list" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0">
@@ -88,11 +88,6 @@
                 <xs:documentation>Идентификатор поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="name">
-            <xs:annotation>
-                <xs:documentation>Наименование поля.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="default-value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Значение по умолчанию.</xs:documentation>
@@ -108,11 +103,6 @@
                 <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapper" type="mapperDefinition">
-            <xs:annotation>
-                <xs:documentation>Способ маппинга в параметры провайдера.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="mapping" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
@@ -123,25 +113,28 @@
                 <xs:documentation>Обязательность поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="referenceDefinition">
         <xs:sequence>
             <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="list" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="set" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор ссылки (без .id).</xs:documentation>
+                <xs:documentation>Идентификатор ссылки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="object-id">
             <xs:annotation>
-                <xs:documentation>Объект, на который ссылается поле.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="name">
-            <xs:annotation>
-                <xs:documentation>Наименование ссылки (берется из атрибута `name` у объекта ссылки).</xs:documentation>
+                <xs:documentation>Объект, в котором представлено описание поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="entity-class" type="xs:string">
@@ -151,12 +144,17 @@
         </xs:attribute>
         <xs:attribute name="mapping" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг ссылки в сущность или провайдер данных.</xs:documentation>
+                <xs:documentation>Маппинг составного поля в параметр провайдера.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Обязательность поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -169,18 +167,6 @@
             <xs:element name="operation" type="operationDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-
-    <xs:simpleType name="mapperDefinition">
-        <xs:annotation>
-            <xs:documentation>Способ маппинга в параметры провайдера.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="dataset"/>
-            <xs:enumeration value="spel"/>
-            <xs:enumeration value="javascript"/>
-            <xs:enumeration value="groovy"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:complexType name="operationValidationListDefinition">
         <xs:annotation>
@@ -290,7 +276,10 @@
             <xs:documentation>Входящие параметры операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="field" type="operationInParameterField"/>
+            <xs:element name="field" type="operationInParameterField" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -314,13 +303,10 @@
 
     <xs:complexType name="operationInParameterField">
         <xs:annotation>
-            <xs:documentation>Входящий параметр операции.</xs:documentation>
+            <xs:documentation>Входящий простой параметр операции.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:annotation>
-                <xs:documentation>Входящий параметр операции.</xs:documentation>
-            </xs:annotation>
-            <xs:extension base="operationOutParameterField">
+            <xs:extension base="fieldDefinition">
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр содержащий url.</xs:documentation>
@@ -329,6 +315,26 @@
                 <xs:attribute name="validation-fail-key" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Код ошибки валидации с сервера.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="operationInParameterReference">
+        <xs:annotation>
+            <xs:documentation>Входящий составной параметр операции.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="referenceDefinition">
+                <xs:attribute name="enabled" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -359,11 +365,6 @@
                 <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapper" type="mapperDefinition">
-            <xs:annotation>
-                <xs:documentation>Способ маппинга в параметры провайдера.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="mapping" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
@@ -372,16 +373,6 @@
         <xs:attribute name="required" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation>Обязательность параметра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="enabled" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="entity-class" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Класс, которому соответствует параметр.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

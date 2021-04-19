@@ -5,6 +5,7 @@ import net.n2oapp.framework.boot.sql.SqlInvocationEngine;
 import net.n2oapp.framework.boot.sql.rowmapper.IndexRowMapper;
 import net.n2oapp.framework.boot.sql.rowmapper.MapRowMapper;
 import net.n2oapp.framework.boot.sql.rowmapper.PostgresIndexRowMapper;
+import net.n2oapp.framework.boot.sql.rowmapper.PostgresMapRowMapper;
 import net.n2oapp.routing.datasource.JndiRoutingDataSourceTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -48,5 +49,11 @@ public class N2oSqlAutoConfiguration {
     @ConditionalOnClass(name = "org.postgresql.util.PGobject")
     public PostgresIndexRowMapper postgresIndexRowMapper() {
         return new PostgresIndexRowMapper();
+    }
+
+    @Bean
+    @ConditionalOnClass(name = "org.postgresql.util.PGobject")
+    public PostgresMapRowMapper postgresMapRowMapper() {
+        return new PostgresMapRowMapper();
     }
 }

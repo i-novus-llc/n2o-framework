@@ -13,8 +13,6 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -31,7 +29,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -39,6 +36,7 @@ import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
+import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -46,7 +44,6 @@ import java.util.function.Supplier;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -178,49 +175,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return dependency;
     }
 
-    private ClientDataProvider compileFetchDependencyDataProvider(N2oField.FetchValueDependency field, CompileContext<?, ?> context, CompileProcessor p) {
-        QueryContext queryContext = new QueryContext(field.getQueryId());
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
-        CompiledQuery query = p.getCompiled(queryContext);
-        p.addRoute(prepareQueryContextForRouteRegister(query));
-
-        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        if (modelsScope != null) {
-            dataProvider.setTargetModel(modelsScope.getModel());
-            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
-        }
-        dataProvider.setUrl(query.getRoute());
+    private ClientDataProvider compileFetchDependencyDataProvider(N2oField.FetchValueDependency field,
+                                                                  CompileContext<?, ?> context, CompileProcessor p) {
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(field.getPreFilters(), field.getQueryId(), p);
         dataProvider.setSize(field.getSize());
-
-        N2oPreFilter[] preFilters = field.getPreFilters();
-        if (preFilters != null) {
-            N2oParam[] queryParams = new N2oParam[preFilters.length];
-            for (int i = 0; i < preFilters.length; i++) {
-                N2oPreFilter preFilter = preFilters[i];
-                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
-                N2oParam queryParam = new N2oParam();
-                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
-                if (preFilter.getParam() == null) {
-                    queryParam.setValueList(getPrefilterValue(preFilter));
-                    queryParam.setRefModel(preFilter.getRefModel());
-                    queryParam.setRefWidgetId(preFilter.getRefWidgetId());
-                } else {
-                    queryParam.setValueParam(preFilter.getParam());
-                }
-                queryParams[i] = queryParam;
-            }
-            dataProvider.setQueryParams(queryParams);
-        }
         return ClientDataProviderUtil.compile(dataProvider, context, p);
-    }
-
-    private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
-        if (n2oPreFilter.getValues() == null) {
-            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
-        } else {
-            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
-        }
     }
 
     protected void compileFilters(S source, CompileProcessor p) {

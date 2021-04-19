@@ -251,7 +251,7 @@ link:#_Действия[Обработчик действия]
 |Текущий виджет
 
 |model
-|resolve filter edit multi
+|resolve filter edit multi datasource
 |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.
 |resolve
 
@@ -445,7 +445,7 @@ link:#_Действия[Обработчик действия]
 |Текущий виджет
 
 |model
-|resolve filter edit multi
+|resolve filter edit multi datasource
 |Модель, над которой выполнится действие. Если модель пустая, то пункт меню будет заблокирован.
 |resolve
 

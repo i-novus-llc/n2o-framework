@@ -5,7 +5,7 @@
             <table id="test" route="/widget">
                 <toolbar>
                     <button id="id1">
-                        <a href="/test"/>
+                        <a href="/test" target="application"/>
                     </button>
                     <button id="id2">
                         <a href="test2/:param1/:param2?param3=:param3" target="application">

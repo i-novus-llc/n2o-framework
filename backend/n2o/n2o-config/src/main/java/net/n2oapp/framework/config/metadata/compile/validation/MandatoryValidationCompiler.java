@@ -24,7 +24,7 @@ public class MandatoryValidationCompiler extends BaseValidationCompiler<Mandator
     @Override
     public MandatoryValidation compile(N2oMandatory source, CompileContext<?, ?> context, CompileProcessor p) {
         MandatoryValidation validation = new MandatoryValidation();
-        compileValidation(validation, source, context, p);
+        compileValidation(validation, source);
         validation.setSeverity(source.getSeverity());
         validation.setEnablingExpression(ScriptProcessor.resolveFunction(p.cast(source.getExpression(), getContentByUri(source.getSrc()))));
         validation.setExpressionOn(source.getExpressionOn());

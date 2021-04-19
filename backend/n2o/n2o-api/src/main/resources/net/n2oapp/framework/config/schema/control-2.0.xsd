@@ -1136,6 +1136,7 @@
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
+                    <xs:element name="pre-filters" type="act:preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="query-id" type="xs:string">
                     <xs:annotation>
@@ -1867,6 +1868,7 @@
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
             <xs:enumeration value="selected"/>
+            <xs:enumeration value="datasource"/>
         </xs:restriction>
     </xs:simpleType>
 

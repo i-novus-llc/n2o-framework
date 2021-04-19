@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.dao.object;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
@@ -10,6 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
 import java.io.Serializable;
@@ -56,10 +56,12 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private String successText;
         private String failText;
         private String description;
+
         private N2oInvocation invocation;
-        private Parameter[] inParameters;
-        private Parameter[] outParameters;
-        private Parameter[] failOutParameters;
+        private AbstractParameter[] inFields;
+        private ObjectSimpleField[] outFields;
+        private ObjectSimpleField[] failOutFields;
+
         private Validations validations;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
@@ -78,44 +80,16 @@ public class N2oObject extends N2oMetadata implements NameAware {
         @Getter
         @Setter
         public static class Validations implements Serializable {
-            @Deprecated
-            private Activate activate;
             private String[] whiteList;
             private String[] blackList;
             private Validation[] refValidations;
             private N2oValidation[] inlineValidations;
-
-            public enum Activate {
-                nothing, all, whiteList, blackList
-            }
 
             @Getter
             @Setter
             public static class Validation implements Serializable {
                 private String refId;
             }
-        }
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class Parameter extends InvocationParameter {
-        private Parameter[] childParams;
-        private String param;
-        private String validationFailKey;
-
-        public Parameter(String name, String mapping) {
-            this.setMapping(mapping);
-            this.setId(name);
-        }
-
-        public Parameter(Parameter parameter) {
-            super(parameter);
-            setChildParams(parameter.getChildParams());
-            setNullIgnore(parameter.getNullIgnore());
-            setPluralityType(parameter.getPluralityType());
-            setParam(parameter.getParam());
         }
     }
 }

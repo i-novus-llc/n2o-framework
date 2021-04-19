@@ -303,11 +303,6 @@
                     <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
                     <xs:element name="action" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="url" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>URL изображения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина изображения (px).</xs:documentation>
