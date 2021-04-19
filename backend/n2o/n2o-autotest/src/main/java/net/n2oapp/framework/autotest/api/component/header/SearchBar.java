@@ -14,4 +14,6 @@ public interface SearchBar extends Component {
 
     SearchResult searchResult();
 
+    void clear();
+
 }

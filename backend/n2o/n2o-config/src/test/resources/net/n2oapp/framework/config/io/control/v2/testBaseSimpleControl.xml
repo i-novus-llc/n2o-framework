@@ -53,8 +53,8 @@
                 </sql>
             </invocation>
             <in>
-                <field id="dasdf" required="true" default-value="fdsf" domain="boolean" entity-class="fsdf"
-                       mapper="dataset" mapping="fsd" enabled="fsd" normalize="fsd"/>
+                <field id="dasdf" required="true" default-value="fdsf" domain="boolean"
+                       mapping="fsd" enabled="fsd" normalize="fsd"/>
             </in>
         </constraint>
         <condition id="testId2" field-id="fieldId" server-moment="after-success-query"

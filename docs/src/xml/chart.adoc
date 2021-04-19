@@ -75,7 +75,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Разделитель между названием и значением
 |
 
-|legend-width
+|legend-icon-type
 |line square rect circle cross diamond star triangle wye
 |Тип иконок элементов легенды
 |line

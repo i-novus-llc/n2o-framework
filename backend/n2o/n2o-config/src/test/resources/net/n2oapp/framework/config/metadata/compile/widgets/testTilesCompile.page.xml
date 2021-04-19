@@ -10,7 +10,7 @@
                     </block>
                     <block id="id2" text-field-id="test2" tooltip-field-id="tooltip"/>
                     <block text-field-id="test3">
-                        <image url="/test"/>
+                        <image data="/test"/>
                     </block>
                 </content>
                 <pagination src="pagingSrc" show-count="false" prev="true" next="true"

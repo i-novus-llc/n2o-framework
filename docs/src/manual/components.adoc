@@ -101,23 +101,23 @@ image::images/page_searchable.png[]
 
 |<simple-page>
 |SimplePage
-|link:https://n2oapp.net/sandbox/new/manual/page/simple[Страница с единственным виджетом]
+|link:https://n2oapp.net/sandbox/editor/manual_page_simple/[Страница с единственным виджетом]
 
 |<page>
 |StandardPage
-|link:https://n2oapp.net/sandbox/new/manual/page/standard[Страница с регионами]
+|link:https://n2oapp.net/sandbox/editor/manual_page_standard/[Страница с регионами]
 
 |<left-right-page>
 |LeftRightPage
-|link:https://n2oapp.net/sandbox/new/manual/page/left_right[Страница с разметкой регионов "слева и справа"]
+|link:https://n2oapp.net/sandbox/editor/manual_page_left_right/[Страница с разметкой регионов "слева и справа"]
 
 |<top-left-right-page>
 |TopLeftRightPage
-|link:https://n2oapp.net/sandbox/new/manual/page/top_left_right[Страница с разметкой регионов "сверху, слева и справа"]
+|link:https://n2oapp.net/sandbox/editor/manual_page_top_left_right/[Страница с разметкой регионов "сверху, слева и справа"]
 
 |<searchable-page>
 |SearchablePage
-|link:https://n2oapp.net/sandbox/new/manual/page/searchable[Страница с поисковой строкой]
+|link:https://n2oapp.net/sandbox/editor/manual_page_searchable/[Страница с поисковой строкой]
 
 |===
 
@@ -148,19 +148,19 @@ image::images/tabs.png[]
 
 |<region>
 |NoneRegion
-|link:https://n2oapp.net/sandbox/new/manual/regions/region[Виджеты без обрамления]
+|link:https://n2oapp.net/sandbox/editor/manual_regions_region/[Виджеты без обрамления]
 
 |<tabs>
 |TabsRegion
-|link:https://n2oapp.net/sandbox/new/manual/regions/tabs[Виджеты во вкладках]
+|link:https://n2oapp.net/sandbox/editor/manual_regions_tabs/[Виджеты во вкладках]
 
 |<panel>
 |PanelRegion
-|link:https://n2oapp.net/sandbox/new/manual/regions/panel[Виджеты в панелях]
+|link:https://n2oapp.net/sandbox/editor/manual_regions_panel/[Виджеты в панелях]
 
 |<line>
 |ListRegion
-|link:https://n2oapp.net/sandbox/new/manual/regions/line[Горизонтальная черта над виджетом]
+|link:https://n2oapp.net/sandbox/editor/manual_regions_line/[Горизонтальная черта над виджетом]
 
 |===
 
@@ -215,19 +215,19 @@ image::images/tabs.png[]
 
 |<form>
 |FormWidget
-|link:https://n2oapp.net/sandbox/new/manual/widget/form[Форма]
+|link:https://n2oapp.net/sandbox/editor/manual_widget_form/[Форма]
 
 |<table>
 |TableWidget
-|link:https://n2oapp.net/sandbox/new/manual/widget/table[Таблица]
+|link:https://n2oapp.net/sandbox/editor/manual_widget_table/[Таблица]
 
 |<list>
 |ListWidget
-|link:https://n2oapp.net/sandbox/new/manual/widget/list[Список]
+|link:https://n2oapp.net/sandbox/editor/manual_widget_list/[Список]
 
 |<tree>
 |TreeWidget
-|link:https://n2oapp.net/sandbox/new/manual/widget/tree[Дерево]
+|link:https://n2oapp.net/sandbox/editor/manual_widget_tree/[Дерево]
 
 |===
 
@@ -418,7 +418,7 @@ image::images/button-submenu.png[]
 
 |<button>
 |PerformButton
-|link:https://n2oapp.net/sandbox/new/manual/action/button[Кнопка с действием]
+|link:https://n2oapp.net/sandbox/editor/manual_action_button/[Кнопка с действием]
 
 |<link>
 |LinkButton
@@ -426,7 +426,7 @@ image::images/button-submenu.png[]
 
 |<sub-menu>
 |DropdownButton
-|link:https://n2oapp.net/sandbox/new/manual/action/submenu[Кнопка с вложенным меню]
+|link:https://n2oapp.net/sandbox/editor/manual_action_submenu/[Кнопка с вложенным меню]
 
 |===
 
@@ -442,19 +442,19 @@ image::images/button-submenu.png[]
 
 |<invoke>
 |n2o/actionImpl/START_INVOKE
-|link:https://n2oapp.net/sandbox/new/manual/action/invoke[Отправка данных формы]
+|link:https://n2oapp.net/sandbox/editor/manual_action_invoke/[Отправка данных формы]
 
 |<show-modal>
 |n2o/modals/INSERT
-|link:https://n2oapp.net/sandbox/new/manual/action/show_modal[Открытие модального окна]
+|link:https://n2oapp.net/sandbox/editor/manual_action_show_modal/[Открытие модального окна]
 
 |<open-page>
 |
-|link:https://n2oapp.net/sandbox/new/manual/action/open_page[Открытие вложенной страницы]
+|link:https://n2oapp.net/sandbox/editor/manual_action_open_page/[Открытие вложенной страницы]
 
 |<close>
 |n2o/modals/CLOSE
-|link:https://n2oapp.net/sandbox/new/manual/action/close[Закрытие модального окна или возврат на предыдущую страницу]
+|link:https://n2oapp.net/sandbox/editor/manual_action_close/[Закрытие модального окна или возврат на предыдущую страницу]
 
 |<refresh>
 |n2o/widgets/DATA_REQUEST
@@ -462,11 +462,11 @@ image::images/button-submenu.png[]
 
 |<clear>
 |n2o/widgets/DATA_REQUEST
-|link:https://n2oapp.net/sandbox/new/manual/action/clear[Очистка данных виджета]
+|link:https://n2oapp.net/sandbox/editor/manual_action_clear/[Очистка данных виджета]
 
 |<copy>
 |n2o/widgets/DATA_REQUEST
-|link:https://n2oapp.net/sandbox/new/manual/action/copy[Копирование данных виджета из одной модели в другую]
+|link:https://n2oapp.net/sandbox/editor/manual_action_copy/[Копирование данных виджета из одной модели в другую]
 
 |<print>
 |n2o/toolbar/PRINT_BUTTON
@@ -544,11 +544,11 @@ image::images/button-submenu.png[]
 
 |<set>
 |StandardFieldset
-|link:https://n2oapp.net/sandbox/new/manual/fieldset/set[Филдсет без верстки]
+|link:https://n2oapp.net/sandbox/editor/manual_fieldset_set/[Филдсет без верстки]
 
 |<line>
 |LineFieldset
-|link:https://n2oapp.net/sandbox/new/manual/fieldset/line[Филдсет с горизонтальной чертой]
+|link:https://n2oapp.net/sandbox/editor/manual_fieldset_line/[Филдсет с горизонтальной чертой]
 
 |===
 
@@ -608,7 +608,7 @@ image::images/fieldset_col_row.png[]
 
 Поля перечисляются на форме в элементе `<fields>`:
 
-link:https://n2oapp.net/sandbox/new/manual/fields/form[Поля в форме]
+link:https://n2oapp.net/sandbox/editor/manual_fields_form/[Поля в форме]
 
 image::images/form.png[]
 [source,xml]
@@ -622,7 +622,7 @@ image::images/form.png[]
 
 Либо вкладываются в филдсет:
 
-link:https://n2oapp.net/sandbox/new/manual/fields/fieldset[Поля в филдсете]
+link:https://n2oapp.net/sandbox/editor/manual_fields_fieldset/[Поля в филдсете]
 
 image::images/fieldset.png[]
 [source,xml]
@@ -643,71 +643,71 @@ image::images/fieldset.png[]
 |<input-text>
 |InputText
 InputNumber
-|link:https://n2oapp.net/sandbox/new/manual/fields/input_text[Поле ввода текста или чисел]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_input_text/[Поле ввода текста или чисел]
 
 |<output-text>
 |OutputText
-|link:https://n2oapp.net/sandbox/new/manual/fields/output_text[Поле вывода текста]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_output_text/[Поле вывода текста]
 
 |<checkbox>
 |Checkbox
-|link:https://n2oapp.net/sandbox/new/manual/fields/checkbox[Поле чекбокса]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_checkbox/[Поле чекбокса]
 
 |<date-time>
 |DatePicker
-|link:https://n2oapp.net/sandbox/new/manual/fields/date_time[Поле ввода даты и времени]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_date_time/[Поле ввода даты и времени]
 
 |<select>
 |Select
-|link:https://n2oapp.net/sandbox/new/manual/fields/select[Поле выбора из выпадающего списка]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_select/[Поле выбора из выпадающего списка]
 
 |<input-select>
 |InputSelect
-|link:https://n2oapp.net/sandbox/new/manual/fields/input_select[Поле ввода текста с выбором из выпадающего списка]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_input_select/[Поле ввода текста с выбором из выпадающего списка]
 
 |<radio-group>
 |RadioGroup
-|link:https://n2oapp.net/sandbox/new/manual/fields/radio_group[Поле группы радио кнопок]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_radio_group/[Поле группы радио кнопок]
 
 |<checkbox-group>
 |CheckboxGroup
-|link:https://n2oapp.net/sandbox/new/manual/fields/checkbox_group[Поле группы чекбоксов]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_checkbox_group/[Поле группы чекбоксов]
 
 |<text-area>
 |TextArea
-|link:https://n2oapp.net/sandbox/new/manual/fields/text_area[Многострочное поле ввода]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_text_area/[Многострочное поле ввода]
 
 |<input-select-tree>
 |InputSelectTree
-|link:https://n2oapp.net/sandbox/new/manual/fields/input_select_tree[Компонент ввода с выбором в выпадающем списке в виде дерева]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_input_select_tree/[Компонент ввода с выбором в выпадающем списке в виде дерева]
 
 |<text>
 |Text
-|link:https://n2oapp.net/sandbox/new/manual/fields/text[Компонент текста]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_text/[Компонент текста]
 
 |<text-editor>
 |TextEditor
-|link:https://n2oapp.net/sandbox/new/manual/fields/text_editor[Компонент редактора текста]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_text_editor/[Компонент редактора текста]
 
 |<date-interval>
 |DateInterval
-|link:https://n2oapp.net/sandbox/new/manual/fields/date_interval[Компонент ввода интервала дат]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_date_interval/[Компонент ввода интервала дат]
 
 |<code-editor>
 |CodeEditor
-|link:https://n2oapp.net/sandbox/new/manual/fields/code_editor[Компонент редактора кода]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_code_editor/[Компонент редактора кода]
 
 |<file-upload>
 |FileUpload
-|link:https://n2oapp.net/sandbox/new/manual/fields/file_upload[Компонент загрузки файлов]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_file_upload/[Компонент загрузки файлов]
 
 |<slider>
 |Slider
-|link:https://n2oapp.net/sandbox/new/manual/fields/slider[Компонент ползунок]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_slider/[Компонент ползунок]
 
 |<time-picker>
 |TimePicker
-|link:https://n2oapp.net/sandbox/new/manual/fields/time_picker[Компонент ввода времени]
+|link:https://n2oapp.net/sandbox/editor/manual_fields_time_picker/[Компонент ввода времени]
 |===
 
 Описание других видов полей можно посмотреть link:../xml/index.html#_Поля_ввода[здесь].
@@ -774,27 +774,27 @@ image::images/cell_in_list.png[]
 
 |<text>
 |TextCell
-|link:https://n2oapp.net/sandbox/new/manual/cell/text[Текстовая ячейка]
+|link:https://n2oapp.net/sandbox/editor/manual_cell_text/[Текстовая ячейка]
 
 |<badge>
 |BadgeCell
-|link:https://n2oapp.net/sandbox/new/manual/cell/badge[Ячейка значок]
+|link:https://n2oapp.net/sandbox/editor/manual_cell_badge/[Ячейка значок]
 
 |<icon>
 |IconCell
-|link:https://n2oapp.net/sandbox/new/manual/cell/icon[Ячейка иконка]
+|link:https://n2oapp.net/sandbox/editor/manual_cell_icon/[Ячейка иконка]
 
 |<link>
 |LinkCell
-|link:https://n2oapp.net/sandbox/new/manual/cell/link[Ячейка ссылка]
+|link:https://n2oapp.net/sandbox/editor/manual_cell_link/[Ячейка ссылка]
 
 |<checkbox>
 |CheckboxCell
-|link:https://n2oapp.net/sandbox/new/manual/cell/checkbox[Ячейка чекбокс]
+|link:https://n2oapp.net/sandbox/editor/manual_cell_checkbox/[Ячейка чекбокс]
 
 |<toolbar>
 |ToolbarCell
-|link:https://n2oapp.net/sandbox/new/manual/cell/toolbar[Ячейка с меню кнопок]
+|link:https://n2oapp.net/sandbox/editor/manual_cell_toolbar/[Ячейка с меню кнопок]
 
 |===
 

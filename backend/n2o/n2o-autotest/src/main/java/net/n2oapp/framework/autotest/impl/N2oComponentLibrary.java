@@ -22,10 +22,7 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSearchItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
-import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
-import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
-import net.n2oapp.framework.autotest.impl.component.page.N2oTopLeftRightPage;
+import net.n2oapp.framework.autotest.impl.component.page.*;
 import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oAlert;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oImage;
@@ -60,7 +57,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
         return Arrays.asList(
                 // pages
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oTopLeftRightPage.class,
-                N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class,
+                N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class, N2oSearchablePage.class,
                 // regions
                 N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class, N2oTabsRegion.class,
                 // widgets

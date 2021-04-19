@@ -298,7 +298,7 @@ class N2OSelect extends React.Component {
     }
 
     this.setState({
-      selected
+      selected,
     });
 
     if (onChange) {

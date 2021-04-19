@@ -3,7 +3,7 @@
       xmlns:test="http://n2oapp.net/framework/config/schema/test"
       name="testPage"
       route="/testRoute"
-      object-id="utObjectField">
+      object-id="utBlank">
     <toolbar place="TopLeft">
         <button id="close" model="filter" widget-id="test">
             <close/>

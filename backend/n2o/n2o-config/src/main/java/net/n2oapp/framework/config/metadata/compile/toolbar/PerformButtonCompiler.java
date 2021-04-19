@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 
 /**
@@ -202,12 +204,12 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             button.setVisible(p.resolveJS(source.getVisible()));
             button.setEnabled(p.resolveJS(source.getEnabled()));
         } else {
-            if (StringUtils.isLink(source.getVisible()))
+            if (isLink(source.getVisible()))
                 compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible(), source.getModel());
             else
                 button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
-            if (StringUtils.isLink(source.getEnabled()))
+            if (isLink(source.getEnabled()))
                 compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled(), source.getModel());
             else
                 button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
@@ -256,7 +258,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     private void compileLinkCondition(PerformButton button, String widgetId, ValidationType type,
                                       String linkCondition, ReduxModel model) {
         Condition condition = new Condition();
-        condition.setExpression(linkCondition.substring(1, linkCondition.length() - 1));
+        condition.setExpression(unwrapLink(linkCondition));
         condition.setModelLink(new ModelLink(model, widgetId).getBindLink());
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());

@@ -7,13 +7,11 @@ import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
-import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,22 +19,19 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class ValidationDialog extends Validation {
-    private N2oInvocation invocation;
+public class ValidationDialog extends InvocationValidation {
     private N2oDialog dialog;
-    private List<InvocationParameter> inParametersList;
-    private List<InvocationParameter> outParametersList;
 
     @Override
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
         dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParametersList());
         DataSet result;
-        if (invocation != null)
+        if (getInvocation() != null)
             result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
         else {
             Map<String, String> outMapping = new LinkedHashMap<>();
-            if (outParametersList != null)
-                for (InvocationParameter parameter : outParametersList)
+            if (getOutParametersList() != null)
+                for (ObjectSimpleField parameter : getOutParametersList())
                     outMapping.put(parameter.getId(), parameter.getMapping());
             result = DataSetMapper.extract(dataSet, outMapping);
         }

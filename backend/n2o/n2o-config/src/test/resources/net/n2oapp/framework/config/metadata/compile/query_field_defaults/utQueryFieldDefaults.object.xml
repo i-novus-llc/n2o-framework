@@ -1,5 +1,0 @@
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0">
-    <fields>
-        <field id="objectName" mapping="mapping" domain="string" name="object name" required="true"/>
-    </fields>
-</object>

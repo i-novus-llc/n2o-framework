@@ -57,7 +57,7 @@ link:../xml/#_Объект_object[Подробнее об объектах]
   <validations>...</validations><!--Валидации операций-->
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
+link:https://n2oapp.net/sandbox/editor/data_object_operations/[Пример]
 
 ==== Валидации объекта
 
@@ -79,7 +79,7 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
 </validations>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Пример]
+link:https://n2oapp.net/sandbox/editor/data_object_validation_condition/[Пример]
 
 Условия пишутся на языке JavaScript.
 
@@ -104,7 +104,7 @@ link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Приме�
 </validations>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/object/validation_constraint[Пример]
+link:https://n2oapp.net/sandbox/editor/data_object_validation_constraint/[Пример]
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для link:#_Провайдеры_данных[провайдера]
@@ -137,11 +137,11 @@ link:https://n2oapp.net/sandbox/new/data/object/validation_constraint[Приме
 За получение списка записей отвечает элемент `<list>`.
 За получение общего количества записей — элемент `<count>`.
 
-link:https://n2oapp.net/sandbox/new/data/query/list[Пример]
+link:https://n2oapp.net/sandbox/editor/data_query_list/[Пример]
 
 А за получение одной уникальной записи — `<unique>`.
 
-link:https://n2oapp.net/sandbox/new/data/query/unique[Пример]
+link:https://n2oapp.net/sandbox/editor/data_query_unique/[Пример]
 
 Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
 
@@ -259,7 +259,7 @@ link:../xml/#_Выборка_query[Подробнее о выборках]
 </filters>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/query/list_filters[Пример]
+link:https://n2oapp.net/sandbox/editor/data_query_list_filters/[Пример]
 
 Атрибут `filter-id` задаёт уникальный идентификатор фильтра,
 по которому можно определить поле выборки и тип фильтрации.
@@ -356,7 +356,7 @@ SQL провайдер позволяет выполнять SQL запросы 
 </operation>
 ----
 
-link:https://n2oapp.net/sandbox/new/data/providers/sql[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_sql/[Пример]
 
 ==== REST провайдер данных
 REST провайдер выполняет http запросы к backend сервисам.
@@ -396,7 +396,7 @@ REST провайдер выполняет http запросы к backend сер
   </in>
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_rest/[Пример]
 
 ==== Java провайдеры данных
 С помощью java провайдеров можно вызвать метод java класса.
@@ -603,7 +603,7 @@ Mondo DB провайдер выполняет запросы к Mongo DB баз
 
 Доступны операции insertOne, updateOne, deleteOne, deleteMany, countDocuments.
 
-link:https://n2oapp.net/sandbox/new/data/providers/mongodb[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_mongodb/[Пример]
 
 
 === Типы данных
@@ -703,7 +703,7 @@ integer[]
 ----
 Подобная связь называется биндингом.
 
-link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
+link:https://n2oapp.net/sandbox/editor/data_binding_simple/[Пример]
 
 ==== Биндинг составных полей
 Составные поля обычно используются в компонентах выбора одного значения из списка:
@@ -732,7 +732,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
 <field id="gender.id"/> <!-- 1 -->
 ----
 
-link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
+link:https://n2oapp.net/sandbox/editor/data_binding_select/[Пример]
 
 ==== Биндинг интервальных полей
 Интервальные поля — это поля, в которых можно задать начало и окончание:
@@ -763,7 +763,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
 ----
 
 
-link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
+link:https://n2oapp.net/sandbox/editor/data_binding_interval/[Пример]
 
 ==== Биндинг полей множественного выбора
 Поля множественного выбора позволяют выбрать несколько значений из предложенных вариантов:
@@ -845,7 +845,7 @@ Java провайдеры используют тип параметров "ма
   </fields>
 </query>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/sql_mapping[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_sql_mapping/[Пример]
 
 .Маппинг фильтров в rest провайдере
 [source,xml]
@@ -878,7 +878,7 @@ link:https://n2oapp.net/sandbox/new/data/providers/sql_mapping[Пример]
   </fields>
 </query>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/rest_mapping[Пример]
+link:https://n2oapp.net/sandbox/editor/data_providers_rest_mapping/[Пример]
 
 
 .Маппинг сортировки в mongodb провайдере
@@ -1006,6 +1006,10 @@ class Calculator {
 </operation>
 ----
 
+[NOTE]
+Если поля указаны именно в том порядке, в котором и соответствующие
+им аргументы, то указывать маппинг необязательно.
+
 ====== Маппинг сущности
 
 .Метод java класса с аргументом - сущностью
@@ -1043,8 +1047,8 @@ class MyEntity {
   </invocation>
   <in>
     <!-- Для type="entity" в mapping нет [0]. -->
-    <field id="firstName" mapping="['name']"/>
-    <field id="lastName" mapping="['surname']"/>
+    <field id="firstName" mapping="name"/>
+    <field id="lastName" mapping="surname"/>
   </in>
 </operation>
 ----
@@ -1377,13 +1381,13 @@ class MyEntity {
 <object entity-class="com.example.MyEntity">
   <fields>
     <!-- Простые поля -->
-    <field id="id" domain="long" mapping="['id']"/>
-    <field id="birthday" domain="date" mapping="['birthDate']"/>
+    <field id="id" domain="long" mapping="id"/>
+    <field id="birthday" domain="date" mapping="birthDate"/>
   </fields>
 </object>
 ----
 
-Атрибут `id` задаёт поле виджета, атрибут `mapping` - доступ к полю сущности.
+Атрибут `id` задаёт поле виджета, атрибут `mapping` - поле сущности.
 
 ===== Маппинг полей @ManyToOne и @OneToOne
 
@@ -1413,9 +1417,33 @@ class MyEntity {
 </fields>
 ----
 
-Для поля с отношением `@ManyToOne` обычно необходимо заполнить только идентификатор `id`.
-Если в ссылочном поле объекта не заполнить вложенные поля, но указать ссылку на объект,
-то будет заполнено только поле `id`.
+.Вариант с определением полей во внешнем файле
+[source,xml]
+----
+<fields>
+  <reference id="address"
+    mapping="addr"
+    object-id="address"/> <!-- Ссылка на объект address.object.xml -->
+</fields>
+----
+
+====== address.object.xml
+[source,xml]
+----
+<!-- обратите внимание, что класс сущности может быть указан во внешнем файле -->
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        entity-class="org.example.Address">
+    <fields>
+      <field id="home" domain="string"/>
+      <field id="work" domain="string"/>
+    </fields>
+</object>
+----
+[NOTE]
+Описывать поля можно внутри составного поля (reference, list или set) или во внешнем файле.
+Однако, если вы опишите поля в обоих местах, то более приоритетным будет вариант задания полей внутри составного поля.
+Все поля будут взяты из него, а для полей присутствующих в обоих файлах (т.е. с совпадающим id)
+будет произведено слияние в пользу текущего объекта.
 
 .Маппинг полей с @ManyToOne
 [source,xml]
@@ -1424,9 +1452,8 @@ class MyEntity {
   <reference id="sex"
     mapping="gender"
     required="true"
-    object-id="gender"/> <!-- Ссылка на другой объект -->
-  <!-- Будет заполнено только поле gender.id -->
-<fields>
+    object-id="gender"/>
+</fields>
 ----
 
 ===== Маппинг полей @OneToMany и @ManyToMany
@@ -1477,9 +1504,9 @@ class MyEntity {
 ----
 
 ===== Использование полей объекта
-При описании операций объекта не требуется определять маппинг
-и другие параметры, которые уже были заданы в полях объекта.
-Достаточно задать только идентификаторы параметров.
+Если поле было задано в полях объекта, то при описании операций объекта не требуется определять
+маппинг и прочие атрибуты, а также вложенную структуру. Достаточно задать только идентификаторы параметров.
+В случае, если поле будет присутствовать в обоих местах, то будет произведено слияние с приоритетом в пользу поля в операции.
 
 [source,java]
 ----
@@ -1492,10 +1519,17 @@ class MyService {
 .Использование полей объекта в операции
 [source,xml]
 ----
-<object
-  entity-class="com.example.MyEntity"
-  service-class="com.example.MyService">
-  <fields>...</fields><!--Маппинг полей сущности-->
+<object entity-class="com.example.Employee">
+  <!-- Маппинг и структура полей сущности -->
+  <fields>
+    <field id="name" mapping="name" normalize="..."/>
+    <reference id="org" mapping="organization" object-id="org"/>
+    <list id="departments" entity-class="com.example.Department">
+      <field id="id"/>
+      <field id="name"/>
+    </list>
+  </fields>
+
   <operations>
     <operation>
       <invocation>
@@ -1507,10 +1541,11 @@ class MyService {
         </java>
       </invocation>
       <in>
-        <!--Перечисление только нужных полей-->
-        <field id="birthday"/>
-        <field id="sex"/><!--Будет заполнен только sex.id-->
-        <field id="addresses"/><!--Будут заполнены все внутренние поля-->
+        <!-- Перечисление только нужных полей -->
+        <!-- Не нужно задавать ни структуру, ни атрибуты -->
+        <field id="name"/>
+        <reference id="org"/>
+        <list id="departments"/>
       </in>
       <out>
         <field id="id"/>
@@ -1519,6 +1554,8 @@ class MyService {
   </operations>
 </object>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/object/nesting_object_fields_for_args_provider[Пример]
 
 === Загрузка данных в виджет
 Виджеты могут получать данные из разных источников.

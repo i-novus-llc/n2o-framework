@@ -91,7 +91,7 @@ class AutoComplete extends React.Component {
     const { _input } = this;
     const { popupAutoSize } = this.props;
     if (_input && !popupAutoSize) {
-      return _input.getBoundingClientRect().width
+      return _input.getBoundingClientRect().width;
     }
   };
 

@@ -35,16 +35,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         page.setSearchWidgetId(source.getSearchBar().getSearchWidgetId());
         page.setSearchModelKey(source.getSearchBar().getSearchFilterId());
 
-        SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
-        searchBar.setClassName(source.getSearchBar().getClassName());
-        searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
-        searchBar.setPlaceholder(source.getSearchBar().getPlaceholder());
-        if (SearchablePage.SearchBar.TriggerType.BUTTON.equals(searchBar.getTrigger())) {
-            searchBar.setButton(new SearchablePage.SearchBar.Button());
-        } else if (SearchablePage.SearchBar.TriggerType.CHANGE.equals(searchBar.getTrigger())) {
-            searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
-        }
-        page.setSearchBar(searchBar);
+        page.setSearchBar(compileSearchBar(source, p));
 
         SearchBarScope searchBarScope = new SearchBarScope(page.getSearchWidgetId(), page.getSearchModelKey());
         compilePage(source, page, context, p, source.getItems(), searchBarScope);
@@ -61,6 +52,19 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         Map<String, List<Region>> regions = new HashMap<>();
         initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, pageWidgetsScope, new IndexScope());
         page.setRegions(regions);
+    }
+
+    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, CompileProcessor p) {
+        SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
+        searchBar.setClassName(source.getSearchBar().getClassName());
+        searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
+        searchBar.setPlaceholder(source.getSearchBar().getPlaceholder());
+        if (SearchablePage.SearchBar.TriggerType.BUTTON.equals(searchBar.getTrigger())) {
+            searchBar.setButton(new SearchablePage.SearchBar.Button());
+        } else if (SearchablePage.SearchBar.TriggerType.CHANGE.equals(searchBar.getTrigger())) {
+            searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
+        }
+        return searchBar;
     }
 
     private void compileSearchBarRoute(SearchablePage page, String param) {

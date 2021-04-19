@@ -40,31 +40,37 @@
   }
 
   .n2o-navbar-collapse-open {
-    .dropdown-menu {
-      border: none!important;
-      background-color: transparent!important;
+    .main-nav.navbar-nav {
+      .dropdown-menu {
+        border: none!important;
+        background-color: transparent!important;
 
-      .dropdown-item {
-        padding: 5px!important;
-        background-color: transparent;
-        color: #bbbbbb !important;
-        white-space: pre-wrap;
-        max-width: 300px;
-      }
+        .dropdown-item {
+          padding: 5px!important;
+          background-color: transparent;
+          color: #bbbbbb !important;
+          white-space: pre-wrap;
+          max-width: 300px;
+        }
 
-      .dropdown-item .active {
-        background-color: transparent;
-        color: white!important;
-      }
-    }
-    .dropdown {
-      button {
-        background-color: white;
-        color: black;
-        &:hover, &:active {
-          background-color: $gray-600!important;
+        .dropdown-item .active {
+          background-color: transparent;
+          color: white!important;
         }
       }
+      .dropdown {
+        button {
+          background-color: white;
+          color: black;
+          &:hover, &:active {
+            background-color: $gray-600!important;
+          }
+        }
+      }
+    }
+
+    .n2o-search-bar__popup_list.dropdown-menu.show {
+      transform: none!important;
     }
   }
 }

@@ -5,10 +5,9 @@ import get from 'lodash/get';
 import cx from 'classnames';
 
 import propsResolver from '../../../../../utils/propsResolver';
-import { setModel } from '../../../../../actions/models';
-import { PREFIXES } from '../../../../../constants/models';
 import Toolbar from '../../../../buttons/Toolbar';
 import withTooltip from '../../withTooltip';
+import withCell from "../../withCell";
 
 /**
  *
@@ -79,9 +78,13 @@ ButtonsCell.defaultProps = {
 
 const enhance = compose(
   withTooltip,
+  withCell,
   withHandlers({
-    onResolve: ({ dispatch, widgetId, model }) => () =>
-      dispatch(setModel(PREFIXES.resolve, widgetId, model)),
+    onResolve: ({ callAction, model }) => () => {
+      if (callAction && model) {
+        callAction(model);
+      }
+    },
   })
 );
 

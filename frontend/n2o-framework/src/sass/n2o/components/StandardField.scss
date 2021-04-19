@@ -130,3 +130,15 @@
 .form-control__with-toolbar {
   height: 100%;
 }
+
+.n2o-button-field {
+  width: max-content;
+
+  .btn {
+    width: content-box;
+  }
+}
+
+.n2o-button-field.btn-block {
+  width: 100%;
+}

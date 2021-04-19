@@ -5,29 +5,26 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.util.FieldCompileUtil;
+import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
-import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
 
@@ -131,21 +128,11 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     }
 
     private void initDataProvider(T listControl, N2oListField source, CompileContext<?, ?> context, CompileProcessor p) {
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(source.getPreFilters(), source.getQueryId(), p);
+        source.addDependencies(FieldCompileUtil.getResetOnChangeDependency(source));
+
         QueryContext queryContext = new QueryContext(source.getQueryId());
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
-        String route = query.getRoute();
-        p.addRoute(prepareQueryContextForRouteRegister(query));
-
-        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        if (modelsScope != null) {
-            dataProvider.setTargetModel(modelsScope.getModel());
-            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
-        }
-        dataProvider.setUrl(route);
-
-        initPreFilters(source, query, dataProvider);
 
         if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
             String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
@@ -156,42 +143,5 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             }
         }
         listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
-    }
-
-    private void initPreFilters(N2oListField source, CompiledQuery query, N2oClientDataProvider dataProvider) {
-        N2oPreFilter[] preFilters = source.getPreFilters();
-        if (preFilters != null) {
-            N2oParam[] queryParams = new N2oParam[preFilters.length];
-            for (int i = 0; i < preFilters.length; i++) {
-                N2oPreFilter preFilter = preFilters[i];
-                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
-                N2oParam queryParam = new N2oParam();
-                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
-                if (preFilter.getParam() == null) {
-                    queryParam.setValueList(getPrefilterValue(preFilter));
-                    queryParam.setRefModel(preFilter.getRefModel());
-                    queryParam.setRefWidgetId(preFilter.getRefWidgetId());
-                } else {
-                    queryParam.setValueParam(preFilter.getParam());
-                }
-                queryParams[i] = queryParam;
-
-                if (Boolean.TRUE.equals(preFilter.getResetOnChange())
-                        && StringUtils.isLink(preFilter.getValue())) {
-                    N2oField.ResetDependency reset = new N2oField.ResetDependency();
-                    reset.setOn(new String[]{preFilter.getValue().substring(1, preFilter.getValue().length() - 1)});
-                    source.addDependency(reset);
-                }
-            }
-            dataProvider.setQueryParams(queryParams);
-        }
-    }
-
-    private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
-        if (n2oPreFilter.getValues() == null) {
-            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
-        } else {
-            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
-        }
     }
 }
