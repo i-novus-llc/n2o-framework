@@ -208,11 +208,11 @@ export function* handleInvoke(apiProvider, action) {
 
     const meta = merge(action.meta.success || {}, response.meta || {});
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));
-
+    const { submitForm } = dataProvider;
     if (
       (needResolve &&
         (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
-      (!isEqual(model, response.data) && isEmpty(dataProvider.formMapping))
+      (!isEqual(model, response.data) && submitForm)
     ) {
       yield put(
         setModel(modelPrefix, widgetId, optimistic ? model : response.data)
