@@ -108,7 +108,7 @@ class SimpleHeader extends React.Component {
   }
 
   render() {
-    const {
+    let {
       color,
       fixed,
       items,
@@ -138,6 +138,12 @@ class SimpleHeader extends React.Component {
           options={options}
         />
       ));
+
+    const { N2O_ELEMENT_VISIBILITY } = window;
+
+    if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.header === false) {
+      style = { ...style, display: 'none' };
+    }
 
     const navItems = mapItems(items);
     const extraNavItems = mapItems(extraItems, { right: true });
