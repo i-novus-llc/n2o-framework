@@ -6,6 +6,13 @@ import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 
 function DefaultBreadcrumb({ items }) {
+  const { N2O_ELEMENT_VISIBILITY } = window;
+  let style = {};
+
+  if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.breadcrumb === false) {
+    style = { ...style, display: 'none' };
+  }
+
   const crumbs = map(items, ({ label, path }, index) => {
     const lastCrumb = index === items.length - 1;
 
@@ -30,7 +37,7 @@ function DefaultBreadcrumb({ items }) {
     );
   });
 
-  return <Breadcrumb>{crumbs}</Breadcrumb>;
+  return <Breadcrumb style={style}>{crumbs}</Breadcrumb>;
 }
 
 export default DefaultBreadcrumb;
