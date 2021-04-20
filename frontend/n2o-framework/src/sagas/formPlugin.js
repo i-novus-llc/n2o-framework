@@ -1,5 +1,5 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
-import { touch, change } from 'redux-form';
+import { touch, change, actionTypes } from 'redux-form';
 
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -29,13 +29,19 @@ import evalExpression, { parseExpression } from '../utils/evalExpression';
 import * as validationPresets from '../core/validation/presets';
 
 export function* removeMessage(action) {
+  const state = yield select();
+
   const formName = get(action, 'meta.form');
   const fieldName = get(action, 'meta.field');
 
   if (formName && fieldName) {
-    const field = yield select(makeFieldByName(formName, fieldName));
     const message = yield select(messageSelector(formName, fieldName));
-    const fieldValidation = get(field, 'validation');
+
+    const fieldValidation = getWidgetFieldValidation(
+      state,
+      formName,
+      fieldName
+    );
 
     if (message && (!fieldValidation || isEmpty(fieldValidation))) {
       yield put(removeFieldMessage(formName, fieldName));
@@ -166,7 +172,7 @@ export function* copyAction({ payload }) {
 
 export const formPluginSagas = [
   takeEvery(
-    ['@@redux-form/START_ASYNC_VALIDATION', '@@redux-form/CHANGE'],
+    [actionTypes.START_ASYNC_VALIDATION, actionTypes.CHANGE],
     removeMessage
   ),
   takeEvery([SET_REQUIRED, UNSET_REQUIRED], checkFieldValidation),
