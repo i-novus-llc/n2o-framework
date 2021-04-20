@@ -18,7 +18,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка DISABLE_FIELD', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: DISABLE_FIELD,
           payload: {
@@ -45,7 +58,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка ENABLE_FIELD', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: ENABLE_FIELD,
           payload: {
@@ -72,7 +98,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка SHOW_FIELD', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: SHOW_FIELD,
           payload: {
@@ -99,7 +138,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка HIDE_FIELD', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: HIDE_FIELD,
           payload: {
@@ -126,7 +178,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка ADD_FIELD_MESSAGE', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: ADD_FIELD_MESSAGE,
           payload: {
@@ -156,7 +221,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка REMOVE_FIELD_MESSAGE', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: REMOVE_FIELD_MESSAGE,
           payload: {
@@ -184,7 +262,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка REGISTER_FIELD_EXTRA', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: REGISTER_FIELD_EXTRA,
           payload: {
@@ -215,7 +306,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка REGISTER_DEPENDENCY', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: REGISTER_DEPENDENCY,
           payload: {
@@ -243,7 +347,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка SET_FIELD_FILTER', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: SET_FIELD_FILTER,
           payload: {
@@ -279,7 +396,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка SHOW_FIELD', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: SET_REQUIRED,
           payload: {
@@ -306,7 +436,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка UNSET_REQUIRED', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: UNSET_REQUIRED,
           payload: {
@@ -332,7 +475,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка если название через точку на примере SHOW_FIELD', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            'testName.id': {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: SHOW_FIELD,
           payload: {
@@ -358,7 +514,20 @@ describe('Тесты formPlugin reducer', () => {
   it('Проверка SET_LOADING', () => {
     expect(
       formPlugin(
-        {},
+        {
+          registeredFields: {
+            testName: {
+              isInit: true,
+              visible: true,
+              disabled: false,
+              message: null,
+              filter: [],
+              dependency: null,
+              required: false,
+              loading: false,
+            },
+          },
+        },
         {
           type: SET_LOADING,
           payload: {

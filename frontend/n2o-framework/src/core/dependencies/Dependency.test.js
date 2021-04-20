@@ -239,7 +239,7 @@ describe('Тестирование саги', () => {
 
 describe('Тестирование редюсера', () => {
   const initialState = {
-    registereddFields: {
+    registeredFields: {
       field1: pick(mockData.fields.field1, ['name', 'visible', 'disabled']),
     },
   };
