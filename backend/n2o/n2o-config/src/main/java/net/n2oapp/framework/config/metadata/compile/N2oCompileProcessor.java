@@ -311,7 +311,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public Object getLinkValue(ModelLink link) {
-        return params.get(link.getWidgetId() + "_" + link.getFieldId());
+        boolean isNotJsValue = link.getFieldValue() == null || !link.getFieldValue().equals(link.getFieldId());
+        return isNotJsValue ? params.get(link.getWidgetId() + "_" + link.getFieldId()) : null;
     }
 
     private BindLink createLink(BindLink link, Object value) {
