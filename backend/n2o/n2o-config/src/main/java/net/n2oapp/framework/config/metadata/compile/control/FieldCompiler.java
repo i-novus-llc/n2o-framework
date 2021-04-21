@@ -443,7 +443,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defaultValues.add(control.getId(), modelLink);
                 }
             } else {
-                if (source.getRefFieldId() != null) {
+                if (source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefFieldId() != null) {
                     ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);

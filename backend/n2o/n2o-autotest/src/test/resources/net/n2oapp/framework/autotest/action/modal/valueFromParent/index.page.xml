@@ -1,16 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-             name="Передача параметров в модальное окно">
-    <form>
-        <fields>
-            <input-text id="name"/>
-            <input-select id="address" query-id="test"/>
-            <input-select id="addresses" query-id="test" type="multi"/>
-        </fields>
-        <toolbar>
-            <button label="Открыть">
-                <show-modal page-id="test"/>
-            </button>
-        </toolbar>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="Передача параметров в модальное окно">
+    <regions>
+        <region>
+            <form id="first">
+                <fields>
+                    <input-text id="name" label="Простое поле"/>
+                    <input-select id="address" query-id="test" label="Простой список"/>
+                    <input-select id="addresses" query-id="test" type="multi" label="Список с множественным выбором"/>
+                </fields>
+                <toolbar>
+                    <button label="Открыть">
+                        <show-modal page-id="test"/>
+                    </button>
+                </toolbar>
+            </form>
+            <form id="second">
+                <fields>
+                    <input-text id="id"/>
+                    <input-text id="name"/>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>
