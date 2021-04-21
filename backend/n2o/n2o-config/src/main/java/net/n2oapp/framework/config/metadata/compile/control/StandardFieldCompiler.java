@@ -33,22 +33,21 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         initValidations(source, field, context, p);
         compileFilters(source, p);
         compileCopied(source, p);
-        compileControl(control, source, p, field);
+        compileControl(control, source, p, field, context);
         control.setProperties(field.getProperties());
         field.setProperties(null);//для StandardField properties должны попасть в control, а не field
         field.setDataProvider(initDataProvider(source, context, p));
-        initRefAttributes(source, context, p);
         return field;
     }
 
-    protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field) {
+    protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field, CompileContext<?, ?> context) {
         control.setSrc(p.cast(control.getSrc(), p.resolve(Placeholders.property(getControlSrcProperty()), String.class)));
         if (control.getSrc() == null)
             throw new N2oException("control src is required");
         control.setId(source.getId());
         control.setClassName(p.resolveJS(source.getCssClass()));
         control.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compileDefaultValues(field, source, p);
+        compileDefaultValues(field, source, context, p);
     }
 
     @Override

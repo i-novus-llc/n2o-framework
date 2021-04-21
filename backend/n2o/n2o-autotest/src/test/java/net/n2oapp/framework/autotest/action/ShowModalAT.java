@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.action;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -112,4 +113,42 @@ public class ShowModalAT extends AutoTestBase {
         modalPage.clickBackdrop();
         modalPage.shouldNotExists();
     }
+
+    @Test
+    public void valueFromParent() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/test.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Передача параметров в модальное окно");
+        Fields fields = page.widget(FormWidget.class).fields();
+        InputText name = fields.field("name").control(InputText.class);
+        name.val("testValue");
+        InputSelect address = fields.field("address").control(InputSelect.class);
+        address.select(2);
+        InputSelect addresses = fields.field("addresses").control(InputSelect.class);
+        addresses.selectMulti(1, 2);
+
+        Button open = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть");
+        open.shouldExists();
+        open.click();
+        Modal modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.shouldHaveTitle("Модальное окно");
+        Fields modalFields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
+        modalFields.shouldHaveSize(4);
+        InputText modalName = modalFields.field("name").control(InputText.class);
+        modalName.shouldExists();
+        modalName.shouldHaveValue("testValue");
+        InputText modalName2 = modalFields.field("name2").control(InputText.class);
+        modalName2.shouldExists();
+        modalName2.shouldHaveValue("testValue");
+        InputSelect modalAddress = modalFields.field("address").control(InputSelect.class);
+        modalAddress.shouldSelected("test300");
+        InputSelect modalAddresses = modalFields.field("addresses").control(InputSelect.class);
+        modalAddresses.shouldSelectedMulti("test200","test300");
+    }
+
 }
