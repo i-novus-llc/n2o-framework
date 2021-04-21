@@ -10,50 +10,59 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 
 /**
  * Обработка вызовов действий и выборок N2O
- * User: operhod
- * Date: 28.12.13
- * Time: 10:32
  */
 public interface DataProcessing {
 
     /**
-     * @param requestInfo  - информация о запросе
-     * @param responseInfo - информация об ответе на запрос
-     * @param dataSet      - входной набор данных
+     * @param requestInfo  Информация о запросе
+     * @param responseInfo Информация об ответе на запрос
+     * @param dataSet      Входной набор данных
      */
-    void processAction(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet);
+    default void processAction(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
+
+    }
 
     /**
-     * @param requestInfo  - информация о запросе
-     * @param responseInfo - информация об ответе на запрос
-     * @param dataSet      - входной набор данных
+     * @param requestInfo  Информация о запросе
+     * @param responseInfo Информация об ответе на запрос
+     * @param dataSet      Входной набор данных
      */
-    void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet);
+    default void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
+
+    }
 
     /**
-     * @param requestInfo  - информация о запросе
-     * @param responseInfo - информация об ответе на запрос
-     * @param dataSet      - выходной набор данных
+     * @param requestInfo  Информация о запросе
+     * @param responseInfo Информация об ответе на запрос
+     * @param dataSet      Выходной набор данных
      */
-    void processActionResult(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet);
+    default void processActionResult(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
+
+    }
 
     /**
-     * @param requestInfo  - информация о запросе
-     * @param responseInfo - информация об ответе на запрос
+     * @param requestInfo  Информация о запросе
+     * @param responseInfo Информация об ответе на запрос
      */
-    void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo);
+    default void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
+
+    }
 
     /**
-     * @param requestInfo  - информация о запросе
-     * @param responseInfo - информация об ответе на запрос
-     * @param exception    - ошибка при выполнении запроса
+     * @param requestInfo  Информация о запросе
+     * @param responseInfo Информация об ответе на запрос
+     * @param exception    Ошибка при выполнении запроса
      */
-    void processQueryError(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, N2oException exception);
+    default void processQueryError(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, N2oException exception) {
+
+    }
 
     /**
-     * @param requestInfo  - информация о запросе
-     * @param responseInfo - информация об ответе на запрос
-     * @param page         - выборка данных
+     * @param requestInfo  Информация о запросе
+     * @param responseInfo Информация об ответе на запрос
+     * @param page         Выборка данных
      */
-    void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page);
+    default void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
+
+    }
 }
