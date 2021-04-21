@@ -110,9 +110,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     /**
      * Конструктор процессора сборки метаданных со связыванием и процессором вложенных моделей
      *
-     * @param env     Окружение сборки метаданных
-     * @param params  Параметры запроса
-     * @param context Входной контекст сборки(не используется для компиляции метаданных)
+     * @param env                Окружение сборки метаданных
+     * @param params             Параметры запроса
+     * @param context            Входной контекст сборки(не используется для компиляции метаданных)
      * @param subModelsProcessor Процессор вложенных моделей
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
@@ -307,6 +307,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             if (resultLink != null) return resultLink;
         }
         return link;
+    }
+
+    @Override
+    public Object getLinkValue(ModelLink link) {
+        return params.get(link.getWidgetId() + "_" + link.getFieldId());
     }
 
     private BindLink createLink(BindLink link, Object value) {

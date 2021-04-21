@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -107,8 +106,8 @@ public interface BindProcessor {
     /**
      * Заменить в адресе параметры, которые ссылаются на переданную модель
      *
-     * @param url    Адрес
-     * @param link   Ссылка на модель, по которой определяем какие параметры необходимо заменить
+     * @param url  Адрес
+     * @param link Ссылка на модель, по которой определяем какие параметры необходимо заменить
      * @return Измененный адрес
      */
     String resolveUrl(String url, ModelLink link);
@@ -121,9 +120,17 @@ public interface BindProcessor {
     BindLink resolveLink(BindLink link);
 
     /**
+     * Получение значения параметра из адресной строки по ссылке
+     *
+     * @param link Ссылка
+     * @return Значение параметра
+     */
+    Object getLinkValue(ModelLink link);
+
+    /**
      * Попытаться разрешить вложенные модели ссылки
      *
-     * @param link  ссылка на значение
+     * @param link ссылка на значение
      */
     void resolveSubModels(ModelLink link);
 
@@ -139,6 +146,7 @@ public interface BindProcessor {
 
     /**
      * Есть ли данные для разрешения параметра
+     *
      * @param param
      * @return
      */
