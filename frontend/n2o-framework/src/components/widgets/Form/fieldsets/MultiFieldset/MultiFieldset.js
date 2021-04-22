@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -13,41 +13,29 @@ import evalExpression, {
   parseExpression,
 } from '../../../../../utils/evalExpression';
 import MultiFieldsetItem from './MultiFieldsetItem';
+import { resolveExpression } from "../../utils";
 
 function MultiFieldset({
-  name,
-  childrenLabel,
-  fields,
-  addButtonLabel,
-  removeButtonLabel,
-  needAddButton,
-  needRemoveButton,
-  needCopyButton,
-  needRemoveAllButton,
-  canRemoveFirstItem,
-  render,
-  rows,
-  enabled,
-  visible,
-  ...rest
+   name,
+   ...props
 }) {
+  const [visible, setVisible] = useState(true);
+  const [enabled, setEnabled] = useState(true);
+
+  useMemo(() => {
+    setEnabled(resolveExpression(props.enabled, props.activeModel));
+  }, [props.enabled, props.activeModel]);
+  useMemo(() => {
+    setVisible(resolveExpression(props.visible, props.activeModel));
+  }, [props.visible, props.activeModel]);
+
   return (
     <div className="n2o-multi-fieldset">
       <MultiFieldsetItem
-        fields={fields}
-        {...rest}
+        {...props}
         parentName={name}
-        render={render}
+        visible={visible}
         enabled={enabled}
-        rows={rows}
-        childrenLabel={childrenLabel}
-        needAddButton={needAddButton}
-        needRemoveButton={needRemoveButton}
-        needCopyButton={needCopyButton}
-        needRemoveAllButton={needRemoveAllButton}
-        addButtonLabel={addButtonLabel}
-        removeButtonLabel={removeButtonLabel}
-        canRemoveFirstItem={canRemoveFirstItem}
       />
     </div>
   );
