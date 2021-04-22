@@ -7,6 +7,10 @@ import merge from 'lodash/merge';
 import has from 'lodash/has';
 import each from 'lodash/each';
 import isObjectLike from 'lodash/isObjectLike';
+import isNil from "lodash/isNil";
+import isBoolean from "lodash/isBoolean";
+import isEmpty from "lodash/isEmpty";
+import evalExpression, {parseExpression} from "../../../utils/evalExpression";
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -114,3 +118,21 @@ export const setWatchDependency = (state, props, dependencyType) => {
 
   return reduce(dependency, pickByReRender, {});
 };
+
+/**
+ * @param {string|boolean} [value]
+ * @param {object} activeModel
+ * @return {boolean}
+ */
+export const resolveExpression = (value, activeModel) => {
+  if (isNil(value)) {
+    return true;
+  }
+  if (isBoolean(value)) {
+    return value;
+  }
+  if (isEmpty(activeModel)) {
+    return false;
+  }
+  return evalExpression(parseExpression(value), activeModel);
+}

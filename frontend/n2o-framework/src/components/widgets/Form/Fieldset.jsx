@@ -1,11 +1,8 @@
 import React from 'react';
-import isBoolean from 'lodash/isBoolean';
-import isString from 'lodash/isString';
+import isEqual from 'lodash/isEqual';
 import each from 'lodash/each';
 import concat from 'lodash/concat';
-import isNil from 'lodash/isNil';
 import { bindActionCreators } from 'redux';
-import { compose, mapProps } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -16,29 +13,10 @@ import {
   enableFields,
   disableFields,
 } from '../../../actions/formPlugin';
-import propsResolver from '../../../utils/propsResolver';
-import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
 
 import FieldsetRow from './FieldsetRow';
-
-const config = {
-  onChange: function() {
-    const { store } = this.context;
-    const { visible, disabled } = this.props;
-    const enabled = !disabled;
-    const formValues = this.getFormValues(store);
-
-    if (!isNil(enabled)) {
-      this.setEnabled(propsResolver(enabled, formValues));
-    }
-
-    if (isString(visible) || isString(enabled)) {
-      visible && this.setVisible(propsResolver(visible, formValues));
-      enabled && this.setEnabled(propsResolver(enabled, formValues));
-    }
-  },
-};
+import { resolveExpression } from "./utils";
 
 /**
  * Компонент - филдсет формы
@@ -121,19 +99,41 @@ class Fieldset extends React.Component {
     this.renderRow = this.renderRow.bind(this);
 
     this.state = {
-      visibleFieldset: true,
+      visible: true,
+      enabled: true,
     };
 
     this.fields = [];
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.visible !== state.visibleFieldset && isBoolean(props.visible)) {
-      return {
-        visibleFieldset: props.visible,
-      };
+  componentDidMount() {
+    this.resolveProperties();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { visible, enabled, activeModel } = this.props;
+    if (
+      isEqual(activeModel, prevProps.activeModel) &&
+      isEqual(visible, prevProps.visible) &&
+      isEqual(enabled, prevProps.enabled)
+    ) {
+      return;
     }
-    return null;
+    this.resolveProperties();
+  }
+
+  resolveProperties() {
+    const { visible, enabled, activeModel } = this.props;
+
+    const newEnabled = resolveExpression(enabled, activeModel);
+    if (!isEqual(newEnabled, this.state.enabled)) {
+      this.setEnabled(newEnabled);
+    }
+
+    const newVisible = resolveExpression(visible, activeModel);
+    if (!isEqual(newVisible, this.state.visible)) {
+      this.setVisible(newVisible);
+    }
   }
 
   setVisible(nextVisibleField) {
@@ -144,7 +144,9 @@ class Fieldset extends React.Component {
       } else {
         hideFields(form, this.fields);
       }
-      return { visibleFieldset: !!nextVisibleField };
+      return {
+        visible: nextVisibleField,
+      };
     });
   }
 
@@ -155,6 +157,9 @@ class Fieldset extends React.Component {
     } else {
       disableFields(form, this.fields);
     }
+    this.setState({
+      enabled: nextEnabledField,
+    });
   }
 
   getFormValues(store) {
@@ -189,7 +194,6 @@ class Fieldset extends React.Component {
       autoFocusId,
       form,
       modelPrefix,
-      disabled,
       autoSubmit,
       activeModel,
     } = this.props;
@@ -207,7 +211,7 @@ class Fieldset extends React.Component {
         autoFocusId={autoFocusId}
         form={form}
         modelPrefix={modelPrefix}
-        disabled={disabled}
+        disabled={!this.state.enabled}
         autoSubmit={autoSubmit}
         {...props}
       />
@@ -222,24 +226,22 @@ class Fieldset extends React.Component {
       children,
       parentName,
       parentIndex,
-      disabled,
-      visible,
       label,
+      type,
       childrenLabel,
       ...rest
     } = this.props;
+    const { enabled, visible } = this.state;
 
     this.fields = [];
-    const enabled = !disabled;
-    const blackList = ['line'];
-    const needLabel = !blackList.includes(this.props.type) && label;
+    const needLabel = label && type!== 'line';
 
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
     }
 
     const classes = cx('n2o-fieldset', className, {
-      'd-none': !this.state.visibleFieldset,
+      'd-none': !visible,
     });
 
     return (
@@ -249,6 +251,7 @@ class Fieldset extends React.Component {
           childrenLabel={childrenLabel}
           enabled={enabled}
           label={label}
+          type={type}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
@@ -285,13 +288,11 @@ Fieldset.propTypes = {
   enableFields: PropTypes.func,
   disableFields: PropTypes.func,
   modelPrefix: PropTypes.string,
-  disabled: PropTypes.bool,
 };
 
 Fieldset.defaultProps = {
   labelPosition: 'top-left',
   component: 'div',
-  disabled: false,
 };
 
 Fieldset.contextTypes = {
@@ -309,16 +310,9 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const FieldsetContainer = compose(
-  connect(
+const FieldsetContainer = connect(
     null,
     mapDispatchToProps
-  ),
-  mapProps(({ enabled, ...props }) => ({
-    ...props,
-    disabled: !isNil(enabled) ? !enabled : false,
-  })),
-  withObserveDependency(config)
 )(Fieldset);
 
 export default FieldsetContainer;

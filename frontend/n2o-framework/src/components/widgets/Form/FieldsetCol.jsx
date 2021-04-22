@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withHandlers, pure, getContext, mapProps } from 'recompose';
-import { getFormValues } from 'redux-form';
 import Col from 'reactstrap/lib/Col';
 import get from 'lodash/get';
-import isBoolean from 'lodash/isBoolean';
 import ReduxField from './ReduxField';
 import FieldsetContainer from './Fieldset';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
 
 function FieldsetCol({
   col,
+  activeModel,
   defaultCol,
   colId,
   autoFocusId,
@@ -63,6 +62,7 @@ function FieldsetCol({
               parentIndex={parentIndex}
               disabled={disabled}
               autoSubmit={autoSubmit}
+              activeModel={activeModel}
               {...fieldset}
             />
           );
