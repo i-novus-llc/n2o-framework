@@ -68,6 +68,16 @@
   }
 }
 
+.n2o-switch-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.n2o-switch-label {
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
 @keyframes rcSwitchOn {
   0% {
     transform: scale(1);
