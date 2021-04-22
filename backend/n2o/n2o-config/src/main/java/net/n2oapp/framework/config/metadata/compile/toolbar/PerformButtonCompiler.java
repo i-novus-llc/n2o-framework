@@ -60,22 +60,19 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         initValidate(source, button, context, p);
 
         CompiledObject.Operation operation = null;
-        CompiledObject compiledObject = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
 
         if (source.getWidgetId() == null && widgetObjectScope != null && widgetObjectScope.size() == 1)
             source.setWidgetId(widgetObjectScope.keySet().iterator().next());
 
-        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId()))
-            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-        if (compiledObject == null)
-            compiledObject = p.getScope(CompiledObject.class);
-
-        Action action = compileAction(source, button, compiledObject, context, p);
-
+        Action action = compileAction(source, button, context, p);
         if (action != null) {
             button.setAction(action);
             if (action instanceof InvokeAction) {
+                String objectId = ((InvokeAction) action).getObjectId() == null ? source.getWidgetId() :
+                        ((InvokeAction) action).getObjectId();
+                CompiledObject compiledObject = getCompiledObject(p, objectId);
+
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
@@ -91,6 +88,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         compileConditionsAndDependencies(source, button, context, p);
 
         return button;
+    }
+
+    private CompiledObject getCompiledObject(CompileProcessor p, String objectId) {
+        if (objectId != null) {
+            WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
+            if (widgetObjectScope != null && widgetObjectScope.containsKey(objectId))
+                return widgetObjectScope.getObject(objectId);
+        }
+        return p.getScope(CompiledObject.class);
     }
 
     private void initLinkAction(PerformButton button) {
@@ -137,20 +143,20 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setConfirm(confirm);
     }
 
-    private Action compileAction(N2oButton source, PerformButton button, CompiledObject compiledObject,
+    private Action compileAction(N2oButton source, PerformButton button,
                                  CompileContext<?, ?> context, CompileProcessor p) {
-        Action action = null;
+        if (source.getAction() != null) {
+            N2oAction butAction = source.getAction();
+            String objectId = butAction.getObjectId() == null ? source.getWidgetId() : butAction.getObjectId();
+            CompiledObject compiledObject = getCompiledObject(p, objectId);
+            butAction.setId(p.cast(butAction.getId(), button.getId()));
+            return p.compile(butAction, context, compiledObject, new ComponentScope(source));
+        }
         if (source.getActionId() != null) {
             MetaActions metaActions = p.getScope(MetaActions.class);
-            action = metaActions.get(source.getActionId());
-        } else {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
-            }
+            return metaActions.get(source.getActionId());
         }
-        return action;
+        return null;
     }
 
     private String initWidgetId(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
