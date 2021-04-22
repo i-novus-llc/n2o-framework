@@ -177,6 +177,46 @@
                 <xs:documentation>Зависимость от полей</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="clientModel" default="resolve">
+            <xs:annotation>
+                <xs:documentation>Ссылка на модель, в которой будет инициализация значения.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-page" default="this">
+            <xs:annotation>
+                <xs:documentation>Ссылка на страницу, в которой будет инициализация значения.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="this">
+                        <xs:annotation>
+                            <xs:documentation>Текущая.</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="parent">
+                        <xs:annotation>
+                            <xs:documentation>Родительская.</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ссылка на виджет, в котором будет инициализация значения.
+                    По умолчанию для ref-page=this текущий виджет, для ref-page=parent виджет из под которого открыта текущая страница.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ссылка на поле, для инициализация значения.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="controlSimpleFieldDefinition">
@@ -185,41 +225,6 @@
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Зависимость от полей</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="param" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="ref-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>Ссылка на модель, в которой будет инициализация значения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="ref-page" default="this">
-                    <xs:annotation>
-                        <xs:documentation>Ссылка на страницу, в которой будет инициализация значения.</xs:documentation>
-                    </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="this">
-                                <xs:annotation>
-                                    <xs:documentation>Текущая.</xs:documentation>
-                                </xs:annotation>
-                            </xs:enumeration>
-                            <xs:enumeration value="parent">
-                                <xs:annotation>
-                                    <xs:documentation>Родительская.</xs:documentation>
-                                </xs:annotation>
-                            </xs:enumeration>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="ref-widget-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Ссылка на виджет, в котором будет инициализация значения.
-                            По умолчанию для ref-page=this текущий виджет, для ref-page=parent виджет из под которого открыта текущая страница.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -92,7 +92,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb,
                 validationList, compiledWidgets, widgetObjectScope);
         page.setActions(metaActions);
-        mergeModels(page, pageScope);
         return page;
     }
 
