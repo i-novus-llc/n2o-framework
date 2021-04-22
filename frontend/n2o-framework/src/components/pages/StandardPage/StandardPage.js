@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import DefaultPage from '../DefaultPage';
 import PageRegions from '../PageRegions';
 
@@ -7,6 +8,7 @@ import PageRegions from '../PageRegions';
  * Страница с одной зоной
  * @param id
  * @param regions
+ * @param metadata
  * @param rest
  * @return {*}
  * @constructor

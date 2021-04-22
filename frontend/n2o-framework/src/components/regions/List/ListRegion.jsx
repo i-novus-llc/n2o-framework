@@ -54,7 +54,14 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { collapsible, expand, content, getWidgetProps } = this.props;
+    const {
+      collapsible,
+      expand,
+      content,
+      getWidgetProps,
+      className,
+      style,
+    } = this.props;
 
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, [
@@ -71,8 +78,8 @@ class ListRegion extends React.Component {
 
     return (
       <div
-        className="n2o-list-region"
-        style={{ display: !isVisible && 'none' }}
+        className={classNames('n2o-list-region', className)}
+        style={{ display: !isVisible && 'none', ...style }}
       >
         <Collapse
           defaultActiveKey={'open'}

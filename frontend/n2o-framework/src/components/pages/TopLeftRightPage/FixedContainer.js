@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 function FixedContainer({ className, setRef, fixed, width, style, children }) {
   const ref = fixed ? setRef : undefined;
@@ -15,7 +15,7 @@ function FixedContainer({ className, setRef, fixed, width, style, children }) {
       }}
     >
       <div
-        className={cn('n2o-page__fixed-container', {
+        className={classNames('n2o-page__fixed-container', {
           'n2o-page__fixed-container--fixed': fixed,
         })}
         style={fixed ? style : {}}
