@@ -1,0 +1,89 @@
+{
+  "extends": [
+    "react-app",
+    "airbnb"
+  ],
+  "plugins": [
+    "eslint-plugin-import",
+    "optimize-regex"
+  ],
+  "rules": {
+    // without ";"
+    "semi": ["error", "never"],
+    // Цикломатическая сложность, надо плавно понижать до 10
+    "complexity": ["error", { "max": 20 }],
+    // Символ переноса строки в коде
+    "linebreak-style": ["off"],
+    // Везде одиночные кавычкии
+    "quotes": ["error", "single"],
+    // Ширина строк
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    // Отступы
+    "indent": ["error", 4, {"SwitchCase": 1}],
+    "react/jsx-indent": ["error", 4],
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-tag-spacing": ["error", {
+      "closingSlash": "never",
+      "beforeSelfClosing": "never",
+      "afterOpening": "never",
+      "beforeClosing": "never"
+    }],
+    // Разбитие импортов на группы
+    "import/order": [
+      "error", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }
+    ],
+    // Дефолтного экспорта может и не быть
+    "import/prefer-default-export": "off",
+    // Отступы внутри объектов и массивов
+    "object-curly-spacing": ["error", "always"],
+    // Не выносить контент объектов на отдельную строку
+    "object-curly-newline": ["off"],
+    // Разрешить стрелочным функциям не оборачивать единственный параметр в скобки
+    "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
+    // Разрешает в дочерних скоупах создавать переменные с теми же именами
+    "no-shadow": ["off"],
+    // Разрешает переприсваивать значение аргументам функций
+    "no-param-reassign": ["off"],
+    // Теперь не будет требовать дефолты для обязательных параметров
+    "react/require-default-props": ["off"],
+    // Теперь можно использовать any в propTypes
+    "react/forbid-prop-types": ["off"],
+    // Теперь при сравнении можно писать числа слева от знака, н.р.: 6 < from
+    "yoda": ["off"],
+    // Запрет <a href="#"> или <a href="javascript:void(0)">
+    "jsx-a11y/anchor-is-valid": ["error", {"aspects": ["invalidHref"]}],
+    // Выключаем, чтоб можно было использовать await в циклах
+    "no-await-in-loop": ["off"],
+    // Выключаем, чтоб можно было использовать setState в componentDidUpdate
+    "react/no-did-update-set-state": ["off"],
+    // Из за эффекта всплытия можно использовать функции и классы до их объявления, но с переменными не так.
+    // Почему то работает тоько error и off, а ["error", { "functions": false, "classes": false }] - не воспринимается (
+    "no-use-before-define": ["off"],
+    // Легализация ++/-- в циклах
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    // Обязательные фигурные скобки
+    "curly": ["error", "all"],
+    //
+    "optimize-regex/optimize-regex": "warn",
+
+    // off правил. иначе падает ошибка: Definition for rule was not found
+    "react/jsx-curly-newline": "off", // TODO ["error", { "multiline": "require", "singleline": "forbid" }]
+    "react/state-in-constructor": "off",
+    "react/static-property-placement": "off",
+    "react/jsx-props-no-spreading": "off"
+  }
+}
