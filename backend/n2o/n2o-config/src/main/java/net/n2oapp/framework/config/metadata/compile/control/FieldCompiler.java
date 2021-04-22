@@ -31,7 +31,6 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -395,7 +394,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    protected void compileDefaultValues(D control, S source, CompileProcessor p) {
+    protected void compileDefaultValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
         UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
@@ -418,17 +417,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defValue = ScriptProcessor.resolveExpression((String) defValue);
                 }
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
-                    defaultValue.setValue(defValue);
+                    ModelLink defaultValue = getModelLink(control, source, context, p, defaultValues);
+                    if (source.getRefFieldId() == null)
+                        defaultValue.setValue(defValue);
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), control.getId());
+                    ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
                     if (defValue instanceof DefaultValues) {
-                        DefaultValues defaultValue = (DefaultValues) defValue;
-                        Map<String, Object> values = defaultValue.getValues();
-                        if (defaultValue.getValues() != null) {
+                        Map<String, Object> values = ((DefaultValues) defValue).getValues();
+                        if (values != null) {
                             for (String param : values.keySet()) {
                                 if (values.get(param) instanceof String) {
                                     Object value = ScriptProcessor.resolveExpression((String) values.get(param));
@@ -440,6 +439,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
+                    modelLink.setParam(source.getParam());
+                    defaultValues.add(control.getId(), modelLink);
+                }
+            } else {
+                if (source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefFieldId() != null) {
+                    ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
@@ -459,7 +464,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     /**
-     * Сборка значений по умолчанию у поля из параметров заданных
+     * Сборка значений по умолчанию у поля из заданных параметров
      *
      * @param source Исходная модель поля
      * @param p      Процессор сборки
@@ -480,34 +485,46 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    protected void initRefAttributes(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope == null || !StringUtils.isLink(source.getDefaultValue())) return;
-        String currentWidgetId = p.getScope(WidgetScope.class).getClientWidgetId();
-        ModelLink keyModelLink = new ModelLink(p.getScope(ModelsScope.class).getModel(), currentWidgetId, source.getId());
-        ModelLink valueModelLink;
-        switch (p.cast(source.getRefPage(), N2oField.Page.THIS)) {
-            case PARENT:
-                if (context instanceof PageContext) {
-                    valueModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
-                            source.getRefWidgetId() == null ?
-                                    ((PageContext) context).getParentClientWidgetId() :
-                                    CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(), source.getRefWidgetId())
-                    );
-                    valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                    pageScope.addModelLink(keyModelLink, valueModelLink);
-                }
-                break;
-
-            case THIS:
-                valueModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
-                        source.getRefWidgetId() == null ?
-                                currentWidgetId :
-                                pageScope.getGlobalWidgetId(source.getRefWidgetId()));
-                valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                pageScope.addModelLink(keyModelLink, valueModelLink);
-                break;
+    private ModelLink getModelLink(D control, S source, CompileContext<?, ?> context, CompileProcessor p, ModelsScope defaultValues) {
+        ModelLink defaultValue;
+        if (N2oField.Page.PARENT.equals(source.getRefPage())) {
+            if (context instanceof PageContext) {
+                String widgetId = source.getRefWidgetId() == null ?
+                        ((PageContext) context).getParentClientWidgetId() :
+                        CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
+                                source.getRefWidgetId());
+                defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE),
+                        widgetId, source.getRefFieldId());
+            } else {
+                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found",
+                        control.getId()));
+            }
+        } else {
+            String widgetId = source.getRefWidgetId() == null ? defaultValues.getWidgetId()
+                    : CompileUtil.generateWidgetId(((PageContext) context).getClientPageId(), source.getRefWidgetId());
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel()), widgetId, source.getRefFieldId());
         }
+        return defaultValue;
     }
 
+    private ModelLink getModelLinkForValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p, ModelsScope defaultValues) {
+        ModelLink defaultValue;
+        if (N2oField.Page.PARENT.equals(source.getRefPage())) {
+            if (context instanceof PageContext) {
+                defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE),
+                        source.getRefWidgetId() == null ?
+                                ((PageContext) context).getParentClientWidgetId() :
+                                CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
+                                        source.getRefWidgetId()), control.getId());
+            } else {
+                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found",
+                        control.getId()));
+            }
+        } else {
+            String widgetId = source.getRefWidgetId() == null ? defaultValues.getWidgetId()
+                    : CompileUtil.generateWidgetId(((PageContext) context).getClientPageId(), source.getRefWidgetId());
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel()), widgetId, control.getId());
+        }
+        return defaultValue;
+    }
 }
