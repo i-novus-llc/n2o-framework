@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
-import isNil from 'lodash/isNil';
 import { pure } from 'recompose';
-
-import evalExpression, { parseExpression } from '../../../utils/evalExpression';
 
 import { getAutoFocusId, flatFields } from './utils';
 import Fieldset from './Fieldset';
@@ -51,37 +47,16 @@ class Form extends React.Component {
 
     const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []));
 
-    return fieldsets.map((set, i) => {
-      const { enabled, visible } = set;
-
-      const takeFromDependency = param => {
-        if (parseExpression(param)) {
-          const currentDependency = evalExpression(
-            parseExpression(param),
-            activeModel
-          );
-
-          return currentDependency === undefined ? false : currentDependency;
-        } else {
-          return param === undefined ? true : param;
-        }
-      };
-
-      const fieldEnabled = isNil(enabled) ? true : takeFromDependency(enabled);
-      const fieldVisible = isNil(visible) ? true : takeFromDependency(visible);
-
+    return fieldsets.map((fieldset, i) => {
       return (
         <Fieldset
           activeModel={activeModel}
           key={i}
-          component={set.component}
           autoFocusId={autoFocusId}
           form={form}
           modelPrefix={modelPrefix}
           autoSubmit={autoSubmit}
-          {...omit(set, 'component')}
-          enabled={fieldEnabled}
-          visible={fieldVisible}
+          {...fieldset}
         />
       );
     });
