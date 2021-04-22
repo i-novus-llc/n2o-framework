@@ -80,6 +80,7 @@ class TabRegion extends React.Component {
       tabs,
       activeEntity,
       className,
+      style,
       hideSingleTab,
       maxHeight,
       scrollbar,
@@ -91,11 +92,12 @@ class TabRegion extends React.Component {
     return (
       <div
         className={classNames('n2o-tabs-region', {
+          className,
           visible: this.regionVisible(tabs),
         })}
+        style={style}
       >
         <Tabs
-          className={className && className}
           activeId={activeEntity}
           onChangeActive={this.handleChangeActive}
           hideSingleTab={hideSingleTab}

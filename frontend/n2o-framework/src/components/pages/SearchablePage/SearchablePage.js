@@ -4,12 +4,13 @@ import { batchActions } from 'redux-batched-actions';
 import { compose, withHandlers, withProps, mapProps } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
-import cn from 'classnames';
 import get from 'lodash/get';
+import classNames from 'classnames';
 
 import { updateModel } from '../../../actions/models';
 import { dataRequestWidget } from '../../../actions/widgets';
 import { makeGetModelByPrefixSelector } from '../../../selectors/models';
+
 import Alert from '../../snippets/Alerts/Alert';
 import DocumentTitle from '../../core/DocumentTitle';
 import PageTitle from '../../core/PageTitle';
@@ -33,11 +34,18 @@ function SearchablePage({
   withToolbar = true,
   initSearchValue,
 }) {
+  const { style, className } = metadata;
+
   return (
     <div
-      className={cn('n2o-page n2o-page__searchable-page n2o-searchable-page', {
-        'n2o-disabled-page': disabled,
-      })}
+      className={classNames(
+        'n2o-page n2o-page__searchable-page n2o-searchable-page',
+        className,
+        {
+          'n2o-disabled-page': disabled,
+        }
+      )}
+      style={style}
     >
       {error && <Alert {...error} visible />}
       {!isEmpty(metadata) && metadata.page && (
@@ -57,7 +65,7 @@ function SearchablePage({
         <SearchBar
           {...searchBar}
           initialValue={filterValue}
-          className={cn('ml-auto', searchBar.className)}
+          className={classNames('ml-auto', searchBar.className)}
           onSearch={onSearch}
           initSearchValue={initSearchValue}
         />
