@@ -4,7 +4,6 @@ import { touch, change, actionTypes } from 'redux-form';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import values from 'lodash/values';
-import split from 'lodash/split';
 import includes from 'lodash/includes';
 import merge from 'lodash/merge';
 import setWith from 'lodash/setWith';
@@ -12,11 +11,7 @@ import isArray from 'lodash/isArray';
 import isFunction from 'lodash/isFunction';
 
 import { addFieldMessage, removeFieldMessage } from '../actions/formPlugin';
-import {
-  makeFieldByName,
-  makeFormByName,
-  messageSelector,
-} from '../selectors/formPlugin';
+import { makeFormByName, messageSelector } from '../selectors/formPlugin';
 import { getWidgetFieldValidation } from '../selectors/widgets';
 import { setModel } from '../actions/models';
 import { SET_REQUIRED, UNSET_REQUIRED } from '../constants/formPlugin';
@@ -118,7 +113,7 @@ export function* copyAction({ payload }) {
   const targetModelField = get(targetModel, [target.field], []);
 
   const path = target.field;
-  const treePath = includes(split(path, ''), '.');
+  const treePath = includes(path, '.');
 
   const withTreeObject = (path, sheetValue) => setWith({}, path, sheetValue);
 
@@ -149,24 +144,24 @@ export function* copyAction({ payload }) {
           [target.field]: [...targetModelField, ...sourceModel],
         }
       : [...targetModelField, ...sourceModel];
-  } else {
-    if (treePath) {
+  } else if (treePath) {
+    if (sourceModel) {
       newModel = target.field
-        ? {
-            ...merge({}, targetModel, withTreeObject(path, sourceModel)),
-          }
+        ? merge({}, targetModel, withTreeObject(path, sourceModel))
         : sourceModel;
     } else {
-      newModel = target.field
-        ? {
-            ...targetModel,
-            [target.field]: sourceModel,
-          }
-        : sourceModel;
+      newModel = {};
     }
+  } else {
+    newModel = target.field
+      ? {
+          ...targetModel,
+          [target.field]: sourceModel,
+        }
+      : sourceModel;
   }
 
-  yield put(change(target.key, target.field, newModel[path]));
+  yield put(change(target.key, target.field, get(newModel, path)));
   yield put(setModel(target.prefix, target.key, newModel));
 }
 
