@@ -3,14 +3,14 @@ package net.n2oapp.framework.engine.modules;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.processing.N2oModule;
+import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.*;
 
 /**
  * Вставка времени выполнения запроса в атрибуты ответа
  * todo нужно задать момент срабатывания самым последним для processAction и processQuery и самым первым для Result и Error (NNO-1438)
  */
-public class ResponseTimeProcessing extends N2oModule {
+public class ResponseTimeProcessing implements DataProcessing {
 
     private static final String REQUEST_BEGIN_TIME_NAME_DEFAULT = "N2O_DATA_REQUEST_BEGIN_TIME";
 

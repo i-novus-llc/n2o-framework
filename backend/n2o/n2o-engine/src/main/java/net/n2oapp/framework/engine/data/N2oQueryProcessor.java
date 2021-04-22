@@ -118,7 +118,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getCounts(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException("Can't find selection for count request");
+            throw new N2oException(String.format("В %s.query.xml не найден <count> запрос необходимый для паджинации", query.getId()));
         return selection;
     }
 
@@ -132,7 +132,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             return selection;
         selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException("Can't find selection for unique request");
+            throw new N2oException(String.format("В %s.query.xml не найден <unique> запрос", query.getId()));
         return selection;
     }
 
@@ -142,7 +142,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException("Can't find selection for list request");
+            throw new N2oException(String.format("В %s.query.xml не найден <list> запрос", query.getId()));
         return selection;
     }
 
@@ -279,7 +279,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         if (filterFields == null) {
             N2oQuery.Selection result = findBaseSelection(selections);
             if (result == null) {
-                throw new N2oException("Can't find query without filters in query " + queryId);
+                throw new N2oException(String.format("В %s.query.xml не найден запрос без фильтров", queryId));
             }
             return result;
         }

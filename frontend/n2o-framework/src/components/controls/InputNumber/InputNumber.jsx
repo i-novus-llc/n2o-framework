@@ -147,7 +147,10 @@ export class InputNumber extends React.Component {
     if (isValid(newValue, min, max)) {
       newValue = newValue.toFixed(this.stepPrecition);
 
-      this.setState({ value: newValue }, () => this.props.onBlur(newValue));
+      this.setState({ value: newValue }, () => {
+        this.props.onChange(newValue);
+        this.props.onBlur(newValue);
+      });
     }
   }
 

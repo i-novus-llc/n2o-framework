@@ -15,18 +15,20 @@ import user from './reducers/auth';
 import regions from './reducers/regions';
 
 const formHack = (state, action) => {
-  // ToDo: Переписать
-  return action.meta && action.meta.form
-    ? formReducer.plugin({
-        [action.meta.form]: (formState, formAction) => {
-          return Object.assign(
-            {},
-            formState,
-            formPlugin(formState, formAction)
-          );
-        },
-      })(state, action)
-    : formReducer(state, action);
+  state = formReducer(state, action);
+
+  const formName = action.meta ? action.meta.form : '';
+  const formState = state[formName];
+
+  if (formName) {
+    const newFormState = formPlugin(formState, action);
+
+    if (formState !== newFormState) {
+      state = { ...state, [formName]: newFormState };
+    }
+  }
+
+  return state;
 };
 
 export default (history, customReducers = {}) =>

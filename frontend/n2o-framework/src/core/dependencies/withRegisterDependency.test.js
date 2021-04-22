@@ -29,20 +29,13 @@ describe('Проверка хока withRegisterDependency', function() {
     const store = createStore(reducers(history), {});
     expect(store.getState().form).toEqual({});
     const wrapper = setup(store);
-    expect(store.getState().form.testForm.registeredFields.test).toEqual({
-      isInit: true,
-      visible: true,
-      disabled: false,
-      message: null,
-      filter: [],
+    expect(store.getState().form.testForm.registeredFields.test).toMatchObject({
       dependency: [
         {
           type: 'reRender',
           on: ['name'],
         },
       ],
-      loading: false,
-      required: false,
     });
   });
 });

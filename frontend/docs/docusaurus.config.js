@@ -1,5 +1,11 @@
 const CONFIG = require('./src/ci-config.json')
 
+let contextPath = CONFIG.docusaurusUrl || '/'
+
+if (contextPath[contextPath.length - 1] !== '/') {
+    contextPath += '/'
+}
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
 
@@ -11,7 +17,7 @@ module.exports = {
     url: CONFIG.url || 'https://n2o.i-novus.ru',
     // Путь, по которому нужно открывать документацию (аналог contextPath), н.р. /docusaurus/
     // Требуется для корректных ссылок на статику
-    baseUrl: CONFIG.baseUrl || '/',
+    baseUrl: contextPath,
 
     /* Опциональные поля */
 
