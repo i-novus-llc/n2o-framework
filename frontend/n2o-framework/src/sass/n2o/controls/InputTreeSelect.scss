@@ -379,10 +379,15 @@
 
   & .n2o-select-tree-content-wrapper{
     padding: 0px 5px;
-    min-width: 100%;
+    width: 100%;
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
+    .n2o-select-tree-label {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+    }
     & > * {
       padding-right: 5px;
     }
