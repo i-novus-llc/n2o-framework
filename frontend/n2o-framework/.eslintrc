@@ -5,7 +5,8 @@
   ],
   "plugins": [
     "eslint-plugin-import",
-    "optimize-regex"
+    "optimize-regex",
+    "sonarjs"
   ],
   "rules": {
     // without ";"
@@ -33,6 +34,7 @@
     "indent": ["error", 4, {"SwitchCase": 1}],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
+    "spaced-comment": ["error", "always"],
     // Разбитие импортов на группы
     "import/order": [
       "error", {
@@ -80,6 +82,48 @@
     "react/jsx-curly-newline": "off", // TODO ["error", { "multiline": "require", "singleline": "forbid" }]
     "react/state-in-constructor": "off",
     "react/static-property-placement": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+
+// Sonar
+  // Bug Detection
+    // Дублировние кода в if-else, switch ветках
+    "sonarjs/no-all-duplicated-branches": "error",
+    // Переприсваивание значений
+    "sonarjs/no-element-overwrite": "error",
+    // Вызов функции только с описанными аргументами
+    "sonarjs/no-extra-arguments": "error",
+    // Идентичные выражения с обеих сторон бинарных операторов
+    "sonarjs/no-identical-expressions": "error",
+    // Обход массива с одним элементом
+    "sonarjs/no-one-iteration-loop": "error",
+    // Попытка использования резульата функции, которая ничего не возвращает
+    "sonarjs/no-use-of-empty-return-value": "error",
+  // Code Smell Detection
+    // Схлопывание вложенных if  в один
+    "sonarjs/no-collapsible-if": "error",
+    // Отказ от проверки отрицательной на размер коллекций, и что он ">=0"
+    "sonarjs/no-collection-size-mischeck": "error",
+    // Дублирование if, switch веток
+    "sonarjs/no-duplicated-branches": "error",
+    // Дублировние функций
+    "sonarjs/no-identical-functions": "error",
+    // Инвертирование булевых операций
+    "sonarjs/no-inverted-boolean-check": "error",
+    // Сравнение булевых тип внутри условий (if(some == true){...})
+    "sonarjs/no-redundant-boolean": "error",
+    // Прерывание выполнения, которое и так произойдёт (неуместные break/return/continue)
+    "sonarjs/no-redundant-jump": "error",
+    // Дублировние if с одинаковым условием
+    "sonarjs/no-identical-conditions": "error",
+    // Отказ от switch на 1-2 ветки
+    "sonarjs/no-small-switch": "error",
+    // Чуть более умный no-unused-vars
+    "sonarjs/no-unused-collection": "error",
+    // Бесполезные / пустые catch
+    "sonarjs/no-useless-catch": "error",
+    // Присваивание переменной сразу же перед тем как её вернуть
+    "sonarjs/prefer-immediate-return": "error",
+    // if(true) { return true } else { return false }
+    "sonarjs/prefer-single-boolean-return": "error"
   }
 }
