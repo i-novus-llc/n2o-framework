@@ -1,5 +1,3 @@
-import React from 'react';
+import React from 'react'
 
-export default Component => ({ tableRef, ...rest }) => {
-  return <Component ref={tableRef} {...rest} />;
-};
+export default Component => ({ tableRef, ...rest }) => <Component ref={tableRef} {...rest} />

@@ -1,28 +1,29 @@
-import isObject from 'lodash/isObject';
-import isFunction from 'lodash/isFunction';
-import isArray from 'lodash/isArray';
-import each from 'lodash/each';
-import isString from 'lodash/isString';
-import merge from 'lodash/merge';
-import evalExpression, { parseExpression } from './evalExpression';
+import isObject from 'lodash/isObject'
+import isFunction from 'lodash/isFunction'
+import isArray from 'lodash/isArray'
+import each from 'lodash/each'
+import isString from 'lodash/isString'
+import merge from 'lodash/merge'
+
+import evalExpression, { parseExpression } from './evalExpression'
 
 const blackList = [
-  'dataProvider',
-  'action',
-  'actions',
-  'queryMapping',
-  'pathMapping',
-];
+    'dataProvider',
+    'action',
+    'actions',
+    'queryMapping',
+    'pathMapping',
+]
 
 export function resolve(code) {
-  return new Function(
-    'data',
-    [
-      'try{ with(Object.assign({}, data)){',
-      'return ' + code,
-      '}}catch{ return false }',
-    ].join('\n')
-  );
+    return new Function(
+        'data',
+        [
+            'try{ with(Object.assign({}, data)){',
+            `return ${code}`,
+            '}}catch{ return false }',
+        ].join('\n'),
+    )
 }
 
 /**
@@ -47,48 +48,47 @@ export function resolve(code) {
  * //- {fio: "Иванов Иван Иванович"}
  */
 export default function propsResolver(
-  props,
-  data = {},
-  additionalBlackList = []
+    props,
+    data = {},
+    additionalBlackList = [],
 ) {
-  let obj = {};
-  if (isArray(props)) {
-    obj = [];
-  }
-  if (isObject(props) && !isFunction(props)) {
-    for (let k in props) {
-      if (isObject(props[k])) {
-        if (merge(blackList, additionalBlackList).includes(k)) {
-          obj[k] = props[k];
-        } else {
-          obj[k] = propsResolver(props[k], data);
-        }
-      } else if (parseExpression(props[k])) {
-        obj[k] = evalExpression(parseExpression(props[k]), data);
-      } else {
-        obj[k] = props[k];
-      }
+    let obj = {}
+    if (isArray(props)) {
+        obj = []
     }
-    each(props, (p, k) => {
-      if (isObject(p)) {
-        if (merge(blackList, additionalBlackList).includes(k)) {
-          obj[k] = p;
-        } else {
-          obj[k] = propsResolver(p, data);
+    if (isObject(props) && !isFunction(props)) {
+        for (const k in props) {
+            if (isObject(props[k])) {
+                if (merge(blackList, additionalBlackList).includes(k)) {
+                    obj[k] = props[k]
+                } else {
+                    obj[k] = propsResolver(props[k], data)
+                }
+            } else if (parseExpression(props[k])) {
+                obj[k] = evalExpression(parseExpression(props[k]), data)
+            } else {
+                obj[k] = props[k]
+            }
         }
-      } else if (parseExpression(p)) {
-        obj[k] = evalExpression(parseExpression(p), data);
-      } else {
-        obj[k] = p;
-      }
-    });
-    return obj;
-  } else if (isString(props)) {
-    if (parseExpression(props)) {
-      return evalExpression(parseExpression(props), data);
-    } else {
-      return props;
+        each(props, (p, k) => {
+            if (isObject(p)) {
+                if (merge(blackList, additionalBlackList).includes(k)) {
+                    obj[k] = p
+                } else {
+                    obj[k] = propsResolver(p, data)
+                }
+            } else if (parseExpression(p)) {
+                obj[k] = evalExpression(parseExpression(p), data)
+            } else {
+                obj[k] = p
+            }
+        })
+        return obj
+    } if (isString(props)) {
+        if (parseExpression(props)) {
+            return evalExpression(parseExpression(props), data)
+        }
+        return props
     }
-  }
-  return props;
+    return props
 }
