@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, lifecycle, withHandlers, withState } from 'recompose';
-import cx from 'classnames';
-import { isEqual, invoke } from 'lodash';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, lifecycle, withHandlers, withState } from 'recompose'
+import cx from 'classnames'
+import { isEqual, invoke } from 'lodash'
 
-import PopupItems from './PopupItems';
-import { isBottom } from './utils';
+import PopupItems from './PopupItems'
+import { isBottom } from './utils'
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -31,71 +31,71 @@ import { isBottom } from './utils';
  */
 
 function PopupList({
-  children,
-  isExpanded,
-  onScrollEnd,
-  expandPopUp,
-  filterValue,
-  needAddFilter,
-  setMenuElement,
-  ...rest
+    children,
+    isExpanded,
+    onScrollEnd,
+    expandPopUp,
+    filterValue,
+    needAddFilter,
+    setMenuElement,
+    ...rest
 }) {
-  return (
-    <div className={cx('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
-      {children}
-      <PopupItems {...rest} />
-    </div>
-  );
+    return (
+        <div className={cx('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
+            {children}
+            <PopupItems {...rest} />
+        </div>
+    )
 }
 
 PopupList.propTypes = {
-  isExpanded: PropTypes.bool.isRequired,
-  onScrollEnd: PropTypes.func,
-  options: PropTypes.array.isRequired,
-  valueFieldId: PropTypes.string.isRequired,
-  labelFieldId: PropTypes.string.isRequired,
-  iconFieldId: PropTypes.string,
-  imageFieldId: PropTypes.string,
-  groupFieldId: PropTypes.string,
-  badgeFieldId: PropTypes.string,
-  badgeColorFieldId: PropTypes.string,
-  disabledValues: PropTypes.array,
-  onSelect: PropTypes.func,
-  selected: PropTypes.array,
-  hasCheckboxes: PropTypes.bool,
-  onRemoveItem: PropTypes.func,
-  format: PropTypes.string,
-  expandPopUp: PropTypes.any,
-  children: PropTypes.node,
-  needAddFilter: PropTypes.bool,
-};
+    isExpanded: PropTypes.bool.isRequired,
+    onScrollEnd: PropTypes.func,
+    options: PropTypes.array.isRequired,
+    valueFieldId: PropTypes.string.isRequired,
+    labelFieldId: PropTypes.string.isRequired,
+    iconFieldId: PropTypes.string,
+    imageFieldId: PropTypes.string,
+    groupFieldId: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    disabledValues: PropTypes.array,
+    onSelect: PropTypes.func,
+    selected: PropTypes.array,
+    hasCheckboxes: PropTypes.bool,
+    onRemoveItem: PropTypes.func,
+    format: PropTypes.string,
+    expandPopUp: PropTypes.any,
+    children: PropTypes.node,
+    needAddFilter: PropTypes.bool,
+}
 
 const enhance = compose(
-  withState('menuElement', 'setMenuElement', null),
-  withHandlers({
-    onScroll: ({ needAddFilter, filterValue, onScrollEnd }) => e => {
-      if (isBottom(e.target)) onScrollEnd(needAddFilter ? filterValue : {});
-    },
-  }),
-  lifecycle({
-    componentDidUpdate(prevProps) {
-      if (!isEqual(prevProps.options, this.props.options)) {
-        invoke(this.props, 'scheduleUpdate');
-      }
+    withState('menuElement', 'setMenuElement', null),
+    withHandlers({
+        onScroll: ({ needAddFilter, filterValue, onScrollEnd }) => (e) => {
+            if (isBottom(e.target)) { onScrollEnd(needAddFilter ? filterValue : {}) }
+        },
+    }),
+    lifecycle({
+        componentDidUpdate(prevProps) {
+            if (!isEqual(prevProps.options, this.props.options)) {
+                invoke(this.props, 'scheduleUpdate')
+            }
 
-      if (!prevProps.menuElement && this.props.menuElement) {
-        this.props.menuElement.addEventListener('scroll', this.props.onScroll);
-      }
-    },
+            if (!prevProps.menuElement && this.props.menuElement) {
+                this.props.menuElement.addEventListener('scroll', this.props.onScroll)
+            }
+        },
 
-    componentWillUnmount() {
-      if (this.props.menuElement) {
-        this.props.menuElement.removeEventListener(
-          'scroll',
-          this.props.onScroll
-        );
-      }
-    },
-  })
-);
-export default enhance(PopupList);
+        componentWillUnmount() {
+            if (this.props.menuElement) {
+                this.props.menuElement.removeEventListener(
+                    'scroll',
+                    this.props.onScroll,
+                )
+            }
+        },
+    }),
+)
+export default enhance(PopupList)

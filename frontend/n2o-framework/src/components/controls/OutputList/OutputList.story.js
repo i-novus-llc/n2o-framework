@@ -1,71 +1,67 @@
-import React from 'react';
+import React from 'react'
+import omit from 'lodash/omit'
+import { storiesOf } from '@storybook/react'
 
-import omit from 'lodash/omit';
+import OutputList from './OutputList'
+import OutputListJson from './OutputList.meta.json'
 
-import { storiesOf } from '@storybook/react';
-
-import OutputList from './OutputList';
-import OutputListJson from './OutputList.meta.json';
-
-const stories = storiesOf('Контролы/OutputList', module);
+const stories = storiesOf('Контролы/OutputList', module)
 
 const data = [
-  {
-    name: 'Test link 1',
-    href: 'http://...',
-  },
-  {
-    name: 'Test link 2',
-    href: 'http://...',
-  },
-  {
-    name: 'Test link 3',
-    href: 'http://...',
-  },
-  {
-    name: 'Test link 5',
-    href: 'http://...',
-  },
-  {
-    name: 'Test link 6',
-    href: 'http://...',
-  },
-  {
-    name: 'Test link 7',
-    href: 'http://...',
-  },
-];
+    {
+        name: 'Test link 1',
+        href: 'http://...',
+    },
+    {
+        name: 'Test link 2',
+        href: 'http://...',
+    },
+    {
+        name: 'Test link 3',
+        href: 'http://...',
+    },
+    {
+        name: 'Test link 5',
+        href: 'http://...',
+    },
+    {
+        name: 'Test link 6',
+        href: 'http://...',
+    },
+    {
+        name: 'Test link 7',
+        href: 'http://...',
+    },
+]
 
 const data2 = [
-  {
-    name: 'Test row 1',
-  },
-  {
-    name: 'Test row 2',
-  },
-  {
-    name: 'Test row 3',
-  },
-  {
-    name: 'Test row 5',
-  },
-  {
-    name: 'Test row 6',
-  },
-  {
-    name: 'Test row 7',
-  },
-];
+    {
+        name: 'Test row 1',
+    },
+    {
+        name: 'Test row 2',
+    },
+    {
+        name: 'Test row 3',
+    },
+    {
+        name: 'Test row 5',
+    },
+    {
+        name: 'Test row 6',
+    },
+    {
+        name: 'Test row 7',
+    },
+]
 
 stories
-  .add(
-    'OutputList row links',
-    () => {
-      return <OutputList {...OutputListJson} value={data} />;
-    },
-    {
-      info: {
-        text: `
+    .add(
+        'OutputList row links',
+        () => <OutputList {...OutputListJson} value={data} />,
+        {
+            info: {
+                text: `
       Компонент 'Вывод строк/список'
       ~~~js
       import OutputList from 'n2o-framework/lib/components/controls/OutputList/OutputList';
@@ -80,17 +76,15 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'OutputList row',
-    () => {
-      return <OutputList {...OutputListJson} value={data2} />;
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'OutputList row',
+        () => <OutputList {...OutputListJson} value={data2} />,
+        {
+            info: {
+                text: `
       Компонент 'Вывод строк/список'
       ~~~js
       import OutputList from 'n2o-framework/lib/components/controls/OutputList/OutputList';
@@ -105,19 +99,17 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'default space separator',
-    () => {
-      return (
-        <OutputList {...omit(OutputListJson, 'separator')} value={data2} />
-      );
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'default space separator',
+        () => (
+            <OutputList {...omit(OutputListJson, 'separator')} value={data2} />
+        ),
+        {
+            info: {
+                text: `
       Компонент 'Вывод строк/список'
       ~~~js
       import OutputList from 'n2o-framework/lib/components/controls/OutputList/OutputList';
@@ -131,19 +123,17 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'OutputList column links',
-    () => {
-      return (
-        <OutputList {...OutputListJson} value={data} direction={'column'} />
-      );
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'OutputList column links',
+        () => (
+            <OutputList {...OutputListJson} value={data} direction="column" />
+        ),
+        {
+            info: {
+                text: `
       Компонент 'Вывод строк/список'
       ~~~js
       import OutputList from 'n2o-framework/lib/components/controls/OutputList/OutputList';
@@ -158,19 +148,17 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'OutputList column',
-    () => {
-      return (
-        <OutputList {...OutputListJson} value={data2} direction={'column'} />
-      );
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'OutputList column',
+        () => (
+            <OutputList {...OutputListJson} value={data2} direction="column" />
+        ),
+        {
+            info: {
+                text: `
       Компонент 'Вывод строк/список'
       ~~~js
       import OutputList from 'n2o-framework/lib/components/controls/OutputList/OutputList';
@@ -185,6 +173,6 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  );
+            },
+        },
+    )

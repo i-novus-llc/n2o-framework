@@ -1,24 +1,20 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
 
 /**
  * Селектор всех алертов
  */
-export const alertsSelector = state => {
-  return state.alerts || {};
-};
+export const alertsSelector = state => state.alerts || {}
 /**
  * Селектор алертов по ключу(widgetId)
  */
-export const makeAlertsByKeySelector = key =>
-  createSelector(
+export const makeAlertsByKeySelector = key => createSelector(
     alertsSelector,
-    alerts => alerts[key]
-  );
+    alerts => alerts[key],
+)
 /**
  * Селектор алерта по ключу(widgetId) и id алерта
  */
-export const makeAlertByKeyAndIdSelector = (key, id) =>
-  createSelector(
+export const makeAlertByKeyAndIdSelector = (key, id) => createSelector(
     makeAlertByKeyAndIdSelector(key),
-    alerts => alerts[id]
-  );
+    alerts => alerts[id],
+)

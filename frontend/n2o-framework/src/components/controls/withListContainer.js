@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import throttle from 'lodash/throttle';
-import debounce from 'lodash/debounce';
-import { connect } from 'react-redux';
-import { makeAlertsByKeySelector } from '../../selectors/alerts';
+import React from 'react'
+import PropTypes from 'prop-types'
+import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
+import { connect } from 'react-redux'
+
+import { makeAlertsByKeySelector } from '../../selectors/alerts'
 
 /**
  * HOC для контейнеров {@Link InputSelectContainer} и {@Link N2OSelectContainer}
@@ -11,7 +12,7 @@ import { makeAlertsByKeySelector } from '../../selectors/alerts';
  */
 
 function withListContainer(WrappedComponent) {
-  /**
+    /**
    * Класс для хока
    * @reactProps {boolean} loading - флаг анимации загрузки
    * @reactProps {array} options - данные
@@ -25,142 +26,142 @@ function withListContainer(WrappedComponent) {
    * @reactProps {array} options - данные с сервера
    */
 
-  const WithListContainer = ({
-    _fetchData,
-    dataProvider,
-    onOpen,
-    onInput,
-    count,
-    size,
-    page,
-    data,
-    onScrollEnd,
-    loading,
-    labelFieldId,
-    sortFieldId,
-    valueFieldId,
-    ...rest
-  }) => {
+    const WithListContainer = ({
+        _fetchData,
+        dataProvider,
+        onOpen,
+        onInput,
+        count,
+        size,
+        page,
+        data,
+        onScrollEnd,
+        loading,
+        labelFieldId,
+        sortFieldId,
+        valueFieldId,
+        ...rest
+    }) => {
     /**
      * Совершает вызов апи с параметрами
      * @param optionalParams {object} - дополнительные параметра запроса
      * @param concat {boolean} - флаг добавления новых данных к текущим
      */
 
-    const callApiWithParams = (optionalParams = {}, concat = false) => {
-      const sortId = sortFieldId || valueFieldId || labelFieldId;
+        const callApiWithParams = (optionalParams = {}, concat = false) => {
+            const sortId = sortFieldId || valueFieldId || labelFieldId
 
-      const params = {
-        size,
-        page,
-        [`sorting.${sortId}`]: 'ASC',
-        ...optionalParams,
-      };
+            const params = {
+                size,
+                page,
+                [`sorting.${sortId}`]: 'ASC',
+                ...optionalParams,
+            }
 
-      _fetchData(params, concat);
-    };
+            _fetchData(params, concat)
+        }
 
-    /**
+        /**
      * Обрабатывает открытие попапа
      * @private
      */
 
-    const handleOpen = () => {
-      callApiWithParams({ page: 1 });
-      onOpen && onOpen();
-    };
+        const handleOpen = () => {
+            callApiWithParams({ page: 1 })
+            onOpen && onOpen()
+        }
 
-    /**
+        /**
      * Обрабатывает серверный поиск
      * @param value - Значение для поиска
      * @param delay - Задержка при вводе
      * @private
      */
 
-    const handleSearch = debounce(value => {
-      const quickSearchParam =
-        (dataProvider && dataProvider.quickSearchParam) || 'search';
+        const handleSearch = debounce((value) => {
+            const quickSearchParam =
+        (dataProvider && dataProvider.quickSearchParam) || 'search'
 
-      callApiWithParams({ [quickSearchParam]: value, page: 1 });
-    }, 300);
+            callApiWithParams({ [quickSearchParam]: value, page: 1 })
+        }, 300)
 
-    const handleItemOpen = value => {
-      callApiWithParams({ 'filter.parent_id': value }, true);
-    };
+        const handleItemOpen = (value) => {
+            callApiWithParams({ 'filter.parent_id': value }, true)
+        }
 
-    /**
+        /**
      * Обрабатывает изменение инпута
      * @param value {string|number} - новое значение
      * @private
      */
 
-    const handleInputChange = value => {
-      onInput && onInput(value);
-    };
+        const handleInputChange = (value) => {
+            onInput && onInput(value)
+        }
 
-    /**
+        /**
      * Обрабатывает конец скролла
      * @private
      */
 
-    const handleScrollEnd = throttle((filter = {}) => {
-      if (page && size && count) {
-        if (page * size < count) {
-          callApiWithParams({ page: page + 1, ...filter }, true);
-        }
-      }
+        const handleScrollEnd = throttle((filter = {}) => {
+            if (page && size && count) {
+                if (page * size < count) {
+                    callApiWithParams({ page: page + 1, ...filter }, true)
+                }
+            }
 
-      onScrollEnd && onScrollEnd();
-    }, 400);
+            onScrollEnd && onScrollEnd()
+        }, 400)
 
-    /**
+        /**
      * Рендер
      */
 
-    return (
-      <WrappedComponent
-        {...rest}
-        labelFieldId={labelFieldId}
-        valueFieldId={valueFieldId}
-        data={data}
-        isLoading={loading}
-        onInput={handleInputChange}
-        onScrollEnd={handleScrollEnd}
-        onOpen={handleOpen}
-        onSearch={handleSearch}
-        handleItemOpen={handleItemOpen}
-        _fetchData={_fetchData}
-      />
-    );
-  };
+        return (
+            <WrappedComponent
+                {...rest}
+                labelFieldId={labelFieldId}
+                valueFieldId={valueFieldId}
+                data={data}
+                isLoading={loading}
+                onInput={handleInputChange}
+                onScrollEnd={handleScrollEnd}
+                onOpen={handleOpen}
+                onSearch={handleSearch}
+                handleItemOpen={handleItemOpen}
+                _fetchData={_fetchData}
+            />
+        )
+    }
 
-  WithListContainer.propTypes = {
-    loading: PropTypes.bool,
-    queryId: PropTypes.string,
-    size: PropTypes.number,
-    labelFieldId: PropTypes.string,
-    fetchData: PropTypes.func,
-    options: PropTypes.array,
-    onOpen: PropTypes.func,
-    onInput: PropTypes.func,
-    onScrollEnd: PropTypes.func,
-    quickSearchParam: PropTypes.string,
-  };
+    WithListContainer.propTypes = {
+        loading: PropTypes.bool,
+        queryId: PropTypes.string,
+        size: PropTypes.number,
+        labelFieldId: PropTypes.string,
+        fetchData: PropTypes.func,
+        options: PropTypes.array,
+        onOpen: PropTypes.func,
+        onInput: PropTypes.func,
+        onScrollEnd: PropTypes.func,
+        quickSearchParam: PropTypes.string,
+    }
 
-  WithListContainer.defaultProps = {
-    data: [],
-  };
+    WithListContainer.defaultProps = {
+        data: [],
+    }
 
-  return connect(
-    mapStateToProps,
-    null
-  )(WithListContainer);
+    return connect(
+        mapStateToProps,
+        null,
+    )(WithListContainer)
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(
-    state
-  ),
-});
+    alerts: makeAlertsByKeySelector(`${ownProps.form}.${ownProps.labelFieldId}`)(
+        state,
+    ),
+})
 
-export default withListContainer;
+export default withListContainer

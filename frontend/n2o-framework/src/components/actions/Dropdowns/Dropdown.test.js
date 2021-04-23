@@ -1,27 +1,28 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import Dropdown from './Dropdown';
+import React from 'react'
+import { mount, shallow } from 'enzyme'
 
-const setup = propsOverride => {
-  const props = {
-    title: 'some title',
-    children: 'some children',
-  };
+import Dropdown from './Dropdown'
 
-  return mount(<Dropdown {...props} {...propsOverride} />);
-};
+const setup = (propsOverride) => {
+    const props = {
+        title: 'some title',
+        children: 'some children',
+    }
+
+    return mount(<Dropdown {...props} {...propsOverride} />)
+}
 
 describe('<Dropdown />', () => {
-  it('компонент должен отрисоваться', () => {
-    const wrapper = setup();
+    it('компонент должен отрисоваться', () => {
+        const wrapper = setup()
 
-    expect(wrapper.find('ButtonDropdown').exists()).toBeTruthy();
-  });
+        expect(wrapper.find('ButtonDropdown').exists()).toBeTruthy()
+    })
 
-  it('должны проставиться title и children', () => {
-    const wrapper = setup();
+    it('должны проставиться title и children', () => {
+        const wrapper = setup()
 
-    expect(wrapper.find('DropdownToggle').text()).toBe('some title');
-    expect(wrapper.find('DropdownMenu').text()).toBe('some children');
-  });
-});
+        expect(wrapper.find('DropdownToggle').text()).toBe('some title')
+        expect(wrapper.find('DropdownMenu').text()).toBe('some children')
+    })
+})
