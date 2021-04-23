@@ -8,16 +8,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *  Утилита по работе с QueryContext
+ * Утилита по работе с QueryContext
  */
 public class QueryContextUtil {
 
     /**
      * Создание QueryContext для RouteRegister
-     * @param query  исходная выборка
-     * @return   QueryContext с добавленными фильтрами
+     *
+     * @param query Исходная выборка
+     * @return QueryContext с добавленными фильтрами
      */
-    public static QueryContext prepareQueryContextForRouteRegister(CompiledQuery query ) {
+    public static QueryContext prepareQueryContextForRouteRegister(CompiledQuery query) {
         QueryContext contextForRegister = new QueryContext(query.getId(), query.getRoute());
         List<Filter> filters = query.getFilterFieldsMap().values().stream().map(f -> {
             Filter e = new Filter();

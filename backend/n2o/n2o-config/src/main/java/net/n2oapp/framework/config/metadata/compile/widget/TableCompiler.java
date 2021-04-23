@@ -195,7 +195,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         filter.setBlackResetList(new ArrayList<>(Arrays.stream(source.getFilters())
                 .filter(f -> f instanceof N2oSearchButtons && ((N2oSearchButtons) f).getClearIgnore() != null)
                 .flatMap(f -> Arrays.stream(((N2oSearchButtons) f).getClearIgnore().split(",")))
-                .map(s -> s.trim())
+                .map(String::trim)
                 .collect(Collectors.toSet())
         ));
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));

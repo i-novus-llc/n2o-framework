@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
@@ -45,7 +46,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                                 page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(),
                                         (ModelLink) page.getRoutes().getQueryMapping().get(param).getOnSet());
                             }
-                });
+                        });
             }
 
         }
@@ -91,31 +92,43 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     }
 
     private void collectFiltersToModels(Models models, List<Widget> widgets) {
-        if (widgets != null) {
-            for (Widget w : widgets) {
-                if (w.getFilters() != null) {
-                    for (Filter f : (List<Filter>) w.getFilters()) {
-                        if (f.getRoutable() && f.getLink().getSubModelQuery() != null) {
-                            addToModels(models, f);
-                        }
-                    }
-                }
-            }
-        }
+        if (widgets != null)
+            for (Widget w : widgets)
+                if (w.getFilters() != null)
+                    for (Filter f : (List<Filter>) w.getFilters())
+                        if (f.getRoutable())
+                            if (f.getLink().getSubModelQuery() != null)
+                                addSubModelLinkToModels(models, f);
+                            else if (w instanceof Table && ((Table) w).getFiltersDefaultValuesQueryId() != null)
+                                addDefaultFilterValueLinkToModels(models, f);
     }
 
-    private void addToModels(Models models, Filter f) {
-        ReduxModel model = f.getLink().getModel();
-        String widgetId = f.getLink().getWidgetId();
-        String fieldId = f.getLink().getSubModelQuery().getSubModel();
-        ModelLink link = new ModelLink(model, widgetId, fieldId);
+    private void addSubModelLinkToModels(Models models, Filter f) {
+        ModelLink link = constructLink(models, f.getLink(), f.getLink().getSubModelQuery().getSubModel());
         link.setParam(f.getParam());
         link.setSubModelQuery(f.getLink().getSubModelQuery());
-        if (models.get(model, widgetId, fieldId) != null)
-            link.setValue(models.get(model, widgetId, fieldId).getValue());
+
         if (link.getValue() == null)
             link.setValue(f.getLink().getValue());
-        models.add(model, widgetId, fieldId, link);
+        models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
+    }
+
+    private void addDefaultFilterValueLinkToModels(Models models, Filter f) {
+        ModelLink link = constructLink(models, f.getLink(), f.getFilterId());
+        if (f.getLink().getValue() != null)
+            link.setValue(f.getLink().getValue());
+        models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
+    }
+
+    private ModelLink constructLink(Models models, ModelLink filterLink, String fieldId) {
+        ReduxModel model = filterLink.getModel();
+        String widgetId = filterLink.getWidgetId();
+        ModelLink link = new ModelLink(model, widgetId, fieldId);
+
+        ModelLink pageLink = models.get(model, widgetId, fieldId);
+        if (pageLink != null)
+            link.setValue(pageLink.getValue());
+        return link;
     }
 
     private void resolveLinks(Models models, BindProcessor p) {
