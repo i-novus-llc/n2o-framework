@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
@@ -34,7 +35,7 @@ public class Tiles extends Widget {
 
     @Getter
     @Setter
-    public static class Tile implements IdAware, Compiled {
+    public static class Tile implements IdAware, Compiled, CssClassAware {
         @JsonProperty
         private String id;
         @JsonProperty
