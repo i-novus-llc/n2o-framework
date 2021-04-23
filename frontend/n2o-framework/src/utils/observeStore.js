@@ -1,5 +1,5 @@
-import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 /**
  * Утилита позволяющая подписываться на изменения хранилища через селектор. В случае изменения вызывается callback
  * @param {Object} store - хранилище Redux
@@ -23,17 +23,17 @@ import isEmpty from 'lodash/isEmpty';
  * };
  */
 export default function observeStore(store, select, onChange) {
-  let currentState;
+    let currentState
 
-  function handleChange() {
-    let nextState = select(store.getState());
-    if (!isEqual(nextState, currentState) && !isEmpty(nextState)) {
-      currentState = nextState;
-      onChange(currentState);
+    function handleChange() {
+        const nextState = select(store.getState())
+        if (!isEqual(nextState, currentState) && !isEmpty(nextState)) {
+            currentState = nextState
+            onChange(currentState)
+        }
     }
-  }
 
-  let unsubscribe = store.subscribe(handleChange);
-  handleChange();
-  return unsubscribe;
+    const unsubscribe = store.subscribe(handleChange)
+    handleChange()
+    return unsubscribe
 }

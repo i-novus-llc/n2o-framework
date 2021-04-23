@@ -1,31 +1,32 @@
 import {
-  REGISTER,
-  DATA_REQUEST,
-  DATA_SUCCESS,
-  DATA_FAIL,
-  RESOLVE,
-  REMOVE,
-  SHOW,
-  HIDE,
-  ENABLE,
-  DISABLE,
-  LOADING,
-  UNLOADING,
-  ALERT_ADD,
-  ALERT_REMOVE,
-  SORT_BY,
-  CHANGE_COUNT,
-  CHANGE_SIZE,
-  CHANGE_PAGE,
-  CHANGE_FILTERS_VISIBILITY,
-  TOGGLE_FILTERS_VISIBILITY,
-  RESET_STATE,
-  SET_WIDGET_METADATA,
-  SET_TABLE_SELECTED_ID,
-  SET_ACTIVE,
-  DISABLE_ON_FETCH,
-} from '../constants/widgets';
-import createActionHelper from './createActionHelper';
+    REGISTER,
+    DATA_REQUEST,
+    DATA_SUCCESS,
+    DATA_FAIL,
+    RESOLVE,
+    REMOVE,
+    SHOW,
+    HIDE,
+    ENABLE,
+    DISABLE,
+    LOADING,
+    UNLOADING,
+    ALERT_ADD,
+    ALERT_REMOVE,
+    SORT_BY,
+    CHANGE_COUNT,
+    CHANGE_SIZE,
+    CHANGE_PAGE,
+    CHANGE_FILTERS_VISIBILITY,
+    TOGGLE_FILTERS_VISIBILITY,
+    RESET_STATE,
+    SET_WIDGET_METADATA,
+    SET_TABLE_SELECTED_ID,
+    SET_ACTIVE,
+    DISABLE_ON_FETCH,
+} from '../constants/widgets'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * Регистрация виджета в хранилище
@@ -36,7 +37,7 @@ import createActionHelper from './createActionHelper';
  * dispatch(registerWidget("Page.Widget", {isVisible: false}))
  */
 export function registerWidget(widgetId, initProps, preInit) {
-  return createActionHelper(REGISTER)({ widgetId, initProps, preInit });
+    return createActionHelper(REGISTER)({ widgetId, initProps, preInit })
 }
 
 /**
@@ -47,7 +48,7 @@ export function registerWidget(widgetId, initProps, preInit) {
  * dispatch(dataRequestWidget("Page.Widget", {size: 200}))
  */
 export function dataRequestWidget(widgetId, options = {}) {
-  return createActionHelper(DATA_REQUEST)({ widgetId, options });
+    return createActionHelper(DATA_REQUEST)({ widgetId, options })
 }
 
 /**
@@ -57,15 +58,15 @@ export function dataRequestWidget(widgetId, options = {}) {
  * @param json - response в виде json
  */
 export function dataSuccessWidget(widgetId, json) {
-  return createActionHelper(DATA_SUCCESS)(
-    {
-      widgetId,
-      query: json,
-    },
-    {
-      ...json.meta,
-    }
-  );
+    return createActionHelper(DATA_SUCCESS)(
+        {
+            widgetId,
+            query: json,
+        },
+        {
+            ...json.meta,
+        },
+    )
 }
 
 /**
@@ -76,13 +77,13 @@ export function dataSuccessWidget(widgetId, json) {
  * @param meta - meta эффекты запроса
  */
 export function dataFailWidget(widgetId, err, meta) {
-  return createActionHelper(DATA_FAIL)(
-    {
-      widgetId,
-      err,
-    },
-    meta
-  );
+    return createActionHelper(DATA_FAIL)(
+        {
+            widgetId,
+            err,
+        },
+        meta,
+    )
 }
 
 /**
@@ -92,7 +93,7 @@ export function dataFailWidget(widgetId, err, meta) {
  * @param resolveModel - данные виджета
  */
 export function resolveWidget(widgetId, resolveModel) {
-  return createActionHelper(RESOLVE)({ widgetId, model: resolveModel });
+    return createActionHelper(RESOLVE)({ widgetId, model: resolveModel })
 }
 
 /**
@@ -102,7 +103,7 @@ export function resolveWidget(widgetId, resolveModel) {
  * dispatch(removeWidget("Page.Widget"))
  */
 export function removeWidget(widgetId) {
-  return createActionHelper(REMOVE)({ widgetId });
+    return createActionHelper(REMOVE)({ widgetId })
 }
 
 /**
@@ -112,7 +113,7 @@ export function removeWidget(widgetId) {
  * dispatch(showWidget("Page.Widget"))
  */
 export function showWidget(widgetId) {
-  return createActionHelper(SHOW)({ widgetId });
+    return createActionHelper(SHOW)({ widgetId })
 }
 
 /**
@@ -122,7 +123,7 @@ export function showWidget(widgetId) {
  * dispatch(hideWidget("Page.Widget"))
  */
 export function hideWidget(widgetId) {
-  return createActionHelper(HIDE)({ widgetId });
+    return createActionHelper(HIDE)({ widgetId })
 }
 
 /**
@@ -132,7 +133,7 @@ export function hideWidget(widgetId) {
  * dispatch(enableWidget("Page.Widget"))
  */
 export function enableWidget(widgetId) {
-  return createActionHelper(ENABLE)({ widgetId });
+    return createActionHelper(ENABLE)({ widgetId })
 }
 
 /**
@@ -142,11 +143,11 @@ export function enableWidget(widgetId) {
  * dispatch(disableWidget("Page.Widget"))
  */
 export function disableWidget(widgetId) {
-  return createActionHelper(DISABLE)({ widgetId });
+    return createActionHelper(DISABLE)({ widgetId })
 }
 
 export function disableWidgetOnFetch(widgetId) {
-  return createActionHelper(DISABLE_ON_FETCH)({ widgetId });
+    return createActionHelper(DISABLE_ON_FETCH)({ widgetId })
 }
 
 /**
@@ -156,7 +157,7 @@ export function disableWidgetOnFetch(widgetId) {
  * dispatch(loadingWidget("Page.Widget"))
  */
 export function loadingWidget(widgetId) {
-  return createActionHelper(LOADING)({ widgetId });
+    return createActionHelper(LOADING)({ widgetId })
 }
 
 /**
@@ -166,7 +167,7 @@ export function loadingWidget(widgetId) {
  * dispatch(unloadingWidget("Page.Widget"))
  */
 export function unloadingWidget(widgetId) {
-  return createActionHelper(UNLOADING)({ widgetId });
+    return createActionHelper(UNLOADING)({ widgetId })
 }
 
 /**
@@ -175,7 +176,7 @@ export function unloadingWidget(widgetId) {
  * @param alertKey
  */
 export function alertAddWidget(widgetId, alertKey) {
-  return createActionHelper(ALERT_ADD)({ widgetId, alertKey });
+    return createActionHelper(ALERT_ADD)({ widgetId, alertKey })
 }
 
 /**
@@ -184,7 +185,7 @@ export function alertAddWidget(widgetId, alertKey) {
  * @param alertKey
  */
 export function alertRemoveWidget(widgetId, alertKey) {
-  return createActionHelper(ALERT_REMOVE)({ widgetId, alertKey });
+    return createActionHelper(ALERT_REMOVE)({ widgetId, alertKey })
 }
 
 /**
@@ -194,7 +195,7 @@ export function alertRemoveWidget(widgetId, alertKey) {
  * @param sortDirection
  */
 export function sortByWidget(widgetId, fieldKey, sortDirection) {
-  return createActionHelper(SORT_BY)({ widgetId, fieldKey, sortDirection });
+    return createActionHelper(SORT_BY)({ widgetId, fieldKey, sortDirection })
 }
 
 /**
@@ -204,7 +205,7 @@ export function sortByWidget(widgetId, fieldKey, sortDirection) {
  * @param page - номер страницы
  */
 export function changePageWidget(widgetId, page) {
-  return createActionHelper(CHANGE_PAGE)({ widgetId, page });
+    return createActionHelper(CHANGE_PAGE)({ widgetId, page })
 }
 
 /**
@@ -214,7 +215,7 @@ export function changePageWidget(widgetId, page) {
  * @param count - кол-во записей
  */
 export function changeCountWidget(widgetId, count) {
-  return createActionHelper(CHANGE_COUNT)({ widgetId, count });
+    return createActionHelper(CHANGE_COUNT)({ widgetId, count })
 }
 
 /**
@@ -224,7 +225,7 @@ export function changeCountWidget(widgetId, count) {
  * @param size - размер выборки
  */
 export function changeSizeWidget(widgetId, size) {
-  return createActionHelper(CHANGE_SIZE)({ widgetId, size });
+    return createActionHelper(CHANGE_SIZE)({ widgetId, size })
 }
 
 /**
@@ -232,7 +233,7 @@ export function changeSizeWidget(widgetId, size) {
  * @param widgetId
  */
 export function showWidgetFilters(widgetId) {
-  return changeFiltersVisibility(widgetId, true);
+    return changeFiltersVisibility(widgetId, true)
 }
 
 /**
@@ -240,7 +241,7 @@ export function showWidgetFilters(widgetId) {
  * @param widgetId
  */
 export function hideWidgetFilters(widgetId) {
-  return changeFiltersVisibility(widgetId, false);
+    return changeFiltersVisibility(widgetId, false)
 }
 
 /**
@@ -250,10 +251,10 @@ export function hideWidgetFilters(widgetId) {
  * @returns {*}
  */
 export function changeFiltersVisibility(widgetId, isFilterVisible) {
-  return createActionHelper(CHANGE_FILTERS_VISIBILITY)({
-    widgetId,
-    isFilterVisible,
-  });
+    return createActionHelper(CHANGE_FILTERS_VISIBILITY)({
+        widgetId,
+        isFilterVisible,
+    })
 }
 
 /**
@@ -261,19 +262,19 @@ export function changeFiltersVisibility(widgetId, isFilterVisible) {
  * @param widgetId
  */
 export function toggleWidgetFilters(widgetId) {
-  return createActionHelper(TOGGLE_FILTERS_VISIBILITY)({ widgetId });
+    return createActionHelper(TOGGLE_FILTERS_VISIBILITY)({ widgetId })
 }
 
 export function resetWidgetState(widgetId) {
-  return createActionHelper(RESET_STATE)({ widgetId });
+    return createActionHelper(RESET_STATE)({ widgetId })
 }
 
 export function setWidgetMetadata(pageId, widgetId, metadata) {
-  return createActionHelper(SET_WIDGET_METADATA)({
-    pageId,
-    widgetId,
-    metadata,
-  });
+    return createActionHelper(SET_WIDGET_METADATA)({
+        pageId,
+        widgetId,
+        metadata,
+    })
 }
 
 /**
@@ -282,12 +283,12 @@ export function setWidgetMetadata(pageId, widgetId, metadata) {
  * @param selectedId
  */
 export function setTableSelectedId(widgetId, selectedId) {
-  return createActionHelper(SET_TABLE_SELECTED_ID)({
-    widgetId,
-    value: selectedId,
-  });
+    return createActionHelper(SET_TABLE_SELECTED_ID)({
+        widgetId,
+        value: selectedId,
+    })
 }
 
 export function setActive(widgetId) {
-  return createActionHelper(SET_ACTIVE)({ widgetId });
+    return createActionHelper(SET_ACTIVE)({ widgetId })
 }
