@@ -1,17 +1,18 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import SimpleTemplate from './SimpleTemplate';
+import React from 'react'
+import { mount, shallow } from 'enzyme'
 
-const setup = propsOverride => {
-  const props = {};
+import SimpleTemplate from './SimpleTemplate'
 
-  return mount(<SimpleTemplate {...props} {...propsOverride} />);
-};
+const setup = (propsOverride) => {
+    const props = {}
+
+    return mount(<SimpleTemplate {...props} {...propsOverride} />)
+}
 
 describe('<SimpleTemplate />', () => {
-  it('компонент должен отрисоваться', () => {
-    const wrapper = setup();
+    it('компонент должен отрисоваться', () => {
+        const wrapper = setup()
 
-    expect(wrapper.find('.application').exists()).toBeTruthy();
-  });
-});
+        expect(wrapper.find('.application').exists()).toBeTruthy()
+    })
+})

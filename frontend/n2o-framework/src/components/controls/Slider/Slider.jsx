@@ -1,19 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import isUndefined from 'lodash/isUndefined'
+import isNumber from 'lodash/isNumber'
+import omit from 'lodash/omit'
+import assign from 'lodash/assign'
+import cx from 'classnames'
+import BaseSlider, { createSliderWithTooltip } from 'rc-slider'
 
-import isUndefined from 'lodash/isUndefined';
-import isNumber from 'lodash/isNumber';
-import omit from 'lodash/omit';
-import assign from 'lodash/assign';
+import { prepareStyle } from './utils'
 
-import cx from 'classnames';
-
-import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
-
-import { prepareStyle } from './utils';
-
-const SliderWithTooltip = createSliderWithTooltip(BaseSlider);
-const RangeSliderWithTooltip = createSliderWithTooltip(BaseSlider.Range);
+const SliderWithTooltip = createSliderWithTooltip(BaseSlider)
+const RangeSliderWithTooltip = createSliderWithTooltip(BaseSlider.Range)
 
 /**
  * Компонент Slider
@@ -38,119 +35,118 @@ const RangeSliderWithTooltip = createSliderWithTooltip(BaseSlider.Range);
  * @constructor
  */
 function Slider(props) {
-  const {
-    multiple,
-    showTooltip,
-    tooltipPlacement,
-    tooltipFormatter,
-    vertical,
-    style,
-    className,
-    onChange,
-    min,
-    max,
-    step,
-    value,
-    ...rest
-  } = props;
+    const {
+        multiple,
+        showTooltip,
+        tooltipPlacement,
+        tooltipFormatter,
+        vertical,
+        style,
+        className,
+        onChange,
+        min,
+        max,
+        step,
+        value,
+        ...rest
+    } = props
 
-  const expressionFn = tooltipFormatter
-    ? value =>
-        new Function('', 'return `' + tooltipFormatter + '`').bind(value)()
-    : value => value;
+    const expressionFn = tooltipFormatter
+        ? value => new Function('', `return \`${tooltipFormatter}\``).bind(value)()
+        : value => value
 
-  const Component = multiple ? BaseSlider.Range : BaseSlider;
-  const RenderSlider = showTooltip
-    ? multiple
-      ? RangeSliderWithTooltip
-      : SliderWithTooltip
-    : Component;
+    const Component = multiple ? BaseSlider.Range : BaseSlider
+    const RenderSlider = showTooltip
+        ? multiple
+            ? RangeSliderWithTooltip
+            : SliderWithTooltip
+        : Component
 
-  const tooltipProps = {
-    placement: tooltipPlacement,
-  };
+    const tooltipProps = {
+        placement: tooltipPlacement,
+    }
 
-  const handleAfterChange = value => {
-    onChange(value);
-  };
+    const handleAfterChange = (value) => {
+        onChange(value)
+    }
 
-  const currentValue = isNumber(value) ? value : !isUndefined(min) ? min : 0;
+    const currentValue = isNumber(value) ? value : !isUndefined(min) ? min : 0
 
-  const restProps = multiple
-    ? omit(rest, ['value'])
-    : assign({}, rest, {
-        value: currentValue,
-      });
+    const restProps = multiple
+        ? omit(rest, ['value'])
+        : assign({}, rest, {
+            value: currentValue,
+        })
 
-  return (
-    <RenderSlider
-      className={cx('n2o-slider', className)}
-      tipProps={tooltipProps}
-      tipFormatter={expressionFn}
-      vertical={vertical}
-      style={prepareStyle(vertical, style)}
-      onChange={handleAfterChange}
-      min={min}
-      max={max}
-      step={step}
-      {...restProps}
-    />
-  );
+    return (
+        <RenderSlider
+            className={cx('n2o-slider', className)}
+            tipProps={tooltipProps}
+            tipFormatter={expressionFn}
+            vertical={vertical}
+            style={prepareStyle(vertical, style)}
+            onChange={handleAfterChange}
+            min={min}
+            max={max}
+            step={step}
+            {...restProps}
+        />
+    )
 }
 
 Slider.propTypes = {
-  /**
+    /**
    * Множественный выбор
    */
-  multiple: PropTypes.bool,
-  /**
+    multiple: PropTypes.bool,
+    /**
    * Показать тултип
    */
-  showTooltip: PropTypes.bool,
-  /**
+    showTooltip: PropTypes.bool,
+    /**
    * Позиция тултипа
    */
-  tooltipPlacement: PropTypes.string,
-  step: PropTypes.number,
-  /**
+    tooltipPlacement: PropTypes.string,
+    step: PropTypes.number,
+    /**
    * Отобразить slider вертикально
    */
-  vertical: PropTypes.bool,
-  /**
+    vertical: PropTypes.bool,
+    /**
    * Нередактаруем
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Показать шкалу
    */
-  dots: PropTypes.bool,
-  /**
+    dots: PropTypes.bool,
+    /**
    * Начало шкалы
    */
-  min: PropTypes.number,
-  /**
+    min: PropTypes.number,
+    /**
    * Конец шкалы
    */
-  max: PropTypes.number,
-  /**
+    max: PropTypes.number,
+    /**
    * Подписи к шкале
    */
-  marks: PropTypes.object,
-  /**
+    marks: PropTypes.object,
+    /**
    * В мульти режиме блокирует смену несколькох ползунков
    */
-  pushable: PropTypes.bool,
-  /**
+    pushable: PropTypes.bool,
+    /**
    * Форматированный вывод тултипа
    */
-  tooltipFormatter: PropTypes.string,
-};
+    tooltipFormatter: PropTypes.string,
+}
 
 Slider.defaultProps = {
-  multiple: false,
-  showTooltip: false,
-  tooltipPlacement: 'top',
-};
+    multiple: false,
+    showTooltip: false,
+    tooltipPlacement: 'top',
+}
 
-export { Slider };
-export default Slider;
+export { Slider }
+export default Slider

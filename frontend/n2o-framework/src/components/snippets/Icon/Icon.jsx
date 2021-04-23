@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 /**
  * Компонент иконки
@@ -13,55 +13,55 @@ import cx from 'classnames';
  * @reactProps {boolean} circular - флаг закругления вокруг иконки
  */
 function Icon({ name, className, disabled, spin, circular, bordered, style }) {
-  const iconClass = cx({
-    'n2o-icon': true,
-    [name]: name,
-    [className]: className,
-    disabled,
-    'fa-spin': spin,
-    circular,
-    bordered,
-  });
+    const iconClass = cx({
+        'n2o-icon': true,
+        [name]: name,
+        [className]: className,
+        disabled,
+        'fa-spin': spin,
+        circular,
+        bordered,
+    })
 
-  return <i className={iconClass} style={style} />;
+    return <i className={iconClass} style={style} />
 }
 
 Icon.propTypes = {
-  /**
+    /**
    * Класс иконки
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Стили иконки
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * Флаг активности
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Название иконки
    */
-  name: PropTypes.string.isRequired,
-  /**
+    name: PropTypes.string.isRequired,
+    /**
    * Флаг вращения иконки
    */
-  spin: PropTypes.bool,
-  /**
+    spin: PropTypes.bool,
+    /**
    * Флаг рамки вокруг иконки
    */
-  bordered: PropTypes.bool,
-  /**
+    bordered: PropTypes.bool,
+    /**
    * Флаг закругления иконки
    */
-  circular: PropTypes.bool,
-};
+    circular: PropTypes.bool,
+}
 
 Icon.defaultProps = {
-  disabled: false,
-  spin: false,
-  bordered: false,
-  circular: false,
-};
+    disabled: false,
+    spin: false,
+    bordered: false,
+    circular: false,
+}
 
-export default Icon;
+export default Icon

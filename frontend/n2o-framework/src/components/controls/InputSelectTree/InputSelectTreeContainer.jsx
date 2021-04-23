@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-import InputSelectTree from './InputSelectTree';
-import listContainer from '../listContainer.js';
-import { propTypes, defaultProps } from './allProps';
-import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
-import unionWith from 'lodash/unionWith';
-import map from 'lodash/map';
-import omit from 'lodash/omit';
-import isArray from 'lodash/isArray';
-import { withProps, compose, setDisplayName } from 'recompose';
+import React, { Component } from 'react'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import unionWith from 'lodash/unionWith'
+import map from 'lodash/map'
+import omit from 'lodash/omit'
+import isArray from 'lodash/isArray'
+import { withProps, compose, setDisplayName } from 'recompose'
+
+import listContainer from '../listContainer.js'
+
+import { propTypes, defaultProps } from './allProps'
+import InputSelectTree from './InputSelectTree'
 
 /**
  * Контейнер для {@link InputSelect}
@@ -41,47 +43,48 @@ import { withProps, compose, setDisplayName } from 'recompose';
  */
 
 class InputSelectTreeContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-    };
-  }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.data !== prevState.data && nextProps.ajax) {
-      return { data: unionWith(nextProps.data, prevState.data, isEqual) };
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: props.data,
+        }
     }
-    return { data: nextProps.data };
-  }
 
-  render() {
-    return (
-      <InputSelectTree
-        {...this.props}
-        data={this.state.data}
-        loading={this.props.isLoading}
-      />
-    );
-  }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.data !== prevState.data && nextProps.ajax) {
+            return { data: unionWith(nextProps.data, prevState.data, isEqual) }
+        }
+        return { data: nextProps.data }
+    }
+
+    render() {
+        return (
+            <InputSelectTree
+                {...this.props}
+                data={this.state.data}
+                loading={this.props.isLoading}
+            />
+        )
+    }
 }
 
-InputSelectTreeContainer.propTypes = propTypes;
-InputSelectTreeContainer.defaultProps = defaultProps;
+InputSelectTreeContainer.propTypes = propTypes
+InputSelectTreeContainer.defaultProps = defaultProps
 
 const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
-  const newValue = isArray(value) ? value : [value];
-  if (isEmpty(data) && !isEmpty(value)) {
-    return {
-      data: map(newValue, val => ({
-        ...omit(val, ['hasChildren']),
-      })),
-    };
-  }
-});
+    const newValue = isArray(value) ? value : [value]
+    if (isEmpty(data) && !isEmpty(value)) {
+        return {
+            data: map(newValue, val => ({
+                ...omit(val, ['hasChildren']),
+            })),
+        }
+    }
+})
 
-export { InputSelectTreeContainer };
+export { InputSelectTreeContainer }
 export default compose(
-  setDisplayName('InputSelectTreeContainer'),
-  listContainer,
-  overrideDataWithValue
-)(InputSelectTreeContainer);
+    setDisplayName('InputSelectTreeContainer'),
+    listContainer,
+    overrideDataWithValue,
+)(InputSelectTreeContainer)

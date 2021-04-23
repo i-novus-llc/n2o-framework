@@ -1,22 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, setDisplayName, withHandlers } from 'recompose';
-import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
-import omit from 'lodash/omit';
-import classNames from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, setDisplayName, withHandlers } from 'recompose'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import omit from 'lodash/omit'
+import classNames from 'classnames'
 
-import propsResolver from '../../../../../utils/propsResolver';
+import propsResolver from '../../../../../utils/propsResolver'
+import Image from '../../../../snippets/Image/Image'
+import ImageInfo from '../../../../snippets/Image/ImageInfo'
+import withCell from '../../withCell'
+import withTooltip from '../../withTooltip'
+import withLinkAction from '../../../../buttons/StandardButton/withLinkAction'
 
-import Image from '../../../../snippets/Image/Image';
-import ImageInfo from '../../../../snippets/Image/ImageInfo';
-
-import withCell from '../../withCell';
-import withTooltip from '../../withTooltip';
-
-import ImageStatuses from './ImageStatuses';
-import imageShapes from './imageShapes';
-import withLinkAction from "../../../../buttons/StandardButton/withLinkAction";
+import ImageStatuses from './ImageStatuses'
+import imageShapes from './imageShapes'
 
 /**
  * Обёртка для ХОКа withLinkAction
@@ -31,9 +29,7 @@ import withLinkAction from "../../../../buttons/StandardButton/withLinkAction";
  * @property {'application' | '_blank'} [props.target] Тип открытия записи
  * @property children
  */
-export const LinkActionWrapper = withLinkAction(function Wrapper(props) {
-  return React.createElement('div', props);
-});
+export const LinkActionWrapper = withLinkAction(props => React.createElement('div', props))
 
 /**
  * Ячейка таблицы с картинкой
@@ -50,147 +46,145 @@ export const LinkActionWrapper = withLinkAction(function Wrapper(props) {
  */
 
 function ImageCell(props) {
-  const {
-    title,
-    fieldKey,
-    style,
-    className,
-    model,
-    id,
-    onClick,
-    action,
-    shape,
-    visible,
-    description,
-    textPosition,
-    width,
-    height,
-    data,
-    pathMapping,
-    queryMapping,
-    target,
-    url,
-    statuses = [],
-  } = props;
+    const {
+        title,
+        fieldKey,
+        style,
+        className,
+        model,
+        id,
+        onClick,
+        action,
+        shape,
+        visible,
+        description,
+        textPosition,
+        width,
+        height,
+        data,
+        pathMapping,
+        queryMapping,
+        target,
+        url,
+        statuses = [],
+    } = props
 
-  const setCursor = action => {
-    return action ? { cursor: 'pointer' } : null;
-  };
+    const setCursor = action => (action ? { cursor: 'pointer' } : null)
 
-  const src = get(model, fieldKey);
-  const isEmptyModel = isEmpty(model);
+    const src = get(model, fieldKey)
+    const isEmptyModel = isEmpty(model)
 
-  const hasStatuses = !isEmpty(statuses);
-  const hasInfo = title || description;
+    const hasStatuses = !isEmpty(statuses)
+    const hasInfo = title || description
 
-  const defaultImageProps = {
-    url: src,
-    data: data,
-    title: title,
-    description: description,
-  };
+    const defaultImageProps = {
+        url: src,
+        data,
+        title,
+        description,
+    }
 
-  const resolveProps = isEmptyModel
-    ? defaultImageProps
-    : propsResolver(defaultImageProps, model);
+    const resolveProps = isEmptyModel
+        ? defaultImageProps
+        : propsResolver(defaultImageProps, model)
 
-  return (
-    <span
-      className="n2o-image-cell-container"
-      onClick={onClick}
-    >
-      <LinkActionWrapper
-        url={url}
-        pathMapping={pathMapping}
-        queryMapping={queryMapping}
-        target={target}
-        className={classNames('n2o-image-cell', {
-          'with-statuses': hasStatuses,
-        })}
-      >
-        <Image
-          id={id}
-          visible={visible}
-          shape={shape}
-          style={{ ...style, ...setCursor(action) }}
-          className={className}
-          textPosition={textPosition}
-          width={width}
-          height={height}
-          {...omit(resolveProps, ['title', 'description'])}
-          src={resolveProps.data || resolveProps.url}
-        />
-        {hasStatuses && (
-          <ImageStatuses
-            statuses={statuses}
-            model={model}
-            className="image-cell-statuses"
+    return (
+        <span
+            className="n2o-image-cell-container"
             onClick={onClick}
-          />
-        )}
-      </LinkActionWrapper>
-      {hasInfo && <ImageInfo title={title} description={description} />}
-    </span>
-  );
+        >
+            <LinkActionWrapper
+                url={url}
+                pathMapping={pathMapping}
+                queryMapping={queryMapping}
+                target={target}
+                className={classNames('n2o-image-cell', {
+                    'with-statuses': hasStatuses,
+                })}
+            >
+                <Image
+                    id={id}
+                    visible={visible}
+                    shape={shape}
+                    style={{ ...style, ...setCursor(action) }}
+                    className={className}
+                    textPosition={textPosition}
+                    width={width}
+                    height={height}
+                    {...omit(resolveProps, ['title', 'description'])}
+                    src={resolveProps.data || resolveProps.url}
+                />
+                {hasStatuses && (
+                    <ImageStatuses
+                        statuses={statuses}
+                        model={model}
+                        className="image-cell-statuses"
+                        onClick={onClick}
+                    />
+                )}
+            </LinkActionWrapper>
+            {hasInfo && <ImageInfo title={title} description={description} />}
+        </span>
+    )
 }
 
 ImageCell.propTypes = {
-  /**
+    /**
    * ID ячейки
    */
-  id: PropTypes.string.isRequired,
-  /**
+    id: PropTypes.string.isRequired,
+    /**
    * Модель данных
    */
-  model: PropTypes.object.isRequired,
-  /**
+    model: PropTypes.object.isRequired,
+    /**
    * Тип формы изображенич
    */
-  shape: PropTypes.oneOf(Object.values(imageShapes)),
-  /**
+    shape: PropTypes.oneOf(Object.values(imageShapes)),
+    /**
    * Стили
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Заголовок
    */
-  title: PropTypes.string,
-  /**
+    title: PropTypes.string,
+    /**
    * Описание
    */
-  description: PropTypes.string,
-  /**
+    description: PropTypes.string,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-  /**
+    visible: PropTypes.bool,
+    /**
    * Позиция текста
    */
-  textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
-  /**
+    textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
+    /**
    * Ширина
    */
-  width: PropTypes.string,
-  /**
+    width: PropTypes.string,
+    /**
    * Статусы, отображающиеся над img
    */
-  statuses: PropTypes.array,
-};
+    statuses: PropTypes.array,
+}
 
-export { ImageCell };
+export { ImageCell }
 export default compose(
-  setDisplayName('ImageCell'),
-  withCell,
-  withHandlers({
-    onClick: ({ callAction, model }) => () => {
-      if (callAction && model) {
-        callAction(model);
-      }
-    },
-  }),
-  withTooltip
-)(ImageCell);
+    setDisplayName('ImageCell'),
+    withCell,
+    withHandlers({
+        onClick: ({ callAction, model }) => () => {
+            if (callAction && model) {
+                callAction(model)
+            }
+        },
+    }),
+    withTooltip,
+)(ImageCell)

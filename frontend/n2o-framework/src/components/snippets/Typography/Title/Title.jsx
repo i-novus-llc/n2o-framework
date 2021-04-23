@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import Base from '../Base';
+import Base from '../Base'
 
 function Title({ level, ...rest }) {
-  const tag = `h${level}`;
+    const tag = `h${level}`
 
-  return <Base tag={tag} {...rest} />;
+    return <Base tag={tag} {...rest} />
 }
 
-export default Title;
+export default Title
