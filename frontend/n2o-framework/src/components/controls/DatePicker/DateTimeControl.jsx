@@ -344,6 +344,7 @@ class DateTimeControl extends React.Component {
     this.setState(
       {
         focused: true,
+        isPopUpVisible: true,
       },
       () => onFocus(e)
     );
