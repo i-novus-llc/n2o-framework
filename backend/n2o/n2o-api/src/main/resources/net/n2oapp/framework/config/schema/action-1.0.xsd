@@ -521,6 +521,11 @@
                     <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
+                <xs:attribute name="object-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="operation-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>
