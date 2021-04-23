@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Клиентская модель виджета Плитки
@@ -38,5 +39,9 @@ public class Tiles extends Widget {
         private String id;
         @JsonProperty
         private N2oCell component;
+        @JsonProperty("className")
+        private String cssClass;
+        @JsonProperty
+        private Map<String, String> style;
     }
 }
