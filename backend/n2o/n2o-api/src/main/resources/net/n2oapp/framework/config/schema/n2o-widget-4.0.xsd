@@ -917,16 +917,6 @@
                 <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="class" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>CSS класс.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="style" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Стиль блока.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:complexContent>
             <xs:extension base="cell:cells">
                 <xs:annotation>
