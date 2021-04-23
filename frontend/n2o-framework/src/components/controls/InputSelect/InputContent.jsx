@@ -1,5 +1,7 @@
 import React from 'react';
 import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -146,16 +148,20 @@ class InputContent extends React.Component {
       } else if (e.key === 'Enter') {
         e.preventDefault();
 
-        const findEquals = find(
-          options,
-          item => item[valueFieldId] === activeValueId
-        );
+        const findEquals = find(options, item => {
+          return (
+            String(item[labelFieldId]) === value &&
+            !selected.find(entity => isEqual(entity, item))
+          );
+        });
 
-        const newValue =
-          mode === 'autocomplete' ? findEquals || value : findEquals;
+        if (mode === 'autocomplete') {
+          let newSelected = findEquals || value;
 
-        if (newValue) {
-          this.onSelect(newValue);
+          this.onSelect(newSelected);
+          setActiveValueId(null);
+        } else if (!isEmpty(findEquals)) {
+          this.onSelect(findEquals);
           setActiveValueId(null);
         }
       } else if (e.key === 'Escape') {
