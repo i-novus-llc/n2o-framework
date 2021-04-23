@@ -14,7 +14,7 @@ public class N2oSqlDataProvider extends AbstractDataProvider implements N2oMapIn
     private String filePath;
     private String rowMapper;
     private String connectionUrl;
-    private String user;
+    private String username;
     private String password;
     private String jdbcDriver;
 }

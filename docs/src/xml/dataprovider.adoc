@@ -33,7 +33,7 @@ http://n2oapp.net/framework/config/schema/data-provider-1.0
 |URL подключения к базе данных
 |
 
-|user
+|username
 |Строка
 |Имя пользователя
 |
@@ -43,7 +43,7 @@ http://n2oapp.net/framework/config/schema/data-provider-1.0
 |Пароль
 |
 
-|driver
+|driver-class-name
 |Строка
 |JDBC драйвер
 |

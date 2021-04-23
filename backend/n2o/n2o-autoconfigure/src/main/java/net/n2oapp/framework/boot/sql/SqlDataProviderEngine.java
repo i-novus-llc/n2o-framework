@@ -59,9 +59,13 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         query = replacePlaceholder(query, ":offset", args.remove("offset"), "0");
         query = replacePlaceholder(query, ":count", args.remove("count"), "-1");
         if (invocation.getConnectionUrl() == null)
-            return executeQuery(args, query, rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")));
-        return executeQueryByNewConnection(args, query,
-                rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), invocation);
+            return executeQuery(args,
+                    query,
+                    rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")),
+                    namedParameterJdbcTemplate);
+        NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
+        return executeQuery(args, query,
+                rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
     }
 
     private String replaceSortDirection(String sortCause, Map<String, Object> data) {
@@ -86,25 +90,11 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         return N2oSqlDataProvider.class;
     }
 
-    private Object executeQuery(Map<String, Object> args, String query, RowMapper<?> mapper) {
+    private Object executeQuery(Map<String, Object> args, String query, RowMapper<?> mapper,
+                                NamedParameterJdbcTemplate jdbcTemplate) {
         QueryBlank queryBlank = NamedParameterUtils.prepareQuery(query, args);
         query = queryBlank.getQuery();
         args = queryBlank.getArgs();
-        if (isSelect(query)) {
-            return namedParameterJdbcTemplate.query(query, args, mapper);
-        } else {
-            MapSqlParameterSource paramSource = new MapSqlParameterSource(args);
-            GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-            namedParameterJdbcTemplate.update(query, paramSource, generatedKeyHolder);
-            return getResult(generatedKeyHolder);
-        }
-    }
-
-    private Object executeQueryByNewConnection(Map<String, Object> args, String query, RowMapper<?> mapper, N2oSqlDataProvider invocation) {
-        QueryBlank queryBlank = NamedParameterUtils.prepareQuery(query, args);
-        query = queryBlank.getQuery();
-        args = queryBlank.getArgs();
-        NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
         if (isSelect(query)) {
             return jdbcTemplate.query(query, args, mapper);
         } else {
@@ -174,7 +164,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(invocation.getJdbcDriver() == null ? defaultJdbcDriver : invocation.getJdbcDriver());
         config.setJdbcUrl(invocation.getConnectionUrl());
-        config.setUsername(invocation.getUser());
+        config.setUsername(invocation.getUsername());
         config.setPassword(invocation.getPassword());
         return new NamedParameterJdbcTemplate(new HikariDataSource(config));
     }

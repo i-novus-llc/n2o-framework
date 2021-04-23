@@ -28,7 +28,7 @@
                 <xs:documentation>URL подключения к бд</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="user" type="xs:string">
+        <xs:attribute name="username" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Имя пользователя</xs:documentation>
             </xs:annotation>
@@ -38,7 +38,7 @@
                 <xs:documentation>Пароль</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="driver" type="xs:string">
+        <xs:attribute name="driver-class-name" type="xs:string">
             <xs:annotation>
                 <xs:documentation>JDBC драйвер</xs:documentation>
             </xs:annotation>
