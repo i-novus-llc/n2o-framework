@@ -423,17 +423,17 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (link.getValue() instanceof List) {
             for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
                 DataSet dataSet = new DataSet();
-                dataSet.put(link.getFieldId(), defaultValues.getValues());
+                dataSet.put(link.getSubModelQuery().getSubModel(), defaultValues.getValues());
                 if (subModelsProcessor != null)
                     subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-                defaultValues.setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
+                defaultValues.setValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel()));
             }
         } else if (link.getValue() instanceof DefaultValues) {
             DataSet dataSet = new DataSet();
-            dataSet.put(link.getFieldId(), ((DefaultValues) link.getValue()).getValues());
+            dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
             if (subModelsProcessor != null)
                 subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-            ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
+            ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel()));
         }
     }
 

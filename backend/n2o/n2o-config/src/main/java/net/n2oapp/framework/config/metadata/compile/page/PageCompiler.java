@@ -89,16 +89,5 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
         return pageProperty;
     }
 
-    protected void mergeModels(Page page, PageScope pageScope) {
-        Map<ModelLink, ModelLink> modelLinks = pageScope.getModelLinks();
-        if (modelLinks != null)
-            for (Map.Entry<ModelLink, ModelLink> m : modelLinks.entrySet())
-                page.getModels().add(
-                        m.getKey().getModel(),
-                        m.getKey().getWidgetId(),
-                        m.getKey().getFieldId(),
-                        m.getValue());
-    }
-
     protected abstract String getPropertyPageSrc();
 }
