@@ -55,7 +55,7 @@ const AuthButton = ({ userLogout }) => (
 
           Привет,
                 {user.username}
-!
+                !
                 <button onClick={userLogout}>Выйти</button>
             </p>
         ) : (
