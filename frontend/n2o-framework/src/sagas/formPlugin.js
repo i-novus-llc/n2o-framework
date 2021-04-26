@@ -3,7 +3,6 @@ import { touch, change } from 'redux-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import values from 'lodash/values'
-import split from 'lodash/split'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
 import setWith from 'lodash/setWith'
@@ -111,7 +110,7 @@ export function* copyAction({ payload }) {
     const targetModelField = get(targetModel, [target.field], [])
 
     const path = target.field
-    const treePath = includes(split(path, ''), '.')
+    const treePath = includes(path, '.')
 
     const withTreeObject = (path, sheetValue) => setWith({}, path, sheetValue)
 
@@ -143,11 +142,13 @@ export function* copyAction({ payload }) {
             }
             : [...targetModelField, ...sourceModel]
     } else if (treePath) {
-        newModel = target.field
-            ? {
-                ...merge({}, targetModel, withTreeObject(path, sourceModel)),
-            }
-            : sourceModel
+        if (sourceModel) {
+            newModel = target.field
+                ? merge({}, targetModel, withTreeObject(path, sourceModel))
+                : sourceModel
+        } else {
+            newModel = {}
+        }
     } else {
         newModel = target.field
             ? {
@@ -157,7 +158,7 @@ export function* copyAction({ payload }) {
             : sourceModel
     }
 
-    yield put(change(target.key, target.field, newModel[path]))
+    yield put(change(target.key, target.field, get(newModel, path)))
     yield put(setModel(target.prefix, target.key, newModel))
 }
 
