@@ -196,6 +196,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-optimize-regex": "^1.2.0",
     "eslint-plugin-react": "7.12.4",
+    "eslint-plugin-sonarjs": "^0.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "fetch-mock": "^6.0.0",
     "file-loader": "^1.1.6",
