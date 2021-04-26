@@ -1,7 +1,8 @@
-import React from 'react';
-import get from 'lodash/get';
-import isUndefined from 'lodash/isUndefined';
-import Tooltip from '../../snippets/Tooltip/Tooltip';
+import React from 'react'
+import get from 'lodash/get'
+import isUndefined from 'lodash/isUndefined'
+
+import Tooltip from '../../snippets/Tooltip/Tooltip'
 
 /**
  * HOC, оборачивает Cell добавляя Tooltip
@@ -11,21 +12,21 @@ import Tooltip from '../../snippets/Tooltip/Tooltip';
  * @param tooltipFieldId ключ по которому резолвится Tooltip и берется hint
  */
 export default function withTooltip(WrappedComponent) {
-  class TooltipHOC extends React.Component {
-    render() {
-      const { model, placement, tooltipFieldId } = this.props;
-      const hint = get(model, tooltipFieldId);
+    class TooltipHOC extends React.Component {
+        render() {
+            const { model, placement, tooltipFieldId } = this.props
+            const hint = get(model, tooltipFieldId)
 
-      return !isUndefined(hint) ? (
-        <Tooltip
-          label={<WrappedComponent {...this.props} />}
-          hint={hint}
-          placement={placement || 'bottom'}
-        />
-      ) : (
-        <WrappedComponent {...this.props} />
-      );
+            return !isUndefined(hint) ? (
+                <Tooltip
+                    label={<WrappedComponent {...this.props} />}
+                    hint={hint}
+                    placement={placement || 'bottom'}
+                />
+            ) : (
+                <WrappedComponent {...this.props} />
+            )
+        }
     }
-  }
-  return TooltipHOC;
+    return TooltipHOC
 }

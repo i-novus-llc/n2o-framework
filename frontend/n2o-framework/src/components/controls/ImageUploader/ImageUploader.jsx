@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import withFileUploader from '../FileUploader/withFileUploader';
-import ImageUpload from './ImageUpload';
+import withFileUploader from '../FileUploader/withFileUploader'
 
+import ImageUpload from './ImageUpload'
 import {
-  createCustomSizes,
-  getSize,
-  getCurrentLabel,
-  defaultDropZone,
-} from './utils';
+    createCustomSizes,
+    getSize,
+    getCurrentLabel,
+    defaultDropZone,
+} from './utils'
 
 /**
  * Компонент ImageUploader
@@ -28,73 +28,73 @@ import {
  */
 
 function ImageUploader({
-  icon,
-  label,
-  children,
-  showTooltip,
-  imgError,
-  width,
-  height,
-  iconSize,
-  unit,
-  canDelete,
-  shape,
-  ...rest
+    icon,
+    label,
+    children,
+    showTooltip,
+    imgError,
+    width,
+    height,
+    iconSize,
+    unit,
+    canDelete,
+    shape,
+    ...rest
 }) {
-  const currentLabel = getCurrentLabel(imgError, label);
-  const size = createCustomSizes(width, height, iconSize, unit);
-  const component = children || defaultDropZone(icon, currentLabel, size);
+    const currentLabel = getCurrentLabel(imgError, label)
+    const size = createCustomSizes(width, height, iconSize, unit)
+    const component = children || defaultDropZone(icon, currentLabel, size)
 
-  return (
-    <ImageUpload
-      children={component}
-      componentClass={'n2o-drop-zone'}
-      customUploaderSize={getSize(size, 'uploader')}
-      icon={icon}
-      label={label}
-      showTooltip={showTooltip}
-      imgError={imgError}
-      width={width}
-      height={height}
-      iconSize={iconSize}
-      canDelete={canDelete}
-      shape={shape}
-      {...rest}
-    />
-  );
+    return (
+        <ImageUpload
+            children={component}
+            componentClass="n2o-drop-zone"
+            customUploaderSize={getSize(size, 'uploader')}
+            icon={icon}
+            label={label}
+            showTooltip={showTooltip}
+            imgError={imgError}
+            width={width}
+            height={height}
+            iconSize={iconSize}
+            canDelete={canDelete}
+            shape={shape}
+            {...rest}
+        />
+    )
 }
 
 ImageUpload.defaultProps = {
-  showTooltip: true,
-  canDelete: true,
-  lightbox: false,
-};
+    showTooltip: true,
+    canDelete: true,
+    lightbox: false,
+}
 
 ImageUploader.propTypes = {
-  label: PropTypes.string,
-  uploading: PropTypes.object,
-  icon: PropTypes.string,
-  files: PropTypes.arrayOf(PropTypes.object),
-  className: PropTypes.string,
-  onDrop: PropTypes.func,
-  autoUpload: PropTypes.bool,
-  onRemove: PropTypes.func,
-  onStartUpload: PropTypes.func,
-  saveBtnStyle: PropTypes.object,
-  visible: PropTypes.bool,
-  disabled: PropTypes.bool,
-  requestParam: PropTypes.string,
-  maxSize: PropTypes.number,
-  minSize: PropTypes.number,
-  multiple: PropTypes.bool,
-  onChange: PropTypes.func,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  avatar: PropTypes.bool,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  showTooltip: PropTypes.bool,
-  canDelete: PropTypes.bool,
-  shape: PropTypes.string,
-};
+    label: PropTypes.string,
+    uploading: PropTypes.object,
+    icon: PropTypes.string,
+    files: PropTypes.arrayOf(PropTypes.object),
+    className: PropTypes.string,
+    onDrop: PropTypes.func,
+    autoUpload: PropTypes.bool,
+    onRemove: PropTypes.func,
+    onStartUpload: PropTypes.func,
+    saveBtnStyle: PropTypes.object,
+    visible: PropTypes.bool,
+    disabled: PropTypes.bool,
+    requestParam: PropTypes.string,
+    maxSize: PropTypes.number,
+    minSize: PropTypes.number,
+    multiple: PropTypes.bool,
+    onChange: PropTypes.func,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    avatar: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    showTooltip: PropTypes.bool,
+    canDelete: PropTypes.bool,
+    shape: PropTypes.string,
+}
 
-export default withFileUploader(ImageUploader);
+export default withFileUploader(ImageUploader)

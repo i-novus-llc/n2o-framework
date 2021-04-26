@@ -1,26 +1,25 @@
-import React from 'react';
+import React from 'react'
 
-import InputMask from './InputMask';
+import InputMask from './InputMask'
 
-const setup = propOverrides => {
-  const props = Object.assign(
-    {
-      // use this to assign some default props
-    },
-    propOverrides
-  );
+const setup = (propOverrides) => {
+    const props = {
+    // use this to assign some default props
 
-  const wrapper = mount(<InputMask {...props} />);
+        ...propOverrides,
+    }
 
-  return {
-    props,
-    wrapper,
-  };
-};
+    const wrapper = mount(<InputMask {...props} />)
+
+    return {
+        props,
+        wrapper,
+    }
+}
 
 describe('<InputMask />', () => {
-  it('has input', () => {
-    const { wrapper } = setup();
-    expect(wrapper.find('input')).toHaveLength(1);
-  });
-});
+    it('has input', () => {
+        const { wrapper } = setup()
+        expect(wrapper.find('input')).toHaveLength(1)
+    })
+})

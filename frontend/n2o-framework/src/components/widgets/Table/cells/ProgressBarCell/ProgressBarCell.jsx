@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Progress from 'reactstrap/lib/Progress';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Progress from 'reactstrap/lib/Progress'
 
-import progressBarStyles from './progressBarStyles';
-import withTooltip from '../../withTooltip';
+import withTooltip from '../../withTooltip'
+
+import progressBarStyles from './progressBarStyles'
 
 /**
  * Ячейка таблицы с прогресс баром
@@ -15,63 +16,63 @@ import withTooltip from '../../withTooltip';
  * @reactProps {string} size - размер прогресс бара
  */
 function ProgressBarCell({
-  id,
-  animated,
-  striped,
-  color,
-  size,
-  visible,
-  model,
+    id,
+    animated,
+    striped,
+    color,
+    size,
+    visible,
+    model,
 }) {
-  return (
-    visible && (
-      <Progress
-        value={model[id]}
-        className={size}
-        animated={animated}
-        striped={striped}
-        color={color}
-      />
+    return (
+        visible && (
+            <Progress
+                value={model[id]}
+                className={size}
+                animated={animated}
+                striped={striped}
+                color={color}
+            />
+        )
     )
-  );
 }
 
 ProgressBarCell.propTypes = {
-  /**
+    /**
    * ID ячейки
    */
-  id: PropTypes.string.isRequired,
-  /**
+    id: PropTypes.string.isRequired,
+    /**
    * Модель данных
    */
-  model: PropTypes.object.isRequired,
-  /**
+    model: PropTypes.object.isRequired,
+    /**
    * Флаг анимированности ячейки
    */
-  animated: PropTypes.bool,
-  /**
+    animated: PropTypes.bool,
+    /**
    * Флаг штриховки
    */
-  striped: PropTypes.bool,
-  /**
+    striped: PropTypes.bool,
+    /**
    * Цвет ячейки
    */
-  color: PropTypes.oneOf(Object.values(progressBarStyles)),
-  /**
+    color: PropTypes.oneOf(Object.values(progressBarStyles)),
+    /**
    * Размер ячейки
    */
-  size: PropTypes.oneOf(['mini', 'default', 'large']),
-  /**
+    size: PropTypes.oneOf(['mini', 'default', 'large']),
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-};
+    visible: PropTypes.bool,
+}
 
 ProgressBarCell.defaultProps = {
-  animated: false,
-  striped: false,
-  size: 'default',
-  visible: true,
-};
+    animated: false,
+    striped: false,
+    size: 'default',
+    visible: true,
+}
 
-export default withTooltip(ProgressBarCell);
+export default withTooltip(ProgressBarCell)

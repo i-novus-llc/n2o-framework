@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 /**
  * Компонент - селект. Содержит {@link Option}
@@ -24,78 +24,76 @@ import cx from 'classnames';
  */
 
 class Select extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.value,
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            value: props.value,
+        }
 
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.value && props.value !== this.state.value) {
-      this.setState({ value: props.value });
+        this.onChange = this.onChange.bind(this)
     }
-  }
 
-  onChange({ target }) {
-    this.setState({ value: target.value }, () =>
-      this.props.onChange(target.value)
-    );
-  }
+    componentWillReceiveProps(props) {
+        if (props.value && props.value !== this.state.value) {
+            this.setState({ value: props.value })
+        }
+    }
 
-  /**
+    onChange({ target }) {
+        this.setState({ value: target.value }, () => this.props.onChange(target.value))
+    }
+
+    /**
    * Базовый рендер
-   **/
-  render() {
-    const {
-      children,
-      heightSize,
-      visible,
-      disabled,
-      autoFocus,
-      required,
-      className,
-    } = this.props;
+   * */
+    render() {
+        const {
+            children,
+            heightSize,
+            visible,
+            disabled,
+            autoFocus,
+            required,
+            className,
+        } = this.props
 
-    return (
-      visible !== false && (
-        <div className={cx('form-group', 'n2o-select', className)}>
-          <select
-            className={cx('form-control', heightSize)}
-            onChange={this.onChange}
-            value={this.state.value}
-            autoFocus={autoFocus}
-            required={required}
-            disabled={disabled}
-          >
-            {children}
-          </select>
-        </div>
-      )
-    );
-  }
+        return (
+            visible !== false && (
+                <div className={cx('form-group', 'n2o-select', className)}>
+                    <select
+                        className={cx('form-control', heightSize)}
+                        onChange={this.onChange}
+                        value={this.state.value}
+                        autoFocus={autoFocus}
+                        required={required}
+                        disabled={disabled}
+                    >
+                        {children}
+                    </select>
+                </div>
+            )
+        )
+    }
 }
 
 Select.propTypes = {
-  children: PropTypes.node,
-  onChange: PropTypes.func,
-  required: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  disabled: PropTypes.bool,
-  visible: PropTypes.bool,
-  heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
+    children: PropTypes.node,
+    onChange: PropTypes.func,
+    required: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    disabled: PropTypes.bool,
+    visible: PropTypes.bool,
+    heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+}
 
 Select.defaultProps = {
-  autoFocus: false,
-  disabled: false,
-  required: false,
-  visible: true,
-  heightSize: '',
-  onChange: () => {},
-};
+    autoFocus: false,
+    disabled: false,
+    required: false,
+    visible: true,
+    heightSize: '',
+    onChange: () => {},
+}
 
-export default Select;
+export default Select

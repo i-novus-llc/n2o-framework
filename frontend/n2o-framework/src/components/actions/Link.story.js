@@ -1,31 +1,29 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import { getStubData } from 'N2oStorybook/fetchMock'
+import { Route, Switch } from 'react-router-dom'
 
-import { getStubData } from 'N2oStorybook/fetchMock';
-import Actions, { Actions as ActionsComponent } from './Actions';
-import metadata from './Link.meta';
-import { Route, Switch } from 'react-router-dom';
+import Actions, { Actions as ActionsComponent } from './Actions'
+import metadata from './Link.meta'
 
-const stories = storiesOf('Действия/Ссылка Link', module);
+const stories = storiesOf('Действия/Ссылка Link', module)
 stories.addParameters({
-  info: {
-    propTables: [ActionsComponent],
-    propTablesExclude: [Actions, Route, Switch],
-  },
-});
+    info: {
+        propTables: [ActionsComponent],
+        propTablesExclude: [Actions, Route, Switch],
+    },
+})
 
 stories
 
-  .add(
-    'Компонент',
-    () => {
-      return (
-        <Actions toolbar={metadata.toolbar} containerKey={'linkContainer'} />
-      );
-    },
-    {
-      info: {
-        text: `
+    .add(
+        'Компонент',
+        () => (
+            <Actions toolbar={metadata.toolbar} containerKey="linkContainer" />
+        ),
+        {
+            info: {
+                text: `
        Компонент 'Действие переход по ссылке'
        ~~~js
        import Actions from 'n2o-framework/lib/components/actions/Actions';
@@ -57,29 +55,28 @@ stories
         <Actions {...props} containerKey="linkContainer" /> 
        ~~~
       `,
-      },
-    }
-  )
-  .add('Метаданные', () => {
-    return (
-      <React.Fragment>
-        <Actions
-          actions={metadata.actions}
-          toolbar={metadata.toolbar}
-          containerKey={'linkContainer'}
-        />
-        <Switch>
-          <Route
-            path="*"
-            component={({ match }) =>
-              match.url !== '/' && (
-                <span>
-                  Сработал роутер для: <pre>{match.url}</pre>
-                </span>
-              )
-            }
-          />
-        </Switch>
-      </React.Fragment>
-    );
-  });
+            },
+        },
+    )
+    .add('Метаданные', () => (
+        <>
+            <Actions
+                actions={metadata.actions}
+                toolbar={metadata.toolbar}
+                containerKey="linkContainer"
+            />
+            <Switch>
+                <Route
+                    path="*"
+                    component={({ match }) => match.url !== '/' && (
+                        <span>
+                  Сработал роутер для:
+                            {' '}
+                            <pre>{match.url}</pre>
+                        </span>
+                    )
+                    }
+                />
+            </Switch>
+        </>
+    ))

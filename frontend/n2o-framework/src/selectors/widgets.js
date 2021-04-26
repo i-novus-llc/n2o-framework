@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect';
-import get from 'lodash/get';
+import { createSelector } from 'reselect'
+import get from 'lodash/get'
 
-import { FORM, TABLE } from '../components/widgets/widgetTypes';
+import { FORM, TABLE } from '../components/widgets/widgetTypes'
 
 /*
   Базовые селекторы
@@ -11,9 +11,7 @@ import { FORM, TABLE } from '../components/widgets/widgetTypes';
  * Базовый селектор всех виджетов
  * @param state
  */
-const widgetsSelector = (state = {}) => {
-  return state.widgets || {};
-};
+const widgetsSelector = (state = {}) => state.widgets || {}
 
 /*
   Селекторы генераторы
@@ -23,198 +21,170 @@ const widgetsSelector = (state = {}) => {
  * Селектор-генератор для получения виджета по ID
  * @param widgetId
  */
-const makeWidgetByIdSelector = widgetId => {
-  return createSelector(
+const makeWidgetByIdSelector = widgetId => createSelector(
     widgetsSelector,
-    widgetsState => {
-      return widgetsState[widgetId] || {};
-    }
-  );
-};
+    widgetsState => widgetsState[widgetId] || {},
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - isInit
  * @param widgetId
  */
-const makeWidgetIsInitSelector = widgetId =>
-  createSelector(
+const makeWidgetIsInitSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => {
-      return widgetState.isInit;
-    }
-  );
+    widgetState => widgetState.isInit,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - isVisible
  * @param widgetId
  */
-const makeWidgetVisibleSelector = widgetId =>
-  createSelector(
+const makeWidgetVisibleSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isVisible
-  );
+    widgetState => widgetState.isVisible,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - isEnabled
  * @param widgetId
  */
-const makeWidgetEnabledSelector = widgetId =>
-  createSelector(
+const makeWidgetEnabledSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isEnabled
-  );
+    widgetState => widgetState.isEnabled,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - isLoading
  * @param widgetId
  */
-const makeWidgetLoadingSelector = widgetId =>
-  createSelector(
+const makeWidgetLoadingSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isLoading
-  );
+    widgetState => widgetState.isLoading,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - size
  * @param widgetId
  */
-const makeWidgetSizeSelector = widgetId =>
-  createSelector(
+const makeWidgetSizeSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.size
-  );
+    widgetState => widgetState.size,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - count
  * @param widgetId
  */
-const makeWidgetCountSelector = widgetId =>
-  createSelector(
+const makeWidgetCountSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.count
-  );
+    widgetState => widgetState.count,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - page
  * @param widgetId
  */
-const makeWidgetPageSelector = widgetId =>
-  createSelector(
+const makeWidgetPageSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.page
-  );
+    widgetState => widgetState.page,
+)
 
-const makeWidgetPageIdSelector = widgetId =>
-  createSelector(
+const makeWidgetPageIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.pageId
-  );
+    widgetState => widgetState.pageId,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
-const makeWidgetSortingSelector = widgetId =>
-  createSelector(
+const makeWidgetSortingSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.sorting
-  );
+    widgetState => widgetState.sorting,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - isFilterVisible
  * @param widgetId
  */
-const makeWidgetFilterVisibilitySelector = widgetId =>
-  createSelector(
+const makeWidgetFilterVisibilitySelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => {
-      return widgetState.isFilterVisible;
-    }
-  );
+    widgetState => widgetState.isFilterVisible,
+)
 
 /**
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
-const makeWidgetValidationSelector = widgetId =>
-  createSelector(
+const makeWidgetValidationSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.validation
-  );
-
-export const getWidgetFieldValidation = (state, widgetId, fieldId) => (
-  get(state, ['widgets', widgetId, 'validation', fieldId])
+    widgetState => widgetState.validation,
 )
 
-const makeSelectedIdSelector = widgetId =>
-  createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.selectedId
-  );
+export const getWidgetFieldValidation = (state, widgetId, fieldId) => (
+    get(state, ['widgets', widgetId, 'validation', fieldId])
+)
 
-const makeIsActiveSelector = widgetId =>
-  createSelector(
+const makeSelectedIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isActive
-  );
+    widgetState => widgetState.selectedId,
+)
 
-const makeTypeSelector = widgetId =>
-  createSelector(
+const makeIsActiveSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.type
-  );
+    widgetState => widgetState.isActive,
+)
 
-const makeWidgetDataProviderSelector = widgetId =>
-  createSelector(
+const makeTypeSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.dataProvider
-  );
+    widgetState => widgetState.type,
+)
+
+const makeWidgetDataProviderSelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.dataProvider,
+)
 
 const isAnyTableFocusedSelector = createSelector(
-  widgetsSelector,
-  widgetsState => {
-    return Object.values(widgetsState).some(
-      widget =>
-        (widget.type === TABLE || widget.type === FORM) && widget.isActive
-    );
-  }
-);
+    widgetsSelector,
+    widgetsState => Object.values(widgetsState).some(
+        widget => (widget.type === TABLE || widget.type === FORM) && widget.isActive,
+    ),
+)
 
-const makeWidgetErrorSelector = widgetId =>
-  createSelector(
+const makeWidgetErrorSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.error
-  );
+    widgetState => widgetState.error,
+)
 
 /*
   Остальные селекторы
 */
 
-const makeFormModelPrefixSelector = formName =>
-  createSelector(
+const makeFormModelPrefixSelector = formName => createSelector(
     makeWidgetByIdSelector(formName),
-    widgetState => widgetState.modelPrefix || 'resolve'
-  );
+    widgetState => widgetState.modelPrefix || 'resolve',
+)
 
 export {
-  widgetsSelector,
-  makeWidgetByIdSelector,
-  makeWidgetIsInitSelector,
-  makeWidgetVisibleSelector,
-  makeWidgetEnabledSelector,
-  makeWidgetLoadingSelector,
-  makeWidgetSizeSelector,
-  makeWidgetCountSelector,
-  makeWidgetSortingSelector,
-  makeWidgetFilterVisibilitySelector,
-  makeWidgetValidationSelector,
-  makeSelectedIdSelector,
-  makeIsActiveSelector,
-  makeWidgetPageSelector,
-  makeWidgetPageIdSelector,
-  makeTypeSelector,
-  makeWidgetDataProviderSelector,
-  isAnyTableFocusedSelector,
-  makeWidgetErrorSelector,
-  makeFormModelPrefixSelector,
-};
+    widgetsSelector,
+    makeWidgetByIdSelector,
+    makeWidgetIsInitSelector,
+    makeWidgetVisibleSelector,
+    makeWidgetEnabledSelector,
+    makeWidgetLoadingSelector,
+    makeWidgetSizeSelector,
+    makeWidgetCountSelector,
+    makeWidgetSortingSelector,
+    makeWidgetFilterVisibilitySelector,
+    makeWidgetValidationSelector,
+    makeSelectedIdSelector,
+    makeIsActiveSelector,
+    makeWidgetPageSelector,
+    makeWidgetPageIdSelector,
+    makeTypeSelector,
+    makeWidgetDataProviderSelector,
+    isAnyTableFocusedSelector,
+    makeWidgetErrorSelector,
+    makeFormModelPrefixSelector,
+}

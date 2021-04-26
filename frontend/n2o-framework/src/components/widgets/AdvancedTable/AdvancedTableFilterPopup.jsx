@@ -1,9 +1,10 @@
-import React from 'react';
-import { pure } from 'recompose';
-import PropTypes from 'prop-types';
-import InputText from '../../controls/InputText/InputText';
-import Button from 'reactstrap/lib/Button';
-import assign from 'lodash/assign';
+import React from 'react'
+import { pure } from 'recompose'
+import PropTypes from 'prop-types'
+import Button from 'reactstrap/lib/Button'
+import assign from 'lodash/assign'
+
+import InputText from '../../controls/InputText/InputText'
 
 /**
  * Компонент overlay для фильтра
@@ -17,59 +18,61 @@ import assign from 'lodash/assign';
  * @constructor
  */
 function AdvancedTableFilterPopup({
-  value,
-  onChange,
-  onResetFilter,
-  onSetFilter,
-  component,
-  controlProps,
-}) {
-  const childProps = {
-    ...controlProps,
     value,
     onChange,
-  };
+    onResetFilter,
+    onSetFilter,
+    component,
+    controlProps,
+}) {
+    const childProps = {
+        ...controlProps,
+        value,
+        onChange,
+    }
 
-  return (
-    <React.Fragment>
-      <div className="n2o-advanced-table-filter-dropdown-popup">
-        {component ? (
-          React.createElement(
-            component,
-            assign({}, childProps, {
-              popupPlacement: 'right',
-            })
-          )
-        ) : (
-          <InputText value={value} onChange={onChange} />
-        )}
-      </div>
-      <div className="n2o-advanced-table-filter-dropdown-buttons">
-        <Button color={'primary'} size={'sm'} onClick={onSetFilter}>
+    return (
+        <>
+            <div className="n2o-advanced-table-filter-dropdown-popup">
+                {component ? (
+                    React.createElement(
+                        component,
+                        assign({}, childProps, {
+                            popupPlacement: 'right',
+                        }),
+                    )
+                ) : (
+                    <InputText value={value} onChange={onChange} />
+                )}
+            </div>
+            <div className="n2o-advanced-table-filter-dropdown-buttons">
+                <Button color="primary" size="sm" onClick={onSetFilter}>
+
           Искать
-        </Button>
-        <Button size={'sm'} onClick={onResetFilter}>
+                </Button>
+                <Button size="sm" onClick={onResetFilter}>
+
           Сбросить
-        </Button>
-      </div>
-    </React.Fragment>
-  );
+                </Button>
+            </div>
+        </>
+    )
 }
 
 AdvancedTableFilterPopup.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func,
-  onResetFilter: PropTypes.func,
-  onSetFilter: PropTypes.func,
-  controlProps: PropTypes.object,
-};
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
+    onResetFilter: PropTypes.func,
+    onSetFilter: PropTypes.func,
+    controlProps: PropTypes.object,
+}
 
 AdvancedTableFilterPopup.defaultProps = {
-  onChange: () => {},
-  onResetFilter: () => {},
-  onSetFilter: () => {},
-  controlProps: {},
-};
+    onChange: () => {},
+    onResetFilter: () => {},
+    onSetFilter: () => {},
+    controlProps: {},
+}
 
-export { AdvancedTableFilterPopup };
-export default pure(AdvancedTableFilterPopup);
+export { AdvancedTableFilterPopup }
+export default pure(AdvancedTableFilterPopup)

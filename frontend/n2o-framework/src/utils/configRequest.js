@@ -1,7 +1,5 @@
-import 'whatwg-fetch';
+import 'whatwg-fetch'
 
 export default function request() {
-  return fetch('/data/config').then(function(response) {
-    return response.json();
-  });
+    return fetch('/data/config').then(response => response.json())
 }
