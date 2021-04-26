@@ -1,29 +1,30 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import TextEditor from './TextEditor';
-import TextEditorJson from './TextEditor.meta.json';
-import withForm from 'N2oStorybook/decorators/withForm';
-import Factory from '../../../core/factory/Factory';
-const stories = storiesOf('Контролы/Редактор текста', module);
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import withForm from 'N2oStorybook/decorators/withForm'
+
+import Factory from '../../../core/factory/Factory'
+
+import TextEditor from './TextEditor'
+import TextEditorJson from './TextEditor.meta.json'
+
+const stories = storiesOf('Контролы/Редактор текста', module)
 
 stories.addParameters({
-  info: {
-    propTables: [TextEditor],
-    propTablesExclude: [Factory],
-  },
-});
+    info: {
+        propTables: [TextEditor],
+        propTablesExclude: [Factory],
+    },
+})
 
-const form = withForm({ src: 'TextEditor' });
+const form = withForm({ src: 'TextEditor' })
 
 stories
-  .add(
-    'Компонент',
-    () => {
-      return <TextEditor />;
-    },
-    {
-      info: {
-        text: `
+    .add(
+        'Компонент',
+        () => <TextEditor />,
+        {
+            info: {
+                text: `
       Компонент 'Редактор текста'
       ~~~js
       import TextEditor from 'n2o-framework/lib/components/controls/TextEditor/TextEditor';
@@ -31,17 +32,15 @@ stories
       <TextEditor />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Кастомный тулбар',
-    () => {
-      return <TextEditor toolbarConfig={TextEditorJson.toolbarConfig} />;
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Кастомный тулбар',
+        () => <TextEditor toolbarConfig={TextEditorJson.toolbarConfig} />,
+        {
+            info: {
+                text: `
       Компонент 'Редактор текста'
       ~~~js
       import TextEditor from 'n2o-framework/lib/components/controls/TextEditor/TextEditor';
@@ -66,18 +65,18 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Метаданные',
-    form(() => {
-      const props = {
-        disabled: TextEditorJson.disabled,
-        visible: TextEditorJson.visible,
-        className: TextEditorJson.className,
-      };
+            },
+        },
+    )
+    .add(
+        'Метаданные',
+        form(() => {
+            const props = {
+                disabled: TextEditorJson.disabled,
+                visible: TextEditorJson.visible,
+                className: TextEditorJson.className,
+            }
 
-      return props;
-    })
-  );
+            return props
+        }),
+    )

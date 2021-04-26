@@ -1,30 +1,22 @@
-import { createSelector } from 'reselect';
-import find from 'lodash/find';
+import { createSelector } from 'reselect'
+import find from 'lodash/find'
 
 /**
  * селектор модольных окон
  * @param state
  */
-export const overlaysSelector = state => {
-  return state.overlays || {};
-};
+export const overlaysSelector = state => state.overlays || {}
 
 /**
  * селектор модального окна по индексу
  * @param i
  */
-export const makeOverlaysbyName = i =>
-  createSelector(
+export const makeOverlaysbyName = i => createSelector(
     overlaysSelector,
-    overlaysState => {
-      return overlaysState[i];
-    }
-  );
+    overlaysState => overlaysState[i],
+)
 
-export const makeShowPromptByName = name =>
-  createSelector(
+export const makeShowPromptByName = name => createSelector(
     overlaysSelector,
-    overlaysState => {
-      return find(overlaysState, overlay => overlay.name === name).showPrompt;
-    }
-  );
+    overlaysState => find(overlaysState, overlay => overlay.name === name).showPrompt,
+)

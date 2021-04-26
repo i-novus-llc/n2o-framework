@@ -1,9 +1,10 @@
 /**
  * Created by emamoshin on 03.11.2017.
  */
-import { createSelector } from 'reselect';
-import get from 'lodash/get';
-import { PREFIXES } from '../constants/models';
+import { createSelector } from 'reselect'
+import get from 'lodash/get'
+
+import { PREFIXES } from '../constants/models'
 
 /*
   Базовые селекторы
@@ -13,117 +14,93 @@ import { PREFIXES } from '../constants/models';
  * Базовый селектор всех моделей
  * @param state
  */
-const modelsSelector = state => {
-  return state.models || {};
-};
+const modelsSelector = state => state.models || {}
 
 /**
  * Селектор получения resolve моделей
  * @param state
  */
-const resolveSelector = state => {
-  return state.models[PREFIXES.resolve] || {};
-};
+const resolveSelector = state => state.models[PREFIXES.resolve] || {}
 
 /**
  * Селектор получения filter моделей
  * @param state
  */
-const filterSelector = state => {
-  return state.models[PREFIXES.filter] || {};
-};
+const filterSelector = state => state.models[PREFIXES.filter] || {}
 
 /**
  * Селектор получения selectionTypes моделей
  * @param state
  */
 
-const selectionTypeSelector = state => {
-  return state.models[PREFIXES.selectionType] || {};
-};
+const selectionTypeSelector = state => state.models[PREFIXES.selectionType] || {}
 
 /**
  * Селектор получения модели по линку
  * @param modelLink
  */
-const getModelSelector = modelLink => state => {
-  return get(state, modelLink);
-};
+const getModelSelector = modelLink => state => get(state, modelLink)
 /*
   Селекторы генераторы
 */
 
-const getModelsByDependency = dependency => state => {
-  return (
+const getModelsByDependency = dependency => state => (
     dependency &&
     dependency.map(config => ({
-      model: getModelSelector(config.on)(state),
-      config,
+        model: getModelSelector(config.on)(state),
+        config,
     }))
-  );
-};
+)
 
 /**
  * Селектор-генератор для получения списка моделей по префиксу
  * @param prefix
  */
-const makeModelsByPrefixSelector = prefix =>
-  createSelector(
+const makeModelsByPrefixSelector = prefix => createSelector(
     modelsSelector,
-    modelsState => {
-      return modelsState[prefix] || {};
-    }
-  );
+    modelsState => modelsState[prefix] || {},
+)
 
 /**
  * Селектор-генератор для получения конкретной модели
  * @param prefix
  * @param key
  */
-const makeGetModelByPrefixSelector = (prefix, key) =>
-  createSelector(
+const makeGetModelByPrefixSelector = (prefix, key) => createSelector(
     makeModelsByPrefixSelector(prefix),
-    prefixModelsState => {
-      return prefixModelsState[key];
-    }
-  );
+    prefixModelsState => prefixModelsState[key],
+)
 
 /**
  * Селектор-генератор для получения resolve модели
  * @param key
  */
-const makeGetResolveModelSelector = key =>
-  createSelector(
+const makeGetResolveModelSelector = key => createSelector(
     resolveSelector,
-    modelsState => {
-      return modelsState[key];
-    }
-  );
+    modelsState => modelsState[key],
+)
 
 /**
  * Селектор-генератор для получения filter модели
  * @param key
  */
-const makeGetFilterModelSelector = key =>
-  createSelector(
+const makeGetFilterModelSelector = key => createSelector(
     filterSelector,
-    modelsState => {
-      return modelsState[key];
-    }
-  );
+    modelsState => modelsState[key],
+)
 
 /*
   Остальные селекторы
 */
 
 export {
-  modelsSelector,
-  resolveSelector,
-  makeModelsByPrefixSelector,
-  makeGetModelByPrefixSelector,
-  makeGetResolveModelSelector,
-  makeGetFilterModelSelector,
-  getModelSelector,
-  getModelsByDependency,
-  selectionTypeSelector,
-};
+    modelsSelector,
+    resolveSelector,
+    makeModelsByPrefixSelector,
+    makeGetModelByPrefixSelector,
+    makeGetResolveModelSelector,
+    makeGetFilterModelSelector,
+    getModelSelector,
+    getModelsByDependency,
+    selectionTypeSelector,
+}

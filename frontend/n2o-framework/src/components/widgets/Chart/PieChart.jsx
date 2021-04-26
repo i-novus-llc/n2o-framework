@@ -1,7 +1,8 @@
-import React from 'react';
-import { pure } from 'recompose';
-import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
-import { PieChart as Chart, Pie } from 'recharts';
+import React from 'react'
+import { pure } from 'recompose'
+import { PieChart as Chart, Pie } from 'recharts'
+
+import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes'
 
 /**
  * График "Пирог"
@@ -32,18 +33,18 @@ import { PieChart as Chart, Pie } from 'recharts';
  * @constructor
  */
 function PieChart({ width, height, margin, pie, data }) {
-  return (
-    <Chart width={width} height={height} margin={margin}>
-      <Pie {...pie} data={data} />
-    </Chart>
-  );
+    return (
+        <Chart width={width} height={height} margin={margin}>
+            <Pie {...pie} data={data} />
+        </Chart>
+    )
 }
 
 PieChart.propTypes = {
-  ...chartTypes,
-  pie: pieTypes,
-};
+    ...chartTypes,
+    pie: pieTypes,
+}
 
-PieChart.defaultProps = defaultChartProps;
+PieChart.defaultProps = defaultChartProps
 
-export default pure(PieChart);
+export default pure(PieChart)

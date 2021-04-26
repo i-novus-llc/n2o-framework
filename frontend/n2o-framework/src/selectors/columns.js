@@ -1,50 +1,35 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
 
-const columnsSelector = state => {
-  return state.columns || {};
-};
+const columnsSelector = state => state.columns || {}
 
-const getContainerColumns = key =>
-  createSelector(
+const getContainerColumns = key => createSelector(
     columnsSelector,
-    columns => columns[key] || {}
-  );
+    columns => columns[key] || {},
+)
 
-const makeColumnByKeyAndIdSelector = (key, id) =>
-  createSelector(
+const makeColumnByKeyAndIdSelector = (key, id) => createSelector(
     getContainerColumns(key),
-    columns => {
-      return columns[id] || {};
-    }
-  );
+    columns => columns[id] || {},
+)
 
-const isInitSelector = (key, id) =>
-  createSelector(
+const isInitSelector = (key, id) => createSelector(
     makeColumnByKeyAndIdSelector(key, id),
-    column => {
-      return column.isInit;
-    }
-  );
+    column => column.isInit,
+)
 
-const isVisibleSelector = (key, id) =>
-  createSelector(
+const isVisibleSelector = (key, id) => createSelector(
     makeColumnByKeyAndIdSelector(key, id),
-    column => {
-      return column.visible;
-    }
-  );
+    column => column.visible,
+)
 
-const isDisabledSelector = (key, id) =>
-  createSelector(
+const isDisabledSelector = (key, id) => createSelector(
     makeColumnByKeyAndIdSelector(key, id),
-    column => {
-      return column.disabled;
-    }
-  );
+    column => column.disabled,
+)
 
 export {
-  getContainerColumns,
-  isVisibleSelector,
-  isInitSelector,
-  isDisabledSelector,
-};
+    getContainerColumns,
+    isVisibleSelector,
+    isInitSelector,
+    isDisabledSelector,
+}

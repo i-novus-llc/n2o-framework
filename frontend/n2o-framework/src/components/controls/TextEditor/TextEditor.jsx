@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import cn from 'classnames';
-import isEqual from 'lodash/isEqual';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import cn from 'classnames'
+import isEqual from 'lodash/isEqual'
+import { EditorState, convertToRaw, ContentState } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg'
+import draftToHtml from 'draftjs-to-html'
+import htmlToDraft from 'html-to-draftjs'
+import PropTypes from 'prop-types'
 
 /**
  * Компонент TextEditor
@@ -28,129 +28,129 @@ import PropTypes from 'prop-types';
   }
  */
 class TextEditor extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props)
 
-    this.state = {
-      editorState: this.convertToEditorState(props.value),
-      value: props.value,
-    };
+        this.state = {
+            editorState: this.convertToEditorState(props.value),
+            value: props.value,
+        }
 
-    this.onEditorStateChange = this.onEditorStateChange.bind(this);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.value, this.props.value)) {
-      this.setState({
-        editorState: EditorState.moveFocusToEnd(
-          this.convertToEditorState(this.props.value)
-        ),
-        value: this.props.value,
-      });
-    }
-  }
-
-  convertToHtml(editorState) {
-    return draftToHtml(convertToRaw(editorState.getCurrentContent()));
-  }
-
-  convertToEditorState(value) {
-    const contentBlock = htmlToDraft(value);
-    if (contentBlock) {
-      const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
-      );
-      return EditorState.createWithContent(contentState);
+        this.onEditorStateChange = this.onEditorStateChange.bind(this)
     }
 
-    return EditorState.createEmpty();
-  }
+    componentDidUpdate(prevProps) {
+        if (!isEqual(prevProps.value, this.props.value)) {
+            this.setState({
+                editorState: EditorState.moveFocusToEnd(
+                    this.convertToEditorState(this.props.value),
+                ),
+                value: this.props.value,
+            })
+        }
+    }
 
-  onEditorStateChange(editorState) {
-    const { onChange } = this.props;
-    const value = this.convertToHtml(editorState);
-    onChange && onChange(value);
-    this.setState({ editorState, value });
-  }
+    convertToHtml(editorState) {
+        return draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    }
 
-  render() {
-    const {
-      className,
-      disabled,
-      visible,
-      onFocus,
-      onBlur,
-      toolbarConfig,
-    } = this.props;
-    const { editorState } = this.state;
-    const baseStyle = {
-      wordBreak: 'break-all',
-      wordWrap: 'break-word',
-      maxWidth: '100%',
-    };
-    const disabledStyle = {
-      pointerEvents: 'none',
-      opacity: '0.4',
-    };
-    return (
-      <div style={disabled ? { ...baseStyle, ...disabledStyle } : baseStyle}>
-        {visible && (
-          <Editor
-            onFocus={onFocus}
-            onBlur={onBlur}
-            editorState={editorState}
-            wrapperClassName={cn('n2o-text-editor-wrapper')}
-            editorClassName={cn('n2o-text-editor', className)}
-            onEditorStateChange={this.onEditorStateChange}
-            toolbar={toolbarConfig}
-          />
-        )}
-      </div>
-    );
-  }
+    convertToEditorState(value) {
+        const contentBlock = htmlToDraft(value)
+        if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(
+                contentBlock.contentBlocks,
+            )
+            return EditorState.createWithContent(contentState)
+        }
+
+        return EditorState.createEmpty()
+    }
+
+    onEditorStateChange(editorState) {
+        const { onChange } = this.props
+        const value = this.convertToHtml(editorState)
+        onChange && onChange(value)
+        this.setState({ editorState, value })
+    }
+
+    render() {
+        const {
+            className,
+            disabled,
+            visible,
+            onFocus,
+            onBlur,
+            toolbarConfig,
+        } = this.props
+        const { editorState } = this.state
+        const baseStyle = {
+            wordBreak: 'break-all',
+            wordWrap: 'break-word',
+            maxWidth: '100%',
+        }
+        const disabledStyle = {
+            pointerEvents: 'none',
+            opacity: '0.4',
+        }
+        return (
+            <div style={disabled ? { ...baseStyle, ...disabledStyle } : baseStyle}>
+                {visible && (
+                    <Editor
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                        editorState={editorState}
+                        wrapperClassName={cn('n2o-text-editor-wrapper')}
+                        editorClassName={cn('n2o-text-editor', className)}
+                        onEditorStateChange={this.onEditorStateChange}
+                        toolbar={toolbarConfig}
+                    />
+                )}
+            </div>
+        )
+    }
 }
 
 TextEditor.propTypes = {
-  /**
+    /**
    * Значение
    */
-  value: PropTypes.string,
-  /**
+    value: PropTypes.string,
+    /**
    * Callback на изменение
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Callback на фокус
    */
-  onFocus: PropTypes.func,
-  /**
+    onFocus: PropTypes.func,
+    /**
    * Callback на потерю фокуса
    */
-  onBlur: PropTypes.func,
-  /**
+    onBlur: PropTypes.func,
+    /**
    * Флаг активности
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-  /**
+    visible: PropTypes.bool,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Конфиг тулбара
    */
-  toolbarConfig: PropTypes.object,
-};
+    toolbarConfig: PropTypes.object,
+}
 TextEditor.defaultProps = {
-  onChange: () => {},
-  onFocus: () => {},
-  onBlur: () => {},
-  disabled: false,
-  visible: true,
-  value: '',
-};
+    onChange: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    disabled: false,
+    visible: true,
+    value: '',
+}
 
-export default TextEditor;
+export default TextEditor

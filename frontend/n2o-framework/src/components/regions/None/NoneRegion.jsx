@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, pure, setDisplayName } from 'recompose';
-import map from 'lodash/map';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, pure, setDisplayName } from 'recompose'
+import map from 'lodash/map'
 
-import withWidgetProps from '../withWidgetProps';
-import RegionContent from '../RegionContent';
+import withWidgetProps from '../withWidgetProps'
+import RegionContent from '../RegionContent'
 
 /**
  * Регион None (простой див)
@@ -13,31 +13,29 @@ import RegionContent from '../RegionContent';
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-const NoneRegion = ({ content }) => {
-  return (
+const NoneRegion = ({ content }) => (
     <div className="n2o-none-region">
-      {map(content, item => (
-        <RegionContent content={[item]} />
-      ))}
+        {map(content, item => (
+            <RegionContent content={[item]} />
+        ))}
     </div>
-  );
-};
+)
 
 NoneRegion.propTypes = {
-  /**
+    /**
    * Список элементов
    */
-  items: PropTypes.array.isRequired,
-  getWidget: PropTypes.func.isRequired,
-  /**
+    items: PropTypes.array.isRequired,
+    getWidget: PropTypes.func.isRequired,
+    /**
    * ID страницы
    */
-  pageId: PropTypes.string.isRequired,
-};
+    pageId: PropTypes.string.isRequired,
+}
 
-export { NoneRegion };
+export { NoneRegion }
 export default compose(
-  setDisplayName('NoneRegion'),
-  pure,
-  withWidgetProps
-)(NoneRegion);
+    setDisplayName('NoneRegion'),
+    pure,
+    withWidgetProps,
+)(NoneRegion)

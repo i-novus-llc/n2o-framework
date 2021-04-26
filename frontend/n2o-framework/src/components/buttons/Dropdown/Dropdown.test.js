@@ -1,29 +1,30 @@
-import React from 'react';
-import configureMockStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
+import React from 'react'
+import configureMockStore from 'redux-mock-store'
+import { Provider } from 'react-redux'
 
-import Dropdown from './Dropdown';
-import createFactoryConfig from '../../../core/factory/createFactoryConfig';
-import FactoryProvider from '../../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../../core/factory/createFactoryConfig'
+import FactoryProvider from '../../../core/factory/FactoryProvider'
 
-const mockStore = configureMockStore();
+import Dropdown from './Dropdown'
 
-const setup = props => {
-  const store = mockStore({});
-  const wrapper = mount(
-    <Provider store={store}>
-      <FactoryProvider config={createFactoryConfig({})}>
-        <Dropdown {...props} />
-      </FactoryProvider>
-    </Provider>
-  );
+const mockStore = configureMockStore()
 
-  return { store, wrapper };
-};
+const setup = (props) => {
+    const store = mockStore({})
+    const wrapper = mount(
+        <Provider store={store}>
+            <FactoryProvider config={createFactoryConfig({})}>
+                <Dropdown {...props} />
+            </FactoryProvider>
+        </Provider>,
+    )
+
+    return { store, wrapper }
+}
 
 describe('<Dropdown />', () => {
-  it('Создание', () => {
-    const { wrapper } = setup();
-    expect(wrapper.find('.n2o-dropdown').exists()).toBeTruthy();
-  });
-});
+    it('Создание', () => {
+        const { wrapper } = setup()
+        expect(wrapper.find('.n2o-dropdown').exists()).toBeTruthy()
+    })
+})

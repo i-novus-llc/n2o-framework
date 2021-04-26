@@ -1,124 +1,93 @@
-import { createSelector } from 'reselect';
-import get from 'lodash/get';
+import { createSelector } from 'reselect'
+import get from 'lodash/get'
 
 /**
  * селектор для редакс-форм
  * @param state
  * @returns {{}}
  */
-export const formsSelector = state => {
-  return state.form || {};
-};
+export const formsSelector = state => state.form || {}
 
 /**
  * селектор для  конкретной формы
  * @param name
  */
-export const makeFormByName = name =>
-  createSelector(
+export const makeFormByName = name => createSelector(
     formsSelector,
-    formsState => {
-      return get(formsState, name) || {};
-    }
-  );
+    formsState => get(formsState, name) || {},
+)
 
 /**
  * селктор для поля формы
  * @param formName
  * @param fieldName
  */
-export const makeFieldByName = (formName, fieldName) =>
-  createSelector(
+export const makeFieldByName = (formName, fieldName) => createSelector(
     makeFormByName(formName),
-    form => {
-      return get(form, ['registeredFields', fieldName], {});
-    }
-  );
+    form => get(form, ['registeredFields', fieldName], {}),
+)
 
 /**
  * селектор для значения видимости поля
  * @param formName
  * @param fieldName
  */
-export const isVisibleSelector = (formName, fieldName) =>
-  createSelector(
+export const isVisibleSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.visible;
-    }
-  );
+    field => field.visible,
+)
 
 /**
  * селектор для значения активности поля
  * @param formName
  * @param fieldName
  */
-export const isDisabledSelector = (formName, fieldName) =>
-  createSelector(
+export const isDisabledSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.disabled;
-    }
-  );
+    field => field.disabled,
+)
 
 /**
  * селектор для свойства, отвечающего за инициализацию дополнительных свойств
  * @param formName
  * @param fieldName
  */
-export const isInitSelector = (formName, fieldName) =>
-  createSelector(
+export const isInitSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.isInit;
-    }
-  );
+    field => field.isInit,
+)
 
-export const messageSelector = (formName, fieldName) =>
-  createSelector(
+export const messageSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.message;
-    }
-  );
+    field => field.message,
+)
 
-export const dependencySelector = (formName, fieldName) =>
-  createSelector(
+export const dependencySelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.dependency;
-    }
-  );
+    field => field.dependency,
+)
 
-export const filterSelector = (formName, fieldName) =>
-  createSelector(
+export const filterSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.filter;
-    }
-  );
+    field => field.filter,
+)
 
-export const requiredSelector = (formName, fieldName) =>
-  createSelector(
+export const requiredSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => {
-      return field.required;
-    }
-  );
+    field => field.required,
+)
 /**
  * Селектор флага загрузки
  * @param formName
  * @param fieldName
  * @return
  */
-export const loadingSelector = (formName, fieldName) =>
-  createSelector(
+export const loadingSelector = (formName, fieldName) => createSelector(
     makeFieldByName(formName, fieldName),
-    field => field.loading
-  );
+    field => field.loading,
+)
 
-export const formValueSelector = (formName, fieldName) =>
-  createSelector(
+export const formValueSelector = (formName, fieldName) => createSelector(
     makeFormByName(formName),
-    form => get(form, `values.${fieldName}`, [])
-  );
+    form => get(form, `values.${fieldName}`, []),
+)

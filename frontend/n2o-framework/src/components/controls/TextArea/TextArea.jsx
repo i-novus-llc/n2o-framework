@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TextareaAutosize from 'react-textarea-autosize';
-import omit from 'lodash/omit';
-import cx from 'classnames';
-import { compose } from 'recompose';
-import withRightPlaceholder from '../withRightPlaceholder';
+import React from 'react'
+import PropTypes from 'prop-types'
+import TextareaAutosize from 'react-textarea-autosize'
+import omit from 'lodash/omit'
+import cx from 'classnames'
+import { compose } from 'recompose'
+
+import withRightPlaceholder from '../withRightPlaceholder'
 
 /**
  * Компонент TextArea
@@ -22,74 +23,74 @@ import withRightPlaceholder from '../withRightPlaceholder';
  * @constructor
  */
 function TextArea({
-  className,
-  style,
-  disabled,
-  placeholder,
-  rows,
-  maxRows,
-  value,
-  onChange,
-  ...rest
+    className,
+    style,
+    disabled,
+    placeholder,
+    rows,
+    maxRows,
+    value,
+    onChange,
+    ...rest
 }) {
-  const max = rows > maxRows ? rows : maxRows;
-  const inputClass = `form-control ${className}`;
-  return (
-    <TextareaAutosize
-      className={cx('n2o-text-area', inputClass)}
-      style={style}
-      disabled={disabled}
-      placeholder={placeholder}
-      minRows={rows}
-      maxRows={max}
-      value={value || ''}
-      onChange={onChange}
-      {...omit(rest, ['id'])}
-    />
-  );
+    const max = rows > maxRows ? rows : maxRows
+    const inputClass = `form-control ${className}`
+    return (
+        <TextareaAutosize
+            className={cx('n2o-text-area', inputClass)}
+            style={style}
+            disabled={disabled}
+            placeholder={placeholder}
+            minRows={rows}
+            maxRows={max}
+            value={value || ''}
+            onChange={onChange}
+            {...omit(rest, ['id'])}
+        />
+    )
 }
 
 TextArea.propTypes = {
-  /**
+    /**
    * Значение
    */
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  /**
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /**
    * Флаг активности
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Стили
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * Placeholder контрола
    */
-  placeholder: PropTypes.string,
-  /**
+    placeholder: PropTypes.string,
+    /**
    * Callback на изменение
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Минимальное количество строк
    */
-  rows: PropTypes.number,
-  /**
+    rows: PropTypes.number,
+    /**
    * Максимальное количество строк
    */
-  maxRows: PropTypes.number,
-};
+    maxRows: PropTypes.number,
+}
 
 TextArea.defaultProps = {
-  onChange: () => {},
-  className: '',
-  disabled: false,
-  rows: 3,
-  maxRows: 3,
-};
+    onChange: () => {},
+    className: '',
+    disabled: false,
+    rows: 3,
+    maxRows: 3,
+}
 
-export default compose(withRightPlaceholder)(TextArea);
+export default compose(withRightPlaceholder)(TextArea)

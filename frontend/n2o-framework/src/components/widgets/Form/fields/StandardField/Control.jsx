@@ -1,9 +1,9 @@
-import React from 'react';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
+import React from 'react'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
 
-import Factory from '../../../../../core/factory/Factory';
-import { CONTROLS } from '../../../../../core/factory/factoryLevels';
+import Factory from '../../../../../core/factory/Factory'
+import { CONTROLS } from '../../../../../core/factory/factoryLevels'
 
 /**
  * Контрол поля формы
@@ -14,24 +14,24 @@ import { CONTROLS } from '../../../../../core/factory/factoryLevels';
  * <Control component={Input} {...props}/>
  */
 const Control = ({ component, className, ...props }) => {
-  const newProps = { ...props, className };
-  const classes = cn('form-control', className);
+    const newProps = { ...props, className }
+    const classes = cn('form-control', className)
 
-  return typeof component !== 'string' ? (
-    React.createElement(component, newProps)
-  ) : (
-    <Factory level={CONTROLS} src={component} {...props} className={classes} />
-  );
-};
+    return typeof component !== 'string' ? (
+        React.createElement(component, newProps)
+    ) : (
+        <Factory level={CONTROLS} src={component} {...props} className={classes} />
+    )
+}
 
 Control.propTypes = {
-  component: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  style: PropTypes.object,
-  className: PropTypes.string,
-};
+    component: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+        PropTypes.func,
+    ]),
+    style: PropTypes.object,
+    className: PropTypes.string,
+}
 
-export default Control;
+export default Control
