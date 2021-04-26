@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         Tiles.Tile tile = new Tiles.Tile();
         source.setId(p.cast(source.getId(), source.getTextFieldId()));
         tile.setId(source.getId());
+        tile.setCssClass(source.getCssClass());
+        tile.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         N2oCell cell = source.getComponent();
         if (cell == null)
             cell = new N2oTextCell();

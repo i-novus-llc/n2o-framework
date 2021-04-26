@@ -1633,6 +1633,16 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |Поле выборки, отображаемое при наведении на ячейку
 |
 
+|class
+|Строка
+|CSS класс
+|
+
+|style
+|Строка
+|Стиль блока
+|
+
 |===
 
 Пример::
