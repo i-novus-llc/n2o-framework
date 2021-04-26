@@ -8,16 +8,16 @@
  * @returns {string|function} ReactElement
  */
 function getElementType(Component, props, getDefault) {
-  const { defaultProps = {} } = Component;
+    const { defaultProps = {} } = Component
 
-  if (props.as && props.as !== defaultProps.as) return props.as;
+    if (props.as && props.as !== defaultProps.as) { return props.as }
 
-  if (getDefault) {
-    const computedDefault = getDefault();
-    if (computedDefault) return computedDefault;
-  }
+    if (getDefault) {
+        const computedDefault = getDefault()
+        if (computedDefault) { return computedDefault }
+    }
 
-  return defaultProps.as || 'div';
+    return defaultProps.as || 'div'
 }
 
-export default getElementType;
+export default getElementType

@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import RadioGroup from './RadioGroup';
-import Radio from '../Radio/RadioN2O';
-import mapProp from '../../../utils/mapProp';
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import Radio from '../Radio/RadioN2O'
+import mapProp from '../../../utils/mapProp'
+
+import RadioGroup from './RadioGroup'
 
 /**
  * Контейнер для RadioGroup(пропсы прокидывает)
@@ -10,28 +12,28 @@ import mapProp from '../../../utils/mapProp';
  * @reactProps {array} radios -  пропсы для Radio
  */
 class RadioGroupContainer extends React.Component {
-  /**
+    /**
    * Базовый рендер
-   **/
-  render() {
-    const { radioGroup, radios, ...props } = this.props;
-    return (
-      <RadioGroup {...radioGroup} {...props}>
-        {mapProp(radios).map(radio => (
-          <Radio {...radio} />
-        ))}
-      </RadioGroup>
-    );
-  }
+   * */
+    render() {
+        const { radioGroup, radios, ...props } = this.props
+        return (
+            <RadioGroup {...radioGroup} {...props}>
+                {mapProp(radios).map(radio => (
+                    <Radio {...radio} />
+                ))}
+            </RadioGroup>
+        )
+    }
 }
 
 RadioGroupContainer.propTypes = {
-  radioGroup: PropTypes.object,
-  radios: PropTypes.array,
-};
+    radioGroup: PropTypes.object,
+    radios: PropTypes.array,
+}
 
 RadioGroupContainer.defaultProps = {
-  radios: [],
-};
+    radios: [],
+}
 
-export default RadioGroupContainer;
+export default RadioGroupContainer

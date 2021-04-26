@@ -1,4 +1,4 @@
-import { createAction } from 'redux-actions';
+import { createAction } from 'redux-actions'
 
 /**
  * дефолтный мэппер пэйлоада
@@ -6,7 +6,7 @@ import { createAction } from 'redux-actions';
  * @param meta
  */
 function defaultPayload(payload = {}, meta = {}) {
-  return payload;
+    return payload
 }
 
 /**
@@ -15,7 +15,7 @@ function defaultPayload(payload = {}, meta = {}) {
  * @param meta
  */
 function defaultMeta(payload = {}, meta = {}) {
-  return meta;
+    return meta
 }
 
 /**
@@ -25,9 +25,9 @@ function defaultMeta(payload = {}, meta = {}) {
  * @param metaFunc
  */
 export default function createActionHelper(
-  type,
-  payloadFunc = defaultPayload,
-  metaFunc = defaultMeta
+    type,
+    payloadFunc = defaultPayload,
+    metaFunc = defaultMeta,
 ) {
-  return createAction(type, payloadFunc, metaFunc);
+    return createAction(type, payloadFunc, metaFunc)
 }

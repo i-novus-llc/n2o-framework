@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const measureStyle = { marginLeft: 5 };
+const measureStyle = { marginLeft: 5 }
 
 /**
  * Компонент-размерность
@@ -10,15 +10,14 @@ const measureStyle = { marginLeft: 5 };
  * @example
  * <Measure value="м"/>
  */
-const Measure = ({ value, ...props }) =>
-  value ? (
+const Measure = ({ value, ...props }) => (value ? (
     <span style={measureStyle} {...props}>
-      {value}
+        {value}
     </span>
-  ) : null;
+) : null)
 
 Measure.propTypes = {
-  value: PropTypes.string,
-};
+    value: PropTypes.string,
+}
 
-export default Measure;
+export default Measure

@@ -1,25 +1,26 @@
-import React from 'react';
-import map from 'lodash/map';
+import React from 'react'
+import map from 'lodash/map'
 import {
-  BarChart as Chart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Bar,
-} from 'recharts';
+    BarChart as Chart,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    Bar,
+} from 'recharts'
+
 import {
-  barChartTypes,
-  barsTypes,
-  cartesianGridTypes,
-  defaultChartProps,
-  legendTypes,
-  tooltipTypes,
-  XAxisTypes,
-  YAxisTypes,
-} from './chartPropsTypes';
-import { createDomain } from './utils';
+    barChartTypes,
+    barsTypes,
+    cartesianGridTypes,
+    defaultChartProps,
+    legendTypes,
+    tooltipTypes,
+    XAxisTypes,
+    YAxisTypes,
+} from './chartPropsTypes'
+import { createDomain } from './utils'
 
 /**
  * График "Гистограмы"
@@ -128,62 +129,62 @@ import { createDomain } from './utils';
  * @constructor
  */
 function BarChart({
-  layout,
-  width,
-  height,
-  stackOffset,
-  barCategoryGap,
-  barGap,
-  barSize,
-  maxBarSize,
-  reverseStackOrder,
-  margin,
-  XAxis: xaxis,
-  YAxis: yaxis,
-  cartesianGrid,
-  tooltip,
-  legend,
-  bars,
-  data,
+    layout,
+    width,
+    height,
+    stackOffset,
+    barCategoryGap,
+    barGap,
+    barSize,
+    maxBarSize,
+    reverseStackOrder,
+    margin,
+    XAxis: xaxis,
+    YAxis: yaxis,
+    cartesianGrid,
+    tooltip,
+    legend,
+    bars,
+    data,
 }) {
-  const domain = createDomain(yaxis);
+    const domain = createDomain(yaxis)
 
-  return (
-    <Chart
-      layout={layout}
-      width={width}
-      height={height}
-      stackOffset={stackOffset}
-      barCategoryGap={barCategoryGap}
-      barGap={barGap}
-      barSize={barSize}
-      maxBarSize={maxBarSize}
-      reverseStackOrder={reverseStackOrder}
-      data={data}
-      margin={margin}
-    >
-      <CartesianGrid {...cartesianGrid} />
-      <XAxis {...xaxis} />
-      <YAxis {...yaxis} domain={domain} />
-      <Tooltip {...tooltip} />
-      <Legend {...legend} />
-      {map(bars, bar => (
-        <Bar {...bar} />
-      ))}
-    </Chart>
-  );
+    return (
+        <Chart
+            layout={layout}
+            width={width}
+            height={height}
+            stackOffset={stackOffset}
+            barCategoryGap={barCategoryGap}
+            barGap={barGap}
+            barSize={barSize}
+            maxBarSize={maxBarSize}
+            reverseStackOrder={reverseStackOrder}
+            data={data}
+            margin={margin}
+        >
+            <CartesianGrid {...cartesianGrid} />
+            <XAxis {...xaxis} />
+            <YAxis {...yaxis} domain={domain} />
+            <Tooltip {...tooltip} />
+            <Legend {...legend} />
+            {map(bars, bar => (
+                <Bar {...bar} />
+            ))}
+        </Chart>
+    )
 }
 
 BarChart.propTypes = {
-  ...barChartTypes,
-  cartesianGrid: cartesianGridTypes,
-  XAxis: XAxisTypes,
-  YAxis: YAxisTypes,
-  tooltip: tooltipTypes,
-  legend: legendTypes,
-  bars: barsTypes,
-};
+    ...barChartTypes,
+    cartesianGrid: cartesianGridTypes,
+    XAxis: XAxisTypes,
+    YAxis: YAxisTypes,
+    tooltip: tooltipTypes,
+    legend: legendTypes,
+    bars: barsTypes,
+}
 
-BarChart.defaultProps = defaultChartProps;
+BarChart.defaultProps = defaultChartProps
 
-export default BarChart;
+export default BarChart

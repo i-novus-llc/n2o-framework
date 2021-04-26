@@ -1,97 +1,96 @@
-import { createSelector } from 'reselect';
-import isEmpty from 'lodash/isEmpty';
-import { getWidgetId } from '../../tools/helpers';
+import { createSelector } from 'reselect'
+import isEmpty from 'lodash/isEmpty'
+
+import { getWidgetId } from '../../tools/helpers'
 
 /**
  * селектор всего виджета
  */
-const widgetSelector = (state, props) => {
-  return state.widgets[getWidgetId(props.pageId, props.containerId)] || {};
-};
+const widgetSelector = (state, props) => state.widgets[getWidgetId(props.pageId, props.containerId)] || {}
 
 /**
  * селктор инициализации виджета
  */
 const isInitSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.isInit
-);
+    [widgetSelector],
+    widgetState => widgetState.isInit,
+)
 
 /**
  * селектор видимости виджета
  */
 const visibleSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.visible
-);
+    [widgetSelector],
+    widgetState => widgetState.visible,
+)
 
 /**
  * секлектор энейбла виджета
  */
 const enabledSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.enabled
-);
+    [widgetSelector],
+    widgetState => widgetState.enabled,
+)
 
 /**
  * селектор загрузки виджета
  */
 const loadingSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.isLoading
-);
+    [widgetSelector],
+    widgetState => widgetState.isLoading,
+)
 
 /**
  * селектор метаданных виджета
  */
 const metadataSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.metadata
-);
+    [widgetSelector],
+    widgetState => widgetState.metadata,
+)
 
 /**
  * Селектор квэри
  */
 const querySelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.query
-);
+    [widgetSelector],
+    widgetState => widgetState.query,
+)
 
 /**
  * Селeктор резолв модели
  */
 const resolveSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.resolveModel
-);
+    [widgetSelector],
+    widgetState => widgetState.resolveModel,
+)
 
 /**
  * Селeктор алертов
  */
 const alertsSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.alerts
-);
+    [widgetSelector],
+    widgetState => widgetState.alerts,
+)
 
 const idsSelector = createSelector(
-  [querySelector],
-  queryState => (isEmpty(queryState) ? [] : queryState.list.map(m => m.id))
-);
+    [querySelector],
+    queryState => (isEmpty(queryState) ? [] : queryState.list.map(m => m.id)),
+)
 
 const sortingSelector = createSelector(
-  [widgetSelector],
-  widgetState => widgetState.sorting
-);
+    [widgetSelector],
+    widgetState => widgetState.sorting,
+)
 
 export {
-  widgetSelector,
-  isInitSelector,
-  visibleSelector,
-  loadingSelector,
-  metadataSelector,
-  querySelector,
-  resolveSelector,
-  alertsSelector,
-  idsSelector,
-  sortingSelector,
-};
+    widgetSelector,
+    isInitSelector,
+    visibleSelector,
+    loadingSelector,
+    metadataSelector,
+    querySelector,
+    resolveSelector,
+    alertsSelector,
+    idsSelector,
+    sortingSelector,
+}

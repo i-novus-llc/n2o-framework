@@ -1,25 +1,26 @@
-import React from 'react';
-import map from 'lodash/map';
+import React from 'react'
+import map from 'lodash/map'
 import {
-  AreaChart as Chart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Area,
-  Legend,
-} from 'recharts';
+    AreaChart as Chart,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Area,
+    Legend,
+} from 'recharts'
+
 import {
-  areasTypes,
-  cartesianGridTypes,
-  chartTypes,
-  defaultChartProps,
-  legendTypes,
-  tooltipTypes,
-  XAxisTypes,
-  YAxisTypes,
-} from './chartPropsTypes';
-import { createDomain } from './utils';
+    areasTypes,
+    cartesianGridTypes,
+    chartTypes,
+    defaultChartProps,
+    legendTypes,
+    tooltipTypes,
+    XAxisTypes,
+    YAxisTypes,
+} from './chartPropsTypes'
+import { createDomain } from './utils'
 
 /**
  * График "Зоны"
@@ -124,54 +125,54 @@ import { createDomain } from './utils';
  * @constructor
  */
 function AreaChart({
-  layout,
-  width,
-  height,
-  stackOffset,
-  baseValue,
-  margin,
-  XAxis: xaxis,
-  YAxis: yaxis,
-  cartesianGrid,
-  tooltip,
-  legend,
-  data,
-  areas,
+    layout,
+    width,
+    height,
+    stackOffset,
+    baseValue,
+    margin,
+    XAxis: xaxis,
+    YAxis: yaxis,
+    cartesianGrid,
+    tooltip,
+    legend,
+    data,
+    areas,
 }) {
-  const domain = createDomain(yaxis);
+    const domain = createDomain(yaxis)
 
-  return (
-    <Chart
-      width={width}
-      height={height}
-      data={data}
-      margin={margin}
-      layout={layout}
-      stackOffset={stackOffset}
-      baseValue={baseValue}
-    >
-      <CartesianGrid {...cartesianGrid} />
-      <Legend {...legend} />
-      <XAxis {...xaxis} />
-      <YAxis {...yaxis} domain={domain} />
-      <Tooltip {...tooltip} />
-      {map(areas, area => (
-        <Area {...area} />
-      ))}
-    </Chart>
-  );
+    return (
+        <Chart
+            width={width}
+            height={height}
+            data={data}
+            margin={margin}
+            layout={layout}
+            stackOffset={stackOffset}
+            baseValue={baseValue}
+        >
+            <CartesianGrid {...cartesianGrid} />
+            <Legend {...legend} />
+            <XAxis {...xaxis} />
+            <YAxis {...yaxis} domain={domain} />
+            <Tooltip {...tooltip} />
+            {map(areas, area => (
+                <Area {...area} />
+            ))}
+        </Chart>
+    )
 }
 
 AreaChart.propTypes = {
-  ...chartTypes,
-  cartesianGrid: cartesianGridTypes,
-  legend: legendTypes,
-  XAxis: XAxisTypes,
-  YAxis: YAxisTypes,
-  tooltip: tooltipTypes,
-  areas: areasTypes,
-};
+    ...chartTypes,
+    cartesianGrid: cartesianGridTypes,
+    legend: legendTypes,
+    XAxis: XAxisTypes,
+    YAxis: YAxisTypes,
+    tooltip: tooltipTypes,
+    areas: areasTypes,
+}
 
-AreaChart.defaultProps = defaultChartProps;
+AreaChart.defaultProps = defaultChartProps
 
-export default AreaChart;
+export default AreaChart

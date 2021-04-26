@@ -1,4 +1,5 @@
-import listContainer from '../listContainer';
-import PillsContainer from './PillsContainer';
+import listContainer from '../listContainer'
 
-export default listContainer(PillsContainer);
+import PillsContainer from './PillsContainer'
+
+export default listContainer(PillsContainer)

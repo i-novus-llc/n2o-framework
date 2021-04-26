@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import MaskedInput from 'react-text-mask';
-import cn from 'classnames';
-import isEqual from 'lodash/isEqual';
-import omit from 'lodash/omit';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
-import { compose } from 'recompose';
+import React from 'react'
+import PropTypes from 'prop-types'
+import MaskedInput from 'react-text-mask'
+import cn from 'classnames'
+import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import { compose } from 'recompose'
 
-import withRightPlaceholder from '../withRightPlaceholder';
+import withRightPlaceholder from '../withRightPlaceholder'
 
 /**
  * Компонент интерфейса разбивки по страницам
@@ -31,274 +31,268 @@ import withRightPlaceholder from '../withRightPlaceholder';
  *             />
  */
 class InputMask extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.value,
-      guide: false,
-    };
-    this.valid = false;
-    this.dict = {
-      '9': /\d/,
-      S: /[A-Za-z]/,
-      Б: /[А-Яа-я]/,
-      ...props.dictionary,
-    };
-  }
+    constructor(props) {
+        super(props)
+        this.state = {
+            value: props.value,
+            guide: false,
+        }
+        this.valid = false
+        this.dict = {
+            9: /\d/,
+            S: /[A-Za-z]/,
+            Б: /[А-я]/,
+            ...props.dictionary,
+        }
+    }
 
   /**
    * преобразует маску-функцию, маску-строку в массив-маску (с regexp вместо символов) при помощи _mapToArray
    * @returns (number) возвращает массив-маску
    */
   mask = () => {
-    const { mask } = this.props;
-    if (Array.isArray(mask)) {
-      return mask;
-    } else if (typeof mask === 'function') {
-      return mask();
-    }
-    return this._mapToArray(mask);
+      const { mask } = this.props
+      if (Array.isArray(mask)) {
+          return mask
+      } if (typeof mask === 'function') {
+          return mask()
+      }
+      return this._mapToArray(mask)
   };
 
   /**
    * возвращает маку для пресета
    * @returns (number) возвращает массив-маску для пресета-аргумента
    */
-  preset = preset => {
-    const { presetConfig } = this.props;
-    switch (preset) {
-      case 'phone':
-        return this._mapToArray('+9 (999)-999-99-99');
-      case 'post-code':
-        return this._mapToArray('999999');
-      case 'date':
-        return this._mapToArray('99.99.9999');
-      case 'money':
-        return createNumberMask(presetConfig);
-      case 'percentage':
-        return createNumberMask({ prefix: '', suffix: '%' });
-      case 'card':
-        return this._mapToArray('9999 9999 9999 9999');
-    }
+  preset = (preset) => {
+      const { presetConfig } = this.props
+      switch (preset) {
+          case 'phone':
+              return this._mapToArray('+9 (999)-999-99-99')
+          case 'post-code':
+              return this._mapToArray('999999')
+          case 'date':
+              return this._mapToArray('99.99.9999')
+          case 'money':
+              return createNumberMask(presetConfig)
+          case 'percentage':
+              return createNumberMask({ prefix: '', suffix: '%' })
+          case 'card':
+              return this._mapToArray('9999 9999 9999 9999')
+      }
   };
+
   /**
    * возвращает индекс первого символа маски, который еще не заполнен
    * @returns (number) индекс первого символа маски, который еще не заполнен
    */
-  _indexOfFirstPlaceHolder = (value = '') => {
-    return value.toString().indexOf(this.props.placeholderChar);
-  };
+  _indexOfFirstPlaceHolder = (value = '') => value.toString().indexOf(this.props.placeholderChar);
 
   /**
    * возвращает индекс последнего символа маски, который еще не заполнен
    * @returns (number) индекс последнего символа маски, который еще не заполнен
    */
-  _indexOfLastPlaceholder = mask => {
-    if (typeof mask === 'function') {
-      return mask()
-        .map(item => item instanceof RegExp)
-        .lastIndexOf(true);
-    } else if (typeof mask === 'string') {
-      return Math.max(
-        ...Object.keys(this.dict).map(char => mask.lastIndexOf(char))
-      );
-    } else if (Array.isArray(mask)) {
-      return mask.map(item => item instanceof RegExp).lastIndexOf(true);
-    }
-    return -1;
+  _indexOfLastPlaceholder = (mask) => {
+      if (typeof mask === 'function') {
+          return mask()
+              .map(item => item instanceof RegExp)
+              .lastIndexOf(true)
+      } if (typeof mask === 'string') {
+          return Math.max(
+              ...Object.keys(this.dict).map(char => mask.lastIndexOf(char)),
+          )
+      } if (Array.isArray(mask)) {
+          return mask.map(item => item instanceof RegExp).lastIndexOf(true)
+      }
+      return -1
   };
+
   /**
    * проверка на валидность (соответсвие маске)
    */
-  _isValid = value => {
-    const { preset, mask, guide } = this.props;
+  _isValid = (value) => {
+      const { preset, mask, guide } = this.props
 
-    if (guide) {
-      return value && this._indexOfFirstPlaceHolder(value) === -1;
-    }
+      if (guide) {
+          return value && this._indexOfFirstPlaceHolder(value) === -1
+      }
 
-    return (
-      value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
-    );
+      return (
+          value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
+      )
   };
 
   /**
    * преобразование строки маски в массив ( уже  с регулярными выражениями)
    */
-  _mapToArray = mask => {
-    return mask.split('').map(char => {
-      return this.dict[char] ? this.dict[char] : char;
-    });
+  _mapToArray = mask => mask.split('').map(char => (this.dict[char] ? this.dict[char] : char));
+
+  _onChange = (e) => {
+      const { value } = e.target
+
+      this.valid = this._isValid(value)
+
+      this.setState({ value, guide: this.props.guide }, () => {
+          (this.valid || value === '') && this.props.onChange(value)
+      })
   };
 
-  _onChange = e => {
-    const { value } = e.target;
-
-    this.valid = this._isValid(value);
-
-    this.setState({ value, guide: this.props.guide }, () => {
-      (this.valid || value === '') && this.props.onChange(value);
-    });
-  };
-
-  _onBlur = e => {
-    const { onBlur, clearOnBlur } = this.props;
-    const { value } = e.nativeEvent.target;
-    this.valid = this._isValid(value);
-    onBlur(value);
-    if (!this.valid) {
-      const newValue = clearOnBlur ? '' : value;
-      this.setState(
-        { value: newValue, guide: false },
-        () => value === '' && this.props.onChange(newValue)
-      );
-    }
+  _onBlur = (e) => {
+      const { onBlur, clearOnBlur } = this.props
+      const { value } = e.nativeEvent.target
+      this.valid = this._isValid(value)
+      onBlur(value)
+      if (!this.valid) {
+          const newValue = clearOnBlur ? '' : value
+          this.setState(
+              { value: newValue, guide: false },
+              () => value === '' && this.props.onChange(newValue),
+          )
+      }
   };
 
   _onFocus = () => {
-    this.valid = this._isValid(this.state.value);
-    if (!this.valid) {
-      this.setState({ guide: this.props.guide });
-    }
+      this.valid = this._isValid(this.state.value)
+      if (!this.valid) {
+          this.setState({ guide: this.props.guide })
+      }
   };
 
   /**
    * обработка новых пропсов
    */
   componentDidUpdate(prevProps) {
-    const { value: valueFromState } = this.state;
-    const { value: valueFromProps } = this.props;
+      const { value: valueFromState } = this.state
+      const { value: valueFromProps } = this.props
 
-    if (
-      !isEqual(prevProps.value, valueFromProps) &&
+      if (
+          !isEqual(prevProps.value, valueFromProps) &&
       !isEqual(valueFromProps, valueFromState)
-    ) {
-      this.setState({
-        value: this._isValid(valueFromProps) ? valueFromProps : '',
-      });
-    }
+      ) {
+          this.setState({
+              value: this._isValid(valueFromProps) ? valueFromProps : '',
+          })
+      }
 
-    this.dict = { ...this.dict, ...this.props.dictionary };
-    this.valid = this._isValid(this.state.value);
+      this.dict = { ...this.dict, ...this.props.dictionary }
+      this.valid = this._isValid(this.state.value)
   }
 
   /**
    * базовый рендер компонента
    */
   render() {
-    const {
-      preset,
-      placeholderChar,
-      placeholder,
-      className,
-      autoFocus,
-      disabled,
-    } = this.props;
-    const mask = this.preset(preset);
+      const {
+          preset,
+          placeholderChar,
+          placeholder,
+          className,
+          autoFocus,
+          disabled,
+      } = this.props
+      const mask = this.preset(preset)
 
-    return (
-      <MaskedInput
-        disabled={disabled}
-        className={cn([
-          'form-control',
-          'n2o-input-mask',
-          { [className]: className },
-        ])}
-        placeholderChar={placeholderChar}
-        placeholder={placeholder}
-        guide={this.state.guide}
-        mask={mask || this.mask}
-        value={this.state.value}
-        onBlur={this._onBlur}
-        onChange={this._onChange}
-        onFocus={this._onFocus}
-        keepCharPositions={this.props.keepCharPositions}
-        render={(ref, props) => {
-          return (
-            <input
-              ref={ref}
-              {...omit(props, ['defaultValue'])}
-              autoFocus={autoFocus}
-            />
-          );
-        }}
-      />
-    );
+      return (
+          <MaskedInput
+              disabled={disabled}
+              className={cn([
+                  'form-control',
+                  'n2o-input-mask',
+                  { [className]: className },
+              ])}
+              placeholderChar={placeholderChar}
+              placeholder={placeholder}
+              guide={this.state.guide}
+              mask={mask || this.mask}
+              value={this.state.value}
+              onBlur={this._onBlur}
+              onChange={this._onChange}
+              onFocus={this._onFocus}
+              keepCharPositions={this.props.keepCharPositions}
+              render={(ref, props) => (
+                  <input
+                      ref={ref}
+                      {...omit(props, ['defaultValue'])}
+                      autoFocus={autoFocus}
+                  />
+              )}
+          />
+      )
   }
 }
 
 InputMask.defaultProps = {
-  onChange: () => {},
-  placeholderChar: '_',
-  guide: true,
-  keepCharPositions: false,
-  clearOnBlur: false,
-  value: '',
-  dictionary: {},
-  mask: '',
-  presetConfig: {},
-  onBlur: () => {},
-  disabled: false,
-};
+    onChange: () => {},
+    placeholderChar: '_',
+    guide: true,
+    keepCharPositions: false,
+    clearOnBlur: false,
+    value: '',
+    dictionary: {},
+    mask: '',
+    presetConfig: {},
+    onBlur: () => {},
+    disabled: false,
+}
 
 InputMask.propTypes = {
-  /**
+    /**
    * Класс контрола
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Пресет маски
    */
-  preset: PropTypes.string,
-  /**
+    preset: PropTypes.string,
+    /**
    * Маска
    */
-  mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.func,
-  ]),
-  /**
+    mask: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+        PropTypes.func,
+    ]),
+    /**
    * Callback на изменение
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Placeholder контрола
    */
-  placeholder: PropTypes.string,
-  /**
+    placeholder: PropTypes.string,
+    /**
    * Символ, который будет на месте незаполненного символа маски
    */
-  placeholderChar: PropTypes.string,
-  /**
+    placeholderChar: PropTypes.string,
+    /**
    * Значение
    */
-  value: PropTypes.string,
-  /**
+    value: PropTypes.string,
+    /**
    * Дополнительные символы-ключи для маски
    */
-  dictionary: PropTypes.object,
-  /**
+    dictionary: PropTypes.object,
+    /**
    * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
    */
-  guide: PropTypes.bool,
-  /**
+    guide: PropTypes.bool,
+    /**
    * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
    */
-  keepCharPositions: PropTypes.bool,
-  /**
+    keepCharPositions: PropTypes.bool,
+    /**
    * Сбрасывать / оставлять невалидное значение при потере фокуса
    */
-  clearOnBlur: PropTypes.bool,
-  /**
+    clearOnBlur: PropTypes.bool,
+    /**
    * Настройка пресета
    */
-  presetConfig: PropTypes.object,
-  /**
+    presetConfig: PropTypes.object,
+    /**
    * Callback на потерю фокуса
    */
-  onBlur: PropTypes.func,
-  disabled: PropTypes.bool,
-};
+    onBlur: PropTypes.func,
+    disabled: PropTypes.bool,
+}
 
-export default compose(withRightPlaceholder)(InputMask);
+export default compose(withRightPlaceholder)(InputMask)

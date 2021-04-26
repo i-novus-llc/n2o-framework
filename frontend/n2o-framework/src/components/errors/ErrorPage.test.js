@@ -1,27 +1,28 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import ErrorPage from './ErrorPage';
+import React from 'react'
+import { mount, shallow } from 'enzyme'
 
-const setup = propsOverride => {
-  const props = {};
+import ErrorPage from './ErrorPage'
 
-  return mount(<ErrorPage {...props} {...propsOverride} />);
-};
+const setup = (propsOverride) => {
+    const props = {}
+
+    return mount(<ErrorPage {...props} {...propsOverride} />)
+}
 
 describe('<ErrorPage />', () => {
-  it('компонент должен отрисоваться', () => {
-    const wrapper = setup();
+    it('компонент должен отрисоваться', () => {
+        const wrapper = setup()
 
-    expect(wrapper.find('.container').exists()).toBeTruthy();
-  });
+        expect(wrapper.find('.container').exists()).toBeTruthy()
+    })
 
-  it('параметры должны проставиться', () => {
-    const wrapper = setup({
-      status: 404,
-      error: 'Not Found!',
-    });
+    it('параметры должны проставиться', () => {
+        const wrapper = setup({
+            status: 404,
+            error: 'Not Found!',
+        })
 
-    expect(wrapper.find('h1').text()).toBe('404');
-    expect(wrapper.find('.container span').text()).toBe('Not Found!');
-  });
-});
+        expect(wrapper.find('h1').text()).toBe('404')
+        expect(wrapper.find('.container span').text()).toBe('Not Found!')
+    })
+})

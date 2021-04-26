@@ -1,7 +1,7 @@
-import React from 'react';
-import get from 'lodash/get';
+import React from 'react'
+import get from 'lodash/get'
 
-import Tooltip from '../../snippets/Tooltip/Tooltip';
+import Tooltip from '../../snippets/Tooltip/Tooltip'
 
 /**
  * HOC, оборачивает Cell добавляя Tooltip
@@ -11,20 +11,20 @@ import Tooltip from '../../snippets/Tooltip/Tooltip';
  * @param tooltipFieldId ключ по которому резолвится Tooltip и берется hint
  */
 export default function withTooltip(WrappedComponent) {
-  return function TooltipHOC(props) {
-    const { model, placement, tooltipFieldId } = props;
-    const hint = get(model, tooltipFieldId);
+    return function TooltipHOC(props) {
+        const { model, placement, tooltipFieldId } = props
+        const hint = get(model, tooltipFieldId)
 
-    if (!hint) {
-      return <WrappedComponent {...props} />;
+        if (!hint) {
+            return <WrappedComponent {...props} />
+        }
+
+        return (
+            <Tooltip
+                label={<WrappedComponent {...props} />}
+                hint={hint}
+                placement={placement || 'bottom'}
+            />
+        )
     }
-
-    return (
-      <Tooltip
-        label={<WrappedComponent {...props} />}
-        hint={hint}
-        placement={placement || 'bottom'}
-      />
-    );
-  };
 }
