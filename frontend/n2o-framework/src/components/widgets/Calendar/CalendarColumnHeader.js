@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 // пока не используется
 function CalendarColumnHeader(props) {
-  return <div />;
+    return <div />
 }
 
-export default CalendarColumnHeader;
+export default CalendarColumnHeader

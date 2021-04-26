@@ -1,29 +1,29 @@
-import React from 'react';
-import configureStore from '../../../store';
-import { Provider } from 'react-redux';
-import TilesContainer from './TilesContainer';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
-import metadata from './TilesWidget.meta';
-import history from '../../../history';
+import React from 'react'
+import { Provider } from 'react-redux'
 
-const store = configureStore({}, history, {});
+import configureStore from '../../../store'
+import { WIDGETS } from '../../../core/factory/factoryLevels'
+import history from '../../../history'
 
-const setup = propsOverride => {
-  return mount(
+import TilesContainer from './TilesContainer'
+import metadata from './TilesWidget.meta'
+
+const store = configureStore({}, history, {})
+
+const setup = propsOverride => mount(
     <Provider store={store}>
-      <TilesContainer
-        level={WIDGETS}
-        {...metadata['Page_Tiles']}
-        {...propsOverride}
-        id="Page_Tiles"
-      />
-    </Provider>
-  );
-};
+        <TilesContainer
+            level={WIDGETS}
+            {...metadata.Page_Tiles}
+            {...propsOverride}
+            id="Page_Tiles"
+        />
+    </Provider>,
+)
 
 describe('<TilesContainer />', () => {
-  it('отрисовка', () => {
-    const wrapper = setup();
-    expect(wrapper).toMatchSnapshot();
-  });
-});
+    it('отрисовка', () => {
+        const wrapper = setup()
+        expect(wrapper).toMatchSnapshot()
+    })
+})

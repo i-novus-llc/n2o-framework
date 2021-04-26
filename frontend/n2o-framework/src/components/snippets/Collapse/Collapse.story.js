@@ -1,55 +1,57 @@
-import React from 'react';
-import { setDisplayName } from 'recompose';
-import { storiesOf } from '@storybook/react';
-import Collapse, { Panel } from './Collapse';
-import InputSelect from '../../controls/InputSelect/InputSelect';
-import InputSelectJson from '../../controls/InputSelect/InputSelect.meta';
-import { SNIPPETS } from '../../../core/factory/factoryLevels';
-import Factory from '../../../core/factory/Factory';
+import React from 'react'
+import { setDisplayName } from 'recompose'
+import { storiesOf } from '@storybook/react'
 
-const stories = storiesOf('UI Компоненты/Collapse', module);
+import InputSelect from '../../controls/InputSelect/InputSelect'
+import InputSelectJson from '../../controls/InputSelect/InputSelect.meta'
+import { SNIPPETS } from '../../../core/factory/factoryLevels'
+import Factory from '../../../core/factory/Factory'
+
+import Collapse, { Panel } from './Collapse'
+
+const stories = storiesOf('UI Компоненты/Collapse', module)
 
 const textToPanel =
-  'Значимость этих проблем настолько очевидна, что сложившаяся структура организации требует определения и уточнения модели развития! Дорогие друзья, рамки и место обучения кадров создаёт предпосылки качественно новых шагов для дальнейших направлений развития проекта! Дорогие друзья, курс на социально-ориентированный национальный проект представляет собой интересный эксперимент проверки дальнейших направлений развития проекта.';
+  'Значимость этих проблем настолько очевидна, что сложившаяся структура организации требует определения и уточнения модели развития! Дорогие друзья, рамки и место обучения кадров создаёт предпосылки качественно новых шагов для дальнейших направлений развития проекта! Дорогие друзья, курс на социально-ориентированный национальный проект представляет собой интересный эксперимент проверки дальнейших направлений развития проекта.'
 
 const CollapseToStory = setDisplayName('Collapse')(props => (
-  <Collapse defaultActiveKey="1">
-    <Panel key="1" header="Первый" {...props}>
-      {textToPanel}
-    </Panel>
-    <Panel key="2" header="Второй" {...props}>
-      {textToPanel}
-    </Panel>
-    <Panel key="3" header="Третий" {...props}>
-      {textToPanel}
-    </Panel>
-  </Collapse>
-));
+    <Collapse defaultActiveKey="1">
+        <Panel key="1" header="Первый" {...props}>
+            {textToPanel}
+        </Panel>
+        <Panel key="2" header="Второй" {...props}>
+            {textToPanel}
+        </Panel>
+        <Panel key="3" header="Третий" {...props}>
+            {textToPanel}
+        </Panel>
+    </Collapse>
+))
 
 stories.addParameters({
-  info: {
-    propTables: [Collapse, Panel],
-    propTablesExclude: [CollapseToStory, InputSelect],
-  },
-});
+    info: {
+        propTables: [Collapse, Panel],
+        propTablesExclude: [CollapseToStory, InputSelect],
+    },
+})
 
 stories
-  .add(
-    'Компонент type=default',
-    () => {
-      const props = {
-        type: 'default',
-        activeKey: '',
-        defaultActiveKey: '',
-        destroyInactivePanel: false,
-        accordion: false,
-      };
+    .add(
+        'Компонент type=default',
+        () => {
+            const props = {
+                type: 'default',
+                activeKey: '',
+                defaultActiveKey: '',
+                destroyInactivePanel: false,
+                accordion: false,
+            }
 
-      return <CollapseToStory {...props} />;
-    },
-    {
-      info: {
-        text: `
+            return <CollapseToStory {...props} />
+        },
+        {
+            info: {
+                text: `
       Компонент 'Сворачиваемый список'
       ~~~js
       import Collapse, { Panel } from 'n2o-framework/lib/components/snippets/Collapse/Collapse';
@@ -61,17 +63,15 @@ stories
       </Collapse>
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Компонент type=line',
-    () => {
-      return <CollapseToStory type="line" />;
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Компонент type=line',
+        () => <CollapseToStory type="line" />,
+        {
+            info: {
+                text: `
       Компонент 'Сворачиваемый список'
       ~~~js
       import Collapse, { Panel } from 'n2o-framework/lib/components/snippets/Collapse/Collapse';
@@ -83,17 +83,15 @@ stories
       </Collapse>
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Компонент type=divider',
-    () => {
-      return <CollapseToStory type="divider" />;
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Компонент type=divider',
+        () => <CollapseToStory type="divider" />,
+        {
+            info: {
+                text: `
       Компонент 'Сворачиваемый список'
       ~~~js
       import Collapse, { Panel } from 'n2o-framework/lib/components/snippets/Collapse/Collapse';
@@ -105,26 +103,24 @@ stories
       </Collapse>
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Компонент с InputSelect внутри',
-    () => {
-      return (
-        <Collapse defaultActiveKey="1">
-          <Panel key="1" header="Первый">
-            <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
-          </Panel>
-          <Panel key="2" header="Второй">
-            <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
-          </Panel>
-        </Collapse>
-      );
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Компонент с InputSelect внутри',
+        () => (
+            <Collapse defaultActiveKey="1">
+                <Panel key="1" header="Первый">
+                    <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
+                </Panel>
+                <Panel key="2" header="Второй">
+                    <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
+                </Panel>
+            </Collapse>
+        ),
+        {
+            info: {
+                text: `
       Компонент 'Сворачиваемый список'
       ~~~js
       import Collapse, { Panel } from 'n2o-framework/lib/components/snippets/Collapse/Collapse';
@@ -140,48 +136,46 @@ stories
       </Collapse>
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Компонент с длинным заголовком',
-    () => {
-      return (
-        <Collapse style={{ maxWidth: '800px' }} defaultActiveKey="1">
-          <Panel
-            key="1"
-            type="default"
-            header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
-          >
-            {textToPanel}
-          </Panel>
-          <Panel
-            key="2"
-            type="line"
-            header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
-          >
-            {textToPanel}
-          </Panel>
-          <Panel
-            key="3"
-            type="divider"
-            header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
-          >
-            {textToPanel}
-          </Panel>
-          <Panel
-            key="4"
-            type="divider"
-            header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
-          >
-            {textToPanel}
-          </Panel>
-        </Collapse>
-      );
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Компонент с длинным заголовком',
+        () => (
+            <Collapse style={{ maxWidth: '800px' }} defaultActiveKey="1">
+                <Panel
+                    key="1"
+                    type="default"
+                    header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+                >
+                    {textToPanel}
+                </Panel>
+                <Panel
+                    key="2"
+                    type="line"
+                    header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+                >
+                    {textToPanel}
+                </Panel>
+                <Panel
+                    key="3"
+                    type="divider"
+                    header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+                >
+                    {textToPanel}
+                </Panel>
+                <Panel
+                    key="4"
+                    type="divider"
+                    header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+                >
+                    {textToPanel}
+                </Panel>
+            </Collapse>
+        ),
+        {
+            info: {
+                text: `
       Компонент 'Сворачиваемый список'
       ~~~js
       import Collapse, { Panel } from 'n2o-framework/lib/components/snippets/Collapse/Collapse';
@@ -219,34 +213,34 @@ stories
       </Collapse>
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Создание через Factory',
-    () => {
-      const dt = {
-        id: 'uniqId',
-        src: 'Collapse',
-        type: 'default',
-        defaultActiveKey: '1',
-        destroyInactivePanel: false,
-        accordion: false,
-        dataKey: 'items',
-        items: [
-          { key: '1', header: 'Первый', text: 'Teкст' },
-          { key: '2', header: 'Второй', text: 'Teкст' },
-        ],
-      };
-      return (
-        <React.Fragment>
-          <Factory level={SNIPPETS} id={'uniqId'} {...dt} />
-        </React.Fragment>
-      );
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Создание через Factory',
+        () => {
+            const dt = {
+                id: 'uniqId',
+                src: 'Collapse',
+                type: 'default',
+                defaultActiveKey: '1',
+                destroyInactivePanel: false,
+                accordion: false,
+                dataKey: 'items',
+                items: [
+                    { key: '1', header: 'Первый', text: 'Teкст' },
+                    { key: '2', header: 'Второй', text: 'Teкст' },
+                ],
+            }
+            return (
+                <>
+                    <Factory level={SNIPPETS} id="uniqId" {...dt} />
+                </>
+            )
+        },
+        {
+            info: {
+                text: `
       Компонент 'Сворачиваемый список'
       ~~~js
       import Factory from 'n2o-framework/lib/core/factory/Factory';
@@ -254,6 +248,6 @@ stories
       <Factory level={SNIPPETS} id="uniqId" {...collapseProps} />
       ~~~
       `,
-      },
-    }
-  );
+            },
+        },
+    )

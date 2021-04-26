@@ -33,12 +33,6 @@
     "indent": ["error", 4, {"SwitchCase": 1}],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
-    "react/jsx-tag-spacing": ["error", {
-      "closingSlash": "never",
-      "beforeSelfClosing": "never",
-      "afterOpening": "never",
-      "beforeClosing": "never"
-    }],
     // Разбитие импортов на группы
     "import/order": [
       "error", {
@@ -77,6 +71,8 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     // Обязательные фигурные скобки
     "curly": ["error", "all"],
+    // Перенос строки в логических операторах
+    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
     //
     "optimize-regex/optimize-regex": "warn",
 

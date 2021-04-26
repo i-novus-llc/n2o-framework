@@ -1,15 +1,16 @@
 import {
-  SET,
-  REMOVE,
-  REMOVE_ALL,
-  SYNC,
-  COPY,
-  UPDATE,
-  UPDATE_MAP,
-  MERGE,
-  CLEAR,
-} from '../constants/models';
-import createActionHelper from './createActionHelper';
+    SET,
+    REMOVE,
+    REMOVE_ALL,
+    SYNC,
+    COPY,
+    UPDATE,
+    UPDATE_MAP,
+    MERGE,
+    CLEAR,
+} from '../constants/models'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * Установка значений модели по префиксу и ключу
@@ -20,7 +21,7 @@ import createActionHelper from './createActionHelper';
  * dispatch(setModel("datasource", "Page.Widget", {id: 1, name: "Test"}))
  */
 export function setModel(prefix, key, model) {
-  return createActionHelper(SET)({ prefix, key, model });
+    return createActionHelper(SET)({ prefix, key, model })
 }
 
 /**
@@ -32,7 +33,7 @@ export function setModel(prefix, key, model) {
  * @returns {{type, prefix: *, key: *, values: *}}
  */
 export function updateModel(prefix, key, field, value) {
-  return createActionHelper(UPDATE)({ prefix, key, field, value });
+    return createActionHelper(UPDATE)({ prefix, key, field, value })
 }
 
 /**
@@ -43,7 +44,7 @@ export function updateModel(prefix, key, field, value) {
  * dispatch(removeModel("datasource", "Page.Widget"))
  */
 export function removeModel(prefix, key) {
-  return createActionHelper(REMOVE)({ prefix, key });
+    return createActionHelper(REMOVE)({ prefix, key })
 }
 
 /**
@@ -53,7 +54,7 @@ export function removeModel(prefix, key) {
  * dispatch(removeModel("datasource", "Page.Widget"))
  */
 export function removeAllModel(key) {
-  return createActionHelper(REMOVE_ALL)({ key });
+    return createActionHelper(REMOVE_ALL)({ key })
 }
 
 /**
@@ -64,7 +65,7 @@ export function removeAllModel(key) {
  * @param model - модель
  */
 export function syncModel(prefix, keys, model) {
-  return createActionHelper(SYNC)({ prefix, keys, model });
+    return createActionHelper(SYNC)({ prefix, keys, model })
 }
 
 /**
@@ -74,12 +75,12 @@ export function syncModel(prefix, keys, model) {
  * @param {object} settings - {mode, sourceMapper}
  */
 export function copyModel(source, target, { mode, sourceMapper }) {
-  return createActionHelper(COPY)({
-    sourceMapper,
-    source,
-    target,
-    mode,
-  });
+    return createActionHelper(COPY)({
+        sourceMapper,
+        source,
+        target,
+        mode,
+    })
 }
 
 /**
@@ -91,11 +92,11 @@ export function copyModel(source, target, { mode, sourceMapper }) {
  * @param map
  */
 export function updateMapModel(prefix, key, field, value, map) {
-  return createActionHelper(UPDATE_MAP)({ prefix, key, field, value, map });
+    return createActionHelper(UPDATE_MAP)({ prefix, key, field, value, map })
 }
 
 export function combineModels(combine) {
-  return createActionHelper(MERGE)({ combine });
+    return createActionHelper(MERGE)({ combine })
 }
 
 /**
@@ -105,5 +106,5 @@ export function combineModels(combine) {
  * @param exclude
  */
 export function clearModel(prefix, key, exclude = []) {
-  return createActionHelper(CLEAR)({ prefix, key, exclude });
+    return createActionHelper(CLEAR)({ prefix, key, exclude })
 }

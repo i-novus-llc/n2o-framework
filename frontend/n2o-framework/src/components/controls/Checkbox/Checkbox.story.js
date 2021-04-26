@@ -1,48 +1,50 @@
-import React from 'react';
-import { setAddon, storiesOf, forceReRender } from '@storybook/react';
-import { StateDecorator, Store } from '@sambego/storybook-state';
-import withForm from 'N2oStorybook/decorators/withForm';
+import React from 'react'
+import { setAddon, storiesOf, forceReRender } from '@storybook/react'
+import { StateDecorator, Store } from '@sambego/storybook-state'
+import withForm from 'N2oStorybook/decorators/withForm'
 
-import Checkbox from './Checkbox';
-import Factory from '../../../core/factory/Factory';
+import Factory from '../../../core/factory/Factory'
+
+import Checkbox from './Checkbox'
+
 const store = new Store({
-  checked: false,
-});
+    checked: false,
+})
 
-store.subscribe(forceReRender);
+store.subscribe(forceReRender)
 
-const form = withForm({ src: 'Checkbox' });
-const stories = storiesOf('Контролы/Чекбокс', module);
+const form = withForm({ src: 'Checkbox' })
+const stories = storiesOf('Контролы/Чекбокс', module)
 
 stories.addParameters({
-  info: {
-    propTables: [Checkbox],
-    propTablesExclude: [Factory],
-  },
-});
+    info: {
+        propTables: [Checkbox],
+        propTablesExclude: [Factory],
+    },
+})
 
 stories
-  .add(
-    'Чекбокс',
-    () => {
-      const props = {
-        value: 2,
-        disabled: false,
-        checked: store.get('checked'),
-        label: 'Label',
-      };
+    .add(
+        'Чекбокс',
+        () => {
+            const props = {
+                value: 2,
+                disabled: false,
+                checked: store.get('checked'),
+                label: 'Label',
+            }
 
-      return (
-        <Checkbox
-          {...props}
-          checked={store.get('checked')}
-          onChange={() => store.set({ checked: !store.get('checked') })}
-        />
-      );
-    },
-    {
-      info: {
-        text: `
+            return (
+                <Checkbox
+                    {...props}
+                    checked={store.get('checked')}
+                    onChange={() => store.set({ checked: !store.get('checked') })}
+                />
+            )
+        },
+        {
+            info: {
+                text: `
       Компонент 'Checkbox'
       ~~~js
       import Checkbox from 'n2o-framework/lib/components/controls/Checkbox/Checkbox';
@@ -55,17 +57,17 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Метаданные',
-    form(() => {
-      const props = {
-        disabled: false,
-        label: 'Label',
-      };
+            },
+        },
+    )
+    .add(
+        'Метаданные',
+        form(() => {
+            const props = {
+                disabled: false,
+                label: 'Label',
+            }
 
-      return props;
-    })
-  );
+            return props
+        }),
+    )

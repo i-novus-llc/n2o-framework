@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import { compose, withHandlers, withState, lifecycle } from 'recompose';
-import { id } from '../../../utils/id';
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import { compose, withHandlers, withState, lifecycle } from 'recompose'
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
+
+import { id } from '../../../utils/id'
 
 /**
  *
@@ -19,91 +20,91 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
  * @constructor
  */
 function UserBox({
-  id,
-  image,
-  title,
-  subTitle,
-  children,
-  isOpen,
-  onToggle,
-  compressed,
+    id,
+    image,
+    title,
+    subTitle,
+    children,
+    isOpen,
+    onToggle,
+    compressed,
 }) {
-  return (
-    <div
-      className={cn('n2o-user-box', {
-        'n2o-user-box--compressed': compressed,
-        'pb-0': isOpen,
-      })}
-    >
-      {compressed && (title || subTitle) && (
-        <UncontrolledTooltip placement="right" target={id}>
-          <div>{title}</div>
-          <small>{subTitle}</small>
-        </UncontrolledTooltip>
-      )}
-      <div
-        id={id}
-        className="n2o-user-box__image d-flex justify-content-center"
-        onClick={compressed && onToggle}
-      >
-        <img
-          className="d-block"
-          src={image}
-          alt={title}
-          width="70"
-          height="70"
-        />
-      </div>
-      {!compressed && (
-        <React.Fragment>
-          <button
-            onClick={onToggle}
-            className="n2o-user-box__title pl-2 pr-2 text-center"
-          >
-            <span
-              className={cn({
-                'n2o-user-box__title--chevron': children,
-                'n2o-user-box__title--chevron-up': isOpen,
-              })}
+    return (
+        <div
+            className={cn('n2o-user-box', {
+                'n2o-user-box--compressed': compressed,
+                'pb-0': isOpen,
+            })}
+        >
+            {compressed && (title || subTitle) && (
+                <UncontrolledTooltip placement="right" target={id}>
+                    <div>{title}</div>
+                    <small>{subTitle}</small>
+                </UncontrolledTooltip>
+            )}
+            <div
+                id={id}
+                className="n2o-user-box__image d-flex justify-content-center"
+                onClick={compressed && onToggle}
             >
-              {title}
-            </span>
-          </button>
-          {subTitle && (
-            <small className="n2o-user-box__sub-title d-block pl-2 pr-2 text-center">
-              {subTitle}
-            </small>
-          )}
-        </React.Fragment>
-      )}
-      {isOpen && children && (
-        <div className="n2o-user-box__items">
-          <ul>{children}</ul>
+                <img
+                    className="d-block"
+                    src={image}
+                    alt={title}
+                    width="70"
+                    height="70"
+                />
+            </div>
+            {!compressed && (
+                <>
+                    <button
+                        onClick={onToggle}
+                        className="n2o-user-box__title pl-2 pr-2 text-center"
+                    >
+                        <span
+                            className={cn({
+                                'n2o-user-box__title--chevron': children,
+                                'n2o-user-box__title--chevron-up': isOpen,
+                            })}
+                        >
+                            {title}
+                        </span>
+                    </button>
+                    {subTitle && (
+                        <small className="n2o-user-box__sub-title d-block pl-2 pr-2 text-center">
+                            {subTitle}
+                        </small>
+                    )}
+                </>
+            )}
+            {isOpen && children && (
+                <div className="n2o-user-box__items">
+                    <ul>{children}</ul>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    )
 }
 
 UserBox.propTypes = {
-  id: PropTypes.string,
-  image: PropTypes.string,
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  children: PropTypes.node,
-  isOpen: PropTypes.bool,
-  onToggle: PropTypes.func,
-  compressed: PropTypes.bool,
-};
+    id: PropTypes.string,
+    image: PropTypes.string,
+    title: PropTypes.string,
+    subTitle: PropTypes.string,
+    children: PropTypes.node,
+    isOpen: PropTypes.bool,
+    onToggle: PropTypes.func,
+    compressed: PropTypes.bool,
+}
 
 export default compose(
-  withState('isOpen', 'toggle', false),
-  withHandlers({
-    onToggle: ({ isOpen, toggle }) => () => toggle(!isOpen),
-  }),
-  lifecycle({
-    componentDidMount() {
-      this.setState({ id: id() });
-    },
-  })
-)(UserBox);
+    withState('isOpen', 'toggle', false),
+    withHandlers({
+        onToggle: ({ isOpen, toggle }) => () => toggle(!isOpen),
+    }),
+    lifecycle({
+        componentDidMount() {
+            this.setState({ id: id() })
+        },
+    }),
+)(UserBox)

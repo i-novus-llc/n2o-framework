@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import Button from 'reactstrap/lib/Button';
-import ButtonGroup from 'reactstrap/lib/ButtonGroup';
-import Modal from 'reactstrap/lib/Modal';
-import ModalHeader from 'reactstrap/lib/ModalHeader';
-import ModalBody from 'reactstrap/lib/ModalBody';
-import ModalFooter from 'reactstrap/lib/ModalFooter';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import Button from 'reactstrap/lib/Button'
+import ButtonGroup from 'reactstrap/lib/ButtonGroup'
+import Modal from 'reactstrap/lib/Modal'
+import ModalHeader from 'reactstrap/lib/ModalHeader'
+import ModalBody from 'reactstrap/lib/ModalBody'
+import ModalFooter from 'reactstrap/lib/ModalFooter'
 
 /**
  * Диалог подтверждения действие
@@ -30,77 +30,77 @@ import ModalFooter from 'reactstrap/lib/ModalFooter';
  *               onDeny={this.closeConfirm} />
  */
 function ModalDialog({
-  size,
-  title,
-  text,
-  okLabel,
-  cancelLabel,
-  onConfirm,
-  onDeny,
-  visible,
-  close,
-  closeButton,
+    size,
+    title,
+    text,
+    okLabel,
+    cancelLabel,
+    onConfirm,
+    onDeny,
+    visible,
+    close,
+    closeButton,
 }) {
-  const { t } = useTranslation();
-  return (
-    <Modal isOpen={visible} size={size} toggle={close}>
-      <ModalHeader toggle={closeButton ? close : null}>
-        {title || t('dialogTitle')}
-      </ModalHeader>
-      <ModalBody>{text || t('dialogText')}</ModalBody>
-      <ModalFooter>
-        <ButtonGroup>
-          <Button onClick={onConfirm} color="primary">
-            {okLabel || t('confirm')}
-          </Button>
-          <Button onClick={onDeny}>{cancelLabel || t('deny')}</Button>
-        </ButtonGroup>
-      </ModalFooter>
-    </Modal>
-  );
+    const { t } = useTranslation()
+    return (
+        <Modal isOpen={visible} size={size} toggle={close}>
+            <ModalHeader toggle={closeButton ? close : null}>
+                {title || t('dialogTitle')}
+            </ModalHeader>
+            <ModalBody>{text || t('dialogText')}</ModalBody>
+            <ModalFooter>
+                <ButtonGroup>
+                    <Button onClick={onConfirm} color="primary">
+                        {okLabel || t('confirm')}
+                    </Button>
+                    <Button onClick={onDeny}>{cancelLabel || t('deny')}</Button>
+                </ButtonGroup>
+            </ModalFooter>
+        </Modal>
+    )
 }
 
 ModalDialog.propTypes = {
-  /**
+    /**
    * Флаг показа кнопки закрытия в заголовке
    */
-  closeButton: PropTypes.bool,
-  /**
+    closeButton: PropTypes.bool,
+    /**
    * Размер окна
    */
-  size: PropTypes.oneOf(['lg', 'sm']),
-  /**
+    size: PropTypes.oneOf(['lg', 'sm']),
+    /**
    * Заголовок окна
    */
-  title: PropTypes.string,
-  /**
+    title: PropTypes.string,
+    /**
    * Текст окна
    */
-  text: PropTypes.string,
-  /**
+    text: PropTypes.string,
+    /**
    * Текст кнопки отклонения
    */
-  cancelLabel: PropTypes.string,
-  /**
+    cancelLabel: PropTypes.string,
+    /**
    * Текст кнопки подтверждения
    */
-  okLabel: PropTypes.string,
-  /**
+    okLabel: PropTypes.string,
+    /**
    * Видимость окна
    */
-  visible: PropTypes.bool,
-  /**
+    visible: PropTypes.bool,
+    /**
    * Callback подтверждения
    */
-  onConfirm: PropTypes.func,
-  /**
+    onConfirm: PropTypes.func,
+    /**
    * Callback отклонения
    */
-  onDeny: PropTypes.func,
-  /**
+    onDeny: PropTypes.func,
+    /**
    * Функция закрытия окна
    */
-  close: PropTypes.func.isRequired,
-};
+    close: PropTypes.func.isRequired,
+}
 
-export default ModalDialog;
+export default ModalDialog

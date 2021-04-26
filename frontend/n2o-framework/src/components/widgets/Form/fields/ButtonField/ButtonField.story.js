@@ -1,16 +1,15 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import ButtonField from './ButtonField';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-const stories = storiesOf('Виджеты/Форма/Fields/ButtonField');
+import ButtonField from './ButtonField'
 
-stories.add('Компонент', () => {
-  return (
+const stories = storiesOf('Виджеты/Форма/Fields/ButtonField')
+
+stories.add('Компонент', () => (
     <ButtonField
-      label='Поле "Кнопка"'
-      action={{
-        type: 'n2o/button/Dummy',
-      }}
+        label='Поле "Кнопка"'
+        action={{
+            type: 'n2o/button/Dummy',
+        }}
     />
-  );
-});
+))
