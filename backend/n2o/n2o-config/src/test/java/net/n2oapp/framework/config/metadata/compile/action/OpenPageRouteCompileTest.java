@@ -365,6 +365,23 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
     }
 
     /**
+     * Проверка формирования сабмоделей в path и query параметрах из simple-page
+     */
+    @Test
+    public void testSimplePageParamsSubModelFormation() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testSimplePageParamsSubModel.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml")
+                .get(new PageContext("testSimplePageParamsSubModel", "/test"));
+        List<AbstractButton> buttons = page.getWidget().getToolbar().get("topLeft").get(0).getButtons();
+
+        LinkActionImpl action = (LinkActionImpl) buttons.get(0).getAction();
+        assertThat(action.getPathMapping().size(), is(1));
+        assertThat(action.getQueryMapping().size(), is(1));
+        assertThat(action.getPathMapping().get("param7").getSubModelQuery().getQueryId(), is("utBlank2"));
+        assertThat(action.getQueryMapping().get("param8").getSubModelQuery().getQueryId(), is("utBlank2"));
+    }
+
+    /**
      * Тест открытия страницы с двумя path параметрами.
      */
     @Test
