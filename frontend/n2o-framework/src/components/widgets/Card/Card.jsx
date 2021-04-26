@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import map from 'lodash/map';
-import flow from 'lodash/flow';
-import CardItem from './CardItem';
-import CardLayout from './CardLayout';
+import React from 'react'
+import PropTypes from 'prop-types'
+import map from 'lodash/map'
+import flow from 'lodash/flow'
+
+import CardItem from './CardItem'
+import CardLayout from './CardLayout'
 
 /**
  * Контейнер для карточек
@@ -18,59 +19,59 @@ import CardLayout from './CardLayout';
  * @constructor
  */
 function Card({ linear, circle, items, children, outline, inverse, ...rest }) {
-  const setPropsAllItem = x => ({
-    ...x,
-    linear,
-    circle,
-    outline,
-    inverse,
-  });
+    const setPropsAllItem = x => ({
+        ...x,
+        linear,
+        circle,
+        outline,
+        inverse,
+    })
 
-  return (
-    <CardLayout {...rest}>
-      {children ||
+    return (
+        <CardLayout {...rest}>
+            {children ||
         map(
-          items,
-          flow(
-            setPropsAllItem,
-            CardItem
-          )
+            items,
+            flow(
+                setPropsAllItem,
+                CardItem,
+            ),
         )}
-    </CardLayout>
-  );
+        </CardLayout>
+    )
 }
 
 Card.propTypes = {
-  /**
+    /**
    * Массив элементов
    */
-  items: PropTypes.array,
-  /**
+    items: PropTypes.array,
+    /**
    * Линейное отображение каждого элемента
    */
-  linear: PropTypes.bool,
-  /**
+    linear: PropTypes.bool,
+    /**
    * Закругление изображения
    */
-  circle: PropTypes.bool,
-  children: PropTypes.node,
-  /**
+    circle: PropTypes.bool,
+    children: PropTypes.node,
+    /**
    * Применение свойства color к бордеру,
    */
-  outline: PropTypes.bool,
-  /**
+    outline: PropTypes.bool,
+    /**
    * Инверсия цвета текста
    */
-  inverse: PropTypes.bool,
-};
+    inverse: PropTypes.bool,
+}
 
 Card.defaultProps = {
-  linear: false,
-  inverse: false,
-  outline: false,
-};
+    linear: false,
+    inverse: false,
+    outline: false,
+}
 
-Card.Layout = CardLayout;
-Card.Item = CardItem;
+Card.Layout = CardLayout
+Card.Item = CardItem
 
-export default Card;
+export default Card

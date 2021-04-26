@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import isNil from 'lodash/isNil';
-import { setDisplayName } from 'recompose';
-import Input from '../Input/Input';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import isNil from 'lodash/isNil'
+import { setDisplayName } from 'recompose'
+
+import Input from '../Input/Input'
 
 /**
  * Компонент чекбоксов в виде кнопок
@@ -14,84 +15,84 @@ import Input from '../Input/Input';
  * @reactProps {string} label - лейбл
  */
 function CheckboxButton({
-  label,
-  disabled,
-  value,
-  checked,
-  onChange,
-  onFocus,
-  onBlur,
-  className,
+    label,
+    disabled,
+    value,
+    checked,
+    onChange,
+    onFocus,
+    onBlur,
+    className,
 }) {
-  return (
-    <label
-      className={cx('btn btn-secondary', className, {
-        active: checked,
-        disabled: disabled,
-      })}
-    >
-      <Input
-        disabled={disabled}
-        type="checkbox"
-        value={value}
-        checked={isNil(checked) ? !!value : checked}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
-      {label}
-    </label>
-  );
+    return (
+        <label
+            className={cx('btn btn-secondary', className, {
+                active: checked,
+                disabled,
+            })}
+        >
+            <Input
+                disabled={disabled}
+                type="checkbox"
+                value={value}
+                checked={isNil(checked) ? !!value : checked}
+                onChange={onChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+            />
+            {label}
+        </label>
+    )
 }
 
 CheckboxButton.propTypes = {
-  /**
+    /**
    * Значение
    */
-  value: PropTypes.any,
-  /**
+    value: PropTypes.any,
+    /**
    * Checked
    */
-  checked: PropTypes.bool,
-  /**
+    checked: PropTypes.bool,
+    /**
    * Callback изменения
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Флаг активности
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Label контрола
    */
-  label: PropTypes.string,
-  /**
+    label: PropTypes.string,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Стили
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * Callback фокуса
    */
-  onFocus: PropTypes.func,
-  /**
+    onFocus: PropTypes.func,
+    /**
    * Callback потери фокуса
    */
-  onBlur: PropTypes.func,
-};
+    onBlur: PropTypes.func,
+}
 
 CheckboxButton.defaultProps = {
-  checked: false,
-  disabled: false,
-  onFocus: () => {},
-  onBlur: () => {},
-  onChange: () => {},
-  onPaste: () => {},
-  onClick: () => {},
-  onKeyDown: () => {},
-};
+    checked: false,
+    disabled: false,
+    onFocus: () => {},
+    onBlur: () => {},
+    onChange: () => {},
+    onPaste: () => {},
+    onClick: () => {},
+    onKeyDown: () => {},
+}
 
-export default setDisplayName('CheckboxButton')(CheckboxButton);
+export default setDisplayName('CheckboxButton')(CheckboxButton)

@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import map from 'lodash/map';
-import { withResizeDetector } from 'react-resize-detector';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import map from 'lodash/map'
+import { withResizeDetector } from 'react-resize-detector'
 
-import calcCols from './utils';
-import TilesCell from './TilesCell';
+import calcCols from './utils'
+import TilesCell from './TilesCell'
 
 /**
  * Tiles
@@ -21,100 +21,100 @@ import TilesCell from './TilesCell';
  */
 
 function Tiles(props) {
-  const {
-    tile,
-    className,
-    data,
-    id,
-    colsSm,
-    colsMd,
-    colsLg,
-    width,
-    tileWidth,
-    tileHeight,
-    onResolve,
-    dispatch,
-  } = props;
-  const col = calcCols(colsSm, colsMd, colsLg, width);
+    const {
+        tile,
+        className,
+        data,
+        id,
+        colsSm,
+        colsMd,
+        colsLg,
+        width,
+        tileWidth,
+        tileHeight,
+        onResolve,
+        dispatch,
+    } = props
+    const col = calcCols(colsSm, colsMd, colsLg, width)
 
-  const renderTilesItem = (element, index) => (
-    <div className={`col-${col} d-flex justify-content-center`}>
-      <div
-        className={cn('n2o-tiles__item')}
-        style={{ width: tileWidth, minHeight: tileHeight }}
-      >
-        {map(tile, cell => {
-          const { component } = cell;
+    const renderTilesItem = (element, index) => (
+        <div className={`col-${col} d-flex justify-content-center`}>
+            <div
+                className={cn('n2o-tiles__item')}
+                style={{ width: tileWidth, minHeight: tileHeight }}
+            >
+                {map(tile, (cell) => {
+                    const { component } = cell
 
-          return (
-            <TilesCell
-              className={cn('n2o-tiles__cell', component.className)}
-              index={index}
-              widgetId={id}
-              model={element}
-              onResolve={onResolve}
-              dispatch={dispatch}
-              {...cell}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
+                    return (
+                        <TilesCell
+                            className={cn('n2o-tiles__cell', component.className)}
+                            index={index}
+                            widgetId={id}
+                            model={element}
+                            onResolve={onResolve}
+                            dispatch={dispatch}
+                            {...cell}
+                        />
+                    )
+                })}
+            </div>
+        </div>
+    )
 
-  return (
-    <div className={cn('n2o-tiles__container col-12', className)}>
-      {data &&
+    return (
+        <div className={cn('n2o-tiles__container col-12', className)}>
+            {data &&
         data.length &&
         map(data, (element, index) => renderTilesItem(element, index))}
-    </div>
-  );
+        </div>
+    )
 }
 
 Tiles.propTypes = {
-  /**
+    /**
    * имя css класса карточки
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * массив объектов cell из которых состоит виджет
    */
-  tiles: PropTypes.array,
-  /**
+    tiles: PropTypes.array,
+    /**
    * данные объектов cell
    */
-  data: PropTypes.array,
-  /**
+    data: PropTypes.array,
+    /**
    *  количество колонок в мобильном режиме
    */
-  colsSm: PropTypes.number,
-  /**
+    colsSm: PropTypes.number,
+    /**
    * количество колонок в режиме планшета
    */
-  colsMd: PropTypes.number,
-  /**
+    colsMd: PropTypes.number,
+    /**
    * количество колонок в режиме десктопа
    */
-  colsLg: PropTypes.number,
-  /**
+    colsLg: PropTypes.number,
+    /**
    * id виджета
    */
-  id: PropTypes.number,
-  /**
+    id: PropTypes.number,
+    /**
    * высота виджета
    */
-  tileHeight: PropTypes.string,
-  /**
+    tileHeight: PropTypes.string,
+    /**
    * ширина виджета
    */
-  tileWidth: PropTypes.string,
-};
+    tileWidth: PropTypes.string,
+}
 
 Tiles.defaultProps = {
-  tileWidth: '260px',
-  tileHeight: '350px',
-};
+    tileWidth: '260px',
+    tileHeight: '350px',
+}
 
-export { Tiles };
+export { Tiles }
 
-export default withResizeDetector(Tiles);
+export default withResizeDetector(Tiles)

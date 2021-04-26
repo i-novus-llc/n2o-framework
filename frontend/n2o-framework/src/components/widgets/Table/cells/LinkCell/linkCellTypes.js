@@ -1,5 +1,5 @@
 export const LinkCellType = Object.freeze({
-  ICONANDTEXT: 'iconAndText',
-  ICON: 'icon',
-  TEXT: 'text',
-});
+    ICONANDTEXT: 'iconAndText',
+    ICON: 'icon',
+    TEXT: 'text',
+})

@@ -1,9 +1,9 @@
 /**
  * Created by emamoshin on 10.10.2017.
  */
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 /**
  * Элемент {@link List}
@@ -20,67 +20,68 @@ import cx from 'classnames';
  * </ListItem>
  */
 class ListItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      wasActive: false,
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    if (nextProps.active) {
-      return {
-        wasActive: true,
-      };
+    constructor(props) {
+        super(props)
+        this.handleClick = this.handleClick.bind(this)
+        this.state = {
+            wasActive: false,
+        }
     }
-  }
 
-  /**
+    static getDerivedStateFromProps(nextProps) {
+        if (nextProps.active) {
+            return {
+                wasActive: true,
+            }
+        }
+    }
+
+    /**
    * Обработка клика
    * @param e
    */
-  handleClick(e) {
-    const { id, onClick } = this.props;
-    e.preventDefault();
-    if (onClick) {
-      onClick(e, id);
+    handleClick(e) {
+        const { id, onClick } = this.props
+        e.preventDefault()
+        if (onClick) {
+            onClick(e, id)
+        }
     }
-  }
 
-  /**
+    /**
    *  базовый рендер
    */
-  render() {
-    const { active, title, children } = this.props;
-    const { wasActive } = this.state;
-    return (
-      <div className="n2o-region-list" style={{ marginBottom: 2 }}>
-        <div className={cx('n2o-region-list__header', { active })}>
-          <a href="#" onClick={this.handleClick}>
-            <h6>
-              <span
-                className="fa fa-angle-right"
-                style={{ marginRight: '0.25rem' }}
-              />{' '}
-              {title}
-            </h6>
-          </a>
-        </div>
-        <div className={cx('n2o-region-list__body', { active })}>
-          {wasActive ? children : null}
-        </div>
-      </div>
-    );
-  }
+    render() {
+        const { active, title, children } = this.props
+        const { wasActive } = this.state
+        return (
+            <div className="n2o-region-list" style={{ marginBottom: 2 }}>
+                <div className={cx('n2o-region-list__header', { active })}>
+                    <a href="#" onClick={this.handleClick}>
+                        <h6>
+                            <span
+                                className="fa fa-angle-right"
+                                style={{ marginRight: '0.25rem' }}
+                            />
+                            {' '}
+                            {title}
+                        </h6>
+                    </a>
+                </div>
+                <div className={cx('n2o-region-list__body', { active })}>
+                    {wasActive ? children : null}
+                </div>
+            </div>
+        )
+    }
 }
 
 ListItem.propTypes = {
-  id: PropTypes.string,
-  active: PropTypes.bool,
-  title: PropTypes.string,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
-};
+    id: PropTypes.string,
+    active: PropTypes.bool,
+    title: PropTypes.string,
+    onClick: PropTypes.func,
+    children: PropTypes.node,
+}
 
-export default ListItem;
+export default ListItem
