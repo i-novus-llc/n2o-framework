@@ -112,7 +112,9 @@ const enhance = compose(
         const isDrawerPage = get(props, 'isDrawerPage')
         const pageId = get(props, 'metadata.id')
         const searchWidgetId = get(props, 'metadata.searchWidgetId')
-        const compileSearchWidgetId = `${pageId}_${searchWidgetId}`
+        const compileSearchWidgetId = isDrawerPage
+            ? `${pageId}_${searchWidgetId}`
+            : searchWidgetId
 
         return {
             searchWidgetId: compileSearchWidgetId,
