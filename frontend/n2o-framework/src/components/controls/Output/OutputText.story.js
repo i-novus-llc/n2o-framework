@@ -1,35 +1,33 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-import OutputText from './OutputText';
-import OutputJSON from './Output.meta';
+import OutputText from './OutputText'
+import OutputJSON from './Output.meta'
 
-const stories = storiesOf('Контролы/OutputText', module);
+const stories = storiesOf('Контролы/OutputText', module)
 
 const props = {
-  type: OutputJSON.type,
-  textPlace: OutputJSON.textPlace,
-  icon: OutputJSON.icon,
-  value: 'text',
-  format: '',
-  disabled: OutputJSON.disabled,
-};
+    type: OutputJSON.type,
+    textPlace: OutputJSON.textPlace,
+    icon: OutputJSON.icon,
+    value: 'text',
+    format: '',
+    disabled: OutputJSON.disabled,
+}
 
 const component = (propsOverride = {}, style = { width: 200 }) => (
-  <div style={style}>
-    <OutputText {...props} {...propsOverride} />
-  </div>
-);
+    <div style={style}>
+        <OutputText {...props} {...propsOverride} />
+    </div>
+)
 
 stories
-  .add(
-    'Компонент',
-    () => {
-      return component();
-    },
-    {
-      info: {
-        text: `
+    .add(
+        'Компонент',
+        () => component(),
+        {
+            info: {
+                text: `
       Компонент 'Вывод текста'
       ~~~js
       import OutputText from 'n2o-framework/lib/components/controls/OutputText/OutputText';
@@ -45,20 +43,18 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Длинная строка с переносом',
-    () => {
-      return component({
-        value:
+            },
+        },
+    )
+    .add(
+        'Длинная строка с переносом',
+        () => component({
+            value:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-      });
-    },
-    {
-      info: {
-        text: `
+        }),
+        {
+            info: {
+                text: `
       Компонент 'Вывод текста'
       ~~~js
       import OutputText from 'n2o-framework/lib/components/controls/OutputText/OutputText';
@@ -69,21 +65,19 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Длинная строка с ellipsis',
-    () => {
-      return component({
-        value:
+            },
+        },
+    )
+    .add(
+        'Длинная строка с ellipsis',
+        () => component({
+            value:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-        ellipsis: true,
-      });
-    },
-    {
-      info: {
-        text: `
+            ellipsis: true,
+        }),
+        {
+            info: {
+                text: `
       Компонент 'Вывод текста'
       ~~~js
       import OutputText from 'n2o-framework/lib/components/controls/OutputText/OutputText';
@@ -95,24 +89,22 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    '"Подробнее" в конце строки',
-    () => {
-      return component(
-        {
-          value:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-          expandable: true,
+            },
         },
-        { width: 400 }
-      );
-    },
-    {
-      info: {
-        text: `
+    )
+    .add(
+        '"Подробнее" в конце строки',
+        () => component(
+            {
+                value:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
+                expandable: true,
+            },
+            { width: 400 },
+        ),
+        {
+            info: {
+                text: `
       Компонент 'Вывод текста'
       ~~~js
       import OutputText from 'n2o-framework/lib/components/controls/OutputText/OutputText';
@@ -124,21 +116,19 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    '"Подробнее" по количеству символов',
-    () => {
-      return component({
-        value:
+            },
+        },
+    )
+    .add(
+        '"Подробнее" по количеству символов',
+        () => component({
+            value:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-        expandable: 40,
-      });
-    },
-    {
-      info: {
-        text: `
+            expandable: 40,
+        }),
+        {
+            info: {
+                text: `
       Компонент 'Вывод текста'
       ~~~js
       import OutputText from 'n2o-framework/lib/components/controls/OutputText/OutputText';
@@ -150,6 +140,6 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  );
+            },
+        },
+    )

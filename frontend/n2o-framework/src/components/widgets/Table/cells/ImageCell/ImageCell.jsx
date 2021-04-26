@@ -1,16 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, setDisplayName, withHandlers } from 'recompose';
-import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, setDisplayName, withHandlers } from 'recompose'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
-import propsResolver from '../../../../../utils/propsResolver';
+import propsResolver from '../../../../../utils/propsResolver'
+import withCell from '../../withCell'
+import withTooltip from '../../withTooltip'
+import Image from '../../../../snippets/Image/Image'
 
-import withCell from '../../withCell';
-import withTooltip from '../../withTooltip';
-import Image from '../../../../snippets/Image/Image';
-
-import imageShapes from './imageShapes';
+import imageShapes from './imageShapes'
 
 /**
  * Ячейка таблицы с картинкой
@@ -26,112 +25,110 @@ import imageShapes from './imageShapes';
  */
 
 function ImageCell(props) {
-  const {
-    title,
-    fieldKey,
-    style,
-    className,
-    model,
-    id,
-    onClick,
-    action,
-    shape,
-    visible,
-    description,
-    textPosition,
-    width,
-    data,
-  } = props;
+    const {
+        title,
+        fieldKey,
+        style,
+        className,
+        model,
+        id,
+        onClick,
+        action,
+        shape,
+        visible,
+        description,
+        textPosition,
+        width,
+        data,
+    } = props
 
-  const setCursor = action => {
-    return action ? { cursor: 'pointer' } : null;
-  };
+    const setCursor = action => (action ? { cursor: 'pointer' } : null)
 
-  const url = get(model, fieldKey);
-  const isEmptyModel = isEmpty(model);
+    const url = get(model, fieldKey)
+    const isEmptyModel = isEmpty(model)
 
-  const defaultImageProps = {
-    url: url,
-    data: data,
-    title: title,
-    description: description,
-  };
+    const defaultImageProps = {
+        url,
+        data,
+        title,
+        description,
+    }
 
-  const resolveProps = isEmptyModel
-    ? defaultImageProps
-    : propsResolver(defaultImageProps, model);
+    const resolveProps = isEmptyModel
+        ? defaultImageProps
+        : propsResolver(defaultImageProps, model)
 
-  return (
-    <Image
-      id={id}
-      visible={visible}
-      title={title}
-      description={description}
-      onClick={onClick}
-      shape={shape}
-      style={{ ...style, ...setCursor(action) }}
-      className={className}
-      textPosition={textPosition}
-      width={width}
-      {...resolveProps}
-      src={resolveProps.data || resolveProps.url}
-    />
-  );
+    return (
+        <Image
+            id={id}
+            visible={visible}
+            title={title}
+            description={description}
+            onClick={onClick}
+            shape={shape}
+            style={{ ...style, ...setCursor(action) }}
+            className={className}
+            textPosition={textPosition}
+            width={width}
+            {...resolveProps}
+            src={resolveProps.data || resolveProps.url}
+        />
+    )
 }
 
 ImageCell.propTypes = {
-  /**
+    /**
    * ID ячейки
    */
-  id: PropTypes.string.isRequired,
-  /**
+    id: PropTypes.string.isRequired,
+    /**
    * Модель данных
    */
-  model: PropTypes.object.isRequired,
-  /**
+    model: PropTypes.object.isRequired,
+    /**
    * Тип формы изображенич
    */
-  shape: PropTypes.oneOf(Object.values(imageShapes)),
-  /**
+    shape: PropTypes.oneOf(Object.values(imageShapes)),
+    /**
    * Стили
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Заголовок
    */
-  title: PropTypes.string,
-  /**
+    title: PropTypes.string,
+    /**
    * Описание
    */
-  description: PropTypes.string,
-  /**
+    description: PropTypes.string,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-  /**
+    visible: PropTypes.bool,
+    /**
    * Позиция текста
    */
-  textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
-  /**
+    textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
+    /**
    * Ширина
    */
-  width: PropTypes.string,
-};
+    width: PropTypes.string,
+}
 
-export { ImageCell };
+export { ImageCell }
 export default compose(
-  setDisplayName('ImageCell'),
-  withCell,
-  withHandlers({
-    onClick: ({ callAction, model }) => () => {
-      if (callAction && model) {
-        callAction(model);
-      }
-    },
-  }),
-  withTooltip
-)(ImageCell);
+    setDisplayName('ImageCell'),
+    withCell,
+    withHandlers({
+        onClick: ({ callAction, model }) => () => {
+            if (callAction && model) {
+                callAction(model)
+            }
+        },
+    }),
+    withTooltip,
+)(ImageCell)

@@ -1,9 +1,10 @@
 import {
-  START_INVOKE,
-  SUCCESS_INVOKE,
-  FAIL_INVOKE,
-} from '../constants/actionImpls';
-import createActionHelper from './createActionHelper';
+    START_INVOKE,
+    SUCCESS_INVOKE,
+    FAIL_INVOKE,
+} from '../constants/actionImpls'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * @deprecated
@@ -19,23 +20,23 @@ import createActionHelper from './createActionHelper';
  * @param needResolve
  */
 export function startInvoke(
-  widgetId,
-  dataProvider,
-  data,
-  modelLink,
-  meta = { refresh: true },
-  needResolve = true
+    widgetId,
+    dataProvider,
+    data,
+    modelLink,
+    meta = { refresh: true },
+    needResolve = true,
 ) {
-  return createActionHelper(START_INVOKE)(
-    {
-      widgetId,
-      dataProvider,
-      data,
-      modelLink,
-      needResolve,
-    },
-    meta
-  );
+    return createActionHelper(START_INVOKE)(
+        {
+            widgetId,
+            dataProvider,
+            data,
+            modelLink,
+            needResolve,
+        },
+        meta,
+    )
 }
 
 /**
@@ -44,12 +45,12 @@ export function startInvoke(
  * @param meta
  */
 export function successInvoke(widgetId, meta) {
-  return createActionHelper(SUCCESS_INVOKE)(
-    {
-      widgetId,
-    },
-    meta
-  );
+    return createActionHelper(SUCCESS_INVOKE)(
+        {
+            widgetId,
+        },
+        meta,
+    )
 }
 
 /**
@@ -58,10 +59,10 @@ export function successInvoke(widgetId, meta) {
  * @param meta
  */
 export function failInvoke(widgetId, meta) {
-  return createActionHelper(FAIL_INVOKE)(
-    {
-      widgetId,
-    },
-    meta
-  );
+    return createActionHelper(FAIL_INVOKE)(
+        {
+            widgetId,
+        },
+        meta,
+    )
 }

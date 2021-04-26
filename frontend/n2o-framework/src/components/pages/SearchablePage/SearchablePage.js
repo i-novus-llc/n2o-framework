@@ -39,9 +39,9 @@ function SearchablePage({
                 'n2o-disabled-page': disabled,
             })}
         >
-            {error && <Alert {...error} visible/>}
+            {error && <Alert {...error} visible />}
             {!isEmpty(metadata) && metadata.page && (
-                <DocumentTitle {...metadata.page}/>
+                <DocumentTitle {...metadata.page} />
             )}
             <div className="n2o-searchable-page__breadcrumbs">
                 {!isEmpty(metadata) && metadata.breadcrumb && (
@@ -52,8 +52,8 @@ function SearchablePage({
                 )}
             </div>
             <div className="n2o-searchable-page__title d-flex align-items-center my-3">
-                <PageTitle className="mr-0" {...get(metadata, 'page', {})}/>
-                <Toolbar className="ml-2" entityKey={pageId} toolbar={toolbar.title}/>
+                <PageTitle className="mr-0" {...get(metadata, 'page', {})} />
+                <Toolbar className="ml-2" entityKey={pageId} toolbar={toolbar.title} />
                 <SearchBar
                     {...searchBar}
                     initialValue={filterValue}
@@ -79,7 +79,7 @@ function SearchablePage({
                     toolbar={toolbar.topRight}
                 />
             </div>
-            <PageRegions id={id} regions={regions}/>
+            <PageRegions id={id} regions={regions} />
             {withToolbar && (
                 <div className="n2o-page-actions">
                     <Toolbar

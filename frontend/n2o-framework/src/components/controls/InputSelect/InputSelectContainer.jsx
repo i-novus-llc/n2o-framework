@@ -1,8 +1,10 @@
-import React from 'react';
-import { compose, setDisplayName } from 'recompose';
-import PropTypes from 'prop-types';
-import InputSelect from './InputSelect';
-import listContainer from '../listContainer.js';
+import React from 'react'
+import { compose, setDisplayName } from 'recompose'
+import PropTypes from 'prop-types'
+
+import listContainer from '../listContainer.js'
+
+import InputSelect from './InputSelect'
 
 /**
  * Контейнер для {@link InputSelect}
@@ -40,143 +42,143 @@ import listContainer from '../listContainer.js';
  */
 
 class InputSelectContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.key = props.filterValues;
-    this.state = {
-      resetMode: false,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const resetMode = (nextProps.filterValues || []).reduce(
-      (res, val) => res || val.resetMode,
-      false
-    );
-    if (resetMode && nextProps.value === this.props.value) {
-      this.key = JSON.stringify(nextProps.filterValues);
-      this.setState({ resetMode: true });
-    } else {
-      this.setState({ resetMode: false });
+    constructor(props) {
+        super(props)
+        this.key = props.filterValues
+        this.state = {
+            resetMode: false,
+        }
     }
-  }
 
-  render() {
-    const { filter } = this.props;
+    componentWillReceiveProps(nextProps) {
+        const resetMode = (nextProps.filterValues || []).reduce(
+            (res, val) => res || val.resetMode,
+            false,
+        )
+        if (resetMode && nextProps.value === this.props.value) {
+            this.key = JSON.stringify(nextProps.filterValues)
+            this.setState({ resetMode: true })
+        } else {
+            this.setState({ resetMode: false })
+        }
+    }
 
-    const filterType = filter === 'server' ? false : filter;
-    return (
-      <InputSelect
-        {...this.props}
-        options={this.props.data}
-        value={!this.state.resetMode && this.props.value}
-        filter={filterType}
-        key={this.key}
-        loading={this.props.isLoading}
-        disabled={this.props.disabled || this.props.disabled}
-      />
-    );
-  }
+    render() {
+        const { filter } = this.props
+
+        const filterType = filter === 'server' ? false : filter
+        return (
+            <InputSelect
+                {...this.props}
+                options={this.props.data}
+                value={!this.state.resetMode && this.props.value}
+                filter={filterType}
+                key={this.key}
+                loading={this.props.isLoading}
+                disabled={this.props.disabled || this.props.disabled}
+            />
+        )
+    }
 }
 
 InputSelectContainer.propTypes = {
-  loading: PropTypes.bool,
-  options: PropTypes.array,
-  valueFieldId: PropTypes.string.isRequired,
-  labelFieldId: PropTypes.string.isRequired,
-  iconFieldId: PropTypes.string,
-  imageFieldId: PropTypes.string,
-  badgeFieldId: PropTypes.string,
-  badgeColorFieldId: PropTypes.string,
-  disabled: PropTypes.bool,
-  disabledValues: PropTypes.array,
-  filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onInput: PropTypes.func,
-  onSelect: PropTypes.func,
-  onScrollEnd: PropTypes.func,
-  placeholder: PropTypes.string,
-  flip: PropTypes.bool,
-  resetOnBlur: PropTypes.bool,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  queryId: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired,
-  multiSelect: PropTypes.bool,
-  groupFieldId: PropTypes.string,
-  closePopupOnSelect: PropTypes.bool,
-  hasCheckboxes: PropTypes.bool,
-  format: PropTypes.string,
-  collapseSelected: PropTypes.bool,
-  lengthToGroup: PropTypes.number,
-  fetchData: PropTypes.func,
-  onSearch: PropTypes.func,
-  autoFocus: PropTypes.bool,
-  openOnFocus: PropTypes.bool,
-};
+    loading: PropTypes.bool,
+    options: PropTypes.array,
+    valueFieldId: PropTypes.string.isRequired,
+    labelFieldId: PropTypes.string.isRequired,
+    iconFieldId: PropTypes.string,
+    imageFieldId: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    disabled: PropTypes.bool,
+    disabledValues: PropTypes.array,
+    filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onInput: PropTypes.func,
+    onSelect: PropTypes.func,
+    onScrollEnd: PropTypes.func,
+    placeholder: PropTypes.string,
+    flip: PropTypes.bool,
+    resetOnBlur: PropTypes.bool,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    queryId: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
+    multiSelect: PropTypes.bool,
+    groupFieldId: PropTypes.string,
+    closePopupOnSelect: PropTypes.bool,
+    hasCheckboxes: PropTypes.bool,
+    format: PropTypes.string,
+    collapseSelected: PropTypes.bool,
+    lengthToGroup: PropTypes.number,
+    fetchData: PropTypes.func,
+    onSearch: PropTypes.func,
+    autoFocus: PropTypes.bool,
+    openOnFocus: PropTypes.bool,
+}
 
 InputSelectContainer.defaultProps = {
-  /**
+    /**
    * Флаг загрузки
    */
-  loading: false,
-  /**
+    loading: false,
+    /**
    * Флаг активности
    */
-  disabled: false,
-  /**
+    disabled: false,
+    /**
    * Неактивные данные
    */
-  disabledValues: [],
-  /**
+    disabledValues: [],
+    /**
    * Значение
    */
-  value: '',
-  /**
+    value: '',
+    /**
    * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
    */
-  resetOnBlur: false,
-  /**
+    resetOnBlur: false,
+    /**
    * Варианты фильтрации
    */
-  filter: false,
-  /**
+    filter: false,
+    /**
    * Мульти выбор значений
    */
-  multiSelect: false,
-  /**
+    multiSelect: false,
+    /**
    * Флаг закрытия попапа при выборе
    */
-  closePopupOnSelect: true,
-  /**
+    closePopupOnSelect: true,
+    /**
    * Флаг наличия чекбоксов в селекте
    */
-  hasCheckboxes: false,
-  /**
+    hasCheckboxes: false,
+    /**
    * Флаг сжатия выбранных элементов
    */
-  collapseSelected: true,
-  /**
+    collapseSelected: true,
+    /**
    * От скольки элементов сжимать выбранные элементы
    */
-  lengthToGroup: 3,
-  expandPopUp: true,
-  /**
+    lengthToGroup: 3,
+    expandPopUp: true,
+    /**
    * Ключ id в данных
    */
-  valueFieldId: 'id',
-  flip: false,
-  /**
+    valueFieldId: 'id',
+    flip: false,
+    /**
    * Авто фокусировка на селекте
    */
-  autoFocus: false,
-  /**
+    autoFocus: false,
+    /**
    * Флаг открытия попапа при фокусе на контроле
    */
-  openOnFocus: false,
-};
+    openOnFocus: false,
+}
 
 export default compose(
-  setDisplayName('InputSelectContainer'),
-  listContainer
-)(InputSelectContainer);
+    setDisplayName('InputSelectContainer'),
+    listContainer,
+)(InputSelectContainer)

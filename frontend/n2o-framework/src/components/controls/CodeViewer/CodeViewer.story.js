@@ -1,36 +1,36 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import CodeViewer from './CodeViewer';
-import { CodeViewer as CodeViewerComponent } from './CodeViewer';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-const stories = storiesOf('Контролы/Просмотрщик кода', module);
+import CodeViewer, { CodeViewer as CodeViewerComponent } from './CodeViewer'
+
+const stories = storiesOf('Контролы/Просмотрщик кода', module)
 stories.addParameters({
-  info: {
-    propTables: [CodeViewerComponent],
-  },
-});
+    info: {
+        propTables: [CodeViewerComponent],
+    },
+})
 
 stories.add(
-  'Компонент',
-  () => {
-    const props = {
-      visible: true,
-      language: 'javascript',
-      showLineNumbers: true,
-      value: `function makeWorker() {
+    'Компонент',
+    () => {
+        const props = {
+            visible: true,
+            language: 'javascript',
+            showLineNumbers: true,
+            value: `function makeWorker() {
   let name = "Pete";
 
   return function() {
     alert(name);
   };
 }`,
-    };
+        }
 
-    return <CodeViewer {...props} />;
-  },
-  {
-    info: {
-      text: `
+        return <CodeViewer {...props} />
+    },
+    {
+        info: {
+            text: `
       Компонент 'Просмотрщик кода'
       ~~~js
       import CodeViewer from 'n2o-framework/lib/components/controls/CodeViewer/CodeViewer';
@@ -47,6 +47,6 @@ stories.add(
       </CodeViewer>
       ~~~
       `,
+        },
     },
-  }
-);
+)

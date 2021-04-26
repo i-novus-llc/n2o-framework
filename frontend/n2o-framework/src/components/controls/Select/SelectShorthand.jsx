@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Select from './Select';
-import Option from './Option';
+import Select from './Select'
+import Option from './Option'
 
 /**
  * SelectShorthand
@@ -17,41 +17,41 @@ import Option from './Option';
  */
 
 class SelectShorthand extends React.Component {
-  /**
+    /**
    * Рендер
    */
 
-  render() {
-    return (
-      <Select {...this.props}>
-        {this.props.options.map(option => (
-          <Option
-            value={option.value}
-            label={option.label}
-            disabled={option.disabled}
-          />
-        ))}
-      </Select>
-    );
-  }
+    render() {
+        return (
+            <Select {...this.props}>
+                {this.props.options.map(option => (
+                    <Option
+                        value={option.value}
+                        label={option.label}
+                        disabled={option.disabled}
+                    />
+                ))}
+            </Select>
+        )
+    }
 }
 
 SelectShorthand.propTypes = {
-  onChange: PropTypes.func,
-  required: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  disabled: PropTypes.bool,
-  visible: PropTypes.bool,
-  heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array,
-};
+    onChange: PropTypes.func,
+    required: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    disabled: PropTypes.bool,
+    visible: PropTypes.bool,
+    heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    options: PropTypes.array,
+}
 
 SelectShorthand.defaultProps = {
-  autoFocus: false,
-  disabled: false,
-  required: false,
-  visible: true,
-};
+    autoFocus: false,
+    disabled: false,
+    required: false,
+    visible: true,
+}
 
-export default SelectShorthand;
+export default SelectShorthand

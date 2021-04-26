@@ -1,30 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import toNumber from 'lodash/toNumber'
+import toString from 'lodash/toString'
+import isNil from 'lodash/isNil'
+import isNaN from 'lodash/isNaN'
+import isEqual from 'lodash/isEqual'
+import split from 'lodash/split'
+import includes from 'lodash/includes'
+import { compose } from 'recompose'
 
-import toNumber from 'lodash/toNumber';
-import toString from 'lodash/toString';
-import isNil from 'lodash/isNil';
-import isNaN from 'lodash/isNaN';
-import isEqual from 'lodash/isEqual';
-import split from 'lodash/split';
-import includes from 'lodash/includes';
-import { compose } from 'recompose';
-
-import withRightPlaceholder from '../withRightPlaceholder';
-import Input from '../Input/Input';
+import withRightPlaceholder from '../withRightPlaceholder'
+import Input from '../Input/Input'
 
 import {
-  formatToFloat,
-  isValid,
-  matchesWhiteList,
-  getPrecision,
-} from './utils';
+    formatToFloat,
+    isValid,
+    matchesWhiteList,
+    getPrecision,
+} from './utils'
 
 const inputMode = {
-  DEFAULT: 'default',
-  PICKER: 'picker',
-};
+    DEFAULT: 'default',
+    PICKER: 'picker',
+}
 
 /**
  * Компонент - инпут для ввода чисел с возможностью увеличения/уменьшения значения на шаг
@@ -45,271 +44,271 @@ const inputMode = {
  *             name='InputNumberExample' />
  */
 export class InputNumber extends React.Component {
-  constructor(props) {
-    super(props);
-    const value = props.value;
-    this.stepPrecition = getPrecision(props.step);
-    this.pasted = false;
-    this.state = {
-      value: this.resolveValue(
-        !isNil(value) && !isNaN(toNumber(value)) && value !== ''
-          ? toNumber(value)
-          : null
-      ),
-    };
-    this.onChange = this.onChange.bind(this);
-    this.onPaste = this.onPaste.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.resolveValue = this.resolveValue.bind(this);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { value } = this.props;
-    if (prevProps.value !== value && !isNil(value)) {
-      this.setState({ value: this.resolveValue(value) });
-    } else if (
-      !isEqual(prevProps.value, value) &&
-      (value === '' || isNil(value))
-    ) {
-      this.setState({ value: null });
+    constructor(props) {
+        super(props)
+        const { value } = props
+        this.stepPrecition = getPrecision(props.step)
+        this.pasted = false
+        this.state = {
+            value: this.resolveValue(
+                !isNil(value) && !isNaN(toNumber(value)) && value !== ''
+                    ? toNumber(value)
+                    : null,
+            ),
+        }
+        this.onChange = this.onChange.bind(this)
+        this.onPaste = this.onPaste.bind(this)
+        this.onKeyDown = this.onKeyDown.bind(this)
+        this.onBlur = this.onBlur.bind(this)
+        this.resolveValue = this.resolveValue.bind(this)
     }
-  }
 
-  /**
+    componentDidUpdate(prevProps, prevState) {
+        const { value } = this.props
+        if (prevProps.value !== value && !isNil(value)) {
+            this.setState({ value: this.resolveValue(value) })
+        } else if (
+            !isEqual(prevProps.value, value) &&
+      (value === '' || isNil(value))
+        ) {
+            this.setState({ value: null })
+        }
+    }
+
+    /**
    * Обработчик вставки
    * @param e
    */
-  onPaste(e) {
-    this.pasted = true;
-    this.setState({ value: this.resolveValue(this.inputElement.value) });
-  }
-
-  resolveValue(value) {
-    const { precision } = this.props;
-    if (!isNil(precision) && includes(value, '.')) {
-      const valueArr = split(value, '.');
-
-      return precision === 0
-        ? valueArr[0]
-        : `${valueArr[0]}.${toString(valueArr[1]).substring(0, precision)}`;
+    onPaste(e) {
+        this.pasted = true
+        this.setState({ value: this.resolveValue(this.inputElement.value) })
     }
 
-    return value;
-  }
+    resolveValue(value) {
+        const { precision } = this.props
+        if (!isNil(precision) && includes(value, '.')) {
+            const valueArr = split(value, '.')
 
-  onChange(value) {
-    const nextValue = this.resolveValue(
-      value === '' ? null : value === '-' ? value : toNumber(value)
-    );
-
-    if (isNil(nextValue)) {
-      this.setState({ value: null }, () => this.props.onChange(null));
-    }
-
-    if (matchesWhiteList(nextValue) || this.pasted) {
-      this.setState({ value: this.resolveValue(value) }, () => {
-        if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
-          this.props.onChange(this.resolveValue(nextValue));
+            return precision === 0
+                ? valueArr[0]
+                : `${valueArr[0]}.${toString(valueArr[1]).substring(0, precision)}`
         }
-      });
-    }
-  }
 
-  /**
+        return value
+    }
+
+    onChange(value) {
+        const nextValue = this.resolveValue(
+            value === '' ? null : value === '-' ? value : toNumber(value),
+        )
+
+        if (isNil(nextValue)) {
+            this.setState({ value: null }, () => this.props.onChange(null))
+        }
+
+        if (matchesWhiteList(nextValue) || this.pasted) {
+            this.setState({ value: this.resolveValue(value) }, () => {
+                if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
+                    this.props.onChange(this.resolveValue(nextValue))
+                }
+            })
+        }
+    }
+
+    /**
    * Обрабатывает изменение значения с клавиатуры
    * @param type {string} - 'up' (увеличение значения) или 'down' (уменьшение значения)
    */
-  buttonHandler(type) {
-    const { min, max, step } = this.props;
-    const { value } = this.state;
-    const delta = toNumber(formatToFloat(step, this.stepPrecition));
-    const val =
+    buttonHandler(type) {
+        const { min, max, step } = this.props
+        const { value } = this.state
+        const delta = toNumber(formatToFloat(step, this.stepPrecition))
+        const val =
       !isNil(value) && value !== ''
-        ? toNumber(value).toFixed(this.stepPrecition)
-        : null;
-    const currentValue = toNumber(formatToFloat(val, this.stepPrecition));
-    let newValue = currentValue;
-    if (type === 'up') {
-      newValue = currentValue + delta;
-    } else if (type === 'down') {
-      newValue = currentValue - delta;
+          ? toNumber(value).toFixed(this.stepPrecition)
+          : null
+        const currentValue = toNumber(formatToFloat(val, this.stepPrecition))
+        let newValue = currentValue
+        if (type === 'up') {
+            newValue = currentValue + delta
+        } else if (type === 'down') {
+            newValue = currentValue - delta
+        }
+
+        if (isValid(newValue, min, max)) {
+            newValue = newValue.toFixed(this.stepPrecition)
+
+            this.setState({ value: newValue }, () => this.props.onBlur(newValue))
+        }
     }
 
-    if (isValid(newValue, min, max)) {
-      newValue = newValue.toFixed(this.stepPrecition);
+    onBlur() {
+        const { max, min, onBlur } = this.props
 
-      this.setState({ value: newValue }, () => this.props.onBlur(newValue));
+        if (this.state.value === '-' && this.props.mode !== inputMode.PICKER) {
+            return
+        }
+
+        const value = this.resolveValue(formatToFloat(this.state.value))
+        this.pasted = false
+
+        if (!isNil(value) && isValid(value, min, max)) {
+            this.setState({ value }, () => onBlur(value))
+        } else {
+            this.setState({ value: null }, () => onBlur())
+        }
     }
-  }
 
-  onBlur() {
-    const { max, min, onBlur } = this.props;
-
-    if (this.state.value === '-' && this.props.mode !== inputMode.PICKER) {
-      return;
-    }
-
-    const value = this.resolveValue(formatToFloat(this.state.value));
-    this.pasted = false;
-
-    if (!isNil(value) && isValid(value, min, max)) {
-      this.setState({ value }, () => onBlur(value));
-    } else {
-      this.setState({ value: null }, () => onBlur());
-    }
-  }
-
-  /**
+    /**
    * Вызывает buttonHandler с нужным аргументом (в зависимости от нажатой клавиши)
    * @param e
    */
-  onKeyDown(e) {
-    const upKeyCode = 38;
-    const downKeyCode = 40;
-    const type =
+    onKeyDown(e) {
+        const upKeyCode = 38
+        const downKeyCode = 40
+        const type =
       e.keyCode === upKeyCode
-        ? 'up'
-        : e.keyCode === downKeyCode
-        ? 'down'
-        : undefined;
-    if (type) {
-      e.preventDefault();
-      this.buttonHandler(type);
+          ? 'up'
+          : e.keyCode === downKeyCode
+              ? 'down'
+              : undefined
+        if (type) {
+            e.preventDefault()
+            this.buttonHandler(type)
+        }
     }
-  }
 
-  /**
+    /**
    * Базовый рендер
    * */
-  render() {
-    const {
-      visible,
-      disabled,
-      name,
-      step,
-      min,
-      max,
-      showButtons,
-      className,
-      onFocus,
-      autoFocus,
-      placeholder,
-    } = this.props;
-    const { value } = this.state;
-    return (
-      visible && (
-        <div
-          className="n2o-input-number"
-          ref={input => {
-            this.input = input;
-          }}
-        >
-          <Input
-            onKeyDown={this.onKeyDown}
-            name={name}
-            value={toString(value)}
-            step={step}
-            min={min}
-            max={max}
-            className={cn(['form-control', { [className]: className }])}
-            onBlur={this.onBlur}
-            onFocus={onFocus}
-            onChange={({ target }) => this.onChange(target.value)}
-            onPaste={this.onPaste}
-            disabled={disabled}
-            autoFocus={autoFocus}
-            placeholder={placeholder}
-          />
-          {showButtons && (
-            <div className="n2o-input-number-buttons">
-              <button
-                onClick={() => this.buttonHandler('up')}
-                disabled={disabled}
-                tabIndex={-1}
-              >
-                <i className="fa fa-angle-up" aria-hidden="true" />
-              </button>
-              <button
-                onClick={() => this.buttonHandler('down')}
-                disabled={disabled}
-                tabIndex={-1}
-              >
-                <i className="fa fa-angle-down" aria-hidden="true" />
-              </button>
-            </div>
-          )}
-        </div>
-      )
-    );
-  }
+    render() {
+        const {
+            visible,
+            disabled,
+            name,
+            step,
+            min,
+            max,
+            showButtons,
+            className,
+            onFocus,
+            autoFocus,
+            placeholder,
+        } = this.props
+        const { value } = this.state
+        return (
+            visible && (
+                <div
+                    className="n2o-input-number"
+                    ref={(input) => {
+                        this.input = input
+                    }}
+                >
+                    <Input
+                        onKeyDown={this.onKeyDown}
+                        name={name}
+                        value={toString(value)}
+                        step={step}
+                        min={min}
+                        max={max}
+                        className={cn(['form-control', { [className]: className }])}
+                        onBlur={this.onBlur}
+                        onFocus={onFocus}
+                        onChange={({ target }) => this.onChange(target.value)}
+                        onPaste={this.onPaste}
+                        disabled={disabled}
+                        autoFocus={autoFocus}
+                        placeholder={placeholder}
+                    />
+                    {showButtons && (
+                        <div className="n2o-input-number-buttons">
+                            <button
+                                onClick={() => this.buttonHandler('up')}
+                                disabled={disabled}
+                                tabIndex={-1}
+                            >
+                                <i className="fa fa-angle-up" aria-hidden="true" />
+                            </button>
+                            <button
+                                onClick={() => this.buttonHandler('down')}
+                                disabled={disabled}
+                                tabIndex={-1}
+                            >
+                                <i className="fa fa-angle-down" aria-hidden="true" />
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )
+        )
+    }
 }
 
 InputNumber.defaultProps = {
-  disabled: false,
-  visible: true,
-  step: '0.1',
-  autoFocus: false,
-  showButtons: true,
-  onChange: val => {},
-  onBlur: val => {},
-  onFocus: val => {},
-  mode: inputMode.DEFAULT,
-};
+    disabled: false,
+    visible: true,
+    step: '0.1',
+    autoFocus: false,
+    showButtons: true,
+    onChange: (val) => {},
+    onBlur: (val) => {},
+    onFocus: (val) => {},
+    mode: inputMode.DEFAULT,
+}
 
 InputNumber.propTypes = {
-  /**
+    /**
    * Значение
    */
-  value: PropTypes.number,
-  /**
+    value: PropTypes.number,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-  /**
+    visible: PropTypes.bool,
+    /**
    * Флаг активности
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Шаг для изменения значения по кнопкам
    */
-  step: PropTypes.string,
-  /**
+    step: PropTypes.string,
+    /**
    * Минимальное значение
    */
-  min: PropTypes.number,
-  /**
+    min: PropTypes.number,
+    /**
    * Максимальное значение
    */
-  max: PropTypes.number,
-  /**
+    max: PropTypes.number,
+    /**
    * Название контрола
    */
-  name: PropTypes.string,
-  /**
+    name: PropTypes.string,
+    /**
    * Флаг показа кнопок изменения значения
    */
-  showButtons: PropTypes.bool,
-  /**
+    showButtons: PropTypes.bool,
+    /**
    * Callback на изменение
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Флаг автофокуса на контрол
    */
-  autoFocus: PropTypes.bool,
-  /**
+    autoFocus: PropTypes.bool,
+    /**
    * Количество знаков после запятой
    */
-  precision: PropTypes.number,
-  /**
+    precision: PropTypes.number,
+    /**
    * Режим использования компонента
    */
-  mode: PropTypes.oneOf(inputMode.DEFAULT, inputMode.PICKER),
-};
+    mode: PropTypes.oneOf(inputMode.DEFAULT, inputMode.PICKER),
+}
 
-export default compose(withRightPlaceholder)(InputNumber);
+export default compose(withRightPlaceholder)(InputNumber)

@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TabPane from 'reactstrap/lib/TabPane';
+import React from 'react'
+import PropTypes from 'prop-types'
+import TabPane from 'reactstrap/lib/TabPane'
 
 /**
  * Компонент тела таба для {@link Panel}
@@ -8,13 +8,13 @@ import TabPane from 'reactstrap/lib/TabPane';
  * @reactProps {node} children - элемент вставляемый в PanelTabBody
  */
 function PanelTabBody({ eventKey, children }) {
-  return <TabPane tabId={eventKey}>{children}</TabPane>;
+    return <TabPane tabId={eventKey}>{children}</TabPane>
 }
 
 PanelTabBody.propTypes = {
-  eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
-  children: PropTypes.node,
-};
+    eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    children: PropTypes.node,
+}
 
-export default PanelTabBody;
+export default PanelTabBody

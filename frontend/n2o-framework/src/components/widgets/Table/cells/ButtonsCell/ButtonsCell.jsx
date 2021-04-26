@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, withHandlers } from 'recompose';
-import get from 'lodash/get';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, withHandlers } from 'recompose'
+import get from 'lodash/get'
+import cx from 'classnames'
 
-import propsResolver from '../../../../../utils/propsResolver';
-import { setModel } from '../../../../../actions/models';
-import { PREFIXES } from '../../../../../constants/models';
-import Toolbar from '../../../../buttons/Toolbar';
-import withTooltip from '../../withTooltip';
+import propsResolver from '../../../../../utils/propsResolver'
+import { setModel } from '../../../../../actions/models'
+import { PREFIXES } from '../../../../../constants/models'
+import Toolbar from '../../../../buttons/Toolbar'
+import withTooltip from '../../withTooltip'
 
 /**
  *
@@ -27,61 +27,60 @@ import withTooltip from '../../withTooltip';
  * @return {null}
  */
 function ButtonsCell({
-  id,
-  className,
-  visible,
-  model,
-  style,
-  toolbar,
-  actions,
-  widgetId,
-  onResolve,
-  ...other
+    id,
+    className,
+    visible,
+    model,
+    style,
+    toolbar,
+    actions,
+    widgetId,
+    onResolve,
+    ...other
 }) {
-  const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
+    const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`
 
-  return visible ? (
-    <div className="d-inline-flex">
-      <Toolbar
-        className={cx('n2o-buttons-cell', className)}
-        entityKey={key}
-        toolbar={propsResolver(toolbar, model)}
-        onClick={onResolve}
-      />
-    </div>
-  ) : null;
+    return visible ? (
+        <div className="d-inline-flex">
+            <Toolbar
+                className={cx('n2o-buttons-cell', className)}
+                entityKey={key}
+                toolbar={propsResolver(toolbar, model)}
+                onClick={onResolve}
+            />
+        </div>
+    ) : null
 }
 
 ButtonsCell.propTypes = {
-  /**
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Стили
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * ID ячейки
    */
-  id: PropTypes.string,
-  /**
+    id: PropTypes.string,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-};
+    visible: PropTypes.bool,
+}
 
 ButtonsCell.defaultProps = {
-  visible: true,
-};
+    visible: true,
+}
 
 const enhance = compose(
-  withTooltip,
-  withHandlers({
-    onResolve: ({ dispatch, widgetId, model }) => () =>
-      dispatch(setModel(PREFIXES.resolve, widgetId, model)),
-  })
-);
+    withTooltip,
+    withHandlers({
+        onResolve: ({ dispatch, widgetId, model }) => () => dispatch(setModel(PREFIXES.resolve, widgetId, model)),
+    }),
+)
 
-export { ButtonsCell };
-export default enhance(ButtonsCell);
+export { ButtonsCell }
+export default enhance(ButtonsCell)

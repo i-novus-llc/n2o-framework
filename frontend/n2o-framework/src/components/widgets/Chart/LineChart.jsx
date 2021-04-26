@@ -1,26 +1,26 @@
-import React from 'react';
-import map from 'lodash/map';
+import React from 'react'
+import map from 'lodash/map'
 import {
-  LineChart as Chart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Line,
-} from 'recharts';
+    LineChart as Chart,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    Line,
+} from 'recharts'
 
 import {
-  cartesianGridTypes,
-  chartTypes,
-  defaultChartProps,
-  legendTypes,
-  linesTypes,
-  tooltipTypes,
-  XAxisTypes,
-  YAxisTypes,
-} from './chartPropsTypes';
-import { setLineColors } from './utils';
+    cartesianGridTypes,
+    chartTypes,
+    defaultChartProps,
+    legendTypes,
+    linesTypes,
+    tooltipTypes,
+    XAxisTypes,
+    YAxisTypes,
+} from './chartPropsTypes'
+import { setLineColors } from './utils'
 
 /**
  * График "Линии"
@@ -123,48 +123,48 @@ import { setLineColors } from './utils';
  */
 
 function LineChart({
-  layout,
-  width,
-  height,
-  margin,
-  XAxis: xaxis,
-  YAxis: yaxis,
-  cartesianGrid,
-  tooltip,
-  legend,
-  lines,
-  data,
+    layout,
+    width,
+    height,
+    margin,
+    XAxis: xaxis,
+    YAxis: yaxis,
+    cartesianGrid,
+    tooltip,
+    legend,
+    lines,
+    data,
 }) {
-  return (
-    <Chart
-      width={width}
-      height={height}
-      data={data}
-      margin={margin}
-      layout={layout}
-    >
-      <XAxis {...xaxis} />
-      <YAxis {...yaxis} />
-      <CartesianGrid {...cartesianGrid} />
-      <Tooltip {...tooltip} />
-      <Legend {...legend} />
-      {map(setLineColors(lines), line => (
-        <Line {...line} />
-      ))}
-    </Chart>
-  );
+    return (
+        <Chart
+            width={width}
+            height={height}
+            data={data}
+            margin={margin}
+            layout={layout}
+        >
+            <XAxis {...xaxis} />
+            <YAxis {...yaxis} />
+            <CartesianGrid {...cartesianGrid} />
+            <Tooltip {...tooltip} />
+            <Legend {...legend} />
+            {map(setLineColors(lines), line => (
+                <Line {...line} />
+            ))}
+        </Chart>
+    )
 }
 
 LineChart.propTypes = {
-  ...chartTypes,
-  XAxis: XAxisTypes,
-  YAxis: YAxisTypes,
-  cartesianGrid: cartesianGridTypes,
-  tooltip: tooltipTypes,
-  legend: legendTypes,
-  lines: linesTypes,
-};
+    ...chartTypes,
+    XAxis: XAxisTypes,
+    YAxis: YAxisTypes,
+    cartesianGrid: cartesianGridTypes,
+    tooltip: tooltipTypes,
+    legend: legendTypes,
+    lines: linesTypes,
+}
 
-LineChart.defaultProps = defaultChartProps;
+LineChart.defaultProps = defaultChartProps
 
-export default LineChart;
+export default LineChart

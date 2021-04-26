@@ -1,11 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
-import isNil from 'lodash/isNil';
+import React from 'react'
+import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 
-import propsResolver from '../../../../../utils/propsResolver';
-
-import Image from '../../../../snippets/Image/Image';
+import propsResolver from '../../../../../utils/propsResolver'
+import Image from '../../../../snippets/Image/Image'
 
 /**
  * Компонент Image фомы
@@ -21,54 +20,54 @@ import Image from '../../../../snippets/Image/Image';
  */
 
 function ImageField(props) {
-  const {
-    id,
-    url,
-    data,
-    title,
-    description,
-    textPosition,
-    width,
-    shape,
-    visible,
-    model,
-  } = props;
+    const {
+        id,
+        url,
+        data,
+        title,
+        description,
+        textPosition,
+        width,
+        shape,
+        visible,
+        model,
+    } = props
 
-  const isEmptyModel = isEmpty(model);
+    const isEmptyModel = isEmpty(model)
 
-  const defaultImageProps = {
-    url: url,
-    data: data,
-    title: title,
-    description: description,
-  };
+    const defaultImageProps = {
+        url,
+        data,
+        title,
+        description,
+    }
 
-  const resolveProps = isEmptyModel
-    ? defaultImageProps
-    : propsResolver(defaultImageProps, model);
+    const resolveProps = isEmptyModel
+        ? defaultImageProps
+        : propsResolver(defaultImageProps, model)
 
-  return (
-    <Image
-      id={id}
-      textPosition={textPosition}
-      width={width}
-      shape={shape}
-      visible={visible}
-      {...resolveProps}
-      src={resolveProps.data || resolveProps.url}
-    />
-  );
+    return (
+        <Image
+            id={id}
+            textPosition={textPosition}
+            width={width}
+            shape={shape}
+            visible={visible}
+            {...resolveProps}
+            src={resolveProps.data || resolveProps.url}
+        />
+    )
 }
 
 const mapStateToProps = (state, { modelPrefix, form }) => {
-  const model =
-    isNil(modelPrefix) || isNil(form) ? {} : state.models[modelPrefix][form];
-  return {
-    model: model,
-  };
-};
+    const model =
+    isNil(modelPrefix) || isNil(form) ? {} : state.models[modelPrefix][form]
+    return {
+        model,
+    }
+}
 
 export default connect(
-  mapStateToProps,
-  null
-)(ImageField);
+    mapStateToProps,
+    null,
+)(ImageField)

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import map from 'lodash/map';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import PropTypes from 'prop-types'
+import map from 'lodash/map'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Компонент выбранных элементов для {@Link InputSelectGroup}
@@ -14,62 +14,60 @@ import { useTranslation } from 'react-i18next';
  */
 
 function InputElements({
-  onRemoveItem,
-  selected,
-  labelFieldId,
-  disabled,
-  collapseSelected,
-  lengthToGroup,
-  onDeleteAll,
-  setRef,
+    onRemoveItem,
+    selected,
+    labelFieldId,
+    disabled,
+    collapseSelected,
+    lengthToGroup,
+    onDeleteAll,
+    setRef,
 }) {
-  const { t } = useTranslation();
-  const selectedItem = (id, title, callback) => (
-    <span key={id} className="selected-item n2o-multiselect" title={title}>
-      <span className="n2o-eclipse-content">{title}</span>
-      <button
-        type="button"
-        className="close"
-        onClick={callback}
-        disabled={disabled}
-      >
-        <i className="fa fa-times fa-1" />
-      </button>
-    </span>
-  );
+    const { t } = useTranslation()
+    const selectedItem = (id, title, callback) => (
+        <span key={id} className="selected-item n2o-multiselect" title={title}>
+            <span className="n2o-eclipse-content">{title}</span>
+            <button
+                type="button"
+                className="close"
+                onClick={callback}
+                disabled={disabled}
+            >
+                <i className="fa fa-times fa-1" />
+            </button>
+        </span>
+    )
 
-  const selectedList = () => {
-    if (collapseSelected && selected.length > lengthToGroup) {
-      const id = selected.length;
-      const title = `${t('selected')} ${selected.length}`;
+    const selectedList = () => {
+        if (collapseSelected && selected.length > lengthToGroup) {
+            const id = selected.length
+            const title = `${t('selected')} ${selected.length}`
 
-      return selectedItem(id, title, onDeleteAll);
+            return selectedItem(id, title, onDeleteAll)
+        }
+
+        return map(selected, (item, index) => selectedItem(
+            item.id || index,
+            item[labelFieldId] || item,
+            onRemoveItem.bind(null, item, index),
+        ))
     }
 
-    return map(selected, (item, index) =>
-      selectedItem(
-        item.id || index,
-        item[labelFieldId] || item,
-        onRemoveItem.bind(null, item, index)
-      )
-    );
-  };
-
-  return (
-    <div className="n2o-input-select-selected-list" ref={setRef}>
-      {selectedList()}
-    </div>
-  );
+    return (
+        <div className="n2o-input-select-selected-list" ref={setRef}>
+            {selectedList()}
+        </div>
+    )
 }
 
 InputElements.propTypes = {
-  selected: PropTypes.array,
-  labelFieldId: PropTypes.string,
-  onRemoveItem: PropTypes.func,
-  onDeleteAll: PropTypes.func,
-  collapseSelected: PropTypes.bool,
-  lengthToGroup: PropTypes.number,
-  disabled: PropTypes.bool,
-};
+    selected: PropTypes.array,
+    labelFieldId: PropTypes.string,
+    onRemoveItem: PropTypes.func,
+    onDeleteAll: PropTypes.func,
+    collapseSelected: PropTypes.bool,
+    lengthToGroup: PropTypes.number,
+    disabled: PropTypes.bool,
+}
 
-export default InputElements;
+export default InputElements
