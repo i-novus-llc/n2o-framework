@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
-import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;

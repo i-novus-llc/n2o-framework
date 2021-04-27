@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
