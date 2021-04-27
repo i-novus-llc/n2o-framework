@@ -91,9 +91,11 @@ class OutPutText extends React.Component {
 
     formatValue(value) {
         const { expandable } = this.props
+
         if (isNumber(expandable) && isString(value)) {
             return `${value.substr(0, expandable - 3)}...`
         }
+
         return value
     }
 

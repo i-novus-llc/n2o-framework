@@ -58,6 +58,7 @@ class List extends Component {
 
     componentDidMount() {
         const { fetchOnScroll, authProvider, rows } = this.props
+
         if (fetchOnScroll) {
             this._listContainer.addEventListener('scroll', this.onScroll, true)
         }
@@ -81,13 +82,16 @@ class List extends Component {
             rows,
             authProvider,
         } = this.props
+
         if (!isEqual(prevProps, this.props)) {
             let state = {}
+
             if (hasMoreButton && !fetchOnScroll && !isEqual(prevProps.data, data)) {
                 if (maxHeight) {
                     this._virtualizer.scrollToRow(data.length)
                 } else {
                     const virtualizer = ReactDom.findDOMNode(this._virtualizer)
+
                     if (virtualizer) {
                         window.scrollTo(0, virtualizer.scrollHeight)
                     }
@@ -128,6 +132,7 @@ class List extends Component {
 
     componentWillUnmount() {
         const { fetchOnScroll } = this.props
+
         if (fetchOnScroll) {
             this._listContainer.removeEventListener('scroll', this.onScroll)
         }
@@ -147,6 +152,7 @@ class List extends Component {
 
     onItemClick(index, runCallback = true) {
         const { onItemClick, rowClick, hasSelect } = this.props
+
         if (!rowClick && hasSelect) {
             this.setState({ selectedIndex: index }, () => {
                 if (this._virtualizer) {
@@ -160,6 +166,7 @@ class List extends Component {
 
     fetchMore() {
         const { onFetchMore } = this.props
+
         onFetchMore()
     }
 
@@ -169,6 +176,7 @@ class List extends Component {
         this._scrollTimeoutId = setTimeout(() => {
             const scrollPosition = event.target.scrollTop + event.target.clientHeight
             const minScrollToLoad = event.target.scrollHeight - SCROLL_OFFSET
+
             if (
                 scrollPosition >= minScrollToLoad ||
         scrollPosition === event.target.scrollHeight
@@ -195,6 +203,7 @@ class List extends Component {
       } = this.props
       const { data, permissions } = this.state
       const moreBtn = null
+
       if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
           return (
               <CellMeasurer

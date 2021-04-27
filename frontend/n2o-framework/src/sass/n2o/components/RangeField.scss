@@ -1,19 +1,18 @@
-.n2o-range-field {
-  &-body {
+.n2o-range-field-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     width: 100%;
 
     .n2o-range-field-controls-container {
-      flex-grow: 1;
+        flex-grow: 1;
     }
+}
 
-    &--divider {
-      position: relative;
+.n2o-range-field-body--divider {
+    position: relative;
 
-      &::after {
+    &::after {
         content: '';
         position: absolute;
         left: calc(50% - 5px);
@@ -21,11 +20,9 @@
         width: 10px;
         height: 2px;
         background: $gray-300;
-      }
     }
-  }
+}
 
-  &-item {
+.n2o-range-field-item {
     flex-grow: 1;
-  }
 }

@@ -17,10 +17,12 @@ import PropTypes from 'prop-types'
 
 export const replacePlaceholders = (html, data) => {
     const keys = Object.keys(data)
+
     keys.forEach((key) => {
     // заменяет плейсхолдеры на соответствующие ключи:значения в data
         html = html.replace(new RegExp(`{${key}}`, 'gm'), data[key])
     })
+
     // удаляет остальные плейсхолдеры, включая {}
     return html.replace(new RegExp('{.*?}', 'gm'), '')
 }

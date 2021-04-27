@@ -61,6 +61,7 @@ class InputMoney extends React.Component {
 
     convertToMoney(value) {
         const { allowDecimal } = this.props
+
         if (value !== '') {
             value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL])
         }
@@ -73,12 +74,14 @@ class InputMoney extends React.Component {
         if (!allowDecimal) {
             value = splitBySymbol[0]
         }
+
         return value
     }
 
     onBlur(value) {
         const { onBlur } = this.props
         const convertedValue = parseFloat(this.convertToFloat(value))
+
         onBlur && onBlur(!isNaN(convertedValue) ? convertedValue : null)
         this.setState({ value: convertedValue })
     }
@@ -90,6 +93,7 @@ class InputMoney extends React.Component {
     convertToFloat(value) {
         const { allowDecimal } = this.props
         let convertedValue = value.toString()
+
         forOwn(ReplaceableChar, (char) => {
             if (!isEmpty(this.props[char])) {
                 const pattern = this.props[char].replace(
@@ -99,6 +103,7 @@ class InputMoney extends React.Component {
                 const regExp = new RegExp(pattern, 'g')
                 const replaceableValue =
           char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : ''
+
                 convertedValue = this.replaceSpecialSymbol(
                     convertedValue,
                     regExp,
@@ -123,6 +128,7 @@ class InputMoney extends React.Component {
         }
 
         this.setState({ value: convertedValue })
+
         return convertedValue
     }
 
@@ -135,6 +141,7 @@ class InputMoney extends React.Component {
       (allowNegative && value === '-') || isNil(value)
           ? value
           : parseFloat(this.convertToFloat(value))
+
         onChange && onChange(!isNaN(convertedValue) ? convertedValue : null)
         this.setState({ value: convertedValue })
     }
@@ -155,6 +162,7 @@ class InputMoney extends React.Component {
             allowNegative,
             allowLeadingZeroes,
         } = this.props
+
         return {
             ...this.props,
             preset: 'money',

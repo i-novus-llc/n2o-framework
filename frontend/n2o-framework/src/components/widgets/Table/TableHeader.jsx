@@ -11,6 +11,7 @@ import pure from 'recompose/pure'
 class TableHeader extends React.Component {
     render() {
         const { className, style, children } = this.props
+
         return (
             <thead className={className} style={style}>
                 {children}

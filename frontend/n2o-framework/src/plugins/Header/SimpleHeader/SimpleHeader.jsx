@@ -146,6 +146,7 @@ class SimpleHeader extends React.Component {
 
         const navItems = mapItems(items)
         const extraNavItems = mapItems(extraItems, { right: true })
+
         return (
             <div
                 style={style}

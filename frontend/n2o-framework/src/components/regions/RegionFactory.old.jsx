@@ -10,6 +10,7 @@ import Regions from './index'
 class Region extends React.Component {
     render() {
         const { src, ...props } = this.props
+
         return React.createElement(Regions[src], props, this.props.children)
     }
 }

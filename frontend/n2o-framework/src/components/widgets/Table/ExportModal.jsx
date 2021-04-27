@@ -73,6 +73,7 @@ class ExportModal extends React.Component {
         const { type, code, size } = this
         const selectControl = { component: SelectContainer }
         const radioControl = { component: RadioGroupContainer }
+
         return (
             <ReduxForm form={exportFormName} datasource={this.defaults}>
                 <Fieldset>

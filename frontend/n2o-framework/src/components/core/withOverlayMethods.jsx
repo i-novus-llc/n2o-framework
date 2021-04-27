@@ -36,16 +36,19 @@ function withOverlayMethods(WrappedComponent) {
         renderFromSrc(src) {
             const { resolveProps } = this.context
             const Component = resolveProps(src, null)
+
             return <Component />
         }
 
         closeOverlay(prompt) {
             const { name, close } = this.props
+
             close(name, prompt)
         }
 
         closePrompt() {
             const { name, hidePrompt } = this.props
+
             hidePrompt(name)
         }
 

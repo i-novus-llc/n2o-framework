@@ -12,18 +12,15 @@ import Controls from './index'
  * @example
  * <ControlFactory src='./path/to/control' className='my-control-class'/>
  */
-class ControlFactory extends React.Component {
-    /**
-   * Базовый рендер
-   */
-    render() {
-        const { src, ...props } = this.props
-        return React.createElement(Controls[src], props, this.props.children)
-    }
+function ControlFactory({ src, ...props }) {
+    const { children } = props
+
+    return React.createElement(Controls[src], props, children)
 }
 
 ControlFactory.propTypes = {
     src: PropTypes.string.isRequired,
+    children: PropTypes.any,
 }
 
 export default ControlFactory

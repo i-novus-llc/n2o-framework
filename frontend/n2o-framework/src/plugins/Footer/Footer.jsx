@@ -20,6 +20,7 @@ function Footer({ version }) {
           N2O
                     {version}
                     {' '}
+
 &copy; 2013-
                     {currentYear}
                 </span>

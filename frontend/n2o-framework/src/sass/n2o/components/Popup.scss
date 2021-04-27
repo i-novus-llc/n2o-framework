@@ -1,11 +1,12 @@
 .n2o-pop-up {
-  z-index: $zindex-popover;
-  background-color: $popover-bg;
-  border: $popover-border-width solid $popover-border-color;
-  @include border-radius($popover-border-radius);
-  @include box-shadow($popover-box-shadow);
+    z-index: $zindex-popover;
+    background-color: $popover-bg;
+    border: $popover-border-width solid $popover-border-color;
+
+    @include border-radius($popover-border-radius);
+    @include box-shadow($popover-box-shadow);
 }
 
 .n2o-pop-up > .n2o-dropdown-control {
-  height: auto;
+    height: auto;
 }

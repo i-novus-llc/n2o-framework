@@ -42,6 +42,7 @@ class AdvancedTableHeaderCell extends Component {
 
     renderMultiCell() {
         const { colSpan, rowSpan, className, id, label, sorting } = this.props
+
         return (
             <th
                 title={label}
@@ -63,6 +64,7 @@ class AdvancedTableHeaderCell extends Component {
 
     renderStringChild() {
         const { className, children, colSpan, rowSpan } = this.props
+
         return (
             <th
                 className={cn(

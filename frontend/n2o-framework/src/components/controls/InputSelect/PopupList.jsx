@@ -98,4 +98,5 @@ const enhance = compose(
         },
     }),
 )
+
 export default enhance(PopupList)

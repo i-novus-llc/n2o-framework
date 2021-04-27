@@ -15,6 +15,7 @@ function SearchBarPopUpList({
     ...props
 }) {
     const { menu, directionIconsInPopUp } = props
+
     return (
         <DropdownMenu className="n2o-search-bar__popup_list">
             {menu.map((linkProps) => {

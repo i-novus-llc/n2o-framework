@@ -65,6 +65,7 @@ class Form extends React.Component {
    */
     render() {
         const { className, style, children } = this.props
+
         if (React.Children.count(children)) {
             return (
                 <div className={className} style={style}>
@@ -72,6 +73,7 @@ class Form extends React.Component {
                 </div>
             )
         }
+
         return (
             <div className={className} style={style}>
                 {this.renderFieldsets()}

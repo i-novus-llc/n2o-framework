@@ -10,13 +10,11 @@ const setup = (propOverrides) => {
         ...propOverrides,
     }
 
-    const wrapper = mount(
+    return mount(
         <Collapse>
             <Panel {...props} />
         </Collapse>,
     )
-
-    return wrapper
 }
 
 describe('<Collapse />', () => {

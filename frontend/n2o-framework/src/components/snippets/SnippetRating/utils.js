@@ -2,6 +2,7 @@ const condition = (i, count, inclusive) => {
     if (inclusive) {
         return i <= parseInt(count)
     }
+
     return i < parseInt(count)
 }
 
@@ -16,5 +17,6 @@ export const mapToNum = (
     for (let i = start; condition(i, count, inclusive); i += increment) {
         buf.push(callback(i))
     }
+
     return buf
 }

@@ -15,6 +15,7 @@ function ProgressControl(props) {
         // map ProgressControls из bars если multi
         const mapProgressControls = () => map(barsCollection, (bar) => {
             const { id, barText } = bar
+
             return (
                 <div className="n2o-progress-control">
                     <Progress
