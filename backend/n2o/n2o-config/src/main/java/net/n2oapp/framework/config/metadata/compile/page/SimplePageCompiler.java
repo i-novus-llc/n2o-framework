@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -27,7 +26,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -55,6 +53,11 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
+        if (widget.getQueryId() != null) {
+            HashMap<String, String> widgetIdQueryIdMap = new HashMap<>();
+            widgetIdQueryIdMap.put(widget.getId(), widget.getQueryId());
+            pageScope.setWidgetIdQueryIdMap(widgetIdQueryIdMap);
+        }
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();
