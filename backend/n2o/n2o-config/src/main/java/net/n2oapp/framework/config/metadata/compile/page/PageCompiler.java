@@ -88,11 +88,11 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
         PageProperty pageProperty = new PageProperty();
         boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class));
 
-        pageProperty.setHtmlTitle(source.getHtmlTitle());
+        pageProperty.setHtmlTitle(p.cast(source.getHtmlTitle(), pageName));
         if (context instanceof ModalPageContext)
             pageProperty.setTitle(pageName);
         else if (showTitle)
-            pageProperty.setTitle(source.getTitle());
+            pageProperty.setTitle(p.cast(source.getTitle(), pageName));
 
         if (context.getParentModelLink() != null)
             pageProperty.setModelLink(context.getParentModelLink());
