@@ -23,6 +23,8 @@ public class MetaSaga implements Compiled {
     @JsonProperty
     private MessageSaga messages;
     @JsonProperty
+    private CloseSaga onClose;
+    @JsonProperty
     private Dialog dialog;
     private String messageWidgetId;
 }

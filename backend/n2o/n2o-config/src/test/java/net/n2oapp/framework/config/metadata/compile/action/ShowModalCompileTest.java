@@ -19,6 +19,8 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -463,5 +465,25 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), is(submit));
         assertThat(buttons.get(0).getLabel(), is("Выбрать"));
+    }
+
+    @Test
+    public void testShowModalOnClose() {
+        PageContext pageContext = new PageContext("testShowModalOnClose", "/p");
+        StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalOnClose.page.xml")
+                .get(pageContext);
+
+        MetaSaga meta = ((ShowModal) ((Form) rootPage.getRegions().get("single").get(0).getContent().get(0))
+                .getActions().get("modal1")).getMeta();
+        assertThat(meta.getOnClose(), notNullValue());
+        assertThat(meta.getOnClose().getRefresh().getType(), is(RefreshSaga.Type.widget));
+        assertThat(meta.getOnClose().getRefresh().getOptions().getWidgetId(), is("p_form"));
+
+        meta = ((ShowModal) ((Form) rootPage.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("modal2")).getMeta();
+        assertThat(meta.getOnClose(), notNullValue());
+        assertThat(meta.getOnClose().getRefresh().getType(), is(RefreshSaga.Type.widget));
+        // defined by refresh-widget-id
+        assertThat(meta.getOnClose().getRefresh().getOptions().getWidgetId(), is("p_form"));
     }
 }
