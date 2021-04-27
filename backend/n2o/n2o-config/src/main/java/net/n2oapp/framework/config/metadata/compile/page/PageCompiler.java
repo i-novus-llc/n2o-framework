@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageProperty;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
@@ -13,8 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
-import java.util.Map;
-
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
@@ -77,13 +75,25 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
         return breadcrumbs;
     }
 
-    protected PageProperty initPageName(String pageName, boolean showTitle, PageContext context, CompileProcessor p) {
+    /**
+     * Инициализация заголовков страницы
+     *
+     * @param source   Исходная модель страницы
+     * @param pageName Наименование страницы
+     * @param context  Контекст страницы
+     * @param p        Процессор сборки метаданных
+     * @return Модель с инициализированными заголовками страницы
+     */
+    protected PageProperty initPageName(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
         PageProperty pageProperty = new PageProperty();
-        pageProperty.setHtmlTitle(pageName);
-        if (context instanceof ModalPageContext) {
-            pageProperty.setHeaderTitle(pageName);
-        } else if (showTitle)
+        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class));
+
+        pageProperty.setHtmlTitle(source.getHtmlTitle());
+        if (context instanceof ModalPageContext)
             pageProperty.setTitle(pageName);
+        else if (showTitle)
+            pageProperty.setTitle(source.getTitle());
+
         if (context.getParentModelLink() != null)
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;

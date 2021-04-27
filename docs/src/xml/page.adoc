@@ -28,6 +28,16 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |Наименование страницы
 |Берётся из виджета
 
+|title
+|Строка
+|Заголовок страницы
+|
+
+|html-title
+|Строка
+|Заголовок вкладки браузера
+|Наименование страницы
+
 |route
 |Строка
 |URL страницы
@@ -41,7 +51,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |show-title
 |true false
 |Показывать заголовок страницы?
-|
+|false
 
 |===
 
