@@ -37,6 +37,7 @@ class WireframeWidget extends React.Component {
             className,
             style,
         } = this.props
+
         return (
             <StandardWidget
                 widgetId={widgetId}

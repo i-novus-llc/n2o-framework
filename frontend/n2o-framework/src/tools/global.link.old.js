@@ -16,17 +16,20 @@ const defaultTypeList = ['single', 'multi', 'filter', 'context', 'control']
 export function resolveLink(state, links) {
     const { widgets } = state
     let result
+
     if (isObject(links)) {
         result = {}
         each(links, (val, key) => {
             if (val && isLinkedString(val)) {
                 const parsedLink = parseLink(val)
+
                 if (parsedLink) {
                     const model = getFromState(
                         widgets,
                         parsedLink.prefix,
                         parsedLink.widget,
                     )
+
                     if (model) {
                         if (parsedLink.field) {
                             result[key] = model[parsedLink.field]
@@ -40,20 +43,24 @@ export function resolveLink(state, links) {
             }
         })
     }
+
     return { ...links, ...result }
 }
 
 function isLinkedString(str) {
     str = String(str)
     const res = str.match('^{([^}^{]*)}$')
+
     if (res && res[1]) {
         return res[1]
     }
+
     return false
 }
 
 function parseLink(link) {
     const regExp = link.match('{(.*)->([^:]*):?(.*)}')
+
     if (regExp) {
         return {
             prefix: regExp[1],

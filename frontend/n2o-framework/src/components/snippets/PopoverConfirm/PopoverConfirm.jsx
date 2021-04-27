@@ -31,6 +31,7 @@ export function PopoverConfirm(props) {
         onConfirm,
         ...rest
     } = props
+
     return (
         <div className={cx('n2o-popover', className)}>
             <Popover {...rest} target={target}>

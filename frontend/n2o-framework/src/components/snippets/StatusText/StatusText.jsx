@@ -15,6 +15,7 @@ import { statusTextContainerStyle, statusTextIconStyle } from './utils'
 
 function StatusText(props) {
     const { text, textPosition, className, color } = props
+
     return (
         <div className={statusTextContainerStyle(textPosition, className)}>
             {color && <span className={statusTextIconStyle(textPosition, color)} />}

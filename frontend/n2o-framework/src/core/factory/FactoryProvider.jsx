@@ -34,7 +34,9 @@ class FactoryProvider extends Component {
 
     checkSecurityAndRender(component = null, config, level) {
         const { securityBlackList } = this.props
+
         if (isEmpty(config) || securityBlackList.includes(level)) { return component }
+
         return props => (
             <SecurityCheck
                 config={config}
@@ -42,6 +44,7 @@ class FactoryProvider extends Component {
                     if (permissions) {
                         return React.createElement(component, props)
                     }
+
                     return null
                 }}
             />
@@ -57,9 +60,11 @@ class FactoryProvider extends Component {
             )
         }
         const findedFactory = []
+
         each(this.factories, (group, level) => {
             if (group && group[src]) {
                 const comp = this.checkSecurityAndRender(group[src], security, level)
+
                 findedFactory.push(comp)
             }
         })
@@ -73,6 +78,7 @@ class FactoryProvider extends Component {
         paramName = 'component',
     ) {
         const obj = {}
+
         if (isObject(props)) {
             Object.keys(props).forEach((key) => {
                 if (isObject(props[key]) && !blackList.includes(key)) {
@@ -85,10 +91,12 @@ class FactoryProvider extends Component {
                     obj[key] = props[key]
                 }
             })
+
             return isArray(props) ? values(obj) : obj
         } if (isString(props)) {
             return this.getComponent(props) || defaultComponent
         }
+
         return props
     }
 

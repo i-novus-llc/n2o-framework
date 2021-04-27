@@ -33,6 +33,7 @@ class Alerts extends Component {
       const absoluteAlerts = []
       const relativeAlerts = []
       const fixedAlerts = []
+
       map(alerts, (alert) => {
           if (alert.position && alert.position === 'absolute') {
               absoluteAlerts.push(alert)

@@ -8,6 +8,7 @@
     "optimize-regex",
     "sonarjs"
   ],
+  "ignorePatterns": ["*.test.js", "*.test.jsx", "*.story.js", "*.story.jsx"],
   "rules": {
     // without ";"
     "semi": ["error", "never"],
@@ -42,7 +43,7 @@
         "newlines-between": "always"
       }
     ],
-    // Дефолтного экспорта может и не быть
+    // Дефолтного экспорта быть не должно
     "import/prefer-default-export": "off",
     // Отступы внутри объектов и массивов
     "object-curly-spacing": ["error", "always"],
@@ -77,12 +78,31 @@
     "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
     //
     "optimize-regex/optimize-regex": "warn",
-
+    // Пустая стока перед return
+//    "newline-before-return": "error",
+    // Пустая стока после блока объявления переменных переменными
+//    "newline-after-var": ["error", "always"],
+    "padding-line-between-statements": [
+      "error",
+      // Вставлять пробел после блока переменных
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
+      // Вставлять пробел перед return
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      // Вставлять пробел перед break
+      { "blankLine": "always", "prev": "*", "next": "break" }
+    ],
+    // Если есть onClick, то key events теперь не обязательны
+    "jsx-a11y/click-events-have-key-events": "off",
+    // Теперь можно вешать обработчики на статические элементы, а не только на кнопки, чекбоксы, поля и прочее
+    "jsx-a11y/no-static-element-interactions": "off",
     // off правил. иначе падает ошибка: Definition for rule was not found
     "react/jsx-curly-newline": "off", // TODO ["error", { "multiline": "require", "singleline": "forbid" }]
     "react/state-in-constructor": "off",
     "react/static-property-placement": "off",
     "react/jsx-props-no-spreading": "off",
+    // Убираем сортировку методов
+    "react/sort-comp": "off",
 
 // Sonar
   // Bug Detection
@@ -125,5 +145,10 @@
     "sonarjs/prefer-immediate-return": "error",
     // if(true) { return true } else { return false }
     "sonarjs/prefer-single-boolean-return": "error"
+  },
+  "globals": {
+    // Для тестов
+    "mount": true,
+    "shallow": true
   }
 }

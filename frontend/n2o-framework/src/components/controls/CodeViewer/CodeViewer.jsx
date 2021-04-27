@@ -32,6 +32,7 @@ function CodeViewer({
     hideButtons,
     ...rest
 }) {
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
     return (
         visible && (
             <div className="n2o-code-viewer">
@@ -47,6 +48,7 @@ function CodeViewer({
                                 )}
                             />
                         </CopyToClipboard>
+                        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
                         <i
                             className="n2o-icon code-viewer-actions-code fa fa-code"
                             onClick={handleShow}

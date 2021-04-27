@@ -28,12 +28,14 @@ class TablePanel extends React.Component {
         e.preventDefault()
         const { onResolveById } = this.props
         const nextId = this.calculateNextSelectionPosition(rowDelta)
+
         onResolveById(nextId)
     }
 
     calculateNextSelectionPosition(rowDelta) {
         const { ids, resolveModel } = this.props
         const idx = indexOf(ids, resolveModel.id)
+
         return ids[idx + rowDelta] ? ids[idx + rowDelta] : resolveModel.id
     }
 

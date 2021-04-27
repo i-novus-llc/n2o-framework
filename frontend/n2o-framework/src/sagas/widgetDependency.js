@@ -71,12 +71,14 @@ export function* watchDependency() {
         CLEAR,
         UPDATE_WIDGET_DEPENDENCY,
     ])
+
     while (true) {
         const prevState = yield select()
         const action = yield take(channel)
         const { type, payload } = action
         const { widgetId, dependency, key } = payload
         const state = yield select()
+
         switch (type) {
             case REGISTER_DEPENDENCY: {
                 widgetsDependencies = yield call(
@@ -92,6 +94,7 @@ export function* watchDependency() {
                     widgetsDependencies,
                     widgetId,
                 )
+
                 break
             }
             case SET:
@@ -104,10 +107,12 @@ export function* watchDependency() {
                     widgetsDependencies,
                     key,
                 )
+
                 break
             }
             case UPDATE_WIDGET_DEPENDENCY: {
                 yield call(forceUpdateDependency, state, widgetsDependencies, widgetId)
+
                 break
             }
             default:
@@ -118,16 +123,20 @@ export function* watchDependency() {
 
 export function* forceUpdateDependency(state, widgetsDependencies, widgetId) {
     const widgetDependenciesKeys = keys(widgetsDependencies)
+
     for (let i = 0; i < widgetDependenciesKeys.length; i++) {
         const widgetDependencyItem = widgetsDependencies[widgetDependenciesKeys[i]]
         const dependencyItem = widgetDependencyItem.dependency
         const dependencyItemKeys = keys(dependencyItem)
+
         for (let j = 0; j < dependencyItemKeys.length; j++) {
             const someDependency = dependencyItem[dependencyItemKeys[j]]
+
             if (some(someDependency, ({ on }) => includes(on, widgetId))) {
                 const isVisible = makeWidgetVisibleSelector(widgetId)(state)
                 const dependencyType = dependencyItemKeys[j]
                 const model = getModelsByDependency(someDependency)(state)
+
                 yield call(
                     resolveDependency,
                     dependencyType,
@@ -191,9 +200,11 @@ export function* resolveWidgetDependency(
     widgetsDependencies,
 ) {
     const dependenciesKeys = sortBy(keys(widgetsDependencies), item => DEPENDENCY_ORDER.indexOf(item))
+
     for (let i = 0; i < dependenciesKeys.length; i++) {
         const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]]
         const widgetDependenciesKeys = sortBy(keys(dependency), item => DEPENDENCY_ORDER.indexOf(item))
+
         for (let j = 0; j < widgetDependenciesKeys.length; j++) {
             const isVisible = yield select(makeWidgetVisibleSelector(widgetId))
             const prevModel = getModelsByDependency(
@@ -205,6 +216,7 @@ export function* resolveWidgetDependency(
 
             if (!isEqual(prevModel, model)) {
                 const dependentWidgetId = get(model, '[0].model.dependentWidgetId')
+
                 yield call(
                     resolveDependency,
                     widgetDependenciesKeys[j],
@@ -243,14 +255,17 @@ export function* resolveDependency(
             } else if (isVisible) {
                 yield call(resolveFetchDependency, widgetId)
             }
+
             break
         }
         case DEPENDENCY_TYPES.visible: {
             yield call(resolveVisibleDependency, widgetId, model)
+
             break
         }
         case DEPENDENCY_TYPES.enabled: {
             yield call(resolveEnabledDependency, widgetId, model)
+
             break
         }
         default:
@@ -275,6 +290,7 @@ export function* resolveFetchDependency(widgetId) {
  */
 export function* resolveVisibleDependency(widgetId, model) {
     const visible = reduce(model, reduceFunction, true)
+
     if (visible) {
         yield put(showWidget(widgetId))
     } else {
@@ -290,6 +306,7 @@ export function* resolveVisibleDependency(widgetId, model) {
  */
 export function* resolveEnabledDependency(widgetId, model) {
     const enabled = reduce(model, reduceFunction, true)
+
     if (enabled) {
         yield put(enableWidget(widgetId))
     } else {

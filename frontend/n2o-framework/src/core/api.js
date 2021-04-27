@@ -39,10 +39,13 @@ const identity = value => !isNil(value)
  */
 function clearEmptyParams(obj) {
     let firstPart = pickBy(obj, identity)
+
     firstPart = pickBy(firstPart, isObject)
     firstPart = omitBy(firstPart, isEmpty)
     let secondPart = pickBy(obj, identity)
+
     secondPart = omitBy(secondPart, isObject)
+
     return assign(firstPart, secondPart)
 }
 
@@ -58,12 +61,15 @@ export function handleApi(api) {
         isPlainObject(api) || isMap(api),
         'Api Provider: Обработчик api должен быть простым объектов.',
     )
+
     return (type, options) => {
         const apiFn = api[type]
+
         invariant(
             isFunction(apiFn),
             'Api Provider: Не найден обработчик для заданого типа.',
         )
+
         return apiFn.call(undefined, options)
     }
 }

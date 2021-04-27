@@ -26,6 +26,7 @@ const RatingCell = ({
                 fieldKey || id,
                 rating,
             )
+
             callAction(data)
         },
         [callAction, model, fieldKey, id],

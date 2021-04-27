@@ -53,6 +53,7 @@ class AdvancedTableFilter extends Component {
     onResetFilter() {
         if (!isEmpty(this.state.value)) {
             const { id, onFilter } = this.props
+
             this.setState({ value: '' }, () => onFilter({ id, value: '' }))
         }
     }

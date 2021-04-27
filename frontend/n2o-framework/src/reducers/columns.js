@@ -39,6 +39,7 @@ function resolve(state = columnState, action) {
  */
 export default function columns(state = {}, action) {
     const { key, columnId, ...rest } = action.payload || {}
+
     switch (action.type) {
         case REGISTER_COLUMN:
             return { ...state,
@@ -56,6 +57,7 @@ export default function columns(state = {}, action) {
                 } }
         case RESET_STATE: {
             const { widgetId } = action.payload
+
             return {
                 ...state,
                 [widgetId]: mapValues(state[widgetId], (column, columnId) => resolve(state[widgetId][columnId], action)),

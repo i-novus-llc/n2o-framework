@@ -54,6 +54,7 @@ function* checkFieldValidation({ meta }) {
     }
 
     let isValidResult = true
+
     for (const validationOption of widgetValidation) {
         if (validationOption.multi) {
             // ToDo: Делаю пока только для формы

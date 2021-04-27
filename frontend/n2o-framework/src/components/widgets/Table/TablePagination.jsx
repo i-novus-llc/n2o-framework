@@ -29,6 +29,7 @@ import { PREFIXES } from '../../../constants/models'
 class TablePagination extends Component {
     componentDidUpdate(prevProps) {
         const { datasource, onChangePage, activePage, count, size } = this.props
+
         if (
             datasource &&
       !isEqual(prevProps.datasource, datasource) &&

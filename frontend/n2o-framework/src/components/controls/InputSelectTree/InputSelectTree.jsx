@@ -187,6 +187,7 @@ function InputSelectTree({
                 input.toLowerCase(),
             )
         }
+
         return true
     }
 
@@ -209,11 +210,13 @@ function InputSelectTree({
         // и добавляем потомков в буфер
         const recursionFn = ids => forEach(ids, (id) => {
             const childs = filterF(arrData, [parentFieldId, id])
+
             buff = buff.concat(childs)
             recursionFn(map(childs, valueFieldId))
         })
 
         recursionFn(ids, arrData)
+
         return buff
     }
 
@@ -234,6 +237,7 @@ function InputSelectTree({
             forEach(ids, (id) => {
                 const node = find(arrData, { id })
                 const parentIdNode = node[parentFieldId]
+
                 if (!parentIdNode) {
                     return false
                 }
@@ -244,6 +248,7 @@ function InputSelectTree({
                 if (hasParentAllChildsCheck) {
                     parentBuff.push(parentIdNode)
                     const buffHasParent = find(buff, { id: parentIdNode })
+
                     if (!buffHasParent) {
                         buff.push(find(arrData, { id: parentIdNode }))
                     }
@@ -256,6 +261,7 @@ function InputSelectTree({
         }
 
         recursionFn(ids, arrData)
+
         return buff
     }
 
@@ -283,6 +289,7 @@ function InputSelectTree({
         if (!multiSelect) {
             return getSingleValue(value)
         }
+
         return getMultiValue(value)
     }
 
@@ -297,6 +304,7 @@ function InputSelectTree({
         if (isArray(value)) {
             return map(value, v => v[valueFieldId])
         }
+
         return value[valueFieldId]
     }
 
@@ -327,6 +335,7 @@ function InputSelectTree({
    */
     const handleSearch = (value) => {
         onSearch(value)
+
         return true
     }
     /**
@@ -342,6 +351,7 @@ function InputSelectTree({
         setDropdownExpanded(visible)
         visible ? onOpen() : onClose()
         if (ajax) { setTreeExpandedKeys([]) }
+
         return false
     }
 
@@ -351,6 +361,7 @@ function InputSelectTree({
    */
     const onTreeExpand = async (keys) => {
         const currentKey = difference(keys, treeExpandedKeys)
+
         if (ajax) {
             await handleItemOpen(currentKey[0])
         }

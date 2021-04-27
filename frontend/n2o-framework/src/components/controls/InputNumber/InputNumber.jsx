@@ -45,6 +45,7 @@ export class InputNumber extends React.Component {
     constructor(props) {
         super(props)
         const { value } = props
+
         this.stepPrecition = getPrecision(props.step)
         this.pasted = false
         this.state = {
@@ -63,6 +64,7 @@ export class InputNumber extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { value } = this.props
+
         if (prevProps.value !== value && !isNil(value)) {
             this.setState({ value: this.resolveValue(value) })
         } else if (
@@ -97,6 +99,7 @@ export class InputNumber extends React.Component {
         } if (precision === null) {
             return value
         }
+
         return isFloat
             ? value
                 .toString()
@@ -136,6 +139,7 @@ export class InputNumber extends React.Component {
           : null
         const currentValue = toNumber(formatToFloat(val, this.stepPrecition))
         let newValue = currentValue
+
         if (type === 'up') {
             newValue = currentValue + delta
         } else if (type === 'down') {
@@ -160,6 +164,7 @@ export class InputNumber extends React.Component {
         }
 
         const value = this.resolveValue(formatToFloat(this.state.value))
+
         this.pasted = false
 
         if (!isNil(value) && isValid(value, min, max)) {
@@ -182,6 +187,7 @@ export class InputNumber extends React.Component {
           : e.keyCode === downKeyCode
               ? 'down'
               : undefined
+
         if (type) {
             e.preventDefault()
             this.buttonHandler(type)
@@ -206,6 +212,7 @@ export class InputNumber extends React.Component {
             placeholder,
         } = this.props
         const { value } = this.state
+
         return (
             visible && (
                 <div

@@ -25,6 +25,7 @@ function Factory(props, context) {
         )
     }
     console.error(`Фабрике не удалось найти компонент: ${src} в ${level}`)
+
     return null
 }
 

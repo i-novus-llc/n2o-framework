@@ -27,6 +27,7 @@ class TabNavItem extends React.Component {
    */
     handleClick(e) {
         const { id, onClick, disabled } = this.props
+
         e.preventDefault()
         if (onClick && !disabled) {
             onClick(e, id)
@@ -39,6 +40,7 @@ class TabNavItem extends React.Component {
     render() {
         const { active, disabled, title, icon } = this.props
         const style = disabled ? { cursor: 'not-allowed' } : {}
+
         return (
             <li style={style} className="nav-item">
                 <a

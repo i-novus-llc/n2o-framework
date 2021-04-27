@@ -65,6 +65,7 @@ export const withLiveCycleMethods = lifecycle({
             setDefaultValues,
             resolveModel,
         } = this.props
+
         if (
             (!isEqual(prevProps.activeModel, activeModel) &&
         !isEqual(activeModel, defaultValues) &&

@@ -35,6 +35,7 @@ function TextArea({
 }) {
     const max = rows > maxRows ? rows : maxRows
     const inputClass = `form-control ${className}`
+
     return (
         <TextareaAutosize
             className={cx('n2o-text-area', inputClass)}

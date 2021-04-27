@@ -120,6 +120,7 @@ class WidgetFilters extends React.Component {
             map(flatFields(fieldsets, []), 'id'),
             blackResetList,
         )
+
         toReset.forEach((field) => {
             unset(newReduxForm, field)
         })

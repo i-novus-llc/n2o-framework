@@ -37,6 +37,8 @@ export default function configureStore(initialState, history, config = {}) {
         initialState,
         composeEnhancers(...enhancers),
     )
+
     sagaMiddleware.run(generateSagas(store.dispatch, config))
+
     return store
 }

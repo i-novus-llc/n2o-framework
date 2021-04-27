@@ -45,6 +45,7 @@ class ListRegion extends React.Component {
                         </ListItem>
                     )
                     const { security } = item
+
                     return isEmpty(security) ? (
                         listItem
                     ) : (

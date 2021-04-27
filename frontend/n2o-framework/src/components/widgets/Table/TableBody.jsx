@@ -11,6 +11,7 @@ import pure from 'recompose/pure'
 class TableBody extends React.Component {
     render() {
         const { className, style, children } = this.props
+
         return (
             <tbody className={className} style={style}>
                 {children}
