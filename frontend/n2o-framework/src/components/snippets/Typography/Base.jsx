@@ -84,6 +84,7 @@ class Base extends Component {
 
     handleContentEditable(e) {
         const { onChange } = this.props
+
         onChange(e.currentTarget.textContent)
     }
 

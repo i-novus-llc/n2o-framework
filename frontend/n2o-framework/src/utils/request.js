@@ -11,6 +11,7 @@ function parseResponse(response) {
 
 function checkStatus({ status, statusText, body }) {
     let json
+
     try {
         json = JSON.parse(body)
     } catch (e) {
@@ -19,6 +20,7 @@ function checkStatus({ status, statusText, body }) {
     if (status < 200 || status >= 300) {
         return Promise.reject(new RequestError(statusText, status, body, json))
     }
+
     return json
 }
 

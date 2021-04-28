@@ -35,7 +35,8 @@ export default function linkResolver(state, { link, value }) {
     if (isUndefined(value) && link) { return context }
 
     const json = JSON.stringify(value)
-    const str = JSON.parse(json, (k, val) => {
+
+    return JSON.parse(json, (k, val) => {
         const isMulti =
       context &&
       values(context).every(elem => isObject(elem)) &&
@@ -43,14 +44,15 @@ export default function linkResolver(state, { link, value }) {
       isMultiKeys
 
         const parsedValue = parseExpression(val)
+
         if (parsedValue) {
             if (isMulti) {
                 return evalExpression(parsedValue, Object.values(context))
             }
+
             return evalExpression(parsedValue, context)
         }
+
         return val
     })
-
-    return str
 }

@@ -116,6 +116,7 @@ class Tree extends Component {
 
     renderSwitcherIcon() {
         const { showLine } = this.props
+
         if (!showLine) {
             return (
                 <div className="icon-wrapper">
@@ -123,6 +124,7 @@ class Tree extends Component {
                 </div>
             )
         }
+
         return <CheckboxN2O inline />
     }
 
@@ -164,6 +166,7 @@ class Tree extends Component {
             'datasource',
             'hasCheckboxes',
         ])
+
         customTreeActions({
             key,
             treeRef: this.treeRef,
@@ -181,11 +184,13 @@ class Tree extends Component {
         if (!resolveModel) {
             return []
         }
+
         return [resolveModel[valueFieldId]]
     }
 
     createSelectedKeys() {
         const { hasCheckboxes, multiselect } = this.props
+
         if (hasCheckboxes && multiselect) {
             this.setState({
                 selectedKeys: [],

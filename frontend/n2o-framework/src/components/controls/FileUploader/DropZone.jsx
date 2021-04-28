@@ -19,9 +19,10 @@ function DropZone(props) {
     return (
         <FileUploader
             {...props}
-            children={children || defaultDropZone(icon, label)}
             componentClass="n2o-drop-zone"
-        />
+        >
+            {children || defaultDropZone(icon, label)}
+        </FileUploader>
     )
 }
 

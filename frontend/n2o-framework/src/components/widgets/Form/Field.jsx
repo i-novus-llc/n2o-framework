@@ -14,6 +14,7 @@ import StandardField from './fields/StandardField/StandardField'
 class Field extends React.Component {
     render() {
         const { component, ...props } = this.props
+
         return React.createElement(component, props)
     }
 }

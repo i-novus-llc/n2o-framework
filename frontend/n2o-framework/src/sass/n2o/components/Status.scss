@@ -1,13 +1,13 @@
 .n2o-status {
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  max-width: max-content;
-  border: 1px solid black;
-  border-radius: 3px;
-  background-color: white;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    max-width: max-content;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: white;
 }
 
 .n2o-status.status-icon-right {
-  flex-direction: row-reverse;
+    flex-direction: row-reverse;
 }

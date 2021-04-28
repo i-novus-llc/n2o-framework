@@ -57,5 +57,6 @@ const enhance = compose(
     }),
     pure,
 )
+
 export { AdvancedTableExpandIcon }
 export default enhance(AdvancedTableExpandIcon)

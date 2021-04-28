@@ -32,11 +32,13 @@ class SidebarContainer extends React.Component {
         if (item.security) {
             const { user, authProvider } = this.props
             const config = item.security
+
             try {
                 const permissions = await authProvider(SECURITY_CHECK, {
                     config,
                     user,
                 })
+
                 this.setState({ items: this.state.items.concat(item) })
             } catch (error) {
                 // ...
@@ -64,11 +66,13 @@ class SidebarContainer extends React.Component {
             }
         }
         const { items } = metadata
+
         makeSecure(items)
     }
 
     render() {
         const { items, extraItems } = this.state
+
         return <SideBar {...this.props} items={items} />
     }
 }

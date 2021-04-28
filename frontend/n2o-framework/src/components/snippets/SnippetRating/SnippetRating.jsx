@@ -22,6 +22,7 @@ const prepareValue = (rating, half) => {
     // округление до .5
         return Math.round(+rating / 0.5) * 0.5
     }
+
     return Math.round(rating)
 }
 
@@ -42,6 +43,7 @@ class SnippetRating extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const rating = props.rating || props.value
+
         if (rating !== state.rating) {
             return {
                 rating,
@@ -53,6 +55,7 @@ class SnippetRating extends Component {
     onChangeAndSetState({ target: { value } }) {
         const newValue = Number(value)
         const { onChange } = this.props
+
         this.setState({
             value: newValue,
             rating: newValue,
@@ -74,6 +77,7 @@ class SnippetRating extends Component {
     renderNullStar() {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
                 <input
@@ -101,6 +105,7 @@ class SnippetRating extends Component {
     renderStars(index) {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
                 <label

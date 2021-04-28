@@ -228,7 +228,7 @@ stories
                 size: 10,
             }))
 
-            const props = {
+            return {
                 valueFieldId: 'name',
                 iconFieldId: 'icon',
                 dataProvider: {
@@ -236,7 +236,5 @@ stories
                     queryMapping: {},
                 },
             }
-
-            return props
         }),
     )

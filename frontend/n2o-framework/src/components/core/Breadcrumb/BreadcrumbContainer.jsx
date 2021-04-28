@@ -25,6 +25,7 @@ import propsResolver from '../../../utils/propsResolver'
  * */
 function BreadcrumbContainer(props) {
     const DefaultBreadcrumb = props.defaultBreadcrumb
+
     return (
         <>
             <DefaultBreadcrumb items={props.items} />

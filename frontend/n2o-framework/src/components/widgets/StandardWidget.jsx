@@ -20,11 +20,13 @@ import WidgetFilters from './WidgetFilters'
 class StandardWidget extends React.Component {
     renderSection(place) {
         const { widgetId, toolbar, filter } = this.props
+
         if (this.props[place] && React.isValidElement(this.props[place])) { return this.props[place] }
         const filterProps = {
             ...filter,
             fieldsets: filter.filterFieldsets,
         }
+
         switch (place) {
             case 'left':
                 return <WidgetFilters widgetId={widgetId} {...filterProps} />

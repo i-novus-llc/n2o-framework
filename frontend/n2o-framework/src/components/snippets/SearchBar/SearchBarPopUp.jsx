@@ -12,6 +12,7 @@ function SearchBarPopUp({
     ...props
 }) {
     const { dropdownOpen } = props
+
     return (
         <Dropdown
             isOpen={dropdownOpen}

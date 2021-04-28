@@ -68,36 +68,44 @@ const formPlugin = produce((state, { type, payload, meta }) => {
             const initialState = merge(defaultState, payload.initialState || {})
 
             Object.assign(state.registeredFields[payload.name], initialState)
+
             break
         }
 
         case DISABLE_FIELD:
             state.registeredFields[payload.name].disabled = true
+
             break
 
         case ENABLE_FIELD:
             state.registeredFields[payload.name].disabled = false
+
             break
 
         case SHOW_FIELD:
             state.registeredFields[payload.name].visible = true
+
             break
 
         case HIDE_FIELD:
             state.registeredFields[payload.name].visible = false
+
             break
 
         case ADD_FIELD_MESSAGE:
             state.registeredFields[payload.name].message = state.registeredFields[payload.name].message || {}
             Object.assign(state.registeredFields[payload.name].message, payload.message)
+
             break
 
         case REMOVE_FIELD_MESSAGE:
             state.registeredFields[payload.name].message = null
+
             break
 
         case REGISTER_DEPENDENCY:
             state.registeredFields[payload.name].dependency = payload.dependency
+
             break
 
         case SET_FIELD_FILTER:
@@ -105,46 +113,55 @@ const formPlugin = produce((state, { type, payload, meta }) => {
         state.registeredFields[payload.name].filter
             .filter(f => f.filterId !== payload.filter.filterId)
             .concat(payload.filter)
+
             break
 
         case SET_REQUIRED:
             state.registeredFields[payload.name].required = true
+
             break
 
         case UNSET_REQUIRED:
             state.registeredFields[payload.name].required = false
+
             break
 
         case SET_LOADING:
             state.registeredFields[payload.name].loading = payload.loading
+
             break
 
         case SHOW_FIELDS:
             payload.names.forEach((name) => {
                 state.registeredFields[name].visible = true
             })
+
             break
 
         case HIDE_FIELDS:
             payload.names.forEach((name) => {
                 state.registeredFields[name].visible = false
             })
+
             break
 
         case DISABLE_FIELDS:
             payload.names.forEach((name) => {
                 state.registeredFields[name].disabled = true
             })
+
             break
 
         case ENABLE_FIELDS:
             payload.names.forEach((name) => {
                 state.registeredFields[name].disabled = false
             })
+
             break
 
         case actionTypes.CHANGE: {
             const { field } = meta
+
             if (!field) {
                 break
             }
@@ -160,6 +177,7 @@ const formPlugin = produce((state, { type, payload, meta }) => {
             if (customFormAction && !payload.keepDirty) {
                 set(state, `initial[${field}]`, payload.value)
             }
+
             break
         }
     }

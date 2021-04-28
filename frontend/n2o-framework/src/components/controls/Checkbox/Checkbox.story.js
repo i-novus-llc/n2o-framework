@@ -62,12 +62,8 @@ stories
     )
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                disabled: false,
-                label: 'Label',
-            }
-
-            return props
-        }),
+        form(() => ({
+            disabled: false,
+            label: 'Label',
+        })),
     )

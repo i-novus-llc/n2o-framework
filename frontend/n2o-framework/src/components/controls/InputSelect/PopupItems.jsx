@@ -79,6 +79,7 @@ function PopupItems({
     const handleRef = (item) => {
         if (item) {
             const el = findDOMNode(item)
+
             if (el.classList.contains('active')) {
                 scrollIntoView(el, { scrollMode: 'if-needed', block: 'nearest' })
             }
@@ -103,6 +104,7 @@ function PopupItems({
                 />
             )
         }
+
         return item[labelFieldId]
     }
 
@@ -195,6 +197,7 @@ function PopupItems({
     const renderSingleItems = options => options.map((item, i) => renderSingleItem(item, i))
     const renderGroupedItems = (options, groupFieldId) => {
         const groupedData = groupData(options, groupFieldId)
+
         return Object.keys(groupedData).map(key => renderGroup(key, groupedData[key]))
     }
 
