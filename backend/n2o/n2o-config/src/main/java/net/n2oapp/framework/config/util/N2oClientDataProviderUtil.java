@@ -103,7 +103,7 @@ public class N2oClientDataProviderUtil {
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
             actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
-            actionContextData.getRefresh().getOptions().setWidgetId(id);
+            actionContextData.getRefresh().getOptions().setWidgetId(submit.getRefreshWidgetId() != null ? submit.getRefreshWidgetId() : id);
         }
         dataProvider.setActionContextData(actionContextData);
 
