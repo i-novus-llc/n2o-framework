@@ -11,7 +11,6 @@ import moment from 'moment'
  * @reactProps {string} inputName
  * @reactProps {string} current
  * @reactProps {function} select
- * @reactProps {string} className
  */
 class Day extends React.Component {
     constructor(props) {
@@ -20,23 +19,14 @@ class Day extends React.Component {
     }
 
     /**
-   * Установить новую дату на клик
-   */
+     * Установить новую дату на клик
+     */
     onClick() {
         const { day, select, disabled, inputName } = this.props
-        if (!disabled) {
-            this.props.select(day, inputName)
-        }
-    }
 
-    /**
-   * Проверка на то, что пришедшая из пропсов дата - сегодня
-   * @param props
-   */
-    componentWillReceiveProps(props) {
-        this.setState({
-            current: props.day.isSame(moment(), 'day'),
-        })
+        if (!disabled) {
+            select(day, inputName)
+        }
     }
 
     /**
@@ -49,7 +39,9 @@ class Day extends React.Component {
         const sel = selected ? 'selected' : ''
         const om = otherMonth ? 'other-month' : ''
         const cur = current ? 'current' : ''
+
         return (
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <td
                 className={`n2o-calendar-day ${dis} ${sel} ${om} ${cur}`}
                 onMouseDown={this.onClick}
@@ -63,7 +55,6 @@ class Day extends React.Component {
 Day.defaultProps = {
     disabled: false,
     selected: false,
-    className: '',
 }
 
 Day.propTypes = {
@@ -74,7 +65,6 @@ Day.propTypes = {
     inputName: PropTypes.string,
     current: PropTypes.string,
     select: PropTypes.func,
-    className: PropTypes.string,
 }
 
 export default Day

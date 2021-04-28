@@ -15,6 +15,7 @@ export default function linkImpl({
         pathMapping,
         queryMapping,
     })
+
     if (target === 'application') {
         dispatch(push(newUrl))
     } else if (target === 'self') {

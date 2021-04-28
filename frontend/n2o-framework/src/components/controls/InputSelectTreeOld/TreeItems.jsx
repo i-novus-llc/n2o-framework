@@ -77,6 +77,7 @@ class TreeItems extends React.Component {
 
                 return Object.keys(groupedData).map(key => groupedItems(key, groupedData[key]))
             }
+
             return defaultItems(options)
         }
 

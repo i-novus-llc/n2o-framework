@@ -4,6 +4,7 @@ import cx from 'classnames'
 
 const dividerClass = (props) => {
     const { className, dashed, position, type, children } = props
+
     return cx(className, {
         [`divider-h divider-h_with-title divider-h_${position} divider-h_dashed`]:
       type === 'horizontal' && children && dashed,
@@ -31,6 +32,7 @@ const dividerClass = (props) => {
 
 export const Divider = (props) => {
     const { style, children } = props
+
     return (
         <div className={dividerClass({ ...props })} style={style}>
             {children && <span className="divider-h__title">{children}</span>}

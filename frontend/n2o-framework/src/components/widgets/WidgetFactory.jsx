@@ -6,6 +6,7 @@ import Widgets from './index'
 class WidgetFactory extends React.Component {
     render() {
         const { src, ...props } = this.props
+
         return React.createElement(Widgets[src], props, this.props.children)
     }
 }

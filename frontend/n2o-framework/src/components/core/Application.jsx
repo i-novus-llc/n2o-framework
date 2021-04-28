@@ -24,6 +24,7 @@ import Spinner from '../snippets/Spinner/Spinner'
 
 function Application(props) {
     const { ready, loading, render, ...config } = props
+
     numeral.locale(props.locale)
 
     return (
@@ -83,6 +84,7 @@ export default compose(
                 registerLocales,
                 addCustomLocales,
             } = this.props
+
             addCustomLocales()
             registerLocales(keys({ ...locales, ...customLocales }))
 
@@ -94,6 +96,7 @@ export default compose(
         },
         componentDidUpdate(prevProps) {
             const { locale, i18n } = this.props
+
             if (prevProps.locale !== locale) {
                 i18n.changeLanguage(locale)
             }

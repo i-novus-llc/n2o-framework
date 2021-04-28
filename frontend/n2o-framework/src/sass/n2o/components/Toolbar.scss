@@ -1,13 +1,15 @@
 .buttons-toolbar.btn-toolbar > .btn-group > .list-text-cell__trigger {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: max-content;
 }
+
 .modal-footer {
-  .btn-toolbar {
-    .btn-group, .btn-group-vertical {
-      flex-flow: row wrap;
+    .btn-toolbar {
+        .btn-group,
+        .btn-group-vertical {
+            flex-flow: row wrap;
+        }
     }
-  }
 }

@@ -9,6 +9,7 @@ import propsResolver from '../../utils/propsResolver'
 
 function DocumentTitle({ htmlTitle, model }) {
     let resolveTitle = htmlTitle
+
     if (htmlTitle && model) {
         resolveTitle = propsResolver(htmlTitle, model)
     }

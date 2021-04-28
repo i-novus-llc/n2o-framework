@@ -10,6 +10,7 @@ export default ({ children, className }) => {
             containsFixedSider = true
         }
     })
+
     return (
         <div
             className={cx('n2o-template', className, {
@@ -23,6 +24,7 @@ export default ({ children, className }) => {
                         className: cx(child.props.className, 'fixed-scrollable'),
                     })
                 }
+
                 return child
             })}
         </div>

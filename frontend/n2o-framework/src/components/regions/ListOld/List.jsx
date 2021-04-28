@@ -43,6 +43,7 @@ class List extends React.Component {
    */
     handleChangeActive(e, id) {
         let oldIds = Object.assign([], this.state.activeIds)
+
         if (includes(oldIds, id)) {
             pull(oldIds, id)
         } else {
@@ -68,6 +69,7 @@ class List extends React.Component {
    */
     getChildProps(child) {
         const { activeIds } = this.state
+
         return {
             active: includes(activeIds, child.props.id),
             onClick: this.handleChangeActive,
@@ -76,6 +78,7 @@ class List extends React.Component {
 
     render() {
         const { className, children } = this.props
+
         return (
             <div className={className} style={{ marginBottom: 2 }}>
                 {React.Children.map(children, child => React.cloneElement(child, this.getChildProps(child)))}

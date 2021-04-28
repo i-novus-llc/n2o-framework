@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
 
-import listContainer from '../listContainer.js'
+import listContainer from '../listContainer'
 
 import InputSelect from './InputSelect'
 
@@ -55,6 +55,7 @@ class InputSelectContainer extends React.Component {
             (res, val) => res || val.resetMode,
             false,
         )
+
         if (resetMode && nextProps.value === this.props.value) {
             this.key = JSON.stringify(nextProps.filterValues)
             this.setState({ resetMode: true })
@@ -67,6 +68,7 @@ class InputSelectContainer extends React.Component {
         const { filter } = this.props
 
         const filterType = filter === 'server' ? false : filter
+
         return (
             <InputSelect
                 {...this.props}

@@ -86,6 +86,7 @@ class Tabs extends React.Component {
       }
 
       const foundChild = find(React.Children.toArray(children), child => child.props.active)
+
       return foundChild && foundChild.props.id
   }
 

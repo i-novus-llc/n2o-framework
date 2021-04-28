@@ -42,6 +42,7 @@ class ListItem extends React.Component {
    */
     handleClick(e) {
         const { id, onClick } = this.props
+
         e.preventDefault()
         if (onClick) {
             onClick(e, id)
@@ -54,6 +55,7 @@ class ListItem extends React.Component {
     render() {
         const { active, title, children } = this.props
         const { wasActive } = this.state
+
         return (
             <div className="n2o-region-list" style={{ marginBottom: 2 }}>
                 <div className={cx('n2o-region-list__header', { active })}>

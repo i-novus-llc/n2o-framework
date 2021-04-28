@@ -21,6 +21,7 @@ export function WidgetAlerts(props) {
         onDismiss: () => onDismiss(alert.id),
         details: alert.stacktrace,
     }))
+
     return (
         <div className="n2o-alerts">
             <Alerts alerts={mapAlertsProps(alerts, onDismiss)} />

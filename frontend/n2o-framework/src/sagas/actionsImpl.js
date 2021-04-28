@@ -29,14 +29,14 @@ import { getModelSelector, selectionTypeSelector } from '../selectors/models'
 import { validateField } from '../core/validation/createValidator'
 import actionResolver from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
-import { FETCH_INVOKE_DATA } from '../core/api.js'
+import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../actions/models'
 import { disablePage, enablePage } from '../actions/pages'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets'
 import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar'
 
-import fetchSaga from './fetch.js'
+import fetchSaga from './fetch'
 
 /**
  * @deprecated
@@ -49,8 +49,8 @@ export function* validate(options) {
         makeWidgetValidationSelector(options.validatedWidgetId),
     )
     const values = (yield select(getFormValues(options.validatedWidgetId))) || {}
-    const notValid =
-    options.validate &&
+
+    return options.validate &&
     (yield call(
         validateField(
             validationConfig,
@@ -61,7 +61,6 @@ export function* validate(options) {
         values,
         options.dispatch,
     ))
-    return notValid
 }
 
 /**
@@ -69,8 +68,10 @@ export function* validate(options) {
  */
 export function* handleAction(factories, action) {
     const { options, actionSrc } = action.payload
+
     try {
         let actionFunc
+
         if (isFunction(actionSrc)) {
             actionFunc = actionSrc
         } else {
@@ -78,6 +79,7 @@ export function* handleAction(factories, action) {
         }
         const state = yield select()
         const notValid = yield validate(options)
+
         if (notValid) {
             console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`)
         } else {
@@ -160,6 +162,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
 
 export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
     const meta = merge(metaInvokeFail, metaResponse)
+
     yield put(failInvoke(widgetId, meta))
 }
 
@@ -196,6 +199,7 @@ export function* handleInvoke(apiProvider, action) {
             }
         }
         let model = data || {}
+
         if (modelLink) {
             model = yield select(getModelSelector(modelLink))
         }
@@ -206,6 +210,7 @@ export function* handleInvoke(apiProvider, action) {
         const meta = merge(action.meta.success || {}, response.meta || {})
         const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId))
         const { submitForm } = dataProvider
+
         if (
             (needResolve &&
         (optimistic || (!meta.redirect && !meta.modalsToClose))) ||

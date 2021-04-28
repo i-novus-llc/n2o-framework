@@ -11,7 +11,7 @@ $nav-item-icon-color: inherit !default;
 //Checkbox
 $checkbox-icon-content: '\f00c' !default;
 $checkbox-icon-font: 'FontAwesome' !default;
-$checkbox-background-color: #ffffff !default;
+$checkbox-background-color: #fff !default;
 $checkbox-border: 1px solid #90a4ae !default;
 $checkbox-border-radius: 0 !default;
 $checkbox-custom-control-padding-left: 1.5rem !default;
@@ -76,7 +76,7 @@ $border: 1px solid #ccc !default;
 $input-select-border: 1px solid #cfd8dc !default;
 $input-select-border-color: #ccc !default;
 $input-select-hover-border-color: #cfd8dc !default;
-$input-select-padding: $input-padding-y $input-padding-x!default;
+$input-select-padding: $input-padding-y $input-padding-x !default;
 $input-select-font-size: 1rem !default;
 $input-select-font-color: #263238 !default;
 $input-select-border-radius: 0 !default;
@@ -98,7 +98,7 @@ $selected-item-margin-y: 0.2rem !default;
 $selected-item-margin-x: 0.15rem !default;
 $selected-item-width: 150px !default;
 $multiselect-item-color: #fafafa !default;
-$shadow-box: 0px 0px 0px 3px rgba(197,205,211,1) !default;
+$shadow-box: 0 0 0 3px rgba(197, 205, 211, 1) !default;
 $input-select-control-dropdown-header-padding: 0.5rem 1rem !default;
 
 //InputTreeSelect
@@ -194,7 +194,7 @@ $n2o-switch-border-width: 1px;
 $n2o-switch-border-color: $gray-200;
 $n2o-switch-border-radius: $border-radius;
 $n2o-switch-bg-color: $gray-200;
-$n2o-switch-animation-duration: .3s;
+$n2o-switch-animation-duration: 0.3s;
 
 $n2o-switch-element-width: 18px;
 $n2o-switch-element-height: 18px;
@@ -217,7 +217,6 @@ $n2o-tree-hover-color: $gray-200;
 $n2o-tree-draggable-color: $gray-300;
 $n2o-tree-filtered-elem-color: $gray-300;
 
-
 $custom-checkbox-indicator-icon-close-color: $custom-control-indicator-checked-color;
 
 $custom-checkbox-indicator-icon-close : str-replace(url("data:image/svg+xml,%3C%3Fxml version='1.0' %3F%3E%3Csvg height='16px' version='1.1' viewBox='0 0 16 16' width='16px' xmlns='http://www.w3.org/2000/svg' xmlns:sketch='http://www.bohemiancoding.com/sketch/ns' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle/%3E%3Cdefs/%3E%3Cg fill='none' fill-rule='evenodd' id='Icons with numbers' stroke='none' stroke-width='1'%3E%3Cg fill='#{$custom-checkbox-indicator-icon-close-color}' id='Group' transform='translate(-672.000000, -144.000000)'%3E%3Cpath d='M678,144 L682,144 L682,150 L688,150 L688,154 L682,154 L682,160 L678,160 L678,154 L672,154 L672,150 L678,150 Z M678,144' id='Rectangle 204'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), "#", "%23") !default;
@@ -230,9 +229,8 @@ $n2o-slider-dot-color: $primary;
 $n2o-slider-tracker-color: $primary;
 
 // Rating
-$rating-stars-selected-color: #DAA520;
+$rating-stars-selected-color: #daa520;
 $rating-stars-color: $secondary;
-
 
 // PillFilter
 $pill-filter-border-color: $secondary;
@@ -242,7 +240,7 @@ $pill-filter-text-color: $gray-dark;
 $n2o-slider-rail-color: $gray-200;
 
 // Spiner
-$spinner-background-cover-color: rgba(255,255,255,0.5);
+$spinner-background-cover-color: rgba(255, 255, 255, 0.5);
 
 // Sidebar
 $sidebar-width: 260px !default;
@@ -266,7 +264,7 @@ $footer-height: 40px !default;
 $toolbar-margin: 5px 0 5px 0;
 
 //TextEditor
-$text-editor-border: 1px solid #F1F1F1;
+$text-editor-border: 1px solid #f1f1f1;
 
 //Drawer
 $drawer-backdrop-bg: #000 !default;
@@ -283,13 +281,13 @@ $drawer-animation: 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86) !default;
 //ImageUpload
 $primary: #163851;
 $image-uploader-border: 1px dashed #163851 !default;
-$image-uploader-card-border: 1px solid #d9d9d9!default;
+$image-uploader-card-border: 1px solid #d9d9d9 !default;
 
 //Tiles
 $tiles-item-margin: 10px !default;
 $tiles-border: 1px solid #f0f0f0 !default;
 $tiles-hover-border: 1px solid transparent !default;
-$tiles-hover-shadow: 0 1px 2px -2px rgba(0,0,0,.16), 0 3px 6px 0 rgba(0,0,0,.12), 0 5px 12px 4px rgba(0,0,0,.09) !default;
+$tiles-hover-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09) !default;
 $tiles-cell-margin: 5px 0 !default;
 $tiles-item-padding: 5px !default;
 
@@ -308,6 +306,10 @@ $input-icon-padding: 2px;
 $cards-item-margin: 10px !default;
 $cards-border: 1px solid #f0f0f0 !default;
 $cards-hover-border: 1px solid transparent !default;
-$cards-hover-shadow: 0 1px 2px -2px rgba(0,0,0,.16), 0 3px 6px 0 rgba(0,0,0,.12), 0 5px 12px 4px rgba(0,0,0,.09) !default;
+$cards-hover-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09) !default;
 $cards-cell-margin: 5px 0 !default;
 $cards-item-padding: 5px !default;
+
+// Custom
+$custom-control-indicator-checked-color: black;
+$custom-checkbox-indicator-icon-checked: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23");

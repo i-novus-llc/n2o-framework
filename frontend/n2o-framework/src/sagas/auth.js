@@ -19,10 +19,12 @@ export function* resolveAuth(
         case USER_LOGIN:
             try {
                 const userPayload = yield call(authProvider, SECURITY_LOGIN, payload)
+
                 yield put(userLoginSuccess(userPayload))
             } catch (e) {
                 yield call(authProvider, SECURITY_ERROR)
             }
+
             break
         case USER_LOGOUT:
             yield call(authProvider, SECURITY_LOGOUT)
@@ -32,6 +34,7 @@ export function* resolveAuth(
             } else {
                 yield put(replace(redirectPath || '/login'))
             }
+
             break
         case FETCH_ERROR:
             try {
@@ -45,6 +48,7 @@ export function* resolveAuth(
                     yield put(push(redirectPath || '/login'))
                 }
             }
+
             break
         default:
             break
@@ -57,6 +61,7 @@ export function* callErrorContinue() {
 
 export default (config) => {
     if (!config.authProvider) { return [takeEvery(FETCH_ERROR, callErrorContinue)] }
+
     return [
         takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
         takeEvery(FETCH_ERROR, resolveAuth, config),
