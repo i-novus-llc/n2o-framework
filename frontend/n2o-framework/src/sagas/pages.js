@@ -11,6 +11,7 @@ import {
     actionChannel,
     cancelled,
 } from 'redux-saga/effects'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { matchPath } from 'react-router'
 import { batchActions } from 'redux-batched-actions'
 import compact from 'lodash/compact'
@@ -158,6 +159,7 @@ export function* processUrl() {
             yield call(mappingUrlToRedux, routes)
         }
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }
@@ -168,7 +170,8 @@ export function* processUrl() {
  * @param action
  */
 export function* getMetadata(apiProvider, action) {
-    let { pageId, rootPage, pageUrl, mapping } = action.payload
+    const { pageId, rootPage, pageUrl, mapping } = action.payload
+    let url = pageUrl
 
     try {
         const { search } = yield select(getLocation)
@@ -180,18 +183,18 @@ export function* getMetadata(apiProvider, action) {
 
             resolveProvider = dataProviderResolver(
                 state,
-                { url: pageUrl, ...mapping },
+                { url, ...mapping },
                 extraQueryParams,
             )
 
-            pageUrl = resolveProvider.url
+            url = resolveProvider.url
         } else if (rootPage) {
-            pageUrl += search
+            url += search
         }
         const metadata = yield call(
             fetchSaga,
             FETCH_PAGE_METADATA,
-            { pageUrl, headers: resolveProvider.headersParams },
+            { pageUrl: url, headers: resolveProvider.headersParams },
             apiProvider,
         )
 
@@ -265,6 +268,7 @@ export function* watcherDefaultModels(config) {
  * @param config - конфиг для моделей по умолчанию
  * @returns {boolean}
  */
+// eslint-disable-next-line consistent-return
 export function* flowDefaultModels(config) {
     if (isEmpty(config)) { return false }
     const state = yield select()

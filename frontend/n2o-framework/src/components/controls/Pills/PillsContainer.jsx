@@ -21,6 +21,8 @@ export class PillsContainer extends Component {
                 value: nextProps.value,
             }
         }
+
+        return null
     }
 
     componentDidMount() {

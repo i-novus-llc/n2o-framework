@@ -9,9 +9,9 @@ import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/TableContainer'
 
 import Calendar from './Calendar'
-import CalendarEvent from './CalendarEvent'
-import CalendarCell from './CalendarCell'
-import CalendarDateCell from './CalendarDateCell'
+import { CalendarEvent } from './CalendarEvent'
+import { CalendarCell } from './CalendarCell'
+import { CalendarDateCell } from './CalendarDateCell'
 
 function CalendarContainer(props) {
     return <Calendar {...props} />

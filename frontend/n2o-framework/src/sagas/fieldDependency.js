@@ -76,12 +76,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
                 error: true,
             }),
         )
+        // eslint-disable-next-line no-console
         console.error(e)
     } finally {
         yield put(setLoading(form, field, false))
     }
 }
 
+// eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
     const { type, expression } = dependency
 
@@ -90,7 +92,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
         : undefined
 
     switch (type) {
-        case 'enabled':
+        case 'enabled': {
             const currentEnabled = field.disabled === false
             const nextEnabled = Boolean(evalResult)
 
@@ -105,9 +107,9 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             }
 
             break
-        case 'visible':
-            const currentVisible =
-        field.visible === undefined || field.visible === true
+        }
+        case 'visible': {
+            const currentVisible = field.visible === undefined || field.visible === true
             const nextVisible = Boolean(evalResult)
 
             if (currentVisible === nextVisible) {
@@ -121,7 +123,8 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             }
 
             break
-        case 'setValue':
+        }
+        case 'setValue': {
             if (evalResult === undefined || isEqual(evalResult, values[fieldName])) {
                 break
             }
@@ -134,7 +137,8 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             )
 
             break
-        case 'reset':
+        }
+        case 'reset': {
             if (values[fieldName] !== null && evalResultCheck(evalResult)) {
                 yield put(
                     change(formName, fieldName, {
@@ -145,7 +149,8 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             }
 
             break
-        case 'required':
+        }
+        case 'required': {
             const currentRequired = field.required === true
             const nextRequired = Boolean(evalResult)
 
@@ -160,6 +165,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             }
 
             break
+        }
         case 'reRender': {
             const state = yield select()
             const fieldValidationList = get(state, [
@@ -201,7 +207,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
             break
         }
-        case 'fetchValue':
+        case 'fetchValue': {
             const watcher = yield fork(fetchValue, formName, fieldName, dependency)
             const action = yield take(actionTypes.CHANGE)
 
@@ -210,6 +216,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             }
 
             break
+        }
         default:
             break
     }
@@ -222,10 +229,12 @@ export function* checkAndModify(
     fieldName,
     actionType,
 ) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const fieldId of Object.keys(fields)) {
         const field = fields[fieldId]
 
         if (field.dependency) {
+            // eslint-disable-next-line no-restricted-syntax
             for (const dep of field.dependency) {
                 const isInitAction = [
                     actionTypes.INITIALIZE,
@@ -268,6 +277,7 @@ export function* resolveDependency(action) {
         )
     } catch (e) {
     // todo: падает тут из-за отсутствия формы
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }

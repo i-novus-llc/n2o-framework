@@ -71,6 +71,7 @@ export function eventLessHour(date, step) {
     return false
 }
 
+// eslint-disable-next-line consistent-return
 export function timeParser(min, max) {
     if (!isEmpty(min) && !isEmpty(max)) {
         const minTime = split(min, ':')

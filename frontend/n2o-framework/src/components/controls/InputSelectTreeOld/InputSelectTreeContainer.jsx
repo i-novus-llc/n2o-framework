@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+// eslint-disable-next-line import/no-named-as-default
 import InputSelectTree from '../InputSelectTree/InputSelectTree'
 import listContainer from '../listContainer'
 
@@ -39,30 +40,28 @@ import listContainer from '../listContainer'
  */
 
 class InputSelectTreeContainer extends React.Component {
-    /**
-   * Рендер
-   */
-
     render() {
-        const { filter } = this.props
+        const { filter, data, value, isLoading } = this.props
 
         const filterType = filter === 'server' ? false : filter
 
         return (
             <InputSelectTree
                 {...this.props}
-                options={this.props.data}
-                value={this.props.value}
+                options={data}
+                value={value}
                 filter={filterType}
                 key={this.key}
-                loading={this.props.isLoading}
+                loading={isLoading}
             />
         )
     }
 }
 
 InputSelectTreeContainer.propTypes = {
+    data: PropTypes.any,
     loading: PropTypes.bool,
+    isLoading: PropTypes.bool,
     options: PropTypes.array,
     valueFieldId: PropTypes.string.isRequired,
     labelFieldId: PropTypes.string.isRequired,

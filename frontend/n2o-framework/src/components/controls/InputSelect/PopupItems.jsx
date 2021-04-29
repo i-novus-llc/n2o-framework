@@ -18,6 +18,7 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 import propsResolver from '../../../utils/propsResolver'
 import Icon from '../../snippets/Icon/Icon'
 import StatusText from '../../snippets/StatusText/StatusText'
+// eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
 
 import {
@@ -53,8 +54,6 @@ import {
 function PopupItems({
     loading,
     options,
-    activeLabel,
-    setActiveLabel,
     labelFieldId,
     iconFieldId,
     valueFieldId,
@@ -78,6 +77,7 @@ function PopupItems({
 }) {
     const handleRef = (item) => {
         if (item) {
+            // eslint-disable-next-line react/no-find-dom-node
             const el = findDOMNode(item)
 
             if (el.classList.contains('active')) {
@@ -86,9 +86,14 @@ function PopupItems({
         }
     }
 
+    // eslint-disable-next-line consistent-return
     const handleItemClick = ({ target }, item) => {
         if (target.nodeName === 'LABEL') { return false }
-        inArray(selected, item) ? onRemoveItem(item) : onSelect(item)
+        if (inArray(selected, item)) {
+            onRemoveItem(item)
+        } else {
+            onSelect(item)
+        }
     }
 
     const withStatus = item => !isNil(item[statusFieldId])
@@ -128,17 +133,22 @@ function PopupItems({
         return some(selectedToCompare, selectedItem => isEqual(selectedItem, itemToCompare))
     }
 
-    const renderSingleItem = (item, index) => {
-        const disabled = !isNil(item[enabledFieldId])
-            ? !item[enabledFieldId]
-            : isSelectedItem(selected, item) && !hasCheckboxes
-                ? true
-                : !hasCheckboxes &&
-        isDisabled(
+    const getDisabled = (item) => {
+        if (!isNil(item[enabledFieldId])) {
+            return !item[enabledFieldId]
+        }
+        if (isSelectedItem(selected, item) && !hasCheckboxes) {
+            return true
+        }
+
+        return !hasCheckboxes && isDisabled(
             autocomplete ? item[valueFieldId] : item,
             selected,
             disabledValues,
         )
+    }
+    const renderSingleItem = (item, index) => {
+        const disabled = getDisabled(item)
 
         return (
             <DropdownItem
@@ -179,6 +189,7 @@ function PopupItems({
     }
 
     const renderIcon = (item, iconFieldId) => item[iconFieldId] && <Icon name={item[iconFieldId]} />
+    // eslint-disable-next-line jsx-a11y/alt-text
     const renderImage = (item, imageFieldId) => item[imageFieldId] && <img src={item[imageFieldId]} />
     const renderBadge = (item, badgeFieldId, badgeColorFieldId) => (
         <Badge color={item[badgeColorFieldId]}>{item[badgeFieldId]}</Badge>
@@ -217,6 +228,7 @@ function PopupItems({
         ? renderGroupedItems(options, groupFieldId)
         : renderSingleItems(options))
 
+    // eslint-disable-next-line consistent-return
     const renderMenu = (options) => {
         if (!loading && options.length === 0 && !renderIfEmpty) {
             return null
@@ -233,9 +245,11 @@ function PopupItems({
 }
 
 PopupItems.propTypes = {
+    loading: PropTypes.bool,
+    descriptionFieldId: PropTypes.string,
+    enabledFieldId: PropTypes.string,
+    statusFieldId: PropTypes.string,
     options: PropTypes.array.isRequired,
-    activeLabel: PropTypes.string,
-    setActiveLabel: PropTypes.func,
     valueFieldId: PropTypes.string.isRequired,
     labelFieldId: PropTypes.string.isRequired,
     iconFieldId: PropTypes.string,
@@ -245,7 +259,6 @@ PopupItems.propTypes = {
     badgeColorFieldId: PropTypes.string,
     disabledValues: PropTypes.array,
     onSelect: PropTypes.func,
-    onScrollEnd: PropTypes.func,
     selected: PropTypes.array,
     hasCheckboxes: PropTypes.bool,
     onRemoveItem: PropTypes.func,

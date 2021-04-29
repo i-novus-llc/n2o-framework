@@ -1,12 +1,13 @@
 import React from 'react'
-import cn from 'classnames'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 import { isDayOff, isCurrentDay } from './utils'
 
-function CalendarDateCell({ children, value, markDaysOff }) {
+export function CalendarDateCell({ children, value, markDaysOff }) {
     return (
         <div
-            className={cn('calendar__cell calendar__cell--day-cell', {
+            className={classNames('calendar__cell calendar__cell--day-cell', {
                 'calendar__cell--day-off': isDayOff(value) && markDaysOff,
                 'calendar__cell--current-day': isCurrentDay(value),
             })}
@@ -14,6 +15,12 @@ function CalendarDateCell({ children, value, markDaysOff }) {
             {children}
         </div>
     )
+}
+
+CalendarDateCell.propTypes = {
+    children: PropTypes.any,
+    value: PropTypes.any,
+    markDaysOff: PropTypes.any,
 }
 
 export default CalendarDateCell

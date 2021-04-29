@@ -22,7 +22,7 @@ export const InitMetadataContext = React.createContext({
  * НОС - создает зависимость
  *
  */
-const dependency = (WrappedComponent) => {
+export const dependency = (WrappedComponent) => {
     class UniversalDependency extends React.Component {
         constructor(props) {
             super(props)

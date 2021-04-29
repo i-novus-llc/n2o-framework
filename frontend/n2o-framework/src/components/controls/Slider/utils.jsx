@@ -11,7 +11,7 @@ import merge from 'lodash/merge'
 
 export const parseToFloat = value => (!isNaN(parseFloat(value)) ? parseFloat(value) : undefined)
 
-export const parseToInt = value => (!isNaN(parseInt(value)) ? parseInt(value) : undefined)
+export const parseToInt = value => (!isNaN(parseInt(value, 10)) ? parseInt(value, 10) : undefined)
 
 const convertStrToFloatOrInt = (value) => {
     if (isString(value)) {
@@ -31,6 +31,7 @@ const convertStrToFloatOrInt = (value) => {
  * @return {function}
  */
 export const stringConverter = (convertProps = []) => WrapperComponent => ({
+    // eslint-disable-next-line react/prop-types
     stringMode,
     ...rest
 }) => {

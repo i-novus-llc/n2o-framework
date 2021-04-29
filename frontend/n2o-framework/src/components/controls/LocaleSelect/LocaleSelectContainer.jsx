@@ -5,9 +5,7 @@ import { getLocales, localeSelector } from '../../../selectors/global'
 import { changeLocale } from '../../../actions/global'
 
 function LocaleSelectContainer(WrappedComponent) {
-    const Component = function (props) {
-        return <WrappedComponent {...props} />
-    }
+    const Component = props => (<WrappedComponent {...props} />)
 
     const mapStateToProps = state => ({
         locales: getLocales(state),

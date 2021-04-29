@@ -4,6 +4,7 @@ import cn from 'classnames'
 import isNil from 'lodash/isNil'
 import isNaN from 'lodash/isNaN'
 
+// eslint-disable-next-line import/no-named-as-default
 import InputNumber from '../InputNumber/InputNumber'
 
 import { NumberPickerButton } from './NumberPickerButton'
@@ -61,7 +62,7 @@ function NumberPicker(props) {
             onChange(min)
         } else if (value > max) {
             onChange(max)
-        } else if (isNil(value) || value === '' || isNaN(parseInt(value))) {
+        } else if (isNil(value) || value === '' || isNaN(parseInt(value, 10))) {
             onChange(defaultValue)
         }
     }, [min, max, value, onChange, defaultValue])

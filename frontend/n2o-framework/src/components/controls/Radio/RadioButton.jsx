@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { setDisplayName } from 'recompose'
 
 import Input from '../Input/Input'
@@ -14,56 +14,50 @@ import Input from '../Input/Input'
  * @reactProps {string} label - лейбл
  */
 
-class RadioButton extends React.Component {
-    /**
-   * Рендер
-   */
-
-    render() {
-        const { label, disabled, value, checked, onChange } = this.props
-
-        return (
-            <label
-                className={cx('btn btn-secondary', {
-                    active: checked,
-                    disabled,
-                })}
-                tabIndex={1}
-            >
-                <Input
-                    className="alt-radio"
-                    disabled={disabled}
-                    type="radio"
-                    value={value}
-                    checked={checked}
-                    onChange={onChange}
-                />
-                {label}
-            </label>
-        )
-    }
+function RadioButton({ label, disabled, value, checked, onChange }) {
+    return (
+        // eslint-disable-next-line jsx-a11y/label-has-associated-control
+        <label
+            className={classNames('btn btn-secondary', {
+                active: checked,
+                disabled,
+            })}
+            /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/tabindex-no-positive */
+            tabIndex={1}
+        >
+            <Input
+                className="alt-radio"
+                disabled={disabled}
+                type="radio"
+                value={value}
+                checked={checked}
+                onChange={onChange}
+            />
+            {label}
+        </label>
+    )
 }
 
 RadioButton.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Checked контрола
-   */
+     * Checked контрола
+     */
     checked: PropTypes.bool,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Label контрола
-   */
+     * Label контрола
+     */
     label: PropTypes.string,
 }
 

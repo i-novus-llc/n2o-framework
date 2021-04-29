@@ -54,7 +54,7 @@
     "test:hook": "jest --bail --findRelatedTests",
     "test:generate-output": "jest --json --outputFile=./.storybook/jest-test-results.json || echo 'jest: generate-output finished'",
     "test:storybook": "jest --noStackTrace --silent ./.storybook/storyshots.test.js || echo 'jest: test:storybook finished'",
-    "eslint": "eslint --ext .js,.jsx ./src",
+    "eslint": "eslint --ext .js,.jsx ./src/components/controls/Select",
     "eslint:fix": "eslint --ext .js,.jsx --fix ./src",
     "eslint:generate": "eslint --ext .js,.jsx -o ./docs/eslint.json -f json ./src",
     "stylelint": "stylelint ./src/**/*{.css,.scss,.sass}",

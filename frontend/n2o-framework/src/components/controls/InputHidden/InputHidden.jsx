@@ -6,4 +6,6 @@ function InputHidden({ id, ...props }) {
     return <Input {...props} type="hidden" />
 }
 
+InputHidden.propTypes = Input.propTypes
+
 export default InputHidden

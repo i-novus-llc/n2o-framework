@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import TextareaAutosize from 'react-textarea-autosize'
 import omit from 'lodash/omit'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { compose } from 'recompose'
 
 import withRightPlaceholder from '../withRightPlaceholder'
@@ -38,7 +38,7 @@ function TextArea({
 
     return (
         <TextareaAutosize
-            className={cx('n2o-text-area', inputClass)}
+            className={classNames('n2o-text-area', inputClass)}
             style={style}
             disabled={disabled}
             placeholder={placeholder}
@@ -53,36 +53,36 @@ function TextArea({
 
 TextArea.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Минимальное количество строк
-   */
+     * Минимальное количество строк
+     */
     rows: PropTypes.number,
     /**
-   * Максимальное количество строк
-   */
+     * Максимальное количество строк
+     */
     maxRows: PropTypes.number,
 }
 

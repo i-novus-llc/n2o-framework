@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
 import Badge from 'reactstrap/lib/Badge'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
-import cx from 'classnames'
 
 import CheckboxN2o from '../Checkbox/CheckboxN2O'
 import Icon from '../../snippets/Icon/Icon'
@@ -29,19 +28,20 @@ class ListItem extends React.Component {
     constructor(props) {
         super(props)
 
-        this._handleCheckboxClick = this._handleCheckboxClick.bind(this)
+        this.handleCheckboxClick = this.handleCheckboxClick.bind(this)
     }
 
-    _handleCheckboxClick(e) {
+    handleCheckboxClick(e) {
+        const { handleCheckboxSelect } = this.props
+
         e.stopPropagation()
         e.preventDefault()
-        this.props.handleCheckboxSelect(e)
+        handleCheckboxSelect(e)
     }
 
     /**
-   * Рендер
-   */
-
+     * Рендер
+     */
     render() {
         const {
             hasCheckboxes,
@@ -80,11 +80,12 @@ class ListItem extends React.Component {
                         inline
                         className="n2o-select-checkbox"
                         value={selected}
-                        onClick={this._handleCheckboxClick}
+                        onClick={this.handleCheckboxClick}
                         style={{ marginRight: 0 }}
                         indeterminate={indeterminate}
                     />
                 )}
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 {imageFieldId && item[imageFieldId] && <img src={item[imageFieldId]} />}
                 {iconFieldId && item[iconFieldId] && <Icon name={item[iconFieldId]} />}
                 <span className="text-cropped">{displayTitle(item)}</span>

@@ -13,6 +13,7 @@ import {
     fetchCancel,
     fetchError,
 } from '../actions/fetch'
+// eslint-disable-next-line import/no-named-as-default
 import defaultApiProvider from '../core/api'
 import { FETCH_ERROR_CONTINUE } from '../constants/fetch'
 import {
@@ -38,20 +39,17 @@ export default function* fetchSaga(
     const validationKey = first(keys(widgetValidation))
     const treePath = includes(split(validationKey, ''), '.')
     const registeredFields = get(state, `form.${widgetId}.registeredFields`)
-    const isValidForm =
-    get(registeredFields, [validationKey, 'message']) === null
-    const isVisibleForm =
-    get(registeredFields, [validationKey, 'visible']) === true
+    const isValidForm = get(registeredFields, [validationKey, 'message']) === null
+    const isVisibleForm = get(registeredFields, [validationKey, 'visible']) === true
     const treePathFields = registeredFields && treePath
 
-    const isRangeModel =
-    modelHasRange(modelValues) && isRequiredRangeModel(modelValues, modelId)
+    const isRangeModel = modelHasRange(modelValues) && isRequiredRangeModel(modelValues, modelId)
     const isValidRange = isValidRangeModel(modelValues)
 
     try {
         if (
             (isRangeModel && !isValidRange && hasWidgetValidation) ||
-      (treePathFields && !isValidForm && isVisibleForm)
+            (treePathFields && !isValidForm && isVisibleForm)
         ) {
             return
         }
@@ -60,6 +58,7 @@ export default function* fetchSaga(
 
         yield put(fetchEnd(fetchType, options, response))
 
+        // eslint-disable-next-line consistent-return
         return response
     } catch (error) {
         yield put(fetchError(fetchType, options, error))
@@ -69,6 +68,7 @@ export default function* fetchSaga(
         if (yield cancelled()) {
             yield put(fetchCancel(fetchType, options))
 
+            // eslint-disable-next-line no-unsafe-finally
             return
         }
     }

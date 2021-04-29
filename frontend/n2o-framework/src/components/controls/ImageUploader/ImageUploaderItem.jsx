@@ -5,7 +5,6 @@ import isUndefined from 'lodash/isUndefined'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
-import assign from 'lodash/assign'
 import cn from 'classnames'
 import Tooltip from 'reactstrap/lib/Tooltip'
 import Modal from 'reactstrap/lib/Modal'
@@ -14,20 +13,16 @@ import { convertSize } from '../FileUploader/utils'
 import Spinner from '../../snippets/Spinner/Spinner'
 
 class ImageUploaderItem extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            tooltipOpen: false,
-            modalOpen: false,
-        }
-
-        this.toggle = this.toggle.bind(this)
+    state = {
+        tooltipOpen: false,
+        modalOpen: false,
     }
 
-    toggle() {
+    toggle = () => {
+        const { tooltipOpen } = this.state
+
         this.setState({
-            tooltipOpen: !this.state.tooltipOpen,
+            tooltipOpen: !tooltipOpen,
         })
     }
 
@@ -48,12 +43,13 @@ class ImageUploaderItem extends React.Component {
             index,
             loading,
             lightBox,
-            listType = 'image',
+            listType,
             customUploaderSize,
             showTooltip,
             canDelete,
             shape,
         } = this.props
+        const { tooltipOpen, modalOpen } = this.state
 
         const cardType = listType === 'card'
         const imageType = listType === 'image'
@@ -61,11 +57,15 @@ class ImageUploaderItem extends React.Component {
         const shapeCircle = isEqual(shape, 'circle')
         const cardWithShapeCircle = cardType && shapeCircle
 
-        const imgSrc = !isUndefined(file.error)
-            ? ''
-            : isUndefined(file.link)
-                ? URL.createObjectURL(file)
-                : get(file, 'link')
+        let imgSrc
+
+        if (!isUndefined(file.error)) {
+            imgSrc = ''
+        } else if (isUndefined(file.link)) {
+            imgSrc = URL.createObjectURL(file)
+        } else {
+            imgSrc = get(file, 'link')
+        }
 
         const modifyStyle = size => (cardType && !shapeCircle ? omit(size, 'maxWidth', 'width') : size)
 
@@ -123,20 +123,23 @@ class ImageUploaderItem extends React.Component {
                                 'n2o-image-uploader--img--shape-circle': shapeCircle,
                             })}
                             src={imgSrc}
-                            alt={!shapeCircle && 'upload error'}
+                            alt={!shapeCircle ? 'upload error' : ''}
                             style={omit(customUploaderSize, 'height')}
                         />
                     </a>
-                    {((showTooltip && !isEmpty(file.error)) ||
-            (showTooltip && !isEmpty(file.response))) && (
-            <Tooltip
-                            isOpen={this.state.tooltipOpen}
-                            target={`tooltip-${file.id}`}
-                            toggle={this.toggle}
-                        >
-                            {file.response || file.error}
-                        </Tooltip>
-                    )}
+                    {
+                        showTooltip && (!isEmpty(file.error) || !isEmpty(file.response))
+                            ? (
+                                <Tooltip
+                                    isOpen={tooltipOpen}
+                                    target={`tooltip-${file.id}`}
+                                    toggle={this.toggle}
+                                >
+                                    {file.response || file.error}
+                                </Tooltip>
+                            )
+                            : null
+                    }
                     <div className="n2o-image-uploader-img-info">
                         {cardType && showName && (
                             <span className="n2o-image-uploader-img-info__file-name">
@@ -150,7 +153,7 @@ class ImageUploaderItem extends React.Component {
                     </div>
                 </span>
                 <Modal
-                    isOpen={this.state.modalOpen}
+                    isOpen={modalOpen}
                     backdrop
                     centered
                     toggle={() => this.modalClose()}
@@ -177,15 +180,19 @@ ImageUploaderItem.propTypes = {
     file: PropTypes.object,
     onRemove: PropTypes.func,
     showSize: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    status: PropTypes.number,
+    showName: PropTypes.bool,
     index: PropTypes.number,
     loading: PropTypes.bool,
+    lightBox: PropTypes.bool,
+    listType: PropTypes.string,
+    customUploaderSize: PropTypes.number,
+    showTooltip: PropTypes.bool,
+    canDelete: PropTypes.bool,
+    shape: PropTypes.string,
 }
 
 ImageUploaderItem.defaultProps = {
-    statusBarColor: 'success',
+    listType: 'image',
 }
 
 export default ImageUploaderItem

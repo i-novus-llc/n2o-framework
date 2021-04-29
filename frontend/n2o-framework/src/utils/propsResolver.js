@@ -16,6 +16,7 @@ const blackList = [
 ]
 
 export function resolve(code) {
+    // eslint-disable-next-line no-new-func
     return new Function(
         'data',
         [
@@ -58,6 +59,7 @@ export default function propsResolver(
         obj = []
     }
     if (isObject(props) && !isFunction(props)) {
+        // eslint-disable-next-line no-restricted-syntax
         for (const k in props) {
             if (isObject(props[k])) {
                 if (merge(blackList, additionalBlackList).includes(k)) {

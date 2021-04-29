@@ -60,6 +60,7 @@ export function* changeLocale(apiProvider, action) {
         yield call(fetchSaga, CHANGE_LOCALE_API, locale, apiProvider)
         window.location.reload()
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }

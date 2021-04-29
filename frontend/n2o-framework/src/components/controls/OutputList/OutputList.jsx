@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import OutputListItem from './OutputListItem'
 
@@ -10,7 +10,7 @@ function OutputList({ value, className, direction, ...rest }) {
 
     return (
         <ul
-            className={cn('n2o-output-list', directionClassName, {
+            className={classNames('n2o-output-list', directionClassName, {
                 [className]: className,
             })}
         >
@@ -28,32 +28,32 @@ function OutputList({ value, className, direction, ...rest }) {
 
 OutputList.propTypes = {
     /**
-   * элементы OutputList, строки или ссылки
-   */
+     * элементы OutputList, строки или ссылки
+     */
     value: PropTypes.array,
     /**
-   * кастомный класс контейнера
-   */
+     * кастомный класс контейнера
+     */
     className: PropTypes.string,
     /**
-   * id по которому из value берется текст row или link
-   */
+     * id по которому из value берется текст row или link
+     */
     labelFieldId: PropTypes.string,
     /**
-   * id по которому из value берется href для link
-   */
+     * id по которому из value берется href для link
+     */
     linkFieldId: PropTypes.string,
     /**
-   * Тип ссылки
-   */
+     * Тип ссылки
+     */
     target: PropTypes.string,
     /**
-   * направление OutputList. row - элементы в строку. column(default) - элементы списком
-   */
+     * направление OutputList. row - элементы в строку. column(default) - элементы списком
+     */
     direction: PropTypes.string,
     /**
-   * разделитель между элементами (space default)
-   */
+     * разделитель между элементами (space default)
+     */
     separator: PropTypes.string,
 }
 

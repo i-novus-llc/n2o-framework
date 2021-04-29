@@ -5,7 +5,7 @@ import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/TableContainer'
 import widgetContainer from '../WidgetContainer'
 
-import Cards from './Cards'
+import { Cards } from './Cards'
 
 const CardsContainer = props => <Cards {...props} />
 

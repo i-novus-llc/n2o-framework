@@ -53,12 +53,12 @@ const reference = {
 export class TimePickerControl extends Component {
     constructor(props) {
         super(props)
-        this._value = moment(props.value || props.defaultValue, props.timeFormat)
+        this.value = moment(props.value || props.defaultValue, props.timeFormat)
         this.state = {
             open: false,
-            [HOURS]: this._value.hours(),
-            [MINUTES]: this._value.minutes(),
-            [SECONDS]: this._value.seconds(),
+            [HOURS]: this.value.hours(),
+            [MINUTES]: this.value.minutes(),
+            [SECONDS]: this.value.seconds(),
         }
         this[`${HOURS}Ref`] = React.createRef()
         this[`${MINUTES}Ref`] = React.createRef()
@@ -73,15 +73,18 @@ export class TimePickerControl extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const hasChangeVisible = this.state.open !== prevState.open
+    componentDidUpdate(prevProps, prevState) {
+        const { open } = this.state
+        const { value, timeFormat } = this.props
 
-        if (prevProps.value !== this.props.value) {
-            this._value = moment(this.props.value, this.props.timeFormat)
+        const hasChangeVisible = open !== prevState.open
+
+        if (prevProps.value !== value) {
+            this.value = moment(value, timeFormat)
             this.setState({
-                [HOURS]: this._value.hours(),
-                [MINUTES]: this._value.minutes(),
-                [SECONDS]: this._value.seconds(),
+                [HOURS]: this.value.hours(),
+                [MINUTES]: this.value.minutes(),
+                [SECONDS]: this.value.seconds(),
             })
         }
 
@@ -104,7 +107,10 @@ export class TimePickerControl extends Component {
     }
 
   onClickOutside = (e) => {
-      if (this.state.open) {
+      const { open } = this.state
+
+      if (open) {
+          // eslint-disable-next-line react/no-find-dom-node
           const controlEl = findDOMNode(this.controlRef.current)
 
           if (
@@ -116,75 +122,89 @@ export class TimePickerControl extends Component {
       }
   };
 
-  getTimeConfig = () => {
-      const { mode } = this.props
+    getTimeConfig = () => {
+        const { mode } = this.props
 
-      return {
-          showHour: includes(mode, 'hours'),
-          showMinute: includes(mode, 'minutes'),
-          showSecond: includes(mode, 'seconds'),
-      }
-  };
+        return {
+            showHour: includes(mode, 'hours'),
+            showMinute: includes(mode, 'minutes'),
+            showSecond: includes(mode, 'seconds'),
+        }
+    };
 
-  toTime = value => (value < 10 && !this.props.noZero ? `0${value}` : value);
+    // eslint-disable-next-line react/destructuring-assignment
+    toTime = value => (value < 10 && !this.props.noZero ? `0${value}` : value)
 
-  getLocaleText = (mode, index) => {
-      const { locale } = this.props
-      const localesArr = split(get(reference, `[${mode}][${locale}]`, ''), '_')
+    getLocaleText = (mode, index) => {
+        const { locale } = this.props
+        const localesArr = split(get(reference, `[${mode}][${locale}]`, ''), '_')
 
-      return localesArr[index]
-  };
+        return localesArr[index]
+    }
 
-  getTime = format => (this._value.isValid() ? this._value.format(format) : '');
+    getTime = format => (this.value.isValid() ? this.value.format(format) : '')
 
-  getValue = () => {
-      const { format, timeFormat } = this.props
+    // eslint-disable-next-line consistent-return
+    getValue = () => {
+        const { format, timeFormat, mode } = this.props
 
-      if (format === DIGIT) {
-          return this.getTime(timeFormat)
-      }
-      if (format === SYMBOLS) {
-          return this.getTime(
-              join(
-                  map(
-                      keys(pick(reference, this.props.mode)),
-                      mode => `${reference[mode].format} [${this.getLocaleText(mode, 0)}]`,
-                  ),
-                  ' ',
-              ),
-          )
-      }
-  };
+        if (format === DIGIT) {
+            return this.getTime(timeFormat)
+        }
+        if (format === SYMBOLS) {
+            return this.getTime(
+                join(
+                    map(
+                        keys(pick(reference, mode)),
+                        mode => `${reference[mode].format} [${this.getLocaleText(mode, 0)}]`,
+                    ),
+                    ' ',
+                ),
+            )
+        }
+    };
 
   handleOpen = () => {
-      if (this.props.disabled) { return }
+      const { disabled } = this.props
+
+      if (disabled) { return }
       this.setState({ open: true })
   };
 
   handleClose = () => {
-      if (this.props.disabled) { return }
+      const { disabled } = this.props
+
+      if (disabled) { return }
       this.setState({ open: false })
   };
 
-  handleToggle = (e) => {
-      if (this.props.disabled) { return }
+  handleToggle = () => {
+      const { disabled } = this.props
+
+      if (disabled) { return }
       this.setState(state => ({ ...state, open: !state.open }))
   };
 
   handleChangeValue = (mode, value) => (e) => {
+      const {
+          [HOURS]: hours,
+          [MINUTES]: minutes,
+          [SECONDS]: seconds,
+      } = this.state
+
       e.preventDefault()
 
       const prevState = {
-          [HOURS]: this.state[HOURS] || 0,
-          [MINUTES]: this.state[MINUTES] || 0,
-          [SECONDS]: this.state[SECONDS] || 0,
+          [HOURS]: hours || 0,
+          [MINUTES]: minutes || 0,
+          [SECONDS]: seconds || 0,
       }
 
-      if (!this._value.isValid()) {
-          this._value = moment()
-          this._value.set(prevState)
+      if (!this.value.isValid()) {
+          this.value = moment()
+          this.value.set(prevState)
       }
-      this._value.set(mode, value)
+      this.value.set(mode, value)
 
       this.setState(
           {
@@ -192,29 +212,39 @@ export class TimePickerControl extends Component {
               [mode]: value,
           },
           () => {
-              this.props.onChange(this.getTime(this.props.timeFormat))
+              const { timeFormat, onChange } = this.props
+
+              onChange(this.getTime(timeFormat))
           },
       )
   };
 
-  handlePrevent = (e) => {
-      e.preventDefault()
-  };
+    handlePrevent = (e) => {
+        e.preventDefault()
+    };
 
-  renderPrefix = () => (this.props.prefix ? (
-      <span className="time-prefix">{this.props.prefix}</span>
-  ) : null);
+    renderPrefix = () => {
+        const { prefix } = this.props
+
+        if (prefix) {
+            return <span className="time-prefix">{prefix}</span>
+        }
+
+        return null
+    }
 
   renderPanelItems = (mode) => {
       const countersArray = new Array(get(reference, `[${mode}].values`, []))
+      const { [mode]: modeValue } = this.state
 
       return map(countersArray, (val, index) => (
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a
               key={index}
-              ref={index === this.state[mode] ? this[`${mode}Ref`] : null}
+              ref={index === modeValue ? this[`${mode}Ref`] : null}
               href="#"
               className={cn('dropdown-item n2o-time-picker__panel__item', {
-                  active: index === this.state[mode],
+                  active: index === modeValue,
               })}
               onMouseDown={this.handleChangeValue(mode, index)}
               onClick={this.handlePrevent}

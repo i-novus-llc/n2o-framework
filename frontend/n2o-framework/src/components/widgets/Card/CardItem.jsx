@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, setDisplayName, mapProps } from 'recompose'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import extend from 'lodash/extend'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
@@ -63,7 +63,7 @@ function CardItem(props) {
 
     return (
         <Card
-            className={cx('n2o-card', { linear, circle }, className)}
+            className={classNames('n2o-card', { linear, circle }, className)}
             {...cardProps}
         >
             {children || orderedItems}
@@ -73,58 +73,58 @@ function CardItem(props) {
 
 CardItem.propTypes = {
     /**
-   * Заголовок
-   */
+     * Заголовок
+     */
     header: PropTypes.string,
     /**
-   * Подзаголовок
-   */
+     * Подзаголовок
+     */
     meta: PropTypes.string,
     /**
-   * Отображаемый текст
-   */
+     * Отображаемый текст
+     */
     text: PropTypes.string,
     /**
-   * URL изображения
-   */
+     * URL изображения
+     */
     image: PropTypes.string,
     /**
-   * Линейное отображение
-   */
+     * Линейное отображение
+     */
     linear: PropTypes.bool,
     /**
-   * Закругление изображения
-   */
+     * Закругление изображения
+     */
     circle: PropTypes.bool,
     /**
-   * Часть карточки для расширения другими обьектати
-   */
+     * Часть карточки для расширения другими обьектати
+     */
     extra: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     children: PropTypes.node,
     /**
-   * Возможность передачи компонента для переопределения элемента по умолчанию
-   */
+     * Возможность передачи компонента для переопределения элемента по умолчанию
+     */
     tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     /**
-   * Инвертировать цвет текста
-   */
+     * Инвертировать цвет текста
+     */
     inverse: PropTypes.bool,
     /**
-   * Применить свойство color к бордеру карточки
-   */
+     * Применить свойство color к бордеру карточки
+     */
     outline: PropTypes.bool,
     /**
-   * Цвет карточки
-   */
+     * Цвет карточки
+     */
     color: PropTypes.string,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     rows: PropTypes.array,
     /**
-   * Данные
-   */
+     * Данные
+     */
     datasource: PropTypes.object,
 }
 

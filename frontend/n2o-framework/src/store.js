@@ -25,9 +25,11 @@ export default function configureStore(initialState, history, config = {}) {
     }
 
     if (
-        typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        typeof window === 'object' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ) {
-        if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) { composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) }
+        composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     }
 
     const enhancers = [applyMiddleware(...middlewares)]

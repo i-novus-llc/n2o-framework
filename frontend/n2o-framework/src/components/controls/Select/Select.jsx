@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент - селект. Содержит {@link Option}
@@ -23,7 +23,7 @@ import cx from 'classnames'
  *
  */
 
-class Select extends React.Component {
+export class Select extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -34,18 +34,20 @@ class Select extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        if (props.value && props.value !== this.state.value) {
-            this.setState({ value: props.value })
+        const { value: stateValue } = this.state
+        const { value: propsValue } = props
+
+        if (propsValue && propsValue !== stateValue) {
+            this.setState({ value: propsValue })
         }
     }
 
     onChange({ target }) {
-        this.setState({ value: target.value }, () => this.props.onChange(target.value))
+        const { onChange } = this.props
+
+        this.setState({ value: target.value }, () => onChange(target.value))
     }
 
-    /**
-   * Базовый рендер
-   * */
     render() {
         const {
             children,
@@ -56,14 +58,16 @@ class Select extends React.Component {
             required,
             className,
         } = this.props
+        const { value: stateValue } = this.state
 
         return (
             visible !== false && (
-                <div className={cx('form-group', 'n2o-select', className)}>
+                <div className={classNames('form-group', 'n2o-select', className)}>
                     <select
-                        className={cx('form-control', heightSize)}
+                        className={classNames('form-control', heightSize)}
                         onChange={this.onChange}
-                        value={this.state.value}
+                        value={stateValue}
+                        /* eslint-disable-next-line jsx-a11y/no-autofocus */
                         autoFocus={autoFocus}
                         required={required}
                         disabled={disabled}
@@ -77,6 +81,7 @@ class Select extends React.Component {
 }
 
 Select.propTypes = {
+    className: PropTypes.string,
     children: PropTypes.node,
     onChange: PropTypes.func,
     required: PropTypes.bool,

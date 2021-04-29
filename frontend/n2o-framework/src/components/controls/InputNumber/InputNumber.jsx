@@ -6,7 +6,6 @@ import toString from 'lodash/toString'
 import isNil from 'lodash/isNil'
 import isNaN from 'lodash/isNaN'
 import isEqual from 'lodash/isEqual'
-import { compose } from 'recompose'
 
 import withRightPlaceholder from '../withRightPlaceholder'
 import Input from '../Input/Input'
@@ -62,24 +61,24 @@ export class InputNumber extends React.Component {
         this.resolveValue = this.resolveValue.bind(this)
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { value } = this.props
 
         if (prevProps.value !== value && !isNil(value)) {
             this.setState({ value: this.resolveValue(value) })
         } else if (
             !isEqual(prevProps.value, value) &&
-      (value === '' || isNil(value))
+            (value === '' || isNil(value))
         ) {
             this.setState({ value: null })
         }
     }
 
     /**
-   * Обработчик вставки
-   * @param e
-   */
-    onPaste(e) {
+     * Обработчик вставки
+     * @param e
+     */
+    onPaste() {
         this.pasted = true
         this.setState({ value: this.resolveValue(this.inputElement.value) })
     }
@@ -108,35 +107,43 @@ export class InputNumber extends React.Component {
     }
 
     onChange(value) {
-        const parsedValue = this.resolveValue(
-            value === '' ? null : value === '-' ? value : toNumber(value),
-        )
+        let num
+
+        if (value === '') {
+            num = null
+        } else if (value === '-') {
+            num = value
+        } else {
+            num = toNumber(value)
+        }
+
+        const parsedValue = this.resolveValue(num)
+        const { onChange, mode } = this.props
 
         if (isNil(parsedValue)) {
-            this.setState({ value: null }, () => this.props.onChange(null))
+            this.setState({ value: null }, () => onChange(null))
         }
 
         if (matchesWhiteList(parsedValue) || this.pasted) {
             this.setState({ value: this.resolveValue(value) }, () => {
-                if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
-                    this.props.onChange(this.resolveValue(value))
+                if (!isNaN(toNumber(value)) || mode === inputMode.PICKER) {
+                    onChange(this.resolveValue(value))
                 }
             })
         }
     }
 
     /**
-   * Обрабатывает изменение значения с клавиатуры
-   * @param type {string} - 'up' (увеличение значения) или 'down' (уменьшение значения)
-   */
+     * Обрабатывает изменение значения с клавиатуры
+     * @param type {string} - 'up' (увеличение значения) или 'down' (уменьшение значения)
+     */
     buttonHandler(type) {
-        const { min, max, step } = this.props
+        const { min, max, step, onChange, onBlur } = this.props
         const { value } = this.state
         const delta = toNumber(formatToFloat(step, this.stepPrecition))
-        const val =
-      !isNil(value) && value !== ''
-          ? toNumber(value).toFixed(this.stepPrecition)
-          : null
+        const val = !isNil(value) && value !== ''
+            ? toNumber(value).toFixed(this.stepPrecition)
+            : null
         const currentValue = toNumber(formatToFloat(val, this.stepPrecition))
         let newValue = currentValue
 
@@ -150,20 +157,21 @@ export class InputNumber extends React.Component {
             newValue = newValue.toFixed(this.stepPrecition)
 
             this.setState({ value: newValue }, () => {
-                this.props.onChange(newValue)
-                this.props.onBlur(newValue)
+                onChange(newValue)
+                onBlur(newValue)
             })
         }
     }
 
     onBlur() {
-        const { max, min, onBlur } = this.props
+        const { max, min, onBlur, mode } = this.props
+        const { value: stateValue } = this.state
 
-        if (this.state.value === '-' && this.props.mode !== inputMode.PICKER) {
+        if (stateValue === '-' && mode !== inputMode.PICKER) {
             return
         }
 
-        const value = this.resolveValue(formatToFloat(this.state.value))
+        const value = this.resolveValue(formatToFloat(stateValue))
 
         this.pasted = false
 
@@ -175,18 +183,20 @@ export class InputNumber extends React.Component {
     }
 
     /**
-   * Вызывает buttonHandler с нужным аргументом (в зависимости от нажатой клавиши)
-   * @param e
-   */
+     * Вызывает buttonHandler с нужным аргументом (в зависимости от нажатой клавиши)
+     * @param e
+     */
     onKeyDown(e) {
         const upKeyCode = 38
         const downKeyCode = 40
-        const type =
-      e.keyCode === upKeyCode
-          ? 'up'
-          : e.keyCode === downKeyCode
-              ? 'down'
-              : undefined
+        let type
+
+        if (e.keyCode === upKeyCode) {
+            type = 'up'
+        }
+        if (e.keyCode === downKeyCode) {
+            type = 'down'
+        }
 
         if (type) {
             e.preventDefault()
@@ -195,8 +205,8 @@ export class InputNumber extends React.Component {
     }
 
     /**
-   * Базовый рендер
-   * */
+     * Базовый рендер
+     * */
     render() {
         const {
             visible,
@@ -240,6 +250,7 @@ export class InputNumber extends React.Component {
                     {showButtons && (
                         <div className="n2o-input-number-buttons">
                             <button
+                                type="button"
                                 onClick={() => this.buttonHandler('up')}
                                 disabled={disabled}
                                 tabIndex={-1}
@@ -247,6 +258,7 @@ export class InputNumber extends React.Component {
                                 <i className="fa fa-angle-up" aria-hidden="true" />
                             </button>
                             <button
+                                type="button"
                                 onClick={() => this.buttonHandler('down')}
                                 disabled={disabled}
                                 tabIndex={-1}
@@ -267,65 +279,69 @@ InputNumber.defaultProps = {
     step: '0.1',
     autoFocus: false,
     showButtons: true,
-    onChange: (val) => {},
-    onBlur: (val) => {},
-    onFocus: (val) => {},
+    onChange: () => {},
+    onBlur: () => {},
+    onFocus: () => {},
     mode: inputMode.DEFAULT,
 }
 
 InputNumber.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.number,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Шаг для изменения значения по кнопкам
-   */
+     * Шаг для изменения значения по кнопкам
+     */
     step: PropTypes.string,
     /**
-   * Минимальное значение
-   */
+     * Минимальное значение
+     */
     min: PropTypes.number,
     /**
-   * Максимальное значение
-   */
+     * Максимальное значение
+     */
     max: PropTypes.number,
     /**
-   * Название контрола
-   */
+     * Название контрола
+     */
     name: PropTypes.string,
     /**
-   * Флаг показа кнопок изменения значения
-   */
+     * Флаг показа кнопок изменения значения
+     */
     showButtons: PropTypes.bool,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Флаг автофокуса на контрол
-   */
+     * Флаг автофокуса на контрол
+     */
     autoFocus: PropTypes.bool,
     /**
-   * Количество знаков после запятой
-   */
+     * Количество знаков после запятой
+     */
     precision: PropTypes.number,
     /**
-   * Режим использования компонента
-   */
+     * Режим использования компонента
+     */
     mode: PropTypes.oneOf(inputMode.DEFAULT, inputMode.PICKER),
+    placeholder: PropTypes.string,
 }
 
-export default compose(withRightPlaceholder)(InputNumber)
+export const InputNumberPlaceholder = withRightPlaceholder(InputNumber)
+export default InputNumberPlaceholder

@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { pure } from 'recompose'
 import uniqueId from 'lodash/uniqueId'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import ListItem from '../InputSelect/ListItem'
 
@@ -41,21 +40,23 @@ function TreeNode({
     ...rest
 }) {
     /**
-   * Обработчик нажатия на элемент дерева
-   * @private
-   */
-
+     * Обработчик нажатия на элемент дерева
+     * @private
+     */
     const handleClick = (e) => {
         e.stopPropagation()
-        selected ? onDelete(item) : onSelect(item)
+        if (selected) {
+            onDelete(item)
+        } else {
+            onSelect(item)
+        }
     }
 
     /**
-   * Обработчик нажатия на кнопку раскрытия
-   * @param e - событие
-   * @private
-   */
-
+     * Обработчик нажатия на кнопку раскрытия
+     * @param e - событие
+     * @private
+     */
     const handleChevronClick = (e) => {
         e.stopPropagation()
         onExpandClick(item)
@@ -66,7 +67,7 @@ function TreeNode({
     return (
         <ui
             id={uniqueId('n2o-tree-select-item_')}
-            className={cx('n2o-tree-select-item', { 'tree-childs': true })}
+            className={classNames('n2o-tree-select-item', { 'tree-childs': true })}
         >
             <li id={uniqueId('n2o-tree-select_')} className="n2o-tree-select">
                 {hasChildren ? (
@@ -96,6 +97,9 @@ function TreeNode({
 }
 
 TreeNode.propTypes = {
+    children: PropTypes.any,
+    onDelete: PropTypes.func,
+    onSelect: PropTypes.func,
     expanded: PropTypes.bool,
     hasCheckboxes: PropTypes.bool,
     imageFieldId: PropTypes.string,
@@ -121,6 +125,7 @@ TreeNode.defaultProps = {
     disabled: false,
     selectable: true,
     selected: false,
+    // eslint-disable-next-line react/default-props-match-prop-types
     indeterminate: false,
     active: false,
 }
