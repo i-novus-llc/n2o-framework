@@ -19,6 +19,7 @@ import java.util.Map;
 public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, CssClassAware {
     private SourceComponent[] items;
     private String label;
+    private String description;
     private String src;
     private String cssClass;
     private String style;

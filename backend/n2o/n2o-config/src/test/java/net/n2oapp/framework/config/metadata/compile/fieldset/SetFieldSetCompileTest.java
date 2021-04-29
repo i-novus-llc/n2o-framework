@@ -142,11 +142,13 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getEnabled(), is(true));
         assertThat(fieldSet.getVisible(), is(true));
         assertThat(fieldSet.getDependency(), nullValue());
+        assertThat(fieldSet.getDescription(), is("description"));
 
         fieldSet = fieldSets.get(2);
         assertThat(fieldSet.getEnabled(), is(false));
         assertThat(fieldSet.getVisible(), is(false));
         assertThat(fieldSet.getDependency(), nullValue());
+        assertThat(fieldSet.getDescription(), nullValue());
 
         fieldSet = fieldSets.get(3);
         assertThat(fieldSet.getEnabled(), is("`x < 5`"));

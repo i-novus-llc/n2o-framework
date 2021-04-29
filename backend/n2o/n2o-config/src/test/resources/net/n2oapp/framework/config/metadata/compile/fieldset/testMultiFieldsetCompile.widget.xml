@@ -3,7 +3,7 @@
         <multi-set id="members" label="Заголовок" children-label="Участник {index}"
                    add-label="Добавить участника" remove-all-label="Удалить всех участников"
                    can-remove-first="true" can-add="false" can-remove="false"
-                   can-remove-all="true" can-copy="true">
+                   can-remove-all="true" can-copy="true" description="description">
         </multi-set>
         <multi-set src="test" children-label="{members[index].name}"/>
     </fields>
