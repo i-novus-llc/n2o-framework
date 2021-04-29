@@ -40,6 +40,7 @@ export function* alertEffect(action) {
 
         yield put(addAlerts(alertKey, alerts))
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }
@@ -65,6 +66,7 @@ export function* redirectEffect(action) {
             window.open(newUrl)
         }
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }
@@ -76,6 +78,7 @@ function* fetchFlow(options, action) {
     const meta = get(action, 'meta')
     const redirectPath = get(action, 'meta.redirect.path')
 
+    // eslint-disable-next-line sonarjs/no-one-iteration-loop
     while (true) {
         yield take([LOCATION_CHANGE])
 
@@ -96,11 +99,12 @@ export function* refreshEffect(action) {
     try {
         const { type, options } = action.meta.refresh
 
+        // eslint-disable-next-line default-case
         switch (type) {
             case 'widget':
                 if (
                     action.meta.redirect &&
-          action.meta.redirect.target === 'application'
+                    action.meta.redirect.target === 'application'
                 ) {
                     if (lastTask) {
                         yield cancel(lastTask)
@@ -123,6 +127,7 @@ export function* refreshEffect(action) {
                 break
         }
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(e)
     }
 }
@@ -134,12 +139,16 @@ export function* messagesFormEffect({ meta }) {
         const putBatchActions = flow([batchActions, put])
 
         if (formID && fields) {
-            const serializeData = map(toPairs(fields), ([name, ...message]) => addFieldMessage(formID, name, ...message))
+            const serializeData = map(
+                toPairs(fields),
+                ([name, ...message]) => addFieldMessage(formID, name, ...message),
+            )
 
             yield put(touch(formID, ...keys(fields)))
             yield putBatchActions(serializeData)
         }
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }

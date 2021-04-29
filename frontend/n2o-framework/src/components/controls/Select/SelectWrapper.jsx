@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import withFetchData from '../withFetchData'
 import Spinner from '../../snippets/Spinner/InlineSpinner'
 
-import Select from './Select'
-import Option from './Option'
+import { Select } from './Select'
+import { Option } from './Option'
 
 /**
  * Wrapper для селекта
@@ -25,39 +25,25 @@ import Option from './Option'
  * @reactProps {string} type - тип чекбокса
  */
 
-class SelectWrapper extends React.Component {
-    // componentDidMount() {
-    //   this.props.fetchData({
-    //     queryId: this.props.queryId,
-    //     size: this.props.size,
-    //     [`sorting.${this.props.labelFieldId}`]: 'ASC'
-    //   });
-    // }
+function SelectWrapper(props) {
+    const { data, valueFieldId, labelFieldId, isLoading } = props
 
-    /**
-   * Рендер
-   */
-
-    render() {
-        const { data, valueFieldId, labelFieldId, isLoading } = this.props
-
-        return (
-            <>
-                {!isLoading && (
-                    <Select {...this.props}>
-                        {data.map(option => (
-                            <Option
-                                key={option.id}
-                                value={option[valueFieldId]}
-                                label={option[labelFieldId]}
-                            />
-                        ))}
-                    </Select>
-                )}
-                {isLoading && <Spinner />}
-            </>
-        )
-    }
+    return (
+        <>
+            {!isLoading && (
+                <Select {...props}>
+                    {data.map(option => (
+                        <Option
+                            key={option.id}
+                            value={option[valueFieldId]}
+                            label={option[labelFieldId]}
+                        />
+                    ))}
+                </Select>
+            )}
+            {isLoading && <Spinner />}
+        </>
+    )
 }
 
 SelectWrapper.propTypes = {

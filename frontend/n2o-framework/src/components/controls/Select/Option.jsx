@@ -8,20 +8,12 @@ import PropTypes from 'prop-types'
  * @reactProps {number|string} label - лейбл
  */
 
-class Option extends React.Component {
-    /**
-   * Рендер
-   */
-
-    render() {
-        const { value, label, disabled } = this.props
-
-        return (
-            <option value={value} disabled={disabled}>
-                {label}
-            </option>
-        )
-    }
+export function Option({ value, label, disabled }) {
+    return (
+        <option value={value} disabled={disabled}>
+            {label}
+        </option>
+    )
 }
 
 Option.propTypes = {

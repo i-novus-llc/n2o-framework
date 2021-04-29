@@ -54,26 +54,27 @@ const selectType = {
 class N2OSelect extends React.Component {
     constructor(props) {
         super(props)
+        const { value, options, type } = this.props
 
         this.state = {
             value: '',
             isExpanded: false,
-            options: this.props.options,
-            selected: this._getSelected(this.props.value),
-            hasCheckboxes: this.props.type === selectType.CHECKBOXES,
+            options,
+            selected: this.getSelected(value),
+            hasCheckboxes: type === selectType.CHECKBOXES,
         }
 
-        this._control = null
+        this.control = null
 
-        this._handleButtonClick = this._handleButtonClick.bind(this)
-        this._handleInputChange = this._handleInputChange.bind(this)
-        this._handleInputFocus = this._handleInputFocus.bind(this)
-        this._hideOptionsList = this._hideOptionsList.bind(this)
-        this._handleItemSelect = this._handleItemSelect.bind(this)
-        this._removeSelectedItem = this._removeSelectedItem.bind(this)
-        this._clearSelected = this._clearSelected.bind(this)
-        this._handleSearchButton = this._handleSearchButton.bind(this)
-        this._handleOnBlur = this._handleOnBlur.bind(this)
+        this.handleButtonClick = this.handleButtonClick.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleInputFocus = this.handleInputFocus.bind(this)
+        this.hideOptionsList = this.hideOptionsList.bind(this)
+        this.handleItemSelect = this.handleItemSelect.bind(this)
+        this.removeSelectedItem = this.removeSelectedItem.bind(this)
+        this.clearSelected = this.clearSelected.bind(this)
+        this.handleSearchButton = this.handleSearchButton.bind(this)
+        this.handleOnBlur = this.handleOnBlur.bind(this)
         this.setControlRef = this.setControlRef.bind(this)
     }
 
@@ -81,7 +82,7 @@ class N2OSelect extends React.Component {
         const { initial, options, valueFieldId } = this.props
 
         if (Array.isArray(initial)) {
-            this._setStateFromInitial(initial, options, valueFieldId)
+            this.setStateFromInitial(initial, options, valueFieldId)
         }
     }
 
@@ -99,26 +100,26 @@ class N2OSelect extends React.Component {
         const { initial, options, valueFieldId, value } = this.props
 
         if (Array.isArray(initial) && !isEqual(initial, prevProps.initial)) {
-            this._setStateFromInitial(initial, options, valueFieldId)
+            this.setStateFromInitial(initial, options, valueFieldId)
 
             return
         }
         if (!isEqual(value, prevProps.value)) {
             this.setState({
-                selected: this._getSelected(value),
+                selected: this.getSelected(value),
             })
         }
     }
 
     /**
-   * Хак для мапинга айдишников, которые берутся из адресной строки в виде строк, но ожидается число
-   * TODO удалить после того, как починится поведение парсинга адресной строки будет опираться на указанные типы
-   * @param {Array.<object>} [initial]
-   * @param options
-   * @param {String} valueFieldId
-   * @private
-   */
-    _setStateFromInitial(initial, options, valueFieldId) {
+     * Хак для мапинга айдишников, которые берутся из адресной строки в виде строк, но ожидается число
+     * TODO удалить после того, как починится поведение парсинга адресной строки будет опираться на указанные типы
+     * @param {Array.<object>} [initial]
+     * @param options
+     * @param {String} valueFieldId
+     * @private
+     */
+    setStateFromInitial(initial, options, valueFieldId) {
         const mapOptions = (data, type = 'string') => data.map(option => ({
             ...option,
             ...{
@@ -151,11 +152,12 @@ class N2OSelect extends React.Component {
     }
 
     /**
-   * @param {Array | string} [value]
-   * @return {Array}
-   * @private
-   */
-    _getSelected(value) {
+     * @param {Array | string} [value]
+     * @return {Array}
+     * @private
+     */
+    // eslint-disable-next-line class-methods-use-this
+    getSelected(value) {
         if (Array.isArray(value)) {
             return value
         }
@@ -167,14 +169,14 @@ class N2OSelect extends React.Component {
     }
 
     /**
-   * Удаляет элемент из списка выбранных
-   * @param item - элемент
-   * @private
-   */
-
-    _removeSelectedItem(item) {
+     * Удаляет элемент из списка выбранных
+     * @param item - элемент
+     * @private
+     */
+    removeSelectedItem(item) {
         const { valueFieldId, onChange } = this.props
-        const selected = this.state.selected.filter(
+        const { selected: stateSelected } = this.state
+        const selected = stateSelected.filter(
             i => i[valueFieldId] !== item[valueFieldId],
         )
 
@@ -187,12 +189,11 @@ class N2OSelect extends React.Component {
     }
 
     /**
-   * Изменение видимости попапа
-   * @param newState - новое значение видимости
-   * @private
-   */
-
-    _changePopUpVision(newIsExpanded) {
+     * Изменение видимости попапа
+     * @param newState - новое значение видимости
+     * @private
+     */
+    changePopUpVision(newIsExpanded) {
         const { onOpen, onClose } = this.props
         const { isExpanded } = this.state
 
@@ -206,77 +207,76 @@ class N2OSelect extends React.Component {
     }
 
     /**
-   * Обрабатывает нажатие на кнопку
-   * @private
-   */
+     * Обрабатывает нажатие на кнопку
+     * @private
+     */
+    handleButtonClick() {
+        const { disabled } = this.props
+        const { isExpanded } = this.state
 
-    _handleButtonClick() {
-        if (!this.props.disabled) {
-            this._changePopUpVision(!this.state.isExpanded)
+        if (!disabled) {
+            this.changePopUpVision(!isExpanded)
         }
     }
 
     /**
-   * Обрабатывает форкус на инпуте
-   * @private
-   */
-
-    _handleInputFocus() {
-        this._changePopUpVision(true)
+     * Обрабатывает форкус на инпуте
+     * @private
+     */
+    handleInputFocus() {
+        this.changePopUpVision(true)
     }
 
     /**
-   * Скрывает popUp
-   * @private
-   */
-
-    _hideOptionsList() {
-        this._changePopUpVision(false)
+     * Скрывает popUp
+     * @private
+     */
+    hideOptionsList() {
+        this.changePopUpVision(false)
     }
 
     /**
-   * Уставнавливает новое значение инпута
-   * @param newValue - новое значение
-   * @private
-   */
-
-    _setNewValue(newValue) {
+     * Уставнавливает новое значение инпута
+     * @param newValue - новое значение
+     * @private
+     */
+    setNewValue(newValue) {
         this.setState({
             value: newValue,
         })
     }
 
     /**
-   * Удаляет выбранные элементы
-   * @private
-   */
-
-    _clearSelected(e) {
+     * Удаляет выбранные элементы
+     * @private
+     */
+    clearSelected(e) {
         e.stopPropagation()
         e.preventDefault()
 
-        if (this.props.disabled) {
+        const { disabled, onChange, onBlur } = this.props
+
+        if (disabled) {
             return
         }
 
         this.setState({
             selected: [],
         })
-        this.props.onChange(null)
-        this.props.onBlur(null)
+        onChange(null)
+        onBlur(null)
     }
 
     /**
-   * Выполняет поиск элементов для popUp, если установлен фильтр
-   * @param newValue - значение для поиска
-   * @private
-   */
-
-    _handleDataSearch(input, delay = true, callback) {
+     * Выполняет поиск элементов для popUp, если установлен фильтр
+     * @param newValue - значение для поиска
+     * @private
+     */
+    handleDataSearch(input, delay = true, callback) {
         const { onSearch, filter, options: data, labelFieldId } = this.props
 
         if (filter) {
-            const filterFunc = item => String.prototype[this.props.filter].call(item, input)
+            const filterFunc = item => String.prototype[filter].call(item, input)
             const options = data.filter(item => filterFunc(item[labelFieldId].toString()))
 
             this.setState({ options })
@@ -286,18 +286,18 @@ class N2OSelect extends React.Component {
     }
 
     /**
-   * Устанавливает выбранный элемент
-   * @param item - элемент массива options
-   * @private
-   */
-
-    _insertSelected(item) {
+     * Устанавливает выбранный элемент
+     * @param item - элемент массива options
+     * @private
+     */
+    insertSelected(item) {
         const { onChange, onBlur } = this.props
+        const { selected: stateSelected, hasCheckboxes } = this.state
         let selected = [item]
         let value = item
 
-        if (this.state.hasCheckboxes) {
-            selected = [...this.state.selected, item]
+        if (hasCheckboxes) {
+            selected = [...stateSelected, item]
             value = selected
         }
 
@@ -312,93 +312,91 @@ class N2OSelect extends React.Component {
     }
 
     /**
-   * Обрабатывает изменение инпута
-   * @param newValue - новое значение
-   * @private
-   */
-
-    _handleInputChange(newValue) {
+     * Обрабатывает изменение инпута
+     * @param newValue - новое значение
+     * @private
+     */
+    handleInputChange(newValue) {
         const { searchByTap, onChange, onInput, resetOnBlur } = this.props
 
-        this._setNewValue(newValue)
+        this.setNewValue(newValue)
 
-        !searchByTap && this._handleDataSearch(newValue)
-        !resetOnBlur && onChange(newValue)
+        if (!searchByTap) {
+            this.handleDataSearch(newValue)
+        }
+        if (!resetOnBlur) {
+            onChange(newValue)
+        }
         onInput(newValue)
     }
 
     /**
-   * Обрабатывает поиск по нажатию
-   * @private
-   */
+     * Обрабатывает поиск по нажатию
+     * @private
+     */
+    handleSearchButton() {
+        const { value } = this.state
 
-    _handleSearchButton() {
-        this._handleDataSearch(this.state.value)
+        this.handleDataSearch(value)
     }
 
     /**
-   * Очищает инпут и результаты поиска
-   * @private
-   */
+     * Очищает инпут и результаты поиска
+     * @private
+     */
+    clearSearchField() {
+        const { options } = this.props
 
-    _clearSearchField() {
         this.setState({
             value: '',
-            options: this.props.options,
+            options,
         })
     }
 
     /**
-   * Обрабатывает выбор элемента из popUp
-   * @param item - элемент массива options
-   * @private
-   */
+     * Обрабатывает выбор элемента из popUp
+     * @param item - элемент массива options
+     * @private
+     */
+    handleItemSelect(item) {
+        const { closePopupOnSelect } = this.props
 
-    _handleItemSelect(item) {
-        this._insertSelected(item)
+        this.insertSelected(item)
 
-        if (this.props.closePopupOnSelect) {
-            this._hideOptionsList()
+        if (closePopupOnSelect) {
+            this.hideOptionsList()
         }
 
-        this._clearSearchField()
+        this.clearSearchField()
 
-        if (this._control) {
-            this._control.focus()
+        if (this.control) {
+            this.control.focus()
         }
     }
 
     /**
-   * Обрабатывает поведение инпута при потери фокуса, если есть resetOnBlur
-   * @private
-   */
+     * Обрабатывает поведение инпута при потери фокуса, если есть resetOnBlur
+     * @private
+     */
+    handleResetOnBlur() {
+        const { selected } = this.state
+        const { resetOnBlur, options } = this.props
 
-    _handleResetOnBlur() {
-        if (this.props.resetOnBlur && !this.state.selected) {
+        if (resetOnBlur && !selected) {
             this.setState({
                 value: '',
-                options: this.props.options,
+                options,
             })
         }
     }
 
-    /**
-   * Обрабатывает клик за пределы компонента
-   * @param evt
-   */
-
-    handleClickOutside(evt) {
-        this._hideOptionsList()
-        this._handleResetOnBlur()
-    }
-
-    _handleOnBlur(e) {
+    handleOnBlur(e) {
         e.preventDefault()
-        this._handleResetOnBlur()
+        this.handleResetOnBlur()
     }
 
     setControlRef(el) {
-        this._control = el
+        this.control = el
     }
 
     renderPlaceholder() {
@@ -415,10 +413,10 @@ class N2OSelect extends React.Component {
 
         if (
             !isEmpty(selectFormatOne) &&
-      !isEmpty(selectFormatFew) &&
-      !isEmpty(selectFormatMany) &&
-      selectedCount >= 1 &&
-      hasCheckboxes
+            !isEmpty(selectFormatFew) &&
+            !isEmpty(selectFormatMany) &&
+            selectedCount >= 1 &&
+            hasCheckboxes
         ) {
             text = declensionNoun(
                 selectedCount,
@@ -434,10 +432,6 @@ class N2OSelect extends React.Component {
 
         return text
     }
-
-    /**
-   * Рендер
-   */
 
     render() {
         const {
@@ -463,7 +457,7 @@ class N2OSelect extends React.Component {
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
-        const { selected } = this.state
+        const { selected, isExpanded, hasCheckboxes, value, options } = this.state
 
         const title = get(first(selected), `${labelFieldId}`)
 
@@ -472,39 +466,41 @@ class N2OSelect extends React.Component {
                 className="n2o-input-select"
                 title={title}
                 style={inputSelectStyle}
-                onBlur={this._handleOnBlur}
+                onBlur={this.handleOnBlur}
             >
-                <Button innerRef={this.setControlRef} onClick={this._handleButtonClick}>
+                <Button innerRef={this.setControlRef} onClick={this.handleButtonClick}>
                     <InputSelectGroup
                         className={className}
-                        isExpanded={this.state.isExpanded}
+                        isExpanded={isExpanded}
                         loading={loading}
                         disabled={disabled}
                         iconFieldId={iconFieldId}
                         imageFieldId={imageFieldId}
                         cleanable={cleanable}
-                        selected={this.state.selected}
-                        onClearClick={this._clearSelected}
+                        selected={selected}
+                        onClearClick={this.clearSelected}
                     >
                         <span className="valueText">
-                            {this.state.hasCheckboxes
-                                ? this.renderPlaceholder()
-                                : !isEmpty(selected) && selected[0][labelFieldId]}
+                            {
+                                hasCheckboxes
+                                    ? this.renderPlaceholder()
+                                    : !isEmpty(selected) && selected[0][labelFieldId]
+                            }
                         </span>
                     </InputSelectGroup>
                 </Button>
-                <Popup isExpanded={this.state.isExpanded}>
+                <Popup isExpanded={isExpanded}>
                     <>
                         {hasSearch && (
                             <N2OSelectInput
                                 placeholder={placeholder}
-                                onChange={this._handleInputChange}
-                                onSearch={this._handleSearchButton}
-                                value={this.state.value}
+                                onChange={this.handleInputChange}
+                                onSearch={this.handleSearchButton}
+                                value={value}
                             />
                         )}
                         <PopupList
-                            options={this.state.options}
+                            options={options}
                             valueFieldId={valueFieldId}
                             labelFieldId={labelFieldId}
                             iconFieldId={iconFieldId}
@@ -513,14 +509,14 @@ class N2OSelect extends React.Component {
                             badgeFieldId={badgeFieldId}
                             descriptionFieldId={descriptionFieldId}
                             badgeColorFieldId={badgeColorFieldId}
-                            onSelect={this._handleItemSelect}
+                            onSelect={this.handleItemSelect}
                             onScrollEnd={onScrollEnd}
-                            isExpanded={this.state.isExpanded}
-                            selected={this.state.selected}
+                            isExpanded={isExpanded}
+                            selected={selected}
                             disabledValues={disabledValues}
                             groupFieldId={groupFieldId}
-                            hasCheckboxes={this.state.hasCheckboxes}
-                            onRemoveItem={this._removeSelectedItem}
+                            hasCheckboxes={hasCheckboxes}
+                            onRemoveItem={this.removeSelectedItem}
                             format={format}
                             loading={loading}
                         />
@@ -533,107 +529,117 @@ class N2OSelect extends React.Component {
 
 N2OSelect.propTypes = {
     /**
-   * Флаг загрузки
-   */
+     * Флаг загрузки
+     */
     loading: PropTypes.bool,
     /**
-   * Данные
-   */
+     * Данные
+     */
     options: PropTypes.array.isRequired,
     /**
-   * Ключ id в данных
-   */
-    valueFieldId: PropTypes.string.isRequired,
+     * Ключ id в данных
+     */
+    valueFieldId: PropTypes.string,
     /**
-   * Ключ label в данных
-   */
-    labelFieldId: PropTypes.string.isRequired,
+     * Ключ label в данных
+     */
+    labelFieldId: PropTypes.string,
     cleanable: PropTypes.bool,
     /**
-   * Ключ icon в данных
-   */
+     * Ключ icon в данных
+     */
     iconFieldId: PropTypes.string,
     /**
-   * Ключ image в данных
-   */
+     * Ключ image в данных
+     */
     imageFieldId: PropTypes.string,
     /**
-   * Ключ image в данных
-   */
+     * Ключ image в данных
+     */
     statusFieldId: PropTypes.string,
     /**
-   * Ключ badge в данных
-   */
+     * Ключ badge в данных
+     */
     badgeFieldId: PropTypes.string,
     /**
-   * Ключ badgeColor в данных
-   */
+     * Ключ badgeColor в данных
+     */
     badgeColorFieldId: PropTypes.string,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Неактивные данные
-   */
+     * Неактивные данные
+     */
     disabledValues: PropTypes.array,
     /**
-   * Фильтрация
-   */
+     * Фильтрация
+     */
     filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', false]),
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    initial: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Callback при вводе в инпут
-   */
+     * Callback при вводе в инпут
+     */
     onInput: PropTypes.func,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onScrollEnd: PropTypes.func,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Сброс значения при потере фокуса
-   */
+     * Сброс значения при потере фокуса
+     */
     resetOnBlur: PropTypes.bool,
     /**
-   * Callback на открытие попапа
-   */
+     * Callback на открытие попапа
+     */
     onOpen: PropTypes.func,
     /**
-   * Callback на закрытие попапа
-   */
+     * Callback на закрытие попапа
+     */
     onClose: PropTypes.func,
     groupFieldId: PropTypes.string,
     /**
-   * Формат
-   */
+     * Формат
+     */
     format: PropTypes.string,
     /**
-   * Поиск по нажатию кнопки
-   */
+     * Поиск по нажатию кнопки
+     */
     searchByTap: PropTypes.bool,
     /**
-   * Callback на поиск
-   */
+     * Callback на поиск
+     */
     onSearch: PropTypes.func,
     /**
-   * Флаг наличия поиска
-   */
+     * Флаг наличия поиска
+     */
     hasSearch: PropTypes.bool,
+    type: PropTypes.string,
+    closePopupOnSelect: PropTypes.bool,
+    onBlur: PropTypes.func,
+    descriptionFieldId: PropTypes.string,
+    selectFormat: PropTypes.string,
+    selectFormatOne: PropTypes.string,
+    selectFormatFew: PropTypes.string,
+    selectFormatMany: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
 }
 
 N2OSelect.defaultProps = {
-    parentFieldId: 'parentId',
     cleanable: true,
     valueFieldId: 'id',
     labelFieldId: 'name',

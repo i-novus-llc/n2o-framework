@@ -108,6 +108,7 @@ class Input extends React.Component {
                 name={name}
                 type={type}
                 disabled={disabled}
+                /* eslint-disable-next-line jsx-a11y/no-autofocus */
                 autoFocus={autoFocus}
                 value={value}
                 onPaste={onPaste}
@@ -142,6 +143,7 @@ Input.propTypes = {
     onPaste: PropTypes.func,
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
+    inputRef: PropTypes.func,
 }
 
 Input.defaultProps = {

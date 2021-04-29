@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+/* eslint-disable */
+import React from 'react'
 import { storiesOf } from '@storybook/react'
 import fetchMock from 'fetch-mock'
 import uniqueId from 'lodash/uniqueId'
@@ -15,12 +16,12 @@ import { withState } from 'recompose'
 import InputSelectTreeContainer from '../InputSelectTreeOldDeprecated/InputSelectTreeContainer'
 
 import InputSelectTreeContainerJson from './InputSelectTreeContainer.meta'
+
 import InputSelectTree from './InputSelectTree'
 
 const stories = storiesOf('Контролы/InputSelectTree', module)
 const form = withForm({ src: 'InputSelectTree' })
 
-const delay = ms => new Promise(r => setTimeout(r, ms))
 const dataUrl = 'begin:n2o/data'
 
 const data = [
@@ -440,8 +441,9 @@ stories
                 const data = new FormData(event.target)
                 const fields = {}
 
+                // eslint-disable-next-line no-restricted-syntax
                 for (const name of data.keys()) {
-                    fields[name] = parseInt(data.get(name))
+                    fields[name] = parseInt(data.get(name), 10)
                 }
 
                 generateCollection(fields)

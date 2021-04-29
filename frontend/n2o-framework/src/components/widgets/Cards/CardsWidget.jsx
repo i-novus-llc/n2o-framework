@@ -1,10 +1,9 @@
 import React from 'react'
-import { compose } from 'recompose'
 import PropTypes from 'prop-types'
 
-import dependency from '../../../core/dependency'
+import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
-import Fieldsets from '../Form/fieldsets'
+import { StandardFieldset } from '../Form/fieldsets'
 import Pagination from '../Table/TablePagination'
 
 import CardsContainer from './CardsContainer'
@@ -20,8 +19,6 @@ function CardsWidget(
         filter,
         dataProvider,
         fetchOnInit,
-        prevText,
-        nextText,
         paging,
         cards,
         verticalAlign,
@@ -30,7 +27,7 @@ function CardsWidget(
     context,
 ) {
     const { size } = paging
-    const prepareFilters = () => context.resolveProps(filter, Fieldsets.StandardFieldset)
+    const prepareFilters = () => context.resolveProps(filter, StandardFieldset)
 
     return (
         <StandardWidget
@@ -60,6 +57,7 @@ function CardsWidget(
 
 CardsWidget.propTypes = {
     widgetId: PropTypes.string,
+    id: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
     pageId: PropTypes.string,
@@ -71,6 +69,8 @@ CardsWidget.propTypes = {
     cards: PropTypes.array,
     align: PropTypes.string,
     height: PropTypes.string,
+    paging: PropTypes.object,
+    verticalAlign: PropTypes.string,
 }
 
 CardsWidget.defaultProps = {
@@ -88,4 +88,4 @@ CardsWidget.contextTypes = {
     resolveProps: PropTypes.func,
 }
 
-export default compose(dependency)(CardsWidget)
+export default dependency(CardsWidget)

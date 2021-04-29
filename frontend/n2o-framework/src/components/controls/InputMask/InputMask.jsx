@@ -59,29 +59,31 @@ class InputMask extends React.Component {
           return mask()
       }
 
-      return this._mapToArray(mask)
+      return this.mapToArray(mask)
   };
 
   /**
    * возвращает маку для пресета
    * @returns (number) возвращает массив-маску для пресета-аргумента
    */
+  // eslint-disable-next-line consistent-return
   preset = (preset) => {
       const { presetConfig } = this.props
 
+      // eslint-disable-next-line default-case
       switch (preset) {
           case 'phone':
-              return this._mapToArray('+9 (999)-999-99-99')
+              return this.mapToArray('+9 (999)-999-99-99')
           case 'post-code':
-              return this._mapToArray('999999')
+              return this.mapToArray('999999')
           case 'date':
-              return this._mapToArray('99.99.9999')
+              return this.mapToArray('99.99.9999')
           case 'money':
               return createNumberMask(presetConfig)
           case 'percentage':
               return createNumberMask({ prefix: '', suffix: '%' })
           case 'card':
-              return this._mapToArray('9999 9999 9999 9999')
+              return this.mapToArray('9999 9999 9999 9999')
       }
   };
 
@@ -89,13 +91,17 @@ class InputMask extends React.Component {
    * возвращает индекс первого символа маски, который еще не заполнен
    * @returns (number) индекс первого символа маски, который еще не заполнен
    */
-  _indexOfFirstPlaceHolder = (value = '') => value.toString().indexOf(this.props.placeholderChar);
+  indexOfFirstPlaceHolder = (value = '') => {
+      const { placeholderChar } = this.props
+
+      return value.toString().indexOf(placeholderChar)
+  }
 
   /**
    * возвращает индекс последнего символа маски, который еще не заполнен
    * @returns (number) индекс последнего символа маски, который еще не заполнен
    */
-  _indexOfLastPlaceholder = (mask) => {
+  indexOfLastPlaceholder = (mask) => {
       if (typeof mask === 'function') {
           return mask()
               .map(item => item instanceof RegExp)
@@ -114,53 +120,59 @@ class InputMask extends React.Component {
   /**
    * проверка на валидность (соответсвие маске)
    */
-  _isValid = (value) => {
+  isValid = (value) => {
       const { preset, mask, guide } = this.props
 
       if (guide) {
-          return value && this._indexOfFirstPlaceHolder(value) === -1
+          return value && this.indexOfFirstPlaceHolder(value) === -1
       }
 
       return (
-          value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
+          value.length > this.indexOfLastPlaceholder(this.preset(preset) || mask)
       )
   };
 
   /**
    * преобразование строки маски в массив ( уже  с регулярными выражениями)
    */
-  _mapToArray = mask => mask.split('').map(char => (this.dict[char] ? this.dict[char] : char));
+  mapToArray = mask => mask.split('').map(char => (this.dict[char] ? this.dict[char] : char));
 
-  _onChange = (e) => {
+  onChange = (e) => {
       const { value } = e.target
+      const { guide, onChange } = this.props
 
-      this.valid = this._isValid(value)
+      this.valid = this.isValid(value)
 
-      this.setState({ value, guide: this.props.guide }, () => {
-          (this.valid || value === '') && this.props.onChange(value)
+      this.setState({ value, guide }, () => {
+          if (this.valid || value === '') {
+              onChange(value)
+          }
       })
   };
 
-  _onBlur = (e) => {
-      const { onBlur, clearOnBlur } = this.props
+  onBlur = (e) => {
+      const { onBlur, clearOnBlur, onChange } = this.props
       const { value } = e.nativeEvent.target
 
-      this.valid = this._isValid(value)
+      this.valid = this.isValid(value)
       onBlur(value)
       if (!this.valid) {
           const newValue = clearOnBlur ? '' : value
 
           this.setState(
               { value: newValue, guide: false },
-              () => value === '' && this.props.onChange(newValue),
+              () => value === '' && onChange(newValue),
           )
       }
   };
 
-  _onFocus = () => {
-      this.valid = this._isValid(this.state.value)
+  onFocus = () => {
+      const { guide } = this.props
+      const { value } = this.state
+
+      this.valid = this.isValid(value)
       if (!this.valid) {
-          this.setState({ guide: this.props.guide })
+          this.setState({ guide })
       }
   };
 
@@ -169,19 +181,19 @@ class InputMask extends React.Component {
    */
   componentDidUpdate(prevProps) {
       const { value: valueFromState } = this.state
-      const { value: valueFromProps } = this.props
+      const { value: valueFromProps, dictionary } = this.props
 
       if (
           !isEqual(prevProps.value, valueFromProps) &&
-      !isEqual(valueFromProps, valueFromState)
+          !isEqual(valueFromProps, valueFromState)
       ) {
           this.setState({
-              value: this._isValid(valueFromProps) ? valueFromProps : '',
+              value: this.isValid(valueFromProps) ? valueFromProps : '',
           })
       }
 
-      this.dict = { ...this.dict, ...this.props.dictionary }
-      this.valid = this._isValid(this.state.value)
+      this.dict = { ...this.dict, ...dictionary }
+      this.valid = this.isValid(valueFromState)
   }
 
   /**
@@ -195,7 +207,9 @@ class InputMask extends React.Component {
           className,
           autoFocus,
           disabled,
+          keepCharPositions,
       } = this.props
+      const { guide, value } = this.state
       const mask = this.preset(preset)
 
       return (
@@ -208,17 +222,18 @@ class InputMask extends React.Component {
               ])}
               placeholderChar={placeholderChar}
               placeholder={placeholder}
-              guide={this.state.guide}
+              guide={guide}
               mask={mask || this.mask}
-              value={this.state.value}
-              onBlur={this._onBlur}
-              onChange={this._onChange}
-              onFocus={this._onFocus}
-              keepCharPositions={this.props.keepCharPositions}
+              value={value}
+              onBlur={this.onBlur}
+              onChange={this.onChange}
+              onFocus={this.onFocus}
+              keepCharPositions={keepCharPositions}
               render={(ref, props) => (
                   <input
                       ref={ref}
                       {...omit(props, ['defaultValue'])}
+                      /* eslint-disable-next-line jsx-a11y/no-autofocus */
                       autoFocus={autoFocus}
                   />
               )}
@@ -243,62 +258,63 @@ InputMask.defaultProps = {
 
 InputMask.propTypes = {
     /**
-   * Класс контрола
-   */
+     * Класс контрола
+     */
     className: PropTypes.string,
     /**
-   * Пресет маски
-   */
+     * Пресет маски
+     */
     preset: PropTypes.string,
     /**
-   * Маска
-   */
+     * Маска
+     */
     mask: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array,
         PropTypes.func,
     ]),
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Символ, который будет на месте незаполненного символа маски
-   */
+     * Символ, который будет на месте незаполненного символа маски
+     */
     placeholderChar: PropTypes.string,
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.string,
     /**
-   * Дополнительные символы-ключи для маски
-   */
+     * Дополнительные символы-ключи для маски
+     */
     dictionary: PropTypes.object,
     /**
-   * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
-   */
+     * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
+     */
     guide: PropTypes.bool,
     /**
-   * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
-   */
+     * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
+     */
     keepCharPositions: PropTypes.bool,
     /**
-   * Сбрасывать / оставлять невалидное значение при потере фокуса
-   */
+     * Сбрасывать / оставлять невалидное значение при потере фокуса
+     */
     clearOnBlur: PropTypes.bool,
     /**
-   * Настройка пресета
-   */
+     * Настройка пресета
+     */
     presetConfig: PropTypes.object,
     /**
-   * Callback на потерю фокуса
-   */
+     * Callback на потерю фокуса
+     */
     onBlur: PropTypes.func,
     disabled: PropTypes.bool,
+    autoFocus: PropTypes.bool,
 }
 
 export default compose(withRightPlaceholder)(InputMask)

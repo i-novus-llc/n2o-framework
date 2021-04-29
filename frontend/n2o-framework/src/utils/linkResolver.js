@@ -26,16 +26,20 @@ export default function linkResolver(state, { link, value }) {
 
     if (!link && isNil(value)) { return }
 
+    // eslint-disable-next-line consistent-return
     if (isBoolean(value)) { return value }
+    // eslint-disable-next-line consistent-return
     if (isNumber(value)) { return value }
 
     const context = get(state, link)
     const isMultiKeys = every(keys(context), key => !isNaN(Number(key)))
 
+    // eslint-disable-next-line consistent-return
     if (isUndefined(value) && link) { return context }
 
     const json = JSON.stringify(value)
 
+    // eslint-disable-next-line consistent-return
     return JSON.parse(json, (k, val) => {
         const isMulti =
       context &&

@@ -20,6 +20,7 @@ import { regionsSelector } from '../selectors/regions'
 import { modelsSelector } from '../selectors/models'
 import { setActiveEntity } from '../actions/regions'
 
+// eslint-disable-next-line import/no-cycle
 import { routesQueryMapping } from './widgets'
 
 function* mapUrl(value) {
@@ -98,15 +99,16 @@ function* lazyFetch(id) {
 
     if (!isEmpty(regionCollection)) {
         each(regionCollection, (region) => {
-            const { activeEntity, lazy, alwaysRefresh } = region
+            const { activeEntity, alwaysRefresh } = region
 
             targetTab = { ...find(region.tabs, tab => tab.id === activeEntity) }
 
             if (!isEmpty(targetTab.content)) {
                 each(targetTab.content, (item) => {
-                    if (alwaysRefresh && targetTab.id === id) {
-                        idsToFetch.push(item.id)
-                    } else if (!includes(Object.keys(models.datasource), item.id)) {
+                    if (
+                        (alwaysRefresh && targetTab.id === id) ||
+                        (!includes(Object.keys(models.datasource), item.id))
+                    ) {
                         idsToFetch.push(item.id)
                     }
                 })

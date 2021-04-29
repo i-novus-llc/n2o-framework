@@ -54,8 +54,10 @@ class InputMoney extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.value, this.props.value)) {
-            this.setState({ value: this.props.value })
+        const { value } = this.props
+
+        if (!isEqual(prevProps.value, value)) {
+            this.setState({ value })
         }
     }
 
@@ -63,16 +65,18 @@ class InputMoney extends React.Component {
         const { allowDecimal } = this.props
 
         if (value !== '') {
+            // eslint-disable-next-line react/destructuring-assignment
             value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL])
         }
 
         const splitBySymbol = split(
             value,
+            // eslint-disable-next-line react/destructuring-assignment
             this.props[ReplaceableChar.DECIMAL_SYMBOL],
         )
 
         if (!allowDecimal) {
-            value = splitBySymbol[0]
+            return splitBySymbol[0]
         }
 
         return value
@@ -82,10 +86,13 @@ class InputMoney extends React.Component {
         const { onBlur } = this.props
         const convertedValue = parseFloat(this.convertToFloat(value))
 
-        onBlur && onBlur(!isNaN(convertedValue) ? convertedValue : null)
+        if (onBlur) {
+            onBlur(!isNaN(convertedValue) ? convertedValue : null)
+        }
         this.setState({ value: convertedValue })
     }
 
+    // eslint-disable-next-line class-methods-use-this
     replaceSpecialSymbol(value, searchValue, replaceValue) {
         return value.replace(searchValue, replaceValue)
     }
@@ -95,14 +102,15 @@ class InputMoney extends React.Component {
         let convertedValue = value.toString()
 
         forOwn(ReplaceableChar, (char) => {
+            // eslint-disable-next-line react/destructuring-assignment
             if (!isEmpty(this.props[char])) {
+                // eslint-disable-next-line react/destructuring-assignment
                 const pattern = this.props[char].replace(
                     /[$()*+./?[\\\]^{|}-]/g,
                     '\\$&',
                 )
                 const regExp = new RegExp(pattern, 'g')
-                const replaceableValue =
-          char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : ''
+                const replaceableValue = char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : ''
 
                 convertedValue = this.replaceSpecialSymbol(
                     convertedValue,
@@ -112,17 +120,20 @@ class InputMoney extends React.Component {
             }
         })
 
+        const { value: stateValue } = this.state
+
         if (
             allowDecimal &&
-      includes(this.state.value, '.') &&
-      !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
+            includes(stateValue, '.') &&
+            // eslint-disable-next-line react/destructuring-assignment
+            !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
         ) {
             convertedValue = convertedValue.substring(0, convertedValue.length - 3)
         }
 
         if (
             includes(convertedValue, '.') &&
-      last(split(convertedValue, '.')).length === 1
+            last(split(convertedValue, '.')).length === 1
         ) {
             convertedValue += '0'
         }
@@ -137,12 +148,13 @@ class InputMoney extends React.Component {
 
         if (isNaN(toNumber(value))) { return }
 
-        const convertedValue =
-      (allowNegative && value === '-') || isNil(value)
-          ? value
-          : parseFloat(this.convertToFloat(value))
+        const convertedValue = (allowNegative && value === '-') || isNil(value)
+            ? value
+            : parseFloat(this.convertToFloat(value))
 
-        onChange && onChange(!isNaN(convertedValue) ? convertedValue : null)
+        if (onChange) {
+            onChange(!isNaN(convertedValue) ? convertedValue : null)
+        }
         this.setState({ value: convertedValue })
     }
 
@@ -162,11 +174,12 @@ class InputMoney extends React.Component {
             allowNegative,
             allowLeadingZeroes,
         } = this.props
+        const { value: stateValue } = this.state
 
         return {
             ...this.props,
             preset: 'money',
-            value: this.convertToMoney(value || this.state.value),
+            value: this.convertToMoney(value || stateValue),
             onChange: this.onChange,
             onBlur: this.onBlur,
             className: cn('n2o-input-money', className),
@@ -193,50 +206,54 @@ class InputMoney extends React.Component {
 
 InputMoney.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.string,
     /**
-   * Класс контрола
-   */
+     * Класс контрола
+     */
     className: PropTypes.string,
     /**
-   * Строка перед значением
-   */
+     * Строка перед значением
+     */
     prefix: PropTypes.string,
     /**
-   * Строка после значния
-   */
+     * Строка после значния
+     */
     suffix: PropTypes.string,
     /**
-   * Флаг включения разделения по тысячам
-   */
+     * Флаг включения разделения по тысячам
+     */
     includeThousandsSeparator: PropTypes.bool,
     /**
-   * Символ разделяющий тысячи
-   */
+     * Символ разделяющий тысячи
+     */
     thousandsSeparatorSymbol: PropTypes.string,
     /**
-   * Разрешить копейки
-   */
+     * Разрешить копейки
+     */
     allowDecimal: PropTypes.bool,
     /**
-   * Символ разделитель копеек
-   */
+     * Символ разделитель копеек
+     */
     decimalSymbol: PropTypes.string,
     /**
-   * Лимит на количество символов после запятой
-   */
+     * Лимит на количество символов после запятой
+     */
     decimalLimit: PropTypes.number,
     /**
-   * Целочисленный лимит
-   */
+     * Целочисленный лимит
+     */
     integerLimit: PropTypes.any,
     /**
-   * Разрешить ввод отрицательных числе
-   */
+     * Разрешить ввод отрицательных числе
+     */
     allowNegative: PropTypes.bool,
     allowLeadingZeroes: PropTypes.bool,
+    t: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 }
 
 InputMoney.defaultProps = {

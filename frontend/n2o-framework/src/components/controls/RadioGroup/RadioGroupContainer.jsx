@@ -11,21 +11,14 @@ import RadioGroup from './RadioGroup'
  * @reactProps {object} radioGroup - пропсы для RadioGroup
  * @reactProps {array} radios -  пропсы для Radio
  */
-class RadioGroupContainer extends React.Component {
-    /**
-   * Базовый рендер
-   * */
-    render() {
-        const { radioGroup, radios, ...props } = this.props
-
-        return (
-            <RadioGroup {...radioGroup} {...props}>
-                {mapProp(radios).map(radio => (
-                    <Radio {...radio} />
-                ))}
-            </RadioGroup>
-        )
-    }
+function RadioGroupContainer({ radioGroup, radios, ...props }) {
+    return (
+        <RadioGroup {...radioGroup} {...props}>
+            {mapProp(radios).map(radio => (
+                <Radio {...radio} />
+            ))}
+        </RadioGroup>
+    )
 }
 
 RadioGroupContainer.propTypes = {

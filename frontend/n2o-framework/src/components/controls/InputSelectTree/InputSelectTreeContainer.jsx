@@ -10,6 +10,7 @@ import { withProps, compose, setDisplayName } from 'recompose'
 import listContainer from '../listContainer'
 
 import { propTypes, defaultProps } from './allProps'
+// eslint-disable-next-line import/no-named-as-default
 import InputSelectTree from './InputSelectTree'
 
 /**
@@ -59,11 +60,14 @@ class InputSelectTreeContainer extends Component {
     }
 
     render() {
+        const { data } = this.state
+        const { isLoading } = this.props
+
         return (
             <InputSelectTree
                 {...this.props}
-                data={this.state.data}
-                loading={this.props.isLoading}
+                data={data}
+                loading={isLoading}
             />
         )
     }
@@ -72,7 +76,8 @@ class InputSelectTreeContainer extends Component {
 InputSelectTreeContainer.propTypes = propTypes
 InputSelectTreeContainer.defaultProps = defaultProps
 
-const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
+// eslint-disable-next-line consistent-return
+const overrideDataWithValue = withProps(({ data, value }) => {
     const newValue = isArray(value) ? value : [value]
 
     if (isEmpty(data) && !isEmpty(value)) {

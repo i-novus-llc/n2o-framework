@@ -1,11 +1,11 @@
 import React from 'react'
-import { compose } from 'recompose'
 import PropTypes from 'prop-types'
 
-import dependency from '../../../core/dependency'
+import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
-import Fieldsets from '../Form/fieldsets'
+import { StandardFieldset } from '../Form/fieldsets'
 
+// eslint-disable-next-line import/no-named-as-default
 import CalendarContainer from './CalendarContainer'
 
 function CalendarWidget(
@@ -20,7 +20,6 @@ function CalendarWidget(
         dataProvider,
         fetchOnInit,
         calendar,
-        prepareFilters,
         paging,
     },
     context,
@@ -32,7 +31,8 @@ function CalendarWidget(
             disabled={disabled}
             widgetId={widgetId}
             toolbar={toolbar}
-            filter={context.resolveProps(filter, Fieldsets.StandardFieldset)}
+            /* eslint-disable-next-line react/destructuring-assignment */
+            filter={context.resolveProps(filter, StandardFieldset)}
             className={className}
             style={style}
         >
@@ -52,6 +52,7 @@ function CalendarWidget(
 
 CalendarWidget.propTypes = {
     widgetId: PropTypes.string,
+    id: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
     pageId: PropTypes.string,
@@ -60,6 +61,8 @@ CalendarWidget.propTypes = {
     filter: PropTypes.object,
     dataProvider: PropTypes.object,
     fetchOnInit: PropTypes.bool,
+    calendar: PropTypes.any,
+    paging: PropTypes.object,
 }
 CalendarWidget.defaultProps = {
     toolbar: {},
@@ -71,4 +74,4 @@ CalendarWidget.contextTypes = {
     resolveProps: PropTypes.func,
 }
 
-export default compose(dependency)(CalendarWidget)
+export default dependency(CalendarWidget)

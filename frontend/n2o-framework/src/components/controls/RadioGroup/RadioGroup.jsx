@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import get from 'lodash/get'
 
+// eslint-disable-next-line no-unused-vars
 import Radio from '../Radio/Radio'
+// eslint-disable-next-line no-unused-vars
 import RadioButton from '../Radio/RadioButton'
+// eslint-disable-next-line no-unused-vars
 import RadioN2O from '../Radio/RadioN2O'
 
 /**
@@ -28,19 +31,15 @@ import RadioN2O from '../Radio/RadioN2O'
 class RadioGroup extends React.Component {
     constructor(props) {
         super(props)
-        this._onChange = this._onChange.bind(this)
+        this.onChange = this.onChange.bind(this)
     }
 
-    _onChange(e) {
+    onChange(e) {
         const { onChange } = this.props
         const { value } = e.target
 
         onChange(value)
     }
-
-    /**
-   * Рендер
-   */
 
     render() {
         const {
@@ -56,12 +55,14 @@ class RadioGroup extends React.Component {
         const element = (child) => {
             const currentValue = get(value, valueFieldId)
             const childValue = get(child, `props.value.${valueFieldId}`)
+            const { disabled, inline } = this.props
 
             return React.cloneElement(child, {
+                // eslint-disable-next-line eqeqeq
                 checked: currentValue && currentValue == childValue,
-                disabled: this.props.disabled || child.props.disabled,
-                onChange: this._onChange,
-                inline: this.props.inline,
+                disabled: disabled || child.props.disabled,
+                onChange: this.onChange,
+                inline,
             })
         }
 
@@ -71,29 +72,30 @@ class RadioGroup extends React.Component {
             return child.type && checkboxTypes.includes(child.type.displayName)
         }
 
-        const isBtn =
-      children &&
-      React.Children.map(children, child => child.type.displayName).includes(
-          'RadioButton',
-      )
+        const isBtn = children &&
+            React.Children.map(children, child => child.type.displayName).includes(
+                'RadioButton',
+            )
 
         return (
             <>
                 {visible !== false && (
                     <div
-                        className={cx('n2o-radio-container', className, {
+                        className={classNames('n2o-radio-container', className, {
                             [`btn-group${inline ? '' : '-vertical'}`]: isBtn,
                             'btn-group-toggle': isBtn,
                             'n2o-radio-inline': inline,
                         })}
                         style={style}
                     >
-                        {children &&
-              React.Children.map(children, (child) => {
-                  if (isRadioChild(child)) {
-                      return element(child)
-                  }
-              })}
+                        {
+                            // eslint-disable-next-line consistent-return
+                            children && React.Children.map(children, (child) => {
+                                if (isRadioChild(child)) {
+                                    return element(child)
+                                }
+                            })
+                        }
                     </div>
                 )}
             </>
@@ -103,39 +105,38 @@ class RadioGroup extends React.Component {
 
 RadioGroup.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     children: PropTypes.node.isRequired,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Флаг рендера в одну строку
-   */
+     * Флаг рендера в одну строку
+     */
     inline: PropTypes.bool,
     valueFieldId: PropTypes.string,
 }
 
 RadioGroup.defaultProps = {
-    isBtnGroup: false,
     visible: true,
     inline: false,
     valueFieldId: 'id',

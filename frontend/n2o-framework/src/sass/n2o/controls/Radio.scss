@@ -14,13 +14,13 @@
     height: $n2o-radio-height;
 }
 
-div.radio {
-    > .n2o-radio {
-        padding-left: 0;
-    }
+.btn {
+    > .alt-radio {
+        position: absolute;
+        margin: 0;
+        opacity: 0;
 
-    > label {
-        margin-bottom: 0;
+        @extend .custom-radio-button-align;
     }
 }
 
@@ -41,7 +41,7 @@ div.radio {
             line-height: 17px;
         }
 
-        &:not(checked) {
+        &:not(:checked) {
             position: absolute;
             opacity: 0;
 
@@ -102,46 +102,14 @@ div.radio {
     }
 }
 
-.btn {
-    > .alt-radio {
-        position: absolute;
-        margin: 0;
-        opacity: 0;
-
-        @extend .custom-radio-button-align;
-    }
-}
-
-.n2o-radio-inline {
-    padding-left: 0;
-
-    > .custom-radio {
-        &:last-child {
-            margin-right: 0;
-        }
-
-        margin-right: 1.5rem;
+div.radio {
+    > .n2o-radio {
+        padding-left: 0;
     }
 
-    > .radio {
-        display: inline-block;
-
-        > .alt {
-            margin-right: 5px;
-
-            > .alt-radio-block {
-                padding-left: 15px;
-            }
-        }
-
-        > label {
-            margin-right: 5px;
-        }
+    > label {
+        margin-bottom: 0;
     }
-}
-
-.custom-control-input {
-    @extend .custom-radio-align;
 }
 
 .n2o-radio-container {
@@ -183,4 +151,36 @@ div.radio {
             background-size: $n2o-radio-checked-background-size;
         }
     }
+}
+
+.n2o-radio-inline {
+    padding-left: 0;
+
+    > .custom-radio {
+        &:last-child {
+            margin-right: 0;
+        }
+
+        margin-right: 1.5rem;
+    }
+
+    > .radio {
+        display: inline-block;
+
+        > .alt {
+            margin-right: 5px;
+
+            > .alt-radio-block {
+                padding-left: 15px;
+            }
+        }
+
+        > label {
+            margin-right: 5px;
+        }
+    }
+}
+
+.custom-control-input {
+    @extend .custom-radio-align;
 }

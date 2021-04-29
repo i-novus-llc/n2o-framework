@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers, withState } from 'recompose'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { isEqual, invoke } from 'lodash'
 
 import PopupItems from './PopupItems'
@@ -41,7 +41,7 @@ function PopupList({
     ...rest
 }) {
     return (
-        <div className={cx('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
+        <div className={classNames('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
             {children}
             <PopupItems {...rest} />
         </div>
@@ -68,6 +68,8 @@ PopupList.propTypes = {
     expandPopUp: PropTypes.any,
     children: PropTypes.node,
     needAddFilter: PropTypes.bool,
+    filterValue: PropTypes.any,
+    setMenuElement: PropTypes.func,
 }
 
 const enhance = compose(

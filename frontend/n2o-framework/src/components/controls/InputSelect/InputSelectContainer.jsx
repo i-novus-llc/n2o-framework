@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import listContainer from '../listContainer'
 
+// eslint-disable-next-line import/no-named-as-default
 import InputSelect from './InputSelect'
 
 /**
@@ -55,8 +56,9 @@ class InputSelectContainer extends React.Component {
             (res, val) => res || val.resetMode,
             false,
         )
+        const { value } = this.props
 
-        if (resetMode && nextProps.value === this.props.value) {
+        if (resetMode && nextProps.value === value) {
             this.key = JSON.stringify(nextProps.filterValues)
             this.setState({ resetMode: true })
         } else {
@@ -65,19 +67,20 @@ class InputSelectContainer extends React.Component {
     }
 
     render() {
-        const { filter } = this.props
+        const { filter, data, isLoading, disabled, value } = this.props
+        const { resetMode } = this.state
 
         const filterType = filter === 'server' ? false : filter
 
         return (
             <InputSelect
                 {...this.props}
-                options={this.props.data}
-                value={!this.state.resetMode && this.props.value}
+                options={data}
+                value={!resetMode && value}
                 filter={filterType}
                 key={this.key}
-                loading={this.props.isLoading}
-                disabled={this.props.disabled || this.props.disabled}
+                loading={isLoading}
+                disabled={disabled}
             />
         )
     }
@@ -117,66 +120,71 @@ InputSelectContainer.propTypes = {
     onSearch: PropTypes.func,
     autoFocus: PropTypes.bool,
     openOnFocus: PropTypes.bool,
+    filterValues: PropTypes.any,
+    data: PropTypes.any,
+    isLoading: PropTypes.bool,
 }
 
 InputSelectContainer.defaultProps = {
     /**
-   * Флаг загрузки
-   */
+     * Флаг загрузки
+     */
     loading: false,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: false,
     /**
-   * Неактивные данные
-   */
+     * Неактивные данные
+     */
     disabledValues: [],
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: '',
     /**
-   * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
-   */
+     * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+     */
     resetOnBlur: false,
     /**
-   * Варианты фильтрации
-   */
+     * Варианты фильтрации
+     */
     filter: false,
     /**
-   * Мульти выбор значений
-   */
+     * Мульти выбор значений
+     */
     multiSelect: false,
     /**
-   * Флаг закрытия попапа при выборе
-   */
+     * Флаг закрытия попапа при выборе
+     */
     closePopupOnSelect: true,
     /**
-   * Флаг наличия чекбоксов в селекте
-   */
+     * Флаг наличия чекбоксов в селекте
+     */
     hasCheckboxes: false,
     /**
-   * Флаг сжатия выбранных элементов
-   */
+     * Флаг сжатия выбранных элементов
+     */
     collapseSelected: true,
     /**
-   * От скольки элементов сжимать выбранные элементы
-   */
+     * От скольки элементов сжимать выбранные элементы
+     */
     lengthToGroup: 3,
+    // eslint-disable-next-line react/default-props-match-prop-types
     expandPopUp: true,
     /**
-   * Ключ id в данных
-   */
+     * Ключ id в данных
+     */
+    // eslint-disable-next-line react/default-props-match-prop-types
     valueFieldId: 'id',
     flip: false,
     /**
-   * Авто фокусировка на селекте
-   */
+     * Авто фокусировка на селекте
+     */
     autoFocus: false,
     /**
-   * Флаг открытия попапа при фокусе на контроле
-   */
+     * Флаг открытия попапа при фокусе на контроле
+     */
     openOnFocus: false,
 }
 

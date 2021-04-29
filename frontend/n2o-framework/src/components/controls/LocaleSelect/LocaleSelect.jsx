@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
 import map from 'lodash/map'
-import cn from 'classnames'
+import classNames from 'classnames'
 import Dropdown from 'reactstrap/lib/Dropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
@@ -21,7 +21,7 @@ export function LocaleSelect({
 }) {
     return (
         <Dropdown
-            className={cn('locale-select', className)}
+            className={classNames('locale-select', className)}
             isOpen={opened}
             toggle={toggle}
             direction={direction}
@@ -39,10 +39,10 @@ export function LocaleSelect({
 }
 
 LocaleSelect.propTypes = {
+    className: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
     locales: PropTypes.array,
-    slim: PropTypes.bool,
     direction: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     opened: PropTypes.bool,
     toggle: PropTypes.func,
@@ -50,7 +50,6 @@ LocaleSelect.propTypes = {
 
 LocaleSelect.defaultProps = {
     direction: 'left',
-    slim: false,
 }
 
 export default compose(

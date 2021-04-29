@@ -32,6 +32,7 @@ export function createContextFn(args, code) {
     const key = `${joinedArgs}|||${code}`
 
     if (!fooCache[key]) {
+        // eslint-disable-next-line no-new-func
         fooCache[key] = new Function(
             windowKeys,
             `return function (${joinedArgs}) { return (${code}) }`,
@@ -44,10 +45,12 @@ export function createContextFn(args, code) {
 const windowKeys = Object.keys(window).filter(v => !v.includes('-'))
 const fooCache = {}
 
+// eslint-disable-next-line consistent-return
 function evalExpressionSingle(expression, context, args = context) {
     args = isPlainObject(args) ? args : {}
 
     try {
+        // eslint-disable-next-line no-underscore-dangle
         const argsExtended = { ...functions, ...window._n2oEvalContext, ...args }
 
         const entries = Object.entries(argsExtended)

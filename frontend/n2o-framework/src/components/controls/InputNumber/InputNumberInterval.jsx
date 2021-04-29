@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
 
-import InputNumber from './InputNumber'
+import { InputNumberPlaceholder as InputNumber } from './InputNumber'
 
 /**
  * Компонент - инпут для ввода интевала чисел с возможностью увеличения/уменьшения значения на шаг; состоит из 2 {@link InputNumber}
@@ -22,7 +22,7 @@ import InputNumber from './InputNumber'
  *             name='InputNumberIntervalExample' />
  */
 
-class InputNumberInterval extends React.Component {
+export class InputNumberInterval extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -31,15 +31,18 @@ class InputNumberInterval extends React.Component {
     }
 
     onChange(index, value) {
+        const { onChange } = this.props
+        const { value: stateValue } = this.state
+
         this.setState(
-            { value: this.state.value.map((val, i) => (i === index ? value : val)) },
-            () => this.props.onChange(this.state.value),
+            { value: stateValue.map((val, i) => (i === index ? value : val)) },
+            () => onChange(stateValue),
         )
     }
 
     /**
-   * Базовый рендер
-   */
+     * Базовый рендер
+     */
     render() {
         const { description } = this.props
         const { value } = this.state
@@ -79,46 +82,45 @@ InputNumberInterval.defaultProps = {
     step: '0.1',
     showButtons: true,
     description: '',
-    onChange: (val) => {},
+    onChange: () => {},
 }
 
 InputNumberInterval.propTypes = {
     /**
-   * Значение [1, 2]
-   */
+     * Значение [1, 2]
+     */
     value: PropTypes.array,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Шаг кнопки
-   */
+     * Шаг кнопки
+     */
     step: PropTypes.string,
     /**
-   * Минимальное число
-   */
+     * Минимальное число
+     */
     min: PropTypes.number,
     /**
-   * Масимальное число
-   */
+     * Масимальное число
+     */
     max: PropTypes.number,
     /**
-   * Название контрола
-   */
+     * Название контрола
+     */
     name: PropTypes.string,
     /**
-   * Флаг показа кнопок
-   */
+     * Флаг показа кнопок
+     */
     showButtons: PropTypes.bool,
     /**
-   * Callback изменения
-   */
+     * Callback изменения
+     */
     onChange: PropTypes.func,
+    description: PropTypes.string,
 }
-
-export default InputNumberInterval

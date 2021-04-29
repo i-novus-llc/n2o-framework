@@ -1,10 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import map from 'lodash/map'
 import get from 'lodash/get'
 
 import CardsCell from './CardsCell'
+
+const getJustifyContent = (align) => {
+    if (align === 'top') {
+        return 'flex-start'
+    }
+    if (align === 'bottom') {
+        return 'flex-end'
+    }
+
+    return 'center'
+}
 
 /**
  * Cards
@@ -14,8 +25,7 @@ import CardsCell from './CardsCell'
  * @reactProps {number} id - id виджета
  * @reactProps {string} align - позиция элементов по горизонтали
  */
-
-function Cards(props) {
+export function Cards(props) {
     const {
         cards,
         className,
@@ -28,23 +38,18 @@ function Cards(props) {
     } = props
 
     const style = {
-        justifyContent:
-      align === 'top'
-          ? 'flex-start'
-          : align === 'bottom'
-              ? 'flex-end'
-              : 'center',
+        justifyContent: getJustifyContent(align),
     }
 
     const renderCard = (dataItem, index) => (
-        <div className={cn('n2o-cards col-12', className)} style={{ height }}>
+        <div className={classNames('n2o-cards col-12', className)} style={{ height }}>
             {map(cards, card => renderCardsItem(card, dataItem, index))}
         </div>
     )
 
     const renderCell = (cell, dataItem, index) => (
         <CardsCell
-            className={cn('n2o-cards__cell', cell.className)}
+            className={classNames('n2o-cards__cell', cell.className)}
             index={index}
             widgetId={id}
             model={dataItem}
@@ -58,7 +63,7 @@ function Cards(props) {
         const { content = [], col } = element
 
         return (
-            <div className={cn('n2o-cards__item', `col-${col}`)} style={style}>
+            <div className={classNames('n2o-cards__item', `col-${col}`)} style={style}>
                 {map(content, (cell, { width }) => (get(cell, 'src') === 'ImageCell' ? (
                     <div className="n2o-cards__image" style={width ? { width } : {}}>
                         {renderCell(cell, dataItem, index)}
@@ -71,7 +76,7 @@ function Cards(props) {
     }
 
     return (
-        <div className={cn('n2o-cards__container col-12', className)}>
+        <div className={classNames('n2o-cards__container col-12', className)}>
             {data && data.length
                 ? map(data, (item, index) => renderCard(item, index))
                 : ''}
@@ -85,29 +90,31 @@ Cards.defaultProps = {
 
 Cards.propTypes = {
     /**
-   * имя css класса карточки
-   */
+     * имя css класса карточки
+     */
     className: PropTypes.string,
     /**
-   * массив объектов cell из которых состоит виджет
-   */
+     * массив объектов cell из которых состоит виджет
+     */
     cards: PropTypes.array,
     /**
-   * данные объектов cell
-   */
+     * данные объектов cell
+     */
     data: PropTypes.array,
     /**
-   * id виджета
-   */
+     * id виджета
+     */
     id: PropTypes.number,
     /**
-   * позиция элементов по горизонтали
-   */
+     * позиция элементов по горизонтали
+     */
     align: PropTypes.string,
     /**
-   * высота компонента
-   */
+     * высота компонента
+     */
     height: PropTypes.string,
+    onResolve: PropTypes.func,
+    dispatch: PropTypes.func,
 }
 
 export default Cards

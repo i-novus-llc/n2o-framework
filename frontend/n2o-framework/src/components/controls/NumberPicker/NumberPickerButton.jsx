@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-export function NumberPickerButton({ onClick, disabled, children, className }) {
+export function NumberPickerButton({ onClick, disabled, children }) {
     const [pressed, setPressed] = useState(false)
 
     useEffect(() => {
@@ -30,6 +30,7 @@ export function NumberPickerButton({ onClick, disabled, children, className }) {
 
     return (
         <button
+            type="button"
             className="n2o-number-picker__button"
             onClick={onClick}
             onMouseDown={onDownHandler}

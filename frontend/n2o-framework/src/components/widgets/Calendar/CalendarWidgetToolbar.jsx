@@ -19,6 +19,7 @@ function CalendarWidgetToolbar({ widgetId, toolbar, label }) {
 }
 
 CalendarWidgetToolbar.propTypes = {
+    label: PropTypes.string,
     widgetId: PropTypes.string,
     toolbar: PropTypes.object,
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import get from 'lodash/get'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 function OutputListItem(props) {
     const { labelFieldId, linkFieldId, target, separator, isLast } = props
@@ -14,7 +15,7 @@ function OutputListItem(props) {
             {isInnerLink ? (
                 <Link
                     to={href}
-                    className={cn('n2o-output-list__item', 'n2o-output-list__item--link')}
+                    className={classNames('n2o-output-list__item', 'n2o-output-list__item--link')}
                     target={target}
                 >
                     {label}
@@ -23,7 +24,7 @@ function OutputListItem(props) {
                 <a
                     href={href}
                     target={target}
-                    className={cn('n2o-output-list__item', {
+                    className={classNames('n2o-output-list__item', {
                         'n2o-output-list__item--link': !!href,
                     })}
                 >
@@ -33,6 +34,13 @@ function OutputListItem(props) {
             <span className="white-space-pre">{!isLast ? separator : ''}</span>
         </li>
     )
+}
+OutputListItem.propTypes = {
+    labelFieldId: PropTypes.string,
+    linkFieldId: PropTypes.string,
+    isLast: PropTypes.bool,
+    separator: PropTypes.string,
+    target: PropTypes.string,
 }
 
 export default OutputListItem

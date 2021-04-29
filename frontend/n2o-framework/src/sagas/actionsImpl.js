@@ -81,6 +81,7 @@ export function* handleAction(factories, action) {
         const notValid = yield validate(options)
 
         if (notValid) {
+            // eslint-disable-next-line no-console
             console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`)
         } else {
             yield actionFunc &&
@@ -90,6 +91,7 @@ export function* handleAction(factories, action) {
         })
         }
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }
@@ -169,6 +171,7 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
 /**
  * вызов экшена
  */
+// eslint-disable-next-line complexity
 export function* handleInvoke(apiProvider, action) {
     const {
         modelLink,
@@ -213,8 +216,8 @@ export function* handleInvoke(apiProvider, action) {
 
         if (
             (needResolve &&
-        (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
-      (!isEqual(model, response.data) && submitForm)
+            (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
+            (!isEqual(model, response.data) && submitForm)
         ) {
             yield put(
                 setModel(modelPrefix, widgetId, optimistic ? model : response.data),
@@ -222,6 +225,7 @@ export function* handleInvoke(apiProvider, action) {
         }
         yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }))
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
         yield* handleFailInvoke(
             action.meta.fail || {},
@@ -242,7 +246,9 @@ export function* handleInvoke(apiProvider, action) {
     }
 }
 
+// eslint-disable-next-line require-yield
 export function* handleDummy() {
+    // eslint-disable-next-line no-alert
     alert('AHOY!')
 }
 

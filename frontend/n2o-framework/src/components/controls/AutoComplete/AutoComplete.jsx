@@ -238,7 +238,7 @@ class AutoComplete extends React.Component {
       )
   };
 
-  _setActiveValueId = (activeValueId) => {
+  setActiveValueId = (activeValueId) => {
       this.setState({ activeValueId })
   };
 
@@ -332,7 +332,7 @@ class AutoComplete extends React.Component {
                                   options={filteredOptions}
                                   setRef={this.setInputRef(ref)}
                                   onInputChange={this.onChange}
-                                  setActiveValueId={this._setActiveValueId}
+                                  setActiveValueId={this.setActiveValueId}
                                   closePopUp={() => this.setIsExpanded(false)}
                                   openPopUp={() => this.setIsExpanded(true)}
                                   selected={value}
@@ -378,7 +378,7 @@ class AutoComplete extends React.Component {
                                       autocomplete
                                       isExpanded={isExpanded}
                                       activeValueId={activeValueId}
-                                      setActiveValueId={this._setActiveValueId}
+                                      setActiveValueId={this.setActiveValueId}
                                       onScrollEnd={onScrollEnd}
                                       needAddFilter={needAddFilter}
                                       options={filteredOptions}

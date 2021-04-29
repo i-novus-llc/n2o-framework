@@ -10,7 +10,6 @@ import unionBy from 'lodash/unionBy'
 import find from 'lodash/find'
 import merge from 'lodash/merge'
 import isNil from 'lodash/isNil'
-import { SHOW_CHILD } from 'rc-tree-select'
 
 import Popup from '../InputSelect/Popup'
 import InputContent from '../InputSelect/InputContent'
@@ -18,6 +17,13 @@ import InputSelectGroup from '../InputSelect/InputSelectGroup'
 
 import NODE_SELECTED from './nodeSelected'
 import TreeItems from './TreeItems'
+
+const getArray = (value) => {
+    if (Array.isArray(value)) { return value }
+    if (value) { return [value] }
+
+    return []
+}
 
 /**
  * InputSelectTree
@@ -47,8 +53,6 @@ import TreeItems from './TreeItems'
  * @reactProps {boolean} closePopupOnSelect - флаг закрытия попапа при выборе
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {string} format - формат
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
  * @reactProps {boolean} ajax - загрузка элементов при раскрытии
  */
 
@@ -58,11 +62,9 @@ class InputSelectTree extends React.Component {
         const {
             value,
             options,
-            valueFieldId,
             labelFieldId,
             multiSelect,
         } = this.props
-        const valueArray = Array.isArray(value) ? value : value ? [value] : []
         const input = value && !multiSelect ? value[labelFieldId] : ''
 
         this.state = {
@@ -71,43 +73,39 @@ class InputSelectTree extends React.Component {
             selected: [],
             options,
             active: null,
-            treeStates: this.getTreeItems(this.props.options),
+            treeStates: this.getTreeItems(options),
             input,
         }
 
-        this._handleButtonClick = this._handleButtonClick.bind(this)
-        this._handleInputChange = this._handleInputChange.bind(this)
-        this._handleInputFocus = this._handleInputFocus.bind(this)
-        this._hideOptionsList = this._hideOptionsList.bind(this)
-        this._handleItemSelect = this._handleItemSelect.bind(this)
-        this._handleScrollEnd = this._handleScrollEnd.bind(this)
-        this._removeSelectedItem = this._removeSelectedItem.bind(this)
-        this._clearSelected = this._clearSelected.bind(this)
-        this._handleElementCreate = this._handleElementCreate.bind(this)
-        this._handleElementClear = this._handleElementClear.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.hideOptionsList = this.hideOptionsList.bind(this)
+        this.handleItemSelect = this.handleItemSelect.bind(this)
+        this.removeSelectedItem = this.removeSelectedItem.bind(this)
+        this.clearSelected = this.clearSelected.bind(this)
+        this.handleElementClear = this.handleElementClear.bind(this)
         this.onExpandClick = this.onExpandClick.bind(this)
-        this._handleRemove = this._handleRemove.bind(this)
+        this.handleRemove = this.handleRemove.bind(this)
         this.handleKeyPress = this.handleKeyPress.bind(this)
         this.handleFocus = this.handleFocus.bind(this)
-        this._handleResetOnBlur = this._handleResetOnBlur.bind(this)
-        this._toggle = this._toggle.bind(this)
-        this._handleArrowDown = this._handleArrowDown.bind(this)
-        this._handleArrowUp = this._handleArrowUp.bind(this)
-        this._handleArrowRight = this._handleArrowRight.bind(this)
-        this._handleArrowLeft = this._handleArrowLeft.bind(this)
-        this._handleEnter = this._handleEnter.bind(this)
-        this._setIsExpanded = this._setIsExpanded.bind(this)
-        this._handleClick = this._handleClick.bind(this)
-        this._clearSelected = this._clearSelected.bind(this)
-        this._setNewInputValue = this._setNewInputValue.bind(this)
-        this._setInputFocus = this._setInputFocus.bind(this)
+        this.handleResetOnBlur = this.handleResetOnBlur.bind(this)
+        this.toggle = this.toggle.bind(this)
+        this.handleArrowDown = this.handleArrowDown.bind(this)
+        this.handleArrowUp = this.handleArrowUp.bind(this)
+        this.handleArrowRight = this.handleArrowRight.bind(this)
+        this.handleArrowLeft = this.handleArrowLeft.bind(this)
+        this.handleEnter = this.handleEnter.bind(this)
+        this.setIsExpanded = this.setIsExpanded.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.clearSelected = this.clearSelected.bind(this)
+        this.setNewInputValue = this.setNewInputValue.bind(this)
+        this.setInputFocus = this.setInputFocus.bind(this)
 
         this.KEY_MAPPER = {
-            ArrowDown: this._handleArrowDown,
-            ArrowUp: this._handleArrowUp,
-            ArrowRight: this._handleArrowRight,
-            ArrowLeft: this._handleArrowLeft,
-            Enter: this._handleEnter,
+            ArrowDown: this.handleArrowDown,
+            ArrowUp: this.handleArrowUp,
+            ArrowRight: this.handleArrowRight,
+            ArrowLeft: this.handleArrowLeft,
+            Enter: this.handleEnter,
         }
     }
 
@@ -115,24 +113,25 @@ class InputSelectTree extends React.Component {
         const {
             multiSelect,
             value,
-            valueFieldId,
             labelFieldId,
             options,
-            loading,
         } = nextProps
+        const { options: stateOptions } = this.state
+        const { value: propsValue } = this.props
 
-        if (!isEqual(nextProps.options, this.state.options)) {
+        if (!isEqual(nextProps.options, stateOptions)) {
             this.setState({ options, treeStates: this.getTreeItems(options) })
         }
-        if (!isEqual(nextProps.value, this.props.value)) {
-            const valueArray = Array.isArray(value) ? value : value ? [value] : []
+        if (!isEqual(nextProps.value, propsValue)) {
+            const valueArray = getArray(value)
             const input = value && !multiSelect ? value[labelFieldId] : ''
 
             this.setState({ value: valueArray, input })
         }
     }
 
-    _handleChange() {
+    // eslint-disable-next-line consistent-return
+    handleChange() {
         const { selected } = this.state
         const { onChange, multiSelect } = this.props
 
@@ -141,95 +140,83 @@ class InputSelectTree extends React.Component {
         }
 
         if (selected.length) {
-            multiSelect ? onChange(selected) : onChange(selected[0])
+            if (multiSelect) {
+                onChange(selected)
+            } else {
+                onChange(selected[0])
+            }
         } else {
             onChange(null)
         }
     }
 
     /**
-   * Обработчик события по удалению элемента из выбранных
-   * @param item - элемент для удаления
-   * @private
-   */
-
-    _handleRemove(item) {
+     * Обработчик события по удалению элемента из выбранных
+     * @param item - элемент для удаления
+     * @private
+     */
+    handleRemove(item) {
         let items = []
+        const { multiSelect } = this.props
 
-        if (this.props.multiSelect) {
-            items = [...this._retrieveChilds(item), item]
+        if (multiSelect) {
+            items = [...this.retrieveChilds(item), item]
             this.changeSelected(items, NODE_SELECTED.NOT_SELECTED)
             this.unselectParent(item)
         } else {
             items.push(item)
         }
 
-        items.map(node => this._removeSelectedItem(node))
+        items.map(node => this.removeSelectedItem(node))
     }
 
     /**
-   * Удаляет элемент из списка выбранных
-   * @param item - элемент
-   * @private
-   */
-
-    // _removeSelectedItem(item) {
-    //   this.setState(
-    //     prevState => ({ selected: prevState.selected.filter(i => i.id !== item.id) }),
-    //     () => this._unselectNode(item)
-    //   );
-    // }
-
-    _removeSelectedItem(item) {
+     * Удаляет элемент из списка выбранных
+     * @param item - элемент
+     * @private
+     */
+    removeSelectedItem(item) {
         const { onChange } = this.props
-        const value = this.state.value.filter(i => i.id !== item.id)
+        const { value: stateValue } = this.state
+        const value = stateValue.filter(i => i.id !== item.id)
 
-        this.setState({ value }, onChange(this._getValue()))
+        this.setState({ value }, onChange(this.getValue()))
     }
 
     /**
-   * Обрабатывает конец скролла popUp
-   * @private
-   */
-
-    _handleScrollEnd() {
-        if (this.props.onScrollEnd) {
-            this.props.onScrollEnd()
-        }
-    }
-
-    /**
-   * новое значение инпута search)
-   * @param input
-   * @private
-   */
-    _setNewInputValue(input) {
-        const { onInput, resetOnBlur, multiSelect } = this.props
-        const { value } = this.state
+     * новое значение инпута search)
+     * @param input
+     * @private
+     */
+    setNewInputValue(input) {
+        const { onInput } = this.props
+        const { input: stateInput } = this.state
         const onSetNewInputValue = (input) => {
             onInput(input)
-            this._handleDataSearch(input)
+            this.handleDataSearch(input)
         }
 
-        if (this.state.input !== input) {
-            this._setSelected(false)
+        if (stateInput !== input) {
+            this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
         }
     }
 
     /**
-   * Изменение видимости попапа
-   * @param newState - новое значение видимости
-   * @private
-   */
+     * Изменение видимости попапа
+     * @param newState - новое значение видимости
+     * @private
+     */
+    changePopUpVision(newState) {
+        const { onClose } = this.props
+        const { isExpanded } = this.state
 
-    _changePopUpVision(newState) {
-        if (this.state.isExpanded === newState) {
+        if (isExpanded === newState) {
             return
         }
 
-        if (this.state.isExpanded && this.props.onClose) {
-            this.props.onClose()
+        if (isExpanded && onClose) {
+            onClose()
         }
 
         this.setState({
@@ -238,77 +225,55 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Обрабатывает нажатие на кнопку
-   * @private
-   */
-
-    _handleButtonClick() {
-        this._changePopUpVision(!this.state.isExpanded)
+     * Скрывает popUp
+     * @private
+     */
+    hideOptionsList() {
+        this.changePopUpVision(false)
     }
 
     /**
-   * Обрабатывает форкус на инпуте
-   * @private
-   */
-
-    _handleInputFocus() {
-        this._changePopUpVision(true)
-    }
-
-    /**
-   * Скрывает popUp
-   * @private
-   */
-
-    _hideOptionsList() {
-        this._changePopUpVision(false)
-    }
-
-    /**
-   * Уставнавливает новое значение инпута
-   * @param newValue - новое значение
-   * @private
-   */
-
-    _setNewValue(newValue) {
+     * Уставнавливает новое значение инпута
+     * @param newValue - новое значение
+     * @private
+     */
+    setNewValue(newValue) {
         this.setState({
             value: newValue,
         })
     }
 
     /**
-   * Выполняет поиск по дереву
-   * @param options - элементы по которым искать
-   * @param searchValue - поисковый запрос
-   * @returns {*}
-   * @private
-   */
-
-    _makeSearch(options, searchValue) {
-        const filter = item => String.prototype[this.props.filter].call(item, searchValue)
-
-        const { valueFieldId, parentFieldId } = this.props
+     * Выполняет поиск по дереву
+     * @param options - элементы по которым искать
+     * @param searchValue - поисковый запрос
+     * @returns {*}
+     * @private
+     */
+    makeSearch(options, searchValue) {
+        const { valueFieldId, parentFieldId, filter: propsFilter, labelFieldId } = this.props
+        const { options: stateOptions } = this.state
+        const filter = item => String.prototype[propsFilter].call(item, searchValue)
 
         return options.filter((item) => {
-            const childs = this.state.options.filter(
+            const children = stateOptions.filter(
                 node => node[parentFieldId] === item[valueFieldId],
             )
 
             return (
-                filter(item[this.props.labelFieldId].toString()) ||
-        this._makeSearch(childs, searchValue).length > 0
+                filter(item[labelFieldId].toString()) ||
+                this.makeSearch(children, searchValue).length > 0
             )
         })
     }
 
     /**
-   * Выполняет поиск элементов для popUp, если установлен фильтр
-   * @param newValue - значение для поиска
-   * @private
-   */
-
-    _handleDataSearch(input, delay = true, callback) {
+     * Выполняет поиск элементов для popUp, если установлен фильтр
+     * @private
+     */
+    handleDataSearch(input, delay = true, callback) {
         const { onSearch, filter, labelFieldId, options } = this.props
+        const { value } = this.props
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
@@ -317,7 +282,7 @@ class InputSelectTree extends React.Component {
             this.setState({ options: filteredData })
         } else {
             // серверная фильтрация
-            const labels = this.state.value.map(item => item[labelFieldId])
+            const labels = value.map(item => item[labelFieldId])
 
             if (labels.some(label => label === input)) {
                 onSearch('', delay, callback)
@@ -328,15 +293,14 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Устанавливает выбранный элемент
-   * @param items - элемент массива options
-   * @private
-   */
+     * Устанавливает выбранный элемент
+     * @param items - элемент массива options
+     * @private
+     */
+    insertSelected(items) {
+        const { valueFieldId, multiSelect } = this.props
 
-    _insertSelected(items) {
-        const { valueFieldId } = this.props
-
-        if (this.props.multiSelect) {
+        if (multiSelect) {
             this.setState(prevState => ({
                 selected: unionBy(prevState.selected, items, valueFieldId),
             }))
@@ -348,51 +312,49 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Обрабатывает выбор элемента
-   * @param item
-   * @private
-   */
-
-    _handleSelect(item) {
+     * Обрабатывает выбор элемента
+     * @param item
+     * @private
+     */
+    handleSelect(item) {
         const { multiSelect } = this.props
         let items = []
 
         if (multiSelect) {
-            items = [item, ...this._retrieveChilds(item)]
+            items = [item, ...this.retrieveChilds(item)]
             this.selectParent(item)
         } else {
             items.push(item)
-            this._unselectAll()
+            this.unselectAll()
         }
 
-        this._insertSelected(items)
+        this.insertSelected(items)
         this.changeSelected(items, NODE_SELECTED.SELECTED)
     }
 
     /**
-   * Изменяет стейт выбора всех элементов
-   * @private
-   */
+     * Изменяет стейт выбора всех элементов
+     * @private
+     */
+    unselectAll() {
+        const { treeStates } = this.state
 
-    _unselectAll() {
-        const options = this.state.treeStates
-
-        Object.entries(options).forEach(([_, item]) => {
+        // eslint-disable-next-line no-unused-vars
+        Object.entries(treeStates).forEach(([key, item]) => {
             if (item.selected === NODE_SELECTED.SELECTED) {
                 item.selected = NODE_SELECTED.NOT_SELECTED
             }
         })
 
-        this.setState({ treeStates: options })
+        this.setState({ treeStates })
     }
 
     /**
-   * Изменяет стейт выбора для одного элемент
-   * @param node - элемент дерева
-   * @private
-   */
-
-    _unselectNode(node) {
+     * Изменяет стейт выбора для одного элемент
+     * @param node - элемент дерева
+     * @private
+     */
+    unselectNode(node) {
         this.setState((prevState) => {
             const { treeStates } = prevState
             const { valueFieldId } = this.props
@@ -404,89 +366,87 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Ищет все элементы поддерева
-   * @param item - корень поддерева
-   * @returns {*[]}
-   * @private
-   */
-
-    _retrieveChilds(item) {
+     * Ищет все элементы поддерева
+     * @param item - корень поддерева
+     * @returns {*[]}
+     * @private
+     */
+    retrieveChilds(item) {
         const { valueFieldId, parentFieldId } = this.props
-        const childs = this.state.options.filter(
+        const { options } = this.state
+        const children = options.filter(
             node => node[parentFieldId] === item[valueFieldId],
         )
 
-        childs.length > 0 &&
-      childs.map((child) => {
-          childs.concat(this._retrieveChilds(child))
-      })
+        if (children.length > 0) {
+            children.forEach((child) => {
+                children.concat(this.retrieveChilds(child))
+            })
+        }
 
-        return childs
+        return children
     }
 
     /**
-   * Удаляет все элементы поддерева из выбранных
-   * @param item - корень поддерева
-   * @private
-   */
+     * Удаляет все элементы поддерева из выбранных
+     * @param item - корень поддерева
+     * @private
+     */
+    removeChild(item) {
+        const { valueFieldId, parentFieldId, multiSelect } = this.props
+        const { options } = this.state
 
-    _removeChild(item) {
-        const { valueFieldId, parentFieldId } = this.props
-
-        if (this.props.multiSelect) {
-            const childs = this.state.options.filter(
+        if (multiSelect) {
+            const children = options.filter(
                 node => node[parentFieldId] === item[valueFieldId],
             )
 
-            childs.length > 0 &&
-        childs.map((child) => {
-            this._removeSelectedItem(child)
-            this._removeChild(child)
-        })
+            if (children.length > 0) {
+                children.forEach((child) => {
+                    this.removeSelectedItem(child)
+                    this.removeChild(child)
+                })
+            }
         }
     }
 
     /**
-   * Очищает выбранный элемент
-   * @private
-   */
-
-    _clearSelected() {
+     * Очищает выбранный элемент
+     * @private
+     */
+    clearSelected() {
         const { onChange } = this.props
 
-        this.setState({ value: [], input: '' }, () => onChange(this._getValue()))
+        this.setState({ value: [], input: '' }, () => onChange(this.getValue()))
     }
 
     /**
-   * Обрабатывает изменение инпута
-   * @param newValue - новое значение
-   * @private
-   */
+     * Обрабатывает изменение инпута
+     * @param newValue - новое значение
+     * @private
+     */
+    handleInputChange(newValue) {
+        this.setNewValue(newValue)
+        this.handleDataSearch(newValue)
 
-    _handleInputChange(newValue) {
-        this._setNewValue(newValue)
-        this._handleDataSearch(newValue)
+        const { resetOnBlur, onChange, onInput } = this.props
 
-        // if (!this.props.multiSelect) {
-        //   this._clearSelected();
-        // }
-
-        if (!this.props.resetOnBlur && this.props.onChange) {
-            this.props.onChange(newValue)
+        if (!resetOnBlur && onChange) {
+            onChange(newValue)
         }
 
-        if (this.props.onInput) {
-            this.props.onInput(newValue)
+        if (onInput) {
+            onInput(newValue)
         }
     }
 
     /**
-   * Возвращает текущее значение (массив - если ипут селект, объект - если нет)
-   * или null если пусто
-   * @returns {*}
-   * @private
-   */
-    _getValue() {
+     * Возвращает текущее значение (массив - если ипут селект, объект - если нет)
+     * или null если пусто
+     * @returns {*}
+     * @private
+     */
+    getValue() {
         const { multiSelect } = this.props
         const { value } = this.state
         const rObj = multiSelect ? value : value[0]
@@ -495,12 +455,12 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Обрабатывает выбор элемента из popUp
-   * @param item - элемент массива options
-   * @private
-   */
+     * Обрабатывает выбор элемента из popUp
+     * @param item - элемент массива options
+     * @private
+     */
 
-    _handleItemSelect(item) {
+    handleItemSelect(item) {
         const {
             multiSelect,
             closePopupOnSelect,
@@ -510,10 +470,12 @@ class InputSelectTree extends React.Component {
             onChange,
         } = this.props
         const selectCallback = () => {
-            closePopupOnSelect && this._hideOptionsList()
+            if (closePopupOnSelect) {
+                this.hideOptionsList()
+            }
             onSelect(item)
-            onChange(this._getValue())
-            this._setSelected(true)
+            onChange(this.getValue())
+            this.setSelected(true)
         }
 
         this.setState(
@@ -527,23 +489,23 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Очищает инпут и результаты поиска
-   * @private
-   */
+     * Очищает инпут и результаты поиска
+     * @private
+     */
+    clearSearchField() {
+        const { options } = this.props
 
-    _clearSearchField() {
         this.setState({
             value: '',
-            options: this.props.options,
+            options,
         })
     }
 
     /**
-   * Обрабатывает поведение инпута при потери фокуса, если есть resetOnBlur
-   * @private
-   */
-
-    _handleResetOnBlur() {
+     * Обрабатывает поведение инпута при потери фокуса, если есть resetOnBlur
+     * @private
+     */
+    handleResetOnBlur() {
         const { value, input, options } = this.state
         const { onChange, multiSelect, resetOnBlur, labelFieldId } = this.props
         const newValue = find(options, { [labelFieldId]: input })
@@ -558,7 +520,7 @@ class InputSelectTree extends React.Component {
                             value: multiSelect ? [...value, createdValue] : [createdValue],
                             input: multiSelect ? '' : input,
                         },
-                        () => onChange(this._getValue()),
+                        () => onChange(this.getValue()),
                     )
                     onChange(multiSelect ? [...value, createdValue] : createdValue)
                 }
@@ -570,7 +532,7 @@ class InputSelectTree extends React.Component {
                             : (value[0] && value[0][labelFieldId]) || '',
                         value,
                     },
-                    () => onChange(this._getValue()),
+                    () => onChange(this.getValue()),
                 )
             } else {
                 this.setState(
@@ -578,7 +540,7 @@ class InputSelectTree extends React.Component {
                         input: '',
                         value: multiSelect ? value : [],
                     },
-                    () => onChange(this._getValue()),
+                    () => onChange(this.getValue()),
                 )
             }
         } else {
@@ -587,48 +549,14 @@ class InputSelectTree extends React.Component {
                     value: multiSelect ? [...value, newValue] : [newValue],
                     input: multiSelect ? '' : input,
                 },
-                () => onChange(this._getValue()),
+                () => onChange(this.getValue()),
             )
         }
     }
 
-    _handleElementClear() {
-        this._clearSearchField()
-        this._clearSelected()
-    }
-
-    /**
-   * Обрабатывает клик за пределы компонента
-   * @param evt
-   */
-
-    handleClickOutside(evt) {
-        this._hideOptionsList()
-        this._handleResetOnBlur()
-    }
-
-    /**
-   * Обрабатывает создание элемента
-   * @private
-   */
-
-    _handleElementCreate() {
-        const { valueFieldId } = this.props
-        const newElement = {
-            [this.props.labelFieldId]: this.state.value,
-        }
-
-        if (this.props.onElementCreate) {
-            this.props.onElementCreate(newElement)
-        }
-
-        newElement[valueFieldId] = `${newElement.value}_${new Date().getTime()}`
-
-        this.setState({
-            selected: [...this.state.selected, newElement],
-        })
-
-        this._setNewValue('')
+    handleElementClear() {
+        this.clearSearchField()
+        this.clearSelected()
     }
 
     inArray(array, item) {
@@ -642,28 +570,28 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Обработчик нажатия на кнопку раскрытия элемента
-   * @param item
-   */
-
+     * Обработчик нажатия на кнопку раскрытия элемента
+     * @param item
+     */
     onExpandClick(item) {
         const { valueFieldId } = this.props
-        const itemState = this.state.treeStates[item[valueFieldId]]
+        const { treeStates } = this.state
+        const itemState = treeStates[item[valueFieldId]]
 
-        this._handleExpandClick(itemState)
+        this.handleExpandClick(itemState)
     }
 
     /**
-   * Получает state для новых элементов дерева
-   * @param options
-   */
-
-    getTreeItems(options, mergeData = null) {
+     * Получает state для новых элементов дерева
+     * @param options
+     */
+    getTreeItems(options) {
         const result = {}
         const { valueFieldId, parentFieldId, hasChildrenFieldId } = this.props
         const treeStates = get(this, 'state.treeStates', false)
 
         options.map(
+            // eslint-disable-next-line no-return-assign
             item => (result[item[valueFieldId]] = {
                 [valueFieldId]: item[valueFieldId],
                 parentId: item[parentFieldId],
@@ -681,48 +609,31 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Добавляет новым элементам дерева их state
-   * @param elements - новые элементы
-   */
-
-    addNewElements(elements) {
-        const { valueFieldId } = this.props
-        const newElements = elements.filter(
-            item => !this.state.treeStates.hasOwnProperty(item[valueFieldId]),
-        )
-
-        this.setState(prevState => ({
-            treeStates: {
-                ...prevState.treeStates,
-                ...this.getTreeItems(newElements),
-            },
-        }))
-    }
-
-    /**
-   * Изменяет стейт элемента дерева
-   * @param itemState - стейс элемента
-   * @param id - id элемента
-   */
-
+     * Изменяет стейт элемента дерева
+     * @param itemState - стейс элемента
+     * @param id - id элемента
+     */
     overrideElement(itemState, id) {
-        const newData = { ...this.state.treeStates,
-            [id]: itemState }
+        const { treeStates } = this.state
+        const newData = {
+            ...treeStates,
+            [id]: itemState,
+        }
 
         this.setState({ treeStates: newData })
     }
 
     /**
-   * Изменения статус выбора у заданных элементов
-   * @param nodes - элементы дерева
-   * @param newStatus - новый статус
-   */
-
+     * Изменения статус выбора у заданных элементов
+     * @param nodes - элементы дерева
+     * @param newStatus - новый статус
+     */
     changeSelected(nodes, newStatus) {
         const { valueFieldId } = this.props
+        const { treeStates } = this.state
 
-        nodes.map((node) => {
-            const nodeState = this.state.treeStates[node[valueFieldId]]
+        nodes.forEach((node) => {
+            const nodeState = treeStates[node[valueFieldId]]
 
             nodeState.selected = newStatus
             this.overrideElement(nodeState)
@@ -730,14 +641,14 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Устанавливает статус выбора у родительских элементов дерева
-   * @param item - элемент дерева
-   */
-
+     * Устанавливает статус выбора у родительских элементов дерева
+     * @param item - элемент дерева
+     */
     selectParent(item) {
         const { valueFieldId, parentFieldId } = this.props
-        const parent = this.state.options[
-            this.state.options.findIndex(
+        const { options, treeStates } = this.state
+        const parent = options[
+            options.findIndex(
                 parent => parent[valueFieldId] === item[parentFieldId],
             )
         ]
@@ -746,7 +657,7 @@ class InputSelectTree extends React.Component {
             return
         }
 
-        const parentState = this.state.treeStates[parent[valueFieldId]]
+        const parentState = treeStates[parent[valueFieldId]]
 
         if (parentState.selected === NODE_SELECTED.NOT_SELECTED) {
             parentState.selected = NODE_SELECTED.PARTIALLY
@@ -759,26 +670,25 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Снимает статус выбора с родительских элементов дерева
-   * @param item - элемент дерева
-   */
-
+     * Снимает статус выбора с родительских элементов дерева
+     * @param item - элемент дерева
+     */
     unselectParent(item) {
         const { valueFieldId, parentFieldId } = this.props
-        const parent = this.state.options[
-            this.state.options.findIndex(
+        const { options, treeStates } = this.state
+        const parent = options[
+            options.findIndex(
                 parent => parent[valueFieldId] === item[parentFieldId],
             )
         ]
         const parentState = parent
-            ? this.state.treeStates[parent[valueFieldId]]
+            ? treeStates[parent[valueFieldId]]
             : null
 
         if (parentState && parentState.selected === NODE_SELECTED.PARTIALLY) {
-            const selectedChild = this.state.options.find(
+            const selectedChild = options.find(
                 child => child[parentFieldId] === parent[valueFieldId] &&
-          this.state.treeStates[child[valueFieldId]].selected ===
-            NODE_SELECTED.SELECTED,
+                treeStates[child[valueFieldId]].selected === NODE_SELECTED.SELECTED,
             )
 
             if (!selectedChild) {
@@ -793,76 +703,78 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Обрабатывает нажатия на кнопку клавиатуры "Стрелка вниз"
-   * @private
-   */
+     * Обрабатывает нажатия на кнопку клавиатуры "Стрелка вниз"
+     * @private
+     */
+    handleArrowDown() {
+        const { active } = this.state
 
-    _handleArrowDown() {
-        if (this.state.active) {
-            this._setNextNodeActive()
+        if (active) {
+            this.setNextNodeActive()
         } else {
-            this._setFirstNodeActive()
+            this.setFirstNodeActive()
         }
     }
 
     /**
-   * Обрабатывает нажатия на кнопку клавиатуры "Стрелка вверх"
-   * @private
-   */
+     * Обрабатывает нажатия на кнопку клавиатуры "Стрелка вверх"
+     * @private
+     */
+    handleArrowUp() {
+        const { active } = this.state
 
-    _handleArrowUp() {
-        if (this.state.active) {
-            this._setPrevNodeActive()
+        if (active) {
+            this.setPrevNodeActive()
         }
     }
 
     /**
-   * Обрабатывает нажатия на кнопку клавиатуры "Стрелка вправо"
-   * @private
-   */
+     * Обрабатывает нажатия на кнопку клавиатуры "Стрелка вправо"
+     * @private
+     */
+    handleArrowRight() {
+        const { active } = this.state
 
-    _handleArrowRight() {
-        if (this.state.active) {
-            if (!this.state.active.expanded && this.state.active.hasChildren) {
-                this._handleExpandClick(this.state.active, true)
+        if (active) {
+            if (!active.expanded && active.hasChildren) {
+                this.handleExpandClick(active, true)
             } else {
-                this._setNextNodeActive()
+                this.setNextNodeActive()
             }
         } else {
-            this._setFirstNodeActive()
+            this.setFirstNodeActive()
         }
     }
 
     /**
-   * Обрабатывает нажатия на кнопку клавиатуры "Стрелка влево"
-   * @private
-   */
-
-    _handleArrowLeft() {
-        const { active } = this.state
+     * Обрабатывает нажатия на кнопку клавиатуры "Стрелка влево"
+     * @private
+     */
+    handleArrowLeft() {
+        const { active, treeStates } = this.state
         const { parentFieldId } = this.props
 
         if (active) {
             if (active.expanded) {
-                this._collapseNode()
+                this.collapseNode()
             } else if (active[parentFieldId]) {
-                this.setState({ active: this.state.treeStates[active[parentFieldId]] })
-                this._scrollOntoElement(this.state.treeStates[active[parentFieldId]])
+                this.setState({ active: treeStates[active[parentFieldId]] })
+                this.scrollOntoElement(treeStates[active[parentFieldId]])
             } else {
-                this._setPrevNodeActive()
+                this.setPrevNodeActive()
             }
         }
     }
 
     /**
-   * Схлопывает элемент дерева
-   * @private
-   */
-
-    _collapseNode() {
+     * Схлопывает элемент дерева
+     * @private
+     */
+    collapseNode() {
         const { valueFieldId } = this.props
+        const { active } = this.state
         const activeItem = {
-            ...this.state.active,
+            ...active,
             expanded: false,
         }
 
@@ -871,218 +783,219 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Устанавливает первый элемент дерева активным
-   * @private
-   */
-
-    _setFirstNodeActive() {
+     * Устанавливает первый элемент дерева активным
+     * @private
+     */
+    setFirstNodeActive() {
         const { valueFieldId, parentFieldId } = this.props
-        const rootNodes = this.state.options.filter(node => !node[parentFieldId])
+        const { options, treeStates } = this.state
+        const rootNodes = options.filter(node => !node[parentFieldId])
 
         this.setState({
-            active: this.state.treeStates[rootNodes[0][valueFieldId]],
+            active: treeStates[rootNodes[0][valueFieldId]],
         })
     }
 
     /**
-   * Устанавливает следующий элемент дерева активный
-   * @private
-   */
-
-    _setNextNodeActive() {
+     * Устанавливает следующий элемент дерева активный
+     * @private
+     */
+    setNextNodeActive() {
         const { valueFieldId } = this.props
-        const nextItem = this.getNextItem(this.state.active)
+        const { active, treeStates } = this.state
+        const nextItem = this.getNextItem(active)
 
         if (nextItem) {
-            const nextItemState = this.state.treeStates[nextItem[valueFieldId]]
+            const nextItemState = treeStates[nextItem[valueFieldId]]
 
             this.setState({ active: nextItemState })
-            this._scrollOntoElement(nextItemState)
+            this.scrollOntoElement(nextItemState)
         }
     }
 
     /**
-   * Устанавливает предыдущий элемент дерева активный
-   * @private
-   */
-
-    _setPrevNodeActive() {
+     * Устанавливает предыдущий элемент дерева активный
+     * @private
+     */
+    setPrevNodeActive() {
         const { valueFieldId } = this.props
-        const prevItem = this.getPrevItem(this.state.active)
+        const { active, treeStates } = this.state
+        const prevItem = this.getPrevItem(active)
 
         if (prevItem) {
-            const prevItemState = this.state.treeStates[prevItem[valueFieldId]]
+            const prevItemState = treeStates[prevItem[valueFieldId]]
 
             this.setState({ active: prevItemState })
-            this._scrollOntoElement(prevItemState)
+            this.scrollOntoElement(prevItemState)
         }
     }
 
-    _scrollOntoElement(nodeState) {
+    // eslint-disable-next-line class-methods-use-this
+    scrollOntoElement(nodeState) {
+        // eslint-disable-next-line react/no-find-dom-node
         const nodeElement = ReactDOM.findDOMNode(nodeState.ref.current)
 
         nodeElement.scrollIntoView()
     }
 
     /**
-   * Обрабатывает нажатие кнопки Enter
-   * @private
-   */
+     * Обрабатывает нажатие кнопки Enter
+     * @private
+     */
+    handleEnter() {
+        const { active } = this.state
 
-    _handleEnter() {
-        if (this.state.active) {
-            this._handleItemSelect(this.state.active)
+        if (active) {
+            this.handleItemSelect(active)
         }
     }
 
     /**
-   * Обрабатывает нажатия на кнопку клавиатуры
-   * @param e - событие нажатия
-   */
-
+     * Обрабатывает нажатия на кнопку клавиатуры
+     * @param e - событие нажатия
+     */
     handleKeyPress(e) {
+        // eslint-disable-next-line no-prototype-builtins
         if (this.KEY_MAPPER.hasOwnProperty(e.key)) {
             this.KEY_MAPPER[e.key]()
         }
     }
 
     /**
-   * Обрабатывает изменение активного элемента
-   * @param item
-   */
-
+     * Обрабатывает изменение активного элемента
+     * @param item
+     */
     handleFocus(item) {
         this.setState({ active: item })
     }
 
     /**
-   * Находит предыдущий элемент
-   * @param currentItem - текущий элемент
-   * @returns {*}
-   */
-
+     * Находит предыдущий элемент
+     * @param currentItem - текущий элемент
+     * @returns {*}
+     */
     getPrevItem(currentItem) {
         const { parentFieldId } = this.props
 
         if (currentItem[parentFieldId]) {
-            return this._findPrevParentItem(currentItem)
+            return this.findPrevParentItem(currentItem)
         }
 
-        return this._findPrevRootItem(currentItem)
+        return this.findPrevRootItem(currentItem)
     }
 
     /**
-   * Находит предыдущий элемент без родителя
-   * @param currentItem - текущий активный элемент
-   * @returns {*}
-   * @private
-   */
-
-    _findPrevRootItem(currentItem) {
+     * Находит предыдущий элемент без родителя
+     * @param currentItem - текущий активный элемент
+     * @returns {*}
+     * @private
+     */
+    findPrevRootItem(currentItem) {
         const { valueFieldId, parentFieldId } = this.props
-        const rootNodes = this.state.options.filter(node => !node[parentFieldId])
-        const prevNode = this._findPrevItem(rootNodes, currentItem)
+        const { options, treeStates } = this.state
+        const rootNodes = options.filter(node => !node[parentFieldId])
+        const prevNode = this.findPrevItem(rootNodes, currentItem)
 
         if (!prevNode) {
-            this._changePopUpVision(false)
+            this.changePopUpVision(false)
 
             return null
-        } if (!this.state.treeStates[prevNode[valueFieldId]].expanded) {
+        } if (!treeStates[prevNode[valueFieldId]].expanded) {
             return prevNode
         }
 
-        return this._getLowest(prevNode)
+        return this.getLowest(prevNode)
     }
 
     /**
-   * Находит предыдущий элемент-родитель
-   * @param currentItem - текущий элемент
-   * @returns {*}
-   * @private
-   */
-
-    _findPrevParentItem(currentItem) {
+     * Находит предыдущий элемент-родитель
+     * @param currentItem - текущий элемент
+     * @returns {*}
+     * @private
+     */
+    findPrevParentItem(currentItem) {
         const { valueFieldId, parentFieldId } = this.props
-        const sameLevels = this.state.options.filter(
+        const { options, active } = this.state
+        const sameLevels = options.filter(
             node => node[parentFieldId] === currentItem[parentFieldId],
         )
-        const nextItem = this._findPrevItem(sameLevels, this.state.active)
+        const nextItem = this.findPrevItem(sameLevels, active)
 
         if (nextItem) {
             return nextItem
         }
 
-        return this.state.options[
-            this.state.options.findIndex(
+        return options[
+            options.findIndex(
                 node => node[valueFieldId] === currentItem[parentFieldId],
             )
         ]
     }
 
     /**
-   * Находит самый последний элемент в поддереве
-   * @param item - корень поддерева
-   * @returns {*}
-   * @private
-   */
-
-    _getLowest(item) {
+     * Находит самый последний элемент в поддереве
+     * @param item - корень поддерева
+     * @returns {*}
+     * @private
+     */
+    getLowest(item) {
         const { valueFieldId, parentFieldId } = this.props
-        const childs = this.state.options.filter(
+        const { treeStates, options } = this.state
+        const children = options.filter(
             node => node[parentFieldId] === item[valueFieldId],
         )
-        const lastChild = childs[childs.length - 1]
+        const lastChild = children[children.length - 1]
 
-        if (this.state.treeStates[lastChild[valueFieldId]].expanded) {
-            return this._getLowest(lastChild)
+        if (treeStates[lastChild[valueFieldId]].expanded) {
+            return this.getLowest(lastChild)
         }
 
         return lastChild
     }
 
     /**
-   * Находит следующий элемент
-   * @param currentItem
-   * @param lookChilds
-   * @returns {*}
-   */
-
-    getNextItem(currentItem, lookChilds = true) {
+     * Находит следующий элемент
+     * @param currentItem
+     * @param lookChildren
+     * @returns {*}
+     */
+    getNextItem(currentItem, lookChildren = true) {
         const { valueFieldId, parentFieldId } = this.props
-        const childs = this.state.options.filter(
+        const { options, treeStates } = this.state
+        const children = options.filter(
             node => node[parentFieldId] === currentItem[valueFieldId],
         )
-        const itemState = this.state.treeStates[currentItem[valueFieldId]]
+        const itemState = treeStates[currentItem[valueFieldId]]
 
-        if (lookChilds && itemState.expanded && childs.length > 0) {
-            return childs[0]
+        if (lookChildren && itemState.expanded && children.length > 0) {
+            return children[0]
         } if (currentItem[parentFieldId]) {
-            return this._findNextParentItem(currentItem)
+            return this.findNextParentItem(currentItem)
         }
-        const rootNodes = this.state.options.filter(node => !node[parentFieldId])
+        const rootNodes = options.filter(node => !node[parentFieldId])
 
-        return this._findNextItem(rootNodes, currentItem)
+        return this.findNextItem(rootNodes, currentItem)
     }
 
     /**
-   * Находит следующий элемент-родителя
-   * @param currentItem
-   * @returns {*}
-   * @private
-   */
-
-    _findNextParentItem(currentItem) {
+     * Находит следующий элемент-родителя
+     * @param currentItem
+     * @returns {*}
+     * @private
+     */
+    findNextParentItem(currentItem) {
         const { valueFieldId, parentFieldId } = this.props
-        const sameLevels = this.state.options.filter(
+        const { options, active } = this.state
+        const sameLevels = options.filter(
             node => node[parentFieldId] === currentItem[parentFieldId],
         )
-        const nextItem = this._findNextItem(sameLevels, this.state.active)
+        const nextItem = this.findNextItem(sameLevels, active)
 
         if (nextItem) {
             return nextItem
         }
-        const parent = this.state.options[
-            this.state.options.findIndex(
+        const parent = options[
+            options.findIndex(
                 node => node[valueFieldId] === currentItem[parentFieldId],
             )
         ]
@@ -1091,30 +1004,34 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * скрыть / показать попап
-   * @param isExpanded
-   * @private
-   */
-    _setIsExpanded(isExpanded) {
+     * скрыть / показать попап
+     * @param isExpanded
+     * @private
+     */
+    setIsExpanded(isExpanded) {
         const { onToggle, onClose, onOpen } = this.props
         const { isExpanded: previousIsExpanded } = this.state
 
         if (isExpanded !== previousIsExpanded) {
             this.setState({ isExpanded })
             onToggle()
-            isExpanded ? onOpen() : onClose()
+            if (isExpanded) {
+                onOpen()
+            } else {
+                onClose()
+            }
         }
     }
 
     /**
-   * Получает следующий по-порядку элемент из списка элементов
-   * @param nodes - список элементов
-   * @param active - активный элемент
-   * @returns {null}
-   * @private
-   */
+     * Получает следующий по-порядку элемент из списка элементов
+     * @param nodes - список элементов
+     * @param active - активный элемент
+     * @returns {null}
+     * @private
+     */
 
-    _findNextItem(nodes, active) {
+    findNextItem(nodes, active) {
         const { valueFieldId } = this.props
         const currentIndex = nodes.findIndex(
             node => node[valueFieldId] === active[valueFieldId],
@@ -1125,14 +1042,13 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Получает предыдущий по-порядку элемент из списка элементов
-   * @param nodes - список элементов
-   * @param active - активный элемент
-   * @returns {null}
-   * @private
-   */
-
-    _findPrevItem(nodes, active) {
+     * Получает предыдущий по-порядку элемент из списка элементов
+     * @param nodes - список элементов
+     * @param active - активный элемент
+     * @returns {null}
+     * @private
+     */
+    findPrevItem(nodes, active) {
         const { valueFieldId } = this.props
         const currentIndex = nodes.findIndex(
             node => node[valueFieldId] === active[valueFieldId],
@@ -1143,19 +1059,18 @@ class InputSelectTree extends React.Component {
     }
 
     /**
-   * Обработчик раскрытия элемента дерева
-   * @param itemState - стейт элемента для раскрытия
-   * @param newState - новый статус
-   * @private
-   */
+     * Обработчик раскрытия элемента дерева
+     * @param itemState - стейт элемента для раскрытия
+     * @param newState - новый статус
+     * @private
+     */
+    async handleExpandClick(itemState, newState = null) {
+        const { valueFieldId, ajax, handleItemOpen } = this.props
 
-    async _handleExpandClick(itemState, newState = null) {
-        const { valueFieldId } = this.props
-
-        if (this.props.ajax && !itemState.loaded) {
+        if (ajax && !itemState.loaded) {
             itemState.expanded = true
             itemState.loaded = true
-            this.props.handleItemOpen(itemState[valueFieldId])
+            handleItemOpen(itemState[valueFieldId])
         } else {
             itemState.expanded = newState || !itemState.expanded
         }
@@ -1163,16 +1078,13 @@ class InputSelectTree extends React.Component {
         this.overrideElement(itemState, itemState[valueFieldId])
     }
 
-    _handleClick() {
-    // const searchCallback = () => {
-        this._setIsExpanded(true)
-        // };
-        // this._handleDataSearch(this.state.input, false, searchCallback);
-        this._setSelected(false)
-        this._setInputFocus(true)
+    handleClick() {
+        this.setIsExpanded(true)
+        this.setSelected(false)
+        this.setInputFocus(true)
     }
 
-    _toggle() {
+    toggle() {
         const { closePopupOnSelect } = this.props
 
         this.setState((prevState) => {
@@ -1182,17 +1094,13 @@ class InputSelectTree extends React.Component {
         })
     }
 
-    _setSelected(isInputSelected) {
+    setSelected(isInputSelected) {
         this.setState({ isInputSelected })
     }
 
-    _setInputFocus(inputFocus) {
+    setInputFocus(inputFocus) {
         this.setState({ inputFocus })
     }
-
-    /**
-   * Рендер
-   */
 
     render() {
         const {
@@ -1207,8 +1115,6 @@ class InputSelectTree extends React.Component {
             hasCheckboxes,
             format,
             ajax,
-            lengthToGroup,
-            collapseSelected,
             badgeFieldId,
             badgeColorFieldId,
             groupFieldId,
@@ -1219,6 +1125,17 @@ class InputSelectTree extends React.Component {
             hasChildrenFieldId,
         } = this.props
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
+        const {
+            isExpanded,
+            value: stateValue,
+            options: stateOptions,
+            active,
+            inputFocus,
+            input,
+            treeStates,
+            isInputSelected,
+            activeValueId,
+        } = this.state
 
         return (
             <Dropdown
@@ -1226,60 +1143,60 @@ class InputSelectTree extends React.Component {
                 className="n2o-input-select"
                 toggle={() => {}}
                 onBlur={() => {
-                    this._setInputFocus(false)
-                    this._setSelected(false)
+                    this.setInputFocus(false)
+                    this.setSelected(false)
                 }}
                 onFocus={() => {
-                    this._setInputFocus(true)
-                    this._setSelected(true)
+                    this.setInputFocus(true)
+                    this.setSelected(true)
                 }}
-                isOpen={this.state.isExpanded && !disabled}
+                isOpen={isExpanded && !disabled}
             >
                 <DropdownToggle disabled={disabled}>
                     <InputSelectGroup
-                        isExpanded={this.state.isExpanded}
-                        setIsExpanded={this._setIsExpanded}
+                        isExpanded={isExpanded}
+                        setIsExpanded={this.setIsExpanded}
                         loading={loading}
-                        selected={this.state.value}
-                        input={this.state.input}
+                        selected={stateValue}
+                        input={input}
                         iconFieldId={iconFieldId}
                         imageFieldId={imageFieldId}
                         multiSelect={multiSelect}
-                        isInputInFocus={this.state.inputFocus}
-                        onClearClick={this._handleElementClear}
+                        isInputInFocus={inputFocus}
+                        onClearClick={this.handleElementClear}
                     >
                         <InputContent
                             loading={loading}
-                            value={this.state.input}
+                            value={input}
                             disabledValues={disabledValues}
                             valueFieldId={valueFieldId}
                             placeholder={placeholder}
-                            options={this.state.options}
-                            openPopUp={() => this._setIsExpanded(true)}
-                            closePopUp={() => this._setIsExpanded(false)}
-                            onInputChange={this._setNewInputValue}
-                            onRemoveItem={this._removeSelectedItem}
-                            isExpanded={this.state.isExpanded}
-                            isSelected={this.state.isInputSelected}
-                            inputFocus={this.state.inputFocus}
+                            options={stateOptions}
+                            openPopUp={() => this.setIsExpanded(true)}
+                            closePopUp={() => this.setIsExpanded(false)}
+                            onInputChange={this.setNewInputValue}
+                            onRemoveItem={this.removeSelectedItem}
+                            isExpanded={isExpanded}
+                            isSelected={isInputSelected}
+                            inputFocus={inputFocus}
                             iconFieldId={iconFieldId}
-                            activeValueId={this.state.activeValueId}
-                            setActiveValueId={this._setActiveValueId}
+                            activeValueId={activeValueId}
+                            setActiveValueId={this.setActiveValueId}
                             imageFieldId={imageFieldId}
-                            selected={this.state.value}
+                            selected={stateValue}
                             labelFieldId={labelFieldId}
-                            clearSelected={this._clearSelected}
+                            clearSelected={this.clearSelected}
                             multiSelect={multiSelect}
-                            onClick={this._handleClick}
-                            onSelect={this._handleItemSelect}
+                            onClick={this.handleClick}
+                            onSelect={this.handleItemSelect}
                         />
                     </InputSelectGroup>
                 </DropdownToggle>
-                <Popup isExpanded={this.state.isExpanded} expandPopUp={expandPopUp}>
+                <Popup isExpanded={isExpanded} expandPopUp={expandPopUp}>
                     <TreeItems
-                        value={this.state.value}
-                        options={this.state.options}
-                        treeStates={this.state.treeStates}
+                        value={stateValue}
+                        options={stateOptions}
+                        treeStates={treeStates}
                         hasCheckboxes={hasCheckboxes}
                         imageFieldId={imageFieldId}
                         iconFieldId={iconFieldId}
@@ -1291,9 +1208,9 @@ class InputSelectTree extends React.Component {
                         format={format}
                         hasChildrenFieldId={hasChildrenFieldId}
                         ajax={ajax}
-                        active={this.state.active}
-                        handleSelect={this._handleItemSelect}
-                        handleDelete={this._handleRemove}
+                        active={active}
+                        handleSelect={this.handleItemSelect}
+                        handleDelete={this.handleRemove}
                         onExpandClick={this.onExpandClick}
                         handleFocus={this.handleFocus}
                         disabledValues={disabledValues}
@@ -1306,6 +1223,9 @@ class InputSelectTree extends React.Component {
 }
 
 InputSelectTree.propTypes = {
+    style: PropTypes.object,
+    onToggle: PropTypes.func,
+    resetOnBlur: PropTypes.bool,
     hasChildrenFieldId: PropTypes.bool,
     parentFieldId: PropTypes.string,
     loading: PropTypes.bool,
@@ -1331,10 +1251,9 @@ InputSelectTree.propTypes = {
     closePopupOnSelect: PropTypes.bool,
     hasCheckboxes: PropTypes.bool,
     format: PropTypes.string,
-    collapseSelected: PropTypes.bool,
-    lengthToGroup: PropTypes.number,
     onSearch: PropTypes.func,
     expandPopUp: PropTypes.bool,
+    // eslint-disable-next-line consistent-return
     ajax(props, propName, componentName) {
         if (props[propName] && props.multiSelect) {
             return new Error(
@@ -1362,8 +1281,6 @@ InputSelectTree.defaultProps = {
     multiSelect: false,
     closePopupOnSelect: true,
     hasCheckboxes: false,
-    collapseSelected: true,
-    lengthToGroup: 3,
     ajax: false,
     expandPopUp: true,
     onSearch() {},
@@ -1373,63 +1290,6 @@ InputSelectTree.defaultProps = {
     onOpen() {},
     onClose() {},
     onChange() {},
-    onScrollEnd() {},
-    onElementCreate() {},
-}
-
-const fff = {
-    className: 'n2o',
-    prefixCls: '',
-    animation: '',
-    transitionName: '',
-    choiceTransitionName: '',
-    dropdownMatchSelectWidth: false,
-    dropdownClassName: '',
-    dropdownStyle: {},
-    dropdownPopupAlign: null,
-    onDropdownVisibleChange: () => true,
-    notFoundContent: 'Ничего не найдено',
-    showSearch: true,
-    allowClear: false,
-    maxTagTextLength: null,
-    maxTagCount: null,
-    maxTagPlaceholder: null,
-    multiple: false,
-    disabled: false,
-    searchValue: '',
-    defaultValue: null,
-    value: null,
-    labelInValue: false,
-    onChange: null,
-    onSelect: null,
-    onSearch: null,
-    onTreeExpand: null,
-    showCheckedStrategy: SHOW_CHILD,
-    treeIcon: false,
-    treeLine: false,
-    treeDefaultExpandAll: false,
-    treeDefaultExpandedKeys: null,
-    treeExpandedKeys: null,
-    treeCheckable: false,
-    treeCheckStrictly: false,
-    filterTreeNode: Function,
-    treeNodeFilterProp: 'value',
-    treeNodeLabelProp: 'title',
-    treeData: [
-        { key: 1, pId: 0, label: 'test1', value: 'test1' },
-        { key: 121, pId: 0, label: 'test2', value: 'test2' },
-        { key: 11, pId: 1, label: 'test11', value: 'test11' },
-        { key: 12, pId: 1, label: 'test12', value: 'test12' },
-        { key: 111, pId: 11, label: 'test111', value: 'test111' },
-    ],
-    treeDataSimpleMode: false,
-    loadData: null,
-    getPopupContainer: () => document.body,
-    autoClearSearchValue: true,
-    inputIcon: null,
-    clearIcon: null,
-    removeIcon: null,
-    switcherIcon: null,
 }
 
 export default onClickOutside(InputSelectTree)

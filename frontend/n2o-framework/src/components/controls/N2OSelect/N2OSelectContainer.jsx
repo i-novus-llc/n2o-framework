@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import listContainer from '../listContainer'
 
+// eslint-disable-next-line import/no-named-as-default
 import N2OSelect from './N2OSelect'
 
 /**
@@ -34,28 +35,23 @@ import N2OSelect from './N2OSelect'
  * @reactProps {string} format - формат
  */
 
-class N2OSelectContainer extends React.Component {
-    /**
-   * Рендер
-   */
+function N2OSelectContainer(props) {
+    const { filter, data, isLoading } = props
+    const filterType = filter === 'server' ? false : filter
 
-    render() {
-        const { filter } = this.props.filter
-
-        const filterType = filter === 'server' ? false : filter
-
-        return (
-            <N2OSelect
-                {...this.props}
-                options={this.props.data}
-                filter={filterType}
-                loading={this.props.isLoading}
-            />
-        )
-    }
+    return (
+        <N2OSelect
+            {...props}
+            options={data}
+            filter={filterType}
+            loading={isLoading}
+        />
+    )
 }
 
 N2OSelectContainer.propTypes = {
+    data: PropTypes.any,
+    isLoading: PropTypes.bool,
     loading: PropTypes.bool,
     options: PropTypes.array,
     valueFieldId: PropTypes.string.isRequired,
@@ -88,6 +84,7 @@ N2OSelectContainer.defaultProps = {
     disabledValues: [],
     resetOnBlur: false,
     filter: false,
+    // eslint-disable-next-line react/default-props-match-prop-types
     hasCheckboxes: false,
     searchByTap: false,
 }

@@ -1,7 +1,7 @@
 import React from 'react'
-import TreeSelect, { TreeNode, SHOW_PARENT } from 'rc-tree-select'
+import { TreeNode } from 'rc-tree-select'
 
-function TreeItem({ node, options }) {
+function TreeItem() {
     return <TreeNode />
 }
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import get from 'lodash/get'
 import moment from 'moment'
-import cn from 'classnames'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 import { eventLessHour, isAllDay } from './utils'
 
@@ -22,7 +23,7 @@ const monthEventStyle = color => ({
 
 const DEFAULT_BG_COLOR = '#3174ad'
 
-function CalendarEvent({
+export function CalendarEvent({
     style,
     event,
     accessors,
@@ -52,7 +53,7 @@ function CalendarEvent({
             onClick={!disabled ? handleClick : null}
         >
             <div
-                className={cn('calendar__event-name', {
+                className={classNames('calendar__event-name', {
                     'calendar__event-name--nowrap': lessHour,
                 })}
             >
@@ -63,6 +64,16 @@ function CalendarEvent({
             </div>
         </div>
     )
+}
+
+CalendarEvent.propTypes = {
+    style: PropTypes.object,
+    event: PropTypes.object,
+    accessors: PropTypes.object,
+    cellColorAccessor: PropTypes.any,
+    onResolve: PropTypes.func,
+    onSelectEvent: PropTypes.func,
+    dispatch: PropTypes.func,
 }
 
 export default CalendarEvent
