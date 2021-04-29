@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
-import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.CustomField;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;

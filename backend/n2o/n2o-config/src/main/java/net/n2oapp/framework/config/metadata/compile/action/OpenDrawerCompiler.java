@@ -4,23 +4,20 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenDrawer;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.open_drawer.OpenDrawer;
-import net.n2oapp.framework.api.metadata.meta.action.open_drawer.OpenDrawerPayload;
+import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawer;
+import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawerPayload;
 import net.n2oapp.framework.config.metadata.compile.context.DrawerPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
 /**
- * Компиляция show-modal
+ * Компиляция действия открытия drawer окна
  */
 @Component
-public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2oOpenDrawer> {
+public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpenDrawer> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oOpenDrawer.class;
@@ -28,40 +25,21 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
 
     @Override
     public OpenDrawer compile(N2oOpenDrawer source, CompileContext<?, ?> context, CompileProcessor p) {
-        OpenDrawer showModal = new OpenDrawer();
-        showModal.setType(p.resolve(property("n2o.api.action.open_drawer.type"), String.class));
-        showModal.setObjectId(source.getObjectId());
-        showModal.setOperationId(source.getOperationId());
-        showModal.setPageId(source.getPageId());
-
-        compileAction(showModal, source, p);
-        PageContext pageContext = initPageContext(showModal, source, context, p);
-        compilePayload(showModal, source, pageContext, p);
-        return showModal;
+        OpenDrawer drawer = new OpenDrawer();
+        compileModal(source, drawer, context, p);
+        drawer.setType(p.resolve(property("n2o.api.action.open_drawer.type"), String.class));
+        return drawer;
     }
 
     @Override
     protected PageContext constructContext(String pageId, String route) {
-        DrawerPageContext modalPageContext = new DrawerPageContext(pageId, route);
-        modalPageContext.setClientPageId(convertPathToId(route));
-        return modalPageContext;
+        DrawerPageContext drawerPageContext = new DrawerPageContext(pageId, route);
+        drawerPageContext.setClientPageId(convertPathToId(route));
+        return drawerPageContext;
     }
 
-    @Override
-    protected void initPageRoute(OpenDrawer compiled,
-                                 String route,
-                                 Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping) {
-        OpenDrawerPayload payload = compiled.getPayload();
-        String modalPageId = convertPathToId(route);
-        payload.setName(modalPageId);
-        payload.setPageId(modalPageId);
-        payload.setPageUrl(route);
-        payload.setPathMapping(pathMapping);
-        payload.setQueryMapping(queryMapping);
-    }
-
-    private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, PageContext pageContext, CompileProcessor p) {
-        OpenDrawerPayload payload = showModal.getPayload();
+    protected void compilePayload(N2oOpenDrawer source, OpenDrawer drawer, PageContext pageContext, CompileProcessor p) {
+        OpenDrawerPayload payload = drawer.getPayload();
         payload.setBackdrop(p.cast(source.getBackdrop(),
                 p.resolve(property("n2o.api.action.open_drawer.backdrop"), Boolean.class)));
         payload.setWidth(p.cast(source.getWidth(),
