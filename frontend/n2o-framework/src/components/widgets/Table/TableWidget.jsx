@@ -45,6 +45,7 @@ class TableWidget extends React.Component {
         } = this.props.table
         const { toolbar, actions, dataProvider } = this.props
         const { resolveProps } = this.context
+
         return {
             headers: values(resolveProps(headers)),
             cells: values(resolveProps(cells)),
@@ -79,6 +80,7 @@ class TableWidget extends React.Component {
             className,
             style,
         } = this.props
+
         return (
             <StandardWidget
                 disabled={disabled}

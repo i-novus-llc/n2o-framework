@@ -9,6 +9,7 @@ function NotFoundFactory({ src, level }) {
       Фабрике не удалось найти компонент:
             {src}
             {' '}
+
 в
             {level}
         </Alert>

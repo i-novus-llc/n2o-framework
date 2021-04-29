@@ -60,6 +60,7 @@ function InputSelectGroup({
             />
         </Spinner>
     )
+
     return (
         <div
             className={cx('n2o-input-container', 'form-control', className, {

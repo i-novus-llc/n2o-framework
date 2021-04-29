@@ -63,6 +63,7 @@ const NavItemContainer = ({
                 </NavItem>
             )
         }
+
         return (
             <NavItem>
                 <NavLink
@@ -93,6 +94,7 @@ const NavItemContainer = ({
     )
 
     let dropdownItems = []
+
     if (item.type === 'dropdown' && !sidebarOpen) {
         dropdownItems = item.subItems.map((child, i) => (
             <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
@@ -120,6 +122,7 @@ const NavItemContainer = ({
         const linkItem = item => (item.linkType === 'outer'
             ? defaultLink(item)
             : getInnerLink(item, 'dropdown-item'))
+
         dropdownItems = item.subItems.map((subItem, i) => (
             <DropdownItem>
                 {' '}

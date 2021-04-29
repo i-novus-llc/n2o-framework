@@ -22,19 +22,10 @@ import DateTimeControl from './DateTimeControl'
  * @example
  * <DatePicker defaultTime = '12:11'/>
  */
-class DatePicker extends React.Component {
-    constructor(props) {
-        super(props)
-    }
+function DatePicker(props) {
+    const { value, defaultValue } = props
 
-    /**
-   * базовый рендер
-   * */
-    render() {
-        let { value, defaultValue } = this.props
-        value = value || defaultValue || null
-        return <DateTimeControl {...this.props} value={value} type="date-picker" />
-    }
+    return <DateTimeControl {...props} value={value || defaultValue || null} type="date-picker" />
 }
 
 DatePicker.defaultProps = {
@@ -54,74 +45,83 @@ DatePicker.defaultProps = {
 
 DatePicker.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([
         PropTypes.instanceOf(moment),
         PropTypes.instanceOf(Date),
         PropTypes.string,
     ]),
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.instanceOf(moment),
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+    ]),
     /**
-   * Минимальная дата ввода
-   */
+     * Минимальная дата ввода
+     */
     min: PropTypes.oneOfType([
         PropTypes.instanceOf(moment),
         PropTypes.instanceOf(Date),
         PropTypes.string,
     ]),
     /**
-   * Максимальная дата ввода
-   */
+     * Максимальная дата ввода
+     */
     max: PropTypes.oneOfType([
         PropTypes.instanceOf(moment),
         PropTypes.instanceOf(Date),
         PropTypes.string,
     ]),
     /**
-   * Callback фокуса
-   */
+     * Callback фокуса
+     */
     onFocus: PropTypes.func,
     /**
-   * Callback потери фокуса
-   */
+     * Callback потери фокуса
+     */
     onBlur: PropTypes.func,
     /**
-   *
-   */
+     *
+     */
     dateDivider: PropTypes.string,
     /**
-   * Callback изменения
-   */
+     * Callback изменения
+     */
     onChange: PropTypes.func,
     /**
-   * Формат даты
-   */
+     * Формат даты
+     */
     dateFormat: PropTypes.string,
     /**
-   * Формат времени
-   */
+     * Формат времени
+     */
     timeFormat: PropTypes.string,
     /**
-   * Выходной фомат
-   */
+     * Выходной фомат
+     */
     outputFormat: PropTypes.string,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     /**
-   * Placeholder
-   */
+     * Placeholder
+   *  /
     configLocale: PropTypes.oneOf(['en', 'ru']),
     /**
-   * Автофокус на контроле
-   */
+     * Автофокус на контроле
+     */
     autoFocus: PropTypes.bool,
     /**
-   * Флаг открытия выбора даты при фокусе
-   */
+     * Флаг открытия выбора даты при фокусе
+     */
     openOnFocus: PropTypes.bool,
+    defaultTime: PropTypes.string,
+    className: PropTypes.string,
+    configLocale: PropTypes.string,
+    t: PropTypes.func,
 }
 
 export default getContext({

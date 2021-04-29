@@ -1,36 +1,39 @@
 .n2o-standard-widget-layout {
-  display: flex;
-  &-aside {
+    display: flex;
+}
+
+.n2o-standard-widget-layout-aside {
     max-width: 25%;
+}
 
-    &--left .n2o-filter {
-      padding-right: 15px;
-    }
+.n2o-standard-widget-layout-aside--left .n2o-filter {
+    padding-right: 15px;
+}
 
-    &--right .n2o-filter {
-      padding-left: 15px;
-    }
-  }
+.n2o-standard-widget-layout-aside--right .n2o-filter {
+    padding-left: 15px;
+}
 
-  &-center {
+.n2o-standard-widget-layout-center {
     width: 100%;
-  }
+}
 
-  &-toolbar {
+.n2o-standard-widget-layout-toolbar {
     align-items: flex-start;
-    &--left .btn-group {
-      flex-wrap: wrap;
-    }
+}
 
-    &--right {
-      display: flex;
-      flex-shrink: 0;
-      justify-content: flex-end;
-      align-items: flex-end;
-      & .btn-group {
+.n2o-standard-widget-layout-toolbar--left .btn-group {
+    flex-wrap: wrap;
+}
+
+.n2o-standard-widget-layout-toolbar--right {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    .btn-group {
         flex-wrap: wrap;
         justify-content: flex-end;
-      }
     }
-  }
 }

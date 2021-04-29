@@ -22,9 +22,11 @@ const prepareValue = (rating, half) => {
     // округление до .5
         return Math.round(+rating / 0.5) * 0.5
     }
+
     return Math.round(rating)
 }
 
+// TODO отказаться от rating  в параметрах в пользу value для единообразия со всеми полями ввода
 class SnippetRating extends Component {
     constructor(props) {
         super(props)
@@ -51,6 +53,7 @@ class SnippetRating extends Component {
     onChangeAndSetState({ target: { value } }) {
         const newValue = Number(value)
         const { onChange } = this.props
+
         this.setState({
             value: newValue,
             rating: newValue,
@@ -72,6 +75,7 @@ class SnippetRating extends Component {
     renderNullStar() {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
                 <input
@@ -99,6 +103,7 @@ class SnippetRating extends Component {
     renderStars(index) {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
                 <label

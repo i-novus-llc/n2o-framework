@@ -26,6 +26,7 @@ export function GlobalAlerts({ alerts, onDismiss }) {
         animate: true,
         position: 'relative',
     }))
+
     return (
         <div className="n2o-global-alerts d-flex justify-content-center">
             <Alerts alerts={mapAlertsProps()} />

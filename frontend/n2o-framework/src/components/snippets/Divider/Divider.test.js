@@ -12,9 +12,7 @@ const setup = (propOverrides) => {
         ...propOverrides,
     }
 
-    const wrapper = mount(<Divider {...props} />)
-
-    return wrapper
+    return mount(<Divider {...props} />)
 }
 
 describe('<Divider />', () => {

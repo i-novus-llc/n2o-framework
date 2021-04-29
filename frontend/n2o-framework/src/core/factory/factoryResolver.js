@@ -60,6 +60,7 @@ export default function factoryResolver(
 ) {
     const config = merge(index, customConfig)
     const obj = {}
+
     if (isObject(props)) {
         Object.keys(props).map((key) => {
             if (isObject(props[key])) {
@@ -70,9 +71,11 @@ export default function factoryResolver(
                 obj[key] = props[key]
             }
         })
+
         return isArray(props) ? values(obj) : obj
     } if (isString(props)) {
         return config[props] || config[defaultComponent]
     }
+
     return props
 }

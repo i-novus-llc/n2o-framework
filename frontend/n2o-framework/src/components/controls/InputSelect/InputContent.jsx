@@ -243,6 +243,7 @@ class InputContent extends React.Component {
         !e.target.value
           ) {
               const endElementOfSelect = selected[selected.length - 1]
+
               onRemoveItem(endElementOfSelect)
           } else if (e.key === 'ArrowDown') {
               e.preventDefault()

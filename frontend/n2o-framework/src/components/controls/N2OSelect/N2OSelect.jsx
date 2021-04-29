@@ -78,6 +78,7 @@ class N2OSelect extends React.Component {
 
     componentDidMount() {
         const { initial, options, valueFieldId } = this.props
+
         if (Array.isArray(initial)) {
             this._setStateFromInitial(initial, options, valueFieldId)
         }
@@ -98,6 +99,7 @@ class N2OSelect extends React.Component {
 
         if (Array.isArray(initial) && !isEqual(initial, prevProps.initial)) {
             this._setStateFromInitial(initial, options, valueFieldId)
+
             return
         }
         if (!isEqual(value, prevProps.value)) {
@@ -159,6 +161,7 @@ class N2OSelect extends React.Component {
         if (value) {
             return [value]
         }
+
         return []
     }
 
@@ -173,6 +176,7 @@ class N2OSelect extends React.Component {
         const selected = this.state.selected.filter(
             i => i[valueFieldId] !== item[valueFieldId],
         )
+
         this.setState({
             selected,
         })
@@ -190,6 +194,7 @@ class N2OSelect extends React.Component {
     _changePopUpVision(newIsExpanded) {
         const { onOpen, onClose } = this.props
         const { isExpanded } = this.state
+
         if (isExpanded === newIsExpanded) { return }
         this.setState(
             {
@@ -268,9 +273,11 @@ class N2OSelect extends React.Component {
 
     _handleDataSearch(input, delay = true, callback) {
         const { onSearch, filter, options: data, labelFieldId } = this.props
+
         if (filter) {
             const filterFunc = item => String.prototype[this.props.filter].call(item, input)
             const options = data.filter(item => filterFunc(item[labelFieldId].toString()))
+
             this.setState({ options })
         } else {
             onSearch(input, delay, callback)

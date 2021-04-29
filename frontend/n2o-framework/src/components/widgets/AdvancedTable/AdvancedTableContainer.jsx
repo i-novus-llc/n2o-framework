@@ -36,6 +36,7 @@ import AdvancedTable from './AdvancedTable'
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
     const predicate = ({ id }) => id == selectedId
+
     return isEqual(find(data1, predicate), find(data2, predicate))
 }
 
@@ -113,6 +114,7 @@ class AdvancedTableContainer extends React.Component {
 
     handleSetFilter(filter) {
         const { onSetFilter, onFetch } = this.props
+
         this._filter = {
             ...this._filter,
             [filter.id]: filter.value,
@@ -404,5 +406,6 @@ const enhance = compose(
         null,
     ),
 )
+
 export { AdvancedTableContainer }
 export default enhance(AdvancedTableContainer)

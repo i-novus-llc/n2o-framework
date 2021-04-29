@@ -77,6 +77,7 @@ function resolve(state = buttonState, action) {
  */
 export default function toolbar(state = {}, action) {
     const { key, buttonId } = action.payload || {}
+
     switch (action.type) {
         case REGISTER_BUTTON:
             return { ...state,
@@ -109,6 +110,7 @@ export default function toolbar(state = {}, action) {
             }
         case RESET_STATE:
             const { widgetId } = action.payload
+
             return {
                 ...state,
                 [widgetId]: mapValues(state[widgetId], (button, buttonId) => resolve(state[widgetId][buttonId], action)),

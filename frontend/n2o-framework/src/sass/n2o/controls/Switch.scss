@@ -1,90 +1,93 @@
 .n2o-switch {
-  position: relative;
-  display: inline-block;
-  box-sizing: border-box;
-  width: $n2o-switch-width;
-  height: $n2o-switch-height;
-  line-height: 20px;
-  padding: 0;
-  vertical-align: middle;
-  border-radius: $n2o-switch-border-radius;
-  border: $n2o-switch-border-width solid $n2o-switch-border-color;
-  background-color: $n2o-switch-bg-color;
-  cursor: pointer;
-  transition: all $n2o-switch-animation-duration cubic-bezier(0.35, 0, 0.25, 1);
-
-  &:after{
-    position: absolute;
-    width: $n2o-switch-element-width;
-    height: $n2o-switch-element-height;
-    left: 2px;
-    top: 1px;
-    border-radius: $n2o-switch-element-border-radius;
-    background-color: $n2o-switch-element-background-color;
-    content: " ";
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: $n2o-switch-width;
+    height: $n2o-switch-height;
+    line-height: 20px;
+    padding: 0;
+    vertical-align: middle;
+    border-radius: $n2o-switch-border-radius;
+    border: $n2o-switch-border-width solid $n2o-switch-border-color;
+    background-color: $n2o-switch-bg-color;
     cursor: pointer;
-    box-shadow: $n2o-switch-element-box-shadow;
-    transform: scale(1);
-    transition: left $n2o-switch-animation-duration cubic-bezier(0.35, 0, 0.25, 1);
-    animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
-    animation-duration: $n2o-switch-animation-duration;
-    animation-name: rcSwitchOff;
-  }
+    transition: all $n2o-switch-animation-duration cubic-bezier(0.35, 0, 0.25, 1);
 
-  &:hover:after {
-    transform: scale(1.1);
-    animation-name: rcSwitchOn;
-  }
+    &::after {
+        position: absolute;
+        width: $n2o-switch-element-width;
+        height: $n2o-switch-element-height;
+        left: 2px;
+        top: 1px;
+        border-radius: $n2o-switch-element-border-radius;
+        background-color: $n2o-switch-element-background-color;
+        content: " ";
+        cursor: pointer;
+        box-shadow: $n2o-switch-element-box-shadow;
+        transform: scale(1);
+        transition: left $n2o-switch-animation-duration cubic-bezier(0.35, 0, 0.25, 1);
+        animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        animation-duration: $n2o-switch-animation-duration;
+        animation-name: rcSwitchOff;
+    }
 
-  &:focus {
-    box-shadow: $input-btn-focus-box-shadow;
-    outline: none;
-  }
+    &:hover::after {
+        transform: scale(1.1);
+        animation-name: rcSwitchOn;
+    }
 
-  &-checked {
+    &:focus {
+        box-shadow: $input-btn-focus-box-shadow;
+        outline: none;
+    }
+}
+
+.n2o-switch-checked {
     border: $n2o-switch-checked-border-width solid $n2o-switch-checked-border-color;
     background-color: $n2o-switch-checked-background-color;
 
-    &:after{
-      left: ($n2o-switch-width / 2);
+    &::after {
+        left: ($n2o-switch-width / 2);
     }
-  }
+}
 
-  &-disabled {
+.n2o-switch-disabled {
     cursor: no-drop;
     background: $n2o-switch-disabled-background-color;
     border-color: $n2o-switch-disabled-border-color;
 
-    &:after{
-      background: $n2o-switch-disabled-element-background-color;
-      animation-name: none;
-      cursor: no-drop;
+    &::after {
+        background: $n2o-switch-disabled-element-background-color;
+        animation-name: none;
+        cursor: no-drop;
     }
 
-    &:hover:after{
-      transform: scale(1);
-      animation-name: none;
+    &:hover::after {
+        transform: scale(1);
+        animation-name: none;
     }
-  }
 }
 
 @keyframes rcSwitchOn {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.25);
-  }
-  100% {
-    transform: scale(1.1);
-  }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
 }
 
 @keyframes rcSwitchOff {
-  0% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

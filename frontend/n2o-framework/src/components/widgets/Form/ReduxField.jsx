@@ -17,6 +17,7 @@ const config = {
         if (!this.controlRef) { return }
         const { _fetchData, size, labelFieldId } = this.controlRef.props
         const haveReRenderDependency = some(dependency, { type: dependencyType })
+
         if (haveReRenderDependency) {
             _fetchData({
                 size,

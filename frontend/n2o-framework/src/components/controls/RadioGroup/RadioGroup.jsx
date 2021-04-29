@@ -34,6 +34,7 @@ class RadioGroup extends React.Component {
     _onChange(e) {
         const { onChange } = this.props
         const { value } = e.target
+
         onChange(value)
     }
 
@@ -55,6 +56,7 @@ class RadioGroup extends React.Component {
         const element = (child) => {
             const currentValue = get(value, valueFieldId)
             const childValue = get(child, `props.value.${valueFieldId}`)
+
             return React.cloneElement(child, {
                 checked: currentValue && currentValue == childValue,
                 disabled: this.props.disabled || child.props.disabled,
@@ -65,6 +67,7 @@ class RadioGroup extends React.Component {
 
         const isRadioChild = (child) => {
             const checkboxTypes = ['Radio', 'RadioN2O', 'RadioButton']
+
             return child.type && checkboxTypes.includes(child.type.displayName)
         }
 

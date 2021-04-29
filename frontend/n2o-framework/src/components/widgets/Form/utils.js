@@ -46,6 +46,7 @@ export function flatFields(obj, fields) {
             }
         })
     }
+
     return fields
 }
 
@@ -58,6 +59,7 @@ export function flatFields(obj, fields) {
 export function fetchIfChangeDependencyValue(prevState, state, ref) {
     if (!isEqual(prevState, state) && ref && ref.props._fetchData) {
         const { _fetchData, size, labelFieldId } = ref.props
+
         _fetchData({
             size,
             [`sorting.${labelFieldId}`]: 'ASC',
@@ -107,8 +109,10 @@ export const setWatchDependency = (state, props, dependencyType) => {
     const pickByReRender = (acc, { type, on }) => {
         if (on && type === dependencyType) {
             const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'))
+
             return merge(acc, pickByPath(state, formOn))
         }
+
         return acc
     }
 
@@ -130,5 +134,6 @@ export const resolveExpression = (value, activeModel) => {
     if (isEmpty(activeModel)) {
         return false
     }
+
     return evalExpression(parseExpression(value), activeModel)
 }

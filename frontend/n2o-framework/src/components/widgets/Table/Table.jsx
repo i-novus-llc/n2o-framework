@@ -23,6 +23,7 @@ import TextCell from './cells/TextCell/TextCell'
 
 export const getIndex = (datasource, selectedId) => {
     const index = findIndex(datasource, model => model.id == selectedId)
+
     return index >= 0 ? index : 0
 }
 
@@ -155,6 +156,7 @@ class Table extends React.Component {
 
     setSelectAndFocus(selectIndex, focusIndex) {
         const { hasFocus } = this.props
+
         this.setState({ selectIndex, focusIndex }, () => {
             if (hasFocus) {
                 this.focusActiveRow()
@@ -178,10 +180,12 @@ class Table extends React.Component {
             onResolve,
         } = this.props
         const { focusIndex } = this.state
+
         if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
             if (!React.Children.count(children) && hasFocus) {
                 let newFocusIndex =
           keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1
+
                 newFocusIndex =
           newFocusIndex < datasource.length && newFocusIndex >= 0
               ? newFocusIndex
@@ -207,8 +211,10 @@ class Table extends React.Component {
             isAnyTableFocused,
             isActive,
         } = this.props
+
         if (hasSelect && !isEqual(datasource, prevProps.datasource)) {
             const id = getIndex(datasource, selectedId)
+
             isAnyTableFocused && !isActive
                 ? this.setNewSelectIndex(id)
                 : this.setSelectAndFocus(id, id)
@@ -217,6 +223,7 @@ class Table extends React.Component {
 
     componentDidMount() {
         const { isAnyTableFocused, isActive, focusIndex, selectIndex } = this.state
+
         !isAnyTableFocused &&
       isActive &&
       this.setSelectAndFocus(selectIndex, focusIndex)
@@ -230,6 +237,7 @@ class Table extends React.Component {
         if (redux) {
             return <ReduxCell style={styleProps} {...props} />
         }
+
         return <TableCell style={styleProps} {...props} />
     }
 
@@ -260,6 +268,7 @@ class Table extends React.Component {
                 </div>
             )
         }
+
         return (
             <HotKeys
                 keyMap={{ events: ['up', 'down', 'space'] }}
