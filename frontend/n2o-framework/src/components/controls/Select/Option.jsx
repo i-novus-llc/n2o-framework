@@ -15,6 +15,7 @@ class Option extends React.Component {
 
     render() {
         const { value, label, disabled } = this.props
+
         return (
             <option value={value} disabled={disabled}>
                 {label}

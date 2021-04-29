@@ -1,12 +1,13 @@
 .сheckbox-сell {
-  &.custom-control-inline {
-    display: flex;
-    max-width: min-content;
-    margin-right: 0;
-    & > input {
-      position: absolute;
-      top: 0;
-      left: 0;
+    &.custom-control-inline {
+        display: flex;
+        max-width: min-content;
+        margin-right: 0;
+
+        > input {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
-  }
 }

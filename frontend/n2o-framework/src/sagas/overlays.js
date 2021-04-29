@@ -32,6 +32,7 @@ export function* checkOnDirtyForm(name) {
             someOneDirtyForm = isDirty(widgetsKeys[i])(state)
         }
     }
+
     return someOneDirtyForm
 }
 
@@ -43,6 +44,7 @@ export function* checkOnDirtyForm(name) {
 export function* checkPrompt(action) {
     const { name, prompt } = action.payload
     let needToShowPrompt = false
+
     if (prompt) {
         needToShowPrompt = yield call(checkOnDirtyForm, name)
     }

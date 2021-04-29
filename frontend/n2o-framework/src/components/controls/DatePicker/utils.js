@@ -39,8 +39,10 @@ export function weeks(firstDay) {
     const lastDay = firstDay.clone().add(35, 'days')
     const day = firstDay.clone()
     const weeks = []
+
     while (day <= lastDay) {
         const week = []
+
         for (let i = 0; i < 7; i++) {
             week.push(day.clone())
             if (i === 6) {
@@ -49,6 +51,7 @@ export function weeks(firstDay) {
             day.add(1, 'days')
         }
     }
+
     return weeks
 }
 
@@ -86,9 +89,11 @@ export function parseDate(value, dateFormat) {
     } else if (typeof value === 'string') {
         value = moment(value, dateFormat)
         if (!value.isValid()) {
+            // eslint-disable-next-line no-console
             console.log('Invalid date')
         }
     }
+
     return value
 }
 
@@ -102,6 +107,7 @@ export function parseDate(value, dateFormat) {
  */
 export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
     const res = {}
+
     if (Array.isArray(val)) {
         map(val, ({ value, name }) => {
             if (!value) {
@@ -115,6 +121,7 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
                 )
             }
         })
+
         return res
     }
     if (!val) {
@@ -126,6 +133,7 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
         defaultTime[defaultName].mins,
         defaultTime[defaultName].seconds,
     )
+
     return res
 }
 
@@ -135,17 +143,16 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
  * @param defaultTime
  * @param defaultName
  * @param timeFormat
- * @param format
  */
 export function mapToDefaultTime(
     val,
     defaultTime,
     defaultName,
     timeFormat = 'HH:mm:ss',
-    format,
 ) {
     if (Array.isArray(val)) {
         const res = {}
+
         map(val, ({ name, defaultTime, value }) => {
             res[name] = {
                 hours: defaultTime
@@ -318,9 +325,11 @@ export const formatToMask = (format) => {
 
     return flattenDeep(
         map(splitedFormat, (item) => {
+            // eslint-disable-next-line no-bitwise
             if (~item.search(/([a-z])+/gi)) {
                 return replaceDictionary(item)
             }
+
             return item
         }),
     )
@@ -341,6 +350,7 @@ export const MODIFIERS = {
  */
 export const hasInsideMixMax = (date, { max, min }, dateFormat) => {
     const currentDate = moment(date, dateFormat)
+    // eslint-disable-next-line no-underscore-dangle
     const hasFormat = range => !isUndefined(moment(range)._f)
 
     const lessOrEqual = (range, dateFormat) => (hasFormat(range)

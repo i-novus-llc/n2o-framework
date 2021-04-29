@@ -34,6 +34,7 @@ export function convertSize(size, step = 0) {
     if (size / 1024 > 1) {
         return convertSize(size / 1024, step + 1)
     }
+
     return `${Math.round(size)} ${Size[step]}`
 }
 
@@ -42,6 +43,7 @@ function beforeUpload(file) {
     file.type === 'image/jpeg' ||
     file.type === 'image/png' ||
     file.type === 'image/svg+xml'
+
     if (!isImage) {
         return false
     }

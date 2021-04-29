@@ -62,6 +62,7 @@ class AdvancedTableWidget extends Component {
             children,
         } = this.props
         const { resolveProps } = this.context
+
         return {
             headers: values(resolveProps(headers)),
             cells: values(resolveProps(cells)),
@@ -114,6 +115,7 @@ class AdvancedTableWidget extends Component {
             style,
             children,
         } = this.props
+
         return (
             <StandardWidget
                 disabled={disabled}

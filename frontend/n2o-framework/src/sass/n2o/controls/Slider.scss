@@ -1,21 +1,25 @@
 @import '~rc-slider/assets/index.css';
 
-.n2o-slider{
-  .rc-slider-handle{
-    border: solid 2px $n2o-slider-handle-color;
-    &:hover,
-    &:active,
-    &:focus{
-      box-shadow: 0 0 5px $n2o-slider-handle-color;
+.n2o-slider {
+    .rc-slider-handle {
+        border: solid 2px $n2o-slider-handle-color;
+
+        &:hover,
+        &:active,
+        &:focus {
+            box-shadow: 0 0 5px $n2o-slider-handle-color;
+        }
     }
-  }
-  .rc-slider-track{
-    background-color: $n2o-slider-tracker-color;
-  }
-  .rc-slider-dot-active{
-    border-color: $n2o-slider-dot-color;
-  }
-  .rc-slider-rail{
-    background-color: $n2o-slider-rail-color;
-  }
+
+    .rc-slider-track {
+        background-color: $n2o-slider-tracker-color;
+    }
+
+    .rc-slider-dot-active {
+        border-color: $n2o-slider-dot-color;
+    }
+
+    .rc-slider-rail {
+        background-color: $n2o-slider-rail-color;
+    }
 }

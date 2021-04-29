@@ -57,6 +57,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         if (isFunction(config.mapProps)) {
             return config.mapProps(props)
         }
+
         return {
             datasource: props.datasource,
             onResolve: props.onResolve,
@@ -141,6 +142,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                     removeAllModel(widgetId),
                     setTableSelectedId(widgetId, null),
                 ]
+
                 dispatch(batchActions(actions))
             }
 
@@ -164,11 +166,13 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
       onSetModel(prefix, widgetId, model) {
           const { dispatch } = this.props
+
           dispatch(setModel(prefix, widgetId, model))
       }
 
       onResolve(newModel, oldModel) {
           const { widgetId, dispatch } = this.props
+
           if (!isEqual(newModel, oldModel)) {
               dispatch(resolveWidget(widgetId, newModel))
           }
@@ -176,6 +180,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
       onSort(id, direction) {
           const { widgetId, isActive, dispatch } = this.props
+
           dispatch(sortByWidget(widgetId, id, direction))
           dispatch(dataRequestWidget(widgetId))
           !isActive && dispatch(setActive(widgetId))
@@ -183,11 +188,13 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
       onFocus() {
           const { widgetId, dispatch } = this.props
+
           dispatch(setActive(widgetId))
       }
 
       onFetch(options) {
           const { widgetId, dispatch } = this.props
+
           dispatch(dataRequestWidget(widgetId, options))
       }
 
@@ -196,6 +203,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        */
       onActionImpl({ src, component, options }) {
           const { dispatch } = this.props
+
           dispatch(callActionImpl(src || component, { ...options, dispatch }))
       }
 

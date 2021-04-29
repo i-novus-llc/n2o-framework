@@ -56,10 +56,12 @@ class TextEditor extends Component {
 
     convertToEditorState(value) {
         const contentBlock = htmlToDraft(value)
+
         if (contentBlock) {
             const contentState = ContentState.createFromBlockArray(
                 contentBlock.contentBlocks,
             )
+
             return EditorState.createWithContent(contentState)
         }
 
@@ -69,6 +71,7 @@ class TextEditor extends Component {
     onEditorStateChange(editorState) {
         const { onChange } = this.props
         const value = this.convertToHtml(editorState)
+
         onChange && onChange(value)
         this.setState({ editorState, value })
     }
@@ -92,6 +95,7 @@ class TextEditor extends Component {
             pointerEvents: 'none',
             opacity: '0.4',
         }
+
         return (
             <div style={disabled ? { ...baseStyle, ...disabledStyle } : baseStyle}>
                 {visible && (

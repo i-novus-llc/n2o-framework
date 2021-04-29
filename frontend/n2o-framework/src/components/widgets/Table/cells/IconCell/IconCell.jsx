@@ -19,6 +19,7 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes'
  */
 function IconCell({ id, model, visible, icon, type, textPlace }) {
     const text = model[id]
+
     return (
         visible && (
             <div

@@ -185,6 +185,7 @@ class Pagination extends React.Component {
         } = this.props
         const pages = Math.ceil(count / size, 10) || 1
         const lastPage = Math.ceil(count / size)
+
         return (
             <nav
                 className="n2o-pagination"

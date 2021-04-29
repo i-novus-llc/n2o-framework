@@ -1,71 +1,75 @@
 .n2o-calendar-header {
-  display: flex;
-  justify-content: space-between;
-  width: auto;
-  padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+    padding: 8px;
 }
 
-.n2o-calendar-month-header, .n2o-calendar-year-header {
-  display: inline-block;
+.n2o-calendar-month-header,
+.n2o-calendar-year-header {
+    display: inline-block;
 }
 
 .n2o-calendar-year-header {
-  float: right;
-  margin-right: 7px
+    float: right;
+    margin-right: 7px;
 }
 
 .n2o-calendar-icon {
-  cursor: pointer;
-  &:before {
-    font-size: 1.2rem;
-    vertical-align: -webkit-baseline-middle;
-    vertical-align: -moz-middle-with-baseline;
-  }
+    cursor: pointer;
+
+    &::before {
+        font-size: 1.2rem;
+        vertical-align: -webkit-baseline-middle;
+        vertical-align: -moz-middle-with-baseline;
+    }
 }
 
 .n2o-calendar-dropdown-container {
-  display: inline-block;
-  position: relative;
+    display: inline-block;
+    position: relative;
 }
 
 .n2o-calendar-dropdown {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  z-index: 2000;
-  padding: 5px;
-  background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 2000;
+    padding: 5px;
+    background-color: white;
 }
 
 .n2o-calendar-dropdown-item {
-  list-style: none;
-  cursor: pointer;
-  font-size: 10px;
-  padding: 1px;
-  margin: 0;
+    list-style: none;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 1px;
+    margin: 0;
 }
 
 .n2o-calendar-dropdown-item:hover {
-  background-color: #bce8f1;
+    background-color: #bce8f1;
 }
 
 .n2o-calendar-dropdown-menu {
-  margin: 0;
-  padding: 0;
-  background: white;
-  z-index: 1051;
-  position: absolute;
+    margin: 0;
+    padding: 0;
+    background: white;
+    z-index: 1051;
+    position: absolute;
 }
 
-.n2o-calendar-current-month, .n2o-calendar-current-year {
-  cursor: pointer
+.n2o-calendar-current-month,
+.n2o-calendar-current-year {
+    cursor: pointer;
 }
 
-.n2o-calendar-current-date{
-  display: flex;
-  justify-content: space-around;
+.n2o-calendar-current-date {
+    display: flex;
+    justify-content: space-around;
 }
 
-.n2o-calendar-year, .n2o-calendar-month {
-  position: relative;
+.n2o-calendar-year,
+.n2o-calendar-month {
+    position: relative;
 }

@@ -1,26 +1,25 @@
 .btn-checkbox-custom-align {
-  left: 0;
-  top: 0;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
 }
 
 .btn {
-  position: relative;
-}
+    position: relative;
 
-.btn {
-  > input[type=checkbox] {
-    position: absolute;
-    pointer-events: none;
-    @extend .btn-checkbox-custom-align;
-  }
+    > input[type=checkbox] {
+        position: absolute;
+        pointer-events: none;
+
+        @extend .btn-checkbox-custom-align;
+    }
 }
 
 .checkbox {
-  > label.btn {
-    padding-left: 12px;
-  }
+    > label.btn {
+        padding-left: 12px;
+    }
 }

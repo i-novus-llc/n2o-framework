@@ -28,5 +28,6 @@ const enhance = compose(
         },
     }),
 )
+
 export { AdvancedTableSelectionColumn }
 export default enhance(AdvancedTableSelectionColumn)

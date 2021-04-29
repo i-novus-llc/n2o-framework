@@ -42,6 +42,7 @@ class Input extends React.Component {
 
     handleChange(e) {
         const { props, input } = this
+
         if (props.disabled) {
             return
         }
@@ -49,6 +50,7 @@ class Input extends React.Component {
       isObject(props.value) || isArray(props.value)
           ? props.value
           : e.target.value
+
         props.onChange({
             target: {
                 ...props,

@@ -51,9 +51,11 @@ class Alert extends React.Component {
 
     renderAlert() {
         const { loader } = this.props
+
         if (loader) {
             return this.renderLoaderAlert()
         }
+
         return this.renderDefaultAlert()
     }
 
@@ -165,6 +167,7 @@ class Alert extends React.Component {
    */
     render() {
         const { visible } = this.props
+
         return visible !== false && this.renderAlert()
     }
 }

@@ -17,6 +17,7 @@ class RadioGroupContainer extends React.Component {
    * */
     render() {
         const { radioGroup, radios, ...props } = this.props
+
         return (
             <RadioGroup {...radioGroup} {...props}>
                 {mapProp(radios).map(radio => (

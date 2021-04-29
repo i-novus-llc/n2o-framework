@@ -36,6 +36,7 @@ class TableCell extends React.Component {
             hideOnBlur,
         } = this.props
         const ElementType = getElementType(TableCell, this.props)
+
         if (React.Children.count(children)) {
             return (
                 <ElementType

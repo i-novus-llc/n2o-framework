@@ -11,6 +11,7 @@ export function isDayOff(day) {
 
 export function isCurrentDay(day) {
     const currentDate = new Date()
+
     return (
         day.getDate() === currentDate.getDate() &&
     day.getMonth() === currentDate.getMonth() &&
@@ -63,8 +64,10 @@ export function eventLessHour(date, step) {
         const end = new Date(get(date, 'end'))
         const difference =
       Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600)
+
         return difference <= (step / 60) * 2
     }
+
     return false
 }
 
@@ -72,6 +75,7 @@ export function timeParser(min, max) {
     if (!isEmpty(min) && !isEmpty(max)) {
         const minTime = split(min, ':')
         const maxTime = split(max, ':')
+
         return {
             min: new Date(0, 0, 0, minTime[0], minTime[1], minTime[2], 0),
             max: new Date(0, 0, 0, maxTime[0], maxTime[1], maxTime[2], 0),
@@ -83,5 +87,6 @@ export function isAllDay(start, end) {
     const startDate = moment(start, 'YYYY-MM-DD HH:mm')
     const endDate = moment(end, 'YYYY-MM-DD HH:mm')
     const dateDiff = endDate.diff(startDate, 'days')
+
     return dateDiff >= 1
 }

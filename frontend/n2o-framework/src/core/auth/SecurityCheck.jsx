@@ -40,11 +40,13 @@ class SecurityCheck extends React.Component {
     async checkPermissions(params) {
         const { authProvider, config, user } = params
         const { onPermissionsSet } = this.props
+
         try {
             const permissions = await authProvider(SECURITY_CHECK, {
                 config,
                 user,
             })
+
             this.setState(
                 { permissions, error: null },
                 () => onPermissionsSet && onPermissionsSet(permissions),
@@ -60,6 +62,7 @@ class SecurityCheck extends React.Component {
     render() {
         const { permissions } = this.state
         const props = omit(this.props, ['authProvider', 'config'])
+
         return this.props.render({ permissions, ...props })
     }
 }

@@ -57,7 +57,9 @@ export default function* fetchSaga(
         }
         yield put(fetchStart(fetchType, options))
         const response = yield call(apiProvider, fetchType, options)
+
         yield put(fetchEnd(fetchType, options, response))
+
         return response
     } catch (error) {
         yield put(fetchError(fetchType, options, error))
@@ -66,7 +68,8 @@ export default function* fetchSaga(
     } finally {
         if (yield cancelled()) {
             yield put(fetchCancel(fetchType, options))
-            return /* eslint no-unsafe-finally:0 */
+
+            return
         }
     }
 }

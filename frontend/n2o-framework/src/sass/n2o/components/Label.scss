@@ -1,11 +1,12 @@
 .n2o-field-label {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  &-required {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.n2o-field-label-required {
     vertical-align: top;
     margin-left: 3px;
     color: #e53935;
     font-weight: 900;
-  }
 }

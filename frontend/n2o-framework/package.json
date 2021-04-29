@@ -54,9 +54,9 @@
     "test:hook": "jest --bail --findRelatedTests",
     "test:generate-output": "jest --json --outputFile=./.storybook/jest-test-results.json || echo 'jest: generate-output finished'",
     "test:storybook": "jest --noStackTrace --silent ./.storybook/storyshots.test.js || echo 'jest: test:storybook finished'",
-    "eslint": "eslint ./src --ext .js,.jsx",
-    "eslint:fix": "eslint --fix ./src --ext .js,.jsx",
-    "eslint:generate": "eslint ./src --ext .js,.jsx -o ./docs/eslint.json -f json",
+    "eslint": "eslint --ext .js,.jsx ./src",
+    "eslint:fix": "eslint --ext .js,.jsx --fix ./src",
+    "eslint:generate": "eslint --ext .js,.jsx -o ./docs/eslint.json -f json ./src",
     "stylelint": "stylelint ./src/**/*{.css,.scss,.sass}",
     "stylelint:fix": "stylelint --fix ./src/**/*{.css,.scss,.sass}",
     "lint": "yarn eslint && yarn stylelint"

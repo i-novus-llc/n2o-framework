@@ -26,26 +26,31 @@ class ToggleColumn extends React.Component {
     }
 
     /**
-   * меняет видимость колонки по id
-   * @param id
-   */
+     * меняет видимость колонки по id
+     * @param id
+     */
     toggleVisibility(id) {
         const { dispatch, entityKey } = this.props
+
         dispatch(toggleColumnVisiblity(entityKey, id))
     }
 
     /**
-   * рендер дропдауна
-   * @param columns
-   */
+     * рендер дропдауна
+     * @param columns
+     */
     renderColumnDropdown(columns) {
         const notActive = (filter(columns, item => !item.value.visible) || []).map(
             col => col.key,
         )
+
+        /* eslint-disable react/no-array-index-key */
         return columns.map((column, i) => {
             const checked = !notActive.includes(column.key)
+
             return (
                 <DropdownItem
+                    /* eslint-disable-next-line react/no-array-index-key */
                     key={i}
                     toggle={false}
                     onClick={() => this.toggleVisibility(column.key)}
@@ -60,9 +65,9 @@ class ToggleColumn extends React.Component {
     }
 
     /**
-   * Базовый рендер
-   * @returns {*}
-   */
+     * Базовый рендер
+     * @returns {*}
+     */
     render() {
         const { columns } = this.props
         const columnsArray = map(columns || {}, (value, key) => ({ key, value }))
@@ -89,6 +94,7 @@ class ToggleColumn extends React.Component {
 ToggleColumn.propTypes = {
     columns: PropTypes.object,
     entityKey: PropTypes.string,
+    dispatch: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({

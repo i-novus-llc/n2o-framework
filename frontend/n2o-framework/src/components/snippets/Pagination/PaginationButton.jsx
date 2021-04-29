@@ -36,6 +36,7 @@ class PaginationButton extends React.Component {
 
     render() {
         const { label, active, disabled, noBorder, tabIndex } = this.props
+
         return (
             <li
                 className={cx('page-item', { active, disabled })}

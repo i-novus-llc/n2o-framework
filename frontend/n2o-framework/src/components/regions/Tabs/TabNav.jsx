@@ -14,6 +14,7 @@ import cx from 'classnames'
 class TabNav extends React.Component {
     render() {
         const { className, style, children } = this.props
+
         return (
             <ul className={cx('nav', 'nav-tabs', className)} style={{ ...style }}>
                 {children}

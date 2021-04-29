@@ -57,6 +57,7 @@ export const resolveConditions = (conditions = [], state) => {
 
     // message первого ложного expression
     const message = get(find(falsyExpressions, 'message'), 'message')
+
     return { resolve: isEmpty(falsyExpressions), message }
 }
 

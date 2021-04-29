@@ -14,6 +14,7 @@ function getElementType(Component, props, getDefault) {
 
     if (getDefault) {
         const computedDefault = getDefault()
+
         if (computedDefault) { return computedDefault }
     }
 

@@ -42,6 +42,7 @@ function ModalDialog({
     closeButton,
 }) {
     const { t } = useTranslation()
+
     return (
         <Modal isOpen={visible} size={size} toggle={close}>
             <ModalHeader toggle={closeButton ? close : null}>

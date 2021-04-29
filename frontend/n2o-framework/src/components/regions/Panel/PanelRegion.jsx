@@ -55,6 +55,7 @@ class PanelRegion extends React.Component {
 
     getContent(meta) {
         const content = isArray(meta) ? meta : [meta]
+
         return <RegionContent content={content} />
     }
 
@@ -74,11 +75,13 @@ class PanelRegion extends React.Component {
         if (panel.security) {
             const { user, authProvider } = this.props
             const config = panel.security
+
             try {
                 const permissions = await authProvider(SECURITY_CHECK, {
                     config,
                     user,
                 })
+
                 this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) })
             } catch (error) {
                 // ...
@@ -90,6 +93,7 @@ class PanelRegion extends React.Component {
 
     getPanelsWithAccess() {
         const { content } = this.props
+
         this.setState({ tabs: [] }, async () => {
             for (const panel of content) {
                 await this.checkPanel(panel)
@@ -112,6 +116,7 @@ class PanelRegion extends React.Component {
             content,
             item => getWidgetProps(item.id).isVisible === false,
         )
+
         return (
             <PanelShortHand
                 tabs={this.state.tabs}

@@ -47,13 +47,9 @@ stories
     )
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                ...InputMoneyJson,
-            }
-
-            return props
-        }),
+        form(() => ({
+            ...InputMoneyJson,
+        })),
     )
     .add(
         'Включенные копейки',

@@ -4,5 +4,6 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 
 export default () => {
     const { t } = useTranslation()
+
     return <DropdownItem header>{t('nothingFound')}</DropdownItem>
 }

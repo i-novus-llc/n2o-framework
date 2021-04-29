@@ -74,6 +74,7 @@ export class EditableCell extends React.Component {
     onChange(value) {
         const newModel = { ...this.state.model }
         const { editFieldId } = this.props
+
         set(newModel, editFieldId, value)
         this.setState({
             model: newModel,
@@ -85,6 +86,7 @@ export class EditableCell extends React.Component {
         let newState = {
             editing: !this.state.editing,
         }
+
         if (!isEqual(get(prevResolveModel, 'id'), get(model, 'id'))) {
             onSetSelectedId()
         }

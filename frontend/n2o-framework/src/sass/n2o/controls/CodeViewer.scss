@@ -1,29 +1,33 @@
-.code-viewer {
-  &-body {
+.code-viewer-body {
     max-height: 400px;
     overflow-y: auto;
-  }
-  &-actions {
-  margin-bottom: 10px;
-    &-copy {
-      cursor: pointer;
-      opacity: 0.6;
-      &:hover {
-        opacity: 1;
-        transition: opacity .3s;
-      }
-    }
-    &-code {
-      margin-left: 10px;
-      opacity: 0.6;
-      cursor: pointer;
-      &:hover {
-        opacity: 1;
-        transition: opacity .3s;
-      }
-    }
-  }
 }
+
+.code-viewer-actions {
+    margin-bottom: 10px;
+}
+
+.code-viewer-actions-copy {
+    cursor: pointer;
+    opacity: 0.6;
+
+    &:hover {
+        opacity: 1;
+        transition: opacity 0.3s;
+    }
+}
+
+.code-viewer-actions-code {
+    margin-left: 10px;
+    opacity: 0.6;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 1;
+        transition: opacity 0.3s;
+    }
+}
+
 .n2o-code-viewer {
-  width: 100%;
+    width: 100%;
 }
