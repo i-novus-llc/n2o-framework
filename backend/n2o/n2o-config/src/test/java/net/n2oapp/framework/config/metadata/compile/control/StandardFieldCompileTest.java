@@ -235,6 +235,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getSuccessAlertWidgetId(), is("form"));
         assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
+        assertThat(context.getRefresh().getOptions().getWidgetId(), is("test"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));

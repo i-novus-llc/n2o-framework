@@ -91,6 +91,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
+        p.attribute(e, "refresh-widget-id", t::getRefreshWidgetId, t::setRefreshWidgetId);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
