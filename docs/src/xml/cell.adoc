@@ -815,13 +815,9 @@ link:#_Переключатель_switch[Переключатель цвета]
 Пример::
 [source,xml]
 ----
-<file-upload id="file" label="Загрузить файл"
-             class="custom-class" multi="true"
-             ajax="true" upload-url="/n2o/data"
+<file-upload label="Загрузить файл"
+             upload-url="/n2o/data"
              delete-url="/files/delete/{file.id}"
-             value-field-id="hash"
-             label-field-id="filename"
-             url-field-id="url" show-size="true"
              accept=".img,.png"/>
 
 ----
