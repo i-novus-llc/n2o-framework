@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Валидация невидимых полей">
+    <form object-id="test">
+        <fields>
+            <radio-group id="type" label="Родительское поле">
+                <options>
+                    <option id="1" name="Скрыть поля"/>
+                    <option id="2" name="Показать поля"/>
+                </options>
+            </radio-group>
+
+            <input-text id="test1" label="Дочернее поле" required="true">
+                <dependencies>
+                    <visibility on="type">type.id==2</visibility>
+                </dependencies>
+            </input-text>
+            <set depends-on="type" visible="{type.id==2}">
+                <input-text id="test2" label="Дочернее поле в невидимом филдсете"
+                            required="true"/>
+            </set>
+            <set depends-on="type" visible="{type.id==2}">
+                <set>
+                    <input-text id="test3" label="Дочернее поле в невидимом филдсете в филдсете"
+                                required="true"/>
+                </set>
+            </set>
+        </fields>
+        <toolbar>
+            <button label="Валидировать" validate="true" disable-on-empty-model="false">
+                <invoke operation-id="echo"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
