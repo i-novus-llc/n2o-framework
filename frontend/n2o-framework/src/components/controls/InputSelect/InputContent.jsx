@@ -132,6 +132,7 @@ class InputContent extends React.Component {
 
   checkTextOnEnoughPlace = () => {
       const { _textarea } = this.props
+
       if (!_textarea) { return }
       const textareaStyles = window.getComputedStyle(_textarea)
       const notEnoughPlace =
@@ -157,21 +158,25 @@ class InputContent extends React.Component {
 
   calcPaddingTextarea() {
       const { _textarea, _selectedList, selected } = this.props
+
       if (_textarea && _selectedList) {
           let mainWidth
           let mainHeight
           const selectedList = ReactDOM.findDOMNode(_selectedList).querySelectorAll(
               '.selected-item',
           )
+
           mainWidth = reduce(
               selectedList,
               (acc, item) => {
                   const marginLeft = this.getMargin(item, 'margin-left')
                   const marginRight = this.getMargin(item, 'margin-right')
                   const newWidth = acc + item.offsetWidth + marginRight + marginLeft
+
                   if (newWidth >= this.getWidth(_selectedList)) {
                       acc = 0
                   }
+
                   return acc + item.offsetWidth + marginLeft + marginRight
               },
               0,
@@ -332,6 +337,7 @@ class InputContent extends React.Component {
 
       const handleRef = (input) => {
           const el = input && ReactDOM.findDOMNode(input)
+
           if (el && isSelected) {
               el.select()
           } else if (el && inputFocus) {

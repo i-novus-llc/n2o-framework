@@ -15,16 +15,15 @@ import user from './reducers/auth'
 import regions from './reducers/regions'
 
 // ToDo: Переписать
-const formHack = (state, action) =>
-    (action.meta && action.meta.form
-        ? formReducer.plugin({
-            [action.meta.form]: (formState, formAction) => ({
+const formHack = (state, action) => (action.meta && action.meta.form
+    ? formReducer.plugin({
+        [action.meta.form]: (formState, formAction) => ({
 
-                ...formState,
-                ...formPlugin(formState, formAction),
-            }),
-        })(state, action)
-        : formReducer(state, action))
+            ...formState,
+            ...formPlugin(formState, formAction),
+        }),
+    })(state, action)
+    : formReducer(state, action))
 
 export default (history, customReducers = {}) => combineReducers({
     router: connectRouter(history),

@@ -1,7 +1,7 @@
 .n2o-header {
     .navbar {
         min-height: $header-min-height;
-        padding: .5rem 2rem !important;
+        padding: 0.5rem 2rem !important;
     }
 
     &.n2o-header-default {
@@ -28,7 +28,7 @@
 
                 &:hover,
                 &:active {
-                      background-color: transparent !important;
+                    background-color: transparent !important;
                 }
             }
         }
@@ -64,6 +64,7 @@
                 color: white !important;
             }
         }
+
         .dropdown {
             button {
                 background-color: white;

@@ -185,6 +185,7 @@ class AutoComplete extends React.Component {
               : some(options || data, option => option[valueFieldId] === input)
                   ? [input]
                   : [input])
+
           this.setState(
               prevState => ({
                   input,

@@ -54,6 +54,7 @@ function withListContainer(WrappedComponent) {
                 [`sorting.${sortId}`]: 'ASC',
                 ...optionalParams,
             }
+
             _fetchData(params, concat)
         }
 

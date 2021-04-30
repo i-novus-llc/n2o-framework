@@ -44,9 +44,11 @@ stories
         return (
             <div>
                 <small>
+
           Введите
                     {' '}
                     <mark>admin</mark>
+
 , чтобы увидеть скрытый виджет региона
                 </small>
                 <AuthButtonContainer />

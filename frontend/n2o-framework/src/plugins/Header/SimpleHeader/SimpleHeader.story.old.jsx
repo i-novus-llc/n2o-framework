@@ -62,9 +62,11 @@ stories
             <MenuContext render={config => <SimpleHeader {...config} />} />
             <div style={{ padding: '200px', position: 'relative' }}>
                 <small>
+
             Введите
                     {' '}
                     <mark>admin</mark>
+
 , чтобы увидеть скрытый элемент меню
                 </small>
                 <AuthButtonContainer />

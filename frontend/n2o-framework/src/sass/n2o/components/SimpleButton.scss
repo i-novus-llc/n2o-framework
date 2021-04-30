@@ -70,10 +70,11 @@
     height: 48px;
     min-height: 48px;
 }
+
 .btn-group {
-  >.btn-rounded {
-    margin: 0 5px 0 5px !important;
-  }
+    > .btn-rounded {
+        margin: 0 5px 0 5px !important;
+    }
 }
 
 .btn-disabled {
