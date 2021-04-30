@@ -141,9 +141,12 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(queryMappingModelLink.getValue(), is("`number`"));
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
-        assertThat(pathMapping.size(), is(1));
+        assertThat(pathMapping.size(), is(2));
         assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("version").getValue(), is("`version`"));
+        // master widget route params
+        assertThat(pathMapping.get("test_main_id").getBindLink(), is("models.resolve['test_main'].id"));
+        assertThat(pathMapping.get("test_main_id").getValue(), nullValue());
     }
 
     /**
