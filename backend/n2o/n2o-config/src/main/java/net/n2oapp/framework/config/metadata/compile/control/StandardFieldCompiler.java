@@ -107,7 +107,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
             actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
-            actionContextData.getRefresh().getOptions().setWidgetId(source.getId());
+            actionContextData.getRefresh().getOptions().setWidgetId(widgetScope != null ? widgetScope.getWidgetId() : source.getId());
         }
         dataProvider.setActionContextData(actionContextData);
         return ClientDataProviderUtil.compile(dataProvider, context, p);
