@@ -44,11 +44,11 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.widget.xml");
         Form form = (Form) pipeline.get(new WidgetContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        assertThat(field.getUrl(), Matchers.is("/test2/:param1/2?param3=:param3"));
+        assertThat(field.getUrl(), Matchers.is("/testButtonFieldCompile/test2/:param1/2?param3=:param3"));
         assertThat(field.getPathMapping().size(), Matchers.is(2));
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
-        assertThat(((ShowModal)field.getAction()).getPayload().getPageUrl(), Matchers.is("/test2/:param1/1?param3=:param3"));
-        assertThat(((ShowModal)field.getAction()).getPayload().getPathMapping().size(), Matchers.is(1));
+        assertThat(((ShowModal)field.getAction()).getPayload().getPageUrl(), is("/testButtonFieldCompile/test2/:param1/1?param3=:param3"));
+        assertThat(((ShowModal)field.getAction()).getPayload().getPathMapping().size(), is(1));
     }
 
     /**
@@ -63,12 +63,12 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         CustomField field = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(((InvokeAction)((ButtonField)field.getControl()).getAction()).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/1/form/greeting"));
+                is("n2o/data/p/w/1/form/w1/greeting"));
         ButtonField field1 = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
-        assertThat(((InvokeAction)field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        assertThat(((InvokeAction)field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w1/greeting"));
         InvokeAction invokeAction = (InvokeAction) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0)
                 .getFields().get(0).getToolbar()[0].getButtons().get(0).getAction();
-        assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w1/greeting"));
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(((InvokeAction)((ToolbarCell)table.getComponent().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
                         .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w2/greeting"));
