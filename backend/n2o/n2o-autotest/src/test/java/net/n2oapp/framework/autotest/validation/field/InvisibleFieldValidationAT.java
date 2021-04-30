@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.validation.field;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
@@ -67,8 +66,6 @@ public class InvisibleFieldValidationAT extends AutoTestBase {
 
         radio.check("Скрыть поля");
         validateBtn.click();
-        // time to load scriptEngine
-        Selenide.sleep(6000);
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
     }
 }
