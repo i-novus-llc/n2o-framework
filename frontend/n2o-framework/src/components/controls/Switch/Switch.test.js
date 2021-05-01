@@ -1,35 +1,36 @@
-import React from 'react'
-import sinon from 'sinon'
+import React from 'react';
+import sinon from 'sinon';
+import Switch from './Switch';
 
-import Switch from './Switch'
+const setup = propsOverrides => {
+  const props = Object.assign(
+    {
+      checked: false,
+    },
+    propsOverrides
+  );
 
-const setup = (propsOverrides) => {
-    const props = {
-        checked: false,
-        ...propsOverrides,
-    }
+  const wrapper = mount(<Switch {...props} />);
 
-    const wrapper = mount(<Switch {...props} />)
-
-    return {
-        wrapper,
-        props,
-    }
-}
+  return {
+    wrapper,
+    props,
+  };
+};
 
 describe('<Switch />', () => {
-    it('создание свича', () => {
-        const { wrapper } = setup()
+  it('создание свича', () => {
+    const { wrapper } = setup();
 
-        expect(wrapper.find('.n2o-switch').exists()).toBeTruthy()
-    })
+    expect(wrapper.find('.n2o-switch').exists()).toBeTruthy();
+  });
 
-    it('проверка переключения', () => {
-        const onChange = sinon.spy()
-        const props = { onChange }
-        const { wrapper } = setup(props)
-        expect(onChange.calledOnce).toBeFalsy()
-        wrapper.find('.n2o-switch').simulate('click')
-        expect(onChange.withArgs(true).calledOnce).toBeTruthy()
-    })
-})
+  it('проверка переключения', () => {
+    const onChange = sinon.spy();
+    const props = { onChange: onChange };
+    const { wrapper } = setup(props);
+    expect(onChange.calledOnce).toBeFalsy();
+    wrapper.find('.n2o-switch').simulate('click');
+    expect(onChange.withArgs(true).calledOnce).toBeTruthy();
+  });
+});

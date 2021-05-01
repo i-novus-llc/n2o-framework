@@ -1,52 +1,51 @@
-import React from 'react'
-import { storiesOf, forceReRender } from '@storybook/react'
-import { StateDecorator, Store } from '@sambego/storybook-state'
-import withForm from 'N2oStorybook/decorators/withForm'
+import React from 'react';
+import { storiesOf, forceReRender } from '@storybook/react';
+import { StateDecorator, Store } from '@sambego/storybook-state';
 
-import Factory from '../../../core/factory/Factory'
-
-import TextArea from './TextArea'
-import TextAreaJson from './TextArea.meta.json'
+import withForm from 'N2oStorybook/decorators/withForm';
+import TextArea from './TextArea';
+import TextAreaJson from './TextArea.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const store = new Store({
-    value: '',
-})
+  value: '',
+});
 
-store.subscribe(forceReRender)
+store.subscribe(forceReRender);
 
-const form = withForm({ src: 'TextArea' })
+const form = withForm({ src: 'TextArea' });
 
-const stories = storiesOf('Контролы/Многострочное текстовое поле', module)
+const stories = storiesOf('Контролы/Многострочное текстовое поле', module);
 
-stories.addDecorator(StateDecorator(store))
+stories.addDecorator(StateDecorator(store));
 stories.addParameters({
-    info: {
-        propTables: [TextArea],
-        propTablesExclude: [Factory],
-    },
-})
+  info: {
+    propTables: [TextArea],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
-    .add(
-        'Компонент',
-        () => {
-            const props = {
-                placeholder: 'Введите значение',
-                disabled: false,
-                rows: 5,
-                maxRows: 10,
-            }
-            return (
-                <TextArea
-                    {...props}
-                    onChange={e => store.set({ value: e.target.value })}
-                    value={store.get('value')}
-                />
-            )
-        },
-        {
-            info: {
-                text: `
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        placeholder: 'Введите значение',
+        disabled: false,
+        rows: 5,
+        maxRows: 10,
+      };
+      return (
+        <TextArea
+          {...props}
+          onChange={e => store.set({ value: e.target.value })}
+          value={store.get('value')}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент 'Многострочное текстовое поле'
       ~~~js
       import TextArea from 'n2o-framework/lib/components/controls/TextArea/TextArea';
@@ -60,16 +59,18 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
+      },
+    }
+  )
 
-    .add(
-        'Метаданные',
-        form(() => ({
-            placeholder: TextAreaJson.placeholder,
-            disabled: TextAreaJson.disabled,
-            rows: TextAreaJson.rows,
-            maxRows: TextAreaJson.maxRows,
-        })),
-    )
+  .add(
+    'Метаданные',
+    form(() => {
+      return {
+        placeholder: TextAreaJson.placeholder,
+        disabled: TextAreaJson.disabled,
+        rows: TextAreaJson.rows,
+        maxRows: TextAreaJson.maxRows,
+      };
+    })
+  );

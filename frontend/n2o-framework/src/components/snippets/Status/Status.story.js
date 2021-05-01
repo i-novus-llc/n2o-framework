@@ -1,26 +1,30 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 
-import Status from './Status'
+import Status from './Status';
 
-const stories = storiesOf('UI Компоненты/Status', module)
+const stories = storiesOf('UI Компоненты/Status', module);
 
 const props = {
-    text: 'Status text',
-    icon: 'fa fa-edit',
-}
+  text: 'Status text',
+  icon: 'fa fa-edit',
+};
 
-stories.add('Компонент', () => <Status {...props} />)
+stories.add('Компонент', () => {
+  return <Status {...props} />;
+});
 
-stories.add('Позиционирование иконки', () => (
+stories.add('Позиционирование иконки', () => {
+  return (
     <div
-        style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '250px',
-        }}
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '250px',
+      }}
     >
-        <Status {...props} />
-        <Status {...props} iconDirection="right" />
+      <Status {...props} />
+      <Status {...props} iconDirection={'right'} />
     </div>
-))
+  );
+});

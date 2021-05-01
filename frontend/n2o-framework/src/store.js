@@ -25,9 +25,12 @@ export default function configureStore(initialState, history, config = {}) {
     }
 
     if (
-        typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ) {
+    /* eslint-disable no-underscore-dangle */
         if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) { composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) }
+    /* eslint-enable */
     }
 
     const enhancers = [applyMiddleware(...middlewares)]

@@ -35,18 +35,12 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         return obj
     }
 
-    const renderButtons = (props) => {
-        // eslint-disable-next-line react/prop-types
-        const { component } = props
+    const renderButtons = props => (props.component ? (
+        React.createElement(props.component, remapButtons(props))
+    ) : (
+        <Factory level={BUTTONS} {...props} entityKey={entityKey} />
+    ))
 
-        return (component ? (
-            React.createElement(component, remapButtons(props))
-        ) : (
-            <Factory level={BUTTONS} {...props} entityKey={entityKey} />
-        ))
-    }
-
-    // eslint-disable-next-line react/prop-types
     const renderBtnGroup = ({ buttons }) => (
         <ButtonGroup>{map(buttons, renderButtons)}</ButtonGroup>
     )
@@ -65,7 +59,6 @@ Toolbar.propTypes = {
     toolbar: PropTypes.array,
     entityKey: PropTypes.string,
     onClick: PropTypes.func,
-    className: PropTypes.string,
 }
 
 Toolbar.defaultProps = {

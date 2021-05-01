@@ -29,14 +29,14 @@ import { getModelSelector, selectionTypeSelector } from '../selectors/models'
 import { validateField } from '../core/validation/createValidator'
 import actionResolver from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
-import { FETCH_INVOKE_DATA } from '../core/api'
+import { FETCH_INVOKE_DATA } from '../core/api.js'
 import { setModel } from '../actions/models'
 import { disablePage, enablePage } from '../actions/pages'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets'
 import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar'
 
-import fetchSaga from './fetch'
+import fetchSaga from './fetch.js'
 
 /**
  * @deprecated

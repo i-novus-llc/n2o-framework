@@ -1,38 +1,38 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import withForm from 'N2oStorybook/decorators/withForm'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 
-import Factory from '../../../core/factory/Factory'
+import withForm from 'N2oStorybook/decorators/withForm';
+import SnippetRating from './SnippetRating';
 
-import SnippetRating from './SnippetRating'
-import meta from './SnippetRating.meta'
+import meta from './SnippetRating.meta';
+import Factory from '../../../core/factory/Factory';
 
-const form = withForm({ src: 'Rating' })
+const form = withForm({ src: 'Rating' });
 
-const stories = storiesOf('Контролы/Рейтинг', module)
+const stories = storiesOf('Контролы/Рейтинг', module);
 
 stories.addParameters({
-    info: {
-        propTables: [SnippetRating],
-        propTablesExclude: [Factory],
-    },
-})
+  info: {
+    propTables: [SnippetRating],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
-    .add(
-        'Компонент',
-        () => {
-            const props = {
-                max: meta.max,
-                half: meta.half,
-                rating: meta.rating,
-                showTooltip: meta.showTooltip,
-            }
-            return <SnippetRating {...props} />
-        },
-        {
-            info: {
-                text: `
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        max: meta.max,
+        half: meta.half,
+        rating: meta.rating,
+        showTooltip: meta.showTooltip,
+      };
+      return <SnippetRating {...props} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Рейтинг'
       ~~~js
       import Rating from 'n2o-framework/lib/components/controls/Rating/Rating';
@@ -45,19 +45,23 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Метаданные',
-        form(() => ({ ...meta, rating: 4 })),
-    )
-    .add(
-        'Тултип',
-        () => <SnippetRating {...meta} showTooltip rating={2.5555555} />,
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Метаданные',
+    form(() => {
+      return { ...meta, rating: 4 };
+    })
+  )
+  .add(
+    'Тултип',
+    () => {
+      return <SnippetRating {...meta} showTooltip={true} rating={2.5555555} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Рейтинг'
       ~~~js
       import Rating from 'n2o-framework/lib/components/controls/Rating/Rating';
@@ -70,22 +74,24 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Частичный выбор',
-        () => (
-            <SnippetRating
-                {...meta}
-                showTooltip
-                half
-                rating={2.5555555}
-            />
-        ),
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Частичный выбор',
+    () => {
+      return (
+        <SnippetRating
+          {...meta}
+          showTooltip={true}
+          half={true}
+          rating={2.5555555}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент 'Рейтинг'
       ~~~js
       import Rating from 'n2o-framework/lib/components/controls/Rating/Rating';
@@ -98,6 +104,6 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
+      },
+    }
+  );

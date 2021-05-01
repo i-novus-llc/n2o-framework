@@ -43,18 +43,16 @@ const FileUploaderControl = (WrappedComponent) => {
 
         componentDidMount() {
             const { mapper, value } = this.props
-            const { files } = this.state
 
             this.setState({
                 files: mapper
                     ? mapper(value)
-                    : this.mapFiles(!isEmpty(value) ? value : files),
+                    : this.mapFiles(!isEmpty(value) ? value : this.state.files),
             })
         }
 
         componentDidUpdate(prevProps) {
             const { value, files, mapper } = this.props
-            const { files: stateFiles } = this.state
 
             if (!isEqual(prevProps.value, value)) {
                 if (value === '') {
@@ -65,11 +63,9 @@ const FileUploaderControl = (WrappedComponent) => {
                     ? mapper(value || [])
                     : this.mapFiles(value || [])
 
-                const hasUpdate = !every(newFiles, file => some(stateFiles, file))
+                const hasUpdate = !every(newFiles, file => some(this.state.files, file))
 
-                if (hasUpdate) {
-                    this.setState({ files: newFiles })
-                }
+                hasUpdate && this.setState({ files: newFiles })
             } else if (!isEqual(prevProps.files, files)) {
                 this.setState({
                     files: mapper ? mapper(files || []) : this.mapFiles(files || []),
@@ -91,7 +87,6 @@ const FileUploaderControl = (WrappedComponent) => {
                 currentFiles = files
             }
 
-            // eslint-disable-next-line consistent-return
             return currentFiles.map(file => this.fileAdapter(file))
         }
 
@@ -116,36 +111,32 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Получение Url из expression
-         * @returns {*}
-         */
+     * Получение Url из expression
+     * @returns {*}
+     */
         resolveUrl(url) {
             const expression = parseExpression(url)
 
             if (!expression) {
                 return url
             }
-            const { _reduxForm } = this.context
-            const { resolveModel } = _reduxForm
+            const { resolveModel } = this.context._reduxForm
 
             return evalExpression(expression, resolveModel)
         }
 
         /**
-         * Return props
-         */
+     * Return props
+     */
         getUploaderProps() {
-            const { files, imgFiles, uploading, uploaderClass, imgError } = this.state
-            const { multi } = this.props
-
             return {
                 ...this.props,
-                files,
-                imgFiles,
-                uploading,
+                files: this.state.files,
+                imgFiles: this.state.imgFiles,
+                uploading: this.state.uploading,
                 requests: this.requests,
-                multiple: multi,
-                uploaderClass,
+                multiple: this.props.multi,
+                uploaderClass: this.state.uploaderClass,
                 onFocus: () => {},
                 onBlur: () => {},
                 onDrop: this.handleDrop,
@@ -154,23 +145,22 @@ const FileUploaderControl = (WrappedComponent) => {
                 onDragEnter: this.onDragEnter,
                 onRemove: this.handleRemove,
                 onStartUpload: this.onStartUpload,
-                imgError,
+                imgError: this.state.imgError,
             }
         }
 
         /**
-         * Загрузка файлов в state
-         * @param files
-         */
+     * Загрузка файлов в state
+     * @param files
+     */
 
         handleDrop(files) {
             const { onChange, autoUpload, onBlur } = this.props
-            const { files: stateFiles } = this.state
 
             this.setState(
                 {
                     files: [
-                        ...stateFiles,
+                        ...this.state.files,
                         ...files.map((file) => {
                             file.id = id()
                             file.percentage = 0
@@ -192,19 +182,17 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Загрузка изображений в state
-         * @param files
-         */
+     * Загрузка изображений в state
+     * @param files
+     */
         handleImagesDrop(files) {
             if (everyIsValid(files)) {
                 this.setState({
                     imgError: {},
                 })
 
-                const { imgFiles } = this.state
-
                 this.setState({
-                    imgFiles: imgFiles.concat(files),
+                    imgFiles: this.state.imgFiles.concat(files),
                 })
 
                 this.handleDrop(files)
@@ -218,10 +206,10 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Удаление из стейта
-         * @param index
-         * @param id
-         */
+     * Удаление из стейта
+     * @param index
+     * @param id
+     */
         handleRemove(index, id) {
             const {
                 value = [],
@@ -246,9 +234,9 @@ const FileUploaderControl = (WrappedComponent) => {
                     onDelete(index, id)
                 }
             }
-            const { files, imgFiles } = this.state
-            const newFiles = files.slice()
-            const newImgFiles = imgFiles.slice()
+
+            const newFiles = this.state.files.slice()
+            const newImgFiles = this.state.imgFiles.slice()
 
             newFiles.splice(index, 1)
             newImgFiles.splice(index, 1)
@@ -268,8 +256,8 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Изменение компонента
-         */
+     * Изменение компонента
+     */
         handleChange(newFile) {
             const { value, multi, onChange } = this.props
 
@@ -277,9 +265,9 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Start upload files
-         * @param files
-         */
+     * Start upload files
+     * @param files
+     */
         startUpload(files) {
             const {
                 labelFieldId,
@@ -295,7 +283,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 uploading: reduce(files, (acc, { id }) => ({ ...acc, [id]: true }), {}),
             })
 
-            files.forEach((file) => {
+            files.map((file) => {
                 if (!this.requests[file.id]) {
                     const onProgress = this.onProgress.bind(this, file.id)
                     const onUpload = this.onUpload.bind(this, file.id)
@@ -329,10 +317,10 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Change upload progress
-         * @param id
-         * @param event
-         */
+     * Change upload progress
+     * @param id
+     * @param event
+     */
         onProgress(id, event) {
             if (event.lengthComputable) {
                 this.onLoading(event.loaded / event.total, id)
@@ -340,10 +328,10 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Loading event
-         * @param percentage
-         * @param id
-         */
+     * Loading event
+     * @param percentage
+     * @param id
+     */
         onLoading(percentage, id) {
             const { files } = this.state
 
@@ -361,19 +349,17 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-         * Call upload function
-         */
+     * Call upload function
+     */
         onStartUpload() {
-            const { files } = this.state
-
-            this.startUpload(files)
+            this.startUpload(this.state.files)
         }
 
         /**
-         * Upload event
-         * @param id
-         * @param response
-         */
+     * Upload event
+     * @param id
+     * @param response
+     */
         onUpload(id, response) {
             const { onSuccess } = this.props
 
@@ -381,11 +367,10 @@ const FileUploaderControl = (WrappedComponent) => {
                 this.onError(id, response.statusText, response.status)
             } else {
                 const file = response.data
-                const { files, uploading } = this.state
 
                 this.setState({
                     files: [
-                        ...files.map((item) => {
+                        ...this.state.files.map((item) => {
                             if (item.id === id) {
                                 return {
                                     ...this.fileAdapter(file),
@@ -397,7 +382,7 @@ const FileUploaderControl = (WrappedComponent) => {
                         }),
                     ],
                     uploading: {
-                        ...uploading,
+                        ...this.state.uploading,
                         [id]: false,
                     },
                 })
@@ -410,15 +395,14 @@ const FileUploaderControl = (WrappedComponent) => {
         onError(id, error) {
             const { responseFieldId, onError } = this.props
 
-            const { uploading, files } = this.state
+            const { uploading } = this.state
 
             if (uploading) {
                 uploading[id] = false
             }
             this.setState({
                 uploading,
-                // eslint-disable-next-line array-callback-return
-                ...files.map((file) => {
+                ...this.state.files.map((file) => {
                     if (file.id === id) {
                         let formattedError = null
 
@@ -477,136 +461,135 @@ const FileUploaderControl = (WrappedComponent) => {
     }
 
     ReturnedComponent.propTypes = {
-        /**
-         * Ключ ID из даныых
-         */
+    /**
+     * Ключ ID из даныых
+     */
         valueFieldId: PropTypes.string,
         /**
-         * Ключ label из данных
-         */
+     * Ключ label из данных
+     */
         labelFieldId: PropTypes.string,
         /**
-         * Ключ status из данных
-         */
+     * Ключ status из данных
+     */
         statusFieldId: PropTypes.string,
         /**
-         * Ключ size из данных
-         */
+     * Ключ size из данных
+     */
         sizeFieldId: PropTypes.string,
         /**
-         * Ключ response из даннах
-         */
+     * Ключ response из даннах
+     */
         responseFieldId: PropTypes.string,
         /**
-         * Ключ url из данных
-         */
+     * Ключ url из данных
+     */
         urlFieldId: PropTypes.string,
         /**
-         * Url для загрузки файла
-         */
+     * Url для загрузки файла
+     */
         uploadUrl: PropTypes.string,
         /**
-         * Url для удаления файла
-         */
+     * Url для удаления файла
+     */
         deleteUrl: PropTypes.string,
         /**
-         * Флаг мульти выбора файлов
-         */
+     * Флаг мульти выбора файлов
+     */
         multi: PropTypes.bool,
         /**
-         * Массив разрешенных расширеней файлов
-         */
+     * Массив разрешенных расширеней файлов
+     */
         accept: PropTypes.arrayOf(PropTypes.string),
         /**
-         * Массив файлов
-         */
+     * Массив файлов
+     */
         files: PropTypes.arrayOf(PropTypes.object),
         /**
-         * Значение
-         */
+     * Значение
+     */
         value: PropTypes.arrayOf(PropTypes.object),
         /**
-         * Флаг автоматической загрузки файлов после выбора
-         */
+     * Флаг автоматической загрузки файлов после выбора
+     */
         autoUpload: PropTypes.bool,
         /**
-         * Максимальный размер файла
-         */
+     * Максимальный размер файла
+     */
         maxSize: PropTypes.number,
         /**
-         * Минимальный размер файла
-         */
+     * Минимальный размер файла
+     */
         minSize: PropTypes.number,
         /**
-         * Label контрола
-         */
+     * Label контрола
+     */
         label: PropTypes.string,
         /**
-         * Название отправлякмого параметра
-         */
+     * Название отправлякмого параметра
+     */
         requestParam: PropTypes.string,
         /**
-         * Флаг видимости
-         */
+     * Флаг видимости
+     */
         visible: PropTypes.bool,
         /**
-         * Флаг активности
-         */
+     * Флаг активности
+     */
         disabled: PropTypes.bool,
         /**
-         * Иконка рядом с label
-         */
+     * Иконка рядом с label
+     */
         icon: PropTypes.string,
         /**
-         * Цвет статус бара
-         */
+     * Цвет статус бара
+     */
         statusBarColor: PropTypes.string,
         /**
-         * Объект стилей кнопки 'Сохранить'
-         */
+     * Объект стилей кнопки 'Сохранить'
+     */
         saveBtnStyle: PropTypes.object,
         /**
-         * Флаг показа размера файла
-         */
+     * Флаг показа размера файла
+     */
         showSize: PropTypes.bool,
         /**
-         * Callback на изменение
-         */
+     * Callback на изменение
+     */
         onChange: PropTypes.func,
         /**
-         * Класс контрола
-         */
+     * Класс контрола
+     */
         className: PropTypes.string,
         /**
-         * Mapper значения
-         */
+     * Mapper значения
+     */
         mapper: PropTypes.func,
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
         /**
-         * Callback на старт загрузки файла
-         */
+     * Callback на старт загрузки файла
+     */
         onStart: PropTypes.func,
         /**
-         * Callback на успешное завершение загрузки файла
-         */
+     * Callback на успешное завершение загрузки файла
+     */
         onSuccess: PropTypes.func,
         /**
-         * Callback на ошибку при загрузке
-         */
+     * Callback на ошибку при загрузке
+     */
         onError: PropTypes.func,
         /**
-         * Callback на удаление файла
-         */
+     * Callback на удаление файла
+     */
         onDelete: PropTypes.func,
         /**
-         * Кастомный запрос отправки файла
-         */
+     * Кастомный запрос отправки файла
+     */
         uploadRequest: PropTypes.func,
         /**
-         * Кастомный запрос удаления файла
-         */
+     * Кастомный запрос удаления файла
+     */
         deleteRequest: PropTypes.func,
-        onBlur: PropTypes.func,
     }
 
     return ReturnedComponent

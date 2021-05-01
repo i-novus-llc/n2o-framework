@@ -1,60 +1,61 @@
-import React from 'react'
-import sinon from 'sinon'
+import React from 'react';
+import sinon from 'sinon';
 
-import NumberPicker from './NumberPicker'
+import NumberPicker from './NumberPicker';
 
-const setup = (propOverrides) => {
-    const props = {
-    // use this to assign some default props
+const setup = propOverrides => {
+  const props = Object.assign(
+    {
+      // use this to assign some default props
+    },
+    propOverrides
+  );
 
-        ...propOverrides,
-    }
+  const wrapper = mount(<NumberPicker {...props} />);
 
-    const wrapper = mount(<NumberPicker {...props} />)
-
-    return {
-        props,
-        wrapper,
-    }
-}
+  return {
+    props,
+    wrapper,
+  };
+};
 
 describe('<NumberPicker />', () => {
-    it('нажатие на плюс вызывает onChange', () => {
-        const onChange = sinon.spy()
-        const { wrapper } = setup({
-            onChange,
-        })
+  it('нажатие на плюс вызывает onChange', () => {
+    const onChange = sinon.spy();
+    const { wrapper } = setup({
+      onChange: onChange,
+    });
 
-        wrapper
-            .find('.n2o-number-picker__button')
-            .first()
-            .simulate('click')
-        expect(onChange.calledTwice).toBe(true)
-    })
-    it('нажатие на минус вызывает onChange', () => {
-        const onChange = sinon.spy()
-        const { wrapper } = setup({
-            onChange,
-            value: 2,
-        })
+    wrapper
+      .find('.n2o-number-picker__button')
+      .first()
+      .simulate('click');
+    expect(onChange.calledTwice).toBe(true);
+  });
+  it('нажатие на минус вызывает onChange', () => {
+    const onChange = sinon.spy();
+    const { wrapper } = setup({
+      onChange: onChange,
+      value: 2,
+    });
 
-        wrapper
-            .find('.n2o-number-picker__button')
-            .last()
-            .simulate('click')
-        expect(onChange.calledTwice).toBe(true)
-    })
-    it('не срабатывает onChange при disabled', () => {
-        const onChange = sinon.spy()
-        const { wrapper } = setup({
-            onChange,
-            disabled: true,
-        })
+    wrapper
+      .find('.n2o-number-picker__button')
+      .last()
+      .simulate('click');
+    expect(onChange.calledTwice).toBe(true);
+  });
+  it('не срабатывает onChange при disabled', () => {
+    const onChange = sinon.spy();
+    const { wrapper } = setup({
+      onChange: onChange,
+      disabled: true,
+    });
 
-        const button = wrapper.find('.n2o-number-picker__button')
+    const button = wrapper.find('.n2o-number-picker__button');
 
-        button.first().simulate('click')
-        button.last().simulate('click')
-        expect(onChange.calledOnce).toBe(true)
-    })
-})
+    button.first().simulate('click');
+    button.last().simulate('click');
+    expect(onChange.calledOnce).toBe(true);
+  });
+});

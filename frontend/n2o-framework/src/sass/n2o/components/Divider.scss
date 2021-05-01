@@ -1,3 +1,11 @@
+.horizontal-before-after-params {
+    display: block;
+    width: 90%;
+    content: '';
+    border-bottom: $border-default;
+    bottom: 43%;
+}
+
 .#{$horizontal} {
     display: flex;
     justify-content: center;
@@ -19,14 +27,6 @@
 }
 
 /* Horizontal-type */
-
-.horizontal-before-after-params {
-    display: block;
-    width: 90%;
-    content: '';
-    border-bottom: $border-default;
-    bottom: 43%;
-}
 
 .divider_horizontal::before {
     @extend .horizontal-before-after-params;

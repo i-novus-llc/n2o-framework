@@ -21,7 +21,7 @@ import isNull from 'lodash/isNull'
  * <Checkbox value="orange" compileLabel='Orange'/>
  * <Checkbox value="watermelon" compileLabel='Watermelon'/>
  * </CheckboxGroup>
- * */
+ **/
 
 class CheckboxGroup extends React.Component {
     constructor(props) {

@@ -1,10 +1,10 @@
 .progress {
     margin-bottom: 0;
     width: 100%;
-}
 
-.progress-bar {
-    padding-bottom: 2px;
+    &-bar {
+        padding-bottom: 2px;
+    }
 }
 
 .small.progress {

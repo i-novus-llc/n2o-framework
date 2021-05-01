@@ -1,5 +1,5 @@
 .page-item {
-    > .page-link {
+    & > .page-link {
         &.no-border {
             border-color: transparent !important;
             background-color: transparent !important;

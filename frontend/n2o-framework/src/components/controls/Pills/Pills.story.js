@@ -1,45 +1,43 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import meta from './Pills.meta';
+import PillsContainer from './PillsContainer';
+import Factory from '../../../core/factory/Factory';
 
-import Factory from '../../../core/factory/Factory'
-
-import meta from './Pills.meta'
-import PillsContainer from './PillsContainer'
-
-const stories = storiesOf('Контролы/Кнопочные фильтры', module)
+const stories = storiesOf('Контролы/Кнопочные фильтры', module);
 
 stories.addParameters({
-    info: {
-        propTables: [PillsContainer],
-        propTablesExclude: [Factory],
-    },
-})
+  info: {
+    propTables: [PillsContainer],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories.add(
-    'Компонент',
-    () => {
-        const props = {
-            valueFieldId: meta.valueFieldId,
-            labelFieldId: meta.labelFieldId,
-            multiSelect: meta.multiSelect,
-        }
+  'Компонент',
+  () => {
+    const props = {
+      valueFieldId: meta.valueFieldId,
+      labelFieldId: meta.labelFieldId,
+      multiSelect: meta.multiSelect,
+    };
 
-        const data = [
-            {
-                id: 1,
-                label: 'text',
-            },
-            {
-                id: 2,
-                label: 'text',
-            },
-        ]
+    const data = [
+      {
+        id: 1,
+        label: 'text',
+      },
+      {
+        id: 2,
+        label: 'text',
+      },
+    ];
 
-        return <PillsContainer {...props} data={data} />
-    },
-    {
-        info: {
-            text: `
+    return <PillsContainer {...props} data={data} />;
+  },
+  {
+    info: {
+      text: `
       Компонент 'Кнопочные фильтры'
       ~~~js
       import Pills from 'n2o-framework/lib/components/controls/Pills/PillsContainer';
@@ -63,6 +61,6 @@ stories.add(
        />
       ~~~
       `,
-        },
     },
-)
+  }
+);

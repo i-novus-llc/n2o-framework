@@ -24,9 +24,9 @@ class ChangeSize extends React.Component {
     }
 
     /**
-     * изменение размера
-     * @param size
-     */
+   * изменение размера
+   * @param size
+   */
     resize(size) {
         const { dispatch, entityKey } = this.props
 
@@ -35,15 +35,14 @@ class ChangeSize extends React.Component {
     }
 
     /**
-     * рендер меню
-     * @param sizes
-     */
+   * рендер меню
+   * @param sizes
+   */
     renderSizeDropdown(sizes) {
         const { size } = this.props
 
-        return sizes.map((s, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <DropdownItem key={index} toggle={false} onClick={() => this.resize(s)}>
+        return sizes.map((s, i) => (
+            <DropdownItem key={i} toggle={false} onClick={() => this.resize(s)}>
                 <span className="n2o-dropdown-check-container">
                     {size === s && <i className="fa fa-check" aria-hidden="true" />}
                 </span>
@@ -53,9 +52,9 @@ class ChangeSize extends React.Component {
     }
 
     /**
-     * базовый рендер
-     * @returns {*}
-     */
+   * базовый рендер
+   * @returns {*}
+   */
     render() {
         return (
             <UncontrolledButtonDropdown>
@@ -71,7 +70,6 @@ class ChangeSize extends React.Component {
 ChangeSize.propTypes = {
     size: PropTypes.number,
     entityKey: PropTypes.string,
-    dispatch: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({

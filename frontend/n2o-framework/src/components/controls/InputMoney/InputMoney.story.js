@@ -1,30 +1,31 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import withForm from 'N2oStorybook/decorators/withForm'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 
-import Factory from '../../../core/factory/Factory'
+import withForm from 'N2oStorybook/decorators/withForm';
+import InputMoney from './InputMoney';
+import InputMoneyJson from './InputMoney.meta';
+import Factory from '../../../core/factory/Factory';
 
-import InputMoney from './InputMoney'
-import InputMoneyJson from './InputMoney.meta'
+const stories = storiesOf('Контролы/Ввод денег', module);
 
-const stories = storiesOf('Контролы/Ввод денег', module)
-
-const form = withForm({ src: 'InputMoney' })
+const form = withForm({ src: 'InputMoney' });
 
 stories.addParameters({
-    info: {
-        propTables: [InputMoney],
-        propTablesExclude: [Factory],
-    },
-})
+  info: {
+    propTables: [InputMoney],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
-    .add(
-        'Компонент',
-        () => <InputMoney {...InputMoneyJson} />,
-        {
-            info: {
-                text: `
+  .add(
+    'Компонент',
+    () => {
+      return <InputMoney {...InputMoneyJson} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Ввод денег'
       ~~~js
       import InputMoney from 'n2o-framework/lib/components/controls/InputMoney/InputMoney';
@@ -42,21 +43,27 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Метаданные',
-        form(() => ({
-            ...InputMoneyJson,
-        })),
-    )
-    .add(
-        'Включенные копейки',
-        () => <InputMoney {...InputMoneyJson} allowDecimal />,
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Метаданные',
+    form(() => {
+      const props = {
+        ...InputMoneyJson,
+      };
+
+      return props;
+    })
+  )
+  .add(
+    'Включенные копейки',
+    () => {
+      return <InputMoney {...InputMoneyJson} allowDecimal={true} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Ввод денег'
       ~~~js
       import InputMoney from 'n2o-framework/lib/components/controls/InputMoney/InputMoney';
@@ -67,22 +74,22 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Раделитель тысяч',
-        () => {
-            const props = {
-                ...InputMoneyJson,
-                thousandsSeparatorSymbol: '$',
-            }
+      },
+    }
+  )
+  .add(
+    'Раделитель тысяч',
+    () => {
+      const props = {
+        ...InputMoneyJson,
+        thousandsSeparatorSymbol: '$',
+      };
 
-            return <InputMoney {...props} />
-        },
-        {
-            info: {
-                text: `
+      return <InputMoney {...props} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Ввод денег'
       ~~~js
       import InputMoney from 'n2o-framework/lib/components/controls/InputMoney/InputMoney';
@@ -93,6 +100,6 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
+      },
+    }
+  );

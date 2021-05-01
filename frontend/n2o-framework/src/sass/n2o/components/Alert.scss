@@ -18,27 +18,27 @@
     position: relative;
     display: flex;
     flex-direction: column;
-}
 
-.n2o-alerts--absolute {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    z-index: 1100;
-}
+    &--absolute {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        z-index: 1100;
+    }
 
-.n2o-alerts--fixed {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    z-index: 1100;
+    &--fixed {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        height: 400px;
+        z-index: 1100;
 
-    .details {
-        height: 350px;
-        overflow: auto;
-        word-break: break-all;
+        .details {
+            height: 350px;
+            overflow: auto;
+            word-break: break-all;
+        }
     }
 }
 
@@ -46,37 +46,37 @@
     display: flex;
     align-items: baseline;
 
-    .n2o-popover {
+    &--animated {
+        animation-name: alertAnimation;
+        animation-duration: 0.8s;
+    }
+
+    &-body-container {
+        flex-grow: 1;
+    }
+
+    & .n2o-popover {
         margin-right: 0.5rem;
         font-size: 22px;
     }
-}
 
-.n2o-alert--animated {
-    animation-name: alertAnimation;
-    animation-duration: 0.8s;
-}
-
-.n2o-alert-body-container {
-    flex-grow: 1;
-}
-
-.n2o-alert-close-container {
-    margin-left: 0.5rem;
-}
-
-.n2o-alert-loader {
-    display: block;
-    width: 150px;
-    margin: 0 auto;
-
-    .n2o-alert-body-container {
-        display: flex;
-        align-items: center;
+    &-close-container {
+        margin-left: 0.5rem;
     }
 
-    .spinner {
-        margin-right: 10px;
+    &-loader {
+        display: block;
+        width: 150px;
+        margin: 0 auto;
+
+        & .n2o-alert-body-container {
+            display: flex;
+            align-items: center;
+        }
+
+        & .spinner {
+            margin-right: 10px;
+        }
     }
 }
 
@@ -84,7 +84,7 @@
     margin-top: 5px;
     margin-bottom: 10px;
 
-    h4 {
+    & h4 {
         margin-bottom: 0;
         font-size: 22px;
     }
@@ -135,29 +135,29 @@
     overflow: auto;
     z-index: $zindex-tooltip;
 
-    > .alert {
+    & > .alert {
         flex-direction: row-reverse;
     }
 
-    .close {
+    & .close {
         margin-top: -5px;
         margin-left: 10px;
     }
 
-    .n2o-alerts-container {
+    & .n2o-alerts-container {
         width: 100%;
     }
 
-    .n2o-alert-body-container {
+    & .n2o-alert-body-container {
         display: flex;
         width: calc(100% - 50px);
     }
 
-    .n2o-alert-body {
+    & .n2o-alert-body {
         width: 100%;
     }
 
-    .details {
+    & .details {
         overflow-x: auto;
         white-space: nowrap;
     }
@@ -165,15 +165,15 @@
 
 .n2o-alerts--absolute,
 .n2o-alerts--relative {
-    .n2o-alert-body-container {
+    & .n2o-alert-body-container {
         width: calc(100% - 50px);
     }
 
-    .n2o-alert-close-container {
+    & .n2o-alert-close-container {
         margin-left: 0;
     }
 
-    .details {
+    & .details {
         overflow: auto;
     }
 }

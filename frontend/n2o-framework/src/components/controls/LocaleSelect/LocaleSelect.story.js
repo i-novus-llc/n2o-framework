@@ -1,16 +1,17 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import LocaleSelect from './LocaleSelect';
 
-import LocaleSelect from './LocaleSelect'
-
-const stories = storiesOf('Контролы/Выбор локализации', module)
+const stories = storiesOf('Контролы/Выбор локализации', module);
 
 stories.add(
-    'N2O вариант',
-    () => <LocaleSelect />,
-    {
-        info: {
-            text: `
+  'N2O вариант',
+  () => {
+    return <LocaleSelect />;
+  },
+  {
+    info: {
+      text: `
     Компонент 'Выпадающий список N2O'
     ~~~js
     import N2OSelect from 'n2o-framework/lib/components/controls/N2OSelect/N2OSelect';
@@ -59,6 +60,6 @@ stories.add(
     />
     ~~~
     `,
-        },
     },
-)
+  }
+);

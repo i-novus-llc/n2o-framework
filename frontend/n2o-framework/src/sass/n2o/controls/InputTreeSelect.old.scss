@@ -1,0 +1,70 @@
+$custom-control-indicator-checked-color: black;
+$custom-checkbox-indicator-icon-checked: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23");
+
+ui.n2o-tree-select-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    cursor: pointer;
+
+    & button {
+        cursor: pointer;
+    }
+
+    & img {
+        max-height: $image-tree-height;
+    }
+
+    & > li {
+        display: flex;
+        flex-direction: row;
+    }
+
+    & .tree-toggle {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        justify-content: center;
+
+        & > i {
+            margin: 0;
+            font-size: 12px;
+        }
+    }
+
+    & .tree-childs {
+        padding-left: 10px;
+    }
+
+    & .nothing {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    & .selected {
+        color: #1b1e21 !important;
+        text-decoration: none;
+        background-color: #d6d8d9 !important;
+    }
+
+    & .custom-control-inline {
+        margin: 0;
+    }
+
+    & .dropdown-item {
+        margin: 0;
+        padding: 2px 2px;
+        display: flex;
+        align-items: center;
+
+        & .text-cropped {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
+            overflow: hidden;
+            padding-right: 10px;
+        }
+    }
+}

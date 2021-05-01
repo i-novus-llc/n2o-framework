@@ -1,34 +1,33 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 
-import Placeholder from '../../Placeholder'
+import Placeholder from '../../Placeholder';
+import meta from './Table.meta';
+import Table from './Table';
 
-import meta from './Table.meta'
-import Table from './Table'
-
-const stories = storiesOf('UI Компоненты/Placeholder/type=table', module)
+const stories = storiesOf('UI Компоненты/Placeholder/type=table', module);
 
 stories.addParameters({
-    info: {
-        propTables: [Table],
-    },
-})
+  info: {
+    propTables: [Table],
+  },
+});
 
 stories.add(
-    'Компонент',
-    () => {
-        const props = {
-            loading: true,
-            type: meta.type,
-            rows: meta.rows,
-            cols: meta.cols,
-        }
+  'Компонент',
+  () => {
+    const props = {
+      loading: true,
+      type: meta.type,
+      rows: meta.rows,
+      cols: meta.cols,
+    };
 
-        return <Placeholder {...props} />
-    },
-    {
-        info: {
-            text: `
+    return <Placeholder {...props} />;
+  },
+  {
+    info: {
+      text: `
     Компонент 'Placeholder' таблицы
     ~~~js
     import Placeholder from 'n2o-framework/lib/components/snippets/Placeholder/Placeholder';
@@ -41,6 +40,6 @@ stories.add(
      />
     ~~~
     `,
-        },
     },
-)
+  }
+);

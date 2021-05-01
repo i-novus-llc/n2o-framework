@@ -16,7 +16,7 @@ import Popup from '../InputSelect/Popup'
 import InputContent from '../InputSelect/InputContent'
 import InputSelectGroup from '../InputSelect/InputSelectGroup'
 
-import NODE_SELECTED from './nodeSelected'
+import NODE_SELECTED from './nodeSelected.js'
 import TreeItems from './TreeItems'
 
 /**

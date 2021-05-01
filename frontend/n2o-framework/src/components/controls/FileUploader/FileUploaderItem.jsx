@@ -21,10 +21,8 @@ class FileUploaderItem extends React.Component {
     }
 
     toggle() {
-        const { tooltipOpen } = this.state
-
         this.setState({
-            tooltipOpen: !tooltipOpen,
+            tooltipOpen: !this.state.tooltipOpen,
         })
     }
 
@@ -40,7 +38,6 @@ class FileUploaderItem extends React.Component {
             loading,
             autoUpload,
         } = this.props
-        const { tooltipOpen } = this.state
 
         return (
             <div className="n2o-file-uploader-files-item">
@@ -48,7 +45,6 @@ class FileUploaderItem extends React.Component {
                     <a
                         title={file.name}
                         href={file.link}
-                        /* eslint-disable-next-line react/jsx-no-target-blank */
                         target="_blank"
                         id={`tooltip-${file.id}`}
                         className={cn('n2o-file-uploader-link', {
@@ -62,7 +58,7 @@ class FileUploaderItem extends React.Component {
                     </a>
                     {(!isEmpty(file.error) || !isEmpty(file.response)) && (
                         <Tooltip
-                            isOpen={tooltipOpen}
+                            isOpen={this.state.tooltipOpen}
                             target={`tooltip-${file.id}`}
                             toggle={this.toggle}
                         >
@@ -101,7 +97,8 @@ FileUploaderItem.propTypes = {
     onRemove: PropTypes.func,
     showSize: PropTypes.bool,
     disabled: PropTypes.bool,
-    autoUpload: PropTypes.bool,
+    error: PropTypes.bool,
+    status: PropTypes.number,
     index: PropTypes.number,
     loading: PropTypes.bool,
 }

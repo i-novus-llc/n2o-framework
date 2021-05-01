@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Checkbox from '../Checkbox/Checkbox'
-import withFetchData from '../withFetchData'
+import withFetchData from '../withFetchData.js'
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
 import CheckboxButton from '../Checkbox/CheckboxButton'
 import Spinner from '../../snippets/Spinner/InlineSpinner'

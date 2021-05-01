@@ -9,7 +9,9 @@
 
 .btn {
     position: relative;
+}
 
+.btn {
     > input[type=checkbox] {
         position: absolute;
         pointer-events: none;

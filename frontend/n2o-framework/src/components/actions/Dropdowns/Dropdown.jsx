@@ -12,35 +12,37 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
  * @reactProps {string} title - заголовок кнопки
  */
 class Dropdown extends React.Component {
-    state = {
-        dropdownOpen: false,
+    constructor(props) {
+        super(props)
+
+        this.toggle = this.toggle.bind(this)
+        this.state = {
+            dropdownOpen: false,
+        }
     }
 
     /**
    * смена видимости меню дропдауна
    */
-    toggle = () => {
-        const { dropdownOpen } = this.state
-
+    toggle(e) {
         this.setState({
-            dropdownOpen: !dropdownOpen,
+            dropdownOpen: !this.state.dropdownOpen,
         })
     }
 
     /**
-     * Базовый рендер
-     */
+   * Базовый рендер
+   */
     render() {
-        const { color, title, size, children, disabled, id } = this.props
-        const { dropdownOpen } = this.state
+        const { color, title, size, children, disabled } = this.props
 
         return (
-            <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
+            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle
                     caret
                     color={color}
                     size={size}
-                    id={id}
+                    id={this.props.id}
                     disabled={disabled}
                 >
                     {title}

@@ -5,15 +5,14 @@ import moment from 'moment'
 import cx from 'classnames'
 
 import Day from './Day'
-// eslint-disable-next-line import/no-cycle
 import CalendarHeader from './CalendarHeader'
 import {
     weeks,
     isDateFromPrevMonth,
     isDateFromNextMonth,
     addTime,
+    hasInsideMixMax,
 } from './utils'
-// eslint-disable-next-line import/no-cycle
 import { ControlType } from './DateTimeControl'
 
 /**
@@ -86,8 +85,8 @@ class Calendar extends React.Component {
     }
 
     /**
-     * Рендер хэдера календаря
-     */
+   * Рендер хэдера календаря
+   */
     renderHeader() {
         const { displayesMonth, calendarType } = this.state
         const { locale, t } = this.props
@@ -121,95 +120,92 @@ class Calendar extends React.Component {
     }
 
     /**
-     *  установка значения года или месяца (при выборе из списка)
-     * @param val
-     * @param attr
-     */
+   *  установка значения года или месяца (при выборе из списка)
+   * @param val
+   * @param attr
+   */
     setValue(val, attr) {
-        const { displayesMonth } = this.state
-
         if (attr === 'months') {
             this.setState({
-                displayesMonth: displayesMonth
+                displayesMonth: this.state.displayesMonth
                     .clone()
-                    .add(-displayesMonth.month() + val, attr),
+                    .add(-this.state.displayesMonth.month() + val, attr),
             })
         } else {
             this.setState({
-                displayesMonth: displayesMonth
+                displayesMonth: this.state.displayesMonth
                     .clone()
-                    .add(moment().year() - displayesMonth.year() + val, attr),
+                    .add(moment().year() - this.state.displayesMonth.year() + val, attr),
             })
         }
     }
 
     /**
-     * Сдвиг даты на месяц назад
-     */
+   * Сдвиг даты на месяц назад
+   */
     prevMonth() {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.subtract(1, 'months')
 
-        this.setState({ displayesMonth: displayesMonth.subtract(1, 'months') })
+        this.setState({ displayesMonth })
     }
 
     /**
-     * Сдвиг даты на месяц вперед
-     */
+   * Сдвиг даты на месяц вперед
+   */
     nextMonth() {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.add(1, 'months')
 
-        this.setState({ displayesMonth: displayesMonth.add(1, 'months') })
+        this.setState({ displayesMonth })
     }
 
     /**
-     * Сдвиг даты на месяц вперед
-     */
+   * Сдвиг даты на месяц вперед
+   */
     prevYear() {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.subtract(1, 'years')
 
-        this.setState({ displayesMonth: displayesMonth.subtract(1, 'years') })
+        this.setState({ displayesMonth })
     }
 
     /**
-     * Сдвиг даты на год вперед
-     */
+   * Сдвиг даты на год вперед
+   */
     nextYear() {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.add(1, 'years')
 
-        this.setState({ displayesMonth: displayesMonth.add(1, 'years') })
+        this.setState({ displayesMonth })
     }
 
     nextDecade() {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.add(10, 'years')
 
-        this.setState({ displayesMonth: displayesMonth.add(10, 'years') })
+        this.setState({ displayesMonth })
     }
 
     prevDecade() {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.subtract(10, 'years')
 
-        this.setState({ displayesMonth: displayesMonth.subtract(10, 'years') })
+        this.setState({ displayesMonth })
     }
 
     setDate(...args) {
-        const { displayesMonth } = this.state
+        const displayesMonth = this.state.displayesMonth.set(...args)
 
-        this.setState({ displayesMonth: displayesMonth.set(...args) })
+        this.setState({ displayesMonth })
     }
 
     /**
-     * Рендер назавний дней недели
-     */
+   * Рендер назавний дней недели
+   */
     renderNameOfDays() {
-        const { locale } = this.props
-        const nameOfDays = locale === 'ru'
-            ? ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
-            : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+        const nameOfDays =
+      this.props.locale === 'ru'
+          ? ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+          : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
         return (
             <tr>
                 {nameOfDays.map((day, i) => (
-                    // eslint-disable-next-line react/no-array-index-key
                     <td key={i}>{day}</td>
                 ))}
             </tr>
@@ -217,11 +213,11 @@ class Calendar extends React.Component {
     }
 
     /**
-     * Рендер данного месяца по неделям
-     */
+   * Рендер данного месяца по неделям
+   */
     renderWeeks() {
-        const { displayesMonth, tempTimeObj } = this.state
-        const { hours, mins, seconds } = tempTimeObj
+        const { displayesMonth } = this.state
+        const { hours, mins, seconds } = this.state.tempTimeObj
         const firstDay = addTime(
             displayesMonth.clone().startOf('isoWeek'),
             hours,
@@ -233,16 +229,15 @@ class Calendar extends React.Component {
     }
 
     /**
-     * Рендер недели
-     */
+   * Рендер недели
+   */
     renderWeek(week, i) {
         return <tr key={i}>{week.map((day, i) => this.renderDay(day, i))}</tr>
     }
 
     /**
-     * Рендер дня
-     */
-    // eslint-disable-next-line complexity
+   * Рендер дня
+   */
     renderDay(day, i) {
         const {
             min,
@@ -275,41 +270,47 @@ class Calendar extends React.Component {
             const disableDaysAfter = range => day.isAfter(range)
 
             // откючить дни выходящие за рамки range (min or max)
-            const disabledDaysBeyondTheScopeMinMax = disableDaysBefore(min) || disableDaysAfter(max)
+            const disabledDaysBeyondTheScopeMinMax =
+        disableDaysBefore(min) || disableDaysAfter(max)
             // откючить дни выходящие за рамки range (begin(дата в календаре index[1]) or max)
-            const disabledDaysBeyondTheScopeBeginMax = disableDaysBefore(begin) || disableDaysAfter(max)
+            const disabledDaysBeyondTheScopeBeginMax =
+        disableDaysBefore(begin) || disableDaysAfter(max)
 
             // default range (min or max)
-            // eslint-disable-next-line no-unused-vars,no-return-assign
             const rangeMinMax = disabledDays => (disabledDays = disabledDaysBeyondTheScopeMinMax)
 
             // если не выбрана дата(begin) ||  min or max
-            const hasMinOrMaxAndNullBegin = (isNull(begin) && (min || max)) || (isNull(begin) && (min && max))
+            const hasMinOrMaxAndNullBegin =
+        (isNull(begin) && (min || max)) || (isNull(begin) && (min && max))
 
             // если hasMinOrMaxAndNullBegin, устанавливаем default range (min or max)
             if (hasMinOrMaxAndNullBegin) {
                 rangeMinMax(disabled)
             } else if (min && max) {
-                disabled = index === 0
-                    ? disabledDaysBeyondTheScopeMinMax
-                    : disabledDaysBeyondTheScopeBeginMax
+                disabled =
+          index === 0
+              ? disabledDaysBeyondTheScopeMinMax
+              : disabledDaysBeyondTheScopeBeginMax
             } else if (min) {
-                disabled = index === 0
-                    ? disableDaysBefore(min)
-                    : index === 1 && disableDaysBefore(begin)
+                disabled =
+          index === 0
+              ? disableDaysBefore(min)
+              : index === 1 && disableDaysBefore(begin)
             } else if (max) {
-                disabled = index === 0
-                    ? disableDaysAfter(max)
-                    : index === 1 && disableDaysAfter(begin)
+                disabled =
+          index === 0
+              ? disableDaysAfter(max)
+              : index === 1 && disableDaysAfter(begin)
             } else {
                 // не указан range (min, max)
                 disabled = index === 1 && disableDaysBefore(begin)
             }
         }
 
-        const { displayesMonth } = this.state
-        const otherMonth = isDateFromNextMonth(day, displayesMonth) ||
-            isDateFromPrevMonth(day, displayesMonth)
+        const displayesMonth = this.state.displayesMonth.clone()
+        const otherMonth =
+      isDateFromNextMonth(day, displayesMonth) ||
+      isDateFromPrevMonth(day, displayesMonth)
         const selected = day.isSame(value)
         const current = day.format('DD.MM.YYYY') === moment().format('DD.MM.YYYY')
         const props = {
@@ -327,8 +328,8 @@ class Calendar extends React.Component {
     }
 
     /**
-     * Навигация по кнопкам, вверх/вниз - смена года, вправо/влево - смена месяца
-     */
+   * Навигация по кнопкам, вверх/вниз - смена года, вправо/влево - смена месяца
+   */
     onKeyDown(e) {
         const { calendarType } = this.state
         const evtobj = window.event ? window.event : e
@@ -336,7 +337,6 @@ class Calendar extends React.Component {
         const rightKeyCode = 39
 
         if (evtobj.ctrlKey) {
-            // eslint-disable-next-line default-case
             switch (evtobj.keyCode) {
                 case leftKeyCode:
                     if (calendarType === Calendar.BY_DAYS) {
@@ -363,15 +363,15 @@ class Calendar extends React.Component {
     }
 
     /**
-     * Навешивание листенера на нажатие кнопок
-     */
+   * Навешивание листенера на нажатие кнопок
+   */
     componentWillMount() {
         document.addEventListener('keydown', this.onKeyDown)
     }
 
     /**
-     * Удаление листенера при анмаунте компонента
-     */
+   * Удаление листенера при анмаунте компонента
+   */
     componentWillUnmount() {
         document.removeEventListener('keydown', this.onKeyDown)
     }
@@ -379,18 +379,13 @@ class Calendar extends React.Component {
     renderTime() {
         const { value, hasDefaultTime, timeFormat, t } = this.props
 
-        if (hasDefaultTime) {
-            if (value) {
-                return value.format(timeFormat)
-            }
-
-            return '00:00:00'
-        }
-
-        return t('chooseTime')
+        return hasDefaultTime
+            ? value
+                ? value.format(timeFormat)
+                : '00:00:00'
+            : t('chooseTime')
     }
 
-    // eslint-disable-next-line class-methods-use-this
     objFromTime(date) {
         return {
             mins: date.minutes(),
@@ -401,23 +396,20 @@ class Calendar extends React.Component {
 
     timeFromObj(timeObj) {
         const { hours, mins, seconds } = timeObj
-        const { timeFormat } = this.props
 
         return moment(`${hours}:${mins}:${seconds}`, 'H:m:s').format(
-            timeFormat || 'H:mm:ss',
+            this.props.timeFormat || 'H:mm:ss',
         )
     }
 
     renderByDays() {
-        const { timeFormat } = this.props
-
         return (
             <>
                 <table className="n2o-calendar-table">
                     <thead>{this.renderNameOfDays()}</thead>
                     <tbody>{this.renderWeeks()}</tbody>
                 </table>
-                {timeFormat && (
+                {this.props.timeFormat && (
                     <a
                         className="n2o-calendar-time-container"
                         href="/test"
@@ -434,7 +426,9 @@ class Calendar extends React.Component {
     }
 
     renderByMonths() {
+        const { displayesMonth } = this.state
         const { locale } = this.props
+        const year = displayesMonth.format('YYYY')
 
         return (
             <div className="n2o-calendar-body">
@@ -480,7 +474,8 @@ class Calendar extends React.Component {
 
     renderByYears() {
         const { displayesMonth } = this.state
-        const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10, 10) * 10
+        const { locale } = this.props
+        const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10) * 10
         const years = Array.from(
             new Array(12),
             (val, index) => decadeStart + index - 1,
@@ -494,33 +489,22 @@ class Calendar extends React.Component {
     }
 
     componentDidUpdate() {
-        const { calendarType } = this.state
-
-        if (calendarType === Calendar.TIME_PICKER) {
-            if (this.minuteRef) {
-                this.minuteRef.scrollIntoView()
-            }
-            if (this.secondRef) {
-                this.secondRef.scrollIntoView()
-            }
-            if (this.hourRef) {
-                this.hourRef.scrollIntoView()
-            }
+        if (this.state.calendarType === Calendar.TIME_PICKER) {
+            this.minuteRef && this.minuteRef.scrollIntoView()
+            this.secondRef && this.secondRef.scrollIntoView()
+            this.hourRef && this.hourRef.scrollIntoView()
         }
     }
 
     setTimeUnit(value, unit) {
-        const { tempTimeObj } = this.state
-
         this.setState({
-            tempTimeObj: { ...tempTimeObj, [unit]: value },
+            tempTimeObj: { ...this.state.tempTimeObj, [unit]: value },
         })
     }
 
     setTime() {
         const { value, inputName, markTimeAsSet, select } = this.props
-        const { tempTimeObj } = this.state
-        const { hours, mins, seconds } = tempTimeObj
+        const { hours, mins, seconds } = this.state.tempTimeObj
         const copyValue = value || moment()
 
         this.changeCalendarType(Calendar.BY_DAYS)
@@ -534,10 +518,8 @@ class Calendar extends React.Component {
     }
 
     renderTimePicker() {
-        const { tempTimeObj } = this.state
-        const { mins, seconds, hours } = tempTimeObj
+        const { mins, seconds, hours } = this.state.tempTimeObj
 
-        /* eslint-disable react/jsx-one-expression-per-line */
         return (
             <div>
                 <div className="n2o-calendar-timepicker">
@@ -583,7 +565,6 @@ class Calendar extends React.Component {
                 </div>
                 <div className="n2o-calendar-time-buttons">
                     <button
-                        type="button"
                         className="btn btn-secondary btn-sm"
                         onClick={() => this.changeCalendarType(Calendar.BY_DAYS)}
                     >
@@ -591,7 +572,7 @@ class Calendar extends React.Component {
 
             Назад
                     </button>
-                    <button className="btn btn-primary btn-sm" onClick={this.setTime} type="button">
+                    <button className="btn btn-primary btn-sm" onClick={this.setTime}>
                         {' '}
 
             Выбрать
@@ -602,28 +583,45 @@ class Calendar extends React.Component {
     }
 
     renderBody(type) {
+        let body = null
+
         switch (type) {
             case Calendar.BY_MONTHS:
-                return this.renderByMonths()
+                body = this.renderByMonths()
+
+                break
             case Calendar.BY_YEARS:
-                return this.renderByYears()
+                body = this.renderByYears()
+
+                break
             case Calendar.TIME_PICKER:
-                return this.renderTimePicker()
+                body = this.renderTimePicker()
+
+                break
             case Calendar.BY_DAYS:
             default:
-                return this.renderByDays()
+                body = this.renderByDays()
         }
+
+        return body
     }
 
     render() {
         const { calendarType } = this.state
-        const { timeFormat } = this.props
+        const {
+            inputValue,
+            inputOnClick,
+            inputClassName,
+            format,
+            calRef,
+        } = this.props
 
         return (
             <div
                 className={cx('n2o-calendar', 'calenadar', {
-                    time: timeFormat,
+                    time: this.props.timeFormat,
                 })}
+                tabIndex="0"
             >
                 {this.renderHeader(calendarType)}
                 {this.renderBody(calendarType)}
@@ -650,20 +648,11 @@ Calendar.defaultProps = {
 
 Calendar.propTypes = {
     value: PropTypes.instanceOf(moment).isRequired,
-    values: PropTypes.any,
     auto: PropTypes.bool,
     select: PropTypes.func,
     hasDefaultTime: PropTypes.bool,
     setPlacement: PropTypes.func,
     setVisibility: PropTypes.func,
-    t: PropTypes.func,
-    index: PropTypes.number,
-    clock: PropTypes.bool,
-    timeFormat: PropTypes.string,
-    dateFormat: PropTypes.string,
-    inputName: PropTypes.string,
-    markTimeAsSet: PropTypes.any,
-    type: PropTypes.any,
     placement: PropTypes.string,
     max: PropTypes.instanceOf(moment),
     min: PropTypes.instanceOf(moment),

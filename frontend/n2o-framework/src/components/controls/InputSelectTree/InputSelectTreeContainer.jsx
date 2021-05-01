@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 import isArray from 'lodash/isArray'
 import { withProps, compose, setDisplayName } from 'recompose'
 
-import listContainer from '../listContainer'
+import listContainer from '../listContainer.js'
 
 import { propTypes, defaultProps } from './allProps'
 import InputSelectTree from './InputSelectTree'

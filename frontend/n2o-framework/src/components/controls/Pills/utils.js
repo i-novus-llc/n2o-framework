@@ -34,9 +34,11 @@ export const prepareValue = (
     if (multiSelect) {
         if (currentValue.includes(id)) {
             pull(currentValue, id)
+
             return currentValue
         }
         currentValue.push(id)
+
         return currentValue
     }
     if (currentValue.includes(id)) {
