@@ -1,42 +1,46 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import set from 'lodash/set'
-import pullAt from 'lodash/pullAt'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import set from 'lodash/set';
+import pullAt from 'lodash/pullAt';
 
-import PanelShortHand from '../../snippets/Panel/PanelShortHand'
-import Wireframe from '../../snippets/Wireframe/Wireframe'
-import { metadataSuccess } from '../../../actions/pages'
-import ListMetadata from '../List/ListMetadata.meta'
-import AuthButtonContainer from '../../../core/auth/AuthLogin'
-import { makeStore } from '../../../../.storybook/decorators/utils'
-import cloneObject from '../../../utils/cloneObject'
-import panelStyles from '../../snippets/Panel/panelStyles'
-import { dataSuccessWidget, hideWidget } from '../../../actions/widgets'
-import Factory from '../../../core/factory/Factory'
-
-import SecurePanelRegion from './PanelRegion.meta'
-import PanelRegionMeta from './PanelRegion.meta.json'
 import PanelRegion, {
-    PanelRegion as PanelRegionComponent,
-} from './PanelRegion'
+  PanelRegion as PanelRegionComponent,
+} from './PanelRegion';
 
-const stories = storiesOf('Регионы/Панель', module)
+import PanelRegionMeta from './PanelRegion.meta.json';
+
+import PanelShortHand from '../../snippets/Panel/PanelShortHand';
+import Wireframe from '../../snippets/Wireframe/Wireframe';
+
+import { metadataSuccess } from '../../../actions/pages';
+import ListMetadata from '../List/ListMetadata.meta';
+import SecurePanelRegion from './PanelRegion.meta';
+import AuthButtonContainer from '../../../core/auth/AuthLogin';
+import { makeStore } from '../../../../.storybook/decorators/utils';
+import cloneObject from '../../../utils/cloneObject';
+import panelStyles from '../../snippets/Panel/panelStyles';
+import { dataSuccessWidget, hideWidget } from '../../../actions/widgets';
+import Factory from '../../../core/factory/Factory';
+
+const stories = storiesOf('Регионы/Панель', module);
 
 stories.addParameters({
-    info: {
-        propTables: [PanelRegionComponent],
-        propTablesExclude: [Factory, PanelRegion, AuthButtonContainer],
-    },
-})
+  info: {
+    propTables: [PanelRegionComponent],
+    propTablesExclude: [Factory, PanelRegion, AuthButtonContainer],
+  },
+});
 
-const { store } = makeStore()
+const { store } = makeStore();
 
 stories.add(
-    'Метаданные',
-    () => <PanelRegion {...PanelRegionMeta} pageId="Page" />,
-    {
-        info: {
-            text: `
+  'Метаданные',
+  () => {
+    return <PanelRegion {...PanelRegionMeta} pageId="Page" />;
+  },
+  {
+    info: {
+      text: `
       Компонент 'Регион панель'
       ~~~js
       import RegionPanel from 'n2o-framework/lib/components/regions/Panel/RegionPanel';
@@ -73,9 +77,9 @@ stories.add(
       />
       ~~~
       `,
-        },
     },
-)
+  }
+);
 // .add('Ограничение доступа', () => {
 //   return (
 //     <div>

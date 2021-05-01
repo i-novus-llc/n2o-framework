@@ -11,50 +11,52 @@
 .custom-checkbox {
     margin: $custom-checkbox-margin;
 
-    .custom-control-label {
-        &:hover::before {
-            border: $checkbox-hover-border;
-        }
+    & .custom-control {
+        &-label {
+            &:hover::before {
+                border: $checkbox-hover-border;
+            }
 
-        &::before {
-            top: $checkbox-position-top;
-            left: $checkbox-position-left;
-            right: $checkbox-position-right;
-            bottom: $checkbox-position-bottom;
-            width: $checkbox-width;
-            height: $checkbox-height;
-            background-color: $checkbox-background-color;
-            border: $checkbox-border;
-            border-radius: $checkbox-border-radius;
-        }
-    }
-
-    .custom-control-input {
-        &:focus ~ .custom-control-label::before {
-            box-shadow: $checkbox-focus-shadow;
-        }
-
-        &:checked {
-            & ~ .custom-control-label {
-                &::before {
-                    background-color: $checkbox-background-color-checked;
-                    border-color: $checkbox-border-color-checked;
-                }
+            &::before {
+                top: $checkbox-position-top;
+                left: $checkbox-position-left;
+                right: $checkbox-position-right;
+                bottom: $checkbox-position-bottom;
+                width: $checkbox-width;
+                height: $checkbox-height;
+                background-color: $checkbox-background-color;
+                border: $checkbox-border;
+                border-radius: $checkbox-border-radius;
             }
         }
 
-        &:disabled {
+        &-input {
+            &:focus ~ .custom-control-label::before {
+                box-shadow: $checkbox-focus-shadow;
+            }
+
             &:checked {
                 & ~ .custom-control-label {
                     &::before {
+                        background-color: $checkbox-background-color-checked;
                         border-color: $checkbox-border-color-checked;
+                    }
+                }
+            }
+
+            &:disabled {
+                &:checked {
+                    & ~ .custom-control-label {
+                        &::before {
+                            border-color: $checkbox-border-color-checked;
+                        }
                     }
                 }
             }
         }
     }
 
-    .custom-control-input {
+    & .custom-control-input {
         @extend .custom-checkbox-align;
 
         & ~ .custom-control-label {
@@ -69,7 +71,7 @@
         }
     }
 
-    .custom-control-input:checked {
+    & .custom-control-input:checked {
         & ~ .custom-control-label {
             &::after {
                 background-image: $checkbox-background-image;

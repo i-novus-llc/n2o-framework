@@ -1,4 +1,8 @@
 .n2o-panel-region {
+    &--grow {
+        flex-grow: 1;
+    }
+
     margin-bottom: 1.5rem;
     border-top: $panel-region-border-top;
     border-right: $panel-region-border-right;
@@ -20,8 +24,8 @@
         z-index: 1000;
     }
 
-    > .panel-block-flex {
-        > a {
+    & > .panel-block-flex {
+        & > a {
             margin: 0.75rem 1.25rem;
 
             &.collapsible {
@@ -30,18 +34,14 @@
         }
     }
 
-    .panel-region-footer {
+    & .panel-region-footer {
         border-top: 0;
     }
 
-    .nav-item--toolbar {
+    & .nav-item--toolbar {
         align-self: center;
         margin-right: 0.25rem;
     }
-}
-
-.n2o-panel-region--grow {
-    flex-grow: 1;
 }
 
 ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
@@ -56,7 +56,7 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
     border: none;
     font-size: 14px;
 
-    i {
+    & i {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -65,23 +65,22 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
         border-radius: 50%;
     }
 
-    button {
+    & button {
         opacity: 0.5;
         transition: 0.3s;
 
         &:hover {
             opacity: 1;
 
-            i {
+            & i {
                 background: #ced3d6;
             }
         }
     }
-}
 
-.fullscreen-toggle--up button,
-.collapse-toggle--up button {
-    transform: rotate(180deg);
+    &--up button {
+        transform: rotate(180deg);
+    }
 }
 
 .collapse-toggle {
@@ -164,19 +163,19 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
 }
 
 .n2o-panel-region--tabs {
-    .panel-region-heading {
+    & .panel-region-heading {
         border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 
-        .nav-item {
-            border-left: 1px solid rgba(0, 0, 0, 0.125);
-        }
+        & .nav-item {
+            &--tab {
+                transition: 0.3s;
 
-        .nav-item--tab {
-            transition: 0.3s;
-
-            &:not(.active) {
-                background: rgba(0, 0, 0, 0.02);
+                &:not(.active) {
+                    background: rgba(0, 0, 0, 0.02);
+                }
             }
+
+            border-left: 1px solid rgba(0, 0, 0, 0.125);
         }
     }
 }

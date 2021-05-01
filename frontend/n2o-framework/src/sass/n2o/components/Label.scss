@@ -2,11 +2,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-}
 
-.n2o-field-label-required {
-    vertical-align: top;
-    margin-left: 3px;
-    color: #e53935;
-    font-weight: 900;
+    &-required {
+        vertical-align: top;
+        margin-left: 3px;
+        color: #e53935;
+        font-weight: 900;
+    }
 }

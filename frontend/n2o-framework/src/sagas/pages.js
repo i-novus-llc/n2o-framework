@@ -43,11 +43,11 @@ import { changeRootPage } from '../actions/global'
 import { destroyOverlay } from '../actions/overlays'
 import { rootPageSelector } from '../selectors/global'
 import { makePageRoutesByIdSelector } from '../selectors/pages'
-import { FETCH_PAGE_METADATA } from '../core/api'
+import { FETCH_PAGE_METADATA } from '../core/api.js'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import linkResolver from '../utils/linkResolver'
 
-import fetchSaga from './fetch'
+import fetchSaga from './fetch.js'
 
 /**
  *

@@ -23,12 +23,12 @@
         box-shadow: $card-box-shadow-hover;
     }
 
-    > .card-body {
+    & > .card-body {
         padding: 10px 20px;
     }
 
     &.linear.circle {
-        .card-image {
+        & .card-image {
             max-width: $card-line-mode-height - 6px;
             min-width: $card-line-mode-height - 6px;
             height: $card-line-mode-height - 6px;
@@ -37,7 +37,7 @@
     }
 
     &.circle {
-        .card-image {
+        & .card-image {
             display: inline-block;
             position: relative;
             width: $card-colunm-mode-width - 30px;
@@ -46,7 +46,7 @@
             border-radius: 50%;
             margin: 15px;
 
-            > img {
+            & > img {
                 width: auto;
                 height: 100%;
             }
@@ -54,7 +54,7 @@
     }
 
     &.linear {
-        .card-image {
+        & .card-image {
             width: $card-image-liner-width;
         }
 
@@ -65,20 +65,20 @@
         height: $card-line-mode-height;
         margin: 0;
 
-        img {
+        & img {
             max-height: $card-line-mode-height;
             width: auto;
         }
 
-        > .card-body {
+        & > .card-body {
             display: flex;
             align-items: center;
 
-            > * {
+            & > * {
                 margin: 0;
             }
 
-            > .text {
+            & > .text {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

@@ -1,5 +1,5 @@
 .n2o-header {
-    .navbar {
+    & .navbar {
         min-height: $header-min-height;
         padding: 0.5rem 2rem !important;
     }
@@ -54,7 +54,7 @@
             .dropdown-item {
                 padding: 5px !important;
                 background-color: transparent;
-                color: #bbbbbb !important;
+                color: #bbb !important;
                 white-space: pre-wrap;
                 max-width: 300px;
             }

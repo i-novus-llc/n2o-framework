@@ -1,34 +1,33 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 
-import CheckboxButton from '../Checkbox/CheckboxButton'
+import CheckboxGroup from './CheckboxGroup';
+import CheckboxButton from '../Checkbox/CheckboxButton';
 
-import CheckboxGroup from './CheckboxGroup'
-
-const stories = storiesOf('Контролы/Группа чекбоксов', module)
+const stories = storiesOf('Контролы/Группа чекбоксов', module);
 
 stories.add(
-    'Группа в виде кнопок',
-    () => {
-        const props = {
-            value: ['1', '2'],
-            disabled: false,
-            visible: true,
-            className: '',
-            inline: false,
-        }
+  'Группа в виде кнопок',
+  () => {
+    const props = {
+      value: ['1', '2'],
+      disabled: false,
+      visible: true,
+      className: '',
+      inline: false,
+    };
 
-        return (
-            <CheckboxGroup name="numbers" isBtnGroup {...props}>
-                <CheckboxButton value="1" label="Первый" />
-                <CheckboxButton value="2" label="Второй" />
-                <CheckboxButton value="3" label="Третий" />
-            </CheckboxGroup>
-        )
-    },
-    {
-        info: {
-            text: `
+    return (
+      <CheckboxGroup name="numbers" isBtnGroup={true} {...props}>
+        <CheckboxButton value="1" label="Первый" />
+        <CheckboxButton value="2" label="Второй" />
+        <CheckboxButton value="3" label="Третий" />
+      </CheckboxGroup>
+    );
+  },
+  {
+    info: {
+      text: `
     Компонент 'CheckboxGroupButton'
     ~~~js
     import CheckboxGroup from 'n2o-framework/lib/components/controls/CheckboxGroup/CheckboxGroup';
@@ -46,6 +45,6 @@ stories.add(
     </CheckboxGroup>
     ~~~
     `,
-        },
     },
-)
+  }
+);

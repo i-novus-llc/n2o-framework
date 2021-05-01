@@ -15,22 +15,22 @@
 }
 
 div.radio {
-    > .n2o-radio {
+    & > .n2o-radio {
         padding-left: 0;
     }
 
-    > label {
+    & > label {
         margin-bottom: 0;
     }
 }
 
 .n2o-radio {
-    .alt {
+    & .alt {
         padding-top: 5px;
         margin-bottom: 0;
     }
 
-    .alt-radio {
+    & .alt-radio {
         vertical-align: top;
         width: $radio-width;
         height: $radio-height;
@@ -115,7 +115,7 @@ div.radio {
 .n2o-radio-inline {
     padding-left: 0;
 
-    > .custom-radio {
+    & > .custom-radio {
         &:last-child {
             margin-right: 0;
         }
@@ -123,18 +123,18 @@ div.radio {
         margin-right: 1.5rem;
     }
 
-    > .radio {
+    & > .radio {
         display: inline-block;
 
-        > .alt {
+        & > .alt {
             margin-right: 5px;
 
-            > .alt-radio-block {
+            & > .alt-radio-block {
                 padding-left: 15px;
             }
         }
 
-        > label {
+        & > label {
             margin-right: 5px;
         }
     }
@@ -145,10 +145,10 @@ div.radio {
 }
 
 .n2o-radio-container {
-    .custom-radio {
+    & .custom-radio {
         margin: $n2o-radio-margin;
 
-        .custom-control-label::before {
+        & .custom-control-label::before {
             top: $n2o-radio-top;
             right: $n2o-radio-right;
             bottom: $n2o-radio-bottom;

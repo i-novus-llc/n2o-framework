@@ -4,7 +4,6 @@ import moment from 'moment'
 import onClickOutside from 'react-onclickoutside'
 import { useTranslation } from 'react-i18next'
 
-// eslint-disable-next-line import/no-cycle
 import Calendar from './Calendar'
 
 /**
@@ -13,7 +12,12 @@ import Calendar from './Calendar'
  * @reactProps {string} dateFormat
  * @reactProps {string} timeFormat
  * @reactProps {function} markTimeAtSet
+ * @reactProps {function} inTimeSet
+ * @reactProps {boolean} auto
  * @reactProps {function} select
+ * @reactProps {function} setPlacement
+ * @reactProps {function} setVisibility
+ * @reactProps {string} placement
  * @reactProps {moment} max
  * @reactProps {moment} min
  * @reactProps {string} locale
@@ -40,7 +44,6 @@ function PopUp(props) {
             {Object.keys(value).map((input, i) => {
                 const { hasDefaultTime, ...timeObj } = time[input]
 
-                /* eslint-disable react/no-array-index-key */
                 return (
                     <Calendar
                         key={i}
@@ -71,12 +74,15 @@ PopUp.propTypes = {
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     markTimeAsSet: PropTypes.func,
+    inTimeSet: PropTypes.func,
+    auto: PropTypes.bool,
     select: PropTypes.func,
+    setPlacement: PropTypes.func,
+    setVisibility: PropTypes.func,
+    placement: PropTypes.string,
     max: PropTypes.instanceOf(moment),
     min: PropTypes.instanceOf(moment),
     locale: PropTypes.string,
-    isTimeSet: PropTypes.any,
-    type: PropTypes.any,
     time: PropTypes.shape({
         mins: PropTypes.number,
         hours: PropTypes.number,

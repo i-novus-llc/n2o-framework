@@ -17,11 +17,11 @@
 .application-body {
     flex-grow: 1;
     padding-top: 1rem;
-}
 
-.application-body--aside {
-    height: calc(100vh - #{$footer-height});
-    overflow: auto;
+    &--aside {
+        height: calc(100vh - #{$footer-height});
+        overflow: auto;
+    }
 }
 
 .n2o-footer {
@@ -67,7 +67,7 @@ button {
 .n2o-dropdown-menu {
     z-index: 100;
 
-    > .btn {
+    & > .btn {
         width: 100%;
     }
 }
@@ -114,8 +114,8 @@ button {
     display: flex;
     align-items: center;
 
-    > i,
-    > .dropdown-toggle > i {
+    & > i,
+    & > .dropdown-toggle > i {
         color: $nav-item-icon-color;
     }
 }

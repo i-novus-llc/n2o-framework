@@ -5,8 +5,8 @@ import Switch from 'rc-switch'
 
 class N2OSwitch extends React.Component {
     /**
-     * базовый рендер
-     * */
+   * базовый рендер
+   * */
     render() {
         const { disabled, value, checked, onChange } = this.props
 
@@ -25,20 +25,20 @@ class N2OSwitch extends React.Component {
 
 N2OSwitch.propTypes = {
     /**
-     * Значение
-     */
+   * Значение
+   */
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
         PropTypes.bool,
     ]),
     /**
-     * Checked контрола
-     */
+   * Checked контрола
+   */
     checked: PropTypes.bool,
     /**
-     * Флаг активности
-     */
+   * Флаг активности
+   */
     disabled: PropTypes.bool,
     /**
    * Callback на изменение

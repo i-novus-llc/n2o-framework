@@ -206,8 +206,9 @@ export function removeButton(key) {
 }
 
 /**
- * @typedef RegisterButtonConfig
- * @extends Object
+ * Экшен регистрации кнопки в редаксе
+ * @param key
+ * @param buttonId
  * @param id
  * @param size
  * @param title
@@ -225,20 +226,23 @@ export function removeButton(key) {
  * @param conditions
  * @param hintPosition
  */
-/**
- * Экшен регистрации кнопки в редаксе
- * @param {string} key
- * @param {string} buttonId
- * @param {RegisterButtonConfig} config
- */
 export function registerButton(
     key,
     buttonId,
     {
+        id,
+        size,
+        title,
         count,
+        icon,
+        color,
         resolveEnabled,
         visible,
+        parentId,
         disabled,
+        hint,
+        className,
+        style,
         containerKey,
         conditions,
         hintPosition,

@@ -28,7 +28,7 @@ const dividerClass = (props) => {
  * @reactProps{string} position - Позиционирование заголовка. Работает только на горизонтальном Divider и при наличии заголовка (default : 'left');
  * @reactProps {string} type - Тип Divider horizontal или vertical (default : 'horizontal');
  * @reactProps {string} children - Заголовок для горизонтального типа. Указывается между тегами компонента: <Divider>Заголовок</Divider> (default : none);
- * * */
+ * **/
 
 export const Divider = (props) => {
     const { style, children } = props

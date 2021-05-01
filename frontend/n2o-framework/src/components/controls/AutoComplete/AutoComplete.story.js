@@ -1,50 +1,51 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import withForm from 'N2oStorybook/decorators/withForm'
-import fetchMock from 'fetch-mock'
-
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import withForm from 'N2oStorybook/decorators/withForm';
 import AutoComplete, {
-    AutoComplete as AutoCompleteComponent,
-} from './AutoComplete'
+  AutoComplete as AutoCompleteComponent,
+} from './AutoComplete';
+import fetchMock from 'fetch-mock';
 
-const stories = storiesOf('Контролы/AutoComplete', module)
+const stories = storiesOf('Контролы/AutoComplete', module);
 
-const form = withForm({ src: 'AutoComplete' })
+const form = withForm({ src: 'AutoComplete' });
 
 const options = [
-    {
-        id: 1,
-        name: 'ab',
-    },
-    {
-        id: 2,
-        name: 'abc',
-    },
-    {
-        id: 3,
-        name: 'abcd',
-    },
-]
+  {
+    id: 1,
+    name: 'ab',
+  },
+  {
+    id: 2,
+    name: 'abc',
+  },
+  {
+    id: 3,
+    name: 'abcd',
+  },
+];
 
 stories.addParameters({
-    info: {
-        propTables: [AutoCompleteComponent],
-    },
-})
+  info: {
+    propTables: [AutoCompleteComponent],
+  },
+});
 
 stories
-    .add(
-        'Компонент',
-        () => (
-            <AutoComplete
-                valueFieldId="name"
-                labelFieldId="name"
-                options={options}
-            />
-        ),
-        {
-            info: {
-                text: `
+  .add(
+    'Компонент',
+    () => {
+      return (
+        <AutoComplete
+          valueFieldId="name"
+          labelFieldId="name"
+          options={options}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент AutoComplete
       ~~~js
       import AutoComplete from 'n2o-framework/lib/components/controls/AutoComplete/AutoComplete';
@@ -68,22 +69,24 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Предустановленное значение',
-        () => (
-            <AutoComplete
-                valueFieldId="name"
-                labelFieldId="name"
-                options={options}
-                value="a"
-            />
-        ),
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Предустановленное значение',
+    () => {
+      return (
+        <AutoComplete
+          valueFieldId="name"
+          labelFieldId="name"
+          options={options}
+          value="a"
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент AutoComplete
       ~~~js
       import AutoComplete from 'n2o-framework/lib/components/controls/AutoComplete/AutoComplete';
@@ -108,33 +111,35 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Мод tags',
-        () => (
-            <>
-                <AutoComplete
-                    tags
-                    valueFieldId="name"
-                    labelFieldId="name"
-                    options={options}
-                    style={{ marginBottom: '25px' }}
-                />
-                <span>maxTagTextLength = 2</span>
-                <AutoComplete
-                    tags
-                    valueFieldId="name"
-                    labelFieldId="name"
-                    options={options}
-                    maxTagTextLength={2}
-                />
-            </>
-        ),
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Мод tags',
+    () => {
+      return (
+        <>
+          <AutoComplete
+            tags={true}
+            valueFieldId="name"
+            labelFieldId="name"
+            options={options}
+            style={{ marginBottom: '25px' }}
+          />
+          <span>maxTagTextLength = 2</span>
+          <AutoComplete
+            tags={true}
+            valueFieldId="name"
+            labelFieldId="name"
+            options={options}
+            maxTagTextLength={2}
+          />
+        </>
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент AutoComplete
       ~~~js
       import AutoComplete from 'n2o-framework/lib/components/controls/AutoComplete/AutoComplete';
@@ -159,23 +164,25 @@ stories
       />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Мод tags - предустановленные значения',
-        () => (
-            <AutoComplete
-                tags
-                valueFieldId="name"
-                labelFieldId="name"
-                options={options}
-                value={['a', 'ab']}
-            />
-        ),
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Мод tags - предустановленные значения',
+    () => {
+      return (
+        <AutoComplete
+          tags={true}
+          valueFieldId="name"
+          labelFieldId="name"
+          options={options}
+          value={['a', 'ab']}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент AutoComplete
       ~~~js
       import AutoComplete from 'n2o-framework/lib/components/controls/AutoComplete/AutoComplete';
@@ -201,40 +208,44 @@ stories
       />
       ~~~
       `,
+      },
+    }
+  )
+  .add(
+    'Метаданные',
+    form(() => {
+      fetchMock.restore().get('*', url => {
+        return {
+          count: 3,
+          list: [
+            {
+              id: 1,
+              name: 'a',
+              icon: 'fa fa-plus',
             },
-        },
-    )
-    .add(
-        'Метаданные',
-        form(() => {
-            fetchMock.restore().get('*', url => ({
-                count: 3,
-                list: [
-                    {
-                        id: 1,
-                        name: 'a',
-                        icon: 'fa fa-plus',
-                    },
-                    {
-                        id: 2,
-                        name: 'ab',
-                    },
-                    {
-                        id: 3,
-                        name: 'abc',
-                    },
-                ],
-                page: 1,
-                size: 10,
-            }))
+            {
+              id: 2,
+              name: 'ab',
+            },
+            {
+              id: 3,
+              name: 'abc',
+            },
+          ],
+          page: 1,
+          size: 10,
+        };
+      });
 
-            return {
-                valueFieldId: 'name',
-                iconFieldId: 'icon',
-                dataProvider: {
-                    url: '/n2o/test/autocomplete',
-                    queryMapping: {},
-                },
-            }
-        }),
-    )
+      const props = {
+        valueFieldId: 'name',
+        iconFieldId: 'icon',
+        dataProvider: {
+          url: '/n2o/test/autocomplete',
+          queryMapping: {},
+        },
+      };
+
+      return props;
+    })
+  );

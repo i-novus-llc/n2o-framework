@@ -1,38 +1,40 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import withForm from 'N2oStorybook/decorators/withForm'
-import uniqueId from 'lodash/uniqueId'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 
-import metadata from './ImageUploader.meta.json'
-import ImageUploaderDropZone from './ImageUploader'
+import ImageUploaderDropZone from './ImageUploader';
+import metadata from './ImageUploader.meta.json';
+import withForm from 'N2oStorybook/decorators/withForm';
+import uniqueId from 'lodash/uniqueId';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
-const mockAxios = new MockAdapter(axios, { delayResponse: 500 })
-const form = withForm({ src: 'DropZone' })
-const stories = storiesOf('Контролы/Загрузчик изображений', module)
+const mockAxios = new MockAdapter(axios, { delayResponse: 500 });
+const form = withForm({ src: 'DropZone' });
+const stories = storiesOf('Контролы/Загрузчик изображений', module);
 
 stories
-    .add(
-        'Загрузка изображений (single, image)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+  .add(
+    'Загрузка изображений (single, image)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return <ImageUploaderDropZone {...metadata} lightBox={false} />
-        },
-        {
-            info: {
-                text: `
+      return <ImageUploaderDropZone {...metadata} lightBox={false} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -60,35 +62,37 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Загрузка изображений (single, card)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+      },
+    }
+  )
+  .add(
+    'Загрузка изображений (single, card)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return (
-                <ImageUploaderDropZone
-                    {...metadata}
-                    lightBox={false}
-                    listType="card"
-                />
-            )
-        },
-        {
-            info: {
-                text: `
+      return (
+        <ImageUploaderDropZone
+          {...metadata}
+          lightBox={false}
+          listType={'card'}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -116,29 +120,31 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Загрузка изображений (single, image, lightBox)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+      },
+    }
+  )
+  .add(
+    'Загрузка изображений (single, image, lightBox)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return <ImageUploaderDropZone {...metadata} />
-        },
-        {
-            info: {
-                text: `
+      return <ImageUploaderDropZone {...metadata} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -166,29 +172,31 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Загрузка изображений (single, card, lightBox)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+      },
+    }
+  )
+  .add(
+    'Загрузка изображений (single, card, lightBox)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return <ImageUploaderDropZone {...metadata} listType="card" />
-        },
-        {
-            info: {
-                text: `
+      return <ImageUploaderDropZone {...metadata} listType={'card'} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -216,29 +224,31 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Загрузка изображений (multi, image)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+      },
+    }
+  )
+  .add(
+    'Загрузка изображений (multi, image)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return <ImageUploaderDropZone {...metadata} multi />
-        },
-        {
-            info: {
-                text: `
+      return <ImageUploaderDropZone {...metadata} multi={true} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -266,29 +276,31 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Загрузка изображений (single, card, lightBox)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+      },
+    }
+  )
+  .add(
+    'Загрузка изображений (single, card, lightBox)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return <ImageUploaderDropZone {...metadata} listType="card" />
-        },
-        {
-            info: {
-                text: `
+      return <ImageUploaderDropZone {...metadata} listType={'card'} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -316,31 +328,33 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Загрузка изображений (multi, card)',
-        () => {
-            mockAxios.onPost('/n2o/data').reply(config => [
-                200,
-                {
-                    customId: `file_${uniqueId()}`,
-                    customName: config.data.get('avatar').name,
-                    customSize: config.data.get('avatar').size,
-                    customStatus: 'success',
-                    customResponse: 'File uploaded success!',
-                    customLink: 'https://www.google.com',
-                },
-            ])
+      },
+    }
+  )
+  .add(
+    'Загрузка изображений (multi, card)',
+    () => {
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com',
+          },
+        ];
+      });
 
-            return (
-                <ImageUploaderDropZone {...metadata} multi listType="card" />
-            )
-        },
-        {
-            info: {
-                text: `
+      return (
+        <ImageUploaderDropZone {...metadata} multi={true} listType={'card'} />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент 'Загрузчик изображений'
       ~~~js
       import DropZone from 'n2o-framework/lib/components/controls/ImageUploader/ImageUploaderDropZone';
@@ -368,6 +382,6 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
+      },
+    }
+  );

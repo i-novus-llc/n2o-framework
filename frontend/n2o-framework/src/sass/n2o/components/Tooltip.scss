@@ -124,17 +124,17 @@
 }
 
 .list-text-cell__trigger {
-    > .n2o-dropdown {
-        > .dropdown-menu {
+    & > .n2o-dropdown {
+        & > .dropdown-menu {
             &.n2o-dropdown-menu {
                 text-align: left;
 
-                > .btn {
+                & > .btn {
                     border: none;
                 }
 
-                > div {
-                    > .btn {
+                & > div {
+                    & > .btn {
                         width: 100%;
                         text-align: left;
                         border: none;

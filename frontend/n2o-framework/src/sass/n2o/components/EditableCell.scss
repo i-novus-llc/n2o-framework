@@ -47,10 +47,10 @@
         transition: 0.3s;
     }
 
-    .n2o-input-select .n2o-input-container {
+    & .n2o-input-select .n2o-input-container {
         min-height: auto;
 
-        input {
+        & input {
             padding: 0;
         }
     }

@@ -1,8 +1,8 @@
 .n2o-region-list {
-    .n2o-region-list__header {
+    & .n2o-region-list__header {
         font-weight: bold;
 
-        h6 {
+        & h6 {
             margin: 0;
             padding-right: 0.5em;
             font-weight: bold;
@@ -17,7 +17,7 @@
                 color: $link-hover-color;
             }
 
-            span {
+            & span {
                 -moz-transform: rotate(0deg);
                 -ms-transform: rotate(0deg);
                 -webkit-transform: rotate(0deg);
@@ -34,7 +34,7 @@
         }
 
         &.active h6 {
-            span {
+            & span {
                 -moz-transform: rotate(90deg);
                 -ms-transform: rotate(90deg);
                 -webkit-transform: rotate(90deg);
@@ -43,7 +43,7 @@
             }
         }
 
-        a {
+        & a {
             color: #333;
 
             &:hover {
@@ -56,12 +56,12 @@
         }
     }
 
-    .n2o-region-list__body {
+    & .n2o-region-list__body {
         display: none;
         padding: 0.5em 1em;
     }
 
-    .active {
+    & .active {
         display: block;
     }
 }

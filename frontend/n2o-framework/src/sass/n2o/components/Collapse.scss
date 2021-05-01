@@ -4,11 +4,11 @@
     border: 0;
     background-color: transparent;
 
-    .rc-collapse-item-active .rc-collapse-content {
+    & .rc-collapse-item-active .rc-collapse-content {
         overflow: initial;
     }
 
-    .rc-collapse-item-active .rc-collapse-anim {
+    & .rc-collapse-item-active .rc-collapse-anim {
         overflow: hidden;
     }
 
@@ -30,7 +30,31 @@
     .n2o-collapse-panel {
         border: 0;
 
-        > .rc-collapse-content {
+        &.line {
+            border: 0;
+
+            & > .n2o-panel-header::after {
+                content: '';
+                display: inline-block;
+                vertical-align: middle;
+                box-sizing: border-box;
+                flex-grow: 1;
+                min-width: 40px;
+                height: $collapse-line-height;
+                background: $collapse-line-color;
+                margin-left: 5px;
+            }
+
+            & .n2o-panel-header .n2o-panel-header-text {
+                white-space: nowrap;
+                max-width: calc(100% - 40px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 16px;
+            }
+        }
+
+        & > .rc-collapse-content {
             padding: 0;
             //overflow: visible;
         }
@@ -55,7 +79,7 @@
             font-weight: $font-weight-bold;
 
             &:hover {
-                > .n2o-collapse-icon-wrapper {
+                & > .n2o-collapse-icon-wrapper {
                     background-color: $collapse-line-color;
 
                     @include transition($btn-transition);
@@ -88,30 +112,6 @@
 
             &.n2o-disabled {
                 opacity: 1;
-            }
-        }
-
-        &.line {
-            border: 0;
-
-            > .n2o-panel-header::after {
-                content: '';
-                display: inline-block;
-                vertical-align: middle;
-                box-sizing: border-box;
-                flex-grow: 1;
-                min-width: 40px;
-                height: $collapse-line-height;
-                background: $collapse-line-color;
-                margin-left: 5px;
-            }
-
-            .n2o-panel-header .n2o-panel-header-text {
-                white-space: nowrap;
-                max-width: calc(100% - 40px);
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: 16px;
             }
         }
 

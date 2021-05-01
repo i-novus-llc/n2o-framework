@@ -1,53 +1,52 @@
-import React from 'react'
-import { forceReRender, storiesOf } from '@storybook/react'
-import { StateDecorator, Store } from '@sambego/storybook-state'
-import { Button } from 'reactstrap'
+import React from 'react';
+import { forceReRender, storiesOf } from '@storybook/react';
+import Drawer from './Drawer';
+import { StateDecorator, Store } from '@sambego/storybook-state';
+import { Button } from 'reactstrap';
 
-import Drawer from './Drawer'
-
-const stories = storiesOf('UI Компоненты/Drawer', module)
+const stories = storiesOf('UI Компоненты/Drawer', module);
 
 const store = new Store({
-    visible: false,
-})
+  visible: false,
+});
 
-store.subscribe(forceReRender)
+store.subscribe(forceReRender);
 
-stories.addDecorator(StateDecorator(store))
+stories.addDecorator(StateDecorator(store));
 
 stories.addParameters({
-    info: {
-        propTables: [Drawer],
-    },
-})
+  info: {
+    propTables: [Drawer],
+  },
+});
 
 stories.add(
-    'Компонент',
-    () => (
-        <>
-            <Drawer
-                title={<h3>Заголовок</h3>}
-                footer="Футер"
-                visible={store.get('visible')}
-                onClose={() => store.set({ visible: !store.get('visible') })}
-                onHandleClick={() => store.set({ visible: !store.get('visible') })}
-                width="10%"
-                height="100%"
-            >
-                <p>Контент...</p>
-                <p>Контент...</p>
-                <p>Контент...</p>
-            </Drawer>
-            <div className="d-flex justify-content-center">
-                <Button onClick={() => store.set({ visible: !store.get('visible') })}>
-                    {store.get('visible') ? 'Закрыть' : 'Открыть'}
-                </Button>
-            </div>
-        </>
-    ),
-    {
-        info: {
-            text: `
+  'Компонент',
+  () => (
+    <React.Fragment>
+      <Drawer
+        title={<h3>Заголовок</h3>}
+        footer="Футер"
+        visible={store.get('visible')}
+        onClose={() => store.set({ visible: !store.get('visible') })}
+        onHandleClick={() => store.set({ visible: !store.get('visible') })}
+        width={'10%'}
+        height={'100%'}
+      >
+        <p>Контент...</p>
+        <p>Контент...</p>
+        <p>Контент...</p>
+      </Drawer>
+      <div className="d-flex justify-content-center">
+        <Button onClick={() => store.set({ visible: !store.get('visible') })}>
+          {store.get('visible') ? 'Закрыть' : 'Открыть'}
+        </Button>
+      </div>
+    </React.Fragment>
+  ),
+  {
+    info: {
+      text: `
     Компонент 'Drawer'
     ~~~js
     import Drawer from 'n2o-framework/frontend/n2o-framework/lib/components/snippets/Drawer';
@@ -67,6 +66,6 @@ stories.add(
     />
     ~~~
     `,
-        },
     },
-)
+  }
+);

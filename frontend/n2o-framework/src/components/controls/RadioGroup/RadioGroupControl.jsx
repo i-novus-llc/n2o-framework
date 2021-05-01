@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import withFetchData from '../withFetchData'
+import withFetchData from '../withFetchData.js'
 import Radio from '../Radio/Radio'
 import RadioN2O from '../Radio/RadioN2O'
 import RadioButton from '../Radio/RadioButton'

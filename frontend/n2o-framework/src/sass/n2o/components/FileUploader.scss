@@ -8,76 +8,78 @@
     border: $drop-zone-border;
 }
 
-.n2o-button-uploader-btn {
-    cursor: pointer;
+.n2o-button-uploader {
+    &-btn {
+        cursor: pointer;
+    }
 }
 
 .n2o-file-uploader {
     outline: none;
-}
 
-.n2o-file-uploader-link {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-right: 5px;
-    overflow: hidden;
-}
-
-.n2o-file-uploader-container {
-    width: 100%;
-}
-
-.n2o-file-uploader-remove {
-    width: 1rem;
-    cursor: pointer;
-    opacity: 0.6;
-
-    &:hover {
-        opacity: 1;
+    &-link {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-right: 5px;
+        overflow: hidden;
     }
-}
 
-.n2o-file-uploader-item-error {
-    color: $red !important;
-}
+    &-container {
+        width: 100%;
+    }
 
-.n2o-file-uploader-item-size {
-    margin-left: auto;
-    color: $gray-500;
-}
+    &-remove {
+        width: 1rem;
+        cursor: pointer;
+        opacity: 0.6;
 
-.n2o-file-uploader-event-drag-enter {
-    border-color: $file-uploader-border-color-drag-enter;
-}
+        &:hover {
+            opacity: 1;
+        }
+    }
 
-.n2o-file-uploader-file-name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
+    &-item-error {
+        color: $red !important;
+    }
 
-.n2o-file-uploader-files-item {
-    display: flex;
-    flex-direction: column;
-}
+    &-item-size {
+        margin-left: auto;
+        color: $gray-500;
+    }
 
-.n2o-file-uploader-files-item-info {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-}
+    &-event-drag-enter {
+        border-color: $file-uploader-border-color-drag-enter;
+    }
 
-.n2o-file-uploader-progress-bar {
-    width: $file-uploader-progress-bar-width;
-    height: $file-uploader-progress-bar-height;
-}
+    &-file-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 
-.n2o-file-uploader-icon {
-    margin-right: 10px;
-}
+    &-files-item {
+        display: flex;
+        flex-direction: column;
 
-.n2o-file-uploader-external-link {
-    margin-left: 5px;
-    font-size: 14px;
+        &-info {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+    }
+
+    &-progress-bar {
+        width: $file-uploader-progress-bar-width;
+        height: $file-uploader-progress-bar-height;
+    }
+
+    &-icon {
+        margin-right: 10px;
+    }
+
+    &-external-link {
+        margin-left: 5px;
+        font-size: 14px;
+    }
 }

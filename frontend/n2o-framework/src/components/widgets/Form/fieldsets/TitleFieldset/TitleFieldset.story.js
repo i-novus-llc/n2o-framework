@@ -1,20 +1,22 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import TitleFieldset from './TitleFieldset';
+import { storiesOf } from '@storybook/react';
 
-import TitleFieldset from './TitleFieldset'
-import meta from './TitleFieldset.meta.json'
+import meta from './TitleFieldset.meta.json';
 
-const stories = storiesOf('UI Компоненты/TitleFieldset', module)
+const stories = storiesOf('UI Компоненты/TitleFieldset', module);
 
 stories
-    .add(
-        'Компонент',
-        () => (
-            <TitleFieldset render={() => {}} title="Заголовок" showLine />
-        ),
-        {
-            info: {
-                text: `
+  .add(
+    'Компонент',
+    () => {
+      return (
+        <TitleFieldset render={() => {}} title={'Заголовок'} showLine={true} />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент 'TitleFieldset'
       ~~~js
       import TitleFieldset from 'n2o-framework/lib/components/widgets/Form/fieldsets/TitleFieldset/TitleFielset';
@@ -22,15 +24,17 @@ stories
       <TitleFieldset render={render} title="Заголовок" showLine={true} />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Метаданные',
-        () => <TitleFieldset render={() => {}} {...meta} />,
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Метаданные',
+    () => {
+      return <TitleFieldset render={() => {}} {...meta} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'TitleFieldset'
       ~~~js
       import TitleFieldset from 'n2o-framework/lib/components/widgets/Form/fieldsets/TitleFieldset/TitleFielset';
@@ -44,15 +48,17 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Заголовок',
-        () => <TitleFieldset render={() => {}} title="Заголовок" />,
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Заголовок',
+    () => {
+      return <TitleFieldset render={() => {}} title={'Заголовок'} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'TitleFieldset'
       ~~~js
       import TitleFieldset from 'n2o-framework/lib/components/widgets/Form/fieldsets/TitleFieldset/TitleFielset';
@@ -63,21 +69,23 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Заголовок и подзаголовок',
-        () => (
-            <TitleFieldset
-                render={() => {}}
-                title="Заголовок"
-                subTitle="Подзаголовок"
-            />
-        ),
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Заголовок и подзаголовок',
+    () => {
+      return (
+        <TitleFieldset
+          render={() => {}}
+          title={'Заголовок'}
+          subTitle={'Подзаголовок'}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
       Компонент 'TitleFieldset'
       ~~~js
       import TitleFieldset from 'n2o-framework/lib/components/widgets/Form/fieldsets/TitleFieldset/TitleFielset';
@@ -89,15 +97,17 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
-    .add(
-        'Без заголовков',
-        () => <TitleFieldset render={() => {}} showLine />,
-        {
-            info: {
-                text: `
+      },
+    }
+  )
+  .add(
+    'Без заголовков',
+    () => {
+      return <TitleFieldset render={() => {}} showLine={true} />;
+    },
+    {
+      info: {
+        text: `
       Компонент 'TitleFieldset'
       ~~~js
       import TitleFieldset from 'n2o-framework/lib/components/widgets/Form/fieldsets/TitleFieldset/TitleFielset';
@@ -108,6 +118,6 @@ stories
        />
       ~~~
       `,
-            },
-        },
-    )
+      },
+    }
+  );

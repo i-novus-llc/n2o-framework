@@ -1,48 +1,50 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { storiesOf } from '@storybook/react'
-import set from 'lodash/set'
-import omit from 'lodash/omit'
-import pullAt from 'lodash/pullAt'
-import pick from 'lodash/pick'
-import { InitWidgetsList } from 'N2oStorybook/json'
-import ListWithDependency from 'N2oStorybook/json/ListWithDependency'
-import fetchMock from 'fetch-mock'
-import { getStubData } from 'N2oStorybook/fetchMock'
+import React from 'react';
+import { connect } from 'react-redux';
+import { storiesOf } from '@storybook/react';
 
-import cloneObject from '../../../utils/cloneObject'
-import { makeStore } from '../../../../.storybook/decorators/utils'
-import AuthButtonContainer from '../../../core/auth/AuthLogin'
-import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta'
-import { metadataSuccess } from '../../../actions/pages'
-import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
-import Factory from '../../../core/factory/Factory'
+import set from 'lodash/set';
+import omit from 'lodash/omit';
+import pullAt from 'lodash/pullAt';
+import pick from 'lodash/pick';
 
-import ListMetadata from './ListMetadata.meta'
-import ListRegionJson from './ListRegion.meta'
-import ListRegion, { ListRegion as ListRegionComponent } from './ListRegion'
+import ListRegion, { ListRegion as ListRegionComponent } from './ListRegion';
+import ListRegionJson from './ListRegion.meta';
+import { metadataSuccess } from '../../../actions/pages';
+import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
+import ListMetadata from './ListMetadata.meta';
+import AuthButtonContainer from '../../../core/auth/AuthLogin';
+import { makeStore } from '../../../../.storybook/decorators/utils';
+import cloneObject from '../../../utils/cloneObject';
+import { InitWidgetsList } from 'N2oStorybook/json';
+import ListWithDependency from 'N2oStorybook/json/ListWithDependency';
+import fetchMock from 'fetch-mock';
+import { getStubData } from 'N2oStorybook/fetchMock';
+import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import Factory from '../../../core/factory/Factory';
 
-const stories = storiesOf('Регионы/Лист', module)
+const stories = storiesOf('Регионы/Лист', module);
 
 stories.addParameters({
-    info: {
-        propTables: [ListRegionComponent],
-        propTablesExclude: [ListRegion, Factory, AuthButtonContainer],
-    },
-})
+  info: {
+    propTables: [ListRegionComponent],
+    propTablesExclude: [ListRegion, Factory, AuthButtonContainer],
+  },
+});
 // const ListRegionJson = set(
 //   cloneObject(SecureListRegionJson),
 //   'items',
 //   pullAt(cloneObject(SecureListRegionJson).items, 0)
 // );
-const { store } = makeStore()
+const { store } = makeStore();
 
 stories.add(
-    'Метаданные',
-    () => <ListRegion {...ListRegionJson} pageId="Page" />,
-    {
-        info: {
-            text: `
+  'Метаданные',
+  () => {
+    return <ListRegion {...ListRegionJson} pageId="Page" />;
+  },
+  {
+    info: {
+      text: `
       Компонент 'Регион Список'
       ~~~js
       import ListRegion from 'n2o-framework/lib/components/regions/List/ListRegion';
@@ -59,9 +61,9 @@ stories.add(
        />
       ~~~
       `,
-        },
     },
-)
+  }
+);
 // .add(
 //   'Ограничение доступа',
 //   () => {

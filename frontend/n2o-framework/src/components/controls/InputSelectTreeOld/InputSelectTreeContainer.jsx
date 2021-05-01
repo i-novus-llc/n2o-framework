@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import InputSelectTree from '../InputSelectTree/InputSelectTree'
-import listContainer from '../listContainer'
+import withFetchData from '../withFetchData.js'
+import listContainer from '../listContainer.js'
 
 /**
  * Контейнер для {@link InputSelect}

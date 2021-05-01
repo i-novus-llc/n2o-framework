@@ -25,7 +25,7 @@ export default {
     accessDenied: 'Access denied',
     innerAppError: 'Inner application error',
     routerError:
-        'Need to add {{page}} to component {{n2o}} or include {{embeddedRouting}}.',
+    'Need to add {{page}} to component {{n2o}} or include {{embeddedRouting}}.',
     pagesNotConfigured: 'Pages are not configured',
     loading: 'Loading',
     panelFullScreenHelp: 'ESC - exit full screen mode',
