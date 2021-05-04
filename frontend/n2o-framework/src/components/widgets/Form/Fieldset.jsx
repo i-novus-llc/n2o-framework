@@ -16,8 +16,7 @@ import {
 import { makeGetResolveModelSelector } from '../../../selectors/models'
 import propsResolver from '../../../utils/propsResolver'
 
-import Label from '../Form/fields/StandardField/Label';
-
+import Label from './fields/StandardField/Label'
 import FieldsetRow from './FieldsetRow'
 import { resolveExpression } from './utils'
 
@@ -259,13 +258,13 @@ class Fieldset extends React.Component {
 
         return (
             <div className={classes} style={style}>
-              {needLabel && (
-                <Label
-                  className="n2o-fieldset__label"
-                  value={propsResolver(label, activeModel)}
-                />
-              )}
-              <ElementType
+                {needLabel && (
+                    <Label
+                        className="n2o-fieldset__label"
+                        value={propsResolver(label, activeModel)}
+                    />
+                )}
+                <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}
                     label={label}
@@ -307,6 +306,12 @@ Fieldset.propTypes = {
     enableFields: PropTypes.func,
     disableFields: PropTypes.func,
     modelPrefix: PropTypes.string,
+    type: PropTypes.string,
+    parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    parentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeModel: PropTypes.object,
+    style: PropTypes.object,
+    autoSubmit: PropTypes.bool,
 }
 
 Fieldset.defaultProps = {
