@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="test" show-title="true" title="title" html-title="tab title">
+    <regions>
+        <html/>
+    </regions>
+</page>

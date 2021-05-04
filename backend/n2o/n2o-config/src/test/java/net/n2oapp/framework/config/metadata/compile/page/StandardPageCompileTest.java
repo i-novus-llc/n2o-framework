@@ -14,12 +14,14 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -278,5 +280,20 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
                 .get(validateObjectIdForMainWidget);
 
+    }
+
+    @Test
+    public void testPageTitle() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageTitle.page.xml")
+                .get(new PageContext("testStandardPageTitle"));
+        assertThat(page.getPageProperty().getTitle(), is("title"));
+        assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
+    }
+
+    @Test
+    public void testPageTitleInModal() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageModalTitle.page.xml")
+                .get(new ModalPageContext("testStandardPageModalTitle", "/modal"));
+        assertThat(page.getPageProperty().getTitle(), Matchers.is("testPage"));
     }
 }

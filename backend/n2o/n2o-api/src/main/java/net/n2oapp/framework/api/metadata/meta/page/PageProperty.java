@@ -15,8 +15,6 @@ public class PageProperty implements Compiled {
     @JsonProperty
     private String title;
     @JsonProperty
-    private String headerTitle;
-    @JsonProperty
     private String htmlTitle;
     private ModelLink modelLink;
 }
