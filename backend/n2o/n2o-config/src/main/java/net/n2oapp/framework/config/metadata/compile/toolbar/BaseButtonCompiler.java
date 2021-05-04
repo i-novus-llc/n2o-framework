@@ -189,7 +189,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         }
 
         if (source.getDependencies() != null)
-            compileDependencies(source.getDependencies(), button, widgetId, p);
+            compileDependencies(source.getDependencies(), button, widgetId, source.getModel(), p);
 
         if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
             button.setVisible(p.resolveJS(source.getVisible()));
@@ -256,7 +256,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.getConditions().get(type).add(condition);
     }
 
-    private void compileDependencies(AbstractMenuItem.Dependency[] dependencies, MenuItem button, String widgetId, CompileProcessor p) {
+    private void compileDependencies(AbstractMenuItem.Dependency[] dependencies, MenuItem button, String widgetId,
+                                     ReduxModel buttonModel, CompileProcessor p) {
         for (AbstractMenuItem.Dependency d : dependencies) {
             ValidationType validationType = null;
             if (d instanceof AbstractMenuItem.EnablingDependency)
@@ -264,12 +265,12 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             else if (d instanceof AbstractMenuItem.VisibilityDependency)
                 validationType = ValidationType.visible;
 
-            compileCondition(d, button, validationType, widgetId, p);
+            compileCondition(d, button, validationType, widgetId, buttonModel, p);
         }
     }
 
     private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
-                                  String widgetId, CompileProcessor p) {
+                                  String widgetId, ReduxModel buttonModel, CompileProcessor p) {
         String refWidgetId = null;
         if (dependency.getRefWidgetId() != null) {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -278,7 +279,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             }
         }
         refWidgetId = p.cast(refWidgetId, widgetId);
-        ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.RESOLVE);
+        ReduxModel refModel = p.cast(dependency.getRefModel(), buttonModel, ReduxModel.RESOLVE);
 
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
