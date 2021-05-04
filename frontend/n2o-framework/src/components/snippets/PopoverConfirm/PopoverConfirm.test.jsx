@@ -42,6 +42,7 @@ describe('Тесты PopoverConfirm', () => {
         const onClick = sinon.spy()
         const wrapper = setupComponent({
             onConfirm: onClick,
+            isOpen: true,
         })
 
         wrapper
