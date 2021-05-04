@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -109,6 +110,11 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             actionContextData.getRefresh().getOptions().setWidgetId(widgetScope != null ? widgetScope.getWidgetId() : source.getId());
         }
         dataProvider.setActionContextData(actionContextData);
-        return ClientDataProviderUtil.compile(dataProvider, context, p);
+
+        ClientDataProvider clientDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
+        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        if (parentRouteScope != null)
+            clientDataProvider.getPathMapping().putAll(parentRouteScope.getPathMapping());
+        return clientDataProvider;
     }
 }
