@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -60,9 +61,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(),
-                new N2oAllDataPack(), new N2oActionsPack());
-        builder.compilers(new InputTextCompiler(), new DatePickerCompiler(), new CustomFieldCompiler());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
+                new N2oCellsPack(), new N2oControlsPack(), new N2oAllDataPack(), new N2oActionsPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/mapping/testCell.object.xml"));
     }
 
@@ -223,6 +223,19 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    public void testSubmitInDependentWidget() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testSubmitInDependentWidget.page.xml")
+                .get(new PageContext("testSubmitInDependentWidget"));
+        StandardField field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
+                .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+
+        assertThat(field.getDataProvider(), notNullValue());
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form/table/:testSubmitInDependentWidget_table_id/w1"));
+        assertThat(field.getDataProvider().getPathMapping(), notNullValue());
+        assertThat(field.getDataProvider().getPathMapping().containsKey("testSubmitInDependentWidget_table_id"), is(true));
+    }
+
+    @Test
     public void testSubmitWithoutRoute() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml")
                 .get(new PageContext("testStandardFieldSubmitWithoutRoute"));
@@ -279,12 +292,12 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getSrc(), is("StandardField"));
         assertThat(field.getProperties(), nullValue());
         assertThat(field, instanceOf(StandardField.class));
-        Control control = ((StandardField)field).getControl();
-        assertThat(control , instanceOf(DatePicker.class));
-        assertThat(control.getSrc() , is("RoundedDatePickerControl"));
-        assertThat(control.getProperties() , notNullValue());
-        assertThat(control.getProperties().size() , is(2));
-        assertThat(control.getProperties().get("prefix") , is("extPrefix"));
+        Control control = ((StandardField) field).getControl();
+        assertThat(control, instanceOf(DatePicker.class));
+        assertThat(control.getSrc(), is("RoundedDatePickerControl"));
+        assertThat(control.getProperties(), notNullValue());
+        assertThat(control.getProperties().size(), is(2));
+        assertThat(control.getProperties().get("prefix"), is("extPrefix"));
 
         field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("customField"));
