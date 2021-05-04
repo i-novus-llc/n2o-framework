@@ -1,11 +1,11 @@
-import transform from 'lodash/transform';
+import transform from 'lodash/transform'
 
 export default function mapProp(prop) {
-  return transform(
-    prop,
-    function(result, value, key) {
-      result.push({ value: key, label: value });
-    },
-    []
-  );
+    return transform(
+        prop,
+        (result, value, key) => {
+            result.push({ value: key, label: value })
+        },
+        [],
+    )
 }

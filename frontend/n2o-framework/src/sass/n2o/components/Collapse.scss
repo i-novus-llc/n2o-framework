@@ -1,123 +1,124 @@
 @import '~rc-collapse/assets/index.css';
 
-.n2o-collapse{
-
-  border: 0;
-  background-color: transparent;
-
-  & .rc-collapse-item-active .rc-collapse-content {
-    overflow: initial;
-  }
-
-  & .rc-collapse-item-active .rc-collapse-anim {
-    overflow: hidden;
-  }
-
-  .n2o-collapse-icon-wrapper{
-    min-width: 16px;
-    max-width: 16px;
-    min-height: 16px;
-    max-height: 16px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    align-self: flex-start;
-    margin-top: 6px;
-    border-radius: 50%;
-  }
-
-  // panel
-
-  .n2o-collapse-panel {
+.n2o-collapse {
     border: 0;
+    background-color: transparent;
 
-    &.line {
-      border: 0;
-      & > .n2o-panel-header::after {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        box-sizing: border-box;
-        flex-grow: 1;
-        min-width: 40px;
-        height: $collapse-line-height;
-        background: $collapse-line-color;
-        margin-left: 5px;
-      }
+    .rc-collapse-item-active .rc-collapse-content {
+        overflow: initial;
+    }
 
-      & .n2o-panel-header .n2o-panel-header-text {
-        white-space: nowrap;
-        max-width: calc(100% - 40px);
+    .rc-collapse-item-active .rc-collapse-anim {
         overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 16px;
-      }
     }
 
-    & > .rc-collapse-content{
-      padding: 0;
-      //overflow: visible;
+    .n2o-collapse-icon-wrapper {
+        min-width: 16px;
+        max-width: 16px;
+        min-height: 16px;
+        max-height: 16px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        align-self: flex-start;
+        margin-top: 6px;
+        border-radius: 50%;
     }
 
-    &.divider{
-      border-bottom: $collapse-line-height solid $collapse-line-color;
-    }
+    // panel
 
-    &.divider:last-child{
-      border-bottom: 0;
-    }
+    .n2o-collapse-panel {
+        border: 0;
 
-    // header
-    .n2o-panel-header{
-      display: flex;
-      align-items: center;
-      height: auto;
-      padding: 0;
-      color: #474747;
-      text-indent: initial;
-      line-height: 28px;
-      font-weight: $font-weight-bold;
-
-      &:hover {
-        & > .n2o-collapse-icon-wrapper {
-          background-color: $collapse-line-color;
-          @include transition($btn-transition);
+        > .rc-collapse-content {
+            padding: 0;
+            //overflow: visible;
         }
-      }
 
-      &:focus{
-        outline: none;
-      }
-
-      //icon
-      .n2o-collapse-icon{
-        font-size: 16px;
-        transform: rotate(0deg);
-        transition: .2s;
-        margin: 0;
-        padding-bottom: 0.125rem;
-        padding-top: 0;
-        padding-left: 0.1rem;
-        padding-right: 0rem;
-
-        &.isActive{
-          transform: rotate(90deg);
+        &.divider {
+            border-bottom: $collapse-line-height solid $collapse-line-color;
         }
-      }
 
-      .n2o-panel-header-text{
-        padding: 0 5px;
-      }
+        &.divider:last-child {
+            border-bottom: 0;
+        }
 
-      &.n2o-disabled {
-        opacity: 1;
-      }
+        // header
+        .n2o-panel-header {
+            display: flex;
+            align-items: center;
+            height: auto;
+            padding: 0;
+            color: #474747;
+            text-indent: initial;
+            line-height: 28px;
+            font-weight: $font-weight-bold;
+
+            &:hover {
+                > .n2o-collapse-icon-wrapper {
+                    background-color: $collapse-line-color;
+
+                    @include transition($btn-transition);
+                }
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            //icon
+            .n2o-collapse-icon {
+                font-size: 16px;
+                transform: rotate(0deg);
+                transition: 0.2s;
+                margin: 0;
+                padding-bottom: 0.125rem;
+                padding-top: 0;
+                padding-left: 0.1rem;
+                padding-right: 0;
+
+                &.isActive {
+                    transform: rotate(90deg);
+                }
+            }
+
+            .n2o-panel-header-text {
+                padding: 0 5px;
+            }
+
+            &.n2o-disabled {
+                opacity: 1;
+            }
+        }
+
+        &.line {
+            border: 0;
+
+            > .n2o-panel-header::after {
+                content: '';
+                display: inline-block;
+                vertical-align: middle;
+                box-sizing: border-box;
+                flex-grow: 1;
+                min-width: 40px;
+                height: $collapse-line-height;
+                background: $collapse-line-color;
+                margin-left: 5px;
+            }
+
+            .n2o-panel-header .n2o-panel-header-text {
+                white-space: nowrap;
+                max-width: calc(100% - 40px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 16px;
+            }
+        }
+
+        .rc-collapse-content-box {
+            padding: 15px 21px;
+            margin: 0;
+            color: black;
+        }
     }
-
-    .rc-collapse-content-box{
-      padding: 15px 21px;
-      margin: 0;
-      color: black;
-    }
-  }
 }

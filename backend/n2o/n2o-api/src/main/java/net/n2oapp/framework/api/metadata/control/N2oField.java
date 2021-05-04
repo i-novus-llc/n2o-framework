@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -41,10 +42,16 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private ReduxModel refModel;
     private Page refPage;
     private String refWidgetId;
+    private String refFieldId;
 
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
 
+    /**
+     * Добавление зависимости к списку зависимостей поля
+     *
+     * @param d Зависимость
+     */
     public void addDependency(Dependency d) {
         if (d == null) return;
         if (dependencies == null) {
@@ -53,6 +60,23 @@ public abstract class N2oField extends N2oComponent implements IdAware {
         } else {
             dependencies = Arrays.copyOf(dependencies, dependencies.length + 1);
             dependencies[dependencies.length - 1] = d;
+        }
+    }
+
+    /**
+     * Добавление зависимостей к списку зависимостей поля
+     *
+     * @param d Массив зависимостей
+     */
+    public void addDependencies(Dependency[] d) {
+        if (d == null || d.length == 0) return;
+
+        if (dependencies == null) {
+            dependencies = new Dependency[d.length];
+            dependencies = Arrays.copyOfRange(d, 0, d.length);
+        } else {
+            dependencies = Arrays.copyOf(dependencies, dependencies.length + d.length);
+            System.arraycopy(d, 0, dependencies, dependencies.length, d.length);
         }
     }
 
@@ -122,7 +146,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
 
     @Getter
     @Setter
-    public static class FetchValueDependency extends Dependency {
+    public static class FetchValueDependency extends Dependency implements PreFiltersAware {
         private String queryId;
         private String valueFieldId;
         private N2oPreFilter[] preFilters;

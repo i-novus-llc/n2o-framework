@@ -1,39 +1,34 @@
-.n2o-multi-fieldset {
-  &__container {
+.n2o-multi-fieldset__container {
     padding: 1rem 0;
-
     border-bottom: 1px solid $gray-200;
-  }
+}
 
-  &__label {
+.n2o-multi-fieldset__label {
     margin: 0.5rem 0;
     font-size: 1.2rem;
-  }
+}
 
-  &__item {
+.n2o-multi-fieldset__item {
     position: relative;
-  }
+}
 
-  &__actions {
+.n2o-multi-fieldset__actions {
     display: flex;
     align-items: center;
+}
 
-    &--inner {
-      position: absolute;
+.n2o-multi-fieldset__actions--inner {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 
-      right: 0;
-      top: 0;
-    }
+.n2o-multi-fieldset__actions--common {
+    align-items: stretch;
+    flex-direction: column;
+    margin-top: 0.5rem;
 
-    &--common {
-      align-items: stretch;
-      flex-direction: column;
-
-      margin-top: 0.5rem;
-
-      & > .btn:not(:last-child) {
+    > .btn:not(:last-child) {
         margin-bottom: 0.5rem;
-      }
     }
-  }
 }

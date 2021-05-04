@@ -20,6 +20,28 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>N2O Simple Project</title>
+    <script>
+      // SERVICE_WORKER_PATH нужен тут, т.к. на бэке sandbox`а мы должны во время отдачи index.html
+      // править пути к статике и прочему
+      window.SERVICE_WORKER_PATH = '%PUBLIC_URL%/serviceWorker.js';
+
+
+      // Используется из docusaurus для скрытия ненужных хедера, бредкрамба и футера
+      window.N2O_ELEMENT_VISIBILITY = {
+        header: true,
+        breadcrumb: true,
+        footer: true,
+      }
+
+      window.onmessage = function(event){
+        if (event.data && event.data.type === 'SET_N2O_ELEMENT_VISIBILITY') {
+          window.N2O_ELEMENT_VISIBILITY = {
+            ...window.N2O_ELEMENT_VISIBILITY,
+            ...event.data.payload,
+          }
+        }
+      };
+    </script>
   </head>
   <body>
     <noscript>

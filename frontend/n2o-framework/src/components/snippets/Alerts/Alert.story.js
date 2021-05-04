@@ -1,54 +1,56 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import omit from 'lodash/omit';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import omit from 'lodash/omit'
+import fetchMock from 'fetch-mock'
+import widgetAlerts from 'N2oStorybook/json/widgetAlerts.json'
+import globalAlert from 'N2oStorybook/json/globalAlerts.json'
 
-import Alert from './Alert';
-import Factory from '../../../core/factory/Factory';
-import fetchMock from 'fetch-mock';
-import { WIDGETS, SNIPPETS } from '../../../core/factory/factoryLevels';
-import widgetAlerts from 'N2oStorybook/json/widgetAlerts.json';
-import globalAlert from 'N2oStorybook/json/globalAlerts.json';
-import withPage from '../../../../.storybook/decorators/withPage';
-import widgetWithErrors from '../../core/PageWithErrors';
-import { GLOBAL_KEY } from '../../../constants/alerts';
-import GlobalAlerts from '../../core/GlobalAlerts';
-const stories = storiesOf('UI Компоненты/Сообщения', module);
+import { WIDGETS, SNIPPETS } from '../../../core/factory/factoryLevels'
+import Factory from '../../../core/factory/Factory'
+import withPage from '../../../../.storybook/decorators/withPage'
+import widgetWithErrors from '../../core/PageWithErrors'
+import { GLOBAL_KEY } from '../../../constants/alerts'
+import GlobalAlerts from '../../core/GlobalAlerts'
+
+import Alert from './Alert'
+
+const stories = storiesOf('UI Компоненты/Сообщения', module)
 
 const props = {
-  label: 'Лейбл алерта',
-  text: 'Текст алерта',
-  details: 'Подробности алерта',
-  severity: 'info',
-  visible: true,
-  closeButton: true,
-};
+    label: 'Лейбл алерта',
+    text: 'Текст алерта',
+    details: 'Подробности алерта',
+    severity: 'info',
+    visible: true,
+    closeButton: true,
+}
 
 stories.addParameters({
-  info: {
-    propTables: [Alert],
-    propTablesExclude: [Factory],
-  },
-});
+    info: {
+        propTables: [Alert],
+        propTablesExclude: [Factory],
+    },
+})
 
 stories
-  .addDecorator(withPage(widgetWithErrors))
-  .add(
-    'Компонент',
-    () => {
-      const knobs = {
-        label: props.label,
-        text: props.text,
-        details: props.details,
-        severity: props.severity,
-        visible: true,
-        closeButton: props.closeButton,
-      };
+    .addDecorator(withPage(widgetWithErrors))
+    .add(
+        'Компонент',
+        () => {
+            const knobs = {
+                label: props.label,
+                text: props.text,
+                details: props.details,
+                severity: props.severity,
+                visible: true,
+                closeButton: props.closeButton,
+            }
 
-      return <Alert {...knobs} onDismiss={e => {}} />;
-    },
-    {
-      info: {
-        text: `
+            return <Alert {...knobs} onDismiss={(e) => {}} />
+        },
+        {
+            info: {
+                text: `
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
       
@@ -63,17 +65,17 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Без деталей',
-    () => (
-      <Alert {...omit(props, 'details')} visible={true} onDismiss={e => {}} />
-    ),
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Без деталей',
+        () => (
+            <Alert {...omit(props, 'details')} visible onDismiss={(e) => {}} />
+        ),
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -88,17 +90,17 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Без заголовка',
-    () => (
-      <Alert {...omit(props, 'label')} visible={true} onDismiss={e => {}} />
-    ),
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Без заголовка',
+        () => (
+            <Alert {...omit(props, 'label')} visible onDismiss={(e) => {}} />
+        ),
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -112,22 +114,22 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Без кнопки скрытия',
-    () => (
-      <Alert
-        {...props}
-        closeButton={false}
-        visible={true}
-        onDismiss={e => {}}
-      />
-    ),
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Без кнопки скрытия',
+        () => (
+            <Alert
+                {...props}
+                closeButton={false}
+                visible
+                onDismiss={(e) => {}}
+            />
+        ),
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -142,37 +144,37 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Цвета',
-    () => (
-      <React.Fragment>
-        <Alert {...props} visible={true} onDismiss={e => {}} />
-        <Alert
-          {...props}
-          severity="danger"
-          visible={true}
-          onDismiss={e => {}}
-        />
-        <Alert
-          {...props}
-          severity="warning"
-          visible={true}
-          onDismiss={e => {}}
-        />
-        <Alert
-          {...props}
-          severity="success"
-          visible={true}
-          onDismiss={e => {}}
-        />
-      </React.Fragment>
-    ),
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Цвета',
+        () => (
+            <>
+                <Alert {...props} visible onDismiss={(e) => {}} />
+                <Alert
+                    {...props}
+                    severity="danger"
+                    visible
+                    onDismiss={(e) => {}}
+                />
+                <Alert
+                    {...props}
+                    severity="warning"
+                    visible
+                    onDismiss={(e) => {}}
+                />
+                <Alert
+                    {...props}
+                    severity="success"
+                    visible
+                    onDismiss={(e) => {}}
+                />
+            </>
+        ),
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -195,27 +197,27 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Обновленный Alert',
-    () => {
-      const props = {
-        label: 'Лейбл алерта',
-        text: 'Текст алерта',
-        details: 'Подробности алерта',
-        severity: 'success',
-        visible: true,
-        closeButton: true,
-        help: 'A little help',
-      };
+            },
+        },
+    )
+    .add(
+        'Обновленный Alert',
+        () => {
+            const props = {
+                label: 'Лейбл алерта',
+                text: 'Текст алерта',
+                details: 'Подробности алерта',
+                severity: 'success',
+                visible: true,
+                closeButton: true,
+                help: 'A little help',
+            }
 
-      return <Alert {...props} animate={true} />;
-    },
-    {
-      info: {
-        text: `
+            return <Alert {...props} animate />
+        },
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -232,27 +234,27 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'С переносами текста',
-    () => {
-      const props = {
-        label: 'Лейбл алерта',
-        text: 'Текст алерта \n new line text',
-        details: 'Подробности алерта',
-        severity: 'success',
-        visible: true,
-        closeButton: true,
-        help: 'A little help',
-      };
+            },
+        },
+    )
+    .add(
+        'С переносами текста',
+        () => {
+            const props = {
+                label: 'Лейбл алерта',
+                text: 'Текст алерта \n new line text',
+                details: 'Подробности алерта',
+                severity: 'success',
+                visible: true,
+                closeButton: true,
+                help: 'A little help',
+            }
 
-      return <Alert {...props} animate={true} />;
-    },
-    {
-      info: {
-        text: `
+            return <Alert {...props} animate />
+        },
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -269,17 +271,15 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add(
-    'Alert loader',
-    () => {
-      return <Alert loader={true} text={undefined} severity="secondary" />;
-    },
-    {
-      info: {
-        text: `
+            },
+        },
+    )
+    .add(
+        'Alert loader',
+        () => <Alert loader text={undefined} severity="secondary" />,
+        {
+            info: {
+                text: `
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
@@ -290,110 +290,110 @@ stories
        />
       ~~~
       `,
-      },
-    }
-  )
-  .add('Абсолютное и относительное позиционирование в виджете', () => {
-    const widgetError = {
-      meta: {
-        alert: {
-          alertKey: 'Page_Form',
-          stacked: true,
-          messages: [
-            {
-              severity: 'success',
-              position: 'absolute',
-              text: 'Алерт с анимацией и абсолютным позиционированием',
-              animate: true,
             },
-          ],
         },
-      },
-    };
-
-    const widgetErrorStacked = {
-      meta: {
-        alert: {
-          alertKey: 'Page_Form',
-          stacked: true,
-          messages: [
-            {
-              severity: 'danger',
-              text: 'Алерт с анимацией и относительным позиционированием',
-              animate: true,
+    )
+    .add('Абсолютное и относительное позиционирование в виджете', () => {
+        const widgetError = {
+            meta: {
+                alert: {
+                    alertKey: 'Page_Form',
+                    stacked: true,
+                    messages: [
+                        {
+                            severity: 'success',
+                            position: 'absolute',
+                            text: 'Алерт с анимацией и абсолютным позиционированием',
+                            animate: true,
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    };
+        }
 
-    fetchMock
-      .restore()
-      .post('begin:n2o/data/test', {
-        status: 200,
-        body: widgetError,
-      })
-      .post('begin:n2o/data/stacked-test', {
-        status: 200,
-        body: widgetErrorStacked,
-      });
-    return (
-      <React.Fragment>
-        <Factory
-          level={WIDGETS}
-          id={'Page_Form'}
-          {...widgetAlerts['Page_Form']}
-        />
-      </React.Fragment>
-    );
-  })
-  .add('Global alert', () => {
-    const widgetError = {
-      meta: {
-        alert: {
-          alertKey: GLOBAL_KEY,
-          stacked: true,
-          messages: [
-            {
-              severity: 'success',
-              position: 'absolute',
-              text: 'Глобальный алерт',
-              animate: true,
+        const widgetErrorStacked = {
+            meta: {
+                alert: {
+                    alertKey: 'Page_Form',
+                    stacked: true,
+                    messages: [
+                        {
+                            severity: 'danger',
+                            text: 'Алерт с анимацией и относительным позиционированием',
+                            animate: true,
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    };
+        }
 
-    fetchMock.restore().post('begin:n2o/data/test', {
-      status: 200,
-      body: widgetError,
-    });
-    return (
-      <React.Fragment>
-        <GlobalAlerts />
-        <Factory
-          level={WIDGETS}
-          id={'Page_Form'}
-          {...globalAlert['Page_Form']}
-        />
-      </React.Fragment>
-    );
-  })
-  .add('Создание через Factory', () => {
-    const dt = {
-      id: 'widget',
-      src: 'Alert',
-      label: 'Лейбл',
-      text: 'Текст',
-      details: 'Детали',
-      severity: 'info',
-      visible: true,
-      closeButton: false,
-    };
-    return (
-      <React.Fragment>
-        <Factory level={SNIPPETS} id={'widget'} {...dt} />
-      </React.Fragment>
-    );
-  });
+        fetchMock
+            .restore()
+            .post('begin:n2o/data/test', {
+                status: 200,
+                body: widgetError,
+            })
+            .post('begin:n2o/data/stacked-test', {
+                status: 200,
+                body: widgetErrorStacked,
+            })
+        return (
+            <>
+                <Factory
+                    level={WIDGETS}
+                    id="Page_Form"
+                    {...widgetAlerts.Page_Form}
+                />
+            </>
+        )
+    })
+    .add('Global alert', () => {
+        const widgetError = {
+            meta: {
+                alert: {
+                    alertKey: GLOBAL_KEY,
+                    stacked: true,
+                    messages: [
+                        {
+                            severity: 'success',
+                            position: 'absolute',
+                            text: 'Глобальный алерт',
+                            animate: true,
+                        },
+                    ],
+                },
+            },
+        }
+
+        fetchMock.restore().post('begin:n2o/data/test', {
+            status: 200,
+            body: widgetError,
+        })
+        return (
+            <>
+                <GlobalAlerts />
+                <Factory
+                    level={WIDGETS}
+                    id="Page_Form"
+                    {...globalAlert.Page_Form}
+                />
+            </>
+        )
+    })
+    .add('Создание через Factory', () => {
+        const dt = {
+            id: 'widget',
+            src: 'Alert',
+            label: 'Лейбл',
+            text: 'Текст',
+            details: 'Детали',
+            severity: 'info',
+            visible: true,
+            closeButton: false,
+        }
+        return (
+            <>
+                <Factory level={SNIPPETS} id="widget" {...dt} />
+            </>
+        )
+    })

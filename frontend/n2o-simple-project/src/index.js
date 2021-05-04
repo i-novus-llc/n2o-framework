@@ -25,7 +25,7 @@ const config = {
 ReactDOM.render(<N2O {...createFactoryConfig(config)} />, document.getElementById('n2o'));
 
 if (navigator && navigator.serviceWorker) {
-  navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/serviceWorker.js`).then(() => {
+  navigator.serviceWorker.register(window.SERVICE_WORKER_PATH).then(() => {
     console.info('ServiceWorker installing success');
   }, (error) => {
     console.warn('ServiceWorker installing error: ', error);

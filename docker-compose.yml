@@ -34,3 +34,14 @@ services:
       placement:
         constraints:
           - node.role == worker
+  docusaurus:
+    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
+    ports:
+      - "80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+      placement:
+        constraints:
+          - node.role == worker

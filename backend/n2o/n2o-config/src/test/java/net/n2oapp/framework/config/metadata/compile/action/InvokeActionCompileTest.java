@@ -52,7 +52,8 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         builder.binders(new InvokeActionBinder(), new ReduxActionBinder(), new PerformButtonBinder());
 
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/empty.object.xml"));
     }
 
     @Test
@@ -259,6 +260,18 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                         .get(new PageContext("multiplyPath"), null),
                 N2oException.class,
                 e -> assertThat(e.getMessage(), is("route \"/:main_id\" not contains path-param \"t_id\"")));
+    }
+
+    @Test()
+    public void invokeObjectTest() {
+        DataSet data = new DataSet().add("parent_id", 123);
+        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionObject.page.xml")
+                .get(new PageContext("testInvokeActionObject", "/p/:parent_id/create"), data);
+        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("left").get(0).getContent().get(0)).getToolbar()
+                .get("topLeft").get(0).getButtons().get(0).getAction();
+        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w1/a1"));
+        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getActions().get("a2");
+        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/a2"));
     }
 
 }

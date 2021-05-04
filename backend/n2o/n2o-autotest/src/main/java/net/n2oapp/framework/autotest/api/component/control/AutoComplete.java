@@ -6,6 +6,8 @@ package net.n2oapp.framework.autotest.api.component.control;
 public interface AutoComplete extends Control {
     void val(String value);
 
+    void click();
+
     void addTag(String value);
 
     void removeTag(String value);

@@ -73,32 +73,14 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
             button.setLabel(source.getLabel());
         }
         CompiledObject.Operation operation = null;
-        Action action = null;
-
-        CompiledObject compiledObject;
-        WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
-            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-        } else
-            compiledObject = p.getScope(CompiledObject.class);
-
-        if (source.getActionId() != null) {
-            ComponentScope scope = p.getScope(ComponentScope.class);
-            N2oAction act = getAction(scope, source.getActionId());
-            if (act != null) {
-                action = p.compile(act, context, compiledObject, scope);
-            }
-        } else {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
-            }
-        }
+        Action action = compileAction(source, button, context, p);
 
         if (action != null) {
             button.setAction(action);
             if (action instanceof InvokeAction) {
+                String objectId = ((InvokeAction) action).getObjectId() == null ? source.getWidgetId() :
+                        ((InvokeAction) action).getObjectId();
+                CompiledObject compiledObject = getCompiledObject(p, objectId);
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
@@ -127,6 +109,34 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
         button.setValidate(source.getValidate());
+    }
+
+    private Action compileAction(N2oButtonField source, ButtonField button, CompileContext<?, ?> context, CompileProcessor p) {
+        ComponentScope scope = null;
+        N2oAction action = null;
+        if (source.getAction() != null) {
+            scope = new ComponentScope(source);
+            action = source.getAction();
+        } else if (source.getActionId() != null) {
+            scope = p.getScope(ComponentScope.class);
+            action = getAction(scope, source.getActionId());
+        }
+        if (action != null) {
+            String objectId = action.getObjectId() == null ? source.getWidgetId() : action.getObjectId();
+            CompiledObject compiledObject = getCompiledObject(p, objectId);
+            action.setId(p.cast(action.getId(), button.getId()));
+            return p.compile(action, context, compiledObject, scope);
+        }
+        return null;
+    }
+
+    private CompiledObject getCompiledObject(CompileProcessor p, String objectId) {
+        if (objectId != null) {
+            WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
+            if (widgetObjectScope != null && widgetObjectScope.containsKey(objectId))
+                return widgetObjectScope.getObject(objectId);
+        }
+        return p.getScope(CompiledObject.class);
     }
 
     private N2oAction getAction(ComponentScope scope, String actionId) {

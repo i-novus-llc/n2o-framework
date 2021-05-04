@@ -1,22 +1,23 @@
 import {
-  HIDE_FIELD,
-  SHOW_FIELD,
-  DISABLE_FIELD,
-  ENABLE_FIELD,
-  HIDE_FIELDS,
-  SHOW_FIELDS,
-  ENABLE_FIELDS,
-  DISABLE_FIELDS,
-  REGISTER_FIELD_EXTRA,
-  ADD_FIELD_MESSAGE,
-  REMOVE_FIELD_MESSAGE,
-  REGISTER_DEPENDENCY,
-  SET_FIELD_FILTER,
-  SET_REQUIRED,
-  UNSET_REQUIRED,
-  SET_LOADING,
-} from '../constants/formPlugin';
-import createActionHelper from './createActionHelper';
+    HIDE_FIELD,
+    SHOW_FIELD,
+    DISABLE_FIELD,
+    ENABLE_FIELD,
+    HIDE_FIELDS,
+    SHOW_FIELDS,
+    ENABLE_FIELDS,
+    DISABLE_FIELDS,
+    REGISTER_FIELD_EXTRA,
+    ADD_FIELD_MESSAGE,
+    REMOVE_FIELD_MESSAGE,
+    REGISTER_DEPENDENCY,
+    SET_FIELD_FILTER,
+    SET_REQUIRED,
+    UNSET_REQUIRED,
+    SET_LOADING,
+} from '../constants/formPlugin'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * экшен скрытия поля
@@ -24,14 +25,14 @@ import createActionHelper from './createActionHelper';
  * @param name
  */
 export function hideField(form, name) {
-  return createActionHelper(
-    HIDE_FIELD,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        HIDE_FIELD,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -40,14 +41,14 @@ export function hideField(form, name) {
  * @param name
  */
 export function showField(form, name) {
-  return createActionHelper(
-    SHOW_FIELD,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        SHOW_FIELD,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -56,14 +57,14 @@ export function showField(form, name) {
  * @param name
  */
 export function enableField(form, name) {
-  return createActionHelper(
-    ENABLE_FIELD,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        ENABLE_FIELD,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -72,14 +73,14 @@ export function enableField(form, name) {
  * @param name
  */
 export function disableField(form, name) {
-  return createActionHelper(
-    DISABLE_FIELD,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        DISABLE_FIELD,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -88,14 +89,14 @@ export function disableField(form, name) {
  * @param names - массив названия филдов формы
  */
 export function showFields(form, names) {
-  return createActionHelper(
-    SHOW_FIELDS,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    form,
-    names,
-  });
+    return createActionHelper(
+        SHOW_FIELDS,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        form,
+        names,
+    })
 }
 
 /**
@@ -104,14 +105,14 @@ export function showFields(form, names) {
  * @param names - массив названия филдов формы
  */
 export function hideFields(form, names) {
-  return createActionHelper(
-    HIDE_FIELDS,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    form,
-    names,
-  });
+    return createActionHelper(
+        HIDE_FIELDS,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        form,
+        names,
+    })
 }
 
 /**
@@ -120,14 +121,14 @@ export function hideFields(form, names) {
  * @param names - массив названия филдов формы
  */
 export function enableFields(form, names) {
-  return createActionHelper(
-    ENABLE_FIELDS,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    form,
-    names,
-  });
+    return createActionHelper(
+        ENABLE_FIELDS,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        form,
+        names,
+    })
 }
 
 /**
@@ -136,14 +137,14 @@ export function enableFields(form, names) {
  * @param names - массив названия филдов формы
  */
 export function disableFields(form, names) {
-  return createActionHelper(
-    DISABLE_FIELDS,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    form,
-    names,
-  });
+    return createActionHelper(
+        DISABLE_FIELDS,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        form,
+        names,
+    })
 }
 
 /**
@@ -154,15 +155,15 @@ export function disableFields(form, names) {
  * @param isTouched - флаг для вставки touch у филда
  */
 export function addFieldMessage(form, name, message, isTouched) {
-  return createActionHelper(
-    ADD_FIELD_MESSAGE,
-    payload => payload,
-    ({ form }) => ({ form, isTouched })
-  )({
-    name,
-    form,
-    message,
-  });
+    return createActionHelper(
+        ADD_FIELD_MESSAGE,
+        payload => payload,
+        ({ form }) => ({ form, isTouched }),
+    )({
+        name,
+        form,
+        message,
+    })
 }
 
 /**
@@ -171,14 +172,14 @@ export function addFieldMessage(form, name, message, isTouched) {
  * @param name
  */
 export function removeFieldMessage(form, name) {
-  return createActionHelper(
-    REMOVE_FIELD_MESSAGE,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        REMOVE_FIELD_MESSAGE,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -188,15 +189,15 @@ export function removeFieldMessage(form, name) {
  * @param initialState
  */
 export function registerFieldExtra(form, name, initialState) {
-  return createActionHelper(
-    REGISTER_FIELD_EXTRA,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-    initialState,
-  });
+    return createActionHelper(
+        REGISTER_FIELD_EXTRA,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+        initialState,
+    })
 }
 
 /**
@@ -206,27 +207,27 @@ export function registerFieldExtra(form, name, initialState) {
  * @param dependency
  */
 export function registerFieldDependency(form, name, dependency) {
-  return createActionHelper(
-    REGISTER_DEPENDENCY,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    name,
-    form,
-    dependency,
-  });
+    return createActionHelper(
+        REGISTER_DEPENDENCY,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        name,
+        form,
+        dependency,
+    })
 }
 
 export function setFilterValue(form, name, filter) {
-  return createActionHelper(
-    SET_FIELD_FILTER,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    form,
-    name,
-    filter,
-  });
+    return createActionHelper(
+        SET_FIELD_FILTER,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        form,
+        name,
+        filter,
+    })
 }
 
 /**
@@ -235,14 +236,14 @@ export function setFilterValue(form, name, filter) {
  * @param name
  */
 export function setRequired(form, name) {
-  return createActionHelper(
-    SET_REQUIRED,
-    payload => payload,
-    ({ form }) => ({ form, field: name })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        SET_REQUIRED,
+        payload => payload,
+        ({ form }) => ({ form, field: name }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -251,14 +252,14 @@ export function setRequired(form, name) {
  * @param name
  */
 export function unsetRequired(form, name) {
-  return createActionHelper(
-    UNSET_REQUIRED,
-    payload => payload,
-    ({ form }) => ({ form, field: name })
-  )({
-    name,
-    form,
-  });
+    return createActionHelper(
+        UNSET_REQUIRED,
+        payload => payload,
+        ({ form }) => ({ form, field: name }),
+    )({
+        name,
+        form,
+    })
 }
 
 /**
@@ -269,13 +270,13 @@ export function unsetRequired(form, name) {
  * @return {{type}}
  */
 export function setLoading(form, name, loading) {
-  return createActionHelper(
-    SET_LOADING,
-    payload => payload,
-    ({ form }) => ({ form })
-  )({
-    form,
-    name,
-    loading,
-  });
+    return createActionHelper(
+        SET_LOADING,
+        payload => payload,
+        ({ form }) => ({ form }),
+    )({
+        form,
+        name,
+        loading,
+    })
 }

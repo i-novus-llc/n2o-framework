@@ -1,0 +1,75 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--ifm-leading);
+    min-height: 50px;
+}
+
+.iframe {
+    flex: 1 1 auto;
+    border: 1px solid var(--ifm-toc-border-color);
+}
+
+.codeWrapper {
+    position: relative;
+}
+
+.iframe:hover + .codeWrapper .codeWrapperToggler,
+.codeWrapper:hover .codeWrapperToggler {
+    opacity: 0.4;
+}
+
+.codeWrapperToggler {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    padding: 2px 4px 0 8px;
+    border-top-left-radius: 10px;
+    opacity: 0;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    transition: opacity 300ms;
+
+    html[data-theme="dark"] & {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .codeWrapper &:hover {
+        opacity: 1;
+    }
+}
+
+.headerList {
+    position: relative;
+
+    .headerListItem {
+        margin-top: 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        white-space: nowrap;
+    }
+}
+
+.code {
+    height: 500px;
+    margin-bottom: 0;
+}
+
+.codeLine {
+    display: table-row;
+}
+
+.codeLineNumber {
+    display: table-cell;
+    text-align: right;
+    padding-right: 1em;
+    user-select: none;
+    opacity: 0.5;
+}
+
+.codeLineContent {
+    display: table-cell;
+}

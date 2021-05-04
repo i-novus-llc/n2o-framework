@@ -1,70 +1,84 @@
 .n2o-header {
-  & .navbar {
-    min-height: $header-min-height;
-    padding: .5rem 2rem !important;
-  }
+    .navbar {
+        min-height: $header-min-height;
+        padding: 0.5rem 2rem !important;
 
-  &.n2o-header-default {
-    border-bottom: $card-border-width solid $card-border-color;
-  }
-
-  .dropdown {
-    button {
-      background-color: white;
-      color: black;
-      &:hover, &:active{
-        background-color: $gray-lighter !important;
-      }
-      .active {
-        background-color: transparent;
-        color: black !important;
-      }
-      a {
-        color: rgba(0, 0, 0, 0.5) !important;
-        &:hover, &:active {
-          background-color: transparent !important;
+        .navbar-collapse {
+            .navbar-nav {
+                .nav-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
         }
-      }
     }
-  }
-  .navbar {
-    .navbar-collapse {
-      .navbar-nav {
-        .nav-item {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
+
+    &.n2o-header-default {
+        border-bottom: $card-border-width solid $card-border-color;
     }
-  }
 
-  .n2o-navbar-collapse-open {
-    .dropdown-menu {
-      border: none!important;
-      background-color: transparent!important;
-
-      .dropdown-item {
-        padding: 5px!important;
-        background-color: transparent;
-        color: #bbbbbb !important;
-        white-space: pre-wrap;
-        max-width: 300px;
-      }
-
-      .dropdown-item .active {
-        background-color: transparent;
-        color: white!important;
-      }
-    }
     .dropdown {
-      button {
-        background-color: white;
-        color: black;
-        &:hover, &:active {
-          background-color: $gray-600!important;
+        button {
+            background-color: white;
+            color: black;
+
+            &:hover,
+            &:active {
+                background-color: $gray-lighter !important;
+            }
+
+            .active {
+                background-color: transparent;
+                color: black !important;
+            }
+
+            a {
+                color: rgba(0, 0, 0, 0.5) !important;
+
+                &:hover,
+                &:active {
+                    background-color: transparent !important;
+                }
+            }
         }
-      }
     }
-  }
+
+    .n2o-navbar-collapse-open {
+        .main-nav.navbar-nav {
+            .dropdown-menu {
+                border: none !important;
+                background-color: transparent !important;
+
+                .dropdown-item {
+                    padding: 5px !important;
+                    background-color: transparent;
+                    color: #bbb !important;
+                    white-space: pre-wrap;
+                    max-width: 300px;
+                }
+
+                .dropdown-item .active {
+                    background-color: transparent;
+                    color: white !important;
+                }
+            }
+
+            .dropdown {
+                button {
+                    background-color: white;
+                    color: black;
+
+                    &:hover,
+                    &:active {
+                        background-color: $gray-600 !important;
+                    }
+                }
+            }
+        }
+
+        .n2o-search-bar__popup_list.dropdown-menu.show {
+            transform: none !important;
+        }
+    }
 }

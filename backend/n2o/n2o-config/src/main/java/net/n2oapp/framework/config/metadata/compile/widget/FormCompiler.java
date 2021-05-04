@@ -2,12 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -18,12 +16,11 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
+import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -73,7 +70,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         WidgetParamScope paramScope = form.getUpload().equals(UploadType.defaults) ? new WidgetParamScope() : null;
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope,
+                new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope, widgetRoute,
                 paramScope, new ComponentScope(source)));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
@@ -90,37 +87,15 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                                                 CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
-        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        Submit submit = source.getSubmit();
-        dataProvider.setMethod(RequestMethod.POST);
-        dataProvider.setUrl(submit.getRoute());
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), source.getId(), compiledObject, p);
+
         dataProvider.setSubmitForm(true);
-        dataProvider.setTargetModel(ReduxModel.RESOLVE);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             dataProvider.setTargetWidgetId(widgetScope.getClientWidgetId());
-        dataProvider.setPathParams(submit.getPathParams());
-        dataProvider.setHeaderParams(submit.getHeaderParams());
-        dataProvider.setFormParams(submit.getFormParams());
 
-        if (compiledObject == null)
-            throw new N2oException("For compilation submit for form widget [{0}] is necessary object!").addData(source.getId());
-
-        N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
-        actionContextData.setObjectId(compiledObject.getId());
-        actionContextData.setOperationId(submit.getOperationId());
-        actionContextData.setRoute(submit.getRoute());
-        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
-        actionContextData.setSuccessAlertWidgetId(source.getId());
-        actionContextData.setFailAlertWidgetId(source.getId());
-        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
-        actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
-        if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
-            actionContextData.setRefresh(new RefreshSaga());
-            actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
-            actionContextData.getRefresh().getOptions().setWidgetId(source.getId());
-        }
-        dataProvider.setActionContextData(actionContextData);
+        dataProvider.getActionContextData().setSuccessAlertWidgetId(source.getId());
+        dataProvider.getActionContextData().setFailAlertWidgetId(source.getId());
 
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }

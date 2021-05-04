@@ -1,139 +1,106 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
 
 /*
  селектор для всех кнопок
  */
-const toolbarSelector = state => {
-  return state.toolbar || {};
-};
+const toolbarSelector = state => state.toolbar || {}
 
-const getContainerButtons = containerKey =>
-  createSelector(
+const getContainerButtons = containerKey => createSelector(
     toolbarSelector,
-    toolbar => toolbar[containerKey] || {}
-  );
+    toolbar => toolbar[containerKey] || {},
+)
 
 /**
  * селектор для кнопки по уникальному ключу
  * @param key
  */
 
-const makeButtonByKeyAndIdSelector = (key, id) =>
-  createSelector(
+const makeButtonByKeyAndIdSelector = (key, id) => createSelector(
     getContainerButtons(key),
-    containerButtons => {
-      return containerButtons[id] || {};
-    }
-  );
+    containerButtons => containerButtons[id] || {},
+)
 
 /**
  * селектор для того, чтобы узнать зарегистрирована кнопка или нет
  * @param key
  */
-const isInitSelector = (key, id) =>
-  createSelector(
+const isInitSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.isInit;
-    }
-  );
+    button => button.isInit,
+)
 
 /**
  *  селектор видимости кнопки
  * @param key
  */
-const isVisibleSelector = (key, id) =>
-  createSelector(
+const isVisibleSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.visible;
-    }
-  );
+    button => button.visible,
+)
 
 /*
  * селектор блокировки кнопки
  */
-const isDisabledSelector = (key, id) =>
-  createSelector(
+const isDisabledSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.disabled;
-    }
-  );
+    button => button.disabled,
+)
 
 /**
  * селектор пазмера кнопки
  * @param key
  */
-const sizeSelector = (key, id) =>
-  createSelector(
+const sizeSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.size;
-    }
-  );
+    button => button.size,
+)
 
 /**
  * селектор цвета кнопки
  * @param key
  */
-const colorSelector = (key, id) =>
-  createSelector(
+const colorSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.color;
-    }
-  );
+    button => button.color,
+)
 
 /**
  * селектор счетчика кнопки
  * @param key
  */
-const countSelector = (key, id) =>
-  createSelector(
+const countSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.count;
-    }
-  );
+    button => button.count,
+)
 
 /**
  * селектор имени кнопки
  * @param key
  */
-const titleSelector = (key, id) =>
-  createSelector(
+const titleSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.title;
-    }
-  );
+    button => button.title,
+)
 
 /**
  * селектор посказаки кнопки
  * @param key
  * @param id
  */
-const hintSelector = (key, id) =>
-  createSelector(
+const hintSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.hint;
-    }
-  );
+    button => button.hint,
+)
 
 /**
  * селектор посказаки кнопки
  * @param key
  * @param id
  */
-const messageSelector = (key, id) =>
-  createSelector(
+const messageSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.message;
-    }
-  );
+    button => button.message,
+)
 
 /**
  * селектор расположения посказаки кнопки
@@ -141,89 +108,71 @@ const messageSelector = (key, id) =>
  * @param id
  */
 
-const hintPositionSelector = (key, id) =>
-  createSelector(
+const hintPositionSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.hintPosition;
-    }
-  );
+    button => button.hintPosition,
+)
 
 /**
  * селектор иконки кнопки
  * @param key
  */
-const iconSelector = (key, id) =>
-  createSelector(
+const iconSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.icon;
-    }
-  );
+    button => button.icon,
+)
 
 /**
  * селектор стиля кнопки
  * @param key
  */
-const styleSelector = (key, id) =>
-  createSelector(
+const styleSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.style;
-    }
-  );
+    button => button.style,
+)
 
 /**
  * селектор класса кнопки
  * @param key
  */
-const classSelector = (key, id) =>
-  createSelector(
+const classSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.className;
-    }
-  );
+    button => button.className,
+)
 
 /**
  * селектор выполнения
  * @param key
  */
-const isLoading = (key, id) =>
-  createSelector(
+const isLoading = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.loading;
-    }
-  );
+    button => button.loading,
+)
 /**
  * селектор ошибок экшена кнопки
  * @param key
  */
-const errorSelector = (key, id) =>
-  createSelector(
+const errorSelector = (key, id) => createSelector(
     makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.error;
-    }
-  );
+    button => button.error,
+)
 
 export {
-  toolbarSelector,
-  isVisibleSelector,
-  sizeSelector,
-  colorSelector,
-  isDisabledSelector,
-  titleSelector,
-  countSelector,
-  hintSelector,
-  messageSelector,
-  iconSelector,
-  classSelector,
-  styleSelector,
-  isInitSelector,
-  isLoading,
-  errorSelector,
-  getContainerButtons,
-  hintPositionSelector,
-};
+    toolbarSelector,
+    isVisibleSelector,
+    sizeSelector,
+    colorSelector,
+    isDisabledSelector,
+    titleSelector,
+    countSelector,
+    hintSelector,
+    messageSelector,
+    iconSelector,
+    classSelector,
+    styleSelector,
+    isInitSelector,
+    isLoading,
+    errorSelector,
+    getContainerButtons,
+    hintPositionSelector,
+}

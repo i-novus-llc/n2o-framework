@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
 
-import Toolbar from '../../../../buttons/Toolbar';
-import Spinner from '../../../../snippets/Spinner/Spinner';
+import Toolbar from '../../../../buttons/Toolbar'
+import Spinner from '../../../../snippets/Spinner/Spinner'
 
-import Control from './Control';
-import Label from './Label';
-import Measure from './Measure';
-import Description from './Description';
-import FieldActions from './FieldActions';
-import { FieldActionsPropTypes } from './FieldPropTypes';
+import Control from './Control'
+import Label from './Label'
+import Measure from './Measure'
+import Description from './Description'
+import FieldActions from './FieldActions'
+import { FieldActionsPropTypes } from './FieldPropTypes'
 
 /**
  * Компонент - поле формы
@@ -46,191 +46,191 @@ import { FieldActionsPropTypes } from './FieldPropTypes';
  *             style={display: 'inline-block'}/>
  */
 class StandardField extends React.Component {
-  /**
+    /**
    * Базовый рендер компонента
    */
-  render() {
-    const {
-      id,
-      value,
-      visible,
-      label,
-      control,
-      description,
-      measure,
-      required,
-      className,
-      labelPosition,
-      labelAlignment,
-      labelWidth,
-      style,
-      fieldActions,
-      loading,
-      autoFocus,
-      labelStyle,
-      controlStyle,
-      labelClass,
-      validationClass,
-      controlClass,
-      onChange,
-      onFocus,
-      onBlur,
-      placeholder,
-      touched,
-      message,
-      colLength,
-      help,
-      toolbar,
-      containerKey,
-      dataProvider,
-      form,
-      noLabelBlock,
-      ...props
-    } = this.props;
+    render() {
+        const {
+            id,
+            value,
+            visible,
+            label,
+            control,
+            description,
+            measure,
+            required,
+            className,
+            labelPosition,
+            labelAlignment,
+            labelWidth,
+            style,
+            fieldActions,
+            loading,
+            autoFocus,
+            labelStyle,
+            controlStyle,
+            labelClass,
+            validationClass,
+            controlClass,
+            onChange,
+            onFocus,
+            onBlur,
+            placeholder,
+            touched,
+            message,
+            colLength,
+            help,
+            toolbar,
+            containerKey,
+            dataProvider,
+            form,
+            noLabelBlock,
+            ...props
+        } = this.props
 
-    const validationMap = {
-      'is-valid': 'text-success',
-      'is-invalid': 'text-danger',
-      'has-warning': 'text-warning',
-    };
-    const labelWidthPixels =
-      labelWidth === 'default'
-        ? 180
-        : labelWidth === 'min' || labelWidth === '100%'
-        ? undefined
-        : labelWidth;
-
-    const styleHelper = toolbar
-      ? { width: '100%' }
-      : labelWidthPixels && colLength > 1
-      ? {
-          maxWidth: `calc(100% - ${labelWidthPixels})`,
+        const validationMap = {
+            'is-valid': 'text-success',
+            'is-invalid': 'text-danger',
+            'has-warning': 'text-warning',
         }
-      : { width: '100%' };
-    const extendedLabelStyle = {
-      width: labelWidthPixels,
-      flex: labelWidthPixels ? 'none' : undefined,
-      ...labelStyle,
-    };
+        const labelWidthPixels =
+      labelWidth === 'default'
+          ? 180
+          : labelWidth === 'min' || labelWidth === '100%'
+              ? undefined
+              : labelWidth
 
-    const fieldId = `field-${props.form}-id`;
+        const styleHelper = toolbar
+            ? { width: '100%' }
+            : labelWidthPixels && colLength > 1
+                ? {
+                    maxWidth: `calc(100% - ${labelWidthPixels})`,
+                }
+                : { width: '100%' }
+        const extendedLabelStyle = {
+            width: labelWidthPixels,
+            flex: labelWidthPixels ? 'none' : undefined,
+            ...labelStyle,
+        }
 
-    return (
-      visible && (
-        <div
-          id={fieldId}
-          className={cx('n2o-form-group', 'form-group', className, {
-            ['label-' + labelPosition]: labelPosition,
-            'n2o-form-group--disabled': loading,
-          })}
-          style={style}
-        >
-          {!noLabelBlock ? (
-            <Label
-              id={id}
-              value={label}
-              style={extendedLabelStyle}
-              className={cx(
-                labelClass,
-                { ['label-alignment-' + labelAlignment]: labelAlignment },
-                'n2o-label'
-              )}
-              required={required}
-              help={help}
-            />
-          ) : null}
-          <div style={styleHelper}>
-            <div
-              className={cx('form-container', {
-                'form-container_with-toolbar': toolbar,
-              })}
-            >
-              <Control
-                placeholder={placeholder}
-                visible={visible}
-                autoFocus={autoFocus}
-                value={value}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                onChange={onChange}
-                {...props}
-                {...control}
-                className={cx(control.className, {
-                  [validationClass]: touched,
-                  'form-control__with-toolbar': toolbar,
-                })}
-              />
-              {toolbar && (
-                <Toolbar
-                  className="n2o-page-actions__form-toolbar"
-                  toolbar={toolbar}
-                  entityKey={form}
-                />
-              )}
-              <Measure value={measure} />
-              <FieldActions actions={fieldActions} />
-              {loading && (
-                <Spinner
-                  className="n2o-form-group__spinner align-self-center"
-                  type="inline"
-                  size="sm"
-                />
-              )}
-            </div>
-            <Description value={description} />
-            <div
-              className={cx(
-                'n2o-validation-message',
-                validationMap[validationClass]
-              )}
-            >
-              {touched && message && message.text}
-            </div>
-          </div>
-        </div>
-      )
-    );
-  }
+        const fieldId = `field-${props.form}-id`
+
+        return (
+            visible && (
+                <div
+                    id={fieldId}
+                    className={cx('n2o-form-group', 'form-group', className, {
+                        [`label-${labelPosition}`]: labelPosition,
+                        'n2o-form-group--disabled': loading,
+                    })}
+                    style={style}
+                >
+                    {!noLabelBlock ? (
+                        <Label
+                            id={id}
+                            value={label}
+                            style={extendedLabelStyle}
+                            className={cx(
+                                labelClass,
+                                { [`label-alignment-${labelAlignment}`]: labelAlignment },
+                                'n2o-label',
+                            )}
+                            required={required}
+                            help={help}
+                        />
+                    ) : null}
+                    <div style={styleHelper}>
+                        <div
+                            className={cx('form-container', {
+                                'form-container_with-toolbar': toolbar,
+                            })}
+                        >
+                            <Control
+                                placeholder={placeholder}
+                                visible={visible}
+                                autoFocus={autoFocus}
+                                value={value}
+                                onBlur={onBlur}
+                                onFocus={onFocus}
+                                onChange={onChange}
+                                {...props}
+                                {...control}
+                                className={cx(control.className, {
+                                    [validationClass]: touched,
+                                    'form-control__with-toolbar': toolbar,
+                                })}
+                            />
+                            {toolbar && (
+                                <Toolbar
+                                    className="n2o-page-actions__form-toolbar"
+                                    toolbar={toolbar}
+                                    entityKey={form}
+                                />
+                            )}
+                            <Measure value={measure} />
+                            <FieldActions actions={fieldActions} />
+                            {loading && (
+                                <Spinner
+                                    className="n2o-form-group__spinner align-self-center"
+                                    type="inline"
+                                    size="sm"
+                                />
+                            )}
+                        </div>
+                        <Description value={description} />
+                        <div
+                            className={cx(
+                                'n2o-validation-message',
+                                validationMap[validationClass],
+                            )}
+                        >
+                            {touched && message && message.text}
+                        </div>
+                    </div>
+                </div>
+            )
+        )
+    }
 }
 
 StandardField.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  control: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-  visible: PropTypes.bool,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  onChange: PropTypes.func,
-  description: PropTypes.string,
-  measure: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  fieldActions: FieldActionsPropTypes,
-  valiastionClass: PropTypes.string,
-  loading: PropTypes.bool,
-  touched: PropTypes.bool,
-  labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  labelAlignment: PropTypes.oneOf(['left', 'right']),
-  labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
-  message: PropTypes.object,
-  help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-};
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    control: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.node,
+        PropTypes.string,
+        PropTypes.object,
+    ]),
+    visible: PropTypes.bool,
+    required: PropTypes.bool,
+    disabled: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    onChange: PropTypes.func,
+    description: PropTypes.string,
+    measure: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    fieldActions: FieldActionsPropTypes,
+    valiastionClass: PropTypes.string,
+    loading: PropTypes.bool,
+    touched: PropTypes.bool,
+    labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    labelAlignment: PropTypes.oneOf(['left', 'right']),
+    labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
+    message: PropTypes.object,
+    help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+}
 
 StandardField.defaultProps = {
-  visible: true,
-  required: false,
-  control: <input />,
-  loading: false,
-  className: '',
-  style: {},
-  enabled: true,
-  disabled: false,
-  onChange: () => {},
-};
+    visible: true,
+    required: false,
+    control: <input />,
+    loading: false,
+    className: '',
+    style: {},
+    enabled: true,
+    disabled: false,
+    onChange: () => {},
+}
 
-export default StandardField;
+export default StandardField

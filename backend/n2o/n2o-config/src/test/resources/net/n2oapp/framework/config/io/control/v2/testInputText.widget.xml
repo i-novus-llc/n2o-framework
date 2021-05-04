@@ -4,7 +4,7 @@
                     step="2" style="margin-left:10px;width:300px" param="main_id"
                     ref-model="filter"
                     ref-page="parent"
-                    ref-widget-id="main"
+                    ref-widget-id="main" ref-field-id="field"
         >
             <dependencies>
                 <visibility>testId2 === true</visibility>
