@@ -506,25 +506,4 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
         return defaultValue;
     }
-
-    private ModelLink getModelLinkForValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p, ModelsScope defaultValues) {
-        ModelLink defaultValue;
-        if (N2oField.Page.PARENT.equals(source.getRefPage())) {
-            if (context instanceof PageContext) {
-                defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE),
-                        source.getRefWidgetId() == null ?
-                                ((PageContext) context).getParentClientWidgetId() :
-                                CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
-                                        source.getRefWidgetId()), control.getId());
-            } else {
-                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found",
-                        control.getId()));
-            }
-        } else {
-            String widgetId = source.getRefWidgetId() == null ? defaultValues.getWidgetId()
-                    : CompileUtil.generateWidgetId(((PageContext) context).getClientPageId(), source.getRefWidgetId());
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel()), widgetId, control.getId());
-        }
-        return defaultValue;
-    }
 }

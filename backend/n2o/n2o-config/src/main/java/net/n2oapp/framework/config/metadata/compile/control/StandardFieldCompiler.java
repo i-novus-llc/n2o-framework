@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -75,12 +76,19 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         if (source.getSubmit() == null)
             return null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), widgetScope != null ? widgetScope.getWidgetId() : source.getId(), p.getScope(CompiledObject.class), p);
+        String id = widgetScope != null ? widgetScope.getWidgetId() : source.getId();
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), id, p.getScope(CompiledObject.class), p);
         dataProvider.setSubmitForm(false);
         if (widgetScope != null) {
             dataProvider.getActionContextData().setSuccessAlertWidgetId(widgetScope.getWidgetId());
             dataProvider.getActionContextData().setFailAlertWidgetId(widgetScope.getWidgetId());
         }
-        return ClientDataProviderUtil.compile(dataProvider, context, p);
+
+        ClientDataProvider clientDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
+
+        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        if (parentRouteScope != null)
+            clientDataProvider.getPathMapping().putAll(parentRouteScope.getPathMapping());
+        return clientDataProvider;
     }
 }
