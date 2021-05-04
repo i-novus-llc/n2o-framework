@@ -404,6 +404,26 @@ class InputSelect extends React.Component {
     }
 
     /**
+     * Обрабатывает клик за пределы компонента
+     * onClickOutside сам дергает этот метод
+     */
+
+    handleClickOutside() {
+        const { resetOnBlur, onBlur } = this.props
+        const { isExpanded } = this.state
+
+        if (isExpanded) {
+            this.hideOptionsList()
+
+            if (resetOnBlur) {
+                this.handleValueChangeOnBlur()
+            }
+
+            onBlur(this.getValue())
+        }
+    }
+
+    /**
      * Добавлет объект к текущему value, при resetOnBlur = false
      * @private
      */
