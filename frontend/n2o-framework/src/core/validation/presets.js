@@ -13,8 +13,8 @@ import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 
 import evalExpression from '../../utils/evalExpression'
-import fetchSaga from '../../sagas/fetch.js'
-import { FETCH_VALIDATE } from '../api.js'
+import fetchSaga from '../../sagas/fetch'
+import { FETCH_VALIDATE } from '../api'
 
 /**
  * Валидация того, что email

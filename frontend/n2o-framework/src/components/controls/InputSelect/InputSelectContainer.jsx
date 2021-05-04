@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
 
-import listContainer from '../listContainer.js'
+import listContainer from '../listContainer'
 
 import InputSelect from './InputSelect'
 

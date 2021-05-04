@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import withFetchData from '../withFetchData.js'
+import withFetchData from '../withFetchData'
 import Spinner from '../../snippets/Spinner/InlineSpinner'
 
 import Select from './Select'
