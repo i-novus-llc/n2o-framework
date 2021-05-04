@@ -150,7 +150,7 @@ export function* setWidgetDataSuccess(
         headers: headersParams,
     })
 
-    if (isEqual(data.list, currentDatasource)) {
+    if (isEqual(data.list, currentDatasource) && !isEmpty(currentDatasource)) {
         yield put(setModel(PREFIXES.datasource, widgetId, null))
         yield put(setModel(PREFIXES.datasource, widgetId, data.list))
     } else {
