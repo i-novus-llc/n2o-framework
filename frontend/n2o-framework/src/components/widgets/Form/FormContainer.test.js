@@ -159,6 +159,7 @@ describe('FormContainer', () => {
             expect(setDefaultValues.calledOnce).toBe(false)
 
             wrapper.setProps({ activeModel: 'newActiveModel' }).update()
+
             expect(setDefaultValues.calledOnce).toBe(true)
             expect(setDefaultValues.calledWith('newActiveModel')).toBe(true)
         })

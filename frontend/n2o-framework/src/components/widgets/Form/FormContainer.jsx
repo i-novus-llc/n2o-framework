@@ -69,7 +69,7 @@ export const withLiveCycleMethods = lifecycle({
         if (
             (!isEqual(prevProps.activeModel, activeModel) &&
         !isEqual(activeModel, defaultValues) &&
-        !isEqual(activeModel, reduxFormValues)) ||
+        !isEqual(activeModel, reduxFormValues) && (!isEqual(reduxFormValues, prevProps.defaultValues))) ||
       (isEqual(prevProps.resolveModel, prevProps.activeModel) &&
         isEqual(prevProps.reduxFormValues, prevProps.defaultValues) &&
         isEqual(this.props.resolveModel, this.props.activeModel) &&
