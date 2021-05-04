@@ -56,7 +56,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
         fields.field("field1").shouldHaveLabelLocation(FieldSet.LabelPosition.TOP_LEFT);
 
         fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
-        fieldset.shouldHaveLabel("Заголовок");
+        fieldset.shouldHaveLabel("Заголовок test");
         fields = fieldset.fields();
         fields.shouldHaveSize(2);
         StandardField field2 = fields.field("field2");

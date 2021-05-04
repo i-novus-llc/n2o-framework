@@ -6,8 +6,10 @@
             <line label="Line2">
                 <input-text id="field1" label="field1"/>
                 <input-text id="field2"/>
+
+                <input-text id="master" default-value="test"/>
             </line>
-            <line label="Line3" expand="false">
+            <line label="Line3 {master}" expand="false">
                 <input-text id="field3"/>
             </line>
             <line label="Line4" collapsible="false">
