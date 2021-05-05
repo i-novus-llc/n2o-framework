@@ -7,31 +7,31 @@
     border: 1px solid #cfd8dc;
     overflow: auto;
 
-    > ul {
+    & > ul {
         display: block;
     }
 
-    > .dropdown-item {
+    & > .dropdown-item {
         padding: $input-select-item-padding;
     }
 
-    button > * {
+    & button > * {
         margin-right: 10px;
     }
 
-    > .dropdown-item > img {
+    & > .dropdown-item > img {
         height: $image-height;
     }
 
-    .dropdown-divider:last-child {
+    & .dropdown-divider:last-child {
         display: none;
     }
 
-    .custom-control {
+    & .custom-control {
         min-height: 1.2rem;
     }
 
-    .dropdown-header {
+    & .dropdown-header {
         padding: $input-select-control-dropdown-header-padding;
     }
 }
@@ -58,11 +58,11 @@
     left: auto;
     top: auto;
 
-    .n2o-eclipse-content {
+    & .n2o-eclipse-content {
         outline: none;
     }
 
-    .n2o-dropdown-control {
+    & .n2o-dropdown-control {
         height: auto;
     }
 }
@@ -93,7 +93,7 @@
         cursor: not-allowed;
     }
 
-    > img {
+    & > img {
         max-height: 40px;
     }
 }
@@ -129,21 +129,61 @@
     position: relative;
     white-space: nowrap;
 
-    .n2o-inp {
+    &__toggle {
+        width: 100%;
+        padding: 0;
+        border: none;
+    }
+
+    &__menu {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+
+        &--autosize {
+            max-width: none;
+        }
+    }
+
+    & .n2o-inp {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
         height: 100% !important;
+
+        &--multi {
+            resize: none;
+            overflow: hidden;
+            border: none;
+        }
     }
 
-    .n2o-inp--multi {
-        resize: none;
-        overflow: hidden;
-        border: none;
+    &-selected-list {
+        display: flex;
+        flex-wrap: wrap;
+
+        //width: 100%;
+
+        z-index: 3;
+        pointer-events: none;
+
+        & .selected-item {
+            pointer-events: initial;
+        }
     }
 
-    > button {
+    &--default {
+        & .n2o-input-items > .selected-item--single {
+            position: absolute;
+        }
+
+        & .n2o-input-container {
+            padding: 0;
+        }
+    }
+
+    & > button {
         position: relative;
         width: 100%;
         padding: 0;
@@ -156,7 +196,7 @@
     }
 
     &:hover {
-        .n2o-input-clear {
+        & .n2o-input-clear {
             visibility: visible !important;
         }
 
@@ -192,7 +232,7 @@
             background-color: $input-disabled-bg;
         }
 
-        > .n2o-input-items {
+        & > .n2o-input-items {
             min-width: 10px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -205,7 +245,7 @@
         margin-left: 4px;
         display: flex;
 
-        > i {
+        & > i {
             font-size: 10px;
         }
     }
@@ -222,17 +262,17 @@
         justify-content: center;
         align-items: center;
 
-        > button {
+        & > button {
             font-size: inherit;
             padding: inherit;
         }
 
-        > i {
+        & > i {
             display: flex;
             padding-right: 5px;
         }
 
-        > img {
+        & > img {
             height: $image-selected-height !important;
             padding-right: 5px;
             display: flex;
@@ -255,22 +295,22 @@
         cursor: $input-cursor;
         z-index: 3;
 
-        > div {
+        & > div {
             margin: $input-control-padding;
 
-            > i {
+            & > i {
                 font-size: $input-select-control-icon-size;
                 border-radius: 50%;
                 padding: 5px 5px 5px 5px;
-                transition: all $tree-animation-speed linear;
+                transition: all  $tree-animation-speed linear;
             }
 
-            > i:hover {
+            & > i:hover {
                 background-color: $icon-tree-hover-color;
             }
         }
 
-        > .n2o-input-clear {
+        & > .n2o-input-clear {
             visibility: hidden;
             margin: 0;
             display: flex;
@@ -281,20 +321,20 @@
             }
         }
 
-        > .isExpanded {
-            > i {
+        & > .isExpanded {
+            & > i {
                 transform: rotate(180deg);
-                transition: all $tree-animation-speed linear;
+                transition: all  $tree-animation-speed linear;
             }
         }
 
-        > .n2o-popup-control {
+        & > .n2o-popup-control {
             display: flex;
             justify-content: start;
             text-align: center;
             margin: 0;
 
-            > .adjust-huener.adjust-huener-inline {
+            & > .adjust-huener.adjust-huener-inline {
                 margin-left: 0;
             }
         }
@@ -324,42 +364,5 @@
         outline: none;
         background: transparent;
         text-overflow: ellipsis;
-    }
-}
-
-.n2o-input-select__toggle {
-    width: 100%;
-    padding: 0;
-    border: none;
-}
-
-.n2o-input-select__menu {
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
-
-    .n2o-input-select__menu--autosize {
-        max-width: none;
-    }
-}
-
-.n2o-input-select-selected-list {
-    display: flex;
-    flex-wrap: wrap;
-    z-index: 3;
-    pointer-events: none;
-
-    .selected-item {
-        pointer-events: initial;
-    }
-}
-
-.n2o-input-select--default {
-    .n2o-input-items > .selected-item--single {
-        position: absolute;
-    }
-
-    .n2o-input-container {
-        padding: 0;
     }
 }

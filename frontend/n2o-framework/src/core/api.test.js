@@ -38,20 +38,24 @@ describe('Проверка api провайдера', () => {
     })
     it('без параметров', async () => {
         expect.assertions(1)
+
         return expect(() => apiProvider()).toThrowError()
     })
     it('не существующий тип', async () => {
         expect.assertions(1)
+
         return expect(() => apiProvider('test')).toThrowError()
     })
     it('проверка запроса за конфигом', async () => {
         expect.assertions(1)
+
         return expect(apiProvider(FETCH_APP_CONFIG, stubOptions)).resolves.toEqual({
             url: 'n2o/config?a=1&b.c=2&d.e.f=3&x.y=3&x.y=4&x.y=5&z=6&z=7',
         })
     })
     it('проверка запроса за метаданными', async () => {
         expect.assertions(1)
+
         return expect(
             apiProvider(FETCH_PAGE_METADATA, { pageUrl: '/my/page/test' }),
         ).resolves.toEqual({
@@ -60,6 +64,7 @@ describe('Проверка api провайдера', () => {
     })
     it('проверка запроса за данными', async () => {
         expect.assertions(1)
+
         return expect(
             apiProvider(FETCH_WIDGET_DATA, {
                 basePath: 'my/data/test',
@@ -69,6 +74,7 @@ describe('Проверка api провайдера', () => {
     })
     it('проверка запроса экшена (invoke)', async () => {
         expect.assertions(1)
+
         return expect(
             apiProvider(FETCH_INVOKE_DATA, {
                 basePath: 'my/data/test',
@@ -79,6 +85,7 @@ describe('Проверка api провайдера', () => {
     })
     it('проверка запроса за валидацией', async () => {
         expect.assertions(1)
+
         return expect(apiProvider(FETCH_VALIDATE, stubOptions)).resolves.toEqual({
             url: `n2o/validation${stubOptionsString}`,
         })

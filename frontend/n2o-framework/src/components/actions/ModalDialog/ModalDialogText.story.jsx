@@ -20,6 +20,7 @@ const store = new Store({
 store.subscribe(forceReRender)
 
 const stories = storiesOf('UI Компоненты/Диалог', module)
+
 stories.addDecorator(StateDecorator(store))
 stories.addParameters({
     info: {

@@ -18,30 +18,35 @@ const state = {
 describe('Проверка linkResolver', () => {
     it('пустой конфиг', () => {
         const res = linkResolver(state, {})
+
         expect(res).toBe(undefined)
     })
     it('только link', () => {
         const res = linkResolver(state, {
             link: 'a.b.c',
         })
+
         expect(res).toBe('test')
     })
     it('только link - кривой путь', () => {
         const res = linkResolver(state, {
             link: 'q.w.e',
         })
+
         expect(res).toBe(undefined)
     })
     it('только value - константа', () => {
         const res = linkResolver(state, {
             value: 1,
         })
+
         expect(res).toBe(1)
     })
     it('только value - js expression', () => {
         const res = linkResolver(state, {
             value: '`2+2`',
         })
+
         expect(res).toBe(4)
     })
     it('value и link', () => {
@@ -49,6 +54,7 @@ describe('Проверка linkResolver', () => {
             link: 'a.b.c',
             value: '`this+"-n2o"`',
         })
+
         expect(res).toBe('test-n2o')
     })
     it('value (константа) и link', () => {
@@ -56,6 +62,7 @@ describe('Проверка linkResolver', () => {
             link: 'a.b.c',
             value: '123',
         })
+
         expect(res).toBe('123')
     })
     it('value и link (кривой)', () => {
@@ -63,6 +70,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: '`this.x`',
         })
+
         expect(res).toBe(undefined)
     })
     it('value (this) и link (кривой)', () => {
@@ -70,6 +78,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: '`this`',
         })
+
         expect(res).toEqual({})
     })
 
@@ -80,6 +89,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: 5,
         })
+
         expect(res).toEqual(5)
     })
 
@@ -88,6 +98,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: '5',
         })
+
         expect(res).toEqual('5')
     })
 
@@ -96,6 +107,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: '`1 + 3`',
         })
+
         expect(res).toEqual(4)
     })
 
@@ -104,6 +116,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: { key: '5' },
         })
+
         expect(res).toEqual({ key: '5' })
     })
 
@@ -112,6 +125,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: { key: '`1 + 4`' },
         })
+
         expect(res).toEqual({ key: 5 })
     })
 
@@ -126,6 +140,7 @@ describe('Проверка linkResolver', () => {
                 },
             },
         })
+
         expect(res).toEqual({
             key1: {
                 key2: {
@@ -146,6 +161,7 @@ describe('Проверка linkResolver', () => {
                 },
             },
         })
+
         expect(res).toEqual({
             key1: {
                 key2: {
@@ -160,6 +176,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: ['4', '5', '6'],
         })
+
         expect(res).toEqual(['4', '5', '6'])
     })
 
@@ -168,6 +185,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: ['`1+3`', '`1+4`', '`1+5`'],
         })
+
         expect(res).toEqual([4, 5, 6])
     })
 
@@ -176,6 +194,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: [{ key: '4' }, { key: '5' }],
         })
+
         expect(res).toEqual([{ key: '4' }, { key: '5' }])
     })
 
@@ -184,6 +203,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: [{ key: '`1+3`' }, { key: '`1+4`' }],
         })
+
         expect(res).toEqual([{ key: 4 }, { key: 5 }])
     })
 
@@ -192,6 +212,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: [{ key: { key1: '4' } }, { key: { key1: '5' } }],
         })
+
         expect(res).toEqual([{ key: { key1: '4' } }, { key: { key1: '5' } }])
     })
 
@@ -200,6 +221,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: [{ key: { key1: '`1+3`' } }, { key: { key1: '`1+4`' } }],
         })
+
         expect(res).toEqual([{ key: { key1: 4 } }, { key: { key1: 5 } }])
     })
 
@@ -211,6 +233,7 @@ describe('Проверка linkResolver', () => {
                 begin: '`$.now({ dateFormat: \'DD.MM.YYYY\', timeFormat: \'HH\' })`',
             },
         })
+
         expect(res).toEqual({
             begin: moment().format('DD.MM.YYYY HH'),
             end: moment().format('DD.MM.YYYY HH'),
@@ -221,6 +244,7 @@ describe('Проверка linkResolver', () => {
             link: 'q.w.e',
             value: { key: '`this.x`' },
         })
+
         expect(res).toEqual({})
     })
 
@@ -243,6 +267,7 @@ describe('Проверка linkResolver', () => {
                 },
             },
         })
+
         expect(res).toEqual({
             key: { key1: [{ key10: 3 }] },
             key3: { key4: { key5: 'hi', key6: ['test-n2o', 123] } },

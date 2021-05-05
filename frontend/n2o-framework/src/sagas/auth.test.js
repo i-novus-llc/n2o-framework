@@ -20,6 +20,7 @@ describe('Проверка саги auth', () => {
             getState: () => ({ some: 'value' }),
             dispatch: action => dispatched.push(action),
         }
+
         await runSaga(
             fakeStore,
             resolveAuth,
@@ -36,6 +37,7 @@ describe('Проверка саги auth', () => {
         const fakeStore = {
             dispatch: action => dispatched.push(action),
         }
+
         await runSaga(
             fakeStore,
             resolveAuth,
@@ -57,6 +59,7 @@ describe('Проверка саги auth', () => {
             },
             { type: FETCH_ERROR, payload: { error: 'request error' } },
         )
+
         expect(gen.next().value.CALL).toEqual(
             call(authProvider, SECURITY_ERROR, 'request error').CALL,
         )
@@ -72,6 +75,7 @@ describe('Проверка саги auth', () => {
             },
             { type: FETCH_ERROR },
         )
+
         gen.next()
         expect(gen.next().value.payload.action).toEqual(push('/login'))
     })

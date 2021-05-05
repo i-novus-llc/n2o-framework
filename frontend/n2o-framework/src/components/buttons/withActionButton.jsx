@@ -23,7 +23,7 @@ import { validateField } from '../../core/validation/createValidator'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
-import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
+import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm'
 
 const ConfirmMode = {
     POPOVER: 'popover',
@@ -66,25 +66,22 @@ export default function withActionButton(options = {}) {
               registerButton,
           } = this.props
 
-          if (!isInit) {
-              registerButton(entityKey, id, {
-                  visible,
-                  disabled,
-                  count,
-                  conditions,
-              })
-          }
+          !isInit &&
+          registerButton(entityKey, id, {
+              visible,
+              disabled,
+              count,
+              conditions,
+          })
       };
 
-      // eslint-disable-next-line consistent-return
       mapConfirmProps = () => {
           const { confirm } = this.props
 
           if (confirm) {
-              const { store } = this.context
-              const state = store.getState()
+              const store = this.context.store.getState()
               const { modelLink, text } = confirm
-              const resolvedText = linkResolver(state, {
+              const resolvedText = linkResolver(store, {
                   link: modelLink,
                   value: text,
               })
@@ -112,7 +109,6 @@ export default function withActionButton(options = {}) {
           } = this.props
 
           if (validate) {
-              // eslint-disable-next-line no-return-await
               return await validateField(
                   validationConfig,
                   validatedWidgetId,
@@ -128,8 +124,7 @@ export default function withActionButton(options = {}) {
           e.persist()
           const failValidate = await this.validationFields()
           const { confirm } = this.props
-          const { store } = this.context
-          const state = store.getState()
+          const state = this.context.store.getState()
 
           if (!onClick || failValidate) {
               return
@@ -171,26 +166,26 @@ export default function withActionButton(options = {}) {
       };
 
       handleCloseConfirmModal = (e, cb) => {
-          // eslint-disable-next-line no-return-assign
           const defaultCb = () => (this.lastEvent = null)
 
           this.setState({ confirmVisible: false }, cb || defaultCb)
       };
 
       render() {
-          const { confirm, hint, message, toolbar, visible, visibleFromState, disabled, disabledFromState } = this.props
+          const { confirm, hint, message, toolbar } = this.props
           const { confirmVisible } = this.state
+
           const confirmMode = get(confirm, 'mode')
 
-          const currentVisible = !isNil(visible)
-              ? visible
-              : visibleFromState
+          const visible = !isNil(this.props.visible)
+              ? this.props.visible
+              : this.props.visibleFromState
 
-          const currentDisabled = !isNil(disabled)
-              ? disabled
-              : disabledFromState
+          const disabled = !isNil(this.props.disabled)
+              ? this.props.disabled
+              : this.props.disabledFromState
 
-          const currentMessage = currentDisabled ? message || hint : hint
+          const currentMessage = disabled ? message || hint : hint
 
           return (
               <div id={this.generatedTooltipId}>
@@ -208,38 +203,29 @@ export default function withActionButton(options = {}) {
                           'validationConfig',
                           'formValues',
                       ])}
-                      disabled={currentDisabled}
-                      visible={currentVisible}
+                      disabled={disabled}
+                      visible={visible}
                       onClick={this.handleClick}
                       id={this.generatedButtonId}
                       toolbar={toolbar}
                   />
-                  {
-                      confirmMode === ConfirmMode.POPOVER
-                          ? (
-                              <PopoverConfirm
-                                  {...this.mapConfirmProps(confirm)}
-                                  isOpen={confirmVisible}
-                                  onConfirm={this.handleConfirm}
-                                  onDeny={this.handleCloseConfirmModal}
-                                  target={this.generatedButtonId}
-                              />
-                          )
-                          : null
-                  }
-                  {
-                      confirmMode === ConfirmMode.MODAL
-                          ? (
-                              <ModalDialog
-                                  {...this.mapConfirmProps(confirm)}
-                                  visible={confirmVisible}
-                                  onConfirm={this.handleConfirm}
-                                  onDeny={this.handleCloseConfirmModal}
-                                  close={this.handleCloseConfirmModal}
-                              />
-                          )
-                          : null
-                  }
+                  {confirmMode === ConfirmMode.POPOVER ? (
+                      <PopoverConfirm
+                          {...this.mapConfirmProps(confirm)}
+                          isOpen={confirmVisible}
+                          onConfirm={this.handleConfirm}
+                          onDeny={this.handleCloseConfirmModal}
+                          target={this.generatedButtonId}
+                      />
+                  ) : confirmMode === ConfirmMode.MODAL ? (
+                      <ModalDialog
+                          {...this.mapConfirmProps(confirm)}
+                          visible={confirmVisible}
+                          onConfirm={this.handleConfirm}
+                          onDeny={this.handleCloseConfirmModal}
+                          close={this.handleCloseConfirmModal}
+                      />
+                  ) : null}
               </div>
           )
       }
@@ -274,21 +260,6 @@ export default function withActionButton(options = {}) {
             hint: PropTypes.string,
             className: PropTypes.string,
             style: PropTypes.object,
-            uid: PropTypes.string,
-            entityKey: PropTypes.string,
-            id: PropTypes.string,
-            validatedWidgetId: PropTypes.string,
-            validate: PropTypes.object,
-            confirm: PropTypes.object,
-            registerButton: PropTypes.func,
-            dispatch: PropTypes.func,
-            validationConfig: PropTypes.func,
-            confirmMode: PropTypes.string,
-            formValues: PropTypes.func,
-            message: PropTypes.oneOf(['string', null, undefined]),
-            toolbar: PropTypes.object,
-            visibleFromState: PropTypes.bool,
-            disabledFromState: PropTypes.bool,
         }
 
         ButtonContainer.contextTypes = {

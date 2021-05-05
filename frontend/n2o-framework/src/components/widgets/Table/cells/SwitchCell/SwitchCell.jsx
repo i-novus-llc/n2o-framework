@@ -25,7 +25,7 @@ SwitchCell.propTypes = {
    * в switchList берется Cell.
    * Если ключ не подходит,
    * Cell по switchDefault
-   * */
+   **/
     props: PropTypes.object,
 }
 

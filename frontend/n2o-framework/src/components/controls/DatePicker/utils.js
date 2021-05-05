@@ -89,7 +89,6 @@ export function parseDate(value, dateFormat) {
     } else if (typeof value === 'string') {
         value = moment(value, dateFormat)
         if (!value.isValid()) {
-            // eslint-disable-next-line no-console
             console.log('Invalid date')
         }
     }
@@ -143,12 +142,14 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
  * @param defaultTime
  * @param defaultName
  * @param timeFormat
+ * @param format
  */
 export function mapToDefaultTime(
     val,
     defaultTime,
     defaultName,
     timeFormat = 'HH:mm:ss',
+    format,
 ) {
     if (Array.isArray(val)) {
         const res = {}
@@ -325,7 +326,6 @@ export const formatToMask = (format) => {
 
     return flattenDeep(
         map(splitedFormat, (item) => {
-            // eslint-disable-next-line no-bitwise
             if (~item.search(/([a-z])+/gi)) {
                 return replaceDictionary(item)
             }
@@ -350,7 +350,6 @@ export const MODIFIERS = {
  */
 export const hasInsideMixMax = (date, { max, min }, dateFormat) => {
     const currentDate = moment(date, dateFormat)
-    // eslint-disable-next-line no-underscore-dangle
     const hasFormat = range => !isUndefined(moment(range)._f)
 
     const lessOrEqual = (range, dateFormat) => (hasFormat(range)

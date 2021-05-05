@@ -1,39 +1,39 @@
 .n2o-standard-widget-layout {
     display: flex;
-}
 
-.n2o-standard-widget-layout-aside {
-    max-width: 25%;
-}
+    &-aside {
+        max-width: 25%;
 
-.n2o-standard-widget-layout-aside--left .n2o-filter {
-    padding-right: 15px;
-}
+        &--left .n2o-filter {
+            padding-right: 15px;
+        }
 
-.n2o-standard-widget-layout-aside--right .n2o-filter {
-    padding-left: 15px;
-}
+        &--right .n2o-filter {
+            padding-left: 15px;
+        }
+    }
 
-.n2o-standard-widget-layout-center {
-    width: 100%;
-}
+    &-center {
+        width: 100%;
+    }
 
-.n2o-standard-widget-layout-toolbar {
-    align-items: flex-start;
-}
+    &-toolbar {
+        align-items: flex-start;
 
-.n2o-standard-widget-layout-toolbar--left .btn-group {
-    flex-wrap: wrap;
-}
+        &--left .btn-group {
+            flex-wrap: wrap;
+        }
 
-.n2o-standard-widget-layout-toolbar--right {
-    display: flex;
-    flex-shrink: 0;
-    justify-content: flex-end;
-    align-items: flex-end;
+        &--right {
+            display: flex;
+            flex-shrink: 0;
+            justify-content: flex-end;
+            align-items: flex-end;
 
-    .btn-group {
-        flex-wrap: wrap;
-        justify-content: flex-end;
+            & .btn-group {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
     }
 }

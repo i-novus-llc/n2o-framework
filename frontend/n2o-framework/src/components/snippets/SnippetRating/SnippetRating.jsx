@@ -26,7 +26,6 @@ const prepareValue = (rating, half) => {
     return Math.round(rating)
 }
 
-// TODO отказаться от rating  в параметрах в пользу value для единообразия со всеми полями ввода
 class SnippetRating extends Component {
     constructor(props) {
         super(props)

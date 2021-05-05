@@ -1,6 +1,5 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-// eslint-disable-next-line import/no-unresolved
 import withForm from 'N2oStorybook/decorators/withForm'
 
 import Factory from '../../../core/factory/Factory'
@@ -41,8 +40,8 @@ stories
       Компонент 'Редактор кода'
       ~~~js
       import CodeEditor from 'n2o-framework/lib/components/controls/CodeEditor/CodeEditor';
-
-      <CodeEditor
+      
+      <CodeEditor 
           lang="java"
           minLines={5}
           maxLines={30}

@@ -37,6 +37,7 @@ const state = {
 describe('Проверка саги formPlugin', () => {
     it('Сообщение не должно удалиться', () => {
         const genEmptyObject = removeMessage({})
+
         expect(genEmptyObject.next().value).toEqual(undefined)
         expect(genEmptyObject.next().done).toEqual(true)
 
@@ -45,6 +46,7 @@ describe('Проверка саги formPlugin', () => {
                 field: {},
             },
         })
+
         expect(genWithoutForm.next().value).toEqual(undefined)
         expect(genWithoutForm.next().done).toEqual(true)
 
@@ -53,6 +55,7 @@ describe('Проверка саги formPlugin', () => {
                 form: {},
             },
         })
+
         expect(genWithoutField.next().value).toEqual(undefined)
         expect(genWithoutField.next().done).toEqual(true)
     })

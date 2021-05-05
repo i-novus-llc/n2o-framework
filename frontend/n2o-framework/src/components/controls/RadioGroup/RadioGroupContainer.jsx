@@ -14,7 +14,7 @@ import RadioGroup from './RadioGroup'
 class RadioGroupContainer extends React.Component {
     /**
    * Базовый рендер
-   * */
+   **/
     render() {
         const { radioGroup, radios, ...props } = this.props
 

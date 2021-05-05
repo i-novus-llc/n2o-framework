@@ -19,7 +19,7 @@
     white-space: nowrap;
     font-weight: 700;
 
-    + .title-fieldset-line {
+    & + .title-fieldset-line {
         margin-left: 5px;
     }
 }

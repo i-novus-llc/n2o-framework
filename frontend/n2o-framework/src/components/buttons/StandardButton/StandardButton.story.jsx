@@ -3,6 +3,8 @@ import { storiesOf } from '@storybook/react'
 import { omit } from 'lodash'
 import { Route, Switch } from 'react-router-dom'
 
+import SimpleButton from '../Simple/Simple'
+
 import StandardButton from './StandardButton'
 
 const stories = storiesOf('Кнопки', module)

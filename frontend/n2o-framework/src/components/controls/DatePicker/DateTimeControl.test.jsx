@@ -39,6 +39,7 @@ const setupCalendar = (propOverrides) => {
 describe('<DateTimeControl />', () => {
     it('видимость календаря определяется isCalendarVisible', () => {
         const { wrapper } = setup()
+
         expect(wrapper.find(PopUp)).toHaveLength(0)
         wrapper.setState({ isPopUpVisible: true })
         expect(wrapper.find(PopUp)).toHaveLength(1)
@@ -49,6 +50,7 @@ describe('<DateTimeControl />', () => {
             value: '11/11/1111',
             dateFormat: 'DD/MM/YYYY',
         })
+
         expect(
             wrapper
                 .find('DateInput')
@@ -59,6 +61,7 @@ describe('<DateTimeControl />', () => {
 
     it('устанавливает disabled', () => {
         const { wrapper } = setup({ disabled: true })
+
         expect(
             wrapper
                 .find('input')
@@ -75,6 +78,7 @@ describe('<DateTimeControl />', () => {
 
     it('устанавливает placeholder', () => {
         const { wrapper } = setup({ placeholder: 'test' })
+
         wrapper.setState({ isCalendarVisible: true })
         expect(
             wrapper
@@ -87,6 +91,7 @@ describe('<DateTimeControl />', () => {
     it('вызывает onChange, если значение инпута поменялось на корректную дату', () => {
         const onChange = sinon.spy()
         const { wrapper } = setup({ onChange, dateFormat: 'DD/MM/YYYY' })
+
         wrapper
             .find('input')
             .simulate('change', { target: { value: 'invalid date' } })
@@ -100,6 +105,7 @@ describe('<DateTimeControl />', () => {
     it('проверка onFocus своиства контролла', () => {
         const onFocus = sinon.spy()
         const { wrapper } = setup({ onFocus, dateFormat: 'DD/MM/YYYY' })
+
         wrapper.find('input').simulate('focus')
 
         expect(onFocus.calledOnce).toEqual(true)
@@ -112,6 +118,7 @@ describe('<DateTimeControl />', () => {
             timeFormat: 'HH:mm',
             dateFormat: 'DD/MM/YYYY',
         })
+
         // дефолтное время 00:00
         expect(
             wrapper
@@ -126,6 +133,7 @@ describe('<DateTimeControl />', () => {
             min: moment(),
             value: moment('11/11/1111', 'DD/MM/YYYY'),
         })
+
         wrapper.setState({ isPopUpVisible: true })
         expect(
             wrapper
@@ -140,6 +148,7 @@ describe('<DateTimeControl />', () => {
             max: moment(),
             value: moment('22/12/2030', 'DD/MM/YYYY'),
         })
+
         wrapper.setState({ isPopUpVisible: true })
         expect(
             wrapper
@@ -155,6 +164,7 @@ describe('<DateTimeControl />', () => {
             timeFormat: 'HH:mm',
             dateFormat: 'DD/MM/YYYY',
         })
+
         expect(
             wrapper
                 .find('DateInput')
@@ -169,6 +179,7 @@ describe('<DateTimeControl />', () => {
             dateFormat: 'DD.MM.YYYY',
             outputFormat: 'YYYY-MM-DDTHH:mm:ss',
         })
+
         expect(
             wrapper
                 .find('DateInput')
@@ -177,12 +188,12 @@ describe('<DateTimeControl />', () => {
         ).toBe('21.01.1927')
     })
 
-    // eslint-disable-next-line sonarjs/no-identical-functions
     it('устанавливает value', () => {
         const { wrapper } = setup({
             value: '11/11/1111',
             dateFormat: 'DD/MM/YYYY',
         })
+
         expect(
             wrapper
                 .find('DateInput')
@@ -196,6 +207,7 @@ describe('<DateTimeControl />', () => {
             value: '11/11/1111',
             dateFormat: 'DD/MM/YYYY',
         })
+
         wrapper.setState({ isPopUpVisible: true })
         expect(
             wrapper
@@ -210,6 +222,7 @@ describe('<DateTimeControl />', () => {
 describe('<Calendar />', () => {
     it('в displayesMonth хранится начало месяца из пропертис', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         expect(
             wrapper.state('displayesMonth').diff(moment().startOf('month'), 'seconds'),
         ).toBe(0)
@@ -217,6 +230,7 @@ describe('<Calendar />', () => {
 
     it('при клике на стрелку вправо отображается следующий месяц', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.fa.fa-angle-right').simulate('click')
         wrapper.update()
         expect(wrapper.state('displayesMonth').format('DD/MM/YYYY')).toBe(
@@ -229,6 +243,7 @@ describe('<Calendar />', () => {
 
     it('при клике на стрелку влево отображается следующий месяц', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.fa.fa-angle-left').simulate('click')
         wrapper.update()
         expect(wrapper.state('displayesMonth').format('DD/MM/YYYY')).toBe(
@@ -241,6 +256,7 @@ describe('<Calendar />', () => {
 
     it('при клике на стрелку влево отображается предыддущий год (если, отображаются месяцы)', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-month-title').simulate('click')
         wrapper.update()
         wrapper.find('.fa.fa-angle-left').simulate('click')
@@ -254,6 +270,7 @@ describe('<Calendar />', () => {
 
     it('при клике на стрелку вправо отображается следующий год (если, отображаются месяцы)', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-month-title').simulate('click')
         wrapper.update()
         wrapper.find('.fa.fa-angle-right').simulate('click')
@@ -267,6 +284,7 @@ describe('<Calendar />', () => {
 
     it('при клике на стрелку влево отображается предыддущее десятилетие (если, отображаются годы)', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-year-title').simulate('click')
         wrapper.update()
         wrapper.find('.fa.fa-angle-left').simulate('click')
@@ -280,6 +298,7 @@ describe('<Calendar />', () => {
 
     it('при клике на стрелку вправо отображается следующее десятилетие (если, отображаются годы)', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-year-title').simulate('click')
         wrapper.update()
         wrapper.find('.fa.fa-angle-right').simulate('click')
@@ -293,6 +312,7 @@ describe('<Calendar />', () => {
 
     it('при нажатии на название месяца вид календаря - по месяцам', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-month-title').simulate('click')
         wrapper.update()
         expect(wrapper.state('calendarType')).toBe(Calendar.BY_MONTHS)
@@ -300,6 +320,7 @@ describe('<Calendar />', () => {
 
     it('при нажатии на год вид календаря - по годам', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-year-title').simulate('click')
         wrapper.update()
         expect(wrapper.state('calendarType')).toBe(Calendar.BY_YEARS)
@@ -307,6 +328,7 @@ describe('<Calendar />', () => {
 
     it('при нажатии на название месяца календаря отображаются месяцы', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-month-title').simulate('click')
         wrapper.update()
         expect(wrapper.find('.n2o-calendar-body-item.month-item')).toHaveLength(12)
@@ -320,6 +342,7 @@ describe('<Calendar />', () => {
 
     it('при нажатии на название месяца календаря отображаются месяцы при value null', () => {
         const { wrapper } = setupCalendar({ value: null })
+
         wrapper.find('.n2o-calendar-header-month-title').simulate('click')
         wrapper.update()
         expect(wrapper.find('.n2o-calendar-body-item.month-item')).toHaveLength(12)
@@ -333,6 +356,7 @@ describe('<Calendar />', () => {
 
     it('при нажатии на год отображаются годы', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-year-title').simulate('click')
         wrapper.update()
         expect(wrapper.find('.n2o-calendar-body-item.year-item')).toHaveLength(12)
@@ -341,11 +365,12 @@ describe('<Calendar />', () => {
                 .find('.n2o-calendar-body-item.year-item')
                 .at(0)
                 .text(),
-        ).toEqual((parseInt(moment().year() / 10, 10) * 10 - 1).toString())
+        ).toEqual((parseInt(moment().year() / 10) * 10 - 1).toString())
     })
 
     it('при клике на месяц из списка отображается кликнутый месяц', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-month-title').simulate('click')
         wrapper
             .find('.n2o-calendar-body-item.month-item')
@@ -356,13 +381,14 @@ describe('<Calendar />', () => {
 
     it('при клике на год из списка отображается кликнутый год', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         wrapper.find('.n2o-calendar-header-year-title').simulate('click')
         wrapper
             .find('.n2o-calendar-body-item.year-item')
             .at(0)
             .simulate('click')
         expect(wrapper.state('displayesMonth').year()).toBe(
-            parseInt(moment().year() / 10, 10) * 10 - 1,
+            parseInt(moment().year() / 10) * 10 - 1,
         )
     })
 
@@ -370,11 +396,16 @@ describe('<Calendar />', () => {
 
     it('нет timeFormat - нет таймпикера', () => {
         const { wrapper } = setupCalendar({ value: moment() })
+
         expect(wrapper.find('.n2o-calendar-time-container')).toHaveLength(0)
     })
 
     it('есть timeFormat - есть таймпикер', () => {
-        const { wrapper } = setupCalendar({ value: moment(), timeFormat: 'HH:mm:ss' })
+        const { wrapper } = setupCalendar(
+            { value: moment(), timeFormat: 'HH:mm:ss' },
+            true,
+        )
+
         expect(wrapper.find('.n2o-calendar-time-container')).toHaveLength(1)
     })
 
@@ -392,7 +423,11 @@ describe('<Calendar />', () => {
     it('есть дефолтное время - отображается дефолтное время"', () => {
         const value = moment()
         const timeFormat = 'HH:mm:ss'
-        const { wrapper } = setupCalendar({ value, timeFormat, hasDefaultTime: true })
+        const { wrapper } = setupCalendar(
+            { value, timeFormat, hasDefaultTime: true },
+            true,
+        )
+
         expect(wrapper.find('.n2o-calendar-time-container').text()).toBe(
             value.format(timeFormat),
         )

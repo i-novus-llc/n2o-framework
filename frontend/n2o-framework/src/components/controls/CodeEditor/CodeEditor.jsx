@@ -28,23 +28,17 @@ import 'brace/ext/language_tools'
 
 class CodeEditor extends Component {
   state = {
-      // eslint-disable-next-line react/destructuring-assignment
       value: this.props.value,
   };
 
   onChange = (value) => {
-      const { onChange } = this.props
-
       this.setState({ value })
-      onChange(value)
+      this.props.onChange(value)
   };
 
-  componentDidUpdate() {
-      const { value: propsValue } = this.props
-      const { value: stateValue } = this.state
-
-      if (propsValue !== stateValue) {
-          this.setState({ value: propsValue })
+  componentDidUpdate(prevProps) {
+      if (this.props.value !== this.state.value) {
+          this.setState({ value: this.props.value })
       }
   }
 
@@ -66,7 +60,6 @@ class CodeEditor extends Component {
       if (!visible) {
           return null
       }
-      const { value } = this.state
 
       return (
           <div
@@ -85,7 +78,7 @@ class CodeEditor extends Component {
                   minLines={minLines}
                   maxLines={maxLines}
                   highlightActiveLine
-                  value={value}
+                  value={this.state.value}
                   enableBasicAutocompletion={autocomplete}
                   setOptions={{
                       showLineNumbers: true,
@@ -134,7 +127,6 @@ CodeEditor.propTypes = {
    * Флаг видимости
    */
     visible: PropTypes.bool,
-    className: PropTypes.string,
 }
 
 CodeEditor.defaultProps = {

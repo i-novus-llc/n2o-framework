@@ -25,6 +25,7 @@ const setup = (props) => {
 describe('<Dropdown />', () => {
     it('Создание', () => {
         const { wrapper } = setup()
+
         expect(wrapper.find('.n2o-dropdown').exists()).toBeTruthy()
     })
 })

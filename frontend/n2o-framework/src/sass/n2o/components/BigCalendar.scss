@@ -1,65 +1,67 @@
 @import '~react-big-calendar/lib/sass/styles';
 
-.calendar__toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 10px 0;
-}
+.calendar {
+    &__toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 10px 0;
 
-.calendar__toolbar--center {
-    flex-grow: 1;
-    text-align: center;
-}
+        &--center {
+            flex-grow: 1;
+            text-align: center;
+        }
 
-.calendar__toolbar--right {
-    margin-left: auto;
-}
+        &--right {
+            margin-left: auto;
+        }
+    }
 
-.calendar__event {
-    display: flex;
-    flex-wrap: wrap;
-    border: none;
-    box-sizing: border-box;
-    box-shadow: none;
-    margin: 0;
-    padding: 2px 5px;
-    background-color: #3174ad;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-}
+    &__event {
+        display: flex;
+        flex-wrap: wrap;
+        border: none;
+        box-sizing: border-box;
+        box-shadow: none;
+        margin: 0;
+        padding: 2px 5px;
+        background-color: #3174ad;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
 
-.calendar__event--nopointer {
-    cursor: default !important;
-}
+        &--nopointer {
+            cursor: default !important;
+        }
 
-.calendar__event-name {
-    text-overflow: ellipsis;
-    font-weight: bold;
-    margin-right: 5px;
-    overflow: hidden;
-}
+        &-name {
+            text-overflow: ellipsis;
+            font-weight: bold;
+            margin-right: 5px;
+            overflow: hidden;
 
-.calendar__event-name--nowrap {
-    white-space: nowrap;
-}
+            &--nowrap {
+                white-space: nowrap;
+            }
+        }
+    }
 
-.calendar__cell {
-    flex: 1 0;
-}
+    &__cell {
+        flex: 1 0;
 
-.calendar__cell--day-off {
-    background-color: rgba(255, 192, 203, 0.3);
-}
+        &--day-off {
+            background-color: rgba(255, 192, 203, 0.3);
+        }
 
-.calendar__cell--current-day {
-    background-color: #eaf6ff;
-}
+        &--current-day {
+            background-color: #eaf6ff;
+        }
 
-.calendar__cell--day-cell + .calendar__cell--day-cell {
-    outline: 1px solid #ddd;
+        &--day-cell + &--day-cell {
+            outline: 1px solid #ddd;
+        }
+    }
 }

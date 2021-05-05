@@ -30,6 +30,9 @@
             margin-left: 5px;
         }
 
+        .n2o-status.topLeft {
+        }
+
         .n2o-status.topRight {
             position: relative;
             float: right;
@@ -48,7 +51,9 @@
     .with-action {
         cursor: pointer;
     }
+}
 
+.n2o-image-cell.with-statuses {
     .n2o-image {
         margin: 0;
     }

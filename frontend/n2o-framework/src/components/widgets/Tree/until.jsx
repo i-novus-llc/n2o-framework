@@ -172,7 +172,7 @@ export const getTreeLinerRoute = (
     return buff
 }
 
-// / Key base fns
+// /Key base fns
 
 const down = (focusedElement, route, node) => {
     if (eq(focusedElement.className, 'hotkey') || focusedElement) {

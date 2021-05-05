@@ -1,6 +1,8 @@
+import React from 'react'
 import moment from 'moment'
 
 import {
+    weeks,
     isDateFromPrevMonth,
     isDateFromNextMonth,
     addTime,
@@ -8,6 +10,7 @@ import {
     parseDate,
     mapToValue,
     mapToDefaultTime,
+    calculateMaxFreeSpace,
     formatToMask,
     hasInsideMixMax,
 } from './utils'
@@ -27,6 +30,7 @@ describe('utils', () => {
 
     it('тестирует addTime', () => {
         const t = addTime(moment().startOf('day'), 3, 3)
+
         expect(t.hour()).toBe(3)
         expect(t.minute()).toBe(3)
     })
@@ -59,6 +63,7 @@ describe('utils', () => {
         const dateFormat = 'DD/MM/YYYY'
         const locale = 'ru'
         const defaultName = 'singleInput'
+
         expect(
             mapToValue(
                 val,
@@ -95,6 +100,7 @@ describe('utils', () => {
         const defaultName = 'singleInput'
         const timeFormat = 'hh:mm:ss'
         const format = 'DD/MM/YYYY hh:mm:ss'
+
         expect(
             mapToDefaultTime(val, defaultTime, defaultName, timeFormat).beginDate,
         ).toMatchObject({

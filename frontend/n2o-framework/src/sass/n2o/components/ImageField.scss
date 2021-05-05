@@ -31,6 +31,9 @@
             }
         }
 
+        .n2o-status.topLeft {
+        }
+
         .n2o-status.topRight {
             position: relative;
             float: right;
@@ -45,7 +48,9 @@
             right: 0;
         }
     }
+}
 
+.n2o-image-field.with-statuses {
     .n2o-image {
         margin: 0;
     }

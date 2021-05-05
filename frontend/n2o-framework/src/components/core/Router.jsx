@@ -28,10 +28,8 @@ function Router({ embeddedRouting, children }) {
         return (
             <div style={errorStyle}>
                 <p>
-
 &#9888;
                     {t('pagesNotConfigured')}
-
 .
                 </p>
                 <p>

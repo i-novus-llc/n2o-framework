@@ -22,7 +22,7 @@ import { toggleColumnVisiblity } from '../../../actions/columns'
  * @example
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
-function ToggleColumnComponent(props) {
+function ToggleColumn(props) {
     const { columns, renderColumnDropdown } = props
     const columnsArray = map(columns || {}, (value, key) => ({ key, value }))
     const filteredColumns = filter(
@@ -44,9 +44,9 @@ function ToggleColumnComponent(props) {
     )
 }
 
-ToggleColumnComponent.propTypes = {
+ToggleColumn.propTypes = {
     columns: PropTypes.object,
-    renderColumnDropdown: PropTypes.func,
+    entityKey: PropTypes.string,
 }
 
 const mapStateToProps = (state, props) => ({
@@ -88,8 +88,5 @@ const enhance = compose(
     }),
 )
 
-const ToggleColumn = enhance(ToggleColumnComponent)
-
 export { ToggleColumn }
-
-export default ToggleColumnComponent
+export default enhance(ToggleColumn)

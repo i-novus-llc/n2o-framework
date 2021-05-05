@@ -5,7 +5,7 @@ import sinon from 'sinon'
 import configureStore from '../../../store'
 import history from '../../../history'
 
-import { ChangeSize } from './ChangeSize'
+import ChangeSize from './ChangeSize'
 
 const store = configureStore(
     {

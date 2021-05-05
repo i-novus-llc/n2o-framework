@@ -2,9 +2,8 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Button from 'reactstrap/lib/Button'
 
-import { PopoverConfirm } from '../../snippets/PopoverConfirm/PopoverConfirm'
+import PopoverConfirm from '../../snippets/PopoverConfirm/PopoverConfirm'
 
-// eslint-disable-next-line import/extensions
 import MetaJson from './PopoverConfirm.meta'
 
 const stories = storiesOf('Действия/PopoverConfirm', module)
@@ -33,8 +32,8 @@ stories.add(
 
         ~~~js
         import PopoverConfirm from 'n2o-framework/lib/components/actions/PopoverConfirm/PopoverConfirm';
-
-        <PopoverConfirm
+        
+        <PopoverConfirm 
             title="Вы уверены?"
             text="Вы хотите совершить действие?"
             okLabel="Ок"

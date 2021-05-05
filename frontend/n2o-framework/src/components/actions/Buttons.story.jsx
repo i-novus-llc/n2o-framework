@@ -1,8 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-// eslint-disable-next-line import/no-unresolved
 import { getStubData } from 'N2oStorybook/fetchMock'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { filterMetadata } from 'N2oStorybook/json'
 import fetchMock from 'fetch-mock'
 
 import Factory from '../../core/factory/Factory'
@@ -22,6 +21,7 @@ stories
 
     .add('Метаданные', () => {
         fetchMock.restore().get('begin:n2o/data', url => ({ ...getStubData(url), list: getStubData(url).list.slice(0, 3) }))
+
         return (
             <div>
                 <Factory level={WIDGETS} {...metadata.Page_Table} id="Page_Table" />
@@ -30,6 +30,7 @@ stories
     })
     .add('Метаданные disabled button', () => {
         fetchMock.restore().get('begin:n2o/data', url => ({ ...getStubData(url), list: getStubData(url).list.slice(0, 3) }))
+
         return (
             <div>
                 <Factory level={WIDGETS} {...metadata2.Page_Table} id="Page_Table" />

@@ -77,6 +77,7 @@ describe('Проверка пресетов', () => {
     })
     describe('Проверка constraint пресета', () => {
         const dispatched = []
+
         it('ответ с сообщениями', async () => {
             fetchMock.restore().get('begin:n2o/validation', {
                 status: 200,
@@ -154,6 +155,7 @@ describe('Проверка валидатора', () => {
     const dispatch = (action) => {
         dispatched.push(action)
     }
+
     beforeEach(() => {
         dispatched = []
     })
@@ -163,12 +165,14 @@ describe('Проверка валидатора', () => {
             { field2: 'test1', field4: null, field8: 'qwe' },
             dispatch,
         )
+
         expect(res).toBe(true)
         expect(dispatched.length).toBe(1)
     })
     it('есть ошибки, когда форма пустая', async () => {
         expect.assertions(2)
         const res = await validator({}, dispatch)
+
         expect(res).toBe(true)
         expect(dispatched.length).toBe(1)
     })

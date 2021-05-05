@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import history from '../../../history'
 import configureStore from '../../../store'
 
-import { ToggleColumn } from './ToggleColumn'
+import ToggleColumn from './ToggleColumn'
 
 const store = configureStore(
     {
@@ -43,6 +43,7 @@ describe('<ToggleColumn />', () => {
 
     it('должен вызвать toggleVisibility', () => {
         const wrapper = setup()
+
         expect(store.getState().columns.someWidget.name.visible).toBeFalsy()
         wrapper
             .find('DropdownItem')

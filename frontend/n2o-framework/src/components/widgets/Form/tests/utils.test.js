@@ -64,6 +64,7 @@ describe('Тест утильных функций', () => {
     it('fetchIfChangeDependencyValue запрашивает даные при измененеии зависимости', () => {
         const _fetchData = sinon.spy()
         const notFetch = sinon.spy()
+
         fetchIfChangeDependencyValue(
             { type: 1 },
             { type: 2 },

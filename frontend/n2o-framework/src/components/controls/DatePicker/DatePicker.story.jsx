@@ -1,6 +1,5 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-// eslint-disable-next-line import/no-unresolved
 import withForm from 'N2oStorybook/decorators/withForm'
 
 import Factory from '../../../core/factory/Factory'
@@ -31,6 +30,7 @@ stories
                 dateFormat: DatePickerJson.dateFormat,
                 locale: DatePickerJson.locale,
             }
+
             return <DatePicker {...props} onChange={() => {}} />
         },
         {
@@ -39,7 +39,7 @@ stories
       Компонент 'Выбор даты'
       ~~~js
       import DatePicker from 'n2o-framework/lib/components/controls/DatePicker/DatePicker';
-
+      
       <DatePicker
           onChange={onChange}
           dateFormat="DD/MM/YYYY"
@@ -87,7 +87,7 @@ stories
       Компонент 'Выбор даты'
       ~~~js
       import DatePicker from 'n2o-framework/lib/components/controls/DatePicker/DatePicker';
-
+      
         <DatePicker
           dateFormat="DD/MM/YYYY"
           timeFormat="HH:mm"
@@ -114,7 +114,7 @@ stories
       Компонент 'Выбор даты'
       ~~~js
       import DatePicker from 'n2o-framework/lib/components/controls/DatePicker/DatePicker';
-
+      
       <DatePicker />
       ~~~
       `,
@@ -140,7 +140,7 @@ stories
       Компонент 'Выбор даты'
       ~~~js
       import DatePicker from 'n2o-framework/lib/components/controls/DatePicker/DatePicker';
-
+      
       <DatePicker
           dateFormat="DD/MM/YYYY"
           timeFormat="HH:mm"
@@ -166,7 +166,7 @@ stories
       Компонент 'Выбор даты'
       ~~~js
       import DatePicker from 'n2o-framework/lib/components/controls/DatePicker/DatePicker';
-
+      
       <DatePicker popupPlacement="top" />
       ~~~
       `,
@@ -193,7 +193,7 @@ stories
       Компонент 'Выбор даты'
       ~~~js
       import DatePicker from 'n2o-framework/lib/components/controls/DatePicker/DatePicker';
-
+      
       <DatePicker
           popupPlacement="top"
           dateFormat={'YYYY-MM-DD'}
