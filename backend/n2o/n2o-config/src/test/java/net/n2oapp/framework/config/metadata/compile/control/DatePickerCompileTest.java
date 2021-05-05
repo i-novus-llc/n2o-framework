@@ -39,12 +39,13 @@ public class DatePickerCompileTest extends SourceCompileTestBase {
         assertThat(standardField.getLabel(), is("Дата рождения"));
         DatePicker field = (DatePicker) standardField.getControl();
         assertThat(field.getId(), is("test"));
-        assertThat(field.getPlaceholder(), is( "Введите дату рождения"));
-        assertThat(field.getDateFormat(), is( "DD.MM.YYYY"));
-        assertThat(field.getTimeFormat(), is( "HH:mm"));
-        assertThat(field.getMin(), is( "01.01.2000"));
-        assertThat(field.getMax(), is( "01.01.3000"));
-        assertThat(field.getUtc(), is( true));
-        assertThat(field.getSrc(), is( "test"));
+        assertThat(field.getSrc(), is("DatePicker"));
+        assertThat(field.getOutputFormat(), is("YYYY-MM-DDTHH:mm:ss"));
+        assertThat(field.getPlaceholder(), is("Введите дату рождения"));
+        assertThat(field.getDateFormat(), is("DD.MM.YYYY"));
+        assertThat(field.getTimeFormat(), is("HH:mm"));
+        assertThat(field.getMin(), is("01.01.2000"));
+        assertThat(field.getMax(), is("01.01.3000"));
+        assertThat(field.getUtc(), is(true));
     }
 }
