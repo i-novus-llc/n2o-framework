@@ -20,8 +20,6 @@ const stories = storiesOf('UI Компоненты/Диалог', module)
 
 stories.addDecorator(StateDecorator(store))
 
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/jsx-one-expression-per-line */
 stories
     .add(
         'Компонент',
@@ -38,7 +36,7 @@ stories
             return (
                 <>
                     <button className="btn btn-secondary" onClick={onShow}>
-                        Показать диалог
+            Показать диалог
                     </button>
                     <ModalDialog
                         {...props}
@@ -57,8 +55,8 @@ stories
 
         ~~~js
         import ModalDialog from 'n2o-framework/lib/components/actions/ModalDialog/ModalDialog';
-
-        <ModalDialog
+        
+        <ModalDialog 
             title="Подтвердите действие"
             text="Сохранить изменения"
             size="lg"
@@ -90,7 +88,7 @@ stories
             return (
                 <>
                     <button className="btn btn-default" onClick={onShow}>
-                        Показать диалог
+            Показать диалог
                     </button>
                     <ModalDialog
                         {...props}
@@ -109,8 +107,8 @@ stories
 
         ~~~js
         import ModalDialog from 'n2o-framework/lib/components/actions/ModalDialog/ModalDialog';
-
-        <ModalDialog
+        
+        <ModalDialog 
             title="Подтвердите действие"
             text="Сохранить изменения"
             size="lg"

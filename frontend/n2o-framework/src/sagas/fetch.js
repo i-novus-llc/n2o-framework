@@ -69,7 +69,7 @@ export default function* fetchSaga(
         if (yield cancelled()) {
             yield put(fetchCancel(fetchType, options))
 
-            return
+            return /* eslint no-unsafe-finally:0 */
         }
     }
 }

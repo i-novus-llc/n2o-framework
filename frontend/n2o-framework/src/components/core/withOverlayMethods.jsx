@@ -27,7 +27,7 @@ function withOverlayMethods(WrappedComponent) {
         componentDidUpdate(prevProps) {
             if (
                 this.props.showPrompt !== prevProps.showPrompt &&
-                this.props.showPrompt
+        this.props.showPrompt
             ) {
                 this.showPrompt()
             }

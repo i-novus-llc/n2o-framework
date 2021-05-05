@@ -7,55 +7,59 @@
     }
 }
 
-.label-top-right {
-    @extend %top-label-container;
+.label- {
+    &top-right {
+        @extend %top-label-container;
 
-    align-items: flex-end;
-}
-
-.label-top-left {
-    @extend %top-label-container;
-
-    align-items: stretch;
-}
-
-.label-right {
-    display: flex;
-    flex-direction: row-reverse;
-
-    label {
-        margin-left: 5px;
+        align-items: flex-end;
     }
-}
 
-.label-left {
-    display: flex;
+    &top-left {
+        @extend %top-label-container;
 
-    label {
-        margin-right: 5px;
+        align-items: stretch;
+    }
+
+    &right {
+        display: flex;
+        flex-direction: row-reverse;
+
+        label {
+            margin-left: 5px;
+        }
+    }
+
+    &left {
+        display: flex;
+
+        label {
+            margin-right: 5px;
+        }
     }
 }
 
 .form-group {
-    .label-alignment-left {
-        text-align: left;
-        justify-content: flex-start;
-    }
+    .label-alignment- {
+        &left {
+            text-align: left;
+            justify-content: flex-start;
+        }
 
-    .label-alignment-right {
-        text-align: right;
-        justify-content: flex-end;
+        &right {
+            text-align: right;
+            justify-content: flex-end;
+        }
     }
 }
 
 .n2o-label {
-    .n2o-popover {
+    & .n2o-popover {
         cursor: pointer;
         margin: 0 5px;
         display: flex;
         align-items: center;
 
-        button {
+        & button {
             padding: 0;
             background-color: transparent;
             border: none;
@@ -75,7 +79,17 @@
     position: relative;
     margin-bottom: 0.5rem;
 
-    .n2o-validation-message {
+    &--disabled {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    &__spinner {
+        position: absolute;
+        right: 5px;
+    }
+
+    & .n2o-validation-message {
         min-height: 1rem;
         font-size: 0.8rem;
         line-height: 1rem;
@@ -87,34 +101,24 @@
     }
 }
 
-.n2o-form-group--disabled {
-    pointer-events: none;
-    opacity: 0.7;
-}
-
-.n2o-form-group__spinner {
-    position: absolute;
-    right: 5px;
-}
-
 .form-container {
     display: flex;
 }
 
 .n2o-page-actions__form-toolbar {
     &.btn-toolbar {
-        > .btn-group {
-            > .n2o-dropdown {
-                > .dropdown-menu {
+        & > .btn-group {
+            & > .n2o-dropdown {
+                & > .dropdown-menu {
                     &.n2o-dropdown-menu {
                         text-align: left;
 
-                        > .btn {
+                        & > .btn {
                             border: none;
                         }
 
-                        > div {
-                            > .btn {
+                        & > div {
+                            & > .btn {
                                 width: 100%;
                                 text-align: left;
                                 border: none;

@@ -472,11 +472,9 @@ stories
                             </Col>
                         </FormGroup>
                         <div>
-
 Generate
                             {data.length}
                             {' '}
-
 items
                         </div>
                     </Form>

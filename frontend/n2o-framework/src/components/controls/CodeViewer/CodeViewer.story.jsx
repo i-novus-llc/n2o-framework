@@ -1,10 +1,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-// eslint-disable-next-line import/no-named-as-default
 import CodeViewer, { CodeViewer as CodeViewerComponent } from './CodeViewer'
 
 const stories = storiesOf('Контролы/Просмотрщик кода', module)
+
 stories.addParameters({
     info: {
         propTables: [CodeViewerComponent],
@@ -35,8 +35,8 @@ stories.add(
       Компонент 'Просмотрщик кода'
       ~~~js
       import CodeViewer from 'n2o-framework/lib/components/controls/CodeViewer/CodeViewer';
-
-      <CodeViewer
+      
+      <CodeViewer 
         visible={true}
         language="javascript"
         showLineNumbers={true}

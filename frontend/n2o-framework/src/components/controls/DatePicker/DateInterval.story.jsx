@@ -1,11 +1,9 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-// eslint-disable-next-line import/no-unresolved
 import withForm from 'N2oStorybook/decorators/withForm'
 
 import Factory from '../../../core/factory/Factory'
 
-// eslint-disable-next-line import/extensions
 import DateIntervalJSON from './DateInterval.meta'
 import DateInterval from './DateInterval'
 
@@ -34,6 +32,7 @@ stories
                 locale: 'ru',
                 outputFormat: 'DD/MM/YYYY',
             }
+
             return <DateInterval onChange={() => {}} {...props} />
         },
         {
@@ -42,7 +41,7 @@ stories
       Компонент 'Интервал дат'
       ~~~js
       import DateInterval from 'n2o-framework/lib/components/controls/DatePicker/DateInterval';
-
+      
       <DateInterval
           dateFormat="DD/MM/YYYY"
           timeFormat="HH:mm:ss"

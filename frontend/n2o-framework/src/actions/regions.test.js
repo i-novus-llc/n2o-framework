@@ -18,6 +18,7 @@ const testInitProps = {
 describe('тесты regions actions', () => {
     it('registerRegion', () => {
         const action = registerRegion(testRegionId, testInitProps)
+
         expect(action.type).toBe(REGISTER_REGION)
         expect(action.payload).toEqual({
             regionId: testRegionId,
@@ -27,6 +28,7 @@ describe('тесты regions actions', () => {
 
     it('setActiveEntity', () => {
         const action = setActiveEntity(testRegionId, testWidgetId)
+
         expect(action.type).toBe(SET_ACTIVE_REGION_ENTITY)
         expect(action.payload).toEqual({
             regionId: testRegionId,

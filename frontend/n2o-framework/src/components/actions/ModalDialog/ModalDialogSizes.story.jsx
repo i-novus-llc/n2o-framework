@@ -12,10 +12,9 @@ const store = new Store({
 store.subscribe(forceReRender)
 
 const stories = storiesOf('UI Компоненты/Диалог', module)
+
 stories.addDecorator(StateDecorator(store))
 
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/jsx-one-expression-per-line */
 stories.add(
     'Размеры',
     () => [
@@ -28,7 +27,7 @@ stories.add(
                 })
                 }
             >
-            Показать маленький
+        Показать маленький
             </button>
             <button
                 className="btn btn-secondary"
@@ -55,14 +54,14 @@ stories.add(
 
         ~~~js
         import ModalDialog from 'n2o-framework/lib/components/actions/ModalDialog/ModalDialog';
-
+        
         <ModalDialog
             {...props}
-            size="sm"
+            size="sm" 
         />
         <ModalDialog
             {...props}
-            size="lg"
+            size="lg" 
         />
         ~~~
         `,

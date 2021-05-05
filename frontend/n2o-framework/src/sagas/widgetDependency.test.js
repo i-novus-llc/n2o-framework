@@ -81,6 +81,7 @@ describe('Проверка саги widgetDependency', () => {
                 }),
                 dispatch: action => dispatched.push(action),
             }
+
             await runSaga(
                 fakeStore,
                 forceUpdateDependency,
@@ -112,6 +113,7 @@ describe('Проверка саги widgetDependency', () => {
                 }),
                 dispatch: action => dispatched.push(action),
             }
+
             await runSaga(
                 fakeStore,
                 resolveWidgetDependency,
@@ -182,6 +184,7 @@ describe('Проверка саги widgetDependency', () => {
                 getState: () => ({}),
                 dispatch: action => dispatched.push(action),
             }
+
             await runSaga(
                 fakeStore,
                 resolveDependency,
@@ -212,6 +215,7 @@ describe('Проверка саги widgetDependency', () => {
                     }),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,
@@ -247,6 +251,7 @@ describe('Проверка саги widgetDependency', () => {
                     }),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,
@@ -276,6 +281,7 @@ describe('Проверка саги widgetDependency', () => {
                     getState: () => ({}),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,
@@ -303,6 +309,7 @@ describe('Проверка саги widgetDependency', () => {
                     getState: () => ({}),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,

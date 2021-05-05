@@ -29,9 +29,22 @@ import Dropdown from './Dropdowns/Dropdown'
  * кнопка-контейнер
  */
 class ButtonContainer extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {}
+        this.buttonId = id()
+        this.onClick = this.onClick.bind(this)
+    }
+
+    componentWillUnmount() {
+        const { dispatch, containerKey } = this.props
+
+        dispatch(removeButton(containerKey))
+    }
+
     /**
-     * Диспатч экшена регистрации виджета
-     */
+   * Диспатч экшена регистрации виджета
+   */
     static initIfNeeded(props) {
         const {
             isInit,
@@ -56,47 +69,33 @@ class ButtonContainer extends React.Component {
             },
         } = props
 
-        if (!isInit) {
-            dispatch(
-                registerButton(containerKey, id, {
-                    id,
-                    visible,
-                    disabled,
-                    size,
-                    parentId,
-                    color,
-                    icon,
-                    count,
-                    title,
-                    hint,
-                    className,
-                    style,
-                    conditions,
-                    containerKey,
-                    resolveEnabled,
-                    hintPosition,
-                }),
-            )
-        }
+        !isInit &&
+      dispatch(
+          registerButton(containerKey, id, {
+              id,
+              visible,
+              disabled,
+              size,
+              parentId,
+              color,
+              icon,
+              count,
+              title,
+              hint,
+              className,
+              style,
+              conditions,
+              containerKey,
+              resolveEnabled,
+              hintPosition,
+          }),
+      )
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, state) {
         ButtonContainer.initIfNeeded(props)
 
         return null
-    }
-
-    constructor(props) {
-        super(props)
-        this.state = {}
-        this.buttonId = id()
-        this.onClick = this.onClick.bind(this)
-    }
-
-    componentWillUnmount() {
-        const { dispatch, containerKey } = this.props
-
-        dispatch(removeButton(containerKey))
     }
 
     onClick(e) {
@@ -190,29 +189,28 @@ class ButtonContainer extends React.Component {
     render() {
         const {
             visible,
+            disabled,
+            size,
+            title,
+            count,
+            color,
+            icon,
             hint,
             hintPosition,
             component,
         } = this.props
         const isDropdown = component === DropdownMenu
 
-        if (isDropdown) {
-            /* eslint-disable jsx-a11y/click-events-have-key-events */
-            /* eslint-disable jsx-a11y/no-static-element-interactions */
-            return (
-                <div
-                    className={cx(visible ? 'd-block' : 'd-none')}
-                    onClick={e => e.stopPropagation()}
-                >
-                    {withTooltip(this.renderDropdown(), hint, hintPosition, this.buttonId)}
-                </div>
-            )
-        }
-        if (visible) {
-            return withTooltip(this.renderButton(), hint, hintPosition, this.buttonId)
-        }
-
-        return null
+        return isDropdown ? (
+            <div
+                className={cx(visible ? 'd-block' : 'd-none')}
+                onClick={e => e.stopPropagation()}
+            >
+                {withTooltip(this.renderDropdown(), hint, hintPosition, this.buttonId)}
+            </div>
+        ) : visible ? (
+            withTooltip(this.renderButton(), hint, hintPosition, this.buttonId)
+        ) : null
     }
 }
 
@@ -232,7 +230,6 @@ const mapStateToProps = createStructuredSelector({
 })
 
 ButtonContainer.propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
     isInit: PropTypes.bool,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -244,13 +241,7 @@ ButtonContainer.propTypes = {
     hint: PropTypes.string,
     hintPosition: PropTypes.string,
     className: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
     style: PropTypes.object,
-    dispatch: PropTypes.func,
-    containerKey: PropTypes.string,
-    component: PropTypes.func,
-    onClick: PropTypes.func,
-    children: PropTypes.any,
 }
 
 ButtonContainer.defaultProps = {

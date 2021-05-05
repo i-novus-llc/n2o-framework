@@ -18,55 +18,57 @@
     }
 }
 
-.n2o-page__title {
-    font-size: 2rem;
-}
-
-.n2o-page-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: $spacer;
-}
-
-.n2o-page__left-right-layout {
-    display: flex;
-    justify-content: space-between;
-
-    .n2o-page__left + .n2o-page__right {
-        margin-left: 20px;
+.n2o-page {
+    &__title {
+        font-size: 2rem;
     }
 
-    .n2o-page__left,
-    .n2o-page__right {
-        width: 49%;
+    &-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacer;
     }
-}
 
-.n2o-page__fixed-container {
-    position: relative;
-    transition: 0.5s;
-}
+    &__left-right-layout {
+        display: flex;
+        justify-content: space-between;
 
-.n2o-page__fixed-container--fixed {
-    z-index: 2;
-}
+        & .n2o-page__left + .n2o-page__right {
+            margin-left: 20px;
+        }
 
-.n2o-page__scroll-to-top {
-    position: fixed !important;
-    right: 100px;
-    bottom: 100px;
-    width: 40px;
-    height: 40px;
-    font-size: 40px;
-    z-index: 5;
-    transition: 0.5s;
-    opacity: 0;
-    pointer-events: none;
-}
+        & .n2o-page__left,
+        & .n2o-page__right {
+            width: 49%;
+        }
+    }
 
-.n2o-page__scroll-to-top--show {
-    opacity: 1;
-    pointer-events: auto;
+    &__fixed-container {
+        position: relative;
+        transition: 0.5s;
+
+        &--fixed {
+            z-index: 2;
+        }
+    }
+
+    &__scroll-to-top {
+        position: fixed !important;
+        right: 100px;
+        bottom: 100px;
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+        z-index: 5;
+        transition: 0.5s;
+        opacity: 0;
+        pointer-events: none;
+
+        &--show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
 }
 
 .n2o-disabled-page {
@@ -74,16 +76,18 @@
 }
 
 @media screen and (max-width: 1279px) {
-    .n2o-page__left-right-layout {
-        flex-wrap: wrap;
+    .n2o-page {
+        &__left-right-layout {
+            flex-wrap: wrap;
 
-        .n2o-page__left,
-        .n2o-page__right {
-            width: 100% !important;
-        }
+            & .n2o-page__left,
+            & .n2o-page__right {
+                width: 100% !important;
+            }
 
-        .n2o-page__right {
-            margin-left: 0 !important;
+            & .n2o-page__right {
+                margin-left: 0 !important;
+            }
         }
     }
 }

@@ -1,13 +1,13 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import { getStubData } from 'N2oStorybook/fetchMock'
 import { Route, Switch } from 'react-router-dom'
 
-// eslint-disable-next-line import/no-named-as-default
 import Actions, { Actions as ActionsComponent } from './Actions'
-// eslint-disable-next-line import/extensions
 import metadata from './Link.meta'
 
 const stories = storiesOf('Действия/Ссылка Link', module)
+
 stories.addParameters({
     info: {
         propTables: [ActionsComponent],
@@ -15,7 +15,6 @@ stories.addParameters({
     },
 })
 
-/* eslint-disable react/jsx-one-expression-per-line */
 stories
 
     .add(
@@ -29,7 +28,7 @@ stories
        Компонент 'Действие переход по ссылке'
        ~~~js
        import Actions from 'n2o-framework/lib/components/actions/Actions';
-
+       
        const props = {
           "actions": {
             "redirect": {
@@ -53,8 +52,8 @@ stories
             }
           ]
         };
-
-        <Actions {...props} containerKey="linkContainer" />
+        
+        <Actions {...props} containerKey="linkContainer" /> 
        ~~~
       `,
             },

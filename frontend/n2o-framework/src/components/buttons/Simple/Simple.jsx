@@ -67,9 +67,6 @@ SimpleButton.propTypes = {
     disabled: PropTypes.bool,
     count: PropTypes.string,
     onClick: PropTypes.func,
-    rounded: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node,
 }
 
 SimpleButton.defaultProps = {

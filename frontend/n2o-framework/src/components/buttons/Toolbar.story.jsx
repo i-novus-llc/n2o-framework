@@ -486,6 +486,7 @@ stories
                 ],
             },
         ]
+
         return <Toolbar toolbar={toolbar} entityKey="metaBtns" />
     })
     .add('Ограничение доступа на кнопки', () => {
@@ -509,6 +510,7 @@ stories
                 ],
             },
         ]
+
         return (
             <div>
                 <small>
@@ -558,6 +560,7 @@ stories
                 ],
             },
         ]
+
         return (
             <div>
                 <small>
@@ -694,6 +697,7 @@ stories
                 ],
             },
         ]
+
         return (
             <div>
                 <small>Нажмите кнопку, чтобы вызвать печать</small>

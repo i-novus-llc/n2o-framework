@@ -21,7 +21,7 @@ const SIZES = [5, 10, 20, 50]
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-function ChangeSizeComponent({ renderSizeDropdown }) {
+function ChangeSize({ renderSizeDropdown }) {
     return (
         <UncontrolledButtonDropdown>
             <DropdownToggle caret>
@@ -31,8 +31,9 @@ function ChangeSizeComponent({ renderSizeDropdown }) {
         </UncontrolledButtonDropdown>
     )
 }
-ChangeSizeComponent.propTypes = {
-    renderSizeDropdown: PropTypes.func,
+ChangeSize.propTypes = {
+    size: PropTypes.number,
+    entityKey: PropTypes.string,
 }
 
 const mapStateToProps = (state, props) => ({
@@ -58,7 +59,6 @@ const enhance = compose(
         )),
     }),
 )
-const ChangeSize = enhance(ChangeSizeComponent)
 
 export { ChangeSize }
-export { ChangeSizeComponent }
+export default enhance(ChangeSize)

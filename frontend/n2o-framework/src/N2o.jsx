@@ -6,7 +6,6 @@ import { compose, withContext, defaultProps, withProps } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import './i18n'
 
-// eslint-disable-next-line import/extensions
 import packageJson from '../package'
 
 import history from './history'
@@ -38,7 +37,6 @@ class N2o extends Component {
             factories: this.generateConfig(),
         }
 
-        // eslint-disable-next-line no-underscore-dangle
         window._n2oEvalContext = props.evalContext
 
         this.store = configureStore(props.initialState, history, config)

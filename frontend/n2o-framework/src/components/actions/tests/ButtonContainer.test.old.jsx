@@ -6,7 +6,6 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 
 import ButtonContainer from '../ButtonContainer'
 
-// eslint-disable-next-line react/prop-types
 function test({ disabled }) {
     return <div className={cn('btn-toolbar', { disabled })}>test</div>
 }
@@ -25,6 +24,7 @@ const setup = (store, component) => mount(
             count={1}
             title="test"
             icon="fa fa-plus"
+            children={[]}
             initialProps={{
                 visible: false,
             }}

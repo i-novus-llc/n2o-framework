@@ -45,7 +45,7 @@ class Select extends React.Component {
 
     /**
    * Базовый рендер
-   * */
+   **/
     render() {
         const {
             children,

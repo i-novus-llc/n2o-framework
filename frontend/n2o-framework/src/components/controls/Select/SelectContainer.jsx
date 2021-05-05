@@ -14,7 +14,7 @@ import Option from './Option'
 class SelectContainer extends React.Component {
     /**
    * Базовый рендер
-   * */
+   **/
     render() {
         const { options, select, ...props } = this.props
 

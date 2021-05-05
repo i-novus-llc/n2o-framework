@@ -5,44 +5,44 @@
     justify-content: flex-start;
     flex-wrap: nowrap;
 
-    .details-label {
+    & .details-label {
         display: inline-block;
         border-bottom: 1px dashed rgba(38, 50, 56, 0.55);
         cursor: pointer;
         margin-left: $input-btn-padding-y;
     }
 
-    > .text {
+    & > .text {
         display: flex;
         align-items: center;
         order: 2;
         min-height: 1.4rem;
     }
 
-    > .icon {
+    &--expandable > .text {
+        display: block;
+    }
+
+    &--ellipsis > .text > span {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    & > .icon {
         margin-top: 2px;
     }
 
     &.right {
-        > .icon {
+        & > .icon {
             order: 3;
         }
     }
 
     &.left {
-        > .icon {
+        & > .icon {
             order: 1;
         }
     }
-}
-
-.n2o-output-text--expandable > .text {
-    display: block;
-}
-
-.n2o-output-text--ellipsis > .text > span {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }

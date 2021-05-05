@@ -20,6 +20,7 @@ const setup = (propOverrides) => {
 describe('<CodeViewer />', () => {
     it('виден по visible', () => {
         let { wrapper } = setup({ visible: false })
+
         expect(wrapper.find('.n2o-code-viewer').exists()).toEqual(false)
         wrapper = setup({ visible: true }).wrapper
         expect(wrapper.find('.n2o-code-viewer').exists()).toEqual(true)
@@ -27,6 +28,7 @@ describe('<CodeViewer />', () => {
 
     it('SyntaxHighlighter доступен по show', () => {
         const { wrapper } = setup({ show: true })
+
         expect(wrapper.find('SyntaxHighlighter').exists()).toEqual(true)
     })
 })

@@ -1,7 +1,5 @@
 import React from 'react'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { mount } from 'enzyme'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { mount, shallow } from 'enzyme'
 import sinon from 'sinon'
 
 import { ToggleColumn } from './ToggleColumn'

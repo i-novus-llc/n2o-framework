@@ -1,26 +1,26 @@
 .n2o-rc-tree-wrapper {
-    .custom-control-label {
+    & .custom-control-label {
         margin-bottom: 0.5rem;
     }
 
-    .custom-control-inline {
+    & .custom-control-inline {
         padding-left: 1.5rem;
     }
 
-    .n2o-rc-tree-label {
+    & .n2o-rc-tree-label {
         padding: 0 5px;
     }
 
-    .n2o-rc-tree-image-tree-wrapper {
+    & .n2o-rc-tree-image-tree-wrapper {
         display: inline-block;
         padding: 0 5px;
 
-        > img {
+        & > img {
             width: 24px;
         }
     }
 
-    .n2o-rc-tree {
+    & .n2o-rc-tree {
         margin: 0;
         padding: 0;
     }
@@ -44,7 +44,7 @@
         }
 
         .tree-filter-clear {
-            i {
+            & i {
                 border-radius: 50%;
                 font-size: 12px;
 
@@ -168,17 +168,17 @@
     cursor: pointer;
     vertical-align: top;
 
-    i {
+    & i {
         font-size: 16px;
         padding: 0 5px 2px 6px;
         border-radius: 50%;
     }
 
-    i:hover {
+    & i:hover {
         background-color: $icon-tree-hover-color;
     }
 
-    .custom-control {
+    & .custom-control {
         pointer-events: none;
     }
 
@@ -233,26 +233,26 @@
 }
 
 .n2o-rc-tree-checkbox-checked {
-    .custom-control-label::before {
+    & .custom-control-label::before {
         color: $white;
         background-color: $checkbox-background-color-checked;
         border-color: $checkbox-border-color-checked;
     }
 
-    .custom-control-label::after {
+    & .custom-control-label::after {
         background-image: $custom-checkbox-indicator-icon-checked;
         left: -1.2rem;
     }
 }
 
 .n2o-rc-tree-checkbox-indeterminate {
-    .custom-control-label::before {
+    & .custom-control-label::before {
         color: $white;
         background-color: $checkbox-background-color-checked;
         border-color: $checkbox-border-color-checked;
     }
 
-    .custom-control-label::after {
+    & .custom-control-label::after {
         background-image: $custom-checkbox-indicator-icon-indeterminate;
         left: -1.2rem;
     }

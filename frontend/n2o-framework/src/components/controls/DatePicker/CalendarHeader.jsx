@@ -4,7 +4,6 @@ import moment from 'moment'
 import 'moment/locale/ru'
 
 import { withLocale } from './utils'
-// eslint-disable-next-line import/no-cycle
 import Calendar from './Calendar'
 
 /**
@@ -28,33 +27,26 @@ class CalendarHeader extends React.Component {
 
     renderHeaderValue(type = Calendar.BY_DAYS, displayesMonth, locale) {
         if (type === Calendar.BY_DAYS) {
-            /* eslint-disable react/jsx-one-expression-per-line */
             return (
                 <>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
                         className="n2o-calendar-header-month-title capitalize"
                         href="#"
                         onClick={(e) => {
                             e.preventDefault()
-                            const { changeCalendarType } = this.props
-
-                            changeCalendarType(Calendar.BY_MONTHS)
+                            this.props.changeCalendarType(Calendar.BY_MONTHS)
                         }}
                     >
                         {withLocale(displayesMonth, locale).format('MMMM')}
                     </a>
 
           &nbsp;
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
                         className="n2o-calendar-header-year-title"
                         href="#"
                         onClick={(e) => {
                             e.preventDefault()
-                            const { changeCalendarType } = this.props
-
-                            changeCalendarType(Calendar.BY_YEARS)
+                            this.props.changeCalendarType(Calendar.BY_YEARS)
                         }}
                     >
                         {displayesMonth.format('YYYY')}
@@ -64,10 +56,9 @@ class CalendarHeader extends React.Component {
         } if (type === Calendar.BY_MONTHS) {
             return withLocale(displayesMonth, locale).format('MMMM')
         } if (type === Calendar.BY_YEARS) {
-            const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10, 10) * 10
+            const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10) * 10
 
             return (
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
                 <a
                     href="#"
                     onClick={(e) => {
@@ -81,17 +72,14 @@ class CalendarHeader extends React.Component {
             )
         }
         if (type === Calendar.TIME_PICKER) {
-            const { t } = this.props
-
             return (
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
                 <a
                     href="#"
                     onClick={(e) => {
                         e.preventDefault()
                     }}
                 >
-                    {t('chooseTime')}
+                    {this.props.t('chooseTime')}
                 </a>
             )
         }
@@ -99,7 +87,6 @@ class CalendarHeader extends React.Component {
         return null
     }
 
-    // eslint-disable-next-line class-methods-use-this,consistent-return
     nextType(type) {
         if (type === Calendar.BY_YEARS || type === Calendar.BY_MONTHS) { return Calendar.BY_YEARS }
         if (type === Calendar.BY_DAYS) { return Calendar.BY_MONTHS }
@@ -131,8 +118,8 @@ class CalendarHeader extends React.Component {
     }
 
     /**
-     * базовый рендер
-     */
+   * базовый рендер
+   */
     render() {
         const {
             displayesMonth,
@@ -178,7 +165,6 @@ class CalendarHeader extends React.Component {
 
 CalendarHeader.propTypes = {
     nextMonth: PropTypes.func,
-    t: PropTypes.func,
     locale: PropTypes.oneOf(['en', 'ru']),
     nextYear: PropTypes.func,
     prevMonth: PropTypes.func,
