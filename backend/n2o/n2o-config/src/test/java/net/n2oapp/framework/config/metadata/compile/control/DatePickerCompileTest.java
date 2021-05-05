@@ -32,13 +32,19 @@ public class DatePickerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testImageField() {
+    public void testDatePicker() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testDatePicker.widget.xml")
                 .get(new WidgetContext("testDatePicker"));
         StandardField standardField = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        assertThat(standardField.getLabel(), is("Дата рождения"));
         DatePicker field = (DatePicker) standardField.getControl();
         assertThat(field.getId(), is("test"));
         assertThat(field.getPlaceholder(), is( "Введите дату рождения"));
-        assertThat(standardField.getLabel(), is("Дата рождения"));
+        assertThat(field.getDateFormat(), is( "DD.MM.YYYY"));
+        assertThat(field.getTimeFormat(), is( "HH:mm"));
+        assertThat(field.getMin(), is( "01.01.2000"));
+        assertThat(field.getMax(), is( "01.01.3000"));
+        assertThat(field.getUtc(), is( true));
+        assertThat(field.getSrc(), is( "test"));
     }
 }
