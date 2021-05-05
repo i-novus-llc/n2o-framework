@@ -21,6 +21,7 @@ const setup = (propOverrides) => {
 describe('<CodeEditor />', () => {
     it('виден по visible', () => {
         let { wrapper } = setup({ visible: false })
+
         expect(wrapper.find(AceEditor)).toHaveLength(0)
         wrapper = setup({ visible: true }).wrapper
         expect(wrapper.find(AceEditor)).toHaveLength(1)
@@ -28,6 +29,7 @@ describe('<CodeEditor />', () => {
 
     it('доступен по disabled', () => {
         const { wrapper } = setup({ disabled: true })
+
         expect(wrapper.find(AceEditor).props().readOnly).toBe(true)
     })
 })

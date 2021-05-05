@@ -13,6 +13,7 @@ export function formatToFloat(val, stepPrecision) {
         ? str.length
         : str.indexOf('.', str.indexOf('.') + 1)
     const formattedStr = str.slice(0, end)
+
     return !stepPrecision
         ? toNumber(formattedStr)
         : toNumber(formattedStr).toFixed(stepPrecision)
@@ -23,6 +24,7 @@ export function getPrecision(step) {
         .toString()
         .trim()
         .split('.')
+
     return stepArr.length === 1 ? 0 : stepArr[1].length
 }
 

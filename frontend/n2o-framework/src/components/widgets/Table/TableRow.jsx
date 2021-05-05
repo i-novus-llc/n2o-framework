@@ -15,6 +15,7 @@ class TableRow extends React.Component {
 
     render() {
         const { color, className } = this.props
+
         return (
             <tr
                 {...this.props}

@@ -1,81 +1,88 @@
 .custom-checkbox-align {
-  position: absolute;
-  top: 4px;
-  left: 0;
-  width: $checkbox-width;
-  height: $checkbox-height;
-  z-index: 10;
-  opacity: 0;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    width: $checkbox-width;
+    height: $checkbox-height;
+    z-index: 10;
+    opacity: 0;
 }
+
 .custom-checkbox {
+    margin: $custom-checkbox-margin;
 
-  margin: $custom-checkbox-margin;
-
-  & .custom-control {
-    &-label {
-      &:hover::before {
-        border: $checkbox-hover-border;
-      }
-      &:before {
-        top: $checkbox-position-top;
-        left: $checkbox-position-left;
-        right: $checkbox-position-right;
-        bottom: $checkbox-position-bottom;
-        width: $checkbox-width;
-        height: $checkbox-height;
-        background-color: $checkbox-background-color;
-        border: $checkbox-border;
-        border-radius: $checkbox-border-radius;
-      }
-    }
-    &-input {
-      &:focus ~ .custom-control-label::before {
-        box-shadow: $checkbox-focus-shadow;
-      }
-      &:checked {
-        & ~ .custom-control-label {
-          &::before {
-            background-color: $checkbox-background-color-checked;
-            border-color: $checkbox-border-color-checked;
-          }
-        }
-      }
-      &:disabled {
-        &:checked {
-          & ~ .custom-control-label {
-            &::before {
-              border-color: $checkbox-border-color-checked;
+    & .custom-control {
+        &-label {
+            &:hover::before {
+                border: $checkbox-hover-border;
             }
-          }
+
+            &::before {
+                top: $checkbox-position-top;
+                left: $checkbox-position-left;
+                right: $checkbox-position-right;
+                bottom: $checkbox-position-bottom;
+                width: $checkbox-width;
+                height: $checkbox-height;
+                background-color: $checkbox-background-color;
+                border: $checkbox-border;
+                border-radius: $checkbox-border-radius;
+            }
         }
-      }
+
+        &-input {
+            &:focus ~ .custom-control-label::before {
+                box-shadow: $checkbox-focus-shadow;
+            }
+
+            &:checked {
+                & ~ .custom-control-label {
+                    &::before {
+                        background-color: $checkbox-background-color-checked;
+                        border-color: $checkbox-border-color-checked;
+                    }
+                }
+            }
+
+            &:disabled {
+                &:checked {
+                    & ~ .custom-control-label {
+                        &::before {
+                            border-color: $checkbox-border-color-checked;
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
-  & .custom-control-input {
-    @extend .custom-checkbox-align;
-    & ~ .custom-control-label {
-      &::after {
-        top: $checkbox-position-top;
-        left: $checkbox-position-left;
-        right: $checkbox-position-right;
-        bottom: $checkbox-position-bottom;
-        width: $checkbox-width;
-        height: $checkbox-height;
-      }
+
+    & .custom-control-input {
+        @extend .custom-checkbox-align;
+
+        & ~ .custom-control-label {
+            &::after {
+                top: $checkbox-position-top;
+                left: $checkbox-position-left;
+                right: $checkbox-position-right;
+                bottom: $checkbox-position-bottom;
+                width: $checkbox-width;
+                height: $checkbox-height;
+            }
+        }
     }
-  }
-  & .custom-control-input:checked {
-    & ~ .custom-control-label {
-      &::after {
-        background-image: $checkbox-background-image;
-        background-size: $checkbox-background-size;
-        background-position: $checkbox-background-position;
-        background-repeat: $checkbox-background-repeat;
-      }
+
+    & .custom-control-input:checked {
+        & ~ .custom-control-label {
+            &::after {
+                background-image: $checkbox-background-image;
+                background-size: $checkbox-background-size;
+                background-position: $checkbox-background-position;
+                background-repeat: $checkbox-background-repeat;
+            }
+        }
     }
-  }
 }
 
 .custom-control {
-  padding-left: $checkbox-custom-control-padding-left;
+    padding-left: $checkbox-custom-control-padding-left;
 }

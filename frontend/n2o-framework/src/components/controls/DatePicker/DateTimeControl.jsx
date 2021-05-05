@@ -46,6 +46,7 @@ class DateTimeControl extends React.Component {
     constructor(props) {
         super(props)
         const { value, dateFormat, configLocale, timeFormat, dateDivider } = props
+
         this.format = buildDateFormat(dateFormat, timeFormat, dateDivider)
 
         this.defaultTime = mapToDefaultTime(
@@ -57,6 +58,7 @@ class DateTimeControl extends React.Component {
         )
 
         const { defaultTime } = this
+
         this.state = {
             inputs: mapToValue(
                 value,
@@ -91,6 +93,7 @@ class DateTimeControl extends React.Component {
    */
     componentWillReceiveProps(props) {
         const { value, dateFormat, configLocale, timeFormat, dateDivider } = props
+
         this.format = buildDateFormat(dateFormat, timeFormat, dateDivider)
 
         this.defaultTime = mapToDefaultTime(
@@ -131,6 +134,7 @@ class DateTimeControl extends React.Component {
                 ? moment.utc(date).format(outputFormat)
                 : date.format(outputFormat)
         }
+
         return date
     }
 
@@ -140,6 +144,7 @@ class DateTimeControl extends React.Component {
         if (inputName === DateTimeControl.defaultInputName) {
             return this.dateToString(inputs[inputName])
         }
+
         return [
             this.dateToString(inputs[DateTimeControl.beginInputName]),
             this.dateToString(inputs[DateTimeControl.endInputName]),
@@ -152,6 +157,7 @@ class DateTimeControl extends React.Component {
     onChange(inputName) {
         const { onChange } = this.props
         const value = this.getValue(inputName)
+
         onChange(value)
     }
 
@@ -161,6 +167,7 @@ class DateTimeControl extends React.Component {
     select(day, inputName, close = true) {
         const { inputs } = this.state
         const { type } = this.props
+
         if (
             inputName === DateTimeControl.defaultInputName ||
       inputName === DateTimeControl.beginInputName ||
@@ -180,10 +187,12 @@ class DateTimeControl extends React.Component {
                         [DateTimeControl.endInputName]: null,
                     }
                 }
+
                 return {
                     [inputName]: day,
                 }
             }
+
             this.setState(
                 {
                     inputs: { ...this.state.inputs, ...inputValue() },
@@ -217,6 +226,7 @@ class DateTimeControl extends React.Component {
 
     onInputBlur(date, inputName) {
         const { onBlur } = this.props
+
         this.onInputChange(date, inputName, () => onBlur(this.getValue(inputName)))
     }
 
@@ -262,6 +272,7 @@ class DateTimeControl extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { begin, end } = this.state.inputs
+
         if (!isNull(begin)) {
             moment(begin).isAfter(moment(end)) &&
         this.setState({
@@ -343,6 +354,7 @@ class DateTimeControl extends React.Component {
 
     onFocus(e) {
         const { onFocus } = this.props
+
         this.setState(
             {
                 focused: true,
@@ -378,6 +390,7 @@ class DateTimeControl extends React.Component {
 
         const { inputs } = this.state
         const dateInputGroupProps = pick(this.props, ['max', 'min'])
+
         return (
             <div className="n2o-date-picker-container">
                 <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>

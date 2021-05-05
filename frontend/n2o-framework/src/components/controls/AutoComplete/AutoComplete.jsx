@@ -56,6 +56,7 @@ class AutoComplete extends React.Component {
       const compareListProps = ['options', 'value']
       const compareListState = ['input']
       const { input } = this.state
+
       if (
           !isEqual(
               pick(prevProps, compareListProps),
@@ -82,6 +83,7 @@ class AutoComplete extends React.Component {
 
   handleClickOutside = () => {
       const { isExpanded } = this.state
+
       if (isExpanded) {
           this._setIsExpanded(false)
           this.onBlur()
@@ -91,6 +93,7 @@ class AutoComplete extends React.Component {
   calcPopperWidth = () => {
       const { _input, _textarea } = this
       const { popupAutoSize } = this.props
+
       if ((_input || _textarea) && !popupAutoSize) {
           return _input
               ? _input.getBoundingClientRect().width
@@ -101,6 +104,7 @@ class AutoComplete extends React.Component {
   _setIsExpanded = (isExpanded) => {
       const { disabled, onToggle, onClose, onOpen } = this.props
       const { isExpanded: previousIsExpanded } = this.state
+
       if (!disabled && isExpanded !== previousIsExpanded) {
           this.setState({ isExpanded })
           onToggle(isExpanded)
@@ -140,10 +144,12 @@ class AutoComplete extends React.Component {
       if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
           const filterFunc = item => String.prototype[filter].call(item, input)
           const filteredData = filter(options, item => filterFunc(item[valueFieldId]))
+
           this.setState({ options: filteredData })
       } else {
       // серверная фильтрация
           const labels = map(this.state.value, item => item[valueFieldId])
+
           if (labels.some(label => label === input)) {
               onSearch('', delay, callback)
           } else {
@@ -170,6 +176,7 @@ class AutoComplete extends React.Component {
               : some(options || data, option => option[valueFieldId] === input)
                   ? [input]
                   : [input])
+
           this.setState(
               prevState => ({
                   input,

@@ -1,69 +1,79 @@
 .btn-rounded {
-  width: 38px;
-  max-width: 38px;
-  height: 38px;
-  min-height: 31px;
-  border-radius: 50%;
-  padding: 0;
-  margin: 0 5px 0 5px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  >i {
+    width: 38px;
+    max-width: 38px;
+    height: 38px;
+    min-height: 31px;
+    border-radius: 50%;
     padding: 0;
-  }
+    margin: 0 5px 0 5px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    >i {
+        padding: 0;
+    }
 }
+
 .btn-rounded.btn-sm {
-  width: 31px;
-  max-width: 31px;
-  height: 31px;
-  max-height: 31px;
+    width: 31px;
+    max-width: 31px;
+    height: 31px;
+    max-height: 31px;
 }
+
 .btn-rounded.btn-md {
-  width: 38px;
-  max-width: 38px;
-  height: 38px;
-  min-height: 38px;
-  max-height: 38px;
+    width: 38px;
+    max-width: 38px;
+    height: 38px;
+    min-height: 38px;
+    max-height: 38px;
 }
+
 .btn-rounded.btn-lg {
-  width: 48px;
-  max-width: 48px;
-  height: 48px;
-  min-height: 48px;
-  max-height: 48px;
+    width: 48px;
+    max-width: 48px;
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
 }
+
 .btn-rounded__with-content {
-  height: 38px;
-  min-height: 31px;
-  margin: 0 5px 0 5px !important;
-  padding: 0 25px 0 25px;
-  border-radius: 100px;
-  text-align: center;
-  >i {
-    padding: 0 5px 0 0;
-  }
-}
-.btn-rounded__with-content.btn-sm {
-  height: 31px;
-  min-height: 31px;
-}
-.btn-rounded__with-content.btn-md {
-  height: 38px;
-  min-height: 38px;
-}
-.btn-rounded__with-content.btn-lg {
-  height: 48px;
-  min-height: 48px;
-}
-.btn-group {
-  >.btn-rounded {
+    height: 38px;
+    min-height: 31px;
     margin: 0 5px 0 5px !important;
-  }
+    padding: 0 25px 0 25px;
+    border-radius: 100px;
+    text-align: center;
+
+    >i {
+        padding: 0 5px 0 0;
+    }
+}
+
+.btn-rounded__with-content.btn-sm {
+    height: 31px;
+    min-height: 31px;
+}
+
+.btn-rounded__with-content.btn-md {
+    height: 38px;
+    min-height: 38px;
+}
+
+.btn-rounded__with-content.btn-lg {
+    height: 48px;
+    min-height: 48px;
+}
+
+.btn-group {
+    >.btn-rounded {
+        margin: 0 5px 0 5px !important;
+    }
 }
 
 .btn-disabled {
-  pointer-events: none;
-  opacity: 0.65;
+    pointer-events: none;
+    opacity: 0.65;
 }

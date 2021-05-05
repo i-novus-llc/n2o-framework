@@ -40,6 +40,7 @@ import withAdvancedTableRef from './withAdvancedTableRef'
 
 export const getIndex = (data, selectedId) => {
     const index = findIndex(data, model => model.id === selectedId)
+
     return index >= 0 ? index : 0
 }
 
@@ -137,6 +138,7 @@ class AdvancedTable extends Component {
             autoFocus,
             children,
         } = this.state
+
         if (!isAnyTableFocused && isActive && !rowClick && autoFocus) {
             this.setSelectAndFocus(
                 get(data[selectIndex], 'id'),
@@ -199,6 +201,7 @@ class AdvancedTable extends Component {
 
         if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
             const id = selectedId || data[0].id
+
             if (isAnyTableFocused && !isActive && autoFocus) {
                 this.setNewSelectIndex(id)
             } else if (autoFocus) {
@@ -208,6 +211,7 @@ class AdvancedTable extends Component {
 
         if (!isEqual(prevProps, this.props)) {
             let state = {}
+
             if (
                 isEqual(prevProps.filters, this.props.filters) &&
         !isEmpty(prevProps.filters) &&
@@ -217,6 +221,7 @@ class AdvancedTable extends Component {
             }
             if (data && !isEqual(prevProps.data, data)) {
                 const checked = this.mapChecked(data, multi)
+
                 state = {
                     data: isArray(data) ? data : [data],
                     checked,
@@ -252,6 +257,7 @@ class AdvancedTable extends Component {
 
             const isSomeOneChecked = some(checked, i => i)
             const isAllChecked = every(checked, i => i)
+
             if (isAllChecked) {
                 all = true
             }
@@ -273,6 +279,7 @@ class AdvancedTable extends Component {
 
     renderTableRow(props) {
         const { rows } = props
+
         return (props) => {
             if (isEmpty(rows)) {
                 return get(props, 'rowClick', false) ? (
@@ -280,7 +287,9 @@ class AdvancedTable extends Component {
                 ) : (
                     <AdvancedTableRow {...props} />
                 )
-            } return (
+            }
+
+            return (
                 <SecurityCheck
                     config={rows.security}
                     render={({ permissions }) => (permissions ? (
@@ -295,9 +304,11 @@ class AdvancedTable extends Component {
 
     mapChecked(data, multi) {
         const checked = {}
+
         map(data, (item) => {
             checked[item.id] = (multi && multi[item.id]) || false
         })
+
         return checked
     }
 
@@ -305,15 +316,18 @@ class AdvancedTable extends Component {
         const dataStorage = []
         const getChildren = children => map(children, (model) => {
             let array = [...children]
+
             if (model.children) {
                 array = [...array, getChildren(model.children)]
             }
+
             return array
         })
 
         map(data, (item) => {
             if (item.children) {
                 const children = getChildren(item.children)
+
                 dataStorage.push(...flattenDeep(children))
             }
             dataStorage.push(item)
@@ -350,6 +364,7 @@ class AdvancedTable extends Component {
 
                 if (newFocusIndex >= data.length || newFocusIndex < 0) { return false }
                 const nextData = data[newFocusIndex]
+
                 if (hasSelect && autoFocus) {
                     this.setSelectAndFocus(nextData.id, nextData.id)
                     this.props.onResolve(nextData)
@@ -367,6 +382,7 @@ class AdvancedTable extends Component {
 
     handleFilter(filter) {
         const { onFilter } = this.props
+
         onFilter && onFilter(filter)
     }
 
@@ -465,6 +481,7 @@ class AdvancedTable extends Component {
                 getKeys(item.children)
             }
         })
+
         getKeys(data)
         this.setState({
             expandedRowKeys: keys,
@@ -488,6 +505,7 @@ class AdvancedTable extends Component {
         const { checked } = this.state
         const newChecked = {}
         let newMulti = multi || []
+
         if (!status) {
             forOwn(data, ({ id }) => delete newMulti[id])
         } else {
@@ -512,6 +530,7 @@ class AdvancedTable extends Component {
         let checkedState = {
             ...checked,
         }
+
         if (newMulti[index]) {
             delete newMulti[index]
             checkedState[index] = false
@@ -521,11 +540,13 @@ class AdvancedTable extends Component {
                 [index]: !checked[index],
             }
             let item = null
+
             forOwn(checkedState, (value, key) => {
                 if (value) {
                     item =
             find(data, i => get(i, 'id').toString() === key.toString()) || {}
                     const itemId = get(item, 'id')
+
                     if (itemId) { newMulti = { ...newMulti, ...{ [itemId]: item } } }
                 }
             })
@@ -538,6 +559,7 @@ class AdvancedTable extends Component {
 
     handleChangeRadioChecked(index) {
         const { rowSelection, onSetSelection, data } = this.props
+
         if (rowSelection !== rowSelectionType.RADIO) { return }
         const checkedState = {
             [index]: true,
@@ -546,6 +568,7 @@ class AdvancedTable extends Component {
         const newMulti = {
             [index]: data[id],
         }
+
         onSetSelection(newMulti)
         this.setState(() => ({
             checked: checkedState,
@@ -556,10 +579,12 @@ class AdvancedTable extends Component {
         return (e, { size }) => {
             this.setState(({ columns }) => {
                 const nextColumns = [...columns]
+
                 nextColumns[index] = {
                     ...nextColumns[index],
                     width: size.width,
                 }
+
                 return { columns: nextColumns }
             })
         }
@@ -568,6 +593,7 @@ class AdvancedTable extends Component {
     handleEdit(value, index, id) {
         const { onEdit } = this.props
         const { data } = this.state
+
         data[index][id] = value
         this.setState({
             data,
@@ -679,6 +705,7 @@ class AdvancedTable extends Component {
     mapColumns(columns = []) {
         const { rowSelection, filters } = this.props
         let newColumns = columns
+
         newColumns = map(newColumns, (col, columnIndex) => ({
             ...col,
             onHeaderCell: column => ({
@@ -699,6 +726,7 @@ class AdvancedTable extends Component {
                 ...newColumns,
             ]
         }
+
         return newColumns
     }
 
@@ -732,6 +760,7 @@ class AdvancedTable extends Component {
                             ? result + parseInt(value.width)
                             : result
                     }
+
                     return result + defaultWidth
                 },
                 startValue,

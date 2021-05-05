@@ -29,6 +29,7 @@ class ChangeSize extends React.Component {
    */
     resize(size) {
         const { dispatch, entityKey } = this.props
+
         dispatch(changeSizeWidget(entityKey, size))
         dispatch(dataRequestWidget(entityKey, { size, page: 1 }))
     }
@@ -39,6 +40,7 @@ class ChangeSize extends React.Component {
    */
     renderSizeDropdown(sizes) {
         const { size } = this.props
+
         return sizes.map((s, i) => (
             <DropdownItem key={i} toggle={false} onClick={() => this.resize(s)}>
                 <span className="n2o-dropdown-check-container">

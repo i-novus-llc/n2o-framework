@@ -64,5 +64,6 @@ const enhance = compose(
         },
     }),
 )
+
 export { TextTableHeader }
 export default enhance(TextTableHeader)

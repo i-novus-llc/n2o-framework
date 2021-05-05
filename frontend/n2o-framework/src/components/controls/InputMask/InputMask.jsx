@@ -52,11 +52,13 @@ class InputMask extends React.Component {
    */
   mask = () => {
       const { mask } = this.props
+
       if (Array.isArray(mask)) {
           return mask
       } if (typeof mask === 'function') {
           return mask()
       }
+
       return this._mapToArray(mask)
   };
 
@@ -66,6 +68,7 @@ class InputMask extends React.Component {
    */
   preset = (preset) => {
       const { presetConfig } = this.props
+
       switch (preset) {
           case 'phone':
               return this._mapToArray('+9 (999)-999-99-99')
@@ -104,6 +107,7 @@ class InputMask extends React.Component {
       } if (Array.isArray(mask)) {
           return mask.map(item => item instanceof RegExp).lastIndexOf(true)
       }
+
       return -1
   };
 
@@ -140,10 +144,12 @@ class InputMask extends React.Component {
   _onBlur = (e) => {
       const { resetOnNotValid, onBlur } = this.props
       const { value } = e.nativeEvent.target
+
       this.valid = this._isValid(value)
       onBlur(value)
       if (!this.valid) {
           const newValue = resetOnNotValid ? '' : value
+
           this.setState(
               { value: newValue, guide: false },
               () => value === '' && this.props.onChange(newValue),

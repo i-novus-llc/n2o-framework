@@ -85,11 +85,14 @@ export class MenuContainer extends React.Component {
         const parentIndex = findIndex(this.state[type], i => i.id === id)
         const parentItem = get(this.state[type], parentIndex.toString())
         let subItems = get(parentItem, 'subItems', [])
+
         subItems = filter(subItems, i => i.id !== item.id)
         parentItem.subItems = subItems
         this.setState((prevState) => {
             const newState = prevState
+
             newState[type][parentIndex].subItems = subItems
+
             return newState
         })
     }
@@ -103,6 +106,7 @@ export class MenuContainer extends React.Component {
             }
         }
         const { items, extraItems } = metadata
+
         await makeSecure(items, 'items')
         await makeSecure(extraItems, 'extraItems')
     }
@@ -128,6 +132,7 @@ export class MenuContainer extends React.Component {
 
     render() {
         const { render } = this.props
+
         return render(this.mapRenderProps())
     }
 }

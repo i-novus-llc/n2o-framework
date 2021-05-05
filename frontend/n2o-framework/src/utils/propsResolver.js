@@ -53,6 +53,7 @@ export default function propsResolver(
     additionalBlackList = [],
 ) {
     let obj = {}
+
     if (isArray(props)) {
         obj = []
     }
@@ -83,12 +84,15 @@ export default function propsResolver(
                 obj[k] = p
             }
         })
+
         return obj
     } if (isString(props)) {
         if (parseExpression(props)) {
             return evalExpression(parseExpression(props), data)
         }
+
         return props
     }
+
     return props
 }

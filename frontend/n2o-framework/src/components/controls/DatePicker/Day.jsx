@@ -24,6 +24,7 @@ class Day extends React.Component {
    */
     onClick() {
         const { day, select, disabled, inputName } = this.props
+
         if (!disabled) {
             this.props.select(day, inputName)
         }
@@ -49,6 +50,7 @@ class Day extends React.Component {
         const sel = selected ? 'selected' : ''
         const om = otherMonth ? 'other-month' : ''
         const cur = current ? 'current' : ''
+
         return (
             <td
                 className={`n2o-calendar-day ${dis} ${sel} ${om} ${cur}`}

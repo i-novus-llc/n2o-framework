@@ -38,6 +38,7 @@ class FileUploaderItem extends React.Component {
             loading,
             autoUpload,
         } = this.props
+
         return (
             <div className="n2o-file-uploader-files-item">
                 <span className="n2o-file-uploader-files-item-info">

@@ -55,11 +55,13 @@ function http_build_query(formdata, numeric_prefix, arg_separator) {
  */
 export function http_params_query(data) {
     const params = []
+
     each(data, (val, key) => {
         if (data.hasOwnProperty(key)) {
             params.push({ name: key, value: val })
         }
     })
+
     return params
 }
 
@@ -75,6 +77,7 @@ export function http_params_query(data) {
  */
 export function generateParamQuery(objectAim, Key, $Res, delimiter) {
     $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter)
+
     return http_params_query($Res)
 }
 
@@ -89,6 +92,7 @@ export function generateParamQuery(objectAim, Key, $Res, delimiter) {
  */
 export function generateFlatQuery(objectAim, Key, $Res, delimiter) {
     $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter)
+
     return http_build_query($Res)
 }
 
@@ -142,6 +146,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
             : val
         }
     })
+
     return $Res
 }
 
@@ -178,9 +183,11 @@ export function createObjectFromDotString(
     each(keys, (item, i) => {
     // if key array's
         let resRegExp
+
         if ((resRegExp = item && item.match(/\[(\d)]/))) {
             const index = +resRegExp[1]
             const $key = item.replace(/\[(\d)]/, '')
+
             $next[$key] = $next[$key] || []
             // about array[0][0] ???
 
@@ -190,6 +197,7 @@ export function createObjectFromDotString(
             }
 
             $next = $next[$key][index]
+
             return $next
         }
         $next[item] = $next[item] || {}
@@ -200,6 +208,7 @@ export function createObjectFromDotString(
         }
         $next = $next[item]
     })
+
     return res
 }
 
@@ -221,6 +230,7 @@ export function createObjectByDotNotationKey(key, obj, delimiter) {
 
     if (keys.length === 1) {
         res[key] = obj[key]
+
         return res
     }
 
@@ -244,6 +254,7 @@ export function createObjectByDotNotationKey(key, obj, delimiter) {
  */
 export function getPathValue(object, path) {
     const flatParams = $generateFlatQuery(object, { withoutEncode: true })
+
     return flatParams[path]
 }
 
@@ -253,6 +264,7 @@ export function getPathValue(object, path) {
  */
 export function preFilterIsFunction(value) {
     const regExp = `${value}`.match(/^`(.*)`$/)
+
     return regExp && regExp[1]
 }
 
@@ -263,9 +275,11 @@ function needLinked(query) {
     query = String(query)
     // noinspection JSValidateTypes
     const res = query.match('^(\\$|\\@)?{([^}^{]*)}$') // => {Page.container.name}
+
     if (res && res[2]) {
         return res[2]
     }
+
     return false
 }
 
@@ -307,6 +321,7 @@ export function difference(object, base) {
               : value
         }
     })
+
     return changes(object, base)
 }
 
@@ -324,5 +339,6 @@ export function omitDeep(collection, excludeKeys) {
             })
         }
     }
+
     return cloneDeepWith(collection, omitFn)
 }

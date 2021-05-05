@@ -55,6 +55,7 @@ class TreeWidget extends React.Component {
         } = this.props
         const { toolbar, actions, dataProvider, placeholder } = this.props
         const { resolveProps } = this.context
+
         return {
             toolbar,
             actions,
@@ -94,6 +95,7 @@ class TreeWidget extends React.Component {
             className,
             style,
         } = this.props
+
         return (
             <StandardWidget
                 disabled={disabled}

@@ -61,6 +61,7 @@ describe('Проверка саги alerts', () => {
             dispatch: action => dispatched.push(action),
         }
         const result = await runSaga(fakeStore, removeAlertSideEffect, action, 1)
+
         await Promise.resolve(result.toPromise())
         expect(dispatched[0]).toEqual(removeAlert('testKey'))
     })
@@ -91,6 +92,7 @@ describe('Проверка саги alerts', () => {
                 ],
             },
         }
+
         await runSaga(fakeStore, addAlertSideEffect, config, action)
         await delay(300)
         expect(dispatched[0].type).toBe(REMOVE)

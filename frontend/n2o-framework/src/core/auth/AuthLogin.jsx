@@ -23,11 +23,13 @@ class Login extends React.Component {
 
     handleLogin() {
         const { username } = this.state
+
         this.props.userLogin({ username, roles: [username] })
     }
 
     render() {
         const { t } = this.props
+
         return (
             <div>
                 <input
@@ -55,7 +57,6 @@ const AuthButton = ({ userLogout }) => (
 
           Привет,
                 {user.username}
-
 !
                 <button onClick={userLogout}>Выйти</button>
             </p>

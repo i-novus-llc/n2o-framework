@@ -14,6 +14,7 @@ const typesFunctions = {
     password: ({ data }) => join(map(data, () => '*'), ''),
     number: ({ data, format }) => {
         const number = isString(data) ? Number(data) : data
+
         return numeral(number).format(format)
     },
     dateFromNow: ({ format }) => moment().format(format),
@@ -37,6 +38,7 @@ function parseFormatter(data, typeAndformat = false) {
     const typeAndFormat = split(trim(typeAndformat), ' ')
 
     const type = typeAndFormat[0]
+
     if (
         isNil(data) ||
     !typeAndformat ||
@@ -46,6 +48,7 @@ function parseFormatter(data, typeAndformat = false) {
     if (!typeAndFormat.length) { return null }
 
     const format = join(slice(typeAndFormat, 1), ' ')
+
     return typesFunctions[type]({ data: str, format })
 }
 

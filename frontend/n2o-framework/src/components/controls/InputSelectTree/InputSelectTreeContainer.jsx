@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 import isArray from 'lodash/isArray'
 import { withProps, compose, setDisplayName } from 'recompose'
 
-import listContainer from '../listContainer.js'
+import listContainer from '../listContainer'
 
 import { propTypes, defaultProps } from './allProps'
 import InputSelectTree from './InputSelectTree'
@@ -54,6 +54,7 @@ class InputSelectTreeContainer extends Component {
         if (nextProps.data !== prevState.data && nextProps.ajax) {
             return { data: unionWith(nextProps.data, prevState.data, isEqual) }
         }
+
         return { data: nextProps.data }
     }
 
@@ -73,6 +74,7 @@ InputSelectTreeContainer.defaultProps = defaultProps
 
 const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
     const newValue = isArray(value) ? value : [value]
+
     if (isEmpty(data) && !isEmpty(value)) {
         return {
             data: map(newValue, val => ({

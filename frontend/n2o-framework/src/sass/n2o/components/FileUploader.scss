@@ -1,87 +1,85 @@
 .n2o-drop-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: $drop-zone-width;
-  height: $drop-zone-height;
-  border: $drop-zone-border;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: $drop-zone-width;
+    height: $drop-zone-height;
+    border: $drop-zone-border;
 }
 
 .n2o-button-uploader {
-  &-btn {
-    cursor: pointer;
-  }
+    &-btn {
+        cursor: pointer;
+    }
 }
 
 .n2o-file-uploader {
-  outline: none;
+    outline: none;
 
-  &-link {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-right: 5px;
-    overflow: hidden;
-  }
-
-  &-container {
-    width: 100%;
-  }
-
-  &-remove {
-    width: 1rem;
-
-    cursor: pointer;
-    opacity: 0.6;
-
-    &:hover {
-      opacity: 1;
+    &-link {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-right: 5px;
+        overflow: hidden;
     }
-  }
 
-  &-item-error {
-    color: $red !important;
-  }
-
-  &-item-size {
-    margin-left: auto;
-    color: $gray-500;
-  }
-
-  &-event-drag-enter {
-    border-color: $file-uploader-border-color-drag-enter;
-  }
-
-  &-file-name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  &-files-item {
-    display: flex;
-    flex-direction: column;
-
-    &-info {
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
+    &-container {
+        width: 100%;
     }
-  }
 
-  &-progress-bar {
-    width: $file-uploader-progress-bar-width;
-    height: $file-uploader-progress-bar-height;
-  }
+    &-remove {
+        width: 1rem;
+        cursor: pointer;
+        opacity: 0.6;
 
-  &-icon {
-    margin-right: 10px;
-  }
+        &:hover {
+            opacity: 1;
+        }
+    }
 
-  &-external-link {
-    margin-left: 5px;
+    &-item-error {
+        color: $red !important;
+    }
 
-    font-size: 14px;
-  }
+    &-item-size {
+        margin-left: auto;
+        color: $gray-500;
+    }
+
+    &-event-drag-enter {
+        border-color: $file-uploader-border-color-drag-enter;
+    }
+
+    &-file-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    &-files-item {
+        display: flex;
+        flex-direction: column;
+
+        &-info {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+    }
+
+    &-progress-bar {
+        width: $file-uploader-progress-bar-width;
+        height: $file-uploader-progress-bar-height;
+    }
+
+    &-icon {
+        margin-right: 10px;
+    }
+
+    &-external-link {
+        margin-left: 5px;
+        font-size: 14px;
+    }
 }

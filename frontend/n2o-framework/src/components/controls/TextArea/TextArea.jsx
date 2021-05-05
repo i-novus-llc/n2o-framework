@@ -34,6 +34,7 @@ function TextArea({
     ...rest
 }) {
     const inputClass = `form-control ${className}`
+
     return (
         <TextareaAutosize
             className={cx('n2o-text-area', inputClass)}

@@ -62,6 +62,7 @@ function ImageField(props) {
 const mapStateToProps = (state, { modelPrefix, form }) => {
     const model =
     isNil(modelPrefix) || isNil(form) ? {} : state.models[modelPrefix][form]
+
     return {
         model,
     }

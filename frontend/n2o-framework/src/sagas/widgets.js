@@ -40,11 +40,11 @@ import {
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { getLocation, rootPageSelector } from '../selectors/global'
 import { makeGetModelByPrefixSelector } from '../selectors/models'
-import { FETCH_WIDGET_DATA } from '../core/api.js'
+import { FETCH_WIDGET_DATA } from '../core/api'
 import { generateErrorMeta } from '../utils/generateErrorMeta'
 import { id } from '../utils/id'
 
-import fetchSaga from './fetch.js'
+import fetchSaga from './fetch'
 import { checkIdBeforeLazyFetch } from './regions'
 
 /**
@@ -55,10 +55,12 @@ function* getData() {
     const isQueryEqual = (id, newPath, newQuery) => {
         let res = true
         const lq = lastQuery[id]
+
         if (lq) {
             res = isEqual(lq.path, newPath) && isEqual(lq.query, newQuery)
         }
         lastQuery[id] = { path: newPath, query: { ...newQuery } }
+
         return res
     }
     let prevSelectedId = null
@@ -95,6 +97,7 @@ export function* prepareFetch(widgetId) {
     const currentDatasource = yield select(
         makeGetModelByPrefixSelector(PREFIXES.datasource, widgetId),
     )
+
     return {
         state,
         location,
@@ -116,11 +119,13 @@ export function* routesQueryMapping(state, routes, location) {
         queryString.parse(location.search),
         keys(queryObject),
     )
+
     if (!isEqual(pickBy(queryObject, identity), pageQueryObject)) {
         const newQuery = queryString.stringify(queryObject)
         const tailQuery = queryString.stringify(
             omit(currentQueryObject, keys(queryObject)),
         )
+
         yield put(
             replace({
                 search: newQuery + (tailQuery ? `&${tailQuery}` : ''),
@@ -278,6 +283,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
 
 export function* runResolve(action) {
     const { widgetId, model } = action.payload
+
     try {
         yield put(setModel(PREFIXES.resolve, widgetId, model))
     } catch (err) {}
@@ -289,6 +295,7 @@ export function* clearForm(action) {
 
 export function* clearOnDisable(action) {
     const { widgetId } = action.payload
+
     yield put(setModel(PREFIXES.datasource, widgetId, null))
     yield put(changeCountWidget(widgetId, 0))
 }

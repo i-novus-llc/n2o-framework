@@ -43,6 +43,7 @@ function PopUp(props) {
         <div className="d-inline-flex justify-content-end">
             {Object.keys(value).map((input, i) => {
                 const { hasDefaultTime, ...timeObj } = time[input]
+
                 return (
                     <Calendar
                         key={i}

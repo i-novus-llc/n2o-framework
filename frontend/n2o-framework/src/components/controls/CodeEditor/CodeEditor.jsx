@@ -59,6 +59,7 @@ class CodeEditor extends React.Component {
           autocomplete,
           className,
       } = this.props
+
       return (
           visible && (
               <div

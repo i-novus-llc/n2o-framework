@@ -38,6 +38,7 @@ describe('Проверка саги dependency', () => {
                 expression: 'testField === 0',
             })
             let next = gen.next()
+
             expect(next.value.payload.action.type).toEqual(ENABLE_FIELD)
             expect(next.value.payload.action.payload).toEqual({
                 name: 'testField',
@@ -58,6 +59,7 @@ describe('Проверка саги dependency', () => {
                 { testField: 1 },
             )
             const next = gen.next()
+
             expect(next.value).toBe(undefined)
             expect(next.done).toEqual(true)
         })
@@ -66,6 +68,7 @@ describe('Проверка саги dependency', () => {
                 expression: 'testField === 1',
             })
             const next = gen.next()
+
             expect(next.value.payload.action.type).toEqual(HIDE_FIELD)
             expect(gen.next().done).toEqual(true)
         })
@@ -78,6 +81,7 @@ describe('Проверка саги dependency', () => {
                 { testField: 1 },
             )
             const next = gen.next()
+
             expect(next.value).toBe(undefined)
             expect(next.done).toEqual(true)
         })
@@ -86,6 +90,7 @@ describe('Проверка саги dependency', () => {
                 expression: '10 + 2',
             })
             const next = gen.next()
+
             expect(next.value.payload.action.payload).toEqual({
                 keepDirty: false,
                 value: 12,
@@ -95,6 +100,7 @@ describe('Проверка саги dependency', () => {
             const gen = setupModify('reset', {
                 expression: 'testField != 0',
             })
+
             expect(gen.next().done).toEqual(true)
         })
         it('Проверка type reset с истинным expression', () => {
@@ -106,6 +112,7 @@ describe('Проверка саги dependency', () => {
                 { testField: 3 },
             )
             const next = gen.next()
+
             expect(next.value.payload.action.payload).toEqual({
                 keepDirty: false,
                 value: null,
@@ -130,6 +137,7 @@ describe('Проверка саги dependency', () => {
                 },
             )
             const next = gen.next()
+
             expect(next.value).toEqual(put(showField('testForm', 'field.id')))
             expect(gen.next().done).toEqual(true)
         })
@@ -160,6 +168,7 @@ describe('Проверка саги dependency', () => {
                 }),
                 dispatch: action => dispatched.push(action),
             }
+
             await runSaga(
                 fakeStore,
                 fetchValue,

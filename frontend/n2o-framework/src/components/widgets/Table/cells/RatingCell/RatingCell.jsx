@@ -84,6 +84,7 @@ export default compose(
                 fieldKey || id,
                 rating,
             )
+
             callActionImpl(rating, { action, model: data })
         },
     }),

@@ -29,10 +29,12 @@ class DatePicker extends React.Component {
 
     /**
    * базовый рендер
-   * */
+   **/
     render() {
         let { value, defaultValue } = this.props
+
         value = value || defaultValue || null
+
         return <DateTimeControl {...this.props} value={value} type="date-picker" />
     }
 }

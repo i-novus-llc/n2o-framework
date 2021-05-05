@@ -16,7 +16,9 @@ import { destroyOverlay } from '../../../actions/overlays'
  */
 export function encodeQueryData(data) {
     const ret = []
+
     for (const d in data) { ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`) }
+
     return `/export?${ret.join('&')}`
 }
 
@@ -33,6 +35,7 @@ export default function resolveExportTable({ dispatch, state, widgetId }) {
     const size = makeWidgetSizeSelector(widgetId)(state)
     const count =
     values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size
+
     window.open(
         encodeQueryData({
             widgetId,

@@ -31,6 +31,7 @@ class ToggleColumn extends React.Component {
    */
     toggleVisibility(id) {
         const { dispatch, entityKey } = this.props
+
         dispatch(toggleColumnVisiblity(entityKey, id))
     }
 
@@ -42,8 +43,10 @@ class ToggleColumn extends React.Component {
         const notActive = (filter(columns, item => !item.value.visible) || []).map(
             col => col.key,
         )
+
         return columns.map((column, i) => {
             const checked = !notActive.includes(column.key)
+
             return (
                 <DropdownItem
                     key={i}

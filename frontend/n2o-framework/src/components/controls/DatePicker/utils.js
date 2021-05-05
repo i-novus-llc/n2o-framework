@@ -39,8 +39,10 @@ export function weeks(firstDay) {
     const lastDay = firstDay.clone().add(35, 'days')
     const day = firstDay.clone()
     const weeks = []
+
     while (day <= lastDay) {
         const week = []
+
         for (let i = 0; i < 7; i++) {
             week.push(day.clone())
             if (i === 6) {
@@ -49,6 +51,7 @@ export function weeks(firstDay) {
             day.add(1, 'days')
         }
     }
+
     return weeks
 }
 
@@ -89,6 +92,7 @@ export function parseDate(value, dateFormat) {
             console.log('Invalid date')
         }
     }
+
     return value
 }
 
@@ -102,6 +106,7 @@ export function parseDate(value, dateFormat) {
  */
 export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
     const res = {}
+
     if (Array.isArray(val)) {
         map(val, ({ value, name }) => {
             if (!value) {
@@ -115,6 +120,7 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
                 )
             }
         })
+
         return res
     }
     if (!val) {
@@ -126,6 +132,7 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
         defaultTime[defaultName].mins,
         defaultTime[defaultName].seconds,
     )
+
     return res
 }
 
@@ -146,6 +153,7 @@ export function mapToDefaultTime(
 ) {
     if (Array.isArray(val)) {
         const res = {}
+
         map(val, ({ name, defaultTime, value }) => {
             res[name] = {
                 hours: defaultTime
@@ -321,6 +329,7 @@ export const formatToMask = (format) => {
             if (~item.search(/([a-z])+/gi)) {
                 return replaceDictionary(item)
             }
+
             return item
         }),
     )

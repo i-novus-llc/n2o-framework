@@ -100,6 +100,7 @@ class Calendar extends React.Component {
             prevDecade,
             changeCalendarType,
         } = this
+
         return (
             <CalendarHeader
                 nextMonth={nextMonth}
@@ -144,6 +145,7 @@ class Calendar extends React.Component {
    */
     prevMonth() {
         const displayesMonth = this.state.displayesMonth.subtract(1, 'months')
+
         this.setState({ displayesMonth })
     }
 
@@ -152,6 +154,7 @@ class Calendar extends React.Component {
    */
     nextMonth() {
         const displayesMonth = this.state.displayesMonth.add(1, 'months')
+
         this.setState({ displayesMonth })
     }
 
@@ -160,6 +163,7 @@ class Calendar extends React.Component {
    */
     prevYear() {
         const displayesMonth = this.state.displayesMonth.subtract(1, 'years')
+
         this.setState({ displayesMonth })
     }
 
@@ -168,21 +172,25 @@ class Calendar extends React.Component {
    */
     nextYear() {
         const displayesMonth = this.state.displayesMonth.add(1, 'years')
+
         this.setState({ displayesMonth })
     }
 
     nextDecade() {
         const displayesMonth = this.state.displayesMonth.add(10, 'years')
+
         this.setState({ displayesMonth })
     }
 
     prevDecade() {
         const displayesMonth = this.state.displayesMonth.subtract(10, 'years')
+
         this.setState({ displayesMonth })
     }
 
     setDate(...args) {
         const displayesMonth = this.state.displayesMonth.set(...args)
+
         this.setState({ displayesMonth })
     }
 
@@ -194,6 +202,7 @@ class Calendar extends React.Component {
       this.props.locale === 'ru'
           ? ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
           : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+
         return (
             <tr>
                 {nameOfDays.map((day, i) => (
@@ -215,6 +224,7 @@ class Calendar extends React.Component {
             mins,
             seconds,
         )
+
         return weeks(firstDay).map((week, i) => this.renderWeek(week, i))
     }
 
@@ -313,6 +323,7 @@ class Calendar extends React.Component {
             current,
             dateFormat,
         }
+
         return <Day key={i} {...props} />
     }
 
@@ -324,6 +335,7 @@ class Calendar extends React.Component {
         const evtobj = window.event ? window.event : e
         const leftKeyCode = 37
         const rightKeyCode = 39
+
         if (evtobj.ctrlKey) {
             switch (evtobj.keyCode) {
                 case leftKeyCode:
@@ -334,6 +346,7 @@ class Calendar extends React.Component {
                     } else if (calendarType === Calendar.BY_YEARS) {
                         this.prevDecade()
                     }
+
                     break
                 case rightKeyCode:
                     if (calendarType === Calendar.BY_DAYS) {
@@ -343,6 +356,7 @@ class Calendar extends React.Component {
                     } else if (calendarType === Calendar.BY_YEARS) {
                         this.nextDecade()
                     }
+
                     break
             }
         }
@@ -382,6 +396,7 @@ class Calendar extends React.Component {
 
     timeFromObj(timeObj) {
         const { hours, mins, seconds } = timeObj
+
         return moment(`${hours}:${mins}:${seconds}`, 'H:m:s').format(
             this.props.timeFormat || 'H:mm:ss',
         )
@@ -414,6 +429,7 @@ class Calendar extends React.Component {
         const { displayesMonth } = this.state
         const { locale } = this.props
         const year = displayesMonth.format('YYYY')
+
         return (
             <div className="n2o-calendar-body">
                 {this.renderList(moment.localeData(locale).months(), 'month-item')}
@@ -438,9 +454,11 @@ class Calendar extends React.Component {
             if (className !== 'month-item') {
                 return item === value.year()
             }
+
             return i === value.month()
         }
         const isOtherDecade = i => className === 'year-item' && (i === 0 || i === 11)
+
         return list.map((item, i) => (
             <div
                 className={cx('n2o-calendar-body-item', className, {
@@ -462,6 +480,7 @@ class Calendar extends React.Component {
             new Array(12),
             (val, index) => decadeStart + index - 1,
         )
+
         return (
             <div className="n2o-calendar-body">
                 {this.renderList(years, 'year-item')}
@@ -487,6 +506,7 @@ class Calendar extends React.Component {
         const { value, inputName, markTimeAsSet, select } = this.props
         const { hours, mins, seconds } = this.state.tempTimeObj
         const copyValue = value || moment()
+
         this.changeCalendarType(Calendar.BY_DAYS)
         markTimeAsSet(inputName)
 
@@ -499,6 +519,7 @@ class Calendar extends React.Component {
 
     renderTimePicker() {
         const { mins, seconds, hours } = this.state.tempTimeObj
+
         return (
             <div>
                 <div className="n2o-calendar-timepicker">
@@ -563,20 +584,25 @@ class Calendar extends React.Component {
 
     renderBody(type) {
         let body = null
+
         switch (type) {
             case Calendar.BY_MONTHS:
                 body = this.renderByMonths()
+
                 break
             case Calendar.BY_YEARS:
                 body = this.renderByYears()
+
                 break
             case Calendar.TIME_PICKER:
                 body = this.renderTimePicker()
+
                 break
             case Calendar.BY_DAYS:
             default:
                 body = this.renderByDays()
         }
+
         return body
     }
 
@@ -589,6 +615,7 @@ class Calendar extends React.Component {
             format,
             calRef,
         } = this.props
+
         return (
             <div
                 className={cx('n2o-calendar', 'calenadar', {

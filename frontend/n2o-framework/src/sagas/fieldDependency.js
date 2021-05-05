@@ -87,6 +87,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             } else {
                 yield put(disableField(formName, fieldName))
             }
+
             break
         case 'visible':
             const currentVisible = field.visible === undefined || field.visible === true
@@ -114,6 +115,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
                     value: evalResult,
                 }),
             )
+
             break
         case 'reset':
             if (values[fieldName] !== null && evalResultCheck(evalResult)) {
@@ -124,6 +126,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
                     }),
                 )
             }
+
             break
         case 'required':
             const currentRequired = field.required === true
@@ -173,6 +176,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             if (i === fieldValidationList.length && currentMessage) {
                 yield put(removeFieldMessage(formName, fieldName))
             }
+
             break
         }
         case 'fetchValue':
@@ -182,6 +186,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             if (get(action, 'meta.field') !== fieldName) {
                 yield cancel(watcher)
             }
+
             break
         default:
             break

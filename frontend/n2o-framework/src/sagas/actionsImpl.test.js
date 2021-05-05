@@ -41,6 +41,7 @@ const state = {
         },
     },
 }
+
 fetchMock.restore().post('*', url => ({
     status: 200,
     body: 'test',
@@ -115,6 +116,7 @@ describe('Проверка саги actionsImpl', () => {
         }
         const gen = handleFailInvoke(action.meta.fail, widgetId, err.meta)
         const meta = merge(action.meta.fail, err.meta)
+
         expect(gen.next().value.payload.action).toEqual(
             put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta)).payload.action,
         )
@@ -132,6 +134,7 @@ describe('Проверка саги actionsImpl', () => {
 
         const promise = await runSaga(fakeStore, validate, options).toPromise()
         const result = await Promise.resolve(promise)
+
         expect(result).toEqual(false)
     })
 
@@ -139,6 +142,7 @@ describe('Проверка саги actionsImpl', () => {
         const fakeStore = {
             getState: () => state,
         }
+
         api.default = jest.fn(() => Promise.resolve({ response: 'response from server' }))
         const promise = await runSaga(
             fakeStore,
@@ -151,6 +155,7 @@ describe('Проверка саги actionsImpl', () => {
             { payload: 1 },
         ).toPromise()
         const result = await Promise.resolve(promise)
+
         expect(result).toEqual({
             response: 'response from server',
         })

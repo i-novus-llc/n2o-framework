@@ -74,6 +74,7 @@ describe('Проверка саги widgets', () => {
                 getState: () => ({}),
                 dispatch: action => dispatched.push(action),
             }
+
             await runSaga(fakeStore, routesQueryMapping, state, routes, location)
             expect(dispatched[0].type).toBe('@@router/CALL_HISTORY_METHOD')
             expect(dispatched[0].payload.args[0].search).toBe('q=qqq&name=Sergey')
@@ -132,6 +133,7 @@ describe('Проверка саги widgets', () => {
         const widgetId = 'testId'
         const options = {}
         const withoutSelectedId = true
+
         await runSaga(
             fakeStore,
             handleFetch,
@@ -166,6 +168,7 @@ describe('Проверка саги widgets', () => {
             list: [],
             count: 14,
         }
+
         api.default = jest.fn(() => Promise.resolve(response))
         await runSaga(
             fakeStore,
@@ -206,6 +209,7 @@ describe('Проверка саги widgets', () => {
             },
         }
         const gen = clearOnDisable(action)
+
         expect(gen.next().value.payload).toEqual(
             put(setModel(PREFIXES.datasource, action.payload.widgetId, null)).payload,
         )
@@ -224,6 +228,7 @@ describe('Проверка саги widgets', () => {
             },
         }
         const gen = runResolve(action)
+
         expect(gen.next().value.payload).toEqual(
             put(
                 setModel(
@@ -275,6 +280,7 @@ describe('Проверка саги widgets', () => {
         const widgetId = 'testWidget'
         const saga = await runSaga(fakeStore, prepareFetch, widgetId)
         const result = await Promise.resolve(saga.toPromise())
+
         expect(result).toEqual({
             dataProvider,
             location: router.location,

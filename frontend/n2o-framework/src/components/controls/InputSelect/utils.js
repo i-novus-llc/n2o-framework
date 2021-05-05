@@ -38,6 +38,7 @@ const getNextNotDisabledId = (
     valueFieldId,
 ) => {
     let index = findIndex(data, item => item[valueFieldId] === initialId)
+
     while (
         data[index + distance] &&
     isDisabled(data[index + distance], selected, disabled)
@@ -45,6 +46,7 @@ const getNextNotDisabledId = (
         index += distance
     }
     if (!data[index + distance]) { return initialId }
+
     return data[index + distance][valueFieldId]
 }
 
@@ -58,6 +60,7 @@ const getIdByDistance = (
 ) => {
     if (isEmpty(data)) { return }
     const id = currentId || data[0][valueFieldId]
+
     return getNextNotDisabledId(
         data,
         selected,
@@ -76,6 +79,7 @@ export const getFirstNotDisabledId = (
 ) => {
     if (isEmpty(data)) { return }
     if (!isDisabled(data[0], selected, disabled)) { return data[0][valueFieldId] }
+
     return getNextNotDisabledId(
         data,
         selected,

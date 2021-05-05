@@ -14,9 +14,10 @@ import Option from './Option'
 class SelectContainer extends React.Component {
     /**
    * Базовый рендер
-   * */
+   **/
     render() {
         const { options, select, ...props } = this.props
+
         return (
             <Select {...select} {...props}>
                 {mapProp(options).map(option => (

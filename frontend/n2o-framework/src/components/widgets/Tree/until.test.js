@@ -10,10 +10,12 @@ describe('Проверка функционала дерева', () => {
     describe('collectionToComponentObject', () => {
         it('Вызов с пустыми значенииями', () => {
             const res = collectionToComponentObject()
+
             expect(res).toEqual({})
         })
         it('Вызов c компонентом', () => {
             const res = collectionToComponentObject(Component)
+
             expect(res).toEqual({})
         })
         it('Вызов c компонентом и свойствами компонента', () => {
@@ -22,6 +24,7 @@ describe('Проверка функционала дерева', () => {
                 valueFieldId: 'id',
             }
             const res = collectionToComponentObject(Component, props)
+
             expect(res).toEqual(toCollectionObject)
         })
     })
@@ -29,10 +32,12 @@ describe('Проверка функционала дерева', () => {
     describe('createTreeFn', () => {
         it('Вызов с пустыми значенииями', () => {
             const createTree = createTreeFn(Component)
+
             expect(createTree()).toEqual([])
         })
         it('Вызов с данными. Постройка дерева. Нет родителей', () => {
             const createTree = createTreeFn(Component)
+
             expect(
                 createTree({
                     datasource: [{ id: 1 }, { id: 2 }, { id: 3 }],
@@ -43,6 +48,7 @@ describe('Проверка функционала дерева', () => {
         })
         it('Вызов с данными. Постройка дерева. Есть родители', () => {
             const createTree = createTreeFn(Component)
+
             expect(
                 createTree({
                     datasource: [{ id: 1 }, { id: 2, parent: 1 }, { id: 3, parent: 1 }],
@@ -121,6 +127,7 @@ describe('Проверка функционала дерева', () => {
                     valueFieldId: 'id',
                 },
             )
+
             expect(createTree).toEqual(['1', '2', '3'])
         })
         it('Постройка пути закрыт parent', () => {
@@ -136,6 +143,7 @@ describe('Проверка функционала дерева', () => {
                     valueFieldId: 'id',
                 },
             )
+
             expect(createTree).toEqual(['1'])
         })
     })
