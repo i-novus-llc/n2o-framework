@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import listContainer from '../listContainer.js'
+import listContainer from '../listContainer'
 
 import N2OSelect from './N2OSelect'
 

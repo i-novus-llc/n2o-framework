@@ -40,11 +40,11 @@ import {
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { getLocation, rootPageSelector } from '../selectors/global'
 import { makeGetModelByPrefixSelector } from '../selectors/models'
-import { FETCH_WIDGET_DATA } from '../core/api.js'
+import { FETCH_WIDGET_DATA } from '../core/api'
 import { generateErrorMeta } from '../utils/generateErrorMeta'
 import { id } from '../utils/id'
 
-import fetchSaga from './fetch.js'
+import fetchSaga from './fetch'
 import { checkIdBeforeLazyFetch } from './regions'
 
 /**
