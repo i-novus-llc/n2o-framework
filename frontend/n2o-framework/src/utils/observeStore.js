@@ -27,6 +27,7 @@ export default function observeStore(store, select, onChange) {
 
     function handleChange() {
         const nextState = select(store.getState())
+
         if (!isEqual(nextState, currentState) && !isEmpty(nextState)) {
             currentState = nextState
             onChange(currentState)
@@ -34,6 +35,8 @@ export default function observeStore(store, select, onChange) {
     }
 
     const unsubscribe = store.subscribe(handleChange)
+
     handleChange()
+
     return unsubscribe
 }

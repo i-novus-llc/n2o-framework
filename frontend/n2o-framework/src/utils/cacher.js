@@ -12,6 +12,7 @@ const cachingStore = () => {
             if (cache.hasOwnProperty(key)) {
                 return cache[key]
             }
+
             return false
         },
     }

@@ -118,6 +118,7 @@ export default function models(state = modelState, action) {
             }
         case CLEAR:
             const res = {}
+
             each(action.payload.prefixes, (prefix) => {
                 res[prefix] = {
                     ...state[prefix],
@@ -128,6 +129,7 @@ export default function models(state = modelState, action) {
                     },
                 }
             })
+
             return {
                 ...state,
                 ...res,

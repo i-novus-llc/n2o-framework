@@ -16,7 +16,7 @@ import Popup from '../InputSelect/Popup'
 import InputContent from '../InputSelect/InputContent'
 import InputSelectGroup from '../InputSelect/InputSelectGroup'
 
-import NODE_SELECTED from './nodeSelected.js'
+import NODE_SELECTED from './nodeSelected'
 import TreeItems from './TreeItems'
 
 /**
@@ -64,6 +64,7 @@ class InputSelectTree extends React.Component {
         } = this.props
         const valueArray = Array.isArray(value) ? value : value ? [value] : []
         const input = value && !multiSelect ? value[labelFieldId] : ''
+
         this.state = {
             isExpanded: false,
             value: value || [],
@@ -119,6 +120,7 @@ class InputSelectTree extends React.Component {
             options,
             loading,
         } = nextProps
+
         if (!isEqual(nextProps.options, this.state.options)) {
             this.setState({ options, treeStates: this.getTreeItems(options) })
         }
@@ -181,6 +183,7 @@ class InputSelectTree extends React.Component {
     _removeSelectedItem(item) {
         const { onChange } = this.props
         const value = this.state.value.filter(i => i.id !== item.id)
+
         this.setState({ value }, onChange(this._getValue()))
     }
 
@@ -306,13 +309,16 @@ class InputSelectTree extends React.Component {
 
     _handleDataSearch(input, delay = true, callback) {
         const { onSearch, filter, labelFieldId, options } = this.props
+
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
             const filteredData = options.filter(item => filterFunc(item[labelFieldId]))
+
             this.setState({ options: filteredData })
         } else {
             // серверная фильтрация
             const labels = this.state.value.map(item => item[labelFieldId])
+
             if (labels.some(label => label === input)) {
                 onSearch('', delay, callback)
             } else {
@@ -390,6 +396,7 @@ class InputSelectTree extends React.Component {
         this.setState((prevState) => {
             const { treeStates } = prevState
             const { valueFieldId } = this.props
+
             treeStates[node[valueFieldId]].selected = NODE_SELECTED.NOT_SELECTED
 
             return { treeStates }
@@ -425,6 +432,7 @@ class InputSelectTree extends React.Component {
 
     _removeChild(item) {
         const { valueFieldId, parentFieldId } = this.props
+
         if (this.props.multiSelect) {
             const childs = this.state.options.filter(
                 node => node[parentFieldId] === item[valueFieldId],
@@ -445,6 +453,7 @@ class InputSelectTree extends React.Component {
 
     _clearSelected() {
         const { onChange } = this.props
+
         this.setState({ value: [], input: '' }, () => onChange(this._getValue()))
     }
 
@@ -481,6 +490,7 @@ class InputSelectTree extends React.Component {
         const { multiSelect } = this.props
         const { value } = this.state
         const rObj = multiSelect ? value : value[0]
+
         return rObj || null
     }
 
@@ -537,10 +547,12 @@ class InputSelectTree extends React.Component {
         const { value, input, options } = this.state
         const { onChange, multiSelect, resetOnBlur, labelFieldId } = this.props
         const newValue = find(options, { [labelFieldId]: input })
+
         if (!newValue) {
             if (!resetOnBlur) {
                 if (input) {
                     const createdValue = { [labelFieldId]: input }
+
                     this.setState(
                         {
                             value: multiSelect ? [...value, createdValue] : [createdValue],
@@ -621,6 +633,7 @@ class InputSelectTree extends React.Component {
 
     inArray(array, item) {
         const { valueFieldId } = this.props
+
         return (
             array.filter(
                 disabledItem => disabledItem[valueFieldId] === item[valueFieldId],
@@ -636,6 +649,7 @@ class InputSelectTree extends React.Component {
     onExpandClick(item) {
         const { valueFieldId } = this.props
         const itemState = this.state.treeStates[item[valueFieldId]]
+
         this._handleExpandClick(itemState)
     }
 
@@ -706,6 +720,7 @@ class InputSelectTree extends React.Component {
 
     changeSelected(nodes, newStatus) {
         const { valueFieldId } = this.props
+
         nodes.map((node) => {
             const nodeState = this.state.treeStates[node[valueFieldId]]
 
@@ -863,6 +878,7 @@ class InputSelectTree extends React.Component {
     _setFirstNodeActive() {
         const { valueFieldId, parentFieldId } = this.props
         const rootNodes = this.state.options.filter(node => !node[parentFieldId])
+
         this.setState({
             active: this.state.treeStates[rootNodes[0][valueFieldId]],
         })
@@ -879,6 +895,7 @@ class InputSelectTree extends React.Component {
 
         if (nextItem) {
             const nextItemState = this.state.treeStates[nextItem[valueFieldId]]
+
             this.setState({ active: nextItemState })
             this._scrollOntoElement(nextItemState)
         }
@@ -895,6 +912,7 @@ class InputSelectTree extends React.Component {
 
         if (prevItem) {
             const prevItemState = this.state.treeStates[prevItem[valueFieldId]]
+
             this.setState({ active: prevItemState })
             this._scrollOntoElement(prevItemState)
         }
@@ -902,6 +920,7 @@ class InputSelectTree extends React.Component {
 
     _scrollOntoElement(nodeState) {
         const nodeElement = ReactDOM.findDOMNode(nodeState.ref.current)
+
         nodeElement.scrollIntoView()
     }
 
@@ -944,9 +963,11 @@ class InputSelectTree extends React.Component {
 
     getPrevItem(currentItem) {
         const { parentFieldId } = this.props
+
         if (currentItem[parentFieldId]) {
             return this._findPrevParentItem(currentItem)
         }
+
         return this._findPrevRootItem(currentItem)
     }
 
@@ -964,10 +985,12 @@ class InputSelectTree extends React.Component {
 
         if (!prevNode) {
             this._changePopUpVision(false)
+
             return null
         } if (!this.state.treeStates[prevNode[valueFieldId]].expanded) {
             return prevNode
         }
+
         return this._getLowest(prevNode)
     }
 
@@ -988,6 +1011,7 @@ class InputSelectTree extends React.Component {
         if (nextItem) {
             return nextItem
         }
+
         return this.state.options[
             this.state.options.findIndex(
                 node => node[valueFieldId] === currentItem[parentFieldId],
@@ -1012,6 +1036,7 @@ class InputSelectTree extends React.Component {
         if (this.state.treeStates[lastChild[valueFieldId]].expanded) {
             return this._getLowest(lastChild)
         }
+
         return lastChild
     }
 
@@ -1073,6 +1098,7 @@ class InputSelectTree extends React.Component {
     _setIsExpanded(isExpanded) {
         const { onToggle, onClose, onOpen } = this.props
         const { isExpanded: previousIsExpanded } = this.state
+
         if (isExpanded !== previousIsExpanded) {
             this.setState({ isExpanded })
             onToggle()
@@ -1125,6 +1151,7 @@ class InputSelectTree extends React.Component {
 
     async _handleExpandClick(itemState, newState = null) {
         const { valueFieldId } = this.props
+
         if (this.props.ajax && !itemState.loaded) {
             itemState.expanded = true
             itemState.loaded = true
@@ -1147,6 +1174,7 @@ class InputSelectTree extends React.Component {
 
     _toggle() {
         const { closePopupOnSelect } = this.props
+
         this.setState((prevState) => {
             if (!closePopupOnSelect && prevState.isExpanded) { return false }
 

@@ -58,6 +58,7 @@ class InputSelect extends React.Component {
         const { value, options, labelFieldId, multiSelect } = this.props
         const valueArray = Array.isArray(value) ? value : value ? [value] : []
         const input = value && !multiSelect ? value[labelFieldId] : ''
+
         this.state = {
             inputFocus: props.autoFocus || false,
             isExpanded: false,
@@ -107,6 +108,7 @@ class InputSelect extends React.Component {
     componentWillReceiveProps(nextProps) {
         const state = {}
         const { multiSelect, value, labelFieldId, options } = nextProps
+
         if (!isEqual(nextProps.options, this.state.options)) {
             state.options = options
         }
@@ -195,6 +197,7 @@ class InputSelect extends React.Component {
     _handleValueChangeOnSelect(item) {
         const { value } = this.state
         const { onChange, multiSelect, labelFieldId } = this.props
+
         this.setState(
             {
                 input: multiSelect ? item[labelFieldId] : '',
@@ -217,6 +220,7 @@ class InputSelect extends React.Component {
         const { multiSelect } = this.props
         const { value } = this.state
         const rObj = multiSelect ? value : value[0]
+
         return rObj || null
     }
 
@@ -229,6 +233,7 @@ class InputSelect extends React.Component {
     _removeSelectedItem(item) {
         const { onChange } = this.props
         const value = this.state.value.filter(i => i.id !== item.id)
+
         this.setState({ value }, () => onChange(value))
     }
 
@@ -249,6 +254,7 @@ class InputSelect extends React.Component {
 
     _clearSelected() {
         const { onChange } = this.props
+
         this.setState({ value: [], input: '' }, () => onChange(this._getValue()))
     }
 
@@ -299,10 +305,12 @@ class InputSelect extends React.Component {
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
             const filteredData = options.filter(item => filterFunc(item[labelFieldId]))
+
             this.setState({ options: filteredData })
         } else {
             // серверная фильтрация
             const labels = this.state.value.map(item => item[labelFieldId])
+
             if (labels.some(label => label === input)) {
                 onSearch('', delay, callback)
             } else {
@@ -423,6 +431,7 @@ class InputSelect extends React.Component {
     handleClickOutside(evt) {
         const { resetOnBlur } = this.props
         const { isExpanded } = this.state
+
         if (isExpanded) {
             this._hideOptionsList()
             resetOnBlur && this._handleValueChangeOnBlur()
@@ -437,6 +446,7 @@ class InputSelect extends React.Component {
     calcSelectedItemsWidth() {
         if (this._selectedItems) {
             const element = findDOMNode(this._selectedItems)
+
             if (element && element.getBoundingClientRect) {
                 return element.getBoundingClientRect().width || undefined
             }
@@ -514,6 +524,7 @@ class InputSelect extends React.Component {
             this.state.value,
             item => item[labelFieldId] === this.state.input,
         )
+
         return (
             <div
                 style={inputSelectStyle}

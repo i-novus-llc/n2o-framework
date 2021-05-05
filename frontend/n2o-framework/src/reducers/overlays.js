@@ -56,6 +56,7 @@ export default function overlays(state = [], action) {
     const index = state.findIndex(
         overlay => overlay.name === get(action, 'payload.name'),
     )
+
     switch (action.type) {
         case INSERT_MODAL:
         case INSERT_DRAWER:
@@ -64,14 +65,18 @@ export default function overlays(state = [], action) {
         case SHOW:
             if (index >= 0) {
                 state[index].visible = true
+
                 return state.slice()
             }
+
             return state
         case HIDE:
             if (index >= 0) {
                 state[index].visible = false
+
                 return state.slice()
             }
+
             return state
         case DESTROY:
             return state.slice(0, -1)
@@ -79,9 +84,11 @@ export default function overlays(state = [], action) {
             return state.slice(0, -action.payload.count)
         case SHOW_PROMPT:
             state[index].showPrompt = true
+
             return state.slice()
         case HIDE_PROMPT:
             state[index].showPrompt = false
+
             return state.slice()
         default:
             return state

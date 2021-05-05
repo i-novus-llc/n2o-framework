@@ -39,6 +39,7 @@ class DateInputGroup extends React.Component {
         } = this.props
         const style = { display: 'flex', flexGrow: 1 }
         const dateInputProps = pick(this.props, ['max', 'min'])
+
         return (
             <div style={style}>
                 {Object.keys(value).map((input, i) => (
@@ -75,6 +76,7 @@ class DateInputGroup extends React.Component {
             justifyContent: 'space-between',
             flexGrow: 1,
         }
+
         return (
             <div ref={inputRef} style={style}>
                 {this.renderInputs()}

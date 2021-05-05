@@ -8,6 +8,7 @@ const Html = ({ value, visible, disabled, className }) => {
         opacity: '0.4',
     }
     const style = disabled ? disabledStyle : undefined
+
     return (
         <div style={style} className={cx('n2o-html', className)}>
             {visible && <div dangerouslySetInnerHTML={{ __html: value }} />}

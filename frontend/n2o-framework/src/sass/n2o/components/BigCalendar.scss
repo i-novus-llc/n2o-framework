@@ -1,65 +1,67 @@
 @import '~react-big-calendar/lib/sass/styles';
 
 .calendar {
-  &__toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+    &__toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 10px 0;
 
-    margin: 10px 0;
+        &--center {
+            flex-grow: 1;
+            text-align: center;
+        }
 
-    &--center {
-      flex-grow: 1;
-
-      text-align: center;
+        &--right {
+            margin-left: auto;
+        }
     }
 
-    &--right {
-      margin-left: auto;
-    }
-  }
+    &__event {
+        display: flex;
+        flex-wrap: wrap;
+        border: none;
+        box-sizing: border-box;
+        box-shadow: none;
+        margin: 0;
+        padding: 2px 5px;
+        background-color: #3174ad;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
 
-  &__event {
-    display: flex;
-    flex-wrap: wrap;
-    border: none;
-    box-sizing: border-box;
-    box-shadow: none;
-    margin: 0;
-    padding: 2px 5px;
-    background-color: #3174ad;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    &--nopointer {
-      cursor: default !important;
-    }
-    &-name {
-      text-overflow: ellipsis;
-      font-weight: bold;
-      margin-right: 5px;
-      overflow: hidden;
-      &--nowrap {
-        white-space: nowrap;
-      }
-    }
-  }
+        &--nopointer {
+            cursor: default !important;
+        }
 
-  &__cell {
-    flex: 1 0;
-    &--day-off {
-      background-color: rgba(255,192,203, 0.3);
+        &-name {
+            text-overflow: ellipsis;
+            font-weight: bold;
+            margin-right: 5px;
+            overflow: hidden;
+
+            &--nowrap {
+                white-space: nowrap;
+            }
+        }
     }
 
-    &--current-day {
-      background-color: #eaf6ff;
-    }
+    &__cell {
+        flex: 1 0;
 
-    &--day-cell + &--day-cell {
-      outline: 1px solid #DDD;
+        &--day-off {
+            background-color: rgba(255, 192, 203, 0.3);
+        }
+
+        &--current-day {
+            background-color: #eaf6ff;
+        }
+
+        &--day-cell + &--day-cell {
+            outline: 1px solid #ddd;
+        }
     }
-  }
 }

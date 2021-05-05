@@ -16,6 +16,7 @@ describe('Тесты alerts reducer', () => {
                 },
             },
         )
+
         expect(reducer).toEqual({
             alerts: [
                 {
@@ -54,6 +55,7 @@ describe('Тесты alerts reducer', () => {
                 },
             },
         )
+
         expect(reducer.alerts[0].label).toEqual('second label')
         expect(reducer.alerts[0].text).toEqual('second text')
 
@@ -85,6 +87,7 @@ describe('Тесты alerts reducer', () => {
                 },
             },
         )
+
         expect(reducer).toEqual({
             alerts: [
                 {
@@ -120,6 +123,7 @@ describe('Тесты alerts reducer', () => {
                 },
             },
         )
+
         expect(reducer).toEqual({})
     })
 })

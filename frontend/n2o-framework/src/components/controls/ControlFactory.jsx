@@ -18,6 +18,7 @@ class ControlFactory extends React.Component {
    */
     render() {
         const { src, ...props } = this.props
+
         return React.createElement(Controls[src], props, this.props.children)
     }
 }

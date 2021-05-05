@@ -1,36 +1,39 @@
 .n2o-standard-widget-layout {
-  display: flex;
-  &-aside {
-    max-width: 25%;
+    display: flex;
 
-    &--left .n2o-filter {
-      padding-right: 15px;
+    &-aside {
+        max-width: 25%;
+
+        &--left .n2o-filter {
+            padding-right: 15px;
+        }
+
+        &--right .n2o-filter {
+            padding-left: 15px;
+        }
     }
 
-    &--right .n2o-filter {
-      padding-left: 15px;
-    }
-  }
-
-  &-center {
-    width: 100%;
-  }
-
-  &-toolbar {
-    align-items: flex-start;
-    &--left .btn-group {
-      flex-wrap: wrap;
+    &-center {
+        width: 100%;
     }
 
-    &--right {
-      display: flex;
-      flex-shrink: 0;
-      justify-content: flex-end;
-      align-items: flex-end;
-      & .btn-group {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
+    &-toolbar {
+        align-items: flex-start;
+
+        &--left .btn-group {
+            flex-wrap: wrap;
+        }
+
+        &--right {
+            display: flex;
+            flex-shrink: 0;
+            justify-content: flex-end;
+            align-items: flex-end;
+
+            & .btn-group {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
     }
-  }
 }

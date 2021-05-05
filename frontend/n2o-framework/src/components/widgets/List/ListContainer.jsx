@@ -65,8 +65,10 @@ class ListContainer extends React.Component {
         const { datasource: prevDatasource } = prevProps
         const { datasource: currentDatasource, onResolve, selectedId } = this.props
         const { needToCombine } = this.state
+
         if (currentDatasource && !isEqual(prevDatasource, currentDatasource)) {
             let newDatasource = []
+
             if (needToCombine) {
                 newDatasource = [...this.state.datasource, ...currentDatasource]
             } else {
@@ -82,6 +84,7 @@ class ListContainer extends React.Component {
                     const model = selectedId
                         ? find(currentDatasource, item => item.id === selectedId)
                         : currentDatasource[0]
+
                     if (model) { onResolve(model) }
                 },
             )
@@ -90,6 +93,7 @@ class ListContainer extends React.Component {
 
     renderCell(section) {
         if (!section) { return }
+
         return (
             <ReduxCell
                 {...section}
@@ -103,6 +107,7 @@ class ListContainer extends React.Component {
 
     handleItemClick(index) {
         const { onResolve, datasource, rowClick, onRowClickAction } = this.props
+
         onResolve(datasource[index])
         if (rowClick) {
             onRowClickAction()
@@ -111,6 +116,7 @@ class ListContainer extends React.Component {
 
     handleFetchMore() {
         const { page, datasource, onFetch } = this.props
+
         if (!isEmpty(datasource)) {
             this.setState({ needToCombine: true }, () => onFetch({ page: page + 1 }))
         }
@@ -119,8 +125,10 @@ class ListContainer extends React.Component {
     mapSectionComponents() {
         const { list } = this.props
         const { datasource } = this.state
+
         return map(datasource, (item) => {
             const mappedSection = {}
+
             forOwn(list, (v, k) => {
                 mappedSection[k] = this.renderCell({
                     ...list[k],
@@ -128,6 +136,7 @@ class ListContainer extends React.Component {
                     model: item,
                 })
             })
+
             return mappedSection
         })
     }

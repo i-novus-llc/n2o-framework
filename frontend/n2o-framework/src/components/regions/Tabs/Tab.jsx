@@ -38,6 +38,7 @@ class Tab extends React.Component {
         const { className, active, children } = this.props
         const { wasActive } = this.state
         const tabStyle = { paddingTop: 2, paddingBottom: 2 }
+
         return (
             <div className={cx('tab-pane', className, { active })} style={tabStyle}>
                 {children}

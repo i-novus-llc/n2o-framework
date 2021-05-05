@@ -52,6 +52,7 @@ function* switchTab() {
         } if (meta.content) {
             return atLeastOneVisibleWidget(meta.content)
         }
+
         return makeWidgetVisibleSelector(meta.id)
     })
 
@@ -101,6 +102,7 @@ function* lazyFetch(id) {
     if (!isEmpty(regionCollection)) {
         each(regionCollection, (region) => {
             const { activeEntity, lazy, alwaysRefresh } = region
+
             targetTab = { ...find(region.tabs, tab => tab.id === activeEntity) }
 
             if (!isEmpty(targetTab.content)) {
@@ -166,6 +168,7 @@ export function* checkIdBeforeLazyFetch() {
     if (firstTabs) {
         for (let i = 0; i < firstTabs.length; i++) {
             const { regionId, id } = firstTabs[i]
+
             yield put(setActiveEntity(regionId, id))
         }
     }

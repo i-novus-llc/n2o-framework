@@ -31,15 +31,15 @@ class N2OSelectInput extends React.Component {
                     value={this.props.value}
                     onKeyDown={e => this._handleKeyDown(e)}
                 />
-                {/* <InputGroupAddon */}
-                {/* addonType="append" */}
-                {/* onClick={this.props.onSearch} */}
-                {/* style={{ cursor: 'pointer' }} */}
-                {/* > */}
-                {/* <InputGroupText> */}
-                {/* <i className="fa fa-search" /> */}
-                {/* </InputGroupText> */}
-                {/* </InputGroupAddon> */}
+                {/* <InputGroupAddon*/}
+                {/* addonType="append"*/}
+                {/* onClick={this.props.onSearch}*/}
+                {/* style={{ cursor: 'pointer' }}*/}
+                {/* >*/}
+                {/* <InputGroupText>*/}
+                {/* <i className="fa fa-search" />*/}
+                {/* </InputGroupText>*/}
+                {/* </InputGroupAddon>*/}
             </div>
         )
     }

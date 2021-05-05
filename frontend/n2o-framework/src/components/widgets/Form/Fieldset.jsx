@@ -112,6 +112,7 @@ class Fieldset extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { visible, enabled, activeModel } = this.props
+
         if (
             isEqual(activeModel, prevProps.activeModel) &&
       isEqual(visible, prevProps.visible) &&
@@ -126,11 +127,13 @@ class Fieldset extends React.Component {
         const { visible, enabled, activeModel } = this.props
 
         const newEnabled = resolveExpression(enabled, activeModel)
+
         if (!isEqual(newEnabled, this.state.enabled)) {
             this.setEnabled(newEnabled)
         }
 
         const newVisible = resolveExpression(visible, activeModel)
+
         if (!isEqual(newVisible, this.state.visible)) {
             this.setVisible(newVisible)
         }
@@ -138,12 +141,14 @@ class Fieldset extends React.Component {
 
     setVisible(nextVisibleField) {
         const { showFields, hideFields, form } = this.props
+
         this.setState(() => {
             if (nextVisibleField) {
                 showFields(form, this.fields)
             } else {
                 hideFields(form, this.fields)
             }
+
             return {
                 visible: nextVisibleField,
             }
@@ -152,6 +157,7 @@ class Fieldset extends React.Component {
 
     setEnabled(nextEnabledField) {
         const { enableFields, disableFields, form } = this.props
+
         if (nextEnabledField) {
             enableFields(form, this.fields)
         } else {
@@ -164,11 +170,13 @@ class Fieldset extends React.Component {
 
     getFormValues(store) {
         const state = store.getState()
+
         return makeGetResolveModelSelector(this.props.form)(state)
     }
 
     calculateAllFields(rows) {
         let fields = []
+
         each(rows, (row) => {
             each(row.cols, (col) => {
                 if (col.fieldsets) {
@@ -182,6 +190,7 @@ class Fieldset extends React.Component {
                 }
             })
         })
+
         return fields
     }
 
@@ -255,6 +264,7 @@ class Fieldset extends React.Component {
                     {...rest}
                     render={(rows, props = { parentName, parentIndex }) => {
                         this.fields = this.calculateAllFields(rows)
+
                         return rows.map((row, id) => this.renderRow(id, row, props))
                     }}
                 />

@@ -56,11 +56,13 @@ function Tooltip(props) {
     const replacePlaceholder = (label) => {
         const placeholder = '{size}'
         const hasPlaceholder = !isUndefined(label) && label.match(placeholder)
+
         if (isUndefined(label)) {
             return listLength
         } if (hasPlaceholder) {
             return withPlaceholder(label)
         }
+
         return label
     }
 
@@ -110,6 +112,7 @@ function Tooltip(props) {
           ))}
         </div>
     )
+
     return (
         <TooltipTrigger
             placement={props.placement}

@@ -32,10 +32,12 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 export function* alertEffect(action) {
     try {
         const { alertKey = GLOBAL_KEY, messages, stacked } = action.meta.alert
+
         if (!stacked) { yield put(removeAlerts(alertKey)) }
         const alerts = isArray(messages)
             ? messages.map(message => ({ ...message, id: message.id || id() }))
             : [{ ...messages, id: messages.id || id() }]
+
         yield put(addAlerts(alertKey, alerts))
     } catch (e) {
         console.error(e)
@@ -90,6 +92,7 @@ function* fetchFlow(options, action) {
 
 export function* refreshEffect(action) {
     let lastTask
+
     try {
         const { type, options } = action.meta.refresh
 
@@ -112,9 +115,11 @@ export function* refreshEffect(action) {
                         }),
                     )
                 }
+
                 break
             case 'metadata':
                 yield put(metadataRequest(...options))
+
                 break
         }
     } catch (e) {
@@ -145,6 +150,7 @@ export function* clearFormEffect(action) {
 
 export function* updateWidgetDependencyEffect({ meta }) {
     const { widgetId } = meta
+
     yield put(updateWidgetDependency(widgetId))
 }
 

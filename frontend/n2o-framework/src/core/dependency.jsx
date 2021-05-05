@@ -92,6 +92,7 @@ const dependency = (WrappedComponent) => {
 
     const mapStateToProps = (state, props) => {
         const { dependency } = props
+
         return {
             isInit: makeWidgetIsInitSelector(props.id)(state, props),
             isVisible: makeWidgetVisibleSelector(props.id)(state, props),
@@ -101,6 +102,7 @@ const dependency = (WrappedComponent) => {
 
     const mapDispatchToProps = (dispatch, ownProps) => {
         const { id: widgetId } = ownProps
+
         return {
             registerDependency: dependency => dispatch(registerDependency(widgetId, dependency)),
             preInitWidget: options => dispatch(registerWidget(widgetId, options, true)),

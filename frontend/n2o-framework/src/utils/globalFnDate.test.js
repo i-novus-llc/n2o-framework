@@ -12,6 +12,7 @@ const stringFormatsToArgs = `${testFormatForArgs.dateFormat} ${
 }`
 
 const date = globalFnDate.getFns()
+
 globalFnDate.addFormat(testFormat)
 
 describe('Проверка globalFnDate', () => {

@@ -135,6 +135,7 @@ describe('Сага для для наблюдения за изменением 
             )
 
             const value = gen.next()
+
             expect(value.value.type).toBe('PUT')
             expect(value.value.payload.action.type).toBe('BATCHING_REDUCER.BATCH')
             expect(gen.next().done).toBeTruthy()
@@ -178,6 +179,7 @@ describe('Сага для для наблюдения за изменением 
                 },
             )
             const value = gen.next()
+
             expect(value.value.type).toBe('PUT')
             expect(value.value.payload.action.type).toBe('BATCHING_REDUCER.BATCH')
             expect(gen.next().done).toBeTruthy()
@@ -476,6 +478,7 @@ describe('Сага для для наблюдения за изменением 
     it('Проверяем watcher дефолтных моделей', () => {
         const config = { 'a.b.c': { value: 'test' } }
         const gen = watcherDefaultModels(config)
+
         expect(gen.next().value).toEqual(
             race([call(flowDefaultModels, config), take(RESET)]),
         )
@@ -483,6 +486,7 @@ describe('Сага для для наблюдения за изменением 
     })
     it('Проверяем flowDefaultModels - выход без конфига', () => {
         const gen = flowDefaultModels()
+
         expect(gen.next().value).toEqual(false)
         expect(gen.next().done).toEqual(true)
     })
@@ -490,6 +494,7 @@ describe('Сага для для наблюдения за изменением 
         const config = { 'a.b.c': { value: 'test' } }
         const state = { a: { b: { c: 1 } } }
         const gen = flowDefaultModels(config)
+
         expect(gen.next().value).toEqual(select())
         expect(gen.next(state).value).toEqual(
             call(compareAndResolve, config, state),
@@ -502,6 +507,7 @@ describe('Сага для для наблюдения за изменением 
     it('Проверяем flowDefaultModels - observe без link', () => {
         const config = { 'a.b.c': { value: 'test', observe: true } }
         const gen = flowDefaultModels(config)
+
         gen.next()
         gen.next()
         expect(gen.next().done).toEqual(true)
@@ -510,9 +516,11 @@ describe('Сага для для наблюдения за изменением 
         const config = { 'a.b.c': { value: 'test', link: 'z.x.c', observe: true } }
         const state = { z: { x: { c: 1 } } }
         const gen = flowDefaultModels(config)
+
         gen.next()
         gen.next()
         const mockChan = channel()
+
         expect(gen.next().value).toEqual(
             actionChannel([SET, COPY, SYNC, REMOVE, UPDATE, UPDATE_MAP]),
         )

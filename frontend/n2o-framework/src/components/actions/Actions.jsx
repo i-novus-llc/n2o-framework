@@ -143,6 +143,7 @@ class Actions extends React.Component {
                 link: modelLink,
                 value: text,
             })
+
             return {
                 ...confirm,
                 text: resolvedText,
@@ -216,6 +217,7 @@ class Actions extends React.Component {
             buttons &&
       buttons.map((button, index) => {
           let buttonEl = null
+
           if (button.subMenu) {
               buttonEl = this.renderDropdownButton(button)
           } else if (button.dropdownSrc) {
@@ -223,6 +225,7 @@ class Actions extends React.Component {
           } else {
               buttonEl = this.renderButton(Button, button)
           }
+
           return (
               <SecurityNotRender
                   key={index}
@@ -286,6 +289,7 @@ class Actions extends React.Component {
             disabled,
             hintPosition,
         }
+
         return (
             <ButtonContainer
                 id={id}
@@ -339,6 +343,7 @@ class Actions extends React.Component {
             visible,
             icon,
         }
+
         return (
             <ButtonContainer
                 id={id}

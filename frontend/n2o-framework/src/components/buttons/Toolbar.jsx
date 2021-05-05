@@ -21,6 +21,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
     const remapButtons = (obj) => {
         const subMenu = get(obj, 'subMenu')
         const enabled = get(obj, 'enabled')
+
         if (!isUndefined(enabled)) {
             set(obj, 'disabled', !enabled)
             set(obj, 'entityKey', entityKey)
@@ -30,6 +31,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         if (!isUndefined(subMenu)) {
             map(subMenu, item => remapButtons(item))
         }
+
         return obj
     }
 

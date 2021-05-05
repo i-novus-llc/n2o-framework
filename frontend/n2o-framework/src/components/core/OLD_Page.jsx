@@ -62,12 +62,15 @@ class PageContainer extends React.Component {
             metadata,
             location: { pathname, state = {} },
         } = this.props
+
         if (!isEmpty(metadata) && !isEmpty(metadata.routes)) {
             const findedRoutes = filter(metadata.routes.list, (route) => {
                 const re = pathToRegexp(route.path)
+
                 return re.test(pathname)
             })
             const isNewPage = find(findedRoutes, route => route.isOtherPage)
+
             return (
                 (isNewPage ||
           (this.isEqualPageId(prevProps) &&
@@ -76,12 +79,14 @@ class PageContainer extends React.Component {
         !state.silent
             )
         }
+
         return false
     }
 
     getErrorPage() {
         const { status } = this.props
         const { defaultErrorPages } = this.context
+
         return get(
             find(defaultErrorPages, page => page.status === status),
             'component',

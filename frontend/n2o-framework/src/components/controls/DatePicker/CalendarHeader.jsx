@@ -57,6 +57,7 @@ class CalendarHeader extends React.Component {
             return withLocale(displayesMonth, locale).format('MMMM')
         } if (type === Calendar.BY_YEARS) {
             const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10) * 10
+
             return (
                 <a
                     href="#"
@@ -94,6 +95,7 @@ class CalendarHeader extends React.Component {
 
     nextView(type) {
         const { nextYear, nextMonth, nextDecade } = this.props
+
         if (type === Calendar.BY_MONTHS) {
             nextYear()
         } else if (type === Calendar.BY_YEARS) {
@@ -105,6 +107,7 @@ class CalendarHeader extends React.Component {
 
     prevView(type) {
         const { prevYear, prevMonth, prevDecade } = this.props
+
         if (type === Calendar.BY_MONTHS) {
             prevYear()
         } else if (type === Calendar.BY_YEARS) {
@@ -129,6 +132,7 @@ class CalendarHeader extends React.Component {
       calendarType !== Calendar.TIME_PICKER
           ? { cursor: 'pointer' }
           : { cursor: 'text' }
+
         return (
             <div className="n2o-calendar-header">
                 {calendarType !== Calendar.TIME_PICKER && (

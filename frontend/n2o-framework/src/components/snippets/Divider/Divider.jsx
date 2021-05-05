@@ -4,6 +4,7 @@ import cx from 'classnames'
 
 const dividerClass = (props) => {
     const { className, dashed, position, type, children } = props
+
     return cx(className, {
         [`divider-h divider-h_with-title divider-h_${position} divider-h_dashed`]:
       type === 'horizontal' && children && dashed,
@@ -27,10 +28,11 @@ const dividerClass = (props) => {
  * @reactProps{string} position - Позиционирование заголовка. Работает только на горизонтальном Divider и при наличии заголовка (default : 'left');
  * @reactProps {string} type - Тип Divider horizontal или vertical (default : 'horizontal');
  * @reactProps {string} children - Заголовок для горизонтального типа. Указывается между тегами компонента: <Divider>Заголовок</Divider> (default : none);
- * * */
+ * **/
 
 export const Divider = (props) => {
     const { style, children } = props
+
     return (
         <div className={dividerClass({ ...props })} style={style}>
             {children && <span className="divider-h__title">{children}</span>}

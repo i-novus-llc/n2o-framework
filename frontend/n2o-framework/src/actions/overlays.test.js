@@ -29,6 +29,7 @@ describe('Тесты экшенов overlays', () => {
                 pageId: 'page_id',
                 widgetId: 'TableWidget',
             })
+
             expect(action.type).toEqual(INSERT_MODAL)
         })
         it('Возвращает правильный payload', () => {
@@ -39,6 +40,7 @@ describe('Тесты экшенов overlays', () => {
                 pageId: 'page_id',
                 widgetId: 'TableWidget',
             })
+
             expect(action.payload).toMatchObject({
                 mode: 'modal',
                 name: 'MODAL_NAME',
@@ -54,10 +56,12 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена showOverlay', () => {
         it('Генирирует правильное событие', () => {
             const action = showOverlay(name)
+
             expect(action.type).toEqual(SHOW)
         })
         it('Возвращает правильный payload', () => {
             const action = showOverlay(name)
+
             expect(action.payload.name).toEqual(name)
         })
     })
@@ -65,10 +69,12 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена hideOverlay', () => {
         it('Генирирует правильное событие', () => {
             const action = hideOverlay(name)
+
             expect(action.type).toEqual(HIDE)
         })
         it('Возвращает правильный payload', () => {
             const action = hideOverlay(name)
+
             expect(action.payload.name).toEqual(name)
         })
     })
@@ -76,6 +82,7 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена destroyOverlay', () => {
         it('Генирирует правильное событие', () => {
             const action = destroyOverlay()
+
             expect(action.type).toEqual(DESTROY)
         })
     })
@@ -83,10 +90,12 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена closeOverlay', () => {
         it('Генирирует правильное событие', () => {
             const action = closeOverlay('test', true)
+
             expect(action.type).toEqual(CLOSE)
         })
         it('Возвращает правильный payload', () => {
             const action = closeOverlay('test', true)
+
             expect(action.payload).toEqual({
                 name: 'test',
                 prompt: true,
@@ -97,10 +106,12 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена showPrompt', () => {
         it('Генирирует правильное событие', () => {
             const action = showPrompt('test', true)
+
             expect(action.type).toEqual(SHOW_PROMPT)
         })
         it('Возвращает правильный payload', () => {
             const action = showPrompt('test')
+
             expect(action.payload).toEqual({
                 name: 'test',
             })
@@ -110,10 +121,12 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена hidePrompt', () => {
         it('Генирирует правильное событие', () => {
             const action = hidePrompt('test', true)
+
             expect(action.type).toEqual(HIDE_PROMPT)
         })
         it('Возвращает правильный payload', () => {
             const action = hidePrompt('test')
+
             expect(action.payload).toEqual({
                 name: 'test',
             })

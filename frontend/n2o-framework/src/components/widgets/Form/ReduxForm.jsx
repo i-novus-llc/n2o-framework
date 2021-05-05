@@ -17,6 +17,7 @@ import ReduxField from './ReduxField'
  */
 function ReduxForm(props) {
     const { t } = useTranslation()
+
     return (
         <>
             {props.prompt && (

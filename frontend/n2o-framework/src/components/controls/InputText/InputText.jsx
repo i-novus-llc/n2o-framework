@@ -45,6 +45,7 @@ class InputText extends React.Component {
 
   onBlur = (e) => {
       const { onBlur } = this.props
+
       this.setState(() => ({
           focused: false,
       }))
@@ -55,6 +56,7 @@ class InputText extends React.Component {
 
   onFocus = (e) => {
       const { onFocus } = this.props
+
       this.setState(() => ({
           focused: true,
       }))

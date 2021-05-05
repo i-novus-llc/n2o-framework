@@ -55,6 +55,7 @@ function FieldsetCol({
             {col.fieldsets &&
         col.fieldsets.map((fieldset, i) => {
             const key = `set${i}`
+
             return (
                 <FieldsetContainer
                     modelPrefix={modelPrefix}
@@ -90,6 +91,7 @@ const enhance = compose(
             } if (visible === false) {
                 return false
             }
+
             return true
         },
     }),

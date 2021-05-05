@@ -33,8 +33,10 @@ const setupResolveButton = () => resolveButton({
 describe('Проверка саги toolbar', () => {
     it('Тестирование вызова  экшена на саге', () => {
         const gen = setupResolveButton()
+
         gen.next()
         let { value } = gen.next({ model: { test: 'test' } })
+
         expect(value.payload.action.type).toEqual(CHANGE_BUTTON_VISIBILITY)
         expect(value.payload.action.payload.visible).toBe(true)
         gen.next()
@@ -68,6 +70,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             id: 'btnChild1Id',
             key: 'fieldKey',
         })
+
         gen.next()
         expect(gen.next(testData).value).toEqual(
             put(changeButtonVisiblity('fieldKey', 'btnId', false)),
@@ -92,6 +95,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             id: 'btnChild1Id',
             key: 'fieldKey',
         })
+
         gen.next()
         expect(gen.next(testData).value).toEqual(
             put(changeButtonVisiblity('fieldKey', 'btnId', true)),
@@ -116,6 +120,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             id: 'btnChild1Id',
             key: 'fieldKey',
         })
+
         gen.next()
         expect(gen.next().done).toBe(true)
     })

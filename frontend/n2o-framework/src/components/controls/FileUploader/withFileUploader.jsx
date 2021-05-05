@@ -43,6 +43,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
         componentDidMount() {
             const { mapper, value } = this.props
+
             this.setState({
                 files: mapper
                     ? mapper(value)
@@ -79,11 +80,13 @@ const FileUploaderControl = (WrappedComponent) => {
         mapFiles(files) {
             if (!files) { return }
             let currentFiles = []
+
             if (!isArray(files)) {
                 currentFiles = [files]
             } else {
                 currentFiles = files
             }
+
             return currentFiles.map(file => this.fileAdapter(file))
         }
 
@@ -96,6 +99,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 responseFieldId,
                 urlFieldId,
             } = this.props
+
             return {
                 id: file[valueFieldId],
                 name: file[labelFieldId],
@@ -112,10 +116,12 @@ const FileUploaderControl = (WrappedComponent) => {
      */
         resolveUrl(url) {
             const expression = parseExpression(url)
+
             if (!expression) {
                 return url
             }
             const { resolveModel } = this.context._reduxForm
+
             return evalExpression(expression, resolveModel)
         }
 
@@ -150,6 +156,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
         handleDrop(files) {
             const { onChange, autoUpload, onBlur } = this.props
+
             this.setState(
                 {
                     files: [
@@ -157,6 +164,7 @@ const FileUploaderControl = (WrappedComponent) => {
                         ...files.map((file) => {
                             file.id = id()
                             file.percentage = 0
+
                             return file
                         }),
                     ],
@@ -229,6 +237,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
             const newFiles = this.state.files.slice()
             const newImgFiles = this.state.imgFiles.slice()
+
             newFiles.splice(index, 1)
             newImgFiles.splice(index, 1)
             this.setState({
@@ -240,6 +249,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 const newValue = multi
                     ? value.filter(f => f[valueFieldId] !== id)
                     : null
+
                 onChange(newValue)
                 onBlur(newValue)
             }
@@ -250,6 +260,7 @@ const FileUploaderControl = (WrappedComponent) => {
      */
         handleChange(newFile) {
             const { value, multi, onChange } = this.props
+
             onChange(multi ? [...(value || []), newFile] : newFile)
         }
 
@@ -277,6 +288,7 @@ const FileUploaderControl = (WrappedComponent) => {
                     const onProgress = this.onProgress.bind(this, file.id)
                     const onUpload = this.onUpload.bind(this, file.id)
                     const onError = this.onError.bind(this, file.id)
+
                     if (labelFieldId !== 'name') {
                         file[labelFieldId] = file.name
                     }
@@ -285,6 +297,7 @@ const FileUploaderControl = (WrappedComponent) => {
                     }
 
                     const formData = new FormData()
+
                     formData.append(requestParam, file)
                     onStart(file)
 
@@ -321,12 +334,14 @@ const FileUploaderControl = (WrappedComponent) => {
      */
         onLoading(percentage, id) {
             const { files } = this.state
+
             this.setState({
                 files: [
                     ...files.map((file) => {
                         if (file.id === id) {
                             file.percentage = percentage
                         }
+
                         return file
                     }),
                 ],
@@ -352,6 +367,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 this.onError(id, response.statusText, response.status)
             } else {
                 const file = response.data
+
                 this.setState({
                     files: [
                         ...this.state.files.map((item) => {
@@ -361,6 +377,7 @@ const FileUploaderControl = (WrappedComponent) => {
                                     loading: false,
                                 }
                             }
+
                             return item
                         }),
                     ],
@@ -379,6 +396,7 @@ const FileUploaderControl = (WrappedComponent) => {
             const { responseFieldId, onError } = this.props
 
             const { uploading } = this.state
+
             if (uploading) {
                 uploading[id] = false
             }

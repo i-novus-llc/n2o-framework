@@ -48,11 +48,13 @@ class LineFieldset extends React.Component {
         } if (visible === false) {
             return false
         }
+
         return true
     }
 
     render() {
         const { collapsible } = this.props
+
         if (!this.resolveVisible()) {
             return null
         }
