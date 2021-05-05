@@ -121,6 +121,7 @@ export function resolveChange(state, { payload, meta }) {
  * Редюсер удаления/добваления алертов
  * @ignore
  */
+// eslint-disable-next-line consistent-return
 export default function formPlugin(state = {}, action) {
     // ToDo: Переписать
     switch (action.type) {
@@ -141,9 +142,7 @@ export default function formPlugin(state = {}, action) {
                 ['registeredFields', action.payload.name],
                 resolve(get(state, ['registeredFields', action.payload.name]), action),
             )
-        case SHOW_FIELDS:
         case DISABLE_FIELDS:
-        case ENABLE_FIELDS:
         case HIDE_FIELDS:
             return set(
                 state,
@@ -152,6 +151,40 @@ export default function formPlugin(state = {}, action) {
             )
         case actionTypes.CHANGE:
             return resolveChange(state, action)
+        case ENABLE_FIELDS: {
+            action.payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                // поля доступны только если у них нет своего условия на доступность
+                if (
+                    field.dependency &&
+                    field.dependency.some(({ type }) => type === 'enabled')
+                ) {
+                    return
+                }
+
+                field.disabled = false
+            })
+
+            break
+        }
+        case SHOW_FIELDS: {
+            action.payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                // показываем поля только если у них нет своего условия на видимость
+                if (
+                    field.dependency &&
+                    field.dependency.some(({ type }) => type === 'visible')
+                ) {
+                    return
+                }
+
+                field.visible = true
+            })
+
+            break
+        }
         default:
             return state
     }
