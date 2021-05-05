@@ -111,6 +111,8 @@ class PanelRegion extends React.Component {
             activeEntity,
             open,
             changeActiveEntity,
+            className,
+            style,
         } = this.props
         const isInvisible = every(
             content,
@@ -122,8 +124,9 @@ class PanelRegion extends React.Component {
                 tabs={this.state.tabs}
                 {...this.props}
                 open={isUndefined(activeEntity) ? open : activeEntity}
-                style={{ display: isInvisible && 'none' }}
+                style={{ display: isInvisible && 'none', ...style }}
                 onVisibilityChange={changeActiveEntity}
+                className={className}
             >
                 {map(content, meta => this.getContent(meta))}
             </PanelShortHand>

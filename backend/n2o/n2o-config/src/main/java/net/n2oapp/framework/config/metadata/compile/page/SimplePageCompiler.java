@@ -26,7 +26,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -71,7 +70,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
         page.setRoutes(routes);
-        page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
+        compileComponent(page, source, context, p);
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
         if (objectId != null) {
@@ -116,7 +115,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.simple.src";
     }
 }

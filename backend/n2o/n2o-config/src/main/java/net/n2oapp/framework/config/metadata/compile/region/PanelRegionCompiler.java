@@ -9,7 +9,6 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
-import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -21,7 +20,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPanelRegion> {
 
     @Override
-    protected String getPropertyRegionSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.region.panel.src";
     }
 
@@ -34,8 +33,6 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
         build(region, source, p);
-        region.setClassName(source.getCssClass());
-        region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         IndexScope indexScope = p.getScope(IndexScope.class);
         PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
         region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));

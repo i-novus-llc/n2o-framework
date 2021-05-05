@@ -8,8 +8,11 @@ import PageRegions from '../PageRegions'
 
 /**
  * Страница с зонами слева и справа
+ * @param id
  * @param metadata
  * @param regions
+ * @param width
+ * @param rest
  * @constructor
  */
 function LeftRightPage({ id, regions, width, ...rest }) {

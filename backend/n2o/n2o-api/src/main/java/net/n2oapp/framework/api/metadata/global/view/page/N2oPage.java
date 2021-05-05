@@ -3,9 +3,9 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
@@ -17,13 +17,15 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware, SrcAware {
+public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware, SourceComponent {
     private String name;
     private String src;
     private String objectId;
     private String route;
     private String modalSize;
     private Boolean showTitle;
+    private String cssClass;
+    private String style;
     protected Map<N2oNamespace, Map<String, String>> extAttributes;
 
 
