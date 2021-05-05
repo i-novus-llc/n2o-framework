@@ -31,4 +31,8 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
                 , N2oSearchResult.class);
     }
 
+    @Override
+    public void clear() {
+        element().$(".n2o-search-bar__control .n2o-search-bar__clear-icon").should(Condition.exist).click();
+    }
 }

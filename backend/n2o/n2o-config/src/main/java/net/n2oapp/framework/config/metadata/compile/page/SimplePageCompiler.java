@@ -53,6 +53,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
+        if (widget.getQueryId() != null)
+            pageScope.setWidgetIdQueryIdMap(Map.of(widget.getId(), widget.getQueryId()));
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();
@@ -80,7 +82,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);
         }
-        mergeModels(page, pageScope);
         return page;
     }
 

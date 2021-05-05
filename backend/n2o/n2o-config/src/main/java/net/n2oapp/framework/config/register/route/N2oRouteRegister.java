@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.register.route;
 
+import net.n2oapp.framework.api.event.MetadataChangedEvent;
+import net.n2oapp.framework.api.event.N2oEventListener;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
@@ -16,7 +18,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 /**
  * Хранилище RouteInfo
  */
-public class N2oRouteRegister implements RouteRegister {
+public class N2oRouteRegister implements RouteRegister, N2oEventListener<MetadataChangedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(N2oRouteRegister.class);
 
     private final SortedMap<RouteInfoKey, CompileContext> register = new ConcurrentSkipListMap<>();
@@ -74,5 +76,10 @@ public class N2oRouteRegister implements RouteRegister {
             }
         }
         return result;
+    }
+
+    @Override
+    public void handleEvent(MetadataChangedEvent event) {
+        this.clear("/");
     }
 }

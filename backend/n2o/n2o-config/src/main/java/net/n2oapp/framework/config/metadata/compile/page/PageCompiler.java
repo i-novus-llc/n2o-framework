@@ -101,4 +101,5 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                         m.getValue());
     }
 
+    protected abstract String getPropertyPageSrc();
 }

@@ -1,18 +1,17 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import ProgressControl from './ProgressControl';
-import ProgressControlMeta from './ProgressControl.meta';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-const stories = storiesOf('Контролы/ProgressControl', module);
+import ProgressControl from './ProgressControl'
+import ProgressControlMeta from './ProgressControl.meta'
+
+const stories = storiesOf('Контролы/ProgressControl', module)
 
 stories.add(
-  'Компонент',
-  () => {
-    return <ProgressControl />;
-  },
-  {
-    info: {
-      text: `
+    'Компонент',
+    () => <ProgressControl />,
+    {
+        info: {
+            text: `
      Компонент ProgressControl
       ~~~js
       import ProgressControl from 'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl';
@@ -20,17 +19,15 @@ stories.add(
       <ProgressControl/>
       ~~~
       `,
+        },
     },
-  }
-);
+)
 stories.add(
-  'Метаданные',
-  () => {
-    return <ProgressControl {...ProgressControlMeta['simple']} />;
-  },
-  {
-    info: {
-      text: `
+    'Метаданные',
+    () => <ProgressControl {...ProgressControlMeta.simple} />,
+    {
+        info: {
+            text: `
      Компонент ProgressControl метаданные
       ~~~js
       import ProgressControl from 'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl';
@@ -49,23 +46,19 @@ stories.add(
       />
       ~~~
       `,
+        },
     },
-  }
-);
+)
 stories.add(
-  'Анимация',
-  () => {
-    return (
-      <ProgressControl
-        {...Object.assign({}, ProgressControlMeta['simple'], {
-          animated: true,
-        })}
-      />
-    );
-  },
-  {
-    info: {
-      text: `
+    'Анимация',
+    () => (
+        <ProgressControl
+            {...({ ...ProgressControlMeta.simple, animated: true })}
+        />
+    ),
+    {
+        info: {
+            text: `
      Компонент ProgressControl animated
       ~~~js
       import ProgressControl from 'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl';
@@ -84,23 +77,19 @@ stories.add(
       />
       ~~~
       `,
+        },
     },
-  }
-);
+)
 stories.add(
-  'Полоски без анимации',
-  () => {
-    return (
-      <ProgressControl
-        {...Object.assign({}, ProgressControlMeta['simple'], {
-          striped: true,
-        })}
-      />
-    );
-  },
-  {
-    info: {
-      text: `
+    'Полоски без анимации',
+    () => (
+        <ProgressControl
+            {...({ ...ProgressControlMeta.simple, striped: true })}
+        />
+    ),
+    {
+        info: {
+            text: `
      Компонент ProgressControl полоски
       ~~~js
       import ProgressControl from 'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl';
@@ -119,17 +108,15 @@ stories.add(
       />
       ~~~
       `,
+        },
     },
-  }
-);
+)
 stories.add(
-  'multi',
-  () => {
-    return <ProgressControl {...ProgressControlMeta['multi']} />;
-  },
-  {
-    info: {
-      text: `
+    'multi',
+    () => <ProgressControl {...ProgressControlMeta.multi} />,
+    {
+        info: {
+            text: `
      Компонент ProgressControl мультирежим
       ~~~js
       import ProgressControl from 'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl';
@@ -182,21 +169,19 @@ stories.add(
       />
       ~~~
       `,
+        },
     },
-  }
-);
+)
 stories.add(
-  'Максимальный прогресс 150',
-  () => {
-    return (
-      <ProgressControl
-        {...Object.assign({}, ProgressControlMeta['multi'], { max: 150 })}
-      />
-    );
-  },
-  {
-    info: {
-      text: `
+    'Максимальный прогресс 150',
+    () => (
+        <ProgressControl
+            {...({ ...ProgressControlMeta.multi, max: 150 })}
+        />
+    ),
+    {
+        info: {
+            text: `
      Компонент ProgressControl максимальный прогресс 150
       ~~~js
       import ProgressControl from 'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl';
@@ -249,6 +234,6 @@ stories.add(
       />
       ~~~
       `,
+        },
     },
-  }
-);
+)

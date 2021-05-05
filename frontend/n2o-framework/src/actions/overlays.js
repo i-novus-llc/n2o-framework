@@ -1,16 +1,17 @@
 import {
-  INSERT_MODAL,
-  INSERT_DRAWER,
-  INSERT_DIALOG,
-  DESTROY,
-  DESTROY_OVERLAYS,
-  HIDE,
-  SHOW,
-  SHOW_PROMPT,
-  HIDE_PROMPT,
-  CLOSE,
-} from '../constants/overlays';
-import createActionHelper from './createActionHelper';
+    INSERT_MODAL,
+    INSERT_DRAWER,
+    INSERT_DIALOG,
+    DESTROY,
+    DESTROY_OVERLAYS,
+    HIDE,
+    SHOW,
+    SHOW_PROMPT,
+    HIDE_PROMPT,
+    CLOSE,
+} from '../constants/overlays'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * Регистрация модалки в редаксе
@@ -20,12 +21,12 @@ import createActionHelper from './createActionHelper';
  * @param addition
  */
 export function insertOverlay(name, visible, mode, addition) {
-  return createActionHelper(INSERT_MODAL)({
-    name,
-    visible,
-    mode: 'modal',
-    ...addition,
-  });
+    return createActionHelper(INSERT_MODAL)({
+        name,
+        visible,
+        mode: 'modal',
+        ...addition,
+    })
 }
 
 /**
@@ -36,21 +37,21 @@ export function insertOverlay(name, visible, mode, addition) {
  * @param {Object} addition - объект с дополнительные параметрами
  */
 export function insertDrawer(name, visible, mode, addition) {
-  return createActionHelper(INSERT_DRAWER)({
-    name,
-    visible,
-    mode: 'drawer',
-    ...addition,
-  });
+    return createActionHelper(INSERT_DRAWER)({
+        name,
+        visible,
+        mode: 'drawer',
+        ...addition,
+    })
 }
 
 export function insertDialog(name, visible, props) {
-  return createActionHelper(INSERT_DIALOG)({
-    name,
-    visible,
-    mode: 'dialog',
-    ...props,
-  });
+    return createActionHelper(INSERT_DIALOG)({
+        name,
+        visible,
+        mode: 'dialog',
+        ...props,
+    })
 }
 
 /**
@@ -58,7 +59,7 @@ export function insertDialog(name, visible, props) {
  * @param name
  */
 export function showOverlay(name) {
-  return createActionHelper(SHOW)({ name });
+    return createActionHelper(SHOW)({ name })
 }
 
 /**
@@ -66,7 +67,7 @@ export function showOverlay(name) {
  * @param name
  */
 export function hideOverlay(name) {
-  return createActionHelper(HIDE)({ name });
+    return createActionHelper(HIDE)({ name })
 }
 
 /**
@@ -74,11 +75,11 @@ export function hideOverlay(name) {
  * @returns {*}
  */
 export function destroyOverlay() {
-  return createActionHelper(DESTROY)();
+    return createActionHelper(DESTROY)()
 }
 
 export function destroyOverlays(count) {
-  return createActionHelper(DESTROY_OVERLAYS)({ count });
+    return createActionHelper(DESTROY_OVERLAYS)({ count })
 }
 
 /**
@@ -87,7 +88,7 @@ export function destroyOverlays(count) {
  * @param prompt
  */
 export function closeOverlay(name, prompt) {
-  return createActionHelper(CLOSE)({ name, prompt });
+    return createActionHelper(CLOSE)({ name, prompt })
 }
 
 /**
@@ -95,7 +96,7 @@ export function closeOverlay(name, prompt) {
  * @param name
  */
 export function showPrompt(name) {
-  return createActionHelper(SHOW_PROMPT)({ name });
+    return createActionHelper(SHOW_PROMPT)({ name })
 }
 
 /**
@@ -103,5 +104,5 @@ export function showPrompt(name) {
  * @param name
  */
 export function hidePrompt(name) {
-  return createActionHelper(HIDE_PROMPT)({ name });
+    return createActionHelper(HIDE_PROMPT)({ name })
 }

@@ -1,10 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.N2oValidationException;
@@ -12,11 +9,10 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.exception.ValidationMessage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.processing.N2oModule;
+import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.*;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
@@ -117,13 +113,13 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
 
         N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
-        Map<String, N2oModule> moduleMap = new HashMap<>();
+        Map<String, DataProcessing> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
 
         N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, new N2oOperationExceptionHandler());
 
         ApplicationContext context = Mockito.mock(ApplicationContext.class);
-        Mockito.when(context.getBeansOfType(N2oModule.class)).thenReturn(moduleMap);
+        Mockito.when(context.getBeansOfType(DataProcessing.class)).thenReturn(moduleMap);
 
 
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(

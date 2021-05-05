@@ -1,32 +1,32 @@
 .n2o-dropdown {
-  display: none;
+    display: none;
 
-  &.visible {
-    display: block;
-    height: 100%;
-  }
+    &.visible {
+        display: block;
+        height: 100%;
+    }
 }
 
 .n2o-dropdown-menu > .btn {
-  text-align: left;
+    text-align: left;
 }
 
 .n2o-dropdown-check-container {
-  width: 20px;
-  display: inline-block;
+    width: 20px;
+    display: inline-block;
 }
 
-.dropdown-item-btn{
-  display: block;
-  width: 100%;
-  padding: 0.25rem 1.5rem;
-  clear: both;
-  font-weight: 400;
-  text-align: inherit;
-  white-space: nowrap;
-  border: 0;
+.dropdown-item-btn {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    white-space: nowrap;
+    border: 0;
 }
 
 .dropdown-toggle::after {
-  margin-left: 0.355em;
+    margin-left: 0.355em;
 }

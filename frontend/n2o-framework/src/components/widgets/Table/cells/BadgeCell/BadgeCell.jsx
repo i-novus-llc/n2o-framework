@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import isNil from 'lodash/isNil';
-import Badge from 'reactstrap/lib/Badge';
+import React from 'react'
+import PropTypes from 'prop-types'
+import get from 'lodash/get'
+import isNil from 'lodash/isNil'
+import Badge from 'reactstrap/lib/Badge'
 
-import Text from '../../../../snippets/Text/Text';
-import withTooltip from '../../withTooltip';
+import Text from '../../../../snippets/Text/Text'
+import withTooltip from '../../withTooltip'
 
 /**
  * Ячейка таблицы типа бейдж
@@ -19,94 +19,95 @@ import withTooltip from '../../withTooltip';
  * <BadgeCell model={model} filedKey={'name'} text="info"/>
  */
 class BadgeCell extends React.Component {
-  /**
+    /**
    * Базовый рендер
    */
-  render() {
-    const {
-      id,
-      model,
-      fieldKey,
-      placement,
-      text,
-      format,
-      badgeFormat,
-      color,
-      visible,
-    } = this.props;
+    render() {
+        const {
+            id,
+            model,
+            fieldKey,
+            placement,
+            text,
+            format,
+            badgeFormat,
+            color,
+            visible,
+        } = this.props
 
-    const badgeStyle = {
-      order: placement === 'right' ? 1 : -1,
-      marginLeft: placement === 'right' && 5,
-      marginRight: placement === 'left' && 5,
-    };
-    const badgeText = get(model, fieldKey || id);
-    return (
-      visible && (
-        <span className="d-inline-flex">
-          <Text text={text} format={format} />
-          {!isNil(badgeText) && (
-            <Badge style={badgeStyle} color={color}>
-              <Text text={get(model, fieldKey || id)} format={badgeFormat} />
-            </Badge>
-          )}
-        </span>
-      )
-    );
-  }
+        const badgeStyle = {
+            order: placement === 'right' ? 1 : -1,
+            marginLeft: placement === 'right' && 5,
+            marginRight: placement === 'left' && 5,
+        }
+        const badgeText = get(model, fieldKey || id)
+
+        return (
+            visible && (
+                <span className="d-inline-flex">
+                    <Text text={text} format={format} />
+                    {!isNil(badgeText) && (
+                        <Badge style={badgeStyle} color={color}>
+                            <Text text={get(model, fieldKey || id)} format={badgeFormat} />
+                        </Badge>
+                    )}
+                </span>
+            )
+        )
+    }
 }
 
 BadgeCell.propTypes = {
-  /**
+    /**
    * ID ячейки
    */
-  id: PropTypes.string,
-  /**
+    id: PropTypes.string,
+    /**
    * Ключ значения в данных
    */
-  fieldKey: PropTypes.string,
-  /**
+    fieldKey: PropTypes.string,
+    /**
    * Модель данных
    */
-  model: PropTypes.object,
-  /**
+    model: PropTypes.object,
+    /**
    * Расположение текста
    */
-  placement: PropTypes.oneOf(['left', 'right']),
-  /**
+    placement: PropTypes.oneOf(['left', 'right']),
+    /**
    * Текст
    */
-  text: PropTypes.string,
-  /**
+    text: PropTypes.string,
+    /**
    * Формат
    */
-  format: PropTypes.string,
-  /**
+    format: PropTypes.string,
+    /**
    * Формат баджа
    */
-  badgeFormat: PropTypes.string,
-  /**
+    badgeFormat: PropTypes.string,
+    /**
    * Цвет баджа
    */
-  color: PropTypes.oneOf([
-    'secondary',
-    'primary',
-    'danger',
-    'success',
-    'warning',
-    'info',
-  ]),
-  /**
+    color: PropTypes.oneOf([
+        'secondary',
+        'primary',
+        'danger',
+        'success',
+        'warning',
+        'info',
+    ]),
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-};
+    visible: PropTypes.bool,
+}
 
 BadgeCell.defaultProps = {
-  model: {},
-  color: 'secondary',
-  placement: 'right',
-  visible: true,
-};
+    model: {},
+    color: 'secondary',
+    placement: 'right',
+    visible: true,
+}
 
-export default withTooltip(BadgeCell);
+export default withTooltip(BadgeCell)

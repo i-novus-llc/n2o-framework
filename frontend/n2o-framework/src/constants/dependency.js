@@ -1,3 +1,3 @@
-export const REGISTER_DEPENDENCY = 'n2o/dependency/REGISTER_DEPENDENCY';
+export const REGISTER_DEPENDENCY = 'n2o/dependency/REGISTER_DEPENDENCY'
 export const UPDATE_WIDGET_DEPENDENCY =
-  'n2o/dependency/UPDATE_WIDGET_DEPENDENCY';
+  'n2o/dependency/UPDATE_WIDGET_DEPENDENCY'

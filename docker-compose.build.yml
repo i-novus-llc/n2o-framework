@@ -13,3 +13,7 @@ services:
     image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
     build:
       context: frontend/n2o-framework
+  docusaurus:
+    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
+    build:
+      context: frontend/docs

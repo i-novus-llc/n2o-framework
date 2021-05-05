@@ -13,8 +13,6 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -31,14 +29,13 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
+import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -46,7 +43,6 @@ import java.util.function.Supplier;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -178,49 +174,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return dependency;
     }
 
-    private ClientDataProvider compileFetchDependencyDataProvider(N2oField.FetchValueDependency field, CompileContext<?, ?> context, CompileProcessor p) {
-        QueryContext queryContext = new QueryContext(field.getQueryId());
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
-        CompiledQuery query = p.getCompiled(queryContext);
-        p.addRoute(prepareQueryContextForRouteRegister(query));
-
-        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        if (modelsScope != null) {
-            dataProvider.setTargetModel(modelsScope.getModel());
-            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
-        }
-        dataProvider.setUrl(query.getRoute());
+    private ClientDataProvider compileFetchDependencyDataProvider(N2oField.FetchValueDependency field,
+                                                                  CompileContext<?, ?> context, CompileProcessor p) {
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(field.getPreFilters(), field.getQueryId(), p);
         dataProvider.setSize(field.getSize());
-
-        N2oPreFilter[] preFilters = field.getPreFilters();
-        if (preFilters != null) {
-            N2oParam[] queryParams = new N2oParam[preFilters.length];
-            for (int i = 0; i < preFilters.length; i++) {
-                N2oPreFilter preFilter = preFilters[i];
-                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
-                N2oParam queryParam = new N2oParam();
-                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
-                if (preFilter.getParam() == null) {
-                    queryParam.setValueList(getPrefilterValue(preFilter));
-                    queryParam.setRefModel(preFilter.getRefModel());
-                    queryParam.setRefWidgetId(preFilter.getRefWidgetId());
-                } else {
-                    queryParam.setValueParam(preFilter.getParam());
-                }
-                queryParams[i] = queryParam;
-            }
-            dataProvider.setQueryParams(queryParams);
-        }
         return ClientDataProviderUtil.compile(dataProvider, context, p);
-    }
-
-    private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
-        if (n2oPreFilter.getValues() == null) {
-            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
-        } else {
-            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
-        }
     }
 
     protected void compileFilters(S source, CompileProcessor p) {
@@ -436,7 +394,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    protected void compileDefaultValues(D control, S source, CompileProcessor p) {
+    protected void compileDefaultValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
         UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
@@ -459,17 +417,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defValue = ScriptProcessor.resolveExpression((String) defValue);
                 }
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
-                    defaultValue.setValue(defValue);
+                    ModelLink defaultValue = getModelLink(control, source, context, p, defaultValues);
+                    if (source.getRefFieldId() == null)
+                        defaultValue.setValue(defValue);
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), control.getId());
+                    ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
                     if (defValue instanceof DefaultValues) {
-                        DefaultValues defaultValue = (DefaultValues) defValue;
-                        Map<String, Object> values = defaultValue.getValues();
-                        if (defaultValue.getValues() != null) {
+                        Map<String, Object> values = ((DefaultValues) defValue).getValues();
+                        if (values != null) {
                             for (String param : values.keySet()) {
                                 if (values.get(param) instanceof String) {
                                     Object value = ScriptProcessor.resolveExpression((String) values.get(param));
@@ -481,6 +439,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
+                    modelLink.setParam(source.getParam());
+                    defaultValues.add(control.getId(), modelLink);
+                }
+            } else {
+                if (source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefFieldId() != null) {
+                    ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
@@ -500,7 +464,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     /**
-     * Сборка значений по умолчанию у поля из параметров заданных
+     * Сборка значений по умолчанию у поля из заданных параметров
      *
      * @param source Исходная модель поля
      * @param p      Процессор сборки
@@ -521,34 +485,25 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    protected void initRefAttributes(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope == null || !StringUtils.isLink(source.getDefaultValue())) return;
-        String currentWidgetId = p.getScope(WidgetScope.class).getClientWidgetId();
-        ModelLink keyModelLink = new ModelLink(p.getScope(ModelsScope.class).getModel(), currentWidgetId, source.getId());
-        ModelLink valueModelLink;
-        switch (p.cast(source.getRefPage(), N2oField.Page.THIS)) {
-            case PARENT:
-                if (context instanceof PageContext) {
-                    valueModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
-                            source.getRefWidgetId() == null ?
-                                    ((PageContext) context).getParentClientWidgetId() :
-                                    CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(), source.getRefWidgetId())
-                    );
-                    valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                    pageScope.addModelLink(keyModelLink, valueModelLink);
-                }
-                break;
-
-            case THIS:
-                valueModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
-                        source.getRefWidgetId() == null ?
-                                currentWidgetId :
-                                pageScope.getGlobalWidgetId(source.getRefWidgetId()));
-                valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                pageScope.addModelLink(keyModelLink, valueModelLink);
-                break;
+    private ModelLink getModelLink(D control, S source, CompileContext<?, ?> context, CompileProcessor p, ModelsScope defaultValues) {
+        ModelLink defaultValue;
+        if (N2oField.Page.PARENT.equals(source.getRefPage())) {
+            if (context instanceof PageContext) {
+                String widgetId = source.getRefWidgetId() == null ?
+                        ((PageContext) context).getParentClientWidgetId() :
+                        CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
+                                source.getRefWidgetId());
+                defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE),
+                        widgetId, source.getRefFieldId());
+            } else {
+                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found",
+                        control.getId()));
+            }
+        } else {
+            String widgetId = source.getRefWidgetId() == null ? defaultValues.getWidgetId()
+                    : CompileUtil.generateWidgetId(((PageContext) context).getClientPageId(), source.getRefWidgetId());
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel()), widgetId, source.getRefFieldId());
         }
+        return defaultValue;
     }
-
 }

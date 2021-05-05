@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Компонент - опция селекта.
@@ -8,25 +8,18 @@ import PropTypes from 'prop-types';
  * @reactProps {number|string} label - лейбл
  */
 
-class Option extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    const { value, label, disabled } = this.props;
+export function Option({ value, label, disabled }) {
     return (
-      <option value={value} disabled={disabled}>
-        {label}
-      </option>
-    );
-  }
+        <option value={value} disabled={disabled}>
+            {label}
+        </option>
+    )
 }
 
 Option.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.bool,
-};
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    disabled: PropTypes.bool,
+}
 
-export default Option;
+export default Option

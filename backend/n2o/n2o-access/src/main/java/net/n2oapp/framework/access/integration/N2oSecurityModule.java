@@ -8,7 +8,7 @@ import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.processing.N2oModule;
+import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
@@ -23,7 +23,7 @@ import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILT
 /**
  * Проверка прав доступа на вызов действий и выборок N2O
  */
-public class N2oSecurityModule extends N2oModule {
+public class N2oSecurityModule implements DataProcessing {
 
     private SecurityProvider securityProvider;
 
