@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form id="form">
+            <fields>
+                <input-text id="id" default-value="3"/>
+            </fields>
+        </form>
+
+        <table id="table" route="/table"
+               depends-on="form" detail-field-id="id" master-field-id="id">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+
+        <form depends-on="table" object-id="testCell"
+              detail-field-id="id" master-field-id="id">
+            <fields>
+                <hidden id="id" label="Идентификатор"/>
+                <checkbox id="availability">
+                    <submit operation-id="update"/>
+                </checkbox>
+            </fields>
+        </form>
+    </regions>
+</page>

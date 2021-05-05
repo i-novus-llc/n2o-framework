@@ -1,50 +1,54 @@
 .n2o-wireframe {
-  position: absolute;
-  top: .5rem;
-  bottom: .5rem;
-  left: 0;
-  right: 0;
-  background: #d9edf7;
-  border-radius: $border-radius-base;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $alert-info-text;
-  text-transform: uppercase;
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 0;
+    right: 0;
+    background: #d9edf7;
+    border-radius: $border-radius-base;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $alert-info-text;
+    text-transform: uppercase;
 
-  &.l-10 {
-    background: lighten($info, 2%);
-  }
-  &.l-20 {
-    background: lighten($info, 4%);
-  }
-  &.l-30 {
-    background: lighten($info, 6%);
-  }
+    &.l-10 {
+        background: lighten($info, 2%);
+    }
 
-  &.d-10 {
-    background: darken($info, 10%);
-    color: darken($info, 30%);
-  }
-  &.d-20 {
-    background: darken($info, 20%);
-  }
-  &.d-30 {
-    background: darken($info, 30%);
-  }
+    &.l-20 {
+        background: lighten($info, 4%);
+    }
 
-  &.disabled {
-    background: $gray-lighter;
-    color: $gray;
-  }
+    &.l-30 {
+        background: lighten($info, 6%);
+    }
 
-  &.gradient-top {
-    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 1)));
-    mask-image: linear-gradient(left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 1)));
-  }
+    &.d-10 {
+        background: darken($info, 10%);
+        color: darken($info, 30%);
+    }
 
-  &.gradient-bottom {
-    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
-    mask-image: linear-gradient(right top, right bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
-  }
+    &.d-20 {
+        background: darken($info, 20%);
+    }
+
+    &.d-30 {
+        background: darken($info, 30%);
+    }
+
+    &.disabled {
+        background: $gray-lighter;
+        color: $gray;
+    }
+
+    &.gradient-top {
+        -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 1)));
+        mask-image: linear-gradient(left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 1)));
+    }
+
+    &.gradient-bottom {
+        -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+        mask-image: linear-gradient(right top, right bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+    }
 }

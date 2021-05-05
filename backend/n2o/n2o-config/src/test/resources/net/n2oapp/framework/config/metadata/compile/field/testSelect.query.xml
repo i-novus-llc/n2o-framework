@@ -3,6 +3,9 @@
     <fields>
         <field id="id">
             <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
         </field>
         <field id="image">
             <select/>

@@ -50,8 +50,6 @@ link:#_Кодекс_поведения[Кодексу поведения].
 
 В `Frontend` части просим вас:
 
-- соблюдать code style: в проекте настроены eslint и prettier, для автоматического
-форматирования необходимо добавить prettier в File Watcher WebStrom’a. https://www.jetbrains.com/help/webstorm/using-file-watchers.html[]
 - писать примеры в Storybook, учитывая, что
 ** должны быть показаны основные фичи компонента
 ** таблица PropTypes должна быть заполненной, для этого должны быть заполнены propTypes компонента,

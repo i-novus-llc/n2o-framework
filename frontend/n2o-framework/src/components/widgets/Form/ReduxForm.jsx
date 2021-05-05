@@ -1,12 +1,12 @@
-import React from 'react';
-import { compose } from 'recompose';
-import { Prompt } from 'react-router-dom';
-import { reduxForm } from 'redux-form';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { compose } from 'recompose'
+import { Prompt } from 'react-router-dom'
+import { reduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 
-import Form from './Form';
-import ReduxField from './ReduxField';
+import Form from './Form'
+import ReduxField from './ReduxField'
 
 /**
  *
@@ -16,30 +16,31 @@ import ReduxField from './ReduxField';
  * @constructor
  */
 function ReduxForm(props) {
-  const { t } = useTranslation();
-  return (
-    <React.Fragment>
-      {props.prompt && (
-        <Prompt when={props.dirty} message={t('defaultPromptMessage')} />
-      )}
-      <Form {...props} />
-    </React.Fragment>
-  );
+    const { t } = useTranslation()
+
+    return (
+        <>
+            {props.prompt && (
+                <Prompt when={props.dirty} message={t('defaultPromptMessage')} />
+            )}
+            <Form {...props} />
+        </>
+    )
 }
 
 ReduxForm.propTypes = {
-  prompt: PropTypes.bool,
-};
+    prompt: PropTypes.bool,
+}
 
 ReduxForm.defaultProps = {
-  prompt: false,
-};
+    prompt: false,
+}
 
-ReduxForm.Field = ReduxField;
+ReduxForm.Field = ReduxField
 
 export default compose(
-  reduxForm({
-    destroyOnUnmount: true,
-    enableReinitialize: true,
-  })
-)(ReduxForm);
+    reduxForm({
+        destroyOnUnmount: true,
+        enableReinitialize: true,
+    }),
+)(ReduxForm)

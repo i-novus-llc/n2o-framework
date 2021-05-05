@@ -1,27 +1,27 @@
 .n2o-calendar-day {
-  cursor: pointer;
-  padding: $datepicker-day-padding;
+    cursor: pointer;
+    padding: $datepicker-day-padding;
 }
 
 .n2o-calendar-day:hover:not(.disabled):not(.selected) {
-  color: $datepicker-day-color-hover;
-  background: $datepicker-day-background-color-hover;
+    color: $datepicker-day-color-hover;
+    background: $datepicker-day-background-color-hover;
 }
 
 .n2o-calendar-day.other-month {
-  color: $gray-300;
+    color: $gray-300;
 }
 
 .n2o-calendar-day.selected {
-  color: $datepicker-day-color-selected;
-  background-color: $datepicker-day-background-color-selected;
+    color: $datepicker-day-color-selected;
+    background-color: $datepicker-day-background-color-selected;
 }
 
 .n2o-calendar-day.current {
-  border: 1px solid $datepicker-day-border-color-current;
+    border: 1px solid $datepicker-day-border-color-current;
 }
 
 .n2o-calendar-day.disabled {
-  color: $gray-200;
-  cursor: not-allowed;
+    color: $gray-200;
+    cursor: not-allowed;
 }

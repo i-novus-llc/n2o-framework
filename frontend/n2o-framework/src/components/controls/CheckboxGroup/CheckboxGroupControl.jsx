@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import CheckboxGroup from './CheckboxGroup';
-import Checkbox from '../Checkbox/Checkbox';
-import withFetchData from '../withFetchData.js';
-import CheckboxN2O from '../Checkbox/CheckboxN2O';
-import CheckboxButton from '../Checkbox/CheckboxButton';
-import Spinner from '../../snippets/Spinner/InlineSpinner';
+import Checkbox from '../Checkbox/Checkbox'
+import withFetchData from '../withFetchData'
+import CheckboxN2O from '../Checkbox/CheckboxN2O'
+import CheckboxButton from '../Checkbox/CheckboxButton'
+import Spinner from '../../snippets/Spinner/InlineSpinner'
+
+import CheckboxGroup from './CheckboxGroup'
 
 /**
  * Wrapper для группы чекбоксов
@@ -28,81 +29,81 @@ import Spinner from '../../snippets/Spinner/InlineSpinner';
  */
 
 export class CheckboxGroupControl extends React.Component {
-  componentDidMount() {
-    this.props._fetchData({
-      size: this.props.size,
-      [`sorting.${this.props.labelFieldId}`]: 'ASC',
-    });
-  }
+    componentDidMount() {
+        this.props._fetchData({
+            size: this.props.size,
+            [`sorting.${this.props.labelFieldId}`]: 'ASC',
+        })
+    }
 
-  /**
+    /**
    * Рендер
    */
 
-  render() {
-    const { data, labelFieldId, valueFieldId, type, isLoading } = this.props;
+    render() {
+        const { data, labelFieldId, valueFieldId, type, isLoading } = this.props
 
-    const checkboxTypes = {
-      default: Checkbox,
-      n2o: CheckboxN2O,
-      btn: CheckboxButton,
-    };
+        const checkboxTypes = {
+            default: Checkbox,
+            n2o: CheckboxN2O,
+            btn: CheckboxButton,
+        }
 
-    const CheckboxElement = checkboxTypes[type];
+        const CheckboxElement = checkboxTypes[type]
 
-    return (
-      <React.Fragment>
-        {!isLoading && (
-          <CheckboxGroup {...this.props}>
-            {data &&
+        return (
+            <>
+                {!isLoading && (
+                    <CheckboxGroup {...this.props}>
+                        {data &&
               data.map(checkbox => (
-                <CheckboxElement
-                  key={checkbox[valueFieldId]}
-                  value={checkbox}
-                  label={checkbox[labelFieldId]}
-                  disabled={checkbox.disabled}
-                  checked={checkbox.checked}
-                />
+                  <CheckboxElement
+                      key={checkbox[valueFieldId]}
+                      value={checkbox}
+                      label={checkbox[labelFieldId]}
+                      disabled={checkbox.disabled}
+                      checked={checkbox.checked}
+                  />
               ))}
-          </CheckboxGroup>
-        )}
-        {isLoading && <Spinner />}
-      </React.Fragment>
-    );
-  }
+                    </CheckboxGroup>
+                )}
+                {isLoading && <Spinner />}
+            </>
+        )
+    }
 }
 
 CheckboxGroupControl.propTypes = {
-  data: PropTypes.array,
-  valueFieldId: PropTypes.string,
-  labelFieldId: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  onChange: PropTypes.func,
-  disabled: PropTypes.bool,
-  visible: PropTypes.bool,
-  inline: PropTypes.bool,
-  style: PropTypes.object,
-  className: PropTypes.string,
-  fetchData: PropTypes.func,
-  queryId: PropTypes.string,
-  size: PropTypes.number.isRequired,
-  type: PropTypes.oneOf(['default', 'n2o', 'btn']),
-  isLoading: PropTypes.bool,
-  _fetchData: PropTypes.func,
-};
+    data: PropTypes.array,
+    valueFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    onChange: PropTypes.func,
+    disabled: PropTypes.bool,
+    visible: PropTypes.bool,
+    inline: PropTypes.bool,
+    style: PropTypes.object,
+    className: PropTypes.string,
+    fetchData: PropTypes.func,
+    queryId: PropTypes.string,
+    size: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(['default', 'n2o', 'btn']),
+    isLoading: PropTypes.bool,
+    _fetchData: PropTypes.func,
+}
 
 CheckboxGroupControl.defaultProps = {
-  data: [],
-  value: [],
-  visible: true,
-  type: 'default',
-  onChange: () => {},
-  onFocus: () => {},
-  onBlur: () => {},
-  isLoading: false,
-  valueFieldId: 'id',
-  labelFieldId: 'label',
-  _fetchData: () => {},
-};
+    data: [],
+    value: [],
+    visible: true,
+    type: 'default',
+    onChange: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    isLoading: false,
+    valueFieldId: 'id',
+    labelFieldId: 'label',
+    _fetchData: () => {},
+}
 
-export default withFetchData(CheckboxGroupControl);
+export default withFetchData(CheckboxGroupControl)

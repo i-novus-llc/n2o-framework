@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { pure } from 'recompose';
-import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { pure } from 'recompose'
+
+import StandardField from './fields/StandardField/StandardField'
 
 /**
  * Поле формы {@link Form}
@@ -11,18 +12,19 @@ import StandardField from '../../widgets/Form/fields/StandardField/StandardField
  * <Field component={CustomField} className="foo bar"/>
  */
 class Field extends React.Component {
-  render() {
-    const { component, ...props } = this.props;
-    return React.createElement(component, props);
-  }
+    render() {
+        const { component, ...props } = this.props
+
+        return React.createElement(component, props)
+    }
 }
 
 Field.defaultProps = {
-  component: StandardField,
-};
+    component: StandardField,
+}
 
 Field.propTypes = {
-  component: PropTypes.node,
-};
+    component: PropTypes.node,
+}
 
-export default pure(Field);
+export default pure(Field)

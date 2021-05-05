@@ -38,11 +38,6 @@ local.application.properties
 
 # Frontend ignore
 
-# Documents
-frontend/n2o/docs/esdoc/
-frontend/n2o/docs/storybook/
-frontend/n2o/docs/eslint.json
-
 # Build output
 dist/
 lib/

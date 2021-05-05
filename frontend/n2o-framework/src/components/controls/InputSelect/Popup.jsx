@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import DropdownMenu from 'reactstrap/lib/DropdownMenu';
-import cx from 'classnames';
-import { pure } from 'recompose';
+import React from 'react'
+import PropTypes from 'prop-types'
+import DropdownMenu from 'reactstrap/lib/DropdownMenu'
+import classNames from 'classnames'
+import { pure } from 'recompose'
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -12,52 +12,50 @@ import { pure } from 'recompose';
  */
 
 class Popup extends React.Component {
-  _displayTop() {
-    const documentHeight =
-      window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight;
-    const { inputSelect } = this.props;
+    displayTop() {
+        const documentHeight = window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight
+        const { inputSelect } = this.props
 
-    return (
-      inputSelect &&
-      documentHeight - inputSelect.getBoundingClientRect().bottom <
-        this.popUp.offsetHeight
-    );
-  }
+        return (
+            inputSelect &&
+            documentHeight - inputSelect.getBoundingClientRect().bottom < this.popUp.offsetHeight
+        )
+    }
 
-  /**
-   * Рендер
-   */
+    /**
+     * Рендер
+     */
+    render() {
+        const { isExpanded, children, expandPopUp, flip } = this.props
 
-  render() {
-    const { isExpanded, children, expandPopUp, flip } = this.props;
-
-    return (
-      <DropdownMenu
-        className={cx('dropdown-menu', 'n2o-select-pop-up', {
-          'drop-up': this._displayTop(),
-          expandPopUp,
-        })}
-        flip={flip}
-        ref={el => {
-          this.popUp = el;
-        }}
-        style={{
-          display: isExpanded ? 'block' : 'none',
-        }}
-      >
-        {children}
-      </DropdownMenu>
-    );
-  }
+        return (
+            <DropdownMenu
+                className={classNames('dropdown-menu', 'n2o-select-pop-up', {
+                    'drop-up': this.displayTop(),
+                    expandPopUp,
+                })}
+                flip={flip}
+                ref={(el) => {
+                    this.popUp = el
+                }}
+                style={{
+                    display: isExpanded ? 'block' : 'none',
+                }}
+            >
+                {children}
+            </DropdownMenu>
+        )
+    }
 }
 
 Popup.propTypes = {
-  isExpanded: PropTypes.bool.isRequired,
-  children: PropTypes.node,
-  expandPopUp: PropTypes.string,
-  flip: PropTypes.bool,
-};
+    isExpanded: PropTypes.bool.isRequired,
+    children: PropTypes.node,
+    expandPopUp: PropTypes.string,
+    flip: PropTypes.bool,
+    inputSelect: PropTypes.any,
+}
 
-export default pure(Popup);
+export default pure(Popup)

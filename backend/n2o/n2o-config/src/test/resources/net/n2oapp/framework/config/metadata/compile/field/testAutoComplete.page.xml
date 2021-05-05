@@ -2,7 +2,12 @@
     <form id="main">
         <fields>
             <auto-complete id="testId" label="Auto complete" query-id="testSelect" placeholder="{message}"
-                           tags="true" value-field-id="name" search-filter-id="search"/>
+                           tags="true" value-field-id="name" search-filter-id="search">
+                <pre-filters>
+                    <eq field-id="id" value="{org_id}" reset-on-change="true" ref-model="resolve" ref-widget-id="test"/>
+                    <contains field-id="name" param="org_name"/>
+                </pre-filters>
+            </auto-complete>
             <auto-complete id="testId" label="Auto complete" max-tag-text-length="15">
                 <options>
                     <option name="test1"/>

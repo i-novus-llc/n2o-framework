@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import java.util.Objects;
 
 import static net.n2oapp.criteria.filters.FilterType.Arity.n_ary;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 
 
 /**
@@ -90,10 +91,7 @@ public class N2oPreFilter implements Source {
     }
 
     public String getRef() {
-        if (getValue() != null && getValue().startsWith("{") && getValue().endsWith("}")) {
-            return getValue().substring(1, getValue().length() - 1);
-        } else
-            return null;
+        return unwrapLink(getValue());
     }
 
     public void setRef(String ref) {

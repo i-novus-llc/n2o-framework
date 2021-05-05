@@ -1,8 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { setDisplayName } from 'recompose';
-import Input from '../Input/Input';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { setDisplayName } from 'recompose'
+import classNames from 'classnames'
+
+import Input from '../Input/Input'
 
 /**
  * Компонент Radio
@@ -12,51 +13,46 @@ import cx from 'classnames';
  * @reactProps {function} onChange - вызывается при изменении значения
  * @reactProps {string} compileLabel - лейбл
  */
-class Radio extends React.Component {
-  /**
-   * базовый рендер
-   * */
-  render() {
-    const { label, disabled, value, checked, onChange } = this.props;
-
+function Radio({ label, disabled, value, checked, onChange }) {
     return (
-      <div className={cx('radio', { checked })}>
-        <label>
-          <Input
-            disabled={disabled}
-            type="radio"
-            value={value}
-            checked={checked}
-            onChange={onChange}
-          />{' '}
-          {this.props.label}
-        </label>
-      </div>
-    );
-  }
+        <div className={classNames('radio', { checked })}>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label>
+                <Input
+                    disabled={disabled}
+                    type="radio"
+                    value={value}
+                    checked={checked}
+                    onChange={onChange}
+                />
+                {' '}
+                {label}
+            </label>
+        </div>
+    )
 }
 
 Radio.propTypes = {
-  /**
-   * Значение
-   */
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  /**
-   * Checked контрола
-   */
-  checked: PropTypes.bool,
-  /**
-   * Флаг активности
-   */
-  disabled: PropTypes.bool,
-  /**
-   * Callback на изменение
-   */
-  onChange: PropTypes.func,
-  /**
-   * Label контрола
-   */
-  label: PropTypes.string,
-};
+    /**
+     * Значение
+     */
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /**
+     * Checked контрола
+     */
+    checked: PropTypes.bool,
+    /**
+     * Флаг активности
+     */
+    disabled: PropTypes.bool,
+    /**
+     * Callback на изменение
+     */
+    onChange: PropTypes.func,
+    /**
+     * Label контрола
+     */
+    label: PropTypes.string,
+}
 
-export default setDisplayName('Radio')(Radio);
+export default setDisplayName('Radio')(Radio)

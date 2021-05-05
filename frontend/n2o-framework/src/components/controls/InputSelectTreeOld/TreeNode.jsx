@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { pure } from 'recompose';
-import uniqueId from 'lodash/uniqueId';
-import ListItem from '../InputSelect/ListItem';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import uniqueId from 'lodash/uniqueId'
+import classNames from 'classnames'
+
+import ListItem from '../InputSelect/ListItem'
 
 /**
  * Элемент дерева
@@ -28,100 +28,106 @@ import cx from 'classnames';
  */
 
 function TreeNode({
-  children,
-  item,
-  disabled,
-  selected,
-  hasChildren,
-  expanded,
-  onDelete,
-  onSelect,
-  onExpandClick,
-  ...rest
+    children,
+    item,
+    disabled,
+    selected,
+    hasChildren,
+    expanded,
+    onDelete,
+    onSelect,
+    onExpandClick,
+    ...rest
 }) {
-  /**
-   * Обработчик нажатия на элемент дерева
-   * @private
-   */
+    /**
+     * Обработчик нажатия на элемент дерева
+     * @private
+     */
+    const handleClick = (e) => {
+        e.stopPropagation()
+        if (selected) {
+            onDelete(item)
+        } else {
+            onSelect(item)
+        }
+    }
 
-  const handleClick = e => {
-    e.stopPropagation();
-    selected ? onDelete(item) : onSelect(item);
-  };
+    /**
+     * Обработчик нажатия на кнопку раскрытия
+     * @param e - событие
+     * @private
+     */
+    const handleChevronClick = (e) => {
+        e.stopPropagation()
+        onExpandClick(item)
+    }
 
-  /**
-   * Обработчик нажатия на кнопку раскрытия
-   * @param e - событие
-   * @private
-   */
+    const iconClass = expanded ? 'down' : 'right'
 
-  const handleChevronClick = e => {
-    e.stopPropagation();
-    onExpandClick(item);
-  };
-
-  const iconClass = expanded ? 'down' : 'right';
-
-  return (
-    <ui
-      id={uniqueId('n2o-tree-select-item_')}
-      className={cx('n2o-tree-select-item', { 'tree-childs': true })}
-    >
-      <li id={uniqueId('n2o-tree-select_')} className="n2o-tree-select">
-        {hasChildren ? (
-          <span onClick={handleChevronClick} className="tree-toggle">
-            <i className={`fa fa-chevron-${iconClass}`} aria-hidden="true" />
-          </span>
-        ) : (
-          <span className="tree-toggle nothing" />
-        )}
-        <ListItem
-          onClick={handleClick}
-          item={item}
-          selected={selected}
-          handleCheckboxSelect={handleClick}
-          {...rest}
-        />
-      </li>
-      <li
-        style={{
-          display: expanded ? 'block' : 'none',
-        }}
-      >
-        {children}
-      </li>
-    </ui>
-  );
+    return (
+        <ui
+            id={uniqueId('n2o-tree-select-item_')}
+            className={classNames('n2o-tree-select-item', { 'tree-childs': true })}
+        >
+            <li id={uniqueId('n2o-tree-select_')} className="n2o-tree-select">
+                {hasChildren ? (
+                    <span onClick={handleChevronClick} className="tree-toggle">
+                        <i className={`fa fa-chevron-${iconClass}`} aria-hidden="true" />
+                    </span>
+                ) : (
+                    <span className="tree-toggle nothing" />
+                )}
+                <ListItem
+                    onClick={handleClick}
+                    item={item}
+                    selected={selected}
+                    handleCheckboxSelect={handleClick}
+                    {...rest}
+                />
+            </li>
+            <li
+                style={{
+                    display: expanded ? 'block' : 'none',
+                }}
+            >
+                {children}
+            </li>
+        </ui>
+    )
 }
 
 TreeNode.propTypes = {
-  expanded: PropTypes.bool,
-  hasCheckboxes: PropTypes.bool,
-  imageFieldId: PropTypes.string,
-  iconFieldId: PropTypes.string,
-  labelFieldId: PropTypes.string,
-  item: PropTypes.object,
-  selected: PropTypes.bool,
-  format: PropTypes.string,
-  disabled: PropTypes.bool,
-  selectable: PropTypes.bool,
-  handleSelect: PropTypes.func,
-  handleDelete: PropTypes.func,
-  hasChildren: PropTypes.bool,
-  onExpandClick: PropTypes.func,
-  handleFocus: PropTypes.func,
-  active: PropTypes.bool,
-  badgeFieldId: PropTypes.string,
-  badgeColorFieldId: PropTypes.string,
-};
+    children: PropTypes.any,
+    onDelete: PropTypes.func,
+    onSelect: PropTypes.func,
+    expanded: PropTypes.bool,
+    hasCheckboxes: PropTypes.bool,
+    imageFieldId: PropTypes.string,
+    iconFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    item: PropTypes.object,
+    selected: PropTypes.bool,
+    format: PropTypes.string,
+    disabled: PropTypes.bool,
+    selectable: PropTypes.bool,
+    handleSelect: PropTypes.func,
+    handleDelete: PropTypes.func,
+    hasChildren: PropTypes.bool,
+    onExpandClick: PropTypes.func,
+    handleFocus: PropTypes.func,
+    active: PropTypes.bool,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+}
 
 TreeNode.defaultProps = {
-  expanded: false,
-  disabled: false,
-  selectable: true,
-  selected: false,
-  indeterminate: false,
-  active: false,
-};
+    expanded: false,
+    disabled: false,
+    selectable: true,
+    selected: false,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    indeterminate: false,
+    active: false,
+}
 
-export default TreeNode;
+export default TreeNode

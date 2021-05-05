@@ -20,6 +20,24 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+
+    <script>
+      // Используется из docusaurus для скрытия ненужных хедера, бредкрамба и футера
+      window.N2O_ELEMENT_VISIBILITY = {
+        header: true,
+        breadcrumb: true,
+        footer: true,
+      }
+
+      window.onmessage = function(event){
+        if (event.data && event.data.type === 'SET_N2O_ELEMENT_VISIBILITY') {
+          window.N2O_ELEMENT_VISIBILITY = {
+            ...window.N2O_ELEMENT_VISIBILITY,
+            ...event.data.payload,
+          }
+        }
+      };
+    </script>
   </head>
   <body>
     <noscript>
