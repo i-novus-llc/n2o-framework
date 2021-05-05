@@ -49,3 +49,16 @@ export function removeAlert(key, id) {
 export function removeAlerts(key) {
     return createActionHelper(REMOVE_ALL)({ key })
 }
+
+/*
+function concatAlerts(widgetId, state, alert) {
+  const widgetState = state.widgets[widgetId];
+  return _.concat(widgetState.alerts, [alert]);
+}
+
+export function widgetAlertConcat(widgetId, alert) {
+  return (dispatch, getState) => {
+    return dispatch(widgetAlertAdd(widgetId, concatAlerts(widgetId, getState(), alert)));
+  };
+}
+*/

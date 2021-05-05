@@ -13,6 +13,7 @@ import cx from 'classnames'
  */
 function TabContent(props) {
     const { className, children, style, ...rest } = props
+
     return (
         <div className={cx('tab-content', className)} style={style}>
             {React.Children.map(children, child => React.cloneElement(child, rest))}

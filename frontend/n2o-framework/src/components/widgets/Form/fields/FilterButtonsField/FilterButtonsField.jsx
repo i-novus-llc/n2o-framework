@@ -14,6 +14,7 @@ class FilterButtonsField extends React.Component {
     render() {
         const { visible, searchLabel, resetLabel } = this.props
         const { _widgetFilter } = this.context
+
         return visible ? (
             <Buttons
                 searchLabel={searchLabel}

@@ -30,6 +30,7 @@ class DateInput extends React.Component {
     constructor(props) {
         super(props)
         const { value, dateFormat } = props
+
         this.state = {
             value: value && value.format(dateFormat),
         }
@@ -68,6 +69,7 @@ class DateInput extends React.Component {
 
     onFocus(e) {
         const { setVisibility, onFocus, openOnFocus } = this.props
+
         onFocus && onFocus(e)
         if (openOnFocus) {
             setVisibility(true)
@@ -77,6 +79,7 @@ class DateInput extends React.Component {
     onBlur(e) {
         const { value } = e.target
         const { dateFormat, name, outputFormat } = this.props
+
         if (value === '') {
             this.props.onBlur(null, name)
         } else if (moment(value).format(outputFormat) === value) {
@@ -93,6 +96,7 @@ class DateInput extends React.Component {
 
     onInputClick(event) {
         const { setVisibility, onClick } = this.props
+
         setVisibility(true)
         onClick && onClick(event)
     }
@@ -185,6 +189,7 @@ class DateInput extends React.Component {
 
     componentWillReceiveProps(props) {
         const { value, dateFormat } = props
+
         if (props.value) {
             this.setState({ value: value.format(dateFormat) })
         } else {

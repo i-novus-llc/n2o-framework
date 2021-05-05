@@ -98,6 +98,7 @@ function resolve(state = widgetState, action) {
                     sorting: {},
                 }
             }
+
             return {
                 ...state,
                 sorting: { [action.payload.fieldKey]: action.payload.sortDirection },
@@ -140,6 +141,7 @@ export default function widgets(state = {}, action) {
         case REGISTER:
             let smartState = {}
             const currentState = state[action.payload.widgetId] || {}
+
             if (!isEmpty(currentState)) {
                 smartState = {
                     selectedId: currentState.selectedId ? currentState.selectedId : null,
@@ -148,6 +150,7 @@ export default function widgets(state = {}, action) {
                     smartState.sorting = currentState.sorting
                 }
             }
+
             return {
                 ...state,
                 [action.payload.widgetId]: {
@@ -160,6 +163,7 @@ export default function widgets(state = {}, action) {
                     type: action.payload.initProps.type,
                 },
             }
+
             break
         case DATA_REQUEST:
         case DATA_SUCCESS:
@@ -185,6 +189,7 @@ export default function widgets(state = {}, action) {
                     state[action.payload.widgetId],
                     action,
                 ) }
+
             break
         case SET_ACTIVE:
             return {
@@ -195,9 +200,11 @@ export default function widgets(state = {}, action) {
                     action,
                 ),
             }
+
             break
         case REMOVE:
             return omit(state, action.payload.widgetId)
+
             break
         default:
             return state

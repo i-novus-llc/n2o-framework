@@ -33,6 +33,7 @@ describe('Проверка саги global', () => {
 
         await runSaga(fakeStore, getConfig, api, action)
         const requestConfigSuccessAction = requestConfigSuccess(config)
+
         expect(dispatched[2]).toEqual(requestConfigSuccessAction)
     })
 
@@ -45,6 +46,7 @@ describe('Проверка саги global', () => {
             },
         }
         const gen = getConfig()
+
         gen.next()
         expect(gen.next().value.payload.action.type).toEqual(
             requestConfigFail(errorObject).type,

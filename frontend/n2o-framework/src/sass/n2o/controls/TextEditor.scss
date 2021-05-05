@@ -1,14 +1,14 @@
 @import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 .n2o-text-editor-wrapper {
-  border: $text-editor-border;
+    border: $text-editor-border;
 
-  .rdw-editor-toolbar {
-    border: none;
-    border-bottom: $text-editor-border;
-  }
+    .rdw-editor-toolbar {
+        border: none;
+        border-bottom: $text-editor-border;
+    }
 
-  .n2o-text-editor {
-    padding: 0 10px;
-  }
+    .n2o-text-editor {
+        padding: 0 10px;
+    }
 }

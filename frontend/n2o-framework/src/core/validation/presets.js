@@ -13,8 +13,8 @@ import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 
 import evalExpression from '../../utils/evalExpression'
-import fetchSaga from '../../sagas/fetch.js'
-import { FETCH_VALIDATE } from '../api.js'
+import fetchSaga from '../../sagas/fetch'
+import { FETCH_VALIDATE } from '../api'
 
 /**
  * Валидация того, что email
@@ -38,6 +38,7 @@ export function email(fieldId, values) {
  */
 export function required(fieldId, values, options = {}) {
     const value = get(values, fieldId)
+
     if (options.expression && !evalExpression(options.expression, values)) {
         return true
     }
@@ -47,6 +48,7 @@ export function required(fieldId, values, options = {}) {
     } if (isString(value)) {
         return value !== ''
     }
+
     return (
         !isUndefined(get(values, fieldId)) &&
       !isNull(get(values, fieldId)) &&
@@ -84,6 +86,7 @@ export async function constraint(fieldId, values, options, dispatch) {
             { validationKey: options.validationKey },
         ).toPromise()
     }
+
     return Promise.reject()
 }
 
@@ -95,6 +98,7 @@ export async function constraint(fieldId, values, options, dispatch) {
  */
 export function integer(fieldId, values) {
     const v = values[fieldId]
+
     return v && !isNaN(Number(v)) && isNumber(Number(v))
 }
 

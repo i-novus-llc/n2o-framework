@@ -10,6 +10,7 @@ class FileUploaderList extends React.Component {
 
     render() {
         const { files, onRemove, uploading, ...rest } = this.props
+
         return (
             <div className="n2o-file-uploader-files-list">
                 {files.map((file, index) => (

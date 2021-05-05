@@ -1,30 +1,30 @@
 .n2o-time-picker__header {
-  text-align: center;
-  font-weight: 600;
-  font-size: $font-size-sm;
-  padding: $dropdown-item-padding-y $dropdown-item-padding-x;
-  border-bottom: $popover-border-width solid $popover-border-color;
-  border-right: $popover-border-width solid $popover-border-color;
+    text-align: center;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+    border-bottom: $popover-border-width solid $popover-border-color;
+    border-right: $popover-border-width solid $popover-border-color;
 
-  .last {
-    border-right: none;
-  }
+    .last {
+        border-right: none;
+    }
 }
 
 .n2o-time-picker__panel {
-  height: 192px;
-  overflow-y: scroll;
-  box-sizing: content-box;
+    height: 192px;
+    overflow-y: scroll;
+    box-sizing: content-box;
 
-  .n2o-time-picker__panel__item {
-    text-align: center;
-  }
+    .n2o-time-picker__panel__item {
+        text-align: center;
+    }
 }
 
 .n2o-time-picker__input {
-  cursor: pointer;
-
-  input {
     cursor: pointer;
-  }
+
+    input {
+        cursor: pointer;
+    }
 }

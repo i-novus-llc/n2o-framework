@@ -1,45 +1,49 @@
 %status-text-icon-params {
-  width: 10px;
-  height: 10px;
-  min-width: 10px;
-  max-width: 10px;
-  max-height: 10px;
-  min-height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-bottom: -1px;
-  padding: 2px;
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+    max-width: 10px;
+    max-height: 10px;
+    min-height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: -1px;
+    padding: 2px;
 }
 
 %status-text-params {
-  max-width: max-content;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: left;
+    max-width: max-content;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: left;
 }
 
 .n2o-status-text_text {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .n2o-status-text_icon__right {
-  @extend %status-text-icon-params;
-  margin-left: 8px;
+    @extend %status-text-icon-params;
+
+    margin-left: 8px;
 }
 
 .n2o-status-text_icon__left {
-  @extend %status-text-icon-params;
-  margin-right: 8px;
+    @extend %status-text-icon-params;
+
+    margin-right: 8px;
 }
 
 .n2o-status-text__left {
-  @extend %status-text-params;
-  flex-direction: row-reverse;
+    @extend %status-text-params;
+
+    flex-direction: row-reverse;
 }
 
 .n2o-status-text__right {
-  @extend %status-text-params;
-  flex-direction: row;
+    @extend %status-text-params;
+
+    flex-direction: row;
 }

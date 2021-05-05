@@ -27,7 +27,7 @@ function withOverlayMethods(WrappedComponent) {
         componentDidUpdate(prevProps) {
             if (
                 this.props.showPrompt !== prevProps.showPrompt &&
-                this.props.showPrompt
+        this.props.showPrompt
             ) {
                 this.showPrompt()
             }
@@ -36,16 +36,19 @@ function withOverlayMethods(WrappedComponent) {
         renderFromSrc(src) {
             const { resolveProps } = this.context
             const Component = resolveProps(src, null)
+
             return <Component />
         }
 
         closeOverlay(prompt) {
             const { name, close } = this.props
+
             close(name, prompt)
         }
 
         closePrompt() {
             const { name, hidePrompt } = this.props
+
             hidePrompt(name)
         }
 

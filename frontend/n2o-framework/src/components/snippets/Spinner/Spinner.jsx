@@ -34,6 +34,7 @@ class BaseSpinner extends Component {
             loading: this.props.loading,
         })
         const { delay } = this.props
+
         this.setLoadingWithTimeout(false, delay)
     }
 
@@ -58,6 +59,7 @@ class BaseSpinner extends Component {
           ...rest
       } = this.props
       const { showSpinner } = this.state
+
       return (
           <div
               className={cx('n2o-spinner-wrapper', {

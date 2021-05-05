@@ -14,6 +14,7 @@ import AdvancedTableEmptyText from './AdvancedTableEmptyText'
  */
 function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
     const expandedContent = record[expandedFieldId]
+
     if (expandedContent) {
         if (expandedContent.type === 'table') {
             return (
@@ -26,6 +27,7 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
             )
         } if (expandedContent.type === 'html') {
             const innerHtml = { __html: expandedContent.value }
+
             return (
                 <div
                     className="n2o-advanced-table-expanded-row-content"
@@ -33,6 +35,7 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
                 />
             )
         }
+
         return (
             <div className="n2o-advanced-table-expanded-row-content">
                 {expandedContent.value}

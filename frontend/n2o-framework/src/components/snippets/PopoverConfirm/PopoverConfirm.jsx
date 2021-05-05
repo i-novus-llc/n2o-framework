@@ -34,6 +34,7 @@ export function PopoverConfirm(props) {
         isOpen,
         ...rest
     } = props
+
     return (
         <div className={classNames('n2o-popover', className)}>
             {isOpen && (

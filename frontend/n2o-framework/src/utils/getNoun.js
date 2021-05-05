@@ -1,5 +1,6 @@
 function getNoun(number, one = '', few = '', many = '') {
     let n = Math.abs(number)
+
     n %= 100
     if (n >= 5 && n <= 20) {
         return many
@@ -11,6 +12,7 @@ function getNoun(number, one = '', few = '', many = '') {
     if (n >= 2 && n <= 4) {
         return few
     }
+
     return many
 }
 

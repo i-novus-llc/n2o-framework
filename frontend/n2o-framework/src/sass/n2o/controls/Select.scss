@@ -1,35 +1,31 @@
-.N2O-select-dropdown-search{
-
-  width: 100%;
-  display: inline-block;
-  padding: 5px;
-
-  & input{
+.N2O-select-dropdown-search {
     width: 100%;
-    padding: 5px 40px 5px 12px;
-  }
-
-  & input:focus{
-    border: 1px solid $focus-color;
-    box-shadow: none;
-
-  }
-
-  &:after{
     display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: absolute;
-    z-index: 11;
-    right: 7px;
-    top: 15px;
-    width: 24px;
-    height: 24px;
-    content: "\F002";
-  }
+    padding: 5px;
+
+    & input {
+        width: 100%;
+        padding: 5px 40px 5px 12px;
+    }
+
+    & input:focus {
+        border: 1px solid $focus-color;
+        box-shadow: none;
+    }
+
+    &::after {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        position: absolute;
+        z-index: 11;
+        right: 7px;
+        top: 15px;
+        width: 24px;
+        height: 24px;
+        content: "\F002";
+    }
 }
-
-

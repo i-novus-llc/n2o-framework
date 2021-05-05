@@ -41,6 +41,7 @@ class BadgeCell extends React.Component {
             marginRight: placement === 'left' && 5,
         }
         const badgeText = get(model, fieldKey || id)
+
         return (
             visible && (
                 <span className="d-inline-flex">

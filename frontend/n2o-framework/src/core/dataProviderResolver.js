@@ -61,9 +61,12 @@ export function dataProviderResolver(state, dataProvider, query, options) {
 
 export function getParams(mapping, state) {
     const params = {}
+
     each(mapping, (options, key) => {
         const value = linkResolver(state, options)
+
         params[key] = !isNil(value) ? value : undefined
     })
+
     return params
 }

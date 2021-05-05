@@ -1,68 +1,68 @@
 .editable-cell-empty {
-  width: 100%;
-  min-width: 182px;
+    width: 100%;
+    min-width: 182px;
 }
 
 .table-hover .table-active:hover,
 .table-hover tbody tr:hover {
-  .editable-cell-empty {
-    background-color: #fff;
-  }
+    .editable-cell-empty {
+        background-color: #fff;
+    }
 }
 
 .editable-cell-empty:hover {
-  background-color: #fff;
-  transition: 0.3s;
+    background-color: #fff;
+    transition: 0.3s;
 }
 
 .n2o-editable-cell {
+    .n2o-editable-cell-text {
+        span::before {
+            content: "\a0";
+        }
 
-  .n2o-editable-cell-text {
-    span:before {
-      content: "\a0";
+        span::after {
+            content: "\a0";
+        }
     }
-    span:after {
-      content: "\a0";
+
+    .form-control:focus {
+        border-color: #163851;
+        box-shadow: none;
+        padding: 1px 0 2px 2px;
     }
-  }
 
-  .form-control:focus {
-    border-color: #163851;
-    box-shadow: none;
-    padding: 1px 0 2px 2px;;
-  }
+    min-width: 80px;
+    width: 100%;
+    max-width: max-content;
+    text-align: left;
 
-  min-width: 80px;
-  width: 100%;
-  max-width: max-content;
-  text-align: left;
-
-  &:hover {
-    color: #263238;
-    background-color: #fff;
-    outline: 0;
-    box-shadow: 0 0 0 1px #263238;
-    border: none;
-    cursor: text;
-    transition: 0.3s;
-  }
-
-  & .n2o-input-select .n2o-input-container {
-    min-height: auto;
-
-    & input {
-      padding: 0;
+    &:hover {
+        color: #263238;
+        background-color: #fff;
+        outline: 0;
+        box-shadow: 0 0 0 1px #263238;
+        border: none;
+        cursor: text;
+        transition: 0.3s;
     }
-  }
+
+    & .n2o-input-select .n2o-input-container {
+        min-height: auto;
+
+        & input {
+            padding: 0;
+        }
+    }
 }
 
 .n2o-editable-cell:focus {
-  outline: 0;
+    outline: 0;
 }
 
 .n2o-editable-cell-control > div,
 .n2o-advanced-table-edit-control,
 .n2o-editable-cell-control .n2o-calendar-button {
-  height: 100%;
-  padding: 0;
+    height: 100%;
+    padding: 0;
 }

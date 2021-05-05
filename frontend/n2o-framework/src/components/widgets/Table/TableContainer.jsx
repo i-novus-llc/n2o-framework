@@ -15,6 +15,7 @@ import Table from './Table'
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
     const predicate = ({ id }) => id == selectedId
+
     return isEqual(find(data1, predicate), find(data2, predicate))
 }
 
@@ -71,6 +72,7 @@ export const withContainerLiveCycle = lifecycle({
         ) {
             const selectedModel = find(datasource, model => model.id == selectedId)
             const resolveModel = selectedModel || datasource[0]
+
             onResolve(resolveModel)
         }
     },

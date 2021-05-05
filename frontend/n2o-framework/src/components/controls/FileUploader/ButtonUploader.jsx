@@ -28,6 +28,7 @@ class ButtonUploader extends React.Component {
             label,
             children,
         )
+
         return (
             <FileUploader
                 {...this.props}

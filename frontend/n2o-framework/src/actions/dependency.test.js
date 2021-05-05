@@ -15,6 +15,7 @@ describe('Тесты для экшенов dependency', () => {
                 },
             ],
         })
+
         expect(action.type).toEqual(REGISTER_DEPENDENCY)
     })
 
@@ -27,6 +28,7 @@ describe('Тесты для экшенов dependency', () => {
                 },
             ],
         })
+
         expect(action.payload).toEqual({
             dependency: {
                 fetch: [
@@ -42,11 +44,13 @@ describe('Тесты для экшенов dependency', () => {
 
     it('updateWidgetDependency генирирует правильное событие', () => {
         const action = updateWidgetDependency('testWidget')
+
         expect(action.type).toEqual(UPDATE_WIDGET_DEPENDENCY)
     })
 
     it('updateWidgetDependency возвращает правильный payload', () => {
         const action = updateWidgetDependency('testWidget')
+
         expect(action.payload).toEqual({
             widgetId: 'testWidget',
         })

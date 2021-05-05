@@ -10,6 +10,7 @@ import propsResolver from '../../utils/propsResolver'
 
 function PageTitle({ className, title, model }) {
     let resolveTitle = title
+
     if (title && model) {
         resolveTitle = propsResolver(title, model)
     }

@@ -34,6 +34,7 @@ class SnippetRating extends Component {
     onChangeAndSetState({ target: { value } }) {
         const newValue = Number(value)
         const { onChange } = this.props
+
         this.setState({ value: newValue })
         onChange(newValue)
     }
@@ -52,6 +53,7 @@ class SnippetRating extends Component {
     renderNullStar() {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
                 <input
@@ -79,6 +81,7 @@ class SnippetRating extends Component {
     renderStars(index) {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
                 <label

@@ -26,6 +26,7 @@ describe('Проверка observeStore', () => {
         const onChange = sinon.spy()
         const select = state => state.models.resolve.widgetName
         const observer = observeStore(store, select, onChange)
+
         store.dispatch(
             setModel('resolve', 'widgetName', { anotherValue: 'value' }),
         )

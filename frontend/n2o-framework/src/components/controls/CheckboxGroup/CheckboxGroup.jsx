@@ -21,7 +21,7 @@ import isNull from 'lodash/isNull'
  * <Checkbox value="orange" compileLabel='Orange'/>
  * <Checkbox value="watermelon" compileLabel='Watermelon'/>
  * </CheckboxGroup>
- * */
+ **/
 
 class CheckboxGroup extends React.Component {
     constructor(props) {
@@ -40,11 +40,13 @@ class CheckboxGroup extends React.Component {
     _onChange(e) {
         const { onChange, value, valueFieldId } = this.props
         const { value: newValue } = e.target
+
         onChange(xorBy(value, [newValue], valueFieldId))
     }
 
     _onBlur(e) {
         const { onBlur, value } = this.props
+
         onBlur(value)
     }
 
@@ -80,6 +82,7 @@ class CheckboxGroup extends React.Component {
 
         const isCheckboxChild = (child) => {
             const checkboxTypes = ['Checkbox', 'CheckboxN2O', 'CheckboxButton']
+
             return child.type && checkboxTypes.includes(child.type.displayName)
         }
 

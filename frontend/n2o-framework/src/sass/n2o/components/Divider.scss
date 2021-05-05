@@ -1,81 +1,85 @@
 .horizontal-before-after-params {
-  display: block;
-  width: 90%;
-  content: '';
-  border-bottom: $border-default;
-  bottom: 43%;
+    display: block;
+    width: 90%;
+    content: '';
+    border-bottom: $border-default;
+    bottom: 43%;
 }
 
 .#{$horizontal} {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .#{$vertical} {
-  display: flex;
-  justify-content: center;
-  height: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
 }
 
 .#{$horizontal}__title {
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-flow: row nowrap;
-  white-space: nowrap;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    white-space: nowrap;
 }
 
-/*Horizontal-type*/
+/* Horizontal-type */
 
-.divider_horizontal:before {
-  @extend .horizontal-before-after-params;
-  width: 100%;
+.divider_horizontal::before {
+    @extend .horizontal-before-after-params;
+
+    width: 100%;
 }
 
 .#{$horizontal}_with-title {
-  .#{$horizontal}__title {
-    &:before {
-      @extend .horizontal-before-after-params;
-      margin-right: 15px;
-      position: relative;
-    }
+    .#{$horizontal}__title {
+        &::before {
+            @extend .horizontal-before-after-params;
 
-    &:after {
-      @extend .horizontal-before-after-params;
-      margin-left: 15px;
-      position: relative;
+            margin-right: 15px;
+            position: relative;
+        }
+
+        &::after {
+            @extend .horizontal-before-after-params;
+
+            margin-left: 15px;
+            position: relative;
+        }
     }
-  }
 }
 
-/*Vertical-type*/
+/* Vertical-type */
 
-.divider_vertical:before {
-  display: block;
-  height: 100%;
-  content: '';
-  border-left: $border-default;
+.divider_vertical::before {
+    display: block;
+    height: 100%;
+    content: '';
+    border-left: $border-default;
 }
 
 .#{$horizontal}_left .#{$horizontal}__title:before, .#{$horizontal}_right .#{$horizontal}__title:after {
-  width: 10%;
+    width: 10%;
 }
 
 .#{$horizontal}_dashed {
-  .#{$horizontal}__title {
-    &:before, &:after {
-      border-bottom: $border-dashed;
+    .#{$horizontal}__title {
+        &::before,
+        &::after {
+            border-bottom: $border-dashed;
+        }
     }
-  }
 
-  &:before {
-    border-bottom: $border-dashed;
-  }
+    &::before {
+        border-bottom: $border-dashed;
+    }
 }
 
 .#{$vertical}_dashed {
-  &:before {
-    border-left: $border-dashed;
-  }
+    &::before {
+        border-left: $border-dashed;
+    }
 }
