@@ -1,19 +1,17 @@
 .btn-rounded {
-    min-width: 38px;
-    max-width: 38px;
-    height: 38px;
-    min-height: 31px;
-    border-radius: 50%;
+  min-width: 38px;
+  max-width: 38px;
+  height: 38px;
+  min-height: 31px;
+  border-radius: 50%;
+  padding: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  >i {
     padding: 0;
-    margin: 0 5px 0 5px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-
-    >i {
-        padding: 0;
-    }
+  }
 }
 
 .btn.btn-rounded {
@@ -46,7 +44,14 @@
 .btn-rounded__with-content {
     height: 38px;
     min-height: 31px;
-    margin: 0 5px 0 5px !important;
+    padding: 0 25px 0 25px;
+    border-radius: 100px;
+    text-align: center;
+    >i {
+        padding: 0 5px 0 0;
+  }
+    height: 38px;
+    min-height: 31px;
     padding: 0 25px 0 25px;
     border-radius: 100px;
     text-align: center;
