@@ -24,4 +24,6 @@ public class DatePicker extends Control {
     private Boolean utc;
     @JsonProperty
     private String outputFormat;
+    @JsonProperty
+    private String placeholder;
 }
