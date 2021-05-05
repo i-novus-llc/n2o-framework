@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import Alert from '../snippets/Alerts/Alert'
 import DocumentTitle from '../core/DocumentTitle'
@@ -39,8 +39,10 @@ function DefaultPage(
     },
     context,
 ) {
+    const { style, className } = metadata
+
     return (
-        <div className={cn('n2o-page-body', { 'n2o-disabled-page': disabled })}>
+        <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>
             {error && <Alert {...error} visible />}
             {!isEmpty(metadata) && metadata.page && (
                 <DocumentTitle {...metadata.page} />
