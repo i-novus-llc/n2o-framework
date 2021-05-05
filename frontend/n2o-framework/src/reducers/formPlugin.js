@@ -63,6 +63,7 @@ const formPlugin = produce((state, { type, payload, meta }) => {
         state.registeredFields[payload.name] =
       state.registeredFields[payload.name] || {}
     }
+    // eslint-disable-next-line default-case
     switch (type) {
         case REGISTER_FIELD_EXTRA: {
             const initialState = merge(defaultState, payload.initialState || {})
@@ -131,12 +132,21 @@ const formPlugin = produce((state, { type, payload, meta }) => {
 
             break
 
-        case SHOW_FIELDS:
+        case SHOW_FIELDS: {
             payload.names.forEach((name) => {
-                state.registeredFields[name].visible = true
+                const field = state.registeredFields[name]
+                // показываем поля только если у них нет своего условия на видимость
+                if (
+                    field.dependency &&
+                    field.dependency.some(({ type }) => type === 'visible')
+                ) {
+                    return
+                }
+                field.visible = true
             })
 
             break
+        }
 
         case HIDE_FIELDS:
             payload.names.forEach((name) => {
@@ -152,12 +162,21 @@ const formPlugin = produce((state, { type, payload, meta }) => {
 
             break
 
-        case ENABLE_FIELDS:
+        case ENABLE_FIELDS: {
             payload.names.forEach((name) => {
-                state.registeredFields[name].disabled = false
+                const field = state.registeredFields[name]
+                // поля доступны только если у них нет своего условия на доступность
+                if (
+                    field.dependency &&
+                    field.dependency.some(({ type }) => type === 'enabled')
+                ) {
+                    return
+                }
+                field.disabled = false
             })
 
             break
+        }
 
         case actionTypes.CHANGE: {
             const { field } = meta
@@ -169,9 +188,9 @@ const formPlugin = produce((state, { type, payload, meta }) => {
             const value = customFormAction ? payload.value : payload
 
             /*
-       * TODO придумать как аккуратно отказаться от _.set
-       *  сейчас он раскручивает поля ввида values[field[index].property]
-       */
+             * TODO придумать как аккуратно отказаться от _.set
+             *  сейчас он раскручивает поля ввида values[field[index].property]
+             */
             set(state, `values[${field}]`, value)
 
             if (customFormAction && !payload.keepDirty) {
