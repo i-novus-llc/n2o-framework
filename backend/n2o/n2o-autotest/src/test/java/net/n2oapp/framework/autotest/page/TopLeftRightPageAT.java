@@ -45,6 +45,8 @@ public class TopLeftRightPageAT extends AutoTestBase {
         TopLeftRightPage page = open(TopLeftRightPage.class);
         page.breadcrumb().titleShouldHaveText("Страница с тремя регионами");
         page.shouldExists();
+        page.shouldHaveCssClass("page_class");
+        page.shouldHaveStyle("background: blue;");
 
         Regions topRegions = page.top();
         topRegions.shouldHaveSize(1);
