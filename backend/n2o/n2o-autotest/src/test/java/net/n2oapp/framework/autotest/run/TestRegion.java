@@ -11,4 +11,14 @@ public class TestRegion extends N2oComponent implements Region {
     public Widgets content() {
         return collection(element().$$(".widget"), Widgets.class);
     }
+
+    @Override
+    public void shouldHaveCssClass(String classname) {
+
+    }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+
+    }
 }

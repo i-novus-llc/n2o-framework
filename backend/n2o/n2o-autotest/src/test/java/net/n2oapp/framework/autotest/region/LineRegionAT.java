@@ -43,6 +43,8 @@ public class LineRegionAT extends AutoTestBase {
         // expanded
         LineRegion line1 = page.regions().region(0, LineRegion.class);
         line1.shouldHaveLabel("Line1");
+        line1.shouldHaveCssClass("css-on-line");
+        line1.shouldHaveStyle("width: 90%;");
         line1.shouldBeCollapsible();
         line1.shouldBeExpanded();
         line1.collapseContent();
