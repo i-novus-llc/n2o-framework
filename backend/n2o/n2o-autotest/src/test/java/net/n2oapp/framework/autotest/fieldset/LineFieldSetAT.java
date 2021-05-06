@@ -65,7 +65,7 @@ public class LineFieldSetAT extends AutoTestBase {
         fieldset = fieldsets.fieldset(2, LineFieldSet.class);
         fieldset.shouldBeCollapsed();
         fieldset.shouldBeCollapsible();
-        fieldset.shouldHaveLabel("Line3 {test}");
+        fieldset.shouldHaveLabel("Line3 test");
 
         // not collapsible fieldset
         fieldset = fieldsets.fieldset(3, LineFieldSet.class);
