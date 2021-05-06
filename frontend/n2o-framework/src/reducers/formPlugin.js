@@ -57,7 +57,8 @@ const defaultState = {
  * Редюсер удаления/добваления алертов
  * @ignore
  */
-const formPlugin = produce((state, { type, payload, meta }) => {
+// eslint-disable-next-line complexity
+export const formPlugin = produce((state, { type, payload, meta }) => {
     if (ACTION_TYPES.includes(type)) {
         state.registeredFields = state.registeredFields || {}
         state.registeredFields[payload.name] =
@@ -83,54 +84,58 @@ const formPlugin = produce((state, { type, payload, meta }) => {
 
             break
 
-        case SHOW_FIELD:
+        case SHOW_FIELD: {
             state.registeredFields[payload.name].visible = true
 
             break
-
-        case HIDE_FIELD:
+        }
+        case HIDE_FIELD: {
             state.registeredFields[payload.name].visible = false
 
             break
-
-        case ADD_FIELD_MESSAGE:
+        }
+        case ADD_FIELD_MESSAGE: {
             state.registeredFields[payload.name].message = state.registeredFields[payload.name].message || {}
             Object.assign(state.registeredFields[payload.name].message, payload.message)
 
             break
-
-        case REMOVE_FIELD_MESSAGE:
+        }
+        case REMOVE_FIELD_MESSAGE: {
             state.registeredFields[payload.name].message = null
 
             break
-
-        case REGISTER_DEPENDENCY:
+        }
+        case REGISTER_DEPENDENCY: {
             state.registeredFields[payload.name].dependency = payload.dependency
 
             break
-
-        case SET_FIELD_FILTER:
+        }
+        case SET_FIELD_FILTER: {
             state.registeredFields[payload.name].filter =
-        state.registeredFields[payload.name].filter
-            .filter(f => f.filterId !== payload.filter.filterId)
-            .concat(payload.filter)
+                state.registeredFields[payload.name].filter
+                    .filter(f => f.filterId !== payload.filter.filterId)
+                    .concat(payload.filter)
 
             break
+        }
 
-        case SET_REQUIRED:
+        case SET_REQUIRED: {
             state.registeredFields[payload.name].required = true
 
             break
+        }
 
-        case UNSET_REQUIRED:
+        case UNSET_REQUIRED: {
             state.registeredFields[payload.name].required = false
 
             break
+        }
 
-        case SET_LOADING:
+        case SET_LOADING: {
             state.registeredFields[payload.name].loading = payload.loading
 
             break
+        }
 
         case SHOW_FIELDS: {
             payload.names.forEach((name) => {
@@ -148,19 +153,21 @@ const formPlugin = produce((state, { type, payload, meta }) => {
             break
         }
 
-        case HIDE_FIELDS:
+        case HIDE_FIELDS: {
             payload.names.forEach((name) => {
                 state.registeredFields[name].visible = false
             })
 
             break
+        }
 
-        case DISABLE_FIELDS:
+        case DISABLE_FIELDS: {
             payload.names.forEach((name) => {
                 state.registeredFields[name].disabled = true
             })
 
             break
+        }
 
         case ENABLE_FIELDS: {
             payload.names.forEach((name) => {
