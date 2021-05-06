@@ -13,10 +13,6 @@ public class PanelRegionIOv2 extends BaseRegionIOv2<N2oPanelRegion> {
     @Override
     public void io(Element e, N2oPanelRegion r, IOProcessor p) {
         super.io(e, r, p);
-        // define region title by first widget name or region title if exists
-        if (!e.getChildren().isEmpty())
-            p.read(e.getChildren().get(0), r, (w, reg) -> reg.setTitle(
-                    w.getAttribute("name") != null ? w.getAttribute("name").getValue() : null));
         p.attribute(e, "title", r::getTitle, r::setTitle);
         p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
         p.attributeBoolean(e, "header", r::getHeader, r::setHeader);
