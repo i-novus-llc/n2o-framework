@@ -3,8 +3,8 @@
                      name="Страница с тремя регионами"
                      scroll-top-button="true" class="page_class" style="background: blue">
     <top>
-        <panel>
-            <form name="Сверху">
+        <panel title="Сверху">
+            <form>
                 <toolbar>
                     <button label="Открыть" model="filter">
                         <open-page page-id="openPage"/>
@@ -14,25 +14,25 @@
         </panel>
     </top>
     <left width="30%" fixed="true">
-        <panel>
-            <form name="Слева"/>
+        <panel title="Слева">
+            <form/>
         </panel>
     </left>
     <right width="70%">
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form />
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form/>
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form />
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form/>
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form/>
         </panel>
     </right>
 </top-left-right-page>
