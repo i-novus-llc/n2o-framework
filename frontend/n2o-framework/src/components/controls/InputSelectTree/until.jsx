@@ -2,6 +2,7 @@ import React from 'react'
 import uniqueId from 'lodash/uniqueId'
 import has from 'lodash/has'
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import Badge from 'reactstrap/lib/Badge'
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
@@ -23,7 +24,7 @@ export const visiblePartPopup = (
             has(item, iconFieldId) && (
                 <Icon key={uniqueId('tree_icon_')} name={item[iconFieldId]} />
             ),
-            has(item, imageFieldId) && (
+            !isNil(item[imageFieldId]) && (
                 <div className={`${prefixCls}-image-tree-wrapper`}>
                     <img
                         alt="not found"
