@@ -256,19 +256,22 @@ class Fieldset extends React.Component {
             'd-none': !visible,
         })
 
+        const resolveLabel = activeModel ? propsResolver(label, activeModel) : label
+
         return (
             <div className={classes} style={style}>
                 {needLabel && (
                     <Label
                         className="n2o-fieldset__label"
-                        value={propsResolver(label, activeModel)}
+                        value={resolveLabel}
                     />
                 )}
                 <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}
-                    label={label}
+                    label={resolveLabel}
                     type={type}
+                    activeModel={activeModel}
                     {...rest}
                     render={(rows, props = { parentName, parentIndex }) => {
                         this.fields = this.calculateAllFields(rows)
