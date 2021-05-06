@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция простого филдсета
+ * Компиляция простого филдсета <set/>, <fields/>, <col/>
  */
 @Component
 public class SetFieldSetCompiler extends AbstractFieldSetCompiler<SetFieldSet, N2oSetFieldSet> {

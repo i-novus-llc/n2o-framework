@@ -14,7 +14,9 @@ import {
     disableFields,
 } from '../../../actions/formPlugin'
 import { makeGetResolveModelSelector } from '../../../selectors/models'
+import propsResolver from '../../../utils/propsResolver'
 
+import Label from './fields/StandardField/Label'
 import FieldsetRow from './FieldsetRow'
 import { resolveExpression } from './utils'
 
@@ -238,6 +240,7 @@ class Fieldset extends React.Component {
             label,
             type,
             childrenLabel,
+            activeModel,
             ...rest
         } = this.props
         const { enabled, visible } = this.state
@@ -253,14 +256,22 @@ class Fieldset extends React.Component {
             'd-none': !visible,
         })
 
+        const resolveLabel = activeModel ? propsResolver(label, activeModel) : label
+
         return (
             <div className={classes} style={style}>
-                {needLabel && <h4 className="n2o-fieldset__label">{label}</h4>}
+                {needLabel && (
+                    <Label
+                        className="n2o-fieldset__label"
+                        value={resolveLabel}
+                    />
+                )}
                 <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}
-                    label={label}
+                    label={resolveLabel}
                     type={type}
+                    activeModel={activeModel}
                     {...rest}
                     render={(rows, props = { parentName, parentIndex }) => {
                         this.fields = this.calculateAllFields(rows)
@@ -298,6 +309,12 @@ Fieldset.propTypes = {
     enableFields: PropTypes.func,
     disableFields: PropTypes.func,
     modelPrefix: PropTypes.string,
+    type: PropTypes.string,
+    parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    parentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeModel: PropTypes.object,
+    style: PropTypes.object,
+    autoSubmit: PropTypes.bool,
 }
 
 Fieldset.defaultProps = {
