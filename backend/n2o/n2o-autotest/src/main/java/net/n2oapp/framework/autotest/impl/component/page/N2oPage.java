@@ -55,6 +55,11 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
+    public void titleShouldHaveText(String title) {
+        element().$(".n2o-page__title").shouldHave(Condition.text(title));
+    }
+
+    @Override
     public void scrollUp() {
         Selenide.executeJavaScript("window.scrollTo(0, 0)");
     }
