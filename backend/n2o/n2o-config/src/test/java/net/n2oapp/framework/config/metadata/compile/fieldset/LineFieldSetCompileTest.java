@@ -46,6 +46,7 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(lineFieldSet.getCollapsible(), is(true));
         assertThat(lineFieldSet.getHasSeparator(), is(true));
         assertThat(lineFieldSet.getExpand(), is(true));
+        assertThat(lineFieldSet.getDescription(), nullValue());
 
         LineFieldSet lineFieldSet2 = (LineFieldSet) fields.get(1);
         assertThat(lineFieldSet2.getSrc(), is("testLine"));
@@ -53,5 +54,6 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(lineFieldSet2.getCollapsible(), is(false));
         assertThat(lineFieldSet2.getHasSeparator(), is(false));
         assertThat(lineFieldSet2.getExpand(), is(false));
+        assertThat(lineFieldSet2.getDescription(), is("description"));
     }
 }
