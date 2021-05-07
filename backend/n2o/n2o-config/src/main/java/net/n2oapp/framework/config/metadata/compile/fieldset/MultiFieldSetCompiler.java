@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция филдсета с динамическим числом полей
+ * Компиляция филдсета с динамическим числом полей <multi-set/>
  */
 @Component
 public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSet, N2oMultiFieldSet> {
