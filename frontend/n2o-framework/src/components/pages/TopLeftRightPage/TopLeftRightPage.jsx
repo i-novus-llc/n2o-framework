@@ -9,7 +9,7 @@ import {
 } from 'recompose'
 import get from 'lodash/get'
 import map from 'lodash/map'
-import cn from 'classnames'
+import classNames from 'classnames'
 import Button from 'reactstrap/lib/Button'
 
 import { REGIONS } from '../../../core/factory/factoryLevels'
@@ -89,7 +89,7 @@ function TopLeftRightPage({
                 <Button
                     onClick={scrollTo}
                     color="link"
-                    className={cn('n2o-page__scroll-to-top', {
+                    className={classNames('n2o-page__scroll-to-top', {
                         'n2o-page__scroll-to-top--show': showScrollButton,
                     })}
                 >

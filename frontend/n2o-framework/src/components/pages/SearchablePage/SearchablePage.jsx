@@ -4,7 +4,7 @@ import { batchActions } from 'redux-batched-actions'
 import { compose, withHandlers, withProps, mapProps } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import isEmpty from 'lodash/isEmpty'
-import cn from 'classnames'
+import classNames from 'classnames'
 import get from 'lodash/get'
 
 import { updateModel } from '../../../actions/models'
@@ -33,11 +33,19 @@ function SearchablePage({
     withToolbar = true,
     initSearchValue,
 }) {
+    const { style, className } = metadata
+
     return (
         <div
-            className={cn('n2o-page n2o-page__searchable-page n2o-searchable-page', {
-                'n2o-disabled-page': disabled,
-            })}
+            className={classNames(
+                'n2o-page n2o-page__searchable-page n2o-searchable-page',
+                className,
+                {
+                    'n2o-disabled-page': disabled,
+                },
+            )}
+            style={style}
+
         >
             {error && <Alert {...error} visible />}
             {!isEmpty(metadata) && metadata.page && (
@@ -57,7 +65,7 @@ function SearchablePage({
                 <SearchBar
                     {...searchBar}
                     initialValue={filterValue}
-                    className={cn('ml-auto', searchBar.className)}
+                    className={classNames('ml-auto', searchBar.className)}
                     onSearch={onSearch}
                     initSearchValue={initSearchValue}
                 />
@@ -104,7 +112,10 @@ function SearchablePage({
 }
 
 const mapStateToProps = createStructuredSelector({
-    filterModel: (state, { searchModelPrefix, searchWidgetId }) => makeGetModelByPrefixSelector(searchModelPrefix, searchWidgetId)(state),
+    filterModel: (
+        state,
+        { searchModelPrefix, searchWidgetId },
+    ) => makeGetModelByPrefixSelector(searchModelPrefix, searchWidgetId)(state),
 })
 
 const enhance = compose(

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
 import { mapProps } from 'recompose'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import { WIDGETS } from '../../../core/factory/factoryLevels'
 import Factory from '../../../core/factory/Factory'
@@ -18,7 +18,7 @@ function SimplePage({ id, widget, metadata, ...rest }) {
     return (
         <DefaultPage metadata={metadata} {...rest}>
             <div
-                className={cn({
+                className={classNames({
                     'n2o-simple-page': !hasCustomWidth,
                     'n2o-simple-page_slim': hasCustomWidth,
                 })}

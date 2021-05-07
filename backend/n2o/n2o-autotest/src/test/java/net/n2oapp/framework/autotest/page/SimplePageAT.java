@@ -38,6 +38,8 @@ public class SimplePageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().titleShouldHaveText("Простая страница");
         page.shouldExists();
+        page.shouldHaveCssClass("page_class");
+        page.shouldHaveStyle("background: blue;");
         StandardButton button = page.widget(StandardWidget.class).toolbar().topLeft().button("Вперед");
         button.shouldBeDisabled();
 

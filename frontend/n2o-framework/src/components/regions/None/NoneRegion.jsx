@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, pure, setDisplayName } from 'recompose'
 import map from 'lodash/map'
+import classNames from 'classnames'
 
 import withWidgetProps from '../withWidgetProps'
 import RegionContent from '../RegionContent'
@@ -13,8 +14,8 @@ import RegionContent from '../RegionContent'
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-const NoneRegion = ({ content }) => (
-    <div className="n2o-none-region">
+const NoneRegion = ({ content, className, style }) => (
+    <div className={classNames('n2o-none-region', className)} style={style}>
         {map(content, item => (
             <RegionContent content={[item]} />
         ))}

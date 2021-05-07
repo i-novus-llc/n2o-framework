@@ -83,18 +83,22 @@ class TabRegion extends React.Component {
             maxHeight,
             scrollbar,
             title,
+            style,
         } = this.props
 
         const { permissionsVisibleTabs } = this.state
 
         return (
             <div
-                className={classNames('n2o-tabs-region', {
-                    visible: this.regionVisible(tabs),
-                })}
+                className={classNames(
+                    'n2o-tabs-region',
+                    className, {
+                        visible: this.regionVisible(tabs),
+                    },
+                )}
+                style={style}
             >
                 <Tabs
-                    className={className && className}
                     activeId={activeEntity}
                     onChangeActive={this.handleChangeActive}
                     hideSingleTab={hideSingleTab}

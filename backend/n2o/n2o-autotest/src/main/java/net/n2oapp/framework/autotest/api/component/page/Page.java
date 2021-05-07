@@ -30,6 +30,10 @@ public interface Page extends Component {
 
     void scrollDown();
 
+    void shouldHaveCssClass(String classname);
+
+    void shouldHaveStyle(String style);
+
     interface PageToolbar {
         Toolbar topLeft();
 
