@@ -1,0 +1,7 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <date-time id="test" visible="false" placeholder="Введите дату рождения" label="Дата рождения"
+                   date-format="DD.MM.YYYY" time-format="HH:mm"
+                   min="01.01.2000" max="01.01.3000" utc="true"/>
+    </fields>
+</form>

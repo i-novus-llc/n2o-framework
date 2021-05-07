@@ -22,7 +22,7 @@ const defaultState = {
 
 export default handleActions(
     {
-        [SET_READY]: (state, action) => ({
+        [SET_READY]: state => ({
             ...state,
             ready: true,
         }),
