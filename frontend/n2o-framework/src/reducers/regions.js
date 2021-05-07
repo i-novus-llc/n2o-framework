@@ -21,8 +21,13 @@ export default function regions(state = {}, action) {
         case REGISTER_REGION:
             return { ...state, [payload.regionId]: payload.initProps }
         case SET_ACTIVE_REGION_ENTITY:
-            return { ...state,
-                [payload.regionId]: { ...state[payload.regionId], activeEntity: resolveActiveEntity(payload.activeEntity) } }
+            return {
+                ...state,
+                [payload.regionId]: {
+                    ...state[payload.regionId],
+                    activeEntity: resolveActiveEntity(payload.activeEntity),
+                },
+            }
         default:
             return state
     }

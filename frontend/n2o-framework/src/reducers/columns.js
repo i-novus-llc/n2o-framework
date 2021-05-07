@@ -18,18 +18,24 @@ export const columnState = {
 
 function resolve(state = columnState, action) {
     switch (action.type) {
-        case CHANGE_COLUMN_VISIBILITY:
+        case CHANGE_COLUMN_VISIBILITY: {
             return { ...state, visible: action.payload.visible }
-        case CHANGE_COLUMN_DISABLED:
+        }
+        case CHANGE_COLUMN_DISABLED: {
             return { ...state, disabled: action.payload.disabled }
-        case TOGGLE_COLUMN_VISIBILITY:
+        }
+        case TOGGLE_COLUMN_VISIBILITY: {
             return { ...state, visible: !state.visible }
-        case RESET_STATE:
+        }
+        case RESET_STATE: {
             return { ...state, isInit: false }
-        case CHANGE_FROZEN_COLUMN:
+        }
+        case CHANGE_FROZEN_COLUMN: {
             return { ...state, frozen: !state.frozen }
-        default:
+        }
+        default: {
             return state
+        }
     }
 }
 
@@ -38,7 +44,7 @@ function resolve(state = columnState, action) {
  * @ignore
  */
 export default function columns(state = {}, action) {
-    const { key, columnId, ...rest } = action.payload || {}
+    const { key, columnId } = action.payload || {}
 
     switch (action.type) {
         case REGISTER_COLUMN:
@@ -49,28 +55,29 @@ export default function columns(state = {}, action) {
                 } }
         case CHANGE_COLUMN_VISIBILITY:
         case CHANGE_COLUMN_DISABLED:
-        case TOGGLE_COLUMN_VISIBILITY:
-            return { ...state,
+        case CHANGE_FROZEN_COLUMN:
+        case TOGGLE_COLUMN_VISIBILITY: {
+            return {
+                ...state,
                 [key]: {
                     ...state[key],
                     [columnId]: resolve(state[key][columnId], action),
-                } }
+                },
+            }
+        }
         case RESET_STATE: {
             const { widgetId } = action.payload
 
             return {
                 ...state,
-                [widgetId]: mapValues(state[widgetId], (column, columnId) => resolve(state[widgetId][columnId], action)),
+                [widgetId]: mapValues(
+                    state[widgetId],
+                    (column, columnId) => resolve(state[widgetId][columnId], action),
+                ),
             }
         }
-        case CHANGE_FROZEN_COLUMN: {
-            return { ...state,
-                [key]: {
-                    ...state[key],
-                    [columnId]: resolve(state[key][columnId], action),
-                } }
-        }
-        default:
+        default: {
             return state
+        }
     }
 }
