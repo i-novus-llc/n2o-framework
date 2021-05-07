@@ -189,6 +189,7 @@ function InputContent({
                         placeholder={getPlaceholder}
                         disabled={disabled}
                         value={value}
+                        title={value}
                         onChange={handleInputChange}
                         onClick={handleClick}
                         onFocus={onFocus}
@@ -206,6 +207,7 @@ function InputContent({
                     ref={setRef}
                     placeholder={getPlaceholder}
                     disabled={disabled}
+                    title={value}
                     value={value}
                     onChange={handleInputChange}
                     onClick={handleClick}
