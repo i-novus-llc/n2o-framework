@@ -28,7 +28,6 @@ public class LineFieldSetAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
@@ -36,6 +35,7 @@ public class LineFieldSetAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
@@ -53,6 +53,7 @@ public class LineFieldSetAT extends AutoTestBase {
         // expanded
         fieldset = fieldsets.fieldset(1, LineFieldSet.class);
         fieldset.fields().shouldHaveSize(3);
+        InputText masterField = fieldset.fields().field("master").control(InputText.class);
         fieldset.shouldBeCollapsible();
         fieldset.shouldBeExpanded();
         fieldset.shouldHaveLabel("Line2");
@@ -66,6 +67,8 @@ public class LineFieldSetAT extends AutoTestBase {
         fieldset.shouldBeCollapsed();
         fieldset.shouldBeCollapsible();
         fieldset.shouldHaveLabel("Line3 test");
+        masterField.val("123");
+        fieldset.shouldHaveLabel("Line3 123");
 
         // not collapsible fieldset
         fieldset = fieldsets.fieldset(3, LineFieldSet.class);

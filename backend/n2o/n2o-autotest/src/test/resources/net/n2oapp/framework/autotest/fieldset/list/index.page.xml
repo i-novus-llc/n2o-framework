@@ -6,7 +6,6 @@
             <line label="Line2">
                 <input-text id="field1" label="field1"/>
                 <input-text id="field2"/>
-
                 <input-text id="master" default-value="test"/>
             </line>
             <line label="Line3 {master}" expand="false">
