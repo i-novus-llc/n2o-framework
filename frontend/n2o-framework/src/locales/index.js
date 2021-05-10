@@ -1,11 +1,11 @@
-import ru from './ru/translation.js';
-import en from './en/translation.js';
+import ru from './ru/translation'
+import en from './en/translation'
 
 export default {
-  ru: {
-    translation: ru,
-  },
-  en: {
-    translation: en,
-  },
-};
+    ru: {
+        translation: ru,
+    },
+    en: {
+        translation: en,
+    },
+}

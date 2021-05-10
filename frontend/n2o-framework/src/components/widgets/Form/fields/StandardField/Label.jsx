@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import BootstrapLabel from 'reactstrap/lib/Label';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import BootstrapLabel from 'reactstrap/lib/Label'
+import cx from 'classnames'
 
-import HelpPopover from './HelpPopover';
+import HelpPopover from './HelpPopover'
 
 /**
  * Лейбел поля
@@ -19,42 +19,42 @@ import HelpPopover from './HelpPopover';
  */
 
 const Label = ({ id, value, required, className, style, help, ...props }) => {
-  const newProps = {
-    className: cx('col-form-label', className),
-    style: { display: 'inline-block', ...style },
-  };
+    const newProps = {
+        className: cx('col-form-label', className),
+        style: { display: 'inline-block', ...style },
+    }
 
-  return React.isValidElement(value) ? (
-    <div className={'n2o-field-label'}>
-      {React.cloneElement(value, newProps)}
-      {required && value ? (
-        <span className="n2o-field-label-required">*</span>
-      ) : (
-        ''
-      )}
-      {help && value ? <HelpPopover id={id} help={help} /> : null}
-    </div>
-  ) : (
-    <BootstrapLabel className={cx('n2o-field-label', className)} style={style}>
-      {value}
-      {required && value ? (
-        <span className="n2o-field-label-required">*</span>
-      ) : null}
-      {help && value ? <HelpPopover id={id} help={help} /> : null}
-    </BootstrapLabel>
-  );
-};
+    return React.isValidElement(value) ? (
+        <div className="n2o-field-label">
+            {React.cloneElement(value, newProps)}
+            {required && value ? (
+                <span className="n2o-field-label-required">*</span>
+            ) : (
+                ''
+            )}
+            {help && value ? <HelpPopover id={id} help={help} /> : null}
+        </div>
+    ) : (
+        <BootstrapLabel className={cx('n2o-field-label', className)} style={style}>
+            {value}
+            {required && value ? (
+                <span className="n2o-field-label-required">*</span>
+            ) : null}
+            {help && value ? <HelpPopover id={id} help={help} /> : null}
+        </BootstrapLabel>
+    )
+}
 
 Label.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  required: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    required: PropTypes.bool,
+    className: PropTypes.string,
+    style: PropTypes.object,
+}
 
 Label.defaultProps = {
-  className: '',
-  style: {},
-};
+    className: '',
+    style: {},
+}
 
-export default Label;
+export default Label

@@ -23,4 +23,15 @@ public class N2oRegion extends N2oComponent implements Region {
                     }
                 });
     }
+
+
+    @Override
+    public void shouldHaveCssClass(String classname) {
+        element().shouldHave(Condition.cssClass(classname));
+    }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+        element().shouldHave(Condition.attribute("style", style));
+    }
 }

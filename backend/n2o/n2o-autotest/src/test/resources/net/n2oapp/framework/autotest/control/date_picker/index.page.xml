@@ -2,7 +2,7 @@
     <form>
         <fields>
             <date-time id="date1" label="Date1" date-format="DD.MM.YYYY"
-                       min="10.02.2020" max="20.02.2020"/>
+                       min="10.02.2020" max="20.02.2020" placeholder="Введите дату"/>
             <date-time id="date2" label="Date2" date-format="DD/MM/YYYY" time-format="HH:mm:ss"
                        default-value="2020-01-01T00:00:00"/>
         </fields>

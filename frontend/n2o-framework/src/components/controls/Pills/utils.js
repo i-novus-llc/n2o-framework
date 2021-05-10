@@ -1,5 +1,5 @@
-import map from 'lodash/map';
-import pull from 'lodash/pull';
+import map from 'lodash/map'
+import pull from 'lodash/pull'
 
 /**
  * Функция для преобразования данных с помоцию ключей указывающих на значение
@@ -10,14 +10,14 @@ import pull from 'lodash/pull';
  * @returns {*}
  */
 export const convertData = (value, data, { labelFieldId, valueFieldId }) => {
-  const prepareData = item => ({
-    label: item[labelFieldId],
-    id: item[valueFieldId],
-    active: value.includes(item[valueFieldId]),
-  });
+    const prepareData = item => ({
+        label: item[labelFieldId],
+        id: item[valueFieldId],
+        active: value.includes(item[valueFieldId]),
+    })
 
-  return map(data, prepareData);
-};
+    return map(data, prepareData)
+}
 
 /**
  * Функция для подготовки выбранных данных
@@ -27,24 +27,25 @@ export const convertData = (value, data, { labelFieldId, valueFieldId }) => {
  * @returns {*}
  */
 export const prepareValue = (
-  currentValue,
-  id,
-  { multiSelect = false } = {}
+    currentValue,
+    id,
+    { multiSelect = false } = {},
 ) => {
-  if (multiSelect) {
-    currentValue = [...currentValue];
+    if (multiSelect) {
+        currentValue = [...currentValue]
 
-    if (currentValue.includes(id)) {
-      pull(currentValue, id);
+        if (currentValue.includes(id)) {
+            pull(currentValue, id)
 
-      return currentValue;
+            return currentValue
+        }
+        currentValue.push(id)
+
+        return currentValue
     }
-    currentValue.push(id);
+    if (currentValue.includes(id)) {
+        return []
+    }
 
-    return currentValue;
-  }
-  if (currentValue.includes(id)) {
-    return [];
-  }
-  return [id];
-};
+    return [id]
+}

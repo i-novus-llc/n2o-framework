@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import withFetchData from '../withFetchData.js';
-import Select from './Select';
-import Option from './Option';
-import Spinner from '../../snippets/Spinner/InlineSpinner';
+import withFetchData from '../withFetchData'
+import Spinner from '../../snippets/Spinner/InlineSpinner'
+
+import { Select } from './Select'
+import { Option } from './Option'
 
 /**
  * Wrapper для селекта
@@ -24,62 +25,48 @@ import Spinner from '../../snippets/Spinner/InlineSpinner';
  * @reactProps {string} type - тип чекбокса
  */
 
-class SelectWrapper extends React.Component {
-  // componentDidMount() {
-  //   this.props.fetchData({
-  //     queryId: this.props.queryId,
-  //     size: this.props.size,
-  //     [`sorting.${this.props.labelFieldId}`]: 'ASC'
-  //   });
-  // }
-
-  /**
-   * Рендер
-   */
-
-  render() {
-    const { data, valueFieldId, labelFieldId, isLoading } = this.props;
+function SelectWrapper(props) {
+    const { data, valueFieldId, labelFieldId, isLoading } = props
 
     return (
-      <React.Fragment>
-        {!isLoading && (
-          <Select {...this.props}>
-            {data.map(option => (
-              <Option
-                key={option.id}
-                value={option[valueFieldId]}
-                label={option[labelFieldId]}
-              />
-            ))}
-          </Select>
-        )}
-        {isLoading && <Spinner />}
-      </React.Fragment>
-    );
-  }
+        <>
+            {!isLoading && (
+                <Select {...props}>
+                    {data.map(option => (
+                        <Option
+                            key={option.id}
+                            value={option[valueFieldId]}
+                            label={option[labelFieldId]}
+                        />
+                    ))}
+                </Select>
+            )}
+            {isLoading && <Spinner />}
+        </>
+    )
 }
 
 SelectWrapper.propTypes = {
-  data: PropTypes.array,
-  valueFieldId: PropTypes.string,
-  labelFieldId: PropTypes.string,
-  onChange: PropTypes.func,
-  required: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  disabled: PropTypes.bool,
-  visible: PropTypes.bool,
-  heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  fetchData: PropTypes.func,
-  queryId: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool,
-};
+    data: PropTypes.array,
+    valueFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    onChange: PropTypes.func,
+    required: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    disabled: PropTypes.bool,
+    visible: PropTypes.bool,
+    heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    fetchData: PropTypes.func,
+    queryId: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
+    isLoading: PropTypes.bool,
+}
 
 SelectWrapper.defaultProps = {
-  value: '',
-  visible: true,
-  isLoading: false,
-};
+    value: '',
+    visible: true,
+    isLoading: false,
+}
 
-export default withFetchData(SelectWrapper);
+export default withFetchData(SelectWrapper)

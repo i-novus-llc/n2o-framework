@@ -1,41 +1,40 @@
-import React from 'react';
-import { storiesOf, forceReRender } from '@storybook/react';
+import React from 'react'
+import { storiesOf, forceReRender } from '@storybook/react'
+import { StateDecorator, Store } from '@sambego/storybook-state'
 
-import { StateDecorator, Store } from '@sambego/storybook-state';
-
-import RadioButton from './RadioButton';
+import RadioButton from './RadioButton'
 
 const store = new Store({
-  checked: false,
-});
+    checked: false,
+})
 
-store.subscribe(forceReRender);
+store.subscribe(forceReRender)
 
-const stories = storiesOf('Контролы/Радио', module);
+const stories = storiesOf('Контролы/Радио', module)
 
-stories.addDecorator(StateDecorator(store));
+stories.addDecorator(StateDecorator(store))
 
 stories.add(
-  'Кнопка радио',
-  () => {
-    const props = {
-      value: 2,
-      disabled: false,
-      checked: store.state.checked,
-      label: 'Label',
-    };
+    'Кнопка радио',
+    () => {
+        const props = {
+            value: 2,
+            disabled: false,
+            checked: store.state.checked,
+            label: 'Label',
+        }
 
-    return (
-      <RadioButton
-        {...props}
-        checked={store.get('checked')}
-        onChange={() => store.set({ checked: !store.state.checked })}
-      />
-    );
-  },
-  {
-    info: {
-      text: `
+        return (
+            <RadioButton
+                {...props}
+                checked={store.get('checked')}
+                onChange={() => store.set({ checked: !store.state.checked })}
+            />
+        )
+    },
+    {
+        info: {
+            text: `
     Компонент 'RadioButton'
     ~~~js
     import RadioButton from 'n2o-framework/lib/components/controls/Radio/RadioButton';
@@ -48,6 +47,6 @@ stories.add(
     />
     ~~~
     `,
+        },
     },
-  }
-);
+)

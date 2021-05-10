@@ -1,141 +1,136 @@
 .n2o-widget-list {
-  padding: 1rem 0;
-  margin-bottom: 1rem;
-  overflow: auto;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    overflow: auto;
 
-  &-cell {
-    .btn-group {
-      flex-wrap: wrap;
-      @media (max-width: 1650px) {
-        .btn-link::before {
-          content: "|";
-          display: inline-block;
-          position: absolute;
-          left: 0;
-          color: #546e7a;
-        }
-      }
+    .ReactVirtualized__Grid {
+        outline: none;
     }
-  }
 
-  &--empty-view {
+    .ReactVirtualized__Grid.ReactVirtualized__List {
+        will-change: auto !important;
+    }
+}
+
+.n2o-widget-list-cell {
+    .btn-group {
+        flex-wrap: wrap;
+
+        @media (max-width: 1650px) {
+            .btn-link::before {
+                content: "|";
+                display: inline-block;
+                position: absolute;
+                left: 0;
+                color: #546e7a;
+            }
+        }
+    }
+}
+
+.n2o-widget-list--empty-view {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  & .ReactVirtualized__Grid {
-    outline: none;
-  }
-
-  & .ReactVirtualized__Grid.ReactVirtualized__List {
-   will-change: auto!important;
-  }
-
-  &-more-button {
+.n2o-widget-list-more-button {
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 1rem 0;
 
-    & button {
-      min-width: 150px;
+    button {
+        min-width: 150px;
     }
 
-    & .spinner.spinner-inline {
-      margin: 0;
+    .spinner.spinner-inline {
+        margin: 0;
     }
-  }
+}
 
-  &-item {
+.n2o-widget-list-item {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    padding: 0.5rem;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+
+    h4,
+    h3,
+    p {
+        margin-bottom: 0;
+    }
+}
+
+.n2o-widget-list-item-header-row {
     display: flex;
     align-items: center;
 
-    min-height: 50px;
-
-    padding: 0.5rem;
-
-    &-header-row {
-      display: flex;
-      align-items: center;
-
-      & small {
+    small {
         margin-left: 5px;
-      }
+    }
 
-      & .badge {
+    .badge {
         margin-left: 0;
-      }
     }
+}
 
-    &--divider {
-      border-bottom: 1px solid #cfd8dc;
+.n2o-widget-list-item--divider {
+    border-bottom: 1px solid #cfd8dc;
 
-      &:last-child {
+    &:last-child {
         border-bottom: none;
-      }
     }
+}
 
-    &--active {
-      background-color: rgba(0, 0, 0, 0.075);
-    }
+.n2o-widget-list-item--active {
+    background-color: rgba(0, 0, 0, 0.075);
+}
 
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.075);
-    }
+.n2o-widget-list-item-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 15%;
+}
 
-    & h4,
-    & h3,
-    & p {
-      margin-bottom: 0;
-    }
+.n2o-widget-list-item-left-top {
+    width: 100px;
 
-    &-left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-
-      max-width: 15%;
-    }
-
-    &-left-top {
-      width: 100px;
-
-      & img {
+    img {
         display: block;
         width: 100%;
         height: auto;
-      }
     }
+}
 
-    &-main-container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
+.n2o-widget-list-item-main-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    min-width: 30%;
+    padding: 0;
 
-      min-width: 30%;
-
-      padding: 0;
-
-      & .n2o-widget-list-item-header + .n2o-widget-list-item-subheader {
+    .n2o-widget-list-item-header + .n2o-widget-list-item-subheader {
         margin-left: 0.5rem;
-      }
     }
+}
 
-    &-right-container {
-      margin-left: auto;
-      padding: 0 0.5rem;
-      text-align: right;
-    }
+.n2o-widget-list-item-right-container {
+    margin-left: auto;
+    padding: 0 0.5rem;
+    text-align: right;
+}
 
-    &-extra-container {
-      padding: 0 0.5rem;
-    }
+.n2o-widget-list-item-extra-container {
+    padding: 0 0.5rem;
+}
 
-    &-body {
-      width: 100%;
-    }
-  }
+.n2o-widget-list-item-body {
+    width: 100%;
 }

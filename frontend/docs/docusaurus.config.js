@@ -29,6 +29,9 @@ module.exports = {
     organizationName: CONFIG.organizationName || 'Ай-Новус',
     projectName: 'Документация N2O',
     themeConfig: {
+        prism: {
+            theme: require('prism-react-renderer/themes/oceanicNext'),
+        },
         navbar: {
             title: CONFIG.navbarTitle || '',
             logo: {

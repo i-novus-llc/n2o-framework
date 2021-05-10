@@ -1,13 +1,13 @@
-import setWith from 'lodash/setWith';
-import clone from 'lodash/clone';
-import each from 'lodash/each';
-import isObject from 'lodash/isObject';
-import isArray from 'lodash/isArray';
-import isString from 'lodash/isString';
-import transform from 'lodash/transform';
-import isEqual from 'lodash/isEqual';
-import cloneDeepWith from 'lodash/cloneDeepWith';
-import map from 'lodash/map';
+import setWith from 'lodash/setWith'
+import clone from 'lodash/clone'
+import each from 'lodash/each'
+import isObject from 'lodash/isObject'
+import isArray from 'lodash/isArray'
+import isString from 'lodash/isString'
+import transform from 'lodash/transform'
+import isEqual from 'lodash/isEqual'
+import cloneDeepWith from 'lodash/cloneDeepWith'
+import map from 'lodash/map'
 
 /**
  * Не мутабельный set
@@ -16,67 +16,36 @@ import map from 'lodash/map';
  * @param value
  * @returns {Object}
  */
-export const setIn = (object, path, value) =>
-  setWith(clone(object), path, value, clone);
+export const setIn = (object, path, value) => setWith(clone(object), path, value, clone)
 
-function http_build_query(formdata, numeric_prefix, arg_separator) {
-  let key,
-    use_val,
-    use_key,
-    i = 0,
-    tmp_arr = [];
+function buildHTTPQuery(formData, numericPrefix, argSeparator) {
+    let i = 0
+    const tmp = []
 
-  if (!arg_separator) {
-    arg_separator = '&';
-  }
-
-  for (key in formdata) {
-    if (!formdata.hasOwnProperty(key)) {
-      continue;
+    if (!argSeparator) {
+        argSeparator = '&'
     }
-    use_key = key;
-    use_val = String(formdata[key]);
-    use_val = use_val.replace(/%20/g, '+');
 
-    if (numeric_prefix && !isNaN(key)) {
-      use_key = numeric_prefix + i;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in formData) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (!formData.hasOwnProperty(key)) {
+            // eslint-disable-next-line no-continue
+            continue
+        }
+        let property = key
+        const value = String(formData[key]).replace(/%20/g, '+')
+
+        // eslint-disable-next-line no-restricted-globals
+        if (numericPrefix && !isNaN(key)) {
+            property = numericPrefix + i
+        }
+        tmp[i] = `${property}=${value}`
+        // eslint-disable-next-line no-plusplus
+        i++
     }
-    tmp_arr[i] = `${use_key}=${use_val}`;
-    i++;
-  }
 
-  return tmp_arr.join(arg_separator) && '?' + tmp_arr.join(arg_separator);
-}
-
-/**
- * new method conversion in url for query
- * see {NNO-266}
- * @param data
- * @returns {String}
- */
-export function http_params_query(data) {
-  const params = [];
-  each(data, (val, key) => {
-    if (data.hasOwnProperty(key)) {
-      params.push({ name: key, value: val });
-    }
-  });
-  return params;
-}
-
-/**
- * Make "flat" query string from object Json
- *  and extends params
- *  with new paramize method
- * @param objectAim
- * @param [Key] - key id start
- * @param [$Res] - extender result object
- * @param [delimiter] - extender result object
- * @returns {String}
- */
-export function generateParamQuery(objectAim, Key, $Res, delimiter) {
-  $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter);
-  return http_params_query($Res);
+    return tmp.join(argSeparator) && `?${tmp.join(argSeparator)}`
 }
 
 /**
@@ -89,185 +58,80 @@ export function generateParamQuery(objectAim, Key, $Res, delimiter) {
  * @returns {String}
  */
 export function generateFlatQuery(objectAim, Key, $Res, delimiter) {
-  $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter);
-  return http_build_query($Res);
+    $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter)
+
+    return buildHTTPQuery($Res)
 }
 
 function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
-  delimiter = delimiter || '.';
-  $Res = $Res || {};
-  if (isObject(Key)) {
-    options = Key || {};
-    Key = '';
-  } else {
-    Key = Key || '';
-    options = options || {};
-  }
-  let ignoreNull = options.ignoreNull || false,
-    withoutEncode = options.withoutEncode || false;
+    delimiter = delimiter || '.'
+    $Res = $Res || {}
+    if (isObject(Key)) {
+        options = Key || {}
+        Key = ''
+    } else {
+        Key = Key || ''
+        options = options || {}
+    }
+    const ignoreNull = options.ignoreNull || false
+    const withoutEncode = options.withoutEncode || false
 
-  each(objectAim, (val, key) => {
-    if (isArray(val)) {
-      each(val, ($val, $key) => {
-        if (isObject($val)) {
-          generateFlatQuery(
-            $val,
-            Key ? [Key, key].join(delimiter) : key,
-            $Res,
-            delimiter,
-            options
-          );
-        } else if ($val !== null && $val !== undefined) {
-          $Res[Key ? [Key, key].join(delimiter) : key] =
+    each(objectAim, (val, key) => {
+        if (isArray(val)) {
+            each(val, ($val) => {
+                if (isObject($val)) {
+                    // eslint-disable-next-line sonarjs/no-extra-arguments
+                    generateFlatQuery(
+                        $val,
+                        Key ? [Key, key].join(delimiter) : key,
+                        $Res,
+                        delimiter,
+                        options,
+                    )
+                } else if ($val !== null && $val !== undefined) {
+                    $Res[Key ? [Key, key].join(delimiter) : key] =
             !needLinked($val) && isString($val) && !withoutEncode
-              ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
-              : val.join(`&${key}=`);
+                ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
+                : val.join(`&${key}=`)
+                }
+            })
+
+            return
         }
-      });
 
-      return;
-    }
-
-    if (isObject(val)) {
-      generateFlatQuery(
-        val,
-        Key ? Key + delimiter + key : key,
-        $Res,
-        delimiter,
-        options
-      );
-    } else if ((val !== null || ignoreNull) && val !== undefined) {
-      $Res[Key ? Key + delimiter + key : key] =
+        if (isObject(val)) {
+            // eslint-disable-next-line sonarjs/no-extra-arguments
+            generateFlatQuery(
+                val,
+                Key ? Key + delimiter + key : key,
+                $Res,
+                delimiter,
+                options,
+            )
+        } else if ((val !== null || ignoreNull) && val !== undefined) {
+            $Res[Key ? Key + delimiter + key : key] =
         !needLinked(val) && isString(val) && !withoutEncode
-          ? encodeURIComponent(val)
-          : val;
-    }
-  });
-  return $Res;
-}
+            ? encodeURIComponent(val)
+            : val
+        }
+    })
 
-/**
- * Create object form string with dot notation
- *
- * @example
- * "Page.sdf.test"  =>  {
- *     Page: {
- *         sdf: {
- *             test: 'default value'
- *         }
- *     }
- * }
- *
- * @param {String} string
- * @param [defaultValue]
- * @param [delimiter]
- * @returns {Object}
- * @param {Object} [$resultObject]
- */
-export function createObjectFromDotString(
-  string,
-  defaultValue,
-  delimiter,
-  $resultObject
-) {
-  // defaultValue = defaultValue || {};
-  delimiter = delimiter || '.';
-  const keys = string.split(delimiter);
-  const res = $resultObject || {};
-  let $next = res;
-
-  each(keys, (item, i) => {
-    // if key array's
-    let resRegExp;
-    if ((resRegExp = item && item.match(/\[(\d)\]/))) {
-      const index = +resRegExp[1];
-      const $key = item.replace(/\[(\d)\]/, '');
-      $next[$key] = $next[$key] || [];
-      // about array[0][0] ???
-
-      $next[$key][index] = $next[$key][index] || {};
-      if (keys.length === i + 1) {
-        $next[$key][index] = defaultValue;
-      }
-
-      $next = $next[$key][index];
-      return $next;
-    }
-    $next[item] = $next[item] || {};
-
-    $next[item] = $next[item] || {};
-    if (keys.length === i + 1) {
-      $next[item] = defaultValue;
-    }
-    $next = $next[item];
-  });
-  return res;
-}
-
-/**
- * Create object dy dot notation string and set value from context.
- * @param key string with dot notation
- * @param obj
- * @param [delimiter]
- * @returns {{}}
- */
-export function createObjectByDotNotationKey(key, obj, delimiter) {
-  delimiter = delimiter || '.';
-  const keys = key.split(delimiter);
-  const res = {};
-  let $next = res;
-  const $val = obj;
-
-  const deep = [];
-
-  if (keys.length === 1) {
-    res[key] = obj[key];
-    return res;
-  }
-
-  each(keys, (item, i) => {
-    deep.push(item);
-    $next[item] = $next[item] || {};
-    $val[item] = $val[item];
-    if (keys.length === i + 1) {
-      $next[item] = getPathValue($val, deep.join(delimiter));
-    }
-    $next = $next[item];
-  });
-
-  return res;
-}
-
-/**
- * get value from sub-path object
- * @param object
- * @param path
- */
-export function getPathValue(object, path) {
-  const flatParams = $generateFlatQuery(object, { withoutEncode: true });
-  return flatParams[path];
-}
-
-/**
- * get func from preFilter
- * @param value
- */
-export function preFilterIsFunction(value) {
-  const regExp = `${value}`.match(/^`(.*)`$/);
-  return regExp && regExp[1];
+    return $Res
 }
 
 /**
  * @ignore
  */
 function needLinked(query) {
-  query = String(query);
-  // noinspection JSValidateTypes
-  const res = query.match('^(\\$|\\@)?{([^}^{]*)}$'); // => {Page.container.name}
-  if (res && res[2]) {
-    return res[2];
-  }
-  return false;
+    query = String(query)
+    // noinspection JSValidateTypes
+    const res = query.match('^(\\$|\\@)?{([^}^{]*)}$') // => {Page.container.name}
+
+    if (res && res[2]) {
+        return res[2]
+    }
+
+    return false
 }
 
 /**
@@ -277,7 +141,7 @@ function needLinked(query) {
  * @returns {string}
  */
 export function getWidgetId(pageId, cntId) {
-  return `${pageId}.${cntId}`;
+    return `${pageId}.${cntId}`
 }
 
 /**
@@ -286,11 +150,11 @@ export function getWidgetId(pageId, cntId) {
  * @returns {boolean}
  */
 export function isPromise(obj) {
-  return (
-    !!obj &&
+    return (
+        !!obj &&
     (typeof obj === 'object' || typeof obj === 'function') &&
     typeof obj.then === 'function'
-  );
+    )
 }
 
 /**
@@ -300,17 +164,16 @@ export function isPromise(obj) {
  * @return {Object}        возвращает новый объект с разницей
  */
 export function difference(object, base) {
-  const changes = (object, base) => {
-    return transform(object, (result, value, key) => {
-      if (!isEqual(value, base[key])) {
-        result[key] =
+    const changes = (object, base) => transform(object, (result, value, key) => {
+        if (!isEqual(value, base[key])) {
+            result[key] =
           isObject(value) && isObject(base[key])
-            ? changes(value, base[key])
-            : value;
-      }
-    });
-  };
-  return changes(object, base);
+              ? changes(value, base[key])
+              : value
+        }
+    })
+
+    return changes(object, base)
 }
 
 /**
@@ -320,12 +183,13 @@ export function difference(object, base) {
  * @returns {*}
  */
 export function omitDeep(collection, excludeKeys) {
-  function omitFn(value) {
-    if (value && typeof value === 'object') {
-      excludeKeys.forEach(key => {
-        delete value[key];
-      });
+    function omitFn(value) {
+        if (value && typeof value === 'object') {
+            excludeKeys.forEach((key) => {
+                delete value[key]
+            })
+        }
     }
-  }
-  return cloneDeepWith(collection, omitFn);
+
+    return cloneDeepWith(collection, omitFn)
 }

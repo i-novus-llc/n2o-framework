@@ -1,21 +1,21 @@
-import React from 'react';
-import { withResizeDetector } from 'react-resize-detector';
-import classNames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
-import isUndefined from 'lodash/isUndefined';
-import map from 'lodash/map';
-import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import Navbar from 'reactstrap/lib/Navbar';
-import Nav from 'reactstrap/lib/Nav';
-import NavbarBrand from 'reactstrap/lib/NavbarBrand';
-import NavbarToggler from 'reactstrap/lib/NavbarToggler';
-import Collapse from 'reactstrap/lib/Collapse';
+import React from 'react'
+import { withResizeDetector } from 'react-resize-detector'
+import classNames from 'classnames'
+import isEmpty from 'lodash/isEmpty'
+import isUndefined from 'lodash/isUndefined'
+import map from 'lodash/map'
+import get from 'lodash/get'
+import PropTypes from 'prop-types'
+import Navbar from 'reactstrap/lib/Navbar'
+import Nav from 'reactstrap/lib/Nav'
+import NavbarBrand from 'reactstrap/lib/NavbarBrand'
+import NavbarToggler from 'reactstrap/lib/NavbarToggler'
+import Collapse from 'reactstrap/lib/Collapse'
 
-import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
+import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 
-import NavbarBrandContent from './NavbarBrandContent';
-import NavItemContainer from './NavItemContainer';
+import NavbarBrandContent from './NavbarBrandContent'
+import NavItemContainer from './NavItemContainer'
 
 /**
  * Хедер-плагин
@@ -84,211 +84,211 @@ import NavItemContainer from './NavItemContainer';
  */
 
 class SimpleHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            isOpen: false,
+        }
 
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { width } = this.props;
-
-    if (width !== prevProps.width && width >= 992) {
-      this.setState({ isOpen: false });
-    }
-  }
-
-  render() {
-    let {
-      color,
-      fixed,
-      items,
-      activeId,
-      extraItems,
-      brandImage,
-      brand,
-      style,
-      className,
-      search,
-      homePageUrl,
-    } = this.props;
-
-    const isInversed = color === 'inverse';
-    const navColor = isInversed ? 'primary' : 'light';
-
-    const trigger = !isUndefined(get(search, 'dataProvider'))
-      ? 'CHANGE'
-      : 'ENTER';
-
-    const mapItems = (items, options) =>
-      map(items, (item, i) => (
-        <NavItemContainer
-          key={i}
-          item={item}
-          activeId={activeId}
-          options={options}
-        />
-      ));
-
-    const { N2O_ELEMENT_VISIBILITY } = window;
-
-    if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.header === false) {
-      style = { ...style, display: 'none' };
+        this.toggle = this.toggle.bind(this)
     }
 
-    const navItems = mapItems(items);
-    const extraNavItems = mapItems(extraItems, { right: true });
-    return (
-      <div
-        style={style}
-        className={`navbar-container-${
-          fixed ? 'fixed' : 'relative'
-        } ${className} n2o-header n2o-header-${color} `}
-      >
-        <Navbar
-          color={navColor}
-          light={!isInversed}
-          dark={isInversed}
-          expand="lg"
-        >
-          {brandImage && (
-            <NavbarBrand className="n2o-brand" href={homePageUrl}>
-              <NavbarBrandContent brandImage={brandImage} />
-            </NavbarBrand>
-          )}
-          {brand && (
-            <a href={homePageUrl} className="navbar-brand">
-              {brand}
-            </a>
-          )}
-          {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
-          <Collapse
-            isOpen={this.state.isOpen}
-            className={classNames({
-              'n2o-navbar-collapse-open': this.state.isOpen,
-            })}
-            navbar
-          >
-            <Nav className="main-nav" navbar>
-              {navItems}
-            </Nav>
-            <Nav className="ml-auto main-nav-extra" navbar>
-              {extraNavItems}
-              {search && (
-                <SearchBarContainer trigger={trigger} {...this.props.search} />
-              )}
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-    );
-  }
+    toggle() {
+        this.setState({
+            isOpen: !this.state.isOpen,
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { width } = this.props
+
+        if (width !== prevProps.width && width >= 992) {
+            this.setState({ isOpen: false })
+        }
+    }
+
+    render() {
+        let {
+            color,
+            fixed,
+            items,
+            activeId,
+            extraItems,
+            brandImage,
+            brand,
+            style,
+            className,
+            search,
+            homePageUrl,
+        } = this.props
+
+        const isInversed = color === 'inverse'
+        const navColor = isInversed ? 'primary' : 'light'
+
+        const trigger = !isUndefined(get(search, 'dataProvider'))
+            ? 'CHANGE'
+            : 'ENTER'
+
+        const mapItems = (items, options) => map(items, (item, i) => (
+            <NavItemContainer
+                key={i}
+                item={item}
+                activeId={activeId}
+                options={options}
+            />
+        ))
+
+        const { N2O_ELEMENT_VISIBILITY } = window
+
+        if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.header === false) {
+            style = { ...style, display: 'none' }
+        }
+
+        const navItems = mapItems(items)
+        const extraNavItems = mapItems(extraItems, { right: true })
+
+        return (
+            <div
+                style={style}
+                className={`navbar-container-${
+                    fixed ? 'fixed' : 'relative'
+                } ${className} n2o-header n2o-header-${color} `}
+            >
+                <Navbar
+                    color={navColor}
+                    light={!isInversed}
+                    dark={isInversed}
+                    expand="lg"
+                >
+                    {brandImage && (
+                        <NavbarBrand className="n2o-brand" href={homePageUrl}>
+                            <NavbarBrandContent brandImage={brandImage} />
+                        </NavbarBrand>
+                    )}
+                    {brand && (
+                        <a href={homePageUrl} className="navbar-brand">
+                            {brand}
+                        </a>
+                    )}
+                    {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
+                    <Collapse
+                        isOpen={this.state.isOpen}
+                        className={classNames({
+                            'n2o-navbar-collapse-open': this.state.isOpen,
+                        })}
+                        navbar
+                    >
+                        <Nav className="main-nav" navbar>
+                            {navItems}
+                        </Nav>
+                        <Nav className="ml-auto main-nav-extra" navbar>
+                            {extraNavItems}
+                            {search && (
+                                <SearchBarContainer trigger={trigger} {...this.props.search} />
+                            )}
+                        </Nav>
+                    </Collapse>
+                </Navbar>
+            </div>
+        )
+    }
 }
 
 SimpleHeader.propTypes = {
-  /**
+    /**
    * ID активного элемента
    */
-  activeId: PropTypes.string,
-  /**
+    activeId: PropTypes.string,
+    /**
    * Бренд хедера
    */
-  brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  /**
+    brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    /**
    * Картинка бренда
    */
-  brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  /**
+    brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    /**
    * Элементы хедера
    */
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      href: PropTypes.string,
-      linkType: PropTypes.oneOf(['inner', 'outer']),
-      type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-      subItems: PropTypes.array,
-      badge: PropTypes.string,
-      badgeColor: PropTypes.string,
-      target: PropTypes.string,
-    })
-  ),
-  /**
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            href: PropTypes.string,
+            linkType: PropTypes.oneOf(['inner', 'outer']),
+            type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
+            subItems: PropTypes.array,
+            badge: PropTypes.string,
+            badgeColor: PropTypes.string,
+            target: PropTypes.string,
+        }),
+    ),
+    /**
    * Extra элементы хедера
    */
-  extraItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      href: PropTypes.string,
-      linkType: PropTypes.oneOf(['inner', 'outer']),
-      type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-      subItems: PropTypes.array,
-      badge: 'badge',
-      badgeColor: 'color',
-      target: PropTypes.string,
-    })
-  ),
-  /**
+    extraItems: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            href: PropTypes.string,
+            linkType: PropTypes.oneOf(['inner', 'outer']),
+            type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
+            subItems: PropTypes.array,
+            badge: 'badge',
+            badgeColor: 'color',
+            target: PropTypes.string,
+        }),
+    ),
+    /**
    * Строка поиска
    */
-  search: PropTypes.bool,
-  /**
+    search: PropTypes.bool,
+    /**
    * Адрес ссылка бренда
    */
-  homePageUrl: PropTypes.string,
-  /**
+    homePageUrl: PropTypes.string,
+    /**
    * Цвет хедера
    */
-  color: PropTypes.oneOf(['inverse', 'default']),
-  /**
+    color: PropTypes.oneOf(['inverse', 'default']),
+    /**
    * Флаг фиксированного хедера
    */
-  fixed: PropTypes.bool,
-  /**
+    fixed: PropTypes.bool,
+    /**
    * Флаг сжатости хедера
    */
-  collapsed: PropTypes.bool,
-  /**
+    collapsed: PropTypes.bool,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Стили
    */
-  style: PropTypes.object,
-  /**
+    style: PropTypes.object,
+    /**
    * Включение показа контрола смены локализации
    */
-  localeSelect: PropTypes.bool,
-};
+    localeSelect: PropTypes.bool,
+}
 
 SimpleHeader.defaultProps = {
-  color: 'default',
-  fixed: true,
-  homePageUrl: '/',
-  collapsed: true,
-  className: '',
-  items: [],
-  extraItems: [],
-  search: false,
-  style: {},
-  localeSelect: false,
-  list: [],
-};
+    color: 'default',
+    fixed: true,
+    homePageUrl: '/',
+    collapsed: true,
+    className: '',
+    items: [],
+    extraItems: [],
+    search: false,
+    style: {},
+    localeSelect: false,
+    list: [],
+}
 
 export default withResizeDetector(SimpleHeader, {
-  handleHeight: false,
-  refreshMode: 'debounce',
-  refreshRate: 100,
-});
+    handleHeight: false,
+    refreshMode: 'debounce',
+    refreshRate: 100,
+})

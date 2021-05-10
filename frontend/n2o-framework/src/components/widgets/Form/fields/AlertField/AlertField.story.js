@@ -1,20 +1,21 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import AlertField from './AlertField';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-const stories = storiesOf('Виджеты/Форма/Fields/AlertField');
+import AlertField from './AlertField'
+
+const stories = storiesOf('Виджеты/Форма/Fields/AlertField')
 
 const props = {
-  visible: true,
-  className: '',
-  text: 'Алерт!',
-  color: 'info',
-  fade: true,
-};
+    visible: true,
+    className: '',
+    text: 'Алерт!',
+    color: 'info',
+    fade: true,
+}
 
 stories.add('Компонент', () => <AlertField {...props} />, {
-  info: {
-    text: `
+    info: {
+        text: `
    Компонент AlertField
     ~~~js
     import AlertField from 'n2o-framework/lib/components/widgets/Form/fields/AlertField';
@@ -30,5 +31,5 @@ stories.add('Компонент', () => <AlertField {...props} />, {
      />
     ~~~
     `,
-  },
-});
+    },
+})

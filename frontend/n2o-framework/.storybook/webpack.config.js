@@ -62,23 +62,6 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.(js|jsx)$/,
-        enforce: 'pre',
-        use: [
-          {
-            options: {
-              eslintPath: require.resolve('eslint'),
-              fix: true,
-              useEslintrc: true,
-              quiet: true,
-            },
-            loader: require.resolve('eslint-loader'),
-          },
-        ],
-        include: path.resolve(__dirname, '../src'),
-        exclude: [/[/\\\\]node_modules[/\\\\]/],
-      },
     ],
   },
 };

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -34,6 +33,7 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
         datePicker.setTimeFormat(source.getTimeFormat());
         datePicker.setMin(p.resolveJS(source.getMin()));
         datePicker.setMax(p.resolveJS(source.getMax()));
+        datePicker.setPlaceholder(source.getPlaceholder());
         datePicker.setUtc(p.cast(source.getUtc(), p.resolve(property("n2o.api.control.datetime.utc"), Boolean.class)));
         return compileStandardField(datePicker, source, context, p);
     }

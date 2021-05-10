@@ -3,10 +3,10 @@
  */
 
 export default {
-  DEFAULT: 'secondary',
-  PRIMARY: 'primary',
-  SUCCESS: 'success',
-  INFO: 'info',
-  WARNING: 'warning',
-  DANGER: 'danger',
-};
+    DEFAULT: 'secondary',
+    PRIMARY: 'primary',
+    SUCCESS: 'success',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+}

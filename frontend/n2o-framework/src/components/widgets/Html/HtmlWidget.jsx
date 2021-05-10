@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import StandardWidget from '../StandardWidget';
-import HtmlContainer from './HtmlContainer';
-import dependency from '../../../core/dependency';
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import StandardWidget from '../StandardWidget'
+import dependency from '../../../core/dependency'
+
+import HtmlContainer from './HtmlContainer'
 
 /**
  * HtmlWidget
@@ -17,51 +19,51 @@ import dependency from '../../../core/dependency';
  */
 
 function HtmlWidget(props) {
-  const {
-    fetchOnInit,
-    id: widgetId,
-    toolbar,
-    actions,
-    className,
-    style,
-    pageId,
-    datasource,
-    ...rest
-  } = props;
+    const {
+        fetchOnInit,
+        id: widgetId,
+        toolbar,
+        actions,
+        className,
+        style,
+        pageId,
+        datasource,
+        ...rest
+    } = props
 
-  return (
-    <StandardWidget
-      widgetId={widgetId}
-      toolbar={toolbar}
-      actions={actions}
-      className={className}
-      fetchOnInit={fetchOnInit}
-      style={style}
-    >
-      <HtmlContainer
-        pageId={pageId}
-        widgetId={widgetId}
-        fetchOnInit={fetchOnInit}
-        datasource={datasource}
-        {...rest}
-      />
-    </StandardWidget>
-  );
+    return (
+        <StandardWidget
+            widgetId={widgetId}
+            toolbar={toolbar}
+            actions={actions}
+            className={className}
+            fetchOnInit={fetchOnInit}
+            style={style}
+        >
+            <HtmlContainer
+                pageId={pageId}
+                widgetId={widgetId}
+                fetchOnInit={fetchOnInit}
+                datasource={datasource}
+                {...rest}
+            />
+        </StandardWidget>
+    )
 }
 
 HtmlWidget.defaultProps = {
-  toolbar: {},
-};
+    toolbar: {},
+}
 
 HtmlWidget.propTypes = {
-  pageId: PropTypes.string,
-  fetchOnInit: PropTypes.bool,
-  url: PropTypes.bool,
-  widgetId: PropTypes.string,
-  toolbar: PropTypes.object,
-  actions: PropTypes.object,
-  html: PropTypes.string,
-  dataProvider: PropTypes.object,
-};
+    pageId: PropTypes.string,
+    fetchOnInit: PropTypes.bool,
+    url: PropTypes.bool,
+    widgetId: PropTypes.string,
+    toolbar: PropTypes.object,
+    actions: PropTypes.object,
+    html: PropTypes.string,
+    dataProvider: PropTypes.object,
+}
 
-export default dependency(HtmlWidget);
+export default dependency(HtmlWidget)

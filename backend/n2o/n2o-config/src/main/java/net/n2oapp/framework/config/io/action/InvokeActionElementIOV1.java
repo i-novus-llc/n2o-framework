@@ -19,6 +19,7 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
     public void io(Element e, N2oInvokeAction ia, IOProcessor p) {
         super.io(e, ia, p);
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
+        p.attribute(e, "object-id", ia::getObjectId, ia::setObjectId);
         p.attribute(e, "route", ia::getRoute, ia::setRoute);
         p.read(e, ia, (el, md) -> {
             if (el.getAttribute("close-after-success") != null) {

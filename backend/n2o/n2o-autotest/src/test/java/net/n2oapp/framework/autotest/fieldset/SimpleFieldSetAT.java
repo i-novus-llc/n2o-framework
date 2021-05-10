@@ -30,8 +30,6 @@ public class SimpleFieldSetAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
@@ -39,6 +37,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
@@ -54,9 +53,13 @@ public class SimpleFieldSetAT extends AutoTestBase {
         Fields fields = fieldset.fields();
         fields.shouldHaveSize(1);
         fields.field("field1").shouldHaveLabelLocation(FieldSet.LabelPosition.TOP_LEFT);
+        InputText field1 = fields.field("field1").control(InputText.class);
 
         fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
-        fieldset.shouldHaveLabel("Заголовок");
+        fieldset.shouldHaveLabel("Заголовок test");
+        field1.val("123");
+        fieldset.shouldHaveLabel("Заголовок 123");
+
         fields = fieldset.fields();
         fields.shouldHaveSize(2);
         StandardField field2 = fields.field("field2");

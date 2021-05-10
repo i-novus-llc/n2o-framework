@@ -3,7 +3,7 @@
     <form id="form" object-id="testCell">
         <fields>
             <input-text id="test">
-                <submit message-on-fail="true" operation-id="update">
+                <submit message-on-fail="true" operation-id="update" refresh-on-success="true" refresh-widget-id="test">
                     <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>
                     <path-param name="name2" ref-model="filter" ref-widget-id="id2"/>
                     <header-param name="name3" value="{a}" ref-widget-id="id3"/>
