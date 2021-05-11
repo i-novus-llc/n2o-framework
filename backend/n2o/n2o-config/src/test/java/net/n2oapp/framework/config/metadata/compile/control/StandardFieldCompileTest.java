@@ -185,8 +185,9 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.getOperationId(), is("update"));
         assertThat(context.isMessageOnFail(), is(true));
         assertThat(context.isMessageOnSuccess(), is(false));
-        assertThat(context.getSuccessAlertWidgetId(), is("form"));
-        assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getParentWidgetId(), is("testStandardFieldSubmit_form"));
+        assertThat(context.getSuccessAlertWidgetId(), is("testStandardFieldSubmit_form"));
+        assertThat(context.getFailAlertWidgetId(), is("testStandardFieldSubmit_form"));
         assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
         assertThat(context.getRefresh().getOptions().getWidgetId(), is("form"));
 
@@ -246,8 +247,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.getOperationId(), is("update"));
         assertThat(context.isMessageOnFail(), is(true));
         assertThat(context.isMessageOnSuccess(), is(false));
-        assertThat(context.getSuccessAlertWidgetId(), is("form"));
-        assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getSuccessAlertWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
+        assertThat(context.getFailAlertWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
         assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
         assertThat(context.getRefresh().getOptions().getWidgetId(), is("test"));
 
