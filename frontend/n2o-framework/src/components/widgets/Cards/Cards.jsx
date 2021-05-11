@@ -49,13 +49,13 @@ export function Cards(props) {
 
     const renderCell = (cell, dataItem, index) => (
         <CardsCell
-            className={classNames('n2o-cards__cell', cell.className)}
             index={index}
             widgetId={id}
             model={dataItem}
             onResolve={onResolve}
             dispatch={dispatch}
             {...cell}
+            className={classNames('n2o-cards__cell', cell.className)}
         />
     )
 
