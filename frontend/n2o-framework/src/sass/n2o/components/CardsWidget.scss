@@ -14,7 +14,6 @@
     .n2o-cards__item {
         display: flex;
         flex-direction: column;
-        align-items: center;
 
         .icon-cell-container,
         .progress,
@@ -53,8 +52,7 @@
     }
 
     .n2o-cards__cell {
-        display: flex;
-        justify-content: center;
         margin: $cards-cell-margin;
+        text-align: center;
     }
 }
