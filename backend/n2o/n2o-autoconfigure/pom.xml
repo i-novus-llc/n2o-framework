@@ -54,7 +54,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.19</version>
             <optional>true</optional>
