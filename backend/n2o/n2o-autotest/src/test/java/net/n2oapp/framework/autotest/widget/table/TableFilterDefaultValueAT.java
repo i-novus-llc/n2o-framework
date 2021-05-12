@@ -55,7 +55,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).textShouldHave("test4");
 
-        // filter value should stay after refresh
+        // filter value should saved after refresh
         Selenide.refresh();
         rows.row(0).cell(1).textShouldHave("test4");
 
@@ -83,7 +83,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).textShouldHave("test4");
 
-        // filter value should stay after refresh
+        // filter value should saved after refresh
         Selenide.refresh();
         rows.row(0).cell(1).textShouldHave("test4");
 
@@ -111,7 +111,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).textShouldHave("test4");
 
-        // filter value should stay after refresh
+        // filter value should saved after refresh
         Selenide.refresh();
         rows.row(0).cell(1).textShouldHave("test4");
 
