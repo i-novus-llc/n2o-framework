@@ -46,6 +46,10 @@
             white-space: normal;
             padding: $input-select-control-dropdown-header-padding;
         }
+
+        &.n2o-pop-up {
+            user-select: none;
+        }
     }
 
     .n2o-dropdown-control.btn-sm {
