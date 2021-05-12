@@ -1,29 +1,29 @@
-.title-fieldset {
-  &-header {
+.title-fieldset-header {
     display: flex;
     align-items: baseline;
-
     margin: $collapse-header-margin;
-  }
+}
 
-  &-line {
+.title-fieldset-line {
     align-self: center;
     width: 100%;
     height: $collapse-line-height;
-    margin-left: 5px;
     background-color: $collapse-line-color;
-  }
+}
 
-  &-text {
+.title-fieldset-text {
     color: #474747;
     text-indent: initial;
     height: 30px;
     line-height: 28px;
     white-space: nowrap;
     font-weight: 700;
-  }
 
-  &-subtitle {
+    + .title-fieldset-line {
+        margin-left: 5px;
+    }
+}
+
+.title-fieldset-subtitle {
     margin-left: 5px;
-  }
 }

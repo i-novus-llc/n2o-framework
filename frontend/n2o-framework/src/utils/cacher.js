@@ -1,21 +1,22 @@
 const cachingStore = () => {
-  const cache = {};
+    const cache = {}
 
-  return {
-    add: function(params, result) {
-      cache[JSON.stringify(params)] = result;
-    },
+    return {
+        add(params, result) {
+            cache[JSON.stringify(params)] = result
+        },
 
-    find: function(params) {
-      const key = JSON.stringify(params);
+        find(params) {
+            const key = JSON.stringify(params)
 
-      if (cache.hasOwnProperty(key)) {
-        return cache[key];
-      } else {
-        return false;
-      }
-    },
-  };
-};
+            // eslint-disable-next-line no-prototype-builtins
+            if (cache.hasOwnProperty(key)) {
+                return cache[key]
+            }
 
-export default cachingStore();
+            return false
+        },
+    }
+}
+
+export default cachingStore()

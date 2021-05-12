@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 /**
  * Рендер бренда и лого
  * @param props - пропсы
@@ -7,22 +7,22 @@ import PropTypes from 'prop-types';
  * @param {string | element} props.brandImage - брэнд(изображение)
  */
 const NavbarBrandContent = ({ brandImage }) => {
-  const img =
+    const img =
     brandImage && typeof brandImage === 'string' ? (
-      <img
-        src={brandImage}
-        className="n2o-brand__image d-inline-block align-top"
-      />
+        <img
+            src={brandImage}
+            className="n2o-brand__image d-inline-block align-top"
+        />
     ) : (
-      brandImage
-    );
+        brandImage
+    )
 
-  return <React.Fragment>{img}</React.Fragment>;
-};
+    return <>{img}</>
+}
 
 NavbarBrandContent.propTypes = {
-  brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-};
+    brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+}
 
-export default NavbarBrandContent;
+export default NavbarBrandContent

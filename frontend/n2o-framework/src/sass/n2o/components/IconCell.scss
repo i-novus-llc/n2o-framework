@@ -1,10 +1,10 @@
 .icon-cell-container {
-  display: inline-flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .icon-cell-container__text-left {
-  flex-flow: row-reverse nowrap;
+    flex-flow: row-reverse nowrap;
 }

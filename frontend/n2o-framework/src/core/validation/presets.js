@@ -1,21 +1,17 @@
-import { runSaga } from 'redux-saga';
-import isEmpty from 'lodash/isEmpty';
-import toString from 'lodash/toString';
-import isNumber from 'lodash/isNumber';
-import isUndefined from 'lodash/isUndefined';
-import isNull from 'lodash/isNull';
-import isNaN from 'lodash/isNaN';
-import isString from 'lodash/isString';
-import isObject from 'lodash/isObject';
-import isArray from 'lodash/isArray';
-import every from 'lodash/every';
-import isNil from 'lodash/isNil';
-import get from 'lodash/get';
+import { runSaga } from 'redux-saga'
+import isEmpty from 'lodash/isEmpty'
+import toString from 'lodash/toString'
+import isNumber from 'lodash/isNumber'
+import isUndefined from 'lodash/isUndefined'
+import isNull from 'lodash/isNull'
+import isNaN from 'lodash/isNaN'
+import isString from 'lodash/isString'
+import isObject from 'lodash/isObject'
+import get from 'lodash/get'
 
-import evalExpression from '../../utils/evalExpression';
-import fetchSaga from '../../sagas/fetch.js';
-
-import { FETCH_VALIDATE } from '../api.js';
+import evalExpression from '../../utils/evalExpression'
+import fetchSaga from '../../sagas/fetch'
+import { FETCH_VALIDATE } from '../api'
 
 /**
  * Валидация того, что email
@@ -24,10 +20,10 @@ import { FETCH_VALIDATE } from '../api.js';
  * @returns {boolean}
  */
 export function email(fieldId, values) {
-  return (
-    isString(values[fieldId]) &&
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values[fieldId])
-  );
+    return (
+        isString(values[fieldId]) &&
+    /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,4}$/i.test(values[fieldId])
+    )
 }
 
 /**
@@ -38,22 +34,23 @@ export function email(fieldId, values) {
  * @returns {*}
  */
 export function required(fieldId, values, options = {}) {
-  const value = get(values, fieldId);
-  if (options.expression && !evalExpression(options.expression, values)) {
-    return true;
-  }
+    const value = get(values, fieldId)
 
-  if (isObject(value)) {
-    return !isEmpty(value);
-  } else if (isString(value)) {
-    return value !== '';
-  } else {
+    if (options.expression && !evalExpression(options.expression, values)) {
+        return true
+    }
+
+    if (isObject(value)) {
+        return !isEmpty(value)
+    } if (isString(value)) {
+        return value !== ''
+    }
+
     return (
-      !isUndefined(get(values, fieldId)) &&
+        !isUndefined(get(values, fieldId)) &&
       !isNull(get(values, fieldId)) &&
       !isNaN(get(values, fieldId))
-    );
-  }
+    )
 }
 
 /**
@@ -64,7 +61,7 @@ export function required(fieldId, values, options = {}) {
  * @returns {boolean}
  */
 export function condition(fieldId, values, options = {}) {
-  return evalExpression(options.expression, values);
+    return evalExpression(options.expression, values)
 }
 
 /**
@@ -76,18 +73,18 @@ export function condition(fieldId, values, options = {}) {
  * @returns {boolean|*}
  */
 export async function constraint(fieldId, values, options, dispatch) {
-  if (!isEmpty(values[fieldId])) {
-    return await runSaga(
-      {
-        dispatch,
-      },
-      fetchSaga,
-      FETCH_VALIDATE,
-      { validationKey: options.validationKey }
-    ).toPromise();
-  } else {
-    return Promise.reject();
-  }
+    if (!isEmpty(values[fieldId])) {
+        return await runSaga(
+            {
+                dispatch,
+            },
+            fetchSaga,
+            FETCH_VALIDATE,
+            { validationKey: options.validationKey },
+        ).toPromise()
+    }
+
+    return Promise.reject()
 }
 
 /**
@@ -97,8 +94,9 @@ export async function constraint(fieldId, values, options, dispatch) {
  * @returns {boolean}
  */
 export function integer(fieldId, values) {
-  const v = values[fieldId];
-  return v && !isNaN(Number(v)) && isNumber(Number(v));
+    const v = values[fieldId]
+
+    return v && !isNaN(Number(v)) && isNumber(Number(v))
 }
 
 /**
@@ -109,7 +107,7 @@ export function integer(fieldId, values) {
  * @returns {boolean}
  */
 export function minLength(fieldId, values, options) {
-  return isString(values[fieldId]) && values[fieldId].length > options.min;
+    return isString(values[fieldId]) && values[fieldId].length > options.min
 }
 
 /**
@@ -120,7 +118,7 @@ export function minLength(fieldId, values, options) {
  * @returns {boolean}
  */
 export function maxLength(fieldId, values, options) {
-  return isString(values[fieldId]) && values[fieldId].length < options.max;
+    return isString(values[fieldId]) && values[fieldId].length < options.max
 }
 
 /**
@@ -131,7 +129,7 @@ export function maxLength(fieldId, values, options) {
  * @returns {boolean}
  */
 export function match(fieldId, values, options) {
-  return (
-    values[fieldId] && toString(values[fieldId]) === toString(options.field)
-  );
+    return (
+        values[fieldId] && toString(values[fieldId]) === toString(options.field)
+    )
 }

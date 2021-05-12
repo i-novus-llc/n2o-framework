@@ -1,58 +1,58 @@
 .n2o-cards {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid black;
-
-  border: $cards-border;
-  margin: $cards-item-margin;
-  padding: $cards-item-padding;
-
-  &:hover {
-    border: $cards-hover-border;
-    box-shadow: $cards-hover-shadow;
-  }
-
-  .n2o-cards__item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    border: 1px solid black;
+    border: $cards-border;
+    margin: $cards-item-margin;
+    padding: $cards-item-padding;
 
-    .icon-cell-container, .progress, .n2o-rating-stars, .badge {
-      margin: $tiles-cell-margin !important;
+    &:hover {
+        border: $cards-hover-border;
+        box-shadow: $cards-hover-shadow;
     }
 
-    .n2o-cards__image {
-      overflow: hidden;
+    .n2o-cards__item {
+        display: flex;
+        flex-direction: column;
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit:cover;
-      }
+        .icon-cell-container,
+        .progress,
+        .n2o-rating-stars,
+        .badge {
+            margin: $tiles-cell-margin !important;
+        }
+
+        .n2o-cards__image {
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .custom-control.custom-checkbox {
+            padding-left: 2rem;
+        }
+
+        .rating-group {
+            margin-left: -5px;
+        }
+
+        .progress-bar {
+            padding: 0 5px;
+        }
+
+        .btn-group {
+            div {
+                margin: 0;
+            }
+        }
     }
 
-    .custom-control.custom-checkbox {
-      padding-left: 2rem;
+    .n2o-cards__cell {
+        margin: $cards-cell-margin;
+        text-align: center;
     }
-
-    .rating-group {
-      margin-left: -5px;
-    }
-
-    .progress-bar {
-      padding: 0 5px;
-    }
-
-    .btn-group {
-      div {
-        margin: 0;
-      }
-    }
-  }
-
-  .n2o-cards__cell {
-    display: flex;
-    justify-content: center;
-    margin: $cards-cell-margin;
-  }
 }

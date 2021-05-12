@@ -1,8 +1,11 @@
-import React from 'react';
-import Input from '../Input/Input';
+import React from 'react'
+
+import Input from '../Input/Input'
 
 function InputHidden({ id, ...props }) {
-  return <Input {...props} type="hidden" />;
+    return <Input {...props} type="hidden" />
 }
 
-export default InputHidden;
+InputHidden.propTypes = Input.propTypes
+
+export default InputHidden

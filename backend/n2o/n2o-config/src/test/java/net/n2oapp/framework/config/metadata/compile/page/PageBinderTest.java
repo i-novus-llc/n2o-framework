@@ -45,9 +45,9 @@ public class PageBinderTest extends SourceCompileTestBase {
                 .get(new PageContext("testPageBinders"), new DataSet());
 
         assertThat(page.getModels().get("resolve['testPageBinders_main'].name").getValue(), is("Test"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), is("models.resolve['testPageBinders_main'].gender"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), is("models.resolve['testPageBinders_main']"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].gender").getValue()).getValues().get("id"), is("Test"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), is("models.resolve['testPageBinders_main'].birthday"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), is("models.resolve['testPageBinders_main']"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("begin"), is("01.11.2018"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("end"), is("11.11.2018"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].intervalTest.end").getValue(), is(156));

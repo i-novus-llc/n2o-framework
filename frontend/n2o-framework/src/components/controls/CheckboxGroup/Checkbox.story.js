@@ -1,33 +1,34 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-import CheckboxGroup from './CheckboxGroup';
-import Checkbox from '../Checkbox/Checkbox';
+import Checkbox from '../Checkbox/Checkbox'
 
-const stories = storiesOf('Контролы/Группа чекбоксов', module);
+import CheckboxGroup from './CheckboxGroup'
+
+const stories = storiesOf('Контролы/Группа чекбоксов', module)
 
 stories.add(
-  'Компонент',
-  () => {
-    const props = {
-      value: ['1', '2'],
-      disabled: false,
-      visible: true,
-      className: '',
-      inline: false,
-    };
+    'Компонент',
+    () => {
+        const props = {
+            value: ['1', '2'],
+            disabled: false,
+            visible: true,
+            className: '',
+            inline: false,
+        }
 
-    return (
-      <CheckboxGroup name="numbers" {...props}>
-        <Checkbox value="1" label="Первый" />
-        <Checkbox value="2" label="Второй" />
-        <Checkbox value="3" label="Третий" />
-      </CheckboxGroup>
-    );
-  },
-  {
-    info: {
-      text: `
+        return (
+            <CheckboxGroup name="numbers" {...props}>
+                <Checkbox value="1" label="Первый" />
+                <Checkbox value="2" label="Второй" />
+                <Checkbox value="3" label="Третий" />
+            </CheckboxGroup>
+        )
+    },
+    {
+        info: {
+            text: `
     Компонент 'CheckboxGroup'
     ~~~js
     import CheckboxGroup from 'n2o-framework/lib/components/controls/CheckboxGroup/CheckboxGroup';
@@ -42,6 +43,6 @@ stories.add(
     </CheckboxGroup>
     ~~~
     `,
+        },
     },
-  }
-);
+)

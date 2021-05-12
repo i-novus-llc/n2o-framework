@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
-import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
+import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
 import net.n2oapp.framework.config.io.region.v2.CustomRegionIOv2;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
@@ -42,7 +42,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new SimplePageElementIOv2(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(),
+        builder.ios(new SimplePageElementIOv3(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(),
                 new ButtonIO(), new JavaDataProviderIOv1())
                 .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(),
                         new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler())
@@ -57,6 +57,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
         assertThat(page.getSrc(), is("SimplePage"));
+        assertThat(page.getClassName(), is("testClass"));
+        assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));

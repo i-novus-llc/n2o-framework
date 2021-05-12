@@ -1,441 +1,421 @@
-// header
-
 .n2o-select-tree {
-  width: 100%;
-  display: flex;
-  font-size: 1rem;
-  line-height: 1.5;
-  height: auto;
-  min-height: $input-min-height;
-  padding: unset;
-  background-clip: padding-box;
-  cursor: pointer;
-  outline: none;
-  &:hover {
-    border-color: $input-select-tree-color-hover;
-  }
-
-  //&:focus{
-  //  border-color: grey;
-  //}
-
-  & .n2o-select-tree-selection--single {
-    padding: 0px 10px;
-  }
-
-  & .n2o-select-tree-selection {
-    display: flex;
     width: 100%;
-    position: relative;
-    justify-content: flex-end;
-    align-items: center;
-
-    & .n2o-select-tree-selection__rendered {
-      list-style-type: none;
-      border: none;
-      flex-wrap: wrap;
-      padding: 0;
-      margin: 0;
-
-      & .n2o-select-tree-selection__choice {
-        padding: 0 5px;
-        margin: 2px;
-        border: 1px solid #cccccc;
-        border-radius: 0;
-        background: transparent;
-        display: flex;
-        flex-direction: row-reverse;
-
-        & i{
-          font-size: 12px;
-        }
-
-        & .n2o-select-tree-selection__choice__content {
-          cursor: default;
-          max-width: $multiselect-item-width;
-          height: 100%;
-          display: flex;
-          align-items: center;
-        }
-
-        & .n2o-select-tree-selection__choice__remove {
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 4px;
-        }
-
-      }
-    }
-
-    & .n2o-select-tree-arrow {
-      display: flex;
-      transition: all 0.15s linear;
-      border-radius: 50%;
-      & > i {
-        font-size: $icon-size;
-      }
-    }
-
-    & .n2o-select-tree-arrow:hover{
-      background: $icon-tree-hover-color;
-    }
-
-    & .n2o-select-tree-selection__rendered {
-      display: flex;
-      flex-grow: 100;
-    }
-
-    & .n2o-select-tree-selection__clear {
-      position: absolute;
-      right: 2rem;
-      visibility: hidden;
-      cursor: pointer;
-      border-radius: 50%;
-      display: flex;
-      & > i {
-        font-size: $icon-size;
-      }
-    }
-
-    & .n2o-select-tree-selection__clear:hover{
-      background-color: $icon-tree-hover-color;
-    }
+    display: flex;
+    font-size: 1rem;
+    line-height: 1.5;
+    height: auto;
+    min-height: $input-min-height;
+    padding: unset;
+    background-clip: padding-box;
+    cursor: pointer;
+    outline: none;
 
     &:hover {
-      & .n2o-select-tree-selection__clear {
-        visibility: visible;
-      }
+        border-color: $input-select-tree-color-hover;
     }
 
-    & img {
-      width: $image-width;
-      padding: 0 4px;
-    }
-  }
+    .n2o-select-tree-tree-switcher {
+        width: 20px;
+        display: inline-block;
+        transition: transform $tree-animation-speed linear;
 
-  & .ant-select-search__field__mirror {
+        i {
+            font-size: 12px;
+            padding: 5px 5px 3px 5px;
+        }
+
+        i:hover {
+            background: $icon-tree-hover-color;
+            transition: all  $tree-animation-speed linear;
+        }
+    }
+
+    .n2o-select-tree-selection {
+        display: flex;
+        width: 100%;
+        position: relative;
+        justify-content: flex-end;
+        align-items: center;
+
+        .n2o-select-tree-arrow {
+            display: flex;
+            transition: all 0.15s linear;
+            border-radius: 50%;
+
+            > i {
+                font-size: $icon-size;
+            }
+        }
+
+        .n2o-select-tree-arrow:hover {
+            background: $icon-tree-hover-color;
+        }
+
+        .n2o-select-tree-selection__clear {
+            position: absolute;
+            right: 2rem;
+            visibility: hidden;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+
+            > i {
+                font-size: $icon-size;
+            }
+        }
+
+        .n2o-select-tree-selection__rendered {
+            display: flex;
+            flex-grow: 100;
+            list-style-type: none;
+            border: none;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+
+            .n2o-select-tree-selection__choice {
+                padding: 0 5px;
+                margin: 2px;
+                border: 1px solid #ccc;
+                border-radius: 0;
+                background: transparent;
+                display: flex;
+                flex-direction: row-reverse;
+
+                i {
+                    font-size: 12px;
+                }
+
+                .n2o-select-tree-selection__choice__content {
+                    cursor: default;
+                    max-width: $multiselect-item-width;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .n2o-select-tree-selection__choice__remove {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 4px;
+                }
+            }
+        }
+
+        .n2o-select-tree-selection__clear:hover {
+            background-color: $icon-tree-hover-color;
+        }
+
+        &:hover {
+            .n2o-select-tree-selection__clear {
+                visibility: visible;
+            }
+        }
+
+        img {
+            width: $image-width;
+            padding: 0 4px;
+        }
+    }
+
+    .n2o-select-tree-selection--single {
+        padding: 0 10px;
+
+        .n2o-select-tree-content-wrapper {
+            display: inline-flex;
+            align-items: center;
+
+            .n2o-select-tree-label {
+                padding-right: 4px;
+            }
+        }
+    }
+
+    &.n2o-select-tree-open {
+        .n2o-select-tree-selection {
+            .n2o-select-tree-arrow {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .ant-select-search__field__mirror {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: pre;
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    &.loading::after {
+        content: '';
+        position: absolute;
+        right: 1.7rem;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        -webkit-animation: nprogress-spinner 400ms linear 0s normal none infinite;
+        -moz-animation: nprogress-spinner 400ms linear 0s normal none infinite;
+        -ms-animation: nprogress-spinner 400ms linear 0s normal none infinite;
+        -o-animation: nprogress-spinner 400ms linear 0s normal none infinite;
+        animation: nprogress-spinner 400ms linear 0s normal none infinite;
+        border-color: $primary rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) $white;
+        border-radius: 50%;
+        border-style: solid;
+        border-width: 2px;
+        height: 1em;
+        width: 1em;
+        display: inline-block;
+        align-self: center;
+    }
+
+    .n2o-select-tree-selection--multiple {
+        cursor: text;
+        padding-right: 10px;
+        padding-left: 1px;
+
+        .n2o-select-tree-content-wrapper {
+            height: 100%;
+            background-color: $multiselect-item-color;
+            display: flex;
+            align-items: center;
+
+            .n2o-select-tree-label {
+                white-space: nowrap;
+                overflow: hidden;
+                padding-left: 5px;
+                text-overflow: ellipsis;
+                display: block;
+            }
+        }
+
+        .n2o-select-tree-search__field {
+            border-width: 0;
+            font-size: 100%;
+            height: 100%;
+            margin: 0 10px;
+            background: transparent;
+            outline: 0;
+            border-radius: 4px;
+            line-height: 1;
+            touch-action: manipulation;
+        }
+    }
+
+    //// dropdown
+
+    .n2o-select-tree-dropdown {
+        background-color: white;
+        border: $border;
+        box-sizing: border-box;
+        z-index: 999999;
+        left: -9999px;
+        top: -9999px;
+        position: absolute;
+        outline: none;
+
+        .n2o-select-tree-search__field__placeholder {
+            position: absolute;
+            left: 20px;
+            top: 12px;
+            opacity: 0.5;
+        }
+
+        ////search
+        .n2o-select-tree-dropdown-search {
+            width: 100%;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 0;
+            border-color: $focus-color;
+
+            input {
+                width: 100%;
+                padding: 5px 40px 5px 12px;
+            }
+
+            &::after {
+                display: inline-block;
+                font: normal normal normal 14px/1 FontAwesome, serif;
+                font-size: inherit;
+                text-rendering: auto;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                position: absolute;
+                z-index: 11;
+                right: 7px;
+                top: 15px;
+                width: 24px;
+                height: 24px;
+                content: "\F002";
+            }
+        }
+
+        .n2o-icon {
+            padding: 0;
+        }
+
+        .n2o-select-tree-tree {
+            padding: 0;
+            margin: 0 5px;
+            overflow-y: auto;
+            max-width: $popup-max-width;
+            max-height: $max-popup-height;
+        }
+
+        li {
+            list-style-type: none;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        img {
+            width: $image-width;
+            padding: 0;
+            margin: 0;
+            display: inline;
+        }
+
+        .n2o-select-tree-tree-switcher_open {
+            transform: rotate(90deg);
+            transition: all  $tree-animation-speed linear;
+        }
+
+        .custom-control-inline {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .custom-control-label {
+            margin-bottom: 0;
+        }
+
+        .custom-control-label::before {
+            margin-bottom: 0.5rem;
+            left: -1.2rem;
+        }
+
+        .n2o-select-tree-tree-checkbox-checked {
+            .custom-control-label::before {
+                color: $white;
+                background-color: $checkbox-background-color-checked;
+                border-color: $checkbox-border-color-checked;
+            }
+
+            .custom-control-label::after {
+                background-image: $custom-checkbox-indicator-icon-checked;
+                left: -1.2rem;
+            }
+        }
+
+        .n2o-select-tree-tree-checkbox-indeterminate {
+            .custom-control-label::before {
+                color: $custom-checkbox-indicator-indeterminate-bg;
+                background-color: $checkbox-background-color-checked;
+                border-color: $checkbox-border-color-checked;
+            }
+
+            .custom-control-label::after {
+                background-image: $custom-checkbox-indicator-icon-indeterminate;
+                left: -1.2rem;
+            }
+        }
+
+        .n2o-select-tree-tree-title {
+            padding: 0 5px;
+            width: calc(100% - 20px);
+            display: inline-block;
+        }
+
+        .n2o-select-tree-tree-checkbox {
+            display: inline-block;
+            vertical-align: middle;
+
+            + .n2o-select-tree-tree-node-content-wrapper > .n2o-select-tree-tree-title {
+                width: calc(100% - 44px);
+            }
+        }
+
+        .n2o-select-tree-tree-child-tree {
+            padding-left: 20px;
+        }
+
+        .n2o-select-tree-content-wrapper {
+            padding: 0 5px;
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+
+            .n2o-select-tree-label {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+            }
+
+            > * {
+                padding-right: 5px;
+            }
+        }
+
+        .n2o-select-tree-content-wrapper:hover {
+            background: $icon-tree-hover-color;
+        }
+
+        .n2o-select-tree-tree-tree-node-disabled {
+            .n2o-select-tree-tree-node-content-wrapper {
+                cursor: not-allowed;
+            }
+        }
+
+        .n2o-select-tree-tree-node-selected {
+            .n2o-select-tree-content-wrapper {
+                background-color: #163851;
+                color: white;
+
+                &:hover {
+                    background-color: #163851;
+                }
+            }
+        }
+
+        .n2o-select-tree-not-found {
+            padding: 6px;
+            display: block;
+        }
+    }
+}
+
+.n2o-select-tree-focused {
+    color: $input-focus-color;
+    background-color: $input-focus-bg;
+    border-color: $input-focus-border-color;
+    box-shadow: $input-focus-box-shadow;
+    outline: 0;
+}
+
+.is-invalid,
+.is-invalid:hover {
+    border-color: $red;
+}
+
+.n2o-select-tree-image-tree-wrapper {
+    display: inline;
+}
+
+.n2o-select-tree-dropdown-hidden {
+    display: none;
+}
+
+.n2o-select-tree-search__field__mirror {
     position: absolute;
     top: 0;
     left: 0;
     white-space: pre;
     pointer-events: none;
     opacity: 0;
-  }
-
-  &.loading::after{
-    content: '';
-    position: absolute;
-    right: 1.7rem;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    -webkit-animation: nprogress-spinner 400ms linear 0s normal none infinite;
-    -moz-animation: nprogress-spinner 400ms linear 0s normal none infinite;
-    -ms-animation: nprogress-spinner 400ms linear 0s normal none infinite;
-    -o-animation: nprogress-spinner 400ms linear 0s normal none infinite;
-    animation: nprogress-spinner 400ms linear 0s normal none infinite;
-    border-color: $primary rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) $white;
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 2px;
-    height: 1em;
-    width: 1em;
-    display: inline-block;
-    align-self: center;
-  }
-
-
-  & .n2o-select-tree-selection--multiple {
-    cursor: text;
-    padding-right: 10px;
-    padding-left: 1px;
-    & .n2o-select-tree-content-wrapper {
-      height: 100%;
-      background-color: $multiselect-item-color;
-      display: flex;
-      align-items: center;
-      i, img, .badge {
-        display: none;
-      }
-      .n2o-select-tree-label {
-        white-space: nowrap;
-        overflow: hidden;
-        padding-left: 5px;
-        text-overflow: ellipsis;
-        display: block;
-      }
-    }
-
-    & .n2o-select-tree-search__field {
-      border-width: 0;
-      font-size: 100%;
-      height: 100%;
-      margin: 0px 10px;
-      background: transparent;
-      outline: 0;
-      border-radius: 4px;
-      line-height: 1;
-      touch-action: manipulation;
-    }
-
-  }
-
-  & .n2o-select-tree-selection--single {
-
-    & .n2o-select-tree-content-wrapper {
-      display: inline-flex;
-      align-items: center;
-
-      .n2o-select-tree-label{
-        padding-right: 4px;
-      }
-
-      & i {
-        padding: 0;
-      }
-      & img {
-        display: flex;
-      }
-    }
-  }
-}
-
-.n2o-select-tree-focused{
-  color: $input-focus-color;
-  background-color: $input-focus-bg;
-  border-color: $input-focus-border-color;
-  box-shadow: $input-focus-box-shadow;
-  outline: 0;
-}
-
-
-.is-invalid, .is-invalid:hover {
-  border-color: $red;
-}
-
-.n2o-select-tree-open {
-  & .n2o-select-tree-arrow {
-    transform: rotate(180deg);
-    transition: transform $tree-animation-speed linear;
-  }
-}
-
-.n2o-select-tree-image-tree-wrapper{
-  display: inline;
-}
-
-
-//// dropdown
-
-
-.n2o-select-tree-dropdown {
-  background-color: white;
-  border: $border;
-  box-sizing: border-box;
-  z-index: 999999;
-  left: -9999px;
-  top: -9999px;
-  position: absolute;
-  outline: none;
-
-  .n2o-select-tree-search__field__placeholder{
-    position: absolute;
-    left: 20px;
-    top: 12px;
-    opacity: 0.5;
-  }
-
-  ////search
-  & .n2o-select-tree-dropdown-search{
-    width: 100%;
-    display: inline-block;
-    padding: 5px;
-    border-radius: 0;
-    border-color: $focus-color;
-
-    & input{
-      width: 100%;
-      padding: 5px 40px 5px 12px;
-    }
-
-    &:after{
-      display: inline-block;
-      font: normal normal normal 14px/1 FontAwesome;
-      font-size: inherit;
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      position: absolute;
-      z-index: 11;
-      right: 7px;
-      top: 15px;
-      width: 24px;
-      height: 24px;
-      content: "\F002";
-    }
-  }
-
-  & .n2o-icon{
-    padding: 0;
-  }
-
-  & .n2o-select-tree-tree{
-    padding: 0;
-    margin: 0px 5px;
-    overflow-y: auto;
-    max-width: $popup-max-width;
-    max-height: $max-popup-height;
-
-  }
-
-  & li {
-    list-style-type: none;
-    cursor: pointer;
-    margin: 5px 0px;
-  }
-
-  & img{
-    width: $image-width;
-    padding: 0;
-    margin: 0;
-    display: inline;
-  }
-
-  & .n2o-select-tree-tree-switcher{
-    width: 20px;
-
-    display: inline-block;
-    transition: transform $tree-animation-speed linear;
-    & i{
-      font-size: 12px;
-      padding: 5px 5px 3px 5px;
-    }
-
-    & i:hover{
-      background: $icon-tree-hover-color;
-      transition: all  $tree-animation-speed linear;
-    }
-  }
-
-  & .n2o-select-tree-tree-switcher_open{
-    transform: rotate(90deg);
-    transition: all  $tree-animation-speed linear;
-  }
-
-  & .custom-control-inline{
-    margin: 0;
-    padding-left: 1.5rem;
-  }
-
-  & .custom-control-label{
-    margin-bottom: 0;
-  }
-
-  & .custom-control-label::before{
-    margin-bottom: 0.5rem;
-    left: -1.2rem;
-  }
-
-  & .n2o-select-tree-tree-checkbox-checked{
-    & .custom-control-label::before {
-      color: $white;
-      background-color: $checkbox-background-color-checked;
-      border-color: $checkbox-border-color-checked;
-    }
-
-    & .custom-control-label::after{
-      background-image: $custom-checkbox-indicator-icon-checked;
-      left: -1.2rem;
-    }
-  }
-
-  & .n2o-select-tree-tree-checkbox-indeterminate{
-    & .custom-control-label::before {
-      color: $custom-checkbox-indicator-indeterminate-bg;
-      background-color: $checkbox-background-color-checked;
-      border-color: $checkbox-border-color-checked;
-    }
-
-    & .custom-control-label::after{
-      background-image: $custom-checkbox-indicator-icon-indeterminate;
-      left: -1.2rem;
-    }
-  }
-
-  & .n2o-select-tree-tree-checkbox {
-    display: inline-block;
-    vertical-align: middle;
-    & + .n2o-select-tree-tree-node-content-wrapper > .n2o-select-tree-tree-title {
-      width: calc(100% - 44px);
-    }
-  }
-
-  & .n2o-select-tree-tree-child-tree{
-    padding-left: 20px;
-  }
-
-  & .n2o-select-tree-content-wrapper{
-    padding: 0px 5px;
-    min-width: 100%;
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    & > * {
-      padding-right: 5px;
-    }
-  }
-
-  & .n2o-select-tree-tree-title{
-    padding: 0px 5px;
-    width: calc(100% - 20px);
-    display: inline-block;
-  }
-
-  & .n2o-select-tree-content-wrapper:hover{
-    background: $icon-tree-hover-color;
-  }
-
-
-  & .n2o-select-tree-tree-treenode-disabled {
-    & .n2o-select-tree-tree-node-content-wrapper{
-      cursor: not-allowed;
-    }
-  }
-
-
-  & .n2o-select-tree-tree-node-selected{
-    & .n2o-select-tree-content-wrapper{
-      background-color: #163851;
-      color: white;
-      &:hover{
-        background-color: #163851;
-      }
-    }
-  }
-
-  & .n2o-select-tree-not-found{
-    padding: 6px;
-    display: block;
-  }
-
-}
-.n2o-select-tree-dropdown-hidden {
-  display: none;
-}
-
-.n2o-select-tree-search__field__placeholder{
-  position: absolute;
-  left: 10px;
-}
-
-.n2o-select-tree-search__field__mirror{
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: pre;
-  pointer-events: none;
-  opacity: 0;
 }

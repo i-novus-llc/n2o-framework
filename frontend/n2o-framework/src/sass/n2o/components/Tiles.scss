@@ -1,48 +1,58 @@
-.n2o-tiles {
-  &__container {
+.n2o-tiles__container {
     display: flex;
     flex-flow: row wrap;
-  }
-  &__item {
+}
+
+.n2o-tiles__item {
     display: flex;
     flex-direction: column;
     align-items: center;
     border: $tiles-border;
     margin: $tiles-item-margin;
     padding: $tiles-item-padding;
+
     &:hover {
-      border: $tiles-hover-border;
-      box-shadow: $tiles-hover-shadow;
+        border: $tiles-hover-border;
+        box-shadow: $tiles-hover-shadow;
     }
-    .icon-cell-container, .progress, .n2o-rating-stars, .badge {
-      margin: $tiles-cell-margin !important;
+
+    .icon-cell-container,
+    .progress,
+    .n2o-rating-stars,
+    .badge {
+        margin: $tiles-cell-margin !important;
     }
+
     .custom-control.custom-checkbox {
-      padding-left: 2rem;
+        padding-left: 2rem;
     }
+
     .rating-group {
-      margin-left: -5px;
+        margin-left: -5px;
     }
+
     .progress-bar {
-      padding: 0 5px;
+        padding: 0 5px;
     }
+
     .btn-group {
-      div {
-        margin: 0;
-      }
+        div {
+            margin: 0;
+        }
     }
+
     img {
-       max-width: 100%;
+        max-width: 100%;
     }
-  }
-  &__cell {
+}
+
+.n2o-tiles__cell {
     display: flex;
     justify-content: center;
     margin: $tiles-cell-margin;
     overflow-wrap: anywhere;
-    
+
     img {
-      max-width: 100%;
+        max-width: 100%;
     }
-  }
 }

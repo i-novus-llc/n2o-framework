@@ -17,7 +17,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRegion> {
 
     @Override
-    protected String getPropertyRegionSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.region.line.src";
     }
 

@@ -1,3 +1,3 @@
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom'
 
-export default Route;
+export default Route

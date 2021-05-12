@@ -1,3 +1,3 @@
-import BaseNode from './BaseNode';
+import BaseNode from './BaseNode'
 
-export { BaseNode };
+export { BaseNode }
