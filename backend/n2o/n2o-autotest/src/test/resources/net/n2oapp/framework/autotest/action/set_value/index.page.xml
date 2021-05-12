@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-             name="set-value-tests">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Действие set-value">
     <form>
         <fields>
             <button label="calc 55+66+77">
@@ -13,18 +13,42 @@
             </button>
             <output-text id="clockResult" label="clockResult"/>
 
-            <select id="social" label="social">
-                <options>
-                    <option id="facebook" name="Facebook" site="https://fb.com"/>
-                    <option id="twitter" name="Twitter" site="https://twitter.com"/>
-                    <option id="youtube" name="YouTube" site="https://youtube.com"/>
-                </options>
-            </select>
-            <button label="copyUrl">
-                <set-value to="site">social.site</set-value>
-            </button>
-            <output-text id="site" label="siteUrl"/>
+            <row>
+                <select id="social" label="social">
+                    <options>
+                        <option id="facebook" name="Facebook" site="https://fb.com"/>
+                        <option id="twitter" name="Twitter" site="https://twitter.com"/>
+                        <option id="youtube" name="YouTube" site="https://youtube.com"/>
+                    </options>
+                    <toolbar>
+                        <button label="copyUrl">
+                            <set-value to="site">social.site</set-value>
+                        </button>
+                    </toolbar>
+                </select>
+                <output-text id="site" label="siteUrl"/>
+            </row>
 
+            <row>
+                <masked-input id="phone1" label="phone1" mask="99-99-99">
+                    <toolbar>
+                        <button label="copyPhone">
+                            <set-value to="phone2">phone1</set-value>
+                        </button>
+                    </toolbar>
+                </masked-input>
+                <masked-input id="phone2" label="phone2" mask="99-99-99"/>
+            </row>
+
+            <row>
+                <masked-input id="phone3" label="phone3" mask="99-99-99" default-value="123456">
+                    <toolbar>
+                        <button label="reset">
+                            <set-value to="phone3">null</set-value>
+                        </button>
+                    </toolbar>
+                </masked-input>
+            </row>
         </fields>
     </form>
 </simple-page>

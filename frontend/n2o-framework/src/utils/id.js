@@ -16,39 +16,40 @@
 //     var o = { 'public': 'foo' };
 //     o[privateName] = 'bar';
 export function id() {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
-  return (
-    '_' +
-    Math.random()
-      .toString(36)
-      .substr(2, 9)
-  );
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return (
+        `_${
+            Math.random()
+                .toString(36)
+                .substr(2, 9)}`
+    )
 }
 
 export function generateKey(containerKey, columnId) {
-  return `${containerKey}.${columnId}`;
+    return `${containerKey}.${columnId}`
 }
 
 export function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return (
-    s4() +
-    s4() +
-    '_' +
-    s4() +
-    '_' +
-    s4() +
-    '_' +
-    s4() +
-    '_' +
-    s4() +
-    s4() +
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1)
+    }
+
+    return (
+        `${s4() +
     s4()
-  );
+        }_${
+            s4()
+        }_${
+            s4()
+        }_${
+            s4()
+        }_${
+            s4()
+        }${s4()
+        }${s4()}`
+    )
 }

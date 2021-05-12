@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import N2OSelect from './N2OSelect';
-import listContainer from '../listContainer.js';
+import listContainer from '../listContainer'
+
+// eslint-disable-next-line import/no-named-as-default
+import N2OSelect from './N2OSelect'
 
 /**
  * Контейнер для {@link N2OSelect}
@@ -33,62 +35,58 @@ import listContainer from '../listContainer.js';
  * @reactProps {string} format - формат
  */
 
-class N2OSelectContainer extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    const { filter } = this.props.filter;
-
-    const filterType = filter === 'server' ? false : filter;
+function N2OSelectContainer(props) {
+    const { filter, data, isLoading } = props
+    const filterType = filter === 'server' ? false : filter
 
     return (
-      <N2OSelect
-        {...this.props}
-        options={this.props.data}
-        filter={filterType}
-        loading={this.props.isLoading}
-      />
-    );
-  }
+        <N2OSelect
+            {...props}
+            options={data}
+            filter={filterType}
+            loading={isLoading}
+        />
+    )
 }
 
 N2OSelectContainer.propTypes = {
-  loading: PropTypes.bool,
-  options: PropTypes.array,
-  valueFieldId: PropTypes.string.isRequired,
-  labelFieldId: PropTypes.string.isRequired,
-  iconFieldId: PropTypes.string,
-  imageFieldId: PropTypes.string,
-  badgeFieldId: PropTypes.string,
-  badgeColorFieldId: PropTypes.string,
-  disabled: PropTypes.bool,
-  disabledValues: PropTypes.array,
-  filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onInput: PropTypes.func,
-  onSelect: PropTypes.func,
-  onScrollEnd: PropTypes.func,
-  placeholder: PropTypes.string,
-  resetOnBlur: PropTypes.bool,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  groupFieldId: PropTypes.string,
-  format: PropTypes.string,
-  searchByTap: PropTypes.bool,
-  fetchData: PropTypes.func,
-  onSearch: PropTypes.func,
-};
+    data: PropTypes.any,
+    isLoading: PropTypes.bool,
+    loading: PropTypes.bool,
+    options: PropTypes.array,
+    valueFieldId: PropTypes.string.isRequired,
+    labelFieldId: PropTypes.string.isRequired,
+    iconFieldId: PropTypes.string,
+    imageFieldId: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    disabled: PropTypes.bool,
+    disabledValues: PropTypes.array,
+    filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onInput: PropTypes.func,
+    onSelect: PropTypes.func,
+    onScrollEnd: PropTypes.func,
+    placeholder: PropTypes.string,
+    resetOnBlur: PropTypes.bool,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    groupFieldId: PropTypes.string,
+    format: PropTypes.string,
+    searchByTap: PropTypes.bool,
+    fetchData: PropTypes.func,
+    onSearch: PropTypes.func,
+}
 
 N2OSelectContainer.defaultProps = {
-  loading: false,
-  disabled: false,
-  disabledValues: [],
-  resetOnBlur: false,
-  filter: false,
-  hasCheckboxes: false,
-  searchByTap: false,
-};
+    loading: false,
+    disabled: false,
+    disabledValues: [],
+    resetOnBlur: false,
+    filter: false,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    hasCheckboxes: false,
+    searchByTap: false,
+}
 
-export default listContainer(N2OSelectContainer);
+export default listContainer(N2OSelectContainer)

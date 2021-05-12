@@ -229,6 +229,14 @@ image::images/tabs.png[]
 |TreeWidget
 |link:https://n2oapp.net/sandbox/editor/manual_widget_tree/[Дерево]
 
+|<cards>
+|CardsWidget
+|link:https://n2oapp.net/sandbox/editor/manual_widget_cards/[Карточки]
+
+|<tiles>
+|TilesWidget
+|link:https://n2oapp.net/sandbox/editor/manual_widget_tiles/[Плитки]
+
 |===
 
 Описание других виджетов можно посмотреть link:../xml/#_Виджеты[здесь].

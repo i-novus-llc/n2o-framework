@@ -1,16 +1,18 @@
-import React from 'react';
+import React from 'react'
 
 function ExpandBtn({ onShowAll, onHideAll }) {
-  return (
-    <div className="tree-exp-btn btn-group">
-      <button type="button" className="btn btn-link" onClick={onShowAll}>
+    return (
+        <div className="tree-exp-btn btn-group">
+            <button type="button" className="btn btn-link" onClick={onShowAll}>
+
         Развернуть
-      </button>
-      <button type="button" className="btn btn-link" onClick={onHideAll}>
+            </button>
+            <button type="button" className="btn btn-link" onClick={onHideAll}>
+
         Свернуть
-      </button>
-    </div>
-  );
+            </button>
+        </div>
+    )
 }
 
-export default ExpandBtn;
+export default ExpandBtn

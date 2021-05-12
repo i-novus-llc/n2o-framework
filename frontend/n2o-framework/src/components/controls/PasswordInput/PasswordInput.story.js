@@ -1,54 +1,55 @@
-import React from 'react';
-import { storiesOf, forceReRender } from '@storybook/react';
+import React from 'react'
+import { storiesOf, forceReRender } from '@storybook/react'
+import { StateDecorator, Store } from '@sambego/storybook-state'
+import withForm from 'N2oStorybook/decorators/withForm'
 
-import { StateDecorator, Store } from '@sambego/storybook-state';
-import withForm from 'N2oStorybook/decorators/withForm';
+import Factory from '../../../core/factory/Factory'
+
 import PasswordInput, {
-  PasswordInput as PasswordInputComponent,
-} from './PasswordInput';
-import PasswordInputJson from './PasswordInput.meta.json';
-import Factory from '../../../core/factory/Factory';
+    PasswordInput as PasswordInputComponent,
+} from './PasswordInput'
+import PasswordInputJson from './PasswordInput.meta.json'
 
 const store = new Store({
-  value: '',
-});
+    value: '',
+})
 
-store.subscribe(forceReRender);
+store.subscribe(forceReRender)
 
-const stories = storiesOf('Контролы/Ввод пароля', module);
+const stories = storiesOf('Контролы/Ввод пароля', module)
 
-const form = withForm({ src: 'PasswordInput' });
+const form = withForm({ src: 'PasswordInput' })
 
-stories.addDecorator(StateDecorator(store));
+stories.addDecorator(StateDecorator(store))
 stories.addParameters({
-  info: {
-    propTables: [PasswordInputComponent],
-    propTablesExclude: [PasswordInput, Factory],
-  },
-});
+    info: {
+        propTables: [PasswordInputComponent],
+        propTablesExclude: [PasswordInput, Factory],
+    },
+})
 
 stories
-  .add(
-    'Компонент',
-    () => {
-      const props = {
-        placeholder: 'Введите значение',
-        disabled: false,
-        length: 25,
-        showPasswordBtn: false,
-      };
+    .add(
+        'Компонент',
+        () => {
+            const props = {
+                placeholder: 'Введите значение',
+                disabled: false,
+                length: 25,
+                showPasswordBtn: false,
+            }
 
-      return (
-        <PasswordInput
-          {...props}
-          value={store.get('value')}
-          onChange={event => store.set({ value: event.target.value })}
-        />
-      );
-    },
-    {
-      info: {
-        text: `
+            return (
+                <PasswordInput
+                    {...props}
+                    value={store.get('value')}
+                    onChange={event => store.set({ value: event.target.value })}
+                />
+            )
+        },
+        {
+            info: {
+                text: `
       Компонент 'Ввод пароля'
       ~~~js
       import PasswordInput from 'n2o-framework/lib/components/controls/PasswordInput/PasswordInput';
@@ -62,32 +63,24 @@ stories
       />
       ~~~
       `,
-      },
-    }
-  )
+            },
+        },
+    )
 
-  .add(
-    'Метаданные',
-    form(() => {
-      const props = {
-        placeholder: PasswordInputJson.placeholder,
-        disabled: PasswordInputJson.disabled,
-        length: PasswordInputJson.length,
-      };
-
-      return props;
-    })
-  )
-  .add(
-    'Фича просмотра введенного пароля',
-    form(() => {
-      const props = {
-        placeholder: PasswordInputJson.placeholder,
-        disabled: PasswordInputJson.disabled,
-        length: PasswordInputJson.length,
-        showPasswordBtn: PasswordInputJson.showPasswordBtn,
-      };
-
-      return props;
-    })
-  );
+    .add(
+        'Метаданные',
+        form(() => ({
+            placeholder: PasswordInputJson.placeholder,
+            disabled: PasswordInputJson.disabled,
+            length: PasswordInputJson.length,
+        })),
+    )
+    .add(
+        'Фича просмотра введенного пароля',
+        form(() => ({
+            placeholder: PasswordInputJson.placeholder,
+            disabled: PasswordInputJson.disabled,
+            length: PasswordInputJson.length,
+            showPasswordBtn: PasswordInputJson.showPasswordBtn,
+        })),
+    )

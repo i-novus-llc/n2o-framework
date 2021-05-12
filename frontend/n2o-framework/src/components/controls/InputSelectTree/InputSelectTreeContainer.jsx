@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
-import InputSelectTree from './InputSelectTree';
-import listContainer from '../listContainer.js';
-import { propTypes, defaultProps } from './allProps';
-import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
-import unionWith from 'lodash/unionWith';
-import map from 'lodash/map';
-import omit from 'lodash/omit';
-import isArray from 'lodash/isArray';
-import { withProps, compose, setDisplayName } from 'recompose';
+import React, { Component } from 'react'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import unionWith from 'lodash/unionWith'
+import map from 'lodash/map'
+import omit from 'lodash/omit'
+import isArray from 'lodash/isArray'
+import { withProps, compose, setDisplayName } from 'recompose'
+
+import listContainer from '../listContainer'
+
+import { propTypes, defaultProps } from './allProps'
+// eslint-disable-next-line import/no-named-as-default
+import InputSelectTree from './InputSelectTree'
 
 /**
  * Контейнер для {@link InputSelect}
@@ -41,47 +44,54 @@ import { withProps, compose, setDisplayName } from 'recompose';
  */
 
 class InputSelectTreeContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-    };
-  }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.data !== prevState.data && nextProps.ajax) {
-      return { data: unionWith(nextProps.data, prevState.data, isEqual) };
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: props.data,
+        }
     }
-    return { data: nextProps.data };
-  }
 
-  render() {
-    return (
-      <InputSelectTree
-        {...this.props}
-        data={this.state.data}
-        loading={this.props.isLoading}
-      />
-    );
-  }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.data !== prevState.data && nextProps.ajax) {
+            return { data: unionWith(nextProps.data, prevState.data, isEqual) }
+        }
+
+        return { data: nextProps.data }
+    }
+
+    render() {
+        const { data } = this.state
+        const { isLoading } = this.props
+
+        return (
+            <InputSelectTree
+                {...this.props}
+                data={data}
+                loading={isLoading}
+            />
+        )
+    }
 }
 
-InputSelectTreeContainer.propTypes = propTypes;
-InputSelectTreeContainer.defaultProps = defaultProps;
+InputSelectTreeContainer.propTypes = propTypes
+InputSelectTreeContainer.defaultProps = defaultProps
 
-const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
-  const newValue = isArray(value) ? value : [value];
-  if (isEmpty(data) && !isEmpty(value)) {
-    return {
-      data: map(newValue, val => ({
-        ...omit(val, ['hasChildren']),
-      })),
-    };
-  }
-});
+// eslint-disable-next-line consistent-return
+const overrideDataWithValue = withProps(({ data, value }) => {
+    const newValue = isArray(value) ? value : [value]
 
-export { InputSelectTreeContainer };
+    if (isEmpty(data) && !isEmpty(value)) {
+        return {
+            data: map(newValue, val => ({
+                ...omit(val, ['hasChildren']),
+            })),
+        }
+    }
+})
+
+export { InputSelectTreeContainer }
 export default compose(
-  setDisplayName('InputSelectTreeContainer'),
-  listContainer,
-  overrideDataWithValue
-)(InputSelectTreeContainer);
+    setDisplayName('InputSelectTreeContainer'),
+    listContainer,
+    overrideDataWithValue,
+)(InputSelectTreeContainer)

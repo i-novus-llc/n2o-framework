@@ -1,25 +1,27 @@
-import 'whatwg-fetch';
-import RequestError from './RequestError';
+import 'whatwg-fetch'
+import RequestError from './RequestError'
 
 function parseResponse(response) {
-  return response.text().then(text => ({
-    status: response.status,
-    statusText: response.statusText,
-    body: text,
-  }));
+    return response.text().then(text => ({
+        status: response.status,
+        statusText: response.statusText,
+        body: text,
+    }))
 }
 
 function checkStatus({ status, statusText, body }) {
-  let json;
-  try {
-    json = JSON.parse(body);
-  } catch (e) {
+    let json
+
+    try {
+        json = JSON.parse(body)
+    } catch (e) {
     // ничего не делаем, если не JSON
-  }
-  if (status < 200 || status >= 300) {
-    return Promise.reject(new RequestError(statusText, status, body, json));
-  }
-  return json;
+    }
+    if (status < 200 || status >= 300) {
+        return Promise.reject(new RequestError(statusText, status, body, json))
+    }
+
+    return json
 }
 
 /**
@@ -31,7 +33,7 @@ function checkStatus({ status, statusText, body }) {
  * @return {object} Ответ на запрос в виде JSON
  */
 export default function request(url, options = {}) {
-  return fetch(url, options)
-    .then(parseResponse)
-    .then(checkStatus);
+    return fetch(url, options)
+        .then(parseResponse)
+        .then(checkStatus)
 }

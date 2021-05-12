@@ -5,6 +5,7 @@
             <invoke
                     src="test"
                     operation-id="update"
+                    object-id="testObject"
                     route="/test"
                     close-on-success="true"
                     refresh-on-success="false"

@@ -3,7 +3,7 @@ package net.n2oapp.framework.engine.validation;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.processing.N2oModule;
+import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.*;
 import net.n2oapp.framework.engine.validation.engine.FailInfo;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
@@ -20,7 +20,7 @@ import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidat
 /**
  * Процессинговый модуль валидации
  */
-public class N2oValidationModule extends N2oModule {
+public class N2oValidationModule implements DataProcessing {
 
     private ValidationProcessor processor;
 

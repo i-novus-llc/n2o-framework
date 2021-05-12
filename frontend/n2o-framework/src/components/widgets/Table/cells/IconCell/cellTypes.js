@@ -3,13 +3,13 @@
  */
 
 const textPlaceTypes = {
-  LEFT: 'left',
-  RIGHT: 'right',
-};
+    LEFT: 'left',
+    RIGHT: 'right',
+}
 
 const iconCellTypes = {
-  ICON: 'icon',
-  ICONANDTEXT: 'iconAndText',
-};
+    ICON: 'icon',
+    ICONANDTEXT: 'iconAndText',
+}
 
-export { iconCellTypes, textPlaceTypes };
+export { iconCellTypes, textPlaceTypes }

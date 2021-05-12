@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.MaskedInputControl;
+import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -45,7 +45,7 @@ public class MaskedInputAT extends AutoTestBase {
 
     @Test
     public void maskedInputTest() {
-        MaskedInputControl maskedInput = getFields().field("MaskedInput").control(MaskedInputControl.class);
+        MaskedInput maskedInput = getFields().field("MaskedInput").control(MaskedInput.class);
         maskedInput.shouldBeEnabled();
         maskedInput.shouldHavePlaceholder("+7 (___) ___-__-__");
         maskedInput.shouldHaveValue("");
@@ -55,7 +55,7 @@ public class MaskedInputAT extends AutoTestBase {
         maskedInput.shouldHaveMeasure();
         maskedInput.measureShouldHaveText("тел.");
 
-        MaskedInputControl maskedInputWithoutClear = getFields().field("MaskedInputWithoutClear").control(MaskedInputControl.class);
+        MaskedInput maskedInputWithoutClear = getFields().field("MaskedInputWithoutClear").control(MaskedInput.class);
         maskedInputWithoutClear.shouldBeEnabled();
         maskedInput.val("123");
         maskedInputWithoutClear.val("783");

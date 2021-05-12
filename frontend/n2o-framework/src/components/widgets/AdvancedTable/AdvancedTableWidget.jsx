@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import AdvancedTableContainer from './AdvancedTableContainer';
-import TablePagination from '../Table/TablePagination';
-import StandardWidget from '../StandardWidget';
-import Fieldsets from '../Form/fieldsets';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import values from 'lodash/values'
 
-import dependency from '../../../core/dependency';
-import values from 'lodash/values';
+import TablePagination from '../Table/TablePagination'
+import StandardWidget from '../StandardWidget'
+import Fieldsets from '../Form/fieldsets'
+import dependency from '../../../core/dependency'
+
+import AdvancedTableContainer from './AdvancedTableContainer'
 
 /**
  * Компонент AdvancedTableWidget
@@ -27,159 +28,161 @@ import values from 'lodash/values';
  * @param rowClass - expression цвет строки
  */
 class AdvancedTableWidget extends Component {
-  getWidgetProps() {
-    const {
-      className,
-      headers,
-      cells,
-      sorting,
-      hasFocus,
-      hasSelect,
-      autoFocus,
-      rowSelection,
-      autoCheckboxOnSelect,
-      tableSize,
-      useFixedHeader,
-      expandable,
-      scroll,
-      onFetch,
-      multiHeader,
-      bordered,
-      rowClick,
-      expandedFieldId,
-      rows,
-      rowClass,
-      width,
-      height,
-      textWrap,
-    } = this.props.table;
-    const {
-      toolbar,
-      actions,
-      dataProvider,
-      placeholder,
-      children,
-    } = this.props;
-    const { resolveProps } = this.context;
-    return {
-      headers: values(resolveProps(headers)),
-      cells: values(resolveProps(cells)),
-      sorting,
-      toolbar,
-      actions,
-      hasFocus,
-      hasSelect,
-      autoFocus,
-      dataProvider,
-      placeholder,
-      children,
-      rowSelection,
-      autoCheckboxOnSelect,
-      tableSize,
-      useFixedHeader,
-      expandable,
-      scroll,
-      onFetch,
-      multiHeader,
-      rows,
-      bordered,
-      rowClick,
-      expandedFieldId,
-      rowClass,
-      className,
-      width,
-      height,
-      textWrap,
-    };
-  }
+    getWidgetProps() {
+        const {
+            className,
+            headers,
+            cells,
+            sorting,
+            hasFocus,
+            hasSelect,
+            autoFocus,
+            rowSelection,
+            autoCheckboxOnSelect,
+            tableSize,
+            useFixedHeader,
+            expandable,
+            scroll,
+            onFetch,
+            multiHeader,
+            bordered,
+            rowClick,
+            expandedFieldId,
+            rows,
+            rowClass,
+            width,
+            height,
+            textWrap,
+        } = this.props.table
+        const {
+            toolbar,
+            actions,
+            dataProvider,
+            placeholder,
+            children,
+        } = this.props
+        const { resolveProps } = this.context
 
-  prepareFilters() {
-    return this.context.resolveProps(
-      this.props.filter,
-      Fieldsets.StandardFieldset
-    );
-  }
-
-  render() {
-    const {
-      id: widgetId,
-      toolbar,
-      disabled,
-      actions,
-      table: { fetchOnInit, size },
-      pageId,
-      paging,
-      className,
-      style,
-      children,
-    } = this.props;
-    return (
-      <StandardWidget
-        disabled={disabled}
-        widgetId={widgetId}
-        toolbar={toolbar}
-        actions={actions}
-        filter={this.prepareFilters()}
-        bottomLeft={
-          paging && <TablePagination widgetId={widgetId} {...paging} />
+        return {
+            headers: values(resolveProps(headers)),
+            cells: values(resolveProps(cells)),
+            sorting,
+            toolbar,
+            actions,
+            hasFocus,
+            hasSelect,
+            autoFocus,
+            dataProvider,
+            placeholder,
+            children,
+            rowSelection,
+            autoCheckboxOnSelect,
+            tableSize,
+            useFixedHeader,
+            expandable,
+            scroll,
+            onFetch,
+            multiHeader,
+            rows,
+            bordered,
+            rowClick,
+            expandedFieldId,
+            rowClass,
+            className,
+            width,
+            height,
+            textWrap,
         }
-        className={className}
-        style={style}
-      >
-        <AdvancedTableContainer
-          widgetId={widgetId}
-          pageId={pageId}
-          size={size}
-          page={1}
-          fetchOnInit={fetchOnInit}
-          children={children}
-          {...this.getWidgetProps()}
-        />
-      </StandardWidget>
-    );
-  }
+    }
+
+    prepareFilters() {
+        return this.context.resolveProps(
+            this.props.filter,
+            Fieldsets.StandardFieldset,
+        )
+    }
+
+    render() {
+        const {
+            id: widgetId,
+            toolbar,
+            disabled,
+            actions,
+            table: { fetchOnInit, size },
+            pageId,
+            paging,
+            className,
+            style,
+            children,
+        } = this.props
+
+        return (
+            <StandardWidget
+                disabled={disabled}
+                widgetId={widgetId}
+                toolbar={toolbar}
+                actions={actions}
+                filter={this.prepareFilters()}
+                bottomLeft={
+                    paging && <TablePagination widgetId={widgetId} {...paging} />
+                }
+                className={className}
+                style={style}
+            >
+                <AdvancedTableContainer
+                    widgetId={widgetId}
+                    pageId={pageId}
+                    size={size}
+                    page={1}
+                    fetchOnInit={fetchOnInit}
+                    children={children}
+                    {...this.getWidgetProps()}
+                />
+            </StandardWidget>
+        )
+    }
 }
 
 AdvancedTableWidget.contextTypes = {
-  resolveProps: PropTypes.func,
-};
+    resolveProps: PropTypes.func,
+}
 
 AdvancedTableWidget.defaultProps = {
-  toolbar: {},
-  filter: {},
-  bordered: false,
-  expandFieldId: 'expandedContent',
-};
+    toolbar: {},
+    filter: {},
+    bordered: false,
+    expandFieldId: 'expandedContent',
+}
 
 AdvancedTableWidget.propTypes = {
-  pageId: PropTypes.string.isRequired,
-  widgetId: PropTypes.string,
-  actions: PropTypes.object,
-  toolbar: PropTypes.object,
-  dataProvider: PropTypes.object,
-  table: PropTypes.shape({
-    size: PropTypes.number,
-    fetchOnInit: PropTypes.bool,
-    hasSelect: PropTypes.bool,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    autoFocus: PropTypes.bool,
-    sorting: PropTypes.object,
-    headers: PropTypes.array,
-    cells: PropTypes.array,
-  }),
-  bordered: PropTypes.bool,
-  rowClick: PropTypes.object,
-  paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  multiHeader: PropTypes.bool,
-  scroll: PropTypes.object,
-  expandable: PropTypes.bool,
-  useFixedHeader: PropTypes.bool,
-  tableSize: PropTypes.string,
-  rowSelection: PropTypes.bool,
-  autoCheckboxOnSelect: PropTypes.bool,
-  rowClass: PropTypes.string,
-  expandFieldId: PropTypes.string,
-};
+    pageId: PropTypes.string.isRequired,
+    widgetId: PropTypes.string,
+    actions: PropTypes.object,
+    toolbar: PropTypes.object,
+    dataProvider: PropTypes.object,
+    table: PropTypes.shape({
+        size: PropTypes.number,
+        fetchOnInit: PropTypes.bool,
+        hasSelect: PropTypes.bool,
+        className: PropTypes.string,
+        style: PropTypes.object,
+        autoFocus: PropTypes.bool,
+        sorting: PropTypes.object,
+        headers: PropTypes.array,
+        cells: PropTypes.array,
+    }),
+    bordered: PropTypes.bool,
+    rowClick: PropTypes.object,
+    paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    multiHeader: PropTypes.bool,
+    scroll: PropTypes.object,
+    expandable: PropTypes.bool,
+    useFixedHeader: PropTypes.bool,
+    tableSize: PropTypes.string,
+    rowSelection: PropTypes.bool,
+    autoCheckboxOnSelect: PropTypes.bool,
+    rowClass: PropTypes.string,
+    expandFieldId: PropTypes.string,
+}
 
-export default dependency(AdvancedTableWidget);
+export default dependency(AdvancedTableWidget)

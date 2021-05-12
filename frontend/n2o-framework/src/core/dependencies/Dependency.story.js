@@ -1,19 +1,18 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import { parseUrl } from 'N2oStorybook/fetchMock'
 
-import { WIDGETS } from '../factory/factoryLevels';
-import FieldDependency from './FieldDependency.meta';
-import { parseUrl } from 'N2oStorybook/fetchMock';
-import Factory from '../factory/Factory';
+import { WIDGETS } from '../factory/factoryLevels'
+import Factory from '../factory/Factory'
 
-const stories = storiesOf('Функциональность/Зависимость между полями', module);
+import FieldDependency from './FieldDependency.meta'
 
-stories.add('Метаданные', () => {
-  return (
+const stories = storiesOf('Функциональность/Зависимость между полями', module)
+
+stories.add('Метаданные', () => (
     <Factory
-      level={WIDGETS}
-      id={'Page_Form'}
-      {...FieldDependency['Page_Form']}
+        level={WIDGETS}
+        id="Page_Form"
+        {...FieldDependency.Page_Form}
     />
-  );
-});
+))

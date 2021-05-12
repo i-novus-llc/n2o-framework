@@ -1,42 +1,43 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
 
-import CheckboxGroup from './CheckboxGroup';
 import CheckboxAlt, {
-  CheckboxN2O as CheckboxComponent,
-} from '../Checkbox/CheckboxN2O';
+    CheckboxN2O as CheckboxComponent,
+} from '../Checkbox/CheckboxN2O'
 
-const stories = storiesOf('Контролы/Группа чекбоксов', module);
+import CheckboxGroup from './CheckboxGroup'
+
+const stories = storiesOf('Контролы/Группа чекбоксов', module)
 
 stories.addParameters({
-  info: {
-    propTables: [CheckboxComponent],
-    propTablesExclude: [CheckboxAlt],
-  },
-});
+    info: {
+        propTables: [CheckboxComponent],
+        propTablesExclude: [CheckboxAlt],
+    },
+})
 
 stories.add(
-  'N2O группа',
-  () => {
-    const props = {
-      value: ['1', '2'],
-      disabled: false,
-      visible: true,
-      className: '',
-      inline: false,
-    };
+    'N2O группа',
+    () => {
+        const props = {
+            value: ['1', '2'],
+            disabled: false,
+            visible: true,
+            className: '',
+            inline: false,
+        }
 
-    return (
-      <CheckboxGroup name="numbers" {...props}>
-        <CheckboxAlt value="1" label="Первый" />
-        <CheckboxAlt value="2" label="Второй" />
-        <CheckboxAlt value="3" label="Третий" />
-      </CheckboxGroup>
-    );
-  },
-  {
-    info: {
-      text: `
+        return (
+            <CheckboxGroup name="numbers" {...props}>
+                <CheckboxAlt value="1" label="Первый" />
+                <CheckboxAlt value="2" label="Второй" />
+                <CheckboxAlt value="3" label="Третий" />
+            </CheckboxGroup>
+        )
+    },
+    {
+        info: {
+            text: `
     Компонент 'CheckboxGroupN2O'
     ~~~js
     import CheckboxGroup from 'n2o-framework/lib/components/controls/CheckboxGroup/CheckboxGroup';
@@ -49,6 +50,6 @@ stories.add(
     </CheckboxGroup>
     ~~~
     `,
+        },
     },
-  }
-);
+)

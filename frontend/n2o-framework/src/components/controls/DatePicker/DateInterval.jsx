@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import defaults from 'lodash/defaults';
-import { getContext } from 'recompose';
+import React from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import defaults from 'lodash/defaults'
+import { getContext } from 'recompose'
 
-import DateTimeControl from './DateTimeControl';
+import DateTimeControl from './DateTimeControl'
 
 /**
  * Компонент для выбора временного интервала. Состоит 2 {@link DatePicker}
@@ -24,142 +24,150 @@ import DateTimeControl from './DateTimeControl';
  * <DatePicker  defaultTime = '12:11'/>
  */
 function DateInterval({
-  value,
-  defaultTime,
-  defaultValue,
-  onChange,
-  onBlur,
-  config,
-  ...rest
+    value,
+    defaultTime,
+    defaultValue,
+    onChange,
+    onBlur,
+    config,
+    ...rest
 }) {
-  const newValue = defaults(value, defaultValue);
+    const newValue = defaults(value, defaultValue)
 
-  const handleChange = data => {
-    onChange({
-      [DateTimeControl.beginInputName]: data[0],
-      [DateTimeControl.endInputName]: data[1],
-    });
-  };
+    const handleChange = (data) => {
+        onChange({
+            [DateTimeControl.beginInputName]: data[0],
+            [DateTimeControl.endInputName]: data[1],
+        })
+    }
 
-  const handleBlur = data => {
-    onBlur({
-      [DateTimeControl.beginInputName]: data[0],
-      [DateTimeControl.endInputName]: data[1],
-    });
-  };
+    const handleBlur = (data) => {
+        onBlur({
+            [DateTimeControl.beginInputName]: data[0],
+            [DateTimeControl.endInputName]: data[1],
+        })
+    }
 
-  const mappedValue = [
-    {
-      name: DateTimeControl.beginInputName,
-      value: newValue[DateTimeControl.beginInputName],
-      defaultTime: defaultTime,
-    },
-    {
-      name: DateTimeControl.endInputName,
-      value: newValue[DateTimeControl.endInputName],
-      defaultTime: defaultTime,
-    },
-  ];
+    const mappedValue = [
+        {
+            name: DateTimeControl.beginInputName,
+            value: newValue[DateTimeControl.beginInputName],
+            defaultTime,
+        },
+        {
+            name: DateTimeControl.endInputName,
+            value: newValue[DateTimeControl.endInputName],
+            defaultTime,
+        },
+    ]
 
-  return (
-    <DateTimeControl
-      {...rest}
-      value={mappedValue}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      type="date-interval"
-    />
-  );
+    return (
+        <DateTimeControl
+            {...rest}
+            value={mappedValue}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            type="date-interval"
+        />
+    )
 }
 
 DateInterval.defaultProps = {
-  defaultValue: {
-    [DateTimeControl.beginInputName]: null,
-    [DateTimeControl.endInputName]: null,
-  },
-  onChange: () => {},
-  onFocus: () => {},
-  onBlur: () => {},
-  dateFormat: 'DD/MM/YYYY',
-  placeholder: '',
-  disabled: false,
-  dateDivider: ' ',
-  className: '',
-  configLocale: 'ru',
-  openOnFocus: false,
-};
+    defaultValue: {
+        [DateTimeControl.beginInputName]: null,
+        [DateTimeControl.endInputName]: null,
+    },
+    onChange: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    dateFormat: 'DD/MM/YYYY',
+    placeholder: '',
+    disabled: false,
+    dateDivider: ' ',
+    className: '',
+    configLocale: 'ru',
+    openOnFocus: false,
+}
 
 DateInterval.propTypes = {
-  /**
-   * Callback фокуса
-   */
-  onFocus: PropTypes.func,
-  /**
-   * Callback потери фокуса
-   */
-  onBlur: PropTypes.func,
-  /**
-   * Начальное время
-   */
-  defaultTime: PropTypes.object,
-  /**
-   * Значение контрола
-   */
-  value: PropTypes.oneOfType([
-    PropTypes.instanceOf(moment),
-    PropTypes.instanceOf(Date),
-    PropTypes.string,
-  ]),
-  /**
-   * Минимальная дата
-   */
-  min: PropTypes.oneOfType([
-    PropTypes.instanceOf(moment),
-    PropTypes.instanceOf(Date),
-    PropTypes.string,
-  ]),
-  /**
-   * Максимальная дата
-   */
-  max: PropTypes.oneOfType([
-    PropTypes.instanceOf(moment),
-    PropTypes.instanceOf(Date),
-    PropTypes.string,
-  ]),
-  /**
-   * Callback изменения
-   */
-  onChange: PropTypes.func,
-  /**
-   * Формат даты
-   */
-  dateFormat: PropTypes.string,
-  /**
-   * Формат времени
-   */
-  timeFormat: PropTypes.string,
-  /**
-   * Выходной формат
-   */
-  outputFormat: PropTypes.string,
-  /**
-   * Флаг активности
-   */
-  disabled: PropTypes.bool,
-  /**
-   * Placeholder
-   */
-  placeholder: PropTypes.string,
-  /**
-   * Локализация
-   */
-  configLocale: PropTypes.oneOf(['en', 'ru']),
-  /**
-   * Флаг включения открытия при фокусе
-   */
-  openOnFocus: PropTypes.bool,
-};
+    /**
+     * Callback фокуса
+     */
+    onFocus: PropTypes.func,
+    /**
+     * Callback потери фокуса
+     */
+    onBlur: PropTypes.func,
+    /**
+     * Начальное время
+     */
+    defaultTime: PropTypes.object,
+    /**
+     * Значение контрола
+     */
+    value: PropTypes.oneOfType([
+        PropTypes.instanceOf(moment),
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+    ]),
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.instanceOf(moment),
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+    ]),
+    /**
+     * Минимальная дата
+     */
+    min: PropTypes.oneOfType([
+        PropTypes.instanceOf(moment),
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+    ]),
+    /**
+     * Максимальная дата
+     */
+    max: PropTypes.oneOfType([
+        PropTypes.instanceOf(moment),
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+    ]),
+    /**
+     * Callback изменения
+     */
+    onChange: PropTypes.func,
+    /**
+     * Формат даты
+     */
+    dateFormat: PropTypes.string,
+    /**
+     * Формат времени
+     */
+    timeFormat: PropTypes.string,
+    /**
+     * Выходной формат
+     */
+    outputFormat: PropTypes.string,
+    /**
+     * Флаг активности
+     */
+    disabled: PropTypes.bool,
+    /**
+     * Placeholder
+     */
+    placeholder: PropTypes.string,
+    /**
+     * Локализация
+     */
+    configLocale: PropTypes.oneOf(['en', 'ru']),
+    /**
+     * Флаг включения открытия при фокусе
+     */
+    openOnFocus: PropTypes.bool,
+    dateDivider: PropTypes.string,
+    className: PropTypes.string,
+    config: PropTypes.any,
+}
 
 export default getContext({
-  configLocale: PropTypes.string,
-})(DateInterval);
+    configLocale: PropTypes.string,
+})(DateInterval)

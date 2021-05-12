@@ -1,19 +1,20 @@
 import {
-  CHANGE_LOCALE,
-  REQUEST_CONFIG,
-  REQUEST_CONFIG_SUCCESS,
-  REQUEST_CONFIG_FAIL,
-  CHANGE_ROOT_PAGE,
-  SET_READY,
-  REGISTER_LOCALES,
-} from '../constants/global';
-import createActionHelper from './createActionHelper';
+    CHANGE_LOCALE,
+    REQUEST_CONFIG,
+    REQUEST_CONFIG_SUCCESS,
+    REQUEST_CONFIG_FAIL,
+    CHANGE_ROOT_PAGE,
+    SET_READY,
+    REGISTER_LOCALES,
+} from '../constants/global'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * Установить готовность приложения
  */
 export function setReady() {
-  return createActionHelper(SET_READY)({});
+    return createActionHelper(SET_READY)({})
 }
 
 /**
@@ -21,9 +22,9 @@ export function setReady() {
  * @param locale
  */
 export function changeLocale(locale) {
-  return createActionHelper(CHANGE_LOCALE)({
-    locale,
-  });
+    return createActionHelper(CHANGE_LOCALE)({
+        locale,
+    })
 }
 
 /**
@@ -31,9 +32,9 @@ export function changeLocale(locale) {
  * @param params
  */
 export function requestConfig(params) {
-  return createActionHelper(REQUEST_CONFIG)({
-    params,
-  });
+    return createActionHelper(REQUEST_CONFIG)({
+        params,
+    })
 }
 
 /**
@@ -41,9 +42,9 @@ export function requestConfig(params) {
  * @param config
  */
 export function requestConfigSuccess(config) {
-  return createActionHelper(REQUEST_CONFIG_SUCCESS)({
-    config,
-  });
+    return createActionHelper(REQUEST_CONFIG_SUCCESS)({
+        config,
+    })
 }
 
 /**
@@ -52,14 +53,14 @@ export function requestConfigSuccess(config) {
  */
 
 export function requestConfigFail(alert) {
-  return createActionHelper(REQUEST_CONFIG_FAIL)(
-    {
-      error: alert,
-    },
-    {
-      alert,
-    }
-  );
+    return createActionHelper(REQUEST_CONFIG_FAIL)(
+        {
+            error: alert,
+        },
+        {
+            alert,
+        },
+    )
 }
 
 /**
@@ -67,13 +68,13 @@ export function requestConfigFail(alert) {
  * @param rootPageId
  */
 export function changeRootPage(rootPageId) {
-  return createActionHelper(CHANGE_ROOT_PAGE)({
-    rootPageId,
-  });
+    return createActionHelper(CHANGE_ROOT_PAGE)({
+        rootPageId,
+    })
 }
 
 export function registerLocales(locales) {
-  return createActionHelper(REGISTER_LOCALES)({
-    locales,
-  });
+    return createActionHelper(REGISTER_LOCALES)({
+        locales,
+    })
 }

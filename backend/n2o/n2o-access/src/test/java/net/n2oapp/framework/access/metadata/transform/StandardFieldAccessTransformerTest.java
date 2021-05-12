@@ -40,7 +40,7 @@ public class StandardFieldAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void StandardFieldExtraPropertiesTest() {
+    public void standardFieldExtraPropertiesTest() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegion");
 
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",

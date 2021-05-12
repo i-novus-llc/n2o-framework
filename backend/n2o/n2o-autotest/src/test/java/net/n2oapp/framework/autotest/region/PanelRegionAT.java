@@ -47,6 +47,8 @@ public class PanelRegionAT extends AutoTestBase {
         PanelRegion panel1 = page.regions().region(0, PanelRegion.class);
         panel1.shouldExists();
         panel1.shouldHaveTitle("Panel1");
+        panel1.shouldHaveCssClass("css-on-panel");
+        panel1.shouldHaveStyle("width: 90%;");
         panel1.shouldHaveBorderColor(Colors.DANGER);
         panel1.shouldHaveIcon("fa-exclamation");
         panel1.shouldBeCollapsible();

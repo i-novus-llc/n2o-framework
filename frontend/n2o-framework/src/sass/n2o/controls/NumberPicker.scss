@@ -1,34 +1,36 @@
 .n2o-number-picker__button {
-  border: none;
-  background-color: transparent;
-  &:focus {
-    outline: none;
-  }
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .n2o-number-picker__button .fa {
-  opacity: 0.6;
-  transition-duration: .2s;
+    opacity: 0.6;
+    transition-duration: 0.2s;
 }
 
 .n2o-number-picker__button:hover .fa {
-  opacity: 1;
+    opacity: 1;
 }
 
 .n2o-number-picker__button:disabled .fa {
-  opacity: 1;
+    opacity: 1;
 }
 
 .n2o-number-picker__input {
-  border: none;
-  text-align: center;
-  &:focus {
-    outline: none;
-    box-shadow: none;
-  }
+    border: none;
+    text-align: center;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
 }
 
 .n2o-number-picker {
-  display: flex;
-  max-width: 125px;
+    display: flex;
+    max-width: 125px;
 }

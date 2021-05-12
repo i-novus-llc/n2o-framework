@@ -1,26 +1,25 @@
-import React from 'react';
-import { FieldActionsPropTypes } from './FieldPropTypes';
+import React from 'react'
+
+import { FieldActionsPropTypes } from './FieldPropTypes'
 
 /**
  * Компонент, содержащий экшены поля
  * @param  {array} actions - массив экшенов
  */
-const FieldActions = ({ actions }) => {
-  return (
+const FieldActions = ({ actions }) => (
     <div>
-      {actions.map((action, i) => (
-        <button key={i}>action.label</button>
-      ))}
+        {actions.map((action, i) => (
+            <button key={i}>action.label</button>
+        ))}
     </div>
-  );
-};
+)
 
 FieldActions.propTypes = {
-  actions: FieldActionsPropTypes,
-};
+    actions: FieldActionsPropTypes,
+}
 
 FieldActions.defaultProps = {
-  actions: [],
-};
+    actions: [],
+}
 
-export default FieldActions;
+export default FieldActions
