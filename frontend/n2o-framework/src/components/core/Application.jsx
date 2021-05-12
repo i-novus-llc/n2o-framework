@@ -20,7 +20,7 @@ import {
     registerLocales,
 } from '../../actions/global'
 import { globalSelector } from '../../selectors/global'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
 function Application(props) {
     const { ready, loading, render, locale, ...config } = props

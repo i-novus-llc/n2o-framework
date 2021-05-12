@@ -6,7 +6,7 @@ import { compose, withProps } from 'recompose'
 
 // eslint-disable-next-line import/no-named-as-default
 import Drawer from '../snippets/Drawer/Drawer'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 import Toolbar from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'

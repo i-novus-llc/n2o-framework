@@ -1,8 +1,6 @@
 import React from 'react'
 
-import Spinner from './Spinner'
-
-const delay = ms => new Promise(res => setTimeout(res, ms))
+import { Spinner } from './Spinner'
 
 const setup = props => mount(<Spinner {...props} />)
 

@@ -10,7 +10,7 @@ import Tooltip from 'reactstrap/lib/Tooltip'
 import Modal from 'reactstrap/lib/Modal'
 
 import { convertSize } from '../FileUploader/utils'
-import Spinner from '../../snippets/Spinner/Spinner'
+import { Spinner } from '../../snippets/Spinner/Spinner'
 
 class ImageUploaderItem extends React.Component {
     state = {

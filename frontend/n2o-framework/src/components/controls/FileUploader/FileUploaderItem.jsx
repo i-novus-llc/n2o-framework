@@ -5,7 +5,7 @@ import Progress from 'reactstrap/lib/Progress'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-import Spinner from '../../snippets/Spinner/Spinner'
+import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
 

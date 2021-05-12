@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Spinner from 'reactstrap/lib/Spinner'
+import BaseSpinner from 'reactstrap/lib/Spinner'
 import classNames from 'classnames'
 import eq from 'lodash/eq'
 import values from 'lodash/values'
@@ -10,35 +10,16 @@ const TYPE = {
     COVER: 'cover',
 }
 
-let Comp = Spinner
-
-export class BaseSpinner extends Component {
+export class Spinner extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            // eslint-disable-next-line react/no-unused-state
-            loading: false,
             showSpinner: false,
         }
 
         this.renderCoverSpiner = this.renderCoverSpiner.bind(this)
         this.renderLineSpinner = this.renderLineSpinner.bind(this)
-    }
-
-    static setSpinner(component) {
-        Comp = component
-    }
-
-    componentDidMount() {
-        const { delay, loading } = this.props
-
-        this.setState({
-            // eslint-disable-next-line react/no-unused-state
-            loading,
-        })
-
-        this.setLoadingWithTimeout(false, delay)
     }
 
     componentDidUpdate(prevProps) {
@@ -53,69 +34,68 @@ export class BaseSpinner extends Component {
         }
     }
 
-  setLoadingWithTimeout = (loading, timeout) => {
-      // eslint-disable-next-line react/no-unused-state
-      setTimeout(() => this.setState({ loading }), timeout)
-  };
+    renderCoverSpiner() {
+        const {
+            children,
+            className,
+            text,
+            transparent,
+            color,
+            loading,
+            ...rest
+        } = this.props
+        const { showSpinner } = this.state
 
-  renderCoverSpiner() {
-      const {
-          children,
-          className,
-          text,
-          transparent,
-          color,
-          loading,
-          ...rest
-      } = this.props
-      const { showSpinner } = this.state
+        return (
+            <div
+                className={classNames('n2o-spinner-wrapper', {
+                    [className]: className,
+                })}
+            >
+                {showSpinner && (
+                    <>
+                        <div className="n2o-spinner-container ">
+                            <BaseSpinner className="spinner-border" color={color} {...rest} />
+                            <div className="loading_text">{text}</div>
+                        </div>
+                        {!transparent ? <div className="spinner-background" /> : null}
+                    </>
+                )}
+                {children}
+            </div>
+        )
+    }
 
-      return (
-          <div
-              className={classNames('n2o-spinner-wrapper', {
-                  [className]: className,
-              })}
-          >
-              {showSpinner && (
-                  <>
-                      <div className="n2o-spinner-container ">
-                          <Comp className="spinner-border" color={color} {...rest} />
-                          <div className="loading_text">{text}</div>
-                      </div>
-                      {!transparent ? <div className="spinner-background" /> : null}
-                  </>
-              )}
-              {children}
-          </div>
-      )
-  }
+    renderLineSpinner() {
+        const {
+            type,
+            children,
+            loading,
+            ...rest
+        } = this.props
 
-  renderLineSpinner() {
-      const { type, children, delay, loading, ...rest } = this.props
+        if (loading) {
+            return <BaseSpinner className="spinner" {...rest} />
+        }
+        if (React.Children.count(children)) {
+            return children
+        }
 
-      if (loading) {
-          return <Comp className="spinner" {...rest} />
-      }
-      if (React.Children.count(children)) {
-          return children
-      }
+        return null
+    }
 
-      return null
-  }
+    render() {
+        const { type } = this.props
 
-  render() {
-      const { type } = this.props
-
-      return eq(type, TYPE.COVER)
-          ? this.renderCoverSpiner()
-          : this.renderLineSpinner()
-  }
+        return eq(type, TYPE.COVER)
+            ? this.renderCoverSpiner()
+            : this.renderLineSpinner()
+    }
 }
 
-BaseSpinner.propTypes = {
+Spinner.propTypes = {
     loading: PropTypes.bool,
     type: PropTypes.oneOf(values(TYPE)),
-    delay: PropTypes.number,
     text: PropTypes.string,
     transparent: PropTypes.bool,
     color: PropTypes.string,
@@ -124,14 +104,11 @@ BaseSpinner.propTypes = {
     children: PropTypes.any,
 }
 
-BaseSpinner.defaultProps = {
+Spinner.defaultProps = {
     loading: true,
     type: 'inline',
-    delay: 400,
     text: '',
     transparent: false,
     color: 'primary',
     minSpinnerTimeToShow: 250,
 }
-
-export default BaseSpinner

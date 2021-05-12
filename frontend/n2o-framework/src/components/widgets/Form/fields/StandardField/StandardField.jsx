@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 
 import Toolbar from '../../../../buttons/Toolbar'
-import Spinner from '../../../../snippets/Spinner/Spinner'
+import { Spinner } from '../../../../snippets/Spinner/Spinner'
 
 import Control from './Control'
 import Label from './Label'
