@@ -310,6 +310,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         return link;
     }
 
+    @Override
+    public Object getLinkValue(ModelLink link) {
+        return link.getParam() != null ? params.get(link.getParam()) : null;
+    }
+
     private BindLink createLink(BindLink link, Object value) {
         if (value instanceof String)
             value = resolveText((String) value);
