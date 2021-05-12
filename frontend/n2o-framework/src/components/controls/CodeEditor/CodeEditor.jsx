@@ -27,112 +27,118 @@ import 'brace/ext/language_tools'
  */
 
 class CodeEditor extends Component {
-  state = {
-      // eslint-disable-next-line react/destructuring-assignment
-      value: this.props.value,
-  };
+    constructor(props) {
+        const { value } = props
 
-  onChange = (value) => {
-      const { onChange } = this.props
+        super(props)
 
-      this.setState({ value })
-      onChange(value)
-  };
+        this.state = { value }
+    }
 
-  componentDidUpdate() {
-      const { value: propsValue } = this.props
-      const { value: stateValue } = this.state
+    onChange = (value) => {
+        const { onChange } = this.props
 
-      if (propsValue !== stateValue) {
-          this.setState({ value: propsValue })
-      }
-  }
+        this.setState({ value })
+        onChange(value)
+    }
 
-  /**
-   * Базовый рендер
-   */
-  render() {
-      const {
-          disabled,
-          name,
-          visible,
-          lang,
-          minLines,
-          maxLines,
-          autocomplete,
-          className,
-      } = this.props
+    componentDidUpdate() {
+        const { value: propsValue } = this.props
+        const { value: stateValue } = this.state
 
-      if (!visible) {
-          return null
-      }
-      const { value } = this.state
+        if (propsValue !== stateValue) {
+            this.setState({ value: propsValue })
+        }
+    }
 
-      return (
-          <div
-              className={cx('n2o-code-editor', className)}
-              style={{ display: 'flex', border: '1px solid #d1d1d1' }}
-          >
-              <AceEditor
-                  mode={lang}
-                  theme="tomorrow"
-                  name={name}
-                  onChange={this.onChange}
-                  fontSize={14}
-                  showPrintMargin
-                  showGutter
-                  readOnly={disabled}
-                  minLines={minLines}
-                  maxLines={maxLines}
-                  highlightActiveLine
-                  value={value}
-                  enableBasicAutocompletion={autocomplete}
-                  setOptions={{
-                      showLineNumbers: true,
-                      tabSize: 2,
-                  }}
-              />
-          </div>
-      )
-  }
+    /**
+     * Базовый рендер
+     */
+    render() {
+        const {
+            disabled,
+            name,
+            visible,
+            lang,
+            minLines,
+            maxLines,
+            autocomplete,
+            className,
+        } = this.props
+
+        if (!visible) {
+            return null
+        }
+        const { value } = this.state
+
+        return (
+            <div
+                className={cx('n2o-code-editor', className)}
+                style={{
+                    display: 'flex',
+                    border: '1px solid #d1d1d1',
+                }}
+            >
+                <AceEditor
+                    mode={lang}
+                    theme="tomorrow"
+                    name={name}
+                    onChange={this.onChange}
+                    fontSize={14}
+                    showPrintMargin
+                    showGutter
+                    readOnly={disabled}
+                    minLines={minLines}
+                    maxLines={maxLines}
+                    highlightActiveLine
+                    value={value}
+                    enableBasicAutocompletion={autocomplete}
+                    setOptions={{
+                        showLineNumbers: true,
+                        tabSize: 2,
+                    }}
+                />
+            </div>
+        )
+    }
 }
 
 CodeEditor.propTypes = {
     /**
-   * Значение контрола
-   */
+     * Значение контрола
+     */
     value: PropTypes.string,
     /**
-   * Callback изменения
-   */
+     * Callback изменения
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Название контрола
-   */
+     * Название контрола
+     */
     name: PropTypes.string,
     /**
-   * Минимальное количество строк
-   */
+     * Минимальное количество строк
+     */
     minLines: PropTypes.number,
     /**
-   * Максимальное количество строк
-   */
+     * Максимальное количество строк
+     */
     maxLines: PropTypes.number,
     /**
-   * Пресет контрола
-   */
+     * Пресет контрола
+     */
     lang: PropTypes.oneOf(['javascript', 'xml', 'sql', 'groovy', 'java', 'html']),
     /**
-   * Флаг включения автозаполнения
-   */
+     * Флаг включения автозаполнения
+     */
     autocomplete: PropTypes.bool,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     className: PropTypes.string,
 }

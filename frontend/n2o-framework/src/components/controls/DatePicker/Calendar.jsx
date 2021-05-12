@@ -336,7 +336,6 @@ class Calendar extends React.Component {
         const rightKeyCode = 39
 
         if (evtobj.ctrlKey) {
-            // eslint-disable-next-line default-case
             switch (evtobj.keyCode) {
                 case leftKeyCode:
                     if (calendarType === Calendar.BY_DAYS) {
@@ -357,6 +356,8 @@ class Calendar extends React.Component {
                         this.nextDecade()
                     }
 
+                    break
+                default:
                     break
             }
         }

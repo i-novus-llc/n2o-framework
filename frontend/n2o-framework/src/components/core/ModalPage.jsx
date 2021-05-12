@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import { compose } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
 // eslint-disable-next-line import/no-cycle,import/no-named-as-default
 import Page from './Page'

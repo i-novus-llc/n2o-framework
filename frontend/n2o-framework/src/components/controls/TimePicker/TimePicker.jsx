@@ -132,8 +132,11 @@ export class TimePickerControl extends Component {
         }
     };
 
-    // eslint-disable-next-line react/destructuring-assignment
-    toTime = value => (value < 10 && !this.props.noZero ? `0${value}` : value)
+    toTime = (value) => {
+        const { noZero } = this.props
+
+        return value < 10 && !noZero ? `0${value}` : value
+    }
 
     getLocaleText = (mode, index) => {
         const { locale } = this.props

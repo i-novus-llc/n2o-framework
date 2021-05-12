@@ -11,8 +11,7 @@ import {
     actionChannel,
     cancelled,
 } from 'redux-saga/effects'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { matchPath } from 'react-router'
+import { matchPath } from 'react-router-dom'
 import { batchActions } from 'redux-batched-actions'
 import compact from 'lodash/compact'
 import each from 'lodash/each'

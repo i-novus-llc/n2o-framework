@@ -6,8 +6,7 @@ import { compose, withContext, defaultProps, withProps } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import './i18n'
 
-// eslint-disable-next-line import/extensions
-import packageJson from '../package'
+import packageJson from '../package.json'
 
 import history from './history'
 import configureStore from './store'

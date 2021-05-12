@@ -64,7 +64,6 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
         state.registeredFields[payload.name] =
       state.registeredFields[payload.name] || {}
     }
-    // eslint-disable-next-line default-case
     switch (type) {
         case REGISTER_FIELD_EXTRA: {
             const initialState = merge(defaultState, payload.initialState || {})
@@ -208,6 +207,9 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
 
             break
         }
+
+        default:
+            break
     }
 }, defaultState)
 

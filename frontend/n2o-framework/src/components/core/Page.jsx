@@ -21,7 +21,7 @@ import {
     makePageStatusByIdSelected,
 } from '../../selectors/pages'
 import { rootPageSelector } from '../../selectors/global'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
 import withMetadata from './withMetadata'
 import withActions from './withActions'

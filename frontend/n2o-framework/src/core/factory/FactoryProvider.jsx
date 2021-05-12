@@ -101,8 +101,9 @@ export class FactoryProvider extends Component {
     }
 
     render() {
-        // eslint-disable-next-line react/destructuring-assignment
-        return Children.only(this.props.children)
+        const { children } = this.props
+
+        return Children.only(children)
     }
 }
 

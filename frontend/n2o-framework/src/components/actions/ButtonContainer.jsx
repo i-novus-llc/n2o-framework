@@ -197,8 +197,6 @@ class ButtonContainer extends React.Component {
         const isDropdown = component === DropdownMenu
 
         if (isDropdown) {
-            /* eslint-disable jsx-a11y/click-events-have-key-events */
-            /* eslint-disable jsx-a11y/no-static-element-interactions */
             return (
                 <div
                     className={cx(visible ? 'd-block' : 'd-none')}

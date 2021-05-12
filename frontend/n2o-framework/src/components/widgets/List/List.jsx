@@ -4,7 +4,6 @@ import ReactDom from 'react-dom'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
-// eslint-disable-next-line import/no-unresolved,import/no-extraneous-dependencies
 import { authProvider } from 'n2o-auth'
 import {
     WindowScroller,

@@ -34,7 +34,7 @@ import {
     makeWidgetByIdSelector,
 } from '../../selectors/widgets'
 import { removeAlerts } from '../../actions/alerts'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 import { InitMetadataContext } from '../../core/dependency'
 
 const s = {}
