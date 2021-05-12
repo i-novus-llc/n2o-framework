@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,6 +119,14 @@ public interface BindProcessor {
      * @param link Ссылка
      */
     BindLink resolveLink(BindLink link);
+
+    /**
+     * Получение значения параметра из адресной строки по ссылке
+     *
+     * @param link Ссылка
+     * @return Значение параметра
+     */
+    Object getLinkValue(ModelLink link);
 
     /**
      * Попытаться разрешить вложенные модели ссылки

@@ -439,7 +439,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
-                    modelLink.setParam(source.getParam());
+                    String param = source.getParam() != null ?
+                            source.getParam() :
+                            defaultValues.getWidgetId() + "_" + control.getId();
+                    modelLink.setParam(param);
                     defaultValues.add(control.getId(), modelLink);
                 }
             } else {

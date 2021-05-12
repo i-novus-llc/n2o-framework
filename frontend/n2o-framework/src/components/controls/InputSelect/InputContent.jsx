@@ -217,6 +217,7 @@ function InputContent({
                     className="form-control n2o-inp"
                     /* eslint-disable-next-line jsx-a11y/no-autofocus */
                     autoFocus={autoFocus}
+                    autoComplete="nope"
                 />
             )}
         </>
