@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.widget.table;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -28,7 +27,6 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless = false;
     }
 
     @Override
@@ -53,12 +51,17 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).textShouldHave("test2");
 
+        filter.val("4");
+        table.filters().toolbar().button("Найти").click();
+        rows.row(0).cell(1).textShouldHave("test4");
+
+        // filter value should stay after refresh
+        Selenide.refresh();
+        rows.row(0).cell(1).textShouldHave("test4");
+
         table.filters().toolbar().button("Сбросить").click();
         rows.shouldHaveSize(4);
-
-        Selenide.refresh();
         filter.shouldBeEmpty();
-        rows.shouldHaveSize(4);
     }
 
     @Test
@@ -76,12 +79,17 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).textShouldHave("test3");
 
+        filter.val("4");
+        table.filters().toolbar().button("Найти").click();
+        rows.row(0).cell(1).textShouldHave("test4");
+
+        // filter value should stay after refresh
+        Selenide.refresh();
+        rows.row(0).cell(1).textShouldHave("test4");
+
         table.filters().toolbar().button("Сбросить").click();
         rows.shouldHaveSize(4);
-
-        Selenide.refresh();
         filter.shouldBeEmpty();
-        rows.shouldHaveSize(4);
     }
 
     @Test
@@ -99,12 +107,17 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).textShouldHave("test3");
 
+        filter.val("4");
+        table.filters().toolbar().button("Найти").click();
+        rows.row(0).cell(1).textShouldHave("test4");
+
+        // filter value should stay after refresh
+        Selenide.refresh();
+        rows.row(0).cell(1).textShouldHave("test4");
+
         table.filters().toolbar().button("Сбросить").click();
         rows.shouldHaveSize(4);
-
-        Selenide.refresh();
         filter.shouldBeEmpty();
-        rows.shouldHaveSize(4);
     }
 }
 

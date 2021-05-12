@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.util.List;
 import java.util.Map;
 
 /**
