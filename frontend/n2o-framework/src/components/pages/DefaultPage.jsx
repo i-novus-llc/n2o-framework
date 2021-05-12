@@ -14,31 +14,21 @@ import Toolbar from '../buttons/Toolbar'
  * Стандартное наполнение страницы
  * @param metadata
  * @param toolbar
- * @param actions
  * @param entityKey
  * @param error
- * @param pageId
- * @param regions
  * @param children
  * @param disabled
- * @param context
  * @return {*}
  * @constructor
  */
-function DefaultPage(
-    {
-        metadata,
-        toolbar,
-        actions,
-        entityKey,
-        error,
-        pageId,
-        regions,
-        children,
-        disabled,
-    },
-    context,
-) {
+function DefaultPage({
+    metadata,
+    toolbar,
+    entityKey,
+    error,
+    children,
+    disabled,
+}) {
     const { style, className } = metadata
 
     return (
@@ -63,8 +53,9 @@ function DefaultPage(
             )}
             {children}
             {toolbar &&
-        (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) && (
-        <div className="n2o-page-actions">
+        (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) &&
+            (
+                <div className="n2o-page-actions">
                     <Toolbar entityKey={entityKey} toolbar={toolbar.bottomLeft} />
                     <Toolbar entityKey={entityKey} toolbar={toolbar.bottomCenter} />
                     <Toolbar entityKey={entityKey} toolbar={toolbar.bottomRight} />
@@ -77,21 +68,18 @@ function DefaultPage(
 DefaultPage.propTypes = {
     metadata: PropTypes.object,
     toolbar: PropTypes.object,
-    actions: PropTypes.object,
     entityKey: PropTypes.string,
     error: PropTypes.object,
-    pageId: PropTypes.string,
-    regions: PropTypes.object,
     children: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.func,
         PropTypes.element,
     ]),
+    disabled: PropTypes.bool,
 }
 
 DefaultPage.defaultProps = {
     toolbar: {},
-    actions: {},
 }
 
 export default DefaultPage

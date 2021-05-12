@@ -7,7 +7,7 @@ import { getModelSelector } from '../../../selectors/models'
 import propsResolver from '../../../utils/propsResolver'
 
 /**
- * Контейнер для {@link Breadcrumb}
+ * Контейнер для {@link DefaultBreadcrumb}
  * @reactProps {object} items -массив из {label, href} объектов, описывающих одну вкладку ("крошку")
  *
  * @example
@@ -23,12 +23,10 @@ import propsResolver from '../../../utils/propsResolver'
  *  ]
  * <Breadcrumb  items={items}/>
  * */
-function BreadcrumbContainer(props) {
-    const DefaultBreadcrumb = props.defaultBreadcrumb
-
+function BreadcrumbContainer({ items, defaultBreadcrumb: DefaultBreadcrumb }) {
     return (
         <>
-            <DefaultBreadcrumb items={props.items} />
+            <DefaultBreadcrumb items={items} />
         </>
     )
 }

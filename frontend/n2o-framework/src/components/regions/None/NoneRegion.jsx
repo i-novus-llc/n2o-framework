@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import classNames from 'classnames'
 
 import withWidgetProps from '../withWidgetProps'
-import RegionContent from '../RegionContent'
+import { RegionContent } from '../RegionContent'
 
 /**
  * Регион None (простой див)
@@ -23,15 +23,9 @@ const NoneRegion = ({ content, className, style }) => (
 )
 
 NoneRegion.propTypes = {
-    /**
-   * Список элементов
-   */
-    items: PropTypes.array.isRequired,
-    getWidget: PropTypes.func.isRequired,
-    /**
-   * ID страницы
-   */
-    pageId: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    content: PropTypes.any,
 }
 
 export { NoneRegion }

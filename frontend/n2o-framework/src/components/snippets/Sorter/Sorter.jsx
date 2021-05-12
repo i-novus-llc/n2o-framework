@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 const SORT_TYPE = {
     ASC: 'ASC',
@@ -22,16 +22,16 @@ const SORT_TYPE = {
  *  World
  * </Sorter>
  */
-class Sorter extends React.Component {
+export class Sorter extends React.Component {
     constructor(props) {
         super(props)
         this.handleClick = this.handleClick.bind(this)
     }
 
     /**
-   * Обработчик нажатия и вызов callback onSort
-   * @param e
-   */
+     * Обработчик нажатия и вызов callback onSort
+     * @param e
+     */
     handleClick(e) {
         e.preventDefault()
         const { sorting, columnKey, onSort } = this.props
@@ -56,22 +56,20 @@ class Sorter extends React.Component {
         onSort(columnKey, direction)
     }
 
-    /**
-   * Базовый рендер компонента
-   */
     render() {
         const { title, children, sorting } = this.props
-        const iconClass = cx({
+        const iconClass = classNames({
             'fa fa-sort-amount-asc': sorting === SORT_TYPE.ASC,
             'fa fa-sort-amount-desc': sorting === SORT_TYPE.DESC,
         })
 
         return (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a href="#" title={title} tabIndex={-1} onClick={this.handleClick}>
                 {children}
                 {' '}
                 {iconClass && (
-                    <i className={cx('n2o-sorting-icon', iconClass)} aria-hidden="true" />
+                    <i className={classNames('n2o-sorting-icon', iconClass)} aria-hidden="true" />
                 )}
             </a>
         )

@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Нав Таба
@@ -11,16 +11,12 @@ import cx from 'classnames'
  * @reactProps {object} style - стили
  * @reactProps {node} children - элемент потомок компонента TabNav
  */
-class TabNav extends React.Component {
-    render() {
-        const { className, style, children } = this.props
-
-        return (
-            <ul className={cx('nav', 'nav-tabs', className)} style={{ ...style }}>
-                {children}
-            </ul>
-        )
-    }
+export function TabNav({ className, style, children }) {
+    return (
+        <ul className={classNames('nav', 'nav-tabs', className)} style={{ ...style }}>
+            {children}
+        </ul>
+    )
 }
 
 TabNav.propTypes = {

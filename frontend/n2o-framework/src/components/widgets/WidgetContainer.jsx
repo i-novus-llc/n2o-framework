@@ -15,7 +15,7 @@ import cx from 'classnames'
 import { batchActions } from 'redux-batched-actions'
 
 import { callActionImpl } from '../../actions/toolbar'
-import Placeholder from '../snippets/Placeholder/Placeholder'
+import { Placeholder } from '../snippets/Placeholder/Placeholder'
 import {
     dataRequestWidget,
     registerWidget,
@@ -183,7 +183,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
           dispatch(sortByWidget(widgetId, id, direction))
           dispatch(dataRequestWidget(widgetId))
-          !isActive && dispatch(setActive(widgetId))
+          if (!isActive) {
+              dispatch(setActive(widgetId))
+          }
       }
 
       onFocus() {
@@ -296,6 +298,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             dataProvider: PropTypes.object,
             validation: PropTypes.object,
             onSetFilter: PropTypes.func,
+            dataProviderFromState: PropTypes.object,
+            widget: PropTypes.node,
+            modelPrefix: PropTypes.node,
             /* redux */
             visible: PropTypes.bool,
             isLoading: PropTypes.bool,

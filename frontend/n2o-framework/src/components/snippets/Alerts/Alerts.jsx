@@ -8,7 +8,7 @@ import Alert from './Alert'
 /**
  * Компонент обертка для Alert
  */
-class Alerts extends Component {
+export class Alerts extends Component {
     constructor(props) {
         super(props)
 
@@ -19,8 +19,10 @@ class Alerts extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!this.state.style.width && this.ref.current) {
+    componentDidUpdate() {
+        const { style } = this.state
+
+        if (!style.width && this.ref.current) {
             this.setState({
                 style: {
                     width: `${this.ref.current.clientWidth}px`,
@@ -55,6 +57,7 @@ class Alerts extends Component {
 
   render() {
       const { alerts } = this.props
+      const { style } = this.state
       const { absoluteAlerts, relativeAlerts, fixedAlerts } = this.filterAlerts(
           alerts,
       )
@@ -72,7 +75,7 @@ class Alerts extends Component {
                   </div>
               )}
               {!isEmpty(fixedAlerts) && (
-                  <div className="n2o-alerts--fixed" style={this.state.style}>
+                  <div className="n2o-alerts--fixed" style={style}>
                       {this.renderAlerts(fixedAlerts)}
                   </div>
               )}

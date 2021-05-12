@@ -6,6 +6,7 @@ import { mapProps } from 'recompose'
 import classNames from 'classnames'
 
 import { WIDGETS } from '../../../core/factory/factoryLevels'
+// eslint-disable-next-line import/no-named-as-default
 import Factory from '../../../core/factory/Factory'
 import DefaultPage from '../DefaultPage'
 
@@ -40,6 +41,7 @@ SimplePage.propTypes = {
     id: PropTypes.string,
     widget: PropTypes.object,
     slim: PropTypes.bool,
+    metadata: PropTypes.object,
 }
 
 SimplePage.defaultProps = {

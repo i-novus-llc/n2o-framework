@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
+// eslint-disable-next-line import/no-named-as-default
 import Alerts from '../snippets/Alerts/Alerts'
 import { GLOBAL_KEY } from '../../constants/alerts'
 import { makeAlertsByKeySelector } from '../../selectors/alerts'
@@ -13,7 +14,7 @@ import { removeAlert } from '../../actions/alerts'
  * Глобальные алерты
  * @param {array} alerts - массив алертов
  * @param {function} onDismiss - функция закрытия
- * @returns {JSX}
+ * @returns {JSX.Element}
  */
 export function GlobalAlerts({ alerts, onDismiss }) {
     const handleDismiss = alertId => alertId && onDismiss(alertId)
@@ -36,6 +37,7 @@ export function GlobalAlerts({ alerts, onDismiss }) {
 
 GlobalAlerts.propTypes = {
     alerts: PropTypes.array,
+    onDismiss: PropTypes.func,
 }
 
 GlobalAlerts.defaultProps = {

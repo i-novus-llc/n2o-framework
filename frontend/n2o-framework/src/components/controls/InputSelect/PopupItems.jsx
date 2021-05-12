@@ -16,8 +16,8 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
 import propsResolver from '../../../utils/propsResolver'
-import Icon from '../../snippets/Icon/Icon'
-import StatusText from '../../snippets/StatusText/StatusText'
+import { Icon } from '../../snippets/Icon/Icon'
+import { StatusText } from '../../snippets/StatusText/StatusText'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
 

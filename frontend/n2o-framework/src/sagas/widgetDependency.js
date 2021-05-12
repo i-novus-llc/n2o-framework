@@ -132,8 +132,11 @@ export const widgetDependencySagas = [
     takeEvery(REGISTER_DEPENDENCY, registerDependency),
     takeEvery(UPDATE_WIDGET_DEPENDENCY, updateDependency),
     takeEvery([SET, REMOVE, REMOVE_ALL, COPY, CLEAR], updateModel),
-    takeEvery([SET, REMOVE, REMOVE_ALL, COPY, CLEAR, REGISTER_DEPENDENCY, UPDATE_WIDGET_DEPENDENCY], function* () {
-        // Костыль, для сохранения предыдущего состояния, нужен чтобы не загнаться в рекурсивное обновление
-        prevState = cloneDeep(yield select())
-    }),
+    takeEvery(
+        [SET, REMOVE, REMOVE_ALL, COPY, CLEAR, REGISTER_DEPENDENCY, UPDATE_WIDGET_DEPENDENCY],
+        function* noWidgetRecursion() {
+            // Костыль, для сохранения предыдущего состояния, нужен чтобы не загнаться в рекурсивное обновление
+            prevState = cloneDeep(yield select())
+        },
+    ),
 ]

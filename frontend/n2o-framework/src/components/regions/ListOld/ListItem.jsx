@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Элемент {@link List}
@@ -19,7 +19,7 @@ import cx from 'classnames'
  *     <WidgetFactory containerId={cnt.id} pageId={cnt.pageId} fetchOnInit={cnt.fetchOnInit} {...cnt.widget} />
  * </ListItem>
  */
-class ListItem extends React.Component {
+export class ListItem extends React.Component {
     constructor(props) {
         super(props)
         this.handleClick = this.handleClick.bind(this)
@@ -34,12 +34,10 @@ class ListItem extends React.Component {
                 wasActive: true,
             }
         }
+
+        return null
     }
 
-    /**
-   * Обработка клика
-   * @param e
-   */
     handleClick(e) {
         const { id, onClick } = this.props
 
@@ -49,16 +47,14 @@ class ListItem extends React.Component {
         }
     }
 
-    /**
-   *  базовый рендер
-   */
     render() {
         const { active, title, children } = this.props
         const { wasActive } = this.state
 
         return (
             <div className="n2o-region-list" style={{ marginBottom: 2 }}>
-                <div className={cx('n2o-region-list__header', { active })}>
+                <div className={classNames('n2o-region-list__header', { active })}>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a href="#" onClick={this.handleClick}>
                         <h6>
                             <span
@@ -70,7 +66,7 @@ class ListItem extends React.Component {
                         </h6>
                     </a>
                 </div>
-                <div className={cx('n2o-region-list__body', { active })}>
+                <div className={classNames('n2o-region-list__body', { active })}>
                     {wasActive ? children : null}
                 </div>
             </div>

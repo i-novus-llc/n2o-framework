@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 ListMoreButton.propTypes = {
     onClick: PropTypes.func,
+    style: PropTypes.object,
 }
 
 ListMoreButton.defaultProps = {

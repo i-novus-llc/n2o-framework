@@ -54,15 +54,6 @@
     }
 }
 
-.n2o-sidebar__item--dropdown {
-    position: relative;
-    padding: 0;
-
-    .n2o-sidebar__item-dropdown-label {
-        padding: 5px 0 5px 20px;
-    }
-}
-
 .n2o-sidebar__item-content {
     display: flex;
     align-items: center;
@@ -93,7 +84,7 @@
 
         &::after {
             content: "\F105";
-            font-family: FontAwesome;
+            font-family: FontAwesome, serif;
             position: absolute;
             right: -20px;
             top: 0;
@@ -103,6 +94,15 @@
             color: $white;
             transition: 0.3s;
         }
+    }
+}
+
+.n2o-sidebar__item--dropdown {
+    position: relative;
+    padding: 0;
+
+    .n2o-sidebar__item-dropdown-label {
+        padding: 5px 0 5px 20px;
     }
 }
 

@@ -4,7 +4,7 @@ import omit from 'lodash/omit'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
 
-import Factory from '../../../core/factory/Factory'
+import { Factory } from '../../../core/factory/Factory'
 import { CELLS } from '../../../core/factory/factoryLevels'
 import propsResolver from '../../../utils/propsResolver'
 /**

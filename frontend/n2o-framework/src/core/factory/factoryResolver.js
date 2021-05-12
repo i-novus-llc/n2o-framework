@@ -11,11 +11,12 @@ import fields from '../../components/widgets/Form/fieldsets'
 import actions from '../../impl/actions'
 import exportModal from '../../components/widgets/Table/ExportModal'
 import storyModal from '../../components/widgets/Table/StoryModal'
+// eslint-disable-next-line import/no-named-as-default
 import ToggleColumn from '../../components/buttons/ToggleColumn/ToggleColumn'
 import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize'
 import controls from '../../components/controls'
 
-import NotFoundFactory from './NotFoundFactory'
+import { NotFoundFactory } from './NotFoundFactory'
 
 const index = {
     ...headers,
@@ -31,7 +32,6 @@ const index = {
     NotFoundFactory,
 }
 
-const functionType = 'function'
 const componentType = 'component'
 
 /**
@@ -52,7 +52,7 @@ const componentType = 'component'
  *
  * //- {widgetId: "Test.test", component: TableWidget}
  */
-export default function factoryResolver(
+export function factoryResolver(
     props,
     defaultComponent = 'NotFoundFactory',
     type = componentType,
@@ -62,7 +62,7 @@ export default function factoryResolver(
     const obj = {}
 
     if (isObject(props)) {
-        Object.keys(props).map((key) => {
+        Object.keys(props).forEach((key) => {
             if (isObject(props[key])) {
                 obj[key] = factoryResolver(props[key])
             } else if (key === 'src') {
@@ -79,3 +79,5 @@ export default function factoryResolver(
 
     return props
 }
+
+export default factoryResolver

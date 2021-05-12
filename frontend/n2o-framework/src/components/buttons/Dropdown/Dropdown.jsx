@@ -8,7 +8,7 @@ import { Manager, Reference, Popper } from 'react-popper'
 import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
 
-import Factory from '../../../core/factory/Factory'
+import { Factory } from '../../../core/factory/Factory'
 import { BUTTONS } from '../../../core/factory/factoryLevels'
 import SimpleButton from '../Simple/Simple'
 import mappingProps from '../Simple/mappingProps'
@@ -22,13 +22,14 @@ class DropdownButton extends React.Component {
 
   toggle = () => {
       let { popperKey } = this.state
-      const open = !this.state.open
+      const { open } = this.state
+      const openNext = !open
 
-      if (open) {
+      if (openNext) {
           popperKey += 1
       }
 
-      this.setState({ open, popperKey })
+      this.setState({ open: openNext, popperKey })
   };
 
   handleClickOutside = () => {
@@ -49,7 +50,7 @@ class DropdownButton extends React.Component {
           ...rest
       } = this.props
       const { open, popperKey } = this.state
-      const storesSubMenu = get(toolbar, this.props.id)
+      const storesSubMenu = get(toolbar, entityKey)
       let dropdownVisible = false
 
       if (subMenu && storesSubMenu) {
@@ -117,6 +118,9 @@ class DropdownButton extends React.Component {
 }
 
 DropdownButton.propTypes = {
+    id: PropTypes.any,
+    className: PropTypes.string,
+    toolbar: PropTypes.any,
     subMenu: PropTypes.array,
     showToggleIcon: PropTypes.bool,
 }

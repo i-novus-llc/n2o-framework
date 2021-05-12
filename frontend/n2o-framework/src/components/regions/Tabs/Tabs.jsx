@@ -6,14 +6,13 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
 import first from 'lodash/first'
 import get from 'lodash/get'
 
-import TabNav from './TabNav'
-import TabNavItem from './TabNavItem'
-import TabContent from './TabContent'
+import { TabNav } from './TabNav'
+import { TabNavItem } from './TabNavItem'
+import { TabContent } from './TabContent'
 
 /**
  * Компонент контейнера табов
@@ -40,7 +39,7 @@ import TabContent from './TabContent'
  */
 
 class Tabs extends React.Component {
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         const { onChangeActive, children, activeId } = this.props
 
         const getActiveEntityVisibility = (children) => {
@@ -51,166 +50,163 @@ class Tabs extends React.Component {
             return get(activeEntityMeta, 'props.visible')
         }
 
-        const activeEntityVisibilityChanged =
-      getActiveEntityVisibility(children) !==
-      getActiveEntityVisibility(prevProps.children)
+        const activeEntityVisibilityChanged = getActiveEntityVisibility(children) !==
+                getActiveEntityVisibility(prevProps.children)
 
-        const firstVisibleTab = first(
-            filter(children, child => child.props.visible),
-        )
+        const firstVisibleTab = first(filter(children, child => child.props.visible))
 
         if (activeEntityVisibilityChanged && !getActiveEntityVisibility(children)) {
             onChangeActive(get(firstVisibleTab, 'key'), prevProps.activeId)
         }
     }
 
-  /**
-   * установка активного таба
-   * @param event
-   * @param id
-   * @param prevId
-   */
-  handleChangeActive = (event, id, prevId) => {
-      this.props.onChangeActive(event, id, prevId)
-  };
+    /**
+    * установка активного таба
+    * @param event
+    * @param id
+    * @param prevId
+    */
+    handleChangeActive = (event, id, prevId) => {
+        const { onChangeActive } = this.props
 
-  /**
-   * getter для айдишника активного таба
-   * @return {Array|*}
-   */
-  get defaultOpenedId() {
-      const { children, activeId } = this.props
+        onChangeActive(event, id, prevId)
+    };
 
-      if (activeId) {
-          return activeId
-      }
+    /**
+    * getter для айдишника активного таба
+    * @return {Array|*}
+    */
+    get defaultOpenedId() {
+        const { children, activeId } = this.props
 
-      const foundChild = find(React.Children.toArray(children), child => child.props.active)
+        if (activeId) {
+            return activeId
+        }
 
-      return foundChild && foundChild.props.id
-  }
+        const foundChild = find(React.Children.toArray(children), child => child.props.active)
 
-  /**
-   * Базовый рендер
-   * @return {JSX.Element}
-   */
-  render() {
-      const {
-          className,
-          navClassName,
-          children,
-          hideSingleTab,
-          dependencyVisible,
-          scrollbar,
-          maxHeight,
-          title,
-      } = this.props
+        return foundChild && foundChild.props.id
+    }
 
-      const activeId = this.defaultOpenedId
+    /**
+    * Базовый рендер
+    * @return {JSX.Element}
+    */
+    render() {
+        const {
+            className,
+            navClassName,
+            children,
+            hideSingleTab,
+            dependencyVisible,
+            scrollbar,
+            maxHeight,
+            title,
+        } = this.props
 
-      const tabContentStyle = maxHeight ? { maxHeight } : {}
+        const activeId = this.defaultOpenedId
 
-      const tabNavItems = React.Children.map(children, (child) => {
-          const { id, title, icon, disabled, visible } = child.props
+        const tabContentStyle = maxHeight ? { maxHeight } : {}
 
-          const hasSingleVisibleTab =
-        children.filter(child => child.props.visible).length === 1
+        const tabNavItems = React.Children.map(children, (child) => {
+            const { id, title, icon, disabled, visible } = child.props
 
-          if (
-              (hasSingleVisibleTab && hideSingleTab) ||
-        !dependencyVisible ||
-        !visible
-          ) {
-              return null
-          }
+            const hasSingleVisibleTab = children.filter(child => child.props.visible).length === 1
 
-          return (
-              <TabNavItem
-                  id={id}
-                  title={title}
-                  icon={icon}
-                  disabled={disabled}
-                  active={activeId === id}
-                  onClick={this.handleChangeActive}
-              />
-          )
-      })
+            if (
+                (hasSingleVisibleTab && hideSingleTab) ||
+                !dependencyVisible ||
+                !visible
+            ) {
+                return null
+            }
 
-      return (
-          <div
-              className={classNames('n2o-nav-tabs-container', {
-                  [className]: className,
-                  fixed: maxHeight,
-              })}
-          >
-              {!isEmpty(tabNavItems) && (
-                  <div
-                      className={classNames('n2o-nav-tabs', {
-                          'n2o-nav-tabs_tabs-fixed': maxHeight,
-                      })}
-                  >
-                      {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
-                      <TabNav
-                          className={classNames('n2o-nav-tabs__tabs-list', {
-                              navClassName,
-                          })}
-                      >
-                          {tabNavItems}
-                      </TabNav>
-                  </div>
-              )}
-              <div
-                  className={classNames('n2o-tab-content__container', {
-                      visible: dependencyVisible,
-                      fixed: maxHeight,
-                  })}
-              >
-                  <TabContent
-                      className={classNames({
-                          'tab-content_fixed': maxHeight,
-                          'tab-content_fixed tabs-with-title':
-                (title && maxHeight) || (title && maxHeight),
-                          'tab-content_height-fixed': maxHeight,
-                          'tab-content_no-scrollbar': scrollbar === false,
-                      })}
-                      style={tabContentStyle}
-                  >
-                      {React.Children.map(children, child => React.cloneElement(child, {
-                          active: activeId === child.props.id,
-                      }))}
-                  </TabContent>
-              </div>
-          </div>
-      )
-  }
+            return (
+                <TabNavItem
+                    id={id}
+                    title={title}
+                    icon={icon}
+                    disabled={disabled}
+                    active={activeId === id}
+                    onClick={this.handleChangeActive}
+                />
+            )
+        })
+
+        return (
+            <div
+                className={classNames('n2o-nav-tabs-container', {
+                    [className]: className,
+                    fixed: maxHeight,
+                })}
+            >
+                {!isEmpty(tabNavItems) && (
+                    <div
+                        className={classNames('n2o-nav-tabs', {
+                            'n2o-nav-tabs_tabs-fixed': maxHeight,
+                        })}
+                    >
+                        {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
+                        <TabNav
+                            className={classNames('n2o-nav-tabs__tabs-list', {
+                                navClassName,
+                            })}
+                        >
+                            {tabNavItems}
+                        </TabNav>
+                    </div>
+                )}
+                <div
+                    className={classNames('n2o-tab-content__container', {
+                        visible: dependencyVisible,
+                        fixed: maxHeight,
+                    })}
+                >
+                    <TabContent
+                        className={classNames({
+                            'tab-content_fixed': maxHeight,
+                            'tab-content_fixed tabs-with-title': (title && maxHeight),
+                            'tab-content_height-fixed': maxHeight,
+                            'tab-content_no-scrollbar': scrollbar === false,
+                        })}
+                        style={tabContentStyle}
+                    >
+                        {React.Children.map(children, child => React.cloneElement(child, {
+                            active: activeId === child.props.id,
+                        }))}
+                    </TabContent>
+                </div>
+            </div>
+        )
+    }
 }
 
 Tabs.propTypes = {
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Класс навигации
-   */
+     * Класс навигации
+     */
     navClassName: PropTypes.string,
     /**
-   * Callback на изменение активного таба
-   */
+     * Callback на изменение активного таба
+     */
     onChangeActive: PropTypes.func,
     children: PropTypes.node,
     /**
-   * спрятать/не прятать scrollbar
-   */
+     * спрятать/не прятать scrollbar
+     */
     scrollbar: PropTypes.bool,
     /**
-   * кастомная max-высота контента. фиксация табов
-   */
-    height: PropTypes.string,
-    /**
-   * title табов
-   */
+     * title табов
+     */
     title: PropTypes.string,
+    activeId: PropTypes.string,
+    maxHeight: PropTypes.number,
+    hideSingleTab: PropTypes.bool,
+    dependencyVisible: PropTypes.any,
 }
 
 Tabs.defaultProps = {

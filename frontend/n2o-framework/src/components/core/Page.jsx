@@ -13,9 +13,9 @@ import {
     mapProps,
 } from 'recompose'
 
+// eslint-disable-next-line import/no-named-as-default
 import Factory from '../../core/factory/Factory'
-import { LAYOUTS, REGIONS, PAGES } from '../../core/factory/factoryLevels'
-import Toolbar from '../buttons/Toolbar'
+import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
     makePageStatusByIdSelected,
@@ -23,11 +23,10 @@ import {
 import { rootPageSelector } from '../../selectors/global'
 import Spinner from '../snippets/Spinner/Spinner'
 
-import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer'
-import DocumentTitle from './DocumentTitle'
 import withMetadata from './withMetadata'
 import withActions from './withActions'
 import { SimpleTemplate } from './templates'
+// eslint-disable-next-line import/no-cycle
 import Root from './Root'
 
 function Page(props, context) {
@@ -35,7 +34,6 @@ function Page(props, context) {
         metadata,
         loading,
         status,
-        toolbar,
         defaultTemplate: Template = React.Fragment,
         defaultErrorPages,
         page,
@@ -51,7 +49,8 @@ function Page(props, context) {
     const errorPage = getErrorPage()
 
     const renderDefaultBody = () => {
-        const defaultPage = get(metadata, 'src', context.defaultPage)
+        const { defaultPage: contextDefaultPage } = context
+        const defaultPage = get(metadata, 'src', contextDefaultPage)
         const regions = get(metadata, 'regions', {})
 
         return errorPage ? (
@@ -87,13 +86,13 @@ Page.contextTypes = {
 }
 
 Page.propTypes = {
-    pageId: PropTypes.string,
     metadata: PropTypes.object,
     loading: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.object,
     status: PropTypes.number,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    defaultTemplate: PropTypes.any,
+    defaultErrorPages: PropTypes.any,
+    rootPage: PropTypes.bool,
 }
 
 export { Page }

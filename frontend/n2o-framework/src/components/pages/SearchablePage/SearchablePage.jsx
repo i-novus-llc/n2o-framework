@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import get from 'lodash/get'
+import PropTypes from 'prop-types'
 
 import { updateModel } from '../../../actions/models'
 import { dataRequestWidget } from '../../../actions/widgets'
@@ -17,20 +18,21 @@ import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb'
 import BreadcrumbContainer from '../../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../../buttons/Toolbar'
 import PageRegions from '../PageRegions'
+// eslint-disable-next-line import/no-named-as-default
 import SearchBar from '../../snippets/SearchBar/SearchBar'
 
 function SearchablePage({
     id,
     metadata,
-    toolbar = {},
+    toolbar,
     pageId,
     error,
     regions,
     disabled,
     onSearch,
-    searchBar = {},
+    searchBar,
     filterValue,
-    withToolbar = true,
+    withToolbar,
     initSearchValue,
 }) {
     const { style, className } = metadata
@@ -45,7 +47,6 @@ function SearchablePage({
                 },
             )}
             style={style}
-
         >
             {error && <Alert {...error} visible />}
             {!isEmpty(metadata) && metadata.page && (
@@ -165,6 +166,27 @@ const enhance = compose(
         filterValue: get(filterModel, searchModelKey),
     })),
 )
+
+SearchablePage.propTypes = {
+    id: PropTypes.string,
+    metadata: PropTypes.object,
+    toolbar: PropTypes.object,
+    pageId: PropTypes.string,
+    error: PropTypes.object,
+    regions: PropTypes.object,
+    disabled: PropTypes.bool,
+    onSearch: PropTypes.func,
+    searchBar: PropTypes.object,
+    filterValue: PropTypes.string,
+    withToolbar: PropTypes.bool,
+    initSearchValue: PropTypes.string,
+}
+
+SearchablePage.defaultProps = {
+    toolbar: {},
+    searchBar: {},
+    withToolbar: true,
+}
 
 export { SearchablePage }
 export default enhance(SearchablePage)

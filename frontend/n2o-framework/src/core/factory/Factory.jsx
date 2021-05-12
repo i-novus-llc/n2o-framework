@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import SecurityCheck from '../auth/SecurityCheck'
 
-function Factory(props, context) {
+export function Factory(props, context) {
     const { src, level, security, children, ...rest } = props
     let { component = null } = props
 
@@ -24,6 +24,7 @@ function Factory(props, context) {
             />
         )
     }
+    // eslint-disable-next-line no-console
     console.error(`Фабрике не удалось найти компонент: ${src} в ${level}`)
 
     return null
@@ -33,6 +34,8 @@ Factory.propTypes = {
     src: PropTypes.string.isRequired,
     level: PropTypes.string,
     security: PropTypes.object,
+    children: PropTypes.any,
+    component: PropTypes.any,
 }
 
 Factory.contextTypes = {

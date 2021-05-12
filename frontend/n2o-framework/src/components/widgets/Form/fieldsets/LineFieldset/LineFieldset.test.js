@@ -17,7 +17,7 @@ const setup = (propsOverride) => {
 }
 
 describe('Тесты LineFieldset', () => {
-    it('отрисовкa resolveVisible', () => {
+    it('отрисовка resolveVisible', () => {
         const wrapper = setup({
             visible: 'id === 2',
             activeModel: { id: 2 },

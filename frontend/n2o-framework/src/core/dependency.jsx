@@ -56,9 +56,6 @@ export const dependency = (WrappedComponent) => {
             }
         }
 
-        /**
-     * Базовый рендер
-     */
         render() {
             const { isVisible, isEnabled } = this.props
 
@@ -90,15 +87,11 @@ export const dependency = (WrappedComponent) => {
         models: PropTypes.object,
     }
 
-    const mapStateToProps = (state, props) => {
-        const { dependency } = props
-
-        return {
-            isInit: makeWidgetIsInitSelector(props.id)(state, props),
-            isVisible: makeWidgetVisibleSelector(props.id)(state, props),
-            isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
-        }
-    }
+    const mapStateToProps = (state, props) => ({
+        isInit: makeWidgetIsInitSelector(props.id)(state, props),
+        isVisible: makeWidgetVisibleSelector(props.id)(state, props),
+        isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
+    })
 
     const mapDispatchToProps = (dispatch, ownProps) => {
         const { id: widgetId } = ownProps

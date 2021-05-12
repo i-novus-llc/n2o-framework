@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
-import TabNav from '../../regions/Tabs/TabNav'
+import { TabNav } from '../../regions/Tabs/TabNav'
 
-import PanelNavItem from './PanelNavItem'
+import { PanelNavItem } from './PanelNavItem'
 
 /**
  * Компонент меню для {@link Panel}
@@ -32,7 +32,7 @@ function PanelMenu({
                 {collapsible && (
                     <PanelNavItem
                         onClick={onToggle}
-                        className={cn('collapse-toggle', {
+                        className={classNames('collapse-toggle', {
                             'collapse-toggle--up': !isOpen,
                         })}
                         isToolBar={false}
@@ -46,7 +46,7 @@ function PanelMenu({
                         className="fullscreen-toggle"
                         isToolBar={false}
                     >
-                        <i className={cn('fa', fullScreenIcon)} aria-hidden />
+                        <i className={classNames('fa', fullScreenIcon)} aria-hidden />
                     </PanelNavItem>
                 )}
                 {children}

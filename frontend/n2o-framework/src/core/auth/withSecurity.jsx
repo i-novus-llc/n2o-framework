@@ -7,10 +7,8 @@ import { connect } from 'react-redux'
 import { userSelector } from '../../selectors/auth'
 
 const withSecurity = (WrappedComponent) => {
-    class Security extends React.Component {
-        render() {
-            return <WrappedComponent {...this.props} />
-        }
+    function Security(props) {
+        return <WrappedComponent {...props} />
     }
 
     Security.propTypes = {}

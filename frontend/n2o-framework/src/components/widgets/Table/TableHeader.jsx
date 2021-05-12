@@ -8,6 +8,7 @@ import pure from 'recompose/pure'
  * @reactProps {object} style - css стиль
  * @reactProps {node} children - элемент потомок компонента TableHeader
  */
+// eslint-disable-next-line react/prefer-stateless-function
 class TableHeader extends React.Component {
     render() {
         const { className, style, children } = this.props
@@ -27,5 +28,6 @@ TableHeader.propTypes = {
     children: PropTypes.node,
 }
 
+// eslint-disable-next-line no-class-assign
 TableHeader = pure(TableHeader)
 export default TableHeader

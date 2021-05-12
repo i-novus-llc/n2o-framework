@@ -2,16 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Card from 'reactstrap/lib/Card'
 import Collapse from 'reactstrap/lib/Collapse'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import panelStyles from './panelStyles'
 import PanelHeading from './PanelHeading'
 import PanelTitle from './PanelTitle'
 import PanelMenu from './PanelMenu'
-import PanelNavItem from './PanelNavItem'
-import PanelFooter from './PanelFooter'
-import PanelBody from './PanelBody'
-import PanelTabBody from './PanelTabBody'
+import { PanelNavItem } from './PanelNavItem'
+import { PanelFooter } from './PanelFooter'
+import { PanelBody } from './PanelBody'
+import { PanelTabBody } from './PanelTabBody'
 
 /**
  * Компонент панели
@@ -25,19 +25,18 @@ import PanelTabBody from './PanelTabBody'
  * @reactProps {node} children - вставляемый в панель элемент
  */
 
-function Panel({
+export function Panel({
     className,
     isFullScreen,
     style,
     onToggle,
-    open,
     color,
     onKeyPress,
     children,
     innerRef,
     t,
 }) {
-    const panelClass = cx('n2o-panel-region', className, 'text-dark', {
+    const panelClass = classNames('n2o-panel-region', className, 'text-dark', {
         'panel-fullscreen': isFullScreen,
     })
 
@@ -66,11 +65,11 @@ Panel.propTypes = {
     style: PropTypes.object,
     color: PropTypes.string,
     isFullScreen: PropTypes.bool,
-    open: PropTypes.bool,
     onToggle: PropTypes.func,
     onKeyPress: PropTypes.func,
     children: PropTypes.node,
     innerRef: PropTypes.func,
+    t: PropTypes.func,
 }
 
 Panel.defaultProps = {

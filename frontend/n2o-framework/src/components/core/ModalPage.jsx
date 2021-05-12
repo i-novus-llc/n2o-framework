@@ -4,12 +4,13 @@ import Modal from 'reactstrap/lib/Modal'
 import ModalHeader from 'reactstrap/lib/ModalHeader'
 import ModalBody from 'reactstrap/lib/ModalBody'
 import ModalFooter from 'reactstrap/lib/ModalFooter'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { compose } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
 import Spinner from '../snippets/Spinner/Spinner'
 
+// eslint-disable-next-line import/no-cycle,import/no-named-as-default
 import Page from './Page'
 import withOverlayMethods from './withOverlayMethods'
 /**
@@ -64,7 +65,7 @@ function ModalPage(props) {
     }
 
     const showSpinner = !visible || loading || typeof loading === 'undefined'
-    const classes = cn({ 'd-none': loading })
+    const classes = classNames({ 'd-none': loading })
 
     return (
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
@@ -87,6 +88,7 @@ function ModalPage(props) {
                 )}
 
                 <ModalBody className={classes}>
+                    {/* eslint-disable-next-line no-nested-ternary */}
                     {pageUrl ? (
                         <Page
                             pageUrl={pageUrl}
@@ -103,7 +105,7 @@ function ModalPage(props) {
                 {toolbar && (
                     <ModalFooter className={classes}>
                         <div
-                            className={cn('n2o-modal-actions', {
+                            className={classNames('n2o-modal-actions', {
                                 'n2o-disabled': disabled,
                             })}
                         >
@@ -178,6 +180,14 @@ ModalPage.propTypes = {
    * Фон модального окна
    */
     backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['static'])]),
+    entityKey: PropTypes.string,
+    loading: PropTypes.bool,
+    pageUrl: PropTypes.string,
+    src: PropTypes.any,
+    pathMapping: PropTypes.any,
+    queryMapping: PropTypes.any,
+    scrollable: PropTypes.bool,
+    prompt: PropTypes.func,
 }
 
 ModalPage.defaultProps = {

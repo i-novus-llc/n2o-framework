@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const withRightPlaceholder = WrappedComponent => function (props) {
+const withRightPlaceholder = WrappedComponent => (props) => {
+    // eslint-disable-next-line react/prop-types
     const { measure } = props
 
     return (

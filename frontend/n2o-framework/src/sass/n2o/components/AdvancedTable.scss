@@ -54,6 +54,10 @@
     }
 }
 
+.n2o-advanced-table-nested table tr:hover {
+    background-color: transparent;
+}
+
 .n2o-advanced-table {
     .n2o-advanced-table-content {
         overflow-x: auto;
@@ -189,10 +193,6 @@
 .n2o-advanced-table-fixed-left .n2o-advanced-table-body-inner .n2o-advanced-table-fixed,
 .n2o-advanced-table-fixed-right .n2o-advanced-table-body-inner .n2o-advanced-table-fixed {
     margin-bottom: 17px;
-}
-
-.n2o-advanced-table-nested table tr:hover {
-    background-color: transparent;
 }
 
 .n2o-advanced-table-expand {

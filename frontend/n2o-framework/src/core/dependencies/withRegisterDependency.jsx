@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { registerFieldDependency } from '../../actions/formPlugin'
 
@@ -11,8 +12,8 @@ export default (Component) => {
         }
 
         /**
-     * Регистрация дополнительных свойств поля
-     */
+         * Регистрация дополнительных свойств поля
+         */
         initIfNeeded() {
             const { dependency } = this.props
 
@@ -34,6 +35,13 @@ export default (Component) => {
     const mapDispatchToProps = dispatch => ({
         registerFieldDependency: (form, id, dependency) => dispatch(registerFieldDependency(form, id, dependency)),
     })
+
+    DependencyContainer.propTypes = {
+        dependency: PropTypes.any,
+        id: PropTypes.string,
+        form: PropTypes.any,
+        registerFieldDependency: PropTypes.func,
+    }
 
     return connect(
         null,

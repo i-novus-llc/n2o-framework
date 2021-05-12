@@ -28,10 +28,6 @@ import Field from './Field'
  */
 
 class Form extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     /**
    * Рендер филдсетов
    */
@@ -50,7 +46,7 @@ class Form extends React.Component {
         return fieldsets.map((fieldset, i) => (
             <Fieldset
                 activeModel={activeModel}
-                key={i}
+                key={i.toString()}
                 autoFocusId={autoFocusId}
                 form={form}
                 modelPrefix={modelPrefix}
@@ -101,6 +97,14 @@ Form.propTypes = {
     datasource: PropTypes.object,
     resolveModel: PropTypes.object,
     onResolve: PropTypes.func,
+    form: PropTypes.string,
+    modelPrefix: PropTypes.string,
+    autoSubmit: PropTypes.bool,
+    activeModel: PropTypes.object,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]),
 }
 
 export default pure(Form)

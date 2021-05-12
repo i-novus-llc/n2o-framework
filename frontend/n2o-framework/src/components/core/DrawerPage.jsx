@@ -4,11 +4,13 @@ import get from 'lodash/get'
 import cn from 'classnames'
 import { compose, withProps } from 'recompose'
 
+// eslint-disable-next-line import/no-named-as-default
 import Drawer from '../snippets/Drawer/Drawer'
 import Spinner from '../snippets/Spinner/Spinner'
 import Toolbar from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'
+// eslint-disable-next-line import/no-named-as-default,import/no-cycle
 import Page from './Page'
 
 /**
@@ -110,6 +112,7 @@ function DrawerPage(props) {
                     }
                 >
                     <div className={classes}>
+                        {/* eslint-disable-next-line no-nested-ternary */}
                         {pageUrl ? (
                             <Page
                                 pageUrl={pageUrl}
@@ -144,6 +147,24 @@ DrawerPage.propTypes = {
     fixedFooter: PropTypes.bool,
     closeOnEscape: PropTypes.bool,
     closable: PropTypes.bool,
+    src: PropTypes.any,
+    pageUrl: PropTypes.string,
+    pathMapping: PropTypes.any,
+    queryMapping: PropTypes.any,
+    loading: PropTypes.bool,
+    footer: PropTypes.node,
+    toolbar: PropTypes.array,
+    actions: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    entityKey: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    placement: PropTypes.string,
+    backdrop: PropTypes.bool,
+    level: PropTypes.any,
+    closeOnBackdrop: PropTypes.bool,
+    animation: PropTypes.bool,
+    prompt: PropTypes.func,
+    closeOverlay: PropTypes.func,
 }
 
 export default compose(

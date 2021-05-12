@@ -11,7 +11,7 @@ import packageJson from '../package'
 
 import history from './history'
 import configureStore from './store'
-import FactoryProvider from './core/factory/FactoryProvider'
+import { FactoryProvider } from './core/factory/FactoryProvider'
 import factoryPoints from './core/factory/factoryPoints'
 import factoryConfigShape from './core/factory/factoryConfigShape'
 import apiProvider from './core/api'

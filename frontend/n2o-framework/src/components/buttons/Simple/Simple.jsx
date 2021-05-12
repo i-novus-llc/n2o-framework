@@ -4,7 +4,7 @@ import Button from 'reactstrap/lib/Button'
 import Badge from 'reactstrap/lib/Badge'
 import cn from 'classnames'
 
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 
 const SimpleButton = ({
     id,

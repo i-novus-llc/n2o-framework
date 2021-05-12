@@ -1,8 +1,110 @@
-.n2o-rc-tree-wrapper {
-    .custom-control-label {
-        margin-bottom: 0.5rem;
+.n2o-rc-tree li ul {
+    margin: 0;
+    padding: 0 0 0 24px;
+}
+
+.n2o-rc-tree-wrapper .custom-control-label {
+    margin-bottom: 0.5rem;
+}
+
+//////////////////////////////////////////////////////////////
+
+.n2o-rc-tree-checkbox-checked {
+    .custom-control-label::before {
+        color: $white;
+        background-color: $checkbox-background-color-checked;
+        border-color: $checkbox-border-color-checked;
     }
 
+    .custom-control-label::after {
+        background-image: $custom-checkbox-indicator-icon-checked;
+        left: -1.2rem;
+    }
+}
+
+.n2o-rc-tree-checkbox-indeterminate {
+    .custom-control-label::before {
+        color: $white;
+        background-color: $checkbox-background-color-checked;
+        border-color: $checkbox-border-color-checked;
+    }
+
+    .custom-control-label::after {
+        background-image: $custom-checkbox-indicator-icon-indeterminate;
+        left: -1.2rem;
+    }
+}
+
+.n2o-rc-tree-switcher {
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: top;
+
+    i {
+        font-size: 16px;
+        padding: 0 5px 2px 6px;
+        border-radius: 50%;
+    }
+
+    &:hover {
+        background-color: $icon-tree-hover-color;
+    }
+
+    &.n2o-rc-tree-switcher_open .icon-wrapper > i {
+        transform: rotate(90deg);
+        transition: transform $tree-animation-speed linear;
+    }
+
+    &.n2o-rc-tree-switcher_close .icon-wrapper > i {
+        transition: transform $tree-animation-speed linear;
+    }
+
+    &.n2o-rc-tree-switcher-noop .icon-wrapper > i {
+        opacity: 0;
+    }
+
+    .custom-control {
+        pointer-events: none;
+    }
+
+    .icon-wrapper {
+        padding-right: 4px;
+    }
+
+    // Switcher открыть
+    &.n2o-rc-tree-switcher_open .custom-control-label {
+        &::before {
+            color: $white;
+            background-color: $checkbox-background-color-checked;
+            border-color: $checkbox-border-color-checked;
+        }
+
+        &::after {
+            background-image: $custom-checkbox-indicator-icon-indeterminate;
+            //left: -1.2rem;
+        }
+    }
+
+    // Switcher закрыт
+    &.n2o-rc-tree-switcher_close .custom-control-label {
+        &::before {
+            color: $white;
+            background-color: $checkbox-background-color-checked;
+            border-color: $checkbox-border-color-checked;
+        }
+
+        &::after {
+            background-image: $custom-checkbox-indicator-icon-close;
+            //left: -1.2rem;
+        }
+    }
+
+    &.n2o-rc-tree-switcher-noop .custom-control-label {
+        opacity: 0;
+    }
+}
+
+.n2o-rc-tree-wrapper {
     .custom-control-inline {
         padding-left: 1.5rem;
     }
@@ -18,11 +120,6 @@
         > img {
             width: 24px;
         }
-    }
-
-    .n2o-rc-tree {
-        margin: 0;
-        padding: 0;
     }
 
     .expand-btn {
@@ -69,6 +166,9 @@
     }
 
     .n2o-rc-tree {
+        margin: 0;
+        padding: 0;
+
         &:not(.n2o-rc-tree-show-line) .n2o-rc-tree-switcher-noop {
             background: none;
         }
@@ -137,24 +237,6 @@
     border-bottom: 2px $n2o-tree-draggable-color solid;
 }
 
-.n2o-rc-tree li.filter-node > .n2o-rc-tree-node-content-wrapper {
-    color: $n2o-tree-filtered-elem-color !important;
-    font-weight: bold !important;
-}
-
-//////////////////////////////
-
-.n2o-rc-tree li ul {
-    margin: 0;
-    padding: 0 0 0 24px;
-}
-
-.n2o-rc-tree li span.n2o-rc-tree-switcher.n2o-rc-tree-switcher-noop {
-    cursor: pointer;
-}
-
-//////////////////////////////////////////////////////////////
-
 .n2o-rc-tree li .n2o-rc-tree-node-content-wrapper {
     display: inline-block;
     margin: 0;
@@ -163,99 +245,15 @@
     vertical-align: top;
 }
 
-.n2o-rc-tree-switcher {
-    display: inline-block;
+.n2o-rc-tree li.filter-node > .n2o-rc-tree-node-content-wrapper {
+    color: $n2o-tree-filtered-elem-color !important;
+    font-weight: bold !important;
+}
+
+//////////////////////////////
+
+.n2o-rc-tree li span.n2o-rc-tree-switcher.n2o-rc-tree-switcher-noop {
     cursor: pointer;
-    vertical-align: top;
-
-    i {
-        font-size: 16px;
-        padding: 0 5px 2px 6px;
-        border-radius: 50%;
-    }
-
-    i:hover {
-        background-color: $icon-tree-hover-color;
-    }
-
-    .custom-control {
-        pointer-events: none;
-    }
-
-    .icon-wrapper {
-        padding-right: 4px;
-    }
-
-    &.n2o-rc-tree-switcher_open .icon-wrapper > i {
-        transform: rotate(90deg);
-        transition: transform $tree-animation-speed linear;
-    }
-
-    &.n2o-rc-tree-switcher_close .icon-wrapper > i {
-        transition: transform $tree-animation-speed linear;
-    }
-
-    &.n2o-rc-tree-switcher-noop .icon-wrapper > i {
-        opacity: 0;
-    }
-
-    // Switcher открыть
-    &.n2o-rc-tree-switcher_open .custom-control-label {
-        &::before {
-            color: $white;
-            background-color: $checkbox-background-color-checked;
-            border-color: $checkbox-border-color-checked;
-        }
-
-        &::after {
-            background-image: $custom-checkbox-indicator-icon-indeterminate;
-            //left: -1.2rem;
-        }
-    }
-
-    // Switcher закрыт
-    &.n2o-rc-tree-switcher_close .custom-control-label {
-        &::before {
-            color: $white;
-            background-color: $checkbox-background-color-checked;
-            border-color: $checkbox-border-color-checked;
-        }
-
-        &::after {
-            background-image: $custom-checkbox-indicator-icon-close;
-            //left: -1.2rem;
-        }
-    }
-
-    &.n2o-rc-tree-switcher-noop .custom-control-label {
-        opacity: 0;
-    }
-}
-
-.n2o-rc-tree-checkbox-checked {
-    .custom-control-label::before {
-        color: $white;
-        background-color: $checkbox-background-color-checked;
-        border-color: $checkbox-border-color-checked;
-    }
-
-    .custom-control-label::after {
-        background-image: $custom-checkbox-indicator-icon-checked;
-        left: -1.2rem;
-    }
-}
-
-.n2o-rc-tree-checkbox-indeterminate {
-    .custom-control-label::before {
-        color: $white;
-        background-color: $checkbox-background-color-checked;
-        border-color: $checkbox-border-color-checked;
-    }
-
-    .custom-control-label::after {
-        background-image: $custom-checkbox-indicator-icon-indeterminate;
-        left: -1.2rem;
-    }
 }
 
 .n2o-rc-tree-content-wrapper {

@@ -1,7 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Footer from '../../../plugins/Footer/Footer'
+// eslint-disable-next-line import/no-named-as-default
 import SideBar from '../../../plugins/SideBar/SideBar'
+// eslint-disable-next-line import/no-named-as-default
 import MenuContainer from '../../../plugins/Menu/MenuContainer'
 
 /**
@@ -21,4 +24,10 @@ function AppWithSideBar({ children }) {
     )
 }
 
+AppWithSideBar.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]),
+}
 export default AppWithSideBar

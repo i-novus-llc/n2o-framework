@@ -20,7 +20,6 @@ import widgetContainer from '../WidgetContainer'
 import { FORM } from '../widgetTypes'
 import createValidator from '../../../core/validation/createValidator'
 import { PREFIXES } from '../../../constants/models'
-import propsResolver from '../../../utils/propsResolver'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
@@ -63,7 +62,6 @@ export const withLiveCycleMethods = lifecycle({
             defaultValues,
             reduxFormValues,
             setDefaultValues,
-            resolveModel,
         } = this.props
 
         if (
@@ -112,7 +110,7 @@ export const withPropsOnChangeWidget = withPropsOnChange(
 
 export const withWidgetHandlers = withHandlers({
     onChange: props => (values, dispatch, options, prevValues) => {
-        props.setActive && props.setActive()
+        if (props.setActive) { props.setActive() }
         if (
             props.modelPrefix &&
       isEqual(props.initialValues, props.reduxFormValues) &&

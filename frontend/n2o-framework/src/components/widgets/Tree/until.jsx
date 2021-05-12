@@ -10,9 +10,10 @@ import uniqueId from 'lodash/uniqueId'
 import find from 'lodash/find'
 import some from 'lodash/some'
 import { findDOMNode } from 'react-dom'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import cssAnimation from 'css-animation'
 
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 
 import { KEY_CODES } from './component/constants'
 
@@ -21,6 +22,7 @@ import { KEY_CODES } from './component/constants'
  * @param tree
  * @param parentFieldId
  * @param valueFieldId
+ * @param childrenFieldId
  */
 export const treeToCollection = (
     tree,
@@ -234,7 +236,9 @@ const checked = (focusedElement, node, { prefixCls }) => {
             .closest('li')
             .querySelector(`.${prefixCls}-checkbox`)
 
-        child && child.click()
+        if (child) {
+            child.click()
+        }
     }
 }
 
@@ -248,8 +252,8 @@ export const customTreeActions = ({
     prefixCls,
     valueFieldId,
     parentFieldId,
-    hasCheckboxes,
 }) => {
+    // eslint-disable-next-line react/no-find-dom-node
     const node = findDOMNode(treeRef.current)
 
     const route = getTreeLinerRoute(datasource, expandedKeys, {
@@ -264,15 +268,7 @@ export const customTreeActions = ({
     const isRootParent = (id) => {
         const elem = find(datasource, [valueFieldId, id])
 
-        if (
-            elem &&
-      !has(elem, parentFieldId) &&
-      !find(datasource, [parentFieldId, id])
-        ) {
-            return true
-        }
-
-        return false
+        return elem && !has(elem, parentFieldId) && !find(datasource, [parentFieldId, id])
     }
 
     if (eq(key, KEY_CODES.KEY_DOWN)) {
@@ -330,6 +326,7 @@ export const splitSearchText = (text, searchText, filter) => {
             str => `<span class='search-text'>${str}</span>`,
         )
 
+        // eslint-disable-next-line react/no-danger
         return <span dangerouslySetInnerHTML={{ __html: html }} />
     }
 
@@ -375,13 +372,13 @@ export const singleDoubleClickFilter = (
     let timer = 0
 
     return (...args) => {
-        timer++
+        timer += 1
         if (timer === 1) {
             setTimeout(() => {
-                if (timer === 1) {
-                    singleCallback && singleCallback(...args)
-                } else {
-                    doubleCallback && doubleCallback(...args)
+                if (timer === 1 && singleCallback) {
+                    singleCallback(...args)
+                } else if (doubleCallback) {
+                    doubleCallback(...args)
                 }
                 timer = 0
             }, timeout || 100)

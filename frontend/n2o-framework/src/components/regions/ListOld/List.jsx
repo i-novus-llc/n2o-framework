@@ -8,8 +8,6 @@ import filter from 'lodash/filter'
 /**
  * Компонент Список
  * @reactProps {string} className - css-класс
- * @reactProps {boolean} animation
- * @reactProps {function} onSelect
  * @reactProps {node} children - элемент потомок компонента List
  * @example
  *  <List>
@@ -25,7 +23,7 @@ import filter from 'lodash/filter'
  * </List>
  */
 
-class List extends React.Component {
+export class List extends React.Component {
     constructor(props) {
         super(props)
 
@@ -37,12 +35,13 @@ class List extends React.Component {
     }
 
     /**
-   * Установка нового активного эдмента списка
-   * @param e
-   * @param id
-   */
+     * Установка нового активного эдмента списка
+     * @param e
+     * @param id
+     */
     handleChangeActive(e, id) {
-        let oldIds = Object.assign([], this.state.activeIds)
+        const { activeIds } = this.state
+        let oldIds = Object.assign([], activeIds)
 
         if (includes(oldIds, id)) {
             pull(oldIds, id)
@@ -55,8 +54,8 @@ class List extends React.Component {
     }
 
     /**
-   * getter для айдишников открытых по умолчанию элементов списка
-   */
+     * getter для айдишников открытых по умолчанию элементов списка
+     */
     static defaultOpenedId(children) {
         return map(
             filter(React.Children.toArray(children), child => child.props.active),
@@ -65,8 +64,8 @@ class List extends React.Component {
     }
 
     /**
-   * getter для пропсов дочернего компонента
-   */
+     * getter для пропсов дочернего компонента
+     */
     getChildProps(child) {
         const { activeIds } = this.state
 
@@ -89,8 +88,6 @@ class List extends React.Component {
 
 List.propTypes = {
     className: PropTypes.string,
-    animation: PropTypes.bool,
-    onSelect: PropTypes.func,
     children: PropTypes.node,
 }
 

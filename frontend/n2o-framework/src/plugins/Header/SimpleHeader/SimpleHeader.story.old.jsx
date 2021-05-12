@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withContext } from 'recompose'
@@ -17,7 +18,7 @@ const MenuContext = withContext(
     {
         getMenu: PropTypes.func,
     },
-    props => ({
+    () => ({
         getMenu: () => simpleHeaderMetadata,
     }),
 )(MenuContainer)

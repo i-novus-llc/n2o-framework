@@ -93,20 +93,26 @@ class StandardField extends React.Component {
             'is-invalid': 'text-danger',
             'has-warning': 'text-warning',
         }
-        const labelWidthPixels =
-      labelWidth === 'default'
-          ? 180
-          : labelWidth === 'min' || labelWidth === '100%'
-              ? undefined
-              : labelWidth
 
-        const styleHelper = toolbar
-            ? { width: '100%' }
-            : labelWidthPixels && colLength > 1
-                ? {
-                    maxWidth: `calc(100% - ${labelWidthPixels})`,
-                }
-                : { width: '100%' }
+        const getLabelWidthPixels = (labelWidth) => {
+            switch (labelWidth) {
+                case 'default':
+                    return 180
+                case 'min' || '100%':
+                    return undefined
+                default:
+                    return labelWidth
+            }
+        }
+
+        const labelWidthPixels = getLabelWidthPixels(labelWidth)
+
+        const styleHelper = labelWidthPixels && colLength > 1
+            ? {
+                maxWidth: `calc(100% - ${labelWidthPixels})`,
+            }
+            : { width: '100%' }
+
         const extendedLabelStyle = {
             width: labelWidthPixels,
             flex: labelWidthPixels ? 'none' : undefined,
@@ -219,6 +225,23 @@ StandardField.propTypes = {
     labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
     message: PropTypes.object,
     help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    id: PropTypes.string,
+    labelStyle: PropTypes.object,
+    controlStyle: PropTypes.object,
+    labelClass: PropTypes.string,
+    validationClass: PropTypes.string,
+    controlClass: PropTypes.string,
+    enabled: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    placeholder: PropTypes.string,
+    toolbar: PropTypes.array,
+    colLength: PropTypes.number,
+    containerKey: PropTypes.string,
+    dataProvider: PropTypes.object,
+    form: PropTypes.string,
+    noLabelBlock: PropTypes.bool,
+    value: PropTypes.any,
 }
 
 StandardField.defaultProps = {

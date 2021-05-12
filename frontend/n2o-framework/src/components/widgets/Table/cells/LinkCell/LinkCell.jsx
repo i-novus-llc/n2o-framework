@@ -3,6 +3,7 @@ import get from 'lodash/get'
 import omit from 'lodash/omit'
 import { isEmpty } from 'lodash'
 import { compose, withHandlers } from 'recompose'
+import PropTypes from 'prop-types'
 
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
@@ -61,6 +62,21 @@ function LinkCell(props) {
             />
         </span>
     )
+}
+
+LinkCell.propTypes = {
+    widgetId: PropTypes.string,
+    dispatch: PropTypes.func,
+    columnId: PropTypes.string,
+    model: PropTypes.object,
+    className: PropTypes,
+    fieldKey: PropTypes.string,
+    id: PropTypes.string,
+    resolveWidget: PropTypes.func,
+    icon: PropTypes.string,
+    type: PropTypes,
+    url: PropTypes.string,
+    onResolve: PropTypes.func,
 }
 
 export { LinkCell }

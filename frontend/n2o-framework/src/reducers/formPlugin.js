@@ -140,6 +140,7 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
         case SHOW_FIELDS: {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
+
                 // показываем поля только если у них нет своего условия на видимость
                 if (
                     field.dependency &&
@@ -172,6 +173,7 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
         case ENABLE_FIELDS: {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
+
                 // поля доступны только если у них нет своего условия на доступность
                 if (
                     field.dependency &&

@@ -1,17 +1,14 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { compose, withProps, pure } from 'recompose'
 
-import { getModelSelector } from '../../selectors/models'
 import {
     makePageActionsByIdSelector,
-    makePageMetadataByIdSelector,
     makePageToolbarByIdSelector,
 } from '../../selectors/pages'
 
 const withActions = (Component) => {
-    class ComponentWithActions extends React.Component {
+    class ComponentWithActions extends PureComponent {
         render() {
             return <Component {...this.props} />
         }
