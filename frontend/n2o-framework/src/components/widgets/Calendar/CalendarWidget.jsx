@@ -8,8 +8,8 @@ import { StandardFieldset } from '../Form/fieldsets'
 // eslint-disable-next-line import/no-named-as-default
 import CalendarContainer from './CalendarContainer'
 
-function CalendarWidget(
-    {
+function CalendarWidget(props, context) {
+    const {
         id: widgetId,
         toolbar,
         disabled,
@@ -21,9 +21,8 @@ function CalendarWidget(
         fetchOnInit,
         calendar,
         paging,
-    },
-    context,
-) {
+    } = props
+    const { resolveProps } = context
     const { size } = paging
 
     return (
@@ -31,8 +30,7 @@ function CalendarWidget(
             disabled={disabled}
             widgetId={widgetId}
             toolbar={toolbar}
-            /* eslint-disable-next-line react/destructuring-assignment */
-            filter={context.resolveProps(filter, StandardFieldset)}
+            filter={resolveProps(filter, StandardFieldset)}
             className={className}
             style={style}
         >

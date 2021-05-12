@@ -49,6 +49,7 @@ function withGetWidget(WrappedComponent) {
         }
 
         getVisible(pageId, widgetId) {
+            const { store } = this.context
             const dependencies = get(
                 this.props,
                 `pages[${pageId}].metadata.widgets[${widgetId}].dependency.visible`,
@@ -60,8 +61,7 @@ function withGetWidget(WrappedComponent) {
             }
 
             const model = getModelsByDependency(dependencies)(
-                // eslint-disable-next-line react/destructuring-assignment
-                this.context.store.getState(),
+                store.getState(),
             )
 
             return reduce(model, reduceFunction, true)

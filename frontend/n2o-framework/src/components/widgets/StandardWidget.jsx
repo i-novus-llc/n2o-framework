@@ -22,9 +22,11 @@ class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
         const { widgetId, toolbar, filter } = this.props
+        const { [place]: propsPlace } = this.props
 
-        // eslint-disable-next-line react/destructuring-assignment
-        if (this.props[place] && React.isValidElement(this.props[place])) { return this.props[place] }
+        if (propsPlace && React.isValidElement(propsPlace)) {
+            return propsPlace
+        }
         const filterProps = {
             ...filter,
             fieldsets: filter.filterFieldsets,
