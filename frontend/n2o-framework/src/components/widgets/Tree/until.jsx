@@ -10,7 +10,6 @@ import uniqueId from 'lodash/uniqueId'
 import find from 'lodash/find'
 import some from 'lodash/some'
 import { findDOMNode } from 'react-dom'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import cssAnimation from 'css-animation'
 
 import { Icon } from '../../snippets/Icon/Icon'

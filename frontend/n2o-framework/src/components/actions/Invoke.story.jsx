@@ -1,15 +1,12 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-// eslint-disable-next-line import/no-unresolved
 import { getStubData } from 'N2oStorybook/fetchMock'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import fetchMock from 'fetch-mock'
 
 import Factory from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 
-// eslint-disable-next-line import/extensions
-import metadata from './Invoke.meta'
+import metadata from './Invoke.meta.json'
 // eslint-disable-next-line import/no-named-as-default
 import Actions, { Actions as ActionsComponent } from './Actions'
 

@@ -4,8 +4,7 @@ import Button from 'reactstrap/lib/Button'
 
 import { PopoverConfirm } from '../../snippets/PopoverConfirm/PopoverConfirm'
 
-// eslint-disable-next-line import/extensions
-import MetaJson from './PopoverConfirm.meta'
+import MetaJson from './PopoverConfirm.meta.json'
 
 const stories = storiesOf('Действия/PopoverConfirm', module)
 

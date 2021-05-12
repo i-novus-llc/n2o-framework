@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import TreeBase from 'rc-tree'
 import pick from 'lodash/pick'
 import isEqual from 'lodash/isEqual'
