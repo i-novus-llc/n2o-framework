@@ -1,21 +1,18 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
 
-export const regionsSelector = state => state.regions || {};
+export const regionsSelector = state => state.regions || {}
 
-export const makeRegionByIdSelector = regionId =>
-  createSelector(
+export const makeRegionByIdSelector = regionId => createSelector(
     regionsSelector,
-    regionState => regionState[regionId] || {}
-  );
+    regionState => regionState[regionId] || {},
+)
 
-export const makeRegionIsInitSelector = regionId =>
-  createSelector(
+export const makeRegionIsInitSelector = regionId => createSelector(
     makeRegionByIdSelector(regionId),
-    regionState => regionState.isInit
-  );
+    regionState => regionState.isInit,
+)
 
-export const makeRegionActiveEntitySelector = regionId =>
-  createSelector(
+export const makeRegionActiveEntitySelector = regionId => createSelector(
     makeRegionByIdSelector(regionId),
-    regionState => regionState.activeEntity
-  );
+    regionState => regionState.activeEntity,
+)

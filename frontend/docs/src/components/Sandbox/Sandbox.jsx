@@ -9,7 +9,7 @@ import { visibilityHOC } from './visibilityHOC'
 import { CodeWrapper } from './CodeWrapper'
 import style from './sandbox.module.scss'
 
-function SandboxBody({ projectId, height }) {
+function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter }) {
     const [loadError, setLoadError] = useState(null)
     const [projectData, setProjectData] = useState(null)
 
@@ -52,9 +52,24 @@ function SandboxBody({ projectId, height }) {
         return <Spinner/>
     }
 
+    function onIframeLoadHandler(event) {
+        const message = {
+            source: 'docusaurus',
+            type: 'SET_N2O_ELEMENT_VISIBILITY',
+            payload: {
+                header: showHeader,
+                breadcrumb: showBreadcrumb,
+                footer: showFooter,
+            },
+        }
+
+        event.target.contentWindow.postMessage(message, '*')
+    }
+
     return (
         <>
             <iframe
+                onLoad={onIframeLoadHandler}
                 style={{ height }}
                 className={style.iframe}
                 src={`${CONFIG.sandboxUrl}/view/${projectData.id}/`}
@@ -65,11 +80,28 @@ function SandboxBody({ projectId, height }) {
     )
 }
 
+SandboxBody.propTypes = {
+    projectId: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
+    showHeader: PropTypes.bool.isRequired,
+    showBreadcrumb: PropTypes.bool.isRequired,
+    showFooter: PropTypes.bool.isRequired,
+}
+
 const Sandbox = visibilityHOC(memo(SandboxBody))
 
 Sandbox.propTypes = {
     projectId: PropTypes.string.isRequired,
     height: PropTypes.number,
+    showHeader: PropTypes.bool,
+    showBreadcrumb: PropTypes.bool,
+    showFooter: PropTypes.bool,
+}
+
+Sandbox.defaultProps = {
+    showHeader: false,
+    showBreadcrumb: false,
+    showFooter: false,
 }
 
 export { Sandbox }

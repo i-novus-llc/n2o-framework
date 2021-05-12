@@ -64,6 +64,15 @@ public class N2oPage extends N2oComponent implements Page {
         Selenide.executeJavaScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
+    public void shouldHaveCssClass(String classname) {
+        element().$(".n2o-page-body").shouldHave(Condition.cssClass(classname));
+    }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+        element().$(".n2o-page-body").shouldHave(Condition.attribute("style", style));
+    }
+
 
     public class N2oPageToolbar implements PageToolbar {
 

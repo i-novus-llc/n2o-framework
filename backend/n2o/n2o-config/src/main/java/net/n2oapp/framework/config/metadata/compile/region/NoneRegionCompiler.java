@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRegion> {
 
     @Override
-    protected String getPropertyRegionSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.region.none.src";
     }
 

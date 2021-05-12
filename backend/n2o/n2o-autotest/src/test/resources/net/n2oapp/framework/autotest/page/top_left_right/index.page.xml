@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
                      name="Страница с тремя регионами"
-                     scroll-top-button="true">
+                     scroll-top-button="true" class="page_class" style="background: blue">
     <top>
-        <panel>
-            <form name="Сверху">
+        <panel title="Сверху">
+            <form>
                 <toolbar>
                     <button label="Открыть" model="filter">
                         <open-page page-id="openPage"/>
@@ -14,25 +14,25 @@
         </panel>
     </top>
     <left width="30%" fixed="true">
-        <panel>
-            <form name="Слева"/>
+        <panel title="Слева">
+            <form/>
         </panel>
     </left>
     <right width="70%">
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form />
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form/>
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form />
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form/>
         </panel>
-        <panel>
-            <form name="Справа"/>
+        <panel title="Справа">
+            <form/>
         </panel>
     </right>
 </top-left-right-page>

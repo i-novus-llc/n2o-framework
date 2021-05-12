@@ -1,24 +1,24 @@
 .n2o-input-icon {
-  width: $input-icon-width;
-  height: $input-icon-height;
-  font-size: $input-select-control-icon-size;
-  border-radius: 50%;
-  padding: $input-icon-padding;
-  transition: all $tree-animation-speed linear;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: $input-icon-width;
+    height: $input-icon-height;
+    font-size: $input-select-control-icon-size;
+    border-radius: 50%;
+    padding: $input-icon-padding;
+    transition: all $tree-animation-speed linear;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  &.hoverable {
-    opacity: 0.5;
+    &.hoverable {
+        opacity: 0.5;
 
-    &:hover {
-      background-color: $icon-tree-hover-color;
-      opacity: 1;
+        &:hover {
+            background-color: $icon-tree-hover-color;
+            opacity: 1;
+        }
     }
-  }
-  
-  &.clickable:hover {
-    cursor: pointer;
-  }
+
+    &.clickable:hover {
+        cursor: pointer;
+    }
 }

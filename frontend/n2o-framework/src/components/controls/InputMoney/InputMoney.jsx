@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import cn from 'classnames';
-import isEqual from 'lodash/isEqual';
-import forOwn from 'lodash/forOwn';
-import isEmpty from 'lodash/isEmpty';
-import split from 'lodash/split';
-import replace from 'lodash/replace';
-import includes from 'lodash/includes';
-import isNaN from 'lodash/isNaN';
-import last from 'lodash/last';
-import toNumber from 'lodash/toNumber';
-import isNil from 'lodash/isNil';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
+import cn from 'classnames'
+import isEqual from 'lodash/isEqual'
+import forOwn from 'lodash/forOwn'
+import isEmpty from 'lodash/isEmpty'
+import split from 'lodash/split'
+import replace from 'lodash/replace'
+import includes from 'lodash/includes'
+import isNaN from 'lodash/isNaN'
+import last from 'lodash/last'
+import toNumber from 'lodash/toNumber'
+import isNil from 'lodash/isNil'
 
-import InputMask from '../InputMask/InputMask';
+import InputMask from '../InputMask/InputMask'
 
 const ReplaceableChar = {
-  PREFIX: 'prefix',
-  SUFFIX: 'suffix',
-  THOUSANDS_SYMBOL: 'thousandsSeparatorSymbol',
-  DECIMAL_SYMBOL: 'decimalSymbol',
-};
+    PREFIX: 'prefix',
+    SUFFIX: 'suffix',
+    THOUSANDS_SYMBOL: 'thousandsSeparatorSymbol',
+    DECIMAL_SYMBOL: 'decimalSymbol',
+}
 
 /**
  * Компонент ввода денег
@@ -39,213 +39,238 @@ const ReplaceableChar = {
  * @example
  */
 class InputMoney extends React.Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props)
 
-    this.state = {
-      value: props.value,
-    };
+        this.state = {
+            value: props.value,
+        }
 
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.convertToMoney = this.convertToMoney.bind(this);
-    this.convertToFloat = this.convertToFloat.bind(this);
-    this.getInputMoneyProps = this.getInputMoneyProps.bind(this);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.value, this.props.value)) {
-      this.setState({ value: this.props.value });
-    }
-  }
-
-  convertToMoney(value) {
-    const { allowDecimal } = this.props;
-    if (value !== '') {
-      value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+        this.onBlur = this.onBlur.bind(this)
+        this.onChange = this.onChange.bind(this)
+        this.convertToMoney = this.convertToMoney.bind(this)
+        this.convertToFloat = this.convertToFloat.bind(this)
+        this.getInputMoneyProps = this.getInputMoneyProps.bind(this)
     }
 
-    const splitBySymbol = split(
-      value,
-      this.props[ReplaceableChar.DECIMAL_SYMBOL]
-    );
+    componentDidUpdate(prevProps) {
+        const { value } = this.props
 
-    if (!allowDecimal) {
-      value = splitBySymbol[0];
-    }
-    return value;
-  }
-
-  onBlur(value) {
-    const { onBlur } = this.props;
-    const convertedValue = parseFloat(this.convertToFloat(value));
-    onBlur && onBlur(!isNaN(convertedValue) ? convertedValue : null);
-    this.setState({ value: convertedValue });
-  }
-
-  replaceSpecialSymbol(value, searchValue, replaceValue) {
-    return value.replace(searchValue, replaceValue);
-  }
-
-  convertToFloat(value) {
-    const { allowDecimal } = this.props;
-    let convertedValue = value.toString();
-    forOwn(ReplaceableChar, char => {
-      if (!isEmpty(this.props[char])) {
-        const pattern = this.props[char].replace(
-          /[-\/\\^$*+?.()|[\]{}]/g,
-          '\\$&'
-        );
-        const regExp = new RegExp(pattern, 'g');
-        const replaceableValue =
-          char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
-        convertedValue = this.replaceSpecialSymbol(
-          convertedValue,
-          regExp,
-          replaceableValue
-        );
-      }
-    });
-
-    if (
-      allowDecimal &&
-      includes(this.state.value, '.') &&
-      !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
-    ) {
-      convertedValue = convertedValue.substring(0, convertedValue.length - 3);
+        if (!isEqual(prevProps.value, value)) {
+            this.setState({ value })
+        }
     }
 
-    if (
-      includes(convertedValue, '.') &&
-      last(split(convertedValue, '.')).length === 1
-    ) {
-      convertedValue += '0';
+    convertToMoney(value) {
+        const { allowDecimal } = this.props
+
+        if (value !== '') {
+            // eslint-disable-next-line react/destructuring-assignment
+            value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL])
+        }
+
+        const splitBySymbol = split(
+            value,
+            // eslint-disable-next-line react/destructuring-assignment
+            this.props[ReplaceableChar.DECIMAL_SYMBOL],
+        )
+
+        if (!allowDecimal) {
+            return splitBySymbol[0]
+        }
+
+        return value
     }
 
-    this.setState({ value: convertedValue });
-    return convertedValue;
-  }
+    onBlur(value) {
+        const { onBlur } = this.props
+        const convertedValue = parseFloat(this.convertToFloat(value))
 
-  onChange(value) {
-    const { onChange, allowNegative } = this.props;
+        if (onBlur) {
+            onBlur(!isNaN(convertedValue) ? convertedValue : null)
+        }
+        this.setState({ value: convertedValue })
+    }
 
-    if (isNaN(toNumber(value))) return;
+    // eslint-disable-next-line class-methods-use-this
+    replaceSpecialSymbol(value, searchValue, replaceValue) {
+        return value.replace(searchValue, replaceValue)
+    }
 
-    const convertedValue =
-      (allowNegative && value === '-') || isNil(value)
-        ? value
-        : parseFloat(this.convertToFloat(value));
-    onChange && onChange(!isNaN(convertedValue) ? convertedValue : null);
-    this.setState({ value: convertedValue });
-  }
+    convertToFloat(value) {
+        const { allowDecimal } = this.props
+        let convertedValue = value.toString()
 
-  getInputMoneyProps() {
-    const {
-      t,
-      value,
-      className,
-      suffix = t('rub'),
-      prefix,
-      includeThousandsSeparator,
-      thousandsSeparatorSymbol,
-      allowDecimal,
-      decimalSymbol,
-      decimalLimit,
-      integerLimit,
-      allowNegative,
-      allowLeadingZeroes,
-    } = this.props;
-    return {
-      ...this.props,
-      preset: 'money',
-      value: this.convertToMoney(value || this.state.value),
-      onChange: this.onChange,
-      onBlur: this.onBlur,
-      className: cn('n2o-input-money', className),
-      presetConfig: {
-        suffix,
-        prefix,
-        includeThousandsSeparator,
-        thousandsSeparatorSymbol,
-        allowDecimal,
-        decimalSymbol,
-        decimalLimit,
-        integerLimit,
-        requireDecimal: false,
-        allowNegative,
-        allowLeadingZeroes,
-      },
-    };
-  }
+        forOwn(ReplaceableChar, (char) => {
+            // eslint-disable-next-line react/destructuring-assignment
+            if (!isEmpty(this.props[char])) {
+                // eslint-disable-next-line react/destructuring-assignment
+                const pattern = this.props[char].replace(
+                    /[$()*+./?[\\\]^{|}-]/g,
+                    '\\$&',
+                )
+                const regExp = new RegExp(pattern, 'g')
+                const replaceableValue = char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : ''
 
-  render() {
-    return <InputMask {...this.getInputMoneyProps()} />;
-  }
+                convertedValue = this.replaceSpecialSymbol(
+                    convertedValue,
+                    regExp,
+                    replaceableValue,
+                )
+            }
+        })
+
+        const { value: stateValue } = this.state
+
+        if (
+            allowDecimal &&
+            includes(stateValue, '.') &&
+            // eslint-disable-next-line react/destructuring-assignment
+            !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
+        ) {
+            convertedValue = convertedValue.substring(0, convertedValue.length - 3)
+        }
+
+        if (
+            includes(convertedValue, '.') &&
+            last(split(convertedValue, '.')).length === 1
+        ) {
+            convertedValue += '0'
+        }
+
+        this.setState({ value: convertedValue })
+
+        return convertedValue
+    }
+
+    onChange(value) {
+        const { onChange, allowNegative } = this.props
+
+        if (isNaN(toNumber(value))) { return }
+
+        const convertedValue = (allowNegative && value === '-') || isNil(value)
+            ? value
+            : parseFloat(this.convertToFloat(value))
+
+        if (onChange) {
+            onChange(!isNaN(convertedValue) ? convertedValue : null)
+        }
+        this.setState({ value: convertedValue })
+    }
+
+    getInputMoneyProps() {
+        const {
+            t,
+            value,
+            className,
+            suffix = t('rub'),
+            prefix,
+            includeThousandsSeparator,
+            thousandsSeparatorSymbol,
+            allowDecimal,
+            decimalSymbol,
+            decimalLimit,
+            integerLimit,
+            allowNegative,
+            allowLeadingZeroes,
+        } = this.props
+        const { value: stateValue } = this.state
+
+        return {
+            ...this.props,
+            preset: 'money',
+            value: this.convertToMoney(value || stateValue),
+            onChange: this.onChange,
+            onBlur: this.onBlur,
+            className: cn('n2o-input-money', className),
+            presetConfig: {
+                suffix,
+                prefix,
+                includeThousandsSeparator,
+                thousandsSeparatorSymbol,
+                allowDecimal,
+                decimalSymbol,
+                decimalLimit,
+                integerLimit,
+                requireDecimal: false,
+                allowNegative,
+                allowLeadingZeroes,
+            },
+        }
+    }
+
+    render() {
+        return <InputMask {...this.getInputMoneyProps()} />
+    }
 }
 
 InputMoney.propTypes = {
-  /**
-   * Значение
-   */
-  value: PropTypes.string,
-  /**
-   * Класс контрола
-   */
-  className: PropTypes.string,
-  /**
-   * Строка перед значением
-   */
-  prefix: PropTypes.string,
-  /**
-   * Строка после значния
-   */
-  suffix: PropTypes.string,
-  /**
-   * Флаг включения разделения по тысячам
-   */
-  includeThousandsSeparator: PropTypes.bool,
-  /**
-   * Символ разделяющий тысячи
-   */
-  thousandsSeparatorSymbol: PropTypes.string,
-  /**
-   * Разрешить копейки
-   */
-  allowDecimal: PropTypes.bool,
-  /**
-   * Символ разделитель копеек
-   */
-  decimalSymbol: PropTypes.string,
-  /**
-   * Лимит на количество символов после запятой
-   */
-  decimalLimit: PropTypes.number,
-  /**
-   * Целочисленный лимит
-   */
-  integerLimit: PropTypes.any,
-  /**
-   * Разрешить ввод отрицательных числе
-   */
-  allowNegative: PropTypes.bool,
-  allowLeadingZeroes: PropTypes.bool,
-};
+    /**
+     * Значение
+     */
+    value: PropTypes.string,
+    /**
+     * Класс контрола
+     */
+    className: PropTypes.string,
+    /**
+     * Строка перед значением
+     */
+    prefix: PropTypes.string,
+    /**
+     * Строка после значния
+     */
+    suffix: PropTypes.string,
+    /**
+     * Флаг включения разделения по тысячам
+     */
+    includeThousandsSeparator: PropTypes.bool,
+    /**
+     * Символ разделяющий тысячи
+     */
+    thousandsSeparatorSymbol: PropTypes.string,
+    /**
+     * Разрешить копейки
+     */
+    allowDecimal: PropTypes.bool,
+    /**
+     * Символ разделитель копеек
+     */
+    decimalSymbol: PropTypes.string,
+    /**
+     * Лимит на количество символов после запятой
+     */
+    decimalLimit: PropTypes.number,
+    /**
+     * Целочисленный лимит
+     */
+    integerLimit: PropTypes.any,
+    /**
+     * Разрешить ввод отрицательных числе
+     */
+    allowNegative: PropTypes.bool,
+    allowLeadingZeroes: PropTypes.bool,
+    t: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+}
 
 InputMoney.defaultProps = {
-  value: '',
-  prefix: '',
-  includeThousandsSeparator: true,
-  thousandsSeparatorSymbol: ' ',
-  allowDecimal: true,
-  decimalSymbol: ',',
-  decimalLimit: 2,
-  integerLimit: 15,
-  allowNegative: false,
-  allowLeadingZeroes: false,
-  guide: false,
-  t: () => {},
-};
+    value: '',
+    prefix: '',
+    includeThousandsSeparator: true,
+    thousandsSeparatorSymbol: ' ',
+    allowDecimal: true,
+    decimalSymbol: ',',
+    decimalLimit: 2,
+    integerLimit: 15,
+    allowNegative: false,
+    allowLeadingZeroes: false,
+    guide: false,
+    t: () => {},
+}
 
-export { InputMoney };
+export { InputMoney }
 
-export default withTranslation()(InputMoney);
+export default withTranslation()(InputMoney)

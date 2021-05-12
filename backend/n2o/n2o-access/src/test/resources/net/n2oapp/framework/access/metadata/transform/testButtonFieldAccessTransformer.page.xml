@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <regions>
+        <panel id="regionId" place="single">
+            <form>
+                <fields>
+                    <button id="btn01">
+                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
+                    </button>
+                    <button id="btn02" sec:roles="role1">
+                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
+                    </button>
+
+                    <button id="btn10" action-id="act1" sec:authenticated="true"/>
+                    <button id="btn11" action-id="act1"/>
+                    <button id="btn12" action-id="act2"/>
+                </fields>
+                <actions>
+                    <action id="act1">
+                        <clear/>
+                    </action>
+                    <action id="act2">
+                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
+                    </action>
+                </actions>
+            </form>
+        </panel>
+    </regions>
+</page>

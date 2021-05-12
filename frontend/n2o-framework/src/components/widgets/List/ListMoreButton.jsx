@@ -1,14 +1,14 @@
-import React from 'react';
-import Button from 'reactstrap/lib/Button';
-import PropTypes from 'prop-types';
+import React from 'react'
+import Button from 'reactstrap/lib/Button'
+import PropTypes from 'prop-types'
 
 ListMoreButton.propTypes = {
-  onClick: PropTypes.func,
-};
+    onClick: PropTypes.func,
+}
 
 ListMoreButton.defaultProps = {
-  onClick: () => {},
-};
+    onClick: () => {},
+}
 
 /**
  * Кнопка "Загрузить еще"
@@ -18,11 +18,11 @@ ListMoreButton.defaultProps = {
  * @constructor
  */
 function ListMoreButton({ onClick, style }) {
-  return (
-    <div style={style} className="n2o-widget-list-more-button">
-      <Button onClick={onClick}>Загрузить еще</Button>
-    </div>
-  );
+    return (
+        <div style={style} className="n2o-widget-list-more-button">
+            <Button onClick={onClick}>Загрузить еще</Button>
+        </div>
+    )
 }
 
-export default ListMoreButton;
+export default ListMoreButton

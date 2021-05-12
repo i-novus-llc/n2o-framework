@@ -50,11 +50,15 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
         assertThat(((LineRegion) regions.get(0)).getExpand(), is(false));
         assertThat(((LineRegion) regions.get(0)).getHasSeparator(), is(false));
+        assertThat((regions.get(0)).getClassName(), is("testClass"));
+        assertThat(regions.get(0).getStyle().size(), is(2));
 
         assertThat(((LineRegion) regions.get(1)).getLabel(), nullValue());
         assertThat(((LineRegion) regions.get(1)).getCollapsible(), is(true));
         assertThat(((LineRegion) regions.get(1)).getExpand(), is(true));
         assertThat(((LineRegion) regions.get(1)).getHasSeparator(), is(true));
+        assertThat((regions.get(1)).getClassName(), nullValue());
+        assertThat((regions.get(1)).getStyle(), nullValue());
 
     }
 

@@ -1,21 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import BaseCollapse from 'rc-collapse';
-import cx from 'classnames';
-import Panel from './Panel';
-import Icon from '../Icon/Icon';
+import React from 'react'
+import PropTypes from 'prop-types'
+import BaseCollapse from 'rc-collapse'
+import cx from 'classnames'
+import map from 'lodash/map'
 
-import map from 'lodash/map';
+import Icon from '../Icon/Icon'
 
-const expandIcon = ({ isActive }, collapsible) =>
-  collapsible ? (
+import Panel from './Panel'
+
+const expandIcon = ({ isActive }, collapsible) => (collapsible ? (
     <div className="n2o-collapse-icon-wrapper">
-      <Icon
-        className={cx('n2o-collapse-icon', { isActive })}
-        name="fa fa-angle-right"
-      />
+        <Icon
+            className={cx('n2o-collapse-icon', { isActive })}
+            name="fa fa-angle-right"
+        />
     </div>
-  ) : null;
+) : null)
 
 /**
  * Компонент Collapse
@@ -29,58 +29,58 @@ const expandIcon = ({ isActive }, collapsible) =>
  */
 
 const Collapse = ({ className, children, dataKey, collapsible, ...rest }) => {
-  const renderPanels = ({ text, ...panelProps }) => (
-    <Panel {...panelProps}>{text}</Panel>
-  );
+    const renderPanels = ({ text, ...panelProps }) => (
+        <Panel {...panelProps}>{text}</Panel>
+    )
 
-  return (
-    <BaseCollapse
-      className={cx('n2o-collapse', className)}
-      expandIcon={props => expandIcon(props, collapsible)}
-      {...rest}
-    >
-      {children || map(rest[dataKey], renderPanels)}
-    </BaseCollapse>
-  );
-};
+    return (
+        <BaseCollapse
+            className={cx('n2o-collapse', className)}
+            expandIcon={props => expandIcon(props, collapsible)}
+            {...rest}
+        >
+            {children || map(rest[dataKey], renderPanels)}
+        </BaseCollapse>
+    )
+}
 
 Collapse.propTypes = {
-  /**
+    /**
    * Массив ключей открытых панелей
    */
-  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  /**
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    /**
    * Массив ключей открытых по дефолту панелей
    */
-  defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  destroyInactivePanel: PropTypes.bool,
-  /**
+    defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    destroyInactivePanel: PropTypes.bool,
+    /**
    * Флаг включения режима 'Аккордион' (При открытии панели захлопнуть предыдущую панель)
    */
-  accordion: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  /**
+    accordion: PropTypes.bool,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    /**
    * Callback на открытие/закрытие панелей
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Ключ для рендера панелей
    */
-  dataKey: PropTypes.string,
-  /**
+    dataKey: PropTypes.string,
+    /**
    * Флаг выключения возможности сворачивания
    */
-  collapsible: PropTypes.bool,
-};
+    collapsible: PropTypes.bool,
+}
 
 Collapse.defaultProps = {
-  destroyInactivePanel: false,
-  accordion: false,
-  dataKey: 'items',
-  collapsible: true,
-  isVisible: true,
-};
+    destroyInactivePanel: false,
+    accordion: false,
+    dataKey: 'items',
+    collapsible: true,
+    isVisible: true,
+}
 
-export { Panel };
-export default Collapse;
+export { Panel }
+export default Collapse

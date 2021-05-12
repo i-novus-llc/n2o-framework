@@ -1,74 +1,74 @@
 .n2o-tab-content__container {
-  display: none;
+    display: none;
 }
 
 .n2o-tab-content__container.visible {
-  display: inline;
-  position: relative;
-  width: 100%;
-  height: 100%;
+    display: inline;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .n2o-tab-content__container.fixed {
-  padding-top: 50px;
+    padding-top: 50px;
 }
 
 .tab-content {
-  padding: 15px;
+    padding: 15px;
 }
 
 .tab-sub-content {
-  border-bottom: $tabs-border;
+    border-bottom: $tabs-border;
 
-  .tab-content {
-    border-left: $tabs-border;
-    border-right: $tabs-border;
-  }
+    .tab-content {
+        border-left: $tabs-border;
+        border-right: $tabs-border;
+    }
 }
 
 .n2o-nav-tabs-container {
-  margin-bottom: 2px;
+    margin-bottom: 2px;
 
-  .n2o-nav-tabs_tabs-fixed {
-    position: absolute;
-    width: 100%;
-    background-color: #fff;
-    z-index: 100;
-  }
+    .n2o-nav-tabs_tabs-fixed {
+        position: absolute;
+        width: 100%;
+        background-color: #fff;
+        z-index: 100;
+    }
 
-  .tab-content_fixed.tabs-with-title {
-    padding-top: 75px;
-  }
+    .tab-content_fixed.tabs-with-title {
+        padding-top: 75px;
+    }
 
-  .tab-content_height-fixed {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+    .tab-content_height-fixed {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 
-  .tab-content_no-scrollbar::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-  }
+    .tab-content_no-scrollbar::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+    }
 
-  .tab-content_no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+    .tab-content_no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 }
 
 .n2o-nav-tabs-container.fixed {
-  margin-bottom: 10px;
-  display: flex;
-  flex-flow: column nowrap;
-  overflow: scroll;
-  position: relative;
-  width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: scroll;
+    position: relative;
+    width: 100%;
 }
 
 .n2o-nav-tabs-container.fixed::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
 
 .n2o-nav-tabs-container.fixed {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

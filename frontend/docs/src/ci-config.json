@@ -1,5 +1,4 @@
 {
-  "sandboxUrl": "https://n2oapp.net/sandbox",
-  "url": "https://n2o.i-novus.ru",
-  "baseUrl": "/"
+  "docusaurusUrl": "/",
+  "sandboxUrl": "https://n2oapp.net/sandbox"
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import { pure } from 'recompose';
-import pick from 'lodash/pick';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
+import React from 'react'
+import { pure } from 'recompose'
+import pick from 'lodash/pick'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
 
 /**
  * Компонент создания строки в таблице
@@ -10,40 +10,40 @@ import cn from 'classnames';
  * @constructor
  */
 function AdvancedTableRow(props) {
-  const {
-    className,
-    isRowActive,
-    setRef,
-    children,
-    model,
-    rowClass,
-    handleRowClick,
-    handleRowClickFocus,
-  } = props;
+    const {
+        className,
+        isRowActive,
+        setRef,
+        children,
+        model,
+        rowClass,
+        handleRowClick,
+        handleRowClickFocus,
+    } = props
 
-  const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
-    'table-active': isRowActive,
-    [rowClass]: rowClass,
-  });
-  const newProps = {
-    ...pick(props, ['className', 'data-row-key', 'style']),
-    ref: el => setRef && setRef(el, model.id),
-    tabIndex: 0,
-    key: model.id,
-    className: classes,
-    onClick: handleRowClick,
-    onFocus: handleRowClickFocus,
-  };
+    const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
+        'table-active': isRowActive,
+        [rowClass]: rowClass,
+    })
+    const newProps = {
+        ...pick(props, ['className', 'data-row-key', 'style']),
+        ref: el => setRef && setRef(el, model.id),
+        tabIndex: 0,
+        key: model.id,
+        className: classes,
+        onClick: handleRowClick,
+        onFocus: handleRowClickFocus,
+    }
 
-  return React.createElement('tr', newProps, [...children]);
+    return React.createElement('tr', newProps, [...children])
 }
 
 AdvancedTableRow.propTypes = {
-  className: PropTypes.string,
-  isRowActive: PropTypes.bool,
-  setRef: PropTypes.func,
-  children: PropTypes.array,
-  model: PropTypes.object,
-};
+    className: PropTypes.string,
+    isRowActive: PropTypes.bool,
+    setRef: PropTypes.func,
+    children: PropTypes.array,
+    model: PropTypes.object,
+}
 
-export default pure(AdvancedTableRow);
+export default pure(AdvancedTableRow)

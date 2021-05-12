@@ -1,5 +1,5 @@
-import HeaderFooterTemplate from './HeaderFooterTemplate';
-import SidebarTemplate from './SidebarTemplate';
-import SimpleTemplate from './SimpleTemplate';
+import HeaderFooterTemplate from './HeaderFooterTemplate'
+import SidebarTemplate from './SidebarTemplate'
+import SimpleTemplate from './SimpleTemplate'
 
-export { HeaderFooterTemplate, SidebarTemplate, SimpleTemplate };
+export { HeaderFooterTemplate, SidebarTemplate, SimpleTemplate }

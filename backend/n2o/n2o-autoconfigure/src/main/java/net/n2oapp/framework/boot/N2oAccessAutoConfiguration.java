@@ -31,9 +31,7 @@ public class N2oAccessAutoConfiguration {
     @Bean
     public N2oSecurityModule n2oSecurityModule(PermissionApi permissionApi){
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, strictFiltering);
-        N2oSecurityModule n2oSecurityModule = new N2oSecurityModule(securityProvider);
-        n2oSecurityModule.setAfterAll(true);
-        return n2oSecurityModule;
+        return new N2oSecurityModule(securityProvider);
     }
 
 

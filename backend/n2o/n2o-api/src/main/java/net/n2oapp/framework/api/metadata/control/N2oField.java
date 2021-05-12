@@ -24,8 +24,6 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String required;
     private String enabled;
     private String[] dependsOn;
-    @Deprecated
-    private String style;
     private String label;
     private String labelClass;
     @Deprecated
@@ -42,6 +40,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private ReduxModel refModel;
     private Page refPage;
     private String refWidgetId;
+    private String refFieldId;
 
     private N2oToolbar toolbar;
     private Dependency[] dependencies;

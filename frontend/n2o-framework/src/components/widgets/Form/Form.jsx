@@ -1,14 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
-import isNil from 'lodash/isNil';
-import { pure } from 'recompose';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { pure } from 'recompose'
 
-import evalExpression, { parseExpression } from '../../../utils/evalExpression';
-
-import { getAutoFocusId, flatFields } from './utils';
-import Fieldset from './Fieldset';
-import Field from './Field';
+import { getAutoFocusId, flatFields } from './utils'
+import Fieldset from './Fieldset'
+import Field from './Field'
 /**
  * Простая форма
  * @reactProps {string} class - css-класс
@@ -32,100 +28,79 @@ import Field from './Field';
  */
 
 class Form extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props)
+    }
 
-  /**
+    /**
    * Рендер филдсетов
    */
-  renderFieldsets() {
-    const {
-      fieldsets,
-      autoFocus,
-      form,
-      modelPrefix,
-      autoSubmit,
-      activeModel,
-    } = this.props;
+    renderFieldsets() {
+        const {
+            fieldsets,
+            autoFocus,
+            form,
+            modelPrefix,
+            autoSubmit,
+            activeModel,
+        } = this.props
 
-    const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []));
+        const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []))
 
-    return fieldsets.map((set, i) => {
-      const { enabled, visible } = set;
+        return fieldsets.map((fieldset, i) => (
+            <Fieldset
+                activeModel={activeModel}
+                key={i}
+                autoFocusId={autoFocusId}
+                form={form}
+                modelPrefix={modelPrefix}
+                autoSubmit={autoSubmit}
+                {...fieldset}
+            />
+        ))
+    }
 
-      const takeFromDependency = param => {
-        if (parseExpression(param)) {
-          const currentDependency = evalExpression(
-            parseExpression(param),
-            activeModel
-          );
-
-          return currentDependency === undefined ? false : currentDependency;
-        } else {
-          return param === undefined ? true : param;
-        }
-      };
-
-      const fieldEnabled = isNil(enabled) ? true : takeFromDependency(enabled);
-      const fieldVisible = isNil(visible) ? true : takeFromDependency(visible);
-
-      return (
-        <Fieldset
-          activeModel={activeModel}
-          key={i}
-          component={set.component}
-          autoFocusId={autoFocusId}
-          form={form}
-          modelPrefix={modelPrefix}
-          autoSubmit={autoSubmit}
-          {...omit(set, 'component')}
-          enabled={fieldEnabled}
-          visible={fieldVisible}
-        />
-      );
-    });
-  }
-
-  /**
+    /**
    * Базовый рендер
    */
-  render() {
-    const { className, style, children } = this.props;
-    if (React.Children.count(children)) {
-      return (
-        <div className={className} style={style}>
-          {children}
-        </div>
-      );
+    render() {
+        const { className, style, children } = this.props
+
+        if (React.Children.count(children)) {
+            return (
+                <div className={className} style={style}>
+                    {children}
+                </div>
+            )
+        }
+
+        return (
+            <div className={className} style={style}>
+                {this.renderFieldsets()}
+            </div>
+        )
     }
-    return (
-      <div className={className} style={style}>
-        {this.renderFieldsets()}
-      </div>
-    );
-  }
 }
 
-Form.Field = Field;
+Form.Field = Field
 
 Form.defaultProps = {
-  fieldsets: [],
-  autoFocus: true,
-};
+    fieldsets: [],
+    autoFocus: true,
+}
 
 Form.propTypes = {
-  fieldsets: PropTypes.array,
-  autoFocus: PropTypes.bool,
-  /* Default props */
-  className: PropTypes.string,
-  style: PropTypes.string,
-  /* Specific props */
-  onSubmit: PropTypes.func,
-  /* Logic props */
-  datasource: PropTypes.object,
-  resolveModel: PropTypes.object,
-  onResolve: PropTypes.func,
-};
+    fieldsets: PropTypes.array,
+    autoFocus: PropTypes.bool,
+    /* Default props */
+    className: PropTypes.string,
+    style: PropTypes.string,
+    /* Specific props */
+    onSubmit: PropTypes.func,
+    /* Logic props */
+    datasource: PropTypes.object,
+    resolveModel: PropTypes.object,
+    onResolve: PropTypes.func,
+}
 
-export default pure(Form);
+export default pure(Form)

@@ -99,7 +99,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         if (f.getRoutable())
                             if (f.getLink().getSubModelQuery() != null)
                                 addSubModelLinkToModels(models, f);
-                            else if(w instanceof Table && ((Table) w).getFiltersDefaultValuesQueryId() != null)
+                            else if (w instanceof Table && ((Table) w).getFiltersDefaultValuesQueryId() != null)
                                 addDefaultFilterValueLinkToModels(models, f);
     }
 
@@ -115,7 +115,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
     private void addDefaultFilterValueLinkToModels(Models models, Filter f) {
         ModelLink link = constructLink(models, f.getLink(), f.getFilterId());
-        if (link.getValue() == null && f.getLink().getValue() != null)
+        if (f.getLink().getValue() != null)
             link.setValue(f.getLink().getValue());
         models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
     }

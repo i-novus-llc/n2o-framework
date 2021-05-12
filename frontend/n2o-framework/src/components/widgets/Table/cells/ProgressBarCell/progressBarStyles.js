@@ -3,9 +3,9 @@
  */
 
 export default {
-  DEFAULT: 'default',
-  SUCCESS: 'success',
-  INFO: 'info',
-  WARNING: 'warning',
-  DANGER: 'danger',
-};
+    DEFAULT: 'default',
+    SUCCESS: 'success',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+}

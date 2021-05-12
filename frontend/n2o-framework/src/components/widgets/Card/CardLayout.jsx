@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 /**
  * Лайоут для Карточек
@@ -11,16 +11,16 @@ import cx from 'classnames';
  * @constructor
  */
 function CardLayout({ children, className, ...rest }) {
-  return (
-    <div className={cx('n2o-card-wrap', className)} {...rest}>
-      {children}
-    </div>
-  );
+    return (
+        <div className={cx('n2o-card-wrap', className)} {...rest}>
+            {children}
+        </div>
+    )
 }
 
 CardLayout.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
+    children: PropTypes.node,
+    className: PropTypes.string,
+}
 
-export default CardLayout;
+export default CardLayout
