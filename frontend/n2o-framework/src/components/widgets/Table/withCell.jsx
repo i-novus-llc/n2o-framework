@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { isEmpty } from 'lodash'
+import PropTypes from 'prop-types'
 
 import { PREFIXES } from '../../../constants/models'
 import { callActionImpl } from '../../../actions/toolbar'
@@ -13,7 +14,10 @@ import { updateModel, setModel } from '../../../actions/models'
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
         onActionImpl: ({ src, component, options }) => callActionImpl(src || component, { ...options, dispatch }),
-        onInvoke: (widgetId, dataProvider, data, modelLink, meta) => startInvoke(widgetId, dataProvider, data, modelLink, meta),
+        onInvoke:
+                (widgetId, dataProvider, data, modelLink, meta) => startInvoke(
+                    widgetId, dataProvider, data, modelLink, meta,
+                ),
         onUpdateModel: (prefix, key, field, values) => updateModel(prefix, key, field, values),
         onResolveWidget: (widgetId, model) => setModel(PREFIXES.resolve, widgetId, model),
     },
@@ -27,6 +31,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
  * @returns {*}
  */
 
+// eslint-disable-next-line func-names
 export default function (WrappedComponent) {
     function ReturnedComponent({
         onActionImpl,
@@ -49,7 +54,9 @@ export default function (WrappedComponent) {
             const currentModel = model || defaultModel
             const currentAction = action || defaultAction
 
+            // eslint-disable-next-line no-unused-expressions
             currentModel && resolveWidget(currentModel)
+            // eslint-disable-next-line no-unused-expressions
             currentAction && onActionImpl(currentAction)
         }
 
@@ -93,6 +100,20 @@ export default function (WrappedComponent) {
                 {...rest}
             />
         )
+    }
+
+    ReturnedComponent.propTypes = {
+        onActionImpl: PropTypes.func,
+        onInvoke: PropTypes.func,
+        onUpdateModel: PropTypes.func,
+        onResolveWidget: PropTypes.func,
+        action: PropTypes.object,
+        model: PropTypes.object,
+        widgetId: PropTypes.string,
+        index: PropTypes.number,
+        fieldKey: PropTypes.string,
+        dataProvider: PropTypes.object,
+        dispatch: PropTypes.func,
     }
 
     return connect(

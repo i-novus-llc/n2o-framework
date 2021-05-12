@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import StandardWidget from '../StandardWidget'
-import Fieldsets from '../Form/fieldsets'
-import dependency from '../../../core/dependency'
+import { dependency } from '../../../core/dependency'
 
 import TreeContainer from './container/TreeContainer'
 
@@ -54,7 +53,6 @@ class TreeWidget extends React.Component {
             childrenFieldId,
         } = this.props
         const { toolbar, actions, dataProvider, placeholder } = this.props
-        const { resolveProps } = this.context
 
         return {
             toolbar,
@@ -130,6 +128,30 @@ TreeWidget.propTypes = {
     actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,
+    hasFocus: PropTypes.bool,
+    hasSelect: PropTypes.bool,
+    autoFocus: PropTypes.any,
+    rowClick: PropTypes.func,
+    childIcon: PropTypes.string,
+    multiselect: PropTypes.bool,
+    showLine: PropTypes.bool,
+    filter: PropTypes.object,
+    expandBtn: PropTypes.bool,
+    bulkData: PropTypes.bool,
+    parentFieldId: PropTypes.string,
+    valueFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    iconFieldId: PropTypes.string,
+    imageFieldIdd: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    hasCheckboxes: PropTypes.bool,
+    draggable: PropTypes.bool,
+    childrenFieldId: PropTypes.string,
+    placeholder: PropTypes.string,
+    id: PropTypes.string,
+    disabled: PropTypes.bool,
+    fetchOnInit: PropTypes.bool,
 }
 
 TreeWidget.contextTypes = {

@@ -25,7 +25,7 @@ import classNames from 'classnames'
  * @example
  */
 
-function Drawer(props) {
+export function Drawer(props) {
     const {
         className,
         closeOnBackdrop,
@@ -96,62 +96,62 @@ function Drawer(props) {
 Drawer.propTypes = {
     className: PropTypes.string,
     /**
-   * Включение кнопки закрытия
-   */
+     * Включение кнопки закрытия
+     */
     closable: PropTypes.bool,
     /**
-   * Включение закрытия по клику на маску(backdrop)
-   */
+     * Включение закрытия по клику на маску(backdrop)
+     */
     closeOnBackdrop: PropTypes.bool,
     /**
-   * Видимость модального окна
-   */
+     * Видимость модального окна
+     */
     visible: PropTypes.bool,
     /**
-   * разрешить/запретить закрытие Drawer по клавише Esc
-   */
+     * разрешить/запретить закрытие Drawer по клавише Esc
+     */
     closeOnEscape: PropTypes.bool,
     /**
-   * Позиция компонента
-   */
+     * Позиция компонента
+     */
     placement: PropTypes.string,
     onClose: PropTypes.func,
     onHandleClick: PropTypes.func,
     /**
-   * Включение маски(backdrop)
-   */
+     * Включение маски(backdrop)
+     */
     backdrop: PropTypes.bool,
     /**
-   * Включение анимации
-   */
+     * Включение анимации
+     */
     animation: PropTypes.bool,
     /**
-   * Сдвиг элемента или группы элементов при открытии (level={'all'} для сдвига всех эл-в)
-   */
+     * Сдвиг элемента или группы элементов при открытии (level={'all'} для сдвига всех эл-в)
+     */
     level: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     /**
-   * Ширина компонента
-   */
+     * Ширина компонента
+     */
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Высота компонента
-   */
+     * Высота компонента
+     */
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Заголовок компонента
-   */
+     * Заголовок компонента
+     */
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     /**
-   * Нижняя часть компонента
-   */
+     * Нижняя часть компонента
+     */
     footer: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     /**
-   * Основная часть компонента
-   */
+     * Основная часть компонента
+     */
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     /**
-   * Флаг фиксирования футера
-   */
+     * Флаг фиксирования футера
+     */
     fixedFooter: PropTypes.bool,
 }
 
@@ -161,7 +161,6 @@ Drawer.defaultProps = {
     level: false,
     fixedFooter: false,
     closable: true,
-    keyboard: true,
     closeOnEscape: true,
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import isUndefined from 'lodash/isUndefined'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { createStructuredSelector } from 'reselect'
 
 import { getModelSelector } from '../../selectors/models'
@@ -16,10 +16,7 @@ function PageTitle({ className, title, model }) {
     }
 
     return (
-        !isUndefined(resolveTitle) &&
-    resolveTitle !== '' && (
-    <h1 className={cn('n2o-page__title', className)}>{resolveTitle}</h1>
-        )
+        (!isUndefined(resolveTitle) && resolveTitle) && <h1 className={classNames('n2o-page__title', className)}>{resolveTitle}</h1>
     )
 }
 

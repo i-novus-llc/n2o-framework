@@ -32,6 +32,7 @@ function AdvancedTableFilterPopup({
         onChange,
     }
 
+    /* eslint-disable react/jsx-one-expression-per-line */
     return (
         <>
             <div className="n2o-advanced-table-filter-dropdown-popup">
@@ -63,6 +64,7 @@ function AdvancedTableFilterPopup({
 AdvancedTableFilterPopup.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
+    component: PropTypes.any,
     onSearchClick: PropTypes.func,
     onResetClick: PropTypes.func,
     controlProps: PropTypes.object,

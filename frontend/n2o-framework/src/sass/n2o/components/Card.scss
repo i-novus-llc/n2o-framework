@@ -16,7 +16,7 @@
     border-bottom: $card-border-bottom;
     border-left: $card-border-left;
     background-color: $card-background-color;
-    border: 1px solid transparent;
+    // border: 1px solid transparent;
     margin: 20px;
 
     &:hover {
@@ -27,13 +27,9 @@
         padding: 10px 20px;
     }
 
-    &.linear.circle {
-        .card-image {
-            max-width: $card-line-mode-height - 6px;
-            min-width: $card-line-mode-height - 6px;
-            height: $card-line-mode-height - 6px;
-            margin: 3px;
-        }
+    &.linear img {
+        max-height: $card-line-mode-height;
+        width: auto;
     }
 
     &.circle {
@@ -54,10 +50,6 @@
     }
 
     &.linear {
-        .card-image {
-            width: $card-image-liner-width;
-        }
-
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -65,9 +57,17 @@
         height: $card-line-mode-height;
         margin: 0;
 
-        img {
-            max-height: $card-line-mode-height;
-            width: auto;
+        .card-image {
+            width: $card-image-liner-width;
+        }
+
+        &.circle {
+            .card-image {
+                max-width: $card-line-mode-height - 6px;
+                min-width: $card-line-mode-height - 6px;
+                height: $card-line-mode-height - 6px;
+                margin: 3px;
+            }
         }
 
         > .card-body {

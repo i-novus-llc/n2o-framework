@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import Template from '../OLD_SidebarFixTemplate'
 import Wireframe from '../../components/snippets/Wireframe/Wireframe'
 
+// eslint-disable-next-line import/no-named-as-default
 import SideBar from './SideBar'
 import sidebarMetadata from './sidebarMetadata.meta.json'
 

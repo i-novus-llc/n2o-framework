@@ -6,9 +6,9 @@ import pick from 'lodash/pick'
 import every from 'lodash/every'
 import get from 'lodash/get'
 
-import Collapse, { Panel } from '../../snippets/Collapse/Collapse'
+import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
 import withWidgetProps from '../withWidgetProps'
-import RegionContent from '../RegionContent'
+import { RegionContent } from '../RegionContent'
 
 /**
  * Регион Лист
@@ -20,93 +20,85 @@ import RegionContent from '../RegionContent'
  */
 
 class ListRegion extends React.Component {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this)
+    renderList = (props) => {
+        const { label, content, isVisible, hasSeparator } = this.props
+
+        const key = props.expand ? 'open' : 'close'
+
+        return (
+            <Panel
+                {...props}
+                key={key}
+                header={<span className="n2o-list-region__collapse-name">{label}</span>}
+                style={{ display: isVisible === false ? 'none' : '' }}
+                className={classNames({ line: hasSeparator })}
+            >
+                <RegionContent content={content} />
+            </Panel>
+        )
+    };
+
+    render() {
+        const { collapsible, content, getWidgetProps, className, style } = this.props
+
+        const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion')
+        const panelProps = pick(this.props, [
+            'type',
+            'forceRender',
+            'collapsible',
+            'expand',
+        ])
+        const isVisible = every(content, meta => (get(getWidgetProps(meta.id), 'datasource') === undefined
+            ? true
+            : get(getWidgetProps(meta.id), 'isVisible')))
+
+        return (
+            <div
+                className={classNames('n2o-list-region', className)}
+                style={{ display: !isVisible && 'none', ...style }}
+            >
+                <Collapse
+                    defaultActiveKey="open"
+                    onChange={() => {}}
+                    collapsible={collapsible}
+                    className="n2o-list-region__collapse"
+                    {...collapseProps}
+                >
+                    {this.renderList(panelProps)}
+                </Collapse>
+            </div>
+        )
     }
-
-    handleChange(keys) {
-    // const widgetId = first(difference(this.activeKeys, keys));
-    // if (widgetId) {
-    //   this.props.showWidget(widgetId);
-    // }
-    }
-
-  renderList = (props) => {
-      const { label, content, isVisible, hasSeparator } = this.props
-
-      const key = props.expand ? 'open' : 'close'
-
-      return (
-          <Panel
-              {...props}
-              key={key}
-              header={<span className="n2o-list-region__collapse-name">{label}</span>}
-              style={{ display: isVisible === false ? 'none' : '' }}
-              className={classNames({ line: hasSeparator })}
-          >
-              <RegionContent content={content} />
-          </Panel>
-      )
-  };
-
-  /**
-   * Рендер
-   */
-  render() {
-      const { collapsible, expand, content, getWidgetProps, className, style } = this.props
-
-      const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion')
-      const panelProps = pick(this.props, [
-          'type',
-          'forceRender',
-          'collapsible',
-          'expand',
-      ])
-      const isVisible = every(content, meta => (get(getWidgetProps(meta.id), 'datasource') === undefined
-          ? true
-          : get(getWidgetProps(meta.id), 'isVisible')))
-
-      return (
-          <div
-              className={classNames('n2o-list-region', className)}
-              style={{ display: !isVisible && 'none', ...style }}
-          >
-              <Collapse
-                  defaultActiveKey="open"
-                  onChange={this.handleChange}
-                  collapsible={collapsible}
-                  className="n2o-list-region__collapse"
-                  {...collapseProps}
-              >
-                  {this.renderList(panelProps)}
-              </Collapse>
-          </div>
-      )
-  }
 }
 
 ListRegion.propTypes = {
+    className: PropTypes.string,
+    style: PropTypes.object,
     /**
-   * Элементы списка
-   */
+     * Элементы списка
+     */
     content: PropTypes.array.isRequired,
     getWidget: PropTypes.func.isRequired,
     /**
-   * ID страницы
-   */
+     * ID страницы
+     */
     pageId: PropTypes.string.isRequired,
     /**
-   * Флаг отключения ленивого рендера
-   */
+     * Флаг отключения ленивого рендера
+     */
     forceRender: PropTypes.bool,
     resolveVisibleDependency: PropTypes.func,
     collapsible: PropTypes.bool,
+    isVisible: PropTypes.bool,
+    hasSeparator: PropTypes.bool,
+    getWidgetProps: PropTypes.func,
+    label: PropTypes.string,
 }
 
 ListRegion.defaultProps = {
     collapsible: true,
     hasSeparator: true,
+    // eslint-disable-next-line react/default-props-match-prop-types
     expand: true,
 }
 

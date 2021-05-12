@@ -5,7 +5,7 @@ import isUndefined from 'lodash/isUndefined'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
-import cn from 'classnames'
+import classNames from 'classnames'
 import Tooltip from 'reactstrap/lib/Tooltip'
 import Modal from 'reactstrap/lib/Modal'
 
@@ -77,7 +77,7 @@ class ImageUploaderItem extends React.Component {
                 style={modifyContainerStyle(customUploaderSize)}
             >
                 <span
-                    className={cn('n2o-file-uploader-files-item-info', {
+                    className={classNames('n2o-file-uploader-files-item-info', {
                         'with-info': cardType && withInformation,
                     })}
                 >
@@ -85,7 +85,7 @@ class ImageUploaderItem extends React.Component {
                         title={file.name}
                         target="_blank"
                         id={`tooltip-${file.id}`}
-                        className={cn('n2o-image-uploader-link', {
+                        className={classNames('n2o-image-uploader-link', {
                             'n2o-image-uploader-item-error': file.error,
                             'single-img': imageType,
                             'n2o-image-uploader-link--shape-circle': shapeCircle,
@@ -93,7 +93,7 @@ class ImageUploaderItem extends React.Component {
                         style={modifyStyle(customUploaderSize)}
                     >
                         <div
-                            className={cn('n2o-image-uploader__watch', {
+                            className={classNames('n2o-image-uploader__watch', {
                                 'single-img': imageType,
                                 'n2o-image-uploader__watch--shape-circle': shapeCircle,
                             })}
@@ -119,7 +119,7 @@ class ImageUploaderItem extends React.Component {
                             </div>
                         </div>
                         <img
-                            className={cn('n2o-image-uploader--img', {
+                            className={classNames('n2o-image-uploader--img', {
                                 'n2o-image-uploader--img--shape-circle': shapeCircle,
                             })}
                             src={imgSrc}

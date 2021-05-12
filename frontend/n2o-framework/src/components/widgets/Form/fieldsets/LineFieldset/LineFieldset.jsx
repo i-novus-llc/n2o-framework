@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { isBoolean } from 'lodash'
 
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
@@ -16,24 +17,41 @@ class LineFieldset extends React.Component {
     }
 
     getCollapseProps() {
+        const {
+            render,
+            rows,
+            type,
+            label,
+            expand,
+            className,
+            hasSeparator,
+        } = this.props
+
         return {
-            render: this.props.render,
-            rows: this.props.rows,
-            type: this.props.type,
-            label: this.props.label,
-            expand: this.props.expand,
-            className: this.props.className,
-            hasSeparator: this.props.hasSeparator,
+            render,
+            rows,
+            type,
+            label,
+            expand,
+            className,
+            hasSeparator,
         }
     }
 
     getTitleProps() {
+        const {
+            render,
+            rows,
+            label: title,
+            className,
+            hasSeparator } = this.props
+
         return {
-            render: this.props.render,
-            rows: this.props.rows,
-            title: this.props.label,
-            className: this.props.className,
-            hasSeparator: this.props.hasSeparator,
+            render,
+            rows,
+            title,
+            className,
+            hasSeparator,
         }
     }
 
@@ -43,10 +61,10 @@ class LineFieldset extends React.Component {
 
         if (expression) {
             return evalExpression(expression, activeModel)
-        } if (visible === true) {
-            return true
-        } if (visible === false) {
-            return false
+        }
+
+        if (isBoolean(visible)) {
+            return visible
         }
 
         return true
@@ -81,6 +99,8 @@ LineFieldset.propTypes = {
     expand: PropTypes.bool,
     className: PropTypes.string,
     hasSeparator: PropTypes.bool,
+    visible: PropTypes.string,
+    activeModel: PropTypes.object,
 }
 
 export default LineFieldset

@@ -7,7 +7,7 @@ import TabPane from 'reactstrap/lib/TabPane'
  * @reactProps {string|number} eventKey - идентификатор для таба
  * @reactProps {node} children - элемент вставляемый в PanelTabBody
  */
-function PanelTabBody({ eventKey, children }) {
+export function PanelTabBody({ eventKey, children }) {
     return <TabPane tabId={eventKey}>{children}</TabPane>
 }
 

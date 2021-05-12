@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function SimpleTemplate({ children }) {
     return (
@@ -6,4 +7,8 @@ export default function SimpleTemplate({ children }) {
             <div className="application-body container-fluid">{children}</div>
         </div>
     )
+}
+
+SimpleTemplate.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }

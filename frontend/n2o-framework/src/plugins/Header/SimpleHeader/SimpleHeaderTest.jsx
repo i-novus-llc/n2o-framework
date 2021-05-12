@@ -1,9 +1,8 @@
 import React from 'react'
 
 import SimpleHeader from './SimpleHeader'
-import SimpleHeaderContainer from './SimpleHeaderContainer'
 
-const SimpleHeaderTest = () => (
+export const SimpleHeaderTest = () => (
     <div>
         <SimpleHeader
             items={[

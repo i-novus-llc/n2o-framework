@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 
-import Text from '../../snippets/Typography/Text/Text'
-import Icon from '../../snippets/Icon/Icon'
+import { Text } from '../../snippets/Typography/Text/Text'
+import { Icon } from '../../snippets/Icon/Icon'
 
 const TypesComponents = {
     // eslint-disable-next-line react/prop-types

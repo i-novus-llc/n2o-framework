@@ -74,6 +74,7 @@ export function condition(fieldId, values, options = {}) {
  */
 export async function constraint(fieldId, values, options, dispatch) {
     if (!isEmpty(values[fieldId])) {
+        // eslint-disable-next-line no-return-await
         return await runSaga(
             {
                 dispatch,

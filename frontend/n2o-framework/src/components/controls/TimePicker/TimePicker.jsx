@@ -16,7 +16,7 @@ import { Manager, Reference, Popper } from 'react-popper'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
 import InputText from '../InputText/InputText'
-import InputIcon from '../../snippets/InputIcon/InputIcon'
+import { InputIcon } from '../../snippets/InputIcon/InputIcon'
 import { MODIFIERS } from '../DatePicker/utils'
 
 const HOURS = 'hours'

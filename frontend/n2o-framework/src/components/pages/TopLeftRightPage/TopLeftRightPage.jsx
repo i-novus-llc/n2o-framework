@@ -13,6 +13,7 @@ import classNames from 'classnames'
 import Button from 'reactstrap/lib/Button'
 
 import { REGIONS } from '../../../core/factory/factoryLevels'
+// eslint-disable-next-line import/no-named-as-default
 import Factory from '../../../core/factory/Factory'
 import DefaultPage from '../DefaultPage'
 
@@ -104,6 +105,13 @@ TopLeftRightPage.propTypes = {
     id: PropTypes.string,
     regions: PropTypes.object,
     width: PropTypes.object,
+    setContainerRef: PropTypes.func,
+    setFixedRef: PropTypes.func,
+    isFixed: PropTypes.bool,
+    style: PropTypes.object,
+    scrollTo: PropTypes.func,
+    showScrollButton: PropTypes.bool,
+    places: PropTypes.object,
 }
 
 TopLeftRightPage.defaultProps = {

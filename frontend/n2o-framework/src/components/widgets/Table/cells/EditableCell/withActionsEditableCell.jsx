@@ -9,7 +9,7 @@ import { PREFIXES } from '../../../../../constants/models'
 import { makeGetResolveModelSelector } from '../../../../../selectors/models'
 
 export default (EditableCell) => {
-    class EditableCellWithActions extends React.Component {
+    class EditableCellWithActions extends React.PureComponent {
         render() {
             return <EditableCell {...this.props} />
         }

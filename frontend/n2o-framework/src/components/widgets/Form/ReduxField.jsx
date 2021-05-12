@@ -56,9 +56,11 @@ class ReduxField extends React.Component {
     }
 
     render() {
+        const { id } = this.props
+
         return (
             <ReduxFormField
-                name={this.props.id}
+                name={id}
                 {...this.props}
                 component={this.Field}
                 setRef={this.setRef}
@@ -82,6 +84,7 @@ ReduxField.propTypes = {
         PropTypes.func,
         PropTypes.node,
     ]),
+    setReRenderRef: PropTypes.func,
 }
 
 const mapStateToProps = createStructuredSelector({

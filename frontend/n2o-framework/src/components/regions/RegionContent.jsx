@@ -1,12 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
 import get from 'lodash/get'
 
-import Factory from '../../core/factory/Factory'
+import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 
-function RegionContent({ content, tabSubContentClass }) {
+export function RegionContent({ content, tabSubContentClass }) {
     const mapClassNames = {
         TabsRegion: tabSubContentClass,
     }
@@ -37,6 +38,11 @@ function RegionContent({ content, tabSubContentClass }) {
             })}
         </div>
     )
+}
+
+RegionContent.propTypes = {
+    content: PropTypes.any,
+    tabSubContentClass: PropTypes.any,
 }
 
 export default RegionContent

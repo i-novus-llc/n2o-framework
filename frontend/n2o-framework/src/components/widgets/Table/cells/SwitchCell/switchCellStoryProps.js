@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import SwitchCell from './SwitchCell'
 
 export const textCellProps = {

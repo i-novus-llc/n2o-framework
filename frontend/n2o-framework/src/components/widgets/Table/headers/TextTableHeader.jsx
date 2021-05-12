@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers } from 'recompose'
 import { batchActions } from 'redux-batched-actions'
 
+// eslint-disable-next-line import/no-named-as-default
 import Sorter from '../../../snippets/Sorter/Sorter'
 import {
     changeFrozenColumn,
@@ -17,7 +18,7 @@ import {
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
-class TextTableHeader extends React.Component {
+class TextTableHeader extends React.PureComponent {
     render() {
         const { id, sortable, sorting, label, onSort, style } = this.props
 
@@ -41,6 +42,7 @@ TextTableHeader.propTypes = {
     sorting: PropTypes.string,
     label: PropTypes.string,
     onSort: PropTypes.func,
+    style: PropTypes.object,
 }
 
 const enhance = compose(

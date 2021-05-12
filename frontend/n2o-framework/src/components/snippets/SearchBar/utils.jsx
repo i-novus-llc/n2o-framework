@@ -1,17 +1,17 @@
 import React from 'react'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isString from 'lodash/isString'
 import NavLink from 'reactstrap/lib/NavLink'
 import NavItem from 'reactstrap/lib/NavItem'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 import { BrowserRouter } from 'react-router-dom'
 
-const iconInPopUpClassName = (icon, directionIconsInPopUp) => cn(icon, {
+const iconInPopUpClassName = (icon, directionIconsInPopUp) => classNames(icon, {
     'n2o-search-bar__popup_icon-left': directionIconsInPopUp === 'left',
     'n2o-search-bar__popup_icon-right': directionIconsInPopUp === 'right',
 })
 
-export const itemInSearchBarClassName = directionIconsInPopUp => cn({
+export const itemInSearchBarClassName = directionIconsInPopUp => classNames({
     'n2o-search-bar__popup_item-right': directionIconsInPopUp === 'right',
     'n2o-search-bar__popup_item-left': directionIconsInPopUp === 'left',
 })
@@ -22,7 +22,9 @@ const renderIcon = (icon, directionIconsInPopUp) => (isString(icon) ? (
     icon
 ))
 
+// eslint-disable-next-line react/prop-types
 export const RenderLink = ({ label, description, icon, href, ...props }) => {
+    // eslint-disable-next-line react/prop-types
     const { linkType, disabled, directionIconsInPopUp } = props
 
     return linkType === 'inner' ? (

@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Spinner from 'reactstrap/lib/Spinner'
-import cx from 'classnames'
+import classNames from 'classnames'
 import eq from 'lodash/eq'
 import values from 'lodash/values'
 import PropTypes from 'prop-types'
@@ -12,11 +12,12 @@ const TYPE = {
 
 let Comp = Spinner
 
-class BaseSpinner extends Component {
+export class BaseSpinner extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
+            // eslint-disable-next-line react/no-unused-state
             loading: false,
             showSpinner: false,
         }
@@ -30,21 +31,30 @@ class BaseSpinner extends Component {
     }
 
     componentDidMount() {
+        const { delay, loading } = this.props
+
         this.setState({
-            loading: this.props.loading,
+            // eslint-disable-next-line react/no-unused-state
+            loading,
         })
-        const { delay } = this.props
 
         this.setLoadingWithTimeout(false, delay)
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.loading !== this.props.loading) {
-            setTimeout(() => this.setState({ showSpinner: this.props.loading }), 400)
+    componentDidUpdate(prevProps) {
+        const { loading } = this.props
+
+        if (prevProps.loading !== loading) {
+            setTimeout(() => {
+                const { loading } = this.props
+
+                this.setState({ showSpinner: loading })
+            }, 400)
         }
     }
 
   setLoadingWithTimeout = (loading, timeout) => {
+      // eslint-disable-next-line react/no-unused-state
       setTimeout(() => this.setState({ loading }), timeout)
   };
 
@@ -62,7 +72,7 @@ class BaseSpinner extends Component {
 
       return (
           <div
-              className={cx('n2o-spinner-wrapper', {
+              className={classNames('n2o-spinner-wrapper', {
                   [className]: className,
               })}
           >
@@ -83,11 +93,14 @@ class BaseSpinner extends Component {
   renderLineSpinner() {
       const { type, children, delay, loading, ...rest } = this.props
 
-      return loading ? (
-          <Comp className="spinner" {...rest} />
-      ) : React.Children.count(children) ? (
-          children
-      ) : null
+      if (loading) {
+          return <Comp className="spinner" {...rest} />
+      }
+      if (React.Children.count(children)) {
+          return children
+      }
+
+      return null
   }
 
   render() {
@@ -97,8 +110,6 @@ class BaseSpinner extends Component {
           ? this.renderCoverSpiner()
           : this.renderLineSpinner()
   }
-
-  static setState(state1) {}
 }
 
 BaseSpinner.propTypes = {
@@ -108,7 +119,9 @@ BaseSpinner.propTypes = {
     text: PropTypes.string,
     transparent: PropTypes.bool,
     color: PropTypes.string,
+    className: PropTypes.string,
     minSpinnerTimeToShow: PropTypes.number,
+    children: PropTypes.any,
 }
 
 BaseSpinner.defaultProps = {

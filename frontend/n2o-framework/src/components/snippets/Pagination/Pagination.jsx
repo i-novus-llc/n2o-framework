@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 
-import PaginationButton from './PaginationButton'
+import { PaginationButton } from './PaginationButton'
 
 /**
  * Компонент интерфейса разбивки по страницам
@@ -13,7 +13,6 @@ import PaginationButton from './PaginationButton'
  * @reactProps {boolean} nextText - текст кнопки
  * @reactProps {boolean} first - показать/скрыть кнопку быстрого перехода на первую страницу
  * @reactProps {boolean} last - показать/скрыть кнопку быстрого перехода на последнюю страницу
- * @reactProps {boolean} lazy - активировать режим "ленивой" пейджинации
  * @reactProps {boolean} withoutBody - скрыть тело пагинации
  * @reactProps {boolean} showCountRecords - показать индикатор общего кол-ва записей
  * @reactProps {boolean} hideSinglePage - скрывать компонент, если страница единственная
@@ -34,14 +33,15 @@ import PaginationButton from './PaginationButton'
  */
 class Pagination extends React.Component {
     /**
-   * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
-   * @param activePage
-   * @param pages
-   * @param maxButtons
-   * @param stepIncrement
-   * @param onSelect
-   * @returns {Array} - вовзращает список кнопок
-   */
+     * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
+     * @param activePage
+     * @param pages
+     * @param maxButtons
+     * @param stepIncrement
+     * @param onSelect
+     * @returns {Array} - вовзращает список кнопок
+     */
+    // eslint-disable-next-line class-methods-use-this
     renderBodyPaging(activePage, pages, maxButtons, stepIncrement, onSelect) {
         const pageButtons = []
 
@@ -110,17 +110,18 @@ class Pagination extends React.Component {
                     onSelect={onSelect}
                 />,
             )
-            activePage + stepIncrement < pages &&
-        pageButtons.push(
-            <PaginationButton
-                label="..."
-                tabIndex={-1}
-                key="ellipsisLast"
-                noBorder
-                disabled
-            />,
-        )
-        } else if (stepIncrement && endPage == pages - 1) {
+            if (activePage + stepIncrement < pages) {
+                pageButtons.push(
+                    <PaginationButton
+                        label="..."
+                        tabIndex={-1}
+                        key="ellipsisLast"
+                        noBorder
+                        disabled
+                    />,
+                )
+            }
+        } else if (stepIncrement && endPage === pages - 1) {
             pageButtons.push(
                 <PaginationButton
                     key={pages}
@@ -159,8 +160,8 @@ class Pagination extends React.Component {
     }
 
     /**
-   * Базовый рендер компонента
-   */
+     * Базовый рендер компонента
+     */
     render() {
         const {
             activePage,
@@ -174,14 +175,12 @@ class Pagination extends React.Component {
             next,
             showCountRecords,
             hideSinglePage,
-            lazy,
             onSelect,
             className,
             withoutBody,
             prevText,
             nextText,
             t,
-            ...props
         } = this.props
         const pages = Math.ceil(count / size, 10) || 1
         const lastPage = Math.ceil(count / size)
@@ -192,13 +191,14 @@ class Pagination extends React.Component {
                 style={{ display: 'flex', alignItems: 'baseline' }}
             >
                 {hideSinglePage && pages === 1 ? null : (
-                    <ul className={cx('pagination', 'd-inline-flex', className)}>
+                    <ul className={classNames('pagination', 'd-inline-flex', className)}>
                         {first && (
                             <PaginationButton
                                 eventKey={1}
                                 label="&laquo;"
                                 disabled={activePage === 1}
                                 onSelect={onSelect}
+                                /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
                                 tabIndex={1}
                             />
                         )}
@@ -239,6 +239,7 @@ class Pagination extends React.Component {
                         )}
                     </ul>
                 )}
+                {/* eslint-disable react/jsx-one-expression-per-line */}
                 {showCountRecords && (
                     <span
                         className="n2o-pagination-info"
@@ -260,73 +261,70 @@ class Pagination extends React.Component {
 
 Pagination.propTypes = {
     /**
-   * Показать/скрыть кнопку быстрого перехода на предыдущую страницу
-   */
+     * Показать/скрыть кнопку быстрого перехода на предыдущую страницу
+     */
     prev: PropTypes.bool,
     /**
-   * Текст кнопки 'Назад'
-   */
+     * Текст кнопки 'Назад'
+     */
     prevText: PropTypes.string,
     /**
-   * Показать/скрыть кнопку быстрого перехода на следующую страницу
-   */
+     * Показать/скрыть кнопку быстрого перехода на следующую страницу
+     */
     next: PropTypes.bool,
     /**
-   * Текст кнопки 'Вперед'
-   */
+     * Текст кнопки 'Вперед'
+     */
     nextText: PropTypes.string,
     /**
-   * Показать/скрыть кнопку быстрого перехода на первую страницу
-   */
+     * Показать/скрыть кнопку быстрого перехода на первую страницу
+     */
     first: PropTypes.bool,
     /**
-   * Показать/скрыть кнопку быстрого перехода на последнюю страницу
-   */
+     * Показать/скрыть кнопку быстрого перехода на последнюю страницу
+     */
     last: PropTypes.bool,
     /**
-   * Активировать режим "ленивой" пейджинации
-   */
-    lazy: PropTypes.bool,
-    /**
-   * Скрыть тело пагинации
-   */
+     * Скрыть тело пагинации
+     */
     withoutBody: PropTypes.bool,
     /**
-   * Показать индикатор общего кол-ва записей
-   */
+     * Показать индикатор общего кол-ва записей
+     */
     showCountRecords: PropTypes.bool,
     /**
-   * Скрывать компонент, если страница единственная
-   */
+     * Скрывать компонент, если страница единственная
+     */
     hideSinglePage: PropTypes.bool,
     /**
-   * Максимальное кол-во кнопок перехода между страницами
-   */
+     * Максимальное кол-во кнопок перехода между страницами
+     */
     maxButtons: PropTypes.number,
     /**
-   * Шаг дополнительной кнопки (1,2.3 ... 11)
-   */
+     * Шаг дополнительной кнопки (1,2.3 ... 11)
+     */
     stepIncrement: PropTypes.number,
     /**
-   * Общее кол-во записей
-   */
+     * Общее кол-во записей
+     */
     count: PropTypes.number,
     /**
-   * Кол-во записей на одной странице
-   */
+     * Кол-во записей на одной странице
+     */
     size: PropTypes.number,
     /**
-   * Номер активной страницы
-   */
+     * Номер активной страницы
+     */
     activePage: PropTypes.number,
     /**
-   * Сallback нажатия по кнопке страницы
-   */
+     * Сallback нажатия по кнопке страницы
+     */
     onSelect: PropTypes.func,
     /**
-   * Класс для списка внутри nav
-   */
+     * Класс для списка внутри nav
+     */
     className: PropTypes.string,
+    t: PropTypes.func,
 }
 
 Pagination.defaultProps = {
@@ -336,7 +334,6 @@ Pagination.defaultProps = {
     nextText: null,
     first: false,
     last: false,
-    lazy: false,
     withoutBody: false,
     showCountRecords: true,
     hideSinglePage: true,

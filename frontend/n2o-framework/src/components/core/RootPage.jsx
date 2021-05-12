@@ -6,8 +6,11 @@ import { createStructuredSelector } from 'reselect'
 
 import { rootPageSelector } from '../../selectors/global'
 
+// eslint-disable-next-line import/no-named-as-default
 import Page from './Page'
+// eslint-disable-next-line import/no-named-as-default
 import OverlayPages from './OverlayPages'
+// eslint-disable-next-line import/no-named-as-default
 import GlobalAlerts from './GlobalAlerts'
 import { SimpleTemplate } from './templates'
 
@@ -31,6 +34,7 @@ RootPage.propTypes = {
         PropTypes.node,
     ]),
     rootPageId: PropTypes.string,
+    match: PropTypes.object,
 }
 
 const mapStateToProps = createStructuredSelector({

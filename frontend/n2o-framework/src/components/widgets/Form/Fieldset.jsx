@@ -17,6 +17,7 @@ import { makeGetResolveModelSelector } from '../../../selectors/models'
 import propsResolver from '../../../utils/propsResolver'
 
 import Label from './fields/StandardField/Label'
+// eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
 import { resolveExpression } from './utils'
 
@@ -127,16 +128,19 @@ class Fieldset extends React.Component {
 
     resolveProperties() {
         const { visible, enabled, activeModel } = this.props
+        const {
+            enabled: enabledFromState,
+            visible: visibleFromState,
+        } = this.state
 
         const newEnabled = resolveExpression(enabled, activeModel)
+        const newVisible = resolveExpression(visible, activeModel)
 
-        if (!isEqual(newEnabled, this.state.enabled)) {
+        if (!isEqual(newEnabled, enabledFromState)) {
             this.setEnabled(newEnabled)
         }
 
-        const newVisible = resolveExpression(visible, activeModel)
-
-        if (!isEqual(newVisible, this.state.visible)) {
+        if (!isEqual(newVisible, visibleFromState)) {
             this.setVisible(newVisible)
         }
     }
@@ -171,9 +175,10 @@ class Fieldset extends React.Component {
     }
 
     getFormValues(store) {
+        const { form } = this.props
         const state = store.getState()
 
-        return makeGetResolveModelSelector(this.props.form)(state)
+        return makeGetResolveModelSelector(form)(state)
     }
 
     calculateAllFields(rows) {
@@ -209,6 +214,8 @@ class Fieldset extends React.Component {
             activeModel,
         } = this.props
 
+        const { enabled } = this.state
+
         return (
             <FieldsetRow
                 activeModel={activeModel}
@@ -222,7 +229,7 @@ class Fieldset extends React.Component {
                 autoFocusId={autoFocusId}
                 form={form}
                 modelPrefix={modelPrefix}
-                disabled={!this.state.enabled}
+                disabled={!enabled}
                 autoSubmit={autoSubmit}
                 {...props}
             />

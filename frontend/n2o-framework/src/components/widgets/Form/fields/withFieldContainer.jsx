@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
     compose,
@@ -67,14 +68,15 @@ export default (Field) => {
                 validation,
             } = props
 
-            !isInit &&
-        registerFieldExtra(form, name, {
-            visible: visibleToRegister,
-            disabled: disabledToRegister,
-            dependency: this.modifyDependency(dependency, parentIndex),
-            required: requiredToRegister,
-            validation,
-        })
+            if (!isInit) {
+                registerFieldExtra(form, name, {
+                    visible: visibleToRegister,
+                    disabled: disabledToRegister,
+                    dependency: this.modifyDependency(dependency, parentIndex),
+                    required: requiredToRegister,
+                    validation,
+                })
+            }
         }
 
     modifyDependency = (dependency, parentIndex) => {
@@ -109,8 +111,13 @@ export default (Field) => {
     onChange(e) {
         const { input, onChange } = this.props
 
-        input && input.onChange(e)
-        onChange && onChange(e)
+        if (input) {
+            input.onChange(e)
+        }
+
+        if (onChange) {
+            onChange(e)
+        }
     }
 
     /**
@@ -120,8 +127,13 @@ export default (Field) => {
     onBlur(e) {
         const { input, onBlur } = this.props
 
-        input && input.onBlur(e)
-        onBlur && onBlur(e.target.value)
+        if (input) {
+            input.onBlur(e)
+        }
+
+        if (onBlur) {
+            onBlur(e.target.value)
+        }
     }
 
     /**
@@ -131,8 +143,13 @@ export default (Field) => {
     onFocus(e) {
         const { input, onFocus } = this.props
 
-        input && input.onFocus(e)
-        onFocus && onFocus(e.target.value)
+        if (input) {
+            input.onFocus(e)
+        }
+
+        if (onFocus) {
+            onFocus(e.target.value)
+        }
     }
 
     /**
@@ -145,8 +162,19 @@ export default (Field) => {
      * Бозовый рендер
      * @returns {*}
      */
+
     render() {
-        const props = this.props.mapProps(this.props)
+        FieldContainer.propTypes = {
+            mapProps: PropTypes.func,
+            input: PropTypes.string,
+            onChange: PropTypes.func,
+            onBlur: PropTypes.func,
+            onFocus: PropTypes.func,
+        }
+
+        const { mapProps } = this.props
+
+        const props = mapProps(this.props)
 
         return <Field {...props} />
     }
@@ -178,10 +206,15 @@ export default (Field) => {
         }),
         withHandlers({
             getValidationState: () => (message) => {
-                if (!message) { return }
+                if (!message) {
+                    return false
+                }
+
                 if (message.severity === 'success') {
                     return 'is-valid'
-                } if (message.severity === 'warning') {
+                }
+
+                if (message.severity === 'warning') {
                     return 'has-warning'
                 }
 
@@ -190,7 +223,10 @@ export default (Field) => {
         }),
         withHandlers({
             mapProps: ({ getValidationState }) => memoize((props) => {
-                if (!props) { return }
+                if (!props) {
+                    return false
+                }
+
                 const { input, message, meta, model, ...rest } = props
                 const pr = propsResolver(rest, model, ['toolbar'])
 

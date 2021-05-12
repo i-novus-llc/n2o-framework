@@ -3,6 +3,7 @@ import { compose, lifecycle, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { change } from 'redux-form'
+import PropTypes from 'prop-types'
 
 import { registerFieldExtra } from '../../../../../actions/formPlugin'
 import {
@@ -17,26 +18,26 @@ import { resolveExpression } from '../../utils'
 import MultiFieldsetItem from './MultiFieldsetItem'
 
 function MultiFieldset({
-    name,
+    name, enabled, visible, activeModel,
     ...props
 }) {
-    const [visible, setVisible] = useState(true)
-    const [enabled, setEnabled] = useState(true)
+    const [visibleState, setVisible] = useState(true)
+    const [enabledState, setEnabled] = useState(true)
 
     useMemo(() => {
-        setEnabled(resolveExpression(props.enabled, props.activeModel))
-    }, [props.enabled, props.activeModel])
+        setEnabled(resolveExpression(enabled, activeModel))
+    }, [enabled, activeModel])
     useMemo(() => {
-        setVisible(resolveExpression(props.visible, props.activeModel))
-    }, [props.visible, props.activeModel])
+        setVisible(resolveExpression(visible, activeModel))
+    }, [visible, activeModel])
 
     return (
         <div className="n2o-multi-fieldset">
             <MultiFieldsetItem
                 {...props}
                 parentName={name}
-                visible={visible}
-                enabled={enabled}
+                visible={visibleState}
+                enabled={enabledState}
             />
         </div>
     )
@@ -108,5 +109,12 @@ export const enhance = compose(
         },
     }),
 )
+
+MultiFieldset.propTypes = {
+    name: PropTypes.string,
+    enabled: PropTypes.bool,
+    visible: PropTypes.bool,
+    activeModel: PropTypes.object,
+}
 
 export default enhance(MultiFieldset)

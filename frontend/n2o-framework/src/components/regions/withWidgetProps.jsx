@@ -21,7 +21,7 @@ import {
     dataRequestWidget,
 } from '../../actions/widgets'
 import { PREFIXES } from '../../constants/models'
-import { reduceFunction } from '../../sagas/widgetDependency'
+import { reduceFunction } from '../../sagas/widgetDependency/resolve'
 
 /**
  * HOC для работы с данными
@@ -39,7 +39,8 @@ function withGetWidget(WrappedComponent) {
         }
 
         getWidget(pageId, widgetId) {
-            const state = this.context.store.getState()
+            const { store } = this.context
+            const state = store.getState()
 
             return get(makePageMetadataByIdSelector(pageId)(state), [
                 'widgets',
@@ -59,6 +60,7 @@ function withGetWidget(WrappedComponent) {
             }
 
             const model = getModelsByDependency(dependencies)(
+                // eslint-disable-next-line react/destructuring-assignment
                 this.context.store.getState(),
             )
 
@@ -66,15 +68,14 @@ function withGetWidget(WrappedComponent) {
         }
 
         getWidgetProps(widgetId) {
+            const { widgets, widgetsDatasource } = this.props
+
             return {
-                ...get(this.props.widgets, widgetId, {}),
-                datasource: this.props.widgetsDatasource[widgetId],
+                ...get(widgets, widgetId, {}),
+                datasource: widgetsDatasource[widgetId],
             }
         }
 
-        /**
-     * Рендер
-     */
         render() {
             const props = omit(this.props, ['widgets'])
 
@@ -91,6 +92,7 @@ function withGetWidget(WrappedComponent) {
 
     WithGetWidget.propTypes = {
         pages: PropTypes.object,
+        widgetsDatasource: PropTypes.object,
         widgets: PropTypes.object,
         hideWidget: PropTypes.func,
         showWidget: PropTypes.func,

@@ -68,6 +68,7 @@ RatingCell.propTypes = {
     /**
    * Значение рейтинга
    */
+    // eslint-disable-next-line react/no-unused-prop-types
     rating: PropTypes.number,
     /**
    * Дробные числа рейтинга
@@ -81,6 +82,8 @@ RatingCell.propTypes = {
    * Флаг только для чтения
    */
     readonly: PropTypes.bool,
+    callAction: PropTypes.func,
+
 }
 
 RatingCell.defaultProps = {

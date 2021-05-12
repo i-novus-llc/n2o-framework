@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react'
 
 import Wireframe from '../../snippets/Wireframe/Wireframe'
 
-import ListItem from './ListItem'
-import List from './List'
+import { ListItem } from './ListItem'
+import { List } from './List'
 
 const stories = storiesOf('Регионы/Лист', module)
 

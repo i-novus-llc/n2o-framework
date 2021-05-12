@@ -10,14 +10,16 @@ import history from '../../../history'
  * @example
  * <Link to="/path/1" onClick={this.changeUrl}>Ссылка</Link>
  */
-class Link extends React.Component {
+export class Link extends React.Component {
     /**
-   * Обработчик нажатия
-   * @param event
-   */
+     * Обработчик нажатия
+     * @param event
+     */
     handleClick(event) {
-        if (this.props.onClick) {
-            this.props.onClick(event)
+        const { onClick, to } = this.props
+
+        if (onClick) {
+            onClick(event)
         }
 
         if (event.button !== 0 /* left click */) {
@@ -34,8 +36,8 @@ class Link extends React.Component {
 
         event.preventDefault()
 
-        if (this.props.to) {
-            history.push(this.props.to)
+        if (to) {
+            history.push(to)
         } else {
             history.push({
                 pathname: event.currentTarget.pathname,
@@ -44,13 +46,11 @@ class Link extends React.Component {
         }
     }
 
-    /**
-   * Базовый рендер компонента
-   */
     render() {
         const { to, ...props } = this.props
 
         return (
+            // eslint-disable-next-line jsx-a11y/anchor-has-content
             <a
                 href={typeof to === 'string' ? to : history.createHref(to)}
                 {...props}

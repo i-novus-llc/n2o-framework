@@ -10,7 +10,7 @@ import TabContent from 'reactstrap/lib/TabContent'
  * @reactProps {string|number} activeKey - ключ активного таба
  * @reactProps {node} children - вставляемый внутрь PanelBody элемент
  */
-function PanelBody({ id, activeKey, hasTabs, children }) {
+export function PanelBody({ id, activeKey, hasTabs, children }) {
     const tabContainer = (
         <TabContent id={id} activeTab={activeKey}>
             {children}

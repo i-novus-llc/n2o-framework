@@ -27,6 +27,7 @@ function Checkbox({
 }) {
     return (
         <div className={cn('checkbox', className)}>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label>
                 <Input
                     type="checkbox"
@@ -67,8 +68,6 @@ Checkbox.propTypes = {
    */
     checked: PropTypes.bool,
     className: PropTypes.string,
-    style: PropTypes.object,
-    placeholder: PropTypes.string,
     /**
    * Авто фокус на контроле
    */

@@ -10,7 +10,7 @@ import get from 'lodash/get'
 import compact from 'lodash/compact'
 import map from 'lodash/map'
 import has from 'lodash/has'
-import some from 'lodash/some'
+import flatten from 'lodash/flatten'
 import { batchActions } from 'redux-batched-actions'
 
 import { isPromise } from '../../tools/helpers'
@@ -21,8 +21,8 @@ import * as presets from './presets'
 function findPriorityMessage(messages) {
     return (
         find(messages, { severity: 'danger' }) ||
-    find(messages, { severity: 'warning' }) ||
-    find(messages, { severity: 'success' })
+        find(messages, { severity: 'warning' }) ||
+        find(messages, { severity: 'success' })
     )
 }
 
@@ -32,9 +32,7 @@ function findPriorityMessage(messages) {
  * @returns {*}
  */
 function hasError(messages) {
-    return [].concat
-        .apply([], Object.values(messages))
-        .reduce((res, msg) => msg.severity === 'danger' || res, false)
+    return flatten(Object.values(messages)).reduce((res, msg) => msg.severity === 'danger' || res, false)
 }
 
 function addError(
@@ -123,16 +121,14 @@ export const validateField = (
                     const multiFields = getMultiFields(registeredFields, fieldId)
 
                     map(multiFields, (fieldId) => {
-                        const isValid =
-              isFunction(validationFunction) &&
-              validationFunction(fieldId, values, options, dispatch)
+                        const isValid = isFunction(validationFunction) &&
+                            validationFunction(fieldId, values, options, dispatch)
 
                         resolveValidationResult(isValid, fieldId)
                     })
                 } else {
-                    const isValid =
-            isFunction(validationFunction) &&
-            validationFunction(fieldId, values, options, dispatch)
+                    const isValid = isFunction(validationFunction) &&
+                        validationFunction(fieldId, values, options, dispatch)
 
                     resolveValidationResult(isValid, fieldId)
                 }
@@ -141,6 +137,7 @@ export const validateField = (
     })
 
     return Promise.all(promiseList).then(() => {
+        // eslint-disable-next-line consistent-return
         const messagesAction = map(errors, (messages, fieldId) => {
             if (!isEmpty(messages)) {
                 const message = findPriorityMessage(messages)
@@ -148,7 +145,7 @@ export const validateField = (
 
                 if (
                     (isTouched && !nowTouched) ||
-          !isEqual(message, get(registeredFields, [fieldId, 'message']))
+                    !isEqual(message, get(registeredFields, [fieldId, 'message']))
                 ) {
                     return addFieldMessage(formName, fieldId, message, isTouched)
                 }

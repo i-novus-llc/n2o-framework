@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
@@ -9,11 +9,14 @@ import isEqual from 'lodash/isEqual'
 import has from 'lodash/has'
 import get from 'lodash/get'
 import { createStructuredSelector } from 'reselect'
-import { compose, withPropsOnChange, branch, getContext } from 'recompose'
+import { compose, withPropsOnChange, branch } from 'recompose'
 import pathToRegexp from 'path-to-regexp'
 
+// eslint-disable-next-line import/no-unresolved,import/extensions
 import Section from '../layouts/Section'
+// eslint-disable-next-line import/no-named-as-default
 import Factory from '../../core/factory/Factory'
+// eslint-disable-next-line import/named
 import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels'
 import Toolbar from '../buttons/Toolbar'
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages'
@@ -33,11 +36,15 @@ import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer'
 
 class PageContainer extends React.Component {
     componentDidMount() {
-        this.props.getMetadata()
+        const { getMetadata } = this.props
+
+        getMetadata()
     }
 
     componentWillUnmount() {
-        this.props.reset(this.props.pageId)
+        const { reset, pageId } = this.props
+
+        reset(pageId)
     }
 
     componentDidUpdate(prevProps) {
@@ -95,42 +102,48 @@ class PageContainer extends React.Component {
     }
 
     isEqualPageId(prevProps) {
-        return this.props.pageId === prevProps.pageId
+        const { pageId } = this.props
+
+        return pageId === prevProps.pageId
     }
 
     isEqualPageUrl(prevProps) {
-        return this.props.pageUrl === prevProps.pageUrl
+        const { pageUrl } = this.props
+
+        return pageUrl === prevProps.pageUrl
     }
 
     isEqualLocation(prevProps) {
-        return isEqual(this.props.location, prevProps.location)
+        const { location } = this.props
+
+        return isEqual(location, prevProps.location)
     }
 
     render() {
+        // noinspection JSUnusedLocalSymbols
         const {
             metadata,
+            // eslint-disable-next-line no-unused-vars
             defaultTemplate: Template = React.Fragment,
             toolbar,
-            actions,
             entityKey,
             error,
             disabled,
-            pageId,
         } = this.props
-
+        const { defaultBreadcrumb } = this.context
         const errorPage = this.getErrorPage()
 
         return errorPage ? (
             React.createElement(errorPage)
         ) : (
-            <div className={cn({ 'n2o-disabled-page': disabled })}>
+            <div className={classNames({ 'n2o-disabled-page': disabled })}>
                 {error && <Alert {...error} visible />}
                 {!isEmpty(metadata) && metadata.page && (
                     <DocumentTitle {...metadata.page} />
                 )}
                 {!isEmpty(metadata) && metadata.breadcrumb && (
                     <BreadcrumbContainer
-                        defaultBreadcrumb={this.context.defaultBreadcrumb}
+                        defaultBreadcrumb={defaultBreadcrumb}
                         items={metadata.breadcrumb}
                     />
                 )}
@@ -148,10 +161,10 @@ class PageContainer extends React.Component {
                             {...metadata.layout}
                         >
                             {Object.keys(metadata.layout.regions).map((place, i) => (
-                                <Section place={place} key={`section${i}`}>
+                                <Section place={place} key={`section${i.toString()}`}>
                                     {metadata.layout.regions[place].map((region, j) => (
                                         <Factory
-                                            key={`region-${place}-${j}`}
+                                            key={`region-${place}-${j.toString()}`}
                                             level={REGIONS}
                                             {...region}
                                             pageId={metadata.id}
@@ -192,6 +205,15 @@ PageContainer.propTypes = {
     pageMapping: PropTypes.object,
     rootPage: PropTypes.bool,
     status: PropTypes.number,
+    getMetadata: PropTypes.func,
+    reset: PropTypes.func,
+    routeMap: PropTypes.func,
+    error: PropTypes.any,
+    location: PropTypes.object,
+    defaultTemplate: PropTypes.any,
+    toolbar: PropTypes.object,
+    entityKey: PropTypes.string,
+    disabled: PropTypes.bool,
 }
 
 PageContainer.defaultProps = {

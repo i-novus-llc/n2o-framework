@@ -11,7 +11,7 @@ import Toolbar from '../buttons/Toolbar'
 import withOverlayMethods from './withOverlayMethods'
 
 function PageDialog({ visible, props }) {
-    const { title, description, size = 'sm', scrollable = false } = props
+    const { title, description, size, scrollable } = props
 
     return (
         <div className="modal-page-overlay">
@@ -51,10 +51,16 @@ function PageDialog({ visible, props }) {
 PageDialog.propTypes = {
     visible: PropTypes.bool,
     props: PropTypes.object,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    size: PropTypes.string,
+    scrollable: PropTypes.bool,
 }
 
 PageDialog.defaultProps = {
     props: {},
+    size: 'sm',
+    scrollable: false,
 }
 
 export default withOverlayMethods(PageDialog)

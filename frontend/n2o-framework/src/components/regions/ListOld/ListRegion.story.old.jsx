@@ -1,5 +1,5 @@
+/* eslint-disable */
 import React from 'react'
-import { connect } from 'react-redux'
 import { storiesOf } from '@storybook/react'
 import set from 'lodash/set'
 import omit from 'lodash/omit'
@@ -11,10 +11,6 @@ import { getStubData } from 'N2oStorybook/fetchMock'
 
 import { metadataSuccess } from '../../../actions/pages'
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta'
-import {
-    userLogin,
-    userLogout as userLogoutAction,
-} from '../../../actions/auth'
 import AuthButtonContainer from '../../../core/auth/AuthLogin'
 import { makeStore } from '../../../../.storybook/decorators/utils'
 import cloneObject from '../../../utils/cloneObject'

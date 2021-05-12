@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import pathToRegexp from 'path-to-regexp'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
@@ -32,18 +31,20 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 hasError: false,
             }
 
-            this._fetchData = this._fetchData.bind(this)
-            this._findResponseInCache = this._findResponseInCache.bind(this)
-            this._fetchDataProvider = this._fetchDataProvider.bind(this)
-            this._addAlertMessage = this._addAlertMessage.bind(this)
-            this._setErrorMessage = this._setErrorMessage.bind(this)
-            this._setResponseToData = this._setResponseToData.bind(this)
+            this.fetchData = this.fetchData.bind(this)
+            this.findResponseInCache = this.findResponseInCache.bind(this)
+            this.fetchDataProvider = this.fetchDataProvider.bind(this)
+            this.addAlertMessage = this.addAlertMessage.bind(this)
+            this.setErrorMessage = this.setErrorMessage.bind(this)
+            this.setResponseToData = this.setResponseToData.bind(this)
         }
 
         static getDerivedStateFromProps(nextProps) {
-            if (nextProps.data && nextProps.data.length) {
+            const { data } = nextProps
+
+            if (data && data.length) {
                 return {
-                    data: nextProps.data,
+                    data,
                 }
             }
 
@@ -56,7 +57,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @returns {*}
      * @private
      */
-        _findResponseInCache(params) {
+        findResponseInCache(params) {
             const { caching } = this.props
 
             if (caching && cachingStore.find(params)) {
@@ -71,34 +72,42 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @param messages
      * @private
      */
-        _addAlertMessage(messages) {
+        addAlertMessage(messages) {
             const { hasError } = this.state
             const { addAlert, removeAlerts } = this.props
 
-            !hasError && this.setState({ hasError: true })
+            if (!hasError) {
+                this.setState({ hasError: true })
+            }
 
             removeAlerts()
-            isArray(messages)
-                ? messages.map(m => addAlert({ ...m, closeButton: false }))
-                : addAlert({ ...messages, closeButton: false })
+
+            if (isArray(messages)) {
+                messages.map(m => addAlert({ ...m, closeButton: false }))
+            } else {
+                addAlert({ ...messages, closeButton: false })
+            }
         }
 
         /**
-     * Вывод сообщения с ошибкой
-     * @param response
-     * @private
-     */
-        async _setErrorMessage({ response }) {
+         * Вывод сообщения с ошибкой
+         * @param response
+         * @param body
+         * @private
+         */
+        async setErrorMessage({ response, body }) {
             let errorMessage = null
 
             if (response) {
                 errorMessage = await response.json()
             } else {
-                errorMessage = arguments[0].body
+                errorMessage = body
             }
             const messages = get(errorMessage, 'meta.alert.messages', false)
 
-            messages && this._addAlertMessage(messages)
+            if (messages) {
+                this.addAlertMessage(messages)
+            }
         }
 
         /**
@@ -108,14 +117,15 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @returns {Promise<void>}
      * @private
      */
-        async _fetchDataProvider(dataProvider, extraParams = {}) {
+        async fetchDataProvider(dataProvider, extraParams = {}) {
+            const { store } = this.context
             const {
                 basePath,
                 baseQuery: queryParams,
                 headersParams,
-            } = dataProviderResolver(this.context.store.getState(), dataProvider)
+            } = dataProviderResolver(store.getState(), dataProvider)
 
-            let response = this._findResponseInCache({
+            let response = this.findResponseInCache({
                 basePath,
                 queryParams,
                 extraParams,
@@ -145,12 +155,13 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @param merge
      * @private
      */
-        _setResponseToData({ list, count, size, page }, merge = false) {
+        setResponseToData({ list, count, size, page }, merge = false) {
             const { valueFieldId } = this.props
+            const { data } = this.state
 
             this.setState({
                 data: merge
-                    ? unionBy(this.state.data, list, valueFieldId || 'id')
+                    ? unionBy(data, list, valueFieldId || 'id')
                     : list,
                 isLoading: false,
                 count,
@@ -167,7 +178,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
 
-        async _fetchData(extraParams = {}, merge = false) {
+        async fetchData(extraParams = {}, merge = false) {
             const { dataProvider, removeAlerts } = this.props
             const { hasError, data } = this.state
 
@@ -175,17 +186,20 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
             this.setState({ loading: true })
             try {
                 if (!merge && !data) { this.setState({ data: [] }) }
-                const response = await this._fetchDataProvider(
+                const response = await this.fetchDataProvider(
                     dataProvider,
                     extraParams,
                 )
 
-                if (has(response, 'message')) { this._addAlertMessage(response.message) }
+                if (has(response, 'message')) { this.addAlertMessage(response.message) }
 
-                this._setResponseToData(response, merge)
-                hasError && removeAlerts()
+                this.setResponseToData(response, merge)
+
+                if (hasError) {
+                    removeAlerts()
+                }
             } catch (err) {
-                await this._setErrorMessage(err)
+                await this.setErrorMessage(err)
             } finally {
                 this.setState({ loading: false })
             }
@@ -196,12 +210,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      */
 
         render() {
+            const { setRef } = this.props
+
             return (
                 <WrappedComponent
                     {...this.props}
                     {...this.state}
-                    _fetchData={this._fetchData}
-                    ref={this.props.setRef}
+                    _fetchData={this.fetchData}
+                    ref={setRef}
                 />
             )
         }
@@ -210,6 +226,15 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     WithFetchData.propTypes = {
         caching: PropTypes.bool,
         size: PropTypes.number,
+        data: PropTypes.array,
+        addAlert: PropTypes.func,
+        removeAlerts: PropTypes.func,
+        valueFieldId: PropTypes.string,
+        dataProvider: PropTypes.object,
+        setRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+        ]),
     }
 
     WithFetchData.contextTypes = { store: PropTypes.object }

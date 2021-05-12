@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import cn from 'classnames'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
@@ -9,7 +9,6 @@ import map from 'lodash/map'
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import find from 'lodash/find'
 
@@ -21,6 +20,7 @@ import { withContainerLiveCycle } from '../Table/TableContainer'
 import { setTableSelectedId } from '../../../actions/widgets'
 import { makeWidgetPageSelector } from '../../../selectors/widgets'
 
+// eslint-disable-next-line import/no-named-as-default
 import List from './List'
 
 const ReduxCell = withColumn(TableCell)
@@ -67,10 +67,12 @@ class ListContainer extends React.Component {
         const { needToCombine } = this.state
 
         if (currentDatasource && !isEqual(prevDatasource, currentDatasource)) {
+            // noinspection JSUnusedAssignment
             let newDatasource = []
+            const { datasource } = this.state
 
             if (needToCombine) {
-                newDatasource = [...this.state.datasource, ...currentDatasource]
+                newDatasource = [...datasource, ...currentDatasource]
             } else {
                 newDatasource = currentDatasource.slice()
             }
@@ -92,15 +94,18 @@ class ListContainer extends React.Component {
     }
 
     renderCell(section) {
+        const { widgetId } = this.props
+
         if (!section) { return }
 
+        // eslint-disable-next-line consistent-return
         return (
             <ReduxCell
                 {...section}
-                widgetId={this.props.widgetId}
+                widgetId={widgetId}
                 positionFixed={false}
                 modifiers={{}}
-                className={cn('n2o-widget-list-cell', get(section, 'className', ''))}
+                className={classNames('n2o-widget-list-cell', get(section, 'className', ''))}
             />
         )
     }
@@ -195,6 +200,15 @@ ListContainer.propTypes = {
     maxHeight: PropTypes.number,
     datasource: PropTypes.array,
     hasSelect: PropTypes.bool,
+    onResolve: PropTypes.func,
+    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onRowClickAction: PropTypes.func,
+    page: PropTypes.func,
+    onFetch: PropTypes.func,
+    placeholder: PropTypes.string,
+    divider: PropTypes.bool,
+    rows: PropTypes.object,
+    t: PropTypes.func,
 }
 
 ListContainer.defaultProps = {
@@ -224,6 +238,7 @@ export default compose(
                 ...props,
                 onResolve: (newModel) => {
                     props.onResolve(newModel)
+                    // eslint-disable-next-line eqeqeq
                     if (props.selectedId != newModel.id) {
                         props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
                     }

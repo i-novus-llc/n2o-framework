@@ -101,6 +101,14 @@
     display: flex;
 }
 
+.n2o-button-field {
+    width: max-content;
+
+    .btn {
+        width: content-box;
+    }
+}
+
 .n2o-page-actions__form-toolbar {
     &.btn-toolbar {
         > .btn-group {
@@ -134,14 +142,6 @@
 
 .form-control__with-toolbar {
     height: 100%;
-}
-
-.n2o-button-field {
-    width: max-content;
-
-    .btn {
-        width: content-box;
-    }
 }
 
 .n2o-button-field.btn-block {

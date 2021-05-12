@@ -1,9 +1,9 @@
 const condition = (i, count, inclusive) => {
     if (inclusive) {
-        return i <= parseInt(count)
+        return i <= parseInt(count, 10)
     }
 
-    return i < parseInt(count)
+    return i < parseInt(count, 10)
 }
 
 export const mapToNum = (

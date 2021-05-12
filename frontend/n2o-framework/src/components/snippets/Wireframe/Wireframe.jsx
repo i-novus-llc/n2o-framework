@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент WireFrame
@@ -8,9 +8,9 @@ import cx from 'classnames'
  * @reactProps {string} title - текст тайтла
  * @reactProps {object} style - стили компонента WireFrame
  */
-function Wireframe({ style, className, title, ...rest }) {
+function Wireframe({ style, className, title }) {
     return (
-        <div style={style} className={cx('n2o-wireframe', className)}>
+        <div style={style} className={classNames('n2o-wireframe', className)}>
             {title}
         </div>
     )
@@ -18,16 +18,16 @@ function Wireframe({ style, className, title, ...rest }) {
 
 Wireframe.propTypes = {
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Заголовок заглушки
-   */
+     * Заголовок заглушки
+     */
     title: PropTypes.string,
     /**
-   * Стили заглушки
-   */
+     * Стили заглушки
+     */
     style: PropTypes.object,
 }
 

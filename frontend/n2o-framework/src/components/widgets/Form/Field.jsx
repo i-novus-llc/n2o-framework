@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { pure } from 'recompose'
 
 import StandardField from './fields/StandardField/StandardField'
 
@@ -11,12 +10,10 @@ import StandardField from './fields/StandardField/StandardField'
  * @example
  * <Field component={CustomField} className="foo bar"/>
  */
-class Field extends React.Component {
-    render() {
-        const { component, ...props } = this.props
+function Field(props) {
+    const { component, ...rest } = props
 
-        return React.createElement(component, props)
-    }
+    return React.createElement(component, rest)
 }
 
 Field.defaultProps = {
@@ -27,4 +24,4 @@ Field.propTypes = {
     component: PropTypes.node,
 }
 
-export default pure(Field)
+export default memo(Field)
