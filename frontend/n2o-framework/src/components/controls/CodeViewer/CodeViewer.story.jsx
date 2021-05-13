@@ -1,7 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-// eslint-disable-next-line import/no-named-as-default
 import CodeViewer, { CodeViewer as CodeViewerComponent } from './CodeViewer'
 
 const stories = storiesOf('Контролы/Просмотрщик кода', module)

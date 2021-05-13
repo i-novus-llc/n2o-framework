@@ -118,8 +118,7 @@ export class EditableCell extends React.Component {
         this.toggleEdit()
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    stopPropagation(e) {
+    stopPropagation = (e) => {
         e.stopPropagation()
     }
 

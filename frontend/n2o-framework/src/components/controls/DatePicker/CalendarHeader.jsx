@@ -99,11 +99,18 @@ class CalendarHeader extends React.Component {
         return null
     }
 
-    // eslint-disable-next-line class-methods-use-this,consistent-return
-    nextType(type) {
-        if (type === Calendar.BY_YEARS || type === Calendar.BY_MONTHS) { return Calendar.BY_YEARS }
-        if (type === Calendar.BY_DAYS) { return Calendar.BY_MONTHS }
-        if (type === Calendar.TIME_PICKER) { return Calendar.TIME_PICKER }
+    nextType = (type) => {
+        if (type === Calendar.BY_YEARS || type === Calendar.BY_MONTHS) {
+            return Calendar.BY_YEARS
+        }
+        if (type === Calendar.BY_DAYS) {
+            return Calendar.BY_MONTHS
+        }
+        if (type === Calendar.TIME_PICKER) {
+            return Calendar.TIME_PICKER
+        }
+
+        return undefined
     }
 
     nextView(type) {

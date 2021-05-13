@@ -241,8 +241,7 @@ class AdvancedTableContainer extends React.Component {
       })
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  mapData(datasource) {
+  mapData = (datasource) => {
       if (!datasource) { return }
 
       // eslint-disable-next-line consistent-return
