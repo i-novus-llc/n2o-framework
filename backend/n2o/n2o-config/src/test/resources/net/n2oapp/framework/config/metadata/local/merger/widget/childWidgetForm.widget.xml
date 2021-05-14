@@ -15,11 +15,6 @@
     <toolbar>
         <button action-id="update"/>
     </toolbar>
-    <actions>
-        <action id="update">
-            <invoke operation-id="update"/>
-        </action>
-    </actions>
     <pre-filters>
         <eq field-id="id" value="1"/>
     </pre-filters>
