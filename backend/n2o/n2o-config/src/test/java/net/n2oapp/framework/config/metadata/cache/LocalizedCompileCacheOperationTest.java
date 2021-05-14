@@ -23,6 +23,7 @@ public class LocalizedCompileCacheOperationTest {
 
     @Test
     public void test() {
+        LocaleContextHolder.setLocale(new Locale("ru"));
         CacheTemplate cacheTemplate = mock(CacheTemplate.class);
         when(cacheTemplate.execute(eq("n2o.compiled"), eq("$test.Page.ru"), any())).thenReturn(getPage());
         LocalizedCompileCacheOperation operation = new LocalizedCompileCacheOperation(cacheTemplate);

@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.io.dataprovider.*;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
+import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
 import net.n2oapp.framework.config.io.page.*;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.io.region.LineRegionIOv1;
@@ -117,7 +117,7 @@ public class SelectiveStandardReader extends SelectiveReader {
 
 
     public SelectiveStandardReader addObjectReader() {
-        return addReader(new ObjectElementIOv2()).addReader(new ObjectElementIOv3());
+        return addReader(new ObjectElementIOv4()).addReader(new ObjectElementIOv3());
     }
 
     public SelectiveStandardReader addInvocationsReader2() {

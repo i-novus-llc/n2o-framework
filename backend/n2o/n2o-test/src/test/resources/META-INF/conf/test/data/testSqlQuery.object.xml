@@ -1,18 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <validations>
-        <constraint id="testName" level="error" moment="before-query">
-            <message>Name should be equals 'testName'</message>
+        <constraint id="testName" severity="danger" server-moment="before-query"
+                    message="Name should be equals 'testName'" result="[0][0] == 'testName'">
             <invocation>
-                <n2o:sql>select :name </n2o:sql>
+                <sql row-mapper="index">
+                    select :name
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="id" mapping="['id']"/>
-                <param name="name" mapping="['name']"/>
-            </in-parameters>
-            <result expression="[0][0][0] == 'testName'"/>
+            <in>
+                <field id="name" mapping="['name']" />
+            </in>
         </constraint>
     </validations>
-
 </object>

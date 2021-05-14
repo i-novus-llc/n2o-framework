@@ -1,39 +1,34 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
-    <name>testActionContext</name>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0" name="testActionContext">
 
-    <actions>
-        <action id="create">
+    <operations>
+        <operation id="create">
             <invocation>
-                <n2o:sql>select 125</n2o:sql>
+                <sql>select 125</sql>
             </invocation>
-            <in-parameters>
-                <param name="id" mapping="['id']"/>
-                <param name="name" mapping="['name']"/>
-                <param name="surname" mapping="['surname']"/>
-            </in-parameters>
-            <out-parameters>
-                <param name="id" mapping="[0][0][0]"/>
-            </out-parameters>
-        </action>
-    </actions>
+            <in>
+                <field id="id" mapping="['id']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="surname" mapping="['surname']"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0][0]"/>
+            </out>
+        </operation>
+    </operations>
 
     <validations>
-        <condition id="testName" level="error">
-            <expression>name === 'testName'</expression>
-        </condition>
-        <constraint id="testSurname" level="error">
-            <message>Surname should be equals 'testSurname'</message>
+        <condition id="testName" severity="danger">name === 'testName'</condition>
+        <constraint id="testSurname" severity="danger" message="Surname should be equals 'testSurname'"
+                    result="[0][0] == 'testSurname'">
             <invocation>
-                <n2o:sql>select :surname </n2o:sql>
+                <sql>select :surname </sql>
             </invocation>
-            <in-parameters>
-                <param name="id" mapping="['id']"/>
-                <param name="name" mapping="['name']"/>
-                <param name="surname" mapping="['surname']"/>
-            </in-parameters>
-            <result expression="[0][0][0] == 'testSurname'"/>
+            <in>
+                <field id="id" mapping="['id']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="surname" mapping="['surname']"/>
+            </in>
         </constraint>
     </validations>
 
