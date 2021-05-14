@@ -36,10 +36,9 @@
     }
   }
   &__cell {
-    display: flex;
-    justify-content: center;
     margin: $tiles-cell-margin;
     overflow-wrap: anywhere;
+    text-align: center;
     
     img {
       max-width: 100%;
