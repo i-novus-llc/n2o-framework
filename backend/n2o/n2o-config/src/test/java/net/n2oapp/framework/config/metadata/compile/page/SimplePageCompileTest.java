@@ -87,6 +87,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSimpleModalPage.page.xml")
                 .get(new ModalPageContext("testSimpleModalPage", "/modal"));
         assertThat(page.getId(), is("modal"));
-        assertThat(page.getPageProperty().getTitle(), is("testPage"));
+        assertThat(page.getPageProperty().getTitle(), nullValue());
+        assertThat(page.getPageProperty().getModalHeaderTitle(), is("testPage"));
     }
 }

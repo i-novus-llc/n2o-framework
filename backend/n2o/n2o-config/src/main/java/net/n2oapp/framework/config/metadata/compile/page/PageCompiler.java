@@ -91,7 +91,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
 
         pageProperty.setHtmlTitle(p.cast(source.getHtmlTitle(), pageName));
         if (context instanceof ModalPageContext)
-            pageProperty.setTitle(pageName);
+            pageProperty.setModalHeaderTitle(pageName);
         else if (showTitle)
             pageProperty.setTitle(p.cast(source.getTitle(), pageName));
 

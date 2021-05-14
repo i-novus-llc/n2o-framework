@@ -21,7 +21,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -294,6 +293,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void testPageTitleInModal() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageModalTitle.page.xml")
                 .get(new ModalPageContext("testStandardPageModalTitle", "/modal"));
-        assertThat(page.getPageProperty().getTitle(), Matchers.is("testPage"));
+        assertThat(page.getPageProperty().getTitle(), nullValue());
+        assertThat(page.getPageProperty().getModalHeaderTitle(), is("testPage"));
     }
 }
