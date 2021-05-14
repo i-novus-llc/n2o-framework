@@ -41,19 +41,23 @@ class Alert extends React.Component {
     }
 
     /**
-   * скрытие / показ деталей
-   */
+     * скрытие / показ деталей
+     */
     toggleDetails() {
+        const { detailsVisible } = this.state
+
         this.setState({
-            detailsVisible: !this.state.detailsVisible,
+            detailsVisible: !detailsVisible,
         })
     }
 
     renderAlert() {
         const { loader } = this.props
+
         if (loader) {
             return this.renderLoaderAlert()
         }
+
         return this.renderDefaultAlert()
     }
 
@@ -83,6 +87,7 @@ class Alert extends React.Component {
         )
     }
 
+    // eslint-disable-next-line class-methods-use-this
     formatDetailes(details) {
         if (isArray(details)) {
             return map(details, d => (
@@ -151,7 +156,7 @@ class Alert extends React.Component {
                 </div>
                 <div className="n2o-alert-close-container">
                     {defaultTo(closeButton, true) && (
-                        <button className="close n2o-alert-close" onClick={onDismiss}>
+                        <button className="close n2o-alert-close" onClick={onDismiss} type="button">
                             <span>×</span>
                         </button>
                     )}
@@ -161,10 +166,11 @@ class Alert extends React.Component {
     }
 
     /**
-   * Базовый рендер
-   */
+     * Базовый рендер
+     */
     render() {
         const { visible } = this.props
+
         return visible !== false && this.renderAlert()
     }
 }
@@ -184,57 +190,60 @@ Alert.defaultProps = {
 
 Alert.propTypes = {
     /**
-   * Заголовок алерта
-   */
+     * Заголовок алерта
+     */
     label: PropTypes.string,
     /**
-   * Текст алерта
-   */
+     * Текст алерта
+     */
     text: PropTypes.string,
     /**
-   * Цвет алерта
-   */
+     * Цвет алерта
+     */
     severity: PropTypes.oneOf([['info', 'danger', 'warning', 'success']]),
     /**
-   * Подробности алерта
-   */
+     * Подробности алерта
+     */
     details: PropTypes.string,
     /**
-   * Флаг показа кнопки закрытия
-   */
+     * Флаг показа кнопки закрытия
+     */
     closeButton: PropTypes.bool,
     /**
-   * Callback на закрытие
-   */
+     * Callback на закрытие
+     */
     onDismiss: PropTypes.func,
     /**
-   * Класс алерта
-   */
+     * Класс алерта
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Иконка рядом с заголовком
-   */
+     * Иконка рядом с заголовком
+     */
     icon: PropTypes.string,
     /**
-   * Видимость
-   */
+     * Видимость
+     */
     visible: PropTypes.bool,
     /**
-   * Позиционирование алерта
-   */
+     * Позиционирование алерта
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
     position: PropTypes.string,
     /**
-   * Кнопка tooltip
-   */
+     * Кнопка tooltip
+     */
     help: PropTypes.string,
     /**
-   * Флаг включения всплытия с анимацией
-   */
+     * Флаг включения всплытия с анимацией
+     */
     animate: PropTypes.bool,
+    t: PropTypes.func,
+    loader: PropTypes.any,
 }
 
 export default withTranslation()(Alert)

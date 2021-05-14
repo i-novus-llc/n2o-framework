@@ -32,12 +32,15 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 export function* alertEffect(action) {
     try {
         const { alertKey = GLOBAL_KEY, messages, stacked } = action.meta.alert
+
         if (!stacked) { yield put(removeAlerts(alertKey)) }
         const alerts = isArray(messages)
             ? messages.map(message => ({ ...message, id: message.id || id() }))
             : [{ ...messages, id: messages.id || id() }]
+
         yield put(addAlerts(alertKey, alerts))
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }
@@ -63,6 +66,7 @@ export function* redirectEffect(action) {
             window.open(newUrl)
         }
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }
@@ -74,6 +78,7 @@ function* fetchFlow(options, action) {
     const meta = get(action, 'meta')
     const redirectPath = get(action, 'meta.redirect.path')
 
+    // eslint-disable-next-line sonarjs/no-one-iteration-loop
     while (true) {
         yield take([LOCATION_CHANGE])
 
@@ -90,6 +95,7 @@ function* fetchFlow(options, action) {
 
 export function* refreshEffect(action) {
     let lastTask
+
     try {
         const { type, options } = action.meta.refresh
 
@@ -97,7 +103,7 @@ export function* refreshEffect(action) {
             case 'widget':
                 if (
                     action.meta.redirect &&
-          action.meta.redirect.target === 'application'
+                    action.meta.redirect.target === 'application'
                 ) {
                     if (lastTask) {
                         yield cancel(lastTask)
@@ -112,12 +118,17 @@ export function* refreshEffect(action) {
                         }),
                     )
                 }
+
                 break
             case 'metadata':
                 yield put(metadataRequest(...options))
+
+                break
+            default:
                 break
         }
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(e)
     }
 }
@@ -129,12 +140,16 @@ export function* messagesFormEffect({ meta }) {
         const putBatchActions = flow([batchActions, put])
 
         if (formID && fields) {
-            const serializeData = map(toPairs(fields), ([name, ...message]) => addFieldMessage(formID, name, ...message))
+            const serializeData = map(
+                toPairs(fields),
+                ([name, ...message]) => addFieldMessage(formID, name, ...message),
+            )
 
             yield put(touch(formID, ...keys(fields)))
             yield putBatchActions(serializeData)
         }
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }
@@ -145,6 +160,7 @@ export function* clearFormEffect(action) {
 
 export function* updateWidgetDependencyEffect({ meta }) {
     const { widgetId } = meta
+
     yield put(updateWidgetDependency(widgetId))
 }
 

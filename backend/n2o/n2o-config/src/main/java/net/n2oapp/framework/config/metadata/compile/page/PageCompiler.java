@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageProperty;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -20,7 +21,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  *
  * @param <S> Тип исходной модели страницы
  */
-public abstract class PageCompiler<S extends N2oPage, C extends Page> implements BaseSourceCompiler<C, S, PageContext> {
+public abstract class PageCompiler<S extends N2oPage, C extends Page> extends ComponentCompiler<C, S, PageContext> implements BaseSourceCompiler<C, S, PageContext> {
 
     /**
      * Получение базового маршрута страницы
@@ -98,6 +99,4 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;
     }
-
-    protected abstract String getPropertyPageSrc();
 }

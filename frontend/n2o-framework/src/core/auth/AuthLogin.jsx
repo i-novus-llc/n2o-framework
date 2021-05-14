@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
 import { userLogin, userLogout as userLogoutAction } from '../../actions/auth'
 
@@ -23,20 +24,25 @@ class Login extends React.Component {
 
     handleLogin() {
         const { username } = this.state
-        this.props.userLogin({ username, roles: [username] })
+        const { userLogin } = this.props
+
+        userLogin({ username, roles: [username] })
     }
 
     render() {
         const { t } = this.props
+        const { username } = this.state
+
         return (
             <div>
                 <input
                     type="text"
                     placeholder={t('login')}
-                    value={this.state.username}
+                    value={username}
                     onChange={this.handleChange}
                 />
                 {' '}
+                {/* eslint-disable-next-line react/button-has-type */}
                 <button onClick={this.handleLogin}>Войти</button>
             </div>
         )
@@ -49,13 +55,16 @@ const LoginContainer = connect(
 )(Login)
 
 const AuthButton = ({ userLogout }) => (
+    /* eslint-disable react/jsx-one-expression-per-line */
     <SecurityCheck
         render={({ permissions, user }) => (permissions ? (
             <p>
 
           Привет,
                 {user.username}
+
 !
+                {/* eslint-disable-next-line react/button-has-type */}
                 <button onClick={userLogout}>Выйти</button>
             </p>
         ) : (
@@ -67,6 +76,13 @@ const AuthButton = ({ userLogout }) => (
 
 Login.defaultProps = {
     t: () => {},
+}
+Login.propTypes = {
+    userLogin: PropTypes.func,
+    t: PropTypes.func,
+}
+AuthButton.propTypes = {
+    userLogout: PropTypes.func,
 }
 
 export default compose(

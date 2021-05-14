@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { pure } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
 
+// eslint-disable-next-line import/no-named-as-default
 import WidgetAlerts from './WidgetAlerts'
 import WidgetFilters from './WidgetFilters'
 
@@ -18,13 +19,19 @@ import WidgetFilters from './WidgetFilters'
  * @reactProps {node} children - элемент потомок компонента StandardWidget
  */
 class StandardWidget extends React.Component {
+    // eslint-disable-next-line consistent-return
     renderSection(place) {
         const { widgetId, toolbar, filter } = this.props
-        if (this.props[place] && React.isValidElement(this.props[place])) { return this.props[place] }
+        const { [place]: propsPlace } = this.props
+
+        if (propsPlace && React.isValidElement(propsPlace)) {
+            return propsPlace
+        }
         const filterProps = {
             ...filter,
             fieldsets: filter.filterFieldsets,
         }
+
         switch (place) {
             case 'left':
                 return <WidgetFilters widgetId={widgetId} {...filterProps} />
@@ -50,9 +57,9 @@ class StandardWidget extends React.Component {
     }
 
     render() {
-        const { widgetId, disabled, filter, className, style } = this.props
+        const { widgetId, disabled, filter, className, style, children } = this.props
 
-        const classes = cx([
+        const classes = classNames([
             'n2o-standard-widget-layout',
             {
                 [className]: className,
@@ -81,7 +88,7 @@ class StandardWidget extends React.Component {
                     </div>
                     <div>
                         <div />
-                        <div>{this.props.children}</div>
+                        <div>{children}</div>
                         <div />
                     </div>
                     <div className="d-flex justify-content-between">

@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
              name="page 2" route="test" modal-size="sm" show-title="true"
-             title="title" html-title="tab title">
+             title="title" html-title="tab title"
+             style="margin-left:10px;width:300px" class="testClass">
     <table/>
 </simple-page>
 

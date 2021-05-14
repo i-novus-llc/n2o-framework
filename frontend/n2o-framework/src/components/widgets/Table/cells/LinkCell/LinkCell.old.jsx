@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 
 import withCell from '../../withCell'
 import { LinkType } from '../../../../../impl/linkTypes'
-import Toolbar from '../../../../buttons/Toolbar'
 
 import { LinkCellType } from './linkCellTypes'
 
@@ -43,6 +42,7 @@ function LinkCell({
     url,
     target,
     visible,
+    // eslint-disable-next-line no-unused-vars
     ...rest
 }) {
     const props = {
@@ -57,9 +57,8 @@ function LinkCell({
     const getLinkContent = () => (
         <>
             {icon &&
-          (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) && (
-          <i style={{ marginRight: 5 }} className={icon} />
-            )}
+          (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) &&
+                (<i style={{ marginRight: 5 }} className={icon} />)}
             {(type === LinkCellType.ICONANDTEXT || type === LinkCellType.TEXT) &&
           get(model, fieldKey || id)}
         </>

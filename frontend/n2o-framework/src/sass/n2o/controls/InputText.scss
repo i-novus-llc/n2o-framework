@@ -1,51 +1,53 @@
 .n2o-input-text__affix-wrapper {
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  display: inline-flex;
-
-  .n2o-input-text {
-    padding: 0;
-    border: none;
-    outline: none;
+    position: relative;
     width: 100%;
+    min-width: 0;
+    display: inline-flex;
 
-    &:disabled {
-      background-color: $input-disabled-bg;
-      opacity: 1;
+    .n2o-input-text {
+        padding: 0;
+        border: none;
+        outline: none;
+        width: 100%;
+
+        &:disabled {
+            background-color: $input-disabled-bg;
+            opacity: 1;
+        }
     }
-  }
 
-  &.focused {
-    color: $input-focus-color;
-    background-color: $input-focus-bg;
-    border-color: $input-focus-border-color;
-    outline: 0;
-    // Avoid using mixin so we can pass custom focus shadow properly
-    @if $enable-shadows {
-      box-shadow: $input-box-shadow, $input-focus-box-shadow;
-    } @else {
-      box-shadow: $input-focus-box-shadow;
+    &.focused {
+        color: $input-focus-color;
+        background-color: $input-focus-bg;
+        border-color: $input-focus-border-color;
+        outline: 0;
+        // Avoid using mixin so we can pass custom focus shadow properly
+        @if $enable-shadows {
+            box-shadow: $input-box-shadow, $input-focus-box-shadow;
+        }
+
+        @else {
+            box-shadow: $input-focus-box-shadow;
+        }
     }
-  }
 
-  &.disabled {
-    background-color: $input-disabled-bg;
-    opacity: 1;
-  }
+    &.disabled {
+        background-color: $input-disabled-bg;
+        opacity: 1;
+    }
 }
 
 .n2o-input-text__prefix,
 .n2o-input-text__suffix {
-  display: flex;
-  flex: none;
-  align-items: center;
+    display: flex;
+    flex: none;
+    align-items: center;
 }
 
 .n2o-input-text__prefix {
-  margin-right: $input-padding-x;
+    margin-right: $input-padding-x;
 }
 
 .n2o-input-text__suffix {
-  margin-left: $input-padding-x;
+    margin-left: $input-padding-x;
 }

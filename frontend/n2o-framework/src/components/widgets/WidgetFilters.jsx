@@ -11,7 +11,7 @@ import unset from 'lodash/unset'
 import debounce from 'lodash/debounce'
 import { createStructuredSelector } from 'reselect'
 
-import Filter from '../snippets/Filter/Filter'
+import { Filter } from '../snippets/Filter/Filter'
 import { dataRequestWidget } from '../../actions/widgets'
 import { PREFIXES } from '../../constants/models'
 import { setModel, removeModel } from '../../actions/models'
@@ -65,7 +65,7 @@ class WidgetFilters extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { filterModel, reduxFormFilter } = this.props
         const { defaultValues } = this.state
 
@@ -120,6 +120,7 @@ class WidgetFilters extends React.Component {
             map(flatFields(fieldsets, []), 'id'),
             blackResetList,
         )
+
         toReset.forEach((field) => {
             unset(newReduxForm, field)
         })
@@ -190,12 +191,13 @@ WidgetFilters.propTypes = {
     blackResetList: PropTypes.array,
     filterModel: PropTypes.object,
     validation: PropTypes.object,
-    clearFilterModel: PropTypes.func,
     setFilterModel: PropTypes.func,
     reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     fetchWidget: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
+    dispatch: PropTypes.func,
+    resetFilterModel: PropTypes.func,
 }
 
 WidgetFilters.defaultProps = {
@@ -228,9 +230,4 @@ const mapDispatchToProps = (dispatch, { widgetId }) => ({
     ),
 })
 
-WidgetFilters = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(WidgetFilters)
-
-export default WidgetFilters
+export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)

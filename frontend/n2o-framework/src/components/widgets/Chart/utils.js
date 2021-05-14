@@ -26,10 +26,12 @@ export const COLORS = [
     '#C99765',
 ]
 
+// eslint-disable-next-line consistent-return
 export const parseData = (data) => {
     if (data.length) {
         return data.map((item) => {
             const { hasLabel, label } = item
+
             return {
                 ...omit(item, ['hasLabel', 'label']),
                 label: hasLabel,
@@ -39,6 +41,7 @@ export const parseData = (data) => {
     }
 }
 
+// eslint-disable-next-line consistent-return
 export const setLineColors = (lines) => {
     if (lines.length) {
         let linesWithColor = []

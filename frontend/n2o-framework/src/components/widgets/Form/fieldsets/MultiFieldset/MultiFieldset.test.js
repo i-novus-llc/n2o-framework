@@ -8,10 +8,6 @@ import FactoryProvider from '../../../../../core/factory/FactoryProvider'
 import createFactoryConfig from '../../../../../core/factory/createFactoryConfig'
 import FormWidget from '../../FormWidget'
 
-const delay = timeout => new Promise((resolve) => {
-    setTimeout(() => resolve(), timeout)
-})
-
 const initialState = {
     models: {
         resolve: {

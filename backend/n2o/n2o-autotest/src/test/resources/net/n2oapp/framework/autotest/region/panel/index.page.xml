@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <regions>
         <panel id="panel1" title="Panel1" open="false" color="danger"
-               icon="fa fa-exclamation" footer-title="Footer">
+               icon="fa fa-exclamation" footer-title="Footer" class="css-on-panel" style="width:90%">
             <form name="form1"/>
         </panel>
         <panel id="panel2" title="Panel2" collapsible="false">

@@ -52,15 +52,11 @@ stories
     )
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                placeholder: InputJson.placeholder,
-                disabled: InputJson.disabled,
-                length: InputJson.length,
-            }
-
-            return props
-        }),
+        form(() => ({
+            placeholder: InputJson.placeholder,
+            disabled: InputJson.disabled,
+            length: InputJson.length,
+        })),
     )
     .add('Префикс / суффикс', () => (
         <Input

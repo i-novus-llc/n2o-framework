@@ -57,6 +57,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
         assertThat(page.getSrc(), is("SimplePage"));
+        assertThat(page.getClassName(), is("testClass"));
+        assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getWidget(), notNullValue());

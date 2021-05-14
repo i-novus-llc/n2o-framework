@@ -2,6 +2,7 @@ import { put, select } from 'redux-saga/effects'
 
 import { changeColumnVisiblity } from '../actions/columns'
 
+// eslint-disable-next-line import/no-cycle
 import { resolveConditions } from './conditions'
 
 /**

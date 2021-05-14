@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 import { withTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
 import {
     makePageDisabledByIdSelector,
@@ -25,9 +26,10 @@ function withOverlayMethods(WrappedComponent) {
         }
 
         componentDidUpdate(prevProps) {
+            const { showPrompt } = this.props
+
             if (
-                this.props.showPrompt !== prevProps.showPrompt &&
-        this.props.showPrompt
+                showPrompt !== prevProps.showPrompt && showPrompt
             ) {
                 this.showPrompt()
             }
@@ -36,21 +38,26 @@ function withOverlayMethods(WrappedComponent) {
         renderFromSrc(src) {
             const { resolveProps } = this.context
             const Component = resolveProps(src, null)
+
             return <Component />
         }
 
         closeOverlay(prompt) {
             const { name, close } = this.props
+
             close(name, prompt)
         }
 
         closePrompt() {
             const { name, hidePrompt } = this.props
+
             hidePrompt(name)
         }
 
         showPrompt() {
-            if (window.confirm(this.props.t('defaultPromptMessage'))) {
+            const { t } = this.props
+
+            if (window.confirm(t('defaultPromptMessage'))) { // eslint-disable-line no-alert
                 this.closeOverlay(false)
             } else {
                 this.closePrompt()
@@ -67,6 +74,14 @@ function withOverlayMethods(WrappedComponent) {
                 />
             )
         }
+    }
+
+    OverlayMethods.propTypes = {
+        showPrompt: PropTypes.func,
+        name: PropTypes.string,
+        close: PropTypes.func,
+        hidePrompt: PropTypes.func,
+        t: PropTypes.func,
     }
 
     const mapStateToProps = createStructuredSelector({

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import dependency from '../../../core/dependency'
+import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
-import Fieldsets from '../Form/fieldsets'
+import { StandardFieldset } from '../Form/fieldsets'
 
 import ChartContainer from './ChartWidgetContainer'
 
@@ -38,7 +38,7 @@ function ChartWidget(
     },
     { resolveProps },
 ) {
-    const prepareFilters = () => resolveProps(filter, Fieldsets.StandardFieldset)
+    const prepareFilters = () => resolveProps(filter, StandardFieldset)
     const getWidgetProps = () => ({
         widgetId,
         toolbar,
@@ -72,6 +72,11 @@ function ChartWidget(
 }
 
 ChartWidget.propTypes = {
+    disabled: PropTypes.bool,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    filter: PropTypes.object,
     pageId: PropTypes.string.isRequired,
     widgetId: PropTypes.string,
     actions: PropTypes.object,

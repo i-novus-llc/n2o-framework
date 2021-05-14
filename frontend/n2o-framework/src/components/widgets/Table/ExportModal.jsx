@@ -4,6 +4,7 @@ import Row from 'reactstrap/lib/Row'
 import Col from 'reactstrap/lib/Col'
 import { withTranslation } from 'react-i18next'
 
+// eslint-disable-next-line import/no-named-as-default
 import SelectContainer from '../../controls/Select/SelectContainer'
 import RadioGroupContainer from '../../controls/RadioGroup/RadioGroupContainer'
 import ReduxForm from '../Form/ReduxForm'
@@ -73,6 +74,7 @@ class ExportModal extends React.Component {
         const { type, code, size } = this
         const selectControl = { component: SelectContainer }
         const radioControl = { component: RadioGroupContainer }
+
         return (
             <ReduxForm form={exportFormName} datasource={this.defaults}>
                 <Fieldset>
@@ -114,6 +116,7 @@ class ExportModal extends React.Component {
 ExportModal.propTypes = {
     type: PropTypes.object,
     code: PropTypes.string,
+    t: PropTypes.func,
 }
 
 export default withTranslation()(ExportModal)

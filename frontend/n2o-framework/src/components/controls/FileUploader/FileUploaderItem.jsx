@@ -5,7 +5,7 @@ import Progress from 'reactstrap/lib/Progress'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-import Spinner from '../../snippets/Spinner/Spinner'
+import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
 
@@ -21,8 +21,10 @@ class FileUploaderItem extends React.Component {
     }
 
     toggle() {
+        const { tooltipOpen } = this.state
+
         this.setState({
-            tooltipOpen: !this.state.tooltipOpen,
+            tooltipOpen: !tooltipOpen,
         })
     }
 
@@ -38,12 +40,15 @@ class FileUploaderItem extends React.Component {
             loading,
             autoUpload,
         } = this.props
+        const { tooltipOpen } = this.state
+
         return (
             <div className="n2o-file-uploader-files-item">
                 <span className="n2o-file-uploader-files-item-info">
                     <a
                         title={file.name}
                         href={file.link}
+                        /* eslint-disable-next-line react/jsx-no-target-blank */
                         target="_blank"
                         id={`tooltip-${file.id}`}
                         className={cn('n2o-file-uploader-link', {
@@ -57,7 +62,7 @@ class FileUploaderItem extends React.Component {
                     </a>
                     {(!isEmpty(file.error) || !isEmpty(file.response)) && (
                         <Tooltip
-                            isOpen={this.state.tooltipOpen}
+                            isOpen={tooltipOpen}
                             target={`tooltip-${file.id}`}
                             toggle={this.toggle}
                         >
@@ -96,8 +101,7 @@ FileUploaderItem.propTypes = {
     onRemove: PropTypes.func,
     showSize: PropTypes.bool,
     disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    status: PropTypes.number,
+    autoUpload: PropTypes.bool,
     index: PropTypes.number,
     loading: PropTypes.bool,
 }

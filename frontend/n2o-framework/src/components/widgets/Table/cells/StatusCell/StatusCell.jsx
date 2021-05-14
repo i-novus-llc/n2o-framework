@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
-import cx from 'classnames'
 
+// eslint-disable-next-line import/no-named-as-default
 import StatusText from '../../../../snippets/StatusText/StatusText'
 import withTooltip from '../../withTooltip'
 
@@ -27,6 +27,7 @@ function StatusCell(props) {
         textPosition,
     } = props
     const statusText = get(model, fieldKey || id)
+
     return visible ? (
         <div className="d-inline-flex">
             <StatusText
@@ -74,6 +75,7 @@ StatusCell.propTypes = {
    * Флаг видимости
    */
     visible: PropTypes.bool,
+    textPosition: PropTypes.string,
 }
 
 StatusCell.defaultProps = {

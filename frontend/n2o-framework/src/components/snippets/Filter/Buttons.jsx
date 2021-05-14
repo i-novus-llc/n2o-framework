@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset }) {
     const { t } = useTranslation()
+
     return visible ? (
         <ButtonGroup>
             <Button color="primary" onClick={onSearch}>

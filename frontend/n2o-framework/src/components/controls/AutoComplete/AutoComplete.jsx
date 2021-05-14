@@ -11,7 +11,6 @@ import map from 'lodash/map'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
-import some from 'lodash/some'
 import pick from 'lodash/pick'
 import { compose, mapProps } from 'recompose'
 import onClickOutside from 'react-onclickoutside'
@@ -36,16 +35,17 @@ class AutoComplete extends React.Component {
             activeValueId: null,
         }
 
-        this._input = null
-        this._onButtonClick = this._onButtonClick.bind(this)
+        this.input = null
     }
 
   componentDidMount = () => {
       const { value, tags } = this.props
 
       if (!isEmpty(value)) {
+          const currentValue = isArray(value) ? value : [value]
+
           this.setState({
-              value: isArray(value) ? value : value ? [value] : [],
+              value: value ? currentValue : [],
               input: value && !tags ? value : '',
           })
       }
@@ -55,6 +55,7 @@ class AutoComplete extends React.Component {
       const { value, options } = this.props
       const compareListProps = ['options', 'value']
       const compareListState = ['input']
+
       if (
           !isEqual(
               pick(prevProps, compareListProps),
@@ -72,7 +73,9 @@ class AutoComplete extends React.Component {
           }
 
           if (prevProps.value !== value) {
-              state.value = isArray(value) ? value : value ? [] : []
+              const currentValue = isArray(value) ? value : [value]
+
+              state.value = value ? currentValue : []
           }
           if (!isEmpty(state)) { this.setState(state) }
       }
@@ -80,32 +83,41 @@ class AutoComplete extends React.Component {
 
   handleClickOutside = () => {
       const { isExpanded } = this.state
+
       if (isExpanded) {
-          this._setIsExpanded(false)
+          this.setIsExpanded(false)
           this.onBlur()
       }
   };
 
+  // eslint-disable-next-line consistent-return
   calcPopperWidth = () => {
-      const { _input } = this
+      const { input } = this
       const { popupAutoSize } = this.props
-      if (_input && !popupAutoSize) {
-          return _input.getBoundingClientRect().width
+
+      if (input && !popupAutoSize) {
+          return input.getBoundingClientRect().width
       }
   };
 
-  _setIsExpanded = (isExpanded) => {
+  setIsExpanded = (isExpanded) => {
       const { disabled, onToggle, onClose, onOpen } = this.props
       const { isExpanded: previousIsExpanded } = this.state
+
       if (!disabled && isExpanded !== previousIsExpanded) {
           this.setState({ isExpanded })
           onToggle(isExpanded)
-          isExpanded ? onOpen() : onClose()
+
+          if (isExpanded) {
+              onOpen()
+          } else {
+              onClose()
+          }
       }
   };
 
   setInputRef = popperRef => (r) => {
-      this._input = r
+      this.input = r
       popperRef(r)
   };
 
@@ -113,24 +125,27 @@ class AutoComplete extends React.Component {
       const { openOnFocus } = this.props
 
       if (openOnFocus) {
-          this._setIsExpanded(true)
+          this.setIsExpanded(true)
       }
   };
 
   onClick = () => {
-      this._setIsExpanded(true)
+      this.setIsExpanded(true)
   };
 
-  _handleDataSearch = (input, delay = 400, callback) => {
+  handleDataSearch = (input, delay = 400, callback) => {
       const { onSearch, filter, valueFieldId, options } = this.props
 
       if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
           const filterFunc = item => String.prototype[filter].call(item, input)
           const filteredData = filter(options, item => filterFunc(item[valueFieldId]))
+
           this.setState({ options: filteredData })
       } else {
       // серверная фильтрация
-          const labels = map(this.state.value, item => item[valueFieldId])
+          const { value } = this.state
+          const labels = map(value, item => item[valueFieldId])
+
           if (labels.some(label => label === input)) {
               onSearch('', delay, callback)
           } else {
@@ -139,8 +154,10 @@ class AutoComplete extends React.Component {
       }
   };
 
-  onChange = (input) => {
-      const { onInput, tags, options, data, valueFieldId, onChange } = this.props
+  onChange = (userInput) => {
+      const { onInput, tags, onChange } = this.props
+      const { input } = this.state
+
       const onSetNewInputValue = (input) => {
           onInput(input)
           if (!tags && input === '') {
@@ -148,22 +165,26 @@ class AutoComplete extends React.Component {
           } else if (!tags) {
               onChange([input])
           }
-          this._handleDataSearch(input)
+          this.handleDataSearch(input)
       }
 
-      if (!isEqual(this.state.input, input)) {
-          const getSelected = prevState => (tags
-              ? prevState.value
-              : some(options || data, option => option[valueFieldId] === input)
-                  ? [input]
-                  : [input])
+      if (!isEqual(input, userInput)) {
+          const getSelected = (prevState) => {
+              if (tags) {
+                  return prevState.value
+              }
+
+              // ToDo здесь вероятно баг, удалено лишнее
+              return [userInput]
+          }
+
           this.setState(
               prevState => ({
-                  input,
+                  input: userInput,
                   value: getSelected(prevState),
                   isExpanded: true,
               }),
-              () => onSetNewInputValue(input),
+              () => onSetNewInputValue(userInput),
           )
       }
   };
@@ -179,32 +200,36 @@ class AutoComplete extends React.Component {
 
   onSelect = (item) => {
       const { valueFieldId, onChange, closePopupOnSelect, tags } = this.props
-      const value = isString(item) ? item : get(item, valueFieldId)
+
+      const currentValue = isString(item) ? item : get(item, valueFieldId)
 
       this.setState(
           prevState => ({
-              value: tags ? [...prevState.value, value] : [value],
-              input: !tags ? value : '',
+              value: tags ? [...prevState.value, currentValue] : [currentValue],
+              input: !tags ? currentValue : '',
           }),
           () => {
+              const { value, input } = this.state
+
               if (closePopupOnSelect) {
-                  this._setIsExpanded(false)
+                  this.setIsExpanded(false)
               }
 
-              if (isString(value)) {
+              if (isString(currentValue)) {
                   this.forceUpdate()
               }
               if (tags) {
-                  onChange(this.state.value)
+                  onChange(value)
               } else {
-                  onChange(this.state.input)
+                  onChange(input)
               }
           },
       )
   };
 
-  _handleElementClear = () => {
+  handleElementClear = () => {
       const { onChange, onBlur } = this.props
+      const { input, value } = this.state
 
       this.setState(
           {
@@ -212,18 +237,18 @@ class AutoComplete extends React.Component {
               value: [],
           },
           () => {
-              this._handleDataSearch(this.state.input)
-              onChange(this.state.value)
+              this.handleDataSearch(input)
+              onChange(value)
               onBlur(null)
           },
       )
   };
 
-  _setActiveValueId = (activeValueId) => {
+  setActiveValueId = (activeValueId) => {
       this.setState({ activeValueId })
   };
 
-  _removeSelectedItem = (item, index = null) => {
+  removeSelectedItem = (item, index = null) => {
       const { onChange } = this.props
       const { value } = this.state
       let newValue = value.slice()
@@ -240,9 +265,9 @@ class AutoComplete extends React.Component {
       })
   };
 
-  _onButtonClick() {
-      if (this._input) {
-          this._input.focus()
+  onButtonClick = () => {
+      if (this.input) {
+          this.input.focus()
       }
   }
 
@@ -270,6 +295,7 @@ class AutoComplete extends React.Component {
           data,
           tags,
           maxTagTextLength,
+          onDismiss,
       } = this.props
       const needAddFilter = !find(value, item => item[valueFieldId] === input)
       const optionsList = !isEmpty(data) ? data : options
@@ -292,7 +318,7 @@ class AutoComplete extends React.Component {
                           <InputSelectGroup
                               withoutButtons
                               isExpanded={isExpanded}
-                              setIsExpanded={this._setIsExpanded}
+                              setIsExpanded={this.setIsExpanded}
                               loading={loading}
                               selected={value}
                               iconFieldId={iconFieldId}
@@ -302,8 +328,8 @@ class AutoComplete extends React.Component {
                               className={`${className} ${isExpanded ? 'focus' : ''}`}
                               setSelectedItemsRef={this.setSelectedItemsRef}
                               input={input}
-                              onClearClick={this._handleElementClear}
-                              onButtonClick={this._onButtonClick}
+                              onClearClick={this.handleElementClear}
+                              onButtonClick={this.onButtonClick}
                           >
                               <InputContent
                                   tags
@@ -313,14 +339,14 @@ class AutoComplete extends React.Component {
                                   options={filteredOptions}
                                   setRef={this.setInputRef(ref)}
                                   onInputChange={this.onChange}
-                                  setActiveValueId={this._setActiveValueId}
-                                  closePopUp={() => this._setIsExpanded(false)}
-                                  openPopUp={() => this._setIsExpanded(true)}
+                                  setActiveValueId={this.setActiveValueId}
+                                  closePopUp={() => this.setIsExpanded(false)}
+                                  openPopUp={() => this.setIsExpanded(true)}
                                   selected={value}
                                   value={input}
                                   onFocus={this.onFocus}
                                   onClick={this.onClick}
-                                  onRemoveItem={this._removeSelectedItem}
+                                  onRemoveItem={this.removeSelectedItem}
                                   isExpanded={isExpanded}
                                   valueFieldId={valueFieldId}
                                   activeValueId={activeValueId}
@@ -359,7 +385,7 @@ class AutoComplete extends React.Component {
                                       autocomplete
                                       isExpanded={isExpanded}
                                       activeValueId={activeValueId}
-                                      setActiveValueId={this._setActiveValueId}
+                                      setActiveValueId={this.setActiveValueId}
                                       onScrollEnd={onScrollEnd}
                                       needAddFilter={needAddFilter}
                                       options={filteredOptions}
@@ -382,7 +408,7 @@ class AutoComplete extends React.Component {
                         alerts.map(alert => (
                             <Alert
                                 key={alert.id}
-                                onDismiss={() => this.props.onDismiss(alert.id)}
+                                onDismiss={() => onDismiss(alert.id)}
                                 {...alert}
                             />
                         ))}
@@ -400,124 +426,131 @@ class AutoComplete extends React.Component {
 
 AutoComplete.propTypes = {
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Флаг загрузки
-   */
+     * Флаг загрузки
+     */
     loading: PropTypes.bool,
     /**
-   * Массив данных
-   */
+     * Массив данных
+     */
     options: PropTypes.array.isRequired,
     /**
-   * Ключ значения
-   */
-    valueFieldId: PropTypes.string.isRequired,
+     * Ключ значения
+     */
+    valueFieldId: PropTypes.string,
     /**
-   * Ключ icon в данных
-   */
+     * Ключ icon в данных
+     */
     iconFieldId: PropTypes.string,
     /**
-   * Ключ image в данных
-   */
+     * Ключ image в данных
+     */
     imageFieldId: PropTypes.string,
     /**
-   * Ключ badge в данных
-   */
+     * Ключ badge в данных
+     */
     badgeFieldId: PropTypes.string,
     /**
-   * Ключ цвета badgeColor в данных
-   */
+     * Ключ цвета badgeColor в данных
+     */
     badgeColorFieldId: PropTypes.string,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Неактивные данные
-   */
+     * Неактивные данные
+     */
     disabledValues: PropTypes.array,
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     /**
-   * Callback на переключение
-   */
+     * Callback на переключение
+     */
     onToggle: PropTypes.func,
     onInput: PropTypes.func,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Callback на выбор
-   */
+     * Callback на выбор
+     */
     onSelect: PropTypes.func,
     /**
-   * Callback на скрол в самый низ
-   */
+     * Callback на скрол в самый низ
+     */
     onScrollEnd: PropTypes.func,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
-   */
+     * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+     */
     resetOnBlur: PropTypes.bool,
     /**
-   * Callback на открытие
-   */
+     * Callback на открытие
+     */
     onOpen: PropTypes.func,
     /**
-   * Callback на закрытие
-   */
+     * Callback на закрытие
+     */
     onClose: PropTypes.func,
     /**
-   * Мульти выбор значений
-   */
+     * Мульти выбор значений
+     */
     multiSelect: PropTypes.bool,
     /**
-   * Поле для группировки
-   */
+     * Поле для группировки
+     */
     groupFieldId: PropTypes.string,
     /**
-   * Флаг закрытия попапа при выборе
-   */
+     * Флаг закрытия попапа при выборе
+     */
     closePopupOnSelect: PropTypes.bool,
     /**
-   * Флаг наличия чекбоксов в селекте
-   */
+     * Флаг наличия чекбоксов в селекте
+     */
     hasCheckboxes: PropTypes.bool,
     /**
-   * Формат
-   */
+     * Формат
+     */
     format: PropTypes.string,
     /**
-   * Callback на поиск
-   */
+     * Callback на поиск
+     */
     onSearch: PropTypes.func,
     expandPopUp: PropTypes.bool,
     alerts: PropTypes.array,
     /**
-   * Авто фокусировка на селекте
-   */
+     * Авто фокусировка на селекте
+     */
     autoFocus: PropTypes.bool,
     /**
-   * Флаг авто размера попапа
-   */
+     * Флаг авто размера попапа
+     */
     popupAutoSize: PropTypes.bool,
     /**
-   * Мод работы Autocomplete
-   */
+     * Мод работы Autocomplete
+     */
     tags: PropTypes.bool,
     /**
-   * Максимальная длина текста в тэге, до усечения
-   */
+     * Максимальная длина текста в тэге, до усечения
+     */
     maxTagTextLength: PropTypes.number,
+    openOnFocus: PropTypes.bool,
+    filter: PropTypes.string,
+    className: PropTypes.string,
+    onBlur: PropTypes.func,
+    data: PropTypes.array,
+    onDismiss: PropTypes.func,
+    flip: PropTypes.bool,
 }
 
 AutoComplete.defaultProps = {

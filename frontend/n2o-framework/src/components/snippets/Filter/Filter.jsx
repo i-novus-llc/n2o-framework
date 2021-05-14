@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import Buttons from './Buttons'
 
@@ -17,7 +17,7 @@ import Buttons from './Buttons'
  * @example
  * <Link to="/path/1" onClick={this.changeUrl}>Ссылка</Link>
  */
-class Filter extends React.Component {
+export class Filter extends React.Component {
     constructor(props) {
         super(props)
         this.onReset = this.onReset.bind(this)
@@ -25,11 +25,15 @@ class Filter extends React.Component {
     }
 
     onReset() {
-        this.props.onReset()
+        const { onReset } = this.props
+
+        onReset()
     }
 
     onSearch() {
-        this.props.onSearch()
+        const { onSearch } = this.props
+
+        onSearch()
     }
 
     render() {
@@ -44,7 +48,7 @@ class Filter extends React.Component {
         } = this.props
 
         return visible ? (
-            <div className={cx('n2o-filter', className)} style={style}>
+            <div className={classNames('n2o-filter', className)} style={style}>
                 {children}
                 {!hideButtons ? (
                     <Buttons
@@ -63,36 +67,35 @@ Filter.propTypes = {
     children: PropTypes.node,
     style: PropTypes.object,
     /**
-   * Callback на поиск
-   */
+     * Callback на поиск
+     */
     onSearch: PropTypes.func,
     /**
-   * Callback на сброс
-   */
+     * Callback на сброс
+     */
     onReset: PropTypes.func,
     className: PropTypes.string,
     /**
-   * Текст кнопки поиска
-   */
+     * Текст кнопки поиска
+     */
     searchLabel: PropTypes.string,
     /**
-   * Текст кнопки сброса
-   */
+     * Текст кнопки сброса
+     */
     resetLabel: PropTypes.string,
     /**
-   * Видимость
-   */
+     * Видимость
+     */
     visible: PropTypes.bool,
     /**
-   * Флаг скрытия кнопок
-   */
+     * Флаг скрытия кнопок
+     */
     hideButtons: PropTypes.bool,
 }
 
 Filter.defaultProps = {
     onSearch: () => {},
     onReset: () => {},
-    t: () => {},
     visible: true,
     style: {},
     className: '',

@@ -35,10 +35,12 @@ export class MenuContainer extends React.Component {
     }
 
     async componentDidUpdate(prevProps) {
+        const { items, extraItems, user } = this.props
+
         if (
-            !isEqual(this.props.items, prevProps.items) ||
-      !isEqual(this.props.extraItems, prevProps.extraItems) ||
-      !isEqual(this.props.user, prevProps.user)
+            !isEqual(items, prevProps.items) ||
+            !isEqual(extraItems, prevProps.extraItems) ||
+            !isEqual(user, prevProps.user)
         ) {
             await this.getItemsWithAccess()
         }
@@ -74,6 +76,7 @@ export class MenuContainer extends React.Component {
                 }))
             }
             if (item.subItems) {
+                // eslint-disable-next-line no-restricted-syntax
                 for (const subItem of item.subItems) {
                     await this.checkItem(subItem, 'items', item.id)
                 }
@@ -82,14 +85,19 @@ export class MenuContainer extends React.Component {
     }
 
     setSubItem(item, type, id) {
-        const parentIndex = findIndex(this.state[type], i => i.id === id)
-        const parentItem = get(this.state[type], parentIndex.toString())
+        const { [type]: stateItem } = this.state
+
+        const parentIndex = findIndex(stateItem, i => i.id === id)
+        const parentItem = get(stateItem, parentIndex.toString())
         let subItems = get(parentItem, 'subItems', [])
+
         subItems = filter(subItems, i => i.id !== item.id)
         parentItem.subItems = subItems
         this.setState((prevState) => {
             const newState = prevState
+
             newState[type][parentIndex].subItems = subItems
+
             return newState
         })
     }
@@ -97,12 +105,14 @@ export class MenuContainer extends React.Component {
     async makeSecure(metadata) {
         const makeSecure = async (items, type) => {
             if (isArray(items) && !isEmpty(items)) {
+                // eslint-disable-next-line no-restricted-syntax
                 for (const item of items) {
                     await this.checkItem(item, type)
                 }
             }
         }
         const { items, extraItems } = metadata
+
         await makeSecure(items, 'items')
         await makeSecure(extraItems, 'extraItems')
     }
@@ -113,14 +123,16 @@ export class MenuContainer extends React.Component {
     }
 
     mapRenderProps() {
+        const { items, extraItems } = this.state
+
         return {
             ...this.props,
             items: filter(
-                this.state.items,
+                items,
                 i => !i.subItems || !isEmpty(i.subItems),
             ),
             extraItems: filter(
-                this.state.extraItems,
+                extraItems,
                 i => !i.subItems || !isEmpty(i.subItems),
             ),
         }
@@ -128,12 +140,17 @@ export class MenuContainer extends React.Component {
 
     render() {
         const { render } = this.props
+
         return render(this.mapRenderProps())
     }
 }
 
 MenuContainer.propTypes = {
     render: PropTypes.func,
+    items: PropTypes.any,
+    extraItems: PropTypes.any,
+    user: PropTypes.any,
+    authProvider: PropTypes.any,
 }
 
 MenuContainer.defaultProps = {

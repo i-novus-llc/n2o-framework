@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 
 import { moveCursorToEnd } from './utils'
 
-class ContentEditable extends Component {
+export class ContentEditable extends Component {
     constructor(props) {
         super(props)
         this.ref = createRef()
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.editable !== prevProps.editable && this.props.editable) {
+        const { editable } = this.props
+
+        if (editable !== prevProps.editable && editable) {
             this.ref.current.focus()
             moveCursorToEnd(this.ref.current)
         }

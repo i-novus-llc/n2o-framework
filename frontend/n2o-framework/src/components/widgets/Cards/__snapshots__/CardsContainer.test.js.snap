@@ -630,9 +630,8 @@ exports[`<CardsContainer /> отрисовка 1`] = `
               once={true}
               type="list"
             >
-              <BaseSpinner
+              <Spinner
                 color="primary"
-                delay={400}
                 loading={true}
                 minSpinnerTimeToShow={250}
                 text=""
@@ -1604,7 +1603,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
                     </getContext(withHandlers(mapProps(CardsContainer)))>
                   </lifecycle(getContext(withHandlers(mapProps(CardsContainer))))>
                 </div>
-              </BaseSpinner>
+              </Spinner>
             </Placeholder>
           </div>
         </WidgetContainer>

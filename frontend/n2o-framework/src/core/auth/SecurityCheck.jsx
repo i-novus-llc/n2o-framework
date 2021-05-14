@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 
 import { userSelector } from '../../selectors/auth'
-import { dataRequestWidget } from '../../actions/widgets'
 
 import { SECURITY_CHECK } from './authTypes'
 
@@ -20,6 +19,7 @@ class SecurityCheck extends React.Component {
         super(props)
         this.state = {
             permissions: null,
+            // eslint-disable-next-line react/no-unused-state
             error: null,
         }
     }
@@ -29,9 +29,11 @@ class SecurityCheck extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        const { user, config } = this.props
+
         if (
-            !isEqual(nextProps.user, this.props.user) ||
-      !isEqual(nextProps.config, this.props.config)
+            !isEqual(nextProps.user, user) ||
+            !isEqual(nextProps.config, config)
         ) {
             this.checkPermissions(nextProps)
         }
@@ -40,17 +42,21 @@ class SecurityCheck extends React.Component {
     async checkPermissions(params) {
         const { authProvider, config, user } = params
         const { onPermissionsSet } = this.props
+
         try {
             const permissions = await authProvider(SECURITY_CHECK, {
                 config,
                 user,
             })
+
             this.setState(
+                // eslint-disable-next-line react/no-unused-state
                 { permissions, error: null },
                 () => onPermissionsSet && onPermissionsSet(permissions),
             )
         } catch (error) {
             this.setState(
+                // eslint-disable-next-line react/no-unused-state
                 { permissions: null, error },
                 () => onPermissionsSet && onPermissionsSet(null),
             )
@@ -59,13 +65,15 @@ class SecurityCheck extends React.Component {
 
     render() {
         const { permissions } = this.state
+        const { render } = this.props
         const props = omit(this.props, ['authProvider', 'config'])
-        return this.props.render({ permissions, ...props })
+
+        return render({ permissions, ...props })
     }
 }
 
 SecurityCheck.propTypes = {
-    authProvider: PropTypes.func,
+    onPermissionsSet: PropTypes.func,
     config: PropTypes.object,
     user: PropTypes.object,
     render: PropTypes.func,

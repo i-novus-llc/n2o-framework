@@ -1,10 +1,10 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import BaseTable from 'reactstrap/lib/Table'
 
 import { mapToNumOrStr } from '../../utils'
 
-function Table({ cols, rows }) {
+export function Table({ cols, rows }) {
     const renderTh = () => (
         <th>
             <div className="n2o-placeholder-content" />
@@ -31,12 +31,12 @@ function Table({ cols, rows }) {
 
 Table.propTypes = {
     /**
-   * Количество столбцов
-   */
+     * Количество столбцов
+     */
     cols: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Количество строк
-   */
+     * Количество строк
+     */
     rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 

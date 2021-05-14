@@ -1,26 +1,30 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
 import isString from 'lodash/isString'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 
-import Text from '../../snippets/Typography/Text/Text'
-import Icon from '../../snippets/Icon/Icon'
+import { Text } from '../../snippets/Typography/Text/Text'
+import { Icon } from '../../snippets/Icon/Icon'
 
 const TypesComponents = {
+    // eslint-disable-next-line react/prop-types
     icon: ({ icon }) => <Icon className="icon" name={icon} />,
+    // eslint-disable-next-line react/prop-types
     text: ({ value, format, expandable, showFullText, preLine, isOpen, t }) => (
         <div className="text">
             <Text text={value} format={format} preLine={preLine} />
             {expandable && (
+                // eslint-disable-next-line jsx-a11y/anchor-is-valid
                 <a href="#" onClick={showFullText} className="details-label">
                     {isOpen ? t('hide') : t('details')}
                 </a>
             )}
         </div>
     ),
+    /* eslint-disable react/prop-types */
     iconAndText: ({
         icon,
         value,
@@ -36,6 +40,7 @@ const TypesComponents = {
             <div className="text">
                 <Text text={value} format={format} preLine={preLine} />
                 {expandable && (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a href="#" onClick={showFullText} className="details-label">
                         {isOpen ? t('hide') : t('details')}
                     </a>
@@ -43,6 +48,7 @@ const TypesComponents = {
             </div>
         </>
     ),
+    /* eslint-enable react/prop-types */
 }
 
 /**
@@ -72,10 +78,12 @@ class OutPutText extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.value, this.props.value)) {
+        const { value } = this.props
+
+        if (!isEqual(prevProps.value, value)) {
             this.setState({
-                value: this.props.value,
-                formattedValue: this.formatValue(this.props.value),
+                value,
+                formattedValue: this.formatValue(value),
             })
         }
     }
@@ -85,15 +93,19 @@ class OutPutText extends React.Component {
     }
 
     showFullText(e) {
+        const { isOpen } = this.state
+
         e.preventDefault()
-        this.setState({ isOpen: !this.state.isOpen })
+        this.setState({ isOpen: !isOpen })
     }
 
     formatValue(value) {
         const { expandable } = this.props
+
         if (isNumber(expandable) && isString(value)) {
             return `${value.substr(0, expandable - 3)}...`
         }
+
         return value
     }
 
@@ -112,11 +124,9 @@ class OutPutText extends React.Component {
 
         return (
             <div
-                className={cx('n2o-output-text', className, textPlace, {
-                    'n2o-output-text--ellipsis':
-            (ellipsis || expandable === true) && !isOpen,
-                    'n2o-output-text--expandable':
-            (expandable && isOpen) || isNumber(expandable),
+                className={classNames('n2o-output-text', className, textPlace, {
+                    'n2o-output-text--ellipsis': (ellipsis || expandable === true) && !isOpen,
+                    'n2o-output-text--expandable': (expandable && isOpen) || isNumber(expandable),
                 })}
                 ref={this.setRenderComponentRef}
                 style={style}
@@ -135,44 +145,44 @@ class OutPutText extends React.Component {
 
 OutPutText.propTypes = {
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Тип значения
-   */
+     * Тип значения
+     */
     type: PropTypes.oneOf(Object.keys(TypesComponents)),
     /**
-   * Располложение текста
-   */
+     * Располложение текста
+     */
     textPlace: PropTypes.oneOf(['right', 'left']),
     /**
-   * Иконка
-   */
+     * Иконка
+     */
     icon: PropTypes.string,
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.string,
     /**
-   * Формт
-   */
+     * Формт
+     */
     format: PropTypes.string,
     /**
-   * Троеточие при длинном текста
-   */
+     * Троеточие при длинном текста
+     */
     ellipsis: PropTypes.bool,
     /**
-   * "Подробнее" в конце строки при длинном тексте
-   */
+     * "Подробнее" в конце строки при длинном тексте
+     */
     expandable: PropTypes.oneOf([PropTypes.bool, PropTypes.number]),
 }
 

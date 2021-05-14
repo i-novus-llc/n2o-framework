@@ -25,6 +25,7 @@ function CheckboxButton({
     className,
 }) {
     return (
+    // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label
             className={cx('btn btn-secondary', className, {
                 active: checked,
@@ -47,40 +48,36 @@ function CheckboxButton({
 
 CheckboxButton.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.any,
     /**
-   * Checked
-   */
+     * Checked
+     */
     checked: PropTypes.bool,
     /**
-   * Callback изменения
-   */
+     * Callback изменения
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Label контрола
-   */
+     * Label контрола
+     */
     label: PropTypes.string,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
-    style: PropTypes.object,
-    /**
-   * Callback фокуса
-   */
+     * Callback фокуса
+     */
     onFocus: PropTypes.func,
     /**
-   * Callback потери фокуса
-   */
+     * Callback потери фокуса
+     */
     onBlur: PropTypes.func,
 }
 
@@ -90,9 +87,6 @@ CheckboxButton.defaultProps = {
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {},
-    onPaste: () => {},
-    onClick: () => {},
-    onKeyDown: () => {},
 }
 
 export default setDisplayName('CheckboxButton')(CheckboxButton)

@@ -22,7 +22,7 @@ export const InitMetadataContext = React.createContext({
  * НОС - создает зависимость
  *
  */
-const dependency = (WrappedComponent) => {
+export const dependency = (WrappedComponent) => {
     class UniversalDependency extends React.Component {
         constructor(props) {
             super(props)
@@ -56,9 +56,6 @@ const dependency = (WrappedComponent) => {
             }
         }
 
-        /**
-     * Базовый рендер
-     */
         render() {
             const { isVisible, isEnabled } = this.props
 
@@ -90,17 +87,15 @@ const dependency = (WrappedComponent) => {
         models: PropTypes.object,
     }
 
-    const mapStateToProps = (state, props) => {
-        const { dependency } = props
-        return {
-            isInit: makeWidgetIsInitSelector(props.id)(state, props),
-            isVisible: makeWidgetVisibleSelector(props.id)(state, props),
-            isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
-        }
-    }
+    const mapStateToProps = (state, props) => ({
+        isInit: makeWidgetIsInitSelector(props.id)(state, props),
+        isVisible: makeWidgetVisibleSelector(props.id)(state, props),
+        isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
+    })
 
     const mapDispatchToProps = (dispatch, ownProps) => {
         const { id: widgetId } = ownProps
+
         return {
             registerDependency: dependency => dispatch(registerDependency(widgetId, dependency)),
             preInitWidget: options => dispatch(registerWidget(widgetId, options, true)),

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import pick from 'lodash/pick'
 
+// eslint-disable-next-line import/no-cycle
 import DateInput from './DateInput'
 
 /**
@@ -15,13 +16,9 @@ import DateInput from './DateInput'
  * @reactProps {boolean} openOnFocus
  */
 class DateInputGroup extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     /**
-   * рендер полей-инпутов
-   */
+     * рендер полей-инпутов
+     */
     renderInputs() {
         const {
             dateFormat,
@@ -36,13 +33,16 @@ class DateInputGroup extends React.Component {
             autoFocus,
             openOnFocus,
             setControlRef,
+            outputFormat,
         } = this.props
         const style = { display: 'flex', flexGrow: 1 }
         const dateInputProps = pick(this.props, ['max', 'min'])
+
         return (
             <div style={style}>
                 {Object.keys(value).map((input, i) => (
                     <DateInput
+                        /* eslint-disable-next-line react/no-array-index-key */
                         key={i}
                         dateFormat={dateFormat}
                         placeholder={placeholder}
@@ -57,7 +57,7 @@ class DateInputGroup extends React.Component {
                         autoFocus={autoFocus}
                         openOnFocus={openOnFocus}
                         inputClassName={inputClassName}
-                        outputFormat={this.props.outputFormat}
+                        outputFormat={outputFormat}
                         {...dateInputProps}
                     />
                 ))}
@@ -66,8 +66,8 @@ class DateInputGroup extends React.Component {
     }
 
     /**
-   * базовый рендер
-   */
+     * базовый рендер
+     */
     render() {
         const { inputRef } = this.props
         const style = {
@@ -75,6 +75,7 @@ class DateInputGroup extends React.Component {
             justifyContent: 'space-between',
             flexGrow: 1,
         }
+
         return (
             <div ref={inputRef} style={style}>
                 {this.renderInputs()}
@@ -83,7 +84,11 @@ class DateInputGroup extends React.Component {
     }
 }
 
-DateInput.propTypes = {
+DateInputGroup.propTypes = {
+    inputRef: PropTypes.any,
+    outputFormat: PropTypes.any,
+    inputClassName: PropTypes.string,
+    setControlRef: PropTypes.func,
     dateFormat: PropTypes.string,
     disabled: PropTypes.bool,
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

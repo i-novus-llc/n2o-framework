@@ -10,6 +10,7 @@ import Button from 'reactstrap/lib/Button'
 
 import { MODIFIERS } from '../../controls/DatePicker/utils'
 
+// eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup'
 
 /**
@@ -35,13 +36,17 @@ class AdvancedTableFilter extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.value !== this.props.value) {
-            this.setState({ value: this.props.value })
+        const { value } = this.props
+
+        if (prevProps.value !== value) {
+            this.setState({ value })
         }
     }
 
     toggleFilter() {
-        this.setState({ filterOpen: !this.state.filterOpen })
+        const { filterOpen } = this.state
+
+        this.setState({ filterOpen: !filterOpen })
     }
 
     onChangeFilter(value) {
@@ -51,18 +56,22 @@ class AdvancedTableFilter extends Component {
     }
 
     onResetFilter() {
-        if (!isEmpty(this.state.value)) {
+        const { value } = this.state
+
+        if (!isEmpty(value)) {
             const { id, onFilter } = this.props
+
             this.setState({ value: '' }, () => onFilter({ id, value: '' }))
         }
     }
 
     onSetFilter() {
+        const { value } = this.state
         const { onFilter, id } = this.props
 
         onFilter({
             id,
-            value: this.state.value,
+            value,
         })
     }
 

@@ -45,6 +45,7 @@ class InputText extends React.Component {
 
   onBlur = (e) => {
       const { onBlur } = this.props
+
       this.setState(() => ({
           focused: false,
       }))
@@ -55,6 +56,7 @@ class InputText extends React.Component {
 
   onFocus = (e) => {
       const { onFocus } = this.props
+
       this.setState(() => ({
           focused: true,
       }))
@@ -160,72 +162,72 @@ class InputText extends React.Component {
 
 InputText.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Callback на фокус
-   */
+     * Callback на фокус
+     */
     onFocus: PropTypes.func,
     /**
-   * Callback на вставку значения
-   */
+     * Callback на вставку значения
+     */
     onPaste: PropTypes.func,
     /**
-   * Callback на потерю фокуса
-   */
+     * Callback на потерю фокуса
+     */
     onBlur: PropTypes.func,
     /**
-   * Callback на нажатие кнопки
-   */
+     * Callback на нажатие кнопки
+     */
     onKeyDown: PropTypes.func,
     /**
-   * Callback на нажатие кнопки
-   */
+     * Callback на нажатие кнопки
+     */
     onClick: PropTypes.func,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Авто фокусировка на контроле
-   */
+     * Авто фокусировка на контроле
+     */
     autoFocus: PropTypes.bool,
     /**
-   * Максимальная длина
-   */
+     * Максимальная длина
+     */
     length: PropTypes.string,
     /**
-   * Функция получения ref
-   */
+     * Функция получения ref
+     */
     inputRef: PropTypes.any,
     /**
-   * prefix
-   */
+     * prefix
+     */
     prefix: PropTypes.node,
     /**
-   * suffix
-   */
+     * suffix
+     */
     suffix: PropTypes.node,
     /**
-   * readOnly
-   */
+     * readOnly
+     */
     readOnly: PropTypes.bool,
 }
 

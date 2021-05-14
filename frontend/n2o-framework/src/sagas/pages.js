@@ -11,7 +11,7 @@ import {
     actionChannel,
     cancelled,
 } from 'redux-saga/effects'
-import { matchPath } from 'react-router'
+import { matchPath } from 'react-router-dom'
 import { batchActions } from 'redux-batched-actions'
 import compact from 'lodash/compact'
 import each from 'lodash/each'
@@ -43,11 +43,11 @@ import { changeRootPage } from '../actions/global'
 import { destroyOverlay } from '../actions/overlays'
 import { rootPageSelector } from '../selectors/global'
 import { makePageRoutesByIdSelector } from '../selectors/pages'
-import { FETCH_PAGE_METADATA } from '../core/api.js'
+import { FETCH_PAGE_METADATA } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import linkResolver from '../utils/linkResolver'
 
-import fetchSaga from './fetch.js'
+import fetchSaga from './fetch'
 
 /**
  *
@@ -63,6 +63,7 @@ import fetchSaga from './fetch.js'
 
 export function applyPlaceholders(key, obj, placeholders) {
     const newObj = {}
+
     each(obj, (v, k) => {
         if (isObject(v)) {
             newObj[k] = applyPlaceholders(key, v, placeholders)
@@ -74,6 +75,7 @@ export function applyPlaceholders(key, obj, placeholders) {
             newObj[k] = obj[k]
         }
     })
+
     return newObj
 }
 
@@ -96,6 +98,7 @@ export function* pathMapping(location, routes) {
 
 export function* queryMapping(location, routes) {
     const parsedQuery = queryString.parse(location.search)
+
     if (!isEmpty(parsedQuery)) {
         yield put(
             batchActions(
@@ -118,6 +121,7 @@ export function* queryMapping(location, routes) {
 
 export function* mappingUrlToRedux(routes) {
     const location = yield select(getLocation)
+
     if (routes) {
         yield all([
             call(pathMapping, location, routes),
@@ -149,10 +153,12 @@ export function* processUrl() {
         const pageId = yield select(rootPageSelector)
         const routes = yield select(makePageRoutesByIdSelector(pageId))
         const routerAction = yield select(getAction)
+
         if (routerAction !== 'POP' && !(location.state && location.state.silent)) {
             yield call(mappingUrlToRedux, routes)
         }
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }
@@ -163,27 +169,31 @@ export function* processUrl() {
  * @param action
  */
 export function* getMetadata(apiProvider, action) {
-    let { pageId, rootPage, pageUrl, mapping } = action.payload
+    const { pageId, rootPage, pageUrl, mapping } = action.payload
+    let url = pageUrl
+
     try {
         const { search } = yield select(getLocation)
         let resolveProvider = {}
+
         if (!isEmpty(mapping)) {
             const state = yield select()
             const extraQueryParams = rootPage && queryString.parse(search)
+
             resolveProvider = dataProviderResolver(
                 state,
-                { url: pageUrl, ...mapping },
+                { url, ...mapping },
                 extraQueryParams,
             )
 
-            pageUrl = resolveProvider.url
+            url = resolveProvider.url
         } else if (rootPage) {
-            pageUrl += search
+            url += search
         }
         const metadata = yield call(
             fetchSaga,
             FETCH_PAGE_METADATA,
-            { pageUrl, headers: resolveProvider.headersParams },
+            { pageUrl: url, headers: resolveProvider.headersParams },
             apiProvider,
         )
 
@@ -235,6 +245,7 @@ export function compareAndResolve(models, stateModels) {
             if (!isEqual(stateValue, resolveValue)) {
                 return set(clone(acc), path, resolveValue)
             }
+
             return acc
         },
         {},
@@ -256,10 +267,12 @@ export function* watcherDefaultModels(config) {
  * @param config - конфиг для моделей по умолчанию
  * @returns {boolean}
  */
+// eslint-disable-next-line consistent-return
 export function* flowDefaultModels(config) {
     if (isEmpty(config)) { return false }
     const state = yield select()
     const initialModels = yield call(compareAndResolve, config, state)
+
     if (!isEmpty(initialModels)) {
         yield put(combineModels(initialModels))
     }
@@ -267,6 +280,7 @@ export function* flowDefaultModels(config) {
         config,
         item => !!item.observe && !!item.link,
     )
+
     if (!isEmpty(observableModels)) {
         const modelsChan = yield actionChannel([
             SET,
@@ -276,9 +290,11 @@ export function* flowDefaultModels(config) {
             UPDATE,
             UPDATE_MAP,
         ])
+
         try {
             while (true) {
                 const oldState = yield select()
+
                 yield take(modelsChan)
                 const newState = yield select()
                 const changedModels = pickBy(
@@ -290,6 +306,7 @@ export function* flowDefaultModels(config) {
                     changedModels,
                     newState,
                 )
+
                 if (!isEmpty(newModels)) {
                     yield put(combineModels(newModels))
                 }

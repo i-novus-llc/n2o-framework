@@ -19,7 +19,7 @@ import classNames from 'classnames'
  * @returns {JSX.Element}
  */
 
-export default function Status({
+export function Status({
     text,
     icon,
     className,
@@ -54,19 +54,21 @@ export default function Status({
 
 Status.propTypes = {
     /**
-   * text
-   */
+     * text
+     */
     text: PropTypes.string,
     /**
-   * icon
-   */
+     * icon
+     */
     icon: PropTypes.string,
     /**
-   * className
-   */
+     * className
+     */
     className: PropTypes.string,
     /**
-   * iconDirection
-   */
+     * iconDirection
+     */
     iconDirection: PropTypes.string,
 }
+
+export default Status

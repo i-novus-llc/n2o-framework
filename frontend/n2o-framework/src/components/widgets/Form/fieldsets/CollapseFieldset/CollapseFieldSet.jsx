@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Collapse, { Panel } from '../../../../snippets/Collapse/Collapse'
+import { Panel, Collapse } from '../../../../snippets/Collapse/Collapse'
 
 function CollapseFieldSet({
     render,

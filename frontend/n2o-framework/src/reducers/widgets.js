@@ -3,7 +3,6 @@ import mapValues from 'lodash/mapValues'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import isNaN from 'lodash/isNaN'
-import merge from 'deepmerge'
 
 import {
     REGISTER,
@@ -66,6 +65,7 @@ export const widgetState = {
     error: null,
 }
 
+// eslint-disable-next-line complexity
 function resolve(state = widgetState, action) {
     switch (action.type) {
         case DATA_REQUEST:
@@ -91,17 +91,19 @@ function resolve(state = widgetState, action) {
             return { ...state, isLoading: true }
         case UNLOADING:
             return { ...state, isLoading: false }
-        case SORT_BY:
-            if (action.payload.sortDirection == 'NONE') {
+        case SORT_BY: {
+            if (action.payload.sortDirection === 'NONE') {
                 return {
                     ...state,
                     sorting: {},
                 }
             }
+
             return {
                 ...state,
                 sorting: { [action.payload.fieldKey]: action.payload.sortDirection },
             }
+        }
         case CHANGE_SIZE:
             return { ...state, size: action.payload.size }
         case CHANGE_PAGE:
@@ -135,11 +137,13 @@ function resolveSelectedId(selectedId) {
  * Редюсер виджета
  * @ignore
  */
+// eslint-disable-next-line complexity
 export default function widgets(state = {}, action) {
     switch (action.type) {
-        case REGISTER:
+        case REGISTER: {
             let smartState = {}
             const currentState = state[action.payload.widgetId] || {}
+
             if (!isEmpty(currentState)) {
                 smartState = {
                     selectedId: currentState.selectedId ? currentState.selectedId : null,
@@ -148,6 +152,7 @@ export default function widgets(state = {}, action) {
                     smartState.sorting = currentState.sorting
                 }
             }
+
             return {
                 ...state,
                 [action.payload.widgetId]: {
@@ -160,7 +165,7 @@ export default function widgets(state = {}, action) {
                     type: action.payload.initProps.type,
                 },
             }
-            break
+        }
         case DATA_REQUEST:
         case DATA_SUCCESS:
         case DATA_FAIL:
@@ -185,20 +190,16 @@ export default function widgets(state = {}, action) {
                     state[action.payload.widgetId],
                     action,
                 ) }
-            break
         case SET_ACTIVE:
             return {
-
                 ...mapValues(state, value => ({ ...value, isActive: false })),
                 [action.payload.widgetId]: resolve(
                     state[action.payload.widgetId],
                     action,
                 ),
             }
-            break
         case REMOVE:
             return omit(state, action.payload.widgetId)
-            break
         default:
             return state
     }

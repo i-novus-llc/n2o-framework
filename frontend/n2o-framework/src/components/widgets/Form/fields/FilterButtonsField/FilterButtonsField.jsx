@@ -10,10 +10,13 @@ import Buttons from '../../../../snippets/Filter/Buttons'
  * @reactProps {string} searchLabel
  * @reactProps {string} resetLabel
  */
+
+// eslint-disable-next-line react/prefer-stateless-function
 class FilterButtonsField extends React.Component {
     render() {
         const { visible, searchLabel, resetLabel } = this.props
         const { _widgetFilter } = this.context
+
         return visible ? (
             <Buttons
                 searchLabel={searchLabel}

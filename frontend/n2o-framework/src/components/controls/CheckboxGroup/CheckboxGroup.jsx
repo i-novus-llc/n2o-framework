@@ -24,37 +24,31 @@ import isNull from 'lodash/isNull'
  * */
 
 class CheckboxGroup extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this._onChange = this._onChange.bind(this)
-        this._onBlur = this._onBlur.bind(this)
-    }
-
     /**
-   * Обработчик изменения чекбокса
-   * @param e - событие
-   * @private
-   */
+     * Обработчик изменения чекбокса
+     * @param e - событие
+     * @private
+     */
 
-    _onChange(e) {
+    onChange = (e) => {
         const { onChange, value, valueFieldId } = this.props
         const { value: newValue } = e.target
+
         onChange(xorBy(value, [newValue], valueFieldId))
     }
 
-    _onBlur(e) {
+    onBlur = () => {
         const { onBlur, value } = this.props
+
         onBlur(value)
     }
 
-    _isIncludes(collection, object, key) {
-        return some(collection, item => item[key] == object[key])
-    }
+    // eslint-disable-next-line eqeqeq
+    isIncludes = (collection, object, key) => some(collection, item => item[key] == object[key])
 
     /**
-   * Рендер
-   */
+     * Рендер
+     */
 
     render() {
         const {
@@ -65,21 +59,24 @@ class CheckboxGroup extends React.Component {
             className,
             value,
             valueFieldId,
+            onFocus,
+            disabled,
         } = this.props
         const element = child => React.cloneElement(child, {
             checked:
           !isNull(value) &&
           value &&
-          this._isIncludes(value, child.props.value, valueFieldId),
-            disabled: this.props.disabled || child.props.disabled,
-            onChange: this._onChange,
-            onBlur: this._onBlur,
-            onFocus: this.props.onFocus,
-            inline: this.props.inline,
+          this.isIncludes(value, child.props.value, valueFieldId),
+            disabled: disabled || child.props.disabled,
+            onChange: this.onChange,
+            onBlur: this.onBlur,
+            onFocus,
+            inline,
         })
 
         const isCheckboxChild = (child) => {
             const checkboxTypes = ['Checkbox', 'CheckboxN2O', 'CheckboxButton']
+
             return child.type && checkboxTypes.includes(child.type.displayName)
         }
 
@@ -101,11 +98,8 @@ class CheckboxGroup extends React.Component {
                         style={style}
                     >
                         {children &&
-              React.Children.map(children, (child) => {
-                  if (isCheckboxChild(child)) {
-                      return element(child)
-                  }
-              })}
+                        React.Children.toArray(children).filter(isCheckboxChild).map(element)
+                        }
                     </div>
                 )}
             </>
@@ -115,34 +109,37 @@ class CheckboxGroup extends React.Component {
 
 CheckboxGroup.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.any,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     children: PropTypes.node.isRequired,
     /**
-   * Флаг рендера в одну строку
-   */
+     * Флаг рендера в одну строку
+     */
     inline: PropTypes.bool,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
+    valueFieldId: PropTypes.string,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
 }
 
 CheckboxGroup.defaultProps = {

@@ -4,7 +4,7 @@ import isUndefined from 'lodash/isUndefined'
 import isNumber from 'lodash/isNumber'
 import omit from 'lodash/omit'
 import assign from 'lodash/assign'
-import cx from 'classnames'
+import classNames from 'classnames'
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider'
 
 import { prepareStyle } from './utils'
@@ -52,10 +52,12 @@ function Slider(props) {
     } = props
 
     const expressionFn = tooltipFormatter
+        // eslint-disable-next-line no-new-func
         ? value => new Function('', `return \`${tooltipFormatter}\``).bind(value)()
         : value => value
 
     const Component = multiple ? BaseSlider.Range : BaseSlider
+    // eslint-disable-next-line no-nested-ternary
     const RenderSlider = showTooltip
         ? multiple
             ? RangeSliderWithTooltip
@@ -70,6 +72,7 @@ function Slider(props) {
         onChange(value)
     }
 
+    // eslint-disable-next-line no-nested-ternary
     const currentValue = isNumber(value) ? value : !isUndefined(min) ? min : 0
 
     const restProps = multiple
@@ -80,7 +83,7 @@ function Slider(props) {
 
     return (
         <RenderSlider
-            className={cx('n2o-slider', className)}
+            className={classNames('n2o-slider', className)}
             tipProps={tooltipProps}
             tipFormatter={expressionFn}
             vertical={vertical}
@@ -96,50 +99,54 @@ function Slider(props) {
 
 Slider.propTypes = {
     /**
-   * Множественный выбор
-   */
+     * Множественный выбор
+     */
     multiple: PropTypes.bool,
     /**
-   * Показать тултип
-   */
+     * Показать тултип
+     */
     showTooltip: PropTypes.bool,
     /**
-   * Позиция тултипа
-   */
+     * Позиция тултипа
+     */
     tooltipPlacement: PropTypes.string,
     step: PropTypes.number,
     /**
-   * Отобразить slider вертикально
-   */
+     * Отобразить slider вертикально
+     */
     vertical: PropTypes.bool,
     /**
-   * Нередактаруем
-   */
+     * Нередактаруем
+     */
     disabled: PropTypes.bool,
     /**
-   * Показать шкалу
-   */
+     * Показать шкалу
+     */
     dots: PropTypes.bool,
     /**
-   * Начало шкалы
-   */
+     * Начало шкалы
+     */
     min: PropTypes.number,
     /**
-   * Конец шкалы
-   */
+     * Конец шкалы
+     */
     max: PropTypes.number,
     /**
-   * Подписи к шкале
-   */
+     * Подписи к шкале
+     */
     marks: PropTypes.object,
     /**
-   * В мульти режиме блокирует смену несколькох ползунков
-   */
+     * В мульти режиме блокирует смену несколькох ползунков
+     */
     pushable: PropTypes.bool,
     /**
-   * Форматированный вывод тултипа
-   */
+     * Форматированный вывод тултипа
+     */
     tooltipFormatter: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    onChange: PropTypes.func,
+    value: PropTypes.any,
 }
 
 Slider.defaultProps = {

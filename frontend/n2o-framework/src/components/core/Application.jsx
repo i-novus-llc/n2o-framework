@@ -20,11 +20,12 @@ import {
     registerLocales,
 } from '../../actions/global'
 import { globalSelector } from '../../selectors/global'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
 function Application(props) {
-    const { ready, loading, render, ...config } = props
-    numeral.locale(props.locale)
+    const { ready, loading, render, locale, ...config } = props
+
+    numeral.locale(locale)
 
     return (
         <Spinner type="cover" loading={loading}>
@@ -38,6 +39,7 @@ Application.propTypes = {
     loading: PropTypes.bool,
     realTimeConfig: PropTypes.bool,
     render: PropTypes.func,
+    locale: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
@@ -83,6 +85,7 @@ export default compose(
                 registerLocales,
                 addCustomLocales,
             } = this.props
+
             addCustomLocales()
             registerLocales(keys({ ...locales, ...customLocales }))
 
@@ -94,6 +97,7 @@ export default compose(
         },
         componentDidUpdate(prevProps) {
             const { locale, i18n } = this.props
+
             if (prevProps.locale !== locale) {
                 i18n.changeLanguage(locale)
             }

@@ -3,12 +3,9 @@ import TreeSelect from 'rc-tree-select'
 import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
 import filterF from 'lodash/filter'
-import every from 'lodash/every'
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import keys from 'lodash/keys'
-import isEmpty from 'lodash/isEmpty'
-import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import memoize from 'lodash/memoize'
 import some from 'lodash/some'
@@ -17,8 +14,9 @@ import PropTypes from 'prop-types'
 import { compose, withState, setDisplayName } from 'recompose'
 import { withTranslation } from 'react-i18next'
 
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner'
+// eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
 import propsResolver from '../../../utils/propsResolver'
 
@@ -102,7 +100,6 @@ function InputSelectTree({
     ajax,
     className,
     dropdownPopupAlign,
-    ref,
     showCheckedStrategy,
     _control,
     setControlRef,
@@ -120,12 +117,12 @@ function InputSelectTree({
     }
 
     /**
-   * Функуия для создания дерева.
-   * Преобразует коллекцию вида [..., { ... }] в [ ..., {..., children: [...]}]
-   * Вложение происходит при совпадении valueFieldId и parentFieldId.
-   * @param items
-   * @returns {*}
-   */
+     * Функуия для создания дерева.
+     * Преобразует коллекцию вида [..., { ... }] в [ ..., {..., children: [...]}]
+     * Вложение происходит при совпадении valueFieldId и parentFieldId.
+     * @param items
+     * @returns {*}
+     */
     const createTree = memoize((items) => {
         const itemsByID = [...items].reduce(
             (acc, item) => ({
@@ -147,8 +144,8 @@ function InputSelectTree({
         keys(itemsByID).forEach((key) => {
             if (
                 itemsByID[key][parentFieldId] &&
-        itemsByID[itemsByID[key][parentFieldId]] &&
-        itemsByID[itemsByID[key][parentFieldId]].children
+                itemsByID[itemsByID[key][parentFieldId]] &&
+                itemsByID[itemsByID[key][parentFieldId]].children
             ) {
                 itemsByID[itemsByID[key][parentFieldId]].children.push({
                     ...itemsByID[key],
@@ -159,25 +156,28 @@ function InputSelectTree({
         return keys(itemsByID)
             .filter((key) => {
                 if (!itemsByID[key][parentFieldId]) {
-                    return key
+                    return true
                 }
                 if (
                     itemsByID[key][parentFieldId] &&
-          !itemsByID.hasOwnProperty(itemsByID[key][parentFieldId])
+                    // eslint-disable-next-line no-prototype-builtins
+                    !itemsByID.hasOwnProperty(itemsByID[key][parentFieldId])
                 ) {
-                    return key
+                    return true
                 }
+
+                return false
             })
             .reduce((acc, key) => [...acc, { ...itemsByID[key] }], [])
     })
 
     /**
-   * Функция для поиска.
-   * При поиске вызов функции происходит для каждого элемента дерева.
-   * @param input
-   * @param node
-   * @returns {*}
-   */
+     * Функция для поиска.
+     * При поиске вызов функции происходит для каждого элемента дерева.
+     * @param input
+     * @param node
+     * @returns {*}
+     */
     const handlerFilter = (input, node) => {
         const mode = ['includes', 'startsWith', 'endsWith']
 
@@ -187,176 +187,120 @@ function InputSelectTree({
                 input.toLowerCase(),
             )
         }
+
         return true
     }
 
     /**
-   * Взять данные по ids.
-   * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-   * @param ids
-   */
+     * Взять данные по ids.
+     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
+     * @param ids
+     */
     const getDataByIds = ids => filterF(data, node => some(ids, v => v === node[valueFieldId]))
 
-    /**
-   * Берет всех потомков у родителей
-   * @param ids
-   * @param arrData
-   */
-    const getChildWithParenId = (ids, arrData) => {
-        let buff = getDataByIds(ids)
-
-        // рекурсивно спускаемся вниз ко всем потомкам
-        // и добавляем потомков в буфер
-        const recursionFn = ids => forEach(ids, (id) => {
-            const childs = filterF(arrData, [parentFieldId, id])
-            buff = buff.concat(childs)
-            recursionFn(map(childs, valueFieldId))
-        })
-
-        recursionFn(ids, arrData)
-        return buff
-    }
-
-    /**
-   * Берет всех родителей у потомков
-   * если все потомки выделены
-   * @param ids
-   * @param arrData
-   */
-    const getParentsWithChildId = (ids, arrData) => {
-        const buff = getDataByIds(ids)
-
-        // Берем только те id потомков у которых выделены
-        // родители
-        const recursionFn = (ids) => {
-            const parentBuff = []
-
-            forEach(ids, (id) => {
-                const node = find(arrData, { id })
-                const parentIdNode = node[parentFieldId]
-                if (!parentIdNode) {
-                    return false
-                }
-
-                const allParendChilds = filterF(arrData, [parentFieldId, parentIdNode])
-                const hasParentAllChildsCheck = every(allParendChilds, child => ids.includes(child[valueFieldId]))
-
-                if (hasParentAllChildsCheck) {
-                    parentBuff.push(parentIdNode)
-                    const buffHasParent = find(buff, { id: parentIdNode })
-                    if (!buffHasParent) {
-                        buff.push(find(arrData, { id: parentIdNode }))
-                    }
-                }
-            })
-
-            if (!isEmpty(parentBuff)) {
-                recursionFn(parentBuff)
-            }
-        }
-
-        recursionFn(ids, arrData)
-        return buff
-    }
-
     const getSingleValue = value => find(data, [valueFieldId, value])
-    const getMultiValue = value =>
-    // if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
-    //   return getChildWithParenId(value, data);
-    // } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
-    //   return getParentsWithChildId(value, data);
-    // } else {
-    // стратегия SHOW_ALL
-        getDataByIds(value)
+    const getMultiValue = value => getDataByIds(value)
 
     /**
-   * Функция преобразования value rcTreeSelect в формат n2o
-   * Производит поиск по родителям и потомкам.
-   * rcTreeSelect не дает информации о выделенных потомках при моде 'SHOW_PARENT'
-   * и о выделенных родителях при 'SHOW_CHILD'
-   * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-   * @param value
-   * @returns {*}
-   */
+     * Функция преобразования value rcTreeSelect в формат n2o
+     * Производит поиск по родителям и потомкам.
+     * rcTreeSelect не дает информации о выделенных потомках при моде 'SHOW_PARENT'
+     * и о выделенных родителях при 'SHOW_CHILD'
+     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
+     * @param value
+     * @returns {*}
+     */
     const getItemByValue = (value) => {
         if (!value) { return null }
         if (!multiSelect) {
             return getSingleValue(value)
         }
+
         return getMultiValue(value)
     }
 
     /**
-   * Функция для обратного преобразования value n2o в формат rcTreeSelect
-   * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-   * @param value
-   * @returns {*}
-   */
+     * Функция для обратного преобразования value n2o в формат rcTreeSelect
+     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
+     * @param value
+     * @returns {*}
+     */
     const setValue = (value) => {
         if (!value) { return null }
         if (isArray(value)) {
             return map(value, v => v[valueFieldId])
         }
+
         return value[valueFieldId]
     }
 
     /**
-   * Функция для переопределения onChange
-   * @param value
-   */
+     * Функция для переопределения onChange
+     * @param value
+     */
     const handleChange = (value) => {
         onChange(getItemByValue(value))
         onBlur(getItemByValue(value))
     }
 
     /**
-   * Функция для переопределения onSelect
-   * @param value
-   */
+     * Функция для переопределения onSelect
+     * @param value
+     */
     const handleSelect = (value) => {
         onSelect(getItemByValue(value))
 
         if (_control) {
+            // eslint-disable-next-line react/no-find-dom-node
             findDOMNode(_control).focus()
         }
     }
 
     /**
-   * Функция для переопределения onSearch
-   * @param value
-   */
+     * Функция для переопределения onSearch
+     * @param value
+     */
     const handleSearch = (value) => {
         onSearch(value)
+
         return true
     }
     /**
-   * Функция для контроля открытия/закрытия popup
-   * @param visible
-   * @returns {boolean}
-   */
+     * Функция для контроля открытия/закрытия popup
+     * @param visible
+     * @returns {boolean}
+     */
     const handleDropdownVisibleChange = (visible) => {
         if (visible) {
             onFocus()
         }
         onToggle(visible)
         setDropdownExpanded(visible)
-        visible ? onOpen() : onClose()
+
+        if (visible) {
+            onOpen()
+        } else {
+            onClose()
+        }
         if (ajax) { setTreeExpandedKeys([]) }
+
         return false
     }
 
     /**
-   * Функция для контроля открытия/закрытия элемента дерева
-   * @param keys
-   */
+     * Функция для контроля открытия/закрытия элемента дерева
+     * @param keys
+     */
     const onTreeExpand = async (keys) => {
         const currentKey = difference(keys, treeExpandedKeys)
+
         if (ajax) {
             await handleItemOpen(currentKey[0])
         }
         setTreeExpandedKeys(keys)
     }
 
+    // eslint-disable-next-line react/prop-types
     const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
 
     const clearIcon = <Icon name="fa fa-times" />
@@ -372,6 +316,7 @@ function InputSelectTree({
     return (
         <TreeSelect
             ref={setControlRef}
+            /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
             tabIndex={1}
             {...value && { value: setValue(value) }}
             open={dropdownExpanded}
@@ -430,11 +375,15 @@ InputSelectTree.defaultProps = {
     closePopupOnSelect: false,
     data: [],
     searchPlaceholder: '',
+    // eslint-disable-next-line react/default-props-match-prop-types
     transitionName: 'slide-up',
+    // eslint-disable-next-line react/default-props-match-prop-types
     choiceTransitionName: 'zoom',
     showCheckedStrategy: 'all',
+    // eslint-disable-next-line react/default-props-match-prop-types
     allowClear: true,
     placeholder: '',
+    // eslint-disable-next-line react/default-props-match-prop-types
     showSearch: true,
     maxTagTextLength: 10,
     dropdownPopupAlign: {
@@ -455,130 +404,146 @@ InputSelectTree.defaultProps = {
 }
 
 InputSelectTree.propTypes = {
+    t: PropTypes.func,
+    onSelect: PropTypes.func,
+    onToggle: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    isLoading: PropTypes.bool,
+    className: PropTypes.string,
+    searchPlaceholder: PropTypes.string,
+    setControlRef: PropTypes.func,
+    _control: PropTypes.any,
+    dropdownExpanded: PropTypes.bool,
+    setDropdownExpanded: PropTypes.func,
+    setTreeExpandedKeys: PropTypes.func,
+    notFoundContent: PropTypes.any,
+    treeExpandedKeys: PropTypes.any,
+
     children: PropTypes.node,
     /**
-   * Значение ключа hasChildren в данных
-   */
+     * Значение ключа hasChildren в данных
+     */
     hasChildrenFieldId: PropTypes.string,
     /**
-   * Значение ключа parent в данных
-   */
+     * Значение ключа parent в данных
+     */
     parentFieldId: PropTypes.string,
     /**
-   * Флаг анимации загрузки
-   */
+     * Флаг анимации загрузки
+     */
     loading: PropTypes.bool,
     /**
-   * Данные для построения дерева
-   */
+     * Данные для построения дерева
+     */
     data: PropTypes.array,
     /**
-   * Значение ключа value в данных
-   */
+     * Значение ключа value в данных
+     */
     valueFieldId: PropTypes.string,
     /**
-   * Значение ключа label в данных
-   */
+     * Значение ключа label в данных
+     */
     labelFieldId: PropTypes.string,
     /**
-   * Значение ключа icon в данных
-   */
+     * Значение ключа icon в данных
+     */
     iconFieldId: PropTypes.string,
     /**
-   *  Значение ключа image в данных
-   */
+     *  Значение ключа image в данных
+     */
     imageFieldId: PropTypes.string,
     /**
-   * Значение ключа badge в данных
-   */
+     * Значение ключа badge в данных
+     */
     badgeFieldId: PropTypes.string,
     /**
-   * Значение ключа badgeColor в данных
-   */
+     * Значение ключа badgeColor в данных
+     */
     badgeColorFieldId: PropTypes.string,
     /**
-   * Значение ключа сортировки в данных
-   */
+     * Значение ключа сортировки в данных
+     */
     sortFieldId: PropTypes.string,
     groupFieldId: PropTypes.string,
     /**
-   * Флаг неактивности
-   */
+     * Флаг неактивности
+     */
     disabled: PropTypes.bool,
     /**
-   * Неактивные данные
-   */
+     * Неактивные данные
+     */
     disabledValues: PropTypes.array,
     /**
-   * Варианты фильтрации
-   */
+     * Варианты фильтрации
+     */
     filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onInput: PropTypes.func,
     /**
-   * Calback изменения
-   */
+     * Calback изменения
+     */
     onChange: PropTypes.func,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Callback на открытие
-   */
+     * Callback на открытие
+     */
     onOpen: PropTypes.func,
     /**
-   * Callback на закрытие
-   */
+     * Callback на закрытие
+     */
     onClose: PropTypes.func,
     /**
-   * Мульти выбор значений
-   */
+     * Мульти выбор значений
+     */
     multiSelect: PropTypes.bool,
     /**
-   * Флаг закрытия попапа при выборе элемента
-   */
+     * Флаг закрытия попапа при выборе элемента
+     */
     closePopupOnSelect: PropTypes.bool,
     /**
-   * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
-   */
+     * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
+     */
     hasCheckboxes: PropTypes.bool,
     /**
-   * Формат
-   */
+     * Формат
+     */
     format: PropTypes.string,
     /**
-   * Флаг сжатия выбранных элементов
-   */
+     * Флаг сжатия выбранных элементов
+     */
     collapseSelected: PropTypes.bool,
     /**
-   * От скольки элементов сжимать выбранные элементы
-   */
+     * От скольки элементов сжимать выбранные элементы
+     */
     lengthToGroup: PropTypes.number,
     /**
-   * Callback на поиск
-   */
+     * Callback на поиск
+     */
     onSearch: PropTypes.func,
     expandPopUp: PropTypes.bool,
     /**
-   * Флаг динамичексой подгрузки данных. В данных обязательно указывать параметр hasChildrens
-   */
+     * Флаг динамичексой подгрузки данных. В данных обязательно указывать параметр hasChildrens
+     */
     ajax: PropTypes.bool,
     /**
-   * Сallback функция вызываемая ajax true. Передает value открывающего элемента дерева
-   */
+     * Сallback функция вызываемая ajax true. Передает value открывающего элемента дерева
+     */
     handleItemOpen: PropTypes.func,
     /**
-   * Выравнивание попапа
-   */
+     * Выравнивание попапа
+     */
     dropdownPopupAlign: PropTypes.object,
     showCheckedStrategy: PropTypes.string,
     /**
-   * Количество символов выбранных элементов в chechbox режиме
-   */
+     * Количество символов выбранных элементов в chechbox режиме
+     */
     maxTagTextLength: PropTypes.number,
 }
 

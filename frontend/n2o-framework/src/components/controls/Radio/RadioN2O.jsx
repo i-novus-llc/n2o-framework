@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { setDisplayName } from 'recompose'
 
 import Input from '../Input/Input'
@@ -16,68 +16,56 @@ import Input from '../Input/Input'
  * @reactProps {boolean} inline - в ряд
  */
 
-class RadioN2O extends React.Component {
-    constructor(props) {
-        super(props)
+function RadioN2O({ label, disabled, value, checked, onChange, inline }) {
+    const [elementId] = useState(uniqueId('checkbox-'))
 
-        this.elementId = uniqueId('checkbox-')
-    }
-
-    /**
-   * Рендер
-   */
-
-    render() {
-        const { label, disabled, value, checked, onChange, inline } = this.props
-
-        return (
-            <div
-                className={cx('custom-control custom-radio', {
-                    'custom-control-inline': inline,
-                    checked,
-                })}
-            >
-                <Input
-                    id={this.elementId}
-                    className="custom-control-input"
-                    disabled={disabled}
-                    type="radio"
-                    value={value}
-                    checked={checked}
-                    onChange={onChange}
-                />
-                <label className="custom-control-label" htmlFor={this.elementId}>
-                    {label}
-                </label>
-            </div>
-        )
-    }
+    return (
+        <div
+            className={classNames('custom-control custom-radio', {
+                'custom-control-inline': inline,
+                checked,
+            })}
+        >
+            <Input
+                id={elementId}
+                className="custom-control-input"
+                disabled={disabled}
+                type="radio"
+                value={value}
+                checked={checked}
+                onChange={onChange}
+            />
+            <label className="custom-control-label" htmlFor={elementId}>
+                {label}
+            </label>
+        </div>
+    )
 }
 
 RadioN2O.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.any,
     /**
-   * Checked контрола
-   */
+     * Checked контрола
+     */
     checked: PropTypes.bool,
     /**
-   * Флан активности
-   */
+     * Флан активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Label контрола
-   */
+     * Label контрола
+     */
     label: PropTypes.string,
     /**
-   * Флаг рендера label и контрола в одну линию
-   */
+     * Флаг рендера label и контрола в одну линию
+     */
     inline: PropTypes.bool,
 }
 

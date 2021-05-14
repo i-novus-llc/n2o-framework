@@ -1,87 +1,83 @@
 .n2o-drop-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: $drop-zone-width;
-  height: $drop-zone-height;
-  border: $drop-zone-border;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: $drop-zone-width;
+    height: $drop-zone-height;
+    border: $drop-zone-border;
 }
 
-.n2o-button-uploader {
-  &-btn {
+.n2o-button-uploader-btn {
     cursor: pointer;
-  }
 }
 
 .n2o-file-uploader {
-  outline: none;
+    outline: none;
+}
 
-  &-link {
+.n2o-file-uploader-link {
     display: flex;
     align-items: center;
     width: 100%;
     margin-right: 5px;
     overflow: hidden;
-  }
+}
 
-  &-container {
+.n2o-file-uploader-container {
     width: 100%;
-  }
+}
 
-  &-remove {
+.n2o-file-uploader-remove {
     width: 1rem;
-
     cursor: pointer;
     opacity: 0.6;
 
     &:hover {
-      opacity: 1;
+        opacity: 1;
     }
-  }
+}
 
-  &-item-error {
+.n2o-file-uploader-item-error {
     color: $red !important;
-  }
+}
 
-  &-item-size {
+.n2o-file-uploader-item-size {
     margin-left: auto;
     color: $gray-500;
-  }
+}
 
-  &-event-drag-enter {
+.n2o-file-uploader-event-drag-enter {
     border-color: $file-uploader-border-color-drag-enter;
-  }
+}
 
-  &-file-name {
+.n2o-file-uploader-file-name {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-  }
+}
 
-  &-files-item {
+.n2o-file-uploader-files-item {
     display: flex;
     flex-direction: column;
+}
 
-    &-info {
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-    }
-  }
+.n2o-file-uploader-files-item-info {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
 
-  &-progress-bar {
+.n2o-file-uploader-progress-bar {
     width: $file-uploader-progress-bar-width;
     height: $file-uploader-progress-bar-height;
-  }
+}
 
-  &-icon {
+.n2o-file-uploader-icon {
     margin-right: 10px;
-  }
+}
 
-  &-external-link {
+.n2o-file-uploader-external-link {
     margin-left: 5px;
-
     font-size: 14px;
-  }
 }

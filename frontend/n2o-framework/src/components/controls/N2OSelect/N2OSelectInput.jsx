@@ -11,25 +11,25 @@ import Input from 'reactstrap/lib/Input'
  */
 
 class N2OSelectInput extends React.Component {
-    _handleKeyDown(event) {
+    handleKeyDown(event) {
+        const { onSearch } = this.props
+
         if (event.key === 'Enter') {
-            this.props.onSearch()
+            onSearch()
         }
     }
 
-    /**
-   * Рендер
-   */
-
     render() {
+        const { placeholder, onChange, value } = this.props
+
         return (
             <div className="N2O-select-dropdown-search">
                 <Input
-                    placeholder={this.props.placeholder}
+                    placeholder={placeholder}
                     type="text"
-                    onChange={e => this.props.onChange(e.target.value)}
-                    value={this.props.value}
-                    onKeyDown={e => this._handleKeyDown(e)}
+                    onChange={e => onChange(e.target.value)}
+                    value={value}
+                    onKeyDown={e => this.handleKeyDown(e)}
                 />
                 {/* <InputGroupAddon */}
                 {/* addonType="append" */}

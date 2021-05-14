@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import withFetchData from '../withFetchData.js'
+import withFetchData from '../withFetchData'
 import Radio from '../Radio/Radio'
 import RadioN2O from '../Radio/RadioN2O'
 import RadioButton from '../Radio/RadioButton'
@@ -29,15 +29,13 @@ import RadioGroup from './RadioGroup'
 
 class RadioGroupControl extends React.Component {
     componentDidMount() {
-        this.props._fetchData({
-            size: this.props.size,
-            [`sorting.${this.props.labelFieldId}`]: 'ASC',
+        const { _fetchData, size, labelFieldId } = this.props
+
+        _fetchData({
+            size,
+            [`sorting.${labelFieldId}`]: 'ASC',
         })
     }
-
-    /**
-   * Рендер
-   */
 
     render() {
         const { data, labelFieldId, type, isLoading } = this.props
@@ -87,6 +85,7 @@ RadioGroupControl.propTypes = {
     size: PropTypes.number.isRequired,
     type: PropTypes.oneOf(['default', 'n2o', 'btn']),
     isLoading: PropTypes.bool,
+    _fetchData: PropTypes.func,
 }
 
 RadioGroupControl.defaultProps = {
