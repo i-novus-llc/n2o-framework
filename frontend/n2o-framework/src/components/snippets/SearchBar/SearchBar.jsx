@@ -15,6 +15,7 @@ import {
 import onClickOutsideHOC from 'react-onclickoutside'
 
 import InputText from '../../controls/InputText/InputText'
+import { Icon } from '../Icon/Icon'
 
 import { SearchBarPopUp } from './SearchBarPopUp'
 import { SearchBarEmptyMenu } from './SearchBarEmptyMenu'
@@ -69,12 +70,15 @@ function SearchBar({
                         }
                     />
                     {isIconClear && (
-                        <i
-                            className="n2o-search-bar__clear-icon fa fa-times"
+                        <Icon
+                            className={classNames(
+                                'n2o-search-bar__clear-icon fa fa-times',
+                                { 'with-search': icon },
+                            )}
                             onClick={onClear}
                         />
                     )}
-                    {isString(icon) ? <i className={icon} /> : icon}
+                    {isString(icon) ? <Icon className={icon} /> : icon}
                 </div>
                 {isEmpty(menu) ? (
                     <SearchBarEmptyMenu
