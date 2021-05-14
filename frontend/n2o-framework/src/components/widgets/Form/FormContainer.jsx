@@ -3,8 +3,6 @@ import {
     withHandlers,
     withProps,
     onlyUpdateForKeys,
-    withState,
-    lifecycle,
     withPropsOnChange,
     getContext,
 } from 'recompose'
@@ -23,8 +21,6 @@ import { PREFIXES } from '../../../constants/models'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
-
-const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray
 
 export const withWidgetContainer = widgetContainer(
     {
@@ -54,67 +50,59 @@ export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, props) => getFormValues(props.form)(state) || {},
 })
 
-export const withLiveCycleMethods = lifecycle({
-    componentDidUpdate(prevProps) {
-        const {
-            datasource,
-            activeModel,
-            defaultValues,
-            reduxFormValues,
-            setDefaultValues,
-        } = this.props
-
-        if (
-            (!isEqual(prevProps.activeModel, activeModel) &&
-        !isEqual(activeModel, defaultValues) &&
-        !isEqual(activeModel, reduxFormValues) && (!isEqual(reduxFormValues, prevProps.defaultValues))) ||
-      (isEqual(prevProps.resolveModel, prevProps.activeModel) &&
-        isEqual(prevProps.reduxFormValues, prevProps.defaultValues) &&
-        isEqual(this.props.resolveModel, this.props.activeModel) &&
-        isEqual(this.props.reduxFormValues, this.props.defaultValues) &&
-        !isEqual(this.props.resolveModel, this.props.defaultValues))
-        ) {
-            setDefaultValues(activeModel)
-        } else if (
-            (!isEmpty(defaultValues) && !isEqual(prevProps.datasource, datasource)) ||
-      (prevProps.datasource && !datasource)
-        ) {
-            setDefaultValues({})
-        }
-    // else if (
-    //   isEqual(prevProps.resolveModel, resolveModel) &&
-    //   !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
-    //   isEqual(datasource, resolveModel)
-    // ) {
-    //   setDefaultValues(reduxFormValues);
-    // }
+const mergeInitial = (model, datasource) => merge(
+    model || {},
+    datasource || {},
+    {
+        arrayMerge: (destinationArray, sourceArray) => sourceArray,
     },
-})
+)
 
-export const withPropsOnChangeWidget = withPropsOnChange(
+/**
+ * Изменение initialValues, если поменялась модель
+ */
+export const onModelChange = withPropsOnChange(
     (props, nextProps) => (
-        !isEqual(props.defaultValues, nextProps.defaultValues) ||
-      !isEqual(props.datasource, nextProps.datasource)
+        !isEqual(props.resolveModel || {}, nextProps.resolveModel) &&
+        !isEqual(nextProps.activeModel, nextProps.reduxFormValues) &&
+        isEqual(props.reduxFormValues, nextProps.reduxFormValues)
     ),
     props => ({
-        initialValues:
-        (props.defaultValues && !isEmpty(props.defaultValues)) ||
-        (props.defaultValues &&
-          (!props.datasource && !isEmpty(props.defaultValues)))
-            ? props.defaultValues
-            : merge(props.resolveModel || {}, props.datasource || {}, {
-                arrayMerge: arrayMergeFunction,
-            }),
+        initialValues: isEmpty(props.activeModel)
+            ? mergeInitial(props.resolveModel, props.datasource)
+            : props.activeModel,
     }),
+)
+
+/**
+ * Изменение initialValues, если поменялся datasource
+ */
+export const onDataSourceChange = withPropsOnChange(
+    (props, nextProps) => !isEqual(props.datasource, nextProps.datasource),
+    (props) => {
+        const initialValues = mergeInitial(props.resolveModel, props.datasource)
+
+        /*
+         * Если передать одинаковые значения в двух withPropsOnChange, то рекомпос ломается
+         * и последующие данные из onModelChange не долетают нормально :)
+         */
+        if (isEqual(initialValues, props.initialValues)) {
+            return {}
+        }
+
+        return { initialValues }
+    },
 )
 
 export const withWidgetHandlers = withHandlers({
     onChange: props => (values, dispatch, options, prevValues) => {
-        if (props.setActive) { props.setActive() }
+        if (props.setActive) {
+            props.setActive()
+        }
         if (
             props.modelPrefix &&
-      isEqual(props.initialValues, props.reduxFormValues) &&
-      !isEqual(props.initialValues, props.resolveModel)
+            isEqual(props.initialValues, props.reduxFormValues) &&
+            !isEqual(props.initialValues, props.resolveModel)
         ) {
             props.onResolve(props.initialValues)
         }
@@ -125,7 +113,7 @@ export const withWidgetHandlers = withHandlers({
             props.onSetModel(
                 props.modelPrefix || PREFIXES.resolve,
                 props.widgetId,
-                values,
+                props.reduxFormValues,
             )
         }
     },
@@ -134,14 +122,12 @@ export const withWidgetHandlers = withHandlers({
 /**
  * Обертка в widgetContainer, мэппинг пропсов
  */
-
 export default compose(
     withWidgetContainer,
     getContext({
         store: PropTypes.object,
     }),
     withProps((props) => {
-        const state = props.store && props.store.getState()
         const fields = getFieldsKeys(props.fieldsets)
 
         return {
@@ -149,14 +135,13 @@ export default compose(
             prompt: props.prompt,
             store: props.store,
             fields,
-            ...createValidator(props.validation, props.widgetId, state, fields),
+            ...createValidator(props.validation, props.widgetId, props.store, fields),
             ...props,
         }
     }),
     connect(mapStateToProps),
-    withState('defaultValues', 'setDefaultValues', null),
-    withLiveCycleMethods,
-    withPropsOnChangeWidget,
+    onModelChange,
+    onDataSourceChange,
     withWidgetHandlers,
     onlyUpdateForKeys(['initialValues', 'fields']),
 )(ReduxForm)

@@ -48,8 +48,8 @@ export function required(fieldId, values, options = {}) {
 
     return (
         !isUndefined(get(values, fieldId)) &&
-      !isNull(get(values, fieldId)) &&
-      !isNaN(get(values, fieldId))
+        !isNull(get(values, fieldId)) &&
+        !isNaN(get(values, fieldId))
     )
 }
 

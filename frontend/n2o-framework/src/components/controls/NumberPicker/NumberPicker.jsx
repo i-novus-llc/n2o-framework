@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 import isNil from 'lodash/isNil'
@@ -53,12 +53,10 @@ function NumberPicker(props) {
         defaultValue = max
     }
 
-    useEffect(() => {
-        onChange(defaultValue)
-    }, [defaultValue, onChange])
-
     const onBlur = useCallback(() => {
-        if (value < min) {
+        if (value === '-') {
+            onChange(min || 0)
+        } else if (value < min) {
             onChange(min)
         } else if (value > max) {
             onChange(max)
@@ -125,36 +123,36 @@ NumberPicker.defaultProps = {
 
 NumberPicker.PropTypes = {
     /**
-   * флаг видимости
-   */
+     * флаг видимости
+     */
     visible: PropTypes.bool,
     /**
-   * значение контрола
-   */
+     * значение контрола
+     */
     value: PropTypes.number,
     /**
-   * максимальное значение контрола
-   */
+     * максимальное значение контрола
+     */
     max: PropTypes.number,
     /**
-   * максимальное значение контрола
-   */
+     * максимальное значение контрола
+     */
     min: PropTypes.number,
     /**
-   * шаг изменения значения
-   */
+     * шаг изменения значения
+     */
     step: PropTypes.number,
     /**
-   * класс компонента
-   */
+     * класс компонента
+     */
     className: PropTypes.string,
     /**
-   * стили компонента
-   */
+     * стили компонента
+     */
     style: PropTypes.object,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
 }
 
