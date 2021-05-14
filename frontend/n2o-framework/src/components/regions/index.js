@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import NoneRegion from './None/NoneRegion'
 import TabsRegion from './Tabs/TabsRegion'
 import ListRegion from './List/ListRegion'

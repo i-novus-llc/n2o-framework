@@ -20,7 +20,9 @@ import { SET } from '../constants/models'
 import { REGISTER_BUTTON } from '../constants/toolbar'
 import { REGISTER_COLUMN } from '../constants/columns'
 
+// eslint-disable-next-line import/no-cycle
 import { resolveButton } from './toolbar'
+// eslint-disable-next-line import/no-cycle
 import { resolveColumn } from './column'
 
 /**
@@ -57,6 +59,7 @@ export const resolveConditions = (conditions = [], state) => {
 
     // message первого ложного expression
     const message = get(find(falsyExpressions, 'message'), 'message')
+
     return { resolve: isEmpty(falsyExpressions), message }
 }
 

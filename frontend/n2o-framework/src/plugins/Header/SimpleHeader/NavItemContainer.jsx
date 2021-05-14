@@ -3,15 +3,12 @@ import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import cx from 'classnames'
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import Badge from 'reactstrap/lib/Badge'
 import NavItem from 'reactstrap/lib/NavItem'
 import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
-
-import SecurityCheck from '../../../core/auth/SecurityCheck'
 
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
@@ -22,12 +19,12 @@ import SecurityCheck from '../../../core/auth/SecurityCheck'
  */
 const NavItemContainer = ({
     item,
-    activeId,
     type,
     sidebarOpen,
     options,
     direction,
 }) => {
+    // eslint-disable-next-line react/prop-types
     const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
 
     const getInnerLink = (item, className) => (
@@ -63,6 +60,7 @@ const NavItemContainer = ({
                 </NavItem>
             )
         }
+
         return (
             <NavItem>
                 <NavLink
@@ -93,14 +91,15 @@ const NavItemContainer = ({
     )
 
     let dropdownItems = []
+
     if (item.type === 'dropdown' && !sidebarOpen) {
-        dropdownItems = item.subItems.map((child, i) => (
+        dropdownItems = item.subItems.map(child => (
             <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
         ))
         if (
             item.type === 'dropdown' &&
-      item.subItems.length > 1 &&
-      type === 'sidebar'
+            item.subItems.length > 1 &&
+            type === 'sidebar'
         ) {
             dropdownItems = [
                 <DropdownItem key={-1} onClick={e => e.preventDefault()}>
@@ -120,7 +119,8 @@ const NavItemContainer = ({
         const linkItem = item => (item.linkType === 'outer'
             ? defaultLink(item)
             : getInnerLink(item, 'dropdown-item'))
-        dropdownItems = item.subItems.map((subItem, i) => (
+
+        dropdownItems = item.subItems.map(() => (
             <DropdownItem>
                 {' '}
                 {linkItem(item)}
@@ -130,17 +130,15 @@ const NavItemContainer = ({
     }
 
     return (
-        (item.type === 'dropdown' &&
-      !sidebarOpen &&
-      handleLinkDropdown(item, dropdownItems)) ||
-    (item.type === 'link' && handleLink(item)) ||
-    (item.type === 'text' && (
-        <NavItem>
-            {item.icon && <NavItemIcon icon={item.icon} />}
-            <span className="nav-link">{item.label}</span>
-        </NavItem>
-    )) ||
-    null
+        (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
+        (item.type === 'link' && handleLink(item)) ||
+        (item.type === 'text' && (
+            <NavItem>
+                {item.icon && <NavItemIcon icon={item.icon} />}
+                <span className="nav-link">{item.label}</span>
+            </NavItem>
+        )) ||
+        null
     )
 }
 

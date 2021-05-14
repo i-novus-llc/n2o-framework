@@ -91,73 +91,81 @@ DateInterval.defaultProps = {
 
 DateInterval.propTypes = {
     /**
-   * Callback фокуса
-   */
+     * Callback фокуса
+     */
     onFocus: PropTypes.func,
     /**
-   * Callback потери фокуса
-   */
+     * Callback потери фокуса
+     */
     onBlur: PropTypes.func,
     /**
-   * Начальное время
-   */
+     * Начальное время
+     */
     defaultTime: PropTypes.object,
     /**
-   * Значение контрола
-   */
+     * Значение контрола
+     */
     value: PropTypes.oneOfType([
         PropTypes.instanceOf(moment),
         PropTypes.instanceOf(Date),
         PropTypes.string,
     ]),
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.instanceOf(moment),
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+    ]),
     /**
-   * Минимальная дата
-   */
+     * Минимальная дата
+     */
     min: PropTypes.oneOfType([
         PropTypes.instanceOf(moment),
         PropTypes.instanceOf(Date),
         PropTypes.string,
     ]),
     /**
-   * Максимальная дата
-   */
+     * Максимальная дата
+     */
     max: PropTypes.oneOfType([
         PropTypes.instanceOf(moment),
         PropTypes.instanceOf(Date),
         PropTypes.string,
     ]),
     /**
-   * Callback изменения
-   */
+     * Callback изменения
+     */
     onChange: PropTypes.func,
     /**
-   * Формат даты
-   */
+     * Формат даты
+     */
     dateFormat: PropTypes.string,
     /**
-   * Формат времени
-   */
+     * Формат времени
+     */
     timeFormat: PropTypes.string,
     /**
-   * Выходной формат
-   */
+     * Выходной формат
+     */
     outputFormat: PropTypes.string,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Placeholder
-   */
+     * Placeholder
+     */
     placeholder: PropTypes.string,
     /**
-   * Локализация
-   */
+     * Локализация
+     */
     configLocale: PropTypes.oneOf(['en', 'ru']),
     /**
-   * Флаг включения открытия при фокусе
-   */
+     * Флаг включения открытия при фокусе
+     */
     openOnFocus: PropTypes.bool,
+    dateDivider: PropTypes.string,
+    className: PropTypes.string,
+    config: PropTypes.any,
 }
 
 export default getContext({

@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент PaginationButton
@@ -14,7 +14,7 @@ import cx from 'classnames'
  * @reactProps {number} eventKey
  * @reactProps {string|number} label - текст внутри кнопки пагинации
  */
-class PaginationButton extends React.Component {
+export class PaginationButton extends React.Component {
     constructor(props) {
         super(props)
         this.handleClick = this.handleClick.bind(this)
@@ -36,14 +36,18 @@ class PaginationButton extends React.Component {
 
     render() {
         const { label, active, disabled, noBorder, tabIndex } = this.props
+
         return (
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <li
-                className={cx('page-item', { active, disabled })}
+                className={classNames('page-item', { active, disabled })}
                 onClick={this.handleClick}
             >
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/control-has-associated-label */}
                 <a
-                    className={cx('page-link', noBorder ? 'no-border' : '')}
+                    className={classNames('page-link', noBorder ? 'no-border' : '')}
                     href="#"
+                    /* eslint-disable-next-line react/no-danger */
                     dangerouslySetInnerHTML={{ __html: label }}
                     tabIndex={tabIndex}
                 />
@@ -54,6 +58,7 @@ class PaginationButton extends React.Component {
 
 PaginationButton.propTypes = {
     active: PropTypes.bool,
+    tabIndex: PropTypes.number,
     disabled: PropTypes.bool,
     noBorder: PropTypes.bool,
     onSelect: PropTypes.func,

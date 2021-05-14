@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
 import { mapProps } from 'recompose'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import { WIDGETS } from '../../../core/factory/factoryLevels'
+// eslint-disable-next-line import/no-named-as-default
 import Factory from '../../../core/factory/Factory'
 import DefaultPage from '../DefaultPage'
 
@@ -18,7 +19,7 @@ function SimplePage({ id, widget, metadata, ...rest }) {
     return (
         <DefaultPage metadata={metadata} {...rest}>
             <div
-                className={cn({
+                className={classNames({
                     'n2o-simple-page': !hasCustomWidth,
                     'n2o-simple-page_slim': hasCustomWidth,
                 })}
@@ -40,6 +41,7 @@ SimplePage.propTypes = {
     id: PropTypes.string,
     widget: PropTypes.object,
     slim: PropTypes.bool,
+    metadata: PropTypes.object,
 }
 
 SimplePage.defaultProps = {

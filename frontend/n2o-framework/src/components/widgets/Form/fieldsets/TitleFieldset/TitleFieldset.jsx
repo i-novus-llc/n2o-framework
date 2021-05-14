@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 function TitleFieldset({ render, rows, title, showLine, className, subTitle }) {
     return (
         <div className="title-fieldset">
-            <div className={cn('title-fieldset-header', { [className]: className })}>
+            <div className={classNames('title-fieldset-header', { [className]: className })}>
                 {title && <span className="title-fieldset-text">{title}</span>}
                 {subTitle && (
                     <small className="text-muted title-fieldset-subtitle">
@@ -43,7 +43,7 @@ TitleFieldset.propTypes = {
     /**
    * Текст подзаголовка
    */
-    subtitle: PropTypes.string,
+    subTitle: PropTypes.string,
 }
 
 TitleFieldset.defaultProps = {

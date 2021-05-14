@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 /**
@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
  */
 @Getter
 @Setter
-public class N2oDialog implements SourceComponent {
+public class N2oDialog extends N2oComponent {
 
     public N2oDialog(String id) {
         this.id = id;
@@ -46,5 +46,4 @@ public class N2oDialog implements SourceComponent {
      */
     private N2oToolbar toolbar;
 
-    private String namespaceUri;
 }

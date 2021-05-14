@@ -1,4 +1,4 @@
-import React, { Component, Children, Fragment } from 'react'
+import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import first from 'lodash/first'
 import each from 'lodash/each'
@@ -11,11 +11,11 @@ import isEmpty from 'lodash/isEmpty'
 import SecurityCheck from '../auth/SecurityCheck'
 
 import factoryConfigShape from './factoryConfigShape'
-import NotFoundFactory from './NotFoundFactory'
+import { NotFoundFactory } from './NotFoundFactory'
 
 const blackList = ['dataProvider', 'action', 'actions']
 
-class FactoryProvider extends Component {
+export class FactoryProvider extends Component {
     getChildContext() {
         return {
             factories: this.factories,
@@ -34,7 +34,9 @@ class FactoryProvider extends Component {
 
     checkSecurityAndRender(component = null, config, level) {
         const { securityBlackList } = this.props
+
         if (isEmpty(config) || securityBlackList.includes(level)) { return component }
+
         return props => (
             <SecurityCheck
                 config={config}
@@ -42,6 +44,7 @@ class FactoryProvider extends Component {
                     if (permissions) {
                         return React.createElement(component, props)
                     }
+
                     return null
                 }}
             />
@@ -57,9 +60,11 @@ class FactoryProvider extends Component {
             )
         }
         const findedFactory = []
+
         each(this.factories, (group, level) => {
             if (group && group[src]) {
                 const comp = this.checkSecurityAndRender(group[src], security, level)
+
                 findedFactory.push(comp)
             }
         })
@@ -73,6 +78,7 @@ class FactoryProvider extends Component {
         paramName = 'component',
     ) {
         const obj = {}
+
         if (isObject(props)) {
             Object.keys(props).forEach((key) => {
                 if (isObject(props[key]) && !blackList.includes(key)) {
@@ -85,15 +91,19 @@ class FactoryProvider extends Component {
                     obj[key] = props[key]
                 }
             })
+
             return isArray(props) ? values(obj) : obj
         } if (isString(props)) {
             return this.getComponent(props) || defaultComponent
         }
+
         return props
     }
 
     render() {
-        return Children.only(this.props.children)
+        const { children } = this.props
+
+        return Children.only(children)
     }
 }
 

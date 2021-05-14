@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import get from 'lodash/get'
@@ -15,7 +15,7 @@ import { withTranslation } from 'react-i18next'
 
 import UserBox from '../../components/snippets/UserBox/UserBox'
 
-import SidebarItemContainer from './SidebarItemContainer'
+import { SidebarItemContainer } from './SidebarItemContainer'
 
 /**
  * Sidebar
@@ -41,7 +41,6 @@ export function SideBar({
     userBox,
     items,
     visible,
-    width,
     controlled,
     onToggle,
     extra,
@@ -61,13 +60,13 @@ export function SideBar({
 
     return (
         <aside
-            className={cn('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
+            className={classNames('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
         >
             <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
                 <a className="d-flex align-items-center" href={homePageUrl}>
                     {brandImage && (
                         <img
-                            className={cn({ 'mr-2': visible })}
+                            className={classNames({ 'mr-2': visible })}
                             src={brandImage}
                             alt=""
                             width="30"
@@ -97,7 +96,7 @@ export function SideBar({
                     <div onClick={onToggle} className="n2o-sidebar__toggler">
                         <span className="n2o-sidebar__nav-item">
                             <span
-                                className={cn('n2o-sidebar__nav-item-icon', {
+                                className={classNames('n2o-sidebar__nav-item-icon', {
                                     'mr-1': visible,
                                 })}
                             >
@@ -114,49 +113,50 @@ export function SideBar({
 
 SideBar.propTypes = {
     /**
-   * ID активного элемента
-   */
+     * ID активного элемента
+     */
     activeId: PropTypes.string,
     /**
-   * Бренд сайдбара
-   */
+     * Бренд сайдбара
+     */
     brand: PropTypes.string,
     /**
-   * Картинка бренда
-   */
+     * Картинка бренда
+     */
     brandImage: PropTypes.string,
     /**
-   * Блок пользователя
-   */
+     * Блок пользователя
+     */
     userBox: PropTypes.object,
     /**
-   * Элементы сайдбара
-   */
+     * Элементы сайдбара
+     */
     items: PropTypes.array,
     /**
-   * Флаг сжатия
-   */
+     * Флаг сжатия
+     */
     visible: PropTypes.bool,
     /**
-   * Длина
-   */
+     * Длина
+     */
     width: PropTypes.number,
     /**
-   * Флаг включения режима controlled
-   */
+     * Флаг включения режима controlled
+     */
     controlled: PropTypes.bool,
     /**
-   * Callback на переключение сжатия
-   */
+     * Callback на переключение сжатия
+     */
     onToggle: PropTypes.func,
     /**
-   * Extra элементы
-   */
+     * Extra элементы
+     */
     extra: PropTypes.array,
     /**
-   * Адрес ссылка бренда
-   */
+     * Адрес ссылка бренда
+     */
     homePageUrl: PropTypes.string,
+    t: PropTypes.func,
 }
 
 SideBar.defaultProps = {

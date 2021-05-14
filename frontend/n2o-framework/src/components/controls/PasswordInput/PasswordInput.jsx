@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, withState, withHandlers, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import Button from 'reactstrap/lib/Button'
 
 import Input from '../Input/Input'
@@ -46,7 +46,7 @@ function PasswordInput({
         <div className="n2o-input-password">
             <Input
                 maxLength={length}
-                className={cn(['form-control', { [className]: className }])}
+                className={classNames(['form-control', { [className]: className }])}
                 type={showPass && showPasswordBtn ? 'text' : 'password'}
                 style={style}
                 autoFocus={autoFocus}
@@ -66,7 +66,7 @@ function PasswordInput({
                     size="sm"
                     color="link"
                 >
-                    <i className={cn('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
+                    <i className={classNames('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
                 </Button>
             ) : null}
         </div>
@@ -75,57 +75,59 @@ function PasswordInput({
 
 PasswordInput.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Callback фокуса
-   */
+     * Callback фокуса
+     */
     onFocus: PropTypes.func,
     /**
-   * Callback вставки значения
-   */
+     * Callback вставки значения
+     */
     onPaste: PropTypes.func,
     /**
-   * Callback потери фокуса
-   */
+     * Callback потери фокуса
+     */
     onBlur: PropTypes.func,
     /**
-   * Callback нажатия кнопок
-   */
+     * Callback нажатия кнопок
+     */
     onKeyDown: PropTypes.func,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Максимальная длина
-   */
+     * Максимальная длина
+     */
     length: PropTypes.string,
     /**
-   * Авто фокусировка на контрол
-   */
+     * Авто фокусировка на контрол
+     */
     autoFocus: PropTypes.bool,
     /**
-   * Флаг показа кнопки, которая показывает введенный пароль
-   */
+     * Флаг показа кнопки, которая показывает введенный пароль
+     */
     showPasswordBtn: PropTypes.bool,
+    onToggleShowPass: PropTypes.func,
+    showPass: PropTypes.bool,
 }
 
 PasswordInput.defaultProps = {

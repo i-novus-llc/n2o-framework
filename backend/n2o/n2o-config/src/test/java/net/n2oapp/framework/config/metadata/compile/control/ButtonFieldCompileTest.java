@@ -43,7 +43,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getIcon(), nullValue());
         assertThat(field.getColor(), is("danger"));
 
-        assertThat(field.getUrl(), is("/test2/:param1/:param2?param3=:param3"));
+        assertThat(field.getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(field.getTarget(), is(Target.application));
         assertThat(field.getPathMapping().size(), is(2));
         assertThat(field.getPathMapping().get("param1").getBindLink(), is("models.resolve['$testButtonFieldCompile']"));

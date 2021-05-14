@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Dropdown from 'reactstrap/lib/Dropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 
-import SearchBarPopUpList from './SearchBarPopUpList'
+import { SearchBarPopUpList } from './SearchBarPopUpList'
 
-function SearchBarPopUp({
+export function SearchBarPopUp({
     labelFieldId,
     descriptionFieldId,
     iconFieldId,
@@ -12,6 +13,7 @@ function SearchBarPopUp({
     ...props
 }) {
     const { dropdownOpen } = props
+
     return (
         <Dropdown
             isOpen={dropdownOpen}
@@ -32,6 +34,11 @@ function SearchBarPopUp({
             />
         </Dropdown>
     )
+}
+
+SearchBarPopUp.propTypes = {
+    ...SearchBarPopUpList.propTypes,
+    dropdownOpen: PropTypes.bool,
 }
 
 export default SearchBarPopUp

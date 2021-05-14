@@ -42,6 +42,7 @@ class Input extends React.Component {
 
     handleChange(e) {
         const { props, input } = this
+
         if (props.disabled) {
             return
         }
@@ -49,6 +50,7 @@ class Input extends React.Component {
       isObject(props.value) || isArray(props.value)
           ? props.value
           : e.target.value
+
         props.onChange({
             target: {
                 ...props,
@@ -106,6 +108,7 @@ class Input extends React.Component {
                 name={name}
                 type={type}
                 disabled={disabled}
+                /* eslint-disable-next-line jsx-a11y/no-autofocus */
                 autoFocus={autoFocus}
                 value={value}
                 onPaste={onPaste}
@@ -140,6 +143,7 @@ Input.propTypes = {
     onPaste: PropTypes.func,
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
+    inputRef: PropTypes.func,
 }
 
 Input.defaultProps = {

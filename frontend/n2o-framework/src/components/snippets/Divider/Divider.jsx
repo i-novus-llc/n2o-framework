@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 const dividerClass = (props) => {
     const { className, dashed, position, type, children } = props
-    return cx(className, {
+
+    return classNames(className, {
         [`divider-h divider-h_with-title divider-h_${position} divider-h_dashed`]:
       type === 'horizontal' && children && dashed,
         [`divider-h divider-h_with-title divider-h_${position}`]:
@@ -31,6 +32,7 @@ const dividerClass = (props) => {
 
 export const Divider = (props) => {
     const { style, children } = props
+
     return (
         <div className={dividerClass({ ...props })} style={style}>
             {children && <span className="divider-h__title">{children}</span>}
@@ -39,10 +41,12 @@ export const Divider = (props) => {
 }
 
 Divider.propTypes = {
-    className: PropTypes.string,
     style: PropTypes.object,
+    // eslint-disable-next-line react/no-unused-prop-types
     dashed: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
     position: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     type: PropTypes.string,
     children: PropTypes.string,
 }

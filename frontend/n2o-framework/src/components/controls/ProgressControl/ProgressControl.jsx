@@ -15,6 +15,7 @@ function ProgressControl(props) {
         // map ProgressControls из bars если multi
         const mapProgressControls = () => map(barsCollection, (bar) => {
             const { id, barText } = bar
+
             return (
                 <div className="n2o-progress-control">
                     <Progress
@@ -58,48 +59,48 @@ function ProgressControl(props) {
 
 ProgressControl.propTypes = {
     /**
-   * флаг мультирежима в Progress
-   */
+     * флаг мультирежима в Progress
+     */
     multi: PropTypes.bool.isRequired,
     /**
-   * Массив с Progress-bars в мультирежиме
-   */
+     * Массив с Progress-bars в мультирежиме
+     */
     bars: PropTypes.array.isRequired,
     /**
-   * id Progress
-   */
+     * id Progress
+     */
     id: PropTypes.string.isRequired,
     /**
-   * Флаг анимированности
-   */
+     * Флаг анимированности
+     */
     animated: PropTypes.bool,
     /**
-   * Флаг штриховки
-   */
+     * Флаг штриховки
+     */
     striped: PropTypes.bool,
     /**
-   * class контейнера
-   */
+     * class контейнера
+     */
     className: PropTypes.string.isRequired,
     /**
-   * class progress-bar
-   */
+     * class progress-bar
+     */
     barClassName: PropTypes.string.isRequired,
     /**
-   * title на Progress
-   */
+     * title на Progress
+     */
     barText: PropTypes.string.isRequired,
     /**
-   * значение, на сколько заполнен Progress
-   */
+     * значение, на сколько заполнен Progress
+     */
     value: PropTypes.number,
     /**
-   * максиальное значение шкалы
-   */
+     * максиальное значение шкалы
+     */
     max: PropTypes.number,
     /**
-   * цвет шкалы Progress (success, info, danger, warning)
-   */
+     * цвет шкалы Progress (success, info, danger, warning)
+     */
     color: PropTypes.string,
 }
 

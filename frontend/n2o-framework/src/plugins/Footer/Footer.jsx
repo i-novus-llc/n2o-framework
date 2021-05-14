@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getContext } from 'recompose'
 
+/* eslint-disable react/prop-types,react/jsx-one-expression-per-line */
 function Footer({ version }) {
     const currentYear = new Date().getFullYear()
 
@@ -20,6 +21,7 @@ function Footer({ version }) {
           N2O
                     {version}
                     {' '}
+
 &copy; 2013-
                     {currentYear}
                 </span>

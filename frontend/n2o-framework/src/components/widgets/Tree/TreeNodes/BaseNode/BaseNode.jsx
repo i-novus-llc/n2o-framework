@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import has from 'lodash/has'
 import Badge from 'reactstrap/lib/Badge'
 // components
@@ -8,7 +9,6 @@ import { splitSearchText } from '../../until'
 
 function BaseNode({
     prefixCls,
-    iconFieldId,
     imageFieldId,
     labelFieldId,
     badgeFieldId,
@@ -56,6 +56,19 @@ function BaseNode({
             ]}
         </span>
     )
+}
+
+BaseNode.propTypes = {
+    prefixCls: PropTypes.string,
+    imageFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    valueFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    searchValue: PropTypes.string,
+    searchKeys: PropTypes.string,
+    data: PropTypes.object,
+    filter: PropTypes.any,
 }
 
 export default BaseNode

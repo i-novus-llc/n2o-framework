@@ -18,7 +18,7 @@ import HelpPopover from './HelpPopover'
  * <Label value='Телефон'/ required={true} />
  */
 
-const Label = ({ id, value, required, className, style, help, ...props }) => {
+const Label = ({ id, value, required, className, style, help }) => {
     const newProps = {
         className: cx('col-form-label', className),
         style: { display: 'inline-block', ...style },
@@ -49,6 +49,8 @@ Label.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     required: PropTypes.bool,
     className: PropTypes.string,
+    id: PropTypes.string,
+    help: PropTypes.string,
     style: PropTypes.object,
 }
 

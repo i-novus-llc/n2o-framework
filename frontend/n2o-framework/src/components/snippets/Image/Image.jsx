@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import ImageInfo from './ImageInfo'
+import { ImageInfo } from './ImageInfo'
 
 /**
  * Компонент Изображение
@@ -16,7 +16,7 @@ import ImageInfo from './ImageInfo'
  * @reactProps {boolean} visible - флаг видимости сниппета
  */
 
-function Image({
+export function Image({
     id,
     src,
     title,
@@ -38,6 +38,7 @@ function Image({
         return
     }
 
+    // eslint-disable-next-line consistent-return
     return (
         <div id={id} className={classNames('n2o-image n2o-snippet', className)}>
             <div
@@ -51,6 +52,7 @@ function Image({
                     })}
                     style={{ ...style, ...propsStyle }}
                 >
+                    {/* eslint-disable-next-line jsx-a11y/img-redundant-alt,jsx-a11y/no-noninteractive-element-interactions */}
                     <img
                         className="n2o-image__image"
                         src={src}
@@ -66,6 +68,8 @@ function Image({
 }
 
 Image.propTypes = {
+    onClick: PropTypes.func,
+    height: PropTypes.number,
     id: PropTypes.string,
     src: PropTypes.string,
     title: PropTypes.string,

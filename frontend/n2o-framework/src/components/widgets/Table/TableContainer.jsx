@@ -1,20 +1,21 @@
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { lifecycle, compose, withHandlers } from 'recompose'
-import isEqual from 'lodash/find'
+import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import debounce from 'lodash/debounce'
 
 import widgetContainer from '../WidgetContainer'
 import { setTableSelectedId } from '../../../actions/widgets'
-import createActionHelper from '../../../actions/createActionHelper'
-import { SET_TABLE_SELECTED_ID } from '../../../constants/widgets'
 import { TABLE } from '../widgetTypes'
 
+// eslint-disable-next-line import/no-named-as-default
 import Table from './Table'
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
+    // eslint-disable-next-line eqeqeq
     const predicate = ({ id }) => id == selectedId
+
     return isEqual(find(data1, predicate), find(data2, predicate))
 }
 
@@ -37,6 +38,7 @@ export const withWidgetContainer = widgetContainer(
             onSort: props.onSort,
             onResolve: debounce((newModel) => {
                 props.onResolve(newModel)
+                // eslint-disable-next-line eqeqeq
                 if (props.selectedId != newModel.id) {
                     props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
                 }
@@ -69,8 +71,10 @@ export const withContainerLiveCycle = lifecycle({
         !isEqual(prevSelectedId, selectedId) ||
         !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
         ) {
+            // eslint-disable-next-line eqeqeq
             const selectedModel = find(datasource, model => model.id == selectedId)
             const resolveModel = selectedModel || datasource[0]
+
             onResolve(resolveModel)
         }
     },
@@ -81,11 +85,6 @@ export const withWidgetHandlers = withHandlers({
         onActionImpl(rowClick)
     },
 })
-
-/**
- * Обертка в widgetContainer, мэппинг пропсов
- */
-const TableContainer = Table
 
 export default compose(
     withWidgetContainer,

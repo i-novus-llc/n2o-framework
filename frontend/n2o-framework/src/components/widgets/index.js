@@ -1,5 +1,7 @@
 import HtmlWidget from './Html/HtmlWidget'
+// eslint-disable-next-line import/no-duplicates
 import FormWidget from './Form/FormWidget'
+// eslint-disable-next-line import/no-duplicates
 import EditForm from './Form/FormWidget'
 import TableWidget from './Table/TableWidget'
 import WireframeWidget from './Wireframe/WireframeWidget'

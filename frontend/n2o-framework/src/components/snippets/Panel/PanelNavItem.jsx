@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import Button from 'reactstrap/lib/Button'
 
 /**
@@ -13,7 +13,7 @@ import Button from 'reactstrap/lib/Button'
  * @reactProps {boolean} isToolBar - флаг элемента тулбара
  * @reactProps {node} children - элемент вставляемый в PanelNavItem
  */
-function PanelNavItem({
+export function PanelNavItem({
     id,
     onClick,
     active,
@@ -22,10 +22,6 @@ function PanelNavItem({
     isToolBar,
     children,
 }) {
-    /**
-   * обработка клика
-   * @param e - событие
-   */
     const handleClick = (e) => {
         e.preventDefault()
         if (onClick) {
@@ -34,9 +30,9 @@ function PanelNavItem({
     }
 
     return (
-        <li className={cx('nav-item', 'panel-block-flex', className)}>
+        <li className={classNames('nav-item', 'panel-block-flex', className)}>
             <Button
-                className={cx(
+                className={classNames(
                     'nav-link panel-block-flex panel-heading-link',
                     className,
                     { active },

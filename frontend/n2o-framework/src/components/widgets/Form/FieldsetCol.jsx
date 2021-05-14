@@ -7,9 +7,10 @@ import get from 'lodash/get'
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 
 import ReduxField from './ReduxField'
+// eslint-disable-next-line import/no-cycle
 import FieldsetContainer from './Fieldset'
 
-function FieldsetCol({
+function FieldsetColComponent({
     col,
     activeModel,
     defaultCol,
@@ -55,6 +56,7 @@ function FieldsetCol({
             {col.fieldsets &&
         col.fieldsets.map((fieldset, i) => {
             const key = `set${i}`
+
             return (
                 <FieldsetContainer
                     modelPrefix={modelPrefix}
@@ -90,6 +92,7 @@ const enhance = compose(
             } if (visible === false) {
                 return false
             }
+
             return true
         },
     }),
@@ -100,5 +103,26 @@ const enhance = compose(
     })),
 )
 
+FieldsetColComponent.propTypes = {
+    col: PropTypes.object,
+    activeModel: PropTypes.object,
+    defaultCol: PropTypes.object,
+    colId: PropTypes.string,
+    autoFocusId: PropTypes.string,
+    labelPosition: PropTypes.string,
+    labelWidth: PropTypes.oneOfType(['string', 'number']),
+    labelAlignment: PropTypes.string,
+    modelPrefix: PropTypes.string,
+    form: PropTypes.any,
+    parentName: PropTypes.string,
+    parentIndex: PropTypes.oneOfType(['string', 'number']),
+    colVisible: PropTypes.bool,
+    disabled: PropTypes.bool,
+    autoSubmit: PropTypes.bool,
+}
+
+const FieldsetCol = enhance(FieldsetColComponent)
+
+export { FieldsetColComponent }
 export { FieldsetCol }
-export default enhance(FieldsetCol)
+export default FieldsetCol

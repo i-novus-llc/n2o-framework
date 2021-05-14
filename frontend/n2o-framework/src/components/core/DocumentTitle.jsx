@@ -9,6 +9,7 @@ import propsResolver from '../../utils/propsResolver'
 
 function DocumentTitle({ htmlTitle, model }) {
     let resolveTitle = htmlTitle
+
     if (htmlTitle && model) {
         resolveTitle = propsResolver(htmlTitle, model)
     }
@@ -18,7 +19,7 @@ function DocumentTitle({ htmlTitle, model }) {
 
 DocumentTitle.propTypes = {
     htmlTitle: PropTypes.string,
-    modelLink: PropTypes.string,
+    model: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({

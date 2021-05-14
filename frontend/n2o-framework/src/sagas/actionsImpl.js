@@ -27,16 +27,16 @@ import {
 } from '../selectors/widgets'
 import { getModelSelector, selectionTypeSelector } from '../selectors/models'
 import { validateField } from '../core/validation/createValidator'
-import actionResolver from '../core/factory/actionResolver'
+import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
-import { FETCH_INVOKE_DATA } from '../core/api.js'
+import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../actions/models'
 import { disablePage, enablePage } from '../actions/pages'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets'
 import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar'
 
-import fetchSaga from './fetch.js'
+import fetchSaga from './fetch'
 
 /**
  * @deprecated
@@ -49,8 +49,8 @@ export function* validate(options) {
         makeWidgetValidationSelector(options.validatedWidgetId),
     )
     const values = (yield select(getFormValues(options.validatedWidgetId))) || {}
-    const notValid =
-    options.validate &&
+
+    return options.validate &&
     (yield call(
         validateField(
             validationConfig,
@@ -61,7 +61,6 @@ export function* validate(options) {
         values,
         options.dispatch,
     ))
-    return notValid
 }
 
 /**
@@ -69,8 +68,10 @@ export function* validate(options) {
  */
 export function* handleAction(factories, action) {
     const { options, actionSrc } = action.payload
+
     try {
         let actionFunc
+
         if (isFunction(actionSrc)) {
             actionFunc = actionSrc
         } else {
@@ -78,7 +79,9 @@ export function* handleAction(factories, action) {
         }
         const state = yield select()
         const notValid = yield validate(options)
+
         if (notValid) {
+            // eslint-disable-next-line no-console
             console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`)
         } else {
             yield actionFunc &&
@@ -88,6 +91,7 @@ export function* handleAction(factories, action) {
         })
         }
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }
@@ -160,12 +164,14 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
 
 export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
     const meta = merge(metaInvokeFail, metaResponse)
+
     yield put(failInvoke(widgetId, meta))
 }
 
 /**
  * вызов экшена
  */
+// eslint-disable-next-line complexity
 export function* handleInvoke(apiProvider, action) {
     const {
         modelLink,
@@ -196,6 +202,7 @@ export function* handleInvoke(apiProvider, action) {
             }
         }
         let model = data || {}
+
         if (modelLink) {
             model = yield select(getModelSelector(modelLink))
         }
@@ -206,10 +213,11 @@ export function* handleInvoke(apiProvider, action) {
         const meta = merge(action.meta.success || {}, response.meta || {})
         const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId))
         const { submitForm } = dataProvider
+
         if (
             (needResolve &&
-        (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
-      (!isEqual(model, response.data) && submitForm)
+            (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
+            (!isEqual(model, response.data) && submitForm)
         ) {
             yield put(
                 setModel(modelPrefix, widgetId, optimistic ? model : response.data),
@@ -217,6 +225,7 @@ export function* handleInvoke(apiProvider, action) {
         }
         yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }))
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
         yield* handleFailInvoke(
             action.meta.fail || {},
@@ -237,7 +246,9 @@ export function* handleInvoke(apiProvider, action) {
     }
 }
 
+// eslint-disable-next-line require-yield
 export function* handleDummy() {
+    // eslint-disable-next-line no-alert
     alert('AHOY!')
 }
 

@@ -70,13 +70,9 @@ stories
     )
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                disabled: TextEditorJson.disabled,
-                visible: TextEditorJson.visible,
-                className: TextEditorJson.className,
-            }
-
-            return props
-        }),
+        form(() => ({
+            disabled: TextEditorJson.disabled,
+            visible: TextEditorJson.visible,
+            className: TextEditorJson.className,
+        })),
     )

@@ -4,11 +4,13 @@ import get from 'lodash/get'
 import cn from 'classnames'
 import { compose, withProps } from 'recompose'
 
+// eslint-disable-next-line import/no-named-as-default
 import Drawer from '../snippets/Drawer/Drawer'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 import Toolbar from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'
+// eslint-disable-next-line import/no-named-as-default,import/no-cycle
 import Page from './Page'
 
 /**
@@ -16,7 +18,7 @@ import Page from './Page'
  * @reactProps {string} pageId - id пейджа
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
- * @reactProps {string} headerTitle - заголовок в хэдере
+ * @reactProps {string} modalHeaderTitle - заголовок в хэдере
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
@@ -39,7 +41,7 @@ function DrawerPage(props) {
         queryMapping,
         visible,
         loading,
-        headerTitle,
+        modalHeaderTitle,
         footer,
         disabled,
         toolbar,
@@ -82,7 +84,7 @@ function DrawerPage(props) {
                     visible={!loading && visible !== false}
                     onHandleClick={closeOverlay}
                     onClose={closeOverlay}
-                    title={headerTitle}
+                    title={modalHeaderTitle}
                     backdrop={backdrop}
                     width={width}
                     height={height}
@@ -110,6 +112,7 @@ function DrawerPage(props) {
                     }
                 >
                     <div className={classes}>
+                        {/* eslint-disable-next-line no-nested-ternary */}
                         {pageUrl ? (
                             <Page
                                 pageUrl={pageUrl}
@@ -136,7 +139,7 @@ export const DrawerWindow = DrawerPage
 DrawerPage.propTypes = {
     pageId: PropTypes.string,
     visible: PropTypes.bool,
-    headerTitle: PropTypes.string,
+    modalHeaderTitle: PropTypes.string,
     name: PropTypes.string,
     props: PropTypes.object,
     close: PropTypes.func.isRequired,
@@ -144,6 +147,24 @@ DrawerPage.propTypes = {
     fixedFooter: PropTypes.bool,
     closeOnEscape: PropTypes.bool,
     closable: PropTypes.bool,
+    src: PropTypes.any,
+    pageUrl: PropTypes.string,
+    pathMapping: PropTypes.any,
+    queryMapping: PropTypes.any,
+    loading: PropTypes.bool,
+    footer: PropTypes.node,
+    toolbar: PropTypes.array,
+    actions: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    entityKey: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    placement: PropTypes.string,
+    backdrop: PropTypes.bool,
+    level: PropTypes.any,
+    closeOnBackdrop: PropTypes.bool,
+    animation: PropTypes.bool,
+    prompt: PropTypes.func,
+    closeOverlay: PropTypes.func,
 }
 
 export default compose(

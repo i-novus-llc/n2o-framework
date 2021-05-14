@@ -7,6 +7,7 @@ import isArray from 'lodash/isArray'
 import withSecurity from '../../core/auth/withSecurity'
 import { SECURITY_CHECK } from '../../core/auth/authTypes'
 
+// eslint-disable-next-line import/no-named-as-default
 import SideBar from './SideBar'
 
 /**
@@ -28,21 +29,25 @@ class SidebarContainer extends React.Component {
         this.getItemsWithAccess()
     }
 
-    async checkItem(item, type) {
+    async checkItem(item) {
+        const { items } = this.state
+
         if (item.security) {
             const { user, authProvider } = this.props
             const config = item.security
+
             try {
-                const permissions = await authProvider(SECURITY_CHECK, {
+                await authProvider(SECURITY_CHECK, {
                     config,
                     user,
                 })
-                this.setState({ items: this.state.items.concat(item) })
+
+                this.setState({ items: items.concat(item) })
             } catch (error) {
                 // ...
             }
         } else {
-            this.setState({ items: this.state.items.concat(item) })
+            this.setState({ items: items.concat(item) })
         }
     }
 
@@ -58,23 +63,28 @@ class SidebarContainer extends React.Component {
     makeSecure(metadata) {
         const makeSecure = async (items) => {
             if (isArray(items)) {
+                // eslint-disable-next-line no-restricted-syntax
                 for (const item of items) {
                     await this.checkItem(item)
                 }
             }
         }
         const { items } = metadata
+
         makeSecure(items)
     }
 
     render() {
-        const { items, extraItems } = this.state
+        const { items } = this.state
+
         return <SideBar {...this.props} items={items} />
     }
 }
 
 SidebarContainer.propTypes = {
     items: PropTypes.array,
+    user: PropTypes.any,
+    authProvider: PropTypes.any,
 }
 
 export default compose(withSecurity)(SidebarContainer)

@@ -1,46 +1,48 @@
-.n2o-output-text{
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-
-  & .details-label {
-    display: inline-block;
-    border-bottom: 1px dashed rgba(38, 50, 56, 0.55);
-    cursor: pointer;
-    margin-left: $input-btn-padding-y;
-  }
-
-  & > .text {
+.n2o-output-text {
     display: flex;
-    align-items: center;
-    order: 2;
-    min-height: 1.4rem;
-  }
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
 
-  &--expandable > .text {
+    .details-label {
+        display: inline-block;
+        border-bottom: 1px dashed rgba(38, 50, 56, 0.55);
+        cursor: pointer;
+        margin-left: $input-btn-padding-y;
+    }
+
+    > .text {
+        display: flex;
+        align-items: center;
+        order: 2;
+        min-height: 1.4rem;
+    }
+
+    > .icon {
+        margin-top: 2px;
+    }
+
+    &.right {
+        > .icon {
+            order: 3;
+        }
+    }
+
+    &.left {
+        > .icon {
+            order: 1;
+        }
+    }
+}
+
+.n2o-output-text--expandable > .text {
     display: block;
-  }
+}
 
-  &--ellipsis > .text > span {
+.n2o-output-text--ellipsis > .text > span {
     display: block;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  & > .icon {
-    margin-top: 2px;
-  }
-
-  &.right{
-    & > .icon{ order: 3 }
-  }
-
-  &.left{
-    & > .icon{ order: 1 }
-  }
-
 }

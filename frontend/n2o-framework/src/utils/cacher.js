@@ -9,9 +9,11 @@ const cachingStore = () => {
         find(params) {
             const key = JSON.stringify(params)
 
+            // eslint-disable-next-line no-prototype-builtins
             if (cache.hasOwnProperty(key)) {
                 return cache[key]
             }
+
             return false
         },
     }

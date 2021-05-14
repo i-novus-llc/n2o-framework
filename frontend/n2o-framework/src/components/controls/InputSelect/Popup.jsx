@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { pure } from 'recompose'
 
 /**
@@ -12,31 +12,28 @@ import { pure } from 'recompose'
  */
 
 class Popup extends React.Component {
-    _displayTop() {
-        const documentHeight =
-      window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight
+    displayTop() {
+        const documentHeight = window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight
         const { inputSelect } = this.props
 
         return (
             inputSelect &&
-      documentHeight - inputSelect.getBoundingClientRect().bottom <
-        this.popUp.offsetHeight
+            documentHeight - inputSelect.getBoundingClientRect().bottom < this.popUp.offsetHeight
         )
     }
 
     /**
-   * Рендер
-   */
-
+     * Рендер
+     */
     render() {
         const { isExpanded, children, expandPopUp, flip } = this.props
 
         return (
             <DropdownMenu
-                className={cx('dropdown-menu', 'n2o-select-pop-up', {
-                    'drop-up': this._displayTop(),
+                className={classNames('dropdown-menu', 'n2o-select-pop-up', {
+                    'drop-up': this.displayTop(),
                     expandPopUp,
                 })}
                 flip={flip}
@@ -58,6 +55,7 @@ Popup.propTypes = {
     children: PropTypes.node,
     expandPopUp: PropTypes.string,
     flip: PropTypes.bool,
+    inputSelect: PropTypes.any,
 }
 
 export default pure(Popup)

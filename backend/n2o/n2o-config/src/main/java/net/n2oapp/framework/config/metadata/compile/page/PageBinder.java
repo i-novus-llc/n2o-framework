@@ -59,7 +59,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
         if (page.getModels() != null) {
             page.getModels().values().forEach(bl -> {
-                if (bl.getValue() instanceof String) {
+                Object value = p.getLinkValue(bl);
+                if (value != null)
+                    bl.setValue(value);
+                else if (bl.getValue() instanceof String) {
                     bl.setValue(p.resolveText((String) bl.getValue()));
                 } else if (bl.getValue() instanceof DefaultValues) {
                     DefaultValues dv = (DefaultValues) bl.getValue();
@@ -79,6 +82,9 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     page.getPageProperty().getModelLink()));
             page.getPageProperty().setHtmlTitle(p.resolveText(page.getPageProperty().getHtmlTitle(),
                     page.getPageProperty().getModelLink()));
+            page.getPageProperty().setModalHeaderTitle(p.resolveText(page.getPageProperty().getModalHeaderTitle(),
+                    page.getPageProperty().getModelLink()));
+
         }
         if (page.getBreadcrumb() != null) {
             for (Breadcrumb crumb : page.getBreadcrumb()) {

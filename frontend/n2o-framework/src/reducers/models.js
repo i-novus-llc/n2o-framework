@@ -65,33 +65,39 @@ function resolveUpdate(state, action) {
 
 function resolve(state, action) {
     switch (action.type) {
-        case SET:
+        case SET: {
             return { ...state, [action.payload.key]: action.payload.model }
-        case REMOVE:
+        }
+        case REMOVE: {
             return omit(state, action.payload.key)
-        case SYNC:
+        }
+        case SYNC: {
             return {
 
                 ...state,
                 ...action.payload.keys.map(key => ({ [key]: action.payload.model })),
             }
-        case UPDATE:
+        }
+        case UPDATE: {
             return {
                 ...state,
                 [action.payload.key]: resolveUpdate(state, action),
             }
-        case UPDATE_MAP:
+        }
+        case UPDATE_MAP: {
             const { value, key, field, map } = action.payload
             const newValue = isString(value) ? [value] : value
 
             return setIn(state, [key, field], mapFn(newValue, v => ({ [map]: v })))
-        case CLEAR:
+        }
+        case CLEAR: {
             return {
                 ...state,
                 [action.payload.key]: {
                     ...pick(state[action.payload.key], [action.payload.exclude]),
                 },
             }
+        }
         default:
             return state
     }
@@ -107,17 +113,21 @@ export default function models(state = modelState, action) {
         case REMOVE:
         case SYNC:
         case UPDATE:
-        case UPDATE_MAP:
+        case UPDATE_MAP: {
             return { ...state, [action.payload.prefix]: resolve(state[action.payload.prefix], action) }
-        case MERGE:
+        }
+        case MERGE: {
             return { ...merge(state, action.payload.combine) }
-        case REMOVE_ALL:
+        }
+        case REMOVE_ALL: {
             return {
                 ...state,
                 ...omitDeep(omit(state, PREFIXES.filter), [action.payload.key]),
             }
-        case CLEAR:
+        }
+        case CLEAR: {
             const res = {}
+
             each(action.payload.prefixes, (prefix) => {
                 res[prefix] = {
                     ...state[prefix],
@@ -128,10 +138,12 @@ export default function models(state = modelState, action) {
                     },
                 }
             })
+
             return {
                 ...state,
                 ...res,
             }
+        }
         default:
             return state
     }

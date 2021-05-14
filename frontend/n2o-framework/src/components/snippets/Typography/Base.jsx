@@ -1,10 +1,9 @@
 import React, {
     createElement,
-    Fragment,
     createContext,
     Component,
 } from 'react'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import keys from 'lodash/keys'
 import pick from 'lodash/pick'
@@ -16,7 +15,7 @@ import isNil from 'lodash/isNil'
 import parseFormatter from '../../../utils/parseFormatter'
 
 import { delay, wrapTags, ICON_STYLE } from './utils'
-import ContentEditable from './ContentEditable'
+import { ContentEditable } from './ContentEditable'
 import { propTypes, defaultProps } from './propTypes'
 
 const PropsEnd = createContext()
@@ -31,8 +30,9 @@ const EndTag = () => (
     </PropsEnd.Consumer>
 )
 
+// eslint-disable-next-line react/prop-types
 const MainTag = ({ tag, color, className, ...props }) => createElement(tag, {
-    className: cn(className, {
+    className: classNames(className, {
         [`text-${color} disabled`]: color,
     }),
     ...props,
@@ -52,7 +52,7 @@ const MainTag = ({ tag, color, className, ...props }) => createElement(tag, {
  * @reactProps {string} editable - редактируемое поле
  * @reactProps {string} copyable - возможность копировать
  */
-class Base extends Component {
+export class Base extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -84,6 +84,7 @@ class Base extends Component {
 
     handleContentEditable(e) {
         const { onChange } = this.props
+
         onChange(e.currentTarget.textContent)
     }
 
@@ -112,6 +113,7 @@ class Base extends Component {
         const copiableFragment = (
             <span style={ICON_STYLE}>
                 <CopyToClipboard text={text}>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a href="#" className="pl-2" onClick={this.copyLinkClick}>
                         <i className={copyIcon} />
                     </a>
@@ -121,6 +123,7 @@ class Base extends Component {
 
         const editableFragment = edit ? null : (
             <span style={ICON_STYLE}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className="pl-2" onClick={this.editLinkClick}>
                     <i className="fa fa-pencil" />
                 </a>

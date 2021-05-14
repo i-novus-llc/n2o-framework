@@ -61,19 +61,15 @@ stories
 
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                mask: InputMaskJson.mask,
-                preset: InputMaskJson.preset,
-                placeholder: InputMaskJson.placeholder,
-                placeholderChar: InputMaskJson.placeholderChar,
-                guide: InputMaskJson.guide,
-                keepCharPosition: InputMaskJson.keepCharPositions,
-                clearOnBlur: InputMaskJson.clearOnBlur,
-            }
-
-            return props
-        }),
+        form(() => ({
+            mask: InputMaskJson.mask,
+            preset: InputMaskJson.preset,
+            placeholder: InputMaskJson.placeholder,
+            placeholderChar: InputMaskJson.placeholderChar,
+            guide: InputMaskJson.guide,
+            keepCharPosition: InputMaskJson.keepCharPositions,
+            clearOnBlur: InputMaskJson.clearOnBlur,
+        })),
     )
 
     .add(

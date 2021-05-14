@@ -24,7 +24,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
       hideSinglePage={true}
       i18n={Object {}}
       last={false}
-      lazy={false}
       maxButtons={4}
       next={false}
       nextText={null}

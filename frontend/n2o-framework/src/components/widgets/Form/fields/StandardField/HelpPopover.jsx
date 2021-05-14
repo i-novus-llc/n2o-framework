@@ -19,6 +19,7 @@ class HelpPopover extends React.Component {
 
   render() {
       const { help, placement, icon } = this.props
+
       return (
           <div className="n2o-popover">
               <button
@@ -26,6 +27,7 @@ class HelpPopover extends React.Component {
                   className="n2o-popover-btn"
                   id={this.fieldId}
                   ref={this.button}
+                  type="button"
               >
                   <i className={icon} />
               </button>
@@ -36,6 +38,7 @@ class HelpPopover extends React.Component {
                   trigger="focus"
               >
                   <PopoverBody>
+                      {/* eslint-disable-next-line react/no-danger */}
                       <div dangerouslySetInnerHTML={{ __html: help }} />
                   </PopoverBody>
               </UncontrolledPopover>
@@ -46,6 +49,8 @@ class HelpPopover extends React.Component {
 
 HelpPopover.propTypes = {
     help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    placement: PropTypes.string,
+    icon: PropTypes.string,
 }
 
 HelpPopover.defaultProps = {

@@ -47,7 +47,6 @@ function ImageUploader({
 
     return (
         <ImageUpload
-            children={component}
             componentClass="n2o-drop-zone"
             customUploaderSize={getSize(size, 'uploader')}
             icon={icon}
@@ -60,7 +59,9 @@ function ImageUploader({
             canDelete={canDelete}
             shape={shape}
             {...rest}
-        />
+        >
+            { component }
+        </ImageUpload>
     )
 }
 
@@ -95,6 +96,9 @@ ImageUploader.propTypes = {
     showTooltip: PropTypes.bool,
     canDelete: PropTypes.bool,
     shape: PropTypes.string,
+    imgError: PropTypes.string,
+    iconSize: PropTypes.number,
+    unit: PropTypes.string,
 }
 
 export default withFileUploader(ImageUploader)

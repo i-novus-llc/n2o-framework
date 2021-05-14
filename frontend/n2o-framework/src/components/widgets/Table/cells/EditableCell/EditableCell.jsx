@@ -38,42 +38,47 @@ export class EditableCell extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { model: propsModel, editable, prevResolveModel } = this.props
+        const { model: stateModel, editing, prevModel } = this.state
+
         if (
-            prevProps.editable !== this.props.editable &&
-      !isEqual(prevProps.model, this.props.model) &&
-      !isEqual(this.state.model, this.props.prevResolveModel)
+            prevProps.editable !== editable &&
+      !isEqual(prevProps.model, propsModel) &&
+      !isEqual(stateModel, prevResolveModel)
         ) {
-            this.setState({ model: this.props.model })
-        } else if (!isEqual(prevProps.model, this.props.model)) {
+            this.setState({ model: propsModel })
+        } else if (!isEqual(prevProps.model, propsModel)) {
             this.setState({
-                prevModel: this.state.model,
-                model: isEmpty(this.props.prevResolveModel)
-                    ? this.props.model
-                    : this.props.prevResolveModel,
+                prevModel: stateModel,
+                model: isEmpty(prevResolveModel)
+                    ? propsModel
+                    : prevResolveModel,
             })
         } else if (
-            !isEqual(prevProps.prevResolveModel, this.props.prevResolveModel) &&
-      this.props.prevResolveModel.id === this.state.model.id
+            !isEqual(prevProps.prevResolveModel, prevResolveModel) &&
+      prevResolveModel.id === stateModel.id
         ) {
             this.setState({
-                prevModel: this.state.model,
-                model: this.props.prevResolveModel,
+                prevModel: stateModel,
+                model: prevResolveModel,
             })
         }
 
         if (
-            !this.state.editing &&
+            !editing &&
       isEqual(prevState.prevModel, prevState.model) &&
-      !isEqual(this.state.prevModel, this.state.model) &&
-      !isEqual(this.state.model, this.props.prevResolveModel)
+      !isEqual(prevModel, stateModel) &&
+      !isEqual(stateModel, prevResolveModel)
         ) {
-            this.callAction(this.state.model)
+            this.callAction(stateModel)
         }
     }
 
     onChange(value) {
-        const newModel = { ...this.state.model }
+        const { model: stateModel } = this.state
+        const newModel = { ...stateModel }
         const { editFieldId } = this.props
+
         set(newModel, editFieldId, value)
         this.setState({
             model: newModel,
@@ -81,20 +86,22 @@ export class EditableCell extends React.Component {
     }
 
     toggleEdit() {
-        const { model, prevResolveModel, onSetSelectedId } = this.props
+        const { model: propsModel, prevResolveModel, onSetSelectedId } = this.props
+        const { editing, prevModel, model: stateModel } = this.state
         let newState = {
-            editing: !this.state.editing,
+            editing: !editing,
         }
-        if (!isEqual(get(prevResolveModel, 'id'), get(model, 'id'))) {
+
+        if (!isEqual(get(prevResolveModel, 'id'), get(propsModel, 'id'))) {
             onSetSelectedId()
         }
-        if (!newState.editing && !isEqual(this.state.prevModel, this.state.model)) {
-            this.callAction(this.state.model)
+        if (!newState.editing && !isEqual(prevModel, stateModel)) {
+            this.callAction(stateModel)
         }
 
         newState = {
             ...newState,
-            prevModel: this.state.model,
+            prevModel: stateModel,
         }
 
         this.setState(newState)
@@ -111,6 +118,7 @@ export class EditableCell extends React.Component {
         this.toggleEdit()
     }
 
+    // eslint-disable-next-line class-methods-use-this
     stopPropagation(e) {
         e.stopPropagation()
     }
@@ -172,15 +180,19 @@ EditableCell.propTypes = {
     visible: PropTypes.bool,
     control: PropTypes.object,
     editable: PropTypes.bool,
-    value: PropTypes.string,
-    disabled: PropTypes.bool,
-    valueFieldId: PropTypes.string,
     editFieldId: PropTypes.string,
+    model: PropTypes.object,
+    prevResolveModel: PropTypes.object,
+    onSetSelectedId: PropTypes.func,
+    callAction: PropTypes.func,
+    onResolve: PropTypes.func,
+    widgetId: PropTypes.string,
+    format: PropTypes.string,
+    fieldKey: PropTypes.string,
 }
 
 EditableCell.defaultProps = {
     visible: true,
-    disabled: false,
 }
 
 export default compose(

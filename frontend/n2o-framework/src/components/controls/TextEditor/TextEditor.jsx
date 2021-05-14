@@ -33,6 +33,7 @@ class TextEditor extends Component {
 
         this.state = {
             editorState: this.convertToEditorState(props.value),
+            // eslint-disable-next-line react/no-unused-state
             value: props.value,
         }
 
@@ -40,26 +41,33 @@ class TextEditor extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.value, this.props.value)) {
+        const { value } = this.props
+
+        if (!isEqual(prevProps.value, value)) {
             this.setState({
                 editorState: EditorState.moveFocusToEnd(
-                    this.convertToEditorState(this.props.value),
+                    this.convertToEditorState(value),
                 ),
-                value: this.props.value,
+                // eslint-disable-next-line react/no-unused-state
+                value,
             })
         }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     convertToHtml(editorState) {
         return draftToHtml(convertToRaw(editorState.getCurrentContent()))
     }
 
+    // eslint-disable-next-line class-methods-use-this
     convertToEditorState(value) {
         const contentBlock = htmlToDraft(value)
+
         if (contentBlock) {
             const contentState = ContentState.createFromBlockArray(
                 contentBlock.contentBlocks,
             )
+
             return EditorState.createWithContent(contentState)
         }
 
@@ -69,7 +77,11 @@ class TextEditor extends Component {
     onEditorStateChange(editorState) {
         const { onChange } = this.props
         const value = this.convertToHtml(editorState)
-        onChange && onChange(value)
+
+        if (onChange) {
+            onChange(value)
+        }
+        // eslint-disable-next-line react/no-unused-state
         this.setState({ editorState, value })
     }
 
@@ -92,6 +104,7 @@ class TextEditor extends Component {
             pointerEvents: 'none',
             opacity: '0.4',
         }
+
         return (
             <div style={disabled ? { ...baseStyle, ...disabledStyle } : baseStyle}>
                 {visible && (
@@ -112,36 +125,36 @@ class TextEditor extends Component {
 
 TextEditor.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.string,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Callback на фокус
-   */
+     * Callback на фокус
+     */
     onFocus: PropTypes.func,
     /**
-   * Callback на потерю фокуса
-   */
+     * Callback на потерю фокуса
+     */
     onBlur: PropTypes.func,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Конфиг тулбара
-   */
+     * Конфиг тулбара
+     */
     toolbarConfig: PropTypes.object,
 }
 TextEditor.defaultProps = {

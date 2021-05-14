@@ -47,7 +47,7 @@ import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes'
  *             description="Введите расстояние от пункта А до пункта Б"
  *             style={display: 'inline-block'}/>
  */
-export function RangeField({
+export function RangeFieldComponent({
     beginControl,
     endControl,
     id,
@@ -75,7 +75,6 @@ export function RangeField({
     placeholder,
     touched,
     message,
-    colLength,
     help,
     value,
     onChange,
@@ -91,12 +90,19 @@ export function RangeField({
         'is-invalid': 'text-danger',
         'has-warning': 'text-warning',
     }
-    const labelWidthPixels =
-    labelWidth === 'default'
-        ? 180
-        : labelWidth === 'min' || labelWidth === '100%'
-            ? undefined
-            : labelWidth
+
+    const getLabelWidthPixels = (labelWidth) => {
+        switch (labelWidth) {
+            case 'default':
+                return 180
+            case 'min' || '100%':
+                return undefined
+            default:
+                return labelWidth
+        }
+    }
+
+    const labelWidthPixels = getLabelWidthPixels(labelWidth)
 
     const extendedLabelStyle = {
         width: labelWidthPixels,
@@ -193,7 +199,7 @@ export function RangeField({
     ) : null
 }
 
-RangeField.propTypes = {
+RangeFieldComponent.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     control: PropTypes.node,
     visible: PropTypes.bool,
@@ -215,9 +221,26 @@ RangeField.propTypes = {
     message: PropTypes.object,
     help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     divider: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    beginControl: PropTypes.object,
+    endControl: PropTypes.object,
+    id: PropTypes.string,
+    labelStyle: PropTypes.object,
+    controlStyle: PropTypes.object,
+    labelClass: PropTypes.string,
+    validationClass: PropTypes.string,
+    controlClass: PropTypes.string,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    placeholder: PropTypes.string,
+    value: PropTypes.object,
+    onBeginValueChange: PropTypes.func,
+    onEndValueChange: PropTypes.func,
+    begin: PropTypes.oneOf(['string', null]),
+    end: PropTypes.oneOf(['string', null]),
+    enabled: PropTypes.bool,
 }
 
-RangeField.defaultProps = {
+RangeFieldComponent.defaultProps = {
     visible: true,
     required: false,
     control: <input />,
@@ -232,7 +255,7 @@ RangeField.defaultProps = {
 
 const isValid = period => period !== ''
 
-export default compose(
+export const RangeField = compose(
     mapProps(props => ({
         ...props,
         begin: get(props, 'value.begin', null),
@@ -240,11 +263,17 @@ export default compose(
     })),
     withHandlers({
         onBeginValueChange: ({ end, onChange }) => (begin) => {
-            isValid(begin) && onChange({ begin, end })
+            if (isValid(begin)) {
+                onChange({ begin, end })
+            }
         },
 
         onEndValueChange: ({ begin, onChange }) => (end) => {
-            isValid(end) && onChange({ begin, end })
+            if (isValid(end)) {
+                onChange({ begin, end })
+            }
         },
     }),
-)(RangeField)
+)(RangeFieldComponent)
+
+export default RangeField

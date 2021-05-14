@@ -1,21 +1,20 @@
 .n2o-control-container {
-  flex: 1 1 auto;
-  position: relative;
+    flex: 1 1 auto;
+    position: relative;
 }
 
 .n2o-input-mask + .n2o-control-container-placeholder,
 .n2o-input-text + .n2o-control-container-placeholder,
 .n2o-text-area + .n2o-control-container-placeholder {
-  position: absolute;
-  bottom: 0.5em;
-  right: 1em;
-  color: #546e7a;
+    position: absolute;
+    bottom: 0.5em;
+    right: 1em;
+    color: #546e7a;
 }
 
 .n2o-input-number + .n2o-control-container-placeholder {
-  position: absolute;
-  bottom: 0.5em;
-  right: 1.8em;
-  color: #546e7a;
+    position: absolute;
+    bottom: 0.5em;
+    right: 1.8em;
+    color: #546e7a;
 }
-

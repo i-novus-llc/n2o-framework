@@ -9,8 +9,6 @@ import pick from 'lodash/pick'
 import { HotKeys } from 'react-hotkeys/cjs'
 import cx from 'classnames'
 
-import { widgetSetSort } from '../../../actions/widgets'
-import SecurityCheck from '../../../core/auth/SecurityCheck'
 import propsResolver from '../../../utils/propsResolver'
 
 import withColumn from './withColumn'
@@ -18,11 +16,11 @@ import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import TableRow from './TableRow'
 import TableCell from './TableCell'
-import TextTableHeader from './headers/TextTableHeader'
-import TextCell from './cells/TextCell/TextCell'
 
 export const getIndex = (datasource, selectedId) => {
+    // eslint-disable-next-line eqeqeq
     const index = findIndex(datasource, model => model.id == selectedId)
+
     return index >= 0 ? index : 0
 }
 
@@ -54,21 +52,21 @@ const ReduxCell = withColumn(TableCell)
  * @example
  * const headers = [
  *  {
- *    id: "id",
- *    label: "ID",
- *    sortable: false,
- *    component: FilteredHeader
+ *  id: "id",
+ *  label: "ID",
+ *  sortable: false,
+ *  component: FilteredHeader
  *  },
  *  {
- *    id: "name",
- *    label: "Имя",
- *    sortable: true,
- *    component: TextHeader
+ *  id: "name",
+ *  label: "Имя",
+ *  sortable: true,
+ *  component: TextHeader
  *  },
  *  {
- *    id: "vip",
- *    sortable: false,
- *    component: IconHeader,
+ *  id: "vip",
+ *  sortable: false,
+ *  component: IconHeader,
  *    componentProps: {
  *      icon: "plus"
  *    }
@@ -109,12 +107,22 @@ class Table extends React.Component {
     constructor(props) {
         super(props)
         this.rows = []
+
+        if (props.autoFocus) {
+            this.computedFocusIndex = getIndex(props.datasource, props.selectedId)
+        } else if (props.hasFocus) {
+            this.computedFocusIndex = 0
+        } else {
+            this.computedFocusIndex = -1
+        }
+
         this.state = {
-            focusIndex: props.autoFocus
-                ? getIndex(props.datasource, props.selectedId)
-                : props.hasFocus
-                    ? 0
-                    : -1,
+            // focusIndex: props.autoFocus
+            //     ? getIndex(props.datasource, props.selectedId)
+            //     : props.hasFocus
+            //         ? 0
+            //         : -1,
+            focusIndex: this.computedFocusIndex,
             selectIndex: props.hasSelect
                 ? getIndex(props.datasource, props.selectedId)
                 : -1,
@@ -129,9 +137,11 @@ class Table extends React.Component {
             hasSelect,
             onRowClickAction,
             rowClick,
+            onResolve,
         } = this.props
 
-        hasSelect && !noResolve && this.props.onResolve(find(datasource, { id }))
+        // eslint-disable-next-line no-unused-expressions
+        hasSelect && !noResolve && onResolve(find(datasource, { id }))
 
         if (hasSelect && hasFocus && !rowClick) {
             this.setSelectAndFocus(index, index)
@@ -155,6 +165,7 @@ class Table extends React.Component {
 
     setSelectAndFocus(selectIndex, focusIndex) {
         const { hasFocus } = this.props
+
         this.setState({ selectIndex, focusIndex }, () => {
             if (hasFocus) {
                 this.focusActiveRow()
@@ -162,9 +173,12 @@ class Table extends React.Component {
         })
     }
 
+    // noinspection JSUnresolvedFunction
     focusActiveRow() {
-        this.rows[this.state.focusIndex] &&
-      ReactDOM.findDOMNode(this.rows[this.state.focusIndex]).focus()
+        const { focusIndex } = this.state
+
+        // eslint-disable-next-line no-unused-expressions,react/no-find-dom-node
+        this.rows[focusIndex] && ReactDOM.findDOMNode(this.rows[focusIndex]).focus()
     }
 
     onKeyDown(e) {
@@ -178,10 +192,12 @@ class Table extends React.Component {
             onResolve,
         } = this.props
         const { focusIndex } = this.state
+
         if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
             if (!React.Children.count(children) && hasFocus) {
                 let newFocusIndex =
           keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1
+
                 newFocusIndex =
           newFocusIndex < datasource.length && newFocusIndex >= 0
               ? newFocusIndex
@@ -194,8 +210,10 @@ class Table extends React.Component {
                 }
             }
         } else if (keyNm === ' ' && hasSelect && !autoFocus) {
-            onResolve(datasource[this.state.focusIndex])
-            this.setNewSelectIndex(this.state.focusIndex)
+            const { focusIndex } = this.state
+
+            onResolve(datasource[focusIndex])
+            this.setNewSelectIndex(focusIndex)
         }
     }
 
@@ -207,8 +225,11 @@ class Table extends React.Component {
             isAnyTableFocused,
             isActive,
         } = this.props
+
         if (hasSelect && !isEqual(datasource, prevProps.datasource)) {
             const id = getIndex(datasource, selectedId)
+
+            // eslint-disable-next-line no-unused-expressions
             isAnyTableFocused && !isActive
                 ? this.setNewSelectIndex(id)
                 : this.setSelectAndFocus(id, id)
@@ -217,9 +238,9 @@ class Table extends React.Component {
 
     componentDidMount() {
         const { isAnyTableFocused, isActive, focusIndex, selectIndex } = this.state
-        !isAnyTableFocused &&
-      isActive &&
-      this.setSelectAndFocus(selectIndex, focusIndex)
+
+        // eslint-disable-next-line no-unused-expressions
+        !isAnyTableFocused && isActive && this.setSelectAndFocus(selectIndex, focusIndex)
     }
 
     renderCell(props) {
@@ -230,6 +251,7 @@ class Table extends React.Component {
         if (redux) {
             return <ReduxCell style={styleProps} {...props} />
         }
+
         return <TableCell style={styleProps} {...props} />
     }
 
@@ -237,13 +259,11 @@ class Table extends React.Component {
         const {
             className,
             datasource,
-            actions,
             headers,
             cells,
             sorting,
             onSort,
             onFocus,
-            onResolve,
             children,
             hasFocus,
             rowColor,
@@ -252,6 +272,8 @@ class Table extends React.Component {
             rowClick,
             t,
         } = this.props
+        const { selectIndex } = this.state
+        const TAB_INDEX_VALUE = 1
 
         if (React.Children.count(children)) {
             return (
@@ -260,6 +282,7 @@ class Table extends React.Component {
                 </div>
             )
         }
+
         return (
             <HotKeys
                 keyMap={{ events: ['up', 'down', 'space'] }}
@@ -270,7 +293,7 @@ class Table extends React.Component {
                         className={cx('n2o-table table table-sm table-hover', className, {
                             'has-focus': hasFocus,
                         })}
-                        ref={table => (this.table = table)}
+                        ref={(table) => { this.table = table }}
                         onFocus={!isActive ? onFocus : undefined}
                     >
                         {headers && (
@@ -302,17 +325,12 @@ class Table extends React.Component {
                                                 ? () => this.handleRow(data.id, index, true)
                                                 : undefined
                                         }
-                                        key={index}
+                                        key={index.toString()}
                                         color={rowColor && propsResolver(rowColor, data)}
-                                        ref={(row) => {
-                                            this.rows[index] = row
-                                        }}
+                                        ref={(row) => { this.rows[index] = row }}
                                         model={data}
-                                        className={cx({
-                                            'table-active': index === this.state.selectIndex,
-                                            'row-click': !!rowClick,
-                                        })}
-                                        tabIndex={1}
+                                        className={cx({ 'table-active': index === selectIndex, 'row-click': !!rowClick })}
+                                        tabIndex={TAB_INDEX_VALUE}
                                     >
                                         {cells.map(cell => this.renderCell({
                                             index,
@@ -366,6 +384,10 @@ Table.propTypes = {
     onFocus: PropTypes.func,
     onRowClickAction: PropTypes.func,
     rowClick: PropTypes.object,
+    selectedId: PropTypes.string,
+    isAnyTableFocused: PropTypes.bool,
+    t: PropTypes.func,
+    rowColor: PropTypes.string,
 }
 
 Table.defaultProps = {

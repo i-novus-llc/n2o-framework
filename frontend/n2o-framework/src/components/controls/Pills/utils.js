@@ -46,5 +46,6 @@ export const prepareValue = (
     if (currentValue.includes(id)) {
         return []
     }
+
     return [id]
 }

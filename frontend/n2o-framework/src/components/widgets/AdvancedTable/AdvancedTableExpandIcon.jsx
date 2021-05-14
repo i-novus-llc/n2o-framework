@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, withHandlers, pure } from 'recompose'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент кнопки открытия подстроки
@@ -22,15 +22,14 @@ function AdvancedTableExpandIcon({
 }) {
     return (
         <span
-            className={cn({
-                'n2o-advanced-table-expand':
-          record.children || record[expandedFieldId] || expandedComponent,
+            className={classNames({
+                'n2o-advanced-table-expand': record.children || record[expandedFieldId] || expandedComponent,
             })}
             onClick={onExpand}
         >
             {(record[expandedFieldId] || record.children || expandedComponent) && (
                 <i
-                    className={cn('fa', 'n2o-advanced-table-expand-icon', {
+                    className={classNames('fa', 'n2o-advanced-table-expand-icon', {
                         'n2o-advanced-table-expand-icon-expanded': expanded,
                         'fa-angle-right': !expanded,
                         'fa-angle-down': expanded,
@@ -42,6 +41,8 @@ function AdvancedTableExpandIcon({
 }
 
 AdvancedTableExpandIcon.propTypes = {
+    expandedFieldId: PropTypes.string,
+    expandedComponent: PropTypes.any,
     record: PropTypes.object,
     expanded: PropTypes.bool,
     onExpand: PropTypes.func,
@@ -57,5 +58,6 @@ const enhance = compose(
     }),
     pure,
 )
+
 export { AdvancedTableExpandIcon }
 export default enhance(AdvancedTableExpandIcon)

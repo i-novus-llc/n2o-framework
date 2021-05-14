@@ -86,6 +86,7 @@ export {
     widgetSelector,
     isInitSelector,
     visibleSelector,
+    enabledSelector,
     loadingSelector,
     metadataSelector,
     querySelector,

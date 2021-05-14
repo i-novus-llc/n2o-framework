@@ -24,7 +24,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRegion> {
 
     @Override
-    protected String getPropertyRegionSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.region.tabs.src";
     }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import uniqueId from 'lodash/uniqueId'
 import isString from 'lodash/isString'
 import map from 'lodash/map'
@@ -22,10 +22,10 @@ class CollapsedCell extends React.Component {
             collapsed: true,
         }
 
-        this._changeVisibility = this._changeVisibility.bind(this)
+        this.changeVisibility = this.changeVisibility.bind(this)
     }
 
-    _changeVisibility(e) {
+    changeVisibility(e) {
         e.stopPropagation()
         e.preventDefault()
         this.setState(prevState => ({ collapsed: !prevState.collapsed }))
@@ -40,12 +40,13 @@ class CollapsedCell extends React.Component {
             labelFieldId,
             visible,
         } = this.props
+        const { collapsed } = this.state
 
         const data = model[fieldKey] || []
-        const items = this.state.collapsed ? data.slice(0, amountToGroup) : data
+        const items = collapsed ? data.slice(0, amountToGroup) : data
         const isButtonNeeded = data.length > amountToGroup
-        const buttonTitle = this.state.collapsed ? 'еще' : 'скрыть'
-        const labelClasses = cx('badge', `badge-${color}`)
+        const buttonTitle = collapsed ? 'еще' : 'скрыть'
+        const labelClasses = classNames('badge', `badge-${color}`)
 
         return (
             visible && (
@@ -59,9 +60,11 @@ class CollapsedCell extends React.Component {
                         </React.Fragment>
                     ))}
                     {isButtonNeeded && (
+
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
                         <a
                             href="#"
-                            onClick={this._changeVisibility}
+                            onClick={this.changeVisibility}
                             className="collapsed-cell-control"
                         >
                             {buttonTitle}

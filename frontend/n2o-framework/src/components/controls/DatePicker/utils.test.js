@@ -1,8 +1,6 @@
-import React from 'react'
 import moment from 'moment'
 
 import {
-    weeks,
     isDateFromPrevMonth,
     isDateFromNextMonth,
     addTime,
@@ -10,7 +8,6 @@ import {
     parseDate,
     mapToValue,
     mapToDefaultTime,
-    calculateMaxFreeSpace,
     formatToMask,
     hasInsideMixMax,
 } from './utils'

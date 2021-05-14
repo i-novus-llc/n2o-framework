@@ -1,4 +1,3 @@
-import React from 'react'
 import { getFormValues } from 'redux-form'
 
 import { exportFormName } from '../../../components/widgets/Table/ExportModal'
@@ -15,9 +14,12 @@ import { destroyOverlay } from '../../../actions/overlays'
  * @returns {string}
  */
 export function encodeQueryData(data) {
-    const ret = []
-    for (const d in data) { ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`) }
-    return `/export?${ret.join('&')}`
+    const ret = Object
+        .entries(data)
+        .reduce((acc, [key, value]) => [...acc, `${encodeURIComponent(key)}=${encodeURIComponent(value)}`], [])
+        .join('&')
+
+    return `/export?${ret}`
 }
 
 /**
@@ -33,6 +35,7 @@ export default function resolveExportTable({ dispatch, state, widgetId }) {
     const size = makeWidgetSizeSelector(widgetId)(state)
     const count =
     values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size
+
     window.open(
         encodeQueryData({
             widgetId,

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import flow from 'lodash/flow'
 
+// eslint-disable-next-line import/no-named-as-default
 import CardItem from './CardItem'
 import CardLayout from './CardLayout'
 

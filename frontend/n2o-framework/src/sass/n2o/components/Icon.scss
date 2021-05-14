@@ -1,26 +1,26 @@
 $cursor-disabled: not-allowed;
 
 .n2o-icon {
-  padding: 0 .35em 0 0.35em;
+    padding: 0 0.35em 0 0.35em;
 
-  &.circular {
-    border-radius: 500em;
-    line-height: 1;
-    box-shadow: 0 0 0 0.1em rgba(0, 0, 0, .1) inset;
-  }
-
-  &.bordered {
-    line-height: 1;
-    vertical-align: baseline;
-    box-shadow: 0 0 0 0.1em rgba(0, 0, 0, .1) inset;
-  }
-
-  &.disabled {
-    color: rgba(156, 159, 173, 0.55) !important;
-
-    &:hover,
-    &:focus {
-      cursor: $cursor-disabled;
+    &.circular {
+        border-radius: 500em;
+        line-height: 1;
+        box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
     }
-  }
+
+    &.bordered {
+        line-height: 1;
+        vertical-align: baseline;
+        box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
+    }
+
+    &.disabled {
+        color: rgba(156, 159, 173, 0.55) !important;
+
+        &:hover,
+        &:focus {
+            cursor: $cursor-disabled;
+        }
+    }
 }

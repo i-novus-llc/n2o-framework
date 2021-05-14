@@ -4,17 +4,18 @@ import isArray from 'lodash/isArray'
 import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import get from 'lodash/get'
-import cn from 'classnames'
+import classNames from 'classnames'
 import 'react-popper-tooltip/dist/styles.css'
+import PropTypes from 'prop-types'
 
 import getNoun from '../../../../../utils/getNoun'
 
-const triggerClassName = labelDashed => cn({
+const triggerClassName = labelDashed => classNames({
     'list-text-cell__trigger_dashed': labelDashed,
     'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
 })
 
-const tooltipContainerClassName = (validTooltipList, theme) => cn({
+const tooltipContainerClassName = (validTooltipList, theme) => classNames({
     'list-text-cell__tooltip-container dark':
       validTooltipList && theme === 'dark',
     'list-text-cell__tooltip-container light':
@@ -22,7 +23,7 @@ const tooltipContainerClassName = (validTooltipList, theme) => cn({
     'list-text-cell__tooltip-container_empty': !validTooltipList,
 })
 
-const arrowClassName = theme => cn({
+const arrowClassName = theme => classNames({
     'tooltip-arrow light': theme === 'light',
     'tooltip-arrow dark': theme === 'dark',
 })
@@ -37,6 +38,8 @@ function Tooltip(props) {
         manyLabel,
         labelDashed,
         theme,
+        placement,
+        trigger,
     } = props
 
     const tooltipList = get(model, fieldKey)
@@ -56,11 +59,13 @@ function Tooltip(props) {
     const replacePlaceholder = (label) => {
         const placeholder = '{size}'
         const hasPlaceholder = !isUndefined(label) && label.match(placeholder)
+
         if (isUndefined(label)) {
             return listLength
         } if (hasPlaceholder) {
             return withPlaceholder(label)
         }
+
         return label
     }
 
@@ -110,14 +115,28 @@ function Tooltip(props) {
           ))}
         </div>
     )
+
+    Trigger.propTypes = {
+        getTriggerProps: PropTypes.func,
+        triggerRef: PropTypes.any,
+    }
+
+    TooltipBody.propTypes = {
+        getTooltipProps: PropTypes.func,
+        getArrowProps: PropTypes.func,
+        tooltipRef: PropTypes.any,
+        arrowRef: PropTypes.any,
+        placement: PropTypes.string,
+    }
+
     return (
         <TooltipTrigger
-            placement={props.placement}
-            trigger={props.trigger}
+            placement={placement}
+            trigger={trigger}
             tooltip={TooltipBody}
-            fieldKey={props.fieldKey}
-            label={props.label}
-            labelDashed={props.labelDashed}
+            fieldKey={fieldKey}
+            label={label}
+            labelDashed={labelDashed}
             delayShow={200}
         >
             {Trigger}
@@ -126,3 +145,16 @@ function Tooltip(props) {
 }
 
 export default Tooltip
+
+Tooltip.propTypes = {
+    model: PropTypes.object,
+    fieldKey: PropTypes.string,
+    label: PropTypes.string,
+    oneLabel: PropTypes.string,
+    fewLabel: PropTypes.string,
+    manyLabel: PropTypes.string,
+    labelDashed: PropTypes.bool,
+    theme: PropTypes.string,
+    placement: PropTypes.string,
+    trigger: PropTypes.string,
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import SnippetRating from '../../snippets/SnippetRating/SnippetRating'
+import { SnippetRating } from '../../snippets/SnippetRating/SnippetRating'
 
 const Rating = ({
     value,
@@ -25,28 +25,29 @@ const Rating = ({
 
 Rating.propTypes = {
     /**
-   * Максимальное значение
-   */
+     * Максимальное значение
+     */
     max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     /**
-   * Значение
-   */
+     * Значение
+     */
     rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     /**
-   * Флаг включения выбора по половинке
-   */
+     * Флаг включения выбора по половинке
+     */
     half: PropTypes.bool,
     /**
-   * Флаг показа подсказки
-   */
+     * Флаг показа подсказки
+     */
     showTooltip: PropTypes.bool,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг только для чтения
-   */
+     * Флаг только для чтения
+     */
     readonly: PropTypes.bool,
 }
 

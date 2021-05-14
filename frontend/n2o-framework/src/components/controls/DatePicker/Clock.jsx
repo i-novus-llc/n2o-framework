@@ -21,9 +21,12 @@ class Clock extends React.Component {
     }
 
     render() {
+        const { onClick } = this.props
+        const { time } = this.state
+
         return (
-            <div className="n2o-calendar-clock" onClick={this.props.onClick}>
-                {this.state.time.format('H:mm:ss')}
+            <div className="n2o-calendar-clock" onClick={onClick}>
+                {time.format('H:mm:ss')}
             </div>
         )
     }

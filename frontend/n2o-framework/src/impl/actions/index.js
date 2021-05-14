@@ -1,6 +1,6 @@
 import exportModal from '../../components/widgets/Table/ExportModal'
-import ToggleColumn from '../../components/buttons/ToggleColumn/ToggleColumn'
-import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize'
+import { ToggleColumn } from '../../components/buttons/ToggleColumn/ToggleColumn'
+import { ChangeSize } from '../../components/buttons/ChangeSize/ChangeSize'
 
 import dummyImpl from './dummy'
 import exportTable from './exportTable/exportTable'

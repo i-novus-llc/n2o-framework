@@ -56,9 +56,11 @@ export function* getConfig(apiProvider, action) {
 export function* changeLocale(apiProvider, action) {
     try {
         const locale = get(action, 'payload.locale')
+
         yield call(fetchSaga, CHANGE_LOCALE_API, locale, apiProvider)
         window.location.reload()
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }

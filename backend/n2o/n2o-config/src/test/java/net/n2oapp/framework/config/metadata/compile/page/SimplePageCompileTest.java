@@ -57,6 +57,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
         assertThat(page.getSrc(), is("SimplePage"));
+        assertThat(page.getClassName(), is("testClass"));
+        assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getWidget(), notNullValue());
@@ -85,6 +87,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSimpleModalPage.page.xml")
                 .get(new ModalPageContext("testSimpleModalPage", "/modal"));
         assertThat(page.getId(), is("modal"));
-        assertThat(page.getPageProperty().getTitle(), is("testPage"));
+        assertThat(page.getPageProperty().getTitle(), nullValue());
+        assertThat(page.getPageProperty().getModalHeaderTitle(), is("testPage"));
     }
 }

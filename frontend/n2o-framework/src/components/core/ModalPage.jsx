@@ -4,12 +4,13 @@ import Modal from 'reactstrap/lib/Modal'
 import ModalHeader from 'reactstrap/lib/ModalHeader'
 import ModalBody from 'reactstrap/lib/ModalBody'
 import ModalFooter from 'reactstrap/lib/ModalFooter'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { compose } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
-import Spinner from '../snippets/Spinner/Spinner'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
+// eslint-disable-next-line import/no-cycle,import/no-named-as-default
 import Page from './Page'
 import withOverlayMethods from './withOverlayMethods'
 /**
@@ -19,7 +20,7 @@ import withOverlayMethods from './withOverlayMethods'
  * @reactProps {boolean} visible - отображается модалка или нет
  * @reactProps {string} size - размер('sm' или 'lg')
  * @reactProps {string | bool} backdrop -  наличие фона модального окна  false/true/'static'
- * @reactProps {string} headerTitle - заголовок в хэдере
+ * @reactProps {string} modalHeaderTitle - заголовок в хэдере
  * @reactProps {boolean} closeButton - Есть кнопка закрытия или нет
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
@@ -38,7 +39,7 @@ function ModalPage(props) {
         entityKey,
         toolbar,
         visible,
-        headerTitle,
+        modalHeaderTitle,
         loading,
         pageUrl,
         pageId,
@@ -64,7 +65,7 @@ function ModalPage(props) {
     }
 
     const showSpinner = !visible || loading || typeof loading === 'undefined'
-    const classes = cn({ 'd-none': loading })
+    const classes = classNames({ 'd-none': loading })
 
     return (
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
@@ -82,11 +83,12 @@ function ModalPage(props) {
                         className={classes}
                         toggle={() => rest.closeOverlay(prompt)}
                     >
-                        {headerTitle}
+                        {modalHeaderTitle}
                     </ModalHeader>
                 )}
 
                 <ModalBody className={classes}>
+                    {/* eslint-disable-next-line no-nested-ternary */}
                     {pageUrl ? (
                         <Page
                             pageUrl={pageUrl}
@@ -103,7 +105,7 @@ function ModalPage(props) {
                 {toolbar && (
                     <ModalFooter className={classes}>
                         <div
-                            className={cn('n2o-modal-actions', {
+                            className={classNames('n2o-modal-actions', {
                                 'n2o-disabled': disabled,
                             })}
                         >
@@ -136,7 +138,7 @@ ModalPage.propTypes = {
     /**
    * Заголовок
    */
-    headerTitle: PropTypes.string,
+    modalHeaderTitle: PropTypes.string,
     /**
    * Включение кнопки закрытия
    */
@@ -178,11 +180,19 @@ ModalPage.propTypes = {
    * Фон модального окна
    */
     backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['static'])]),
+    entityKey: PropTypes.string,
+    loading: PropTypes.bool,
+    pageUrl: PropTypes.string,
+    src: PropTypes.any,
+    pathMapping: PropTypes.any,
+    queryMapping: PropTypes.any,
+    scrollable: PropTypes.bool,
+    prompt: PropTypes.func,
 }
 
 ModalPage.defaultProps = {
     size: 'lg',
-    headerTitle: 'Модальное окно',
+    modalHeaderTitle: 'Модальное окно',
     disabled: false,
     hasHeader: false,
     backdrop: 'static',

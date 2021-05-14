@@ -40,11 +40,12 @@ import {
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { getLocation, rootPageSelector } from '../selectors/global'
 import { makeGetModelByPrefixSelector } from '../selectors/models'
-import { FETCH_WIDGET_DATA } from '../core/api.js'
+import { FETCH_WIDGET_DATA } from '../core/api'
 import { generateErrorMeta } from '../utils/generateErrorMeta'
 import { id } from '../utils/id'
 
-import fetchSaga from './fetch.js'
+import fetchSaga from './fetch'
+// eslint-disable-next-line import/no-cycle
 import { checkIdBeforeLazyFetch } from './regions'
 
 /**
@@ -55,10 +56,12 @@ function* getData() {
     const isQueryEqual = (id, newPath, newQuery) => {
         let res = true
         const lq = lastQuery[id]
+
         if (lq) {
             res = isEqual(lq.path, newPath) && isEqual(lq.query, newQuery)
         }
         lastQuery[id] = { path: newPath, query: { ...newQuery } }
+
         return res
     }
     let prevSelectedId = null
@@ -95,6 +98,7 @@ export function* prepareFetch(widgetId) {
     const currentDatasource = yield select(
         makeGetModelByPrefixSelector(PREFIXES.datasource, widgetId),
     )
+
     return {
         state,
         location,
@@ -116,11 +120,13 @@ export function* routesQueryMapping(state, routes, location) {
         queryString.parse(location.search),
         keys(queryObject),
     )
+
     if (!isEqual(pickBy(queryObject, identity), pageQueryObject)) {
         const newQuery = queryString.stringify(queryObject)
         const tailQuery = queryString.stringify(
             omit(currentQueryObject, keys(queryObject)),
         )
+
         yield put(
             replace({
                 search: newQuery + (tailQuery ? `&${tailQuery}` : ''),
@@ -144,7 +150,7 @@ export function* setWidgetDataSuccess(
         headers: headersParams,
     })
 
-    if (isEqual(data.list, currentDatasource)) {
+    if (isEqual(data.list, currentDatasource) && !isEmpty(currentDatasource)) {
         yield put(setModel(PREFIXES.datasource, widgetId, null))
         yield put(setModel(PREFIXES.datasource, widgetId, data.list))
     } else {
@@ -172,7 +178,7 @@ export function getWithoutSelectedId(
         return null
     } if (
         !location.pathname.includes(selectedId) ||
-    prevSelectedId === selectedId
+        prevSelectedId === selectedId
     ) {
         return true
     }
@@ -214,11 +220,11 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
 
             if (
                 withoutSelectedId ||
-        !isQueryEqual(
-            widgetId,
-            resolvedProvider.basePath,
-            resolvedProvider.baseQuery,
-        )
+                !isQueryEqual(
+                    widgetId,
+                    resolvedProvider.basePath,
+                    resolvedProvider.baseQuery,
+                )
             ) {
                 // yield put(setTableSelectedId(widgetId, null));
             } else if (!withoutSelectedId && widgetState.selectedId) {
@@ -243,7 +249,8 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
                 )
             } else if (
                 !Object.keys(tabsWidgetIds).includes(widgetId) ||
-        !tabsWidgetIds[widgetId]
+                !tabsWidgetIds[widgetId]
+                // eslint-disable-next-line sonarjs/no-duplicated-branches
             ) {
                 yield call(
                     setWidgetDataSuccess,
@@ -257,6 +264,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
             yield put(dataFailWidget(widgetId))
         }
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`)
         yield put(
             dataFailWidget(
@@ -279,8 +287,10 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
 
 export function* runResolve(action) {
     const { widgetId, model } = action.payload
+
     try {
         yield put(setModel(PREFIXES.resolve, widgetId, model))
+        // eslint-disable-next-line no-empty
     } catch (err) {}
 }
 
@@ -290,6 +300,7 @@ export function* clearForm(action) {
 
 export function* clearOnDisable(action) {
     const { widgetId } = action.payload
+
     yield put(setModel(PREFIXES.datasource, widgetId, null))
     yield put(changeCountWidget(widgetId, 0))
 }

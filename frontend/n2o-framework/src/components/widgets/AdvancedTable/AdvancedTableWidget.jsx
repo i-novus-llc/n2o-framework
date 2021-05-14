@@ -4,9 +4,10 @@ import values from 'lodash/values'
 
 import TablePagination from '../Table/TablePagination'
 import StandardWidget from '../StandardWidget'
-import Fieldsets from '../Form/fieldsets'
-import dependency from '../../../core/dependency'
+import { StandardFieldset } from '../Form/fieldsets'
+import { dependency } from '../../../core/dependency'
 
+// eslint-disable-next-line import/no-named-as-default
 import AdvancedTableContainer from './AdvancedTableContainer'
 
 /**
@@ -29,6 +30,14 @@ import AdvancedTableContainer from './AdvancedTableContainer'
  */
 class AdvancedTableWidget extends Component {
     getWidgetProps() {
+        const {
+            toolbar,
+            actions,
+            dataProvider,
+            placeholder,
+            children,
+            table,
+        } = this.props
         const {
             className,
             headers,
@@ -53,15 +62,9 @@ class AdvancedTableWidget extends Component {
             width,
             height,
             textWrap,
-        } = this.props.table
-        const {
-            toolbar,
-            actions,
-            dataProvider,
-            placeholder,
-            children,
-        } = this.props
+        } = table
         const { resolveProps } = this.context
+
         return {
             headers: values(resolveProps(headers)),
             cells: values(resolveProps(cells)),
@@ -95,9 +98,12 @@ class AdvancedTableWidget extends Component {
     }
 
     prepareFilters() {
-        return this.context.resolveProps(
-            this.props.filter,
-            Fieldsets.StandardFieldset,
+        const { resolveProps } = this.context
+        const { filter } = this.props
+
+        return resolveProps(
+            filter,
+            StandardFieldset,
         )
     }
 
@@ -114,6 +120,7 @@ class AdvancedTableWidget extends Component {
             style,
             children,
         } = this.props
+
         return (
             <StandardWidget
                 disabled={disabled}
@@ -133,9 +140,10 @@ class AdvancedTableWidget extends Component {
                     size={size}
                     page={1}
                     fetchOnInit={fetchOnInit}
-                    children={children}
                     {...this.getWidgetProps()}
-                />
+                >
+                    {children}
+                </AdvancedTableContainer>
             </StandardWidget>
         )
     }
@@ -153,6 +161,14 @@ AdvancedTableWidget.defaultProps = {
 }
 
 AdvancedTableWidget.propTypes = {
+    hasFocus: PropTypes.bool,
+    placeholder: PropTypes.string,
+    className: PropTypes.string,
+    id: PropTypes.string,
+    disabled: PropTypes.bool,
+    style: PropTypes.any,
+    filter: PropTypes.any,
+    children: PropTypes.any,
     pageId: PropTypes.string.isRequired,
     widgetId: PropTypes.string,
     actions: PropTypes.object,

@@ -1,18 +1,22 @@
 import React from 'react'
-import cx from 'classnames'
+import classNames from 'classnames'
 
+// eslint-disable-next-line import/no-named-as-default
 import SideBar from './SideBar/SideBar'
 
+// eslint-disable-next-line react/prop-types
 export default ({ children, className }) => {
     let containsFixedSider = false
-    const newChildren = React.Children.forEach(children, (child) => {
+
+    React.Children.forEach(children, (child) => {
         if (child.type === SideBar && child.props.fixed) {
             containsFixedSider = true
         }
     })
+
     return (
         <div
-            className={cx('n2o-template', className, {
+            className={classNames('n2o-template', className, {
                 'fixed-scrollable-container': containsFixedSider,
             })}
         >
@@ -20,9 +24,10 @@ export default ({ children, className }) => {
                 if (containsFixedSider) {
                     return React.cloneElement(child, {
                         ...child.props,
-                        className: cx(child.props.className, 'fixed-scrollable'),
+                        className: classNames(child.props.className, 'fixed-scrollable'),
                     })
                 }
+
                 return child
             })}
         </div>

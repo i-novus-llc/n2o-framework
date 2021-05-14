@@ -1,17 +1,14 @@
 .n2o-output-list {
-  display: flex;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
 
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.n2o-output-list__item--link {
+    text-decoration: underline;
+}
 
-  &__item {
-    &--link {
-      text-decoration: underline;
-    }
-  }
-
-  &--column {
+.n2o-output-list--column {
     flex-direction: column;
-  }
 }

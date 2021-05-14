@@ -1,16 +1,18 @@
-import React, { createElement, Component } from 'react'
+import { createElement, Component } from 'react'
 import PropTypes from 'prop-types'
 
 import components from './components'
 
-class Placeholder extends Component {
+export class Placeholder extends Component {
     constructor(props) {
         super(props)
         this.stopRender = false
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.loading && !this.props.loading && !this.stopRender) {
+        const { loading } = this.props
+
+        if (prevProps.loading && !loading && !this.stopRender) {
             this.stopRender = true
         }
     }
@@ -31,17 +33,17 @@ class Placeholder extends Component {
 
 Placeholder.propTypes = {
     /**
-   * Флаг загрузки данных
-   */
+     * Флаг загрузки данных
+     */
     loading: PropTypes.bool,
     /**
-   * Тип плейсхолдера
-   */
+     * Тип плейсхолдера
+     */
     type: PropTypes.string,
     children: PropTypes.node,
     /**
-   * Флаг показа плейсхолдера единожды
-   */
+     * Флаг показа плейсхолдера единожды
+     */
     once: PropTypes.bool,
 }
 
