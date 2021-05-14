@@ -18,6 +18,9 @@
         <action id="create">
             <invoke operation-id="create"/>
         </action>
+        <action id="update">
+            <invoke operation-id="update"/>
+        </action>
     </actions>
     <pre-filters>
         <eq field-id="name" value="1"/>
