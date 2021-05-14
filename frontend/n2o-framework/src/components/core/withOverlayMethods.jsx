@@ -69,6 +69,7 @@ function withOverlayMethods(WrappedComponent) {
                 <WrappedComponent
                     {...this.props}
                     title={get(this.props, 'metadata.page.title', '')}
+                    modalHeaderTitle={get(this.props, 'metadata.page.modalHeaderTitle', '')}
                     closeOverlay={this.closeOverlay}
                     renderFromSrc={this.renderFromSrc}
                 />
