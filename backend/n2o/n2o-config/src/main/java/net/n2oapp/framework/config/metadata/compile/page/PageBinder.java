@@ -75,7 +75,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                 }
             });
             //порядок вызова функций важен, сначала разрешаются submodels, потом удаляются значения по умолчанию которые резолвятся из url
-            collectFiltersToModels(page.getModels(), widgets);
+            collectFiltersToModels(page.getModels(), widgets, p);
             resolveLinks(page.getModels(), p);
         }
         if (page.getPageProperty() != null) {
@@ -94,7 +94,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         return page;
     }
 
-    private void collectFiltersToModels(Models models, List<Widget> widgets) {
+    private void collectFiltersToModels(Models models, List<Widget> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget w : widgets)
                 if (w.getFilters() != null)
@@ -103,7 +103,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                             if (f.getLink().getSubModelQuery() != null)
                                 addSubModelLinkToModels(models, f);
                             else if (w instanceof Table && ((Table) w).getFiltersDefaultValuesQueryId() != null)
-                                addDefaultFilterValueLinkToModels(models, f);
+                                addDefaultFilterValueLinkToModels(models, f, p);
     }
 
     private void addSubModelLinkToModels(Models models, Filter f) {
@@ -116,10 +116,12 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
     }
 
-    private void addDefaultFilterValueLinkToModels(Models models, Filter f) {
+    private void addDefaultFilterValueLinkToModels(Models models, Filter f, BindProcessor p) {
         ModelLink link = constructLink(models, f.getLink(), f.getFilterId());
-        if (f.getLink().getValue() != null)
-            link.setValue(f.getLink().getValue());
+        link.setParam(link.getWidgetId() + "_" + f.getFilterId());
+
+        Object linkValue = p.getLinkValue(link);
+        link.setValue(linkValue != null ? linkValue : f.getLink().getValue());
         models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
     }
 
