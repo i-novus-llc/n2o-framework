@@ -34,7 +34,7 @@ export const visiblePartPopup = (
                 </div>
             ),
             has(item, labelFieldId) && (
-                <span key={uniqueId('tree_label_')} className={`${prefixCls}-label`}>
+                <span title={item[labelFieldId]} key={uniqueId('tree_label_')} className={`${prefixCls}-label`}>
                     {item[labelFieldId]}
                 </span>
             ),
