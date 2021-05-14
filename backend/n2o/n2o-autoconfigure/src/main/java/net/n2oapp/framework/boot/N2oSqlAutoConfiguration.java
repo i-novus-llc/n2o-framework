@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @AutoConfigureAfter(JdbcTemplateAutoConfiguration.class)
 public class N2oSqlAutoConfiguration {
 
-    @Value("${n2o.engine.sql.driverName:org.h2.Driver}")
+    @Value("${n2o.engine.sql.driver-class-name:org.h2.Driver}")
     private String defaultJdbcDriver;
 
     @Bean
