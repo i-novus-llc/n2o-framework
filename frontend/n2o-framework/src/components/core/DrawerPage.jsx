@@ -16,7 +16,7 @@ import Page from './Page'
  * @reactProps {string} pageId - id пейджа
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
- * @reactProps {string} title - заголовок в хэдере
+ * @reactProps {string} modalHeaderTitle - заголовок в хэдере
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
@@ -39,7 +39,7 @@ function DrawerPage(props) {
         queryMapping,
         visible,
         loading,
-        title,
+        modalHeaderTitle,
         footer,
         disabled,
         toolbar,
@@ -82,7 +82,7 @@ function DrawerPage(props) {
                     visible={!loading && visible !== false}
                     onHandleClick={closeOverlay}
                     onClose={closeOverlay}
-                    title={title}
+                    title={modalHeaderTitle}
                     backdrop={backdrop}
                     width={width}
                     height={height}
@@ -136,7 +136,7 @@ export const DrawerWindow = DrawerPage
 DrawerPage.propTypes = {
     pageId: PropTypes.string,
     visible: PropTypes.bool,
-    title: PropTypes.string,
+    modalHeaderTitle: PropTypes.string,
     name: PropTypes.string,
     props: PropTypes.object,
     close: PropTypes.func.isRequired,
