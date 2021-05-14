@@ -7,7 +7,6 @@ import Factory from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 
 import metadata from './Invoke.meta.json'
-// eslint-disable-next-line import/no-named-as-default
 import Actions, { Actions as ActionsComponent } from './Actions'
 
 const stories = storiesOf('Действия/POST запрос', module)

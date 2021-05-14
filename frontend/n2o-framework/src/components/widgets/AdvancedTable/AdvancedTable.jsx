@@ -96,11 +96,7 @@ class AdvancedTable extends Component {
                 : -1,
             data: props.data || [],
             expandedRowKeys: [],
-            expandRowByClick: false,
-            selection: {},
-            selectAll: false,
             columns: [],
-            checkedAll: false,
             checked: props.data ? this.mapChecked(props.data) : {},
             children: get(props, 'children', 'collapse'),
         }
@@ -120,23 +116,6 @@ class AdvancedTable extends Component {
                 ...get(props.components, 'body', {}),
             },
         }
-        this.setRowRef = this.setRowRef.bind(this)
-        this.getRowProps = this.getRowProps.bind(this)
-        this.handleKeyDown = this.handleKeyDown.bind(this)
-        this.handleExpandedRowsChange = this.handleExpandedRowsChange.bind(this)
-        this.mapColumns = this.mapColumns.bind(this)
-        this.checkAll = this.checkAll.bind(this)
-        this.handleChangeChecked = this.handleChangeChecked.bind(this)
-        this.handleFilter = this.handleFilter.bind(this)
-        this.handleEdit = this.handleEdit.bind(this)
-        this.setSelectionRef = this.setSelectionRef.bind(this)
-        this.getModelsFromData = this.getModelsFromData.bind(this)
-        this.setTableRef = this.setTableRef.bind(this)
-        this.openAllRows = this.openAllRows.bind(this)
-        this.closeAllRows = this.closeAllRows.bind(this)
-        this.renderIcon = this.renderIcon.bind(this)
-        this.renderExpandedRow = this.renderExpandedRow.bind(this)
-        this.getScroll = this.getScroll.bind(this)
     }
 
     componentDidMount() {
@@ -267,18 +246,13 @@ class AdvancedTable extends Component {
                 this.selectAllCheckbox,
             ).querySelector('input')
 
-            let all = false
-
             const isSomeOneChecked = some(checked, i => i)
             const isAllChecked = every(checked, i => i)
 
-            if (isAllChecked) {
-                all = true
-            }
             selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked
             selectAllCheckbox.checked = isAllChecked
 
-            this.setState({ checkedAll: all })
+            this.setState({})
         }
 
         if (
@@ -291,8 +265,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    renderTableRow(props) {
+    renderTableRow = (props) => {
         const { rows } = props
 
         return (props) => {
@@ -317,8 +290,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    mapChecked(data, multi) {
+    mapChecked = (data, multi) => {
         const checked = {}
 
         map(data, (item) => {
@@ -328,8 +300,7 @@ class AdvancedTable extends Component {
         return checked
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getModelsFromData(data) {
+    getModelsFromData = (data) => {
         const dataStorage = []
         const getChildren = children => map(children, (model) => {
             let array = [...children]
@@ -353,7 +324,7 @@ class AdvancedTable extends Component {
         return dataStorage
     }
 
-    setTableRef(el) {
+    setTableRef = (el) => {
         const { height } = this.props
 
         if (height) {
@@ -364,18 +335,18 @@ class AdvancedTable extends Component {
         this.table = el
     }
 
-    setSelectionRef(el) {
+    setSelectionRef = (el) => {
         this.selectAllCheckbox = el
     }
 
-    setRowRef(ref, id) {
+    setRowRef = (ref, id) => {
         if (ref && ref !== this.rows[id]) {
             this.rows[id] = ref
         }
     }
 
     // eslint-disable-next-line consistent-return
-    handleKeyDown(e, keyName) {
+    handleKeyDown = (e, keyName) => {
         const { data, children, hasFocus, hasSelect, autoFocus, onResolve } = this.props
         const { focusIndex } = this.state
 
@@ -403,7 +374,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    handleFilter(filter) {
+    handleFilter = (filter) => {
         const { onFilter } = this.props
 
         if (onFilter) {
@@ -502,7 +473,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    openAllRows() {
+    openAllRows = () => {
         const { data } = this.props
         const keys = []
         const getKeys = array => map(array, (item) => {
@@ -518,19 +489,19 @@ class AdvancedTable extends Component {
         })
     }
 
-    closeAllRows() {
+    closeAllRows = () => {
         this.setState({
             expandedRowKeys: [],
         })
     }
 
-    handleExpandedRowsChange(rows) {
+    handleExpandedRowsChange = (rows) => {
         this.setState({
             expandedRowKeys: rows,
         })
     }
 
-    checkAll(status) {
+    checkAll = (status) => {
         const { onSetSelection, multi, data } = this.props
         const { checked } = this.state
         const newChecked = {}
@@ -548,12 +519,11 @@ class AdvancedTable extends Component {
             newChecked[value] = status
         })
         this.setState(() => ({
-            checkedAll: !status,
             checked: newChecked,
         }))
     }
 
-    handleChangeChecked(index) {
+    handleChangeChecked = (index) => {
         const { onSetSelection, data, multi } = this.props
         const { checked } = this.state
         let newMulti = multi || []
@@ -619,7 +589,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    handleEdit(value, index, id) {
+    handleEdit = (value, index, id) => {
         const { onEdit } = this.props
         const { data } = this.state
 
@@ -630,7 +600,7 @@ class AdvancedTable extends Component {
         onEdit(value, index, id)
     }
 
-    getRowProps(model, index) {
+    getRowProps = (model, index) => {
         const {
             rowClick,
             rowClass,
@@ -708,12 +678,9 @@ class AdvancedTable extends Component {
         }
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getRowKey(row) {
-        return row.key
-    }
+    getRowKey = row => row.key
 
-    renderIcon({ record, expanded, onExpand }) {
+    renderIcon = ({ record, expanded, onExpand }) => {
         const { expandedFieldId, expandedComponent } = this.props
 
         return (
@@ -727,7 +694,7 @@ class AdvancedTable extends Component {
         )
     }
 
-    renderExpandedRow() {
+    renderExpandedRow = () => {
         const { expandable, expandedComponent, expandedFieldId } = this.props
 
         return (
@@ -749,7 +716,7 @@ class AdvancedTable extends Component {
         )
     }
 
-    mapColumns(columns = []) {
+    mapColumns = (columns = []) => {
         const { rowSelection, filters, textWrap } = this.props
         let newColumns = columns
 
@@ -778,10 +745,7 @@ class AdvancedTable extends Component {
         return newColumns
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getScroll() {
-        return { x: false, y: false }
-    }
+    getScroll = () => ({ x: false, y: false })
 
     render() {
         const {

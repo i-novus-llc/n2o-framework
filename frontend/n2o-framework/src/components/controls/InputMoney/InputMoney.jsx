@@ -90,10 +90,9 @@ class InputMoney extends React.Component {
         this.setState({ value: convertedValue })
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    replaceSpecialSymbol(value, searchValue, replaceValue) {
-        return value.replace(searchValue, replaceValue)
-    }
+    replaceSpecialSymbol = (value, searchValue, replaceValue) => (
+        value.replace(searchValue, replaceValue)
+    )
 
     convertToFloat(value) {
         const {

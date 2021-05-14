@@ -87,8 +87,7 @@ class Alert extends React.Component {
         )
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    formatDetailes(details) {
+    formatDetailes = (details) => {
         if (isArray(details)) {
             return map(details, d => (
                 <>

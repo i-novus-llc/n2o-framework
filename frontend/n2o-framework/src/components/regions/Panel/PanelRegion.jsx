@@ -53,8 +53,7 @@ class PanelRegion extends React.Component {
         this.getPanelsWithAccess()
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getContent(meta) {
+    getContent = (meta) => {
         const content = isArray(meta) ? meta : [meta]
 
         return <RegionContent content={content} />

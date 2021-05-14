@@ -177,7 +177,6 @@ describe('<DateTimeControl />', () => {
         ).toBe('21.01.1927')
     })
 
-    // eslint-disable-next-line sonarjs/no-identical-functions
     it('устанавливает value', () => {
         const { wrapper } = setup({
             value: '11/11/1111',

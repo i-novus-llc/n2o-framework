@@ -54,13 +54,11 @@ class TextEditor extends Component {
         }
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    convertToHtml(editorState) {
-        return draftToHtml(convertToRaw(editorState.getCurrentContent()))
-    }
+    convertToHtml = editorState => (
+        draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    )
 
-    // eslint-disable-next-line class-methods-use-this
-    convertToEditorState(value) {
+    convertToEditorState = (value) => {
         const contentBlock = htmlToDraft(value)
 
         if (contentBlock) {

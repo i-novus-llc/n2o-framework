@@ -41,8 +41,7 @@ class Pagination extends React.Component {
      * @param onSelect
      * @returns {Array} - вовзращает список кнопок
      */
-    // eslint-disable-next-line class-methods-use-this
-    renderBodyPaging(activePage, pages, maxButtons, stepIncrement, onSelect) {
+    renderBodyPaging = (activePage, pages, maxButtons, stepIncrement, onSelect) => {
         const pageButtons = []
 
         let startPage
