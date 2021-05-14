@@ -68,7 +68,7 @@ function withOverlayMethods(WrappedComponent) {
             return (
                 <WrappedComponent
                     {...this.props}
-                    headerTitle={get(this.props, 'metadata.page.headerTitle', '')}
+                    title={get(this.props, 'metadata.page.title', '')}
                     closeOverlay={this.closeOverlay}
                     renderFromSrc={this.renderFromSrc}
                 />
