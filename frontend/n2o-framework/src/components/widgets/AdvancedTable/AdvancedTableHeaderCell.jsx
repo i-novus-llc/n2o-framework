@@ -1,14 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { pure } from 'recompose'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
-import cn from 'classnames'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Resizable } from 'react-resizable'
 
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 
+// eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilter from './AdvancedTableFilter'
 
 /**
@@ -41,12 +42,12 @@ class AdvancedTableHeaderCell extends Component {
     }
 
     renderMultiCell() {
-        const { colSpan, rowSpan, className, id, label, sorting } = this.props
+        const { colSpan, rowSpan, className, id, label, sorting, component } = this.props
 
         return (
             <th
                 title={label}
-                className={cn(
+                className={classNames(
                     'n2o-advanced-table-header-cel',
                     'n2o-advanced-table-header-text-center',
                     className,
@@ -54,7 +55,7 @@ class AdvancedTableHeaderCell extends Component {
                 colSpan={colSpan}
                 rowSpan={rowSpan}
             >
-                {React.createElement(this.props.component, {
+                {React.createElement(component, {
                     ...this.props,
                     sorting: sorting && sorting[id],
                 })}
@@ -67,7 +68,7 @@ class AdvancedTableHeaderCell extends Component {
 
         return (
             <th
-                className={cn(
+                className={classNames(
                     'n2o-advanced-table-header-cel',
                     'n2o-advanced-table-header-text-center',
                     className,
@@ -121,14 +122,14 @@ class AdvancedTableHeaderCell extends Component {
                 rowSpan={rowSpan}
                 colSpan={colSpan}
                 style={style}
-                className={cn('n2o-advanced-table-header-cel', {
+                className={classNames('n2o-advanced-table-header-cel', {
                     [selectionClass]: selectionHead,
                     'n2o-advanced-table-header-text-center': multiHeader,
                     'd-none': !get(children, 'props.needRender', true),
                 })}
             >
                 <div
-                    className={cn('n2o-advanced-table-header-cell-content', className)}
+                    className={classNames('n2o-advanced-table-header-cell-content', className)}
                 >
                     {icon && <Icon name={icon} />}
                     {filterable ? (
@@ -171,22 +172,26 @@ class AdvancedTableHeaderCell extends Component {
 }
 
 AdvancedTableHeaderCell.propTypes = {
+    as: PropTypes.any,
+    icon: PropTypes.string,
+    filterable: PropTypes.bool,
+    filters: PropTypes.any,
+    style: PropTypes.any,
+    component: PropTypes.any,
+    colSpan: PropTypes.any,
+    rowSpan: PropTypes.any,
     children: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.string,
         PropTypes.object,
     ]),
     className: PropTypes.string,
-    columnId: PropTypes.string,
-    dataIndex: PropTypes.string,
     id: PropTypes.string,
-    index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.string,
     multiHeader: PropTypes.bool,
-    onCell: PropTypes.func,
     onFilter: PropTypes.func,
-    onHeaderCell: PropTypes.func,
     onResize: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
     onSort: PropTypes.func,
     sorting: PropTypes.object,
     title: PropTypes.oneOfType([

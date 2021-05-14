@@ -6,7 +6,7 @@ import isNil from 'lodash/isNil'
 import Badge from 'reactstrap/lib/Badge'
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 
 export const visiblePartPopup = (
     item,

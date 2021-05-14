@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
@@ -6,8 +7,8 @@ import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 
 import propsResolver from '../../../../../utils/propsResolver'
-import Image from '../../../../snippets/Image/Image'
-import ImageInfo from '../../../../snippets/Image/ImageInfo'
+import { Image } from '../../../../snippets/Image/Image'
+import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses'
 
 /**
@@ -105,3 +106,19 @@ export default connect(
     mapStateToProps,
     null,
 )(ImageField)
+
+ImageField.propTypes = {
+    id: PropTypes.string,
+    url: PropTypes.string,
+    data: PropTypes.array,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    textPosition: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    visible: PropTypes.bool,
+    model: PropTypes.object,
+    className: PropTypes.string,
+    statuses: PropTypes.array,
+    shape: PropTypes.string,
+}

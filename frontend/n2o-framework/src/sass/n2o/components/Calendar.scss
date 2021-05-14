@@ -30,6 +30,7 @@
         flex-grow: 1;
         align-items: stretch;
 
+        /* stylelint-disable-next-line no-descending-specificity */
         .n2o-calendar-body-item {
             font-size: 0.8rem;
             padding: 3px;
@@ -104,8 +105,8 @@
 
 .n2o-calendar-time-container {
     text-align: center;
-    margin: auto;
-    margin-top: 10px;
+    margin: 10px auto 0;
+    //  margin-top: 10px;
     bottom: 5px;
     display: table;
 }

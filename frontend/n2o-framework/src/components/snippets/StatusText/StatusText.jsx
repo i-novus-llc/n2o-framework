@@ -13,9 +13,7 @@ import { statusTextContainerStyle, statusTextIconStyle } from './utils'
  * <StatusText text={'Test text'} className={'test-class'} color={'success'}/>
  */
 
-function StatusText(props) {
-    const { text, textPosition, className, color } = props
-
+export function StatusText({ text, textPosition, className, color }) {
     return (
         <div className={statusTextContainerStyle(textPosition, className)}>
             {color && <span className={statusTextIconStyle(textPosition, color)} />}
@@ -26,16 +24,17 @@ function StatusText(props) {
 
 StatusText.propTypes = {
     /**
-   * текст статуса
-   */
+     * текст статуса
+     */
     text: PropTypes.string,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
+    textPosition: PropTypes.string,
     /**
-   * Цвет иконки статуса
-   */
+     * Цвет иконки статуса
+     */
     color: PropTypes.oneOf([
         'primary',
         'secondary',

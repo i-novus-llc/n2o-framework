@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { compose, withHandlers, withState, lifecycle } from 'recompose'
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 
@@ -31,7 +31,7 @@ function UserBox({
 }) {
     return (
         <div
-            className={cn('n2o-user-box', {
+            className={classNames('n2o-user-box', {
                 'n2o-user-box--compressed': compressed,
                 'pb-0': isOpen,
             })}
@@ -58,11 +58,12 @@ function UserBox({
             {!compressed && (
                 <>
                     <button
+                        type="button"
                         onClick={onToggle}
                         className="n2o-user-box__title pl-2 pr-2 text-center"
                     >
                         <span
-                            className={cn({
+                            className={classNames({
                                 'n2o-user-box__title--chevron': children,
                                 'n2o-user-box__title--chevron-up': isOpen,
                             })}

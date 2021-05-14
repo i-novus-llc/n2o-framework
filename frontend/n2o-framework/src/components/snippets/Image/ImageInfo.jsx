@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
  * @reactProps {string} description
  */
 
-export default function ImageInfo({ title, description }) {
+export function ImageInfo({ title, description }) {
     return (
         <section className="n2o-image__info">
             {title && <h4 className="n2o-image__info_label">{title}</h4>}
@@ -20,11 +20,13 @@ export default function ImageInfo({ title, description }) {
 
 ImageInfo.propTypes = {
     /**
-   * title
-   */
+     * title
+     */
     title: PropTypes.string,
     /**
-   * description
-   */
+     * description
+     */
     description: PropTypes.string,
 }
+
+export default ImageInfo

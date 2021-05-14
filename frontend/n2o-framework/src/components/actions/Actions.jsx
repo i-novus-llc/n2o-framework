@@ -139,10 +139,10 @@ class Actions extends React.Component {
     // eslint-disable-next-line consistent-return
     mapButtonConfirmProps({ confirm }) {
         if (confirm) {
-            // eslint-disable-next-line react/destructuring-assignment
-            const store = this.context.store.getState()
+            const { store } = this.context
+            const state = store.getState()
             const { modelLink, text } = confirm
-            const resolvedText = linkResolver(store, {
+            const resolvedText = linkResolver(state, {
                 link: modelLink,
                 value: text,
             })

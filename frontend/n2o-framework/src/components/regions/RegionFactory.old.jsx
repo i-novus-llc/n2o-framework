@@ -7,17 +7,16 @@ import { connect } from 'react-redux'
 
 import Regions from './index'
 
-class Region extends React.Component {
-    render() {
-        const { src, ...props } = this.props
+function Region({ src, ...props }) {
+    const { children } = props
 
-        return React.createElement(Regions[src], props, this.props.children)
-    }
+    return React.createElement(Regions[src], props, children)
 }
 
 Region.propTypes = {
     src: PropTypes.string.isRequired,
     containers: PropTypes.object,
+    children: PropTypes.any,
 }
 
 function mapDispatchToProps(dispatch) {

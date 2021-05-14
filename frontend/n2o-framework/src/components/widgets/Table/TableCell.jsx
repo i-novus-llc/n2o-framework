@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import getElementType from '../../../tools/getElementType'
 
@@ -52,7 +52,7 @@ class TableCell extends React.Component {
 
         return (
             <ElementType
-                className={cn(className, { 'hide-on-blur': hideOnBlur })}
+                className={classNames(className, { 'hide-on-blur': hideOnBlur })}
                 colSpan={colSpan}
                 style={style}
             >
@@ -73,6 +73,7 @@ TableCell.propTypes = {
     children: PropTypes.node,
     /* Specific props */
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+    // eslint-disable-next-line react/no-unused-prop-types
     as: PropTypes.string,
     model: PropTypes.object,
     colSpan: PropTypes.number,

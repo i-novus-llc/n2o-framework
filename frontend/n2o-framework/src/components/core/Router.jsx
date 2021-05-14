@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import history from '../../history'
 
 import Route from './Route'
+// eslint-disable-next-line import/no-named-as-default
 import Page from './Page'
 
 const errorStyle = {
@@ -27,8 +28,10 @@ function Router({ embeddedRouting, children }) {
     if (!embeddedRouting && !React.Children.count(children)) {
         return (
             <div style={errorStyle}>
+                {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
                 <p>
-&#9888;
+                    &#9888;
+                    {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
                     {t('pagesNotConfigured')}
 .
                 </p>
@@ -43,6 +46,7 @@ function Router({ embeddedRouting, children }) {
         )
     }
 
+    // noinspection JSCheckFunctionSignatures
     return (
         <ConnectedRouter history={history}>
             <Switch>

@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { call, put, select, takeEvery } from '@redux-saga/core/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 import get from 'lodash/get'
 import filter from 'lodash/filter'
 import every from 'lodash/every'

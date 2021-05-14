@@ -68,7 +68,10 @@ function withListContainer(WrappedComponent) {
 
         const handleOpen = () => {
             callApiWithParams({ page: 1 })
-            onOpen && onOpen()
+
+            if (onOpen) {
+                onOpen()
+            }
         }
 
         /**
@@ -96,7 +99,9 @@ function withListContainer(WrappedComponent) {
      */
 
         const handleInputChange = (value) => {
-            onInput && onInput(value)
+            if (onInput) {
+                onInput(value)
+            }
         }
 
         /**
@@ -105,13 +110,12 @@ function withListContainer(WrappedComponent) {
      */
 
         const handleScrollEnd = throttle((filter = {}) => {
-            if (page && size && count) {
-                if (page * size < count) {
-                    callApiWithParams({ page: page + 1, ...filter }, true)
-                }
+            if ((page && size && count) && (page * size < count)) {
+                callApiWithParams({ page: page + 1, ...filter }, true)
             }
-
-            onScrollEnd && onScrollEnd()
+            if (onScrollEnd) {
+                onScrollEnd()
+            }
         }, 400)
 
         /**
@@ -138,14 +142,21 @@ function withListContainer(WrappedComponent) {
     WithListContainer.propTypes = {
         loading: PropTypes.bool,
         queryId: PropTypes.string,
+        sortFieldId: PropTypes.string,
+        valueFieldId: PropTypes.string,
         size: PropTypes.number,
         labelFieldId: PropTypes.string,
         fetchData: PropTypes.func,
+        _fetchData: PropTypes.func,
         options: PropTypes.array,
+        data: PropTypes.array,
         onOpen: PropTypes.func,
         onInput: PropTypes.func,
         onScrollEnd: PropTypes.func,
         quickSearchParam: PropTypes.string,
+        dataProvider: PropTypes.object,
+        page: PropTypes.number,
+        count: PropTypes.number,
     }
 
     WithListContainer.defaultProps = {

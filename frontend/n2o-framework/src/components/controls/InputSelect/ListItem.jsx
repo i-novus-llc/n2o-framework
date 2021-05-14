@@ -5,7 +5,7 @@ import Badge from 'reactstrap/lib/Badge'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
 import CheckboxN2o from '../Checkbox/CheckboxN2O'
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 import propsResolver from '../../../utils/propsResolver'
 
 /**

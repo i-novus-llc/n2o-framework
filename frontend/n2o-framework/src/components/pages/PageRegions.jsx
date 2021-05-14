@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { map } from 'lodash'
 
 import { REGIONS } from '../../core/factory/factoryLevels'
+// eslint-disable-next-line import/no-named-as-default
 import Factory from '../../core/factory/Factory'
 
 /**

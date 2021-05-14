@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import SnippetRating from '../../snippets/SnippetRating/SnippetRating'
+import { SnippetRating } from '../../snippets/SnippetRating/SnippetRating'
 
 const Rating = ({
     value,

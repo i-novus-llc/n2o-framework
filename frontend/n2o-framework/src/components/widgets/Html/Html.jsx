@@ -33,6 +33,7 @@ const Html = (props) => {
     return (
         !loading && (
             <div
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
                     __html: html && data ? replacePlaceholders(html, data) : html,
                 }}

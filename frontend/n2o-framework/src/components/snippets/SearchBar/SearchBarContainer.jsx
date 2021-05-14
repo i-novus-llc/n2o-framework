@@ -1,26 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isUndefined from 'lodash/isUndefined'
-import { compose, lifecycle } from 'recompose'
 
 import listContainer from '../../controls/listContainer'
 
+// eslint-disable-next-line import/no-named-as-default
 import SearchBar from './SearchBar'
 
-function SearchBarContainer(props) {
-    const {
-        data,
-        trigger,
-        onSearch,
-        button,
-        icon,
-        directionIconsInPopUp,
-        descrFieldId,
-        iconFieldId,
-        labelFieldId,
-        urlFieldId,
-    } = props
-
+function SearchBarContainer({
+    data,
+    trigger,
+    onSearch,
+    button,
+    icon,
+    directionIconsInPopUp,
+    descrFieldId,
+    iconFieldId,
+    labelFieldId,
+    urlFieldId,
+    _fetchData,
+}) {
     return (
         <SearchBar
             descriptionFieldId={descrFieldId}
@@ -30,7 +28,7 @@ function SearchBarContainer(props) {
             menu={data}
             trigger={trigger}
             onSearch={onSearch}
-            onFocus={() => props._fetchData()}
+            onFocus={() => _fetchData()}
             button={button}
             icon={icon}
             directionIconsInPopUp={directionIconsInPopUp}
@@ -48,13 +46,22 @@ SearchBarContainer.defaultProps = {
 
 SearchBarContainer.propTypes = {
     /**
-   * данные в popUp(ссылки), при наличии dataProvider
-   */
+     * данные в popUp(ссылки), при наличии dataProvider
+     */
     data: PropTypes.array,
     /**
-   * Направление иконок ссылок в popUp
-   */
+     * Направление иконок ссылок в popUp
+     */
     directionIconsInPopUp: PropTypes.string,
+    icon: PropTypes.string,
+    urlFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    descrFieldId: PropTypes.string,
+    iconFieldId: PropTypes.string,
+    _fetchData: PropTypes.func,
+    onSearch: PropTypes.func,
+    trigger: PropTypes.any,
+    button: PropTypes.any,
 }
 
-export default compose(listContainer)(SearchBarContainer)
+export default listContainer(SearchBarContainer)

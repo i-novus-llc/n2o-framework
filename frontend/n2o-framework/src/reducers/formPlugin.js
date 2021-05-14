@@ -64,7 +64,6 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
         state.registeredFields[payload.name] =
       state.registeredFields[payload.name] || {}
     }
-    // eslint-disable-next-line default-case
     switch (type) {
         case REGISTER_FIELD_EXTRA: {
             const initialState = merge(defaultState, payload.initialState || {})
@@ -140,6 +139,7 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
         case SHOW_FIELDS: {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
+
                 // показываем поля только если у них нет своего условия на видимость
                 if (
                     field.dependency &&
@@ -172,6 +172,7 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
         case ENABLE_FIELDS: {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
+
                 // поля доступны только если у них нет своего условия на доступность
                 if (
                     field.dependency &&
@@ -206,6 +207,9 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
 
             break
         }
+
+        default:
+            break
     }
 }, defaultState)
 

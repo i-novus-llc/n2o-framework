@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { batchActions } from 'redux-batched-actions'
 import PropTypes from 'prop-types'
-import { compose, withProps, pure } from 'recompose'
+import { compose, pure } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import pathToRegexp from 'path-to-regexp'
 import filter from 'lodash/filter'
@@ -91,15 +91,21 @@ const withMetadata = (Component) => {
         }
 
         isEqualPageId(prevProps) {
-            return this.props.pageId === prevProps.pageId
+            const { pageId } = this.props
+
+            return pageId === prevProps.pageId
         }
 
         isEqualPageUrl(prevProps) {
-            return this.props.pageUrl === prevProps.pageUrl
+            const { pageUrl } = this.props
+
+            return pageUrl === prevProps.pageUrl
         }
 
         isEqualLocation(prevProps) {
-            return isEqual(this.props.location, prevProps.location)
+            const { location } = this.props
+
+            return isEqual(location, prevProps.location)
         }
 
         getPropsToPass() {
@@ -146,7 +152,9 @@ const withMetadata = (Component) => {
 
     function mapDispatchToProps(dispatch) {
         return {
-            getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
+            getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(metadataRequest(
+                pageId, rootPage, pageUrl, pageMapping,
+            )),
             reset: pageId => dispatch(batchActions([resetPage(pageId)])),
             routeMap: pageId => dispatch(mapUrl(pageId)),
         }

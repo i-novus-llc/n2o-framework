@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import Button from 'reactstrap/lib/Button'
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 
+// eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
 import SecurityCheck from '../../../../../core/auth/SecurityCheck'
 
@@ -78,7 +79,7 @@ HintButton.propTypes = {
     hint: PropTypes.string,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
-    id: PropTypes.string,
+    uId: PropTypes.string,
     size: PropTypes.string,
     color: PropTypes.string,
     placement: PropTypes.oneOf([
@@ -98,12 +99,14 @@ HintButton.propTypes = {
         'left-start',
         'left-end',
     ]),
-    delay: PropTypes.oneOfType([
-        PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-        PropTypes.number,
-    ]),
+    delay: PropTypes.oneOfType([PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }), PropTypes.number]),
     hideArrow: PropTypes.bool,
     offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    icon: PropTypes.string,
+    onClick: PropTypes.func,
+    action: PropTypes.object,
+    security: PropTypes.object,
+    hintPosition: PropTypes.string,
 }
 
 HintButton.defaultProps = {

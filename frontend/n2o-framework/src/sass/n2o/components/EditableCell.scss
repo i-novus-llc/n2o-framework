@@ -3,16 +3,16 @@
     min-width: 182px;
 }
 
-.table-hover .table-active:hover,
-.table-hover tbody tr:hover {
-    .editable-cell-empty {
-        background-color: #fff;
-    }
-}
-
 .editable-cell-empty:hover {
     background-color: #fff;
     transition: 0.3s;
+}
+
+.table-hover tbody tr:hover,
+.table-hover .table-active:hover {
+    .editable-cell-empty {
+        background-color: #fff;
+    }
 }
 
 .n2o-editable-cell {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import Button from 'reactstrap/lib/Button'
 
@@ -46,13 +46,13 @@ function ImageUpload(props) {
     return (
         <div>
             <div
-                className={cn('n2o-image-uploader-container', {
+                className={classNames('n2o-image-uploader-container', {
                     [componentClassContainer]: componentClass,
                 })}
             >
                 {!disabled && (
                     <Dropzone
-                        className={cn('n2o-image-uploader-control', componentClass, {
+                        className={classNames('n2o-image-uploader-control', componentClass, {
                             'd-none': !showControl,
                             [className]: className,
                             [uploaderClass]: uploaderClass,

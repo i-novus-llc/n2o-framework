@@ -1,18 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xmlns:java="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
-    <name>testJavaInvocationValidation</name>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0" name="testJavaInvocationValidation">
 
-    <actions>
-        <action id="create">
+    <operations>
+        <operation id="create">
             <invocation>
-                <java:java class="test" method="test">
-                    <java:arguments>
-                        <java:argument name="second" type="class"/>
-                    </java:arguments>
-                </java:java>
+                <java class="test" method="test">
+                    <arguments>
+                        <argument name="second" type="class"/>
+                    </arguments>
+                </java>
             </invocation>
-        </action>
-    </actions>
+        </operation>
+    </operations>
 
 </object>

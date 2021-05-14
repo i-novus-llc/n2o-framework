@@ -14,7 +14,7 @@ import Collapse from 'reactstrap/lib/Collapse'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 
-import NavbarBrandContent from './NavbarBrandContent'
+import { NavbarBrandContent } from './NavbarBrandContent'
 import NavItemContainer from './NavItemContainer'
 
 /**
@@ -94,12 +94,14 @@ class SimpleHeader extends React.Component {
     }
 
     toggle() {
+        const { isOpen } = this.state
+
         this.setState({
-            isOpen: !this.state.isOpen,
+            isOpen: !isOpen,
         })
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         const { width } = this.props
 
         if (width !== prevProps.width && width >= 992) {
@@ -108,7 +110,7 @@ class SimpleHeader extends React.Component {
     }
 
     render() {
-        let {
+        const {
             color,
             fixed,
             items,
@@ -116,11 +118,12 @@ class SimpleHeader extends React.Component {
             extraItems,
             brandImage,
             brand,
-            style,
             className,
             search,
             homePageUrl,
         } = this.props
+        let { style } = this.props
+        const { isOpen } = this.state
 
         const isInversed = color === 'inverse'
         const navColor = isInversed ? 'primary' : 'light'
@@ -172,9 +175,9 @@ class SimpleHeader extends React.Component {
                     )}
                     {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
                     <Collapse
-                        isOpen={this.state.isOpen}
+                        isOpen={isOpen}
                         className={classNames({
-                            'n2o-navbar-collapse-open': this.state.isOpen,
+                            'n2o-navbar-collapse-open': isOpen,
                         })}
                         navbar
                     >
@@ -184,7 +187,7 @@ class SimpleHeader extends React.Component {
                         <Nav className="ml-auto main-nav-extra" navbar>
                             {extraNavItems}
                             {search && (
-                                <SearchBarContainer trigger={trigger} {...this.props.search} />
+                                <SearchBarContainer trigger={trigger} {...search} />
                             )}
                         </Nav>
                     </Collapse>
@@ -196,20 +199,20 @@ class SimpleHeader extends React.Component {
 
 SimpleHeader.propTypes = {
     /**
-   * ID активного элемента
-   */
+     * ID активного элемента
+     */
     activeId: PropTypes.string,
     /**
-   * Бренд хедера
-   */
+     * Бренд хедера
+     */
     brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     /**
-   * Картинка бренда
-   */
+     * Картинка бренда
+     */
     brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     /**
-   * Элементы хедера
-   */
+     * Элементы хедера
+     */
     items: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -224,8 +227,8 @@ SimpleHeader.propTypes = {
         }),
     ),
     /**
-   * Extra элементы хедера
-   */
+     * Extra элементы хедера
+     */
     extraItems: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -240,37 +243,38 @@ SimpleHeader.propTypes = {
         }),
     ),
     /**
-   * Строка поиска
-   */
+     * Строка поиска
+     */
     search: PropTypes.bool,
     /**
-   * Адрес ссылка бренда
-   */
+     * Адрес ссылка бренда
+     */
     homePageUrl: PropTypes.string,
     /**
-   * Цвет хедера
-   */
+     * Цвет хедера
+     */
     color: PropTypes.oneOf(['inverse', 'default']),
     /**
-   * Флаг фиксированного хедера
-   */
+     * Флаг фиксированного хедера
+     */
     fixed: PropTypes.bool,
     /**
-   * Флаг сжатости хедера
-   */
+     * Флаг сжатости хедера
+     */
     collapsed: PropTypes.bool,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Включение показа контрола смены локализации
-   */
+     * Включение показа контрола смены локализации
+     */
     localeSelect: PropTypes.bool,
+    width: PropTypes.number,
 }
 
 SimpleHeader.defaultProps = {
@@ -284,7 +288,6 @@ SimpleHeader.defaultProps = {
     search: false,
     style: {},
     localeSelect: false,
-    list: [],
 }
 
 export default withResizeDetector(SimpleHeader, {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { compose, withHandlers, withProps } from 'recompose'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
@@ -26,6 +25,7 @@ export const withWidgetContainer = widgetContainer(
             resolveModel: props.resolveModel,
             onResolve: (newModel) => {
                 props.onResolve(newModel)
+                // eslint-disable-next-line eqeqeq
                 if (props.selectedId != newModel.id) {
                     props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
                 }
@@ -80,6 +80,8 @@ export const withWidgetHandlers = withHandlers({
             rowClick,
             dispatch,
         } = props
+
+        // eslint-disable-next-line eqeqeq
         const value = filter(datasource, data => some(keys, key => key == data[valueFieldId]))
 
         if (multiselect) {

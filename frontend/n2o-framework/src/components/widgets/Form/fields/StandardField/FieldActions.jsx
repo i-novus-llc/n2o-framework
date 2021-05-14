@@ -9,7 +9,8 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
 const FieldActions = ({ actions }) => (
     <div>
         {actions.map((action, i) => (
-            <button key={i}>action.label</button>
+            // eslint-disable-next-line react/no-array-index-key
+            <button type="button" key={i}>action.label</button>
         ))}
     </div>
 )

@@ -1,4 +1,3 @@
-import React from 'react'
 import { getFormValues } from 'redux-form'
 
 import { exportFormName } from '../../../components/widgets/Table/ExportModal'
@@ -15,11 +14,12 @@ import { destroyOverlay } from '../../../actions/overlays'
  * @returns {string}
  */
 export function encodeQueryData(data) {
-    const ret = []
+    const ret = Object
+        .entries(data)
+        .reduce((acc, [key, value]) => [...acc, `${encodeURIComponent(key)}=${encodeURIComponent(value)}`], [])
+        .join('&')
 
-    for (const d in data) { ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`) }
-
-    return `/export?${ret.join('&')}`
+    return `/export?${ret}`
 }
 
 /**

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import cn from 'classnames'
+import classNames from 'classnames'
 import ReactDom from 'react-dom'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
@@ -45,22 +45,22 @@ class List extends Component {
             defaultHeight: 90,
         })
 
-        this._scrollTimeoutId = null
+        this.scrollTimeoutId = null
 
         this.renderRow = this.renderRow.bind(this)
         this.onItemClick = this.onItemClick.bind(this)
         this.fetchMore = this.fetchMore.bind(this)
         this.onScroll = this.onScroll.bind(this)
         this.setListContainerRef = this.setListContainerRef.bind(this)
-        this._setVirtualizerRef = this._setVirtualizerRef.bind(this)
-        this._setWindowScrollerRef = this._setWindowScrollerRef.bind(this)
+        this.setVirtualizerRef = this.setVirtualizerRef.bind(this)
+        this.setWindowScrollerRef = this.setWindowScrollerRef.bind(this)
     }
 
     componentDidMount() {
         const { fetchOnScroll, authProvider, rows } = this.props
 
         if (fetchOnScroll) {
-            this._listContainer.addEventListener('scroll', this.onScroll, true)
+            this.listContainer.addEventListener('scroll', this.onScroll, true)
         }
 
         if (!isEmpty(rows)) {
@@ -88,9 +88,10 @@ class List extends Component {
 
             if (hasMoreButton && !fetchOnScroll && !isEqual(prevProps.data, data)) {
                 if (maxHeight) {
-                    this._virtualizer.scrollToRow(data.length)
+                    this.virtualizer.scrollToRow(data.length)
                 } else {
-                    const virtualizer = ReactDom.findDOMNode(this._virtualizer)
+                    // eslint-disable-next-line react/no-find-dom-node
+                    const virtualizer = ReactDom.findDOMNode(this.virtualizer)
 
                     if (virtualizer) {
                         window.scrollTo(0, virtualizer.scrollHeight)
@@ -113,11 +114,12 @@ class List extends Component {
             }
 
             this.setState(state, () => {
-                if (this._virtualizer) {
-                    this._virtualizer.forceUpdateGrid()
+                if (this.virtualizer) {
+                    // noinspection JSUnresolvedFunction
+                    this.virtualizer.forceUpdateGrid()
                 }
 
-                this._resizeAll()
+                this.resizeAll()
             })
         }
 
@@ -134,20 +136,20 @@ class List extends Component {
         const { fetchOnScroll } = this.props
 
         if (fetchOnScroll) {
-            this._listContainer.removeEventListener('scroll', this.onScroll)
+            this.listContainer.removeEventListener('scroll', this.onScroll)
         }
     }
 
     setListContainerRef(el) {
-        this._listContainer = el
+        this.listContainer = el
     }
 
-    _setWindowScrollerRef(el) {
-        this._windowScroller = el
+    setWindowScrollerRef(el) {
+        this.windowScroller = el
     }
 
-    _setVirtualizerRef(el) {
-        this._virtualizer = el
+    setVirtualizerRef(el) {
+        this.virtualizer = el
     }
 
     onItemClick(index, runCallback = true) {
@@ -155,8 +157,9 @@ class List extends Component {
 
         if (!rowClick && hasSelect) {
             this.setState({ selectedIndex: index }, () => {
-                if (this._virtualizer) {
-                    this._virtualizer.forceUpdateGrid()
+                if (this.virtualizer) {
+                    // noinspection JSUnresolvedFunction
+                    this.virtualizer.forceUpdateGrid()
                 }
             })
         }
@@ -171,9 +174,9 @@ class List extends Component {
     }
 
     onScroll(event) {
-        clearTimeout(this._scrollTimeoutId)
+        clearTimeout(this.scrollTimeoutId)
 
-        this._scrollTimeoutId = setTimeout(() => {
+        this.scrollTimeoutId = setTimeout(() => {
             const scrollPosition = event.target.scrollTop + event.target.clientHeight
             const minScrollToLoad = event.target.scrollHeight - SCROLL_OFFSET
 
@@ -186,10 +189,11 @@ class List extends Component {
         }, 300)
     }
 
-  _resizeAll = () => {
+  resizeAll = () => {
       this.cache.clearAll()
-      if (this._virtualizer) {
-          this._virtualizer.recomputeRowHeights()
+      if (this.virtualizer) {
+          // noinspection JSUnresolvedFunction
+          this.virtualizer.recomputeRowHeights()
       }
   };
 
@@ -201,7 +205,7 @@ class List extends Component {
           hasSelect,
           rows,
       } = this.props
-      const { data, permissions } = this.state
+      const { data, permissions, selectedIndex } = this.state
       const moreBtn = null
 
       if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
@@ -233,7 +237,7 @@ class List extends Component {
                       key={key}
                       style={style}
                       divider={divider}
-                      selected={this.state.selectedIndex === index}
+                      selected={selectedIndex === index}
                       onClick={() => this.onItemClick(index, isEmpty(rows) || permissions)
                       }
                   />
@@ -250,7 +254,7 @@ class List extends Component {
       return (
           <div
               ref={this.setListContainerRef}
-              className={cn('n2o-widget-list', className)}
+              className={classNames('n2o-widget-list', className)}
           >
               {(!data || isEmpty(data)) && (
                   <div className="n2o-widget-list--empty-view text-muted">
@@ -263,7 +267,7 @@ class List extends Component {
                           <AutoSizer style={{ height: '100%' }}>
                               {({ width }) => (
                                   <Virtualizer
-                                      ref={this._setVirtualizerRef}
+                                      ref={this.setVirtualizerRef}
                                       width={width}
                                       height={maxHeight}
                                       deferredMeasurementCache={this.cache}
@@ -276,20 +280,19 @@ class List extends Component {
                           </AutoSizer>
                       ) : (
                           <WindowScroller
-                              ref={this._setWindowScrollerRef}
+                              ref={this.setWindowScrollerRef}
                               scrollElement={window}
                           >
                               {({
                                   height,
                                   isScrolling,
-                                  registerChild,
                                   onChildScroll,
                                   scrollTop,
                               }) => (
                                   <AutoSizer style={{ height: '100%' }}>
                                       {({ width }) => (
                                           <Virtualizer
-                                              ref={this._setVirtualizerRef}
+                                              ref={this.setVirtualizerRef}
                                               autoHeight
                                               height={height}
                                               isScrolling={isScrolling}
@@ -363,6 +366,7 @@ List.propTypes = {
    * Функция проверки security
    */
     authProvider: PropTypes.func,
+    t: PropTypes.func,
 }
 List.defaultProps = {
     onItemClick: () => {},

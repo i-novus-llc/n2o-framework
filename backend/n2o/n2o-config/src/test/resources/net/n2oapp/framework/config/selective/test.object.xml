@@ -1,26 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:sql="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0"
-        xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xsi:schemaLocation="http://n2oapp.net/framework/config/schema/object-2.0 http://localhost:8080/n2o/config/schema/object/object-1.0.xsd">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Человек">
 
-    <name>Человек</name>
-
-    <actions>
-        <action id="create" name="Создать">
+    <operations>
+        <operation id="create" name="Создать">
             <invocation>
-                <sql:sql>
+                <sql>
                     test_sql
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="name" mapping="['name']"/>
-                <param name="patrName" mapping="['patrName']"/>
-                <param name="birthday" mapping="['birthday']"/>
-                <param name="gender.id" mapping="['genderId']"/>
-            </in-parameters>
-        </action>
-    </actions>
+            <in>
+                <field id="name" mapping="['name']"/>
+                <field id="patrName" mapping="['patrName']"/>
+                <field id="birthday" mapping="['birthday']"/>
+                <field id="gender.id" mapping="['genderId']"/>
+            </in>
+        </operation>
+    </operations>
 
 
 </object>

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
         xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
-    <actions>
-        <action id="create" sec:permit-all="true" sec:authenticated="true"
+    <operations>
+        <operation id="create" sec:permit-all="true" sec:authenticated="true"
                 sec:denied="false" sec:anonymous="false" sec:roles="role1,role2"
                 sec:usernames="user1" sec:permissions="p1,p2,  p3">
-        </action>
-    </actions>
+        </operation>
+    </operations>
 
 </object>

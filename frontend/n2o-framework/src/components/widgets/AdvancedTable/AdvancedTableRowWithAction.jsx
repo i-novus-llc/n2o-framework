@@ -2,7 +2,7 @@ import React from 'react'
 import { pure } from 'recompose'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import evalExpression from '../../../utils/evalExpression'
 
@@ -24,7 +24,7 @@ function AdvancedTableRowWithAction(props) {
         clickFocusWithAction,
     } = props
 
-    const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
+    const classes = classNames(className, 'n2o-table-row n2o-advanced-table-row', {
         'table-active': isRowActive,
         'row-click':
       (rowClick && evalExpression(rowClick.enablingCondition, model)) ||
@@ -48,6 +48,10 @@ function AdvancedTableRowWithAction(props) {
 }
 
 AdvancedTableRowWithAction.propTypes = {
+    clickFocusWithAction: PropTypes.func,
+    clickWithAction: PropTypes.func,
+    rowClick: PropTypes.func,
+    rowClass: PropTypes.string,
     className: PropTypes.string,
     isRowActive: PropTypes.bool,
     setRef: PropTypes.func,

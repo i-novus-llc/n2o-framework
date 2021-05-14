@@ -35,7 +35,6 @@ const createRegionContainer = config => (WrappedComponent) => {
                 const {
                     dispatch,
                     id,
-                    isInit,
                     activeEntity,
                     lazy,
                     alwaysRefresh,

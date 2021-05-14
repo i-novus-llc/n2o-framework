@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Строка таблицы
@@ -8,7 +8,9 @@ import cx from 'classnames'
  * @reactProps {object} style - css стиль
  * @reactProps {object} model
  */
+// eslint-disable-next-line react/prefer-stateless-function
 class TableRow extends React.Component {
+    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props)
     }
@@ -19,8 +21,7 @@ class TableRow extends React.Component {
         return (
             <tr
                 {...this.props}
-                className={cx(className, 'n2o-table-row', color)}
-                tabIndex={1}
+                className={classNames(className, 'n2o-table-row', color)}
             />
         )
     }

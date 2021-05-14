@@ -31,6 +31,7 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
             return (
                 <div
                     className="n2o-advanced-table-expanded-row-content"
+                    /* eslint-disable-next-line react/no-danger */
                     dangerouslySetInnerHTML={innerHtml}
                 />
             )
@@ -48,6 +49,7 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
 
 AdvancedTableExpandedRenderer.propTypes = {
     record: PropTypes.object,
+    expandedFieldId: PropTypes.string,
 }
 
 export default pure(AdvancedTableExpandedRenderer)

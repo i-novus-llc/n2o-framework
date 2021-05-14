@@ -97,11 +97,6 @@ CheckboxN2O.propTypes = {
    */
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     /**
-   * Стили
-   */
-    style: PropTypes.object,
-    id: PropTypes.string,
-    /**
    * Callback фокуса
    */
     onFocus: PropTypes.func,
@@ -109,6 +104,7 @@ CheckboxN2O.propTypes = {
    * Callback потери фокуса
    */
     onBlur: PropTypes.func,
+    elementId: PropTypes.string,
 }
 
 CheckboxN2O.defaultProps = {
@@ -120,8 +116,7 @@ CheckboxN2O.defaultProps = {
     onClick: () => {},
 }
 
-export { CheckboxN2O }
-export default compose(
+const CheckboxN2OWrapped = compose(
     setDisplayName('CheckboxN2O'),
     lifecycle({
         componentDidMount() {
@@ -129,3 +124,8 @@ export default compose(
         },
     }),
 )(CheckboxN2O)
+
+export { CheckboxN2O }
+export { CheckboxN2OWrapped }
+
+export default CheckboxN2OWrapped

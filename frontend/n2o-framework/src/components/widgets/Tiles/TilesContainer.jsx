@@ -5,6 +5,7 @@ import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/TableContainer'
 import widgetContainer from '../WidgetContainer'
 
+// eslint-disable-next-line import/no-named-as-default
 import Tiles from './Tiles'
 
 function TilesContainer(props) {

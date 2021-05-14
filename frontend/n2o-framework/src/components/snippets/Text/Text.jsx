@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import parseFormatter from '../../../utils/parseFormatter'
 
@@ -17,7 +17,7 @@ import parseFormatter from '../../../utils/parseFormatter'
 function Text({ text, format, preLine, className, ...rest }) {
     return (
         <span
-            className={cn('n2o-snippet', className, {
+            className={classNames('n2o-snippet', className, {
                 'white-space-pre-line': preLine,
             })}
             {...rest}

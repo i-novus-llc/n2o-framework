@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import StandardWidget from '../StandardWidget'
+// eslint-disable-next-line import/no-named-as-default
 import dependency from '../../../core/dependency'
 
 import HtmlContainer from './HtmlContainer'
@@ -64,6 +65,10 @@ HtmlWidget.propTypes = {
     actions: PropTypes.object,
     html: PropTypes.string,
     dataProvider: PropTypes.object,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    datasource: PropTypes.string,
 }
 
 export default dependency(HtmlWidget)
