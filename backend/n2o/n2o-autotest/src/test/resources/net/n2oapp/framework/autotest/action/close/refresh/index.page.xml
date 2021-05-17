@@ -15,7 +15,7 @@
                                 refresh-on-close="true" refresh-widget-id="table" backdrop="true"/>
                 </button>
                 <button label="Drawer" disable-on-empty-model="false">
-                    <open-drawer page-id="modal" route="/drawer" unsaved-data-prompt-on-close="false" placement="left"
+                    <open-drawer page-id="modal" route="/drawer" unsaved-data-prompt-on-close="false"
                                  close-on-backdrop="true" refresh-on-close="true" refresh-widget-id="table"/>
                 </button>
             </toolbar>
