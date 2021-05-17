@@ -10,10 +10,10 @@ import classNames from 'classnames'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
-import RegionContent from '../RegionContent'
+import { RegionContent } from '../RegionContent'
 
 import Tabs from './Tabs'
-import Tab from './Tab'
+import { Tab } from './Tab'
 
 /**
  * Регион Таб
@@ -27,6 +27,7 @@ class TabRegion extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            // eslint-disable-next-line react/no-unused-state
             readyTabs: this.findReadyTabs(),
             permissionsVisibleTabs: {},
         }
@@ -34,7 +35,9 @@ class TabRegion extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.changeActiveEntity(null)
+        const { changeActiveEntity } = this.props
+
+        changeActiveEntity(null)
     }
 
     handleChangeActive(event, id) {
@@ -44,7 +47,9 @@ class TabRegion extends React.Component {
     }
 
     findReadyTabs() {
-        return map(this.props.tabs, tab => tab.id)
+        const { tabs } = this.props
+
+        return map(tabs, tab => tab.id)
     }
 
     isVisibleWidget(id) {
@@ -83,18 +88,22 @@ class TabRegion extends React.Component {
             maxHeight,
             scrollbar,
             title,
+            style,
         } = this.props
 
         const { permissionsVisibleTabs } = this.state
 
         return (
             <div
-                className={classNames('n2o-tabs-region', {
-                    visible: this.regionVisible(tabs),
-                })}
+                className={classNames(
+                    'n2o-tabs-region',
+                    className, {
+                        visible: this.regionVisible(tabs),
+                    },
+                )}
+                style={style}
             >
                 <Tabs
-                    className={className && className}
                     activeId={activeEntity}
                     onChangeActive={this.handleChangeActive}
                     hideSingleTab={hideSingleTab}
@@ -152,26 +161,35 @@ class TabRegion extends React.Component {
 }
 
 TabRegion.propTypes = {
+    style: PropTypes.object,
     /**
-   * Список табов
-   */
+     * Список табов
+     */
     tabs: PropTypes.array.isRequired,
     getWidget: PropTypes.func.isRequired,
     /**
-   * контент Tab, (регион или виджет)
-   */
+     * контент Tab, (регион или виджет)
+     */
     content: PropTypes.array,
     /**
-   * ID странцы
-   */
+     * ID странцы
+     */
     pageId: PropTypes.string.isRequired,
     alwaysRefresh: PropTypes.bool,
     mode: PropTypes.oneOf(['single', 'all']),
     /**
-   * Флаг ленивого рендера
-   */
+     * Флаг ленивого рендера
+     */
     lazy: PropTypes.bool,
     resolveVisibleDependency: PropTypes.func,
+    changeActiveEntity: PropTypes.func,
+    getWidgetProps: PropTypes.func,
+    hideSingleTab: PropTypes.bool,
+    activeEntity: PropTypes.any,
+    className: PropTypes.string,
+    title: PropTypes.string,
+    maxHeight: PropTypes.number,
+    scrollbar: PropTypes.any,
 }
 
 TabRegion.defaultProps = {

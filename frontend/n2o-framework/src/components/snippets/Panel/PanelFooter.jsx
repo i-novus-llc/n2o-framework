@@ -6,7 +6,7 @@ import CardFooter from 'reactstrap/lib/CardFooter'
  * Компонент подвала {@link Panel}
  * @reactProps {node} children - вставляемый внутрь PanelFooter элемент
  */
-function PanelFooter({ children }) {
+export function PanelFooter({ children }) {
     return <CardFooter className="panel-region-footer">{children}</CardFooter>
 }
 

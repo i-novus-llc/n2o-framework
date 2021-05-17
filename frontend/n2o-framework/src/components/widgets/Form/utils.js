@@ -18,7 +18,9 @@ import evalExpression, { parseExpression } from '../../../utils/evalExpression'
  * @param fields
  * @return {*}
  */
+// eslint-disable-next-line consistent-return
 export function getAutoFocusId(fields) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const field of fields) {
         if (!field.readOnly && field.visible !== false && field.enabled !== false) {
             return field.id
@@ -46,6 +48,7 @@ export function flatFields(obj, fields) {
             }
         })
     }
+
     return fields
 }
 
@@ -56,8 +59,10 @@ export function flatFields(obj, fields) {
  * @param ref
  */
 export function fetchIfChangeDependencyValue(prevState, state, ref) {
+    // eslint-disable-next-line no-underscore-dangle
     if (!isEqual(prevState, state) && ref && ref.props._fetchData) {
         const { _fetchData, size, labelFieldId } = ref.props
+
         _fetchData({
             size,
             [`sorting.${labelFieldId}`]: 'ASC',
@@ -93,6 +98,7 @@ export const getFieldsKeys = (fieldsets) => {
 
 const pickByPath = (object, arrayToPath) => reduce(
     arrayToPath,
+    // eslint-disable-next-line consistent-return
     (o, p) => {
         if (has(object, p)) {
             return set(o, p, get(object, p))
@@ -107,8 +113,10 @@ export const setWatchDependency = (state, props, dependencyType) => {
     const pickByReRender = (acc, { type, on }) => {
         if (on && type === dependencyType) {
             const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'))
+
             return merge(acc, pickByPath(state, formOn))
         }
+
         return acc
     }
 
@@ -130,5 +138,6 @@ export const resolveExpression = (value, activeModel) => {
     if (isEmpty(activeModel)) {
         return false
     }
+
     return evalExpression(parseExpression(value), activeModel)
 }

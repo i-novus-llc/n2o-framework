@@ -28,6 +28,26 @@ http://n2oapp.net/framework/config/schema/data-provider-1.0
 |Способ получения значений из jdbc в запросах sql
 |map
 
+|connection-url
+|Строка
+|URL подключения к базе данных
+|
+
+|username
+|Строка
+|Имя пользователя
+|
+
+|password
+|Строка
+|Пароль
+|
+
+|driver-class-name
+|Строка
+|JDBC драйвер
+|
+
 |===
 
 

@@ -21,15 +21,19 @@ export class PillsContainer extends Component {
                 value: nextProps.value,
             }
         }
+
+        return null
     }
 
     componentDidMount() {
         const { _fetchData } = this.props
+
         _fetchData()
     }
 
     changeAndSetState(value) {
         const { onChange } = this.props
+
         this.setState({ value })
         onChange(value)
     }
@@ -37,6 +41,7 @@ export class PillsContainer extends Component {
     handleOnClick(_, id) {
         const { value } = this.state
         const newValue = prepareValue(value, id, this.props)
+
         this.changeAndSetState(newValue)
     }
 

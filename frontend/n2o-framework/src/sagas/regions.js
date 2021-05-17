@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import first from 'lodash/first'
 import some from 'lodash/some'
+import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
@@ -19,7 +20,9 @@ import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { regionsSelector } from '../selectors/regions'
 import { modelsSelector } from '../selectors/models'
 import { setActiveEntity } from '../actions/regions'
+import { authSelector } from '../selectors/auth'
 
+// eslint-disable-next-line import/no-cycle
 import { routesQueryMapping } from './widgets'
 
 function* mapUrl(value) {
@@ -37,6 +40,10 @@ function* mapUrl(value) {
 function* switchTab() {
     const state = yield select()
 
+    const auth = authSelector(state)
+    const userPermissions = get(auth, 'permissions')
+    const userRoles = get(auth, 'roles')
+
     const regions = regionsSelector(state)
 
     const tabsRegions = filter(values(regions), region => region.tabs)
@@ -49,6 +56,7 @@ function* switchTab() {
         } if (meta.content) {
             return atLeastOneVisibleWidget(meta.content)
         }
+
         return makeWidgetVisibleSelector(meta.id)
     })
 
@@ -60,8 +68,27 @@ function* switchTab() {
 
             each(tabs, (tab) => {
                 const content = get(tab, 'content')
+                let isPassedSecurity = true
 
-                if (atLeastOneVisibleWidget(content)) {
+                if (tab.security) {
+                    const securityRules = get(tab, 'security.object')
+
+                    const isPassed = (tabSecurityRule, userProperties) => {
+                        if (tabSecurityRule) {
+                            return every(tabSecurityRule, rule => userProperties.includes(rule))
+                        }
+
+                        return true
+                    }
+
+                    const tabSecurityPermissions = get(securityRules, 'permissions')
+                    const tabSecurityRoles = get(securityRules, 'roles')
+
+                    isPassedSecurity =
+                        isPassed(tabSecurityPermissions, userPermissions) &&
+                        isPassed(tabSecurityRoles, userRoles)
+                }
+                if (isPassedSecurity && atLeastOneVisibleWidget(content)) {
                     widgetsIds.push(tab.id)
                 }
             })
@@ -97,14 +124,16 @@ function* lazyFetch(id) {
 
     if (!isEmpty(regionCollection)) {
         each(regionCollection, (region) => {
-            const { activeEntity, lazy, alwaysRefresh } = region
+            const { activeEntity, alwaysRefresh } = region
+
             targetTab = { ...find(region.tabs, tab => tab.id === activeEntity) }
 
             if (!isEmpty(targetTab.content)) {
                 each(targetTab.content, (item) => {
-                    if (alwaysRefresh && targetTab.id === id) {
-                        idsToFetch.push(item.id)
-                    } else if (!includes(Object.keys(models.datasource), item.id)) {
+                    if (
+                        (alwaysRefresh && targetTab.id === id) ||
+                        (!includes(Object.keys(models.datasource), item.id))
+                    ) {
                         idsToFetch.push(item.id)
                     }
                 })
@@ -163,6 +192,7 @@ export function* checkIdBeforeLazyFetch() {
     if (firstTabs) {
         for (let i = 0; i < firstTabs.length; i++) {
             const { regionId, id } = firstTabs[i]
+
             yield put(setActiveEntity(regionId, id))
         }
     }

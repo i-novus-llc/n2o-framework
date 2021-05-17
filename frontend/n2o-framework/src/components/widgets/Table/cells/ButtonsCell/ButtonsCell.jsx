@@ -14,11 +14,8 @@ import withCell from '../../withCell'
  * @param id
  * @param className
  * @param visible
- * @param actions
  * @param toolbar
  * @param model
- * @param style
- * @param widgetId
  * @param onResolve
  * @returns {*}
  * @constructor
@@ -29,10 +26,7 @@ function ButtonsCell({
     className,
     visible,
     model,
-    style,
     toolbar,
-    actions,
-    widgetId,
     onResolve,
 }) {
     const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`
@@ -59,10 +53,6 @@ ButtonsCell.propTypes = {
    */
     className: PropTypes.string,
     /**
-   * Стили
-   */
-    style: PropTypes.object,
-    /**
    * ID ячейки
    */
     id: PropTypes.string,
@@ -70,6 +60,9 @@ ButtonsCell.propTypes = {
    * Флаг видимости
    */
     visible: PropTypes.bool,
+    model: PropTypes.any,
+    toolbar: PropTypes.any,
+    onResolve: PropTypes.func,
 }
 
 ButtonsCell.defaultProps = {

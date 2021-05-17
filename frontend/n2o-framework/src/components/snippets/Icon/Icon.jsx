@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент иконки
@@ -11,9 +11,10 @@ import cx from 'classnames'
  * @reactProps {boolean} spin - флаг вращения иконки
  * @reactProps {boolean} bordered - флаг рамки вокруг иконки
  * @reactProps {boolean} circular - флаг закругления вокруг иконки
+ * @reactProps {function} onClick - callback на onClick
  */
-function Icon({ name, className, disabled, spin, circular, bordered, style }) {
-    const iconClass = cx({
+export function Icon({ name, className, disabled, spin, circular, bordered, style, onClick }) {
+    const iconClass = classNames({
         'n2o-icon': true,
         [name]: name,
         [className]: className,
@@ -23,38 +24,42 @@ function Icon({ name, className, disabled, spin, circular, bordered, style }) {
         bordered,
     })
 
-    return <i className={iconClass} style={style} />
+    return <i className={iconClass} style={style} onClick={onClick} />
 }
 
 Icon.propTypes = {
     /**
-   * Класс иконки
-   */
+     * Класс иконки
+     */
     className: PropTypes.string,
     /**
-   * Стили иконки
-   */
+     * Стили иконки
+     */
     style: PropTypes.object,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Название иконки
-   */
+     * Название иконки
+     */
     name: PropTypes.string.isRequired,
     /**
-   * Флаг вращения иконки
-   */
+     * Флаг вращения иконки
+     */
     spin: PropTypes.bool,
     /**
-   * Флаг рамки вокруг иконки
-   */
+     * Флаг рамки вокруг иконки
+     */
     bordered: PropTypes.bool,
     /**
-   * Флаг закругления иконки
-   */
+     * Флаг закругления иконки
+     */
     circular: PropTypes.bool,
+    /**
+     * callback на onClick
+     */
+    onClick: PropTypes.func,
 }
 
 Icon.defaultProps = {
@@ -62,6 +67,7 @@ Icon.defaultProps = {
     spin: false,
     bordered: false,
     circular: false,
+    onClick: () => {},
 }
 
 export default Icon

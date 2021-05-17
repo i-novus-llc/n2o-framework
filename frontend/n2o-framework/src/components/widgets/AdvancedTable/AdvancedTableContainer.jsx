@@ -32,10 +32,12 @@ import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
+// eslint-disable-next-line import/no-named-as-default
 import AdvancedTable from './AdvancedTable'
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
-    const predicate = ({ id }) => id == selectedId
+    const predicate = ({ id }) => id === selectedId
+
     return isEqual(find(data1, predicate), find(data2, predicate))
 }
 
@@ -50,17 +52,16 @@ class AdvancedTableContainer extends React.Component {
             columns: this.mapColumns(),
         }
 
-        this._filter = props.filters
+        this.filterValue = props.filters
 
         this.getTableProps = this.getTableProps.bind(this)
         this.mapColumns = this.mapColumns.bind(this)
         this.mapData = this.mapData.bind(this)
         this.renderCell = this.renderCell.bind(this)
         this.handleSetFilter = this.handleSetFilter.bind(this)
-        this.onEdit = this.onEdit.bind(this)
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const {
             selectedId: prevSelectedId,
             datasource: prevDatasource,
@@ -68,22 +69,24 @@ class AdvancedTableContainer extends React.Component {
         } = prevProps
         const { hasSelect, datasource, selectedId, autoFocus } = this.props
 
-        if (!isEqual(prevProps.datasource, this.props.datasource)) {
+        if (!isEqual(prevProps.datasource, datasource)) {
             this.setState({
-                data: this.mapData(this.props.datasource),
+                data: this.mapData(datasource),
                 columns: this.mapColumns(),
             })
         }
 
         if (
             hasSelect &&
-      !isEmpty(datasource) &&
-      !isEqual(prevDatasource, datasource) &&
-      (!selectedId ||
-        !isEqual(prevSelectedId, selectedId) ||
-        !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
+            !isEmpty(datasource) &&
+            !isEqual(prevDatasource, datasource) &&
+            (
+                !selectedId ||
+                !isEqual(prevSelectedId, selectedId) ||
+                !isEqualCollectionItemsById(prevDatasource, datasource, selectedId)
+            )
         ) {
-            const selectedModel = find(datasource, model => model.id == selectedId)
+            const selectedModel = find(datasource, model => model.id === selectedId)
 
             const resolveModel = autoFocus
                 ? selectedModel || datasource[0]
@@ -95,10 +98,12 @@ class AdvancedTableContainer extends React.Component {
         }
     }
 
-    componentDidMount(prevProps) {
-        if (this.props.datasource) {
+    componentDidMount() {
+        const { datasource } = this.props
+
+        if (datasource) {
             this.setState({
-                data: this.mapData(this.props.datasource),
+                data: this.mapData(datasource),
                 columns: this.mapColumns(),
             })
         }
@@ -113,19 +118,16 @@ class AdvancedTableContainer extends React.Component {
 
     handleSetFilter(filter) {
         const { onSetFilter, onFetch } = this.props
-        this._filter = {
-            ...this._filter,
+
+        this.filterValue = {
+            ...this.filterValue,
             [filter.id]: filter.value,
         }
-        forOwn(this._filter, (v, k) => {
-            if (!v || isEmpty(v)) { delete this._filter[k] }
+        forOwn(this.filterValue, (v, k) => {
+            if (!v || isEmpty(v)) { delete this.filterValue[k] }
         })
-        onSetFilter({ ...this._filter })
+        onSetFilter({ ...this.filterValue })
         onFetch()
-    }
-
-    onEdit(value, index, id) {
-    // TODO something
     }
 
   mapHeaders = (headers, isChild = false) => map(headers, (header) => {
@@ -239,9 +241,10 @@ class AdvancedTableContainer extends React.Component {
       })
   }
 
-  mapData(datasource) {
+  mapData = (datasource) => {
       if (!datasource) { return }
 
+      // eslint-disable-next-line consistent-return
       return map(datasource, item => ({
           ...item,
           key: item.id,
@@ -263,12 +266,13 @@ class AdvancedTableContainer extends React.Component {
           'sorting',
           'widgetId',
       ])
+      const { columns, data } = this.state
 
       return {
           ...props,
-          onEdit: this.onEdit,
-          columns: this.state.columns,
-          data: this.state.data,
+          onEdit: () => {},
+          columns,
+          data,
           onFilter: this.handleSetFilter,
       }
   }
@@ -276,6 +280,24 @@ class AdvancedTableContainer extends React.Component {
   render() {
       return <AdvancedTable {...this.getTableProps()} />
   }
+}
+
+AdvancedTableContainer.propTypes = {
+    autoFocus: PropTypes.any,
+    selectedId: PropTypes.string,
+    onResolve: PropTypes.func,
+    hasSelect: PropTypes.bool,
+    actions: PropTypes.any,
+    cells: PropTypes.any,
+    datasource: PropTypes.any,
+    headers: PropTypes.any,
+    widgetId: PropTypes.string,
+    sorting: PropTypes.any,
+    onSort: PropTypes.func,
+    onFetch: PropTypes.func,
+    onSetFilter: PropTypes.func,
+    registredColumns: PropTypes.any,
+    filters: PropTypes.object,
 }
 
 AdvancedTableContainer.contextTypes = {
@@ -356,7 +378,7 @@ const enhance = compose(
                 children: props.children,
                 onResolve: (newModel) => {
                     props.onResolve(newModel)
-                    if (props.selectedId != newModel.id) {
+                    if (props.selectedId !== newModel.id) {
                         props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
                     }
                 },
@@ -404,5 +426,6 @@ const enhance = compose(
         null,
     ),
 )
+
 export { AdvancedTableContainer }
 export default enhance(AdvancedTableContainer)

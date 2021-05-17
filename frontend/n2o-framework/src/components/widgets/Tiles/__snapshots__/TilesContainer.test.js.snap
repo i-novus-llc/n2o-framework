@@ -424,9 +424,8 @@ exports[`<TilesContainer /> отрисовка 1`] = `
               once={true}
               type="list"
             >
-              <BaseSpinner
+              <Spinner
                 color="primary"
-                delay={400}
                 loading={true}
                 minSpinnerTimeToShow={250}
                 text=""
@@ -1251,7 +1250,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                     </getContext(withHandlers(mapProps(TilesContainer)))>
                   </lifecycle(getContext(withHandlers(mapProps(TilesContainer))))>
                 </div>
-              </BaseSpinner>
+              </Spinner>
             </Placeholder>
           </div>
         </WidgetContainer>

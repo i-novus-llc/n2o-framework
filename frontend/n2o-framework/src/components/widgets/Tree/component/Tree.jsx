@@ -19,8 +19,8 @@ import {
     animationTree,
     singleDoubleClickFilter,
 } from '../until'
-import Icon from '../../../snippets/Icon/Icon'
-import CheckboxN2O from '../../../controls/Checkbox/CheckboxN2O'
+import { Icon } from '../../../snippets/Icon/Icon'
+import { CheckboxN2OWrapped } from '../../../controls/Checkbox/CheckboxN2O'
 
 import Filter from './Filter'
 import ExpandBtn from './ExpandBtn'
@@ -66,7 +66,9 @@ class Tree extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.resolveModel, this.props.resolveModel)) {
+        const { resolveModel } = this.props
+
+        if (!isEqual(prevProps.resolveModel, resolveModel)) {
             this.createSelectedKeys()
         }
     }
@@ -116,6 +118,7 @@ class Tree extends Component {
 
     renderSwitcherIcon() {
         const { showLine } = this.props
+
         if (!showLine) {
             return (
                 <div className="icon-wrapper">
@@ -123,9 +126,11 @@ class Tree extends Component {
                 </div>
             )
         }
-        return <CheckboxN2O inline />
+
+        return <CheckboxN2OWrapped inline />
     }
 
+    // eslint-disable-next-line consistent-return
     onSelect(keys, { nativeEvent }) {
         const { multiselect, hasCheckboxes } = this.props
         const { selectedKeys } = this.state
@@ -136,7 +141,7 @@ class Tree extends Component {
 
         const multiOnlySelect = multiselect && !hasCheckboxes
 
-        let selectedKeysForResolve = null
+        let selectedKeysForResolve
 
         if (multiOnlySelect && keys.length > 1) {
             if (nativeEvent.ctrlKey) {
@@ -148,11 +153,15 @@ class Tree extends Component {
             selectedKeysForResolve = keys
         }
 
-        this.props.onResolve(selectedKeysForResolve)
+        const { onResolve } = this.props
+
+        onResolve(selectedKeysForResolve)
     }
 
     onCheck(keys) {
-        this.props.onResolve(keys)
+        const { onResolve } = this.props
+
+        onResolve(keys)
     }
 
     onCustomActions(_, key) {
@@ -164,6 +173,7 @@ class Tree extends Component {
             'datasource',
             'hasCheckboxes',
         ])
+
         customTreeActions({
             key,
             treeRef: this.treeRef,
@@ -181,11 +191,13 @@ class Tree extends Component {
         if (!resolveModel) {
             return []
         }
+
         return [resolveModel[valueFieldId]]
     }
 
     createSelectedKeys() {
         const { hasCheckboxes, multiselect } = this.props
+
         if (hasCheckboxes && multiselect) {
             this.setState({
                 selectedKeys: [],
@@ -235,8 +247,7 @@ class Tree extends Component {
             filterPlaceholder,
         } = this.props
 
-        const checkable =
-      hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false
+        const checkable = hasCheckboxes && multiselect ? <CheckboxN2OWrapped inline /> : false
 
         return (
             <div className={`${prefixCls}-wrapper pt-4`}>
@@ -257,7 +268,8 @@ class Tree extends Component {
                     keyMap={{ events: values(KEY_CODES) }}
                     handlers={{ events: this.onCustomActions }}
                 >
-                    <div tabIndex={1}>
+                    {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+                    <div tabIndex={0}>
                         <TreeBase
                             openAnimation={animationTree}
                             ref={this.treeRef}

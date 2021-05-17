@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 
 // components
-import Icon from '../../../snippets/Icon/Icon'
+import { Icon } from '../../../snippets/Icon/Icon'
 import InputText from '../../../controls/InputText/InputText'
 
 function Filter({ value, setValue, onFilter, filterPlaceholder }) {
@@ -42,6 +42,9 @@ function Filter({ value, setValue, onFilter, filterPlaceholder }) {
 
 Filter.propTypes = {
     onFilter: PropTypes.func,
+    value: PropTypes.string,
+    setValue: PropTypes.func,
+    filterPlaceholder: PropTypes.string,
 }
 
 Filter.defaultProps = {

@@ -11,7 +11,7 @@ import get from 'lodash/get'
 
 import { callActionImpl } from '../../actions/toolbar'
 import { resolveWidget } from '../../actions/widgets'
-import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm'
+import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 import SecurityNotRender from '../../core/auth/SecurityNotRender'
 import linkResolver from '../../utils/linkResolver'
 
@@ -39,10 +39,10 @@ const ConfirmMode = {
  * @example
  * const actions =  {
  *  "update": {
- *	"src": "dummyActionImpl"
+ *      "src": "dummyActionImpl"
  *  },
  *  "delete": {
- *	"src": "dummyActionImpl"
+ *      "src": "dummyActionImpl"
  *  }
  *}
  *
@@ -82,6 +82,7 @@ const ConfirmMode = {
  *
  */
 class Actions extends React.Component {
+    /* eslint-disable react/no-array-index-key */
     constructor(props) {
         super(props)
         this.state = {
@@ -93,17 +94,17 @@ class Actions extends React.Component {
     }
 
     /**
-   * Закрывает окноподтверждаения
-   */
+     * Закрывает окноподтверждаения
+     */
     closeConfirm() {
         this.setState({ confirmVisibleId: null })
     }
 
     /**
-   * Обертка вокруг onClick
-   * @param button
-   * @param confirm
-   */
+     * Обертка вокруг onClick
+     * @param button
+     * @param confirm
+     */
     onClickHelper(button, confirm) {
         const {
             actions,
@@ -131,18 +132,21 @@ class Actions extends React.Component {
     }
 
     /**
-   * Маппинг свойст модального окна подтверждения
-   * @param confirm
-   * @returns {{text: *}}
-   */
+     * Маппинг свойст модального окна подтверждения
+     * @param confirm
+     * @returns {{text: *} | void}
+     */
+    // eslint-disable-next-line consistent-return
     mapButtonConfirmProps({ confirm }) {
         if (confirm) {
-            const store = this.context.store.getState()
+            const { store } = this.context
+            const state = store.getState()
             const { modelLink, text } = confirm
-            const resolvedText = linkResolver(store, {
+            const resolvedText = linkResolver(state, {
                 link: modelLink,
                 value: text,
             })
+
             return {
                 ...confirm,
                 text: resolvedText,
@@ -158,64 +162,68 @@ class Actions extends React.Component {
    * @returns {*}
    */
     renderButton(Component, button, parentId) {
-        const isConfirmVisible = this.state.confirmVisibleId === button.id
+        const { confirmVisibleId } = this.state
+        const isConfirmVisible = confirmVisibleId === button.id
         const onConfirm = () => {
             this.onClickHelper(button)
             this.closeConfirm()
         }
+        const { containerKey } = this.props
         const Container = (
             <ButtonContainer
                 id={button.id}
                 onClick={() => this.onClickHelper(button, button.confirm)}
                 initialProps={button}
                 component={Component}
-                containerKey={this.props.containerKey}
+                containerKey={containerKey}
                 parentId={parentId}
             />
         )
         const confirmMode = get(button, 'confirm.mode', ConfirmMode.MODAL)
 
-        const btn = (
-            <>
-                {confirmMode === ConfirmMode.POPOVER ? (
-                    <PopoverConfirm
+        let buttonContent = Container
+
+        if (confirmMode === ConfirmMode.POPOVER) {
+            buttonContent = (
+                <PopoverConfirm
+                    {...this.mapButtonConfirmProps(button)}
+                    isOpen={isConfirmVisible}
+                    onConfirm={onConfirm}
+                    onDeny={this.closeConfirm}
+                >
+                    {Container}
+                </PopoverConfirm>
+            )
+        } else if (confirmMode === ConfirmMode.MODAL) {
+            buttonContent = (
+                <>
+                    {Container}
+                    <ModalDialog
                         {...this.mapButtonConfirmProps(button)}
-                        isOpen={isConfirmVisible}
+                        visible={isConfirmVisible}
                         onConfirm={onConfirm}
                         onDeny={this.closeConfirm}
-                    >
-                        {Container}
-                    </PopoverConfirm>
-                ) : confirmMode === ConfirmMode.MODAL ? (
-                    <>
-                        {Container}
-                        <ModalDialog
-                            {...this.mapButtonConfirmProps(button)}
-                            visible={isConfirmVisible}
-                            onConfirm={onConfirm}
-                            onDeny={this.closeConfirm}
-                            close={this.closeConfirm}
-                        />
-                    </>
-                ) : (
-                    Container
-                )}
-            </>
-        )
+                        close={this.closeConfirm}
+                    />
+                </>
+            )
+        }
+        const btn = <>{buttonContent}</>
 
         return <SecurityNotRender config={button.security} component={btn} />
     }
 
     /**
-   * Корневой рендер кнопок
-   * @param buttons
-   * @returns {*}
-   */
+     * Корневой рендер кнопок
+     * @param buttons
+     * @returns {*}
+     */
     renderButtons(buttons) {
         return (
             buttons &&
       buttons.map((button, index) => {
           let buttonEl = null
+
           if (button.subMenu) {
               buttonEl = this.renderDropdownButton(button)
           } else if (button.dropdownSrc) {
@@ -223,6 +231,7 @@ class Actions extends React.Component {
           } else {
               buttonEl = this.renderButton(Button, button)
           }
+
           return (
               <SecurityNotRender
                   key={index}
@@ -235,8 +244,8 @@ class Actions extends React.Component {
     }
 
     /**
-   * резолв экшена
-   */
+     * резолв экшена
+     */
     onClick(
         actionId,
         id,
@@ -250,12 +259,14 @@ class Actions extends React.Component {
         if (confirm) {
             this.setState({ confirmVisibleId: id })
         } else {
+            const { pageId } = this.props
+
             resolve(actions[actionId].src, validatedWidgetId, {
                 ...actions[actionId].options,
                 actionId,
                 buttonId: id,
                 validate,
-                pageId: this.props.pageId,
+                pageId,
                 ...options[actionId],
             })
         }
@@ -286,12 +297,14 @@ class Actions extends React.Component {
             disabled,
             hintPosition,
         }
+        const { containerKey } = this.props
+
         return (
             <ButtonContainer
                 id={id}
                 component={DropdownMenu}
                 initialProps={dropdownProps}
-                containerKey={this.props.containerKey}
+                containerKey={containerKey}
                 color={color}
             >
                 {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
@@ -310,7 +323,6 @@ class Actions extends React.Component {
    * @param subMenu
    * @param dropdownSrc
    * @param icon
-   * @param actionId
    * @param size
    * @returns {*}
    */
@@ -321,10 +333,8 @@ class Actions extends React.Component {
         hint,
         hintPosition,
         visible,
-        subMenu,
         dropdownSrc,
         icon,
-        actionId,
         size,
     }) {
         const { containerKey } = this.props
@@ -339,11 +349,12 @@ class Actions extends React.Component {
             visible,
             icon,
         }
+
         return (
             <ButtonContainer
                 id={id}
                 component={DropdownMenu}
-                containerKey={this.props.containerKey}
+                containerKey={containerKey}
                 initialProps={dropdownProps}
             >
                 <CustomMenu widgetId={containerKey} />
@@ -426,6 +437,8 @@ Actions.propTypes = {
    * Модель резолва
    */
     model: PropTypes.object,
+    pageId: PropTypes.string,
+    resolveWidget: PropTypes.func,
 }
 
 /**

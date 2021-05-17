@@ -69,26 +69,18 @@ stories
 
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                placeholder: PasswordInputJson.placeholder,
-                disabled: PasswordInputJson.disabled,
-                length: PasswordInputJson.length,
-            }
-
-            return props
-        }),
+        form(() => ({
+            placeholder: PasswordInputJson.placeholder,
+            disabled: PasswordInputJson.disabled,
+            length: PasswordInputJson.length,
+        })),
     )
     .add(
         'Фича просмотра введенного пароля',
-        form(() => {
-            const props = {
-                placeholder: PasswordInputJson.placeholder,
-                disabled: PasswordInputJson.disabled,
-                length: PasswordInputJson.length,
-                showPasswordBtn: PasswordInputJson.showPasswordBtn,
-            }
-
-            return props
-        }),
+        form(() => ({
+            placeholder: PasswordInputJson.placeholder,
+            disabled: PasswordInputJson.disabled,
+            length: PasswordInputJson.length,
+            showPasswordBtn: PasswordInputJson.showPasswordBtn,
+        })),
     )

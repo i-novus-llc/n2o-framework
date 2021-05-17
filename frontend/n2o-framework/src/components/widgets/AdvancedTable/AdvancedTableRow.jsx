@@ -2,7 +2,7 @@ import React from 'react'
 import { pure } from 'recompose'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент создания строки в таблице
@@ -21,7 +21,7 @@ function AdvancedTableRow(props) {
         handleRowClickFocus,
     } = props
 
-    const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
+    const classes = classNames(className, 'n2o-table-row n2o-advanced-table-row', {
         'table-active': isRowActive,
         [rowClass]: rowClass,
     })
@@ -39,6 +39,9 @@ function AdvancedTableRow(props) {
 }
 
 AdvancedTableRow.propTypes = {
+    handleRowClickFocus: PropTypes.func,
+    handleRowClick: PropTypes.func,
+    rowClass: PropTypes.string,
     className: PropTypes.string,
     isRowActive: PropTypes.bool,
     setRef: PropTypes.func,

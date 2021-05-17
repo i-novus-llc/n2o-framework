@@ -38,13 +38,15 @@ const getNextNotDisabledId = (
     valueFieldId,
 ) => {
     let index = findIndex(data, item => item[valueFieldId] === initialId)
+
     while (
         data[index + distance] &&
-    isDisabled(data[index + distance], selected, disabled)
+        isDisabled(data[index + distance], selected, disabled)
     ) {
         index += distance
     }
     if (!data[index + distance]) { return initialId }
+
     return data[index + distance][valueFieldId]
 }
 
@@ -58,6 +60,8 @@ const getIdByDistance = (
 ) => {
     if (isEmpty(data)) { return }
     const id = currentId || data[0][valueFieldId]
+
+    // eslint-disable-next-line consistent-return
     return getNextNotDisabledId(
         data,
         selected,
@@ -75,7 +79,10 @@ export const getFirstNotDisabledId = (
     valueFieldId,
 ) => {
     if (isEmpty(data)) { return }
+    // eslint-disable-next-line consistent-return
     if (!isDisabled(data[0], selected, disabled)) { return data[0][valueFieldId] }
+
+    // eslint-disable-next-line consistent-return
     return getNextNotDisabledId(
         data,
         selected,
@@ -86,8 +93,24 @@ export const getFirstNotDisabledId = (
     )
 }
 
-export const getNextId = (data, currentId, valueFieldId, selected, disabled) => getIdByDistance(data, currentId, 1, valueFieldId, selected, disabled)
+export const getNextId = (
+    data,
+    currentId,
+    valueFieldId,
+    selected,
+    disabled,
+) => getIdByDistance(data, currentId, 1, valueFieldId, selected, disabled)
 
-export const getPrevId = (data, currentId, valueFieldId, selected, disabled) => getIdByDistance(data, currentId, -1, valueFieldId, selected, disabled)
+export const getPrevId = (
+    data,
+    currentId,
+    valueFieldId,
+    selected,
+    disabled,
+) => getIdByDistance(data, currentId, -1, valueFieldId, selected, disabled)
 
-export const isBottom = ({ scrollHeight, scrollTop, clientHeight }) => Math.floor(scrollHeight - scrollTop) === clientHeight
+export const isBottom = ({
+    scrollHeight,
+    scrollTop,
+    clientHeight,
+}) => Math.floor(scrollHeight - scrollTop) === clientHeight

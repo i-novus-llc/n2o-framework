@@ -7,14 +7,11 @@ import isNull from 'lodash/isNull'
 import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isObject from 'lodash/isObject'
-import isArray from 'lodash/isArray'
-import every from 'lodash/every'
-import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 
 import evalExpression from '../../utils/evalExpression'
-import fetchSaga from '../../sagas/fetch.js'
-import { FETCH_VALIDATE } from '../api.js'
+import fetchSaga from '../../sagas/fetch'
+import { FETCH_VALIDATE } from '../api'
 
 /**
  * Валидация того, что email
@@ -38,6 +35,7 @@ export function email(fieldId, values) {
  */
 export function required(fieldId, values, options = {}) {
     const value = get(values, fieldId)
+
     if (options.expression && !evalExpression(options.expression, values)) {
         return true
     }
@@ -47,10 +45,11 @@ export function required(fieldId, values, options = {}) {
     } if (isString(value)) {
         return value !== ''
     }
+
     return (
         !isUndefined(get(values, fieldId)) &&
-      !isNull(get(values, fieldId)) &&
-      !isNaN(get(values, fieldId))
+        !isNull(get(values, fieldId)) &&
+        !isNaN(get(values, fieldId))
     )
 }
 
@@ -75,6 +74,7 @@ export function condition(fieldId, values, options = {}) {
  */
 export async function constraint(fieldId, values, options, dispatch) {
     if (!isEmpty(values[fieldId])) {
+        // eslint-disable-next-line no-return-await
         return await runSaga(
             {
                 dispatch,
@@ -84,6 +84,7 @@ export async function constraint(fieldId, values, options, dispatch) {
             { validationKey: options.validationKey },
         ).toPromise()
     }
+
     return Promise.reject()
 }
 
@@ -95,6 +96,7 @@ export async function constraint(fieldId, values, options, dispatch) {
  */
 export function integer(fieldId, values) {
     const v = values[fieldId]
+
     return v && !isNaN(Number(v)) && isNumber(Number(v))
 }
 

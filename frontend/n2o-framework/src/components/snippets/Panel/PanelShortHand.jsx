@@ -10,10 +10,10 @@ import {
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import isFunction from 'lodash/isFunction'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 
-import Panel from './Panel'
+import { Panel } from './Panel'
 import panelStyles from './panelStyles'
 
 /**
@@ -70,7 +70,7 @@ function PanelContainer({
         <Panel
             color={color}
             style={style}
-            className={cn(className, {
+            className={classNames(className, {
                 'n2o-panel-region--tabs': hasTabs,
             })}
             open={openState}
@@ -105,7 +105,7 @@ function PanelContainer({
                           id={tab.id}
                           active={activeTab === tab.id}
                           disabled={tab.disabled}
-                          className={cn('nav-item--tab', tab.className)}
+                          className={classNames('nav-item--tab', tab.className)}
                           style={tab.style}
                           onClick={() => changeActiveTab(tab.id)}
                       >
@@ -118,7 +118,7 @@ function PanelContainer({
                   <Panel.NavItem
                       id={item.id}
                       disabled={item.disabled}
-                      className={cn('nav-item--toolbar', item.className)}
+                      className={classNames('nav-item--toolbar', item.className)}
                       style={item.style}
                       onClick={item.onClick}
                       isToolBar
@@ -130,7 +130,7 @@ function PanelContainer({
                 </Panel.Heading>
             )}
             <Panel.Collapse
-                className={cn({
+                className={classNames({
                     'd-flex flex-column n2o-panel-region--grow': openState,
                 })}
                 isOpen={openState}
@@ -149,6 +149,13 @@ function PanelContainer({
 }
 
 PanelContainer.propTypes = {
+    handleKeyPress: PropTypes.func,
+    toggleCollapse: PropTypes.func,
+    changeActiveTab: PropTypes.func,
+    handleFullScreen: PropTypes.func,
+    activeTabState: PropTypes.string,
+    openState: PropTypes.bool,
+    fullScreenState: PropTypes.bool,
     tabs: PropTypes.array,
     toolbar: PropTypes.array,
     className: PropTypes.string,
@@ -157,15 +164,19 @@ PanelContainer.propTypes = {
     icon: PropTypes.string,
     headerTitle: PropTypes.string,
     footerTitle: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     open: PropTypes.bool,
     collapsible: PropTypes.bool,
     hasTabs: PropTypes.bool,
     fullScreen: PropTypes.bool,
     children: PropTypes.node,
     header: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
     isFullScreen: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
     onKeyPress: PropTypes.func,
     innerRef: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
     onVisibilityChange: PropTypes.func,
 }
 

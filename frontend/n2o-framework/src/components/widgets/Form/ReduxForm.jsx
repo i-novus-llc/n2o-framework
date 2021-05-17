@@ -15,12 +15,13 @@ import ReduxField from './ReduxField'
  * @returns {*}
  * @constructor
  */
-function ReduxForm(props) {
+function ReduxForm({ prompt, dirty, ...props }) {
     const { t } = useTranslation()
+
     return (
         <>
-            {props.prompt && (
-                <Prompt when={props.dirty} message={t('defaultPromptMessage')} />
+            {prompt && (
+                <Prompt when={dirty} message={t('defaultPromptMessage')} />
             )}
             <Form {...props} />
         </>
@@ -29,6 +30,7 @@ function ReduxForm(props) {
 
 ReduxForm.propTypes = {
     prompt: PropTypes.bool,
+    dirty: PropTypes.bool,
 }
 
 ReduxForm.defaultProps = {

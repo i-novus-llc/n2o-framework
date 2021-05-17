@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import dependency from '../../../core/dependency'
+import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 
 import WireframeContainer from './WireframeContainer'
@@ -18,9 +18,11 @@ class WireframeWidget extends React.Component {
    * Мэппинг пропсов
    */
     getWidgetProps() {
+        const { widgetId, wireframe } = this.props
+
         return {
-            id: this.props.widgetId,
-            ...this.props.wireframe,
+            id: widgetId,
+            ...wireframe,
         }
     }
 
@@ -33,10 +35,10 @@ class WireframeWidget extends React.Component {
             id: widgetId,
             toolbar,
             actions,
-            size,
             className,
             style,
         } = this.props
+
         return (
             <StandardWidget
                 widgetId={widgetId}
@@ -66,6 +68,10 @@ WireframeWidget.propTypes = {
     widgetId: PropTypes.string,
     toolbar: PropTypes.object,
     actions: PropTypes.object,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.string,
+    wireframe: PropTypes.object,
 }
 
 export default dependency(WireframeWidget)

@@ -18,7 +18,6 @@ import {
     REMOVE_BUTTON,
 } from '../constants/toolbar'
 import { RESET_STATE } from '../constants/widgets'
-import { generateKey } from '../utils/id'
 
 export const buttonState = {
     isInit: true,
@@ -77,6 +76,7 @@ function resolve(state = buttonState, action) {
  */
 export default function toolbar(state = {}, action) {
     const { key, buttonId } = action.payload || {}
+
     switch (action.type) {
         case REGISTER_BUTTON:
             return { ...state,
@@ -96,23 +96,32 @@ export default function toolbar(state = {}, action) {
         case CHANGE_BUTTON_HINT:
         case CHANGE_BUTTON_ICON:
         case CHANGE_BUTTON_STYLE:
-        case CHANGE_BUTTON_CLASS:
-            return { ...state,
+        case CHANGE_BUTTON_CLASS: {
+            return {
+                ...state,
                 [key]: {
                     ...state[key],
                     [buttonId]: resolve(state[key][buttonId], action),
-                } }
-        case REMOVE_BUTTON:
+                },
+            }
+        }
+        case REMOVE_BUTTON: {
             return {
                 ...state,
                 [key]: undefined,
             }
-        case RESET_STATE:
+        }
+        case RESET_STATE: {
             const { widgetId } = action.payload
+
             return {
                 ...state,
-                [widgetId]: mapValues(state[widgetId], (button, buttonId) => resolve(state[widgetId][buttonId], action)),
+                [widgetId]: mapValues(
+                    state[widgetId],
+                    (button, buttonId) => resolve(state[widgetId][buttonId], action),
+                ),
             }
+        }
         default:
             return state
     }

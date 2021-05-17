@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
+import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderIOv2;
 import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderReader;
@@ -21,8 +21,8 @@ public class N2oAllIOPack implements MetadataPack<N2oApplicationBuilder> {
         b.readers(new SimpleHeaderReader(), new CustomHeaderReader(), new SimpleMenuReader());
         b.ios(new SimpleHeaderIOv2(), new SimpleMenuIOv2());
 
-        b.ios(new ObjectElementIOv2(),
-                new ObjectElementIOv3());
+        b.ios(new ObjectElementIOv3(),
+                new ObjectElementIOv4());
 
         b.readers(new QueryElementReaderV3());
         b.ios(new QueryElementIOv4());

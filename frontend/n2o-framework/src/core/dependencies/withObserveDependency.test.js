@@ -48,10 +48,10 @@ describe('Проверка хока withObserveDependency', () => {
             () => {},
         )
         expect(
-            isEmpty(wrapper.find('ReRenderComponent').instance()._observers),
+            isEmpty(wrapper.find('ReRenderComponent').instance().observers),
         ).toEqual(false)
         expect(
-            typeof wrapper.find('ReRenderComponent').instance()._observers[0],
+            typeof wrapper.find('ReRenderComponent').instance().observers[0],
         ).toEqual('function')
     })
 

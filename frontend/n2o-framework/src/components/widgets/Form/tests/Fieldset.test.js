@@ -5,12 +5,6 @@ import { Provider } from 'react-redux'
 
 import Fieldset from '../Fieldset'
 import StandardFieldset from '../fieldsets/BlankFieldset'
-import {
-    ENABLE_FIELDS,
-    DISABLE_FIELDS,
-    SHOW_FIELDS,
-    HIDE_FIELDS,
-} from '../../../../constants/formPlugin'
 
 const mockStore = configureMockStore()
 

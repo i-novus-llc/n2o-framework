@@ -4,7 +4,7 @@ import map from 'lodash/map'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import Alerts from '../snippets/Alerts/Alerts'
+import { Alerts } from '../snippets/Alerts/Alerts'
 import { makeAlertsByKeySelector } from '../../selectors/alerts'
 import { removeAlert } from '../../actions/alerts'
 
@@ -21,6 +21,7 @@ export function WidgetAlerts(props) {
         onDismiss: () => onDismiss(alert.id),
         details: alert.stacktrace,
     }))
+
     return (
         <div className="n2o-alerts">
             <Alerts alerts={mapAlertsProps(alerts, onDismiss)} />
@@ -29,8 +30,8 @@ export function WidgetAlerts(props) {
 }
 
 WidgetAlerts.propTypes = {
-    widgetId: PropTypes.string,
     alerts: PropTypes.array,
+    onDismiss: PropTypes.func,
 }
 
 WidgetAlerts.defaultProps = {

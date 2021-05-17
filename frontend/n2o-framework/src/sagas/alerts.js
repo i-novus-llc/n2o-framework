@@ -7,6 +7,7 @@ import { makeAlertsByKeySelector } from '../selectors/alerts'
 export function* removeAlertSideEffect(action, alert, timeout) {
     yield delay(timeout)
     const alertsByKey = yield select(makeAlertsByKeySelector(action.payload.key))
+
     yield alertsByKey && put(removeAlert(action.payload.key, alert.id))
 }
 
@@ -14,8 +15,10 @@ export function* addAlertSideEffect(config, action) {
     try {
         const { alerts } = action.payload
         let effects = []
+
         for (let i = 0; i < alerts.length; i++) {
             const timeout = yield call(getTimeout, alerts[i], config)
+
             if (timeout) {
                 effects = [
                     ...effects,
@@ -25,6 +28,7 @@ export function* addAlertSideEffect(config, action) {
         }
         yield all(effects)
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e)
     }
 }

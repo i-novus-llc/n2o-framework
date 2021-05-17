@@ -8,6 +8,7 @@ import isObject from 'lodash/isObject'
 import get from 'lodash/get'
 import MaskedInput from 'react-text-mask'
 
+// eslint-disable-next-line import/no-cycle
 import DateTimeControl from './DateTimeControl'
 import { formatToMask, hasInsideMixMax } from './utils'
 
@@ -30,6 +31,7 @@ class DateInput extends React.Component {
     constructor(props) {
         super(props)
         const { value, dateFormat } = props
+
         this.state = {
             value: value && value.format(dateFormat),
         }
@@ -44,21 +46,23 @@ class DateInput extends React.Component {
     }
 
     setInputRef(input) {
-        this._input = input
-        this.props.setControlRef(input)
+        this.inputRef = input
+        const { setControlRef } = this.props
+
+        setControlRef(input)
     }
 
     onChange(e, callback) {
         const value = isObject(e) ? get(e, 'target.value', '') : e
-        const { dateFormat, name } = this.props
+        const { dateFormat, name, onInputChange } = this.props
 
         if (value === '') {
-            this.props.onInputChange(null, name)
+            onInputChange(null, name)
         } else if (
             moment(value, dateFormat).format(dateFormat) === value &&
-      hasInsideMixMax(value, this.props, dateFormat)
+            hasInsideMixMax(value, this.props, dateFormat)
         ) {
-            this.props.onInputChange(moment(value, dateFormat), name)
+            onInputChange(moment(value, dateFormat), name)
         } else {
             this.setState({ value }, () => {
                 if (callback) { callback() }
@@ -68,7 +72,10 @@ class DateInput extends React.Component {
 
     onFocus(e) {
         const { setVisibility, onFocus, openOnFocus } = this.props
-        onFocus && onFocus(e)
+
+        if (onFocus) {
+            onFocus(e)
+        }
         if (openOnFocus) {
             setVisibility(true)
         }
@@ -76,41 +83,47 @@ class DateInput extends React.Component {
 
     onBlur(e) {
         const { value } = e.target
-        const { dateFormat, name, outputFormat } = this.props
+        const { name, outputFormat, onBlur } = this.props
+
         if (value === '') {
-            this.props.onBlur(null, name)
+            onBlur(null, name)
         } else if (moment(value).format(outputFormat) === value) {
-            this.props.onBlur(moment(value), name)
+            onBlur(moment(value), name)
         }
     }
 
     /**
-   * Показывается попап при нажатии на кнопку с иконкой календаря
-   */
+     * Показывается попап при нажатии на кнопку с иконкой календаря
+     */
     onButtonClick() {
-        this.props.setVisibility(true)
+        const { setVisibility } = this.props
+
+        setVisibility(true)
     }
 
     onInputClick(event) {
         const { setVisibility, onClick } = this.props
+
         setVisibility(true)
-        onClick && onClick(event)
+        if (onClick) {
+            onClick(event)
+        }
     }
 
-    replaceAt(string, index, replacement) {
-        return (
-            string.substring(0, index - 1) +
-      replacement +
-      string.substring(index, string.length)
-        )
-    }
+    replaceAt = (string, index, replacement) => (
+        string.substring(0, index - 1) +
+            replacement +
+            string.substring(index, string.length)
+    )
 
     setCursorPosition(cursorPosition) {
-        this._input.inputElement.setSelectionRange(cursorPosition, cursorPosition)
+        this.inputRef.inputElement.setSelectionRange(cursorPosition, cursorPosition)
     }
 
     getDeletedSymbol(index) {
-        return this.state.value.substring(index - 1, index)
+        const { value } = this.state
+
+        return value.substring(index - 1, index)
     }
 
     onKeyDown(e) {
@@ -121,15 +134,16 @@ class DateInput extends React.Component {
         if (keyCode === 8 && cursorPos !== 0 && !isNaN(deletedChar)) {
             e.preventDefault()
 
-            const value = this.replaceAt(this.state.value, cursorPos, '_')
+            const { value } = this.state
+            const newValue = this.replaceAt(value, cursorPos, '_')
 
-            this.onChange(value, () => this.setCursorPosition(cursorPos - 1))
+            this.onChange(newValue, () => this.setCursorPosition(cursorPos - 1))
         }
     }
 
     /**
-   * Базовый рендер
-   */
+     * Базовый рендер
+     */
     render() {
         const {
             disabled,
@@ -139,6 +153,7 @@ class DateInput extends React.Component {
             dateFormat,
             inputClassName,
         } = this.props
+        const { value } = this.state
 
         return (
             <div
@@ -153,7 +168,7 @@ class DateInput extends React.Component {
                 <MaskedInput
                     ref={this.setInputRef}
                     onKeyDown={this.onKeyDown}
-                    value={this.state.value}
+                    value={value}
                     type="text"
                     mask={formatToMask(dateFormat)}
                     className={cx('form-control', inputClassName)}
@@ -169,8 +184,9 @@ class DateInput extends React.Component {
                     render={(ref, props) => <input ref={ref} {...omit(props, ['defaultValue'])} />}
                 />
                 {(name === DateTimeControl.defaultInputName ||
-          name === DateTimeControl.endInputName) && (
-          <button
+                    name === DateTimeControl.endInputName) && (
+                    // eslint-disable-next-line react/button-has-type
+                    <button
                         disabled={disabled}
                         onClick={this.onButtonClick}
                         className="btn n2o-calendar-button"
@@ -185,6 +201,7 @@ class DateInput extends React.Component {
 
     componentWillReceiveProps(props) {
         const { value, dateFormat } = props
+
         if (props.value) {
             this.setState({ value: value.format(dateFormat) })
         } else {
@@ -203,6 +220,10 @@ DateInput.defaultProps = {
 }
 
 DateInput.propTypes = {
+    outputFormat: PropTypes.string,
+    setVisibility: PropTypes.func,
+    setControlRef: PropTypes.func,
+    onInputChange: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     dateFormat: PropTypes.string,

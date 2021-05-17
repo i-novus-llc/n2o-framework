@@ -5,6 +5,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 
+// eslint-disable-next-line import/no-named-as-default
 import Text from '../../../../snippets/Typography/Text/Text'
 import withTooltip from '../../withTooltip'
 

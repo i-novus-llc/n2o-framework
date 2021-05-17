@@ -51,6 +51,7 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldExists();
 
         date.shouldBeEmpty();
+        date.shouldHavePlaceholder("Введите дату");
         date.val("15.02.2020");
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();

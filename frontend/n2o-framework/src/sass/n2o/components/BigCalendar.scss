@@ -1,26 +1,23 @@
 @import '~react-big-calendar/lib/sass/styles';
 
-.calendar {
-  &__toolbar {
+.calendar__toolbar {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-
     margin: 10px 0;
+}
 
-    &--center {
-      flex-grow: 1;
+.calendar__toolbar--center {
+    flex-grow: 1;
+    text-align: center;
+}
 
-      text-align: center;
-    }
+.calendar__toolbar--right {
+    margin-left: auto;
+}
 
-    &--right {
-      margin-left: auto;
-    }
-  }
-
-  &__event {
+.calendar__event {
     display: flex;
     flex-wrap: wrap;
     border: none;
@@ -34,32 +31,35 @@
     cursor: pointer;
     width: 100%;
     text-align: left;
-    &--nopointer {
-      cursor: default !important;
-    }
-    &-name {
-      text-overflow: ellipsis;
-      font-weight: bold;
-      margin-right: 5px;
-      overflow: hidden;
-      &--nowrap {
-        white-space: nowrap;
-      }
-    }
-  }
+}
 
-  &__cell {
+.calendar__event--nopointer {
+    cursor: default !important;
+}
+
+.calendar__event-name {
+    text-overflow: ellipsis;
+    font-weight: bold;
+    margin-right: 5px;
+    overflow: hidden;
+}
+
+.calendar__event-name--nowrap {
+    white-space: nowrap;
+}
+
+.calendar__cell {
     flex: 1 0;
-    &--day-off {
-      background-color: rgba(255,192,203, 0.3);
-    }
+}
 
-    &--current-day {
-      background-color: #eaf6ff;
-    }
+.calendar__cell--day-off {
+    background-color: rgba(255, 192, 203, 0.3);
+}
 
-    &--day-cell + &--day-cell {
-      outline: 1px solid #DDD;
-    }
-  }
+.calendar__cell--current-day {
+    background-color: #eaf6ff;
+}
+
+.calendar__cell--day-cell + .calendar__cell--day-cell {
+    outline: 1px solid #ddd;
 }

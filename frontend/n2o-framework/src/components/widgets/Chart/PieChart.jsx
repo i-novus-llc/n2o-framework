@@ -34,12 +34,11 @@ import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes'
  * }
  * @param data
  * @param size
- * @param rest
  * @return {*}
  * @constructor
  */
 
-function PieChart({ width, height, margin, pie, data, size, ...rest }) {
+function PieChart({ width, height, margin, pie, data, size }) {
     const valueFieldId = get(pie, 'dataKey')
     const tooltipFieldId = get(pie, 'tooltipKey')
     const customFill = get(pie, 'fill')
@@ -50,6 +49,7 @@ function PieChart({ width, height, margin, pie, data, size, ...rest }) {
 
     const pieData = mapData.slice(0, size)
 
+    // eslint-disable-next-line react/prop-types
     const CustomTooltip = ({ payload }) => (
         <div className="n2o-pie-chart-custom-tooltip">
             <h4 className="n2o-pie-chart-custom-tooltip__content">
@@ -70,6 +70,7 @@ function PieChart({ width, height, margin, pie, data, size, ...rest }) {
             >
                 {pieData.map((entry, index) => (
                     <Cell
+                        /* eslint-disable-next-line react/no-array-index-key */
                         key={`cell-${index}`}
                         fill={customFill || COLORS[index % COLORS.length]}
                     />

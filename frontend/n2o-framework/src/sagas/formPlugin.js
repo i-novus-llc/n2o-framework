@@ -55,9 +55,12 @@ function* checkFieldValidation({ meta }) {
     }
 
     let isValidResult = true
+
+    // eslint-disable-next-line no-restricted-syntax
     for (const validationOption of widgetValidation) {
         if (validationOption.multi) {
             // ToDo: Делаю пока только для формы
+            // eslint-disable-next-line no-continue
             continue
         }
 
@@ -76,7 +79,7 @@ function* checkFieldValidation({ meta }) {
                 isValidResult = false
 
                 if (!formMessage) {
-                    // Add form mesage
+                    // Add form message
                     const message = {
                         text: validationOption.text,
                         severity: validationOption.severity,
@@ -132,6 +135,7 @@ export function* copyAction({ payload }) {
             : { ...targetModel, ...sourceModel }
     } else if (mode === 'add') {
         if (!Array.isArray(sourceModel) || !Array.isArray(targetModelField)) {
+            // eslint-disable-next-line no-console
             console.warn('Source or target is not an array!')
         }
 

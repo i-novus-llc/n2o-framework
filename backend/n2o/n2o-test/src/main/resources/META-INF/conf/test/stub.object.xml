@@ -1,161 +1,105 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:sql="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0"
-        xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xsi:schemaLocation="http://n2oapp.net/framework/config/schema/object-2.0 http://localhost:8080/n2o/config/schema/object/object-1.0.xsd">
-    <name>Индивидуал</name>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Индивидуал">
     <fields>
         <field id="id" domain="integer"/>
         <field id="surname" domain="string"/>
         <field id="name" domain="string"/>
         <field id="patrName" domain="string"/>
         <field id="birthday" domain="date"/>
-        <reference-field id="gender" reference-object-id="gender"/>
+        <reference id="gender" object-id="gender"/>
     </fields>
 
 
-    <actions>
-        <action id="create" name="Создать">
+    <operations>
+        <operation id="create" name="Создать" success-text="Пациент '{surname}' создан"
+                   fail-text="Не удалось создать пациента '{surname}'">
             <invocation>
-                <sql:sql data-source="jdbc/test">
+                <sql data-source="jdbc/test">
                     <!--insert into pim_party (id, type_id, version, note) values (nextval('pim_party_id_seq'), 1, current_timestamp, null);-->
                     insert into pim_individual (surname, name, patr_name, birth_dt, gender_id, nationality_id) values (:surname,:name, :patrName, :birthday, :genderId, :nationalityId);
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="surname" mapping="['surname']"/>
-                <param name="name" mapping="['name']"/>
-                <param name="patrName" mapping="['patrName']"/>
-                <param name="birthday" mapping="['birthday']"/>
-                <param name="gender.id" mapping="['genderId']"/>
-                <param name="nationality.id" mapping="['nationalityId']"/>
-            </in-parameters>
-            <out-parameters>
-                <param name="id" mapping="[0][0]"/>
-            </out-parameters>
-            <success-text>Пациент '{surname}' создан</success-text>
-            <fail-text>Не удалось создать пациента '{surname}'</fail-text>
-        </action>
-        <action id="update" name="Изменить" form-submit-label="Сохранить">
+            <in>
+                <field id="surname" mapping="['surname']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="patrName" mapping="['patrName']"/>
+                <field id="birthday" mapping="['birthday']"/>
+                <field id="gender.id" mapping="['genderId']"/>
+                <field id="nationality.id" mapping="['nationalityId']"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0][0]"/>
+            </out>
+        </operation>
+        <operation id="update" name="Изменить" submit-label="Сохранить" success-text="Успешно обновлены данные пациента с фамилией {surname}">
             <invocation>
-                <sql:sql data-source="jdbc/test">
+                <sql data-source="jdbc/test">
                     update pim_individual set surname = :surname, name = :name, patr_name = :patrName, birth_dt = :birthday, gender_id = :genderId, nationality_id = :nationalityId where id = :id;
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="surname" mapping="['surname']"/>
-                <param name="name" mapping="['name']"/>
-                <param name="patrName" mapping="['patrName']"/>
-                <param name="birthday" mapping="['birthday']"/>
-                <param name="gender.id" mapping="['genderId']"/>
-                <param name="nationality.id" mapping="['nationalityId']"/>
-                <param name="id" mapping="['id']"/>
-            </in-parameters>
-
-            <success-text>Успешно обновлены данные пациента с фамилией {surname}</success-text>
-        </action>
-        <action id="delete" name="Удалить">
+            <in>
+                <field id="surname" mapping="['surname']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="patrName" mapping="['patrName']"/>
+                <field id="birthday" mapping="['birthday']"/>
+                <field id="gender.id" mapping="['genderId']"/>
+                <field id="nationality.id" mapping="['nationalityId']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
+        </operation>
+        <operation id="delete" name="Удалить" confirm-text="Вы уверены, что хотите удалить пациента '{surname}'?"
+        fail-text="Не удалось удалить пациента '{surname}'">
             <invocation>
-                <sql:sql data-source="jdbc/test">
+                <sql data-source="jdbc/test">
                     delete from pim_individual where id = :id;
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="id" mapping="['id']"/>
-            </in-parameters>
-            <confirmation-text>Вы уверены, что хотите удалить пациента '{surname}'?</confirmation-text>
-            <fail-text>Не удалось удалить пациента '{surname}'</fail-text>
-        </action>
-        <action id="changeStatusVip">
+            <in>
+                <field id="id" mapping="['id']"/>
+            </in>
+        </operation>
+        <operation id="changeStatusVip">
             <invocation>
-                <sql:sql data-source="jdbc/test">
+                <sql data-source="jdbc/test">
                     update pim_individual set vip = :vip where id = :id
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="vip" mapping="['vip']"/>
-                <param name="id" mapping="['id']"/>
-            </in-parameters>
-        </action>
-        <action id="changeHasCitizenship">
+            <in>
+                <field id="vip" mapping="['vip']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
+        </operation>
+        <operation id="changeHasCitizenship">
             <invocation>
-                <sql:sql data-source="jdbc/test">
+                <sql data-source="jdbc/test">
                     update pim_individual set has_citizenship = :hasCitizenship where id= :id
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="hasCitizenship" mapping="['hasCitizenship']"/>
-                <param name="id" mapping="['id']"/>
-            </in-parameters>
-        </action>
-        <action id="toggleStatusVip" name="Смена статуса VIP">
+            <in>
+                <field id="hasCitizenship" mapping="['hasCitizenship']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
+        </operation>
+        <operation id="toggleStatusVip" name="Смена статуса VIP">
             <invocation>
-                <sql:sql data-source="jdbc/test">
+                <sql data-source="jdbc/test">
                     update pim_individual set vip = NOT :vip where id = :id
-                </sql:sql>
+                </sql>
             </invocation>
-            <in-parameters>
-                <param name="vip" mapping="['vip']"/>
-                <param name="id" mapping="['id']"/>
-            </in-parameters>
-        </action>
-        <action id="checkValid">
+            <in>
+                <field id="vip" mapping="['vip']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
+        </operation>
+        <operation id="checkValid">
             <invocation>
-                <sql:sql data-source="jdbc/test">select 1</sql:sql>
+                <sql data-source="jdbc/test">select 1</sql>
             </invocation>
-            <in-parameters>
-                <param name="errorValid" mapping="['err']"/>
-                <param name="warningValid" mapping="['warn']"/>
-            </in-parameters>
-        </action>
-    </actions>
-
-    <!--<validations>-->
-        <!--<condition id="checkSurname" level="warning">-->
-            <!--<expression on="gender,surname"><![CDATA[-->
-                <!--(typeof gender == 'undefined') || (gender.id != 2) || (surname == '') ||(surname == null) || (surname.trim().charAt(surname.trim().length - 1) == 'а')-->
-            <!--]]>-->
-            <!--</expression>-->
-            <!--<message>Женские фамилии чаще всего заканчиваются на 'а'</message>-->
-        <!--</condition>-->
-        <!--<condition id="checkIvanov" level="error" moment="before-action">-->
-            <!--<expression>surname != 'Иванов'</expression>-->
-            <!--<message>Нельзя изменять данные пациента с фамилией 'Иванов'</message>-->
-        <!--</condition>-->
-        <!--&lt;!&ndash;<condition id="checkAge" level="error">&ndash;&gt;-->
-        <!--&lt;!&ndash;<message>Возрастная группа не соответствует дате рождения</message>&ndash;&gt;-->
-        <!--&lt;!&ndash;<expression on="birthday,ageGroup"><![CDATA[&ndash;&gt;-->
-        <!--&lt;!&ndash;(ageGroup == null) || (birthday == null)&ndash;&gt;-->
-        <!--&lt;!&ndash;|| ((ageGroup.min <= new Date().getFullYear() - new Date(birthday.replace(/(\d{2})\.(\d{2})\.(\d{4})/,'$3-$2-$1')).getFullYear())&ndash;&gt;-->
-        <!--&lt;!&ndash;&& (ageGroup.max > new Date().getFullYear() - new Date(birthday.replace(/(\d{2})\.(\d{2})\.(\d{4})/,'$3-$2-$1')).getFullYear()));&ndash;&gt;-->
-        <!--&lt;!&ndash;]]>&ndash;&gt;-->
-        <!--&lt;!&ndash;</expression>&ndash;&gt;-->
-        <!--&lt;!&ndash;</condition>&ndash;&gt;-->
-        <!--<constraint id="checkUniqueName" level="warning">-->
-            <!--<invocation>-->
-                <!--<sql:sql data-source="jdbc/test">-->
-                    <!--select count(1) from pim_individual-->
-                    <!--where upper(surname) = upper(:surname)-->
-                    <!--and upper(name) = upper(:name)-->
-                    <!--and (:id is null or id != :id)-->
-                <!--</sql:sql>-->
-            <!--</invocation>-->
-            <!--<in-parameters>-->
-                <!--<param name="surname" mapping="['surname']"/>-->
-                <!--<param name="name" mapping="['name']"/>-->
-                <!--<param name="id" mapping="['id']"/>-->
-            <!--</in-parameters>-->
-            <!--<result expression="[0][0][0] == 0"/>-->
-            <!--<message>Пациент с таким именем и фамилией уже существует в системе</message>-->
-        <!--</constraint>-->
-        <!--<condition id="errorValid" level="error">-->
-            <!--<message>Ошибка валидации</message>-->
-            <!--<expression>errorValid == null</expression>-->
-        <!--</condition>-->
-        <!--<condition id="warningValid" level="warning">-->
-            <!--<message>Предупреждение валидации</message>-->
-            <!--<expression>warningValid == null</expression>-->
-        <!--</condition>-->
-    <!--</validations>-->
-
+            <in>
+                <field id="errorValid" mapping="['err']"/>
+                <field id="warningValid" mapping="['warn']"/>
+            </in>
+        </operation>
+    </operations>
 </object>

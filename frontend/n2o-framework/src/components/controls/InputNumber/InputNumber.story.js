@@ -53,17 +53,14 @@ stories
 
     .add(
         'Метаданные',
-        form(() => {
-            const props = {
-                visible: InputNumberJson.visible,
-                step: InputNumberJson.step,
-                showButtons: InputNumberJson.showButtons,
-                disabled: InputNumberJson.disabled,
-                min: InputNumberJson.min,
-                max: InputNumberJson.max,
-            }
-            return props
-        }),
+        form(() => ({
+            visible: InputNumberJson.visible,
+            step: InputNumberJson.step,
+            showButtons: InputNumberJson.showButtons,
+            disabled: InputNumberJson.disabled,
+            min: InputNumberJson.min,
+            max: InputNumberJson.max,
+        })),
     )
 
     .add(

@@ -44,6 +44,8 @@ public class TabsRegionAT extends AutoTestBase {
 
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.shouldHaveSize(3);
+        tabs.shouldHaveCssClass("css-on-tabs");
+        tabs.shouldHaveStyle("width: 90%;");
         tabs.tab(0).shouldBeActive();
         tabs.tab(1).shouldNotBeActive();
         tabs.tab(2).shouldNotBeActive();

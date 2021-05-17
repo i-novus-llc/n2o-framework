@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isUndefined from 'lodash/isUndefined'
 
 import Text from '../../../../snippets/Text/Text'
+// eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
 import withTooltip from '../../withTooltip'
 
@@ -19,10 +20,11 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes'
  */
 function IconCell({ id, model, visible, icon, type, textPlace }) {
     const text = model[id]
+
     return (
         visible && (
             <div
-                className={cn('icon-cell-container', {
+                className={classNames('icon-cell-container', {
                     'icon-cell-container__with-tooltip': !isUndefined(
                         model.tooltipFieldId,
                     ),

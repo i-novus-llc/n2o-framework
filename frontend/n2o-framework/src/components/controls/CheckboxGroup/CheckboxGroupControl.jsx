@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Checkbox from '../Checkbox/Checkbox'
-import withFetchData from '../withFetchData.js'
-import CheckboxN2O from '../Checkbox/CheckboxN2O'
+import withFetchData from '../withFetchData'
+import { CheckboxN2OWrapped } from '../Checkbox/CheckboxN2O'
 import CheckboxButton from '../Checkbox/CheckboxButton'
 import Spinner from '../../snippets/Spinner/InlineSpinner'
 
@@ -30,9 +30,11 @@ import CheckboxGroup from './CheckboxGroup'
 
 export class CheckboxGroupControl extends React.Component {
     componentDidMount() {
-        this.props._fetchData({
-            size: this.props.size,
-            [`sorting.${this.props.labelFieldId}`]: 'ASC',
+        const { _fetchData, size, labelFieldId } = this.props
+
+        _fetchData({
+            size,
+            [`sorting.${labelFieldId}`]: 'ASC',
         })
     }
 
@@ -45,7 +47,7 @@ export class CheckboxGroupControl extends React.Component {
 
         const checkboxTypes = {
             default: Checkbox,
-            n2o: CheckboxN2O,
+            n2o: CheckboxN2OWrapped,
             btn: CheckboxButton,
         }
 
@@ -79,6 +81,8 @@ CheckboxGroupControl.propTypes = {
     labelFieldId: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
     inline: PropTypes.bool,

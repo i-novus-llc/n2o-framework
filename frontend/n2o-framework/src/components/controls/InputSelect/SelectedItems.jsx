@@ -24,7 +24,6 @@ function InputElements({
     collapseSelected,
     lengthToGroup,
     onDeleteAll,
-    setRef,
     maxTagTextLength,
 }) {
     const { t } = useTranslation()
@@ -82,6 +81,7 @@ InputElements.propTypes = {
     onDeleteAll: PropTypes.func,
     collapseSelected: PropTypes.bool,
     lengthToGroup: PropTypes.number,
+    maxTagTextLength: PropTypes.number,
     disabled: PropTypes.bool,
 }
 

@@ -1,37 +1,38 @@
 .n2o-checkbox.inline {
-  display: inline-block;
-  padding-top: 4px;
-  margin-bottom: 0;
-  vertical-align: middle;
+    display: inline-block;
+    padding-top: 4px;
+    margin-bottom: 0;
+    vertical-align: middle;
 }
 
 .n2o-checkbox.inline + .n2o-checkbox.inline {
-  margin-left: 10px;
-}
-
-.n2o-checkbox-inline {
-  & > .custom-checkbox {
-    &:last-child {
-      margin-right: 0;
-    }
-    margin-right: 1.5rem;
-  }
-
-  & > .checkbox {
-    display: inline-block;
-
-    & > label {
-      margin-right: 5px;
-
-      & > .alt-checkbox-block {
-        margin-right: 5px;
-      }
-    }
-  }
+    margin-left: 10px;
 }
 
 div.checkbox {
-  & > label {
-    margin-bottom: 0;
-  }
+    > label {
+        margin-bottom: 0;
+    }
+}
+
+.n2o-checkbox-inline {
+    > .custom-checkbox {
+        &:last-child {
+            margin-right: 0;
+        }
+
+        margin-right: 1.5rem;
+    }
+
+    > .checkbox {
+        display: inline-block;
+
+        > label {
+            margin-right: 5px;
+
+            > .alt-checkbox-block {
+                margin-right: 5px;
+            }
+        }
+    }
 }

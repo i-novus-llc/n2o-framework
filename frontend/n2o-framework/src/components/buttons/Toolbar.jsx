@@ -9,7 +9,7 @@ import ButtonToolbar from 'reactstrap/lib/ButtonToolbar'
 import ButtonGroup from 'reactstrap/lib/ButtonGroup'
 import cn from 'classnames'
 
-import Factory from '../../core/factory/Factory'
+import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
 
 function Toolbar({ className, toolbar, entityKey, onClick }) {
@@ -21,6 +21,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
     const remapButtons = (obj) => {
         const subMenu = get(obj, 'subMenu')
         const enabled = get(obj, 'enabled')
+
         if (!isUndefined(enabled)) {
             set(obj, 'disabled', !enabled)
             set(obj, 'entityKey', entityKey)
@@ -30,15 +31,22 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         if (!isUndefined(subMenu)) {
             map(subMenu, item => remapButtons(item))
         }
+
         return obj
     }
 
-    const renderButtons = props => (props.component ? (
-        React.createElement(props.component, remapButtons(props))
-    ) : (
-        <Factory level={BUTTONS} {...props} entityKey={entityKey} />
-    ))
+    const renderButtons = (props) => {
+        // eslint-disable-next-line react/prop-types
+        const { component } = props
 
+        return (component ? (
+            React.createElement(component, remapButtons(props))
+        ) : (
+            <Factory level={BUTTONS} {...props} entityKey={entityKey} />
+        ))
+    }
+
+    // eslint-disable-next-line react/prop-types
     const renderBtnGroup = ({ buttons }) => (
         <ButtonGroup>{map(buttons, renderButtons)}</ButtonGroup>
     )
@@ -57,6 +65,7 @@ Toolbar.propTypes = {
     toolbar: PropTypes.array,
     entityKey: PropTypes.string,
     onClick: PropTypes.func,
+    className: PropTypes.string,
 }
 
 Toolbar.defaultProps = {

@@ -4,7 +4,6 @@ import Row from 'reactstrap/lib/Row'
 import Col from 'reactstrap/lib/Col'
 
 import controls from '../../controls'
-import RadioGroupContainer from '../../controls/RadioGroup/RadioGroupContainer'
 import ReduxForm from '../Form/ReduxForm'
 import Fieldset from '../Form/Fieldset'
 
@@ -15,10 +14,12 @@ export const exportFormName = 'storyForm'
  * @reactProps {object} type
  * @reactProps {any} code
  */
+// eslint-disable-next-line react/prefer-stateless-function
 class StoryModal extends React.Component {
     render() {
         const dateControl = { component: controls.DatePicker }
         const inputControl = { component: controls.InputText }
+
         return (
             <ReduxForm form={exportFormName}>
                 <Fieldset>
@@ -52,7 +53,9 @@ class StoryModal extends React.Component {
 }
 
 StoryModal.propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     type: PropTypes.object,
+    // eslint-disable-next-line react/no-unused-prop-types
     code: PropTypes.string,
 }
 

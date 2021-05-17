@@ -2,13 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Alert from 'reactstrap/lib/Alert'
 
-function NotFoundFactory({ src, level }) {
+export function NotFoundFactory({ src, level }) {
+    /* eslint-disable react/jsx-one-expression-per-line */
     return (
         <Alert color="danger">
 
       Фабрике не удалось найти компонент:
             {src}
             {' '}
+
 в
             {level}
         </Alert>

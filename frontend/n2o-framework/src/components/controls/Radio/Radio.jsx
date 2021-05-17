@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { setDisplayName } from 'recompose'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import Input from '../Input/Input'
 
@@ -13,51 +13,45 @@ import Input from '../Input/Input'
  * @reactProps {function} onChange - вызывается при изменении значения
  * @reactProps {string} compileLabel - лейбл
  */
-class Radio extends React.Component {
-    /**
-   * базовый рендер
-   * */
-    render() {
-        const { label, disabled, value, checked, onChange } = this.props
-
-        return (
-            <div className={cx('radio', { checked })}>
-                <label>
-                    <Input
-                        disabled={disabled}
-                        type="radio"
-                        value={value}
-                        checked={checked}
-                        onChange={onChange}
-                    />
-                    {' '}
-                    {this.props.label}
-                </label>
-            </div>
-        )
-    }
+function Radio({ label, disabled, value, checked, onChange }) {
+    return (
+        <div className={classNames('radio', { checked })}>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label>
+                <Input
+                    disabled={disabled}
+                    type="radio"
+                    value={value}
+                    checked={checked}
+                    onChange={onChange}
+                />
+                {' '}
+                {label}
+            </label>
+        </div>
+    )
 }
 
 Radio.propTypes = {
     /**
-   * Значение
-   */
+     * Значение
+     */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
-   * Checked контрола
-   */
+     * Checked контрола
+     */
     checked: PropTypes.bool,
     /**
-   * Флаг активности
-   */
+     * Флаг активности
+     */
     disabled: PropTypes.bool,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Label контрола
-   */
+     * Label контрола
+     */
     label: PropTypes.string,
 }
 

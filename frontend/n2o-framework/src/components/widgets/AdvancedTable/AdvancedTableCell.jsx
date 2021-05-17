@@ -48,6 +48,7 @@ function AdvancedTableCell({ children, hasSpan, record, textWrap }) {
 
 AdvancedTableCell.propTypes = {
     children: PropTypes.any,
+    textWrap: PropTypes.bool,
     hasSpan: PropTypes.bool,
     record: PropTypes.object,
 }

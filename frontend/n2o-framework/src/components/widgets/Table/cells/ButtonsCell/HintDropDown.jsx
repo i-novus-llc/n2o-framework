@@ -8,8 +8,10 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 import { compose, withState } from 'recompose'
 import { Manager, Reference } from 'react-popper'
 
+// eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
 import SecurityCheck from '../../../../../core/auth/SecurityCheck'
+// eslint-disable-next-line import/no-named-as-default
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem'
 
 import { MODIFIERS, initUid } from './until'
@@ -94,7 +96,7 @@ function HintDropDown({
     }
 
     const onToggleDropdown = (e) => {
-        e && e.stopPropagation()
+        if (e) { e.stopPropagation() }
         resolveWidget(model)
         onToggle(!open)
     }
@@ -184,6 +186,15 @@ HintDropDown.propTypes = {
     positionFixed: PropTypes.bool,
     modifiers: PropTypes.object,
     resolveWidget: PropTypes.func,
+    uId: PropTypes.string,
+    open: PropTypes.bool,
+    onToggle: PropTypes.func,
+    icon: PropTypes.string,
+    onClick: PropTypes.func,
+    security: PropTypes.object,
+    hintPosition: PropTypes.string,
+    model: PropTypes.object,
+    action: PropTypes.object,
 }
 
 HintDropDown.defaultProps = {

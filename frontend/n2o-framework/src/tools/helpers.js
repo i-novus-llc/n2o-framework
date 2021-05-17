@@ -18,64 +18,34 @@ import map from 'lodash/map'
  */
 export const setIn = (object, path, value) => setWith(clone(object), path, value, clone)
 
-function http_build_query(formdata, numeric_prefix, arg_separator) {
-    let key
-    let use_val
-    let use_key
+function buildHTTPQuery(formData, numericPrefix, argSeparator) {
     let i = 0
-    const tmp_arr = []
+    const tmp = []
 
-    if (!arg_separator) {
-        arg_separator = '&'
+    if (!argSeparator) {
+        argSeparator = '&'
     }
 
-    for (key in formdata) {
-        if (!formdata.hasOwnProperty(key)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in formData) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (!formData.hasOwnProperty(key)) {
+            // eslint-disable-next-line no-continue
             continue
         }
-        use_key = key
-        use_val = String(formdata[key])
-        use_val = use_val.replace(/%20/g, '+')
+        let property = key
+        const value = String(formData[key]).replace(/%20/g, '+')
 
-        if (numeric_prefix && !isNaN(key)) {
-            use_key = numeric_prefix + i
+        // eslint-disable-next-line no-restricted-globals
+        if (numericPrefix && !isNaN(key)) {
+            property = numericPrefix + i
         }
-        tmp_arr[i] = `${use_key}=${use_val}`
+        tmp[i] = `${property}=${value}`
+        // eslint-disable-next-line no-plusplus
         i++
     }
 
-    return tmp_arr.join(arg_separator) && `?${tmp_arr.join(arg_separator)}`
-}
-
-/**
- * new method conversion in url for query
- * see {NNO-266}
- * @param data
- * @returns {String}
- */
-export function http_params_query(data) {
-    const params = []
-    each(data, (val, key) => {
-        if (data.hasOwnProperty(key)) {
-            params.push({ name: key, value: val })
-        }
-    })
-    return params
-}
-
-/**
- * Make "flat" query string from object Json
- *  and extends params
- *  with new paramize method
- * @param objectAim
- * @param [Key] - key id start
- * @param [$Res] - extender result object
- * @param [delimiter] - extender result object
- * @returns {String}
- */
-export function generateParamQuery(objectAim, Key, $Res, delimiter) {
-    $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter)
-    return http_params_query($Res)
+    return tmp.join(argSeparator) && `?${tmp.join(argSeparator)}`
 }
 
 /**
@@ -89,7 +59,8 @@ export function generateParamQuery(objectAim, Key, $Res, delimiter) {
  */
 export function generateFlatQuery(objectAim, Key, $Res, delimiter) {
     $Res = $generateFlatQuery(objectAim, Key, $Res, delimiter)
-    return http_build_query($Res)
+
+    return buildHTTPQuery($Res)
 }
 
 function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
@@ -107,8 +78,9 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
 
     each(objectAim, (val, key) => {
         if (isArray(val)) {
-            each(val, ($val, $key) => {
+            each(val, ($val) => {
                 if (isObject($val)) {
+                    // eslint-disable-next-line sonarjs/no-extra-arguments
                     generateFlatQuery(
                         $val,
                         Key ? [Key, key].join(delimiter) : key,
@@ -128,6 +100,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
         }
 
         if (isObject(val)) {
+            // eslint-disable-next-line sonarjs/no-extra-arguments
             generateFlatQuery(
                 val,
                 Key ? Key + delimiter + key : key,
@@ -142,118 +115,8 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
             : val
         }
     })
+
     return $Res
-}
-
-/**
- * Create object form string with dot notation
- *
- * @example
- * "Page.sdf.test"  =>  {
- *     Page: {
- *         sdf: {
- *             test: 'default value'
- *         }
- *     }
- * }
- *
- * @param {String} string
- * @param [defaultValue]
- * @param [delimiter]
- * @returns {Object}
- * @param {Object} [$resultObject]
- */
-export function createObjectFromDotString(
-    string,
-    defaultValue,
-    delimiter,
-    $resultObject,
-) {
-    // defaultValue = defaultValue || {};
-    delimiter = delimiter || '.'
-    const keys = string.split(delimiter)
-    const res = $resultObject || {}
-    let $next = res
-
-    each(keys, (item, i) => {
-    // if key array's
-        let resRegExp
-        if ((resRegExp = item && item.match(/\[(\d)]/))) {
-            const index = +resRegExp[1]
-            const $key = item.replace(/\[(\d)]/, '')
-            $next[$key] = $next[$key] || []
-            // about array[0][0] ???
-
-            $next[$key][index] = $next[$key][index] || {}
-            if (keys.length === i + 1) {
-                $next[$key][index] = defaultValue
-            }
-
-            $next = $next[$key][index]
-            return $next
-        }
-        $next[item] = $next[item] || {}
-
-        $next[item] = $next[item] || {}
-        if (keys.length === i + 1) {
-            $next[item] = defaultValue
-        }
-        $next = $next[item]
-    })
-    return res
-}
-
-/**
- * Create object dy dot notation string and set value from context.
- * @param key string with dot notation
- * @param obj
- * @param [delimiter]
- * @returns {{}}
- */
-export function createObjectByDotNotationKey(key, obj, delimiter) {
-    delimiter = delimiter || '.'
-    const keys = key.split(delimiter)
-    const res = {}
-    let $next = res
-    const $val = obj
-
-    const deep = []
-
-    if (keys.length === 1) {
-        res[key] = obj[key]
-        return res
-    }
-
-    each(keys, (item, i) => {
-        deep.push(item)
-        $next[item] = $next[item] || {}
-        $val[item] = $val[item]
-        if (keys.length === i + 1) {
-            $next[item] = getPathValue($val, deep.join(delimiter))
-        }
-        $next = $next[item]
-    })
-
-    return res
-}
-
-/**
- * get value from sub-path object
- * @param object
- * @param path
- */
-export function getPathValue(object, path) {
-    const flatParams = $generateFlatQuery(object, { withoutEncode: true })
-    return flatParams[path]
-}
-
-/**
- * get func from preFilter
- * @param value
- */
-export function preFilterIsFunction(value) {
-    const regExp = `${value}`.match(/^`(.*)`$/)
-    return regExp && regExp[1]
 }
 
 /**
@@ -263,9 +126,11 @@ function needLinked(query) {
     query = String(query)
     // noinspection JSValidateTypes
     const res = query.match('^(\\$|\\@)?{([^}^{]*)}$') // => {Page.container.name}
+
     if (res && res[2]) {
         return res[2]
     }
+
     return false
 }
 
@@ -307,6 +172,7 @@ export function difference(object, base) {
               : value
         }
     })
+
     return changes(object, base)
 }
 
@@ -324,5 +190,6 @@ export function omitDeep(collection, excludeKeys) {
             })
         }
     }
+
     return cloneDeepWith(collection, omitFn)
 }

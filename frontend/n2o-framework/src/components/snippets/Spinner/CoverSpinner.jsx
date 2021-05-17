@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react'
-import cx from 'classnames'
+import React, { Component } from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
 const delay = ms => new Promise(res => setTimeout(res, ms))
@@ -11,7 +11,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms))
  * @reactProps {string} message - текст спиннера
  * @reactProps {number} deferredSpinnerStart - время показа спинера
  */
-class CoverSpinner extends Component {
+export class CoverSpinner extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -33,9 +33,10 @@ class CoverSpinner extends Component {
     render() {
         const { deferredStart } = this.state
         const { animationClass, message, mode } = this.props
+
         return (
             <div
-                className={cx(
+                className={classNames(
                     'spinner-container',
                     { 'spinner-none-background': deferredStart },
                     { 'spinner-container--dark': mode === 'dark' },

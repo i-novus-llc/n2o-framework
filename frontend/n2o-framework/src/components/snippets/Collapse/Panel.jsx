@@ -2,7 +2,7 @@ import React from 'react'
 import isString from 'lodash/isString'
 import PropTypes from 'prop-types'
 import { Panel as BasePanel } from 'rc-collapse'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Панель Collapse
@@ -16,7 +16,7 @@ import cx from 'classnames'
  * @returns {*}
  * @constructor
  */
-const Panel = ({
+export const Panel = ({
     className,
     headerClass,
     header,
@@ -28,6 +28,7 @@ const Panel = ({
     <BasePanel
         header={(
             <span
+                /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/tabindex-no-positive */
                 tabIndex={1}
                 title={isString(header) && header}
                 className="n2o-panel-header-text"
@@ -35,8 +36,8 @@ const Panel = ({
                 {header}
             </span>
         )}
-        className={cx('n2o-collapse-panel', type, className)}
-        headerClass={cx('n2o-panel-header', headerClass, {
+        className={classNames('n2o-collapse-panel', type, className)}
+        headerClass={classNames('n2o-panel-header', headerClass, {
             'n2o-disabled': !collapsible,
         })}
         {...rest}
@@ -47,39 +48,39 @@ const Panel = ({
 
 Panel.propTypes = {
     /**
-   * Заголовок панели
-   */
+     * Заголовок панели
+     */
     header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     /**
-   * Класс заголовка
-   */
+     * Класс заголовка
+     */
     headerClass: PropTypes.string,
     /**
-   * Флаг показа иконки chevron рядом с заголовком панели
-   */
+     * Флаг показа иконки chevron рядом с заголовком панели
+     */
     showArrow: PropTypes.bool,
     className: PropTypes.string,
     style: PropTypes.object,
     /**
-   * Обьект для изменения анимации открытия и закрытия панели
-   */
+     * Обьект для изменения анимации открытия и закрытия панели
+     */
     openAnimation: PropTypes.object,
     /**
-   * Флаг активности панели
-   */
+     * Флаг активности панели
+     */
     disabled: PropTypes.bool,
     /**
-   * Флаг рендера неактивных панелей
-   */
+     * Флаг рендера неактивных панелей
+     */
     forceRender: PropTypes.bool,
     children: PropTypes.node,
     /**
-   * Тип панели
-   */
+     * Тип панели
+     */
     type: PropTypes.oneOf(['default', 'line', 'divider']),
     /**
-   * Флаг выключения возможности сворачивания
-   */
+     * Флаг выключения возможности сворачивания
+     */
     collapsible: PropTypes.bool,
 }
 

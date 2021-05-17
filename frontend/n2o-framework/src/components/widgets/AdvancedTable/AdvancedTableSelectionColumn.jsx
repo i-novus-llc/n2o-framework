@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
 import get from 'lodash/get'
 
@@ -17,6 +18,12 @@ function AdvancedTableSelectionColumn({ onChange, checked, setRef }) {
     )
 }
 
+AdvancedTableSelectionColumn.propTypes = {
+    onChange: PropTypes.func,
+    setRef: PropTypes.func,
+    checked: PropTypes.bool,
+}
+
 const enhance = compose(
     withState('checked', 'setChecked', false),
     withHandlers({
@@ -28,5 +35,6 @@ const enhance = compose(
         },
     }),
 )
+
 export { AdvancedTableSelectionColumn }
 export default enhance(AdvancedTableSelectionColumn)

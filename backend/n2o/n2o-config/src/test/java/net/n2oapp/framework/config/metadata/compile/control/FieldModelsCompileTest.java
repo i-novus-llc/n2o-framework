@@ -9,7 +9,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,48 +40,48 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/control/fieldModelsCompileTest/index.page.xml")
                 .get(pageContext);
 
-        PageContext modalContext = (PageContext) route("/modalPage", Page.class);
-        assertThat(modalContext.getParentClientPageId(), Matchers.is("_"));
-        assertThat(modalContext.getParentClientWidgetId(), Matchers.is("form"));
+        PageContext modalContext = (PageContext) route("/form/modalPage", Page.class);
+        assertThat(modalContext.getParentClientPageId(), is("_"));
+        assertThat(modalContext.getParentClientWidgetId(), is("form"));
 
         Page page = read().compile().get(modalContext);
         Models models = page.getModels();
         assertThat(models.size(), is(10));
 
         //parent
-        assertThat(models.get("resolve['modalPage_info'].parentFull").getBindLink(), is("models.filter['testForm']"));
-        assertThat(models.get("resolve['modalPage_info'].parentFull").getValue(), is("`testValue`"));
+        assertThat(models.get("resolve['form_modalPage_info'].parentFull").getBindLink(), is("models.filter['testForm']"));
+        assertThat(models.get("resolve['form_modalPage_info'].parentFull").getValue(), is("`testValue`"));
 
-        assertThat(models.get("resolve['modalPage_info'].parentRefField").getBindLink(), is("models.filter['testForm'].field"));
+        assertThat(models.get("resolve['form_modalPage_info'].parentRefField").getBindLink(), is("models.filter['testForm'].field"));
 
-        assertThat(models.get("resolve['modalPage_info'].parentDefaults").getBindLink(), is("models.resolve['form']"));
-        assertThat(models.get("resolve['modalPage_info'].parentDefaults").getValue(), is("`testValue`"));
+        assertThat(models.get("resolve['form_modalPage_info'].parentDefaults").getBindLink(), is("models.resolve['form']"));
+        assertThat(models.get("resolve['form_modalPage_info'].parentDefaults").getValue(), is("`testValue`"));
 
         //this
-        assertThat(models.get("resolve['modalPage_info'].thisFull").getBindLink(), is("models.filter['modalPage_testForm']"));
-        assertThat(models.get("resolve['modalPage_info'].thisFull").getValue(), is("`testValue`"));
+        assertThat(models.get("resolve['form_modalPage_info'].thisFull").getBindLink(), is("models.filter['form_modalPage_testForm']"));
+        assertThat(models.get("resolve['form_modalPage_info'].thisFull").getValue(), is("`testValue`"));
 
-        assertThat(models.get("resolve['modalPage_info'].thisDefaults").getBindLink(), is("models.resolve['modalPage_info']"));
-        assertThat(models.get("resolve['modalPage_info'].thisDefaults").getValue(), is("`testValue`"));
+        assertThat(models.get("resolve['form_modalPage_info'].thisDefaults").getBindLink(), is("models.resolve['form_modalPage_info']"));
+        assertThat(models.get("resolve['form_modalPage_info'].thisDefaults").getValue(), is("`testValue`"));
 
         //parent select
-        assertThat(models.get("resolve['modalPage_info'].selectParentFull").getBindLink(), is("models.filter['testForm']"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectParentFull").getValue()).getValues().get("id"), is("`address.id`"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectParentFull").getValue()).getValues().get("name"), is("`address.name`"));
+        assertThat(models.get("resolve['form_modalPage_info'].selectParentFull").getBindLink(), is("models.filter['testForm']"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectParentFull").getValue()).getValues().get("id"), is("`address.id`"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectParentFull").getValue()).getValues().get("name"), is("`address.name`"));
 
-        assertThat(models.get("resolve['modalPage_info'].selectRefField").getBindLink(), is("models.filter['testForm'].address"));
+        assertThat(models.get("resolve['form_modalPage_info'].selectRefField").getBindLink(), is("models.filter['testForm'].address"));
 
-        assertThat(models.get("resolve['modalPage_info'].selectParentDefaults").getBindLink(), is("models.resolve['form']"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectParentDefaults").getValue()).getValues().get("id"), is("`address.id`"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectParentDefaults").getValue()).getValues().get("name"), is("`address.name`"));
+        assertThat(models.get("resolve['form_modalPage_info'].selectParentDefaults").getBindLink(), is("models.resolve['form']"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectParentDefaults").getValue()).getValues().get("id"), is("`address.id`"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectParentDefaults").getValue()).getValues().get("name"), is("`address.name`"));
 
         //this
-        assertThat(models.get("resolve['modalPage_info'].selectThisFull").getBindLink(), is("models.filter['modalPage_testForm']"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectThisFull").getValue()).getValues().get("id"), is("`address.id`"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectThisFull").getValue()).getValues().get("name"), is("`address.name`"));
+        assertThat(models.get("resolve['form_modalPage_info'].selectThisFull").getBindLink(), is("models.filter['form_modalPage_testForm']"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectThisFull").getValue()).getValues().get("id"), is("`address.id`"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectThisFull").getValue()).getValues().get("name"), is("`address.name`"));
 
-        assertThat(models.get("resolve['modalPage_info'].selectThisDefaults").getBindLink(), is("models.resolve['modalPage_info']"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectThisDefaults").getValue()).getValues().get("id"), is("`address.id`"));
-        assertThat(((DefaultValues)models.get("resolve['modalPage_info'].selectThisDefaults").getValue()).getValues().get("name"), is("`address.name`"));
+        assertThat(models.get("resolve['form_modalPage_info'].selectThisDefaults").getBindLink(), is("models.resolve['form_modalPage_info']"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectThisDefaults").getValue()).getValues().get("id"), is("`address.id`"));
+        assertThat(((DefaultValues)models.get("resolve['form_modalPage_info'].selectThisDefaults").getValue()).getValues().get("name"), is("`address.name`"));
     }
 }

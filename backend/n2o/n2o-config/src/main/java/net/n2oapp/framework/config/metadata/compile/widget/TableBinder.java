@@ -18,9 +18,10 @@ public class TableBinder extends BaseListWidgetBinder<Table> {
     @Override
     public Table bind(Table compiled, BindProcessor p) {
         bindRowClick(compiled.getComponent().getRowClick(), p);
-        if (compiled.getComponent().getCells() != null) {
+        if (compiled.getComponent().getCells() != null)
             compiled.getComponent().getCells().forEach(p::bind);
-        }
+        if (compiled.getFiltersDefaultValuesQueryId() != null)
+            p.resolveFiltersModels(compiled.getFiltersDefaultValuesQueryId(), compiled.getFilters());
         return compiled;
     }
 }

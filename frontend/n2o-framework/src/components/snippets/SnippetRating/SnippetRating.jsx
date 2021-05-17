@@ -1,7 +1,7 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isInteger from 'lodash/isInteger'
 import eq from 'lodash/eq'
 import round from 'lodash/round'
@@ -22,11 +22,12 @@ const prepareValue = (rating, half) => {
     // округление до .5
         return Math.round(+rating / 0.5) * 0.5
     }
+
     return Math.round(rating)
 }
 
 // TODO отказаться от rating  в параметрах в пользу value для единообразия со всеми полями ввода
-class SnippetRating extends Component {
+export class SnippetRating extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -41,18 +42,23 @@ class SnippetRating extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const rating = props.rating || props.value
+        const { value } = props
+        const rating = props.rating || value
+
         if (rating !== state.rating) {
             return {
                 rating,
                 value: prepareValue(rating, props.half),
             }
         }
+
+        return null
     }
 
     onChangeAndSetState({ target: { value } }) {
         const newValue = Number(value)
         const { onChange } = this.props
+
         this.setState({
             value: newValue,
             rating: newValue,
@@ -74,6 +80,8 @@ class SnippetRating extends Component {
     renderNullStar() {
         const { value } = this.state
         const { readonly } = this.props
+
+        /* eslint-disable react/jsx-one-expression-per-line */
         return (
             <>
                 <input
@@ -85,8 +93,9 @@ class SnippetRating extends Component {
                     onClick={readonly ? null : this.onChangeAndSetState}
                     checked={eq(0, value)}
                 />
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
-                    className={cn('rating__label', {
+                    className={classNames('rating__label', {
                         'rating__label--no-pointer': readonly,
                     })}
                     htmlFor={`rating-0-${this.id}`}
@@ -101,17 +110,19 @@ class SnippetRating extends Component {
     renderStars(index) {
         const { value } = this.state
         const { readonly } = this.props
+
         return (
             <>
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
-                    className={cn('rating__label', {
+                    className={classNames('rating__label', {
                         'rating__label--half': !isInteger(index),
                         'rating__label--no-pointer': readonly,
                     })}
                     htmlFor={`rating-${index}-${this.id}`}
                 >
                     <i
-                        className={cn('rating__icon rating__icon--star fa', {
+                        className={classNames('rating__icon rating__icon--star fa', {
                             'fa-star-half': !isInteger(index),
                             'fa-star': isInteger(index),
                         })}
@@ -156,28 +167,29 @@ class SnippetRating extends Component {
 
 SnippetRating.propTypes = {
     /**
-   * Максимальное значение
-   */
+     * Максимальное значение
+     */
     max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     /**
-   * Значение
-   */
+     * Значение
+     */
     rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     /**
-   * Флаг включения выбора по половинке
-   */
+     * Флаг включения выбора по половинке
+     */
     half: PropTypes.bool,
     /**
-   * Флаг показа подсказки
-   */
+     * Флаг показа подсказки
+     */
     showTooltip: PropTypes.bool,
     /**
-   * Callback на изменение
-   */
+     * Callback на изменение
+     */
     onChange: PropTypes.func,
     /**
-   * Флаг только для чтения
-   */
+     * Флаг только для чтения
+     */
     readonly: PropTypes.bool,
 }
 

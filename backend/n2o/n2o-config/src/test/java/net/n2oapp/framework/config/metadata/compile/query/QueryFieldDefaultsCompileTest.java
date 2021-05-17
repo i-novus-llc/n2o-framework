@@ -4,7 +4,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
@@ -30,7 +29,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oDataProvidersPack())
-                .ios(new QueryElementIOv4(), new ObjectElementIOv2())
+                .ios(new QueryElementIOv4())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query_field_defaults/utQueryFieldDefaults.query.xml"));
     }

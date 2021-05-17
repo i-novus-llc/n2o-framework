@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
-import InlineSpinner from '../../snippets/Spinner/InlineSpinner'
-import Spinner from '../../snippets/Spinner/Spinner'
+import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import InputAddon from './InputAddon'
 
@@ -45,8 +44,7 @@ function InputSelectGroup({
     setSelectedItemsRef,
     withoutButtons,
 }) {
-    const displayAddon =
-    !multiSelect && !!selected.length && (iconFieldId || imageFieldId)
+    const displayAddon = !multiSelect && !!selected.length && (iconFieldId || imageFieldId)
 
     const renderButton = loading => (
         <Spinner type="inline" loading={loading} size="sm">
@@ -59,9 +57,10 @@ function InputSelectGroup({
             />
         </Spinner>
     )
+
     return (
         <div
-            className={cx('n2o-input-container', 'form-control', className, {
+            className={classNames('n2o-input-container', 'form-control', className, {
                 disabled,
             })}
             onClick={onButtonClick}
@@ -81,7 +80,7 @@ function InputSelectGroup({
                 <div className="n2o-input-control">
                     {(selected.length || input) && cleanable && (
                         <div
-                            className={cx('n2o-input-clear', {
+                            className={classNames('n2o-input-clear', {
                                 'input-in-focus': isInputInFocus,
                             })}
                             onClick={onClearClick}
@@ -89,7 +88,7 @@ function InputSelectGroup({
                             <i className="fa fa-times" aria-hidden="true" />
                         </div>
                     )}
-                    <div className={cx('n2o-popup-control', { isExpanded })}>
+                    <div className={classNames('n2o-popup-control', { isExpanded })}>
                         {renderButton(loading)}
                     </div>
                 </div>
@@ -114,13 +113,14 @@ InputSelectGroup.propTypes = {
     setIsExpanded: PropTypes.func,
     cleanable: PropTypes.bool,
     withoutButtons: PropTypes.bool,
+    setSelectedItemsRef: PropTypes.func,
+    className: PropTypes.string,
 }
 
 InputSelectGroup.defaultProps = {
     cleanable: true,
     multiSelect: false,
     loading: false,
-    collapseSelected: true,
     withoutButtons: false,
     setIsExpanded: () => {},
     onButtonClick: () => {},

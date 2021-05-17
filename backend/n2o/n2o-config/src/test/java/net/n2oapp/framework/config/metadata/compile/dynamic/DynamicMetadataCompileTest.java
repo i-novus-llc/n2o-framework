@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.dynamic;
 
+import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oSqlQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
@@ -62,7 +62,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getCells().get(0).getId(), is("id"));
         CompiledQuery query = routeAndGet("/test/route/main", CompiledQuery.class);
         assertThat(query.getId(), is("testDynamic?Dummy"));
-        assertThat(((N2oSqlQuery) query.getLists()[0].getInvocation()).getQuery(), is("test select"));
+        assertThat(((N2oSqlDataProvider) query.getLists()[0].getInvocation()).getQuery(), is("test select"));
         // динамическая страница в контекстно-независимой кнопке
         SimplePage dynamicCreatePage = (SimplePage) routeAndGet("/test/route/main/create", Page.class);
         assertThat(dynamicCreatePage.getId(), is("test_route_main_create"));

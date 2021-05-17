@@ -29,6 +29,7 @@ import { PREFIXES } from '../../../constants/models'
 class TablePagination extends Component {
     componentDidUpdate(prevProps) {
         const { datasource, onChangePage, activePage, count, size } = this.props
+
         if (
             datasource &&
       !isEqual(prevProps.datasource, datasource) &&
@@ -84,13 +85,23 @@ class TablePagination extends Component {
 }
 
 TablePagination.propTypes = {
-    widgetId: PropTypes.string,
     count: PropTypes.number,
     size: PropTypes.number,
     activePage: PropTypes.number,
     onChangePage: PropTypes.func,
     datasource: PropTypes.array,
     maxButtons: PropTypes.number,
+    prev: PropTypes.bool,
+    next: PropTypes.bool,
+    first: PropTypes.bool,
+    last: PropTypes.bool,
+    lazy: PropTypes.any,
+    showCountRecords: PropTypes.bool,
+    hideSinglePage: PropTypes.bool,
+    withoutBody: PropTypes.bool,
+    prevText: PropTypes.string,
+    nextText: PropTypes.string,
+    filters: PropTypes.object,
 }
 
 TablePagination.defaultProps = {
@@ -122,6 +133,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     }
 }
 
+// eslint-disable-next-line no-class-assign
 TablePagination = connect(
     mapStateToProps,
     mapDispatchToProps,

@@ -1,118 +1,122 @@
-.n2o-calendar {
-  display: flex;
-  flex-direction: column;
-  background: white;
-  min-width: $calendar-min-width;
-  max-width: $calendar-max-width;
-  min-height: $calendar-height;
-  padding: 5px;
-  .n2o-calendar-body {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    bottom: 0;
-    flex-grow: 1;
-    align-items: stretch;
-    .n2o-calendar-body-item {
-      font-size: 0.8rem;
-      padding: 3px;
-      width: 33%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      cursor: pointer;
-      margin: 5px 0;
+.n2o-calendar-body-item {
+    &.active {
+        background-color: $primary;
+        color: white;
     }
-  }
+
+    &:hover:not(.active):not(.other-decade) {
+        background-color: $gray-200;
+    }
+
+    &.other-decade {
+        color: $gray-200;
+    }
+}
+
+.n2o-calendar {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    min-width: $calendar-min-width;
+    max-width: $calendar-max-width;
+    min-height: $calendar-height;
+    padding: 5px;
+
+    .n2o-calendar-body {
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        bottom: 0;
+        flex-grow: 1;
+        align-items: stretch;
+
+        /* stylelint-disable-next-line no-descending-specificity */
+        .n2o-calendar-body-item {
+            font-size: 0.8rem;
+            padding: 3px;
+            width: 33%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+    }
 }
 
 .n2o-calendar-picker {
-  display: flex;
-  overflow-y: scroll;
-  width: 33%;
-  flex-direction: column;
+    display: flex;
+    overflow-y: scroll;
+    width: 33%;
+    flex-direction: column;
+    text-align: center;
 }
 
 .n2o-calendar-timepicker {
-  max-height: 160px;
-  display: flex;
+    max-height: 160px;
+    display: flex;
 }
 
 .n2o-calendar:focus {
-  outline: none;
+    outline: none;
 }
 
 .n2o-calendar td {
-  text-align: center
+    text-align: center;
 }
 
 .n2o-calendar thead td {
-  color: $gray-400;
-  padding: 0 5px;
+    color: $gray-400;
+    padding: 0 5px;
 }
 
 .n2o-picker-dropdown {
-  z-index: $zindex-dropdown !important;
+    z-index: $zindex-dropdown !important;
 }
 
 .n2o-calendar-month-header .fa {
-  font-size: 0.8* $font-size-base
+    font-size: 0.8* $font-size-base;
 }
 
 .n2o-calendar-year-header .fa {
-  font-size: 0.8* $font-size-base
+    font-size: 0.8* $font-size-base;
 }
 
 .n2o-calendar-time-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  padding-bottom: 5px;
-}
-
-.n2o-calendar-picker {
-  text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-bottom: 5px;
 }
 
 .n2o-calendar-time-unit {
-  cursor: pointer;
-  &.active {
-    background-color: $primary;
-    color: white;
-  }
-  &:hover:not(.active) {
-    background-color: $gray-200;
-  }
+    cursor: pointer;
+
+    &.active {
+        background-color: $primary;
+        color: white;
+    }
+
+    &:hover:not(.active) {
+        background-color: $gray-200;
+    }
 }
 
 .n2o-calendar-time-container {
-  text-align: center;
-  margin: auto;
-  margin-top: 10px;
-  bottom: 5px;
-  display: table;
+    text-align: center;
+    margin: 10px auto 0;
+    //  margin-top: 10px;
+    bottom: 5px;
+    display: table;
 }
 
 .n2o-calendar-table {
-  border-collapse: separate;
-  border-spacing: 2px 0;
-  margin: auto;
-}
-
-.n2o-calendar-body-item {
-  &.active {
-    background-color: $primary;
-    color: white;
-  }
-  &:hover:not(.active):not(.other-decade) {
-    background-color: $gray-200;
-  }
-  &.other-decade {
-    color: $gray-200
-  }
+    border-collapse: separate;
+    border-spacing: 2px 0;
+    margin: auto;
 }
 
 .btn.n2o-calendar-button {
-  width: 40px;
+    width: 40px;
 }
