@@ -25,6 +25,7 @@ class LineFieldset extends React.Component {
             expand,
             className,
             hasSeparator,
+            description,
         } = this.props
 
         return {
@@ -35,6 +36,7 @@ class LineFieldset extends React.Component {
             expand,
             className,
             hasSeparator,
+            description,
         }
     }
 
@@ -44,7 +46,8 @@ class LineFieldset extends React.Component {
             rows,
             label: title,
             className,
-            hasSeparator } = this.props
+            hasSeparator,
+            description } = this.props
 
         return {
             render,
@@ -52,6 +55,7 @@ class LineFieldset extends React.Component {
             title,
             className,
             hasSeparator,
+            description,
         }
     }
 
@@ -100,6 +104,7 @@ LineFieldset.propTypes = {
     className: PropTypes.string,
     hasSeparator: PropTypes.bool,
     visible: PropTypes.string,
+    description: PropTypes.string,
     activeModel: PropTypes.object,
 }
 

@@ -8,4 +8,35 @@
         color: #474747;
         line-height: 30px;
     }
+
+    .n2o-fieldset__label.with-description {
+        margin-bottom: 0;
+        line-height: 15px;
+    }
+
+    .n2o-fieldset__description {
+        margin: 5px 0 10px 0;
+        font-size: 12px;
+    }
+
+    .n2o-panel-header-container {
+        .n2o-fieldset__description {
+            padding: 0 5px;
+            margin: 0;
+            font-weight: lighter;
+            line-height: 15px;
+        }
+    }
+
+    .n2o-panel-header.with-description {
+        margin-bottom: 15px;
+    }
+
+    .n2o-collapse-panel.with-description {
+        margin-bottom: 15px;
+
+        .n2o-collapse-icon-wrapper {
+            align-self: center;
+        }
+    }
 }
