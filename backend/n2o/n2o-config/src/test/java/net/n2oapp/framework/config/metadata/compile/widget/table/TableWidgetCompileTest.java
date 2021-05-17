@@ -105,6 +105,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
         assertThat(table.getComponent().getTextWrap(), is(false));
+        assertThat(table.getFiltersDefaultValuesQueryId(), is("test"));
     }
 
     @Test

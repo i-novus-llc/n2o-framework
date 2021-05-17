@@ -3,8 +3,10 @@ package net.n2oapp.framework.api.metadata.compile;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -133,6 +135,14 @@ public interface BindProcessor {
      * @param link ссылка на значение
      */
     void resolveSubModels(ModelLink link);
+
+    /**
+     * Разрешить модели полей-фильтров
+     *
+     * @param filtersDefaultValuesQueryId Идентификатор выборки для получения дефолтных значений фильтров
+     * @param filters                     Список фильтров
+     */
+    void resolveFiltersModels(String filtersDefaultValuesQueryId, List<Filter> filters);
 
     /**
      * Получить локализованное сообщение по коду и аргументам
