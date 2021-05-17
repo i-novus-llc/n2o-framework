@@ -77,10 +77,6 @@ Tiles.propTypes = {
    */
     className: PropTypes.string,
     /**
-   * массив объектов cell из которых состоит виджет
-   */
-    tiles: PropTypes.array,
-    /**
    * данные объектов cell
    */
     data: PropTypes.array,
@@ -108,6 +104,10 @@ Tiles.propTypes = {
    * ширина виджета
    */
     tileWidth: PropTypes.string,
+    tile: PropTypes.node,
+    width: PropTypes.number,
+    onResolve: PropTypes.func,
+    dispatch: PropTypes.func,
 }
 
 Tiles.defaultProps = {

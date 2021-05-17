@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import set from 'lodash/set'
-import unset from 'lodash/unset'
-import isUndefined from 'lodash/isUndefined'
 import isEqual from 'lodash/isEqual'
 import {
     compose,
@@ -12,10 +10,10 @@ import {
     withHandlers,
     setDisplayName,
 } from 'recompose'
-import cn from 'classnames'
 
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
+// eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O'
 
 function CheckboxCell({

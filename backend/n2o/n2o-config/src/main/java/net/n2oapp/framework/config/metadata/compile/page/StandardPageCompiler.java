@@ -39,7 +39,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.standard.src";
     }
 }

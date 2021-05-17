@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 /**
  * Контент Таба
  * @reactProps {string} className - css-класс
@@ -11,11 +11,11 @@ import cx from 'classnames'
  * @reactProps {node} children - элемет потомок компонента TabContent
  * @reactProps {object} style - элемет стили элемента
  */
-function TabContent(props) {
+export function TabContent(props) {
     const { className, children, style, ...rest } = props
 
     return (
-        <div className={cx('tab-content', className)} style={style}>
+        <div className={classNames('tab-content', className)} style={style}>
             {React.Children.map(children, child => React.cloneElement(child, rest))}
         </div>
     )

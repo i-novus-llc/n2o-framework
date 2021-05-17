@@ -12,10 +12,6 @@
     margin: $custom-checkbox-margin;
 
     .custom-control-label {
-        &:hover::before {
-            border: $checkbox-hover-border;
-        }
-
         &::before {
             top: $checkbox-position-top;
             left: $checkbox-position-left;
@@ -27,37 +23,16 @@
             border: $checkbox-border;
             border-radius: $checkbox-border-radius;
         }
-    }
 
-    .custom-control-input {
-        &:focus ~ .custom-control-label::before {
-            box-shadow: $checkbox-focus-shadow;
-        }
-
-        &:checked {
-            & ~ .custom-control-label {
-                &::before {
-                    background-color: $checkbox-background-color-checked;
-                    border-color: $checkbox-border-color-checked;
-                }
-            }
-        }
-
-        &:disabled {
-            &:checked {
-                & ~ .custom-control-label {
-                    &::before {
-                        border-color: $checkbox-border-color-checked;
-                    }
-                }
-            }
+        &:hover::before {
+            border: $checkbox-hover-border;
         }
     }
 
     .custom-control-input {
         @extend .custom-checkbox-align;
 
-        & ~ .custom-control-label {
+        ~ .custom-control-label {
             &::after {
                 top: $checkbox-position-top;
                 left: $checkbox-position-left;
@@ -67,15 +42,34 @@
                 height: $checkbox-height;
             }
         }
-    }
 
-    .custom-control-input:checked {
-        & ~ .custom-control-label {
-            &::after {
-                background-image: $checkbox-background-image;
-                background-size: $checkbox-background-size;
-                background-position: $checkbox-background-position;
-                background-repeat: $checkbox-background-repeat;
+        &:focus ~ .custom-control-label::before {
+            box-shadow: $checkbox-focus-shadow;
+        }
+
+        &:checked {
+            ~.custom-control-label {
+                &::after {
+                    background-image: $checkbox-background-image;
+                    background-size: $checkbox-background-size;
+                    background-position: $checkbox-background-position;
+                    background-repeat: $checkbox-background-repeat;
+                }
+
+                &::before {
+                    background-color: $checkbox-background-color-checked;
+                    border-color: $checkbox-border-color-checked;
+                }
+            }
+        }
+
+        &:disabled {
+            &:checked {
+                ~ .custom-control-label {
+                    &::before {
+                        border-color: $checkbox-border-color-checked;
+                    }
+                }
             }
         }
     }

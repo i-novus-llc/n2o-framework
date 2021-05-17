@@ -7,7 +7,9 @@ import omit from 'lodash/omit'
 import classNames from 'classnames'
 
 import propsResolver from '../../../../../utils/propsResolver'
+// eslint-disable-next-line import/no-named-as-default
 import Image from '../../../../snippets/Image/Image'
+// eslint-disable-next-line import/no-named-as-default
 import ImageInfo from '../../../../snippets/Image/ImageInfo'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
@@ -173,6 +175,15 @@ ImageCell.propTypes = {
    * Статусы, отображающиеся над img
    */
     statuses: PropTypes.array,
+    fieldKey: PropTypes.string,
+    onClick: PropTypes.func,
+    action: PropTypes.string,
+    height: PropTypes.number,
+    data: PropTypes.object,
+    pathMapping: PropTypes.object,
+    queryMapping: PropTypes.object,
+    target: PropTypes.string,
+    url: PropTypes.string,
 }
 
 export { ImageCell }

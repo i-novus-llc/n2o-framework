@@ -420,9 +420,8 @@ describe('<AdvancedTable/>', () => {
 
             expect(
                 wrapper
-                    .find('AdvancedTable')
-                    .last()
-                    .state().checkedAll,
+                    .find('AdvancedTable CheckboxN2O input[type="checkbox"]')
+                    .everyWhere(el => el.prop('checked')),
             ).toBe(true)
             expect(
                 wrapper
@@ -442,9 +441,8 @@ describe('<AdvancedTable/>', () => {
 
             expect(
                 wrapper
-                    .find('AdvancedTable')
-                    .last()
-                    .state().checkedAll,
+                    .find('AdvancedTable CheckboxN2O input[type="checkbox"]')
+                    .someWhere(el => el.prop('checked')),
             ).toBe(false)
             expect(
                 wrapper
@@ -464,10 +462,20 @@ describe('<AdvancedTable/>', () => {
             })
 
             const table = wrapper.find('AdvancedTable').last()
-            const checkboxes = wrapper.find('CheckboxN2O input')
+            const checkboxes = wrapper.find('CheckboxN2O input[type="checkbox"]')
 
             checkboxes.at(1).simulate('change', { target: { checked: false } })
-            expect(table.state().checkedAll).toBe(false)
+
+            expect(
+                wrapper
+                    .find('AdvancedTable CheckboxN2O input[type="checkbox"]')
+                    .map(el => el.prop('checked'))
+            ).toEqual([
+                false,
+                true,
+                false,
+                false,
+            ])
             expect(table.state().checked).toEqual({
                 1: true,
                 2: false,
@@ -476,7 +484,16 @@ describe('<AdvancedTable/>', () => {
 
             checkboxes.at(2).simulate('change', { target: { checked: false } })
 
-            expect(table.state().checkedAll).toBe(false)
+            expect(
+                wrapper
+                    .find('AdvancedTable CheckboxN2O input[type="checkbox"]')
+                    .map(el => el.prop('checked'))
+            ).toEqual([
+                false,
+                true,
+                true,
+                false,
+            ])
             expect(table.state().checked).toEqual({
                 1: true,
                 2: true,
@@ -485,7 +502,6 @@ describe('<AdvancedTable/>', () => {
 
             checkboxes.at(3).simulate('change', { target: { checked: false } })
 
-            expect(table.state().checkedAll).toBe(true)
             expect(table.state().checked).toEqual({
                 1: true,
                 2: true,
@@ -502,7 +518,6 @@ describe('<AdvancedTable/>', () => {
             const rows = wrapper.find('.n2o-table-row')
 
             rows.at(0).simulate('click')
-            expect(table.state().checkedAll).toBe(false)
             expect(table.state().checked).toEqual({
                 1: true,
                 2: false,
@@ -511,7 +526,6 @@ describe('<AdvancedTable/>', () => {
 
             rows.at(1).simulate('click')
 
-            expect(table.state().checkedAll).toBe(false)
             expect(table.state().checked).toEqual({
                 1: true,
                 2: true,
@@ -520,7 +534,6 @@ describe('<AdvancedTable/>', () => {
 
             rows.at(2).simulate('click')
 
-            expect(table.state().checkedAll).toBe(true)
             expect(table.state().checked).toEqual({
                 1: true,
                 2: true,

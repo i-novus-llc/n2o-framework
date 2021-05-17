@@ -129,7 +129,10 @@ export const defaultApiProvider = {
                 flatten(clearEmptyParams(options), { safe: true }),
             ),
         ].join(''),
-    ).catch(console.error),
+    ).catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+    }),
     [FETCH_VALUE]: ({ url, headers }) => request(url, { headers }),
     [CHANGE_LOCALE]: locale => request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
         method: 'POST',

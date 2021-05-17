@@ -14,8 +14,6 @@ store.subscribe(forceReRender)
 const stories = storiesOf('UI Компоненты/Диалог', module)
 stories.addDecorator(StateDecorator(store))
 
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/jsx-one-expression-per-line */
 stories.add(
     'Кнопка закрытия',
     () => [

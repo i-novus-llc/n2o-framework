@@ -33,6 +33,7 @@ class BadgeCell extends React.Component {
             badgeFormat,
             color,
             visible,
+            className,
         } = this.props
 
         const badgeStyle = {
@@ -48,7 +49,7 @@ class BadgeCell extends React.Component {
                     <Text text={text} format={format} />
                     {!isNil(badgeText) && (
                         <Badge style={badgeStyle} color={color}>
-                            <Text text={get(model, fieldKey || id)} format={badgeFormat} />
+                            <Text text={get(model, fieldKey || id)} className={className} format={badgeFormat} />
                         </Badge>
                     )}
                 </span>
@@ -101,6 +102,7 @@ BadgeCell.propTypes = {
    * Флаг видимости
    */
     visible: PropTypes.bool,
+    className: PropTypes.string,
 }
 
 BadgeCell.defaultProps = {

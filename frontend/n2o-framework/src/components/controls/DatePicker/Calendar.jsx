@@ -336,7 +336,6 @@ class Calendar extends React.Component {
         const rightKeyCode = 39
 
         if (evtobj.ctrlKey) {
-            // eslint-disable-next-line default-case
             switch (evtobj.keyCode) {
                 case leftKeyCode:
                     if (calendarType === Calendar.BY_DAYS) {
@@ -357,6 +356,8 @@ class Calendar extends React.Component {
                         this.nextDecade()
                     }
 
+                    break
+                default:
                     break
             }
         }
@@ -390,14 +391,11 @@ class Calendar extends React.Component {
         return t('chooseTime')
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    objFromTime(date) {
-        return {
-            mins: date.minutes(),
-            seconds: date.seconds(),
-            hours: date.hours(),
-        }
-    }
+    objFromTime = date => ({
+        mins: date.minutes(),
+        seconds: date.seconds(),
+        hours: date.hours(),
+    })
 
     timeFromObj(timeObj) {
         const { hours, mins, seconds } = timeObj

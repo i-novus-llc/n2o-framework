@@ -15,9 +15,10 @@ import {
 import onClickOutsideHOC from 'react-onclickoutside'
 
 import InputText from '../../controls/InputText/InputText'
+import { Icon } from '../Icon/Icon'
 
-import SearchBarPopUp from './SearchBarPopUp'
-import SearchBarEmptyMenu from './SearchBarEmptyMenu'
+import { SearchBarPopUp } from './SearchBarPopUp'
+import { SearchBarEmptyMenu } from './SearchBarEmptyMenu'
 
 let timeoutId = null
 const ENTER_KEY_CODE = 13
@@ -69,12 +70,15 @@ function SearchBar({
                         }
                     />
                     {isIconClear && (
-                        <i
-                            className="n2o-search-bar__clear-icon fa fa-times"
+                        <Icon
+                            className={classNames(
+                                'n2o-search-bar__clear-icon fa fa-times',
+                                { 'with-search': icon },
+                            )}
                             onClick={onClear}
                         />
                     )}
-                    {isString(icon) ? <i className={icon} /> : icon}
+                    {isString(icon) ? <Icon className={icon} /> : icon}
                 </div>
                 {isEmpty(menu) ? (
                     <SearchBarEmptyMenu
@@ -105,37 +109,52 @@ function SearchBar({
 }
 
 SearchBar.propTypes = {
+    iconClear: PropTypes.bool,
+    innerValue: PropTypes.string,
+    onClick: PropTypes.func,
+    toggleDropdown: PropTypes.func,
+    onClear: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onFocus: PropTypes.func,
+    onItemClick: PropTypes.func,
+    urlFieldId: PropTypes.string,
+    dropdownOpen: PropTypes.string,
+    iconFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    descriptionFieldId: PropTypes.string,
     /**
-   * Класс компонента
-   */
+     * Класс компонента
+     */
     className: PropTypes.string,
     /**
-   * Начальное состояние строки поиска
-   */
+     * Начальное состояние строки поиска
+     */
     initialValue: PropTypes.string,
     /**
-   * Значение компонента
-   */
+     * Значение компонента
+     */
     value: PropTypes.string,
     /**
-   * Placeholder контрола
-   */
+     * Placeholder контрола
+     */
     placeholder: PropTypes.string,
     /**
-   * Триггер запуска колбека поиска
-   */
+     * Триггер запуска колбека поиска
+     */
     trigger: PropTypes.oneOf([
         SearchTrigger.CHANGE,
         SearchTrigger.ENTER,
         SearchTrigger.BUTTON,
     ]),
     /**
-   * Настройка кнопки
-   */
+     * Настройка кнопки
+     */
     button: PropTypes.object,
     /**
-   * Иконка
-   */
+     * Иконка
+     */
     icon: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.node,
@@ -143,20 +162,20 @@ SearchBar.propTypes = {
         PropTypes.string,
     ]),
     /**
-   * Коллбек поиска
-   */
+     * Коллбек поиска
+     */
     onSearch: PropTypes.func,
     /**
-   * Delay поиска при change триггере
-   */
+     * Delay поиска при change триггере
+     */
     throttleDelay: PropTypes.number,
     /**
-   * данные и резолв для popUp
-   */
+     * данные и резолв для popUp
+     */
     menu: PropTypes.array,
     /**
-   * направление иконок и items в popUp: left(default), right
-   */
+     * направление иконок и items в popUp: left(default), right
+     */
     directionIconsInPopUp: PropTypes.string,
 }
 

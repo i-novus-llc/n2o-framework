@@ -27,7 +27,7 @@ import {
 } from '../selectors/widgets'
 import { getModelSelector, selectionTypeSelector } from '../selectors/models'
 import { validateField } from '../core/validation/createValidator'
-import actionResolver from '../core/factory/actionResolver'
+import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../actions/models'

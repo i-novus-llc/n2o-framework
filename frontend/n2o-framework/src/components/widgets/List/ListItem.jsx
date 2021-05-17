@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Компонент ListItem виджета ListWidget
@@ -47,7 +47,7 @@ function ListItem({
         <div
             onClick={onClick}
             style={style}
-            className={cn('n2o-widget-list-item', {
+            className={classNames('n2o-widget-list-item', {
                 'n2o-widget-list-item--active': hasSelect && selected,
                 'n2o-widget-list-item--divider': divider,
             })}
@@ -114,6 +114,9 @@ ListItem.propTypes = {
     extra: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     selected: PropTypes.bool,
     onClick: PropTypes.func,
+    divider: PropTypes.bool,
+    style: PropTypes.object,
+    hasSelect: PropTypes.bool,
 }
 
 export default ListItem

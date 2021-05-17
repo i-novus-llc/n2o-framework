@@ -110,14 +110,11 @@ class DateInput extends React.Component {
         }
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    replaceAt(string, index, replacement) {
-        return (
-            string.substring(0, index - 1) +
-                replacement +
-                string.substring(index, string.length)
-        )
-    }
+    replaceAt = (string, index, replacement) => (
+        string.substring(0, index - 1) +
+            replacement +
+            string.substring(index, string.length)
+    )
 
     setCursorPosition(cursorPosition) {
         this.inputRef.inputElement.setSelectionRange(cursorPosition, cursorPosition)

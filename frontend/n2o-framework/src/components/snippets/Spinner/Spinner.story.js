@@ -9,7 +9,7 @@ import TableCell from '../../widgets/Table/TableCell'
 import TableRow from '../../widgets/Table/TableRow'
 
 import CoverSpinner from './CoverSpinner'
-import Spinner from './Spinner'
+import { Spinner } from './Spinner'
 import InlineSpinner from './InlineSpinner'
 
 const stories = storiesOf('UI Компоненты/Спиннеры', module)

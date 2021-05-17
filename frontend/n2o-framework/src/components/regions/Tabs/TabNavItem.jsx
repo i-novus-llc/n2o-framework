@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 /**
  * Нав Таба
@@ -14,17 +14,13 @@ import cx from 'classnames'
  * @reactProps {boolean} disabled - задизейблен таб или нет
  * @reactProps {function} onClick - выполняется при клике на navItem
  */
-class TabNavItem extends React.Component {
+export class TabNavItem extends React.Component {
     constructor(props) {
         super(props)
 
         this.handleClick = this.handleClick.bind(this)
     }
 
-    /**
-   * обработка клика
-   * @param e
-   */
     handleClick(e) {
         const { id, onClick, disabled } = this.props
 
@@ -34,18 +30,16 @@ class TabNavItem extends React.Component {
         }
     }
 
-    /**
-   * Базовый рендер
-   */
     render() {
         const { active, disabled, title, icon } = this.props
         const style = disabled ? { cursor: 'not-allowed' } : {}
 
         return (
             <li style={style} className="nav-item">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
                     onClick={this.handleClick}
-                    className={cx('nav-link', { active, disabled })}
+                    className={classNames('nav-link', { active, disabled })}
                     href="#"
                 >
                     {icon && <span className={icon} />}

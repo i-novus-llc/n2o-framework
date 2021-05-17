@@ -167,17 +167,7 @@ public abstract class AbstractController {
     }
 
     private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, QueryContext queryCtx, DataSet data) {
-        //todo @Deprecated убрать использование этой настройки и старого метода фильтрации данных (по фильтрам query)
-        Boolean filterModeOld = environment.getSystemProperties().getProperty("n2o.config.filter.old_mode", Boolean.class);
-        if (Boolean.TRUE.equals(filterModeOld)) {
-            for (Map.Entry<String, String> paramEntry : query.getParamToFilterIdMap().entrySet()) {
-                Object value = data.get(paramEntry.getKey());
-                if (value != null) {
-                    String filterId = paramEntry.getValue();
-                    createFilter(query, criteria, value, filterId);
-                }
-            }
-        } else if (queryCtx.getFilters() != null)
+        if (queryCtx.getFilters() != null)
             for (Filter filter : queryCtx.getFilters()) {
                 String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
                 Object value = data.get(key);

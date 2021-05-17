@@ -2,7 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 import PropTypes from 'prop-types'
 
-import dependency from '../../../core/dependency'
+import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import Pagination from '../Table/TablePagination'
@@ -20,8 +20,6 @@ function TilesWidget(
         filter,
         dataProvider,
         fetchOnInit,
-        prevText,
-        nextText,
         tile,
         paging,
         colsSm,
@@ -74,6 +72,14 @@ TilesWidget.propTypes = {
     filter: PropTypes.object,
     dataProvider: PropTypes.object,
     fetchOnInit: PropTypes.bool,
+    id: PropTypes.string,
+    tile: PropTypes.node,
+    paging: PropTypes.object,
+    colsSm: PropTypes.number,
+    colsMd: PropTypes.number,
+    colsLg: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
 }
 
 TilesWidget.defaultProps = {

@@ -10,6 +10,8 @@ import lombok.Setter;
 @Setter
 public class Table extends AbstractTable<TableWidgetComponent> {
 
+    private String filtersDefaultValuesQueryId;
+
     public Table() {
         super(new TableWidgetComponent());
     }

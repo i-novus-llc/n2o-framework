@@ -9,7 +9,7 @@ import ButtonToolbar from 'reactstrap/lib/ButtonToolbar'
 import ButtonGroup from 'reactstrap/lib/ButtonGroup'
 import cn from 'classnames'
 
-import Factory from '../../core/factory/Factory'
+import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
 
 function Toolbar({ className, toolbar, entityKey, onClick }) {

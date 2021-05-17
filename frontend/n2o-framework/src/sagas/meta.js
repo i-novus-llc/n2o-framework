@@ -99,7 +99,6 @@ export function* refreshEffect(action) {
     try {
         const { type, options } = action.meta.refresh
 
-        // eslint-disable-next-line default-case
         switch (type) {
             case 'widget':
                 if (
@@ -124,6 +123,8 @@ export function* refreshEffect(action) {
             case 'metadata':
                 yield put(metadataRequest(...options))
 
+                break
+            default:
                 break
         }
     } catch (e) {

@@ -24,7 +24,16 @@ const getResolution = (width) => {
 
 export default function calcCols(sm, md, lg, width) {
     const { isMobile, isTablet } = getResolution(width)
-    const col = isMobile ? sm : isTablet ? md : lg
+
+    let col
+
+    if (isMobile) {
+        col = sm
+    } else if (isTablet) {
+        col = md
+    } else {
+        col = lg
+    }
 
     return Math.round(12 / col)
 }

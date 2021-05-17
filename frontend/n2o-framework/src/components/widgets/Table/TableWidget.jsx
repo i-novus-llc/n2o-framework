@@ -4,6 +4,7 @@ import values from 'lodash/values'
 
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
+// eslint-disable-next-line import/no-named-as-default
 import dependency from '../../../core/dependency'
 
 import TablePagination from './TablePagination'
@@ -33,6 +34,8 @@ class TableWidget extends React.Component {
    * Замена src на компонент
    */
     getWidgetProps() {
+        const { toolbar, actions, dataProvider, table } = this.props
+        const { resolveProps } = this.context
         const {
             headers,
             cells,
@@ -42,9 +45,7 @@ class TableWidget extends React.Component {
             autoFocus,
             rowColor,
             rowClick,
-        } = this.props.table
-        const { toolbar, actions, dataProvider } = this.props
-        const { resolveProps } = this.context
+        } = table
 
         return {
             headers: values(resolveProps(headers)),
@@ -62,8 +63,11 @@ class TableWidget extends React.Component {
     }
 
     prepareFilters() {
-        return this.context.resolveProps(
-            this.props.filter,
+        const { resolveProps } = this.context
+        const { filter } = this.props
+
+        return resolveProps(
+            filter,
             Fieldsets.StandardFieldset,
         )
     }
@@ -135,6 +139,9 @@ TableWidget.propTypes = {
         }),
     ),
     paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    filter: PropTypes.object,
+    id: PropTypes.string,
+    disabled: PropTypes.bool,
 }
 
 TableWidget.contextTypes = {

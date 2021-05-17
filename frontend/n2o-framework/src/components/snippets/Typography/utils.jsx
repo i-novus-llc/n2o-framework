@@ -2,6 +2,7 @@ import React from 'react'
 
 export const delay = ms => new Promise(res => setTimeout(res, ms))
 
+/* eslint-disable react/prop-types */
 export const wrapTags = {
     code: Comp => ({ children }) => (
         <code>

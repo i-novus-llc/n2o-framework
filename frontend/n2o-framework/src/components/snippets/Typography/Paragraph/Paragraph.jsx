@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Base from '../Base'
+import { Base } from '../Base'
 
 function Paragraph({ ...rest }) {
     const tag = 'p'

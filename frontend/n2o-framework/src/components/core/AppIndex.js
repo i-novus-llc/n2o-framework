@@ -1,3 +1,3 @@
-import Application from './templates/AppWithSideBar'
+import Application from './Application'
 
 export default Application

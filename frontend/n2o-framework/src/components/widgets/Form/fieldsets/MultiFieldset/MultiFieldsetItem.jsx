@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import Button from 'reactstrap/lib/Button'
 
-export function MultiFieldsetItem({
+function MultiFieldsetItem({
     fields,
     render,
     rows,
@@ -97,14 +97,19 @@ MultiFieldsetItem.propTypes = {
     rows: PropTypes.array,
     childrenLabel: PropTypes.string,
     addButtonLabel: PropTypes.string,
-    removeButtonLabel: PropTypes.string,
     removeAllButtonLabel: PropTypes.string,
-    copyButtonLabel: PropTypes.string,
     needAddButton: PropTypes.bool,
     needRemoveButton: PropTypes.bool,
     needRemoveAllButton: PropTypes.bool,
     needCopyButton: PropTypes.bool,
     canRemoveFirstItem: PropTypes.bool,
+    parentName: PropTypes.string,
+    resolvePlaceholder: PropTypes.func,
+    onAddField: PropTypes.func,
+    onRemoveField: PropTypes.func,
+    onRemoveAll: PropTypes.func,
+    onCopyField: PropTypes.func,
+    enabled: PropTypes.bool,
 }
 
 const defaultComponentProps = {

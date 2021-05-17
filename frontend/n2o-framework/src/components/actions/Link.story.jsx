@@ -2,10 +2,8 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Route, Switch } from 'react-router-dom'
 
-// eslint-disable-next-line import/no-named-as-default
 import Actions, { Actions as ActionsComponent } from './Actions'
-// eslint-disable-next-line import/extensions
-import metadata from './Link.meta'
+import metadata from './Link.meta.json'
 
 const stories = storiesOf('Действия/Ссылка Link', module)
 stories.addParameters({
@@ -15,7 +13,6 @@ stories.addParameters({
     },
 })
 
-/* eslint-disable react/jsx-one-expression-per-line */
 stories
 
     .add(

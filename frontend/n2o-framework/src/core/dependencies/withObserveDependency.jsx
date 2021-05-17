@@ -13,7 +13,7 @@ export default config => (WrappedComponent) => {
         constructor(props) {
             super(props)
 
-            this._observers = []
+            this.observers = []
 
             this.observeState = this.observeState.bind(this)
             this.setComponentRef = this.setComponentRef.bind(this)
@@ -33,38 +33,42 @@ export default config => (WrappedComponent) => {
             this.setObserveState()
         }
 
-        componentDidUpdate(prevProps, prevState, snapshot) {
-            if (prevProps.disabled !== this.props.disabled) {
-                config.onChange.call(this._componentRef, this.props)
+        componentDidUpdate(prevProps) {
+            const { disabled } = this.props
+
+            if (prevProps.disabled !== disabled) {
+                config.onChange.call(this.componentRef, this.props)
             }
         }
 
         componentWillUnmount() {
-            if (!isEmpty(this._observers)) {
+            if (!isEmpty(this.observers)) {
                 this.unsubscribe()
             }
         }
 
         fetchDependencyAction() {
-            config.onChange.apply(this._componentRef, [
+            config.onChange.apply(this.componentRef, [
                 this.props,
                 DEPENDENCY_TYPES.fetch,
             ])
         }
 
         reRenderDependencyAction() {
-            this._reRenderRef && this._reRenderRef.forceUpdate()
+            if (this.reRenderRef) {
+                this.reRenderRef.forceUpdate()
+            }
             if (isFunction(config.onChange)) {
-                config.onChange.apply(this._componentRef, [this.props])
+                config.onChange.apply(this.componentRef, [this.props])
             }
         }
 
         setComponentRef(el) {
-            this._componentRef = el
+            this.componentRef = el
         }
 
         setReRenderRef(el) {
-            this._reRenderRef = el
+            this.reRenderRef = el
         }
 
         observeState(dependencyType, dependencyAction) {
@@ -88,13 +92,13 @@ export default config => (WrappedComponent) => {
                         this.dependencyActions[d.type],
                     )
 
-                    this._observers.push(observer)
+                    this.observers.push(observer)
                 }
             })
         }
 
         unsubscribe() {
-            map(this._observers, o => o())
+            map(this.observers, o => o())
         }
 
         render() {
@@ -110,6 +114,8 @@ export default config => (WrappedComponent) => {
 
     ReRenderComponent.propTypes = {
         dependencySelector: PropTypes.func,
+        dependency: PropTypes.any,
+        disabled: PropTypes.bool,
     }
 
     ReRenderComponent.defaultProps = {

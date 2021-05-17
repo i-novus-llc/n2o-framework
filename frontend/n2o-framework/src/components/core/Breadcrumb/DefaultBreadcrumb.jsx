@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import map from 'lodash/map'
-import cn from 'classnames'
+import classNames from 'classnames'
 import Breadcrumb from 'reactstrap/lib/Breadcrumb'
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem'
+import PropTypes from 'prop-types'
 
 function DefaultBreadcrumb({ items }) {
     const { N2O_ELEMENT_VISIBILITY } = window
@@ -24,7 +25,7 @@ function DefaultBreadcrumb({ items }) {
                     </Link>
                 ) : (
                     <span
-                        className={cn({
+                        className={classNames({
                             'n2o-breadcrumb-link n2o-breadcrumb-link_active': lastCrumb,
                             'n2o-breadcrumb-link n2o-breadcrumb-link_disabled': !lastCrumb,
                         })}
@@ -38,6 +39,18 @@ function DefaultBreadcrumb({ items }) {
     })
 
     return <Breadcrumb style={style}>{crumbs}</Breadcrumb>
+}
+
+DefaultBreadcrumb.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        modelLink: PropTypes.string,
+        path: PropTypes.string,
+    })),
+}
+
+DefaultBreadcrumb.defaultProps = {
+    items: [],
 }
 
 export default DefaultBreadcrumb

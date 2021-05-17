@@ -4,6 +4,7 @@ import cn from 'classnames'
 import map from 'lodash/map'
 import { NavLink } from 'react-router-dom'
 
+// eslint-disable-next-line import/no-cycle
 import SidebarDropdown from './SidebarDropdown'
 
 const ItemType = {
@@ -44,7 +45,7 @@ export const renderIcon = (icon, label, type, sidebarOpen, subItems) => {
  * @returns {*}
  * @constructor
  */
-function SidebarItemContainer({
+export function SidebarItemContainer({
     className,
     item,
     activeId,
@@ -62,12 +63,14 @@ function SidebarItemContainer({
     const renderLink = item => (linkType === OUTER_LINK_TYPE
         ? renderOuterLink(item)
         : renderInnerLink(item))
+    // eslint-disable-next-line react/prop-types
     const renderOuterLink = ({ href, label, iconClass }) => (
         <a className="n2o-sidebar__item" href={href}>
             {renderIcon(iconClass, label, type, sidebarOpen)}
             {label}
         </a>
     )
+    // eslint-disable-next-line react/prop-types
     const renderInnerLink = ({ href, label, iconClass }) => (
         <NavLink
             exact
@@ -114,6 +117,8 @@ function SidebarItemContainer({
 SidebarItemContainer.propTypes = {
     item: PropTypes.object,
     activeId: PropTypes.string,
+    level: PropTypes.number,
+    className: PropTypes.string,
     sidebarOpen: PropTypes.bool,
 }
 

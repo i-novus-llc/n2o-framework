@@ -17,11 +17,13 @@ function ListTextCell(props) {
 
     return (
         <div className="list-text-cell">
-            {singleElement ? (
-                first(tooltipList)
-            ) : nullElements ? null : (
-                <Tooltip {...props} />
-            )}
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {singleElement
+                ? (first(tooltipList))
+                : nullElements
+                    ? null
+                    : (<Tooltip {...props} />)
+            }
         </div>
     )
 }
@@ -60,23 +62,24 @@ ListTextCell.propTypes = {
     /**
    * массив для списка tooltip
    */
-    fieldKey: PropTypes.array.isRequired,
+    fieldKey: PropTypes.array,
     /**
    * trigger показывать tooltip по hover или click
    */
-    trigger: PropTypes.string.isRequired,
+    trigger: PropTypes.string,
     /**
    * расположение tooltip
    */
-    placement: PropTypes.string.isRequired,
+    placement: PropTypes.string,
     /**
    * применить к label dashed underline
    */
-    labelDashed: PropTypes.bool.isRequired,
+    labelDashed: PropTypes.bool,
     /**
    * dark(default) или light тема tooltip
    */
-    theme: PropTypes.string.isRequired,
+    theme: PropTypes.string,
+    model: PropTypes.object,
 }
 
 ListTextCell.defaultProps = {

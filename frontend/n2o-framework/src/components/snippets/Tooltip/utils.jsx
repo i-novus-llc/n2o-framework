@@ -1,32 +1,31 @@
 import React from 'react'
-import cn from 'classnames'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import isUndefined from 'lodash/isUndefined'
 import isArray from 'lodash/isArray'
 import map from 'lodash/map'
 
 // dashed стиль лейбла tooltip или нет
-export const triggerClassName = (labelDashed, type) => cn({
+export const triggerClassName = (labelDashed, type) => classNames({
     'list-text-cell__trigger_dashed': labelDashed,
     'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
     'd-flex': type === 'mapProps(StandardButton)',
 })
 
 // тема tooltip body
-export const tooltipContainerClassName = theme => cn({
+export const tooltipContainerClassName = theme => classNames({
     'list-text-cell__tooltip-container dark': theme === 'dark',
     'list-text-cell__tooltip-container light': theme === 'light',
 })
 
 // классы для arrow в tooltip body
-export const arrowClassName = theme => cn({
+export const arrowClassName = theme => classNames({
     'tooltip-arrow light': theme === 'light',
     'tooltip-arrow dark': theme === 'dark',
 })
 
 // триггер tooltip отображает label
-export function RenderTooltipTrigger(props) {
-    const { getTriggerProps, triggerRef, labelDashed, label, hint } = props
-
+export function RenderTooltipTrigger({ getTriggerProps, triggerRef, labelDashed, label, hint }) {
     const exceptionsList = [
         'MapProps',
         'WithState',
@@ -54,6 +53,13 @@ export function RenderTooltipTrigger(props) {
         <span {...bodyProps}>{label}</span>
     )
 }
+RenderTooltipTrigger.propTypes = {
+    getTriggerProps: PropTypes.func,
+    triggerRef: PropTypes.func,
+    labelDashed: PropTypes.any,
+    label: PropTypes.object,
+    hint: PropTypes.any,
+}
 
 // лист items в tooltip
 export function RenderTooltipHint({ hint }) {
@@ -68,17 +74,15 @@ export function RenderTooltipHint({ hint }) {
         )
 }
 
-export function RenderTooltipBody(props) {
-    const {
-        getTooltipProps,
-        tooltipRef,
-        getArrowProps,
-        arrowRef,
-        theme,
-        placement,
-        hint,
-    } = props
-
+export function RenderTooltipBody({
+    getTooltipProps,
+    tooltipRef,
+    getArrowProps,
+    arrowRef,
+    theme,
+    placement,
+    hint,
+}) {
     return (
         <div
             {...getTooltipProps({
@@ -98,4 +102,13 @@ export function RenderTooltipBody(props) {
             <RenderTooltipHint hint={hint} />
         </div>
     )
+}
+RenderTooltipBody.propTypes = {
+    getTooltipProps: PropTypes.func,
+    tooltipRef: PropTypes.func,
+    getArrowProps: PropTypes.func,
+    arrowRef: PropTypes.any,
+    theme: PropTypes.any,
+    placement: PropTypes.any,
+    hint: PropTypes.any,
 }

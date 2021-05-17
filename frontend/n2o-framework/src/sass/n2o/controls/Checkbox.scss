@@ -9,6 +9,12 @@
     margin-left: 10px;
 }
 
+div.checkbox {
+    > label {
+        margin-bottom: 0;
+    }
+}
+
 .n2o-checkbox-inline {
     > .custom-checkbox {
         &:last-child {
@@ -28,11 +34,5 @@
                 margin-right: 5px;
             }
         }
-    }
-}
-
-div.checkbox {
-    > label {
-        margin-bottom: 0;
     }
 }

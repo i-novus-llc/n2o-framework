@@ -62,18 +62,16 @@ class InputMoney extends React.Component {
     }
 
     convertToMoney(value) {
-        const { allowDecimal } = this.props
+        const {
+            allowDecimal,
+            [ReplaceableChar.DECIMAL_SYMBOL]: DECIMAL_SYMBOL,
+        } = this.props
 
         if (value !== '') {
-            // eslint-disable-next-line react/destructuring-assignment
-            value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL])
+            value = replace(value, '.', DECIMAL_SYMBOL)
         }
 
-        const splitBySymbol = split(
-            value,
-            // eslint-disable-next-line react/destructuring-assignment
-            this.props[ReplaceableChar.DECIMAL_SYMBOL],
-        )
+        const splitBySymbol = split(value, DECIMAL_SYMBOL)
 
         if (!allowDecimal) {
             return splitBySymbol[0]
@@ -92,20 +90,22 @@ class InputMoney extends React.Component {
         this.setState({ value: convertedValue })
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    replaceSpecialSymbol(value, searchValue, replaceValue) {
-        return value.replace(searchValue, replaceValue)
-    }
+    replaceSpecialSymbol = (value, searchValue, replaceValue) => (
+        value.replace(searchValue, replaceValue)
+    )
 
     convertToFloat(value) {
-        const { allowDecimal } = this.props
+        const {
+            allowDecimal,
+            [ReplaceableChar.DECIMAL_SYMBOL]: DECIMAL_SYMBOL,
+        } = this.props
         let convertedValue = value.toString()
 
         forOwn(ReplaceableChar, (char) => {
-            // eslint-disable-next-line react/destructuring-assignment
-            if (!isEmpty(this.props[char])) {
-                // eslint-disable-next-line react/destructuring-assignment
-                const pattern = this.props[char].replace(
+            const { [char]: replaceableChar } = this.props
+
+            if (!isEmpty(replaceableChar)) {
+                const pattern = replaceableChar.replace(
                     /[$()*+./?[\\\]^{|}-]/g,
                     '\\$&',
                 )
@@ -125,8 +125,7 @@ class InputMoney extends React.Component {
         if (
             allowDecimal &&
             includes(stateValue, '.') &&
-            // eslint-disable-next-line react/destructuring-assignment
-            !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
+            !includes(value, DECIMAL_SYMBOL)
         ) {
             convertedValue = convertedValue.substring(0, convertedValue.length - 3)
         }

@@ -11,7 +11,7 @@ import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import withSecurity from '../../../core/auth/withSecurity'
 import { SECURITY_CHECK } from '../../../core/auth/authTypes'
-import RegionContent from '../RegionContent'
+import { RegionContent } from '../RegionContent'
 
 /**
  * Регион Панель
@@ -53,7 +53,7 @@ class PanelRegion extends React.Component {
         this.getPanelsWithAccess()
     }
 
-    getContent(meta) {
+    getContent = (meta) => {
         const content = isArray(meta) ? meta : [meta]
 
         return <RegionContent content={content} />
@@ -72,22 +72,24 @@ class PanelRegion extends React.Component {
     }
 
     async checkPanel(panel) {
+        const { tabs } = this.state
+
         if (panel.security) {
             const { user, authProvider } = this.props
             const config = panel.security
 
             try {
-                const permissions = await authProvider(SECURITY_CHECK, {
+                await authProvider(SECURITY_CHECK, {
                     config,
                     user,
                 })
 
-                this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) })
+                this.setState({ tabs: tabs.concat(this.getTab(panel)) })
             } catch (error) {
                 // ...
             }
         } else {
-            this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) })
+            this.setState({ tabs: tabs.concat(this.getTab(panel)) })
         }
     }
 
@@ -95,15 +97,13 @@ class PanelRegion extends React.Component {
         const { content } = this.props
 
         this.setState({ tabs: [] }, async () => {
+            // eslint-disable-next-line no-restricted-syntax
             for (const panel of content) {
                 await this.checkPanel(panel)
             }
         })
     }
 
-    /**
-   * Рендер
-   */
     render() {
         const {
             content,
@@ -111,7 +111,10 @@ class PanelRegion extends React.Component {
             activeEntity,
             open,
             changeActiveEntity,
+            className,
+            style,
         } = this.props
+        const { tabs } = this.state
         const isInvisible = every(
             content,
             item => getWidgetProps(item.id).isVisible === false,
@@ -119,11 +122,12 @@ class PanelRegion extends React.Component {
 
         return (
             <PanelShortHand
-                tabs={this.state.tabs}
+                tabs={tabs}
                 {...this.props}
                 open={isUndefined(activeEntity) ? open : activeEntity}
-                style={{ display: isInvisible && 'none' }}
+                style={{ display: isInvisible && 'none', ...style }}
                 onVisibilityChange={changeActiveEntity}
+                className={className}
             >
                 {map(content, meta => this.getContent(meta))}
             </PanelShortHand>
@@ -133,56 +137,61 @@ class PanelRegion extends React.Component {
 
 PanelRegion.propTypes = {
     /**
-   * Список элементов
-   */
+     * Список элементов
+     */
     content: PropTypes.array.isRequired,
     /**
-   * ID страницы
-   */
+     * ID страницы
+     */
     pageId: PropTypes.string.isRequired,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Цвет панели
-   */
+     * Цвет панели
+     */
     color: PropTypes.string,
     /** *
-   * Иконка панели
-   */
+     * Иконка панели
+     */
     icon: PropTypes.string,
     /**
-   * Текст заголовка
-   */
+     * Текст заголовка
+     */
     headerTitle: PropTypes.string,
     /**
-   * Текст футера
-   */
+     * Текст футера
+     */
     footerTitle: PropTypes.string,
     /**
-   * Флаг открытия панели
-   */
+     * Флаг открытия панели
+     */
     open: PropTypes.bool,
     /**
-   * Флаг возможности скрывать содержимое панели
-   */
+     * Флаг возможности скрывать содержимое панели
+     */
     collapsible: PropTypes.bool,
     /**
-   * Флаг наличия табов
-   */
+     * Флаг наличия табов
+     */
     hasTabs: PropTypes.bool,
     /**
-   * Флаг открытия на весь экран
-   */
+     * Флаг открытия на весь экран
+     */
     fullScreen: PropTypes.bool,
     getWidget: PropTypes.func.isRequired,
     resolveVisibleDependency: PropTypes.func,
     dependency: PropTypes.object,
+    getWidgetProps: PropTypes.func,
+    changeActiveEntity: PropTypes.func,
+    authProvider: PropTypes.func,
+    activeEntity: PropTypes.any,
+    user: PropTypes.any,
 }
 
 PanelRegion.defaultProps = {

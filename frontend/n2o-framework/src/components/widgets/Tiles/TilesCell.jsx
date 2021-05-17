@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 
-import Factory from '../../../core/factory/Factory'
+import { Factory } from '../../../core/factory/Factory'
 import { CELLS } from '../../../core/factory/factoryLevels'
 import propsResolver from '../../../utils/propsResolver'
 /**

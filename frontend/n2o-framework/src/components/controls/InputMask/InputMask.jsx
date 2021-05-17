@@ -70,7 +70,6 @@ class InputMask extends React.Component {
   preset = (preset) => {
       const { presetConfig } = this.props
 
-      // eslint-disable-next-line default-case
       switch (preset) {
           case 'phone':
               return this.mapToArray('+9 (999)-999-99-99')
@@ -84,6 +83,8 @@ class InputMask extends React.Component {
               return createNumberMask({ prefix: '', suffix: '%' })
           case 'card':
               return this.mapToArray('9999 9999 9999 9999')
+          default:
+              return undefined
       }
   };
 

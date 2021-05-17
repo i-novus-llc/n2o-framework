@@ -22,7 +22,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     protected void compileFieldSet(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        compiled.setLabel(source.getLabel());
+        compiled.setLabel(p.resolveJS(source.getLabel()));
         compiled.setDescription(source.getDescription());
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));

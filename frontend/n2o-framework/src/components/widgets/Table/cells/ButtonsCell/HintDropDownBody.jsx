@@ -6,9 +6,9 @@ import { Popper } from 'react-popper'
 
 class HintDropDownBody extends Component {
     handleClickOutside() {
-        if (this.props.open) {
-            this.props.onToggleDropdown()
-        }
+        const { open, onToggleDropdown } = this.props
+
+        if (open) { onToggleDropdown() }
     }
 
     render() {
@@ -48,6 +48,7 @@ HintDropDownBody.propTypes = {
     menu: PropTypes.array,
     createDropDownMenu: PropTypes.func,
     open: PropTypes.bool,
+    onToggleDropdown: PropTypes.func,
 }
 
 export default onClickOutside(HintDropDownBody)

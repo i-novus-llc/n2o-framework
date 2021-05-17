@@ -156,8 +156,7 @@ class N2OSelect extends React.Component {
      * @return {Array}
      * @private
      */
-    // eslint-disable-next-line class-methods-use-this
-    getSelected(value) {
+    getSelected = (value) => {
         if (Array.isArray(value)) {
             return value
         }

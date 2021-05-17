@@ -1,4 +1,4 @@
-import React, { Component, Children, Fragment } from 'react'
+import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import first from 'lodash/first'
 import each from 'lodash/each'
@@ -11,11 +11,11 @@ import isEmpty from 'lodash/isEmpty'
 import SecurityCheck from '../auth/SecurityCheck'
 
 import factoryConfigShape from './factoryConfigShape'
-import NotFoundFactory from './NotFoundFactory'
+import { NotFoundFactory } from './NotFoundFactory'
 
 const blackList = ['dataProvider', 'action', 'actions']
 
-class FactoryProvider extends Component {
+export class FactoryProvider extends Component {
     getChildContext() {
         return {
             factories: this.factories,
@@ -101,7 +101,9 @@ class FactoryProvider extends Component {
     }
 
     render() {
-        return Children.only(this.props.children)
+        const { children } = this.props
+
+        return Children.only(children)
     }
 }
 

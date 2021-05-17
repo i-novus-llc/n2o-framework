@@ -19,7 +19,7 @@ function DocumentTitle({ htmlTitle, model }) {
 
 DocumentTitle.propTypes = {
     htmlTitle: PropTypes.string,
-    modelLink: PropTypes.string,
+    model: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({

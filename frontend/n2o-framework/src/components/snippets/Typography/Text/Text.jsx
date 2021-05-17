@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
-import Base from '../Base'
+import { Base } from '../Base'
 
-function Text({ preLine, className, ...rest }) {
+export function Text({ preLine, className, ...rest }) {
     const tag = 'span'
 
     return (
         <Base
             tag={tag}
-            className={cn(className, {
+            className={classNames(className, {
                 'white-space-pre-line': preLine,
             })}
             {...rest}
@@ -20,6 +20,7 @@ function Text({ preLine, className, ...rest }) {
 
 Text.propTypes = {
     preLine: PropTypes.bool,
+    className: PropTypes.string,
 }
 
 Text.defaultProps = {

@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
@@ -15,15 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-
-public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> implements BaseSourceCompiler<D, S, PageContext> {
-
-    protected abstract String getPropertyRegionSrc();
+public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> extends ComponentCompiler<D, S, PageContext> {
 
     protected D build(D compiled, S source, CompileProcessor p) {
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyRegionSrc()), String.class)));
-        compiled.setProperties(p.mapAttributes(source));
+        compileComponent(compiled, source, null, p);
         compiled.setId(p.cast(source.getId(), createId(source.getPlace(), p)));
         return compiled;
     }

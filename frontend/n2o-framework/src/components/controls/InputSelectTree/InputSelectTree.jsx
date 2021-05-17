@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 import { compose, withState, setDisplayName } from 'recompose'
 import { withTranslation } from 'react-i18next'
 
-import Icon from '../../snippets/Icon/Icon'
+import { Icon } from '../../snippets/Icon/Icon'
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'

@@ -38,6 +38,7 @@
     "test:n2o": "lerna run --scope n2o-framework test",
     "test:n2o:generate-output": "lerna run --scope n2o-framework test:generate-output",
     "test:n2o:hook": "lerna run --scope n2o-framework test:hook",
+    "lint": "lerna run --scope n2o-framework lint",
     "docs:install": "cd docs&&yarn install",
     "docs:start": "cd docs&&yarn run start",
     "docs:build": "cd docs&&yarn run build"
@@ -62,5 +63,8 @@
     "react-addons-test-utils": "15.4.2",
     "react-test-renderer": "^16.0.0",
     "rimraf": "^2.6.1"
+  },
+  "peerDependencies": {
+    "N2oStorybook": "*"
   }
 }

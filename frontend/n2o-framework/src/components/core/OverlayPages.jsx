@@ -9,8 +9,10 @@ import defaultTo from 'lodash/defaultTo'
 import { closeOverlay, hidePrompt } from '../../actions/overlays'
 import { overlaysSelector } from '../../selectors/overlays'
 
+// eslint-disable-next-line import/no-cycle
 import DrawerPage from './DrawerPage'
 import PageDialog from './PageDialog'
+// eslint-disable-next-line import/no-cycle
 import ModalPage from './ModalPage'
 
 const ModalMode = {
@@ -57,6 +59,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 OverlayPages.propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     overlays: PropTypes.array,
 }
 

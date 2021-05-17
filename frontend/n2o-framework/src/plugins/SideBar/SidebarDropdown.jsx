@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 import { compose, withState, withHandlers } from 'recompose'
 
+// eslint-disable-next-line import/no-cycle
 import { renderIcon } from './SidebarItemContainer'
 
 /**
@@ -27,6 +28,7 @@ function SidebarDropdown({
     type,
 }) {
     return (
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
         <div
             onMouseOver={!sidebarOpen && !isOpen && toggle}
             onMouseLeave={!sidebarOpen && isOpen && toggle}

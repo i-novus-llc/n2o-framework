@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
-const InputIcon = ({ hoverable, clickable, onClick, children }) => (
+export const InputIcon = ({ hoverable, clickable, onClick, children }) => (
     <span
-        className={cn('n2o-input-icon', { hoverable, clickable })}
+        className={classNames('n2o-input-icon', { hoverable, clickable })}
         onClick={onClick}
     >
         {children}
@@ -15,6 +15,7 @@ InputIcon.propTypes = {
     hoverable: PropTypes.bool,
     clickable: PropTypes.bool,
     onClick: PropTypes.func,
+    children: PropTypes.any,
 }
 
 InputIcon.defaultProps = {

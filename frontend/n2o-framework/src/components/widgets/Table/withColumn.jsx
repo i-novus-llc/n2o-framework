@@ -35,12 +35,13 @@ const withColumn = (WrappedComponent) => {
                 widgetId,
                 label,
                 columnIsInit,
-                columnVisible = true,
-                columnDisabled = false,
+                columnVisible,
+                columnDisabled,
                 dispatch,
                 conditions,
             } = this.props
 
+            // eslint-disable-next-line no-unused-expressions
             !columnIsInit &&
         dispatch(
             registerColumn(
@@ -91,6 +92,24 @@ const withColumn = (WrappedComponent) => {
         columnVisible: (state, props) => isVisibleSelector(props.widgetId, props.columnId)(state),
         columnDisabled: (state, props) => isDisabledSelector(props.widgetId, props.columnId)(state),
     })
+
+    ColumnContainer.propTypes = {
+        columnId: PropTypes.string,
+        widgetId: PropTypes.string,
+        label: PropTypes.string,
+        columnIsInit: PropTypes.any,
+        columnVisible: PropTypes.bool,
+        columnDisabled: PropTypes.bool,
+        dispatch: PropTypes.func,
+        conditions: PropTypes.object,
+        security: PropTypes.object,
+        model: PropTypes.object,
+    }
+
+    ColumnContainer.defaultProps = {
+        columnVisible: true,
+        columnDisabled: false,
+    }
 
     return compose(
         connect(mapStateToProps),

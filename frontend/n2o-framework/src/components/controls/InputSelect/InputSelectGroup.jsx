@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import Spinner from '../../snippets/Spinner/Spinner'
+import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import InputAddon from './InputAddon'
 

@@ -2,7 +2,6 @@ package net.n2oapp.framework.boot.test;
 
 import net.n2oapp.framework.boot.N2oSqlAutoConfiguration;
 import net.n2oapp.framework.boot.sql.SqlDataProviderEngine;
-import net.n2oapp.framework.boot.sql.SqlInvocationEngine;
 import net.n2oapp.framework.boot.sql.rowmapper.PostgresIndexRowMapper;
 import org.junit.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -26,7 +25,6 @@ public class N2oAutoConfigurationTest {
                         DataSourceAutoConfiguration.class,
                         JdbcTemplateAutoConfiguration.class,
                         N2oSqlAutoConfiguration.class)).run(ctx -> {
-            assertThat(ctx).hasSingleBean(SqlInvocationEngine.class);
             assertThat(ctx).hasSingleBean(SqlDataProviderEngine.class);
             assertThat(ctx).hasSingleBean(PostgresIndexRowMapper.class);
         });

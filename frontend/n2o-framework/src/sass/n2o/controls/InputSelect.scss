@@ -46,6 +46,10 @@
             white-space: normal;
             padding: $input-select-control-dropdown-header-padding;
         }
+
+        &.n2o-pop-up {
+            user-select: none;
+        }
     }
 
     .n2o-dropdown-control.btn-sm {
@@ -162,6 +166,7 @@
     .n2o-input-items > .valueText,
     input {
         padding: $input-select-padding;
+        padding-right: 65px;
     }
 
     .n2o-input-items > textarea,

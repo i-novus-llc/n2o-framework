@@ -1,68 +1,57 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
-    <name>testCopyInValidations</name>
-    <app-name>appName</app-name>
-    <module-name>moduleName</module-name>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0" name="testCopyInValidations"
+    app-name="appName" module-name="moduleName">
 
-    <actions>
-        <action id="all">
+    <operations>
+        <operation id="all">
             <invocation>
-                <n2o:java method="testMethod">
-                    <n2o:ejb bean="testBean"/>
-                </n2o:java>
+                <java method="testMethod">
+                    <ejb bean="testBean"/>
+                </java>
             </invocation>
-            <validations activate="all"/>
-        </action>
-        <action id="nothing">
+            <validations white-list="v1,v2"/>
+        </operation>
+        <operation id="nothing">
             <invocation>
-                <n2o:java method="testMethod">
-                    <n2o:ejb bean="testBean"/>
-                </n2o:java>
+                <java method="testMethod">
+                    <ejb bean="testBean"/>
+                </java>
             </invocation>
-            <validations activate="nothing"/>
-        </action>
-        <action id="white">
+        </operation>
+        <operation id="white">
             <invocation>
-                <n2o:java method="testMethod">
-                    <n2o:ejb bean="testBean"/>
-                </n2o:java>
+                <java method="testMethod">
+                    <ejb bean="testBean"/>
+                </java>
             </invocation>
-            <validations activate="whiteList">
-                <validation ref-id="v1"/>
-            </validations>
-        </action>
-        <action id="black">
+            <validations white-list="v1"/>
+        </operation>
+        <operation id="black">
             <invocation>
-                <n2o:java method="testMethod">
-                    <n2o:ejb bean="testBean"/>
-                </n2o:java>
+                <java method="testMethod">
+                    <ejb bean="testBean"/>
+                </java>
             </invocation>
-            <validations activate="blackList">
-                <validation ref-id="v1"/>
-            </validations>
-        </action>
-    </actions>
+            <validations black-list="v1"/>
+        </operation>
+    </operations>
 
     <validations>
-        <condition id="v1" level="error">
-            <message>test</message>
-            <expression on="a,b">a == b</expression>
+        <condition id="v1" severity="danger" message="test" on="a,b">
+            a == b
         </condition>
-        <constraint id="v2" level="error">
-            <message>test</message>
+        <constraint id="v2" severity="danger" message="test" result="[0][0][0] == 1">
             <invocation>
-                <n2o:java method="testMethod">
-                    <n2o:ejb bean="testBean"/>
-                </n2o:java>
+                <java method="testMethod">
+                    <ejb bean="testBean"/>
+                </java>
             </invocation>
-            <in-parameters>
-                <param name="in" mapping="[]"/>
-            </in-parameters>
-            <out-parameters>
-                <param name="out" mapping="[]"/>
-            </out-parameters>
-            <result expression="[0][0][0] == 1"/>
+            <in>
+                <field id="in" mapping="[]"/>
+            </in>
+            <out>
+                <field id="out" mapping="[]"/>
+            </out>
         </constraint>
     </validations>
 

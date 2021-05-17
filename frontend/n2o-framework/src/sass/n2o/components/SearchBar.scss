@@ -11,6 +11,13 @@
 
     .n2o-search-bar__clear-icon {
         color: gray;
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .n2o-search-bar__clear-icon.with-search {
+        right: 30px;
+        top: calc(50% - 6px);
     }
 
     .n2o-search-bar__clear-icon:hover {
@@ -26,7 +33,8 @@
     i {
         position: absolute;
         right: 10px;
-        top: calc(50% - 8px);
+        top: calc(50% - 6px);
+        font-size: 14px;
     }
 }
 

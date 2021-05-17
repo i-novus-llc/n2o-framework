@@ -139,59 +139,18 @@ describe('FormContainer', () => {
         })
     })
 
-    describe('Проверка withLiveCycleMethods', () => {
+    describe('Проверка onModelChange', () => {
         it('Создание компонента', () => {
-            const wrapper = setup({}, 'withLiveCycleMethods')
-            expect(wrapper.find(NullComponent).exists()).toBeTruthy()
-        })
-        it('Вызов setDefaultValues с активной моделью', () => {
-            const setDefaultValues = sinon.spy()
-            const wrapper = setup(
-                {
-                    activeModel: 'activeModel',
-                    defaultValues: 'defaultValues',
-                    reduxFormValues: ['reduxFormValues'],
-                    setDefaultValues,
-                },
-                'withLiveCycleMethods',
-            )
-
-            expect(setDefaultValues.calledOnce).toBe(false)
-
-            wrapper.setProps({ activeModel: 'newActiveModel' }).update()
-            expect(setDefaultValues.calledOnce).toBe(true)
-            expect(setDefaultValues.calledWith('newActiveModel')).toBe(true)
-        })
-
-        it('Вызов setDefaultValues с null при изменении datasource', () => {
-            const setDefaultValues = sinon.spy()
-            const wrapper = setup(
-                {
-                    defaultValues: 'defaultValues',
-                    datasource: [],
-                    setDefaultValues,
-                },
-                'withLiveCycleMethods',
-            )
-
-            wrapper.setProps({ datasource: ['newValue'] }).update()
-            expect(setDefaultValues.calledOnce).toBe(true)
-            expect(setDefaultValues.calledWith({})).toBe(true)
-        })
-    })
-
-    describe('Проверка withPropsOnChangeWidget', () => {
-        it('Создание компонента', () => {
-            const wrapper = setup({}, 'withPropsOnChangeWidget')
+            const wrapper = setup({}, 'onModelChange')
             expect(wrapper.find(NullComponent).exists()).toBeTruthy()
         })
         it('Прокидывание initialValues при изменении isEnabled', () => {
             const wrapper = setup(
                 {
-                    defaultValues: [],
+                    resolveModel: {},
                     isEnabled: false,
                 },
-                'withPropsOnChangeWidget',
+                'onModelChange',
             )
             wrapper.setProps({ isEnabled: true }).update()
             expect(wrapper.find(NullComponent).props()).toHaveProperty(
@@ -203,15 +162,15 @@ describe('FormContainer', () => {
         it('Прокидывание initialValues при изменении defaultValues и isEnabled=true', () => {
             const wrapper = setup(
                 {
-                    defaultValues: [],
+                    activeModel: {},
                     isEnabled: true,
                 },
-                'withPropsOnChangeWidget',
+                'onModelChange',
             )
-            wrapper.setProps({ defaultValues: ['newDefaultValue'] }).update()
+            wrapper.setProps({ activeModel: { newDefaultValue: 'newDefaultValue' }, resolveModel: { newDefaultValue: 'newDefaultValue' } }).update()
             expect(wrapper.find(NullComponent).props()).toHaveProperty(
                 'initialValues',
-                ['newDefaultValue'],
+                { newDefaultValue: 'newDefaultValue' },
             )
         })
 
@@ -222,7 +181,7 @@ describe('FormContainer', () => {
                     datasource: { data: '' },
                     isEnabled: false,
                 },
-                'withPropsOnChangeWidget',
+                'onDataSourceChange',
             )
             wrapper.setProps({ isEnabled: true }).update()
             expect(wrapper.find(NullComponent).props()).toHaveProperty(
@@ -274,44 +233,8 @@ describe('FormContainer', () => {
             expect(onResolve.calledOnce).toBe(true)
             expect(onResolve.calledWith('newValue')).toBe(true)
         })
-
-        it('onSetModel если reduxFormValues и prevValue не совпадают', () => {
-            const onSetModel = sinon.spy()
-            const wrapper = setup(
-                {
-                    onSetModel,
-                    reduxFormValues: { init: 'test' },
-                    modelPrefix: 'datasource',
-                    onResolve: () => {},
-                    widgetId: 'testWidget',
-                },
-                'withWidgetHandlers',
-            )
-            wrapper
-                .find(NullComponent)
-                .props()
-                .onChange('newValue', null, null, 'prevValue')
-
-            expect(onSetModel.calledOnce).toBe(true)
-            expect(onSetModel.getCall(0).args).toEqual([
-                'datasource',
-                'testWidget',
-                'newValue',
-            ])
-        })
     })
 
-    it('Проверка compose', () => {
-        const wrapper = setupToProviderFromDefault()
-
-        expect(
-            wrapper
-                .find(
-                    'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(ReduxForm)))))))',
-                )
-                .exists(),
-        ).toBe(true)
-    })
     it('Проверка prompt', () => {
         function configureStore() {
             return createStore(rootReducer(history))

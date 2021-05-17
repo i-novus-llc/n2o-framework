@@ -1,6 +1,6 @@
 import { compose, withHandlers, defaultProps } from 'recompose'
 
-import CheckboxN2O from './CheckboxN2O'
+import { CheckboxN2OWrapped } from './CheckboxN2O'
 
 export default compose(
     defaultProps({
@@ -15,4 +15,4 @@ export default compose(
             props.onChange(!value ? defaultUnchecked : value)
         },
     }),
-)(CheckboxN2O)
+)(CheckboxN2OWrapped)

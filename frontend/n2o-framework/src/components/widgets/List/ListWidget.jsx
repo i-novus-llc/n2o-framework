@@ -2,6 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 import PropTypes from 'prop-types'
 
+// eslint-disable-next-line import/no-named-as-default
 import dependency from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
@@ -29,7 +30,6 @@ import ListContainer from './ListContainer'
  * @param {number} maxHeight - максимальная высота виджета
  * @param {boolean} fetchOnScroll - запрос при скролле
  * @param {string} prevText - текст previous кнопки пагинации
- * @param {string} nextText - текст next кнопки пагинации
  * @param {boolean} divider - флаг разделителя между строками
  * @param {boolean} hasSelect - флаг включения выбора строк
  * @param {boolean} rows - настройка security
@@ -104,6 +104,7 @@ function ListWidget(
 }
 
 ListWidget.propTypes = {
+    id: PropTypes.string,
     widgetId: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
@@ -122,6 +123,10 @@ ListWidget.propTypes = {
     prevText: PropTypes.string,
     nextText: PropTypes.string,
     hasSelect: PropTypes.bool,
+    paging: PropTypes.object,
+    placeholder: PropTypes.object,
+    divider: PropTypes.bool,
+    rows: PropTypes.bool,
 }
 ListWidget.defaultProps = {
     rowClick: null,

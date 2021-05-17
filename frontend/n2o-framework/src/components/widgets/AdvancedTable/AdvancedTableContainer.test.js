@@ -110,7 +110,7 @@ describe('<AdvancedTableContainer />', () => {
             value: 'Ivan',
         })
 
-        expect(wrapper.instance()._filter).toEqual({ name: 'Ivan' })
+        expect(wrapper.instance().filterValue).toEqual({ name: 'Ivan' })
         expect(onSetFilter.calledOnce).toBe(true)
         expect(onSetFilter.getCall(0).args[0]).toEqual({ name: 'Ivan' })
         expect(onFetch.calledOnce).toBe(true)
