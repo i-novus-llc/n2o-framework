@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.meta.action.open_drawer;
+package net.n2oapp.framework.api.metadata.meta.action.modal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -11,12 +11,9 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Клиентская модель компонента open-drawer
- */
 @Getter
 @Setter
-public class OpenDrawerPayload implements ActionPayload {
+public class ModalPayload implements ActionPayload {
     @JsonProperty
     @Deprecated
     private String name;
@@ -34,26 +31,4 @@ public class OpenDrawerPayload implements ActionPayload {
     private Map<String, Action> actions;
     @JsonProperty
     private List<Group> toolbar;
-    @JsonProperty
-    private String mode = "drawer";
-    @JsonProperty
-    private Boolean closable = true;
-    @JsonProperty
-    private Boolean backdrop;
-    @JsonProperty
-    private String width;
-    @JsonProperty
-    private String height;
-    @JsonProperty
-    private String placement;
-    @JsonProperty
-    private String level;
-    @JsonProperty
-    private Boolean closeOnBackdrop;
-    @JsonProperty
-    private Boolean prompt;
-    @JsonProperty
-    private Boolean fixedFooter;
-    @JsonProperty
-    private Boolean closeOnEscape;
 }

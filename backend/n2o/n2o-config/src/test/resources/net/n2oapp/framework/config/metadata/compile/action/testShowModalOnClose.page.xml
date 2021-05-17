@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form id="form">
+            <toolbar>
+                <button id="modal1">
+                    <show-modal page-id="testShowModalPage" refresh-on-close="true"/>
+                </button>
+            </toolbar>
+        </form>
+        <form id="form2">
+            <toolbar>
+                <button id="modal2">
+                    <show-modal page-id="testShowModalPage" refresh-on-close="true" refresh-widget-id="form"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

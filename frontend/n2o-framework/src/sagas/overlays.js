@@ -1,15 +1,18 @@
-import { takeEvery, select, put, call } from 'redux-saga/effects'
+import { takeEvery, select, put, call, fork } from 'redux-saga/effects'
 import { isDirty } from 'redux-form'
 import keys from 'lodash/keys'
 import has from 'lodash/has'
+import get from 'lodash/get'
 
-import { CLOSE } from '../constants/overlays'
+import { CLOSE, INSERT_MODAL, INSERT_DRAWER } from '../constants/overlays'
 import { makePageWidgetsByIdSelector } from '../selectors/pages'
 import {
     showPrompt,
     destroyOverlay,
     destroyOverlays,
 } from '../actions/overlays'
+
+import { refreshEffect } from './meta'
 
 /**
  * Проверка на изменение данных в формах
@@ -59,8 +62,38 @@ export function* closeOverlays({ meta }) {
     yield put(destroyOverlays(meta.modalsToClose))
 }
 
+function* onCloseEffects() {
+    const onCloseHandlers = {}
+
+    function* getClose({ meta, payload }) {
+        const { name } = payload
+
+        if (get(meta, 'onClose')) {
+            yield onCloseHandlers[name] = meta.onClose
+        }
+    }
+
+    function* onClose({ payload }) {
+        const { name } = payload
+
+        if (onCloseHandlers[name]) {
+            const { refresh } = onCloseHandlers[name]
+
+            if (refresh) {
+                yield refreshEffect({ meta: { refresh } })
+            }
+
+            delete onCloseHandlers[name]
+        }
+    }
+
+    yield takeEvery([INSERT_MODAL, INSERT_DRAWER], getClose)
+    yield takeEvery(CLOSE, onClose)
+}
+
 export const overlaysSagas = [
     takeEvery(CLOSE, checkPrompt),
+
     takeEvery(
         action => action.meta &&
       action.payload &&
@@ -69,4 +102,5 @@ export const overlaysSagas = [
       action.type !== CLOSE,
         closeOverlays,
     ),
+    fork(onCloseEffects),
 ]
