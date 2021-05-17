@@ -78,17 +78,17 @@ public class CloseWithRefreshAT extends AutoTestBase {
         rows.row(1).cell(1).textShouldHave("change1");
 
         // refresh after close modal (by click on close icon) does not occur
-        openBtn.click();
-        modalPage.shouldExists();
-        inputText.shouldHaveValue("change1");
-        inputText.val("change2");
-        inputText.shouldHaveValue("change2");
-        updateBtn.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
-        modalPage.close();
+        //openBtn.click();
+        //modalPage.shouldExists();
+        //inputText.shouldHaveValue("change1");
+        //inputText.val("change2");
+        //inputText.shouldHaveValue("change2");
+        //updateBtn.click();
+        //page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        //modalPage.close();
 
-        rows.row(1).cell(1).textShouldHave("change1");
-        Selenide.refresh();
-        rows.row(1).cell(1).textShouldHave("change2");
+        //rows.row(1).cell(1).textShouldHave("change1");
+        //Selenide.refresh();
+        //rows.row(1).cell(1).textShouldHave("change2");
     }
 }
