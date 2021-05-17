@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.drawer;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
@@ -54,6 +51,11 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     @Override
     public void closeByEsc() {
         element().pressEscape();
+    }
+
+    @Override
+    public void clickBackdrop() {
+        element().click();
     }
 
     static class StyleAttribute extends Condition {
