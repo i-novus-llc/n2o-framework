@@ -26,6 +26,8 @@ public interface Page extends Component {
 
     void urlShouldMatches(String regexp);
 
+    void titleShouldHaveText(String title);
+
     void scrollUp();
 
     void scrollDown();
