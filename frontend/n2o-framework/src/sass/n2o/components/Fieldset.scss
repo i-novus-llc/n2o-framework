@@ -1,6 +1,11 @@
 .n2o-fieldset {
     margin-bottom: 10px;
 
+    .n2o-fieldset__label-container {
+        margin-bottom: 15px;
+        display: flex;
+    }
+
     .n2o-fieldset__label {
         margin-bottom: 10px;
         font-size: 16px;
@@ -11,32 +16,31 @@
 
     .n2o-fieldset__label.with-description {
         margin-bottom: 0;
+        padding: 0 5px 0 0;
         line-height: 15px;
     }
 
     .n2o-fieldset__description {
-        margin: 5px 0 10px 0;
+        margin: 3px 0 0 10px;
         font-size: 12px;
     }
 
     .n2o-panel-header-container {
+        width: 100%;
+        display: flex;
+
         .n2o-fieldset__description {
-            padding: 0 5px;
-            margin: 0;
+            margin: 3px 10px 0 10px;
             font-weight: lighter;
             line-height: 15px;
         }
     }
 
-    .n2o-panel-header.with-description {
+    .n2o-collapse-panel.with-description {
         margin-bottom: 15px;
     }
 
-    .n2o-collapse-panel.with-description {
-        margin-bottom: 15px;
-
-        .n2o-collapse-icon-wrapper {
-            align-self: center;
-        }
+    .n2o-panel-header.with-description {
+        margin-bottom: 5px;
     }
 }
