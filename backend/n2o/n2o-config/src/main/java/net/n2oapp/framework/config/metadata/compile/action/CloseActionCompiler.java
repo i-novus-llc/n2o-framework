@@ -35,7 +35,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             CloseAction closeAction = new CloseAction();
             compileAction(closeAction, source, p);
             closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
-            closeAction.setMeta(initMeta(closeAction, source, context, p));
+            closeAction.setMeta(initMeta(source, context, p));
             CloseActionPayload payload = new CloseActionPayload();
             if (context instanceof ModalPageContext) {
                 payload.setPageId(((PageContext) context).getClientPageId());
@@ -62,7 +62,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         }
     }
 
-    private MetaSaga initMeta(CloseAction closeAction, N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
+    private MetaSaga initMeta(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
         boolean refresh = p.cast(Boolean.TRUE.equals(source.getRefreshOnClose())
                 || Boolean.TRUE.equals(source.getRefresh()), p.resolve(property("n2o.api.action.close.refresh_on_close"), Boolean.class));
@@ -73,9 +73,8 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             meta.setRefresh(new RefreshSaga());
             meta.getRefresh().setType(RefreshSaga.Type.widget);
             String refreshWidgetId = null;
-            if (context instanceof PageContext) {
-                refreshWidgetId = ((PageContext) context).getParentClientWidgetId();
-            }
+            if (context instanceof PageContext)
+                refreshWidgetId = p.cast(((PageContext) context).getRefreshClientWidgetId(), ((PageContext) context).getParentClientWidgetId());
             meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
         }
         if (redirect) {
