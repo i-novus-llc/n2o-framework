@@ -409,6 +409,7 @@ class DateTimeControl extends React.Component {
             openOnFocus,
             popupPlacement,
             outputFormat,
+            strategy,
         } = this.props
 
         const { inputs, isPopUpVisible } = this.state
@@ -451,7 +452,7 @@ class DateTimeControl extends React.Component {
                             <Popper
                                 placement={popupPlacement}
                                 modifiers={MODIFIERS}
-                                strategy="absolute"
+                                strategy={strategy || 'absolute'}
                             >
                                 {({ ref, style, placement }) => (
                                     <div
@@ -525,6 +526,7 @@ DateTimeControl.propTypes = {
     className: PropTypes.string,
     date: PropTypes.any,
     popupPlacement: PropTypes.string,
+    strategy: PropTypes.string,
 }
 
 export default DateTimeControl
