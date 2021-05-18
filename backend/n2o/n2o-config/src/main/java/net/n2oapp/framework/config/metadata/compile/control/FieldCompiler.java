@@ -135,7 +135,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void compileFieldToolbar(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getToolbar() != null) {
             Toolbar toolbar = p.compile(source.getToolbar(), context);
-            field.setToolbar(new Group[]{toolbar.getGroup(0)});
+            field.setToolbar(toolbar.getGroups().toArray(Group[]::new));
         }
     }
 
