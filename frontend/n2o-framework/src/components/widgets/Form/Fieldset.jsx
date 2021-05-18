@@ -251,6 +251,7 @@ class Fieldset extends React.Component {
             activeModel,
             ...rest
         } = this.props
+
         const { enabled, visible } = this.state
 
         this.fields = []
@@ -270,22 +271,24 @@ class Fieldset extends React.Component {
 
         return (
             <div className={classes} style={style}>
-                {needLabel && (
-                    <Label
-                        className={classNames(
-                            'n2o-fieldset__label', { 'with-description': description },
-                        )}
-                        value={resolveLabel}
-                    />
-                )}
-                {needDescription && (
-                    <Label
-                        className={classNames(
-                            'n2o-fieldset__description', { 'line-description': type === 'line' },
-                        )}
-                        value={description}
-                    />
-                )}
+                <div className="n2o-fieldset__label-container">
+                    {needLabel && (
+                        <Label
+                            className={classNames(
+                                'n2o-fieldset__label', { 'with-description': description },
+                            )}
+                            value={resolveLabel}
+                        />
+                    )}
+                    {needDescription && (
+                        <Label
+                            className={classNames(
+                                'n2o-fieldset__description', { 'line-description': type === 'line' },
+                            )}
+                            value={description}
+                        />
+                    )}
+                </div>
                 <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}
