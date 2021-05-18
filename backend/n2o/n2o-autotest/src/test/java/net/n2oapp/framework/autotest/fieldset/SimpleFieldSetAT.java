@@ -57,6 +57,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
 
         fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
         fieldset.shouldHaveLabel("Заголовок test");
+        fieldset.shouldHaveDescription("Подзаголовок филдсета");
         field1.val("123");
         fieldset.shouldHaveLabel("Заголовок 123");
 

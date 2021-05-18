@@ -62,6 +62,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.shouldExists();
         fieldset2.shouldHaveLabel("Заголовок");
+        fieldset2.shouldHaveDescription("Подзаголовок филдсета");
         fieldset2.addButtonShouldBeExist();
         fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
