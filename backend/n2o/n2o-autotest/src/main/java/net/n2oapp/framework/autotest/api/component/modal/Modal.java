@@ -23,6 +23,8 @@ public interface Modal extends Component {
 
     void close();
 
+    void closeByEsc();
+
     void shouldBeScrollable();
 
     void shouldNotBeScrollable();
