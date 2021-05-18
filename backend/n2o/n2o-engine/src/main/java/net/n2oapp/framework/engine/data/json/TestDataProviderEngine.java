@@ -83,7 +83,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             case deleteMany:
                 return deleteMany(invocation, inParams, data);
             case count:
-                return data.size();
+                return count(inParams, data);
             case echo:
                 return inParams;
         }
@@ -110,6 +110,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         List<DataSet> modifiableData = new ArrayList<>(data);
         modifiableData = filter(filters, inParams, modifiableData);
         return modifiableData.isEmpty() ? null : modifiableData.get(0);
+    }
+
+    private int count(Map<String, Object> inParams,
+                      List<DataSet> data) {
+        List<String> filters = (List<String>) inParams.get("filters");
+        List<DataSet> modifiableData = new ArrayList<>(data);
+        return filter(filters, inParams, modifiableData).size();
     }
 
     private Object create(N2oTestDataProvider invocation,
