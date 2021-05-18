@@ -441,7 +441,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     private void executeSubModels(ModelLink link) {
-        if (link.getValue() == null)
+        if (link.getValue() == null || link.getSubModelQuery().getSubModel() == null)
             return;
         if (link.getValue() instanceof List) {
             for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
@@ -461,6 +461,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     private void resolveDefaultValues(ModelLink link) {
+        if (link.getSubModelQuery().getValueFieldId() == null) return;
+
         if (link.getParam() != null && params.containsKey(link.getParam())) {
             if (params.get(link.getParam()) instanceof List) {
                 List<DefaultValues> values = new ArrayList<>();
