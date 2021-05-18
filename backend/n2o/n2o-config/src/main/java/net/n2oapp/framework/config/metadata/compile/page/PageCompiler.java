@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
@@ -75,13 +76,25 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         return breadcrumbs;
     }
 
-    protected PageProperty initPageName(String pageName, boolean showTitle, PageContext context, CompileProcessor p) {
+    /**
+     * Инициализация заголовков страницы
+     *
+     * @param source   Исходная модель страницы
+     * @param pageName Наименование страницы
+     * @param context  Контекст страницы
+     * @param p        Процессор сборки метаданных
+     * @return Модель с инициализированными заголовками страницы
+     */
+    protected PageProperty initPageName(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
         PageProperty pageProperty = new PageProperty();
-        pageProperty.setHtmlTitle(pageName);
-        if (context instanceof ModalPageContext) {
-            pageProperty.setHeaderTitle(pageName);
-        } else if (showTitle)
-            pageProperty.setTitle(pageName);
+        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class));
+
+        pageProperty.setHtmlTitle(p.cast(source.getHtmlTitle(), pageName));
+        if (context instanceof ModalPageContext)
+            pageProperty.setModalHeaderTitle(pageName);
+        else if (showTitle)
+            pageProperty.setTitle(p.cast(source.getTitle(), pageName));
+
         if (context.getParentModelLink() != null)
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;

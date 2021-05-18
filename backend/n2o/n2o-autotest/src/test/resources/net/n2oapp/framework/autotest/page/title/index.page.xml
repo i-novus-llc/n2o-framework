@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Тестирование заголовков страницы"
+      show-title="true" title="Заголовок страницы">
+    <regions>
+        <form>
+            <toolbar>
+                <button label="Open" disable-on-empty-model="false">
+                    <open-page page-id="page" page-name="Вторая страница" route="/open"/>
+                </button>
+                <button label="Modal" disable-on-empty-model="false">
+                    <show-modal page-id="page" page-name="Модальное окно" route="/modal"/>
+                </button>
+                <button label="Drawer" disable-on-empty-model="false">
+                    <open-drawer page-id="page" page-name="Drawer" route="/drawer"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

@@ -25,6 +25,19 @@
                 <xs:documentation>Наименование страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="html-title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок вкладки браузера.
+                    Если не задано, то будет использоваться наименование страницы.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация страницы.</xs:documentation>
@@ -94,6 +107,19 @@
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наименование страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="html-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок вкладки браузера.
+                            Если не задано, то будет использоваться наименование страницы.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="route" type="xs:string">

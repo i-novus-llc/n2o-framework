@@ -19,6 +19,8 @@ import java.util.Map;
 @Setter
 public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware, SourceComponent {
     private String name;
+    private String title;
+    private String htmlTitle;
     private String src;
     private String objectId;
     private String route;
