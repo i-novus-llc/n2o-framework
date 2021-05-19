@@ -40,32 +40,42 @@
         box-shadow: $input-btn-focus-box-shadow;
         outline: none;
     }
+}
 
-    &-checked {
-        border: $n2o-switch-checked-border-width solid $n2o-switch-checked-border-color;
-        background-color: $n2o-switch-checked-background-color;
+.n2o-switch-checked {
+    border: $n2o-switch-checked-border-width solid $n2o-switch-checked-border-color;
+    background-color: $n2o-switch-checked-background-color;
 
-        &::after {
-            left: ($n2o-switch-width / 2);
-        }
+    &::after {
+        left: ($n2o-switch-width / 2);
     }
+}
 
-    &-disabled {
+.n2o-switch-disabled {
+    cursor: no-drop;
+    background: $n2o-switch-disabled-background-color;
+    border-color: $n2o-switch-disabled-border-color;
+
+    &::after {
+        background: $n2o-switch-disabled-element-background-color;
+        animation-name: none;
         cursor: no-drop;
-        background: $n2o-switch-disabled-background-color;
-        border-color: $n2o-switch-disabled-border-color;
-
-        &::after {
-            background: $n2o-switch-disabled-element-background-color;
-            animation-name: none;
-            cursor: no-drop;
-        }
-
-        &:hover::after {
-            transform: scale(1);
-            animation-name: none;
-        }
     }
+
+    &:hover::after {
+        transform: scale(1);
+        animation-name: none;
+    }
+}
+
+.n2o-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.n2o-switch-label {
+    margin-bottom: 0;
+    margin-left: 10px;
 }
 
 @keyframes rcSwitchOn {
