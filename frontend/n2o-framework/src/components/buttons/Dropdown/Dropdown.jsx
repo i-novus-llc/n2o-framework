@@ -103,6 +103,7 @@ class DropdownButton extends React.Component {
                                       entityKey={entityKey}
                                       level={BUTTONS}
                                       src={src}
+                                      onClick={this.toggle}
                                       className={classNames('dropdown-item', rest.className)}
                                       tag="div"
                                   />
