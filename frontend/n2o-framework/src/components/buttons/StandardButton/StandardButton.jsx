@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, branch } from 'recompose'
+import { branch } from 'recompose'
 
 import SimpleButton from '../Simple/Simple'
 
@@ -10,8 +10,4 @@ function StandardButton(props) {
     return <SimpleButton {...props} />
 }
 
-const enhance = compose(
-    branch(({ url }) => !!url, withLinkAction, withPerformAction),
-)
-
-export default enhance(StandardButton)
+export default branch(({ url }) => !!url, withLinkAction, withPerformAction)(StandardButton)
