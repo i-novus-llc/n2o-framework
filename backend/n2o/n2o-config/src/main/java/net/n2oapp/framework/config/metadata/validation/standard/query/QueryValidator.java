@@ -7,10 +7,12 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.DataProviderScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
             checkForUniqueFilterFields(n2oQuery.getFields(), n2oQuery.getId());
             checkForExistsFiltersInSelections(n2oQuery);
         }
+        checkInvocations(n2oQuery, p);
     }
 
     /**
@@ -100,6 +103,37 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
                 }
             }
         }
+    }
+
+    /**
+     * Проверка вызовов провайдеров данных
+     *
+     * @param query Выборка
+     * @param p     Процессор валидации метаданных
+     */
+    private void checkInvocations(N2oQuery query, ValidateProcessor p) {
+        DataProviderScope dataProviderScope = new DataProviderScope();
+        dataProviderScope.setQueryId(query.getId());
+
+        if (query.getLists() != null)
+            validateInvocations(query.getLists(), p, dataProviderScope);
+        if (query.getCounts() != null)
+            validateInvocations(query.getCounts(), p, dataProviderScope);
+        if (query.getUniques() != null)
+            validateInvocations(query.getUniques(), p, dataProviderScope);
+    }
+
+    /**
+     * Валидирование вызовов провайдеров данных
+     *
+     * @param selections Массив selection элементов в выборке
+     * @param p          Процессор валидации метаданных
+     */
+    private void validateInvocations(N2oQuery.Selection[] selections, ValidateProcessor p, DataProviderScope scope) {
+        Arrays.stream(selections)
+                .map(N2oQuery.Selection::getInvocation)
+                .filter(Objects::nonNull)
+                .forEach(inv -> p.validate(inv, scope));
     }
 
 
