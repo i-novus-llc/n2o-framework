@@ -265,6 +265,16 @@ public class DataTest {
     }
 
     @Test
+    public void javaProvider() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        RestTemplate restTemplate = new RestTemplate();
+        String queryPath = "/n2o/data/test/invoke/javaProvider";
+        String fooResourceUrl = "http://localhost:" + port + queryPath;
+        SetDataResponse response = restTemplate.postForObject(fooResourceUrl, new Request("1", "testName", "testSurname", new Date()), SetDataResponse.class);
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("success"));
+    }
+
+    @Test
     public void masterDetailQuery() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/master/1/detail";

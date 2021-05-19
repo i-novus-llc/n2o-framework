@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+
+    <operations>
+        <operation id="create">
+            <invocation>
+                <java class="net.n2oapp.framework.test.engine.TestJavaProvider" method="testCreate">
+                    <arguments>
+                        <argument name="name"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="name" mapping="['0']"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+    </operations>
+
+</object>
