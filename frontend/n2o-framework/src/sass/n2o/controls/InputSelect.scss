@@ -180,12 +180,10 @@
         }
     }
 
-    .n2o-inp {
-        .n2o-inp--multi {
-            resize: none;
-            overflow: hidden;
-            border: none;
-        }
+    .n2o-inp.n2o-inp--multi {
+        resize: none;
+        overflow: hidden;
+        border: none;
     }
 
     .n2o-input-items > .valueText,
