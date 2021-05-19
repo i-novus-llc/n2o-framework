@@ -6,7 +6,15 @@ import mappingProps from '../Simple/mappingProps'
 export default compose(
     withActionButton({
         onClick: (e, props) => {
-            props.dispatch(props.action)
+            const { action, onClick, dispatch } = props
+
+            if (action) {
+                dispatch(action)
+            }
+
+            if (onClick) {
+                onClick(e)
+            }
         },
     }),
     mapProps(props => mappingProps(props)),
