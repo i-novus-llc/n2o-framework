@@ -4,10 +4,13 @@ import PropTypes from 'prop-types'
 import { Panel as BasePanel } from 'rc-collapse'
 import classNames from 'classnames'
 
+import Label from '../../widgets/Form/fields/StandardField/Label'
+
 /**
  * Панель Collapse
  * @param {string} header - Заголовок панели
  * @param {string} type - тип отображения панели( 'default', 'line', 'divider' )
+ * @param {string} description - description под label
  * @param {boolean} showArrow - показать иконку
  * @param {object} openAnimation - обьект для изменения анимации открытия и закрытия панели
  * @param {boolean} disabled - сделать панель неактивным
@@ -23,22 +26,32 @@ export const Panel = ({
     type,
     children,
     collapsible,
+    description,
     ...rest
 }) => (
     <BasePanel
         header={(
-            <span
-                /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/tabindex-no-positive */
-                tabIndex={1}
-                title={isString(header) && header}
-                className="n2o-panel-header-text"
-            >
-                {header}
-            </span>
+            <div className="n2o-panel-header-container">
+                <span
+                    /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/tabindex-no-positive */
+                    tabIndex={1}
+                    title={isString(header) && header}
+                    className="n2o-panel-header-text"
+                >
+                    {header}
+                </span>
+                {description && (
+                    <Label
+                        className="n2o-fieldset__description"
+                        value={description}
+                    />
+                )}
+            </div>
         )}
-        className={classNames('n2o-collapse-panel', type, className)}
+        className={classNames('n2o-collapse-panel', type, className, { 'with-description': description })}
         headerClass={classNames('n2o-panel-header', headerClass, {
             'n2o-disabled': !collapsible,
+            'with-description': description,
         })}
         {...rest}
     >
@@ -60,6 +73,7 @@ Panel.propTypes = {
      */
     showArrow: PropTypes.bool,
     className: PropTypes.string,
+    description: PropTypes.string,
     style: PropTypes.object,
     /**
      * Обьект для изменения анимации открытия и закрытия панели

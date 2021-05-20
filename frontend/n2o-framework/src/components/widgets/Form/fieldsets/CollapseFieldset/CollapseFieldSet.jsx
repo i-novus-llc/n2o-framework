@@ -11,12 +11,19 @@ function CollapseFieldSet({
     expand,
     hasArrow,
     hasSeparator,
+    description,
 }) {
     const currentType = hasSeparator ? type : 'divider'
 
     return (
         <Collapse defaultActiveKey={expand ? '0' : null}>
-            <Panel header={label} type={currentType} showArrow={hasArrow} forceRender>
+            <Panel
+                header={label}
+                description={description}
+                type={currentType}
+                showArrow={hasArrow}
+                forceRender
+            >
                 {render(rows)}
             </Panel>
         </Collapse>
@@ -31,6 +38,7 @@ CollapseFieldSet.propTypes = {
     hasArrow: PropTypes.bool,
     hasSeparator: PropTypes.bool,
     render: PropTypes.func,
+    description: PropTypes.string,
 }
 
 CollapseFieldSet.defaultProps = {

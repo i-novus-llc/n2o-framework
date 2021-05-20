@@ -10,6 +10,12 @@
     cursor: pointer;
     outline: none;
 
+    .n2o-select-tree-search__field__placeholder {
+        position: absolute;
+        left: 12px;
+        user-select: none;
+    }
+
     &:hover {
         border-color: $input-select-tree-color-hover;
     }

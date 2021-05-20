@@ -24,6 +24,7 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
         p.attribute(e, "class", fs::getCssClass, fs::setCssClass);
         p.attribute(e, "style", fs::getStyle, fs::setStyle);
         p.attribute(e, "label", fs::getLabel, fs::setLabel);
+        p.attribute(e, "description", fs::getDescription, fs::setDescription);
         p.attributeEnum(e, "field-label-location", fs::getFieldLabelLocation, fs::setFieldLabelLocation, N2oFieldSet.FieldLabelLocation.class);
         p.attributeEnum(e, "field-label-align", fs::getFieldLabelAlign, fs::setFieldLabelAlign, N2oFieldSet.FieldLabelAlign.class);
         p.attribute(e, "field-label-width", fs::getFieldLabelWidth, fs::setFieldLabelWidth);
