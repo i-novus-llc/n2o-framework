@@ -35,10 +35,15 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                     "Атрибут default-value не является ссылкой или не задан: " + source.getDefaultValue()));
         }
 
-        checkDependencies(source, p);
+        checkDependencies(source);
     }
 
-    private void checkDependencies(N2oField source, ValidateProcessor p) {
+    /**
+     * Проверка зависимостей поля
+     *
+     * @param source Поле
+     */
+    private void checkDependencies(N2oField source) {
         if (source.getDependencies() != null) {
             Set<Class<?>> dependencyClasses = new HashSet<>();
             for (N2oField.Dependency dependency : source.getDependencies()) {
