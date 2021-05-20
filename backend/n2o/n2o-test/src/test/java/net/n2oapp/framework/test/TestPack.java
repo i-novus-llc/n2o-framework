@@ -36,7 +36,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
                 new RouteInfo("/test/sql/validation", getQueryContext()),
                 new RouteInfo("/testDialog", getTestDialogActionContext()),
-                new RouteInfo("/test/invoke/javaProvider", getJavaProviderActionContext()),
                 new RouteInfo("/testInsertMongo", getTestInsertMongodbContext("create", "/testInsertMongo")),
                 new RouteInfo("/testUpdateMongo", getTestInsertMongodbContext("update", "/testUpdateMongo")),
                 new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
@@ -152,10 +151,4 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         return validations;
     }
 
-    private ActionContext getJavaProviderActionContext() {
-        ActionContext actionContext = new ActionContext("testJavaProvider", "create", "/test/invoke/javaProvider");
-        actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
-        return actionContext;
-    }
 }
