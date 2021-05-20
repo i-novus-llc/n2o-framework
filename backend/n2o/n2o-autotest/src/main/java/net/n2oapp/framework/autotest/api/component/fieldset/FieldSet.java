@@ -15,4 +15,8 @@ public interface FieldSet extends Component {
     void shouldHaveLabel(String label);
 
     void shouldNotHaveLabel();
+
+    void shouldHaveDescription(String description);
+
+    void shouldNotHaveDescription();
 }
