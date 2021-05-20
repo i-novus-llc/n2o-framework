@@ -22,7 +22,7 @@ public class JavaDataProviderValidator extends TypedMetadataValidator<N2oJavaDat
 
     @Override
     public void validate(N2oJavaDataProvider provider, ValidateProcessor p) {
-        String mapping = p.resolve(Placeholders.property("n2o.config.java.mapping"), String.class);
+        String mapping = p.resolve(Placeholders.property("n2o.engine.java.mapping"), String.class);
         if ("map".equals(mapping) && provider.getArguments() != null) {
             DataProviderScope scope = p.getScope(DataProviderScope.class);
             String message = scope.getQueryId() != null ? "В выборке " + scope.getQueryId() :

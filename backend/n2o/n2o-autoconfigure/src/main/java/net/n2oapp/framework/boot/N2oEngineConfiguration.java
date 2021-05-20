@@ -52,6 +52,9 @@ public class N2oEngineConfiguration {
     @Value("${n2o.engine.rest.dateformat.exclusion-keys}")
     private String[] exclusionKeys;
 
+    @Value("${n2o.engine.java.mapping}")
+    private String javaMapping;
+
     @Value("${n2o.engine.timeout}")
     private String timeoutInMillis;
 
@@ -139,6 +142,7 @@ public class N2oEngineConfiguration {
     @Bean
     public JavaDataProviderEngine javaDataProviderEngine(Optional<List<ObjectLocator>> locators) {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
+        javaDataProviderEngine.setMapping(javaMapping);
         javaDataProviderEngine.setLocators(locators.orElse(Collections.EMPTY_LIST));
         return javaDataProviderEngine;
     }

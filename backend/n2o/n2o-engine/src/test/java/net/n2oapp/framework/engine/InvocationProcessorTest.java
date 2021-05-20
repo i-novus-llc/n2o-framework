@@ -38,11 +38,13 @@ import static org.mockito.Mockito.when;
 public class InvocationProcessorTest {
 
     private N2oInvocationProcessor invocationProcessor;
+    private JavaDataProviderEngine javaDataProviderEngine;
 
     @Before
     public void setUp() throws Exception {
         N2oInvocationFactory actionInvocationFactory = mock(N2oInvocationFactory.class);
-        when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(new JavaDataProviderEngine());
+        javaDataProviderEngine = new JavaDataProviderEngine();
+        when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(javaDataProviderEngine);
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
@@ -473,6 +475,45 @@ public class InvocationProcessorTest {
         List<ObjectSimpleField> outParameters = Arrays.asList(response);
 
         // Result
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
+        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
+    }
+
+    /**
+     * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
+     */
+    @Test
+    public void testNameMappingWithArgumentsInvocationProvider() {
+        N2oJavaDataProvider invocation = new N2oJavaDataProvider();
+        invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+        invocation.setMethod("methodWithTwoArguments");
+        Argument argument1 = new Argument();
+        argument1.setName("secondArgument");
+        argument1.setType(Argument.Type.PRIMITIVE);
+        Argument argument2 = new Argument();
+        argument2.setName("firstArgument");
+        argument2.setType(Argument.Type.PRIMITIVE);
+        invocation.setArguments(new Argument[]{argument1, argument2});
+
+        // STRUCTURE
+        ObjectSimpleField firstArg = new ObjectSimpleField();
+        firstArg.setId("first");
+        ObjectSimpleField secondArg = new ObjectSimpleField();
+        secondArg.setId("second");
+        List<AbstractParameter> inParameters = Arrays.asList(secondArg, firstArg);
+
+        // DATASET
+        DataSet dataSet = new DataSet();
+        dataSet.put("second", 123);
+        dataSet.put("first", "test");
+
+        ObjectSimpleField response = new ObjectSimpleField();
+        response.setId("result");
+        response.setMapping("#this");
+        List<ObjectSimpleField> outParameters = Arrays.asList(response);
+
+        // Result
+        javaDataProviderEngine.setMapping("map");
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
         assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
     }
