@@ -225,6 +225,7 @@
                 <module>frontend/n2o-framework</module>
                 <module>frontend/demo</module>
                 <module>frontend/n2o-simple-project</module>
+                <module>frontend/docs</module>
             </modules>
         </profile>
         <profile>
