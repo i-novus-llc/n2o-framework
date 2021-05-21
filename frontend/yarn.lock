@@ -2617,6 +2617,11 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@fontsource/exo-2@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/exo-2/-/exo-2-4.3.0.tgz#528b4a44dffc1c6aa01712b096a6a65c851fb9b4"
+  integrity sha512-MQPr14voUzOPV45bFpSaBFatLkpwgBDCF8Gm+HasrbmA8Wpk2sRz6P4nQa7X1f/jwzgMxc4PzHZwsw1PtWEteA==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
