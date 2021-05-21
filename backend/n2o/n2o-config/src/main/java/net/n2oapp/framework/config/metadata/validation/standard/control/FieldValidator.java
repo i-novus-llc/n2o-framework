@@ -47,9 +47,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         if (source.getDependencies() != null) {
             Set<Class<?>> dependencyClasses = new HashSet<>();
             for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (!dependencyClasses.contains(dependency.getClass()))
-                    dependencyClasses.add(dependency.getClass());
-                else
+                if (!dependencyClasses.add(dependency.getClass()))
                     throw new N2oMetadataValidationException(
                             String.format("В поле %s повторяются зависимости одного типа", source.getId()));
             }
