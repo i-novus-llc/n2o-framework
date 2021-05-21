@@ -87,7 +87,7 @@ describe('Проверка саги dependency', () => {
             })
             const next = gen.next()
             expect(next.value.payload.action.payload).toEqual({
-                keepDirty: false,
+                keepDirty: true,
                 value: 12,
             })
         })
@@ -107,7 +107,7 @@ describe('Проверка саги dependency', () => {
             )
             const next = gen.next()
             expect(next.value.payload.action.payload).toEqual({
-                keepDirty: false,
+                keepDirty: true,
                 value: null,
             })
             expect(gen.next().done).toEqual(true)
@@ -184,7 +184,7 @@ describe('Проверка саги dependency', () => {
             expect(dispatched[2].type).toBe(FETCH_END)
             expect(dispatched[3].type).toBe(actionTypes.CHANGE)
             expect(dispatched[3].payload).toEqual({
-                keepDirty: false,
+                keepDirty: true,
                 value: 'new name',
             })
             expect(dispatched[4].type).toBe(SET_LOADING)
