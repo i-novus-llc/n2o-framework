@@ -1,7 +1,7 @@
 import React from 'react'
 import sinon from 'sinon'
 
-import NumberPicker from './NumberPicker'
+import { NumberPicker } from './NumberPicker'
 
 const setup = (propOverrides) => {
     const props = {
@@ -23,11 +23,12 @@ describe('<NumberPicker />', () => {
         const onChange = sinon.spy()
         const { wrapper } = setup({
             onChange,
+            value: 2,
         })
 
         wrapper
             .find('.n2o-number-picker__button')
-            .first()
+            .last()
             .simulate('click')
         expect(onChange.calledOnce).toBe(true)
     })
@@ -40,7 +41,7 @@ describe('<NumberPicker />', () => {
 
         wrapper
             .find('.n2o-number-picker__button')
-            .last()
+            .first()
             .simulate('click')
         expect(onChange.calledOnce).toBe(true)
     })
@@ -49,6 +50,7 @@ describe('<NumberPicker />', () => {
         const { wrapper } = setup({
             onChange,
             disabled: true,
+            value: 2,
         })
 
         const button = wrapper.find('.n2o-number-picker__button')
