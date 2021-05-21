@@ -1,13 +1,35 @@
-import React, { useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isNil from 'lodash/isNil'
-import isNaN from 'lodash/isNaN'
 
 // eslint-disable-next-line import/no-named-as-default
 import InputNumber from '../InputNumber/InputNumber'
 
 import { NumberPickerButton } from './NumberPickerButton'
+
+/**
+ * @param {string|number} value
+ * @param {number} [min]
+ * @param {number} [max]
+ * @return {number}
+ */
+const parseValue = (value, min, max) => {
+    if (value === '-' || value === '' || isNil(value)) {
+        return min || 0
+    }
+
+    const numberValue = Number(value)
+
+    if (!isNil(min) && numberValue < min) {
+        return min
+    }
+    if (!isNil(max) && numberValue > max) {
+        return max
+    }
+
+    return numberValue
+}
 
 /**
  * Компонент - инпут с возможностью увеличения/уменьшения значения на шаг
@@ -27,8 +49,7 @@ import { NumberPickerButton } from './NumberPickerButton'
  *             min={1}
  * />
  */
-
-function NumberPicker(props) {
+export function NumberPicker(props) {
     const {
         visible,
         value,
@@ -40,48 +61,33 @@ function NumberPicker(props) {
         disabled,
         onChange,
     } = props
+    const [isFocused, setFocus] = useState(false)
+    // Не ставим крайние значения, пока поле в фокусе
+    const parsedValue = isFocused ? value : parseValue(value, min, max)
 
-    let defaultValue = 0
-
-    if (value === '-') {
-        defaultValue = min || 0
-    } else if (!isNil(value) && value !== '') {
-        defaultValue = value
-    } else if (!isNil(min) && min !== '') {
-        defaultValue = min
-    } else if (!isNil(max) && max !== '') {
-        defaultValue = max
+    const onBlur = () => {
+        onChange(parseValue(value, min, max))
+        setFocus(false)
     }
-
-    const onBlur = useCallback(() => {
-        if (value === '-') {
-            onChange(min || 0)
-        } else if (value < min) {
-            onChange(min)
-        } else if (value > max) {
-            onChange(max)
-        } else if (isNil(value) || value === '' || isNaN(parseInt(value, 10))) {
-            onChange(defaultValue)
-        }
-    }, [min, max, value, onChange, defaultValue])
 
     const handlerChange = (step) => {
-        const nextValue = Number(value) + step
-
-        if (isNil(value) || value === '') {
-            onChange(defaultValue)
-        } else if (min <= nextValue && nextValue <= max) {
-            onChange(nextValue)
-        } else if (nextValue < min) {
-            onChange(min)
-        } else if (nextValue > max) {
-            onChange(max)
-        }
+        onChange(parseValue(value + step, min, max))
     }
+
+    /*
+     * Выставляем дефолтное значение
+     * TODO по идее только для совместимости, договориться чтобы дефолтное значение приходило всегда
+     *  вызывает лишний рендер
+     */
+    useEffect(() => {
+        if (parsedValue !== value) {
+            onChange(parsedValue)
+        }
+    }, [parsedValue, value, onChange])
 
     return (
         visible && (
-            <div className={cn('n2o-number-picker', className)} style={style}>
+            <div className={classNames('n2o-number-picker', className)} style={style}>
                 <NumberPickerButton
                     disabled={disabled || min >= value}
                     onClick={() => handlerChange(-step)}
@@ -98,6 +104,7 @@ function NumberPicker(props) {
                     showButtons={false}
                     disabled={disabled}
                     onBlur={onBlur}
+                    onFocus={() => setFocus(true)}
                     mode="picker"
                 />
                 <NumberPickerButton

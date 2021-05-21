@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import NumberPicker from './NumberPicker'
+import { NumberPicker } from './NumberPicker'
 import NumberPickerJson from './NumberPicker.meta.json'
 
 const stories = storiesOf('Контролы/NumberPicker', module)
@@ -27,7 +27,7 @@ stories.add(
       Компонент 'Контрол NumberPicker'
       ~~~js
       import NumberPicker from 'n2o-framework/lib/components/controls/NumberPicker/NumberPicker';
-      
+
       <NumberPicker
           visible={true}
           value={0}
