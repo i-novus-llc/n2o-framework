@@ -10,8 +10,11 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * Валидтор поля
+ * Валидатор поля
  */
 @Component
 public class FieldValidator implements SourceValidator<N2oField>, SourceClassAware {
@@ -30,6 +33,24 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                 !StringUtils.isLink(source.getDefaultValue())) {
             throw new N2oMetadataValidationException(p.getMessage(
                     "Атрибут default-value не является ссылкой или не задан: " + source.getDefaultValue()));
+        }
+
+        checkDependencies(source);
+    }
+
+    /**
+     * Проверка зависимостей поля
+     *
+     * @param source Поле
+     */
+    private void checkDependencies(N2oField source) {
+        if (source.getDependencies() != null) {
+            Set<Class<?>> dependencyClasses = new HashSet<>();
+            for (N2oField.Dependency dependency : source.getDependencies()) {
+                if (!dependencyClasses.add(dependency.getClass()))
+                    throw new N2oMetadataValidationException(
+                            String.format("В поле %s повторяются зависимости одного типа", source.getId()));
+            }
         }
     }
 

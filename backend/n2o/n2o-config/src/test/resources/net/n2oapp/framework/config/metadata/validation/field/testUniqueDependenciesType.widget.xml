@@ -1,0 +1,12 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="field1"/>
+        <input-text id="field2">
+            <dependencies>
+                <visibility on="field1">field1 == test</visibility>
+                <enabling on="field1">field1 == test2</enabling>
+                <visibility on="field1">field1 == test3</visibility>
+            </dependencies>
+        </input-text>
+    </fields>
+</form>
