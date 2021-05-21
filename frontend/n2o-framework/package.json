@@ -65,6 +65,7 @@
     "n2o-auth": "7.15.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
+    "@fontsource/exo-2": "^4.3.0",
     "@popperjs/core": "^2.2.1",
     "@sambego/storybook-state": "^1.3.6",
     "@storybook/addon-actions": "5.0.6",
