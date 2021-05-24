@@ -6,6 +6,7 @@ import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderValidator
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.InvokeActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetColumnValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetRowValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetValidator;
@@ -30,6 +31,6 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new ListFieldQueryValidator(), new FieldSetValidator(), new FieldSetColumnValidator(),
                 new FieldSetRowValidator(), new FormValidator(), new TableValidator(),
                 new PageActionValidator(), new StandardPageValidator(), new InvokeActionValidator(),
-                new BasePageValidator());
+                new BasePageValidator(), new FieldValidator());
     }
 }
