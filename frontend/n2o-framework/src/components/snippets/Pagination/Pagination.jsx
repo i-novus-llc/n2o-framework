@@ -8,15 +8,15 @@ import { PaginationButton } from './PaginationButton'
 /**
  * Компонент интерфейса разбивки по страницам
  * @reactProps {boolean} prev - показать/скрыть кнопку быстрого перехода на предыдущую страницу
- * @reactProps {boolean} prevText - текс кнопки
+ * @reactProps {boolean} prevLabel - текс кнопки
  * @reactProps {boolean} next - показать/скрыть кнопку быстрого перехода на следующую страницу
- * @reactProps {boolean} nextText - текст кнопки
+ * @reactProps {boolean} nextLabel - текст кнопки
  * @reactProps {boolean} first - показать/скрыть кнопку быстрого перехода на первую страницу
  * @reactProps {boolean} last - показать/скрыть кнопку быстрого перехода на последнюю страницу
  * @reactProps {boolean} withoutBody - скрыть тело пагинации
- * @reactProps {boolean} showCountRecords - показать индикатор общего кол-ва записей
- * @reactProps {boolean} hideSinglePage - скрывать компонент, если страница единственная
- * @reactProps {number} maxButtons - максимальное кол-во кнопок перехода между страницами
+ * @reactProps {boolean} showCount - показать индикатор общего кол-ва записей
+ * @reactProps {boolean} showSinglePage - показывать компонент, если страница единственная
+ * @reactProps {number} maxPages - максимальное кол-во кнопок перехода между страницами
  * @reactProps {number} stepIncrement - шаг дополнительной кнопки (1,2.3 ... 11)
  * @reactProps {number} count - общее кол-во записей
  * @reactProps {number} size - кол-во записей на одной странице
@@ -28,7 +28,7 @@ import { PaginationButton } from './PaginationButton'
  *             activePage={datasource.page}
  *             count={datasource.count}
  *             size={datasource.size}
- *             maxButtons={4}
+ *             maxPages={4}
  *             stepIncrement={10} />
  */
 class Pagination extends React.Component {
@@ -36,29 +36,29 @@ class Pagination extends React.Component {
      * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
      * @param activePage
      * @param pages
-     * @param maxButtons
+     * @param maxPages
      * @param stepIncrement
      * @param onSelect
      * @returns {Array} - вовзращает список кнопок
      */
-    renderBodyPaging = (activePage, pages, maxButtons, stepIncrement, onSelect) => {
+    renderBodyPaging = (activePage, pages, maxPages, stepIncrement, onSelect) => {
         const pageButtons = []
 
         let startPage
         let endPage
 
-        if (maxButtons && maxButtons < pages) {
+        if (maxPages && maxPages < pages) {
             startPage = Math.max(
                 Math.min(
-                    activePage - Math.floor(maxButtons / 2, 10),
-                    pages - maxButtons + 1,
+                    activePage - Math.floor(maxPages / 2, 10),
+                    pages - maxPages + 1,
                 ),
                 1,
             )
-            endPage = startPage + maxButtons
+            endPage = startPage + maxPages
         } else {
             startPage = 1
-            endPage = maxButtons
+            endPage = maxPages
         }
 
         if (endPage > pages) {
@@ -166,19 +166,19 @@ class Pagination extends React.Component {
             activePage,
             count,
             size,
-            maxButtons,
+            maxPages,
             stepIncrement,
             first,
             last,
             prev,
             next,
-            showCountRecords,
-            hideSinglePage,
+            showCount,
+            showSinglePage,
             onSelect,
             className,
             withoutBody,
-            prevText,
-            nextText,
+            prevLabel,
+            nextLabel,
             t,
         } = this.props
         const pages = Math.ceil(count / size, 10) || 1
@@ -189,7 +189,7 @@ class Pagination extends React.Component {
                 className="n2o-pagination"
                 style={{ display: 'flex', alignItems: 'baseline' }}
             >
-                {hideSinglePage && pages === 1 ? null : (
+                {!showSinglePage && pages === 1 ? null : (
                     <ul className={classNames('pagination', 'd-inline-flex', className)}>
                         {first && (
                             <PaginationButton
@@ -204,24 +204,24 @@ class Pagination extends React.Component {
                         {prev && (
                             <PaginationButton
                                 eventKey={activePage - 1}
-                                label={prevText || '&lsaquo;'}
+                                label={prevLabel || '&lsaquo;'}
                                 disabled={activePage === 1}
                                 onSelect={onSelect}
                                 tabIndex={0}
                             />
                         )}
                         {!withoutBody &&
-              this.renderBodyPaging(
-                  activePage,
-                  pages,
-                  maxButtons,
-                  stepIncrement,
-                  onSelect,
-              )}
+                                this.renderBodyPaging(
+                                    activePage,
+                                    pages,
+                                    maxPages,
+                                    stepIncrement,
+                                    onSelect,
+                                )}
                         {next && (
                             <PaginationButton
                                 eventKey={activePage + 1}
-                                label={nextText || '&rsaquo;'}
+                                label={nextLabel || '&rsaquo;'}
                                 disabled={lastPage === activePage}
                                 onSelect={onSelect}
                                 tabIndex={0}
@@ -239,17 +239,17 @@ class Pagination extends React.Component {
                     </ul>
                 )}
                 {/* eslint-disable react/jsx-one-expression-per-line */}
-                {showCountRecords && (
+                {showCount && (
                     <span
                         className="n2o-pagination-info"
                         style={{
-                            paddingLeft: hideSinglePage && pages === 1 ? 0 : '1rem',
+                            paddingLeft: !showSinglePage && pages === 1 ? 0 : '1rem',
                             display: 'inline-flex',
                         }}
                     >
                         {`${t('paginationTotal')} ${count}`}
 
-            &nbsp;
+                                &nbsp;
                         {t('paginationInterval', { postProcess: 'interval', count })}
                     </span>
                 )}
@@ -266,7 +266,7 @@ Pagination.propTypes = {
     /**
      * Текст кнопки 'Назад'
      */
-    prevText: PropTypes.string,
+    prevLabel: PropTypes.string,
     /**
      * Показать/скрыть кнопку быстрого перехода на следующую страницу
      */
@@ -274,7 +274,7 @@ Pagination.propTypes = {
     /**
      * Текст кнопки 'Вперед'
      */
-    nextText: PropTypes.string,
+    nextLabel: PropTypes.string,
     /**
      * Показать/скрыть кнопку быстрого перехода на первую страницу
      */
@@ -290,15 +290,15 @@ Pagination.propTypes = {
     /**
      * Показать индикатор общего кол-ва записей
      */
-    showCountRecords: PropTypes.bool,
+    showCount: PropTypes.bool,
     /**
      * Скрывать компонент, если страница единственная
      */
-    hideSinglePage: PropTypes.bool,
+    showSinglePage: PropTypes.bool,
     /**
      * Максимальное кол-во кнопок перехода между страницами
      */
-    maxButtons: PropTypes.number,
+    maxPages: PropTypes.number,
     /**
      * Шаг дополнительной кнопки (1,2.3 ... 11)
      */
@@ -328,15 +328,15 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
     prev: false,
-    prevText: null,
+    prevLabel: null,
     next: false,
-    nextText: null,
+    nextLabel: null,
     first: false,
     last: false,
     withoutBody: false,
-    showCountRecords: true,
-    hideSinglePage: true,
-    maxButtons: 4,
+    showCount: true,
+    showSinglePage: false,
+    maxPages: 4,
     count: 1,
     size: 1,
     activePage: 1,
