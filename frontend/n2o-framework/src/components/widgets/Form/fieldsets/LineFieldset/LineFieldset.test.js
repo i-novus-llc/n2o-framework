@@ -17,14 +17,6 @@ const setup = (propsOverride) => {
 }
 
 describe('Тесты LineFieldset', () => {
-    it('отрисовка resolveVisible', () => {
-        const wrapper = setup({
-            visible: 'id === 2',
-            activeModel: { id: 2 },
-        })
-        wrapper.instance().resolveVisible()
-        expect(wrapper.find('.title-fieldset-line').length).toBe(1)
-    })
     it('Отрисовывается TitleFieldset', () => {
         const wrapper = setup({
             visible: true,
