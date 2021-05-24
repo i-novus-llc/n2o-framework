@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -16,13 +15,17 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -64,10 +67,11 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (widgetScope != null)
             tableId = widgetScope.getWidgetId();
 
-        if (StringUtils.isLink(source.getVisible())) {
+        if (isLink(source.getVisible())) {
             Condition condition = new Condition();
-            condition.setExpression(source.getVisible().substring(1, source.getVisible().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, tableId).getBindLink());
+            condition.setExpression(unwrapLink(source.getVisible()));
+            String widgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), tableId);
+            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());
             }
@@ -77,7 +81,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
-                String refWidgetId = p.cast(visibility.getRefWidgetId(), tableId);
+                String refWidgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(),
+                        p.cast(visibility.getRefWidgetId(), tableId));
                 ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
