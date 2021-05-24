@@ -181,6 +181,10 @@ class Pagination extends React.Component {
             prevLabel,
             nextIcon,
             nextLabel,
+            firstIcon,
+            firstLabel,
+            lastIcon,
+            lastLabel,
             t,
         } = this.props
         const pages = Math.ceil(count / size, 10) || 1
@@ -242,6 +246,63 @@ class Pagination extends React.Component {
             )
         }
 
+        const getFirst = () => {
+            const firstArrows = {
+                none: '',
+                short: '&laquo;',
+                long: '&larrb;',
+            }
+
+            let label
+
+            if (firstIcon && firstLabel) {
+                label = `${firstArrows[firstIcon]}&nbsp;${firstLabel}`
+            } else if (firstIcon) {
+                label = `${firstArrows[firstIcon]}`
+            } else if (firstLabel) {
+                label = firstLabel
+            }
+
+            return (
+                <PaginationButton
+                    eventKey={1}
+                    label={label}
+                    disabled={activePage === 1}
+                    onSelect={onSelect}
+                    /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
+                    tabIndex={1}
+                />
+            )
+        }
+
+        const getLast = () => {
+            const lastArrows = {
+                none: '',
+                short: '&raquo;',
+                long: '&rarrb;',
+            }
+
+            let label
+
+            if (lastIcon && lastLabel) {
+                label = `${lastLabel}&nbsp;${lastArrows[lastIcon]}`
+            } else if (lastIcon) {
+                label = `${lastArrows[lastIcon]}`
+            } else if (lastLabel) {
+                label = lastLabel
+            }
+
+            return (
+                <PaginationButton
+                    eventKey={lastPage}
+                    label={label}
+                    disabled={lastPage === activePage}
+                    onSelect={onSelect}
+                    tabIndex={0}
+                />
+            )
+        }
+
         return (
             <nav
                 className="n2o-pagination"
@@ -249,26 +310,8 @@ class Pagination extends React.Component {
             >
                 {!showSinglePage && pages === 1 ? null : (
                     <ul className={classNames('pagination', 'd-inline-flex', className)}>
-                        {first && (
-                            <PaginationButton
-                                eventKey={1}
-                                label="&laquo;"
-                                disabled={activePage === 1}
-                                onSelect={onSelect}
-                                /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
-                                tabIndex={1}
-                            />
-                        )}
-                        {prev && (
-                            // <PaginationButton
-                            //     eventKey={activePage - 1}
-                            //     label={prevLabel || '&lsaquo;'}
-                            //     disabled={activePage === 1}
-                            //     onSelect={onSelect}
-                            //     tabIndex={0}
-                            // />
-                            getViewButtonPrev()
-                        )}
+                        {first && getFirst()}
+                        {prev && getViewButtonPrev()}
                         {!withoutBody &&
                                 this.renderBodyPaging(
                                     activePage,
@@ -277,25 +320,8 @@ class Pagination extends React.Component {
                                     stepIncrement,
                                     onSelect,
                                 )}
-                        {next && (
-                            // <PaginationButton
-                            //     eventKey={activePage + 1}
-                            //     label={nextLabel || '&rsaquo;'}
-                            //     disabled={lastPage === activePage}
-                            //     onSelect={onSelect}
-                            //     tabIndex={0}
-                            // />
-                            getViewButtonNext()
-                        )}
-                        {last && (
-                            <PaginationButton
-                                eventKey={lastPage}
-                                label="&raquo;"
-                                disabled={lastPage === activePage}
-                                onSelect={onSelect}
-                                tabIndex={0}
-                            />
-                        )}
+                        {next && getViewButtonNext()}
+                        {last && getLast()}
                     </ul>
                 )}
                 {/* eslint-disable react/jsx-one-expression-per-line */}
@@ -348,9 +374,25 @@ Pagination.propTypes = {
      */
     first: PropTypes.bool,
     /**
+     * Вид иконки быстрого перехода на первую страницу
+     * */
+    firstIcon: PropTypes.string,
+    /**
+     * Текст кнопки 'First'
+     */
+    firstLabel: PropTypes.string,
+    /**
      * Показать/скрыть кнопку быстрого перехода на последнюю страницу
      */
     last: PropTypes.bool,
+    /**
+     * Вид иконки быстрого перехода на последнюю страницу
+     * */
+    lastIcon: PropTypes.string,
+    /**
+     * Текст кнопки 'Last'
+     */
+    lastLabel: PropTypes.string,
     /**
      * Скрыть тело пагинации
      */
@@ -402,7 +444,11 @@ Pagination.defaultProps = {
     nextIcon: 'long',
     nextLabel: 'Next',
     first: false,
+    firstIcon: 'long',
+    firstLabel: '',
     last: false,
+    lastIcon: 'long',
+    lastLabel: '',
     withoutBody: false,
     showCount: true,
     showSinglePage: false,
