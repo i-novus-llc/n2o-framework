@@ -3,12 +3,14 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -85,13 +87,14 @@ public class MappingProcessor {
     /**
      * Генерирует список аргументов для вызова метода.
      *
-     * @param dataSet    исходные данные
-     * @param mappingMap правила маппинга
-     * @param arguments  список аргументов
-     * @return массив объектов
+     * @param engine     Провайдер данных, принимающий на вход массив аргументов
+     * @param dataSet    Исходные данные
+     * @param mappingMap Правила маппинга
+     * @param arguments  Список аргументов
+     * @return Массив объектов
      */
-    public static Object[] map(DataSet dataSet, Map<String, FieldMapping> mappingMap, Argument[] arguments,
-                               DomainProcessor domainProcessor) {
+    public static Object[] map(ArgumentsInvocationEngine engine, DataSet dataSet, Map<String, FieldMapping> mappingMap,
+                               Argument[] arguments, DomainProcessor domainProcessor) {
         List<String> argClasses = new ArrayList<>();
         for (Argument arg : arguments) {
             argClasses.add(arg.getClassName());
@@ -107,19 +110,36 @@ public class MappingProcessor {
         boolean hasOnlyOneEntity = result.length == 1 && result[0] != null;
         int idx = 0;
 
-        for (Map.Entry<String, FieldMapping> map : mappingMap.entrySet()) {
-            Object value = dataSet.get(map.getKey());
-            String mapping = map.getValue().getMapping();
-            if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
-                String resultMapping = mapping;
-                if (resultMapping == null)
-                    resultMapping = hasOnlyOneEntity ? "[0]." + map.getKey() : "[" + idx + "]";
+        if (engine instanceof JavaDataProviderEngine &&
+                "map".equals(((JavaDataProviderEngine) engine).getMapping())) {
+            for (Argument argument : arguments) {
+                Map.Entry<String, FieldMapping> mappingEntry = mappingMap.entrySet().stream().filter(m -> {
+                    String mapping = m.getValue().getMapping();
+                    if (mapping == null)
+                        mapping = m.getKey();
+                    return argument.getName().equals(mapping);
+                }).findFirst().orElseThrow(() ->
+                        new N2oException(String.format("Not found parameter, that could be mapping in '%s' argument ", argument.getName())));
 
-                Expression expression = writeParser.parseExpression(resultMapping);
-                expression.setValue(result, value);
+                Expression expression = writeParser.parseExpression("[" + idx + "]");
+                expression.setValue(result, dataSet.get(mappingEntry.getKey()));
+                idx++;
             }
-            idx++;
-        }
+        } else
+            for (Map.Entry<String, FieldMapping> map : mappingMap.entrySet()) {
+                Object value = dataSet.get(map.getKey());
+                String mapping = map.getValue().getMapping();
+                if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
+                    String resultMapping = mapping;
+                    if (resultMapping == null)
+                        resultMapping = hasOnlyOneEntity ? "[0]." + map.getKey() : "[" + idx + "]";
+
+                    Expression expression = writeParser.parseExpression(resultMapping);
+                    expression.setValue(result, value);
+                }
+                idx++;
+            }
+
         for (int i = 0; i < result.length; i++) {
             if (result[i] == null && arguments[i].getDefaultValue() != null) {
                 result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());

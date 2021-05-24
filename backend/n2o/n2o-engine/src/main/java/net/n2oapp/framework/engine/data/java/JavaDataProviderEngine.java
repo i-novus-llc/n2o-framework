@@ -4,16 +4,11 @@ import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.DIProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
-import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.util.MethodInvoker;
-import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Провайдер данных через вызовы Java методов
@@ -34,8 +29,7 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
         Object targetObject = null;
         if (dataProvider.getDiProvider() != null)
             targetObject = match(dataProvider.getDiProvider()).locate(targetClass, dataProvider.getDiProvider());
-        Object[] args = changeArgumentsOrder(dataProvider, data, targetClass);
-        return invokeMethod(targetClass, dataProvider.getMethod(), targetObject, args);
+        return invokeMethod(targetClass, dataProvider.getMethod(), targetObject, data);
     }
 
     private Class<?> findTargetClass(N2oJavaDataProvider dataProvider) {
@@ -50,39 +44,6 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
         return targetClass;
     }
 
-    private Object[] changeArgumentsOrder(N2oJavaDataProvider provider, Object[] data, Class<?> targetClass) {
-        if (!"map".equals(mapping) || data.length <= 1) return data;
-
-        for (Method method : ReflectionUtils.getAllDeclaredMethods(targetClass)) {
-            if (method.getName().equals(provider.getMethod()) &&
-                    method.getParameterCount() == provider.getArguments().length) {
-                Map<String, Class<?>> providersArgsInfo = new HashMap<>();
-                Map<String, Object> dataByArgsName = new HashMap<>();
-                for (int i = 0; i < provider.getArguments().length; i++) {
-                    providersArgsInfo.put(provider.getArguments()[i].getName(), data[i].getClass());
-                    dataByArgsName.put(provider.getArguments()[i].getName(), data[i]);
-                }
-
-                Map<String, Class<?>> methodParametersInfo = new HashMap<>();
-                String[] parameterNames = new DefaultParameterNameDiscoverer().getParameterNames(method);
-                for (int i = 0; i < parameterNames.length; i++)
-                    methodParametersInfo.put(parameterNames[i], method.getParameterTypes()[i]);
-
-                if (providersArgsInfo.equals(methodParametersInfo)) {
-                    Object[] args = new Object[data.length];
-                    for (int i = 0; i < parameterNames.length; i++)
-                        args[i] = dataByArgsName.get(parameterNames[i]);
-
-                    return args;
-                }
-            }
-        }
-
-        throw new N2oException(
-                String.format("Not found method %s for java provider. Check the arguments naming or their types.", provider.getMethod())
-        );
-    }
-
     private <T extends DIProvider> ObjectLocator<T> match(T provider) {
         return locators.stream().filter(l -> l.match(provider))
                 .findAny().orElseThrow(() -> new IllegalArgumentException("No such data provider " + provider));
@@ -90,6 +51,10 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
 
     public void setLocators(List<ObjectLocator> locators) {
         this.locators = locators;
+    }
+
+    public String getMapping() {
+        return mapping;
     }
 
     public void setMapping(String mapping) {

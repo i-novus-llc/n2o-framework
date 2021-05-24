@@ -54,6 +54,7 @@ public class InvocationProcessorTest {
         when(processor.resolve(anyString())).thenAnswer((Answer<String>) invocation -> (String) invocation.getArguments()[0]);
         when(processor.resolve(anyInt())).thenAnswer((Answer<Integer>) invocation -> (Integer) invocation.getArguments()[0]);
         when(processor.resolve(anyList())).thenAnswer((Answer<List>) invocation -> (List) invocation.getArguments()[0]);
+        when(processor.resolve(anyBoolean())).thenAnswer((Answer<Boolean>) invocation -> (Boolean) invocation.getArguments()[0]);
         N2oEnvironment env = new N2oEnvironment();
         env.setContextProcessor(processor);
         invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory);
@@ -486,26 +487,35 @@ public class InvocationProcessorTest {
     public void testNameMappingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
-        invocation.setMethod("methodWithTwoArguments");
+        invocation.setMethod("methodWithThreeArguments");
         Argument argument1 = new Argument();
-        argument1.setName("secondArgument");
+        argument1.setName("first");
         argument1.setType(Argument.Type.PRIMITIVE);
         Argument argument2 = new Argument();
-        argument2.setName("firstArgument");
+        argument2.setName("second");
         argument2.setType(Argument.Type.PRIMITIVE);
-        invocation.setArguments(new Argument[]{argument1, argument2});
+        Argument argument3 = new Argument();
+        argument3.setName("third");
+        argument3.setType(Argument.Type.PRIMITIVE);
+        invocation.setArguments(new Argument[]{argument1, argument2, argument3});
 
         // STRUCTURE
         ObjectSimpleField firstArg = new ObjectSimpleField();
-        firstArg.setId("first");
+        firstArg.setId("a");
+        firstArg.setMapping("first");
         ObjectSimpleField secondArg = new ObjectSimpleField();
-        secondArg.setId("second");
-        List<AbstractParameter> inParameters = Arrays.asList(secondArg, firstArg);
+        secondArg.setId("b");
+        secondArg.setMapping("second");
+        ObjectSimpleField thirdArg = new ObjectSimpleField();
+        thirdArg.setId("c");
+        thirdArg.setMapping("third");
+        List<AbstractParameter> inParameters = Arrays.asList(secondArg, firstArg, thirdArg);
 
         // DATASET
         DataSet dataSet = new DataSet();
-        dataSet.put("second", 123);
-        dataSet.put("first", "test");
+        dataSet.put("c", true);
+        dataSet.put("b", 123);
+        dataSet.put("a", "test");
 
         ObjectSimpleField response = new ObjectSimpleField();
         response.setId("result");
@@ -515,7 +525,7 @@ public class InvocationProcessorTest {
         // Result
         javaDataProviderEngine.setMapping("map");
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
-        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
+        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123, Third argument: true"));
     }
 
     @Test

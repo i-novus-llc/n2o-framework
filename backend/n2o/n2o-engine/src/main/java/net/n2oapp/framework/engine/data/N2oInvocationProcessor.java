@@ -64,10 +64,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                            final Map<String, String> outMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
-        if (engine instanceof ArgumentsInvocationEngine)
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) invocation,
-                    mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
-        else
+        if (engine instanceof ArgumentsInvocationEngine) {
+            Object[] args = mapToArgs((ArgumentsInvocationEngine) engine, (N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor);
+            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) invocation, args);
+        } else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
         return DataSetMapper.extract(result, outMapping);
     }

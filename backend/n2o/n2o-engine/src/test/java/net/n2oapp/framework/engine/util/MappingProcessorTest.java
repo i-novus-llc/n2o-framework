@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -65,7 +66,7 @@ public class MappingProcessorTest {
         mapping.put("innerObjValueInt", new FieldMapping("[0].innerObj.valueInt"));
         Argument arg = new Argument();
         arg.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        Object[] res = MappingProcessor.map(inDataSet, mapping, new Argument[]{arg}, new DomainProcessor());
+        Object[] res = MappingProcessor.map(new JavaDataProviderEngine(), inDataSet, mapping, new Argument[]{arg}, new DomainProcessor());
         TestEntity result = (TestEntity) res[0];
         assert result.getInnerObj().getValueStr().equals("inner");
         assert result.getInnerObj().getValueInt().equals(14);
