@@ -190,19 +190,38 @@ class Pagination extends React.Component {
         const pages = Math.ceil(count / size, 10) || 1
         const lastPage = Math.ceil(count / size)
 
-        const getViewButtonPrev = () => {
-            const leftArrows = {
+        const arrows = {
+            first: {
+                none: '',
+                short: '&laquo;',
+                long: '&larrb;',
+            },
+            last: {
+                none: '',
+                short: '&raquo;',
+                long: '&rarrb;',
+            },
+            prev: {
                 none: '',
                 short: '&lsaquo;',
                 long: '&xlarr;',
-            }
+            },
+            next: {
+                none: '',
+                short: '&rsaquo;',
+                long: '&xrarr;',
+            },
+        }
 
+        const getPrev = () => {
             let label
 
-            if (prevIcon && prevLabel) {
-                label = `${leftArrows[prevIcon]}&nbsp;${prevLabel}`
-            } else if (prevIcon) {
-                label = `${leftArrows[prevIcon]}`
+            const icon = arrows.prev[prevIcon]
+
+            if (icon && prevLabel) {
+                label = `${icon}&nbsp;${prevLabel}`
+            } else if (icon) {
+                label = `${icon}`
             } else if (prevLabel) {
                 label = prevLabel
             }
@@ -218,19 +237,15 @@ class Pagination extends React.Component {
             )
         }
 
-        const getViewButtonNext = () => {
-            const rightArrows = {
-                none: '',
-                short: '&rsaquo;',
-                long: '&xrarr;',
-            }
-
+        const getNext = () => {
             let label
 
-            if (nextIcon && nextLabel) {
-                label = `${nextLabel}&nbsp;${rightArrows[nextIcon]}`
-            } else if (nextIcon) {
-                label = `${rightArrows[nextIcon]}`
+            const icon = arrows.next[nextIcon]
+
+            if (icon && nextLabel) {
+                label = `${nextLabel}&nbsp;${icon}`
+            } else if (icon) {
+                label = `${icon}`
             } else if (nextLabel) {
                 label = nextLabel
             }
@@ -247,18 +262,14 @@ class Pagination extends React.Component {
         }
 
         const getFirst = () => {
-            const firstArrows = {
-                none: '',
-                short: '&laquo;',
-                long: '&larrb;',
-            }
-
             let label
 
-            if (firstIcon && firstLabel) {
-                label = `${firstArrows[firstIcon]}&nbsp;${firstLabel}`
+            const icon = arrows.first[firstIcon]
+
+            if (icon && firstLabel) {
+                label = `${icon}&nbsp;${firstLabel}`
             } else if (firstIcon) {
-                label = `${firstArrows[firstIcon]}`
+                label = `${icon}`
             } else if (firstLabel) {
                 label = firstLabel
             }
@@ -276,18 +287,14 @@ class Pagination extends React.Component {
         }
 
         const getLast = () => {
-            const lastArrows = {
-                none: '',
-                short: '&raquo;',
-                long: '&rarrb;',
-            }
-
             let label
 
-            if (lastIcon && lastLabel) {
-                label = `${lastLabel}&nbsp;${lastArrows[lastIcon]}`
+            const icon = arrows.last[lastIcon]
+
+            if (icon && lastLabel) {
+                label = `${lastLabel}&nbsp;${icon}`
             } else if (lastIcon) {
-                label = `${lastArrows[lastIcon]}`
+                label = `${icon}`
             } else if (lastLabel) {
                 label = lastLabel
             }
@@ -311,7 +318,7 @@ class Pagination extends React.Component {
                 {!showSinglePage && pages === 1 ? null : (
                     <ul className={classNames('pagination', 'd-inline-flex', className)}>
                         {first && getFirst()}
-                        {prev && getViewButtonPrev()}
+                        {prev && getPrev()}
                         {!withoutBody &&
                                 this.renderBodyPaging(
                                     activePage,
@@ -320,7 +327,7 @@ class Pagination extends React.Component {
                                     stepIncrement,
                                     onSelect,
                                 )}
-                        {next && getViewButtonNext()}
+                        {next && getNext()}
                         {last && getLast()}
                     </ul>
                 )}
@@ -438,17 +445,17 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
     prev: false,
-    prevIcon: 'long',
+    prevIcon: 'short',
     prevLabel: 'Previous',
     next: false,
-    nextIcon: 'long',
+    nextIcon: 'short',
     nextLabel: 'Next',
     first: false,
     firstIcon: 'long',
-    firstLabel: '',
+    firstLabel: 'First',
     last: false,
     lastIcon: 'long',
-    lastLabel: '',
+    lastLabel: 'Last',
     withoutBody: false,
     showCount: true,
     showSinglePage: false,
