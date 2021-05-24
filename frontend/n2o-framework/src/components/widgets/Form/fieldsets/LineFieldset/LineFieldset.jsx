@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
-import evalExpression, {
-    parseExpression,
-} from '../../../../../utils/evalExpression'
 
 class LineFieldset extends React.Component {
     constructor(props) {
@@ -37,27 +34,8 @@ class LineFieldset extends React.Component {
         }
     }
 
-    resolveVisible() {
-        const { visible, activeModel } = this.props
-        const expression = parseExpression(visible)
-
-        if (expression) {
-            return evalExpression(expression, activeModel)
-        } if (visible === true) {
-            return true
-        } if (visible === false) {
-            return false
-        }
-
-        return true
-    }
-
     render() {
         const { collapsible } = this.props
-
-        if (!this.resolveVisible()) {
-            return null
-        }
 
         if (collapsible) {
             return <CollapseFieldset {...this.getCollapseProps()} />
