@@ -70,7 +70,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (isLink(source.getVisible())) {
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, tableId).getBindLink());
+            String widgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), tableId);
+            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());
             }
