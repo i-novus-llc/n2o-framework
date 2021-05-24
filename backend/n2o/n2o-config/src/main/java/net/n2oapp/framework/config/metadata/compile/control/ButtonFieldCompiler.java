@@ -86,6 +86,7 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
             ComponentScope scope = p.getScope(ComponentScope.class);
             N2oAction act = getAction(scope, source.getActionId());
             if (act != null) {
+                act.setId(button.getId());
                 action = p.compile(act, context, compiledObject, scope);
             }
         } else {
