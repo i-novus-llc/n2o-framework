@@ -150,4 +150,5 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         validations.add(conditionValidation);
         return validations;
     }
+
 }

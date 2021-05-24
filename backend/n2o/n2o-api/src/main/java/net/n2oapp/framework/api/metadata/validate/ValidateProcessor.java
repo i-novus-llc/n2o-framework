@@ -139,6 +139,32 @@ public interface ValidateProcessor {
     }
 
     /**
+     * Заменить плейсхолдер на значение и конвертировать в класс
+     *
+     * @param placeholder Плейсхолдер
+     * @param <T>         Тип значения
+     * @return Значение
+     */
+    <T> T resolve(String placeholder, Class<T> clazz);
+
+    /**
+     * Заменить плейсхолдер на значение конвертировать по домену
+     *
+     * @param placeholder значение для конвертации
+     * @param domain      Домен значения
+     * @return значение
+     */
+    Object resolve(String placeholder, String domain);
+
+    /**
+     * Заменить плейсхолдер на значение и конвертировать с автоподбором типа
+     *
+     * @param placeholder значение для конвертации
+     * @return значение
+     */
+    Object resolve(String placeholder);
+
+    /**
      * Получить локализованное сообщение по коду и аргументам
      *
      * @param messageCode Код сообщения
