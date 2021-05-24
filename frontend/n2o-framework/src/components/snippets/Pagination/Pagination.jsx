@@ -177,12 +177,70 @@ class Pagination extends React.Component {
             onSelect,
             className,
             withoutBody,
+            prevIcon,
             prevLabel,
+            nextIcon,
             nextLabel,
             t,
         } = this.props
         const pages = Math.ceil(count / size, 10) || 1
         const lastPage = Math.ceil(count / size)
+
+        const getViewButtonPrev = () => {
+            const leftArrows = {
+                none: '',
+                short: '&lsaquo;',
+                long: '&xlarr;',
+            }
+
+            let label
+
+            if (prevIcon && prevLabel) {
+                label = `${leftArrows[prevIcon]}&nbsp;${prevLabel}`
+            } else if (prevIcon) {
+                label = `${leftArrows[prevIcon]}`
+            } else if (prevLabel) {
+                label = prevLabel
+            }
+
+            return (
+                <PaginationButton
+                    eventKey={activePage - 1}
+                    label={label}
+                    disabled={activePage === 1}
+                    onSelect={onSelect}
+                    tabIndex={0}
+                />
+            )
+        }
+
+        const getViewButtonNext = () => {
+            const rightArrows = {
+                none: '',
+                short: '&rsaquo;',
+                long: '&xrarr;',
+            }
+
+            let label
+
+            if (nextIcon && nextLabel) {
+                label = `${nextLabel}&nbsp;${rightArrows[nextIcon]}`
+            } else if (nextIcon) {
+                label = `${rightArrows[nextIcon]}`
+            } else if (nextLabel) {
+                label = nextLabel
+            }
+
+            return (
+                <PaginationButton
+                    eventKey={activePage + 1}
+                    label={label}
+                    disabled={lastPage === activePage}
+                    onSelect={onSelect}
+                    tabIndex={0}
+                />
+            )
+        }
 
         return (
             <nav
@@ -202,13 +260,14 @@ class Pagination extends React.Component {
                             />
                         )}
                         {prev && (
-                            <PaginationButton
-                                eventKey={activePage - 1}
-                                label={prevLabel || '&lsaquo;'}
-                                disabled={activePage === 1}
-                                onSelect={onSelect}
-                                tabIndex={0}
-                            />
+                            // <PaginationButton
+                            //     eventKey={activePage - 1}
+                            //     label={prevLabel || '&lsaquo;'}
+                            //     disabled={activePage === 1}
+                            //     onSelect={onSelect}
+                            //     tabIndex={0}
+                            // />
+                            getViewButtonPrev()
                         )}
                         {!withoutBody &&
                                 this.renderBodyPaging(
@@ -219,13 +278,14 @@ class Pagination extends React.Component {
                                     onSelect,
                                 )}
                         {next && (
-                            <PaginationButton
-                                eventKey={activePage + 1}
-                                label={nextLabel || '&rsaquo;'}
-                                disabled={lastPage === activePage}
-                                onSelect={onSelect}
-                                tabIndex={0}
-                            />
+                            // <PaginationButton
+                            //     eventKey={activePage + 1}
+                            //     label={nextLabel || '&rsaquo;'}
+                            //     disabled={lastPage === activePage}
+                            //     onSelect={onSelect}
+                            //     tabIndex={0}
+                            // />
+                            getViewButtonNext()
                         )}
                         {last && (
                             <PaginationButton
@@ -264,6 +324,10 @@ Pagination.propTypes = {
      */
     prev: PropTypes.bool,
     /**
+     * Вид иконки быстрого перехода на предудущую страницу
+     * */
+    prevIcon: PropTypes.string,
+    /**
      * Текст кнопки 'Назад'
      */
     prevLabel: PropTypes.string,
@@ -271,6 +335,10 @@ Pagination.propTypes = {
      * Показать/скрыть кнопку быстрого перехода на следующую страницу
      */
     next: PropTypes.bool,
+    /**
+     * Вид иконки быстрого перехода на следующую страницу
+     */
+    nextIcon: PropTypes.string,
     /**
      * Текст кнопки 'Вперед'
      */
@@ -328,9 +396,11 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
     prev: false,
-    prevLabel: null,
+    prevIcon: 'long',
+    prevLabel: 'Previous',
     next: false,
-    nextLabel: null,
+    nextIcon: 'long',
+    nextLabel: 'Next',
     first: false,
     last: false,
     withoutBody: false,
