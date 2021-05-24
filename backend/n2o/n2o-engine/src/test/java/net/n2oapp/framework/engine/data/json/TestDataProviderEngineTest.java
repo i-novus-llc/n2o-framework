@@ -446,6 +446,13 @@ public class TestDataProviderEngineTest {
 
         Integer result = (Integer) engine.invoke(provider, inParams);
         assertThat(result, is(151));
+
+        // with filters
+        inParams.put("filters", Collections.singletonList("age :eq :age"));
+        inParams.put("age", 34);
+
+        result = (Integer) engine.invoke(provider, inParams);
+        assertThat(result, is(4));
     }
 
     @Test
