@@ -213,66 +213,22 @@ class Pagination extends React.Component {
             },
         }
 
-        const getPrev = () => {
-            let label
+        const getLabel = (iconType, iconName, label) => {
+            const icon = arrows[iconType][iconName]
 
-            const icon = arrows.prev[prevIcon]
-
-            if (icon && prevLabel) {
-                label = `${icon}&nbsp;${prevLabel}`
-            } else if (icon) {
-                label = `${icon}`
-            } else if (prevLabel) {
-                label = prevLabel
+            if (icon && label) {
+                return iconType === 'first' || iconType === 'prev' ? `${icon}&nbsp;${label}` : `${label}&nbsp;${icon}`
             }
 
-            return (
-                <PaginationButton
-                    eventKey={activePage - 1}
-                    label={label}
-                    disabled={activePage === 1}
-                    onSelect={onSelect}
-                    tabIndex={0}
-                />
-            )
-        }
-
-        const getNext = () => {
-            let label
-
-            const icon = arrows.next[nextIcon]
-
-            if (icon && nextLabel) {
-                label = `${nextLabel}&nbsp;${icon}`
-            } else if (icon) {
-                label = `${icon}`
-            } else if (nextLabel) {
-                label = nextLabel
+            if (icon) {
+                return `${icon}`
             }
 
-            return (
-                <PaginationButton
-                    eventKey={activePage + 1}
-                    label={label}
-                    disabled={lastPage === activePage}
-                    onSelect={onSelect}
-                    tabIndex={0}
-                />
-            )
+            return label
         }
 
         const getFirst = () => {
-            let label
-
-            const icon = arrows.first[firstIcon]
-
-            if (icon && firstLabel) {
-                label = `${icon}&nbsp;${firstLabel}`
-            } else if (firstIcon) {
-                label = `${icon}`
-            } else if (firstLabel) {
-                label = firstLabel
-            }
+            const label = getLabel('first', firstIcon, firstLabel)
 
             return (
                 <PaginationButton
@@ -286,18 +242,36 @@ class Pagination extends React.Component {
             )
         }
 
+        const getPrev = () => {
+            const label = getLabel('prev', prevIcon, prevLabel)
+
+            return (
+                <PaginationButton
+                    eventKey={activePage - 1}
+                    label={label}
+                    disabled={activePage === 1}
+                    onSelect={onSelect}
+                    tabIndex={0}
+                />
+            )
+        }
+
+        const getNext = () => {
+            const label = getLabel('next', nextIcon, nextLabel)
+
+            return (
+                <PaginationButton
+                    eventKey={activePage + 1}
+                    label={label}
+                    disabled={lastPage === activePage}
+                    onSelect={onSelect}
+                    tabIndex={0}
+                />
+            )
+        }
+
         const getLast = () => {
-            let label
-
-            const icon = arrows.last[lastIcon]
-
-            if (icon && lastLabel) {
-                label = `${lastLabel}&nbsp;${icon}`
-            } else if (lastIcon) {
-                label = `${icon}`
-            } else if (lastLabel) {
-                label = lastLabel
-            }
+            const label = getLabel('last', lastIcon, lastLabel)
 
             return (
                 <PaginationButton
@@ -446,16 +420,16 @@ Pagination.propTypes = {
 Pagination.defaultProps = {
     prev: false,
     prevIcon: 'short',
-    prevLabel: 'Previous',
+    prevLabel: null,
     next: false,
     nextIcon: 'short',
-    nextLabel: 'Next',
+    nextLabel: null,
     first: false,
-    firstIcon: 'long',
-    firstLabel: 'First',
+    firstIcon: 'short',
+    firstLabel: null,
     last: false,
-    lastIcon: 'long',
-    lastLabel: 'Last',
+    lastIcon: 'short',
+    lastLabel: null,
     withoutBody: false,
     showCount: true,
     showSinglePage: false,
