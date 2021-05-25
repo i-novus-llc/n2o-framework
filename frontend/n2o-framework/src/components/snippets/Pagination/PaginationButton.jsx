@@ -47,10 +47,10 @@ export class PaginationButton extends React.Component {
                 <a
                     className={classNames('page-link', noBorder ? 'no-border' : '')}
                     href="#"
-                    /* eslint-disable-next-line react/no-danger */
-                    dangerouslySetInnerHTML={{ __html: label }}
                     tabIndex={tabIndex}
-                />
+                >
+                    { label }
+                </a>
             </li>
         )
     }

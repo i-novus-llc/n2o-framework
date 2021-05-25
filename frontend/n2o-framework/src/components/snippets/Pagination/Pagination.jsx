@@ -190,45 +190,36 @@ class Pagination extends React.Component {
         const pages = Math.ceil(count / size, 10) || 1
         const lastPage = Math.ceil(count / size)
 
-        const arrows = {
-            first: {
-                none: '',
-                short: '&laquo;',
-                long: '&larrb;',
-            },
-            last: {
-                none: '',
-                short: '&raquo;',
-                long: '&rarrb;',
-            },
-            prev: {
-                none: '',
-                short: '&lsaquo;',
-                long: '&xlarr;',
-            },
-            next: {
-                none: '',
-                short: '&rsaquo;',
-                long: '&xrarr;',
-            },
-        }
-
-        const getLabel = (iconType, iconName, label) => {
-            const icon = arrows[iconType][iconName]
-
+        const getLabel = (direction, icon, label) => {
             if (icon && label) {
-                return iconType === 'first' || iconType === 'prev' ? `${icon}&nbsp;${label}` : `${label}&nbsp;${icon}`
+                if (direction === 'left') {
+                    return (
+                        <>
+                            <span className={icon} aria-hidden="true" />
+                            <span>{label}</span>
+                        </>
+                    )
+                }
+
+                if (direction === 'right') {
+                    return (
+                        <>
+                            <span>{label}</span>
+                            <span className={icon} aria-hidden="true" />
+                        </>
+                    )
+                }
             }
 
             if (icon) {
-                return `${icon}`
+                return (<i className={icon} aria-hidden="true" />)
             }
 
             return label
         }
 
         const getFirst = () => {
-            const label = getLabel('first', firstIcon, firstLabel)
+            const label = getLabel('left', firstIcon, firstLabel)
 
             return (
                 <PaginationButton
@@ -243,7 +234,7 @@ class Pagination extends React.Component {
         }
 
         const getPrev = () => {
-            const label = getLabel('prev', prevIcon, prevLabel)
+            const label = getLabel('left', prevIcon, prevLabel)
 
             return (
                 <PaginationButton
@@ -257,7 +248,7 @@ class Pagination extends React.Component {
         }
 
         const getNext = () => {
-            const label = getLabel('next', nextIcon, nextLabel)
+            const label = getLabel('right', nextIcon, nextLabel)
 
             return (
                 <PaginationButton
@@ -271,7 +262,7 @@ class Pagination extends React.Component {
         }
 
         const getLast = () => {
-            const label = getLabel('last', lastIcon, lastLabel)
+            const label = getLabel('right', lastIcon, lastLabel)
 
             return (
                 <PaginationButton
@@ -419,17 +410,17 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
     prev: false,
-    prevIcon: 'short',
-    prevLabel: null,
+    prevIcon: 'fa fa-angle-left',
+    prevLabel: 'Пред',
     next: false,
-    nextIcon: 'short',
-    nextLabel: null,
+    nextIcon: 'fa fa-angle-right',
+    nextLabel: 'След',
     first: false,
-    firstIcon: 'short',
-    firstLabel: null,
+    firstIcon: 'fa fa-angle-double-left',
+    firstLabel: 'На первую',
     last: false,
-    lastIcon: 'short',
-    lastLabel: null,
+    lastIcon: 'fa fa-angle-double-right',
+    lastLabel: 'На последнюю',
     withoutBody: false,
     showCount: true,
     showSinglePage: false,
