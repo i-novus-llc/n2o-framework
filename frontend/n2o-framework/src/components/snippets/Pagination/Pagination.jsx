@@ -196,6 +196,7 @@ class Pagination extends React.Component {
                     return (
                         <>
                             <span className={icon} aria-hidden="true" />
+                            {' '}
                             <span>{label}</span>
                         </>
                     )
@@ -205,6 +206,7 @@ class Pagination extends React.Component {
                     return (
                         <>
                             <span>{label}</span>
+                            {' '}
                             <span className={icon} aria-hidden="true" />
                         </>
                     )
@@ -411,10 +413,10 @@ Pagination.propTypes = {
 Pagination.defaultProps = {
     prev: false,
     prevIcon: 'fa fa-angle-left',
-    prevLabel: 'Пред',
+    prevLabel: '',
     next: false,
     nextIcon: 'fa fa-angle-right',
-    nextLabel: 'След',
+    nextLabel: '',
     first: false,
     firstIcon: 'fa fa-angle-double-left',
     firstLabel: 'На первую',
