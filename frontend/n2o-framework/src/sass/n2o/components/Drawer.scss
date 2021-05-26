@@ -214,10 +214,23 @@
         margin-right: 0;
         margin-left: 0;
     }
-}
 
-.n2o-modal-actions {
-    padding: 10px 0 0 8px;
+    .n2o-modal-actions {
+        .buttons-toolbar {
+            .btn-group {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 10px;
+                padding-right: 10px;
+
+                > div {
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .n2o-drawer-children-wrapper {
