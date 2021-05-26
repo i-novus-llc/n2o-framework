@@ -2,6 +2,18 @@
     transition: transform $drawer-animation, opacity $drawer-animation, box-shadow $drawer-animation;
 }
 
+.drawer-footer {
+    padding: 16px;
+}
+
+.drawer-footer--fixed {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: none;
+    background: #fff;
+}
+
 .drawer-handle {
     position: absolute;
     top: 0;
@@ -214,10 +226,23 @@
         margin-right: 0;
         margin-left: 0;
     }
-}
 
-.n2o-modal-actions {
-    padding: 10px 0 0 8px;
+    .n2o-modal-actions {
+        .buttons-toolbar {
+            .btn-group {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 10px;
+                padding-right: 10px;
+
+                > div {
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .n2o-drawer-children-wrapper {
