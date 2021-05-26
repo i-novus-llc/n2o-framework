@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
@@ -44,6 +45,7 @@ public class InvocationProcessorTest {
     public void setUp() throws Exception {
         N2oInvocationFactory actionInvocationFactory = mock(N2oInvocationFactory.class);
         javaDataProviderEngine = new JavaDataProviderEngine();
+        javaDataProviderEngine.setDomainProcessor(new DomainProcessor());
         when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(javaDataProviderEngine);
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
@@ -523,7 +525,7 @@ public class InvocationProcessorTest {
         List<ObjectSimpleField> outParameters = Arrays.asList(response);
 
         // Result
-        javaDataProviderEngine.setMapping("map");
+        javaDataProviderEngine.setJavaMapping("map");
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
         assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123, Third argument: true"));
     }

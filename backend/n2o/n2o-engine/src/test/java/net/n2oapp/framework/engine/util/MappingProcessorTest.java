@@ -3,14 +3,12 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
-import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -66,12 +64,11 @@ public class MappingProcessorTest {
         mapping.put("innerObjValueInt", new FieldMapping("[0].innerObj.valueInt"));
         Argument arg = new Argument();
         arg.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        Object[] res = MappingProcessor.map(new JavaDataProviderEngine(), inDataSet, mapping, new Argument[]{arg}, new DomainProcessor());
-        TestEntity result = (TestEntity) res[0];
-        assert result.getInnerObj().getValueStr().equals("inner");
-        assert result.getInnerObj().getValueInt().equals(14);
-        assert result.getValueStr().equals("string");
-        assert result.getValueInt().equals(11);
+        Map<String, Object> res = MappingProcessor.map(inDataSet, mapping, new Argument[]{arg});
+        assert res.get("[0].innerObj.valueStr").equals("inner");
+        assert res.get("[0].innerObj.valueInt").equals(14);
+        assert res.get("[0].valueStr").equals("string");
+        assert res.get("[0].valueInt").equals(11);
     }
 
     @Test

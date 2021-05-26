@@ -134,7 +134,7 @@ public class DataSetMapper {
         return argumentInstances;
     }
 
-    private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\['.+']").asPredicate();
+    private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+]").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";
 
     /**

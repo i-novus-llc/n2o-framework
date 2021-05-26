@@ -28,7 +28,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import static net.n2oapp.framework.engine.util.InvocationParametersMapping.*;
+import static net.n2oapp.framework.engine.util.InvocationParametersMapping.mapToMap;
+import static net.n2oapp.framework.engine.util.InvocationParametersMapping.normalizeValue;
 
 /**
  * Процессор вызова процедур
@@ -63,12 +64,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                            final Map<String, FieldMapping> inMapping,
                            final Map<String, String> outMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
-        Object result;
-        if (engine instanceof ArgumentsInvocationEngine) {
-            Object[] args = mapToArgs((ArgumentsInvocationEngine) engine, (N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor);
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) invocation, args);
-        } else
-            result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
+        Map<String, Object> data = engine instanceof ArgumentsInvocationEngine ?
+                mapToMap((N2oArgumentsInvocation) invocation, inDataSet, inMapping) :
+                mapToMap(inDataSet, inMapping);
+        Object result = engine.invoke(invocation, data);
         return DataSetMapper.extract(result, outMapping);
     }
 

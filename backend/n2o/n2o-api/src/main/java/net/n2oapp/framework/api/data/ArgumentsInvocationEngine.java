@@ -17,6 +17,6 @@ public interface ArgumentsInvocationEngine<T extends N2oArgumentsInvocation> ext
     Object invoke(T invocation, Object[] data);
 
     default Object invoke(T invocation, Object data) {
-        return invoke(invocation, (Object[])data);
+        return invoke(invocation, (Object[]) data);
     }
 }

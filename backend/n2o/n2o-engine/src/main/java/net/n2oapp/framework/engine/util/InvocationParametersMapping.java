@@ -6,7 +6,6 @@ import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.data.CriteriaConstructor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -69,19 +68,17 @@ public class InvocationParametersMapping {
     /**
      * Собирает аргументы для действия invocation
      *
-     * @param engine     Провайдер данных, принимающий на вход массив аргументов
      * @param invocation Вызов действия
      * @param inDataSet  Входные данные
      * @param inMapping  Маппинг входных данных
      * @return
      */
-    public static Object[] mapToArgs(ArgumentsInvocationEngine engine,
-                                     N2oArgumentsInvocation invocation, DataSet inDataSet,
-                                     Map<String, FieldMapping> inMapping, DomainProcessor domainProcessor) {
+    public static Map<String, Object> mapToMap(N2oArgumentsInvocation invocation, DataSet inDataSet,
+                                               Map<String, FieldMapping> inMapping) {
         inMapping = changeInMappingForEntity(invocation, inMapping);
         if (invocation.getArguments() == null || invocation.getArguments().length == 0)
             return null;
-        return MappingProcessor.map(engine, inDataSet, inMapping, invocation.getArguments(), domainProcessor);
+        return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments());
     }
 
     /**

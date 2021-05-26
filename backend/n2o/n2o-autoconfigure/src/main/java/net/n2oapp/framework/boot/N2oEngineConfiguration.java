@@ -140,9 +140,11 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
-    public JavaDataProviderEngine javaDataProviderEngine(Optional<List<ObjectLocator>> locators) {
+    public JavaDataProviderEngine javaDataProviderEngine(Optional<List<ObjectLocator>> locators,
+                                                         DomainProcessor domainProcessor) {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
-        javaDataProviderEngine.setMapping(javaMapping);
+        javaDataProviderEngine.setJavaMapping(javaMapping);
+        javaDataProviderEngine.setDomainProcessor(domainProcessor);
         javaDataProviderEngine.setLocators(locators.orElse(Collections.EMPTY_LIST));
         return javaDataProviderEngine;
     }
