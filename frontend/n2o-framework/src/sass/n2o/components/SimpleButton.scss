@@ -81,3 +81,24 @@
     pointer-events: none;
     opacity: 0.65;
 }
+
+.btn-light {
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+
+    &:hover {
+        color: #000;
+    }
+}
+
+.btn-outline-light {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+
+    &:hover {
+        color: #000;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+    }
+}
