@@ -163,6 +163,14 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="first-children-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок первого дочернего элемента.
+                            Для возможности не отображать индекс, если в мультисете единственный элемент.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="add-label" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок кнопки добавления.</xs:documentation>

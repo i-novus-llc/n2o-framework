@@ -44,6 +44,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet.getSrc(), is("MultiFieldset"));
         assertThat(multiFieldSet.getLabel(), is("Заголовок"));
         assertThat(multiFieldSet.getChildrenLabel(), is("`'Участник '+index`"));
+        assertThat(multiFieldSet.getFirstChildrenLabel(), is("Участник"));
         assertThat(multiFieldSet.getName(), is("members"));
         assertThat(multiFieldSet.getAddButtonLabel(), is("Добавить участника"));
         assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("Удалить всех участников"));
