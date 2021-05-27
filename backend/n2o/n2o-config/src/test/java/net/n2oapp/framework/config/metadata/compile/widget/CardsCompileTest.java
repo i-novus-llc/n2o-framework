@@ -67,11 +67,11 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSrc(), is("TextCell"));
 
         assertThat(cards.getPaging().getFirst(), is(false));
-        assertThat(cards.getPaging().getHideSinglePage(), is(false));
+        assertThat(cards.getPaging().getShowSinglePage(), is(false));
         assertThat(cards.getPaging().getLast(), is(true));
         assertThat(cards.getPaging().getNext(), is(true));
         assertThat(cards.getPaging().getPrev(), is(true));
-        assertThat(cards.getPaging().getShowCountRecords(), is(false));
+        assertThat(cards.getPaging().getShowCount(), is(false));
         assertThat(cards.getPaging().getSize(), is(5));
         assertThat(cards.getPaging().getSrc(), is("pagingSrc"));
 
@@ -91,11 +91,11 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cell.getId(), is("31"));
 
         assertThat(cards.getPaging().getFirst(), is(true));
-        assertThat(cards.getPaging().getHideSinglePage(), is(true));
+        assertThat(cards.getPaging().getShowSinglePage(), is(false));
         assertThat(cards.getPaging().getLast(), is(false));
         assertThat(cards.getPaging().getNext(), is(false));
         assertThat(cards.getPaging().getPrev(), is(false));
-        assertThat(cards.getPaging().getShowCountRecords(), is(true));
+        assertThat(cards.getPaging().getShowCount(), is(true));
         assertThat(cards.getPaging().getSize(), is(10));
     }
 }

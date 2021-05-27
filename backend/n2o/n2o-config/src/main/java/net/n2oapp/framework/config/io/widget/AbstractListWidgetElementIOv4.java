@@ -2,9 +2,7 @@ package net.n2oapp.framework.config.io.widget;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRow;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.widget.table.cell.SwitchIO;
@@ -37,7 +35,20 @@ public abstract class AbstractListWidgetElementIOv4<T extends N2oAbstractListWid
         p.attributeBoolean(e, "last", page::getLast, page::setLast);
         p.attributeBoolean(e, "first", page::getFirst, page::setFirst);
         p.attributeBoolean(e, "show-count", page::getShowCount, page::setShowCount);
-        p.attributeBoolean(e, "hide-single-page", page::getHideSinglePage, page::setHideSinglePage);
+        p.attributeBoolean(e, "show-single-page", page::getShowSinglePage, page::setShowSinglePage);
+        p.attributeEnum(e, "layout", page::getLayout, page::setLayout, Layout.class);
+        p.attribute(e, "prev-label", page::getPrevLabel, page::setPrevLabel);
+        p.attribute(e, "prev-icon", page::getPrevIcon, page::setPrevIcon);
+        p.attribute(e, "next-label", page::getNextLabel, page::setNextLabel);
+        p.attribute(e, "next-icon", page::getNextIcon, page::setNextIcon);
+        p.attribute(e, "first-label", page::getFirstLabel, page::setFirstLabel);
+        p.attribute(e, "first-icon", page::getFirstIcon, page::setFirstIcon);
+        p.attribute(e, "last-label", page::getLastLabel, page::setLastLabel);
+        p.attribute(e, "last-icon", page::getLastIcon, page::setLastIcon);
+        p.attributeInteger(e, "max-pages", page::getMaxPages, page::setMaxPages);
+        p.attribute(e, "class", page::getClassName, page::setClassName);
+        p.attribute(e, "style", page::getStyle, page::setStyle);
+        p.attributeEnum(e, "place", page::getPlace, page::setPlace, Place.class);
     }
 
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {

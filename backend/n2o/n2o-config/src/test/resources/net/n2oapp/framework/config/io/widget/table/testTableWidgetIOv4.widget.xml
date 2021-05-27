@@ -74,7 +74,7 @@
             <default>Неопределенный</default>
         </switch>
     </rows>
-    <pagination src="test" first="false" hide-single-page="false"
+    <pagination src="test" first="false" show-single-page="false"
                 last="false" next="false" prev="false" show-count="false">
     </pagination>
     <filters place="left" search-on-change="true" default-values-query-id="test">
