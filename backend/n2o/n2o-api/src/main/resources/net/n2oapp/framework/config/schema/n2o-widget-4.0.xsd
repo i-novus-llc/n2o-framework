@@ -1130,6 +1130,11 @@
         </xs:attribute>
         <xs:attribute name="show-single-page" type="xs:boolean" default="false">
             <xs:annotation>
+                <xs:documentation>Показать паджинацию на единственной странице.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="hide-single-page" type="xs:boolean" default="true">
+            <xs:annotation>
                 <xs:documentation>Скрыть паджинацию на единственной странице.</xs:documentation>
             </xs:annotation>
         </xs:attribute>

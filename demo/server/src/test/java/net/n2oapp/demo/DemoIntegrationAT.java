@@ -44,7 +44,7 @@ public class DemoIntegrationAT {
 
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
-        headless = true;
+        headless = false;
         browserSize = "1920x1200";
         timeout = 10000;
     }

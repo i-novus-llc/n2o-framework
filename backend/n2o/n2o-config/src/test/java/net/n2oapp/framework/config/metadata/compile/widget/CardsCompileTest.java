@@ -67,7 +67,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSrc(), is("TextCell"));
 
         assertThat(cards.getPaging().getFirst(), is(false));
-        assertThat(cards.getPaging().getShowSinglePage(), is(false));
+        assertThat(cards.getPaging().getShowSinglePage(), is(true));
         assertThat(cards.getPaging().getLast(), is(true));
         assertThat(cards.getPaging().getNext(), is(true));
         assertThat(cards.getPaging().getPrev(), is(true));

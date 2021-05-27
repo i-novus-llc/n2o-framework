@@ -65,7 +65,7 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oImageCell) tile.getComponent()).getData(), is("/test"));
 
         assertThat(tiles.getPaging().getFirst(), is(false));
-        assertThat(tiles.getPaging().getShowSinglePage(), is(false));
+        assertThat(tiles.getPaging().getShowSinglePage(), is(true));
         assertThat(tiles.getPaging().getLast(), is(true));
         assertThat(tiles.getPaging().getNext(), is(true));
         assertThat(tiles.getPaging().getPrev(), is(true));

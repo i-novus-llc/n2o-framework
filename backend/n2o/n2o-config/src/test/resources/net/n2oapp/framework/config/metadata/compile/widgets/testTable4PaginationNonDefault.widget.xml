@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable4SortableCompile"
+       object-id="utBlank" selection="radio">
+
+    <columns>
+        <column text-field-id="id" width="100"/>
+        <column id="col" text-field-id="col_id" label="col_label"/>
+        <column text-field-id="name" sorting-field-id="id"/>
+        <column text-field-id="comments"/>
+        <column text-field-id="notInQuery" label="notInQueryLabel"/>
+        <column text-field-id="type">
+            <toolbar>
+                <sub-menu show-toggle-icon="false">
+                    <menu-item/>
+                </sub-menu>
+            </toolbar>
+        </column>
+    </columns>
+    <pagination first="true" last="true" show-single-page="false" next="true"
+                prev="true" show-count="true" layout="flat" prev-label="prev" prev-icon="fa fa-angle-left"
+                next-label="next" next-icon="fa fa-angle-right" first-label="first" first-icon="fa fa-angle-double-left"
+                last-label="last" last-icon="fa fa-angle-double-right" max-pages="10" class="class" style="style" place="topLeft"/>
+</table>

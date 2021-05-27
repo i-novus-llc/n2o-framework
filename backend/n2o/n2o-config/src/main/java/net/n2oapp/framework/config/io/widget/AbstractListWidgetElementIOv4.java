@@ -35,6 +35,7 @@ public abstract class AbstractListWidgetElementIOv4<T extends N2oAbstractListWid
         p.attributeBoolean(e, "last", page::getLast, page::setLast);
         p.attributeBoolean(e, "first", page::getFirst, page::setFirst);
         p.attributeBoolean(e, "show-count", page::getShowCount, page::setShowCount);
+        p.attributeBoolean(e, "hide-single-page", page::getHideSinglePage, page::setHideSinglePage);
         p.attributeBoolean(e, "show-single-page", page::getShowSinglePage, page::setShowSinglePage);
         p.attributeEnum(e, "layout", page::getLayout, page::setLayout, Layout.class);
         p.attribute(e, "prev-label", page::getPrevLabel, page::setPrevLabel);

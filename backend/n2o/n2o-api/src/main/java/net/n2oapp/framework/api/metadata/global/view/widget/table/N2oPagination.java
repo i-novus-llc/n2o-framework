@@ -16,6 +16,8 @@ public class N2oPagination implements Source {
     private Boolean last;
     private Boolean first;
     private Boolean showCount;
+    @Deprecated
+    private Boolean hideSinglePage;
     private Boolean showSinglePage;
     private Layout layout;
     private String prevLabel;

@@ -108,21 +108,8 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getShowSinglePage(), is(false));
+        assertThat(pagination.getShowSinglePage(), is(true));
         assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.bordered));
-        assertThat(pagination.getPrevLabel(), is("prev"));
-        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
-        assertThat(pagination.getNextLabel(), is("next"));
-        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is("first"));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is("last"));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(5));
-        assertThat(pagination.getClassName(), is("class"));
-        assertThat(pagination.getStyle(), is("style"));
-        assertThat(pagination.getPlace(), is(Place.bottomLeft));
 
         N2oRow rows = table.getRows();
         assertThat(rows.getRowClick().getActionId(), is("actionId"));
