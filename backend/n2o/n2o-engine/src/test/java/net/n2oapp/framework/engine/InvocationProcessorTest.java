@@ -507,10 +507,10 @@ public class InvocationProcessorTest {
         firstArg.setMapping("first");
         ObjectSimpleField secondArg = new ObjectSimpleField();
         secondArg.setId("b");
-        secondArg.setMapping("second");
+        secondArg.setMapping("[second]");
         ObjectSimpleField thirdArg = new ObjectSimpleField();
         thirdArg.setId("c");
-        thirdArg.setMapping("third");
+        thirdArg.setMapping("['third']");
         List<AbstractParameter> inParameters = Arrays.asList(secondArg, firstArg, thirdArg);
 
         // DATASET

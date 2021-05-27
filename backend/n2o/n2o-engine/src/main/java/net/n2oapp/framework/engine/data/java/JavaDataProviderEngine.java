@@ -76,8 +76,7 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
             for (Argument argument : arguments) {
                 Map.Entry<String, Object> entry = dataSet.entrySet().stream()
                         .filter(d -> {
-                            // TODO
-                            String mapping = d.getKey().replaceAll("^(\\[')(.*)']$", "$1");
+                            String mapping = d.getKey().replaceAll("[\\[\\]']", "");
                             return argument.getName().equals(mapping);
                         }).findFirst().orElseThrow(() ->
                                 new N2oException(String.format("Not found parameter, that could be mapping in '%s' argument ", argument.getName())));
