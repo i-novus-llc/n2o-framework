@@ -5,7 +5,7 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import { createStructuredSelector } from 'reselect'
 import cx from 'classnames'
 
-import { registerButton, removeButton } from '../../actions/toolbar'
+import { registerButton, removeButtons } from '../../actions/toolbar'
 import {
     isDisabledSelector,
     isInitSelector,
@@ -29,22 +29,9 @@ import Dropdown from './Dropdowns/Dropdown'
  * кнопка-контейнер
  */
 class ButtonContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {}
-        this.buttonId = id()
-        this.onClick = this.onClick.bind(this)
-    }
-
-    componentWillUnmount() {
-        const { dispatch, containerKey } = this.props
-
-        dispatch(removeButton(containerKey))
-    }
-
     /**
-   * Диспатч экшена регистрации виджета
-   */
+     * Диспатч экшена регистрации виджета
+     */
     static initIfNeeded(props) {
         const {
             isInit,
@@ -69,33 +56,47 @@ class ButtonContainer extends React.Component {
             },
         } = props
 
-        !isInit &&
-      dispatch(
-          registerButton(containerKey, id, {
-              id,
-              visible,
-              disabled,
-              size,
-              parentId,
-              color,
-              icon,
-              count,
-              title,
-              hint,
-              className,
-              style,
-              conditions,
-              containerKey,
-              resolveEnabled,
-              hintPosition,
-          }),
-      )
+        if (!isInit) {
+            dispatch(
+                registerButton(containerKey, id, {
+                    id,
+                    visible,
+                    disabled,
+                    size,
+                    parentId,
+                    color,
+                    icon,
+                    count,
+                    title,
+                    hint,
+                    className,
+                    style,
+                    conditions,
+                    containerKey,
+                    resolveEnabled,
+                    hintPosition,
+                }),
+            )
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
         ButtonContainer.initIfNeeded(props)
 
         return null
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {}
+        this.buttonId = id()
+        this.onClick = this.onClick.bind(this)
+    }
+
+    componentWillUnmount() {
+        const { dispatch, containerKey } = this.props
+
+        dispatch(removeButtons(containerKey))
     }
 
     onClick(e) {
@@ -230,6 +231,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 ButtonContainer.propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     isInit: PropTypes.bool,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -241,7 +243,13 @@ ButtonContainer.propTypes = {
     hint: PropTypes.string,
     hintPosition: PropTypes.string,
     className: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     style: PropTypes.object,
+    dispatch: PropTypes.func,
+    containerKey: PropTypes.string,
+    component: PropTypes.func,
+    onClick: PropTypes.func,
+    children: PropTypes.any,
 }
 
 ButtonContainer.defaultProps = {
