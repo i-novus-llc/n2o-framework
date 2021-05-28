@@ -75,7 +75,10 @@
         </switch>
     </rows>
     <pagination src="test" first="false" show-single-page="false"
-                last="false" next="false" prev="false" show-count="false">
+                last="false" next="false" prev="false" show-count="false" layout="bordered" prev-label="prev"
+                prev-icon="fa fa-angle-left" next-label="next" next-icon="fa fa-angle-right" first-label="first"
+                first-icon="fa fa-angle-double-left" last-label="last" last-icon="fa fa-angle-double-right" max-pages="5"
+                class="class" style="style" place="bottomLeft">
     </pagination>
     <filters place="left" search-on-change="true" default-values-query-id="test">
         <ctr:input-text id="test"/>

@@ -4,11 +4,7 @@
     <filters>
         <input-text id="test1"/>
     </filters>
-    <pagination first="true" last="true" show-single-page="false" next="true"
-                prev="true" show-count="true" layout="bordered" prev-label="prev" prev-icon="fa fa-angle-left"
-                next-label="next" next-icon="fa fa-angle-right" first-label="first" first-icon="fa fa-angle-double-left"
-                last-label="last" last-icon="fa fa-angle-double-right" max-pages="5" class="class"
-                style="style" place="bottomLeft"/>
+    <pagination first="true" last="true" show-single-page="true" next="true" prev="true" show-count="true"/>
     <rows>
         <click action-id="actionId"/>
     </rows>
