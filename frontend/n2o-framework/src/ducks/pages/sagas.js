@@ -28,8 +28,6 @@ import pickBy from 'lodash/pickBy'
 import { getAction, getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 
-import { MAP_URL, METADATA_REQUEST, RESET } from '../constants/pages'
-import { metadataFail, metadataSuccess, setStatus } from '../actions/pages'
 import {
     combineModels,
     setModel,
@@ -38,15 +36,23 @@ import {
     removeModel,
     updateModel,
     updateMapModel,
-} from '../ducks/models/store'
-import { destroyOverlay } from '../ducks/overlays/store'
-import { makePageRoutesByIdSelector } from '../selectors/pages'
-import { FETCH_PAGE_METADATA } from '../core/api'
-import { dataProviderResolver } from '../core/dataProviderResolver'
-import linkResolver from '../utils/linkResolver'
-import { changeRootPage, rootPageSelector } from '../ducks/global/store'
+} from '../models/store'
+import { destroyOverlay } from '../overlays/store'
+import { FETCH_PAGE_METADATA } from '../../core/api'
+import { dataProviderResolver } from '../../core/dataProviderResolver'
+import linkResolver from '../../utils/linkResolver'
+import { changeRootPage, rootPageSelector } from '../global/store'
+import fetchSaga from '../../sagas/fetch'
 
-import fetchSaga from './fetch'
+import { makePageRoutesByIdSelector } from './selectors'
+import { MAP_URL } from './constants'
+import {
+    metadataFail,
+    metadataSuccess,
+    setStatus,
+    metadataRequest,
+    resetPage,
+} from './store'
 
 /**
  *
@@ -257,7 +263,7 @@ export function compareAndResolve(models, stateModels) {
  * @param config - конфиг для моделей по умолчанию, который прокидывается в сагу
  */
 export function* watcherDefaultModels(config) {
-    yield race([call(flowDefaultModels, config), take(RESET)])
+    yield race([call(flowDefaultModels, config), take(resetPage.type)])
 }
 
 /**
@@ -323,6 +329,6 @@ export function* flowDefaultModels(config) {
  * @ignore
  */
 export default apiProvider => [
-    takeEvery(METADATA_REQUEST, getMetadata, apiProvider),
+    takeEvery(metadataRequest, getMetadata, apiProvider),
     throttle(500, MAP_URL, processUrl),
 ]

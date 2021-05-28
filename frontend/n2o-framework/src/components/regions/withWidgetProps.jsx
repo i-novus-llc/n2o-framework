@@ -11,8 +11,9 @@ import { widgetsSelector } from '../../ducks/widgets/selectors'
 import {
     makeModelsByPrefixSelector,
     modelsSelector,
-    getModelsByDependency } from '../../ducks/models/selectors'
-import { pagesSelector, makePageMetadataByIdSelector } from '../../selectors/pages'
+    getModelsByDependency,
+} from '../../ducks/models/selectors'
+import { pagesSelector, makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
 import {
     hideWidget,
     showWidget,

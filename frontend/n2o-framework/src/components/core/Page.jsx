@@ -19,7 +19,7 @@ import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
     makePageStatusByIdSelected,
-} from '../../selectors/pages'
+} from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/store'
 import { Spinner } from '../snippets/Spinner/Spinner'
 

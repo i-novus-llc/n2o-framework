@@ -11,9 +11,9 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import includes from 'lodash/includes'
 
-import { METADATA_SUCCESS } from '../../constants/pages'
+import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
+import { makePageRoutesByIdSelector } from '../pages/selectors'
 import { getLocation, rootPageSelector } from '../global/store'
-import { makePageRoutesByIdSelector } from '../../selectors/pages'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 // eslint-disable-next-line import/no-cycle

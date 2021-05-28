@@ -19,7 +19,7 @@ import { reset, touch } from 'redux-form'
 import { batchActions } from 'redux-batched-actions'
 
 import { addFieldMessage } from '../ducks/form/store'
-import { metadataRequest } from '../actions/pages'
+import { metadataRequest } from '../ducks/pages/store'
 import { dataRequestWidget } from '../ducks/widgets/store'
 import { updateWidgetDependency } from '../actions/dependency'
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'

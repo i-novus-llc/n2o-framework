@@ -4,7 +4,7 @@ import keys from 'lodash/keys'
 import has from 'lodash/has'
 import get from 'lodash/get'
 
-import { makePageWidgetsByIdSelector } from '../../selectors/pages'
+import { makePageWidgetsByIdSelector } from '../pages/selectors'
 import { refreshEffect } from '../../sagas/meta'
 
 import { CLOSE } from './constants'

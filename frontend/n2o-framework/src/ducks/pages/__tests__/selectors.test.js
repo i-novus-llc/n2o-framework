@@ -12,7 +12,7 @@ import {
     makePageDisabledByIdSelector,
     makePageWidgetsByIdSelector,
     makePageStatusByIdSelected,
-} from './pages'
+} from '../selectors'
 
 const state = {
     pages: {

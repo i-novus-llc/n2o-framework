@@ -11,11 +11,11 @@ import {
 import fetchMock from 'fetch-mock'
 
 import {
-    METADATA_FAIL,
-    METADATA_SUCCESS,
-    RESET,
-    SET_STATUS,
-} from '../constants/pages'
+    metadataSuccess,
+    metadataFail,
+    resetPage,
+    setStatus
+} from '../store'
 import {
     combineModels,
     setModel,
@@ -24,11 +24,11 @@ import {
     removeModel,
     updateModel,
     updateMapModel,
-} from '../ducks/models/store'
-import { FETCH_PAGE_METADATA } from '../core/api'
-import { FETCH_END, FETCH_START } from '../constants/fetch'
-import { changeRootPage } from '../ducks/global/store'
-import { destroyOverlay } from '../ducks/overlays/store'
+} from '../../models/store'
+import { FETCH_PAGE_METADATA } from '../../../core/api'
+import { FETCH_END, FETCH_START } from '../../../constants/fetch'
+import { changeRootPage } from '../../global/store'
+import { destroyOverlay } from '../../overlays/store'
 
 import {
     watcherDefaultModels,
@@ -40,7 +40,7 @@ import {
     queryMapping,
     pathMapping,
     applyPlaceholders,
-} from './pages'
+} from '../sagas'
 
 const delay = ms => new Promise(r => setTimeout(r, ms))
 const resolveModelsValue = {
@@ -380,12 +380,12 @@ describe('Сага для для наблюдения за изменением 
             expect(dispatched[2].type).toBe(changeRootPage.type)
             expect(dispatched[2].payload).toEqual('testPage')
             expect(dispatched[3].type).toBe(destroyOverlay.type)
-            expect(dispatched[4].type).toBe(SET_STATUS)
+            expect(dispatched[4].type).toBe(setStatus.type)
             expect(dispatched[4].payload).toEqual({
                 pageId: 'testPage',
                 status: 200,
             })
-            expect(dispatched[5].type).toBe(METADATA_SUCCESS)
+            expect(dispatched[5].type).toBe(metadataSuccess.type)
             expect(dispatched[5].payload).toEqual({
                 pageId: 'testPage',
                 json: {
@@ -459,7 +459,7 @@ describe('Сага для для наблюдения за изменением 
             await runSaga(fakeStore, getMetadata, undefined, action)
             await delay(200)
 
-            expect(dispatched[0].type).toBe(METADATA_FAIL)
+            expect(dispatched[0].type).toBe(metadataFail.type)
             expect(dispatched[0].payload).toEqual({
                 pageId: 'errorPage',
                 err: {
@@ -475,7 +475,7 @@ describe('Сага для для наблюдения за изменением 
         const config = { 'a.b.c': { value: 'test' } }
         const gen = watcherDefaultModels(config)
         expect(gen.next().value).toEqual(
-            race([call(flowDefaultModels, config), take(RESET)]),
+            race([call(flowDefaultModels, config), take(resetPage.type)]),
         )
         expect(gen.next().done).toEqual(true)
     })

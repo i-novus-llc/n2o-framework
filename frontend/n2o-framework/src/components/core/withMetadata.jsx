@@ -11,12 +11,16 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import pick from 'lodash/pick'
 
-import { metadataRequest, resetPage, mapUrl } from '../../actions/pages'
+import {
+    metadataRequest,
+    resetPage,
+    mapUrl,
+} from '../../ducks/pages/store'
 import {
     makePageMetadataByIdSelector,
     makePageLoadingByIdSelector,
     makePageErrorByIdSelector,
-} from '../../selectors/pages'
+} from '../../ducks/pages/selectors'
 import { getLocation } from '../../ducks/global/store'
 
 const withMetadata = (Component) => {

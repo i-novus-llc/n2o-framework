@@ -1,4 +1,4 @@
-import { metadataSuccess } from '../../src/actions/pages';
+import { metadataSuccess } from '../../src/ducks/pages/store';
 
 import { store } from './utils';
 import { changeRootPage } from '../../src/ducks/global/store';

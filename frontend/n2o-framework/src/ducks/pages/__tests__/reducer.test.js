@@ -1,13 +1,11 @@
-import {
-    METADATA_REQUEST,
-    METADATA_SUCCESS,
-    METADATA_FAIL,
-    RESET,
-    SET_STATUS,
-} from '../constants/pages'
-import { SET_WIDGET_METADATA } from '../ducks/widgets/constants'
-
-import pages from './pages'
+import pages, {
+    metadataRequest,
+    metadataSuccess,
+    metadataFail,
+    resetPage,
+    setStatus
+} from '../store'
+import { SET_WIDGET_METADATA } from '../../widgets/constants'
 
 describe('Тесты pages reducer', () => {
     it('Проверка METADATA_REQUEST', () => {
@@ -19,7 +17,7 @@ describe('Тесты pages reducer', () => {
                     },
                 },
                 {
-                    type: METADATA_REQUEST,
+                    type: metadataRequest.type,
                     payload: {
                         pageId: 'Page_Table',
                     },
@@ -44,7 +42,7 @@ describe('Тесты pages reducer', () => {
                     },
                 },
                 {
-                    type: METADATA_SUCCESS,
+                    type: metadataSuccess.type,
                     payload: {
                         pageId: 'Page_ID',
                         json: 'metadata-json',
@@ -68,7 +66,7 @@ describe('Тесты pages reducer', () => {
                     pageId: {},
                 },
                 {
-                    type: METADATA_FAIL,
+                    type: metadataFail.type,
                     payload: {
                         pageId: 'pageId',
                         err: {
@@ -97,10 +95,8 @@ describe('Тесты pages reducer', () => {
                     },
                 },
                 {
-                    type: RESET,
-                    payload: {
-                        pageId: 'pageId',
-                    },
+                    type: resetPage.type,
+                    payload: 'pageId'
                 },
             ),
         ).toEqual({
@@ -147,7 +143,7 @@ describe('Тесты pages reducer', () => {
                     pageId: {},
                 },
                 {
-                    type: SET_STATUS,
+                    type: setStatus.type,
                     payload: {
                         pageId: 'pageId',
                         status: 200,

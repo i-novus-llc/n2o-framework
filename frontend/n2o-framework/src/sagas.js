@@ -1,7 +1,7 @@
 import defaultTo from 'lodash/defaultTo'
 import { all } from 'redux-saga/effects'
 
-import pagesSagas from './sagas/pages'
+import pagesSagas from './ducks/pages/sagas'
 import widgetsSagas from './ducks/widgets/sagas'
 import actionsImplSagas from './sagas/actionsImpl'
 import alertsSagas from './ducks/alerts/sagas'

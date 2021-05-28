@@ -9,7 +9,7 @@ import TabsWithDependency from 'N2oStorybook/json/TabsWithDependency'
 import fetchMock from 'fetch-mock'
 import { getStubData } from 'N2oStorybook/fetchMock'
 
-import { metadataSuccess } from '../../../actions/pages'
+import { metadataSuccess } from '../../../ducks/pages/store'
 import { hideWidget, showWidget } from '../../../ducks/widgets/store'
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta'
 import ListMetadata from '../List/ListMetadata.meta'

@@ -5,7 +5,7 @@ import pullAt from 'lodash/pullAt'
 
 import PanelShortHand from '../../snippets/Panel/PanelShortHand'
 import Wireframe from '../../snippets/Wireframe/Wireframe'
-import { metadataSuccess } from '../../../actions/pages'
+import { metadataSuccess } from '../../../ducks/pages/store'
 import ListMetadata from '../List/ListMetadata.meta'
 import AuthButtonContainer from '../../../core/auth/AuthLogin'
 import { makeStore } from '../../../../.storybook/decorators/utils'
