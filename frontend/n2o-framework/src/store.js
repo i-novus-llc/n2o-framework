@@ -16,11 +16,11 @@ export default (initialState, history, config = {}) => {
     const middlewares = [
         batchDispatchMiddleware,
         thunkMiddleware,
-        () => next => action => {
+        () => next => (action) => {
             action.meta = get(action, 'meta', {})
             action.payload = get(action, 'payload', {})
 
-            next(action);
+            next(action)
         },
         sagaMiddleware,
         routerMiddleware(history),
