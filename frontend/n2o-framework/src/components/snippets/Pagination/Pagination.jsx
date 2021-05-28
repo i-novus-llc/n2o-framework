@@ -8,16 +8,21 @@ import { PaginationButton } from './PaginationButton'
 /**
  * Компонент интерфейса разбивки по страницам
  * @reactProps {boolean} prev - показать/скрыть кнопку быстрого перехода на предыдущую страницу
+ * @reactProps {boolean} prevIcon - Вид иконки быстрого перехода на предудущую страницу
  * @reactProps {boolean} prevLabel - текс кнопки
  * @reactProps {boolean} next - показать/скрыть кнопку быстрого перехода на следующую страницу
+ * @reactProps {boolean} nextIcon - Вид иконки быстрого перехода на следующую страницу
  * @reactProps {boolean} nextLabel - текст кнопки
  * @reactProps {boolean} first - показать/скрыть кнопку быстрого перехода на первую страницу
+ * @reactProps {boolean} firstIcon - Вид иконки быстрого перехода на первую страницу
+ * @reactProps {boolean} firstLabel - текст кнопки
  * @reactProps {boolean} last - показать/скрыть кнопку быстрого перехода на последнюю страницу
+ * @reactProps {boolean} lastIcon - Вид иконки быстрого перехода на последнюю страницу
+ * @reactProps {boolean} lastLabel - текст кнопки
  * @reactProps {boolean} withoutBody - скрыть тело пагинации
  * @reactProps {boolean} showCount - показать индикатор общего кол-ва записей
  * @reactProps {boolean} showSinglePage - показывать компонент, если страница единственная
- * @reactProps {number} maxPages - максимальное кол-во кнопок перехода между страницами
- * @reactProps {number} stepIncrement - шаг дополнительной кнопки (1,2.3 ... 11)
+ * @reactProps {number} maxPages - максимальное кол-во отображаемых кнопок перехода между страницами
  * @reactProps {number} count - общее кол-во записей
  * @reactProps {number} size - кол-во записей на одной странице
  * @reactProps {number} activePage - номер активной страницы
@@ -28,8 +33,7 @@ import { PaginationButton } from './PaginationButton'
  *             activePage={datasource.page}
  *             count={datasource.count}
  *             size={datasource.size}
- *             maxPages={4}
- *             stepIncrement={10} />
+ *             maxPages={5}/>
  */
 class Pagination extends React.Component {
     /**
@@ -37,125 +41,48 @@ class Pagination extends React.Component {
      * @param activePage
      * @param pages
      * @param maxPages
-     * @param stepIncrement
      * @param onSelect
+     * @param totalPages
      * @returns {Array} - вовзращает список кнопок
      */
-    renderBodyPaging = (activePage, pages, maxPages, stepIncrement, onSelect) => {
-        const pageButtons = []
+    renderBodyPaging = (activePage, pages, maxPages, onSelect, totalPages) => {
+        const getPager = (totalPages, currentPage, maxPages) => {
+            let startPage
+            let endPage
 
-        let startPage
-        let endPage
+            if (totalPages <= maxPages) {
+                // if we have less than maxPages so show all
+                startPage = 1
+                endPage = totalPages
+            } else {
+                // we have more than maxPages so calculate start and end pages
+                const middle = Math.ceil(maxPages / 2)
 
-        if (maxPages && maxPages < pages) {
-            startPage = Math.max(
-                Math.min(
-                    activePage - Math.floor(maxPages / 2, 10),
-                    pages - maxPages + 1,
-                ),
-                1,
-            )
-            endPage = startPage + maxPages
-        } else {
-            startPage = 1
-            endPage = maxPages
-        }
-
-        if (endPage > pages) {
-            endPage = pages
-        }
-
-        for (let page = startPage; page <= endPage; ++page) {
-            pageButtons.push(
-                <PaginationButton
-                    key={page}
-                    tabIndex={0}
-                    eventKey={page}
-                    label={page}
-                    active={page === activePage}
-                    onSelect={onSelect}
-                />,
-            )
-        }
-
-        if (stepIncrement && endPage < pages - 1) {
-            pageButtons.push(
-                <PaginationButton
-                    label="..."
-                    tabIndex={-1}
-                    key="ellipsisMiddle"
-                    noBorder
-                    disabled
-                />,
-            )
-            pageButtons.push(
-                <PaginationButton
-                    tabIndex={0}
-                    key={
-                        activePage + stepIncrement > pages
-                            ? pages
-                            : activePage + stepIncrement
-                    }
-                    eventKey={
-                        activePage + stepIncrement > pages
-                            ? pages
-                            : activePage + stepIncrement
-                    }
-                    label={
-                        activePage + stepIncrement > pages
-                            ? pages
-                            : activePage + stepIncrement
-                    }
-                    onSelect={onSelect}
-                />,
-            )
-            if (activePage + stepIncrement < pages) {
-                pageButtons.push(
-                    <PaginationButton
-                        label="..."
-                        tabIndex={-1}
-                        key="ellipsisLast"
-                        noBorder
-                        disabled
-                    />,
-                )
-            }
-        } else if (stepIncrement && endPage === pages - 1) {
-            pageButtons.push(
-                <PaginationButton
-                    key={pages}
-                    eventKey={pages}
-                    label={pages}
-                    onSelect={onSelect}
-                />,
-            )
-        }
-
-        if (startPage > 1) {
-            if (startPage > 2) {
-                pageButtons.unshift(
-                    <PaginationButton
-                        label="..."
-                        key="ellipsisFirst"
-                        tabIndex={-1}
-                        noBorder
-                        disabled
-                    />,
-                )
+                if (currentPage <= middle) {
+                    startPage = 1
+                    endPage = maxPages
+                } else if (currentPage + (maxPages - middle) >= totalPages) {
+                    startPage = totalPages - (maxPages - 1)
+                    endPage = totalPages
+                } else {
+                    startPage = currentPage - Math.floor(maxPages / 2)
+                    endPage = currentPage + middle - 1
+                }
             }
 
-            pageButtons.unshift(
-                <PaginationButton
-                    key={1}
-                    eventKey={1}
-                    label="1"
-                    tabIndex={0}
-                    onSelect={onSelect}
-                />,
-            )
+            return [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i)
         }
 
-        return pageButtons
+        return getPager(totalPages, activePage, maxPages).map(page => (
+            <PaginationButton
+                key={page.toString()}
+                tabIndex={0}
+                eventKey={page}
+                label={page}
+                active={page === activePage}
+                onSelect={onSelect}
+            />
+        ))
     }
 
     /**
@@ -167,7 +94,6 @@ class Pagination extends React.Component {
             count,
             size,
             maxPages,
-            stepIncrement,
             first,
             last,
             prev,
@@ -187,7 +113,7 @@ class Pagination extends React.Component {
             lastLabel,
             t,
         } = this.props
-        const pages = Math.ceil(count / size, 10) || 1
+        const pages = Math.ceil(count / size) || 1
         const lastPage = Math.ceil(count / size)
 
         const getLabel = (direction, icon, label) => {
@@ -229,8 +155,7 @@ class Pagination extends React.Component {
                     label={label}
                     disabled={activePage === 1}
                     onSelect={onSelect}
-                    /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
-                    tabIndex={1}
+                    tabIndex={0}
                 />
             )
         }
@@ -291,8 +216,8 @@ class Pagination extends React.Component {
                                     activePage,
                                     pages,
                                     maxPages,
-                                    stepIncrement,
                                     onSelect,
+                                    pages,
                                 )}
                         {next && getNext()}
                         {last && getLast()}
@@ -384,10 +309,6 @@ Pagination.propTypes = {
      */
     maxPages: PropTypes.number,
     /**
-     * Шаг дополнительной кнопки (1,2.3 ... 11)
-     */
-    stepIncrement: PropTypes.number,
-    /**
      * Общее кол-во записей
      */
     count: PropTypes.number,
@@ -419,14 +340,14 @@ Pagination.defaultProps = {
     nextLabel: '',
     first: false,
     firstIcon: 'fa fa-angle-double-left',
-    firstLabel: 'На первую',
+    firstLabel: '',
     last: false,
     lastIcon: 'fa fa-angle-double-right',
-    lastLabel: 'На последнюю',
+    lastLabel: '',
     withoutBody: false,
     showCount: true,
     showSinglePage: false,
-    maxPages: 4,
+    maxPages: 5,
     count: 1,
     size: 1,
     activePage: 1,
