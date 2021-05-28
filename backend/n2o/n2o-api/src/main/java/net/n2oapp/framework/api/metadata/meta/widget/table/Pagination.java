@@ -1,11 +1,17 @@
 package net.n2oapp.framework.api.metadata.meta.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 
 /**
  * Клиентская модель для паджинации таблицы.
  */
+@Getter
+@Setter
 public class Pagination implements Compiled {
     @JsonProperty
     private Boolean prev;
@@ -20,71 +26,33 @@ public class Pagination implements Compiled {
     @JsonProperty
     private Boolean first;
     @JsonProperty
-    private Boolean showCountRecords;
+    private Boolean showCount;
     @JsonProperty
-    private Boolean hideSinglePage;
-
-    public Boolean getPrev() {
-        return prev;
-    }
-
-    public void setPrev(Boolean prev) {
-        this.prev = prev;
-    }
-
-    public Boolean getNext() {
-        return next;
-    }
-
-    public void setNext(Boolean next) {
-        this.next = next;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-    public String getSrc() {
-        return src;
-    }
-
-    public void setSrc(String src) {
-        this.src = src;
-    }
-
-    public Boolean getLast() {
-        return last;
-    }
-
-    public void setLast(Boolean last) {
-        this.last = last;
-    }
-
-    public Boolean getFirst() {
-        return first;
-    }
-
-    public void setFirst(Boolean first) {
-        this.first = first;
-    }
-
-    public Boolean getShowCountRecords() {
-        return showCountRecords;
-    }
-
-    public void setShowCountRecords(Boolean showCountRecords) {
-        this.showCountRecords = showCountRecords;
-    }
-
-    public Boolean getHideSinglePage() {
-        return hideSinglePage;
-    }
-
-    public void setHideSinglePage(Boolean hideSinglePage) {
-        this.hideSinglePage = hideSinglePage;
-    }
+    private Boolean showSinglePage;
+    @JsonProperty
+    private Layout layout;
+    @JsonProperty
+    private String prevLabel;
+    @JsonProperty
+    private String prevIcon;
+    @JsonProperty
+    private String nextLabel;
+    @JsonProperty
+    private String nextIcon;
+    @JsonProperty
+    private String firstLabel;
+    @JsonProperty
+    private String firstIcon;
+    @JsonProperty
+    private String lastLabel;
+    @JsonProperty
+    private String lastIcon;
+    @JsonProperty
+    private Integer maxPages;
+    @JsonProperty
+    private String className;
+    @JsonProperty
+    private String style;
+    @JsonProperty
+    private Place place;
 }

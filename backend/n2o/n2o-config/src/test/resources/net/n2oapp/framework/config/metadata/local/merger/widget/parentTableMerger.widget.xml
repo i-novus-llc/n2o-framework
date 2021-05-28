@@ -4,7 +4,7 @@
     <filters>
         <input-text id="test1"/>
     </filters>
-    <pagination first="true" last="true" hide-single-page="true" next="true" prev="true" show-count="true"/>
+    <pagination first="true" last="true" show-single-page="true" next="true" prev="true" show-count="true"/>
     <rows>
         <click action-id="actionId"/>
     </rows>
