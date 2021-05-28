@@ -19,7 +19,6 @@ import { PaginationButton } from './PaginationButton'
  * @reactProps {boolean} last - показать/скрыть кнопку быстрого перехода на последнюю страницу
  * @reactProps {boolean} lastIcon - Вид иконки быстрого перехода на последнюю страницу
  * @reactProps {boolean} lastLabel - текст кнопки
- * @reactProps {boolean} withoutBody - скрыть тело пагинации
  * @reactProps {boolean} showCount - показать индикатор общего кол-ва записей
  * @reactProps {boolean} showSinglePage - показывать компонент, если страница единственная
  * @reactProps {number} maxPages - максимальное кол-во отображаемых кнопок перехода между страницами
@@ -102,7 +101,6 @@ class Pagination extends React.Component {
             showSinglePage,
             onSelect,
             className,
-            withoutBody,
             prevIcon,
             prevLabel,
             nextIcon,
@@ -208,17 +206,16 @@ class Pagination extends React.Component {
                 style={{ display: 'flex', alignItems: 'baseline' }}
             >
                 {!showSinglePage && pages === 1 ? null : (
-                    <ul className={classNames('pagination', 'd-inline-flex', className)}>
+                    <ul className={classNames('pagination', 'd-inline-flex', 'no-border', className)}>
                         {first && getFirst()}
                         {prev && getPrev()}
-                        {!withoutBody &&
-                                this.renderBodyPaging(
-                                    activePage,
-                                    pages,
-                                    maxPages,
-                                    onSelect,
-                                    pages,
-                                )}
+                        {this.renderBodyPaging(
+                            activePage,
+                            pages,
+                            maxPages,
+                            onSelect,
+                            pages,
+                        )}
                         {next && getNext()}
                         {last && getLast()}
                     </ul>
@@ -293,10 +290,6 @@ Pagination.propTypes = {
      */
     lastLabel: PropTypes.string,
     /**
-     * Скрыть тело пагинации
-     */
-    withoutBody: PropTypes.bool,
-    /**
      * Показать индикатор общего кол-ва записей
      */
     showCount: PropTypes.bool,
@@ -344,7 +337,6 @@ Pagination.defaultProps = {
     last: false,
     lastIcon: 'fa fa-angle-double-right',
     lastLabel: '',
-    withoutBody: false,
     showCount: true,
     showSinglePage: false,
     maxPages: 5,
