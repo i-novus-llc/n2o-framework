@@ -17,33 +17,33 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
 
     @Override
     public void selectHoursMinutesSeconds(String hours, String minutes, String seconds) {
-        expandPopUp();
+        expand();
         hoursItems().get(Integer.parseInt(hours)).click();
         minutesItems().get(Integer.parseInt(minutes)).click();
         secondsItems().get(Integer.parseInt(seconds)).click();
-        collapsePopUp();
+        collapse();
     }
 
     @Override
     public void selectMinutesSeconds(String minutes, String seconds) {
-        expandPopUp();
+        expand();
         minutesItems().get(Integer.parseInt(minutes)).click();
         secondsItems().get(Integer.parseInt(seconds)).click();
-        collapsePopUp();
+        collapse();
     }
 
     @Override
     public void selectHours(String hours) {
-        expandPopUp();
+        expand();
         hoursItems().get(Integer.parseInt(hours)).click();
-        collapsePopUp();
+        collapse();
     }
 
     @Override
     public void selectMinutes(String minutes) {
-        expandPopUp();
+        expand();
         minutesItems().get(Integer.parseInt(minutes)).click();
-        collapsePopUp();
+        collapse();
     }
 
     @Override
@@ -53,33 +53,33 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
 
     @Override
     public void shouldSelectedHoursMinutesSeconds(String hours, String minutes, String seconds) {
-        expandPopUp();
+        expand();
         hoursActiveItem().shouldHave(Condition.text(hours));
         minutesActiveItem().shouldHave(Condition.text(minutes));
         secondsActiveItem().shouldHave(Condition.text(seconds));
-        collapsePopUp();
+        collapse();
     }
 
     @Override
     public void shouldSelectedHoursMinutes(String hours, String minutes) {
-        expandPopUp();
+        expand();
         hoursActiveItem().shouldHave(Condition.text(hours));
         minutesActiveItem().shouldHave(Condition.text(minutes));
-        collapsePopUp();
+        collapse();
     }
 
     @Override
     public void shouldSelectedHours(String hours) {
-        expandPopUp();
+        expand();
         hoursActiveItem().shouldHave(Condition.text(hours));
-        collapsePopUp();
+        collapse();
     }
 
     @Override
     public void shouldSelectedMinutes(String minutes) {
-        expandPopUp();
+        expand();
         minutesActiveItem().shouldHave(Condition.text(minutes));
-        collapsePopUp();
+        collapse();
     }
 
     @Override
@@ -103,13 +103,13 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
     }
 
     @Override
-    public void expandPopUp() {
+    public void expand() {
         if (!popUp().is(Condition.exist))
             element().$(".n2o-input-icon").click();
     }
 
     @Override
-    public void collapsePopUp() {
+    public void collapse() {
         if (popUp().is(Condition.exist))
             element().$(".n2o-input-icon").click();
     }
