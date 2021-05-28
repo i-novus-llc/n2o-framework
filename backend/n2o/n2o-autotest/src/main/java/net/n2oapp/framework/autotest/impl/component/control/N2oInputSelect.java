@@ -21,6 +21,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void click() {
+        element().$(".n2o-input-items").click();
+    }
+
+    @Override
     public void val(String value) {
         input().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
         element().click();
@@ -41,26 +46,26 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void shouldHaveOptions(String... options) {
-        expandPopUpOptions();
+        expand();
         selectPopUp().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
     }
 
     @Override
     public void select(int index) {
-        expandPopUpOptions();
+        expand();
         popUpButtons().shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
 
     @Override
     public void select(Condition by) {
-        expandPopUpOptions();
+        expand();
         popUpButtons().findBy(by).click();
     }
 
 
     @Override
     public void selectMulti(int... indexes) {
-        expandPopUpOptions();
+        expand();
         IntStream.of(indexes).forEach(i -> popUpButtons().shouldBe(CollectionCondition.sizeGreaterThan(i)).get(i).click());
     }
 
@@ -112,22 +117,32 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void expandPopUpOptions() {
+    public void expand() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (!elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
     @Override
-    public void collapsePopUpOptions() {
+    public void collapse() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
     @Override
+    public void shouldBeExpanded() {
+        selectPopUp().shouldNotBe(Condition.hidden);
+    }
+
+    @Override
+    public void shouldBeCollapsed() {
+        selectPopUp().shouldBe(Condition.hidden);
+    }
+
+    @Override
     public void optionShouldHaveDescription(String option, String description) {
-        expandPopUpOptions();
+        expand();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
                 .findBy(Condition.text(option)).parent();
         if (elm.is(Condition.cssClass("custom-checkbox")))
