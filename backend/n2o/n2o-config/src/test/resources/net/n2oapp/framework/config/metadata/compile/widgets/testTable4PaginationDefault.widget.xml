@@ -3,18 +3,7 @@
        object-id="utBlank" selection="radio">
 
     <columns>
-        <column text-field-id="id" width="100"/>
-        <column id="col" text-field-id="col_id" label="col_label"/>
-        <column text-field-id="name" sorting-field-id="id"/>
-        <column text-field-id="comments"/>
-        <column text-field-id="notInQuery" label="notInQueryLabel"/>
-        <column text-field-id="type">
-            <toolbar>
-                <sub-menu show-toggle-icon="false">
-                    <menu-item/>
-                </sub-menu>
-            </toolbar>
-        </column>
+        <column text-field-id="id"/>
     </columns>
     <pagination/>
 </table>
