@@ -49,7 +49,6 @@ class TablePagination extends Component {
             next,
             first,
             last,
-            lazy,
             showCountRecords,
             hideSinglePage,
             maxButtons,
@@ -66,17 +65,15 @@ class TablePagination extends Component {
                     activePage={activePage}
                     count={count}
                     size={size}
-                    maxButtons={maxButtons}
-                    stepIncrement={10}
+                    maxPages={maxButtons}
                     prev={prev}
-                    prevText={prevText}
+                    prevLabel={prevText}
                     next={next}
-                    nextText={nextText}
+                    nextLabel={nextText}
                     first={first}
                     last={last}
-                    lazy={lazy}
-                    showCountRecords={showCountRecords}
-                    hideSinglePage={hideSinglePage}
+                    showCount={showCountRecords}
+                    showSinglePage={hideSinglePage}
                     withoutBody={withoutBody}
                 />
             )
@@ -95,7 +92,6 @@ TablePagination.propTypes = {
     next: PropTypes.bool,
     first: PropTypes.bool,
     last: PropTypes.bool,
-    lazy: PropTypes.any,
     showCountRecords: PropTypes.bool,
     hideSinglePage: PropTypes.bool,
     withoutBody: PropTypes.bool,
@@ -106,7 +102,7 @@ TablePagination.propTypes = {
 
 TablePagination.defaultProps = {
     datasource: [],
-    maxButtons: 4,
+    maxButtons: 5,
 }
 
 const mapStateToProps = createStructuredSelector({
