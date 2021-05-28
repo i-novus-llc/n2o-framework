@@ -4,7 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 
 import widgets from './ducks/widgets/store'
 import models from './ducks/models/store'
-import global from './reducers/global'
+import global from './ducks/global/store'
 import pages from './reducers/pages'
 import overlays from './ducks/overlays/store'
 import columns from './ducks/columns/store'

@@ -18,7 +18,7 @@ import { dataProviderResolver, getParams } from '../../core/dataProviderResolver
 import { PREFIXES } from '../models/constants'
 import { removeModel, setModel, clearModel } from '../models/store'
 import { makePageRoutesByIdSelector } from '../../selectors/pages'
-import { getLocation, rootPageSelector } from '../../selectors/global'
+import { getLocation, rootPageSelector } from '../global/store'
 import { makeGetModelByPrefixSelector } from '../models/selectors'
 import { FETCH_WIDGET_DATA } from '../../core/api'
 import { generateErrorMeta } from '../../utils/generateErrorMeta'

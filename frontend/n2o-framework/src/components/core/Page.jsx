@@ -20,7 +20,7 @@ import {
     makePageDisabledByIdSelector,
     makePageStatusByIdSelected,
 } from '../../selectors/pages'
-import { rootPageSelector } from '../../selectors/global'
+import { rootPageSelector } from '../../ducks/global/store'
 import { Spinner } from '../snippets/Spinner/Spinner'
 
 import withMetadata from './withMetadata'

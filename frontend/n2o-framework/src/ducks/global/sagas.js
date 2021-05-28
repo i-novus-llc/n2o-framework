@@ -1,20 +1,21 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 import get from 'lodash/get'
 
-import { CHANGE_LOCALE, REQUEST_CONFIG } from '../constants/global'
+import { userLogin } from '../user/store'
+import {
+    FETCH_APP_CONFIG,
+    CHANGE_LOCALE as CHANGE_LOCALE_API,
+} from '../../core/api'
+import fetchSaga from '../../sagas/fetch'
+
 import {
     requestConfigSuccess,
     requestConfigFail,
     setReady,
-} from '../actions/global'
-import { userLogin } from '../ducks/user/store'
-import { localeSelector } from '../selectors/global'
-import {
-    FETCH_APP_CONFIG,
-    CHANGE_LOCALE as CHANGE_LOCALE_API,
-} from '../core/api'
-
-import fetchSaga from './fetch'
+    localeSelector,
+    changeLocale as changeLocaleGlobal,
+    requestConfig,
+} from './store'
 
 /**
  * Сага для вызова настроек приложения
@@ -70,6 +71,6 @@ export function* changeLocale(apiProvider, action) {
  * @ignore
  */
 export default apiProvider => [
-    takeEvery(REQUEST_CONFIG, getConfig, apiProvider),
-    takeEvery(CHANGE_LOCALE, changeLocale, apiProvider),
+    takeEvery(requestConfig, getConfig, apiProvider),
+    takeEvery(changeLocaleGlobal, changeLocale, apiProvider),
 ]

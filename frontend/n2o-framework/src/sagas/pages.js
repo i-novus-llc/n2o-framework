@@ -39,13 +39,12 @@ import {
     updateModel,
     updateMapModel,
 } from '../ducks/models/store'
-import { changeRootPage } from '../actions/global'
 import { destroyOverlay } from '../ducks/overlays/store'
-import { rootPageSelector } from '../selectors/global'
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { FETCH_PAGE_METADATA } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import linkResolver from '../utils/linkResolver'
+import { changeRootPage, rootPageSelector } from '../ducks/global/store'
 
 import fetchSaga from './fetch'
 

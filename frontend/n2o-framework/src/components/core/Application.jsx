@@ -14,13 +14,13 @@ import {
 import numeral from 'numeral'
 
 import 'numeral/locales/ru'
+import { Spinner } from '../snippets/Spinner/Spinner'
 import {
     requestConfig as requestConfigAction,
     setReady as setReadyAction,
     registerLocales,
-} from '../../actions/global'
-import { globalSelector } from '../../selectors/global'
-import { Spinner } from '../snippets/Spinner/Spinner'
+    globalSelector,
+} from '../../ducks/global/store'
 
 function Application(props) {
     const { ready, loading, render, locale, ...config } = props

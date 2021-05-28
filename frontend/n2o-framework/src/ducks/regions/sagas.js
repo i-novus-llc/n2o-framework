@@ -12,7 +12,7 @@ import isEmpty from 'lodash/isEmpty'
 import includes from 'lodash/includes'
 
 import { METADATA_SUCCESS } from '../../constants/pages'
-import { getLocation, rootPageSelector } from '../../selectors/global'
+import { getLocation, rootPageSelector } from '../global/store'
 import { makePageRoutesByIdSelector } from '../../selectors/pages'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'

@@ -17,7 +17,7 @@ import {
     makePageLoadingByIdSelector,
     makePageErrorByIdSelector,
 } from '../../selectors/pages'
-import { getLocation } from '../../selectors/global'
+import { getLocation } from '../../ducks/global/store'
 
 const withMetadata = (Component) => {
     class ComponentWithMetadata extends React.Component {
