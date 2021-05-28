@@ -89,6 +89,7 @@ class Pagination extends React.Component {
      */
     render() {
         const {
+            layout,
             activePage,
             count,
             size,
@@ -206,7 +207,7 @@ class Pagination extends React.Component {
                 style={{ display: 'flex', alignItems: 'baseline' }}
             >
                 {!showSinglePage && pages === 1 ? null : (
-                    <ul className={classNames('pagination', 'd-inline-flex', 'no-border', className)}>
+                    <ul className={classNames('pagination', 'd-inline-flex', className, layout)}>
                         {first && getFirst()}
                         {prev && getPrev()}
                         {this.renderBodyPaging(
@@ -241,6 +242,10 @@ class Pagination extends React.Component {
 }
 
 Pagination.propTypes = {
+    /**
+     *  Стиль
+     * */
+    layout: PropTypes.string,
     /**
      * Показать/скрыть кнопку быстрого перехода на предыдущую страницу
      */
@@ -325,6 +330,7 @@ Pagination.propTypes = {
 }
 
 Pagination.defaultProps = {
+    layout: 'bordered-rounded',
     prev: false,
     prevIcon: 'fa fa-angle-left',
     prevLabel: '',
