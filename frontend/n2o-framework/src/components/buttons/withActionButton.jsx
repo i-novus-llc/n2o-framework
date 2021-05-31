@@ -10,7 +10,7 @@ import isNil from 'lodash/isNil'
 import { getFormValues } from 'redux-form'
 import isUndefined from 'lodash/isUndefined'
 
-import { registerButton } from '../../actions/toolbar'
+import { registerButton, removeButton } from '../../actions/toolbar'
 import {
     isDisabledSelector,
     messageSelector,
@@ -21,7 +21,7 @@ import {
 import { makeWidgetValidationSelector } from '../../selectors/widgets'
 import { validateField } from '../../core/validation/createValidator'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
-import { id } from '../../utils/id'
+import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
 import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 
@@ -38,6 +38,13 @@ const RenderTooltip = ({ id, message }) => !isUndefined(message) && (
     </UncontrolledTooltip>
 )
 
+/*
+ * TODO декомпозировать ХОК
+ *  вынести отдельно части, отвечающие за
+ *  - вызов регистрации/удаления кнопок из стора
+ *  - рендер
+ *  - вызов валидации
+ */
 export default function withActionButton(options = {}) {
     const { onClick } = options
     const shouldConfirm = !options.noConfirm
@@ -52,28 +59,34 @@ export default function withActionButton(options = {}) {
 
       constructor(props) {
           super(props)
+          this.generatedTooltipId = getID()
+          this.generatedButtonId = props.uid || getID()
+      }
+
+      componentWillUnmount() {
+          const { removeButton, entityKey, id } = this.props
+
+          removeButton(entityKey, id)
+      }
+
+      componentDidMount() {
           this.initIfNeeded()
-          this.generatedTooltipId = id()
-          this.generatedButtonId = props.uid || id()
       }
 
       initIfNeeded = () => {
           const {
-              isInit,
               entityKey,
               id,
               initialProps: { visible = true, disabled, count, conditions } = {},
               registerButton,
           } = this.props
 
-          if (!isInit) {
-              registerButton(entityKey, id, {
-                  visible,
-                  disabled,
-                  count,
-                  conditions,
-              })
-          }
+          registerButton(entityKey, id, {
+              visible,
+              disabled,
+              count,
+              conditions,
+          })
       };
 
       // eslint-disable-next-line consistent-return
@@ -262,6 +275,9 @@ export default function withActionButton(options = {}) {
                 registerButton: (entityKey, id, initialProps) => {
                     dispatch(registerButton(entityKey, id, initialProps))
                 },
+                removeButton: (entityKey, id) => {
+                    dispatch(removeButton(entityKey, id))
+                },
             }
         }
 
@@ -281,6 +297,7 @@ export default function withActionButton(options = {}) {
             validate: PropTypes.object,
             confirm: PropTypes.object,
             registerButton: PropTypes.func,
+            removeButton: PropTypes.func,
             dispatch: PropTypes.func,
             validationConfig: PropTypes.func,
             confirmMode: PropTypes.string,

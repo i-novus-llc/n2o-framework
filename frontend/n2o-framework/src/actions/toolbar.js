@@ -15,6 +15,7 @@ import {
     TOGGLE_BUTTON_DISABLED,
     CHANGE_BUTTON_ICON,
     REMOVE_BUTTON,
+    REMOVE_BUTTONS,
 } from '../constants/toolbar'
 
 import createActionHelper from './createActionHelper'
@@ -201,8 +202,12 @@ export function changeButtonClass(key, buttonId, className) {
     return createActionHelper(CHANGE_BUTTON_CLASS)({ key, buttonId, className })
 }
 
-export function removeButton(key) {
-    return createActionHelper(REMOVE_BUTTON)({ key })
+export function removeButton(key, buttonId) {
+    return createActionHelper(REMOVE_BUTTON)({ key, buttonId })
+}
+
+export function removeButtons(key) {
+    return createActionHelper(REMOVE_BUTTONS)({ key })
 }
 
 /**
