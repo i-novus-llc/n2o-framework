@@ -973,12 +973,12 @@ link:#_Клик_click[Клик по строке]
 |Устанавливает представление компонента
 |separated
 
-|prevLabel
+|prev-label
 |Строка
 |Текст кнопки "Предыдущая страница"
 |
 
-|prevIcon
+|prev-icon
 |http://fontawesome.io/icons/[CSS класс]
 |Иконка кнопки "Предыдущая страница"
 |fa fa-angle-left
