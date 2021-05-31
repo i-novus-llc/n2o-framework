@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -504,7 +505,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         } else {
             String widgetId = source.getRefWidgetId() == null ? defaultValues.getWidgetId()
-                    : CompileUtil.generateWidgetId(((PageContext) context).getClientPageId(), source.getRefWidgetId());
+                    : CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), source.getRefWidgetId());
             defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel()), widgetId, source.getRefFieldId());
         }
         return defaultValue;
