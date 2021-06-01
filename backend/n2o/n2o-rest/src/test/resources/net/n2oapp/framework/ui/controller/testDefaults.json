@@ -2,11 +2,19 @@
   {
     "id": 1,
     "name": "testName1",
-    "surname": "testSurname1"
+    "surname": "testSurname1",
+    "org": {
+      "id": 1,
+      "name": "org1"
+    }
   },
   {
     "id": 2,
     "name": "testName2",
-    "surname": "testSurname2"
+    "surname": "testSurname2",
+    "org": {
+      "id": 2,
+      "name": "org2"
+    }
   }
 ]
