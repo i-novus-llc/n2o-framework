@@ -15,4 +15,8 @@ public interface DropdownButton extends Button {
     void shouldBeVisible();
 
     void shouldNotBeVisible();
+
+    void shouldBeExpanded();
+
+    void shouldBeCollapsed();
 }
