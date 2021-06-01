@@ -49,6 +49,7 @@
 .n2o-tiles__cell {
     display: flex;
     justify-content: center;
+    align-items: baseline;
     margin: $tiles-cell-margin;
     overflow-wrap: anywhere;
 
