@@ -1,17 +1,88 @@
 .pagination {
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: $primary;
+        border-color: $primary;
+    }
+
+    .page-item:first-child .page-link {
+        margin-left: 0;
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .page-item:last-child .page-link {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+
+    &.bordered {
+        .page-item .page-link {
+            margin: 0 0 0 -1px;
+        }
+    }
+
+    &.separated {
+        .page-item .page-link {
+            border-radius: 0.25rem;
+        }
+    }
+
+    &.flat {
+        .page-item .page-link {
+            background-color: transparent;
+            border-color: transparent;
+            margin-left: 2px;
+            border-radius: 0.25rem;
+        }
+
+        .page-item.active .page-link {
+            background-color: $primary;
+        }
+    }
+
     &.bordered-rounded {
         .page-item .page-link {
-            margin: 0;
+            margin: 0 0 0 -1px;
         }
 
         .page-item:first-child .page-link {
-            border-top-left-radius: 100px;
-            border-bottom-left-radius: 100px;
+            border-top-left-radius: 50rem;
+            border-bottom-left-radius: 50rem;
         }
 
         .page-item:last-child .page-link {
-            border-top-right-radius: 100px;
-            border-bottom-right-radius: 100px;
+            border-top-right-radius: 50rem;
+            border-bottom-right-radius: 50rem;
+        }
+    }
+
+    &.flat-rounded {
+        .page-item .page-link {
+            border-radius: 50rem;
+            background-color: transparent;
+            border-color: transparent;
+        }
+
+        .page-item.active .page-link {
+            background-color: $primary;
+        }
+
+        .page-item:first-child .page-link {
+            border-top-left-radius: 50rem;
+            border-bottom-left-radius: 50rem;
+        }
+
+        .page-item:last-child .page-link {
+            border-top-right-radius: 50rem;
+            border-bottom-right-radius: 50rem;
+        }
+    }
+
+    &.separated-rounded {
+        .page-item .page-link {
+            border-radius: 50rem;
         }
     }
 }
