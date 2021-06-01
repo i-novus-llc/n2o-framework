@@ -76,12 +76,12 @@ export class InputNumber extends React.Component {
     }
 
     /**
-   * Обработчик вставки
-   * @param e
-   */
-    onPaste(e) {
+     * Обработчик вставки
+     * @param {Event} evt - событие
+     */
+    onPaste(evt) {
         this.pasted = true
-        this.setState({ value: this.resolveValue(this.inputElement.value) })
+        this.setState({ value: this.resolveValue(evt.target.value) })
     }
 
     resolveValue(value) {
