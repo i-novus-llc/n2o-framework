@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -98,9 +97,10 @@ public class CopyValuesControllerTest {
         params.put("id", new String[]{"1"});
         GetDataResponse response = testQuery("/testCopy", pipeline, params);
         assertThat(response.getList().size(), is(1));
-        assertThat(response.getList().get(0).size(), is(2));
+        assertThat(response.getList().get(0).size(), is(3));
         assertThat(response.getList().get(0).get("id"), is(1L));
         assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
+        assertThat(response.getList().get(0).get("org.name"), is("org1"));
     }
 
     private GetDataResponse testQuery(String path,
