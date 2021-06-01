@@ -28,36 +28,46 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             if (scope.isHasDependencies())
                 p.checkIdsUnique(scope, "Поле {0} встречается более одного раза.");
         }
+        checkDefaultValues(source);
+    }
+
+    /**
+     * Если в поле указаны ссылки на другой виджет, то значение по умолчанию обязательно должно быть ссылкой
+     *
+     * @param source поле
+     */
+    private void checkDefaultValues(N2oField source) {
         if ((source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefModel() != null))
             if (source instanceof N2oListField) {
                 N2oListField list = (N2oListField) source;
-                checkList(source.getId(), p, list);
+                checkListFieldDefaultValues(list);
             } else if (source instanceof N2oSimpleIntervalField) {
                 N2oSimpleIntervalField interval = (N2oSimpleIntervalField) source;
                 if (interval.getBegin() == null && interval.getEnd() == null)
                     throw new N2oMetadataValidationException(
-                            p.getMessage("У поля "+ source.getId() +" атрибут default-value не задан"));
+                            String.format("У поля %s атрибуты default-value не задан", source.getId()));
                 if (!StringUtils.isLink(interval.getBegin()) && !StringUtils.isLink(interval.getEnd()))
-                        throw new N2oMetadataValidationException(
-                                p.getMessage("У поля "+ source.getId() +" атрибуты default-value не является ссылкой"));
+                    throw new N2oMetadataValidationException(
+                            String.format("У поля %s атрибуты default-value не является ссылкой", source.getId()));
             } else if (!StringUtils.isLink(source.getDefaultValue())) {
-                throw new N2oMetadataValidationException(p.getMessage(
-                        "Атрибут default-value не является ссылкой или не задан: " + source.getDefaultValue()));
+                throw new N2oMetadataValidationException(
+                        String.format("У поля %s атрибут default-value не является ссылкой или не задан: %s",
+                                source.getId(), source.getDefaultValue()));
             }
     }
 
-    private void checkList(String id, ValidateProcessor p, N2oListField list) {
+    /**
+     * Проверка значений по умолчанию спиского поля
+     *
+     * @param list списковое поле
+     */
+    private void checkListFieldDefaultValues(N2oListField list) {
         if (list.getDefValue() == null)
             throw new N2oMetadataValidationException(
-                    p.getMessage("У поля "+ id +" атрибут default-value не задан"));
-        boolean[] hasLink = {false};
-        list.getDefValue().forEach((k,v) -> {
-            if (StringUtils.isLink(v))
-                hasLink[0] = true;
-        });
-        if (!hasLink[0])
+                    String.format("У поля %s атрибуты default-value не задан", list.getId()));
+        if (list.getDefValue().values().stream().filter(v -> StringUtils.isLink(v)).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
-                    p.getMessage("У поля "+ id +" атрибут default-value не является ссылкой"));
+                    String.format("У поля %s атрибуты default-value не является ссылкой", list.getId()));
     }
 
     @Override

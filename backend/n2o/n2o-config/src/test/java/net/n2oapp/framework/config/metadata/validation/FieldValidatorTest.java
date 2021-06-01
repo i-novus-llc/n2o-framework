@@ -37,22 +37,36 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     @Test
     public void testDefaultValueNotNull() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут default-value не является ссылкой или не задан: null");
+        exception.expectMessage("У поля field1 атрибут default-value не является ссылкой или не задан: null");
         validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNull.widget.xml");
     }
 
     @Test
     public void testDefaultValueNotNullForList() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("У поля field1 атрибут default-value не задан");
+        exception.expectMessage("У поля field1 атрибуты default-value не задан");
         validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForList.widget.xml");
     }
 
     @Test
     public void testDefaultValueNotNullForInterval() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("У поля field1 атрибут default-value не задан");
+        exception.expectMessage("У поля field1 атрибуты default-value не задан");
         validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForInterval.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValueIsLinkForList() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 атрибуты default-value не является ссылкой");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForList.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValueIsLinkForInterval() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 атрибуты default-value не является ссылкой");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForInterval.widget.xml");
     }
 
     @Test
