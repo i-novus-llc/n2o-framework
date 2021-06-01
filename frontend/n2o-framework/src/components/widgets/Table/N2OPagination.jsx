@@ -26,7 +26,7 @@ import { PREFIXES } from '../../../constants/models'
  * @reactProps {number} activePage
  * @reactProps {function} onChangePage
  */
-class TablePagination extends Component {
+class N2OPagination extends Component {
     componentDidUpdate(prevProps) {
         const { datasource, onChangePage, activePage, count, size } = this.props
 
@@ -81,7 +81,7 @@ class TablePagination extends Component {
     }
 }
 
-TablePagination.propTypes = {
+N2OPagination.propTypes = {
     count: PropTypes.number,
     size: PropTypes.number,
     activePage: PropTypes.number,
@@ -100,7 +100,7 @@ TablePagination.propTypes = {
     filters: PropTypes.object,
 }
 
-TablePagination.defaultProps = {
+N2OPagination.defaultProps = {
     datasource: [],
     maxButtons: 5,
 }
@@ -129,9 +129,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     }
 }
 
-// eslint-disable-next-line no-class-assign
-TablePagination = connect(
+const N2OPaginationComponent = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(TablePagination)
-export default TablePagination
+)(N2OPagination)
+
+export default N2OPaginationComponent

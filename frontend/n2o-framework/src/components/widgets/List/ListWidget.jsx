@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import dependency from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import Pagination from '../Table/TablePagination'
+import N2OPagination from '../Table/N2OPagination'
 
 import ListContainer from './ListContainer'
 
@@ -75,7 +75,7 @@ function ListWidget(
             toolbar={toolbar}
             actions={actions}
             filter={prepareFilters()}
-            bottomLeft={paging && <Pagination widgetId={widgetId} {...paging} />}
+            bottomLeft={paging && <N2OPagination widgetId={widgetId} {...paging} />}
             className={className}
             style={style}
         >

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import Pagination from '../Table/TablePagination'
+import N2OPagination from '../Table/N2OPagination'
 
 import TilesContainer from './TilesContainer'
 
@@ -39,7 +39,7 @@ function TilesWidget(
             widgetId={widgetId}
             toolbar={toolbar}
             filter={prepareFilters()}
-            bottomLeft={paging && <Pagination {...paging} widgetId={widgetId} />}
+            bottomLeft={paging && <N2OPagination {...paging} widgetId={widgetId} />}
             className={className}
             style={style}
         >
