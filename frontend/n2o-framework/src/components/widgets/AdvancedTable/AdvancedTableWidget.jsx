@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import values from 'lodash/values'
 
-import TablePagination from '../Table/TablePagination'
+import N2OPagination from '../Table/N2OPagination'
 import StandardWidget from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { dependency } from '../../../core/dependency'
@@ -129,7 +129,7 @@ class AdvancedTableWidget extends Component {
                 actions={actions}
                 filter={this.prepareFilters()}
                 bottomLeft={
-                    paging && <TablePagination widgetId={widgetId} {...paging} />
+                    paging && <N2OPagination widgetId={widgetId} {...paging} />
                 }
                 className={className}
                 style={style}

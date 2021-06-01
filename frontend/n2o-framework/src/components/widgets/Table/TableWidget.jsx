@@ -7,7 +7,7 @@ import Fieldsets from '../Form/fieldsets'
 // eslint-disable-next-line import/no-named-as-default
 import dependency from '../../../core/dependency'
 
-import TablePagination from './TablePagination'
+import N2OPagination from './N2OPagination'
 import TableContainer from './TableContainer'
 
 /**
@@ -93,7 +93,7 @@ class TableWidget extends React.Component {
                 actions={actions}
                 filter={this.prepareFilters()}
                 bottomLeft={
-                    paging && <TablePagination widgetId={widgetId} {...paging} />
+                    paging && <N2OPagination widgetId={widgetId} {...paging} />
                 }
                 className={className}
                 style={style}
