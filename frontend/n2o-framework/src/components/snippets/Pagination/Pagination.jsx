@@ -330,7 +330,7 @@ Pagination.propTypes = {
 }
 
 Pagination.defaultProps = {
-    layout: 'separated-rounded',
+    layout: 'separated',
     prev: false,
     prevIcon: 'fa fa-angle-left',
     prevLabel: 'Prev',
