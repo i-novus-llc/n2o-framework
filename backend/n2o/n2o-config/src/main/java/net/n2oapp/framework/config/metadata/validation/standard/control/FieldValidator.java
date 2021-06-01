@@ -45,10 +45,10 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                 N2oSimpleIntervalField interval = (N2oSimpleIntervalField) source;
                 if (interval.getBegin() == null && interval.getEnd() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("У поля %s атрибуты default-value не задан", source.getId()));
+                            String.format("У поля %s default-value не задан", source.getId()));
                 if (!StringUtils.isLink(interval.getBegin()) && !StringUtils.isLink(interval.getEnd()))
                     throw new N2oMetadataValidationException(
-                            String.format("У поля %s атрибуты default-value не является ссылкой", source.getId()));
+                            String.format("У поля %s default-value не является ссылкой", source.getId()));
             } else if (!StringUtils.isLink(source.getDefaultValue())) {
                 throw new N2oMetadataValidationException(
                         String.format("У поля %s атрибут default-value не является ссылкой или не задан: %s",
@@ -64,10 +64,10 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     private void checkListFieldDefaultValues(N2oListField list) {
         if (list.getDefValue() == null)
             throw new N2oMetadataValidationException(
-                    String.format("У поля %s атрибуты default-value не задан", list.getId()));
+                    String.format("У поля %s default-value не задан", list.getId()));
         if (list.getDefValue().values().stream().filter(v -> StringUtils.isLink(v)).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
-                    String.format("У поля %s атрибуты default-value не является ссылкой", list.getId()));
+                    String.format("У поля %s default-value не является ссылкой", list.getId()));
     }
 
     @Override
