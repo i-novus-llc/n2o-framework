@@ -40,4 +40,44 @@ public class FieldValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("В поле field2 повторяются зависимости одного типа");
         validate("net/n2oapp/framework/config/metadata/validation/field/testUniqueDependenciesType.widget.xml");
     }
+
+    @Test
+    public void testDefaultValueNotNull() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 атрибут default-value не является ссылкой или не задан: null");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNull.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValueNotNullForList() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 default-value не задан");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForList.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValueNotNullForInterval() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 default-value не задан");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForInterval.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValueIsLinkForList() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 default-value не является ссылкой");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForList.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValueIsLinkForInterval() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("У поля field1 default-value не является ссылкой");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForInterval.widget.xml");
+    }
+
+    @Test
+    public void testDefaultValue() {
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValue.widget.xml");
+    }
 }
