@@ -1,0 +1,11 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="field1" ref-widget-id="test" default-value="{name}"/>
+        <input-select id="field2" ref-widget-id="test">
+            <default-value id="{f.id}" name="{f.name}"/>
+        </input-select>
+        <date-interval id="field3" ref-widget-id="test">
+            <default-value begin="{f.begin}" end="{f.end}"/>
+        </date-interval>
+    </fields>
+</form>

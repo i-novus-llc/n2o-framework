@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import unset from 'lodash/unset'
 import ButtonToolbar from 'reactstrap/lib/ButtonToolbar'
 import ButtonGroup from 'reactstrap/lib/ButtonGroup'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
@@ -35,16 +35,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         return obj
     }
 
-    const renderButtons = (props) => {
-        // eslint-disable-next-line react/prop-types
-        const { component } = props
-
-        return (component ? (
-            React.createElement(component, remapButtons(props))
-        ) : (
-            <Factory level={BUTTONS} {...props} entityKey={entityKey} />
-        ))
-    }
+    const renderButtons = props => <Factory level={BUTTONS} {...remapButtons(props)} entityKey={entityKey} />
 
     // eslint-disable-next-line react/prop-types
     const renderBtnGroup = ({ buttons }) => (
@@ -53,7 +44,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
 
     return (
         <ButtonToolbar
-            className={cn('buttons-toolbar', className)}
+            className={classNames('buttons-toolbar', className)}
             onClick={handleClick}
         >
             {map(toolbar, renderBtnGroup)}

@@ -12,5 +12,6 @@
         </field>
         <field id="name"><select>name</select></field>
         <field id="surname"><select>surname</select></field>
+        <field id="org"><select>org</select></field>
     </fields>
 </query>
