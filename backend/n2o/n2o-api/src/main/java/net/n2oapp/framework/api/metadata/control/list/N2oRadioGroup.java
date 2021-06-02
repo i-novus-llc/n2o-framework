@@ -10,5 +10,5 @@ import lombok.Setter;
 @Setter
 public class N2oRadioGroup extends N2oSingleListFieldAbstract implements Inlineable {
     private Boolean inline;
-    private String type;
+    private RadioGroupType type;
 }
