@@ -41,7 +41,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param source  поле
      */
     private void checkDefaultValues(N2oField source) {
-        if ((source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefModel() != null))
+        if ((source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefModel() != null)
+                && source.getRefFieldId() == null)
             if (source instanceof N2oListField) {
                 N2oListField list = (N2oListField) source;
                 checkListFieldDefaultValues(list);
