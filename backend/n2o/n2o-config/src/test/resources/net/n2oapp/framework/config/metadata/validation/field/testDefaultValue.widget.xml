@@ -7,5 +7,9 @@
         <date-interval id="field3" ref-widget-id="test">
             <default-value begin="{f.begin}" end="{f.end}"/>
         </date-interval>
+
+        <input-text id="field4" ref-widget-id="test" ref-field-id="test"/>
+        <input-select id="field2" ref-widget-id="test" ref-field-id="test"/>
+        <date-interval id="field3" ref-widget-id="test" ref-field-id="test"/>
     </fields>
 </form>
