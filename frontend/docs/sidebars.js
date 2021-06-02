@@ -80,6 +80,7 @@ module.exports = {
          label: 'Примеры',
          items: [
             'uxcases_list',
+            'uxcases_input'
          ]
     },
     ]
