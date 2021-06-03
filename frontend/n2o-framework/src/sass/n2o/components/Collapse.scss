@@ -94,7 +94,7 @@
         &.line {
             border: 0;
 
-            > .n2o-panel-header::after {
+            .n2o-panel-header-container::after {
                 content: '';
                 display: inline-block;
                 vertical-align: middle;
@@ -104,6 +104,7 @@
                 height: $collapse-line-height;
                 background: $collapse-line-color;
                 margin-left: 5px;
+                margin-top: 2px;
             }
 
             .n2o-panel-header .n2o-panel-header-text {
