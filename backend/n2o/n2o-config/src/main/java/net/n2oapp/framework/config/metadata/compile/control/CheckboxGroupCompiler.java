@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -24,7 +25,7 @@ public class CheckboxGroupCompiler extends ListControlCompiler<CheckboxGroup, N2
     public StandardField<CheckboxGroup> compile(N2oCheckboxGroup source, CompileContext<?,?> context, CompileProcessor p) {
         CheckboxGroup checkboxGroup = new CheckboxGroup();
         checkboxGroup.setInline(source.getInline());
-        checkboxGroup.setType(p.cast(source.getType() == N2oCheckboxGroup.CheckboxGroupType.n2o ? N2oCheckboxGroup.CheckboxGroupType.defaultType : source.getType(), p.resolve(property("n2o.api.control.alt.type"), N2oCheckboxGroup.CheckboxGroupType.class)));
+        checkboxGroup.setType(p.cast(source.getType() == N2oCheckboxGroup.CheckboxGroupType.n2o ? N2oCheckboxGroup.CheckboxGroupType.defaultType : source.getType(), new DomainProcessor().deserializeEnum(p.resolve(property("n2o.api.control.alt.type"), N2oCheckboxGroup.CheckboxGroupType.class), N2oCheckboxGroup.CheckboxGroupType.class)));
         StandardField<CheckboxGroup> result = compileListControl(checkboxGroup, source, context, p);
         return compileFetchDependencies(result, source, p);
     }
