@@ -4,7 +4,6 @@ import { createLogger } from 'redux-logger'
 import { batchDispatchMiddleware } from 'redux-batched-actions'
 import { routerMiddleware } from 'connected-react-router'
 import { configureStore } from '@reduxjs/toolkit'
-import get from 'lodash/get'
 
 import generateReducer from './reducers'
 import generateSagas from './sagas'
@@ -17,10 +16,13 @@ export default (initialState, history, config = {}) => {
         batchDispatchMiddleware,
         thunkMiddleware,
         () => next => (action) => {
-            action.meta = get(action, 'meta', {})
-            action.payload = get(action, 'payload', {})
+            let extendedAction = action
 
-            next(action)
+            if (Object.prototype.toString.call(action) === '[object Object]') {
+                extendedAction = { ...action, meta: action.meta || {} }
+            }
+
+            next(extendedAction)
         },
         sagaMiddleware,
         routerMiddleware(history),
