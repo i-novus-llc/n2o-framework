@@ -9,7 +9,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.12.17-SNAPSHOT</version>
+        <version>7.12.17</version>
         <relativePath>..</relativePath>
     </parent>
 
