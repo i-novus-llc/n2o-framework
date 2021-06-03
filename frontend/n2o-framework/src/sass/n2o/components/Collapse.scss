@@ -4,11 +4,11 @@
     border: 0;
     background-color: transparent;
 
-    & .rc-collapse-item-active .rc-collapse-content {
+    .rc-collapse-item-active .rc-collapse-content {
         overflow: initial;
     }
 
-    & .rc-collapse-item-active .rc-collapse-anim {
+    .rc-collapse-item-active .rc-collapse-anim {
         overflow: hidden;
     }
 
@@ -30,31 +30,7 @@
     .n2o-collapse-panel {
         border: 0;
 
-        &.line {
-            border: 0;
-
-            & > .n2o-panel-header::after {
-                content: '';
-                display: inline-block;
-                vertical-align: middle;
-                box-sizing: border-box;
-                flex-grow: 1;
-                min-width: 40px;
-                height: $collapse-line-height;
-                background: $collapse-line-color;
-                margin-left: 5px;
-            }
-
-            & .n2o-panel-header .n2o-panel-header-text {
-                white-space: nowrap;
-                max-width: calc(100% - 40px);
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: 16px;
-            }
-        }
-
-        & > .rc-collapse-content {
+        > .rc-collapse-content {
             padding: 0;
             //overflow: visible;
         }
@@ -79,7 +55,7 @@
             font-weight: $font-weight-bold;
 
             &:hover {
-                & > .n2o-collapse-icon-wrapper {
+                > .n2o-collapse-icon-wrapper {
                     background-color: $collapse-line-color;
 
                     @include transition($btn-transition);
@@ -115,8 +91,33 @@
             }
         }
 
+        &.line {
+            border: 0;
+
+            .n2o-panel-header-container::after {
+                content: '';
+                display: inline-block;
+                vertical-align: middle;
+                box-sizing: border-box;
+                flex-grow: 1;
+                min-width: 40px;
+                height: $collapse-line-height;
+                background: $collapse-line-color;
+                margin-left: 5px;
+                margin-top: 2px;
+            }
+
+            .n2o-panel-header .n2o-panel-header-text {
+                white-space: nowrap;
+                max-width: calc(100% - 40px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 16px;
+            }
+        }
+
         .rc-collapse-content-box {
-            padding: 15px 21px;
+            padding: 5px 21px;
             margin: 0;
             color: black;
         }
