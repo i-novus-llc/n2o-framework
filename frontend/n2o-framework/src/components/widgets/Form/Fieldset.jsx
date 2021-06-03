@@ -5,7 +5,7 @@ import concat from 'lodash/concat'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import {
     showFields,
@@ -14,9 +14,11 @@ import {
     disableFields,
 } from '../../../actions/formPlugin'
 import { makeGetResolveModelSelector } from '../../../selectors/models'
+import propsResolver from '../../../utils/propsResolver'
 
 import FieldsetRow from './FieldsetRow'
 import { resolveExpression } from './utils'
+import Label from './fields/StandardField/Label'
 
 /**
  * Компонент - филдсет формы
@@ -236,8 +238,11 @@ class Fieldset extends React.Component {
             parentName,
             parentIndex,
             label,
+            description,
             type,
             childrenLabel,
+            needDescription,
+            activeModel,
             ...rest
         } = this.props
         const { enabled, visible } = this.state
@@ -249,18 +254,41 @@ class Fieldset extends React.Component {
             return <ElementType>{children}</ElementType>
         }
 
-        const classes = cx('n2o-fieldset', className, {
+        const classes = classNames('n2o-fieldset', className, {
             'd-none': !visible,
         })
 
+        const resolveLabel = activeModel ? propsResolver(label, activeModel) : label
+
         return (
             <div className={classes} style={style}>
-                {needLabel && <h4 className="n2o-fieldset__label">{label}</h4>}
+                {(needLabel || needDescription) && (
+                    <div className="n2o-fieldset__label-container">
+                        {needLabel && (
+                            <Label
+                                className={classNames(
+                                    'n2o-fieldset__label', { 'with-description': description },
+                                )}
+                                value={resolveLabel}
+                            />
+                        )}
+                        {needDescription && (
+                            <Label
+                                className={classNames(
+                                    'n2o-fieldset__description', { 'line-description': type === 'line' },
+                                )}
+                                value={description}
+                            />
+                        )}
+                    </div>
+                )}
                 <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}
-                    label={label}
+                    label={resolveLabel}
                     type={type}
+                    activeModel={activeModel}
+                    description={description}
                     {...rest}
                     render={(rows, props = { parentName, parentIndex }) => {
                         this.fields = this.calculateAllFields(rows)
@@ -279,6 +307,7 @@ Fieldset.propTypes = {
     label: PropTypes.string,
     childrenLabel: PropTypes.string,
     labelPosition: PropTypes.string,
+    description: PropTypes.string,
     labelWidth: PropTypes.array,
     labelAlignment: PropTypes.array,
     defaultCol: PropTypes.number,
@@ -298,6 +327,12 @@ Fieldset.propTypes = {
     enableFields: PropTypes.func,
     disableFields: PropTypes.func,
     modelPrefix: PropTypes.string,
+    type: PropTypes.string,
+    parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    parentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeModel: PropTypes.object,
+    style: PropTypes.object,
+    autoSubmit: PropTypes.bool,
 }
 
 Fieldset.defaultProps = {
