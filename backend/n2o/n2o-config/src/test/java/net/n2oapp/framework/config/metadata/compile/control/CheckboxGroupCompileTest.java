@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.meta.control.CheckboxGroup;
 import net.n2oapp.framework.api.metadata.meta.control.ListControl;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -59,4 +60,16 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
         assertThat(format, is("password"));
     }
 
+    @Test
+    public void testCheckboxGroupTypes() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroupTypes.widget.xml")
+                .get(new WidgetContext("testCheckboxGroupTypes", "/test"));
+        CheckboxGroup checkboxGroup = (CheckboxGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(0).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(checkboxGroup.getType().getId(), is("default"));
+
+        checkboxGroup = (CheckboxGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(1).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(checkboxGroup.getType().getId(), is("btn"));
+    }
 }
