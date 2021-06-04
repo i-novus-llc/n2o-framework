@@ -103,6 +103,11 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
+    public void shouldBeCollapsed() {
+        popUp().shouldNotBe(Condition.exist);
+    }
+
+    @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
 
@@ -118,5 +123,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement popUp() {
+        return element().parent().parent().$(".n2o-pop-up");
     }
 }
