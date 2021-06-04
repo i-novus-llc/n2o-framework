@@ -108,6 +108,11 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
+    public void shouldBeExpanded() {
+        popUp().shouldBe(Condition.exist);
+    }
+
+    @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
 

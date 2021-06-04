@@ -56,4 +56,6 @@ public interface DateInterval extends Control {
     void endTimeVal(String hours, String minutes, String seconds);
 
     void shouldBeCollapsed();
+
+    void shouldBeExpanded();
 }

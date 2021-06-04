@@ -33,4 +33,6 @@ public interface DateInput extends Control {
     void clickNextMonthButton();
 
     void shouldBeCollapsed();
+
+    void shouldBeExpanded();
 }
