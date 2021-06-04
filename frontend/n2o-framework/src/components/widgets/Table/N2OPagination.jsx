@@ -45,36 +45,58 @@ class N2OPagination extends Component {
             size,
             activePage,
             onChangePage,
+            layout,
             prev,
+            prevLabel,
+            prevIcon,
             next,
+            nextLabel,
+            nextIcon,
             first,
+            firstLabel,
+            firstIcon,
             last,
-            showCountRecords,
-            hideSinglePage,
-            maxButtons,
-            withoutBody,
-            prevText,
-            nextText,
+            lastLabel,
+            lastIcon,
+            showCount,
+            showSinglePage,
+            maxPages,
+            // showCountRecords, // deprecated
+            // hideSinglePage, // deprecated
+            // maxButtons, // deprecated
+            // withoutBody, // deprecated
+            // prevText, // deprecated
+            // nextText, //deprecated
             filters,
         } = this.props
+
+        const onSelect = page => onChangePage(page, { ...filters })
 
         return (
             count > 0 && (
                 <Pagination
-                    onSelect={page => onChangePage(page, { ...filters })}
+                    onSelect={onSelect}
                     activePage={activePage}
                     count={count}
                     size={size}
-                    maxPages={maxButtons}
+                    maxPages={maxPages}
+                    layout={layout}
                     prev={prev}
-                    prevLabel={prevText}
+                    prevLabel={prevLabel}
+                    prevIcon={prevIcon}
                     next={next}
-                    nextLabel={nextText}
+                    nextLabel={nextLabel}
+                    nextIcon={nextIcon}
                     first={first}
+                    firstLabel={firstLabel}
+                    firstIcon={firstIcon}
                     last={last}
-                    showCount={showCountRecords}
-                    showSinglePage={hideSinglePage}
-                    withoutBody={withoutBody}
+                    lastLabel={lastLabel}
+                    lastIcon={lastIcon}
+                    showCount={showCount}
+                    showSinglePage={showSinglePage}
+                    // hideSinglePage={hideSinglePage} // deprecated
+                    // withoutBody={withoutBody} // deprecated
                 />
             )
         )
@@ -87,22 +109,47 @@ N2OPagination.propTypes = {
     activePage: PropTypes.number,
     onChangePage: PropTypes.func,
     datasource: PropTypes.array,
-    maxButtons: PropTypes.number,
+    // maxButtons: PropTypes.number, // deprecated
+    maxPages: PropTypes.number,
+    layout: PropTypes.string,
     prev: PropTypes.bool,
+    prevIcon: PropTypes.string,
+    prevLabel: PropTypes.string,
     next: PropTypes.bool,
+    nextIcon: PropTypes.string,
+    nextLabel: PropTypes.string,
     first: PropTypes.bool,
+    firstIcon: PropTypes.string,
+    firstLabel: PropTypes.string,
     last: PropTypes.bool,
-    showCountRecords: PropTypes.bool,
-    hideSinglePage: PropTypes.bool,
-    withoutBody: PropTypes.bool,
-    prevText: PropTypes.string,
-    nextText: PropTypes.string,
+    lastIcon: PropTypes.string,
+    lastLabel: PropTypes.string,
+    showCount: PropTypes.bool,
+    showSinglePage: PropTypes.bool,
+    // showCountRecords: PropTypes.bool, // deprecated
+    // hideSinglePage: PropTypes.bool, // deprecated
+    // withoutBody: PropTypes.bool, // deprecated
+    // prevText: PropTypes.string, // deprecated
+    // nextText: PropTypes.string, // deprecated
     filters: PropTypes.object,
 }
 
 N2OPagination.defaultProps = {
     datasource: [],
-    maxButtons: 5,
+    // maxButtons: 5, // deprecated
+    // for testing
+    layout: 'separated',
+    prevLabel: 'Prev',
+    prevIcon: 'fa fa-angle-left',
+    nextLabel: 'Next',
+    nextIcon: 'fa fa-angle-right',
+    firstLabel: 'First',
+    firstIcon: 'fa fa-angle-double-left',
+    lastLabel: 'Last',
+    lastIcon: 'fa fa-angle-double-right',
+    showCount: true,
+    showSinglePage: false,
+    // for testing
 }
 
 const mapStateToProps = createStructuredSelector({
