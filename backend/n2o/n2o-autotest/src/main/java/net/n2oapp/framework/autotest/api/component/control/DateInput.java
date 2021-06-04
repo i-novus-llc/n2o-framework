@@ -1,10 +1,12 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 
+import net.n2oapp.framework.autotest.api.component.Dropdown;
+
 /**
  * Компонент ввода даты для автотестирования
  */
-public interface DateInput extends Control {
+public interface DateInput extends Control, Dropdown {
 
     String val();
 
@@ -15,8 +17,6 @@ public interface DateInput extends Control {
     void timeVal(String hours, String minutes, String seconds);
 
     void clickCalendarButton();
-
-    void clickCalendarField();
 
     void shouldBeActiveDay(String day);
 
@@ -33,8 +33,4 @@ public interface DateInput extends Control {
     void clickPreviousMonthButton();
 
     void clickNextMonthButton();
-
-    void shouldBeCollapsed();
-
-    void shouldBeExpanded();
 }

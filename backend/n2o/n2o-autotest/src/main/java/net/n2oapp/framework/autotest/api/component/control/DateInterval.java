@@ -1,9 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import net.n2oapp.framework.autotest.api.component.Dropdown;
+
 /**
  * Компонент ввода интервала дат для автотестирования
  */
-public interface DateInterval extends Control {
+public interface DateInterval extends Control, Dropdown {
 
     void beginShouldBeEmpty();
 
@@ -18,8 +20,6 @@ public interface DateInterval extends Control {
     void endShouldHaveValue(String value);
 
     void clickCalendarButton();
-
-    void clickCalendarField();
 
     void shouldBeBeginActiveDay(String day);
 
@@ -56,8 +56,4 @@ public interface DateInterval extends Control {
     void beginTimeVal(String hours, String minutes, String seconds);
 
     void endTimeVal(String hours, String minutes, String seconds);
-
-    void shouldBeCollapsed();
-
-    void shouldBeExpanded();
 }

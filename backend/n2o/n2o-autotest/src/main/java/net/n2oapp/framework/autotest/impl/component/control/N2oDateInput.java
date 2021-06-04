@@ -59,10 +59,6 @@ public class N2oDateInput extends N2oControl implements DateInput {
         element().$(".btn.n2o-calendar-button").click();
     }
 
-    @Override
-    public void clickCalendarField() {
-        element().$(".n2o-date-input").click();
-    }
 
     @Override
     public void shouldBeActiveDay(String day) {
@@ -108,16 +104,6 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
-    public void shouldBeCollapsed() {
-        popUp().shouldNotBe(Condition.exist);
-    }
-
-    @Override
-    public void shouldBeExpanded() {
-        popUp().shouldBe(Condition.exist);
-    }
-
-    @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
 
@@ -133,6 +119,27 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    @Override
+    public void expand() {
+        if (!popUp().is(Condition.exist))
+            element().$(".n2o-date-input").click();
+    }
+
+    @Override
+    public void collapse() {
+        throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
+    }
+
+    @Override
+    public void shouldBeExpanded() {
+        popUp().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldBeCollapsed() {
+        popUp().shouldNotBe(Condition.exist);
     }
 
     private SelenideElement popUp() {
