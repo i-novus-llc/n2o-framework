@@ -16,6 +16,8 @@ public interface DateInput extends Control {
 
     void clickCalendarButton();
 
+    void clickCalendarField();
+
     void shouldBeActiveDay(String day);
 
     void clickDay(String day);

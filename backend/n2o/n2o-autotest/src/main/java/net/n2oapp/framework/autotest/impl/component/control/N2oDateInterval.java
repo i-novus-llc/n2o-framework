@@ -61,6 +61,11 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
+    public void clickCalendarField() {
+        element().$(".n2o-date-input").click();
+    }
+
+    @Override
     public void shouldBeBeginActiveDay(String day) {
         shouldBeActiveDay(firstCalendar(), day);
     }

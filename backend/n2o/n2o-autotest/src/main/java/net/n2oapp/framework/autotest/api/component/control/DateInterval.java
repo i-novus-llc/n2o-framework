@@ -19,6 +19,8 @@ public interface DateInterval extends Control {
 
     void clickCalendarButton();
 
+    void clickCalendarField();
+
     void shouldBeBeginActiveDay(String day);
 
     void shouldBeEndActiveDay(String day);
