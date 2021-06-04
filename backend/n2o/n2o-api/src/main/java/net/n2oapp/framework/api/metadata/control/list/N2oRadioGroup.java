@@ -15,30 +15,10 @@ public class N2oRadioGroup extends N2oSingleListFieldAbstract implements Inlinea
     private RadioGroupType type;
 
     public enum RadioGroupType implements IdAware {
-        defaultType("default") {
-            @Override
-            public String getId() {
-                return "default";
-            }
-        },
-        @Deprecated n2o("n2o") {
-            @Override
-            public String getId() {
-                return "n2o";
-            }
-        },
-        btn("btn") {
-            @Override
-            public String getId() {
-                return "btn";
-            }
-        },
-        tabs("tabs") {
-            @Override
-            public String getId() {
-                return "tabs";
-            }
-        };
+        defaultType("default"),
+        @Deprecated n2o("n2o"),
+        btn("btn"),
+        tabs("tabs");
 
         private final String value;
 
@@ -46,8 +26,9 @@ public class N2oRadioGroup extends N2oSingleListFieldAbstract implements Inlinea
             this.value = value;
         }
 
+        @Override
         @JsonValue
-        public String getValue() {
+        public String getId() {
             return this.value;
         }
 

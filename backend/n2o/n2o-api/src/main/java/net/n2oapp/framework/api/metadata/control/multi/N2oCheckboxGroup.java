@@ -16,24 +16,9 @@ public class N2oCheckboxGroup extends N2oMultiListFieldAbstract implements Inlin
     private CheckboxGroupType type;
 
     public enum CheckboxGroupType implements IdAware {
-        defaultType("default") {
-            @Override
-            public String getId() {
-                return "default";
-            }
-        },
-        @Deprecated n2o("n2o") {
-            @Override
-            public String getId() {
-                return "n2o";
-            }
-        },
-        btn("btn") {
-            @Override
-            public String getId() {
-                return "btn";
-            }
-        };
+        defaultType("default"),
+        @Deprecated n2o("n2o"),
+        btn("btn");
 
         private final String value;
 
@@ -41,8 +26,9 @@ public class N2oCheckboxGroup extends N2oMultiListFieldAbstract implements Inlin
             this.value = value;
         }
 
+        @Override
         @JsonValue
-        public String getValue() {
+        public String getId() {
             return this.value;
         }
 

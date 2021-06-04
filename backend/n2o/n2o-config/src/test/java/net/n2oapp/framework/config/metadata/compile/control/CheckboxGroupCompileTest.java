@@ -66,10 +66,10 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testCheckboxGroupTypes", "/test"));
         CheckboxGroup checkboxGroup = (CheckboxGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(checkboxGroup.getType().getValue(), is("default"));
+        assertThat(checkboxGroup.getType().getId(), is("default"));
 
         checkboxGroup = (CheckboxGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(checkboxGroup.getType().getValue(), is("btn"));
+        assertThat(checkboxGroup.getType().getId(), is("btn"));
     }
 }

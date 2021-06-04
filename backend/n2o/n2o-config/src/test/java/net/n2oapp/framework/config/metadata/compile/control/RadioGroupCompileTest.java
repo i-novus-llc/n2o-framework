@@ -37,10 +37,10 @@ public class RadioGroupCompileTest extends SourceCompileTestBase {
 
         RadioGroup radioGroup = (RadioGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
         .get(0).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(radioGroup.getType().getValue(), is("default"));
+        assertThat(radioGroup.getType().getId(), is("default"));
 
         radioGroup = (RadioGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(radioGroup.getType().getValue(), is("tabs"));
+        assertThat(radioGroup.getType().getId(), is("tabs"));
     }
 }
