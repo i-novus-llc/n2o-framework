@@ -110,6 +110,7 @@ class Pagination extends React.Component {
             firstLabel,
             lastIcon,
             lastLabel,
+            style,
             t,
         } = this.props
         const pages = Math.ceil(count / size) || 1
@@ -204,9 +205,9 @@ class Pagination extends React.Component {
         return (
             <nav
                 className="n2o-pagination"
-                style={{ display: 'flex', alignItems: 'baseline' }}
+                style={{ display: 'flex', alignItems: 'baseline', ...style }}
             >
-                {!showSinglePage && pages === 1 ? null : (
+                {showSinglePage && pages === 1 ? null : (
                     <ul className={classNames('pagination', 'd-inline-flex', className, layout)}>
                         {first && getFirst()}
                         {prev && getPrev()}
@@ -226,7 +227,7 @@ class Pagination extends React.Component {
                     <span
                         className="n2o-pagination-info"
                         style={{
-                            paddingLeft: !showSinglePage && pages === 1 ? 0 : '1rem',
+                            paddingLeft: showSinglePage && pages === 1 ? 0 : '1rem',
                             display: 'inline-flex',
                         }}
                     >
@@ -327,22 +328,23 @@ Pagination.propTypes = {
      */
     className: PropTypes.string,
     t: PropTypes.func,
+    style: PropTypes.object,
 }
 
 Pagination.defaultProps = {
-    layout: 'separated',
+    layout: null,
     prev: false,
-    prevIcon: 'fa fa-angle-left',
-    prevLabel: 'Prev',
+    prevIcon: null,
+    prevLabel: null,
     next: false,
-    nextIcon: 'fa fa-angle-right',
-    nextLabel: 'Next',
+    nextIcon: null,
+    nextLabel: null,
     first: false,
-    firstIcon: 'fa fa-angle-double-left',
-    firstLabel: 'First',
+    firstIcon: null,
+    firstLabel: null,
     last: false,
-    lastIcon: 'fa fa-angle-double-right',
-    lastLabel: 'Last',
+    lastIcon: null,
+    lastLabel: null,
     showCount: true,
     showSinglePage: false,
     maxPages: 5,
