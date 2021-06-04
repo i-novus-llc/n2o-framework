@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -48,27 +49,40 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect")
-                .control(InputSelect.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        InputSelect input = fields.field("InputSelect").control(InputSelect.class);
         input.shouldExists();
+
+        // close popup by icon
+        input.expand();
+        input.shouldBeExpanded();
+        input.collapse();
+        input.shouldBeCollapsed();
 
         input.shouldBeEmpty();
         input.shouldHaveOptions("One", "Two", "Three");
+        // close popup by click on options
         input.select(1);
+        input.shouldBeCollapsed();
         input.shouldSelected("Two");
         input.clear();
         input.shouldBeEmpty();
 
         input.val("Three");
         input.shouldHaveValue("Three");
-        input.collapsePopUpOptions();
+        input.collapse();
 
-        input = page.widget(FormWidget.class).fields().field("InputSelect1")
-                .control(InputSelect.class);
-        input.itemShouldBeEnabled(true, "One");
-        input.itemShouldBeEnabled(true, "Two");
-        input.itemShouldBeEnabled(false, "Three");
-        input.itemShouldBeEnabled(true, "Four");
+        InputSelect input2 = fields.field("InputSelect1").control(InputSelect.class);
+        input2.itemShouldBeEnabled(true, "One");
+        input2.itemShouldBeEnabled(true, "Two");
+        input2.itemShouldBeEnabled(false, "Three");
+        input2.itemShouldBeEnabled(true, "Four");
+
+        // close popup by click on outside area
+        input2.expand();
+        input2.shouldBeExpanded();
+        input.click();
+        input2.shouldBeCollapsed();
     }
 
     @Test
@@ -139,7 +153,7 @@ public class InputSelectAT extends AutoTestBase {
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
-        input.collapsePopUpOptions();
+        input.collapse();
         input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
         input.itemShouldBeEnabled(true, "One");
@@ -170,7 +184,7 @@ public class InputSelectAT extends AutoTestBase {
         input.val("name3");
         input.shouldHaveValue("name3");
         // сворачиваем popup, чтобы не накладывался на нижний контрол
-        input.collapsePopUpOptions();
+        input.collapse();
 
 
         InputSelect input2 = page.widget(FormWidget.class).fields().field("InputSelect2")

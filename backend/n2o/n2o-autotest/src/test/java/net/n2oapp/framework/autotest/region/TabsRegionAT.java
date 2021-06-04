@@ -104,8 +104,8 @@ public class TabsRegionAT extends AutoTestBase {
 
         // testing collapse/expand state of nesting regions
         // after switch between tabs in global region
-        panel.collapseContent();
-        line.collapseContent();
+        panel.collapse();
+        line.collapse();
         tabs.tab(1).click();
 
         tabsRegion.tab(1).click();
