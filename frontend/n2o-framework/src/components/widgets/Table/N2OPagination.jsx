@@ -139,13 +139,13 @@ N2OPagination.defaultProps = {
     // maxButtons: 5, // deprecated
     // for testing
     layout: 'separated',
-    prevLabel: 'Prev',
+    prevLabel: null,
     prevIcon: 'fa fa-angle-left',
-    nextLabel: 'Next',
+    nextLabel: null,
     nextIcon: 'fa fa-angle-right',
-    firstLabel: 'First',
+    firstLabel: null,
     firstIcon: 'fa fa-angle-double-left',
-    lastLabel: 'Last',
+    lastLabel: null,
     lastIcon: 'fa fa-angle-double-right',
     showCount: true,
     showSinglePage: false,
