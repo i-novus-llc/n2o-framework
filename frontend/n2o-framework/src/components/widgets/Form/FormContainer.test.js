@@ -1,5 +1,4 @@
 import React from 'react'
-import sinon from 'sinon'
 import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
@@ -16,12 +15,6 @@ import history from '../../../history'
 import * as hocs from './FormContainer'
 
 const NullComponent = () => null
-const FormContainerTest = hocs.default
-
-function setup(props, hocName) {
-    const TestComponent = hocs[hocName](NullComponent)
-    return mount(<TestComponent {...props} />)
-}
 
 function setupToProvider(props, hocName, overrideStore) {
     const TestComponent = hocs[hocName](NullComponent)
@@ -33,19 +26,6 @@ function setupToProvider(props, hocName, overrideStore) {
     return mount(
         <Provider store={store}>
             <TestComponent {...props} />
-        </Provider>,
-    )
-}
-
-function setupToProviderFromDefault(props, overrideStore = {}) {
-    const mockStore = configureMockStore()
-    const store = mockStore({
-        models: { resolve: {} },
-        ...overrideStore,
-    })
-    return mount(
-        <Provider store={store}>
-            <FormContainerTest {...props} />
         </Provider>,
     )
 }
@@ -136,102 +116,6 @@ describe('FormContainer', () => {
                 onResolve: expect.any(Function),
                 setActive: expect.any(Function),
             })
-        })
-    })
-
-    describe('Проверка onModelChange', () => {
-        it('Создание компонента', () => {
-            const wrapper = setup({}, 'onModelChange')
-            expect(wrapper.find(NullComponent).exists()).toBeTruthy()
-        })
-        it('Прокидывание initialValues при изменении isEnabled', () => {
-            const wrapper = setup(
-                {
-                    resolveModel: {},
-                    isEnabled: false,
-                },
-                'onModelChange',
-            )
-            wrapper.setProps({ isEnabled: true }).update()
-            expect(wrapper.find(NullComponent).props()).toHaveProperty(
-                'initialValues',
-                {},
-            )
-        })
-
-        it('Прокидывание initialValues при изменении defaultValues и isEnabled=true', () => {
-            const wrapper = setup(
-                {
-                    activeModel: {},
-                    isEnabled: true,
-                },
-                'onModelChange',
-            )
-            wrapper.setProps({ activeModel: { newDefaultValue: 'newDefaultValue' }, resolveModel: { newDefaultValue: 'newDefaultValue' } }).update()
-            expect(wrapper.find(NullComponent).props()).toHaveProperty(
-                'initialValues',
-                { newDefaultValue: 'newDefaultValue' },
-            )
-        })
-
-        it('Прокидывание initialValues при изменении isEnabled, если нет defaultValues', () => {
-            const wrapper = setup(
-                {
-                    resolveModel: { resolve: '' },
-                    datasource: { data: '' },
-                    isEnabled: false,
-                },
-                'onDataSourceChange',
-            )
-            wrapper.setProps({ isEnabled: true }).update()
-            expect(wrapper.find(NullComponent).props()).toHaveProperty(
-                'initialValues',
-                {
-                    resolve: '',
-                    data: '',
-                },
-            )
-        })
-    })
-
-    describe('Проверка withWidgetHandlers', () => {
-        it('проверка onChange метода. Вызов onResolve если пришел initialValues', () => {
-            const onResolve = sinon.spy()
-            const wrapper = setup(
-                {
-                    initialValues: { init: 'test' },
-                    reduxFormValues: { init: 'test' },
-                    resolveModel: {},
-                    modelPrefix: 'datasource',
-                    onResolve,
-                    onSetModel: () => {},
-                },
-                'withWidgetHandlers',
-            )
-            wrapper
-                .find(NullComponent)
-                .props()
-                .onChange('newValue')
-
-            expect(onResolve.calledOnce).toBe(true)
-            expect(onResolve.calledWith({ init: 'test' })).toBe(true)
-        })
-
-        it('onResolve нет values и modelPrefix', () => {
-            const onResolve = sinon.spy()
-            const wrapper = setup(
-                {
-                    onResolve,
-                },
-                'withWidgetHandlers',
-            )
-            wrapper
-                .find(NullComponent)
-                .props()
-                .onChange('newValue')
-
-            expect(onResolve.calledOnce).toBe(true)
-            expect(onResolve.calledWith('newValue')).toBe(true)
         })
     })
 

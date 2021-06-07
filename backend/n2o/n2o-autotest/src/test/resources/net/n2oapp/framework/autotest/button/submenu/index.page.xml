@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Кнопка с выпадающим меню">
+    <form>
+        <fields>
+            <hidden id="field" default-value="1"/>
+        </fields>
+        <toolbar>
+            <sub-menu label="Действия">
+                <menu-item label="Сохранить">
+                    <clear model="edit"/>
+                </menu-item>
+                <menu-item label="Изменить"/>
+                <menu-item label="Удалить"/>
+            </sub-menu>
+        </toolbar>
+    </form>
+</simple-page>

@@ -4,6 +4,7 @@
         <input-text id="id" copied="true"/>
         <input-text id="name"/>
         <input-text id="surname" copied="true"/>
+        <input-select id="org" copied="true"/>
     </fields>
     <pre-filters>
         <eq field-id="id" param="id"/>
