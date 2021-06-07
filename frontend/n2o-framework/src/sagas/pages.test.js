@@ -25,10 +25,10 @@ import {
     updateModel,
     updateMapModel,
 } from '../ducks/models/store'
-import { defaultApiProvider, FETCH_PAGE_METADATA } from '../core/api'
+import { FETCH_PAGE_METADATA } from '../core/api'
 import { FETCH_END, FETCH_START } from '../constants/fetch'
 import { CHANGE_ROOT_PAGE } from '../constants/global'
-import { DESTROY } from '../constants/overlays'
+import { destroyOverlay } from '../ducks/overlays/store'
 
 import {
     watcherDefaultModels,
@@ -381,7 +381,7 @@ describe('Сага для для наблюдения за изменением 
             expect(dispatched[2].payload).toEqual({
                 rootPageId: 'testPage',
             })
-            expect(dispatched[3].type).toBe(DESTROY)
+            expect(dispatched[3].type).toBe(destroyOverlay.type)
             expect(dispatched[4].type).toBe(SET_STATUS)
             expect(dispatched[4].payload).toEqual({
                 pageId: 'testPage',

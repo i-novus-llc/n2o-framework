@@ -1,6 +1,9 @@
-import { INSERT_MODAL, DESTROY, HIDE, SHOW } from '../constants/overlays'
-
-import overlays from './overlays'
+import overlays, {
+    insertOverlay,
+    destroyOverlay,
+    hideOverlay,
+    showOverlay
+} from '../store'
 
 describe('Тесты overlays reducer', () => {
     it('Проверка INSERT', () => {
@@ -12,10 +15,11 @@ describe('Тесты overlays reducer', () => {
                     },
                 ],
                 {
-                    type: INSERT_MODAL,
+                    type: insertOverlay,
                     payload: {
                         visible: true,
                         name: 'testName',
+                        mode: 'modal'
                     },
                 },
             ),
@@ -46,10 +50,8 @@ describe('Тесты overlays reducer', () => {
                     },
                 ],
                 {
-                    type: SHOW,
-                    payload: {
-                        name: 'stateOverlay',
-                    },
+                    type: showOverlay,
+                    payload: 'stateOverlay',
                 },
             ),
         ).toEqual([
@@ -72,10 +74,8 @@ describe('Тесты overlays reducer', () => {
                     },
                 ],
                 {
-                    type: HIDE,
-                    payload: {
-                        name: 'stateOverlay',
-                    },
+                    type: hideOverlay,
+                    payload: 'stateOverlay',
                 },
             ),
         ).toEqual([
@@ -99,7 +99,7 @@ describe('Тесты overlays reducer', () => {
                     },
                 ],
                 {
-                    type: DESTROY,
+                    type: destroyOverlay,
                 },
             ),
         ).toEqual([])

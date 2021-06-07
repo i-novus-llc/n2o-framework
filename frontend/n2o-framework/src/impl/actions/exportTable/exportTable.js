@@ -6,7 +6,7 @@ import {
     makeWidgetSizeSelector,
     makeWidgetCountSelector,
 } from '../../../ducks/widgets/selectors'
-import { destroyOverlay } from '../../../actions/overlays'
+import { destroyOverlay } from '../../../ducks/overlays/store'
 
 /**
  * Функция для кодирования query

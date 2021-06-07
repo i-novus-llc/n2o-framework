@@ -1,4 +1,4 @@
-import { overlaysSelector, makeOverlaysbyName } from './overlays'
+import { overlaysSelector, makeOverlaysbyName } from '../selectors'
 
 const state = {
     overlays: [

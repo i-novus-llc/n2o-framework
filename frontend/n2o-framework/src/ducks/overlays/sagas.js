@@ -4,15 +4,17 @@ import keys from 'lodash/keys'
 import has from 'lodash/has'
 import get from 'lodash/get'
 
-import { CLOSE, INSERT_MODAL, INSERT_DRAWER } from '../constants/overlays'
-import { makePageWidgetsByIdSelector } from '../selectors/pages'
+import { makePageWidgetsByIdSelector } from '../../selectors/pages'
+import { refreshEffect } from '../../sagas/meta'
+
+import { CLOSE } from './constants'
 import {
     showPrompt,
     destroyOverlay,
     destroyOverlays,
-} from '../actions/overlays'
-
-import { refreshEffect } from './meta'
+    insertOverlay,
+    insertDrawer,
+} from './store'
 
 /**
  * Проверка на изменение данных в формах
@@ -87,7 +89,7 @@ function* onCloseEffects() {
         }
     }
 
-    yield takeEvery([INSERT_MODAL, INSERT_DRAWER], getClose)
+    yield takeEvery([insertOverlay, insertDrawer], getClose)
     yield takeEvery(CLOSE, onClose)
 }
 

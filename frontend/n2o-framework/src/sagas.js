@@ -13,7 +13,7 @@ import globalSagas from './sagas/global'
 import { conditionsSaga } from './sagas/conditions'
 import { widgetDependencySagas } from './sagas/widgetDependency'
 import regionsSagas from './ducks/regions/sagas'
-import { overlaysSagas } from './sagas/overlays'
+import { overlaysSagas } from './ducks/overlays/sagas'
 import toolbarSagas from './ducks/toolbar/sagas'
 
 export default function generateSagas(dispatch, config) {

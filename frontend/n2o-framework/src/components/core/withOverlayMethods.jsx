@@ -12,7 +12,7 @@ import {
     makePageMetadataByIdSelector,
     makePageTitleByIdSelector,
 } from '../../selectors/pages'
-import { makeShowPromptByName } from '../../selectors/overlays'
+import { makeShowPromptByName } from '../../ducks/overlays/selectors'
 
 import withActions from './withActions'
 
