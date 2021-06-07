@@ -4,7 +4,7 @@ import { compose, getContext } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 
-import { userSelector } from '../../selectors/auth'
+import { userSelector } from '../../ducks/user/selectors'
 
 const withSecurity = (WrappedComponent) => {
     function Security(props) {

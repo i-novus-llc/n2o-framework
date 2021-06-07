@@ -1,15 +1,16 @@
 import { push, replace } from 'connected-react-router'
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { USER_LOGIN, USER_LOGOUT } from '../constants/auth'
 import {
     SECURITY_LOGIN,
     SECURITY_LOGOUT,
     SECURITY_ERROR,
-} from '../core/auth/authTypes'
-import { userLoginSuccess, userLogoutSuccess } from '../actions/auth'
-import { FETCH_ERROR } from '../constants/fetch'
-import { fetchErrorContinue } from '../actions/fetch'
+} from '../../core/auth/authTypes'
+import { FETCH_ERROR } from '../../constants/fetch'
+import { fetchErrorContinue } from '../../actions/fetch'
+
+import { userLoginSuccess, userLogoutSuccess } from './store'
+import { USER_LOGIN, USER_LOGOUT } from './constants'
 
 export function* resolveAuth(
     { authProvider, redirectPath, externalLoginUrl },

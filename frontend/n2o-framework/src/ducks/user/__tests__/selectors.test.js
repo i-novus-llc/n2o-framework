@@ -1,4 +1,4 @@
-import { authSelector, isLoggedInSelector, userSelector } from './auth'
+import { authSelector, isLoggedInSelector, userSelector } from '../selectors'
 
 const state = {
     user: {

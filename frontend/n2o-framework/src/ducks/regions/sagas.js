@@ -11,11 +11,11 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import includes from 'lodash/includes'
 
-import { modelsSelector } from '../models/selectors'
 import { METADATA_SUCCESS } from '../../constants/pages'
 import { getLocation, rootPageSelector } from '../../selectors/global'
 import { makePageRoutesByIdSelector } from '../../selectors/pages'
-import { authSelector } from '../../selectors/auth'
+import { modelsSelector } from '../models/selectors'
+import { authSelector } from '../user/selectors'
 // eslint-disable-next-line import/no-cycle
 import { routesQueryMapping } from '../widgets/sagas'
 import { makeWidgetVisibleSelector } from '../widgets/selectors'

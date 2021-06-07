@@ -4,11 +4,9 @@ import {
     USER_CHECK_SUCCESS,
     USER_LOGIN,
     USER_LOGIN_ERROR,
-    USER_LOGIN_SUCCESS,
     USER_LOGOUT,
     USER_LOGOUT_ERROR,
-    USER_LOGOUT_SUCCESS,
-} from '../constants/auth'
+} from '../constants'
 
 import {
     userCheck,
@@ -20,7 +18,7 @@ import {
     userLogout,
     userLogoutError,
     userLogoutSuccess,
-} from './auth'
+} from '../store'
 
 const payload = {
     login: 'test',
@@ -108,10 +106,6 @@ describe('Тесты для экшенов auth', () => {
     })
 
     describe('Проверяет экшен userLoginSuccess', () => {
-        it('Генирирует правильное событие', () => {
-            const action = userLoginSuccess(payload)
-            expect(action.type).toEqual(USER_LOGIN_SUCCESS)
-        })
         it('Возвращает правильный payload', () => {
             const action = userLoginSuccess(payload)
             expect(action.payload).toEqual(payload)
@@ -153,10 +147,6 @@ describe('Тесты для экшенов auth', () => {
     })
 
     describe('Проверяет экшен userLogoutSuccess', () => {
-        it('Генирирует правильное событие', () => {
-            const action = userLogoutSuccess(payload)
-            expect(action.type).toEqual(USER_LOGOUT_SUCCESS)
-        })
         it('Возвращает правильный payload', () => {
             const action = userLogoutError(payload)
             expect(action.payload).toEqual(payload)

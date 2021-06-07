@@ -1,4 +1,4 @@
-import { USER_CHECK } from '../constants/auth'
+import { USER_CHECK } from '../ducks/user/constants'
 
 import createActionHelper from './createActionHelper'
 

@@ -10,7 +10,7 @@ import overlays from './ducks/overlays/store'
 import columns from './ducks/columns/store'
 import toolbar from './ducks/toolbar/store'
 import formSlice from './ducks/form/store'
-import user from './reducers/auth'
+import user from './ducks/user/store'
 import alerts from './ducks/alerts/store'
 import regions from './ducks/regions/store'
 

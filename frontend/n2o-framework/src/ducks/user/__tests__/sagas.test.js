@@ -2,12 +2,12 @@ import { runSaga } from 'redux-saga'
 import { call } from 'redux-saga/effects'
 import { replace, push } from 'connected-react-router'
 
-import { USER_LOGIN, USER_LOGOUT } from '../constants/auth'
-import { FETCH_ERROR } from '../constants/fetch'
-import { userLoginSuccess, userLogoutSuccess } from '../actions/auth'
-import { SECURITY_ERROR } from '../core/auth/authTypes'
+import { USER_LOGIN, USER_LOGOUT } from '../constants'
+import { FETCH_ERROR } from '../../../constants/fetch'
+import { userLoginSuccess, userLogoutSuccess } from '../store'
+import { SECURITY_ERROR } from '../../../core/auth/authTypes'
 
-import { resolveAuth } from './auth'
+import { resolveAuth } from '../sagas'
 
 describe('Проверка саги auth', () => {
     it('resolveAuth должен залогиниться', async () => {

@@ -7,7 +7,7 @@ import {
     requestConfigFail,
     setReady,
 } from '../actions/global'
-import { userLogin } from '../actions/auth'
+import { userLogin } from '../ducks/user/store'
 import { localeSelector } from '../selectors/global'
 import {
     FETCH_APP_CONFIG,
