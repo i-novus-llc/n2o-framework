@@ -83,5 +83,26 @@ module.exports = {
             'uxcases_input'
          ]
     },
+    {
+        type: 'category',
+        label: 'Manual',
+        items: [
+            'manual/index',
+        ]
+    },
+    {
+        type: 'category',
+        label: 'Migration',
+        items: [
+            'migration/migration',
+        ]
+    },
+    {
+        type: 'category',
+        label: 'Xml',
+        items: [
+            'xml/index',
+        ]
+    },
     ]
 }
