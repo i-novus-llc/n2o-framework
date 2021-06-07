@@ -91,6 +91,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
 
         // изменяем интервальное поле
         dateInterval.beginVal("18.01.2020");
+        dateInterval.shouldBeExpanded();
         Selenide.sleep(500);
         dateInterval.beginShouldHaveValue("18.01.2020");
         Selenide.refresh();
@@ -101,6 +102,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         dateInterval.endVal("24.01.2020");
+        dateInterval.shouldBeExpanded();
         Selenide.sleep(500);
         dateInterval.endShouldHaveValue("24.01.2020");
         Selenide.refresh();

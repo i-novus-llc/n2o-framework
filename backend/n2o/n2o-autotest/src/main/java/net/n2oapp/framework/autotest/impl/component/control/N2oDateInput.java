@@ -59,7 +59,6 @@ public class N2oDateInput extends N2oControl implements DateInput {
         element().$(".btn.n2o-calendar-button").click();
     }
 
-
     @Override
     public void shouldBeActiveDay(String day) {
         element().$(".n2o-calendar-day.selected").shouldBe(Condition.exist).shouldHave(Condition.text(day));

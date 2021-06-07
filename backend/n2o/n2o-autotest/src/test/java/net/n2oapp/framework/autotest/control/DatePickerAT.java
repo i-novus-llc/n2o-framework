@@ -55,7 +55,6 @@ public class DatePickerAT extends AutoTestBase {
         date.expand();
         date.shouldBeExpanded();
         date.val("15.02.2020");
-        date.shouldBeExpanded();
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
         date.shouldBeActiveDay("15");
