@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.condition;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -93,6 +94,29 @@ public class VisibilityAT extends AutoTestBase {
         fields2.field("Field L22").control(InputText.class).shouldNotExists();
         fields2.field("Field R12").control(InputText.class).shouldExists();
         fields2.field("Field R22").control(InputText.class).shouldExists();
+    }
+
+    @Test
+    public void testRequirementAndVisibility() {
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
+
+        Fields fields = page.regions().region(2, SimpleRegion.class).content().widget(FormWidget.class).fields();
+        fields.shouldHaveSize(2);
+        fields.field("Count").shouldExists();
+        fields.field("Count").control(InputSelect.class).select(1);
+        fields.field("QR setting").shouldExists();
+
+        fields.field("QR setting").control(InputSelect.class).select(1);
+        fields.field("Type1").shouldBeRequired();
+        fields.field("Type1").shouldExists();
+        fields.field("Type2").shouldExists();
+
+        fields.field("QR setting").control(InputSelect.class).select(0);
+        fields.field("Type1").shouldBeRequired();
+        fields.field("Type1").shouldExists();
+        fields.field("Type2").shouldNotExists();
     }
 
 }
