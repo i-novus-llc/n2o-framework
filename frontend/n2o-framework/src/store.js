@@ -19,7 +19,9 @@ export default (initialState, history, config = {}) => {
             let extendedAction = action
 
             if (Object.prototype.toString.call(action) === '[object Object]') {
-                extendedAction = { ...action, meta: action.meta || {} }
+                const { payload = {}, meta = {}, ...actionFields } = action
+
+                extendedAction = { ...actionFields, payload, meta }
             }
 
             next(extendedAction)
