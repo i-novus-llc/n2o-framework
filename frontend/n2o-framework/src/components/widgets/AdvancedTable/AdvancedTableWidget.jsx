@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import values from 'lodash/values'
 
-import N2OPagination from '../Table/N2OPagination'
+import { getN2OPagination } from '../Table/N2OPagination'
+import { pagingType } from '../../snippets/Pagination/types'
 import StandardWidget from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { dependency } from '../../../core/dependency'
@@ -130,12 +131,7 @@ class AdvancedTableWidget extends Component {
                 toolbar={toolbar}
                 actions={actions}
                 filter={this.prepareFilters()}
-                bottomLeft={paging && place === 'bottomLeft' && <N2OPagination widgetId={widgetId} {...paging} />}
-                bottomCenter={paging && place === 'bottomCenter' && <N2OPagination widgetId={widgetId} {...paging} />}
-                bottomRight={paging && place === 'bottomRight' && <N2OPagination widgetId={widgetId} {...paging} />}
-                topLeft={paging && place === 'topLeft' && <N2OPagination widgetId={widgetId} {...paging} />}
-                topCenter={paging && place === 'topCenter' && <N2OPagination widgetId={widgetId} {...paging} />}
-                topRight={paging && place === 'topRight' && <N2OPagination widgetId={widgetId} {...paging} />}
+                {...getN2OPagination(paging, place, widgetId)}
                 className={className}
                 style={style}
             >
@@ -192,7 +188,7 @@ AdvancedTableWidget.propTypes = {
     }),
     bordered: PropTypes.bool,
     rowClick: PropTypes.object,
-    paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    paging: pagingType,
     multiHeader: PropTypes.bool,
     scroll: PropTypes.object,
     expandable: PropTypes.bool,

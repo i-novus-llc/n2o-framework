@@ -6,8 +6,9 @@ import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 // eslint-disable-next-line import/no-named-as-default
 import dependency from '../../../core/dependency'
+import { pagingType } from '../../snippets/Pagination/types'
 
-import N2OPagination from './N2OPagination'
+import { getN2OPagination } from './N2OPagination'
 import TableContainer from './TableContainer'
 
 /**
@@ -94,12 +95,7 @@ class TableWidget extends React.Component {
                 toolbar={toolbar}
                 actions={actions}
                 filter={this.prepareFilters()}
-                bottomLeft={paging && place === 'bottomLeft' && <N2OPagination widgetId={widgetId} {...paging} />}
-                bottomCenter={paging && place === 'bottomCenter' && <N2OPagination widgetId={widgetId} {...paging} />}
-                bottomRight={paging && place === 'bottomRight' && <N2OPagination widgetId={widgetId} {...paging} />}
-                topLeft={paging && place === 'topLeft' && <N2OPagination widgetId={widgetId} {...paging} />}
-                topCenter={paging && place === 'topCenter' && <N2OPagination widgetId={widgetId} {...paging} />}
-                topRight={paging && place === 'topRight' && <N2OPagination widgetId={widgetId} {...paging} />}
+                {...getN2OPagination(paging, place, widgetId)}
                 className={className}
                 style={style}
             >
@@ -143,7 +139,7 @@ TableWidget.propTypes = {
             cells: PropTypes.array,
         }),
     ),
-    paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    paging: pagingType,
     filter: PropTypes.object,
     id: PropTypes.string,
     disabled: PropTypes.bool,

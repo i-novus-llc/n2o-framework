@@ -6,7 +6,8 @@ import PropTypes from 'prop-types'
 import dependency from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import N2OPagination from '../Table/N2OPagination'
+import { getN2OPagination } from '../Table/N2OPagination'
+import { pagingType } from '../../snippets/Pagination/types'
 
 import ListContainer from './ListContainer'
 
@@ -62,13 +63,11 @@ function ListWidget(
     },
     context,
 ) {
-    const { size } = paging
+    const { size, place = 'bottomLeft' } = paging
 
     const prepareFilters = () => context.resolveProps(filter, Fieldsets.StandardFieldset)
 
     const resolveSections = () => context.resolveProps(list)
-
-    const { place = 'bottomLeft' } = paging
 
     return (
         <StandardWidget
@@ -77,12 +76,7 @@ function ListWidget(
             toolbar={toolbar}
             actions={actions}
             filter={prepareFilters()}
-            bottomLeft={paging && place === 'bottomLeft' && <N2OPagination widgetId={widgetId} {...paging} />}
-            bottomCenter={paging && place === 'bottomCenter' && <N2OPagination widgetId={widgetId} {...paging} />}
-            bottomRight={paging && place === 'bottomRight' && <N2OPagination widgetId={widgetId} {...paging} />}
-            topLeft={paging && place === 'topLeft' && <N2OPagination widgetId={widgetId} {...paging} />}
-            topCenter={paging && place === 'topCenter' && <N2OPagination widgetId={widgetId} {...paging} />}
-            topRight={paging && place === 'topRight' && <N2OPagination widgetId={widgetId} {...paging} />}
+            {...getN2OPagination(paging, place, widgetId)}
             className={className}
             style={style}
         >
@@ -130,7 +124,7 @@ ListWidget.propTypes = {
     prevText: PropTypes.string,
     nextText: PropTypes.string,
     hasSelect: PropTypes.bool,
-    paging: PropTypes.object,
+    paging: pagingType,
     placeholder: PropTypes.object,
     divider: PropTypes.bool,
     rows: PropTypes.bool,
@@ -148,7 +142,7 @@ ListWidget.defaultProps = {
     paging: {
         prevText: 'Назад',
         nextText: 'Вперед',
-        withoutBody: true,
+        maxPages: 0,
         prev: true,
         next: true,
     },
