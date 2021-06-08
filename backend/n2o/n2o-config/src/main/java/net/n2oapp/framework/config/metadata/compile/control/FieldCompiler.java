@@ -492,21 +492,21 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     /**
      * Получение модели для дефолтного значения поля
      *
-     * @param source        Исходная модель поля
-     * @param fieldId       Идентификатор поля
-     * @param defaultValues Информация о модели
-     * @param context       Контекст сборки метаданных
-     * @param p             Процессор сборки метаданных
+     * @param source            Исходная модель поля
+     * @param fieldId           Идентификатор поля
+     * @param defaultModelScope Информация о значениях по умолчанию модели
+     * @param context           Контекст сборки метаданных
+     * @param p                 Процессор сборки метаданных
      * @return Модель для дефолтного значения поля
      */
-    private ModelLink getDefaultValueModelLink(S source, String fieldId, ModelsScope defaultValues, CompileContext<?, ?> context, CompileProcessor p) {
-        String widgetId = getDefaultValueLinkWidgetId(source, fieldId, defaultValues.getWidgetId(), context, p);
+    private ModelLink getDefaultValueModelLink(S source, String fieldId, ModelsScope defaultModelScope, CompileContext<?, ?> context, CompileProcessor p) {
+        String widgetId = getDefaultValueLinkWidgetId(source, fieldId, defaultModelScope.getWidgetId(), context, p);
 
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE), widgetId, source.getRefFieldId());
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), widgetId, source.getRefFieldId());
         } else {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE), widgetId);
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), widgetId);
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 

@@ -40,9 +40,9 @@ public class RefFieldModelAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/ref/field/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/ref/field/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/ref/field/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/model/field/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/field/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/field/test.query.xml"));
     }
 
     @Test
