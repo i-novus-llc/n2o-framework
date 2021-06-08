@@ -150,14 +150,6 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         timeVal(lastCalendar(), hours, minutes, seconds);
     }
 
-    public void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
-        element.$(".n2o-calendar-time-container").click();
-        element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
-        element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
-        element.$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
-        element.$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
-    }
-
     @Override
     public void expand() {
         element().$(".n2o-date-input").should(Condition.exist).click();
@@ -176,6 +168,14 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     @Override
     public void shouldBeExpanded() {
         popUp().shouldBe(Condition.exist);
+    }
+
+    private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
+        element.$(".n2o-calendar-time-container").click();
+        element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
+        element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
+        element.$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
+        element.$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
     }
 
     private SelenideElement firstInputElement() {
