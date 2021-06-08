@@ -1501,7 +1501,7 @@ card - вид горизонтальной карточки с показом н
 |inline
 |true false
 |Отображение элементов на одной строке
-|false
+|false, при type='tabs' inline='true'
 
 |type
 |default btn tabs

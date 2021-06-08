@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RadioGroupCompileTest extends SourceCompileTestBase {
@@ -36,11 +37,19 @@ public class RadioGroupCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testRadioGroup", "/test"));
 
         RadioGroup radioGroup = (RadioGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
-        .get(0).getCols().get(0).getFields().get(0)).getControl();
+                .get(0).getCols().get(0).getFields().get(0)).getControl();
         assertThat(radioGroup.getType().getId(), is("default"));
+        assertThat(radioGroup.getInline(), is(nullValue()));
+
 
         radioGroup = (RadioGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(radioGroup.getType().getId(), is("tabs"));
+        assertThat(radioGroup.getInline(), is(true));
+
+        radioGroup = (RadioGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(2).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(radioGroup.getType().getId(), is("tabs"));
+        assertThat(radioGroup.getInline(), is(false));
     }
 }
