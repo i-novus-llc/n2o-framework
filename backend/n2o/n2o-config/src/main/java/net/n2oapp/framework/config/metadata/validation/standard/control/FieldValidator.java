@@ -38,7 +38,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     /**
      * Если в поле указаны ссылки на другой виджет, то значение по умолчанию обязательно должно быть ссылкой
      *
-     * @param source поле
+     * @param source Поле
      */
     private void checkDefaultValues(N2oField source) {
         if ((source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefModel() != null)
@@ -62,15 +62,15 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     }
 
     /**
-     * Проверка значений по умолчанию спиского поля
+     * Проверка значений по умолчанию спискового поля
      *
-     * @param list списковое поле
+     * @param list Списковое поле
      */
     private void checkListFieldDefaultValues(N2oListField list) {
         if (list.getDefValue() == null)
             throw new N2oMetadataValidationException(
                     String.format("У поля %s default-value не задан", list.getId()));
-        if (list.getDefValue().values().stream().filter(v -> StringUtils.isLink(v)).findFirst().isEmpty())
+        if (list.getDefValue().values().stream().filter(StringUtils::isLink).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
                     String.format("У поля %s default-value не является ссылкой", list.getId()));
     }
