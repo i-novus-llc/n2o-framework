@@ -61,12 +61,6 @@ class N2OPagination extends Component {
             showCount,
             showSinglePage,
             maxPages,
-            // showCountRecords, // deprecated
-            // hideSinglePage, // deprecated
-            // maxButtons, // deprecated
-            // withoutBody, // deprecated
-            // prevText, // deprecated
-            // nextText, //deprecated
             filters,
         } = this.props
 
@@ -95,8 +89,6 @@ class N2OPagination extends Component {
                     lastIcon={lastIcon}
                     showCount={showCount}
                     showSinglePage={showSinglePage}
-                    // hideSinglePage={hideSinglePage} // deprecated
-                    // withoutBody={withoutBody} // deprecated
                 />
             )
         )
@@ -109,7 +101,6 @@ N2OPagination.propTypes = {
     activePage: PropTypes.number,
     onChangePage: PropTypes.func,
     datasource: PropTypes.array,
-    // maxButtons: PropTypes.number, // deprecated
     maxPages: PropTypes.number,
     layout: PropTypes.string,
     prev: PropTypes.bool,
@@ -126,30 +117,11 @@ N2OPagination.propTypes = {
     lastLabel: PropTypes.string,
     showCount: PropTypes.bool,
     showSinglePage: PropTypes.bool,
-    // showCountRecords: PropTypes.bool, // deprecated
-    // hideSinglePage: PropTypes.bool, // deprecated
-    // withoutBody: PropTypes.bool, // deprecated
-    // prevText: PropTypes.string, // deprecated
-    // nextText: PropTypes.string, // deprecated
     filters: PropTypes.object,
 }
 
 N2OPagination.defaultProps = {
     datasource: [],
-    // maxButtons: 5, // deprecated
-    // for testing
-    layout: 'separated',
-    prevLabel: null,
-    prevIcon: 'fa fa-angle-left',
-    nextLabel: null,
-    nextIcon: 'fa fa-angle-right',
-    firstLabel: null,
-    firstIcon: 'fa fa-angle-double-left',
-    lastLabel: null,
-    lastIcon: 'fa fa-angle-double-right',
-    showCount: true,
-    showSinglePage: false,
-    // for testing
 }
 
 const mapStateToProps = createStructuredSelector({
