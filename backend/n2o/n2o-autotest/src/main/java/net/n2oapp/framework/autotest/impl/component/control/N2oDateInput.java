@@ -111,6 +111,26 @@ public class N2oDateInput extends N2oControl implements DateInput {
         else cellInputElement().shouldHave(condition);
     }
 
+    @Override
+    public void expand() {
+        element().$(".n2o-date-input").should(Condition.exist).click();
+    }
+
+    @Override
+    public void collapse() {
+        throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
+    }
+
+    @Override
+    public void shouldBeExpanded() {
+        popUp().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldBeCollapsed() {
+        popUp().shouldNotBe(Condition.exist);
+    }
+
     private SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");
@@ -118,5 +138,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement popUp() {
+        return element().parent().parent().$(".n2o-pop-up");
     }
 }

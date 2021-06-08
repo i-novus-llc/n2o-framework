@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { compose, withPropsOnChange } from 'recompose'
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { getFormValues } from 'redux-form'
-import isUndefined from 'lodash/isUndefined'
 
+import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
 import { registerButton, removeButton } from '../../actions/toolbar'
 import {
     isDisabledSelector,
@@ -30,14 +29,6 @@ const ConfirmMode = {
     MODAL: 'modal',
 }
 
-const N2O_ROOT = document.getElementById('n2o')
-
-const RenderTooltip = ({ id, message }) => !isUndefined(message) && (
-    <UncontrolledTooltip target={id} boundariesElement={N2O_ROOT}>
-        {message}
-    </UncontrolledTooltip>
-)
-
 /*
  * TODO декомпозировать ХОК
  *  вынести отдельно части, отвечающие за
@@ -45,6 +36,7 @@ const RenderTooltip = ({ id, message }) => !isUndefined(message) && (
  *  - рендер
  *  - вызов валидации
  */
+
 export default function withActionButton(options = {}) {
     const { onClick } = options
     const shouldConfirm = !options.noConfirm
@@ -207,9 +199,9 @@ export default function withActionButton(options = {}) {
 
           return (
               <div id={this.generatedTooltipId}>
-                  <RenderTooltip
-                      message={currentMessage}
+                  <SimpleTooltip
                       id={this.generatedTooltipId}
+                      message={currentMessage}
                   />
                   <WrappedComponent
                       {...omit(this.props, [
