@@ -5,6 +5,105 @@ import { withTranslation } from 'react-i18next'
 
 import { PaginationButton } from './PaginationButton'
 
+const getLabel = (direction, icon, label) => {
+    if (icon && label) {
+        if (direction === 'left') {
+            return (
+                <>
+                    <span className={icon} aria-hidden="true" />
+                    {' '}
+                    <span>{label}</span>
+                </>
+            )
+        }
+
+        if (direction === 'right') {
+            return (
+                <>
+                    <span>{label}</span>
+                    {' '}
+                    <span className={icon} aria-hidden="true" />
+                </>
+            )
+        }
+    }
+
+    if (icon) {
+        return (<i className={icon} aria-hidden="true" />)
+    }
+
+    return label
+}
+
+const getControlButton = (buttonType, icon, label, activePage, onSelect, lastPage) => {
+    const buttonsOptions = {
+        first: { direction: 'left', props: { eventKey: 1, disabled: activePage === 1 } },
+        last: { direction: 'right', props: { eventKey: lastPage, disabled: lastPage === activePage } },
+        next: { direction: 'right', props: { eventKey: activePage + 1, disabled: lastPage === activePage } },
+        prev: { direction: 'left', props: { eventKey: activePage - 1, disabled: activePage === 1 } },
+    }
+
+    const buttonOption = buttonsOptions[buttonType]
+
+    return (
+        <PaginationButton
+            {...buttonOption.props}
+            label={getLabel(buttonOption.direction, icon, label)}
+            onSelect={onSelect}
+            tabIndex={0}
+        />
+    )
+}
+
+/**
+ * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
+ * @param activePage
+ * @param pages
+ * @param maxPages
+ * @param onSelect
+ * @param totalPages
+ * @returns {Array} - вовзращает список кнопок
+ */
+const renderBodyPaging = (activePage, pages, maxPages, onSelect, totalPages) => {
+    const getPager = (totalPages, currentPage, maxPages) => {
+        let startPage
+        let endPage
+
+        if (totalPages <= maxPages) {
+            // if we have less than maxPages so show all
+            startPage = 1
+            endPage = totalPages
+        } else {
+            // we have more than maxPages so calculate start and end pages
+            const middle = Math.ceil(maxPages / 2)
+
+            if (currentPage <= middle) {
+                startPage = 1
+                endPage = maxPages
+            } else if (currentPage + (maxPages - middle) >= totalPages) {
+                startPage = totalPages - (maxPages - 1)
+                endPage = totalPages
+            } else {
+                startPage = currentPage - Math.floor(maxPages / 2)
+                endPage = currentPage + middle - 1
+            }
+        }
+
+        return [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i)
+    }
+
+    return getPager(totalPages, activePage, maxPages).map(page => (
+        <PaginationButton
+            key={page.toString()}
+            tabIndex={0}
+            eventKey={page}
+            label={page}
+            active={page === activePage}
+            onSelect={onSelect}
+        />
+    ))
+}
+
 /**
  * Компонент интерфейса разбивки по страницам
  * @reactProps {boolean} prev - показать/скрыть кнопку быстрого перехода на предыдущую страницу
@@ -34,219 +133,86 @@ import { PaginationButton } from './PaginationButton'
  *             size={datasource.size}
  *             maxPages={5}/>
  */
-class Pagination extends React.Component {
-    /**
-     * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
-     * @param activePage
-     * @param pages
-     * @param maxPages
-     * @param onSelect
-     * @param totalPages
-     * @returns {Array} - вовзращает список кнопок
-     */
-    renderBodyPaging = (activePage, pages, maxPages, onSelect, totalPages) => {
-        const getPager = (totalPages, currentPage, maxPages) => {
-            let startPage
-            let endPage
+const Pagination = (props) => {
+    const {
+        layout = 'separated',
+        activePage = 1,
+        count = 1,
+        size = 1,
+        maxPages = 5,
+        first = false,
+        last = false,
+        prev = false,
+        next = false,
+        showCount = true,
+        showSinglePage = false,
+        onSelect,
+        className,
+        prevIcon = 'fa fa-angle-left',
+        prevLabel = null,
+        nextIcon = 'fa fa-angle-right',
+        nextLabel = null,
+        firstIcon = 'fa fa-angle-double-left',
+        firstLabel = null,
+        lastIcon = 'fa fa-angle-double-right',
+        lastLabel = null,
+        style,
+        t = () => {
+        },
+    } = props
 
-            if (totalPages <= maxPages) {
-                // if we have less than maxPages so show all
-                startPage = 1
-                endPage = totalPages
-            } else {
-                // we have more than maxPages so calculate start and end pages
-                const middle = Math.ceil(maxPages / 2)
+    const pages = Math.ceil(count / size) || 1
+    const lastPage = Math.ceil(count / size)
 
-                if (currentPage <= middle) {
-                    startPage = 1
-                    endPage = maxPages
-                } else if (currentPage + (maxPages - middle) >= totalPages) {
-                    startPage = totalPages - (maxPages - 1)
-                    endPage = totalPages
-                } else {
-                    startPage = currentPage - Math.floor(maxPages / 2)
-                    endPage = currentPage + middle - 1
-                }
-            }
+    // eslint-disable-next-line max-len
+    const partialApply = (activePage, onSelect) => (buttonType, icon, label) => getControlButton(buttonType, icon, label, activePage, onSelect, lastPage)
 
-            return [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i)
-        }
+    const getButton = partialApply(activePage, onSelect)
 
-        return getPager(totalPages, activePage, maxPages).map(page => (
-            <PaginationButton
-                key={page.toString()}
-                tabIndex={0}
-                eventKey={page}
-                label={page}
-                active={page === activePage}
-                onSelect={onSelect}
-            />
-        ))
-    }
+    return (
+        <nav
+            className="n2o-pagination"
+            style={{ display: 'flex', alignItems: 'baseline', ...style }}
+        >
+            {showSinglePage && pages === 1 ? null : (
+                <ul className={classNames('pagination', 'd-inline-flex', className, layout)}>
+                    {first && getButton('first', firstIcon, firstLabel)}
+                    {prev && getButton('prev', prevIcon, prevLabel)}
+                    {renderBodyPaging(activePage, pages, maxPages, onSelect, pages)}
+                    {next && getButton('next', nextIcon, nextLabel)}
+                    {last && getButton('last', lastIcon, lastLabel)}
+                </ul>
+            )}
 
-    /**
-     * Базовый рендер компонента
-     */
-    render() {
-        const {
-            layout,
-            activePage,
-            count,
-            size,
-            maxPages,
-            first,
-            last,
-            prev,
-            next,
-            showCount,
-            showSinglePage,
-            onSelect,
-            className,
-            prevIcon,
-            prevLabel,
-            nextIcon,
-            nextLabel,
-            firstIcon,
-            firstLabel,
-            lastIcon,
-            lastLabel,
-            style,
-            t,
-        } = this.props
-        const pages = Math.ceil(count / size) || 1
-        const lastPage = Math.ceil(count / size)
-
-        const getLabel = (direction, icon, label) => {
-            if (icon && label) {
-                if (direction === 'left') {
-                    return (
-                        <>
-                            <span className={icon} aria-hidden="true" />
-                            {' '}
-                            <span>{label}</span>
-                        </>
-                    )
-                }
-
-                if (direction === 'right') {
-                    return (
-                        <>
-                            <span>{label}</span>
-                            {' '}
-                            <span className={icon} aria-hidden="true" />
-                        </>
-                    )
-                }
-            }
-
-            if (icon) {
-                return (<i className={icon} aria-hidden="true" />)
-            }
-
-            return label
-        }
-
-        const getFirst = () => {
-            const label = getLabel('left', firstIcon, firstLabel)
-
-            return (
-                <PaginationButton
-                    eventKey={1}
-                    label={label}
-                    disabled={activePage === 1}
-                    onSelect={onSelect}
-                    tabIndex={0}
-                />
-            )
-        }
-
-        const getPrev = () => {
-            const label = getLabel('left', prevIcon, prevLabel)
-
-            return (
-                <PaginationButton
-                    eventKey={activePage - 1}
-                    label={label}
-                    disabled={activePage === 1}
-                    onSelect={onSelect}
-                    tabIndex={0}
-                />
-            )
-        }
-
-        const getNext = () => {
-            const label = getLabel('right', nextIcon, nextLabel)
-
-            return (
-                <PaginationButton
-                    eventKey={activePage + 1}
-                    label={label}
-                    disabled={lastPage === activePage}
-                    onSelect={onSelect}
-                    tabIndex={0}
-                />
-            )
-        }
-
-        const getLast = () => {
-            const label = getLabel('right', lastIcon, lastLabel)
-
-            return (
-                <PaginationButton
-                    eventKey={lastPage}
-                    label={label}
-                    disabled={lastPage === activePage}
-                    onSelect={onSelect}
-                    tabIndex={0}
-                />
-            )
-        }
-
-        return (
-            <nav
-                className="n2o-pagination"
-                style={{ display: 'flex', alignItems: 'baseline', ...style }}
-            >
-                {showSinglePage && pages === 1 ? null : (
-                    <ul className={classNames('pagination', 'd-inline-flex', className, layout)}>
-                        {first && getFirst()}
-                        {prev && getPrev()}
-                        {this.renderBodyPaging(
-                            activePage,
-                            pages,
-                            maxPages,
-                            onSelect,
-                            pages,
-                        )}
-                        {next && getNext()}
-                        {last && getLast()}
-                    </ul>
-                )}
-                {/* eslint-disable react/jsx-one-expression-per-line */}
-                {showCount && (
-                    <span
-                        className="n2o-pagination-info"
-                        style={{
-                            paddingLeft: showSinglePage && pages === 1 ? 0 : '1rem',
-                            display: 'inline-flex',
-                        }}
-                    >
-                        {`${t('paginationTotal')} ${count}`}
-
-                                &nbsp;
-                        {t('paginationInterval', { postProcess: 'interval', count })}
-                    </span>
-                )}
-            </nav>
-        )
-    }
+            {showCount && (
+                <span
+                    className="n2o-pagination-info"
+                    style={{
+                        paddingLeft: showSinglePage && pages === 1 ? 0 : '1rem',
+                        display: 'inline-flex',
+                    }}
+                >
+                    {`${t('paginationTotal')} ${count}`}
+                    <>&nbsp;</>
+                    {t('paginationInterval', { postProcess: 'interval', count })}
+                </span>
+            )}
+        </nav>
+    )
 }
 
 Pagination.propTypes = {
     /**
      *  Стиль
      * */
-    layout: PropTypes.string,
+    layout: PropTypes.oneOf([
+        'bordered',
+        'flat',
+        'separated',
+        'flat-rounded',
+        'bordered-rounded',
+        'separated-rounded',
+    ]),
     /**
      * Показать/скрыть кнопку быстрого перехода на предыдущую страницу
      */
@@ -329,29 +295,6 @@ Pagination.propTypes = {
     className: PropTypes.string,
     t: PropTypes.func,
     style: PropTypes.object,
-}
-
-Pagination.defaultProps = {
-    layout: null,
-    prev: false,
-    prevIcon: null,
-    prevLabel: null,
-    next: false,
-    nextIcon: null,
-    nextLabel: null,
-    first: false,
-    firstIcon: null,
-    firstLabel: null,
-    last: false,
-    lastIcon: null,
-    lastLabel: null,
-    showCount: true,
-    showSinglePage: false,
-    maxPages: 5,
-    count: 1,
-    size: 1,
-    activePage: 1,
-    t: () => {},
 }
 
 export default withTranslation()(Pagination)
