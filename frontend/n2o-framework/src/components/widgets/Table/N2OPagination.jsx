@@ -102,7 +102,14 @@ N2OPagination.propTypes = {
     onChangePage: PropTypes.func,
     datasource: PropTypes.array,
     maxPages: PropTypes.number,
-    layout: PropTypes.string,
+    layout: PropTypes.oneOf([
+        'bordered',
+        'flat',
+        'separated',
+        'flat-rounded',
+        'bordered-rounded',
+        'separated-rounded',
+    ]),
     prev: PropTypes.bool,
     prevIcon: PropTypes.string,
     prevLabel: PropTypes.string,
@@ -152,5 +159,8 @@ const N2OPaginationComponent = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(N2OPagination)
+
+export const getN2OPagination = (paging, place, widgetId) => (
+    paging ? { [place]: <N2OPaginationComponent widgetId={widgetId} {...paging} /> } : {})
 
 export default N2OPaginationComponent
