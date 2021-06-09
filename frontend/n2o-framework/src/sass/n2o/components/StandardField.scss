@@ -22,6 +22,7 @@
 .label-right {
     display: flex;
     flex-direction: row-reverse;
+    align-items: baseline;
 
     label {
         margin-left: 5px;
@@ -30,6 +31,7 @@
 
 .label-left {
     display: flex;
+    align-items: baseline;
 
     label {
         margin-right: 5px;
