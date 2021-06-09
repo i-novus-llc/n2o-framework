@@ -11,7 +11,6 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.LineRegion;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -45,13 +44,13 @@ public class RefModalAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/modal/ref_modal/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/test.query.xml"));
     }
 
     @Test
     public void refParentModalTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/ref_modal/from_form/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/modal/ref_modal/from_form/modal.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/modal.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         // передача параметров в модельное окно из формы
@@ -91,8 +90,8 @@ public class RefModalAT extends AutoTestBase {
 
     @Test
     public void refParentModalFromFiltersTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/ref_modal/from_filters/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/modal/ref_modal/from_filters/filters.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/filters.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         // передача параметров в модельное окно из фильтров таблицы
@@ -119,5 +118,4 @@ public class RefModalAT extends AutoTestBase {
         filters.search();
         tableWidget.columns().rows().shouldHaveSize(1);
     }
-
 }

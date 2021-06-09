@@ -1,7 +1,7 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        ref-id="childTableMerger" selection="checkbox" height="100px" width="200px" text-wrap="true"
        table-size="lg" children="expand">
-    <filters>
+    <filters search-on-change="true" default-values-query-id="test" place="left">
         <input-text id="test1"/>
     </filters>
     <pagination first="true" last="true" show-single-page="true" next="true" prev="true" show-count="true"/>

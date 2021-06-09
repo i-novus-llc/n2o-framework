@@ -118,8 +118,8 @@ class Fieldset extends React.Component {
 
         if (
             isEqual(activeModel, prevProps.activeModel) &&
-      isEqual(visible, prevProps.visible) &&
-      isEqual(enabled, prevProps.enabled)
+                isEqual(visible, prevProps.visible) &&
+                isEqual(enabled, prevProps.enabled)
         ) {
             return
         }
@@ -271,24 +271,26 @@ class Fieldset extends React.Component {
 
         return (
             <div className={classes} style={style}>
-                <div className="n2o-fieldset__label-container">
-                    {needLabel && (
-                        <Label
-                            className={classNames(
-                                'n2o-fieldset__label', { 'with-description': description },
-                            )}
-                            value={resolveLabel}
-                        />
-                    )}
-                    {needDescription && (
-                        <Label
-                            className={classNames(
-                                'n2o-fieldset__description', { 'line-description': type === 'line' },
-                            )}
-                            value={description}
-                        />
-                    )}
-                </div>
+                {(needLabel || needDescription) && (
+                    <div className="n2o-fieldset__label-container">
+                        {needLabel && (
+                            <Label
+                                className={classNames(
+                                    'n2o-fieldset__label', { 'with-description': description },
+                                )}
+                                value={resolveLabel}
+                            />
+                        )}
+                        {needDescription && (
+                            <Label
+                                className={classNames(
+                                    'n2o-fieldset__description', { 'line-description': type === 'line' },
+                                )}
+                                value={description}
+                            />
+                        )}
+                    </div>
+                )}
                 <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}

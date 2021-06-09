@@ -47,9 +47,9 @@ public class LineRegionAT extends AutoTestBase {
         line1.shouldHaveStyle("width: 90%;");
         line1.shouldBeCollapsible();
         line1.shouldBeExpanded();
-        line1.collapseContent();
+        line1.collapse();
         line1.shouldBeCollapsed();
-        line1.expandContent();
+        line1.expand();
         line1.shouldBeExpanded();
 
         // collapsed
@@ -92,13 +92,13 @@ public class LineRegionAT extends AutoTestBase {
 
         // testing collapse/expand state of nesting regions
         // after collapse->expand global region
-        panel.collapseContent();
-        line.collapseContent();
+        panel.collapse();
+        line.collapse();
         tabs.tab(1).click();
 
-        lineRegion.collapseContent();
+        lineRegion.collapse();
         lineRegion.shouldBeCollapsed();
-        lineRegion.expandContent();
+        lineRegion.expand();
 
         panel.shouldBeCollapsed();
         line.shouldBeCollapsed();

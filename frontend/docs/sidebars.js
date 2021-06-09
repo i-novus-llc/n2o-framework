@@ -80,7 +80,29 @@ module.exports = {
          label: 'Примеры',
          items: [
             'uxcases_list',
+            'uxcases_input'
          ]
+    },
+    {
+        type: 'category',
+        label: 'Manual',
+        items: [
+            'manual/index',
+        ]
+    },
+    {
+        type: 'category',
+        label: 'Migration',
+        items: [
+            'migration/migration',
+        ]
+    },
+    {
+        type: 'category',
+        label: 'Xml',
+        items: [
+            'xml/index',
+        ]
     },
     ]
 }
