@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Чтение значения поля из модели текущей страницы и родительской">
+    <table id="table" query-id="test">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+        <toolbar>
+            <button label="Модальное окно">
+                <show-modal page-id="page" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
+            </button>
+            <button label="Открыть">
+                <open-page page-id="page" route="/:id/read">
+                    <path-param name="id" value="{id}"/>
+                </open-page>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>
