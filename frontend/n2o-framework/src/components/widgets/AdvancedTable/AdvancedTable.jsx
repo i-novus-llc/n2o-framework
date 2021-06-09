@@ -713,6 +713,7 @@ class AdvancedTable extends Component {
 
     mapColumns(columns = []) {
         const { rowSelection, filters, textWrap } = this.props
+
         let newColumns = columns
 
         newColumns = map(newColumns, (col, columnIndex) => ({
@@ -727,9 +728,11 @@ class AdvancedTable extends Component {
                 record,
                 editable: col.editable && record.editable,
                 hasSpan: col.hasSpan,
+                needRender: col.needRender,
                 textWrap,
             }),
         }))
+
         if (rowSelection) {
             newColumns = [
                 this.createSelectionColumn(columns, rowSelection),
