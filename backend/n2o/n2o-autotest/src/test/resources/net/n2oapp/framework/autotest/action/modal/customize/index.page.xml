@@ -9,6 +9,9 @@
             <button label="Открыть без хедера" model="filter">
                 <show-modal page-id="test" has-header="false" backdrop="true"/>
             </button>
+            <button label="Открыть" model="filter">
+                <show-modal page-id="test"/>
+            </button>
         </toolbar>
     </form>
 </simple-page>

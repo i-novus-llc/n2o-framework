@@ -1,8 +1,11 @@
 package net.n2oapp.framework.autotest.action;
 
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
@@ -162,5 +165,44 @@ public class ShowModalAT extends AutoTestBase {
         InputSelect addressByForm = modalFields.field("Получение значения для спиского поля из модели всей формы").control(InputSelect.class);
         addressByForm.shouldSelected("test400");
     }
+    @Test
+    public void buttonsEnablingInModalTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/test.page.xml"));
 
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        Button openModalButton = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть");
+        openModalButton.shouldExists();
+        openModalButton.click();
+
+        Modal modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
+        StandardButton saveButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar()
+                .bottomLeft().button("Сохранить");
+        saveButton.shouldExists();
+        saveButton.shouldBeDisabled();
+        StandardButton closeButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar()
+                .bottomLeft().button("Закрыть");
+        closeButton.shouldExists();
+        closeButton.shouldBeDisabled();
+
+        InputText inputText = modalPage.content(SimplePage.class).widget(FormWidget.class)
+                .fields().field("Input").control(InputText.class);
+        inputText.element().setValue("test");
+        inputText.shouldHaveValue("test");
+        saveButton.shouldBeEnabled();
+        saveButton.click();
+        modalPage.close();
+        Selenide.confirm();
+        modalPage.shouldNotExists();
+
+        openModalButton.click();
+        modalPage.shouldExists();
+        saveButton.shouldExists();
+        saveButton.shouldBeDisabled();
+        closeButton.shouldExists();
+        closeButton.shouldBeDisabled();
+    }
 }
