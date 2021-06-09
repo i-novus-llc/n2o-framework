@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { RESET_STATE } from '../../constants/widgets'
+import { RESET_STATE } from '../widgets/constants'
 
 import ColumnsResolver from './ColumnsResolver'
 

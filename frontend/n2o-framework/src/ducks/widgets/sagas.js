@@ -14,14 +14,25 @@ import { reset } from 'redux-form'
 import { replace } from 'connected-react-router'
 import queryString from 'query-string'
 
-import { dataProviderResolver, getParams } from '../core/dataProviderResolver'
+import { dataProviderResolver, getParams } from '../../core/dataProviderResolver'
+import { PREFIXES } from '../models/constants'
+import { removeModel, setModel, clearModel } from '../models/store'
+import { makePageRoutesByIdSelector } from '../../selectors/pages'
+import { getLocation, rootPageSelector } from '../../selectors/global'
+import { makeGetModelByPrefixSelector } from '../models/selectors'
+import { FETCH_WIDGET_DATA } from '../../core/api'
+import { generateErrorMeta } from '../../utils/generateErrorMeta'
+import { id } from '../../utils/id'
+// eslint-disable-next-line import/no-cycle
+import { checkIdBeforeLazyFetch } from '../regions/sagas'
+import fetchSaga from '../../sagas/fetch'
+
 import {
-    CHANGE_PAGE,
-    DATA_REQUEST,
-    DISABLE,
-    RESOLVE,
-} from '../constants/widgets'
-import { PREFIXES } from '../ducks/models/constants'
+    makeSelectedIdSelector,
+    makeWidgetByIdSelector,
+    makeWidgetDataProviderSelector,
+    makeWidgetPageIdSelector,
+} from './selectors'
 import {
     changeCountWidget,
     changePageWidget,
@@ -29,24 +40,10 @@ import {
     dataSuccessWidget,
     resetWidgetState,
     setWidgetMetadata,
-} from '../actions/widgets'
-import { removeModel, setModel, clearModel } from '../ducks/models/store'
-import {
-    makeSelectedIdSelector,
-    makeWidgetByIdSelector,
-    makeWidgetDataProviderSelector,
-    makeWidgetPageIdSelector,
-} from '../selectors/widgets'
-import { makePageRoutesByIdSelector } from '../selectors/pages'
-import { getLocation, rootPageSelector } from '../selectors/global'
-import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
-import { FETCH_WIDGET_DATA } from '../core/api'
-import { generateErrorMeta } from '../utils/generateErrorMeta'
-import { id } from '../utils/id'
-// eslint-disable-next-line import/no-cycle
-import { checkIdBeforeLazyFetch } from '../ducks/regions/sagas'
-
-import fetchSaga from './fetch'
+    dataRequestWidget,
+    disableWidget,
+    resolveWidget,
+} from './store'
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST
@@ -69,7 +66,7 @@ function* getData() {
     while (true) {
         const {
             payload: { widgetId, options },
-        } = yield take(DATA_REQUEST)
+        } = yield take(dataRequestWidget.type)
         const selectedId = yield select(makeSelectedIdSelector(widgetId))
 
         yield fork(handleFetch, widgetId, options, isQueryEqual, prevSelectedId)
@@ -335,7 +332,7 @@ function* clearFilters(action) {
 export default apiProvider => [
     fork(getData, apiProvider),
     takeEvery(clearModel, clearForm),
-    takeEvery(RESOLVE, runResolve),
-    takeEvery(DISABLE, clearOnDisable),
-    takeEvery(CHANGE_PAGE, clearFilters),
+    takeEvery(resolveWidget, runResolve),
+    takeEvery(disableWidget, clearOnDisable),
+    takeEvery(changePageWidget, clearFilters),
 ]

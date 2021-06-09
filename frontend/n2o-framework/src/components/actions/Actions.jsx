@@ -10,7 +10,7 @@ import { compose, setDisplayName } from 'recompose'
 import get from 'lodash/get'
 
 import { callActionImpl } from '../../ducks/toolbar/store'
-import { resolveWidget } from '../../actions/widgets'
+import { resolveWidget } from '../../ducks/widgets/store'
 import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 import SecurityNotRender from '../../core/auth/SecurityNotRender'
 import linkResolver from '../../utils/linkResolver'

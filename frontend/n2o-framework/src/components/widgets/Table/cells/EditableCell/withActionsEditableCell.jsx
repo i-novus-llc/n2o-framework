@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
 import { setModel } from '../../../../../ducks/models/store'
-import { setTableSelectedId } from '../../../../../actions/widgets'
+import { setTableSelectedId } from '../../../../../ducks/widgets/store'
 import { PREFIXES } from '../../../../../ducks/models/constants'
 import { makeGetResolveModelSelector } from '../../../../../ducks/models/selectors'
 

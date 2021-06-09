@@ -5,7 +5,7 @@ import {
     makeWidgetPageSelector,
     makeWidgetSizeSelector,
     makeWidgetCountSelector,
-} from '../../../selectors/widgets'
+} from '../../../ducks/widgets/selectors'
 import { destroyOverlay } from '../../../actions/overlays'
 
 /**

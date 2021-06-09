@@ -10,12 +10,12 @@ import {
     makeWidgetCountSelector,
     makeWidgetSizeSelector,
     makeWidgetPageSelector,
-} from '../../../selectors/widgets'
+} from '../../../ducks/widgets/selectors'
 import {
     makeGetModelByPrefixSelector,
     makeGetFilterModelSelector,
 } from '../../../ducks/models/selectors'
-import { dataRequestWidget } from '../../../actions/widgets'
+import { dataRequestWidget } from '../../../ducks/widgets/store'
 import { PREFIXES } from '../../../ducks/models/constants'
 
 /**

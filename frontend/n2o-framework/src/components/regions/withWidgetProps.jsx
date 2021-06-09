@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import isEmpty from 'lodash/isEmpty'
 
-import { widgetsSelector } from '../../selectors/widgets'
+import { widgetsSelector } from '../../ducks/widgets/selectors'
 import {
     makeModelsByPrefixSelector,
     modelsSelector,
@@ -19,7 +19,7 @@ import {
     disableWidget,
     enableWidget,
     dataRequestWidget,
-} from '../../actions/widgets'
+} from '../../ducks/widgets/store'
 import { PREFIXES } from '../../ducks/models/constants'
 import { reduceFunction } from '../../sagas/widgetDependency/resolve'
 

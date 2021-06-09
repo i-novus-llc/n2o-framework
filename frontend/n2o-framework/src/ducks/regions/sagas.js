@@ -13,13 +13,13 @@ import includes from 'lodash/includes'
 
 import { modelsSelector } from '../models/selectors'
 import { METADATA_SUCCESS } from '../../constants/pages'
-import { makeWidgetVisibleSelector } from '../../selectors/widgets'
-import { dataRequestWidget } from '../../actions/widgets'
 import { getLocation, rootPageSelector } from '../../selectors/global'
 import { makePageRoutesByIdSelector } from '../../selectors/pages'
 import { authSelector } from '../../selectors/auth'
 // eslint-disable-next-line import/no-cycle
-import { routesQueryMapping } from '../../sagas/widgets'
+import { routesQueryMapping } from '../widgets/sagas'
+import { makeWidgetVisibleSelector } from '../widgets/selectors'
+import { dataRequestWidget } from '../widgets/store'
 
 import { setActiveRegion, regionsSelector } from './store'
 import { MAP_URL } from './constants'

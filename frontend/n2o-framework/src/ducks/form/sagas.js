@@ -9,13 +9,12 @@ import setWith from 'lodash/setWith'
 import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 
-import { getWidgetFieldValidation } from '../../selectors/widgets'
-import { setModel } from '../../actions/models'
-import { COPY } from '../../constants/models'
+import { setModel, copyModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
-} from '../../selectors/models'
+} from '../models/selectors'
+import { getWidgetFieldValidation } from '../widgets/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import * as validationPresets from '../../core/validation/presets'
 
@@ -180,5 +179,5 @@ export const formPluginSagas = [
     ),
     takeEvery([setRequired.type, unsetRequired.type], checkFieldValidation),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
-    takeEvery(COPY, copyAction),
+    takeEvery(copyModel.type, copyAction),
 ]

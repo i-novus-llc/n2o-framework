@@ -17,7 +17,7 @@ import {
     isVisibleSelector,
     countSelector,
 } from '../../ducks/toolbar/selectors'
-import { makeWidgetValidationSelector } from '../../selectors/widgets'
+import { makeWidgetValidationSelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'

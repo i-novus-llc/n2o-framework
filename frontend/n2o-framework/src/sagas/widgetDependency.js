@@ -24,7 +24,7 @@ import {
 } from '../ducks/models/store'
 import { DEPENDENCY_ORDER } from '../core/dependencyTypes'
 import { getModelsByDependency } from '../ducks/models/selectors'
-import { makeWidgetVisibleSelector } from '../selectors/widgets'
+import { makeWidgetVisibleSelector } from '../ducks/widgets/selectors'
 
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'

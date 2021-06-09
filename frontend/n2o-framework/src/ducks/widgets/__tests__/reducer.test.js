@@ -1,29 +1,27 @@
-import {
-    REGISTER,
-    DATA_REQUEST,
-    DATA_SUCCESS,
-    DATA_FAIL,
-    RESOLVE,
-    REMOVE,
-    SHOW,
-    HIDE,
-    ENABLE,
-    DISABLE,
-    LOADING,
-    UNLOADING,
-    SORT_BY,
-    CHANGE_COUNT,
-    CHANGE_SIZE,
-    CHANGE_PAGE,
-    CHANGE_FILTERS_VISIBILITY,
-    TOGGLE_FILTERS_VISIBILITY,
-    RESET_STATE,
-    SET_TABLE_SELECTED_ID,
-    SET_ACTIVE,
-    DISABLE_ON_FETCH,
-} from '../constants/widgets'
-
-import widgets from './widgets'
+import widgets, {
+    registerWidget,
+    dataRequestWidget,
+    dataSuccessWidget,
+    dataFailWidget,
+    resolveWidget,
+    showWidget,
+    hideWidget,
+    enableWidget,
+    disableWidget,
+    disableWidgetOnFetch,
+    loadingWidget,
+    unloadingWidget,
+    sortByWidget,
+    changeSizeWidget,
+    setTableSelectedId,
+    setActive,
+    changeCountWidget,
+    changePageWidget,
+    changeFiltersVisibility,
+    toggleWidgetFilters,
+    resetWidgetState,
+    removeWidget,
+} from '../store'
 
 describe('Тесты widget reducer', () => {
     it('Проверка REGISTER', () => {
@@ -33,7 +31,7 @@ describe('Тесты widget reducer', () => {
                     'Page.Widget': {},
                 },
                 {
-                    type: REGISTER,
+                    type: registerWidget.type,
                     payload: {
                         widgetId: 'Page.Widget',
                         initProps: {
@@ -100,7 +98,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: DATA_REQUEST,
+                    type: dataRequestWidget.type,
                     payload: {
                         widgetId: 'widget',
                     },
@@ -120,7 +118,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: DATA_SUCCESS,
+                    type: dataSuccessWidget.type,
                     payload: {
                         widgetId: 'widget',
                     },
@@ -140,7 +138,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: DATA_FAIL,
+                    type: dataFailWidget.type,
                     payload: {
                         widgetId: 'widget',
                         err: 'someError',
@@ -162,7 +160,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: RESOLVE,
+                    type: resolveWidget.type,
                     payload: {
                         widgetId: 'widget',
                     },
@@ -182,9 +180,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: SHOW,
+                    type: showWidget.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -202,9 +200,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: HIDE,
+                    type: hideWidget.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -222,9 +220,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: ENABLE,
+                    type: enableWidget.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -242,9 +240,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: DISABLE,
+                    type: disableWidget.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -262,35 +260,15 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: DISABLE_ON_FETCH,
+                    type: disableWidgetOnFetch.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
         ).toEqual({
             widget: {
                 isEnabled: false,
-            },
-        })
-    })
-
-    it('Проверка ENABLE', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: ENABLE,
-                    payload: {
-                        widgetId: 'widget',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isEnabled: true,
             },
         })
     })
@@ -302,9 +280,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: LOADING,
+                    type: loadingWidget.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -322,9 +300,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: UNLOADING,
+                    type: unloadingWidget.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -342,7 +320,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: SORT_BY,
+                    type: sortByWidget.type,
                     payload: {
                         widgetId: 'widget',
                         sortDirection: 'DESC',
@@ -368,7 +346,7 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_SIZE,
+                    type: changeSizeWidget.type,
                     payload: {
                         widgetId: 'widget',
                         size: 50,
@@ -391,7 +369,7 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_PAGE,
+                    type: changePageWidget.type,
                     payload: {
                         widgetId: 'widget',
                         page: 5,
@@ -414,7 +392,7 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_COUNT,
+                    type: changeCountWidget.type,
                     payload: {
                         widgetId: 'widget',
                         count: 3,
@@ -437,7 +415,7 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_FILTERS_VISIBILITY,
+                    type: changeFiltersVisibility.type,
                     payload: {
                         widgetId: 'widget',
                         isFilterVisible: true,
@@ -460,9 +438,9 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: TOGGLE_FILTERS_VISIBILITY,
+                    type: toggleWidgetFilters.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -480,9 +458,9 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: RESET_STATE,
+                    type: resetWidgetState.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -500,7 +478,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: SET_TABLE_SELECTED_ID,
+                    type: setTableSelectedId.type,
                     payload: {
                         widgetId: 'widget',
                         value: 'testId',
@@ -521,7 +499,7 @@ describe('Тесты widget reducer', () => {
                     widget: {},
                 },
                 {
-                    type: SET_TABLE_SELECTED_ID,
+                    type: setTableSelectedId.type,
                     payload: {
                         widgetId: 'widget',
                         value: 613241,
@@ -544,9 +522,9 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: SET_ACTIVE,
+                    type: setActive.type,
                     payload: {
-                        widgetId: 'widget',
+                        widgetId: 'widget'
                     },
                 },
             ),
@@ -567,10 +545,8 @@ describe('Тесты widget reducer', () => {
                     },
                 },
                 {
-                    type: REMOVE,
-                    payload: {
-                        widgetId: 'widget',
-                    },
+                    type: removeWidget.type,
+                    payload: 'widget',
                 },
             ),
         ).toEqual({})

@@ -9,7 +9,7 @@ import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
 import { updateModel } from '../../../ducks/models/store'
-import { dataRequestWidget } from '../../../actions/widgets'
+import { dataRequestWidget } from '../../../ducks/widgets/store'
 import { makeGetModelByPrefixSelector } from '../../../ducks/models/selectors'
 import Alert from '../../snippets/Alerts/Alert'
 import DocumentTitle from '../../core/DocumentTitle'

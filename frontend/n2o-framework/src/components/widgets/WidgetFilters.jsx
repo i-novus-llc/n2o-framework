@@ -12,11 +12,11 @@ import debounce from 'lodash/debounce'
 import { createStructuredSelector } from 'reselect'
 
 import { Filter } from '../snippets/Filter/Filter'
-import { dataRequestWidget } from '../../actions/widgets'
+import { dataRequestWidget } from '../../ducks/widgets/store'
 import { PREFIXES } from '../../ducks/models/constants'
 import { setModel, removeModel } from '../../ducks/models/store'
 import { makeGetFilterModelSelector } from '../../ducks/models/selectors'
-import { makeWidgetFilterVisibilitySelector } from '../../selectors/widgets'
+import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
 

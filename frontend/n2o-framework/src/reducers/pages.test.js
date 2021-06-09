@@ -5,7 +5,7 @@ import {
     RESET,
     SET_STATUS,
 } from '../constants/pages'
-import { SET_WIDGET_METADATA } from '../constants/widgets'
+import { SET_WIDGET_METADATA } from '../ducks/widgets/constants'
 
 import pages from './pages'
 

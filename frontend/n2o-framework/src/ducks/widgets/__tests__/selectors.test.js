@@ -17,7 +17,7 @@ import {
     makeTypeSelector,
     makeWidgetDataProviderSelector,
     isAnyTableFocusedSelector,
-} from './widgets'
+} from '../selectors'
 
 const state = {
     widgets: {

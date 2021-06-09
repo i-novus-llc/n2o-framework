@@ -1,4 +1,4 @@
-import { RESET_STATE } from '../../../constants/widgets'
+import { RESET_STATE } from '../../widgets/constants'
 import columns, {
     registerColumn,
     changeColumnVisibility,

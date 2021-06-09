@@ -23,7 +23,7 @@ import { START_INVOKE } from '../constants/actionImpls'
 import {
     makeFormModelPrefixSelector,
     makeWidgetValidationSelector,
-} from '../selectors/widgets'
+} from '../ducks/widgets/selectors'
 import { getModelSelector, selectionTypeSelector } from '../ducks/models/selectors'
 import { validateField } from '../core/validation/createValidator'
 import { actionResolver } from '../core/factory/actionResolver'
@@ -32,7 +32,7 @@ import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../actions/pages'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
-import { disableWidgetOnFetch, enableWidget } from '../actions/widgets'
+import { disableWidgetOnFetch, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 
 import fetchSaga from './fetch'

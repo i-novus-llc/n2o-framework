@@ -1,4 +1,3 @@
-import { RESET_STATE } from '../../../constants/widgets'
 import toolbar, {
     registerButton,
     changeButtonTitle,
@@ -14,6 +13,7 @@ import toolbar, {
     toggleButtonVisibility,
     changeButtonVisibility,
 } from '../store'
+import { RESET_STATE } from '../../widgets/constants'
 
 describe('Проверка toolbar reducer', () => {
     it('Проверка REGISTER_BUTTON', () => {
@@ -23,7 +23,7 @@ describe('Проверка toolbar reducer', () => {
                     buttonKey: {},
                 },
                 {
-                    type: registerButton,
+                    type: registerButton.type,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -66,7 +66,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: changeButtonVisibility,
+                    type: changeButtonVisibility.type,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',

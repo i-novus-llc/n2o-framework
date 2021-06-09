@@ -9,7 +9,7 @@ import {
     DISABLE,
     SET_STATUS,
 } from '../constants/pages'
-import { SET_WIDGET_METADATA } from '../constants/widgets'
+import { SET_WIDGET_METADATA } from '../ducks/widgets/constants'
 
 /**
  * Описание объекта состояния страницы в хранилище

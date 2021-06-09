@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect'
+import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
-import { FORM, TABLE } from '../components/widgets/widgetTypes'
+import { FORM, TABLE } from '../../components/widgets/widgetTypes'
 
 /*
   Базовые селекторы
@@ -11,7 +11,7 @@ import { FORM, TABLE } from '../components/widgets/widgetTypes'
  * Базовый селектор всех виджетов
  * @param state
  */
-const widgetsSelector = (state = {}) => state.widgets || {}
+export const widgetsSelector = (state = {}) => state.widgets || {}
 
 /*
   Селекторы генераторы
@@ -21,7 +21,7 @@ const widgetsSelector = (state = {}) => state.widgets || {}
  * Селектор-генератор для получения виджета по ID
  * @param widgetId
  */
-const makeWidgetByIdSelector = widgetId => createSelector(
+export const makeWidgetByIdSelector = widgetId => createSelector(
     widgetsSelector,
     widgetsState => widgetsState[widgetId] || {},
 )
@@ -30,7 +30,7 @@ const makeWidgetByIdSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - isInit
  * @param widgetId
  */
-const makeWidgetIsInitSelector = widgetId => createSelector(
+export const makeWidgetIsInitSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.isInit,
 )
@@ -39,7 +39,7 @@ const makeWidgetIsInitSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - isVisible
  * @param widgetId
  */
-const makeWidgetVisibleSelector = widgetId => createSelector(
+export const makeWidgetVisibleSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.isVisible,
 )
@@ -48,7 +48,7 @@ const makeWidgetVisibleSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - isEnabled
  * @param widgetId
  */
-const makeWidgetEnabledSelector = widgetId => createSelector(
+export const makeWidgetEnabledSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.isEnabled,
 )
@@ -57,7 +57,7 @@ const makeWidgetEnabledSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - isLoading
  * @param widgetId
  */
-const makeWidgetLoadingSelector = widgetId => createSelector(
+export const makeWidgetLoadingSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.isLoading,
 )
@@ -66,7 +66,7 @@ const makeWidgetLoadingSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - size
  * @param widgetId
  */
-const makeWidgetSizeSelector = widgetId => createSelector(
+export const makeWidgetSizeSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.size,
 )
@@ -75,7 +75,7 @@ const makeWidgetSizeSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - count
  * @param widgetId
  */
-const makeWidgetCountSelector = widgetId => createSelector(
+export const makeWidgetCountSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.count,
 )
@@ -84,12 +84,12 @@ const makeWidgetCountSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - page
  * @param widgetId
  */
-const makeWidgetPageSelector = widgetId => createSelector(
+export const makeWidgetPageSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.page,
 )
 
-const makeWidgetPageIdSelector = widgetId => createSelector(
+export const makeWidgetPageIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.pageId,
 )
@@ -98,7 +98,7 @@ const makeWidgetPageIdSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
-const makeWidgetSortingSelector = widgetId => createSelector(
+export const makeWidgetSortingSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.sorting,
 )
@@ -107,7 +107,7 @@ const makeWidgetSortingSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - isFilterVisible
  * @param widgetId
  */
-const makeWidgetFilterVisibilitySelector = widgetId => createSelector(
+export const makeWidgetFilterVisibilitySelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.isFilterVisible,
 )
@@ -116,41 +116,41 @@ const makeWidgetFilterVisibilitySelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
-const makeWidgetValidationSelector = widgetId => createSelector(
+export const makeWidgetValidationSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.validation,
 )
 
 export const getWidgetFieldValidation = (state, widgetId, fieldId) => get(state, ['widgets', widgetId, 'validation', fieldId])
 
-const makeSelectedIdSelector = widgetId => createSelector(
+export const makeSelectedIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.selectedId,
 )
 
-const makeIsActiveSelector = widgetId => createSelector(
+export const makeIsActiveSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.isActive,
 )
 
-const makeTypeSelector = widgetId => createSelector(
+export const makeTypeSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.type,
 )
 
-const makeWidgetDataProviderSelector = widgetId => createSelector(
+export const makeWidgetDataProviderSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.dataProvider,
 )
 
-const isAnyTableFocusedSelector = createSelector(
+export const isAnyTableFocusedSelector = createSelector(
     widgetsSelector,
     widgetsState => Object.values(widgetsState).some(
         widget => (widget.type === TABLE || widget.type === FORM) && widget.isActive,
     ),
 )
 
-const makeWidgetErrorSelector = widgetId => createSelector(
+export const makeWidgetErrorSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.error,
 )
@@ -159,30 +159,7 @@ const makeWidgetErrorSelector = widgetId => createSelector(
   Остальные селекторы
 */
 
-const makeFormModelPrefixSelector = formName => createSelector(
+export const makeFormModelPrefixSelector = formName => createSelector(
     makeWidgetByIdSelector(formName),
     widgetState => widgetState.modelPrefix || 'resolve',
 )
-
-export {
-    widgetsSelector,
-    makeWidgetByIdSelector,
-    makeWidgetIsInitSelector,
-    makeWidgetVisibleSelector,
-    makeWidgetEnabledSelector,
-    makeWidgetLoadingSelector,
-    makeWidgetSizeSelector,
-    makeWidgetCountSelector,
-    makeWidgetSortingSelector,
-    makeWidgetFilterVisibilitySelector,
-    makeWidgetValidationSelector,
-    makeSelectedIdSelector,
-    makeIsActiveSelector,
-    makeWidgetPageSelector,
-    makeWidgetPageIdSelector,
-    makeTypeSelector,
-    makeWidgetDataProviderSelector,
-    isAnyTableFocusedSelector,
-    makeWidgetErrorSelector,
-    makeFormModelPrefixSelector,
-}

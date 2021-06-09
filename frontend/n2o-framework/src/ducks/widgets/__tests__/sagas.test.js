@@ -1,17 +1,17 @@
 import { runSaga } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 
-import { setModel } from '../ducks/models/store'
-import { PREFIXES } from '../ducks/models/constants'
+import { setModel } from '../../models/store'
+import { PREFIXES } from '../../models/constants'
 import {
     changeCountWidget,
     changePageWidget,
     setWidgetMetadata,
     resetWidgetState,
     dataSuccessWidget,
-    dataFailWidget } from '../actions/widgets'
+    dataFailWidget } from '../store'
 
-import * as api from './fetch'
+import * as api from '../../../sagas/fetch'
 import {
     prepareFetch,
     runResolve,
@@ -21,7 +21,7 @@ import {
     routesQueryMapping,
     getWithoutSelectedId,
     clearForm,
-} from './widgets'
+} from '../sagas'
 
 describe('Проверка саги widgets', () => {
     describe('тесты routesQueryMapping', () => {

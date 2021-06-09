@@ -1,6 +1,6 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
 
-import { RESET_STATE } from '../../constants/widgets'
+import { RESET_STATE } from '../widgets/constants'
 
 import ButtonResolver from './ButtonResolver'
 import { CALL_ACTION_IMPL } from './constants'

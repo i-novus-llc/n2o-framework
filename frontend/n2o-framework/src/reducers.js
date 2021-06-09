@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { reducer as formReducer } from 'redux-form'
 
-import widgets from './reducers/widgets'
+import widgets from './ducks/widgets/store'
 import models from './ducks/models/store'
 import global from './reducers/global'
 import pages from './reducers/pages'

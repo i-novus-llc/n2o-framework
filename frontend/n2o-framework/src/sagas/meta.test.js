@@ -1,7 +1,7 @@
 import React from 'react'
 import { runSaga } from 'redux-saga'
 
-import { DATA_REQUEST } from '../constants/widgets'
+import { dataRequestWidget } from '../ducks/widgets/store'
 import { addFieldMessage } from '../ducks/form/store'
 import { UPDATE_WIDGET_DEPENDENCY } from '../constants/dependency'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
@@ -190,7 +190,7 @@ describe('Сага для перехвата меты, сайд-эффектов
         it('Проверяет диспатч экшена обновления данных', () => {
             const { refresh } = setupRefresh()
             const { value } = refresh.next()
-            expect(value.payload.action.type).toEqual(DATA_REQUEST)
+            expect(value.payload.action.type).toEqual(dataRequestWidget.type)
         })
 
         it('Проверяет payload саги refreshEffect', () => {

@@ -23,7 +23,7 @@ import {
     setActive,
     setTableSelectedId,
     sortByWidget,
-} from '../../actions/widgets'
+} from '../../ducks/widgets/store'
 import { setModel, removeAllModel } from '../../ducks/models/store'
 import {
     makeGetModelByPrefixSelector,
@@ -32,7 +32,7 @@ import {
 import {
     isAnyTableFocusedSelector,
     makeWidgetByIdSelector,
-} from '../../selectors/widgets'
+} from '../../ducks/widgets/selectors'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { InitMetadataContext } from '../../core/dependency'
 import { removeAllAlerts } from '../../ducks/alerts/store'

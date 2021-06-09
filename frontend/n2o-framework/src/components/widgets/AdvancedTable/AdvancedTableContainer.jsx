@@ -17,7 +17,7 @@ import { replace } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
 import widgetContainer from '../WidgetContainer'
-import { setTableSelectedId } from '../../../actions/widgets'
+import { setTableSelectedId } from '../../../ducks/widgets/store'
 import { TABLE } from '../widgetTypes'
 import columnHOC from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
