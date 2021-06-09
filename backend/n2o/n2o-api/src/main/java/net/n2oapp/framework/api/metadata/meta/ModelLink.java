@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
@@ -17,6 +18,12 @@ public class ModelLink extends BindLink {
     private SubModelQuery subModelQuery;
     @Setter
     private String param;
+    /**
+     * Обновление только после появления данных у целевого виджета
+     */
+    @Setter
+    @JsonProperty
+    private Boolean observe;
 
     public ModelLink() {
     }
