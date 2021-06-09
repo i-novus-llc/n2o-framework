@@ -64,20 +64,31 @@ public class TableAT extends AutoTestBase {
         table.filters().shouldBeInvisible();
         table.toolbar().topRight().button(0, StandardButton.class).click();
 
-        table.columns().rows().row(0).cell(0).element().parent().shouldHave(Condition.cssClass("bg-danger"));
-        table.columns().rows().row(1).cell(0).element().parent().shouldHave(Condition.cssClass("bg-info"));
-        table.columns().rows().row(2).cell(0).element().parent().shouldHave(Condition.cssClass("bg-success"));
-        table.columns().headers().header(0).shouldHaveTitle("Имя");
-        table.columns().headers().header(0).shouldHaveStyle("color: red");
-        table.columns().headers().header(1).shouldHaveTitle("Фамилия");
-        table.columns().headers().header(1).shouldHaveCssClass("font-italic");
-        table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
+        table.columns().rows().row(0).cell(1).element().parent().shouldHave(Condition.cssClass("bg-danger"));
+        table.columns().rows().row(1).cell(1).element().parent().shouldHave(Condition.cssClass("bg-info"));
+        table.columns().rows().row(2).cell(1).element().parent().shouldHave(Condition.cssClass("bg-success"));
+        for (int i = 0; i < 3; i++) {
+            table.columns().rows().row(i).cell(0).shouldBeHidden();
+            table.columns().rows().row(i).cell(1).shouldBeVisible();
+            table.columns().rows().row(i).cell(2).shouldBeVisible();
+        }
+        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(1).shouldBeVisible();
+        table.columns().headers().header(1).shouldHaveTitle("Имя");
+        table.columns().headers().header(1).shouldHaveStyle("color: red");
+        table.columns().headers().header(2).shouldBeVisible();
+        table.columns().headers().header(2).shouldHaveTitle("Фамилия");
+        table.columns().headers().header(2).shouldHaveCssClass("font-italic");
+        table.columns().headers().header(3).shouldBeVisible();
+        table.columns().headers().header(3).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).click();
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Имя").click();
-        table.columns().headers().header(0).shouldNotHaveTitle();
+        table.columns().headers().header(1).shouldNotHaveTitle();
+        table.columns().headers().header(0).shouldBeHidden();
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Имя").click();
-        table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.columns().headers().header(1).shouldHaveTitle("Имя");
+        table.columns().headers().header(0).shouldBeHidden();
     }
 
     @Test

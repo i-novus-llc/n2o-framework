@@ -38,4 +38,14 @@ public class N2oCell extends N2oComponent implements Cell {
     public void clickExpand() {
         element().$(".n2o-advanced-table-expand .n2o-advanced-table-expand-icon").shouldBe(Condition.exist).click();
     }
+
+    @Override
+    public void shouldBeHidden() {
+        element().shouldBe(Condition.hidden);
+    }
+
+    @Override
+    public void shouldBeVisible() {
+        element().shouldBe(Condition.visible);
+    }
 }

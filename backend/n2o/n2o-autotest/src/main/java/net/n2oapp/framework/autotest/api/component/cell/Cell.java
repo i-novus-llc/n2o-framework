@@ -14,4 +14,8 @@ public interface Cell extends Component {
     void shouldNotBeExpanded();
 
     void clickExpand();
+
+    void shouldBeHidden();
+
+    void shouldBeVisible();
 }
