@@ -1,4 +1,5 @@
 import mapValues from 'lodash/mapValues'
+import omit from 'lodash/omit'
 
 import {
     CHANGE_BUTTON_VISIBILITY,
@@ -16,6 +17,7 @@ import {
     CHANGE_BUTTON_CLASS,
     CHANGE_BUTTON_STYLE,
     REMOVE_BUTTON,
+    REMOVE_BUTTONS,
 } from '../constants/toolbar'
 import { RESET_STATE } from '../constants/widgets'
 
@@ -105,10 +107,16 @@ export default function toolbar(state = {}, action) {
                 },
             }
         }
-        case REMOVE_BUTTON: {
+        case REMOVE_BUTTONS: {
             return {
                 ...state,
                 [key]: undefined,
+            }
+        }
+        case REMOVE_BUTTON: {
+            return {
+                ...state,
+                [key]: omit(state[key], [buttonId]),
             }
         }
         case RESET_STATE: {

@@ -33,7 +33,7 @@ public class CheckFieldRefTest extends SourceValidationTestBase {
     public void testCheckDefaultValueIsNotDefined() {
         assertOnException(() -> validate("net/n2oapp/framework/config/metadata/validation/fieldRef/testCheckDefaultValueIsNotDefined.widget.xml"),
                 N2oMetadataValidationException.class, e -> {
-                    assert e.getMessage().contains("Атрибут default-value не является ссылкой или не задан: ");
+                    assert e.getMessage().contains("У поля id атрибут default-value не является ссылкой или не задан: null");
                 });
     }
 
@@ -41,7 +41,7 @@ public class CheckFieldRefTest extends SourceValidationTestBase {
     public void testCheckDefaultValueIsNotLink() {
         assertOnException(() -> validate("net/n2oapp/framework/config/metadata/validation/fieldRef/testCheckDefaultValueIsNotLink.widget.xml"),
                 N2oMetadataValidationException.class, e -> {
-                    assert e.getMessage().contains("Атрибут default-value не является ссылкой или не задан: ");
+                    assert e.getMessage().contains("У поля id атрибут default-value не является ссылкой или не задан: ");
                 });
     }
 }

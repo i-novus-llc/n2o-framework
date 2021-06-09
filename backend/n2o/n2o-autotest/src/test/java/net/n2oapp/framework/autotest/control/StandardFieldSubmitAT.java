@@ -61,6 +61,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         select.shouldHaveValue("Мужской");
 
         DateInterval dateInterval = fields.field("Даты отпуска").control(DateInterval.class);
+        dateInterval.shouldBeCollapsed();
         dateInterval.beginShouldHaveValue("15.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
@@ -73,6 +74,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Мужской");
+        dateInterval.shouldBeCollapsed();
         dateInterval.beginShouldHaveValue("15.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
@@ -83,25 +85,30 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
+        dateInterval.shouldBeCollapsed();
         dateInterval.beginShouldHaveValue("15.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем интервальное поле
         dateInterval.beginVal("18.01.2020");
+        dateInterval.shouldBeExpanded();
         Selenide.sleep(500);
         dateInterval.beginShouldHaveValue("18.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
+        dateInterval.shouldBeCollapsed();
         dateInterval.beginShouldHaveValue("18.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
         dateInterval.endVal("24.01.2020");
+        dateInterval.shouldBeExpanded();
         Selenide.sleep(500);
         dateInterval.endShouldHaveValue("24.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
+        dateInterval.shouldBeCollapsed();
         dateInterval.beginShouldHaveValue("18.01.2020");
         dateInterval.endShouldHaveValue("24.01.2020");
     }

@@ -2,11 +2,14 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.component.Dropdown;
 
 /**
  * Компонент ввода текста с выбором из выпадающего списка для автотестирования
  */
-public interface InputSelect extends Control {
+public interface InputSelect extends Control, Dropdown {
+
+    void click();
 
     void val(String value);
 
@@ -28,15 +31,9 @@ public interface InputSelect extends Control {
 
     void shouldSelectedMulti(String... values);
 
-    void expandPopUpOptions();
-
-    void collapsePopUpOptions();
-
     void optionShouldHaveDescription(String option, String description);
 
     void itemShouldHaveStatusColor(String value, Colors color);
 
-
     void itemShouldBeEnabled(Boolean enabled, String itemValue);
-
 }

@@ -54,6 +54,14 @@
             line-height: 28px;
             font-weight: $font-weight-bold;
 
+            .n2o-panel-header-container {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                height: auto;
+                padding: 0;
+            }
+
             &:hover {
                 > .n2o-collapse-icon-wrapper {
                     background-color: $collapse-line-color;
@@ -72,10 +80,7 @@
                 transform: rotate(0deg);
                 transition: 0.2s;
                 margin: 0;
-                padding-bottom: 0.125rem;
-                padding-top: 0;
-                padding-left: 0.1rem;
-                padding-right: 0;
+                padding: 0 0 0.125rem 0.1rem;
 
                 &.isActive {
                     transform: rotate(90deg);
@@ -94,16 +99,15 @@
         &.line {
             border: 0;
 
-            > .n2o-panel-header::after {
+            .n2o-panel-header-container::after {
                 content: '';
                 display: inline-block;
                 vertical-align: middle;
                 box-sizing: border-box;
                 flex-grow: 1;
                 min-width: 40px;
-                height: $collapse-line-height;
-                background: $collapse-line-color;
-                margin-left: 5px;
+                margin: 2px 0 0 5px;
+                border-bottom: $collapse-line-height solid $collapse-line-color;
             }
 
             .n2o-panel-header .n2o-panel-header-text {
