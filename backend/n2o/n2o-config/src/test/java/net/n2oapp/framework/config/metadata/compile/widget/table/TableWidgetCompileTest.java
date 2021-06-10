@@ -479,7 +479,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getNext(), is(true));
         assertThat(pagination.getShowSinglePage(), is(false));
         assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.flat));
+        assertThat(pagination.getLayout(), is(Layout.separatedRounded));
         assertThat(pagination.getPrevLabel(), is("prev"));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
         assertThat(pagination.getNextLabel(), is("next"));

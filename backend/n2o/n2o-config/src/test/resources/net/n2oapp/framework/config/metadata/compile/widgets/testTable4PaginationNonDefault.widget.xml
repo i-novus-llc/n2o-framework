@@ -6,7 +6,7 @@
         <column text-field-id="id"/>
     </columns>
     <pagination first="true" last="true" show-single-page="false" next="true"
-                prev="true" show-count="true" layout="flat" prev-label="prev" prev-icon="fa fa-angle-left"
+                prev="true" show-count="true" layout="separated-rounded" prev-label="prev" prev-icon="fa fa-angle-left"
                 next-label="next" next-icon="fa fa-angle-right" first-label="first" first-icon="fa fa-angle-double-left"
                 last-label="last" last-icon="fa fa-angle-double-right" max-pages="10" class="class" style="style" place="topLeft"/>
 </table>
