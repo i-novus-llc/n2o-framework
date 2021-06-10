@@ -256,15 +256,6 @@
             </modules>
         </profile>
         <profile>
-            <id>docs</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>docs</module>
-            </modules>
-        </profile>
-        <profile>
             <id>docusaurus</id>
             <activation>
                 <activeByDefault>true</activeByDefault>

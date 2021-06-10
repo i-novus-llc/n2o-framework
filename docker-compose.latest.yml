@@ -6,9 +6,6 @@ services:
       - "8710:8080"
     environment:
       - SERVER_SERVLET_CONTEXT_PATH=/latest/demo
-  docs:
-    ports:
-      - "8711:80"
   storybook:
     ports:
       - "8712:80"
