@@ -18,4 +18,8 @@ public interface Cell extends Component {
     void shouldBeHidden();
 
     void shouldBeVisible();
+
+    void shouldHaveIcon(String icon);
+
+    void shouldNotHaveIcon();
 }
