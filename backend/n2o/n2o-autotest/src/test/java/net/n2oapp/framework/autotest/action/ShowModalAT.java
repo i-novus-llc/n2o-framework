@@ -172,12 +172,15 @@ public class ShowModalAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        Button openModalButton = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть");
+        page.breadcrumb().titleShouldHaveText("Настраиваемое модальное окно");
+        StandardButton openModalButton = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с хедером");
         openModalButton.shouldExists();
+        openModalButton.shouldBeEnabled();
         openModalButton.click();
 
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
+        modalPage.shouldHaveTitle("Модальное окно");
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
         StandardButton saveButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar()
                 .bottomLeft().button("Сохранить");
@@ -190,16 +193,19 @@ public class ShowModalAT extends AutoTestBase {
 
         InputText inputText = modalPage.content(SimplePage.class).widget(FormWidget.class)
                 .fields().field("Input").control(InputText.class);
-        inputText.element().setValue("test");
+        inputText.shouldExists();
+        inputText.shouldBeEnabled();
+        inputText.val("test");
         inputText.shouldHaveValue("test");
         saveButton.shouldBeEnabled();
-        saveButton.click();
         modalPage.close();
         Selenide.confirm();
         modalPage.shouldNotExists();
 
+        // при повторном открытии модальной страницы кнопки в тулбаре должны быть заблокированы
         openModalButton.click();
         modalPage.shouldExists();
+        modalPage.shouldHaveTitle("Модальное окно");
         saveButton.shouldExists();
         saveButton.shouldBeDisabled();
         closeButton.shouldExists();
