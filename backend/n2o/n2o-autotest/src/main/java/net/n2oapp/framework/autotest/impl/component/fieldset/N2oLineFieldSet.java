@@ -48,13 +48,13 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
     }
 
     @Override
-    public void expandContent() {
+    public void expand() {
         if (!item().is(expandedContentCondition()))
             header().click();
     }
 
     @Override
-    public void collapseContent() {
+    public void collapse() {
         if (item().is(expandedContentCondition()))
             header().click();
     }

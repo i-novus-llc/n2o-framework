@@ -66,13 +66,22 @@ public class IntervalFieldAT extends AutoTestBase {
         DateInput endDate = interval.end(DateInput.class);
 
         beginDate.shouldHaveValue("21.11.1999");
+        beginDate.shouldBeCollapsed();
+        beginDate.expand();
+        beginDate.shouldBeExpanded();
+
         endDate.shouldHaveValue("");
+        endDate.shouldBeCollapsed();
+        endDate.expand();
+        beginDate.shouldBeCollapsed();
+        endDate.shouldBeExpanded();
         endDate.val("29042020");
         endDate.shouldHaveValue("29.04.2020");
         endDate.shouldBeActiveDay("29");
         endDate.clickNextMonthButton();
         endDate.shouldHaveCurrentMonth("Май");
         endDate.clickDay("15");
+        endDate.shouldBeCollapsed();
         endDate.shouldHaveValue("15.05.2020");
     }
 }

@@ -1,0 +1,79 @@
+## Контекст {#Context}
+
+Контекст пользователя — это любая информация о текущем пользователе приложения.
+
+### Использование
+
+К контексту пользователя существует быстрый доступ из некоторых мест в XML через "решётку" и фигурные скобки:
+
+```xml
+<input-text id="login" default-value="#{username}"/>
+```
+
+__*Места применения контекста в XML*__
+
+|Место                                                     |Описание                                                                  |
+|----------------------------------------------------------|--------------------------------------------------------------------------|
+|*/[control]/@default-value                                |Значение по умолчанию [поля ввода](#Default_field_values).                |
+|/query/fields/field/filters/[filter-type]/@default-value  |Значение по умолчанию [фильтра выборки](#Selection_filters).              |
+|/query/fields/field/select/@default-value                 |Значение по умолчанию [поля выборки](#Selection_fields).                  |
+|/object/actions/action/in-parameters/param/@default-value |Значение по умолчанию [входящего параметра](#Object_operations) операции. |
+|/object/actions/action/out-parameters/param/@default-value|Значение по умолчанию [исходящего параметра](#Object_operations) действия.|
+|*/pre-filters/[filter-type]/@value                        |Значение [предустановленного фильтра](#pre-filters)                       |
+|*/pre-fields/[filter-type]/@value                         |Значение [предустановленного поля](#Preset_fields)                        |
+|/access/*/object-access/[filter-type]/@value              |Значение [фильтра доступа](#Access_scheme)                                |
+
+В случае, когда значение контекста отсутствует, возвращается `null`.
+Если логика приложения не допускает `null` контекст, можно сделать его обязательным, добавив восклицательный знак в конце:
+
+```xml title="бязательный контекст"
+<input-text id="name" default-value="#{firstName!}"/>
+```
+
+### Подключение
+
+Контекст подключается автоматически после интеграции с системой аутентификации Spring Security.
+
+:::note
+
+Например, в случае интеграции со Spring Security, все поля объекта `UserDetails` становятся доступны в XML.
+
+:::
+
+Можно сконфигурировать подключение вручную с помощью модульного контекста:
+
+```xml title="Подключение модульного контекста в Maven"
+<dependency>
+  <groupId>net.n2oapp.framework</groupId>
+  <artifactId>n2o-context</artifactId>
+  <version>{version}</version>
+</dependency>
+```
+
+Модульный контекст позволяет определять параметры контекста в любом jar модуле и получать их значения по первому требованию.
+Подключение делается с помощью интерфейса `ContextProvider` зарегистрированного в качестве Spring бина.
+
+```java
+/**
+* Провайдер одного значения контекста
+**/
+public class MyContextProvider
+    implements RootOneValueContextProvider {
+
+    /**
+    * @return Значение параметра контекста
+    **/
+    @Override
+    public Object getValue() {
+        return "myvalue";
+    }
+
+    /**
+    * @return Название параметра контекста
+    **/
+    @Override
+    public String getParam() {
+        return "myparam";
+    }
+}
+```

@@ -1,9 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import net.n2oapp.framework.autotest.api.component.Dropdown;
+
 /**
  * Компонент ввода времени для автотестирования
  */
-public interface TimePicker extends Control {
+public interface TimePicker extends Control, Dropdown {
 
     void selectHoursMinutesSeconds(String hours, String minutes, String seconds);
 
@@ -24,12 +26,4 @@ public interface TimePicker extends Control {
     void shouldHavePrefix(String prefix);
 
     void shouldNotHavePrefix();
-
-    void shouldBeExpanded();
-
-    void shouldBeCollapsed();
-
-    void expandPopUp();
-
-    void collapsePopUp();
 }

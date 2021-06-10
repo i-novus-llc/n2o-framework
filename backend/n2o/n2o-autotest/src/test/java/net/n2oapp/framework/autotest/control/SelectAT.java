@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -42,9 +43,21 @@ public class SelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Select input = page.widget(FormWidget.class).fields().field("Select1")
-                .control(Select.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        Select input = fields.field("Select1").control(Select.class);
         input.shouldExists();
+
+        // close popup by icon
+        input.expand();
+        input.shouldBeExpanded();
+        input.collapse();
+        input.shouldBeCollapsed();
+
+        // close popup by click on input area
+        input.click();
+        input.shouldBeExpanded();
+        input.click();
+        input.shouldBeCollapsed();
 
         input.shouldHaveOptions("One", "Two", "Three");
         input.shouldBeEmpty();
@@ -54,12 +67,17 @@ public class SelectAT extends AutoTestBase {
         input.clear();
         input.shouldBeEmpty();
 
-        input = page.widget(FormWidget.class).fields().field("Select2")
-                .control(Select.class);
-        input.shouldExists();
+        Select input2 = fields.field("Select2").control(Select.class);
+        input2.shouldExists();
 
-        input.select(1);
-        input.shouldNotBeCleanable();
+        input2.select(1);
+        input2.shouldNotBeCleanable();
+
+        // close popup by click on outside area
+        input2.click();
+        input2.shouldBeExpanded();
+        input.click();
+        input2.shouldBeCollapsed();
     }
 
     @Test
@@ -146,7 +164,7 @@ public class SelectAT extends AutoTestBase {
         input.clear();
         input.shouldBeEmpty();
         // сворачиваем popup, чтобы не накладывался на нижний контрол
-        input.collapsePopUpOptions();
+        input.collapse();
 
 
         Select input2 = page.widget(FormWidget.class).fields().field("Select2")
