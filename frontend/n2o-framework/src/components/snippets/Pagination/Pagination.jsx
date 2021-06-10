@@ -57,14 +57,13 @@ const getControlButton = (buttonType, icon, label, activePage, onSelect, lastPag
 
 /**
  * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
- * @param activePage
- * @param pages
- * @param maxPages
- * @param onSelect
- * @param totalPages
+ * @param activePage {number} - номер активной страницы
+ * @param maxPages {number} - максимальное кол-во отображаемых кнопок перехода между страницами
+ * @param onSelect {function} - callback нажатия по кнопке страницы
+ * @param totalPages {number} - общее количество страниц
  * @returns {Array} - вовзращает список кнопок
  */
-const renderBodyPaging = (activePage, pages, maxPages, onSelect, totalPages) => {
+const renderBodyPaging = (activePage, maxPages, onSelect, totalPages) => {
     const getPager = (totalPages, currentPage, maxPages) => {
         let startPage
         let endPage
@@ -157,38 +156,32 @@ const Pagination = (props) => {
         lastIcon = 'fa fa-angle-double-right',
         lastLabel = null,
         style,
-        t = () => {
-        },
+        t = () => {},
     } = props
 
     const pages = Math.ceil(count / size) || 1
     const lastPage = Math.ceil(count / size)
-
-    // eslint-disable-next-line max-len
-    const partialApply = (activePage, onSelect) => (buttonType, icon, label) => getControlButton(buttonType, icon, label, activePage, onSelect, lastPage)
-
-    const getButton = partialApply(activePage, onSelect)
 
     return (
         <nav
             className="n2o-pagination"
             style={{ display: 'flex', alignItems: 'baseline', ...style }}
         >
-            {showSinglePage && pages === 1 ? null : (
+            {showSinglePage || pages > 1 ? (
                 <ul className={classNames('pagination', 'd-inline-flex', className, layout)}>
-                    {first && getButton('first', firstIcon, firstLabel)}
-                    {prev && getButton('prev', prevIcon, prevLabel)}
-                    {renderBodyPaging(activePage, pages, maxPages, onSelect, pages)}
-                    {next && getButton('next', nextIcon, nextLabel)}
-                    {last && getButton('last', lastIcon, lastLabel)}
+                    {first && getControlButton('first', firstIcon, firstLabel, activePage, onSelect, lastPage)}
+                    {prev && getControlButton('prev', prevIcon, prevLabel, activePage, onSelect, lastPage)}
+                    {renderBodyPaging(activePage, maxPages, onSelect, pages)}
+                    {next && getControlButton('next', nextIcon, nextLabel, activePage, onSelect, lastPage)}
+                    {last && getControlButton('last', lastIcon, lastLabel, activePage, onSelect, lastPage)}
                 </ul>
-            )}
+            ) : null}
 
             {showCount && (
                 <span
                     className="n2o-pagination-info"
                     style={{
-                        paddingLeft: showSinglePage && pages === 1 ? 0 : '1rem',
+                        paddingLeft: showSinglePage || pages > 1 ? '1rem' : 0,
                         display: 'inline-flex',
                     }}
                 >
