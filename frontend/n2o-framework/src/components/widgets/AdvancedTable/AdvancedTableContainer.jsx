@@ -67,9 +67,9 @@ class AdvancedTableContainer extends React.Component {
             datasource: prevDatasource,
             onResolve,
         } = prevProps
-        const { hasSelect, datasource, selectedId, autoFocus } = this.props
+        const { hasSelect, datasource, selectedId, autoFocus, registredColumns } = this.props
 
-        if (!isEqual(prevProps.datasource, this.props.datasource)) {
+        if (!isEqual(prevProps.datasource, this.props.datasource) || !isEqual(prevProps.registredColumns, registredColumns)) {
             this.setState({
                 data: this.mapData(this.props.datasource),
                 columns: this.mapColumns(),
