@@ -97,26 +97,35 @@ public class VisibilityAT extends AutoTestBase {
     }
 
     @Test
-    public void testRequirementAndVisibility() {
+    public void testDependenciesAndVisibility() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
 
         Fields fields = page.regions().region(2, SimpleRegion.class).content().widget(FormWidget.class).fields();
         fields.shouldHaveSize(2);
-        fields.field("Count").shouldExists();
-        fields.field("Count").control(InputSelect.class).select(1);
-        fields.field("QR setting").shouldExists();
 
-        fields.field("QR setting").control(InputSelect.class).select(1);
-        fields.field("Type1").shouldBeRequired();
-        fields.field("Type1").shouldExists();
-        fields.field("Type2").shouldExists();
+        InputText firstInput = fields.field("FirstInput").control(InputText.class);
+        firstInput.shouldExists();
+        firstInput.shouldBeEnabled();
+        firstInput.val("2");
+        firstInput.shouldHaveValue("2");
+        InputText secondInput = fields.field("SecondInput").control(InputText.class);
+        secondInput.shouldExists();
+        secondInput.shouldBeEnabled();
+        secondInput.val("2");
+        secondInput.shouldHaveValue("2");
 
-        fields.field("QR setting").control(InputSelect.class).select(0);
-        fields.field("Type1").shouldBeRequired();
-        fields.field("Type1").shouldExists();
-        fields.field("Type2").shouldNotExists();
+        InputText type1Input = fields.field("Type1").control(InputText.class);
+        type1Input.shouldExists();
+        InputText type2Input = fields.field("Type2").control(InputText.class);
+        type2Input.shouldExists();
+
+        secondInput.val("1");
+        secondInput.shouldHaveValue("1");
+        firstInput.shouldHaveValue("1");
+        type1Input.shouldExists();
+        type2Input.shouldNotExists();
     }
 
 }

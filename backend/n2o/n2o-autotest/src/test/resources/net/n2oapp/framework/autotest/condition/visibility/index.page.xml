@@ -98,90 +98,32 @@
         <region>
             <form>
                 <fields>
-                    <row>
-                        <col size="6">
-                            <select id="charactersNumber" label="Count" enabled="false">
-                                <options>
-                                    <option id="1" name="1"/>
-                                    <option id="2" name="2"/>
-                                </options>
-                                <dependencies>
-                                    <enabling on="qrCodeSetting">
-                                        return !(typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null
-                                        &amp;&amp; qrCodeSetting.id == 1)
-                                    </enabling>
-                                    <set-value on="qrCodeSetting">
-                                        if (typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null &amp;&amp;
-                                        qrCodeSetting.id == 1){
-                                        var result = new Object();
-                                        result.id = 1;
-                                        result.name = 1;
-                                        return result;
-                                        }
-                                    </set-value>
-                                </dependencies>
-                            </select>
-                        </col>
-                    </row>
-                    <select id="qrCodeSetting" label="QR setting">
-                        <options>
-                            <option id="1" name="По умолчанию"/>
-                            <option id="2" name="Пользовательская настройка"/>
-                        </options>
-                    </select>
-                    <select id="varType1" label="Type1" visible="false">
+                    <input-text id="firstInput" label="FirstInput">
                         <dependencies>
-                            <visibility on="charactersNumber, qrCodeSetting">
-                                return (typeof(charactersNumber) != 'undefined' &amp;&amp; charactersNumber != null
-                                &amp;&amp; charactersNumber.id >= 1
-                                &amp;&amp; typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null)
-
-                            </visibility>
-                            <requiring on="charactersNumber">
-                                return (typeof(charactersNumber) != 'undefined' &amp;&amp; charactersNumber != null
-                                &amp;&amp;
-                                charactersNumber.id >= 1)
-                            </requiring>
-                            <enabling on="qrCodeSetting">
-                                return !(typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null &amp;&amp;
-                                qrCodeSetting.id == 1)
-                            </enabling>
-                            <set-value on="qrCodeSetting">
-                                if (typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null &amp;&amp;
-                                qrCodeSetting.id == 1){
-                                var result = new Object();
-                                result.id = 2;
-                                result.name = "Result";
-                                return result;
-                                } else {
-                                return null;
-                                }
+                            <set-value on="secondInput">
+                                return secondInput == 1 ?
+                                1 : firstInput
                             </set-value>
                         </dependencies>
-                    </select>
-                    <select id="varType2" label="Type2">
+                    </input-text>
+                    <input-text id="secondInput" label="SecondInput"/>
+                    <input-text id="type1" label="Type1" visible="false">
                         <dependencies>
-                            <requiring on="charactersNumber">
-                                return (typeof(charactersNumber) != 'undefined' &amp;&amp; charactersNumber != null
-                                &amp;&amp; charactersNumber.id >= 2)
-                            </requiring>
-                            <visibility on="charactersNumber,qrCodeSetting">
-                                if (typeof(charactersNumber) != 'undefined' &amp;&amp; charactersNumber != null &amp;&amp;
-                                charactersNumber.id >= 2
-                                &amp;&amp; typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null){
-                                console.log("Тип переменных2 должен быть видимым");
-                                return true;
-                                } else {
-                                console.log("Тип переменных2 должен быть спрятан");
-                                return false;
-                                }
+                            <visibility on="secondInput">
+                                secondInput >= 1
                             </visibility>
-                            <enabling on="qrCodeSetting">
-                                return !(typeof(qrCodeSetting) != 'undefined' &amp;&amp; qrCodeSetting != null &amp;&amp;
-                                qrCodeSetting.id == 2)
+                            <enabling on="secondInput">
+                                secondInput == 1
                             </enabling>
                         </dependencies>
-                    </select>
+                    </input-text>
+                    <input-text id="type2" label="Type2" visible="false">
+                        <dependencies>
+                            <visibility on="firstInput,secondInput">
+                                firstInput >= 2 &amp;&amp; secondInput != null
+                            </visibility>
+                        </dependencies>
+                    </input-text>
                 </fields>
             </form>
         </region>
