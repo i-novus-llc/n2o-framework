@@ -1,11 +1,12 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
  * Представление компонента
  */
-public enum Layout {
+public enum Layout implements IdAware {
     bordered("bordered"),
     flat("flat"),
     separated("separated"),
@@ -19,8 +20,14 @@ public enum Layout {
         this.value = value;
     }
 
+    @Override
     @JsonValue
-    public String getValue() {
+    public String getId() {
         return this.value;
+    }
+
+    @Override
+    public void setId(String id) {
+        throw new UnsupportedOperationException();
     }
 }
