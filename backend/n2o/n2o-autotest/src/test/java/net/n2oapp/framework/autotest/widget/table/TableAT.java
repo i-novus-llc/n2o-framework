@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
@@ -64,9 +65,9 @@ public class TableAT extends AutoTestBase {
         table.filters().shouldBeInvisible();
         table.toolbar().topRight().button(0, StandardButton.class).click();
 
-        table.columns().rows().row(0).cell(1).element().parent().shouldHave(Condition.cssClass("bg-danger"));
-        table.columns().rows().row(1).cell(1).element().parent().shouldHave(Condition.cssClass("bg-info"));
-        table.columns().rows().row(2).cell(1).element().parent().shouldHave(Condition.cssClass("bg-success"));
+        table.columns().rows().row(0).shouldHaveColor(Colors.DANGER);
+        table.columns().rows().row(1).shouldHaveColor(Colors.INFO);
+        table.columns().rows().row(2).shouldHaveColor(Colors.SUCCESS);
 
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeHidden();
