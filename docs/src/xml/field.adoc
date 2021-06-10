@@ -1514,7 +1514,7 @@ card - вид горизонтальной карточки с показом н
 
 [source,xml]
 ----
-<radio-group id="gender" inline="false" type="defaultType"/>
+<radio-group id="gender" inline="false" type="default"/>
 ----
 
 === <checkbox-group>
@@ -1541,7 +1541,7 @@ card - вид горизонтальной карточки с показом н
 
 [source,xml]
 ----
-<checkbox-group id="gender" inline="false" type="defaultType"/>
+<checkbox-group id="gender" inline="false" type="default"/>
 ----
 
 === <pills>
