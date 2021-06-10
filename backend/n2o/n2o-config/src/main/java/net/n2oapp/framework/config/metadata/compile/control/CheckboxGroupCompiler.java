@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.list.N2oRadioGroup;
 import net.n2oapp.framework.api.metadata.control.multi.N2oCheckboxGroup;
 import net.n2oapp.framework.api.metadata.meta.control.CheckboxGroup;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
