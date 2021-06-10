@@ -79,8 +79,9 @@ module.exports = {
          type: 'category',
          label: 'Примеры',
          items: [
-            'uxcases_list',
             'uxcases_input'
+            'uxcases_list',
+            'uxcases_list_actions'
          ]
     },
     {
