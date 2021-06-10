@@ -98,29 +98,28 @@
         <region>
             <form>
                 <fields>
-                    <input-text id="firstInput" label="FirstInput">
+                    <input-text id="charactersNumber" label="charactersNumber">
                         <dependencies>
-                            <set-value on="secondInput">
-                                return secondInput == 1 ?
-                                1 : firstInput
+                            <set-value on="qrCodeSetting">
+                                qrCodeSetting
                             </set-value>
                         </dependencies>
                     </input-text>
-                    <input-text id="secondInput" label="SecondInput"/>
-                    <input-text id="type1" label="Type1" visible="false">
+                    <input-text id="qrCodeSetting" label="qrCodeSetting"/>
+                    <input-text id="type1" label="Type1" visible="false" description="видим при qrCodeSetting >= 1">
                         <dependencies>
-                            <visibility on="secondInput">
-                                secondInput >= 1
+                            <visibility on="qrCodeSetting">
+                                qrCodeSetting >= 1
                             </visibility>
-                            <enabling on="secondInput">
-                                secondInput == 1
+                            <enabling on="qrCodeSetting">
+                                qrCodeSetting == 1
                             </enabling>
                         </dependencies>
                     </input-text>
-                    <input-text id="type2" label="Type2" visible="false">
+                    <input-text id="type2" label="Type2" visible="false" description="видим при charactersNumber == 2">
                         <dependencies>
-                            <visibility on="firstInput,secondInput">
-                                firstInput >= 2 &amp;&amp; secondInput != null
+                            <visibility on="charactersNumber,qrCodeSetting">
+                                charactersNumber == 2
                             </visibility>
                         </dependencies>
                     </input-text>

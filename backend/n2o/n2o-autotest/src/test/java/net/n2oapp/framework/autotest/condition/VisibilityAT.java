@@ -121,6 +121,7 @@ public class VisibilityAT extends AutoTestBase {
         InputText type2Input = fields.field("Type2").control(InputText.class);
         type2Input.shouldExists();
 
+        //при смене значения на secondInput на 1, в соответствии с условием visibility type2Input должен быть скрыт
         secondInput.val("1");
         secondInput.shouldHaveValue("1");
         firstInput.shouldHaveValue("1");
