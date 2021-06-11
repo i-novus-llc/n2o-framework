@@ -29,7 +29,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             if (source.getDependencies() != null)
                 scope.setHasDependencies(true);
             if (scope.isHasDependencies())
-                p.checkIdsUnique(scope, "Поле {0} встречается более одного раза.");
+                p.checkIdsUnique(scope, "Поле {0} встречается более одного раза");
         }
         checkDefaultValues(source);
         checkDependencies(source);
