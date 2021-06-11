@@ -26,7 +26,7 @@ services:
   storybook:
     image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
     ports:
-        - "80"
+      - "80"
     deploy:
       resources:
         limits:
