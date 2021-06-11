@@ -30,15 +30,19 @@
 
 .n2o-alerts--fixed {
     position: fixed;
+    left: 50%;
     display: flex;
     flex-direction: column;
-    height: 400px;
+    width: 500px;
+    transform: translate(-50%, 0);
     z-index: 1100;
 
-    .details {
-        height: 350px;
-        overflow: auto;
-        word-break: break-all;
+    &.top {
+        top: 75px;
+    }
+
+    &.bottom {
+        bottom: 35px;
     }
 }
 
@@ -102,10 +106,15 @@
 .n2o-alert-body .details {
     margin-top: 10px;
     background-color: $gray-200;
-    padding: $input-padding;
+    padding: 10px;
     color: $dark;
+    line-height: 1.55;
+    height: 350px;
     border: 1px solid $gray-400;
     border-radius: $border-radius-base;
+    overflow: scroll;
+    word-break: break-all;
+    scrollbar-width: none;
 }
 
 .alert-border-info {
@@ -172,8 +181,8 @@
     .n2o-alert-close-container {
         margin-left: 0;
     }
+}
 
-    .details {
-        overflow: auto;
-    }
+.n2o-alert .details::-webkit-scrollbar {
+    display: none;
 }
