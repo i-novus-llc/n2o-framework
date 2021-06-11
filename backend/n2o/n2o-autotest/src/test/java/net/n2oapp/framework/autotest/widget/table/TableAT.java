@@ -94,7 +94,6 @@ public class TableAT extends AutoTestBase {
         table.columns().headers().header(0).shouldBeHidden();
         table.columns().headers().header(1).shouldBeVisible();
         table.columns().headers().header(2).shouldBeHidden();
-        table.columns().headers().header(2).shouldNotHaveIcon();
         table.columns().headers().header(3).shouldBeVisible();
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeHidden();
