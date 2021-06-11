@@ -13,7 +13,7 @@ services:
         constraints:
           - node.role == worker
   docusaurus:
-    image: "${DOCKER_REGISTRY}/n2o/docs:${TAG}"
+    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
     ports:
       - "80"
     deploy:
