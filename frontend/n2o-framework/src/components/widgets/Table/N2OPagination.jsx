@@ -62,6 +62,8 @@ class N2OPagination extends Component {
             showSinglePage,
             maxPages,
             filters,
+            className,
+            style,
         } = this.props
 
         const onSelect = page => onChangePage(page, { ...filters })
@@ -89,6 +91,8 @@ class N2OPagination extends Component {
                     lastIcon={lastIcon}
                     showCount={showCount}
                     showSinglePage={showSinglePage}
+                    className={className}
+                    style={style}
                 />
             )
         )
@@ -125,6 +129,8 @@ N2OPagination.propTypes = {
     showCount: PropTypes.bool,
     showSinglePage: PropTypes.bool,
     filters: PropTypes.object,
+    className: PropTypes.string,
+    style: PropTypes.object,
 }
 
 N2OPagination.defaultProps = {

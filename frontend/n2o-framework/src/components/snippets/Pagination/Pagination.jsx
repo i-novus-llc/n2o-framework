@@ -155,7 +155,7 @@ const Pagination = (props) => {
         firstLabel = null,
         lastIcon = 'fa fa-angle-double-right',
         lastLabel = null,
-        style,
+        style = { display: 'flex', alignItems: 'baseline' },
         t = () => {},
     } = props
 
@@ -164,11 +164,11 @@ const Pagination = (props) => {
 
     return (
         <nav
-            className="n2o-pagination"
-            style={{ display: 'flex', alignItems: 'baseline', ...style }}
+            className={classNames('n2o-pagination', className)}
+            style={style}
         >
             {showSinglePage || pages > 1 ? (
-                <ul className={classNames('pagination', 'd-inline-flex', className, layout)}>
+                <ul className={classNames('pagination', 'd-inline-flex', layout)}>
                     {first && getControlButton('first', firstIcon, firstLabel, activePage, onSelect, lastPage)}
                     {prev && getControlButton('prev', prevIcon, prevLabel, activePage, onSelect, lastPage)}
                     {renderBodyPaging(activePage, maxPages, onSelect, pages)}
