@@ -170,6 +170,18 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         popUp().shouldBe(Condition.exist);
     }
 
+    @Override
+    public void shouldBeEnabled() {
+        firstInputElement().shouldBe(Condition.enabled);
+        lastInputElement().shouldBe(Condition.enabled);
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        firstInputElement().shouldBe(Condition.disabled);
+        lastInputElement().shouldBe(Condition.disabled);
+    }
+
     private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
         element.$(".n2o-calendar-time-container").click();
         element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
