@@ -35,6 +35,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -490,7 +491,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
         assertThat(pagination.getMaxPages(), is(10));
         assertThat(pagination.getClassName(), is("class"));
-        assertThat(pagination.getStyle(), is("style"));
+        assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
     }
 }
