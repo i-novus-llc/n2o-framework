@@ -17,7 +17,7 @@
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
         <sandboxUrl>https://n2oapp.net/sandbox</sandboxUrl>
-        <docusaurusUrl>/next/docusaurus</docusaurusUrl>
+        <docusaurusUrl>/next/docs</docusaurusUrl>
     </properties>
 
 

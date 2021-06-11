@@ -12,8 +12,8 @@ services:
       placement:
         constraints:
           - node.role == worker
-  storybook:
-    image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
+  docusaurus:
+    image: "${DOCKER_REGISTRY}/n2o/docs:${TAG}"
     ports:
       - "80"
     deploy:
@@ -23,10 +23,10 @@ services:
       placement:
         constraints:
           - node.role == worker
-  docusaurus:
-    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
+  storybook:
+    image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
     ports:
-      - "80"
+        - "80"
     deploy:
       resources:
         limits:
