@@ -9,7 +9,7 @@ import pages from './reducers/pages'
 import overlays from './reducers/overlays'
 import columns from './ducks/columns/store'
 import toolbar from './ducks/toolbar/store'
-import { formPlugin } from './reducers/formPlugin'
+import formSlice from './ducks/form/store'
 import user from './reducers/auth'
 import alerts from './ducks/alerts/store'
 import regions from './ducks/regions/store'
@@ -21,7 +21,7 @@ const formHack = (state, action) => {
     const formState = state[formName]
 
     if (formName) {
-        const newFormState = formPlugin(formState, action)
+        const newFormState = formSlice(formState, action)
 
         if (formState !== newFormState) {
             state = { ...state, [formName]: newFormState }

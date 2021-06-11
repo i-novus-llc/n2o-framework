@@ -18,7 +18,7 @@ import has from 'lodash/has'
 import { reset, touch } from 'redux-form'
 import { batchActions } from 'redux-batched-actions'
 
-import { addFieldMessage } from '../actions/formPlugin'
+import { addFieldMessage } from '../ducks/form/store'
 import { metadataRequest } from '../actions/pages'
 import { dataRequestWidget } from '../actions/widgets'
 import { updateWidgetDependency } from '../actions/dependency'

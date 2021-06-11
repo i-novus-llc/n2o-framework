@@ -1,19 +1,17 @@
-import {
-    DISABLE_FIELD,
-    ENABLE_FIELD,
-    SHOW_FIELD,
-    HIDE_FIELD,
-    REGISTER_FIELD_EXTRA,
-    ADD_FIELD_MESSAGE,
-    REMOVE_FIELD_MESSAGE,
-    REGISTER_DEPENDENCY,
-    SET_FIELD_FILTER,
-    SET_REQUIRED,
-    UNSET_REQUIRED,
-    SET_LOADING,
-} from '../constants/formPlugin'
-
-import formPlugin from './formPlugin'
+import formPlugin, {
+    hideField,
+    disableField,
+    enableField,
+    showField,
+    registerFieldExtra,
+    addFieldMessage,
+    removeFieldMessage,
+    registerFieldDependency,
+    setFilterValue,
+    setRequired,
+    unsetRequired,
+    setLoading
+} from '../store'
 
 describe('Тесты formPlugin reducer', () => {
     it('Проверка DISABLE_FIELD', () => {
@@ -34,7 +32,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: DISABLE_FIELD,
+                    type: disableField.type,
                     payload: {
                         name: 'testName',
                     },
@@ -74,7 +72,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: ENABLE_FIELD,
+                    type: enableField.type,
                     payload: {
                         name: 'testName',
                     },
@@ -114,7 +112,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: SHOW_FIELD,
+                    type: showField.type,
                     payload: {
                         name: 'testName',
                     },
@@ -154,7 +152,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: HIDE_FIELD,
+                    type: hideField.type,
                     payload: {
                         name: 'testName',
                     },
@@ -194,7 +192,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: ADD_FIELD_MESSAGE,
+                    type: addFieldMessage.type,
                     payload: {
                         message: ['message'],
                         name: 'testName',
@@ -237,7 +235,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: REMOVE_FIELD_MESSAGE,
+                    type: removeFieldMessage.type,
                     payload: {
                         message: ['message'],
                         name: 'testName',
@@ -278,7 +276,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: REGISTER_FIELD_EXTRA,
+                    type: registerFieldExtra.type,
                     payload: {
                         name: 'testName',
                         initialState: {
@@ -322,7 +320,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: REGISTER_DEPENDENCY,
+                    type: registerFieldDependency.type,
                     payload: {
                         name: 'testName',
                         dependency: 'dependency',
@@ -363,7 +361,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: SET_FIELD_FILTER,
+                    type: setFilterValue.type,
                     payload: {
                         name: 'testName',
                         filter: [
@@ -412,7 +410,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: SET_REQUIRED,
+                    type: setRequired.type,
                     payload: {
                         name: 'testName',
                     },
@@ -452,7 +450,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: UNSET_REQUIRED,
+                    type: unsetRequired.type,
                     payload: {
                         name: 'testName',
                     },
@@ -491,7 +489,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: SHOW_FIELD,
+                    type: showField.type,
                     payload: {
                         name: 'testName.id',
                     },
@@ -530,7 +528,7 @@ describe('Тесты formPlugin reducer', () => {
                     },
                 },
                 {
-                    type: SET_LOADING,
+                    type: setLoading.type,
                     payload: {
                         form: 'testForm',
                         name: 'testName',

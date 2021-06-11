@@ -9,7 +9,7 @@ import {
     dependencySelector,
     filterSelector,
     loadingSelector,
-} from './formPlugin'
+} from '../selectors'
 
 const state = {
     form: {

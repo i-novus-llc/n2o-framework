@@ -2,7 +2,7 @@ import { runSaga } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 import { touch } from 'redux-form'
 
-import { removeMessage, addTouched, copyAction } from './formPlugin'
+import { removeMessage, addTouched, copyAction } from '../sagas'
 
 const state = {
     models: {

@@ -17,8 +17,7 @@ import get from 'lodash/get'
 import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
-import { makeFormByName } from '../selectors/formPlugin'
-import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin'
+import { makeFormByName } from '../ducks/form/selectors'
 import {
     enableField,
     disableField,
@@ -29,7 +28,8 @@ import {
     setLoading,
     addFieldMessage,
     removeFieldMessage,
-} from '../actions/formPlugin'
+    registerFieldExtra,
+} from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
@@ -238,7 +238,7 @@ export function* checkAndModify(
 ) {
     const isInitAction = [
         actionTypes.INITIALIZE,
-        REGISTER_FIELD_EXTRA,
+        registerFieldExtra.type,
     ].includes(actionType)
     const isChangeAction = actionType === actionTypes.CHANGE
 
@@ -280,7 +280,7 @@ export function* resolveDependency(action) {
             form.values,
             form.registeredFields,
             formName,
-            action.type === REGISTER_FIELD_EXTRA ? action.payload.name : fieldName,
+            action.type === registerFieldExtra.type ? action.payload.name : fieldName,
             action.type,
         )
     } catch (e) {
@@ -293,7 +293,7 @@ export function* resolveDependency(action) {
 export function* catchAction() {
     yield takeEvery(actionTypes.INITIALIZE, resolveDependency)
     // ToDo: Убрать debounce и вообще по возможности REGISTER_FIELD_EXTRA
-    yield debounce(50, REGISTER_FIELD_EXTRA, resolveDependency)
+    yield debounce(50, registerFieldExtra.type, resolveDependency)
     yield takeEvery(actionTypes.CHANGE, resolveDependency)
 }
 

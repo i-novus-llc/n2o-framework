@@ -2,7 +2,7 @@ import React from 'react'
 import { runSaga } from 'redux-saga'
 
 import { DATA_REQUEST } from '../constants/widgets'
-import { ADD_FIELD_MESSAGE } from '../constants/formPlugin'
+import { addFieldMessage } from '../ducks/form/store'
 import { UPDATE_WIDGET_DEPENDENCY } from '../constants/dependency'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 
@@ -208,7 +208,7 @@ describe('Сага для перехвата меты, сайд-эффектов
             let gen = messageForm.next()
             gen = messageForm.next()
             expect(gen.value.payload.action.payload[0].type).toEqual(
-                ADD_FIELD_MESSAGE,
+                addFieldMessage.type,
             )
         })
 

@@ -9,17 +9,23 @@ import setWith from 'lodash/setWith'
 import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 
-import { addFieldMessage, removeFieldMessage } from '../actions/formPlugin'
-import { makeFormByName, messageSelector } from '../selectors/formPlugin'
-import { getWidgetFieldValidation } from '../selectors/widgets'
-import { setModel, copyModel } from '../ducks/models/store'
-import { SET_REQUIRED, UNSET_REQUIRED } from '../constants/formPlugin'
+import { getWidgetFieldValidation } from '../../selectors/widgets'
+import { setModel } from '../../actions/models'
+import { COPY } from '../../constants/models'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
-} from '../ducks/models/selectors'
-import evalExpression, { parseExpression } from '../utils/evalExpression'
-import * as validationPresets from '../core/validation/presets'
+} from '../../selectors/models'
+import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import * as validationPresets from '../../core/validation/presets'
+
+import { makeFormByName, messageSelector } from './selectors'
+import {
+    addFieldMessage,
+    removeFieldMessage,
+    setRequired,
+    unsetRequired,
+} from './store'
 
 export function* removeMessage(action) {
     const state = yield select()
@@ -172,7 +178,7 @@ export const formPluginSagas = [
         [actionTypes.START_ASYNC_VALIDATION, actionTypes.CHANGE],
         removeMessage,
     ),
-    takeEvery([SET_REQUIRED, UNSET_REQUIRED], checkFieldValidation),
+    takeEvery([setRequired.type, unsetRequired.type], checkFieldValidation),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
-    takeEvery(copyModel.type, copyAction),
+    takeEvery(COPY, copyAction),
 ]
