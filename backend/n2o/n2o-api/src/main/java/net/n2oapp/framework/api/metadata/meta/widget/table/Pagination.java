@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 
+import java.util.Map;
+
 /**
  * Клиентская модель для паджинации таблицы.
  */
@@ -52,7 +54,7 @@ public class Pagination implements Compiled {
     @JsonProperty
     private String className;
     @JsonProperty
-    private String style;
+    private Map<String, String> style;
     @JsonProperty
     private Place place;
 }

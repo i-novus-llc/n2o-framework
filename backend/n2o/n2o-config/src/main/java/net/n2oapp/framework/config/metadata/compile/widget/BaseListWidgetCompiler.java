@@ -15,8 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-
-import java.util.Optional;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -52,7 +51,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
             pagination.setLastIcon(p.cast(source.getPagination().getLastIcon(), p.resolve(property("n2o.api.widget.list.paging.lastIcon"), String.class)));
             pagination.setMaxPages(p.cast(source.getPagination().getMaxPages(), p.resolve(property("n2o.api.widget.list.paging.maxPages"), Integer.class)));
             pagination.setClassName(p.cast(source.getPagination().getClassName(), p.resolve(property("n2o.api.widget.list.paging.className"), String.class)));
-            pagination.setStyle(p.cast(source.getPagination().getStyle(), p.resolve(property("n2o.api.widget.list.paging.style"), String.class)));
+            pagination.setStyle(StylesResolver.resolveStyles(source.getPagination().getStyle()));
             pagination.setPlace(p.cast(source.getPagination().getPlace(), p.resolve(property("n2o.api.widget.list.paging.place"), Place.class)));
         }
         return pagination;
