@@ -131,7 +131,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
             yield put(
                 change(formName, fieldName, {
-                    keepDirty: true,
+                    keepDirty: false,
                     value: evalResult,
                 }),
             )
