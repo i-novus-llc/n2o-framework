@@ -140,8 +140,8 @@ ListWidget.defaultProps = {
     filter: {},
     list: {},
     paging: {
-        prevText: 'Назад',
-        nextText: 'Вперед',
+        prevLabel: 'Назад',
+        nextLabel: 'Вперед',
         maxPages: 0,
         prev: true,
         next: true,
