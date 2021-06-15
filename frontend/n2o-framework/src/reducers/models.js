@@ -49,18 +49,11 @@ const modelState = {
  * @param action
  */
 function resolveUpdate(state, action) {
-    const { key, field, value } = action.payload
+    const { field, value } = action.payload
 
     if (!field) { return state }
 
-    if (isArray(state[key])) {
-        return setIn(state[key], field, value)
-    }
-    if (isObject(state[key])) {
-        return setIn(state[key], field, value)
-    }
-
-    return setIn(state, field, value)
+    return setIn(isArray(state) || isObject(state) ? state : {}, field, value)
 }
 
 function resolve(state, action) {
@@ -81,7 +74,7 @@ function resolve(state, action) {
         case UPDATE: {
             return {
                 ...state,
-                [action.payload.key]: resolveUpdate(state, action),
+                [action.payload.key]: resolveUpdate(state[action.payload.key], action),
             }
         }
         case UPDATE_MAP: {
