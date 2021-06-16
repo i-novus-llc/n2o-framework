@@ -3,7 +3,13 @@
              name="Модальное окно">
     <form>
         <fields>
-            <input-text id="id" enabled="false"/>
+            <input-text id="id" label="Input"/>
         </fields>
+        <toolbar place="bottomLeft">
+            <button label="Сохранить"/>
+            <button label="Закрыть">
+                <close/>
+            </button>
+        </toolbar>
     </form>
 </simple-page>
