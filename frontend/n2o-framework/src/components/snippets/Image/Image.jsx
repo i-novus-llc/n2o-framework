@@ -35,7 +35,7 @@ export function Image({
     const hasInfo = title || description
 
     if (!visible) {
-        return
+        return null
     }
 
     // eslint-disable-next-line consistent-return
