@@ -1,0 +1,61 @@
+---
+title: Пагинация
+---
+
+import { Sandbox } from '../src/components/Sandbox/Sandbox'
+
+**Когда используется**
+
+Пагинация используется для постраничного вывода с показом ограниченной части информации на одном экране с пролистыванием между страницами
+
+**Атрибуты**
+
+|Наименование    |Тип                                                                         |Описание                                                       |Значение по умолчанию   |
+|----------------|----------------------------------------------------------------------------|---------------------------------------------------------------|------------------------|
+|src             |React компонент                                                             |Реализация паджинации                                          |Pagination              |
+|layout          |bordered, flat, separated, bordered-rounded, flat-rounded, separated-rounded|Устанавливает представление компонента                         |separated               |
+|prev            |true false                                                                  |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                   |
+|prev-label      |Строка                                                                      |Наименование                                                   |null                    |
+|prev-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-left        |
+|next            |true false                                                                  |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                   |
+|next-label      |Строка                                                                      |Наименование                                                   |null                    |
+|next-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-right       |
+|last            |true false                                                                  |Показать/скрыть кнопку быстрого перехода на последнюю страницу |false                   |
+|last-label      |Строка                                                                      |Наименование                                                   |null                    |
+|last-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-double-right|
+|first           |true false                                                                  |Показать/скрыть кнопку быстрого перехода на первую страницу    |true                    |
+|first-label     |Строка                                                                      |Наименование                                                   |null                    |
+|first-icon      |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-double-left |
+|show-count      |true false                                                                  |Показать общее количество записей                              |true                    |
+|show-single-page|true false                                                                  |Показать паджинацию на единственной странице                   |true                    |
+|max-pages       |Число                                                                       |Максимальное кол-во кнопок перехода между страницами           |5                       |
+|place           |topLeft, topRight, bottomLeft, bottomRight, topCenter, bottomCenter         |Место расположения пагинации                                   |bottomLeft              |
+|class           |Строка                                                                      |CSS класс, который будет добавлен к виджету                    |                        |
+|style           |CSS свойство                                                                |Стиль виджета                                                  |                        |
+
+### Пагинация
+<Sandbox projectId="data_query_list" showHeader/>
+
+### Пагинация с атрибутами
+<Sandbox projectId="D4Vx1" showHeader/>
+
+### Пагинация без порядковой нумерации страниц
+<Sandbox projectId="sDAgH" showHeader/>
+
+### Пагинация со значением layout="separated" (значение по умолчанию)
+<Sandbox projectId="ZvB5h" showHeader/>
+
+### Пагинация со значением layout="flat"
+<Sandbox projectId="uRUon" showHeader/>
+
+### Пагинация со значением layout="bordered"
+<Sandbox projectId="G0vJy" showHeader/>
+
+### Пагинация со значением layout="bordered-rounded"
+<Sandbox projectId="f2ooW" showHeader/>
+
+### Пагинация со значением layout="flat-rounded"
+<Sandbox projectId="EEiXd" showHeader/>
+
+### Пагинация со значением layout="separated-rounded"
+<Sandbox projectId="XY8Os" showHeader/>
