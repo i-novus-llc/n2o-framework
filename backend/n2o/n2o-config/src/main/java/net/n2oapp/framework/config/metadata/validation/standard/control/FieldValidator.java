@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsSco
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -30,7 +29,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             if (source.getDependencies() != null)
                 scope.setHasDependencies(true);
             if (scope.isHasDependencies())
-                p.checkIdsUnique(scope, "Поле {0} встречается более одного раза.");
+                p.checkIdsUnique(scope, "Поле {0} встречается более одного раза");
         }
         checkDefaultValues(source);
         checkDependencies(source);
@@ -38,7 +37,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
 
     /**
      * Если в поле указаны ссылки на другой виджет, то значение по умолчанию обязательно должно быть ссылкой
-     * @param source  поле
+     *
+     * @param source Поле
      */
     private void checkDefaultValues(N2oField source) {
         if ((source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefModel() != null)
@@ -62,14 +62,15 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     }
 
     /**
-     * Проверка значений по умолчанию спиского поля
-     * @param list   списковое поле
+     * Проверка значений по умолчанию спискового поля
+     *
+     * @param list Списковое поле
      */
     private void checkListFieldDefaultValues(N2oListField list) {
         if (list.getDefValue() == null)
             throw new N2oMetadataValidationException(
                     String.format("У поля %s default-value не задан", list.getId()));
-        if (list.getDefValue().values().stream().filter(v -> StringUtils.isLink(v)).findFirst().isEmpty())
+        if (list.getDefValue().values().stream().filter(StringUtils::isLink).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
                     String.format("У поля %s default-value не является ссылкой", list.getId()));
     }
@@ -83,7 +84,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         if (source.getDependencies() != null) {
             Set<Class<?>> dependencyClasses = new HashSet<>();
             for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (!dependencyClasses.add(dependency.getClass()))
+                if (!N2oField.SetValueDependency.class.equals(dependency.getClass()) &&
+                        !dependencyClasses.add(dependency.getClass()))
                     throw new N2oMetadataValidationException(
                             String.format("В поле %s повторяются зависимости одного типа", source.getId()));
             }

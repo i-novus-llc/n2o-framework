@@ -95,7 +95,7 @@ class DropdownButton extends React.Component {
                               {map(subMenu, ({ src, component, ...rest }) => (component ? (
                                   React.createElement(
                                       component,
-                                      { ...rest, entityKey },
+                                      { ...rest, entityKey, onClick: this.toggle },
                                   )
                               ) : (
                                   <Factory

@@ -150,6 +150,46 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         timeVal(lastCalendar(), hours, minutes, seconds);
     }
 
+    @Override
+    public void expand() {
+        element().$(".n2o-date-input").should(Condition.exist).click();
+    }
+
+    @Override
+    public void collapse() {
+        throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
+    }
+
+    @Override
+    public void shouldBeCollapsed() {
+        popUp().shouldNotBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldBeExpanded() {
+        popUp().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldBeEnabled() {
+        firstInputElement().shouldBe(Condition.enabled);
+        lastInputElement().shouldBe(Condition.enabled);
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        firstInputElement().shouldBe(Condition.disabled);
+        lastInputElement().shouldBe(Condition.disabled);
+    }
+
+    private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
+        element.$(".n2o-calendar-time-container").click();
+        element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
+        element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
+        element.$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
+        element.$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
+    }
+
     private SelenideElement firstInputElement() {
         return element().$(".n2o-date-input-first input");
     }
@@ -201,11 +241,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         element.$(".n2o-calendar-header .fa-angle-right").click();
     }
 
-    public void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
-        element.$(".n2o-calendar-time-container").click();
-        element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
-        element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
-        element.$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
-        element.$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
+    private SelenideElement popUp() {
+        return element().parent().parent().$(".n2o-pop-up");
     }
 }

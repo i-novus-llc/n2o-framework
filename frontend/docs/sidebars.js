@@ -79,9 +79,31 @@ module.exports = {
          type: 'category',
          label: 'Примеры',
          items: [
+            'uxcases_input',
             'uxcases_list',
-            'uxcases_input'
+            'uxcases_list_actions'
          ]
+    },
+    {
+        type: 'category',
+        label: 'Manual',
+        items: [
+            'manual/index',
+        ]
+    },
+    {
+        type: 'category',
+        label: 'Migration',
+        items: [
+            'migration/migration',
+        ]
+    },
+    {
+        type: 'category',
+        label: 'Xml',
+        items: [
+            'xml/index',
+        ]
     },
     ]
 }
