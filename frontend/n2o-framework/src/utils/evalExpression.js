@@ -12,10 +12,10 @@ import warning from './warning'
  * @returns {String|Boolean} - Найденное JS выражение, или false
  */
 export function parseExpression(value) {
-    const res = String(value).match('^`(.*)`$')
+    if (typeof value !== 'string') { return false }
 
-    if (res && res[1]) {
-        return res[1]
+    if (value.startsWith('`') && value.endsWith('`')) {
+        return value.substring(1, value.length - 1)
     }
 
     return false
@@ -45,6 +45,13 @@ const windowKeys = Object.keys(window).filter(v => !v.includes('-'))
 const fooCache = {}
 
 function evalExpressionSingle(expression, context, args = context) {
+    if (expression === 'false') {
+        return false
+    }
+    if (expression === 'true') {
+        return true
+    }
+
     args = isPlainObject(args) ? args : {}
 
     try {
