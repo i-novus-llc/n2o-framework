@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
 import uniqueId from 'lodash/uniqueId'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { compose, lifecycle, setDisplayName } from 'recompose'
 
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
 import Input from '../Input/Input'
 
 /**
@@ -16,6 +17,7 @@ import Input from '../Input/Input'
  * @reactProps {function} onClick - событие клика по чекбоксу,
  * @reactProps {string} label - лейбл
  * @reactProps {string} className - класс копонента CheckboxN2O
+ * @reactProps {string} help - подсказка в popover
  * @reactProps {boolean} inline - в ряд
  */
 
@@ -31,16 +33,18 @@ function CheckboxN2O({
     onFocus,
     onBlur,
     elementId,
+    help,
 }) {
     return (
         <div
-            className={cx(
+            className={classNames(
                 'custom-control',
                 'custom-checkbox',
                 'n2o-checkbox',
                 className,
                 {
                     'custom-control-inline': inline,
+                    'd-flex': help,
                 },
             )}
             onClick={onClick}
@@ -59,6 +63,7 @@ function CheckboxN2O({
             <label className="custom-control-label" htmlFor={elementId}>
                 {label}
             </label>
+            {help && <HelpPopover help={help} />}
         </div>
     )
 }
@@ -97,11 +102,6 @@ CheckboxN2O.propTypes = {
    */
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     /**
-   * Стили
-   */
-    style: PropTypes.object,
-    id: PropTypes.string,
-    /**
    * Callback фокуса
    */
     onFocus: PropTypes.func,
@@ -109,6 +109,11 @@ CheckboxN2O.propTypes = {
    * Callback потери фокуса
    */
     onBlur: PropTypes.func,
+    elementId: PropTypes.string,
+    /**
+     * Подсказка в popover
+     */
+    help: PropTypes.string,
 }
 
 CheckboxN2O.defaultProps = {
@@ -120,8 +125,7 @@ CheckboxN2O.defaultProps = {
     onClick: () => {},
 }
 
-export { CheckboxN2O }
-export default compose(
+const CheckboxN2OWrapped = compose(
     setDisplayName('CheckboxN2O'),
     lifecycle({
         componentDidMount() {
@@ -129,3 +133,8 @@ export default compose(
         },
     }),
 )(CheckboxN2O)
+
+export { CheckboxN2O }
+export { CheckboxN2OWrapped }
+
+export default CheckboxN2OWrapped

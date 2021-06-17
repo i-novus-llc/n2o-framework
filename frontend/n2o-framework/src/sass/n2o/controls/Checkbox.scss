@@ -9,8 +9,14 @@
     margin-left: 10px;
 }
 
+div.checkbox {
+    > label {
+        margin-bottom: 0;
+    }
+}
+
 .n2o-checkbox-inline {
-    & > .custom-checkbox {
+    > .custom-checkbox {
         &:last-child {
             margin-right: 0;
         }
@@ -18,21 +24,35 @@
         margin-right: 1.5rem;
     }
 
-    & > .checkbox {
+    > .checkbox {
         display: inline-block;
 
-        & > label {
+        > label {
             margin-right: 5px;
 
-            & > .alt-checkbox-block {
+            > .alt-checkbox-block {
                 margin-right: 5px;
             }
         }
     }
 }
 
-div.checkbox {
-    & > label {
-        margin-bottom: 0;
+.n2o-checkbox {
+    .n2o-popover button {
+        padding: 0;
+        margin-left: 5px;
+        background-color: transparent;
+        border: none;
+    }
+
+    .n2o-popover:hover {
+        i {
+            color: $pink;
+        }
+    }
+
+    .n2o-popover button:active,
+    .n2o-popover button:focus {
+        outline: none;
     }
 }
