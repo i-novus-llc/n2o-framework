@@ -23,6 +23,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 /**
  * Автотест для виджета Таблица
  */
@@ -30,6 +32,7 @@ public class TableAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        headless = false;
     }
 
     @BeforeEach
@@ -62,7 +65,7 @@ public class TableAT extends AutoTestBase {
         table.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");
 
         table.toolbar().topRight().button(0, StandardButton.class).click();
-        table.filters().shouldBeInvisible();
+        table.filters().shouldBeHidden();
         table.toolbar().topRight().button(0, StandardButton.class).click();
 
         table.columns().rows().row(0).shouldHaveColor(Colors.DANGER);

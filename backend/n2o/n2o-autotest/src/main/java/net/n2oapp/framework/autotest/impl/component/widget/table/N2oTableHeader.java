@@ -52,16 +52,6 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
     }
 
     @Override
-    public void shouldBeHidden() {
-        element().shouldBe(Condition.hidden);
-    }
-
-    @Override
-    public void shouldBeVisible() {
-        element().shouldBe(Condition.visible);
-    }
-
-    @Override
     public void shouldHaveIcon(String icon) {
         element().$(".n2o-icon").shouldHave(Condition.cssClass(icon));
     }

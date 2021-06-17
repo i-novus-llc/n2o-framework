@@ -22,10 +22,6 @@ public interface TableHeader extends Component {
 
     void shouldHaveCssClass(String cssClass);
 
-    void shouldBeHidden();
-
-    void shouldBeVisible();
-
     void shouldHaveIcon(String icon);
 
     void shouldNotHaveIcon();

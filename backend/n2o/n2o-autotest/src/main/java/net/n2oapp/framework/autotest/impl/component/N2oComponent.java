@@ -26,6 +26,16 @@ public abstract class N2oComponent implements Component {
     }
 
     @Override
+    public void shouldBeVisible() {
+        element.shouldBe(Condition.visible);
+    }
+
+    @Override
+    public void shouldBeHidden() {
+        element.shouldBe(Condition.hidden);
+    }
+
+    @Override
     public void setElement(SelenideElement parentElement) {
         this.element = parentElement;
     }

@@ -15,10 +15,6 @@ public interface Cell extends Component {
 
     void clickExpand();
 
-    void shouldBeHidden();
-
-    void shouldBeVisible();
-
     void shouldHaveIcon(String icon);
 
     void shouldNotHaveIcon();
