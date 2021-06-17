@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -43,7 +44,12 @@ public class N2oSimpleMenu extends N2oMenu {
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
 
+    @Getter
+    @Setter
     public static class SubMenuItem extends MenuItem {
+        private String imageSrc;
+        private String defaultImage;
+        private ImageShape imageShape;
     }
 
     public static class PageItem extends MenuItem {

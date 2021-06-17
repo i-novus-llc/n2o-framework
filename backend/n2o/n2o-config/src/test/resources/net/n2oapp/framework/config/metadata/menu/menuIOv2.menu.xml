@@ -4,9 +4,9 @@
     <a label="test" href="http://example.com" icon="icon"/>
     <page page-id="testPage" label="test" icon="test" route="/test"/>
     <sub-menu label="sub" icon="sub-icon">
-        <page page-id="test2" label="test2"/>
-        <a label="test3" href="/test3"/>
-        <sub-menu label="sub2">
+        <page page-id="test2" label="test2" icon="pageIcon" route="pageRoute"/>
+        <a label="test3" href="/test3" icon="icon" target="newWindow"/>
+        <sub-menu label="sub2" icon="subIcon" default-image="defaultImage" image-shape="circle" image-src="imageSrc">
             <page page-id="test4" label="test4"/>
             <a label="test5" href="/test5"/>
         </sub-menu>

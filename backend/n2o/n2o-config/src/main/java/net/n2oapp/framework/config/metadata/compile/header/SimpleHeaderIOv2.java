@@ -34,12 +34,11 @@ public class SimpleHeaderIOv2 implements NamespaceIO<N2oSimpleHeader> {
     public void io(Element e, N2oSimpleHeader m, IOProcessor p) {
         p.attribute(e, "home-page-url", m::getHomePageUrl, m::setHomePageUrl);
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
-        p.attribute(e, "brand-name", m::getProjectName, m::setProjectName);
-        p.attribute(e, "logo-src", m::getProjectImageSrc, m::setProjectImageSrc);
+        p.attribute(e, "brand-name", m::getTitle, m::setTitle);
+        p.attribute(e, "logo-src", m::getLogoSrc, m::setLogoSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "src", m::getSrc, m::setSrc);
-        p.attribute(e, "color", m::getColor, m::setColor);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
         p.child(e, null, "search", m::getSearchBar, m::setSearchBar, N2oSearchBar.class, new N2oSearchBarIOv2());

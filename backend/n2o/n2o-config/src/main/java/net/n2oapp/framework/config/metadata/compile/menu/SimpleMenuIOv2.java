@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.menu;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
@@ -54,13 +55,16 @@ public class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
-    private void subMenu(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
+    private void subMenu(Element e, N2oSimpleMenu.SubMenuItem m, IOProcessor p) {
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
+        p.attribute(e, "default-image", m::getDefaultImage, m::setDefaultImage);
+        p.attribute(e, "image-src", m::getImageSrc, m::setImageSrc);
+        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getSubMenu, m::setSubMenu, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("page", N2oSimpleMenu.PageItem.class, this::page)
                 .add("a", N2oSimpleMenu.AnchorItem.class, this::anchor)
-                .add("sub-menu", N2oSimpleMenu.MenuItem.class, this::subMenu));
+                .add("sub-menu", N2oSimpleMenu.SubMenuItem.class, this::subMenu));
     }
 }

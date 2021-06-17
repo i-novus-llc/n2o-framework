@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.metadata.header;
 
 
+import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderIOv2;
+import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderReader;
-import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderValidator;
-import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class SimpleHeaderValidateTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.readers(new SimpleHeaderReader());
+        builder.ios(new SimpleHeaderIOv2());
         builder.validators(new SimpleHeaderValidator());
         builder.sources(new CompileInfo("menuForHeaderValidation", N2oSimpleMenu.class));
     }

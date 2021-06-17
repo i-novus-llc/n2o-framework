@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/application-1.0"
+           xmlns:menu="http://n2oapp.net/framework/config/schema/menu-2.0"
+           xmlns:search="http://n2oapp.net/framework/config/schema/search-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="application" type="applicationDefinition"/>
+
+    <xs:complexType name="applicationDefinition">
+        <xs:sequence>
+            <xs:element name="header" type="headerDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Заголовок приложения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sidebar" type="sidebarDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Боковая панель приложения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="footer" type="footerDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Подвал приложения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация приложения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="navigation-layout" type="navigationLayout" default="fullSizeHeader">
+            <xs:annotation>
+                <xs:documentation>Макет отображения элементов управления. Возможные значения:
+                    fullSizeHeader - заголовок во всю ширину экрана
+                    fullSizeSidebar - боковая панель во всю высоту экрана
+                    По умолчанию fullSizeHeader
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="navigation-layout-fixed" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Зафиксированы ли header и sidebar. По умолчанию false</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="welcome-page-id" type="xs:string" >
+            <xs:annotation>
+                <xs:documentation>Ссылка на страницу, которая открывается по / </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="headerDefinition">
+        <xs:sequence>
+            <xs:element name="search" type="search:searchDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Поиск в заголовке</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="nav" type="menu:menuDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Основное меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="extra-menu" type="menu:menuDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дополнительное меню, отображается в правой части заголовка</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация заголовка. По умолчанию Header</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>css класс заголовка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль заголовка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Видимость заголовка. По умолчанию true</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="logo-src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь к файлу с логотипом, который будет отображаться в заголовке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Название в заголовке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="home-page-url" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL домашней страницы(переход на нее происходит по клику на логотип или название в заголовке)</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sidebar-default-icon" type="xs:string" >
+            <xs:annotation>
+                <xs:documentation>Иконка открытия боковой панели, если не задана, значит кнопки не будет</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sidebar-toggled-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="sidebarDefinition">
+        <xs:sequence>
+            <xs:element name="nav" type="menu:menuDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Основное меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="extra-menu" type="menu:menuDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дополнительное меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация боковой панели. По умолчанию Sidebar</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>css класс боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Видимость боковой панели. По умолчанию true</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="side" type="sideType" default="left">
+            <xs:annotation>
+                <xs:documentation>Сторона появления боковой панели, возможные значения left, right. По умолчанию left</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="logo-src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь к файлу с логотипом, который будет отображаться в заголовке боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Название в заголовке боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="home-page-url" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL страницы, переход на которую происходит по клику на логотип или название в заголовке боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="logo-class" type="xs:string" >
+            <xs:annotation>
+                <xs:documentation>css класс для области с логотипом и названием</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="default-state" type="sidebarState">
+            <xs:annotation>
+                <xs:documentation>Состояние сайдбара по умолчанию. Возможные значения:
+                    none - скрыт полностью
+                    micro - отображаются только иконки
+                    mini - отображаются иконки + название в узком контейнере
+                    maxi - широкая боковая панель.
+                    По умолчанию none
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="toggled-state" type="sidebarState">
+            <xs:annotation>
+                <xs:documentation>Состояние боковой панели принимаемое при нажатии на кнопку toggle-sidebar, которую можно
+                    добавить в меню заголовка приложения. Возможные значения:
+                    none - скрыт полностью
+                    micro - отображаются только иконки
+                    mini - отображаются иконки + название в узком контейнере
+                    maxi - широкая боковая панель.
+                    По умолчанию maxi
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="toggle-on-hover" type="xs:boolean" >
+            <xs:annotation>
+                <xs:documentation>Открывается ли панель по hover. По умолчанию true</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="overlay" type="xs:boolean" >
+            <xs:annotation>
+                <xs:documentation>Перекрывает ли боковая панель контент страницы. По умолчанию true</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="footerDefinition">
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация подвала приложения. По умолчанию DefaultFooter</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="right-text" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст в подвале приложения справа</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="left-text" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст в подвале приложения слева</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Видимость подвала приложения. По умолчанию true</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="navigationLayout">
+        <xs:annotation>
+            <xs:documentation>Макет отображения элементов управления.
+                fullSizeHeader - заголовок во всю ширину экрана
+                fullSizeSidebar - боковая панель во всю высоту экрана
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="fullSizeHeader"/>
+            <xs:enumeration value="fullSizeSidebar"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sideType">
+        <xs:annotation>
+            <xs:documentation>Сторона появления боковой панели</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="left"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sidebarState">
+        <xs:annotation>
+            <xs:documentation>Состояние боковой панели по умолчанию</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="none">
+                <xs:annotation>
+                    <xs:documentation>скрыта полностью</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="micro">
+                <xs:annotation>
+                    <xs:documentation>отображаются только иконки</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mini">
+                <xs:annotation>
+                    <xs:documentation>отображаются иконки + название в узком контейнере</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="maxi">
+                <xs:annotation>
+                    <xs:documentation>широкая боковая панель</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

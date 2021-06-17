@@ -13,18 +13,14 @@ public class N2oSimpleHeader extends N2oHeader {
     private String src;
     private String cssClass;
     private String style;
-    private String color;
+    private boolean visible;
     private N2oSimpleMenu menu;
     private N2oSimpleMenu extraMenu;
     private String homePageUrl;
     private String welcomePageId;
-    private String projectName;
-    private String projectImageSrc;
-    private String profilePageId;
-    private String userMenuSrc;
-    private String userContext;
-    private String loginUrl;
-    private String logoutUrl;
-    private String registrationUrl;
+    private String title;
+    private String logoSrc;
+    private String sidebarDefaultIcon;
+    private String sidebarToggledIcon;
     private N2oSearchBar searchBar;
 }

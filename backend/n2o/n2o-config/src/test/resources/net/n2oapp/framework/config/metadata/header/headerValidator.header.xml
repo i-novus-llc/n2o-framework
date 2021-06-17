@@ -1,7 +1,3 @@
-<header xmlns="http://n2oapp.net/framework/config/schema/simple-header-1.0" src="test" css-class="test">
-    <project-name>asd</project-name>
-
-    <menu ref-id="menuForHeaderValidation"/>
-
-    <user-menu username-context="test" src="test" login-url="test" logout-url="test" registration-url="test"/>
+<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0" src="test" class="test" brand-name="asd">
+    <nav ref-id="menuForHeaderValidation"/>
 </header>
