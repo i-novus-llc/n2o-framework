@@ -67,9 +67,9 @@ class AdvancedTableContainer extends React.Component {
             datasource: prevDatasource,
             onResolve,
         } = prevProps
-        const { hasSelect, datasource, selectedId, autoFocus } = this.props
+        const { hasSelect, datasource, selectedId, autoFocus, registredColumns } = this.props
 
-        if (!isEqual(prevProps.datasource, datasource)) {
+        if (!isEqual(prevProps.datasource, datasource) || !isEqual(prevProps.registredColumns, registredColumns)) {
             this.setState({
                 data: this.mapData(datasource),
                 columns: this.mapColumns(),
@@ -169,6 +169,7 @@ class AdvancedTableContainer extends React.Component {
       return this.mapHeaders(headers).map((header) => {
           const cell = find(cells, c => c.id === header.id) || {}
           const children = get(header, 'children', null)
+          const needRender = get(registredColumns, `${header.id}.visible`, true)
 
           const mapChildren = children => map(children, (child) => {
               if (!isEmpty(child.children)) {
@@ -196,7 +197,7 @@ class AdvancedTableContainer extends React.Component {
                           columnId: cell.id,
                           model: record,
                           as: 'div',
-                          needRender: header.needRender,
+                          needRender,
                           ...cell,
                       }),
                   }),
@@ -210,6 +211,7 @@ class AdvancedTableContainer extends React.Component {
 
           return {
               ...header,
+              needRender,
               title: this.renderCell({
                   ...header,
                   key: header.id,
@@ -217,6 +219,7 @@ class AdvancedTableContainer extends React.Component {
                   widgetId,
                   as: 'div',
                   sorting: sorting && sorting[header.id],
+                  needRender,
                   onSort,
               }),
               label: header.title,
@@ -233,7 +236,7 @@ class AdvancedTableContainer extends React.Component {
                       columnId: cell.id,
                       model: record,
                       as: 'div',
-                      needRender: header.needRender,
+                      needRender,
                       ...cell,
                   }),
               }),

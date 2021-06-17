@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'recompose'
 import { Prompt } from 'react-router-dom'
 import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
@@ -39,9 +38,6 @@ ReduxForm.defaultProps = {
 
 ReduxForm.Field = ReduxField
 
-export default compose(
-    reduxForm({
-        destroyOnUnmount: true,
-        enableReinitialize: true,
-    }),
-)(ReduxForm)
+export default reduxForm({
+    enableReinitialize: true,
+})(ReduxForm)

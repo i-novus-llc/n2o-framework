@@ -31,13 +31,13 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
     @Override
-    public void expandContent() {
+    public void expand() {
         if (!item().is(expandedContentCondition()))
             header().click();
     }
 
     @Override
-    public void collapseContent() {
+    public void collapse() {
         if (item().is(expandedContentCondition()))
             header().click();
     }

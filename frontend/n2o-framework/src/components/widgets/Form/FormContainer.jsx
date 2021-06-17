@@ -1,9 +1,5 @@
 import {
     compose,
-    withHandlers,
-    withProps,
-    onlyUpdateForKeys,
-    withPropsOnChange,
     getContext,
 } from 'recompose'
 import isEmpty from 'lodash/isEmpty'
@@ -13,6 +9,7 @@ import { getFormValues } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 import widgetContainer from '../WidgetContainer'
 import { FORM } from '../widgetTypes'
@@ -47,77 +44,113 @@ export const withWidgetContainer = widgetContainer(
 )
 
 export const mapStateToProps = createStructuredSelector({
-    reduxFormValues: (state, props) => getFormValues(props.form)(state) || {},
+    reduxFormValues: (state, props) => getFormValues(props.widgetId)(state) || {},
 })
 
-const mergeInitial = (model, datasource) => merge(
-    model || {},
-    datasource || {},
+const additionalMerge = (target, source) => merge(
+    target || {},
+    source || {},
     {
         arrayMerge: (destinationArray, sourceArray) => sourceArray,
     },
 )
 
-/**
- * Изменение initialValues, если поменялась модель
- */
-export const onModelChange = withPropsOnChange(
-    (props, nextProps) => (
-        !isEqual(props.resolveModel || {}, nextProps.resolveModel) &&
-        !isEqual(nextProps.activeModel, nextProps.reduxFormValues) &&
-        isEqual(props.reduxFormValues, nextProps.reduxFormValues)
-    ),
-    props => ({
-        initialValues: isEmpty(props.activeModel)
-            ? mergeInitial(props.resolveModel, props.datasource)
-            : props.activeModel,
-    }),
-)
+const mergeInitial = (target, source) => additionalMerge(additionalMerge({}, target), source)
 
-/**
- * Изменение initialValues, если поменялся datasource
- */
-export const onDataSourceChange = withPropsOnChange(
-    (props, nextProps) => !isEqual(props.datasource, nextProps.datasource),
-    (props) => {
-        const initialValues = mergeInitial(props.resolveModel, props.datasource)
+class Container extends React.Component {
+    constructor(props) {
+        super(props)
+        const { resolveModel, datasource } = props
+        const initialValues = mergeInitial(resolveModel, datasource)
 
-        /*
-         * Если передать одинаковые значения в двух withPropsOnChange, то рекомпос ломается
-         * и последующие данные из onModelChange не долетают нормально :)
-         */
-        if (isEqual(initialValues, props.initialValues)) {
-            return {}
-        }
+        this.state = { initialValues }
+    }
 
-        return { initialValues }
-    },
-)
+    componentDidUpdate(prevProps) {
+        const { datasource, resolveModel, reduxFormValues, activeModel } = this.props
+        const { initialValues } = this.state
+        let initial
+        let changed = false
 
-export const withWidgetHandlers = withHandlers({
-    onChange: props => (values, dispatch, options, prevValues) => {
-        if (props.setActive) {
-            props.setActive()
+        if (!isEqual(datasource, prevProps.datasource)) {
+            initial = mergeInitial(resolveModel, datasource)
+            changed = true
         }
         if (
-            props.modelPrefix &&
-            isEqual(props.initialValues, props.reduxFormValues) &&
-            !isEqual(props.initialValues, props.resolveModel)
+            !isEqual(resolveModel || {}, prevProps.resolveModel) &&
+            !isEqual(activeModel, reduxFormValues) &&
+            isEqual(reduxFormValues, prevProps.reduxFormValues)
         ) {
-            props.onResolve(props.initialValues)
+            initial = mergeInitial(datasource, isEmpty(activeModel) ? resolveModel : activeModel)
+            changed = true
+        }
+        if (changed && !isEqual(initialValues, initial)) {
+            this.setState({ initialValues: initial })
+        }
+    }
+
+    onChange = (values, dispatch, options, prevValues) => {
+        const {
+            setActive, modelPrefix, reduxFormValues,
+            resolveModel, onResolve, onSetModel, widgetId,
+        } = this.props
+        const { initialValues } = this.state
+
+        if (setActive) {
+            setActive()
+        }
+        if (
+            modelPrefix &&
+            isEqual(initialValues, reduxFormValues) &&
+            !isEqual(initialValues, resolveModel)
+        ) {
+            onResolve(initialValues)
         }
 
-        if ((isEmpty(values) && isEmpty(prevValues)) || !props.modelPrefix) {
-            props.onResolve(values)
-        } else if (!isEqual(props.reduxFormValues, prevValues)) {
-            props.onSetModel(
-                props.modelPrefix || PREFIXES.resolve,
-                props.widgetId,
-                props.reduxFormValues,
+        if ((isEmpty(values) && isEmpty(prevValues)) || !modelPrefix) {
+            onResolve(values)
+        } else if (!isEqual(reduxFormValues, prevValues)) {
+            onSetModel(
+                modelPrefix || PREFIXES.resolve,
+                widgetId,
+                reduxFormValues,
             )
         }
-    },
-})
+    }
+
+    render() {
+        const { initialValues } = this.state
+        const { widgetId, fieldsets, validation, store } = this.props
+        const fields = getFieldsKeys(fieldsets)
+
+        return (
+            <ReduxForm
+                form={widgetId}
+                fields={fields}
+                {...createValidator(validation, widgetId, store, fields)}
+                {...this.props}
+                initialValues={initialValues}
+                onChange={this.onChange}
+            />
+        )
+    }
+}
+
+Container.propTypes = {
+    form: PropTypes.string,
+    modelPrefix: PropTypes.string,
+    widgetId: PropTypes.string,
+    setActive: PropTypes.func,
+    onResolve: PropTypes.func,
+    onSetModel: PropTypes.func,
+    resolveModel: PropTypes.object,
+    reduxFormValues: PropTypes.object,
+    datasource: PropTypes.object,
+    activeModel: PropTypes.object,
+    fieldsets: PropTypes.any,
+    validation: PropTypes.any,
+    store: PropTypes.any,
+}
 
 /**
  * Обертка в widgetContainer, мэппинг пропсов
@@ -127,21 +160,5 @@ export default compose(
     getContext({
         store: PropTypes.object,
     }),
-    withProps((props) => {
-        const fields = getFieldsKeys(props.fieldsets)
-
-        return {
-            form: props.widgetId,
-            prompt: props.prompt,
-            store: props.store,
-            fields,
-            ...createValidator(props.validation, props.widgetId, props.store, fields),
-            ...props,
-        }
-    }),
     connect(mapStateToProps),
-    onModelChange,
-    onDataSourceChange,
-    withWidgetHandlers,
-    onlyUpdateForKeys(['initialValues', 'fields']),
-)(ReduxForm)
+)(Container)

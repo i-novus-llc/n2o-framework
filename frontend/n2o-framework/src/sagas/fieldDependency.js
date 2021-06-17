@@ -63,7 +63,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
         if (model) {
             yield put(
                 change(form, field, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: valueFieldId ? currentModel : model,
                 }),
             )
@@ -71,7 +71,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
     } catch (e) {
         yield put(
             change(form, field, {
-                keepDirty: false,
+                keepDirty: true,
                 value: null,
                 error: true,
             }),
@@ -142,7 +142,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             if (values[fieldName] !== null && evalResultCheck(evalResult)) {
                 yield put(
                     change(formName, fieldName, {
-                        keepDirty: false,
+                        keepDirty: true,
                         value: null,
                     }),
                 )
@@ -244,12 +244,13 @@ export function* checkAndModify(
 
                 if (
                     (isInitAction && dep.applyOnInit) ||
-          (isChangeAction && includes(dep.on, fieldName)) ||
-          (isChangeAction &&
-            some(
-                dep.on,
-                field => includes(field, '.') && includes(field, fieldName),
-            ))
+                    (isChangeAction && includes(dep.on, fieldName)) ||
+                    (isChangeAction &&
+                        some(
+                            dep.on,
+                            field => includes(field, '.') && includes(field, fieldName),
+                        )
+                    )
                 ) {
                     yield call(modify, values, formName, fieldId, dep, field)
                 }
@@ -276,7 +277,7 @@ export function* resolveDependency(action) {
             action.type,
         )
     } catch (e) {
-    // todo: падает тут из-за отсутствия формы
+        // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
         console.error(e)
     }

@@ -8,7 +8,6 @@ import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
@@ -38,7 +37,6 @@ public class OpenPageAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-        builder.transformers(new TestEngineQueryTransformer());
     }
 
     @Test

@@ -43,6 +43,7 @@ class List extends Component {
         this.cache = new CellMeasurerCache({
             fixedWidth: true,
             defaultHeight: 90,
+            minHeight: 60,
         })
 
         this.scrollTimeoutId = null

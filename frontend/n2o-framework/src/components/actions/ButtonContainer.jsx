@@ -5,7 +5,7 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import { createStructuredSelector } from 'reselect'
 import cx from 'classnames'
 
-import { registerButton, removeButton } from '../../actions/toolbar'
+import { registerButton, removeButtons } from '../../actions/toolbar'
 import {
     isDisabledSelector,
     isInitSelector,
@@ -96,7 +96,7 @@ class ButtonContainer extends React.Component {
     componentWillUnmount() {
         const { dispatch, containerKey } = this.props
 
-        dispatch(removeButton(containerKey))
+        dispatch(removeButtons(containerKey))
     }
 
     onClick(e) {

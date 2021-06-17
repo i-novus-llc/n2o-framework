@@ -311,5 +311,8 @@ $cards-cell-margin: 5px 0 !default;
 $cards-item-padding: 5px !default;
 
 // Custom
-$custom-control-indicator-checked-color: black;
-$custom-checkbox-indicator-icon-checked: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23");
+// TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
+// Эти переменные появились тут в 7.16. В 7.15 были объявлены в sass/n2o/controls/InputTreeSelect.old.scss
+// В свою очередь InputTreeSelect.old.scss никуда не импортировался. Вместо него импортировался InputTreeSelect.scss
+//$custom-control-indicator-checked-color: black;
+//$custom-checkbox-indicator-icon-checked: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23");

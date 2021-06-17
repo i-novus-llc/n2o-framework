@@ -32,6 +32,16 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
         element().parent().shouldNotHave(Condition.cssClass("visible"));
     }
 
+    @Override
+    public void shouldBeExpanded() {
+        element().parent().$(".n2o-dropdown-menu").shouldNotBe(Condition.hidden);
+    }
+
+    @Override
+    public void shouldBeCollapsed() {
+        element().parent().$(".n2o-dropdown-menu").shouldBe(Condition.hidden);
+    }
+
     private ElementsCollection menuItems() {
         return element().parent().$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
     }

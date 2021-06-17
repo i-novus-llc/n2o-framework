@@ -32,13 +32,13 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
     }
 
     @Override
-    public void expandContent() {
+    public void expand() {
         if (collapseToggleBtn().is(collapsedCondition()))
             collapseToggleBtn().click();
     }
 
     @Override
-    public void collapseContent() {
+    public void collapse() {
         if (!collapseToggleBtn().is(collapsedCondition()))
             collapseToggleBtn().click();
     }

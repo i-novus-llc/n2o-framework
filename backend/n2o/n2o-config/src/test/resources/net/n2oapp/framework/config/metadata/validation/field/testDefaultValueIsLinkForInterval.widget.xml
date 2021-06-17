@@ -1,0 +1,7 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <date-interval id="field1" ref-widget-id="test">
+            <default-value begin="begin" end="end"/>
+        </date-interval>
+    </fields>
+</form>

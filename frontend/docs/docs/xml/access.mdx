@@ -1,0 +1,158 @@
+## Схема доступа &lt;access&gt; {#Access_scheme}
+
+**Тип метаданных**
+
+`access`
+
+**Библиотека компонентов**
+
+```
+http://n2oapp.net/framework/config/schema/access-2.0
+```
+
+**Подключение**
+
+```xml
+<dependency>
+  <groupId>net.n2oapp.framework</groupId>
+  <artifactId>n2o-access</artifactId>
+  <version>${n2o.version}</version>
+</dependency>
+```
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
+  ...
+</access>
+```
+
+### &lt;permission&gt; {#permission}
+
+Доступ пользователю с определенным полномочием
+
+**Атрибуты**
+
+|Наименование|Тип          |Описание               |Значение по умолчанию|
+|------------|-------------|-----------------------|---------------------|
+|id          |Идентификатор|Код полномочия         |                     |
+|name        |Строка       |Наименование полномочия|                     |
+
+**Тело**
+
+[Точки доступа](#Access_points)
+
+**Пример**
+
+```xml
+<access>
+  <permission id="something.read">
+    ...
+  </permission>
+</access>
+```
+
+### &lt;role&gt; {#role}
+
+Доступ пользователю с определенной ролью
+
+**Атрибуты**
+
+|Наименование|Тип          |Описание               |Значение по умолчанию|
+|------------|-------------|-----------------------|---------------------|
+|id          |Идентификатор|Код роли               |                     |
+|name        |Строка       |Наименование роли      |                     |
+
+**Тело**
+
+[Точки доступа](#Access_points)
+
+**Пример**
+
+```xml
+<access>
+  <role id="admin">
+    ...
+  </role>
+</access>
+```
+
+### &lt;user&gt; {#user}
+
+Доступ определенному пользователю
+
+**Атрибуты**
+
+|Наименование|Тип          |Описание               |Значение по умолчанию|
+|------------|-------------|-----------------------|---------------------|
+|username    |Строка       |Имя пользователя       |                     |
+
+**Тело**
+
+[Точки доступа](#Access_points)
+
+**Пример**
+
+```xml
+<access>
+  <user username="admin">
+    ...
+  </user>
+</access>
+```
+
+### &lt;authenticated&gt; {#authenticated}
+
+Доступ аутентифицированным пользователям
+
+**Тело**
+
+[Точки доступа](#Access_points)
+
+**Пример**
+
+```xml
+<access>
+  <authenticated>
+    ...
+  </authenticated>
+</access>
+```
+
+### &lt;anonymous&gt; {#anonymous}
+
+Доступ анонимным пользователям
+
+**Тело**
+
+[Точки доступа](#Access_points)
+
+**Пример**
+
+```xml
+<access>
+  <anonymous>
+    ...
+  </anonymous>
+</access>
+```
+
+### &lt;permit-all&gt; {#permit-all}
+
+Доступ всем пользователям
+
+**Тело**
+
+[Точки доступа](#Access_points)
+
+**Пример**
+
+```xml
+<access>
+  <permit-all>
+    ...
+  </permit-all>
+</access>
+```

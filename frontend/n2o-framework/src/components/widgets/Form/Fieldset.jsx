@@ -5,7 +5,7 @@ import concat from 'lodash/concat'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import {
     showFields,
@@ -118,8 +118,8 @@ class Fieldset extends React.Component {
 
         if (
             isEqual(activeModel, prevProps.activeModel) &&
-      isEqual(visible, prevProps.visible) &&
-      isEqual(enabled, prevProps.enabled)
+                isEqual(visible, prevProps.visible) &&
+                isEqual(enabled, prevProps.enabled)
         ) {
             return
         }
@@ -245,21 +245,25 @@ class Fieldset extends React.Component {
             parentName,
             parentIndex,
             label,
+            description,
             type,
             childrenLabel,
             activeModel,
             ...rest
         } = this.props
+
         const { enabled, visible } = this.state
 
         this.fields = []
+
         const needLabel = label && type !== 'line'
+        const needDescription = description && type !== 'line'
 
         if (React.Children.count(children)) {
             return <ElementType>{children}</ElementType>
         }
 
-        const classes = cx('n2o-fieldset', className, {
+        const classes = classNames('n2o-fieldset', className, {
             'd-none': !visible,
         })
 
@@ -267,11 +271,25 @@ class Fieldset extends React.Component {
 
         return (
             <div className={classes} style={style}>
-                {needLabel && (
-                    <Label
-                        className="n2o-fieldset__label"
-                        value={resolveLabel}
-                    />
+                {(needLabel || needDescription) && (
+                    <div className="n2o-fieldset__label-container">
+                        {needLabel && (
+                            <Label
+                                className={classNames(
+                                    'n2o-fieldset__label', { 'with-description': description },
+                                )}
+                                value={resolveLabel}
+                            />
+                        )}
+                        {needDescription && (
+                            <Label
+                                className={classNames(
+                                    'n2o-fieldset__description', { 'line-description': type === 'line' },
+                                )}
+                                value={description}
+                            />
+                        )}
+                    </div>
                 )}
                 <ElementType
                     childrenLabel={childrenLabel}
@@ -279,6 +297,7 @@ class Fieldset extends React.Component {
                     label={resolveLabel}
                     type={type}
                     activeModel={activeModel}
+                    description={description}
                     {...rest}
                     render={(rows, props = { parentName, parentIndex }) => {
                         this.fields = this.calculateAllFields(rows)
@@ -297,6 +316,7 @@ Fieldset.propTypes = {
     label: PropTypes.string,
     childrenLabel: PropTypes.string,
     labelPosition: PropTypes.string,
+    description: PropTypes.string,
     labelWidth: PropTypes.array,
     labelAlignment: PropTypes.array,
     defaultCol: PropTypes.number,
