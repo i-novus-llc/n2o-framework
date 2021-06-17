@@ -13,12 +13,12 @@ import org.openqa.selenium.WebElement;
 public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     @Override
     public TabItem tab(int index) {
-        return new N2oTabItem(element().$$(".nav-item").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index));
+        return new N2oTabItem(element().$$(".n2o-tabs-nav-item").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index));
     }
 
     @Override
     public void shouldHaveSize(int size) {
-        element().$$(".nav-item").shouldHaveSize(size);
+        element().$$(".n2o-tabs-nav-item").shouldHaveSize(size);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
     @Override
     public TabItem tab(Condition by) {
-        return new N2oTabItem(element().$$(".nav-item").findBy(by));
+        return new N2oTabItem(element().$$(".n2o-tabs-nav-item").findBy(by));
     }
 
     public static class N2oTabItem extends N2oComponent implements TabItem {
@@ -50,7 +50,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         @Override
         public RegionItems content() {
             int index = 0;
-            ElementsCollection tabs = element().parent().$$(".nav-item");
+            ElementsCollection tabs = element().parent().$$(".n2o-tabs-nav-item");
             while (!tabs.get(index).is(Condition.text(element().getText()))) index++;
 
             SelenideElement elm = element().parent().parent().parent().$$(".tab-pane").get(index)
@@ -84,12 +84,12 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public void shouldBeActive() {
-            element().$(".nav-link").shouldHave(Condition.cssClass("active"));
+            element().shouldHave(Condition.cssClass("active"));
         }
 
         @Override
         public void shouldNotBeActive() {
-            element().$(".nav-link").shouldNotHave(Condition.cssClass("active"));
+            element().shouldNotHave(Condition.cssClass("active"));
         }
 
         @Override
