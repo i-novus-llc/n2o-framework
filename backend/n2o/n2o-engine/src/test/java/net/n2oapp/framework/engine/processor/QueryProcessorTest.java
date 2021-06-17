@@ -30,6 +30,7 @@ import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
@@ -172,6 +173,7 @@ public class QueryProcessorTest {
     /**
      * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
      */
+    @Ignore
     @Test
     public void testNameMappingWithArgumentsInvocationProvider() {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();

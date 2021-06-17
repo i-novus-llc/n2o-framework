@@ -19,6 +19,7 @@ import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.util.TestEntity;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
@@ -483,6 +484,7 @@ public class InvocationProcessorTest {
     /**
      * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
      */
+    @Ignore
     @Test
     public void testNameMappingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();

@@ -1,8 +1,6 @@
 package net.n2oapp.framework.engine.util;
 
-import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -80,65 +78,6 @@ public class InvocationParametersMapping {
             return null;
         return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments(), domainProcessor);
     }
-
-    /**
-     * Преобразует входные значения согласно маппингу и собирает их в map
-     *
-     * @param dataSet Входные данные
-     * @param mapping Маппинг полей
-     * @return Преобразованные входные значения согласно маппингу
-     */
-    public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, FieldMapping> mapping) {
-        return DataSetMapper.mapToMap(dataSet, mapping);
-    }
-
-    public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
-        map.put("select", query.getSelectExpressions());
-        Set<String> joins = new LinkedHashSet<>(query.getJoinExpressions());
-
-        List<String> where = new ArrayList<>();
-        for (Restriction r : criteria.getRestrictions()) {
-            N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            if (filter.getText() != null)
-                where.add(filter.getText());
-            inMap(map, filter.getMapping(), r.getValue());
-            N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
-            if (!field.getNoJoin())
-                joins.add(field.getJoinBody());
-        }
-
-
-        map.put("filters", where);
-
-        List<String> sortingExp = new ArrayList<>();
-        if (criteria.getSorting() != null)
-            for (Sorting sorting : criteria.getSortings()) {
-                N2oQuery.Field field = query.getFieldsMap().get(sorting.getField());
-                if (field.getNoSorting())
-                    continue;
-                sortingExp.add(field.getSortingBody());
-                inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
-                if (!field.getNoJoin())
-                    joins.add(field.getJoinBody());
-            }
-        map.put("sorting", sortingExp);
-
-        if (criteria.getAdditionalFields() != null) {
-            criteria.getAdditionalFields().entrySet().stream().filter(es -> es.getValue() != null)
-                    .forEach(es -> map.put(es.getKey(), es.getValue()));
-        }
-
-        map.put("join", new ArrayList<>(joins));
-    }
-
-    public static void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
-        map.put("limit", criteria.getSize());
-        map.put("offset", criteria.getFirst());
-        if (criteria.getCount() != null)
-            map.put("count", criteria.getCount());
-        map.put("page", pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
-    }
-
 
     /**
      * Собирает аргументы для query, на выход будет массив из одного аргумента типа net.n2oapp.criteria.api.Criteria

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import static net.n2oapp.framework.engine.util.InvocationParametersMapping.*;
+import static net.n2oapp.framework.engine.util.MapInvocationMapping.mapToMap;
 
 /**
  * Процессор вызова процедур
@@ -70,7 +71,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
 
-        return DataSetMapper.extract(result, outMapping);
+        return DataSetUtil.extract(result, outMapping);
     }
 
 

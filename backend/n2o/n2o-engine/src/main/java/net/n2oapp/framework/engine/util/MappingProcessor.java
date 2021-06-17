@@ -83,6 +83,47 @@ public class MappingProcessor {
     }
 
     /**
+     * Заменяет в inDataSet значение созданным объектом
+     *
+     * @param parameter параметр операции
+     * @param dataSet   исходные данные
+     */
+    public static void mapParameter(ObjectReferenceField parameter, DataSet dataSet) {
+        Object data = dataSet.get(parameter.getId());
+        if (data == null)
+            return;
+        if (parameter.getClass().equals(ObjectReferenceField.class)) {
+            dataSet.put(parameter.getId(), mapChildParameters(parameter, (DataSet) data));
+        } else {
+            Collection collection = parameter instanceof ObjectListField ? new ArrayList() : new HashSet();
+            for (Object item : (Collection) data)
+                collection.add(mapChildParameters(parameter, (DataSet) item));
+            dataSet.put(parameter.getId(), collection);
+        }
+    }
+
+    /**
+     * Создает инстанс и мапит его поля из dataSet
+     *
+     * @param parameter Параметр операции
+     * @param dataSet   Исходные данные
+     */
+    public static Object mapChildParameters(ObjectReferenceField parameter, DataSet dataSet) {
+        Object instance;
+        try {
+            instance = Class.forName(parameter.getEntityClass()).newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            throw new N2oException(e);
+        }
+
+        for (AbstractParameter childParam : (parameter).getFields()) {
+            String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
+            writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
+        }
+        return instance;
+    }
+
+    /**
      * Генерирует список аргументов для вызова метода.
      *
      * @param dataSet    Исходные данные
@@ -146,46 +187,5 @@ public class MappingProcessor {
             }
         }
         return argumentInstances;
-    }
-
-    /**
-     * Заменяет в inDataSet значение созданным объектом
-     *
-     * @param parameter параметр операции
-     * @param dataSet   исходные данные
-     */
-    public static void mapParameter(ObjectReferenceField parameter, DataSet dataSet) {
-        Object data = dataSet.get(parameter.getId());
-        if (data == null)
-            return;
-        if (parameter.getClass().equals(ObjectReferenceField.class)) {
-            dataSet.put(parameter.getId(), mapChildParameters(parameter, (DataSet) data));
-        } else {
-            Collection collection = parameter instanceof ObjectListField ? new ArrayList() : new HashSet();
-            for (Object item : (Collection) data)
-                collection.add(mapChildParameters(parameter, (DataSet) item));
-            dataSet.put(parameter.getId(), collection);
-        }
-    }
-
-    /**
-     * Создает инстанс и мапит его поля из dataSet
-     *
-     * @param parameter Параметр операции
-     * @param dataSet   Исходные данные
-     */
-    public static Object mapChildParameters(ObjectReferenceField parameter, DataSet dataSet) {
-        Object instance;
-        try {
-            instance = Class.forName(parameter.getEntityClass()).newInstance();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            throw new N2oException(e);
-        }
-
-        for (AbstractParameter childParam : (parameter).getFields()) {
-            String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
-            writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
-        }
-        return instance;
     }
 }
