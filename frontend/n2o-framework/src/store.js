@@ -16,15 +16,13 @@ export default (initialState, history, config = {}) => {
         batchDispatchMiddleware,
         thunkMiddleware,
         () => next => (action) => {
-            let extendedAction = action
-
             if (Object.prototype.toString.call(action) === '[object Object]') {
                 const { payload = {}, meta = {}, ...actionFields } = action
 
-                extendedAction = { ...actionFields, payload, meta }
+                return next({ ...actionFields, payload, meta })
             }
 
-            next(extendedAction)
+            return next(action)
         },
         sagaMiddleware,
         routerMiddleware(history),
