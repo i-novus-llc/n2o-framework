@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class MapInvocationEngineTest {
+public class MapInvocationUtilTest {
 
     @Test
     public void testMapToMap() {
@@ -61,7 +61,7 @@ public class MapInvocationEngineTest {
         listItemSet.add(new DataSet("codeValue", "code2"));
         listItem.add("codes", listItemSet);
 
-        Map<String, Object> value = MapInvocationMapping.mapToMap(dataSet, mapping);
+        Map<String, Object> value = MapInvocationUtil.mapToMap(dataSet, mapping);
         assertThat(value.size(), is(5));
         assertThat(value.get("id"), is(1));
         assertThat(value.get("name"), is("test"));
@@ -96,6 +96,6 @@ public class MapInvocationEngineTest {
         mapping.put("name", new FieldMapping("[1]"));
         mapping.put("surname", new FieldMapping("[2]"));
 
-        MapInvocationMapping.mapToMap(dataSet, mapping);
+        MapInvocationUtil.mapToMap(dataSet, mapping);
     }
 }

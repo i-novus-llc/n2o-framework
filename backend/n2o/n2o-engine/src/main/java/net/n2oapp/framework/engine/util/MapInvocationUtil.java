@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Утилитный класс, служащий для преобразования аргументов к виду Map
+ * Утилитный класс, служащий для преобразования данных вызова в Map
  */
-public class MapInvocationMapping {
+public class MapInvocationUtil {
     private static final ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+]").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";

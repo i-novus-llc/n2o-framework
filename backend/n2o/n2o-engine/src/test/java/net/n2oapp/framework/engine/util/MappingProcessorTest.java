@@ -3,8 +3,6 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
@@ -12,8 +10,17 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Тестирование преобразования данных
@@ -49,28 +56,6 @@ public class MappingProcessorTest {
         MappingProcessor.outMap(res, test, "fieldId2", "valueInt", 11, contextProcessor);
         assert res.get("fieldId").equals("string");
         assert res.get("fieldId2").equals(11);
-    }
-
-    @Test
-    public void testMap() {
-        DataSet inDataSet = new DataSet();
-        inDataSet.put("valueStr", "string");
-        inDataSet.put("valueInt", 11);
-        inDataSet.put("innerObjValueStr", "inner");
-        inDataSet.put("innerObjValueInt", 14);
-        Map<String, FieldMapping> mapping = new HashMap<>();
-        mapping.put("valueStr", new FieldMapping("[0].valueStr"));
-        mapping.put("valueInt", new FieldMapping("[0].valueInt"));
-        mapping.put("innerObjValueStr", new FieldMapping("[0].innerObj.valueStr"));
-        mapping.put("innerObjValueInt", new FieldMapping("[0].innerObj.valueInt"));
-        Argument arg = new Argument();
-        arg.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        Object[] res = MappingProcessor.map(inDataSet, mapping, new Argument[]{arg}, new DomainProcessor());
-        TestEntity result = (TestEntity) res[0];
-        assert result.getInnerObj().getValueStr().equals("inner");
-        assert result.getInnerObj().getValueInt().equals(14);
-        assert result.getValueStr().equals("string");
-        assert result.getValueInt().equals(11);
     }
 
     @Test
@@ -173,5 +158,43 @@ public class MappingProcessorTest {
 
         assert outerDataSetWithSet.get("entities") instanceof Set;
         assert ((Set) outerDataSetWithSet.get("entities")).containsAll((List) outerDataSetWithList.get("entities"));
+    }
+
+    @Test
+    public void testExtractMapping() {
+        Map<String, AbstractParameter> parameters = new LinkedHashMap<>();
+        ObjectSimpleField param = new ObjectSimpleField();
+        param.setId("a");
+        param.setMapping("x");
+        parameters.put("a", param);
+        Map<String, FieldMapping> mapping = MappingProcessor.extractInFieldMapping(parameters.values());
+        assertThat(mapping.get("a").getMapping(), is("x"));
+
+        parameters = new LinkedHashMap<>();
+        param = new ObjectSimpleField();
+        param.setId("a");
+        parameters.put("a", param);
+        mapping = MappingProcessor.extractInFieldMapping(parameters.values());
+        assertThat(mapping.containsKey("a"), is(true));
+        assertThat(mapping.get("a").getMapping(), is(nullValue()));
+    }
+
+    @Test
+    public void normalizeValue() {
+        ExpressionParser parser = new SpelExpressionParser();
+        BeanFactory beanFactory = mock(BeanFactory.class);
+        when(beanFactory.getBean("myBean")).thenReturn(new MappingProcessorTest.MyBean());
+        String obj = "test";
+        DataSet data = new DataSet();
+        data.put("name", "John");
+        assertThat(MappingProcessor.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
+        assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
+        assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
+    }
+
+    public static class MyBean {
+        public String call() {
+            return "Doe";
+        }
     }
 }

@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgument
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
-import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -30,9 +29,8 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.engine.util.InvocationParametersMapping.normalizeValue;
-import static net.n2oapp.framework.engine.util.MappingProcessor.inMap;
-import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
+import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
+import static net.n2oapp.framework.engine.util.MappingProcessor.*;
 
 /**
  * Процессор выборок
@@ -72,8 +70,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
             try {
-                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(),
+                result = ((ArgumentsInvocationEngine) engine).invoke(
+                        (N2oArgumentsInvocation) selection.getInvocation(),
+                        mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
                                 query, criteria, criteriaConstructor, domainProcessor));
             } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
@@ -161,9 +160,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
             try {
-                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(),
-                                query, criteria, criteriaConstructor, domainProcessor));
+                result = ((ArgumentsInvocationEngine) engine).invoke(
+                        (N2oArgumentsInvocation) selection.getInvocation(),
+                        mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
+                                query, criteria, criteriaConstructor, domainProcessor)
+                );
             } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
             }

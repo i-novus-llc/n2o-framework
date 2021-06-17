@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -28,8 +27,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import static net.n2oapp.framework.engine.util.InvocationParametersMapping.*;
-import static net.n2oapp.framework.engine.util.MapInvocationMapping.mapToMap;
+import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
+import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
+import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
 
 /**
  * Процессор вызова процедур
@@ -50,8 +50,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     public DataSet invoke(N2oInvocation invocation, DataSet inDataSet,
                           Collection<AbstractParameter> inParameters,
                           Collection<ObjectSimpleField> outParameters) {
-        final Map<String, FieldMapping> inMapping = InvocationParametersMapping.extractInFieldMapping(inParameters);
-        final Map<String, String> outMapping = InvocationParametersMapping.extractOutFieldMapping(outParameters);
+        final Map<String, FieldMapping> inMapping = MappingProcessor.extractInFieldMapping(inParameters);
+        final Map<String, String> outMapping = MappingProcessor.extractOutFieldMapping(outParameters);
         prepareInValues(inParameters, inDataSet);
         DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
