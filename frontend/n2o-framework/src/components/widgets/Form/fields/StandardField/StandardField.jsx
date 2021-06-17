@@ -159,6 +159,7 @@ class StandardField extends React.Component {
                                 onBlur={onBlur}
                                 onFocus={onFocus}
                                 onChange={onChange}
+                                help={help}
                                 {...props}
                                 {...control}
                                 className={cx(control.className, {

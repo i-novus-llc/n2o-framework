@@ -159,6 +159,35 @@ describe('Тесты models reducer', () => {
             models(
                 {
                     edit: {
+                        editKey0: {
+                            field0: 'value0',
+                        },
+                    },
+                },
+                {
+                    type: UPDATE,
+                    payload: {
+                        prefix: 'edit',
+                        key: 'editKey1',
+                        field: 'field1',
+                        value: 'value1',
+                    },
+                },
+            ),
+        ).toEqual({
+            edit: {
+                editKey0: {
+                    field0: 'value0',
+                },
+                editKey1: {
+                    field1: 'value1',
+                },
+            },
+        })
+        expect(
+            models(
+                {
+                    edit: {
                         editKey: { a: { b: 2 } },
                     },
                 },
