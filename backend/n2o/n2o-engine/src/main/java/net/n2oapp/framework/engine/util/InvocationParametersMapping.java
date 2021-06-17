@@ -73,12 +73,12 @@ public class InvocationParametersMapping {
      * @param inMapping  Маппинг входных данных
      * @return
      */
-    public static Map<String, Object> mapToMap(N2oArgumentsInvocation invocation, DataSet inDataSet,
-                                               Map<String, FieldMapping> inMapping) {
+    public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet,
+                                     Map<String, FieldMapping> inMapping, DomainProcessor domainProcessor) {
         inMapping = changeInMappingForEntity(invocation, inMapping);
         if (invocation.getArguments() == null || invocation.getArguments().length == 0)
             return null;
-        return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments());
+        return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments(), domainProcessor);
     }
 
     /**

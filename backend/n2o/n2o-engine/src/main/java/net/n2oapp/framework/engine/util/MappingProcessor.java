@@ -3,17 +3,21 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Утилитный класс для маппинга данных.
@@ -23,6 +27,9 @@ public class MappingProcessor {
 
     private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));
+    private final static Set<String> primitiveTypes = Stream.of("java.lang.Boolean", "java.lang.Character", "java.lang.Byte",
+            "java.lang.Short", "java.lang.Integer", "java.lang.Long", "java.lang.Float", "java.lang.Double", "java.util.Date",
+            "java.math.BigDecimal").collect(Collectors.toSet());
 
     /**
      * Входящее преобразование value согласно выражению mapping в объект target
@@ -83,10 +90,22 @@ public class MappingProcessor {
      * @param arguments  Список аргументов
      * @return Массив объектов
      */
-    public static Map<String, Object> map(DataSet dataSet, Map<String, FieldMapping> mappingMap,
-                                          Argument[] arguments) {
-        Map<String, Object> result = new HashMap<>();
-        boolean hasOnlyOneEntity = arguments.length == 1 && Argument.Type.ENTITY.equals(arguments[0].getType());
+    public static Object[] map(DataSet dataSet, Map<String, FieldMapping> mappingMap, Argument[] arguments,
+                               DomainProcessor domainProcessor) {
+        List<String> argClasses = new ArrayList<>();
+        for (Argument arg : arguments) {
+            argClasses.add(arg.getClassName());
+        }
+        Object[] instances = instantiateArguments(argClasses);
+        Object[] result;
+        if (ArrayUtils.isEmpty(instances)) {
+            result = new Object[mappingMap.size()];
+        } else {
+            result = instances;
+        }
+
+        boolean hasOnlyOneEntity = result.length == 1 && result[0] != null;
+
         int idx = 0;
 
         for (Map.Entry<String, FieldMapping> map : mappingMap.entrySet()) {
@@ -97,11 +116,36 @@ public class MappingProcessor {
                 if (resultMapping == null)
                     resultMapping = hasOnlyOneEntity ? "[0]." + map.getKey() : "[" + idx + "]";
 
-                result.put(resultMapping, value);
+                Expression expression = writeParser.parseExpression(resultMapping);
+                expression.setValue(result, value);
             }
             idx++;
         }
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] == null && arguments[i].getDefaultValue() != null) {
+                result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());
+            }
+        }
         return result;
+    }
+
+    private static Object[] instantiateArguments(List<String> arguments) {
+        if (arguments == null) return null;
+        Object[] argumentInstances = new Object[arguments.size()];
+        for (int k = 0; k < arguments.size(); k++) {
+            Class argumentClass;
+            if (arguments.get(k) == null || primitiveTypes.contains(arguments.get(k))) {
+                argumentInstances[k] = null;
+            } else {
+                try {
+                    argumentClass = Class.forName(arguments.get(k));
+                    argumentInstances[k] = argumentClass.newInstance();
+                } catch (Exception e) {
+                    throw new N2oException("Can't create instance of class " + arguments.get(k), e);
+                }
+            }
+        }
+        return argumentInstances;
     }
 
     /**

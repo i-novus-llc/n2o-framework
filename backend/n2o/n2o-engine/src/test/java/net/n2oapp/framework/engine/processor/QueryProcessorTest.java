@@ -8,9 +8,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.data.QueryProcessor;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.register.MetaType;
@@ -31,6 +28,7 @@ import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
@@ -42,6 +40,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -62,6 +61,7 @@ public class QueryProcessorTest {
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
         when(contextProcessor.resolve(anyInt())).then((Answer) invocation -> invocation.getArguments()[0]);
+        when(contextProcessor.resolve(anyBoolean())).then((Answer) invocation -> invocation.getArguments()[0]);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
@@ -76,6 +76,7 @@ public class QueryProcessorTest {
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4JavaMapping.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
@@ -140,9 +141,7 @@ public class QueryProcessorTest {
     @Test
     public void query4Java() {
         when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
-        JavaDataProviderEngine javaDataEngineMock = mock(JavaDataProviderEngine.class);
         List<Object> list = new ArrayList<>();
-        ///  when(javaDataEngineMock.invoke(any(), any())).thenReturn(list);
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
 
         //case without arguments
@@ -151,7 +150,7 @@ public class QueryProcessorTest {
         assertThat(collectionPage.getCount(), is(10));
         DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
-//        //case with primitive
+        //case with primitive
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("value", "test"));
         criteria.addRestriction(new Restriction("value", "test"));
@@ -168,7 +167,28 @@ public class QueryProcessorTest {
         dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
-        //case with page request (spring data) todo
+    }
+
+    /**
+     * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
+     */
+    @Test
+    public void testNameMappingWithArgumentsInvocationProvider() {
+        JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
+        javaDataProviderEngine.setJavaMapping("map");
+        when(factory.produce(any())).thenReturn(javaDataProviderEngine);
+
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4JavaMapping"));
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("firstArg", "test"));
+        criteria.addRestriction(new Restriction("secondArg", 123));
+        criteria.addRestriction(new Restriction("thirdArg", true));
+
+        CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(1));
+        // Result
+        DataSet result = ((List<DataSet>) collectionPage.getCollection()).get(0);
+        assertThat(result, Matchers.is("Invocation success. First argument: test, Second argument: 123, Third argument: true"));
     }
 
 

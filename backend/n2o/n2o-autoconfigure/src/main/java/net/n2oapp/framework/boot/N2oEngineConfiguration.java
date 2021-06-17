@@ -144,7 +144,6 @@ public class N2oEngineConfiguration {
                                                          DomainProcessor domainProcessor) {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
         javaDataProviderEngine.setJavaMapping(javaMapping);
-        javaDataProviderEngine.setDomainProcessor(domainProcessor);
         javaDataProviderEngine.setLocators(locators.orElse(Collections.EMPTY_LIST));
         return javaDataProviderEngine;
     }

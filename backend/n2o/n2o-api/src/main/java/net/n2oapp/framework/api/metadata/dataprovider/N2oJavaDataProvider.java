@@ -4,14 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oMapInvocation;
 
 /**
  * Модель вызова java кода (статичные методы класса, spring бины, ejb бины)
  */
 @Getter
 @Setter
-public class N2oJavaDataProvider extends AbstractDataProvider implements N2oArgumentsInvocation, N2oMapInvocation {
+public class N2oJavaDataProvider extends AbstractDataProvider implements N2oArgumentsInvocation {
     private String className;
     private String method;
     private Argument[] arguments;
