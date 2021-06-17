@@ -120,42 +120,24 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const enhance = compose(
-    withProps((props) => {
-        const isDrawerPage = get(props, 'isDrawerPage')
-        const pageId = get(props, 'metadata.id')
-        const searchWidgetId = get(props, 'metadata.searchWidgetId')
-        const compileSearchWidgetId = isDrawerPage
-            ? `${pageId}_${searchWidgetId}`
-            : searchWidgetId
-
-        return {
-            searchWidgetId: compileSearchWidgetId,
-            metadataSearchWidgetId: searchWidgetId,
-            searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
-            isDrawerPage,
-            searchModelKey: get(props, 'metadata.searchModelKey'),
-            searchBar: get(props, 'metadata.searchBar', {}),
-            toolbar: get(props, 'metadata.toolbar', {}),
-        }
-    }),
+    withProps(props => ({
+        searchWidgetId: get(props, 'metadata.searchWidgetId'),
+        searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
+        searchModelKey: get(props, 'metadata.searchModelKey'),
+        searchBar: get(props, 'metadata.searchBar', {}),
+        toolbar: get(props, 'metadata.toolbar', {}),
+    })),
     withHandlers({
         onSearch: ({
             dispatch,
             searchWidgetId,
-            metadataSearchWidgetId,
             searchModelPrefix,
             searchModelKey,
         }) => (value) => {
             dispatch(
                 batchActions([
-                    updateModel(
-                        searchModelPrefix,
-                        metadataSearchWidgetId,
-                        searchModelKey,
-                        value,
-                    ),
+                    updateModel(searchModelPrefix, searchWidgetId, searchModelKey, value),
                     dataRequestWidget(searchWidgetId),
-                    dataRequestWidget(metadataSearchWidgetId),
                 ]),
             )
         },
