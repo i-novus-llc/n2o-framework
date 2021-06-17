@@ -6,34 +6,117 @@ module.exports = function(app) {
   //   res.send();
   // });
 
-  // app.get("/n2o/config", (req, res) => {
-  //   res.send({
-  //     user: {
-  //       username: null,
-  //       testProperty: "testProperty"
-  //     },
-  //     messages: {},
-  //     menu: {
-  //       localeSelect: true,
-  //       brand: "N2O",
-  //       color: "inverse",
-  //       fixed: false,
-  //       collapsed: true,
-  //       search: false,
-  //       items: [
-  //         {
-  //           id: "menuItem0",
-  //           label: "Контакты",
-  //           href: "/proto",
-  //           linkType: "inner",
-  //           type: "link"
-  //         }
-  //       ],
-  //       extraItems: []
-  //     },
-  //     locale: 'en'
-  //   });
-  // });
+  //   заготовка нового mock config
+
+    // app.get("/n2o/config", (req, res) => {
+    //     res.send({
+    //         menu: {
+    //             layout: {
+    //                 fullSizeHeader: true,
+    //                 fixed: false,
+    //             },
+    //             header: {
+    //                 src: "string",
+    //                 class: "string",
+    //                 style: "string",
+    //                 logo: {
+    //                     title: "string",
+    //                     class: "string",
+    //                     style: "string",
+    //                     href: "string",
+    //                     src: "string",
+    //                 },
+    //                 menu: {
+    //                     src: "string",
+    //                     items: [{
+    //                         id: "string",
+    //                         type: 'link',
+    //                         href: "string",
+    //                         target: '_blank',
+    //                         items:[],
+    //                         icon: "string",
+    //                         security: {},
+    //                         title: "string",
+    //                     }]
+    //                 },
+    //                 extraMenu: {
+    //                     src: "string",
+    //                     items: [{
+    //                         id: "string",
+    //                         type: 'link',
+    //                         href: "string",
+    //                         target: '_blank',
+    //                         items:[],
+    //                         icon: "string",
+    //                         security: {},
+    //                         title: "string",
+    //                     }]
+    //                 },
+    //                 search: {},
+    //                 sidebarSwitcher: {
+    //                     defaultIcon: "string",
+    //                     toggledIcon: "string",
+    //                 },
+    //             },
+    //             sidebar: {
+    //                 src: "string",
+    //                 class: "string",
+    //                 style: "string",
+    //                 logo: {
+    //                     title: "string",
+    //                     class: "string",
+    //                     style: "string",
+    //                     href: "string",
+    //                     src: "string",
+    //                 },
+    //                 menu: {
+    //                     src: "string",
+    //                     items: [{
+    //                         id: "string",
+    //                         type: 'link',
+    //                         href: "string",
+    //                         target: '_blank',
+    //                         items:[],
+    //                         icon: "string",
+    //                         security: {},
+    //                         title: "string",
+    //                     }]
+    //                 },
+    //                 extraMenu: {
+    //                     src: "string",
+    //                     items: [{
+    //                         id: "string",
+    //                         type: 'link',
+    //                         href: "string",
+    //                         target: '_blank',
+    //                         items:[],
+    //                         icon: "string",
+    //                         security: { },
+    //                         title: "string",
+    //                     }]
+    //                 },
+    //                 side: 'right',
+    //                 defaultState: 'none',
+    //                 toggledState: 'none',
+    //                 toggleOnHover: true,
+    //                 overlay: false,
+    //             },
+    //             footer: {
+    //                 textRight: "string",
+    //                 textLeft: "string",
+    //                 src: "string",
+    //                 class: "string",
+    //                 style: "string",
+    //             },
+    //         },
+    //         user: {
+    //             username: null,
+    //             testProperty: "testProperty"
+    //         },
+    //         messages: {},
+    //         modules: {}
+    //     })
+    // })
 
   app.use(
     proxy("/n2o", {

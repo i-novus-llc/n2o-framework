@@ -30,6 +30,7 @@ import { SidebarItemContainer } from './SidebarItemContainer'
  * @param onToggle - переключение compressed
  * @param extra - екстра итемы
  * @param homePageUrl - url брэнда
+ * @param className - class
  * @param t - функция перевода
  * @returns {*}
  * @constructor
@@ -45,6 +46,7 @@ export function SideBar({
     onToggle,
     extra,
     homePageUrl,
+    className,
     t,
 }) {
     const renderItems = items => map(items, (item, i) => (
@@ -60,7 +62,7 @@ export function SideBar({
 
     return (
         <aside
-            className={classNames('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
+            className={classNames('n2o-sidebar', className, { 'n2o-sidebar--compressed': !visible })}
         >
             <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
                 <a className="d-flex align-items-center" href={homePageUrl}>
@@ -156,6 +158,7 @@ SideBar.propTypes = {
      * Адрес ссылка бренда
      */
     homePageUrl: PropTypes.string,
+    className: PropTypes.string,
     t: PropTypes.func,
 }
 

@@ -24,8 +24,17 @@
     overflow: auto;
 }
 
+.n2o-layout-fixed {
+    overflow: hidden;
+    max-height: 100vh;
+}
+
+.application-body-container-fixed {
+    overflow-y: auto;
+}
+
 .n2o-footer {
-    height: $footer-height;
+    height: auto;
 }
 
 .navbar-brand {
