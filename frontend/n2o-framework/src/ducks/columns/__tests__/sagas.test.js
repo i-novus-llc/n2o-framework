@@ -1,8 +1,7 @@
 import { runSaga } from 'redux-saga'
 
-import { changeColumnVisiblity } from '../actions/columns'
-
-import { resolveColumn } from './column'
+import { changeColumnVisibility } from '../store'
+import { resolveColumn } from '../sagas'
 
 const state = {
     models: {
@@ -35,7 +34,7 @@ describe('Проверка саги column', () => {
             },
         })
         expect(dispatched[0]).toEqual(
-            changeColumnVisiblity('someWidget', 'surname', false),
+            changeColumnVisibility('someWidget', 'surname', false)
         )
     })
 
@@ -59,7 +58,7 @@ describe('Проверка саги column', () => {
             },
         })
         expect(dispatched[0]).toEqual(
-            changeColumnVisiblity('someWidget', 'surname', true),
+            changeColumnVisibility('someWidget', 'surname', true)
         )
     })
 })

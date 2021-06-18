@@ -27,7 +27,7 @@ import {
     makeGetFilterModelSelector,
     makeGetModelByPrefixSelector,
 } from '../../../selectors/models'
-import { getContainerColumns } from '../../../selectors/columns'
+import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 

@@ -1,9 +1,9 @@
 import { put, select } from 'redux-saga/effects'
 
-import { changeColumnVisiblity } from '../actions/columns'
-
 // eslint-disable-next-line import/no-cycle
-import { resolveConditions } from './conditions'
+import { resolveConditions } from '../../sagas/conditions'
+
+import { changeColumnVisibility } from './store'
 
 /**
  * Resolve columns conditions
@@ -20,7 +20,7 @@ export function* resolveColumn(column) {
             const nextVisible = resolveConditions(visible, state).resolve
 
             yield put(
-                changeColumnVisiblity(column.key, column.columnId, nextVisible),
+                changeColumnVisibility(column.key, column.columnId, nextVisible),
             )
         }
     }

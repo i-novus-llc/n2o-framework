@@ -18,19 +18,19 @@ import find from 'lodash/find'
 import evalExpression from '../utils/evalExpression'
 import { SET } from '../constants/models'
 import { REGISTER_BUTTON } from '../constants/toolbar'
-import { REGISTER_COLUMN } from '../constants/columns'
+// eslint-disable-next-line import/no-cycle
+import { resolveColumn } from '../ducks/columns/sagas'
+import { registerColumn } from '../ducks/columns/store'
 
 // eslint-disable-next-line import/no-cycle
 import { resolveButton } from './toolbar'
-// eslint-disable-next-line import/no-cycle
-import { resolveColumn } from './column'
 
 /**
  * Обработчики вызова зависимостей
  */
 const ConditionHandlers = {
     [REGISTER_BUTTON]: resolveButton,
-    [REGISTER_COLUMN]: resolveColumn,
+    [registerColumn.type]: resolveColumn,
 }
 
 /**
@@ -94,7 +94,7 @@ function* watchRegister() {
         while (true) {
             const { type, payload: payloadRegister } = yield take([
                 REGISTER_BUTTON,
-                REGISTER_COLUMN,
+                registerColumn.type,
             ])
             const { conditions } = payloadRegister
 

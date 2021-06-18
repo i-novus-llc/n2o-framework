@@ -3,7 +3,7 @@ import {
     isDisabledSelector,
     isInitSelector,
     isVisibleSelector,
-} from './columns'
+} from '../selectors'
 
 const state = {
     columns: {

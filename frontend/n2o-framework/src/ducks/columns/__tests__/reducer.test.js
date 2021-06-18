@@ -1,12 +1,10 @@
-import {
-    CHANGE_COLUMN_DISABLED,
-    CHANGE_COLUMN_VISIBILITY,
-    REGISTER_COLUMN,
-    TOGGLE_COLUMN_VISIBILITY,
-} from '../constants/columns'
-import { RESET_STATE } from '../constants/widgets'
-
-import columns from './columns'
+import { RESET_STATE } from '../../../constants/widgets'
+import columns, {
+    registerColumn,
+    changeColumnVisibility,
+    changeColumnDisabled,
+    toggleColumnVisibility
+}  from '../store'
 
 describe('Тесты columns reducer', () => {
     it('Проверка REGISTER_COLUMN', () => {
@@ -18,7 +16,7 @@ describe('Тесты columns reducer', () => {
                     },
                 },
                 {
-                    type: REGISTER_COLUMN,
+                    type: registerColumn.type,
                     payload: {
                         key: 'testKey',
                         columnId: 'columnId',
@@ -49,7 +47,7 @@ describe('Тесты columns reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_COLUMN_VISIBILITY,
+                    type: changeColumnVisibility.type,
                     payload: {
                         key: 'testKey',
                         columnId: 'columnId',
@@ -79,7 +77,7 @@ describe('Тесты columns reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_COLUMN_DISABLED,
+                    type: changeColumnDisabled.type,
                     payload: {
                         key: 'testKey',
                         columnId: 'columnId',
@@ -109,7 +107,7 @@ describe('Тесты columns reducer', () => {
                     },
                 },
                 {
-                    type: TOGGLE_COLUMN_VISIBILITY,
+                    type: toggleColumnVisibility.type,
                     payload: {
                         key: 'testKey',
                         columnId: 'columnId',
