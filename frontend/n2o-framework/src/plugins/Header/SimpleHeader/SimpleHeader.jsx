@@ -237,59 +237,43 @@ class SimpleHeader extends React.Component {
     }
 }
 
+Logo.propTypes = {
+    title: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    href: PropTypes.string,
+    src: PropTypes.string,
+}
+
+Logo.defaultProps = {
+    href: '/',
+}
+
+SidebarSwitcher.propTypes = {
+    defaultIcon: PropTypes.string,
+    toggleIcon: PropTypes.string,
+    sidebarOpen: PropTypes.bool,
+    toggleSidebar: PropTypes.func,
+}
+
+SidebarSwitcher.defaultProps = {
+    defaultIcon: 'fa fa-times',
+    toggleIcon: 'fa fa-bars',
+}
+
 SimpleHeader.propTypes = {
     /**
      * ID активного элемента
      */
     activeId: PropTypes.string,
     /**
-     * Бренд хедера
-     */
-    brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    /**
-     * Картинка бренда
-     */
-    brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    /**
-     * Элементы хедера
-     */
-    items: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            label: PropTypes.string.isRequired,
-            href: PropTypes.string,
-            linkType: PropTypes.oneOf(['inner', 'outer']),
-            type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-            subItems: PropTypes.array,
-            badge: PropTypes.string,
-            badgeColor: PropTypes.string,
-            target: PropTypes.string,
-        }),
-    ),
-    /**
      * Extra элементы хедера
      */
-    extraMenu: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            label: PropTypes.string.isRequired,
-            href: PropTypes.string,
-            linkType: PropTypes.oneOf(['inner', 'outer']),
-            type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-            subItems: PropTypes.array,
-            badge: 'badge',
-            badgeColor: 'color',
-            target: PropTypes.string,
-        }),
-    ),
+    extraMenu: PropTypes.object,
     /**
      * Строка поиска
      */
     search: PropTypes.bool,
-    /**
-     * Адрес ссылка бренда
-     */
-    homePageUrl: PropTypes.string,
     /**
      * Цвет хедера
      */
@@ -316,40 +300,35 @@ SimpleHeader.propTypes = {
     localeSelect: PropTypes.bool,
     width: PropTypes.number,
     logo: PropTypes.object,
-    menu: PropTypes.object,
+    menu: PropTypes.shape(
+        {
+            src: PropTypes.string,
+            items: PropTypes.arrayOf(
+                PropTypes.shape({
+                    id: PropTypes.string.isRequired,
+                    title: PropTypes.string.isRequired,
+                    href: PropTypes.string,
+                    linkType: PropTypes.oneOf(['inner', 'outer']),
+                    type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
+                    items: PropTypes.array,
+                    badge: PropTypes.string,
+                    badgeColor: PropTypes.string,
+                    target: PropTypes.string,
+                    security: PropTypes.object,
+                }),
+            ) },
+    ),
     sidebarSwitcher: PropTypes.object,
     toggleSidebar: PropTypes.func,
     sidebarOpen: PropTypes.bool,
 }
 
-Logo.propTypes = {
-    title: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    href: PropTypes.string,
-    src: PropTypes.string,
-}
-
-SidebarSwitcher.propTypes = {
-    defaultIcon: PropTypes.string,
-    toggleIcon: PropTypes.string,
-    sidebarOpen: PropTypes.bool,
-    toggleSidebar: PropTypes.func,
-}
-
-SidebarSwitcher.defaultProps = {
-    defaultIcon: 'fa fa-times',
-    toggleIcon: 'fa fa-bars',
-}
-
 SimpleHeader.defaultProps = {
     color: 'default',
     fixed: true,
-    homePageUrl: '/',
     collapsed: true,
     className: '',
-    items: [],
-    extraMenu: [],
+    extraMenu: {},
     search: false,
     style: {},
     menu: {},
