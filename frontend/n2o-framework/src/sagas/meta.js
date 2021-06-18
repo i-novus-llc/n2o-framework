@@ -18,8 +18,6 @@ import has from 'lodash/has'
 import { reset, touch } from 'redux-form'
 import { batchActions } from 'redux-batched-actions'
 
-import { GLOBAL_KEY } from '../constants/alerts'
-import { addAlerts, removeAlerts } from '../actions/alerts'
 import { addFieldMessage } from '../actions/formPlugin'
 import { metadataRequest } from '../actions/pages'
 import { dataRequestWidget } from '../actions/widgets'
@@ -28,17 +26,19 @@ import { insertDialog, destroyOverlays } from '../actions/overlays'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
+import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 export function* alertEffect(action) {
     try {
         const { alertKey = GLOBAL_KEY, messages, stacked } = action.meta.alert
 
-        if (!stacked) { yield put(removeAlerts(alertKey)) }
+        if (!stacked) { yield put(removeAllAlerts(alertKey)) }
         const alerts = isArray(messages)
             ? messages.map(message => ({ ...message, id: message.id || id() }))
             : [{ ...messages, id: messages.id || id() }]
 
-        yield put(addAlerts(alertKey, alerts))
+        yield put(addMultiAlerts(alertKey, alerts))
     } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e)

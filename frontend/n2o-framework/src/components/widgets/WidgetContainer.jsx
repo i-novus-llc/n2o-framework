@@ -33,9 +33,9 @@ import {
     isAnyTableFocusedSelector,
     makeWidgetByIdSelector,
 } from '../../selectors/widgets'
-import { removeAlerts } from '../../actions/alerts'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { InitMetadataContext } from '../../core/dependency'
+import { removeAllAlerts } from '../../ducks/alerts/store'
 
 const s = {}
 
@@ -138,7 +138,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             componentWillUnmount() {
                 const { widgetId, dispatch } = this.props
                 const actions = [
-                    removeAlerts(widgetId),
+                    removeAllAlerts(widgetId),
                     removeAllModel(widgetId),
                     setTableSelectedId(widgetId, null),
                 ]

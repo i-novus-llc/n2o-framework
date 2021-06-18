@@ -1,12 +1,10 @@
 import { call, put, select, takeEvery, all, delay } from 'redux-saga/effects'
 
-import { ADD, ADD_MULTI } from '../constants/alerts'
-import { removeAlert } from '../actions/alerts'
-import { makeAlertsByKeySelector } from '../selectors/alerts'
+import { addAlert, addMultiAlerts, removeAlert, alertsByKeySelector } from './store'
 
 export function* removeAlertSideEffect(action, alert, timeout) {
     yield delay(timeout)
-    const alertsByKey = yield select(makeAlertsByKeySelector(action.payload.key))
+    const alertsByKey = yield select(alertsByKeySelector(action.payload.key))
 
     yield alertsByKey && put(removeAlert(action.payload.key, alert.id))
 }
@@ -37,4 +35,4 @@ export function getTimeout(alert, config) {
     return alert.timeout || (config.timeout && config.timeout[alert.severity])
 }
 
-export default config => [takeEvery([ADD, ADD_MULTI], addAlertSideEffect, config)]
+export default config => [takeEvery([addAlert, addMultiAlerts], addAlertSideEffect, config)]

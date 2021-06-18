@@ -2,9 +2,9 @@ import React from 'react'
 import { runSaga } from 'redux-saga'
 
 import { DATA_REQUEST } from '../constants/widgets'
-import { ADD_MULTI, REMOVE_ALL } from '../constants/alerts'
 import { ADD_FIELD_MESSAGE } from '../constants/formPlugin'
 import { UPDATE_WIDGET_DEPENDENCY } from '../constants/dependency'
+import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 
 import {
     closeModalEffect,
@@ -161,9 +161,9 @@ describe('Сага для перехвата меты, сайд-эффектов
         it('Проверяет диспатч экшена создания Alert', () => {
             const { alert } = setupAlertEffect()
             let gen = alert.next()
-            expect(gen.value.payload.action.type).toEqual(REMOVE_ALL)
+            expect(gen.value.payload.action.type).toEqual(removeAllAlerts.type)
             gen = alert.next()
-            expect(gen.value.payload.action.type).toEqual(ADD_MULTI)
+            expect(gen.value.payload.action.type).toEqual(addMultiAlerts.type)
         })
 
         it('Проверяет payload саги alertEffect', () => {
