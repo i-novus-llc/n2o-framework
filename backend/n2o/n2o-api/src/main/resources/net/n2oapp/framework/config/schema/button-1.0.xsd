@@ -89,9 +89,9 @@
                 <xs:attribute name="validate" default="none">
                     <xs:annotation>
                         <xs:documentation>
-                            Валидирование виджетов при нажатии на кнопку.
-                            (page - валидация всех виджетов страницы,
-                            widget - валидация текущего виджета,
+                            Валидирование форм при нажатии на кнопку.
+                            (page - валидация всех форм страницы,
+                            widget - валидация текущей формы,
                             none - отсутствие валидации)
                         </xs:documentation>
                     </xs:annotation>
