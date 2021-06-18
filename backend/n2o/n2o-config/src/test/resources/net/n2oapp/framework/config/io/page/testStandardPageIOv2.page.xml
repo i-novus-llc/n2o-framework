@@ -6,9 +6,9 @@
       src="StandardPage"
       modal-size="lg" show-title="true">
    <toolbar place="bottomRight" generate="submit, close">
-       <button action-id="testId" validate="true" model="filter" rounded="true"/>
+       <button action-id="testId" model="filter" rounded="true"/>
        <sub-menu>
-           <menu-item action-id="miTestId" validate="true" />
+           <menu-item action-id="miTestId"/>
        </sub-menu>
        <group>
            <button action-id="groupTestId"/>

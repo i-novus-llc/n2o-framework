@@ -60,12 +60,16 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), nullValue());
         assertThat(field.getIcon(), is("fa fa-pencil"));
+        assertThat(field.getValidate(), is("widget"));
+        assertThat(field.getValidatedWidgetId(), is("$testButtonFieldCompile"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn3"));
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), is("load"));
         assertThat(field.getIcon(), is("fa fa-download"));
+        assertThat(field.getValidate(), is("page"));
+        assertThat(field.getValidatedWidgetId(), nullValue());
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn5"));

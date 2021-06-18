@@ -141,7 +141,6 @@ public class ActionMenuReaderV1 {
         menuItem.setColor(getAttributeString(popupMenu, "color"));
         menuItem.setDescription(getElementString(popupMenu, "description"));
         menuItem.setVisible(getAttributeString(popupMenu, "visible"));
-        menuItem.setValidate(getAttributeBoolean(popupMenu, "validate"));
         Element eventElement = getEventElement(popupMenu, namespace);
         if (eventElement != null) {
             N2oAbstractAction action = (N2oAbstractAction) readerFactory.produce(eventElement,

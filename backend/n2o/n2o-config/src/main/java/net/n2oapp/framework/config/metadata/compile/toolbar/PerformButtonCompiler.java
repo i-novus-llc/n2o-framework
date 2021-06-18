@@ -55,9 +55,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setId(button.getId());
         button.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         button.setRounded(p.cast(source.getRounded(), false));
-        button.setValidate(source.getValidate());
+        if (source.getValidate() != null) {
+            button.setValidate(source.getValidate().getId());
+            initValidate(source, button, context, p);
+        }
         button.setProperties(p.mapAttributes(source));
-        initValidate(source, button, context, p);
 
         CompiledObject.Operation operation = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
@@ -112,7 +114,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private void initValidate(N2oButton source, PerformButton button, CompileContext<?, ?> context, CompileProcessor p) {
-        if (Boolean.TRUE.equals(source.getValidate()))
+        if (ValidateType.WIDGET.getId().equals(source.getValidate().getId()))
             button.setValidatedWidgetId(initWidgetId(source, context, p));
     }
 

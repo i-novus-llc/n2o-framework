@@ -27,7 +27,7 @@
             </set>
         </fields>
         <toolbar>
-            <button label="Валидировать" validate="true" disable-on-empty-model="false">
+            <button label="Валидировать" validate="widget" disable-on-empty-model="false">
                 <invoke operation-id="echo"/>
             </button>
         </toolbar>

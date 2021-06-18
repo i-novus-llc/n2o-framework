@@ -68,9 +68,9 @@
         </action>
     </actions>
     <toolbar place="bottomRight" generate="submit, close">
-        <button action-id="testId" validate="true" model="filter"/>
+        <button action-id="testId" model="filter"/>
         <sub-menu>
-            <menu-item action-id="miTestId" validate="true"/>
+            <menu-item action-id="miTestId"/>
         </sub-menu>
         <group>
             <button action-id="groupTestId"/>

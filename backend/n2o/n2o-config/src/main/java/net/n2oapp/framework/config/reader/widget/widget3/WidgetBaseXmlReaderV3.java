@@ -131,7 +131,6 @@ public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends Abstrac
         menuItem.setColor(getAttributeString(popupMenu, "color"));
         menuItem.setDescription(getElementString(popupMenu, "description"));
         menuItem.setVisible(getAttributeString(popupMenu, "visible"));
-        menuItem.setValidate(getAttributeBoolean(popupMenu, "validate"));
         Element eventElement = popupMenu.getChild("event", namespace);
         if (eventElement != null && eventElement.getChildren() != null && !eventElement.getChildren().isEmpty()) {
             N2oAbstractAction action = (N2oAbstractAction) readerFactory.produce((Element) eventElement.getChildren().get(0),

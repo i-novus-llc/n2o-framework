@@ -43,7 +43,6 @@ public class ActionMenu3ReaderTest {
         assertThat(mi1.getIcon(), is("test"));
         assertThat(mi1.getType(), is(LabelType.textAndIcon));
         assertThat(mi1.getVisible(), is("true"));
-        assertThat(!mi1.getValidate(), is(true));
 
         assertThat(mi2.getId(), is("mi2"));
         assertThat(mi2.getLabel(), nullValue());
