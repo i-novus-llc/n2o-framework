@@ -101,8 +101,8 @@ function Logo({ title, className, style, href, src }) {
 }
 
 function SidebarSwitcher({
-    defaultIcon = 'fa fa-times',
-    toggleIcon = 'fa fa-bars',
+    defaultIcon,
+    toggleIcon,
     sidebarOpen,
     toggleSidebar,
 }) {
@@ -335,6 +335,11 @@ SidebarSwitcher.propTypes = {
     toggleIcon: PropTypes.string,
     sidebarOpen: PropTypes.bool,
     toggleSidebar: PropTypes.func,
+}
+
+SidebarSwitcher.defaultProps = {
+    defaultIcon: 'fa fa-times',
+    toggleIcon: 'fa fa-bars',
 }
 
 SimpleHeader.defaultProps = {
