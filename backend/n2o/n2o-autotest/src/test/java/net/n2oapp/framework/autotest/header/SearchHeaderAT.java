@@ -7,7 +7,7 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -31,13 +31,13 @@ public class SearchHeaderAT extends AutoTestBase {
         super.setUp();
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/search_bar/popupSearch.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/search_bar/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/search_bar/search.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/search_bar/search.application.xml"));
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oAllDataPack());
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oAllDataPack());
     }
 
     @Test
