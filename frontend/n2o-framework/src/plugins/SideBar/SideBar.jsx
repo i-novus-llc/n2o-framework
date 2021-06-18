@@ -68,8 +68,8 @@ export function SideBar({
         <aside
             className={classNames('n2o-sidebar', className, { 'n2o-sidebar--compressed': !currentVisible })}
         >
-            <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
-                <a className="d-flex align-items-center" href={homePageUrl}>
+            <div className="n2o-sidebar__nav-brand n2o-nav-brand">
+                <a className="d-flex align-items-center ml-1" href={homePageUrl}>
                     {brandImage && (
                         <img
                             className={classNames({ 'mr-2': currentVisible })}

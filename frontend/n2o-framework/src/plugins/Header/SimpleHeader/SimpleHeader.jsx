@@ -205,7 +205,13 @@ class SimpleHeader extends React.Component {
                     dark={isInversed}
                     expand="lg"
                 >
-                    {sidebarSwitcher && <SidebarSwitcher toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />}
+                    {sidebarSwitcher && (
+                        <SidebarSwitcher
+                            toggleSidebar={toggleSidebar}
+                            sidebarOpen={sidebarOpen}
+                            {...sidebarSwitcher}
+                        />
+                    )}
                     {logo && <Logo {...logo} />}
                     {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
                     <Collapse
@@ -341,6 +347,7 @@ SimpleHeader.defaultProps = {
     extraMenu: [],
     search: false,
     style: {},
+    menu: {},
     localeSelect: false,
 }
 
