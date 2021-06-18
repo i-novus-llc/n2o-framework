@@ -20,8 +20,7 @@
                             redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
-                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"
-                               validate="true"/>
+                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"/>
                 </sub-menu>
             </toolbar>
         </column>
@@ -93,15 +92,14 @@
         <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>
     <toolbar place="bottomLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true"
-                tooltip-position="bottom">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" tooltip-position="bottom">
             <close src="test"/>
         </button>
         <button action-id="test2" class="test" icon="test" label="test" type="icon">
             <close src="test"/>
         </button>
         <sub-menu>
-            <menu-item action-id="test1" icon="test" label="test" class="test" validate="true"/>
+            <menu-item action-id="test1" icon="test" label="test" class="test"/>
             <menu-item action-id="test2" icon="test" label="test" class="test" tooltip-position="left"/>
             <menu-item action-id="test3" icon="test" label="test" class="test"/>
         </sub-menu>

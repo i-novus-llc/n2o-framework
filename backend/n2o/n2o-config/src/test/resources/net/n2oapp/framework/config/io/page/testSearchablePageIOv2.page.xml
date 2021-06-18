@@ -7,9 +7,9 @@
     <search-bar class="n2o-search-bar" placeholder="Поиск"
                 search-filter-id="test1" search-widget-id="test2" search-param="q"/>
     <toolbar place="bottomRight" generate="submit, close">
-        <button action-id="testId" validate="true" model="filter"/>
+        <button action-id="testId" model="filter"/>
         <sub-menu>
-            <menu-item action-id="miTestId" validate="true"/>
+            <menu-item action-id="miTestId"/>
         </sub-menu>
         <group>
             <button action-id="groupTestId"/>
