@@ -14,6 +14,17 @@
         }
     }
 
+    .n2o-sidebar-switcher {
+        margin-right: 1rem;
+        font-size: 20px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.5);
+    }
+
+    .n2o-sidebar-switcher:hover {
+        color: $primary;
+    }
+
     &.n2o-header-default {
         border-bottom: $card-border-width solid $card-border-color;
     }
