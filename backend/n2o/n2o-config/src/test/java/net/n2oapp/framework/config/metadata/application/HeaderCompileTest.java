@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.header;
+package net.n2oapp.framework.config.metadata.application;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование компиляции простого хедера
  */
-public class SimpleHeaderCompileTest extends SourceCompileTestBase {
+public class HeaderCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -34,14 +34,14 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oHeaderPack(), new N2oQueriesPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oQueriesPack());
     }
 
     @Test
     public void inlineMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml")
+                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
+                "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
                 .get(new HeaderContext("headerWithMenu"));
 
         assertThat(header.getBrand(), is("N2O"));
@@ -134,9 +134,9 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void externalMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/header/headerWithExternalMenu.header.xml",
-                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/header/testMenu.menu.xml")
+                "net/n2oapp/framework/config/metadata/application/headerWithExternalMenu.application.xml",
+                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
+                "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
                 .get(new HeaderContext("headerWithExternalMenu"));
 
         assertThat(header.getHomePageUrl(), is("http://google.com/"));
@@ -151,8 +151,8 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void testBind() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml")
+                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
+                "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
                 .bind().get(new HeaderContext("headerWithMenu"), null);
 
         assertThat(header.getExtraItems().get(0).getLabel(), is("test"));
@@ -161,9 +161,9 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void searchBarTest() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/header/headerWithSearch.header.xml",
-                "net/n2oapp/framework/config/metadata/header/search.query.xml")
+                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
+                "net/n2oapp/framework/config/metadata/application/headerWithSearch.application.xml",
+                "net/n2oapp/framework/config/metadata/application/search.query.xml")
                 .bind().get(new HeaderContext("headerWithSearch"), null);
         SearchBar searchBar = header.getSearch();
         assertThat(searchBar, notNullValue());

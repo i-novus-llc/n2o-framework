@@ -12,7 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -40,7 +40,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(),
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(),
                 new N2oQueriesPack(), new N2oObjectsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml"))
                 .extensions(new SecurityExtensionAttributeMapper());
@@ -48,7 +48,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
 
     @Test
     public void inlineMenu() {
-        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.header.xml")
+        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.application.xml")
                 .get(new HeaderContext("securityExtAttrMapperTest"));
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);

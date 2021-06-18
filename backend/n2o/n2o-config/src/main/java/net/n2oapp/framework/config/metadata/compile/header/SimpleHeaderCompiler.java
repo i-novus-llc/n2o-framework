@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.header;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
-import net.n2oapp.framework.api.metadata.header.N2oSimpleHeader;
+import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
@@ -17,10 +17,10 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция простого хедера
  */
 @Component
-public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, N2oSimpleHeader, HeaderContext>, SourceClassAware {
+public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, N2oHeader, HeaderContext>, SourceClassAware {
 
     @Override
-    public CompiledHeader compile(N2oSimpleHeader source, HeaderContext context, CompileProcessor p) {
+    public CompiledHeader compile(N2oHeader source, HeaderContext context, CompileProcessor p) {
         CompiledHeader header = new CompiledHeader();
         header.setSrc(source.getSrc());
         header.setBrand(source.getTitle());
@@ -37,11 +37,11 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         return header;
     }
 
-    private void initWelcomePage(N2oSimpleHeader source, CompileProcessor p) {
+    private void initWelcomePage(N2oHeader source, CompileProcessor p) {
         String welcomePageId;
-        if (source.getMenu() != null && source.getWelcomePageId() != null)
-            welcomePageId = source.getWelcomePageId();
-        else
+//        if (source.getMenu() != null && source.getWelcomePageId() != null)
+           // welcomePageId = source.getWelcomePageId();
+//        else
             welcomePageId = p.resolve(property("n2o.header.homepage.id"), String.class);
 
         PageContext context = new PageContext(welcomePageId, "/");
@@ -49,7 +49,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
     }
 
     @Override
-    public Class<N2oSimpleHeader> getSourceClass() {
-        return N2oSimpleHeader.class;
+    public Class<N2oHeader> getSourceClass() {
+        return N2oHeader.class;
     }
 }

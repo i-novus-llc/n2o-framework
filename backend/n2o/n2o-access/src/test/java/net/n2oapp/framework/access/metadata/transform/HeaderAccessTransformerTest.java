@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -35,7 +35,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         HeaderAccessTransformer headerAccessTransformer = new HeaderAccessTransformer();
-        builder.packs(new N2oHeaderPack(), new N2oAllPagesPack(), new AccessSchemaPack())
+        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new AccessSchemaPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.page.xml"))
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
                 .transformers(headerAccessTransformer);
@@ -46,7 +46,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeader");
 
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeader.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.application.xml");
 
         CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new HeaderContext("testHeaderAccessTransformer"));
@@ -89,7 +89,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2");
 
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.application.xml");
 
         CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new HeaderContext("testHeaderAccessTransformer"));
@@ -104,7 +104,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
     public void testHeaderTransformV2permitAll() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2permitAll");
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2permitAll.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.application.xml");
         CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new HeaderContext("testHeaderAccessTransformer"));
         Map<String, Security.SecurityObject> securityMap = ((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
@@ -117,7 +117,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
     public void testHeaderTransformV2Anonym() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2anonym");
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2anonym.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.application.xml");
         CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new HeaderContext("testHeaderAccessTransformer"));
         Map<String, Security.SecurityObject> securityMap = ((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
@@ -130,7 +130,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
     public void testHeaderTransformV2Auth() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2auth");
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2auth.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.application.xml");
         CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new HeaderContext("testHeaderAccessTransformer"));
         Map<String, Security.SecurityObject> securityMap = ((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();

@@ -2,6 +2,7 @@ package net.n2oapp.framework.ui.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -59,7 +60,8 @@ public class AppConfigServlet extends HttpServlet {
     private Header getHeader() {
         if (headerSourceId != null && !headerSourceId.isEmpty())
             return pipeline.get(new HeaderContext(headerSourceId), null);
-        List<SourceInfo> headers = environment.getMetadataRegister().find(N2oHeader.class);
+        //todo fix header
+        List<SourceInfo> headers = environment.getMetadataRegister().find(N2oApplication.class);
         if (headers == null || headers.isEmpty()) {
             return pipeline.get(new HeaderContext("default"), null);
         }

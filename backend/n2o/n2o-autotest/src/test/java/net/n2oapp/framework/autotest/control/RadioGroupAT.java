@@ -30,13 +30,13 @@ public class RadioGroupAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
 
     @Test
     public void testRadioGroup() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

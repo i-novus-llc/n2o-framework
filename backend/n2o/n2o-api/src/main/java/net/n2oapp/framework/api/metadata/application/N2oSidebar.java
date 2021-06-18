@@ -2,8 +2,7 @@ package net.n2oapp.framework.api.metadata.application;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.global.N2oMetadata;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 
 /**
@@ -11,27 +10,12 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
  */
 @Getter
 @Setter
-public class N2oSidebar extends N2oMetadata {
-
-    /**
-     * Реализация боковой панели
-     */
-    private String src;
-
-    /**
-     * css класс
-     */
-    private String cssClass;
-
-    /**
-     * Стиль
-     */
-    private String style;
+public class N2oSidebar extends N2oComponent {
 
     /**
      * Видимость
      */
-    private boolean visible;
+    private Boolean visible;
 
     /**
      * Сторона появления
@@ -71,12 +55,12 @@ public class N2oSidebar extends N2oMetadata {
     /**
      * Открывается ли панель по hover
      */
-    private boolean toggleOnHover;
+    private Boolean toggleOnHover;
 
     /**
      * Перекрывает ли боковая панель контент страницы
      */
-    private boolean overlay;
+    private Boolean overlay;
 
     /**
      * Основное меню
@@ -87,14 +71,4 @@ public class N2oSidebar extends N2oMetadata {
      * Дополнительное меню
      */
     private N2oSimpleMenu extraMenu;
-
-    @Override
-    public String getPostfix() {
-        return "sidebar";
-    }
-
-    @Override
-    public Class<? extends SourceMetadata> getSourceBaseClass() {
-        return N2oSidebar.class;
-    }
 }

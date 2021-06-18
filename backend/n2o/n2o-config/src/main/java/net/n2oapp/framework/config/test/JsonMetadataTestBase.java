@@ -51,6 +51,7 @@ public abstract class JsonMetadataTestBase extends N2oTestBase {
             return new PageContext(info.getId());
         else if (N2oWidget.class.isAssignableFrom(info.getBaseSourceClass()))
             return new WidgetContext(info.getId());
+        //todo fix header
         else if (N2oHeader.class.isAssignableFrom(info.getBaseSourceClass()))
             return new HeaderContext(info.getId());
         else

@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
-import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderIOv2;
+import net.n2oapp.framework.config.metadata.compile.application.ApplicationIO;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
 import net.n2oapp.framework.config.reader.query.QueryElementReaderV3;
 
@@ -15,7 +15,7 @@ import net.n2oapp.framework.config.reader.query.QueryElementReaderV3;
 public class N2oAllIOPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.ios(new SimpleHeaderIOv2(), new SimpleMenuIOv2());
+        b.ios(new ApplicationIO(), new SimpleMenuIOv2());
 
         b.ios(new ObjectElementIOv3(),
                 new ObjectElementIOv4());

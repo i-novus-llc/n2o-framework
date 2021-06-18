@@ -26,7 +26,12 @@ public class N2oApplication extends N2oMetadata {
     /**
      * Зафиксированы ли header и sidebar
      */
-    private boolean navigationLayoutFixed;
+    private Boolean navigationLayoutFixed;
+
+    /**
+     * Ссылка на страницу, которая открывается по /
+     */
+    private String welcomePageId;
 
     /**
      * Заголовок приложения

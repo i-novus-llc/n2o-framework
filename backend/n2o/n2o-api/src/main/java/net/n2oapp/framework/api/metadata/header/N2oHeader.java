@@ -1,20 +1,59 @@
 package net.n2oapp.framework.api.metadata.header;
 
-import net.n2oapp.framework.api.metadata.global.N2oMetadata;
+import lombok.Getter;
+import lombok.Setter;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
+import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 
 /**
- * Хедер
+ * Исходная модель заголовка приложения
  */
-public abstract class N2oHeader extends N2oMetadata {
+@Getter
+@Setter
+public class N2oHeader extends N2oComponent {
+    /**
+     * Видимость
+     */
+    private Boolean visible;
 
-    @Override
-    public final String getPostfix() {
-        return "header";
-    }
+    /**
+     * Основное меню
+     */
+    private N2oSimpleMenu menu;
 
-    @Override
-    public final Class<? extends N2oMetadata> getSourceBaseClass() {
-        return N2oHeader.class;
-    }
+    /**
+     * Дополнительное меню, отображается в правой части заголовка
+     */
+    private N2oSimpleMenu extraMenu;
+
+    /**
+     * URL домашней страницы(переход на нее происходит по клику на логотип или название в заголовке)
+     */
+    private String homePageUrl;
+
+    /**
+     * Название в заголовке
+     */
+    private String title;
+
+    /**
+     * Путь к файлу с логотипом, который будет отображаться в заголовке
+     */
+    private String logoSrc;
+
+    /**
+     * Иконка открытия боковой панели, если не задана, значит кнопки не будет
+     */
+    private String sidebarDefaultIcon;
+
+    /**
+     * Иконка скрытия боковой панели, если не задана, значит кнопки не будет
+     */
+    private String sidebarToggledIcon;
+
+    /**
+     * Поиск в заголовке
+     */
+    private N2oSearchBar searchBar;
 
 }
