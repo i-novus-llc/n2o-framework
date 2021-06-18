@@ -51,7 +51,7 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
 
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("test1"));
-        assertThat(tile.getCssClass(), is("test"));
+        assertThat(tile.getClassName(), is("test"));
         assertThat(tile.getStyle(), is(Map.of("color", "red")));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
 
