@@ -24,7 +24,7 @@ public class CheckboxGroupCompiler extends ListControlCompiler<CheckboxGroup, N2
     @Override
     public StandardField<CheckboxGroup> compile(N2oCheckboxGroup source, CompileContext<?,?> context, CompileProcessor p) {
         CheckboxGroup checkboxGroup = new CheckboxGroup();
-        checkboxGroup.setInline(source.getInline());
+        checkboxGroup.setInline(p.cast(source.getInline(), p.resolve(property("n2o.api.control.alt.inline"), Boolean.class)));
         checkboxGroup.setType(p.cast(source.getType() == N2oCheckboxGroup.CheckboxGroupType.n2o ? N2oCheckboxGroup.CheckboxGroupType.defaultType : source.getType(), new DomainProcessor().deserializeEnum(p.resolve(property("n2o.api.control.alt.type"), N2oCheckboxGroup.CheckboxGroupType.class), N2oCheckboxGroup.CheckboxGroupType.class)));
         StandardField<CheckboxGroup> result = compileListControl(checkboxGroup, source, context, p);
         return compileFetchDependencies(result, source, p);
