@@ -5,7 +5,7 @@
              welcome-page-id="test">
 
     <header
-            sidebar-default-icon="fa fa-bar"
+            sidebar-icon="fa fa-bar"
             sidebar-toggled-icon="fa fa-bar"
             title="test"
             visible="false"

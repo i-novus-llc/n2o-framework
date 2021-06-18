@@ -14,11 +14,6 @@ import net.n2oapp.framework.api.metadata.header.N2oHeader;
 public class N2oApplication extends N2oMetadata {
 
     /**
-     * Реализация приложения
-     */
-    private String src;
-
-    /**
      * Макет отображения элементов управления
      */
     private String navigationLayout;

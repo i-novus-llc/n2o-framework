@@ -29,7 +29,6 @@ public class ApplicationIO implements NamespaceIO<N2oApplication> {
 
     @Override
     public void io(Element e, N2oApplication m, IOProcessor p) {
-        p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout);
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);

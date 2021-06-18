@@ -44,7 +44,7 @@ public class N2oHeader extends N2oComponent {
     /**
      * Иконка открытия боковой панели, если не задана, значит кнопки не будет
      */
-    private String sidebarDefaultIcon;
+    private String sidebarIcon;
 
     /**
      * Иконка скрытия боковой панели, если не задана, значит кнопки не будет

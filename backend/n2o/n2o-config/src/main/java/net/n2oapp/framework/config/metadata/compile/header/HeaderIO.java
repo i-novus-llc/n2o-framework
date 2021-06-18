@@ -36,7 +36,7 @@ public class HeaderIO extends ComponentIO<N2oHeader> {
         p.attribute(e, "home-page-url", m::getHomePageUrl, m::setHomePageUrl);
         p.attribute(e, "title", m::getTitle, m::setTitle);
         p.attribute(e, "logo-src", m::getLogoSrc, m::setLogoSrc);
-        p.attribute(e, "sidebar-default-icon", m::getSidebarDefaultIcon, m::setSidebarDefaultIcon);
+        p.attribute(e, "sidebar-icon", m::getSidebarIcon, m::setSidebarIcon);
         p.attribute(e, "sidebar-toggled-icon", m::getSidebarToggledIcon, m::setSidebarToggledIcon);
         p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());

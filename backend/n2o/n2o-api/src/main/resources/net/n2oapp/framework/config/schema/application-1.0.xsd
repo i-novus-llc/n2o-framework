@@ -24,11 +24,6 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="src" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Реализация приложения</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="navigation-layout" type="navigationLayout" default="fullSizeHeader">
             <xs:annotation>
                 <xs:documentation>Макет отображения элементов управления. Возможные значения:
@@ -103,7 +98,7 @@
                 <xs:documentation>URL домашней страницы(переход на нее происходит по клику на логотип или название в заголовке)</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="sidebar-default-icon" type="xs:string" >
+        <xs:attribute name="sidebar-icon" type="xs:string" >
             <xs:annotation>
                 <xs:documentation>Иконка открытия боковой панели, если не задана, значит кнопки не будет</xs:documentation>
             </xs:annotation>
