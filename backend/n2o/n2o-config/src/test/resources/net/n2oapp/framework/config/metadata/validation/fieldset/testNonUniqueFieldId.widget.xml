@@ -6,6 +6,11 @@
                 <input-text id="test1"/>
             </col>
         </row>
+        <input-text id="test2">
+            <dependencies>
+                <requiring>true</requiring>
+            </dependencies>
+        </input-text>
         <multi-set>
             <field id="test1">
                 <!-- should be ignored -->
