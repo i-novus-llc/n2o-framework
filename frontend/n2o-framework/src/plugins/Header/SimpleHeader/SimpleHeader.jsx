@@ -31,56 +31,6 @@ import NavItemContainer from './NavItemContainer'
  * @param {boolean} props.className - css-класс
  * @param {boolean} props.style - объект стиля
  * @example
- * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
- * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
- * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('_blank' или null)
- * //subItems {array} (массив из элементов дропдауна)
- *<SimpleHeader  items = { [
- *     {
- *       id: 'link',
- *       label: 'link',
- *       href: '/test',
- *       type: 'link',
- *       target: '_blank',
- *     },
- *     {
- *       id: 'dropdown',
- *       label: 'dropdown',
- *       type: 'dropdown',
- *       subItems: [{id: 'test1',label: 'test1', href: '/', badge: 'badge1', badgeColor: 'color1'},
- *       {id: 'test123', label: 'test1', href: '/',  badge: 'badge2', badgeColor: 'color2'}]
- *     },
- *     {
- *       id: 'test',
- *       label: 'test',
- *       type: 'dropdown',
- *       subItems: [{id: 'test123s',label: 'test1', href: '/', badge: 'badge1', badgeColor: 'color1'},
- *       {id: 'test12asd3',label: 'test1', href: '/',  badge: 'badge2', badgeColor: 'color2'}]
- *     }
- *     ] }
- *     extraMenu = { [
- *     {
- *       id: "213",
- *       label: 'ГКБ №7',
- *       type: 'text',
- *     },
- *     {
- *       id: "2131",
- *       label: 'Постовая медсестра',
- *       type: 'dropdown',
- *       subItems: [{label: 'test1', href: '/', linkType: 'inner'}, {label: 'test1', href: '/'}]
- *     },
- *     {
- *       id: "2131",
- *       label: 'admin',
- *       type: 'dropdown',
- *       subItems: [{label: 'test1', href: '/'}, {label: 'test1', href: '/'}]
- *     }
- *     ] }
- *    brand="N2O"
- *    brandImage= "http://getbootstrap.com/assets/brand/bootstrap-solid.svg"
- *    activeId={"test123"}/>
- *
  */
 
 function Logo({ title, className, style, href, src }) {
@@ -261,15 +211,30 @@ SidebarSwitcher.defaultProps = {
     toggleIcon: 'fa fa-bars',
 }
 
+const menuType = PropTypes.shape(
+    {
+        src: PropTypes.string,
+        items: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                title: PropTypes.string.isRequired,
+                href: PropTypes.string,
+                linkType: PropTypes.oneOf(['inner', 'outer']),
+                type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
+                items: PropTypes.array,
+                badge: PropTypes.string,
+                badgeColor: PropTypes.string,
+                target: PropTypes.string,
+                security: PropTypes.object,
+            }),
+        ) },
+)
+
 SimpleHeader.propTypes = {
     /**
      * ID активного элемента
      */
     activeId: PropTypes.string,
-    /**
-     * Extra элементы хедера
-     */
-    extraMenu: PropTypes.object,
     /**
      * Строка поиска
      */
@@ -300,24 +265,8 @@ SimpleHeader.propTypes = {
     localeSelect: PropTypes.bool,
     width: PropTypes.number,
     logo: PropTypes.object,
-    menu: PropTypes.shape(
-        {
-            src: PropTypes.string,
-            items: PropTypes.arrayOf(
-                PropTypes.shape({
-                    id: PropTypes.string.isRequired,
-                    title: PropTypes.string.isRequired,
-                    href: PropTypes.string,
-                    linkType: PropTypes.oneOf(['inner', 'outer']),
-                    type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-                    items: PropTypes.array,
-                    badge: PropTypes.string,
-                    badgeColor: PropTypes.string,
-                    target: PropTypes.string,
-                    security: PropTypes.object,
-                }),
-            ) },
-    ),
+    menu: menuType,
+    extraMenu: menuType,
     sidebarSwitcher: PropTypes.object,
     toggleSidebar: PropTypes.func,
     sidebarOpen: PropTypes.bool,
