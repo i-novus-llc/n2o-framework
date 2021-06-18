@@ -43,10 +43,10 @@ import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
 import { FETCH_WIDGET_DATA } from '../core/api'
 import { generateErrorMeta } from '../utils/generateErrorMeta'
 import { id } from '../utils/id'
+// eslint-disable-next-line import/no-cycle
+import { checkIdBeforeLazyFetch } from '../ducks/regions/sagas'
 
 import fetchSaga from './fetch'
-// eslint-disable-next-line import/no-cycle
-import { checkIdBeforeLazyFetch } from './regions'
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST

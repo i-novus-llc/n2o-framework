@@ -11,8 +11,8 @@ import columns from './ducks/columns/store'
 import toolbar from './reducers/toolbar'
 import { formPlugin } from './reducers/formPlugin'
 import user from './reducers/auth'
-import regions from './reducers/regions'
 import alerts from './ducks/alerts/store'
+import regions from './ducks/regions/store'
 
 const formHack = (state, action) => {
     state = formReducer(state, action)

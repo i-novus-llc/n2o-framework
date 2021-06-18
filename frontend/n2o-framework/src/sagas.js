@@ -12,7 +12,7 @@ import { metaSagas } from './sagas/meta'
 import globalSagas from './sagas/global'
 import { conditionsSaga } from './sagas/conditions'
 import { widgetDependencySagas } from './sagas/widgetDependency'
-import regionsSagas from './sagas/regions'
+import regionsSagas from './ducks/regions/sagas'
 import { overlaysSagas } from './sagas/overlays'
 import toolbarSagas from './sagas/toolbar'
 

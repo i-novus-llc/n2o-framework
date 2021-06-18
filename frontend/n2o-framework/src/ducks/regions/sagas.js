@@ -11,19 +11,18 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import includes from 'lodash/includes'
 
-import { MAP_URL } from '../constants/regions'
-import { METADATA_SUCCESS } from '../constants/pages'
-import { makeWidgetVisibleSelector } from '../selectors/widgets'
-import { dataRequestWidget } from '../actions/widgets'
-import { getLocation, rootPageSelector } from '../selectors/global'
-import { makePageRoutesByIdSelector } from '../selectors/pages'
-import { regionsSelector } from '../selectors/regions'
-import { modelsSelector } from '../ducks/models/selectors'
-import { setActiveEntity } from '../actions/regions'
-import { authSelector } from '../selectors/auth'
-
+import { modelsSelector } from '../models/selectors'
+import { METADATA_SUCCESS } from '../../constants/pages'
+import { makeWidgetVisibleSelector } from '../../selectors/widgets'
+import { dataRequestWidget } from '../../actions/widgets'
+import { getLocation, rootPageSelector } from '../../selectors/global'
+import { makePageRoutesByIdSelector } from '../../selectors/pages'
+import { authSelector } from '../../selectors/auth'
 // eslint-disable-next-line import/no-cycle
-import { routesQueryMapping } from './widgets'
+import { routesQueryMapping } from '../../sagas/widgets'
+
+import { setActiveRegion, regionsSelector } from './store'
+import { MAP_URL } from './constants'
 
 function* mapUrl(value) {
     const state = yield select()
@@ -108,7 +107,7 @@ function* switchTab() {
                 const { regionId } = tabsRegions[index]
                 const activeEntity = first(visibleEntity[regionId])
 
-                yield put(setActiveEntity(regionId, activeEntity))
+                yield put(setActiveRegion(regionId, activeEntity))
             }
         }
     }
@@ -193,7 +192,7 @@ export function* checkIdBeforeLazyFetch() {
         for (let i = 0; i < firstTabs.length; i++) {
             const { regionId, id } = firstTabs[i]
 
-            yield put(setActiveEntity(regionId, id))
+            yield put(setActiveRegion(regionId, id))
         }
     }
 
