@@ -62,6 +62,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.shouldExists();
         fieldset2.shouldHaveLabel("Заголовок");
+        fieldset2.shouldHaveDescription("Подзаголовок филдсета");
         fieldset2.addButtonShouldBeExist();
         fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
@@ -382,11 +383,11 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         MultiFieldSet multiSet1 = fieldsets.fieldset(1, MultiFieldSet.class);
         MultiFieldSet multiSet2 = fieldsets.fieldset(2, MultiFieldSet.class);
-        multiSet1.shouldNotBeVisible();
-        multiSet2.shouldNotBeVisible();
+        multiSet1.shouldBeHidden();
+        multiSet2.shouldBeHidden();
 
         inputText.val("test");
-        multiSet1.shouldNotBeVisible();
+        multiSet1.shouldBeHidden();
         multiSet2.shouldBeVisible();
         multiSet2.addButtonShouldBeExist();
     }

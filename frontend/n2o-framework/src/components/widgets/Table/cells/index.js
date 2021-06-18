@@ -1,31 +1,40 @@
-import TextCell from './TextCell/TextCell';
-import LinkCell from './LinkCell/LinkCell';
-import IconCell from './IconCell/IconCell';
-import ImageCell from './ImageCell/ImageCell';
-import ProgressBarCell from './ProgressBarCell/ProgressBarCell';
-import BadgeCell from './BadgeCell/BadgeCell';
-import CheckboxCell from './CheckboxCell/CheckboxCell';
-import CollapsedCell from './CollapsedCell/CollapsedCell';
-import ButtonsCell from './ButtonsCell/ButtonsCell';
-import EditableCell from './EditableCell/EditableCell';
-import RatingCell from './RatingCell/RatingCell';
-import StatusCell from './StatusCell/StatusCell';
-import SwitchCell from './SwitchCell/SwitchCell';
-import ListTextCell from './ListTextCell/ListTextCell';
+// eslint-disable-next-line import/no-named-as-default
+import TextCell from './TextCell/TextCell'
+// eslint-disable-next-line import/no-named-as-default
+import LinkCell from './LinkCell/LinkCell'
+// eslint-disable-next-line import/no-named-as-default
+import IconCell from './IconCell/IconCell'
+// eslint-disable-next-line import/no-named-as-default
+import ImageCell from './ImageCell/ImageCell'
+import ProgressBarCell from './ProgressBarCell/ProgressBarCell'
+import BadgeCell from './BadgeCell/BadgeCell'
+// eslint-disable-next-line import/no-named-as-default
+import CheckboxCell from './CheckboxCell/CheckboxCell'
+import CollapsedCell from './CollapsedCell/CollapsedCell'
+// eslint-disable-next-line import/no-named-as-default
+import ButtonsCell from './ButtonsCell/ButtonsCell'
+// eslint-disable-next-line import/no-named-as-default
+import EditableCell from './EditableCell/EditableCell'
+// eslint-disable-next-line import/no-named-as-default
+import RatingCell from './RatingCell/RatingCell'
+import StatusCell from './StatusCell/StatusCell'
+import SwitchCell from './SwitchCell/SwitchCell'
+// eslint-disable-next-line import/no-named-as-default
+import ListTextCell from './ListTextCell/ListTextCell'
 
 export default {
-  TextCell: TextCell,
-  LinkCell: LinkCell,
-  IconCell: IconCell,
-  ImageCell: ImageCell,
-  ProgressBarCell: ProgressBarCell,
-  BadgeCell: BadgeCell,
-  CheckboxCell: CheckboxCell,
-  CollapsedCell: CollapsedCell,
-  ButtonsCell: ButtonsCell,
-  EditableCell: EditableCell,
-  RatingCell: RatingCell,
-  StatusCell: StatusCell,
-  ListTextCell: ListTextCell,
-  SwitchCell: SwitchCell,
-};
+    TextCell,
+    LinkCell,
+    IconCell,
+    ImageCell,
+    ProgressBarCell,
+    BadgeCell,
+    CheckboxCell,
+    CollapsedCell,
+    ButtonsCell,
+    EditableCell,
+    RatingCell,
+    StatusCell,
+    ListTextCell,
+    SwitchCell,
+}

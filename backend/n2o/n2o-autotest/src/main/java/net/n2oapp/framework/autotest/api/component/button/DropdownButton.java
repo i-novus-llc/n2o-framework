@@ -12,7 +12,10 @@ public interface DropdownButton extends Button {
 
     StandardButton menuItem(Condition by);
 
-    void shouldBeVisible();
-
+    @Deprecated
     void shouldNotBeVisible();
+
+    void shouldBeExpanded();
+
+    void shouldBeCollapsed();
 }

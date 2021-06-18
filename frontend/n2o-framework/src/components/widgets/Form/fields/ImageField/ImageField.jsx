@@ -1,16 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
-import isNil from 'lodash/isNil';
-import omit from 'lodash/omit';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import classNames from 'classnames'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
+import omit from 'lodash/omit'
 
-import propsResolver from '../../../../../utils/propsResolver';
-
-import Image from '../../../../snippets/Image/Image';
-import ImageInfo from '../../../../snippets/Image/ImageInfo';
-
-import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses';
+import propsResolver from '../../../../../utils/propsResolver'
+import { Image } from '../../../../snippets/Image/Image'
+import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
+import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses'
 
 /**
  * Компонент Image фомы
@@ -27,82 +26,99 @@ import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses';
  */
 
 function ImageField(props) {
-  const {
-    id,
-    url,
-    data,
-    title,
-    description,
-    textPosition,
-    width,
-    height,
-    shape,
-    visible,
-    model,
-    className,
-    statuses = [],
-  } = props;
+    const {
+        id,
+        url,
+        data,
+        title,
+        description,
+        textPosition,
+        width,
+        height,
+        shape,
+        visible,
+        model,
+        className,
+        statuses = [],
+    } = props
 
-  const isEmptyModel = isEmpty(model);
+    const isEmptyModel = isEmpty(model)
 
-  const hasStatuses = !isEmpty(statuses);
-  const hasInfo = title || description;
+    const hasStatuses = !isEmpty(statuses)
+    const hasInfo = title || description
 
-  const defaultImageProps = {
-    url: url,
-    data: data,
-    title: title,
-    description: description,
-  };
+    const defaultImageProps = {
+        url,
+        data,
+        title,
+        description,
+    }
 
-  const resolveProps = isEmptyModel
-    ? defaultImageProps
-    : propsResolver(defaultImageProps, model);
+    const resolveProps = isEmptyModel
+        ? defaultImageProps
+        : propsResolver(defaultImageProps, model)
 
-  return (
-    <div
-      className={classNames('n2o-image-field-container', {
-        [textPosition]: textPosition,
-      })}
-    >
-      <div
-        className={classNames('n2o-image-field', {
-          'with-statuses': hasStatuses,
-        })}
-      >
-        <Image
-          id={id}
-          visible={visible}
-          shape={shape}
-          className={className}
-          textPosition={textPosition}
-          width={width}
-          height={height}
-          {...omit(resolveProps, ['title', 'description'])}
-          src={resolveProps.data || resolveProps.url}
-        />
-        {hasStatuses && (
-          <ImageStatuses
-            statuses={statuses}
-            model={model}
-            className="image-field-statuses"
-          />
-        )}
-      </div>
-      {hasInfo && <ImageInfo title={title} description={description} />}
-    </div>
-  );
+    return (
+        <div
+            className={classNames('n2o-image-field-container', {
+                [textPosition]: textPosition,
+            })}
+        >
+            <div
+                className={classNames('n2o-image-field', {
+                    'with-statuses': hasStatuses,
+                })}
+            >
+                <Image
+                    id={id}
+                    visible={visible}
+                    shape={shape}
+                    className={className}
+                    textPosition={textPosition}
+                    width={width}
+                    height={height}
+                    {...omit(resolveProps, ['title', 'description'])}
+                    src={resolveProps.data || resolveProps.url}
+                />
+                {hasStatuses && (
+                    <ImageStatuses
+                        statuses={statuses}
+                        model={model}
+                        className="image-field-statuses"
+                    />
+                )}
+            </div>
+            {hasInfo && <ImageInfo title={title} description={description} />}
+        </div>
+    )
 }
 
 const mapStateToProps = (state, { modelPrefix, form }) => {
-  const model =
-    isNil(modelPrefix) || isNil(form) ? {} : state.models[modelPrefix][form];
-  return {
-    model: model,
-  };
-};
+    const model =
+    isNil(modelPrefix) || isNil(form) ? {} : state.models[modelPrefix][form]
+
+    return {
+        model,
+    }
+}
 
 export default connect(
-  mapStateToProps,
-  null
-)(ImageField);
+    mapStateToProps,
+    null,
+)(ImageField)
+
+ImageField.propTypes = {
+    id: PropTypes.string,
+    url: PropTypes.string,
+    data: PropTypes.array,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    textPosition: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    visible: PropTypes.bool,
+    model: PropTypes.object,
+    className: PropTypes.string,
+    statuses: PropTypes.array,
+    shape: PropTypes.string,
+}

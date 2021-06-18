@@ -1,18 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
-        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
-    <name>testCopyInActions</name>
-    <app-name>appName</app-name>
-    <module-name>moduleName</module-name>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0" name="testCopyInActions" app-name="appName"
+    module-name="moduleName">
 
-    <actions>
-        <action id="testId">
+    <operations>
+        <operation id="testId">
             <invocation>
-                <n2o:java method="testMethod">
-                    <n2o:ejb bean="testBean"/>
-                </n2o:java>
+                <java method="testMethod">
+                    <ejb bean="testBean"/>
+                </java>
             </invocation>
-        </action>
-    </actions>
+        </operation>
+    </operations>
 
 </object>

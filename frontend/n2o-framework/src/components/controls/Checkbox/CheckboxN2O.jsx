@@ -1,10 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import isNil from 'lodash/isNil';
-import uniqueId from 'lodash/uniqueId';
-import cx from 'classnames';
-import { compose, lifecycle, setDisplayName } from 'recompose';
-import Input from '../Input/Input';
+import React from 'react'
+import PropTypes from 'prop-types'
+import isNil from 'lodash/isNil'
+import uniqueId from 'lodash/uniqueId'
+import classNames from 'classnames'
+import { compose, lifecycle, setDisplayName } from 'recompose'
+
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
+import Input from '../Input/Input'
 
 /**
  * Альтернативный чекбокс
@@ -15,116 +17,124 @@ import Input from '../Input/Input';
  * @reactProps {function} onClick - событие клика по чекбоксу,
  * @reactProps {string} label - лейбл
  * @reactProps {string} className - класс копонента CheckboxN2O
+ * @reactProps {string} help - подсказка в popover
  * @reactProps {boolean} inline - в ряд
  */
 
 function CheckboxN2O({
-  className,
-  label,
-  disabled,
-  value,
-  onChange,
-  inline,
-  checked,
-  onClick,
-  onFocus,
-  onBlur,
-  elementId,
+    className,
+    label,
+    disabled,
+    value,
+    onChange,
+    inline,
+    checked,
+    onClick,
+    onFocus,
+    onBlur,
+    elementId,
+    help,
 }) {
-  return (
-    <div
-      className={cx(
-        'custom-control',
-        'custom-checkbox',
-        'n2o-checkbox',
-        className,
-        {
-          'custom-control-inline': inline,
-        }
-      )}
-      onClick={onClick}
-    >
-      <Input
-        id={elementId}
-        className="custom-control-input"
-        disabled={disabled}
-        type="checkbox"
-        value={value}
-        checked={isNil(checked) ? !!value : checked}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
-      <label className="custom-control-label" htmlFor={elementId}>
-        {label}
-      </label>
-    </div>
-  );
+    return (
+        <div
+            className={classNames(
+                'custom-control',
+                'custom-checkbox',
+                'n2o-checkbox',
+                className,
+                {
+                    'custom-control-inline': inline,
+                    'd-flex': help,
+                },
+            )}
+            onClick={onClick}
+        >
+            <Input
+                id={elementId}
+                className="custom-control-input"
+                disabled={disabled}
+                type="checkbox"
+                value={value}
+                checked={isNil(checked) ? !!value : checked}
+                onChange={onChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+            />
+            <label className="custom-control-label" htmlFor={elementId}>
+                {label}
+            </label>
+            {help && <HelpPopover help={help} />}
+        </div>
+    )
 }
 
 CheckboxN2O.propTypes = {
-  /**
+    /**
    * Значение контрола
    */
-  value: PropTypes.any,
-  /**
+    value: PropTypes.any,
+    /**
    * Callback изменения
    */
-  onChange: PropTypes.func,
-  /**
+    onChange: PropTypes.func,
+    /**
    * Callback клика
    */
-  onClick: PropTypes.func,
-  /**
+    onClick: PropTypes.func,
+    /**
    * Флаг активности
    */
-  disabled: PropTypes.bool,
-  /**
+    disabled: PropTypes.bool,
+    /**
    * Label контрола
    */
-  label: PropTypes.string,
-  /**
+    label: PropTypes.string,
+    /**
    * Флаг рендера label в одну строку с контролом
    */
-  inline: PropTypes.bool,
-  /**
+    inline: PropTypes.bool,
+    /**
    * Класс
    */
-  className: PropTypes.string,
-  /**
+    className: PropTypes.string,
+    /**
    * Checked контрола
    */
-  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  /**
-   * Стили
-   */
-  style: PropTypes.object,
-  id: PropTypes.string,
-  /**
+    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    /**
    * Callback фокуса
    */
-  onFocus: PropTypes.func,
-  /**
+    onFocus: PropTypes.func,
+    /**
    * Callback потери фокуса
    */
-  onBlur: PropTypes.func,
-};
+    onBlur: PropTypes.func,
+    elementId: PropTypes.string,
+    /**
+     * Подсказка в popover
+     */
+    help: PropTypes.string,
+}
 
 CheckboxN2O.defaultProps = {
-  disabled: false,
-  inline: false,
-  onFocus: () => {},
-  onBlur: () => {},
-  onChange: () => {},
-  onClick: () => {},
-};
+    disabled: false,
+    inline: false,
+    onFocus: () => {},
+    onBlur: () => {},
+    onChange: () => {},
+    onClick: () => {},
+}
 
-export { CheckboxN2O };
-export default compose(
-  setDisplayName('CheckboxN2O'),
-  lifecycle({
-    componentDidMount() {
-      this.setState({ elementId: uniqueId('checkbox-') });
-    },
-  })
-)(CheckboxN2O);
+const CheckboxN2OWrapped = compose(
+    setDisplayName('CheckboxN2O'),
+    lifecycle({
+        componentDidMount() {
+            this.setState({ elementId: uniqueId('checkbox-') })
+        },
+    }),
+)(CheckboxN2O)
+
+export { CheckboxN2O }
+export { CheckboxN2OWrapped }
+
+export default CheckboxN2OWrapped

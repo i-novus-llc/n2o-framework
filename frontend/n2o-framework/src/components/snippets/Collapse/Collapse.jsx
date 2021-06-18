@@ -1,21 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import BaseCollapse from 'rc-collapse';
-import cx from 'classnames';
-import Panel from './Panel';
-import Icon from '../Icon/Icon';
+import React from 'react'
+import PropTypes from 'prop-types'
+import BaseCollapse from 'rc-collapse'
+import classNames from 'classnames'
+import map from 'lodash/map'
 
-import map from 'lodash/map';
+import { Icon } from '../Icon/Icon'
 
-const expandIcon = ({ isActive }, collapsible) =>
-  collapsible ? (
+import { Panel } from './Panel'
+
+// eslint-disable-next-line react/prop-types
+const expandIcon = ({ isActive }, collapsible) => (collapsible ? (
     <div className="n2o-collapse-icon-wrapper">
-      <Icon
-        className={cx('n2o-collapse-icon', { isActive })}
-        name="fa fa-angle-right"
-      />
+        <Icon
+            className={classNames('n2o-collapse-icon', { isActive })}
+            name="fa fa-angle-right"
+        />
     </div>
-  ) : null;
+) : null)
 
 /**
  * Компонент Collapse
@@ -28,59 +29,61 @@ const expandIcon = ({ isActive }, collapsible) =>
  * @constructor
  */
 
-const Collapse = ({ className, children, dataKey, collapsible, ...rest }) => {
-  const renderPanels = ({ text, ...panelProps }) => (
-    <Panel {...panelProps}>{text}</Panel>
-  );
+export const Collapse = ({ className, children, dataKey, collapsible, ...rest }) => {
+    // eslint-disable-next-line react/prop-types
+    const renderPanels = ({ text, ...panelProps }) => (
+        <Panel {...panelProps}>{text}</Panel>
+    )
 
-  return (
-    <BaseCollapse
-      className={cx('n2o-collapse', className)}
-      expandIcon={props => expandIcon(props, collapsible)}
-      {...rest}
-    >
-      {children || map(rest[dataKey], renderPanels)}
-    </BaseCollapse>
-  );
-};
+    return (
+        <BaseCollapse
+            className={classNames('n2o-collapse', className)}
+            expandIcon={props => expandIcon(props, collapsible)}
+            {...rest}
+        >
+            {children || map(rest[dataKey], renderPanels)}
+        </BaseCollapse>
+    )
+}
 
 Collapse.propTypes = {
-  /**
-   * Массив ключей открытых панелей
-   */
-  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  /**
-   * Массив ключей открытых по дефолту панелей
-   */
-  defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  destroyInactivePanel: PropTypes.bool,
-  /**
-   * Флаг включения режима 'Аккордион' (При открытии панели захлопнуть предыдущую панель)
-   */
-  accordion: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  /**
-   * Callback на открытие/закрытие панелей
-   */
-  onChange: PropTypes.func,
-  /**
-   * Ключ для рендера панелей
-   */
-  dataKey: PropTypes.string,
-  /**
-   * Флаг выключения возможности сворачивания
-   */
-  collapsible: PropTypes.bool,
-};
+    /**
+     * Массив ключей открытых панелей
+     */
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    /**
+     * Массив ключей открытых по дефолту панелей
+     */
+    defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    destroyInactivePanel: PropTypes.bool,
+    /**
+     * Флаг включения режима 'Аккордион' (При открытии панели захлопнуть предыдущую панель)
+     */
+    accordion: PropTypes.bool,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    /**
+     * Callback на открытие/закрытие панелей
+     */
+    onChange: PropTypes.func,
+    /**
+     * Ключ для рендера панелей
+     */
+    dataKey: PropTypes.string,
+    /**
+     * Флаг выключения возможности сворачивания
+     */
+    collapsible: PropTypes.bool,
+}
 
 Collapse.defaultProps = {
-  destroyInactivePanel: false,
-  accordion: false,
-  dataKey: 'items',
-  collapsible: true,
-  isVisible: true,
-};
+    destroyInactivePanel: false,
+    accordion: false,
+    dataKey: 'items',
+    collapsible: true,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    isVisible: true,
+}
 
-export { Panel };
-export default Collapse;
+export { Panel }
+export default Collapse

@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import Buttons from './Buttons';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+
+import Buttons from './Buttons'
 
 /**
  * Компонент фильтр (Filter)
@@ -16,86 +17,89 @@ import Buttons from './Buttons';
  * @example
  * <Link to="/path/1" onClick={this.changeUrl}>Ссылка</Link>
  */
-class Filter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onReset = this.onReset.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-  }
+export class Filter extends React.Component {
+    constructor(props) {
+        super(props)
+        this.onReset = this.onReset.bind(this)
+        this.onSearch = this.onSearch.bind(this)
+    }
 
-  onReset() {
-    this.props.onReset();
-  }
+    onReset() {
+        const { onReset } = this.props
 
-  onSearch() {
-    this.props.onSearch();
-  }
+        onReset()
+    }
 
-  render() {
-    const {
-      className,
-      style,
-      visible,
-      resetLabel,
-      searchLabel,
-      hideButtons,
-      children,
-    } = this.props;
+    onSearch() {
+        const { onSearch } = this.props
 
-    return visible ? (
-      <div className={cx('n2o-filter', className)} style={style}>
-        {children}
-        {!hideButtons ? (
-          <Buttons
-            searchLabel={searchLabel}
-            resetLabel={resetLabel}
-            onSearch={this.onSearch}
-            onReset={this.onReset}
-          />
-        ) : null}
-      </div>
-    ) : null;
-  }
+        onSearch()
+    }
+
+    render() {
+        const {
+            className,
+            style,
+            visible,
+            resetLabel,
+            searchLabel,
+            hideButtons,
+            children,
+        } = this.props
+
+        return visible ? (
+            <div className={classNames('n2o-filter', className)} style={style}>
+                {children}
+                {!hideButtons ? (
+                    <Buttons
+                        searchLabel={searchLabel}
+                        resetLabel={resetLabel}
+                        onSearch={this.onSearch}
+                        onReset={this.onReset}
+                    />
+                ) : null}
+            </div>
+        ) : null
+    }
 }
 
 Filter.propTypes = {
-  children: PropTypes.node,
-  style: PropTypes.object,
-  /**
-   * Callback на поиск
-   */
-  onSearch: PropTypes.func,
-  /**
-   * Callback на сброс
-   */
-  onReset: PropTypes.func,
-  className: PropTypes.string,
-  /**
-   * Текст кнопки поиска
-   */
-  searchLabel: PropTypes.string,
-  /**
-   * Текст кнопки сброса
-   */
-  resetLabel: PropTypes.string,
-  /**
-   * Видимость
-   */
-  visible: PropTypes.bool,
-  /**
-   * Флаг скрытия кнопок
-   */
-  hideButtons: PropTypes.bool,
-};
+    children: PropTypes.node,
+    style: PropTypes.object,
+    /**
+     * Callback на поиск
+     */
+    onSearch: PropTypes.func,
+    /**
+     * Callback на сброс
+     */
+    onReset: PropTypes.func,
+    className: PropTypes.string,
+    /**
+     * Текст кнопки поиска
+     */
+    searchLabel: PropTypes.string,
+    /**
+     * Текст кнопки сброса
+     */
+    resetLabel: PropTypes.string,
+    /**
+     * Видимость
+     */
+    visible: PropTypes.bool,
+    /**
+     * Флаг скрытия кнопок
+     */
+    hideButtons: PropTypes.bool,
+}
 
 Filter.defaultProps = {
-  onSearch: () => {},
-  onReset: () => {},
-  t: () => {},
-  visible: true,
-  style: {},
-  className: '',
-  hideButtons: false,
-};
+    onSearch: () => {},
+    onReset: () => {},
+    visible: true,
+    style: {},
+    className: '',
+    hideButtons: false,
+}
 
-export default Filter;
+export default Filter

@@ -1,10 +1,10 @@
-import isObject from 'lodash/isObject';
-import isPlainObject from 'lodash/isPlainObject';
-import values from 'lodash/values';
-import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject'
+import isPlainObject from 'lodash/isPlainObject'
+import values from 'lodash/values'
+import isEmpty from 'lodash/isEmpty'
 
-import functions from './functions';
-import warning from './warning';
+import functions from './functions'
+import warning from './warning'
 
 /**
  * Проверяет, является ли строка JS выражением
@@ -12,13 +12,13 @@ import warning from './warning';
  * @returns {String|Boolean} - Найденное JS выражение, или false
  */
 export function parseExpression(value) {
-  const res = String(value).match('^`(.*)`$');
+    if (typeof value !== 'string') { return false }
 
-  if (res && res[1]) {
-    return res[1];
-  }
+    if (value.startsWith('`') && value.endsWith('`')) {
+        return value.substring(1, value.length - 1)
+    }
 
-  return false;
+    return false
 }
 
 /**
@@ -28,59 +28,67 @@ export function parseExpression(value) {
  * @returns {Function} - Функция, созданная из текста code
  */
 export function createContextFn(args, code) {
-  const joinedArgs = args.join(',');
-  const key = `${joinedArgs}|||${code}`;
+    const joinedArgs = args.join(',')
+    const key = `${joinedArgs}|||${code}`
 
-  if (!fooCache[key]) {
-    fooCache[key] = new Function(
-      windowKeys,
-      `return function (${joinedArgs}) { return (${code}) }`
-    )();
-  }
+    if (!fooCache[key]) {
+        // eslint-disable-next-line no-new-func
+        fooCache[key] = new Function(
+            windowKeys,
+            `return function (${joinedArgs}) { return (${code}) }`,
+        )()
+    }
 
-  return fooCache[key];
+    return fooCache[key]
 }
 
-const windowKeys = Object.keys(window).filter(v => !v.includes('-'));
-const fooCache = {};
+const windowKeys = Object.keys(window).filter(v => !v.includes('-'))
+const fooCache = {}
 
+// eslint-disable-next-line consistent-return
 function evalExpressionSingle(expression, context, args = context) {
-  args = isPlainObject(args) ? args : {};
+    if (expression === 'false') {
+        return false
+    }
+    if (expression === 'true') {
+        return true
+    }
 
-  try {
-    const argsExtended = { ...functions, ...window._n2oEvalContext, ...args };
+    args = isPlainObject(args) ? args : {}
 
-    const entries = Object.entries(argsExtended);
-    const keys = entries.map(arr => arr[0]);
-    const values = entries.map(arr => arr[1]);
+    try {
+        // eslint-disable-next-line no-underscore-dangle
+        const argsExtended = { ...functions, ...window._n2oEvalContext, ...args }
 
-    const fn = createContextFn(keys, expression);
+        const entries = Object.entries(argsExtended)
+        const keys = entries.map(arr => arr[0])
+        const values = entries.map(arr => arr[1])
 
-    return fn.apply(context || {}, values);
-  } catch (e) {
-    warning(
-      e,
-      `Ошибка при выполнение evalExpression! ${e.message}.
+        const fn = createContextFn(keys, expression)
+
+        return fn.apply(context || {}, values)
+    } catch (e) {
+        warning(
+            e,
+            `Ошибка при выполнение evalExpression! ${e.message}.
       \nВыражение: ${expression}
-      \nКонтекст: ${JSON.stringify(context)}`
-    );
-  }
+      \nКонтекст: ${JSON.stringify(context)}`,
+        )
+    }
 }
 
 function evalExpressionMulti(expression, context) {
-  let multiContext = context;
+    let multiContext = context
 
-  if (isObject(multiContext)) {
-    multiContext = values(context);
-  }
+    if (isObject(multiContext)) {
+        multiContext = values(context)
+    }
 
-  if (isEmpty(multiContext)) {
-    return evalExpressionSingle(expression, multiContext, {});
-  }
+    if (isEmpty(multiContext)) {
+        return evalExpressionSingle(expression, multiContext, {})
+    }
 
-  return multiContext.every(item =>
-    evalExpressionSingle(expression, multiContext, item)
-  );
+    return multiContext.every(item => evalExpressionSingle(expression, multiContext, item))
 }
 
 /**
@@ -91,13 +99,13 @@ function evalExpressionMulti(expression, context) {
  * @returns {*} - результат вычисления
  */
 export default function evalExpression(
-  expression,
-  context,
-  type = { mode: 'single' }
+    expression,
+    context,
+    type = { mode: 'single' },
 ) {
-  const { mode } = type;
+    const { mode } = type
 
-  return mode === 'multi'
-    ? evalExpressionMulti(expression, context)
-    : evalExpressionSingle(expression, context);
+    return mode === 'multi'
+        ? evalExpressionMulti(expression, context)
+        : evalExpressionSingle(expression, context)
 }

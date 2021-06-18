@@ -1,8 +1,18 @@
-import React from 'react';
-import Wireframe from '../../snippets/Wireframe/Wireframe';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-export default ({ title, className, height }) => (
-  <div style={{ position: 'relative', height, width: '100%' }}>
-    <Wireframe className={className} title={title} />
-  </div>
-);
+import SnippetWireframe from '../../snippets/Wireframe/Wireframe'
+
+const Wireframe = ({ title, className, height }) => (
+    <div style={{ position: 'relative', height, width: '100%' }}>
+        <SnippetWireframe className={className} title={title} />
+    </div>
+)
+
+Wireframe.propTypes = {
+    className: PropTypes.string,
+    title: PropTypes.string,
+    height: PropTypes.string,
+}
+
+export default Wireframe

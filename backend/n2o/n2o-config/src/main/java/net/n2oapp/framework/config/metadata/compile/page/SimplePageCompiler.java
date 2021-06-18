@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -48,13 +47,14 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         //todo когда появится object-id у simple-page необходимо его и id главного виджета добавить в PageScope
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
-        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class), false);
-        page.setPageProperty(initPageName(pageName, showTitle, context, p));
+        page.setPageProperty(initPageName(source, pageName, context, p));
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
+        if (widget.getQueryId() != null)
+            pageScope.setWidgetIdQueryIdMap(Map.of(widget.getId(), widget.getQueryId()));
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();
@@ -70,7 +70,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
         page.setRoutes(routes);
-        page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
+        compileComponent(page, source, context, p);
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
         if (objectId != null) {
@@ -115,7 +115,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.simple.src";
     }
 }

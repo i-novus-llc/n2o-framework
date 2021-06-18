@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 
@@ -16,9 +15,10 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, CssClassAware {
+public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent {
     private SourceComponent[] items;
     private String label;
+    private String description;
     private String src;
     private String cssClass;
     private String style;

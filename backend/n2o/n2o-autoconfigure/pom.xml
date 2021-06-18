@@ -9,7 +9,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.16.0-SNAPSHOT</version>
+        <version>7.17.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -48,9 +48,15 @@
 
         <!--optional-->
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.5</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
+            <version>42.2.19</version>
             <optional>true</optional>
         </dependency>
         <dependency>

@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
@@ -39,7 +40,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"),
                 new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                 new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"))
-                .packs(new N2oAllPagesPack(), new AccessSchemaPack(), new N2oObjectsPack())
+                .packs(new N2oAllPagesPack(), new AccessSchemaPack(), new N2oObjectsPack(), new N2oDataProvidersPack())
                 .transformers(new ToolbarAccessTransformer(), new OpenPageAccessTransformer());
     }
 

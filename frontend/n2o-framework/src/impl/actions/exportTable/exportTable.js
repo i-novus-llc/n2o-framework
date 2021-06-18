@@ -1,12 +1,12 @@
-import React from 'react';
-import { exportFormName } from '../../../components/widgets/Table/ExportModal';
-import { getFormValues } from 'redux-form';
+import { getFormValues } from 'redux-form'
+
+import { exportFormName } from '../../../components/widgets/Table/ExportModal'
 import {
-  makeWidgetPageSelector,
-  makeWidgetSizeSelector,
-  makeWidgetCountSelector,
-} from '../../../selectors/widgets';
-import { destroyOverlay } from '../../../actions/overlays';
+    makeWidgetPageSelector,
+    makeWidgetSizeSelector,
+    makeWidgetCountSelector,
+} from '../../../selectors/widgets'
+import { destroyOverlay } from '../../../actions/overlays'
 
 /**
  * Функция для кодирования query
@@ -14,10 +14,12 @@ import { destroyOverlay } from '../../../actions/overlays';
  * @returns {string}
  */
 export function encodeQueryData(data) {
-  let ret = [];
-  for (let d in data)
-    ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-  return '/export?' + ret.join('&');
+    const ret = Object
+        .entries(data)
+        .reduce((acc, [key, value]) => [...acc, `${encodeURIComponent(key)}=${encodeURIComponent(value)}`], [])
+        .join('&')
+
+    return `/export?${ret}`
 }
 
 /**
@@ -27,21 +29,22 @@ export function encodeQueryData(data) {
  * @param widgetId
  */
 export default function resolveExportTable({ dispatch, state, widgetId }) {
-  const values = getFormValues(exportFormName)(state);
-  const page =
-    values.size === 'all' ? 1 : makeWidgetPageSelector(widgetId)(state);
-  const size = makeWidgetSizeSelector(widgetId)(state);
-  const count =
-    values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size;
-  window.open(
-    encodeQueryData({
-      widgetId,
-      contentType: values.type,
-      code: values.code,
-      page,
-      count,
-    }),
-    '_blank'
-  );
-  dispatch(destroyOverlay());
+    const values = getFormValues(exportFormName)(state)
+    const page =
+    values.size === 'all' ? 1 : makeWidgetPageSelector(widgetId)(state)
+    const size = makeWidgetSizeSelector(widgetId)(state)
+    const count =
+    values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size
+
+    window.open(
+        encodeQueryData({
+            widgetId,
+            contentType: values.type,
+            code: values.code,
+            page,
+            count,
+        }),
+        '_blank',
+    )
+    dispatch(destroyOverlay())
 }

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
-import cn from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import omit from 'lodash/omit'
+import classNames from 'classnames'
 
-import getElementType from '../../../tools/getElementType';
+import getElementType from '../../../tools/getElementType'
 
 /**
  * Ячейка таблицы
@@ -16,71 +16,73 @@ import getElementType from '../../../tools/getElementType';
  * @reactprops {node} children - элемент потомок компонента TableCell
  */
 class TableCell extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getPassProps = this.getPassProps.bind(this);
-  }
-
-  getPassProps() {
-    return omit(this.props, ['component', 'colSpan', 'as', 'model']);
-  }
-
-  render() {
-    const {
-      className,
-      style,
-      component,
-      colSpan,
-      children,
-      model,
-      hideOnBlur,
-    } = this.props;
-    const ElementType = getElementType(TableCell, this.props);
-    if (React.Children.count(children)) {
-      return (
-        <ElementType
-          className={className}
-          colSpan={colSpan}
-          model={model}
-          style={style}
-        >
-          {children}
-        </ElementType>
-      );
+    constructor(props) {
+        super(props)
+        this.getPassProps = this.getPassProps.bind(this)
     }
 
-    return (
-      <ElementType
-        className={cn(className, { 'hide-on-blur': hideOnBlur })}
-        colSpan={colSpan}
-        style={style}
-      >
-        {component &&
-          React.createElement(component, {
-            ...this.getPassProps(),
+    getPassProps() {
+        return omit(this.props, ['component', 'colSpan', 'as', 'model'])
+    }
+
+    render() {
+        const {
+            className,
+            style,
+            component,
+            colSpan,
+            children,
             model,
+            hideOnBlur,
+        } = this.props
+        const ElementType = getElementType(TableCell, this.props)
+
+        if (React.Children.count(children)) {
+            return (
+                <ElementType
+                    className={className}
+                    colSpan={colSpan}
+                    model={model}
+                    style={style}
+                >
+                    {children}
+                </ElementType>
+            )
+        }
+
+        return (
+            <ElementType
+                className={classNames(className, { 'hide-on-blur': hideOnBlur })}
+                colSpan={colSpan}
+                style={style}
+            >
+                {component &&
+          React.createElement(component, {
+              ...this.getPassProps(),
+              model,
           })}
-      </ElementType>
-    );
-  }
+            </ElementType>
+        )
+    }
 }
 
 TableCell.propTypes = {
-  /* Default props */
-  className: PropTypes.string,
-  style: PropTypes.string,
-  children: PropTypes.node,
-  /* Specific props */
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-  as: PropTypes.string,
-  model: PropTypes.object,
-  colSpan: PropTypes.number,
-  hideOnBlur: PropTypes.bool,
-};
+    /* Default props */
+    className: PropTypes.string,
+    style: PropTypes.string,
+    children: PropTypes.node,
+    /* Specific props */
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+    // eslint-disable-next-line react/no-unused-prop-types
+    as: PropTypes.string,
+    model: PropTypes.object,
+    colSpan: PropTypes.number,
+    hideOnBlur: PropTypes.bool,
+}
 
 TableCell.defaultProps = {
-  as: 'td',
-  hideOnBlur: false,
-};
+    as: 'td',
+    hideOnBlur: false,
+}
 
-export default TableCell;
+export default TableCell

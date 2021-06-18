@@ -1,22 +1,28 @@
-import React from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import SearchBarPopUp from './SearchBarPopUp';
+import { SearchBarPopUp } from './SearchBarPopUp'
 
-function SearchBarEmptyMenu({ dropdownOpen, urlFieldId }) {
-  const emptyMenu = [
-    {
-      id: 'Ничего не найдено',
-      label: 'Ничего не найдено',
-      href: '/',
-      disabled: true,
-    },
-  ];
+export function SearchBarEmptyMenu({ dropdownOpen, urlFieldId }) {
+    const emptyMenu = [
+        {
+            id: 'Ничего не найдено',
+            label: 'Ничего не найдено',
+            href: '/',
+            disabled: true,
+        },
+    ]
 
-  if (!urlFieldId) {
-    return null;
-  }
+    if (!urlFieldId) {
+        return null
+    }
 
-  return <SearchBarPopUp menu={emptyMenu} dropdownOpen={dropdownOpen} />;
+    return <SearchBarPopUp menu={emptyMenu} dropdownOpen={dropdownOpen} />
 }
 
-export default SearchBarEmptyMenu;
+SearchBarEmptyMenu.propTypes = {
+    dropdownOpen: PropTypes.bool,
+    urlFieldId: PropTypes.string,
+}
+
+export default SearchBarEmptyMenu

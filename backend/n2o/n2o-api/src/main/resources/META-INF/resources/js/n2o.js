@@ -1,7 +1,7 @@
 var $ = function() {
 
-    var FORMAT = "DD.MM.YYYY HH:mm:ss";
-    var FORMAT00 = "DD.MM.YYYY 00:00:00";
+    var FORMAT = "yyyy-MM-ddTHH:mm:ss";
+    var FORMAT00 = "yyyy-MM-ddT00:00:00";
 
     return {
 

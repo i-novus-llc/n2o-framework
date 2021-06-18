@@ -1,16 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Widgets from './index';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-class WidgetFactory extends React.Component {
-  render() {
-    const { src, ...props } = this.props;
-    return React.createElement(Widgets[src], props, this.props.children);
-  }
-}
+import Widgets from './index'
+
+const WidgetFactory = ({ src, children, ...props }) => React.createElement(Widgets[src], props, children)
 
 WidgetFactory.propTypes = {
-  src: PropTypes.string.isRequired,
-};
+    src: PropTypes.string.isRequired,
+    children: PropTypes.node,
+}
 
-export default WidgetFactory;
+export default WidgetFactory

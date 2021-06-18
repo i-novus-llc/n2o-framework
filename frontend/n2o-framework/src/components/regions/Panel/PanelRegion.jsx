@@ -1,17 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import every from 'lodash/every';
-import isUndefined from 'lodash/isUndefined';
-import isArray from 'lodash/isArray';
-import map from 'lodash/map';
-import { compose, setDisplayName } from 'recompose';
+import React from 'react'
+import PropTypes from 'prop-types'
+import every from 'lodash/every'
+import isUndefined from 'lodash/isUndefined'
+import isArray from 'lodash/isArray'
+import map from 'lodash/map'
+import { compose, setDisplayName } from 'recompose'
 
-import PanelShortHand from '../../snippets/Panel/PanelShortHand';
-import withRegionContainer from '../withRegionContainer';
-import withWidgetProps from '../withWidgetProps';
-import withSecurity from '../../../core/auth/withSecurity';
-import { SECURITY_CHECK } from '../../../core/auth/authTypes';
-import RegionContent from '../RegionContent';
+import PanelShortHand from '../../snippets/Panel/PanelShortHand'
+import withRegionContainer from '../withRegionContainer'
+import withWidgetProps from '../withWidgetProps'
+import withSecurity from '../../../core/auth/withSecurity'
+import { SECURITY_CHECK } from '../../../core/auth/authTypes'
+import { RegionContent } from '../RegionContent'
 
 /**
  * Регион Панель
@@ -36,161 +36,175 @@ import RegionContent from '../RegionContent';
  */
 
 class PanelRegion extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabs: [],
-    };
-    this.checkPanel = this.checkPanel.bind(this);
-    this.getTab = this.getTab.bind(this);
-  }
-
-  componentWillReceiveProps() {
-    this.getPanelsWithAccess();
-  }
-
-  componentDidMount() {
-    this.getPanelsWithAccess();
-  }
-
-  getContent(meta) {
-    const content = isArray(meta) ? meta : [meta];
-    return <RegionContent content={content} />;
-  }
-
-  getTab(panel) {
-    const { getWidget, pageId } = this.props;
-
-    return {
-      id: panel.widgetId,
-      content: this.getContent(panel),
-      header: panel.label,
-      ...panel,
-      ...getWidget(pageId, panel.widgetId),
-    };
-  }
-
-  async checkPanel(panel) {
-    if (panel.security) {
-      const { user, authProvider } = this.props;
-      const config = panel.security;
-      try {
-        const permissions = await authProvider(SECURITY_CHECK, {
-          config,
-          user,
-        });
-        this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) });
-      } catch (error) {
-        //...
-      }
-    } else {
-      this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) });
+    constructor(props) {
+        super(props)
+        this.state = {
+            tabs: [],
+        }
+        this.checkPanel = this.checkPanel.bind(this)
+        this.getTab = this.getTab.bind(this)
     }
-  }
 
-  getPanelsWithAccess() {
-    const { content } = this.props;
-    this.setState({ tabs: [] }, async () => {
-      for (const panel of content) {
-        await this.checkPanel(panel);
-      }
-    });
-  }
+    componentWillReceiveProps() {
+        this.getPanelsWithAccess()
+    }
 
-  /**
-   * Рендер
-   */
-  render() {
-    const {
-      content,
-      getWidgetProps,
-      activeEntity,
-      open,
-      changeActiveEntity,
-    } = this.props;
-    const isInvisible = every(
-      content,
-      item => getWidgetProps(item.id).isVisible === false
-    );
-    return (
-      <PanelShortHand
-        tabs={this.state.tabs}
-        {...this.props}
-        open={isUndefined(activeEntity) ? open : activeEntity}
-        style={{ display: isInvisible && 'none' }}
-        onVisibilityChange={changeActiveEntity}
-      >
-        {map(content, meta => this.getContent(meta))}
-      </PanelShortHand>
-    );
-  }
+    componentDidMount() {
+        this.getPanelsWithAccess()
+    }
+
+    getContent = (meta) => {
+        const content = isArray(meta) ? meta : [meta]
+
+        return <RegionContent content={content} />
+    }
+
+    getTab(panel) {
+        const { getWidget, pageId } = this.props
+
+        return {
+            id: panel.widgetId,
+            content: this.getContent(panel),
+            header: panel.label,
+            ...panel,
+            ...getWidget(pageId, panel.widgetId),
+        }
+    }
+
+    async checkPanel(panel) {
+        const { tabs } = this.state
+
+        if (panel.security) {
+            const { user, authProvider } = this.props
+            const config = panel.security
+
+            try {
+                await authProvider(SECURITY_CHECK, {
+                    config,
+                    user,
+                })
+
+                this.setState({ tabs: tabs.concat(this.getTab(panel)) })
+            } catch (error) {
+                // ...
+            }
+        } else {
+            this.setState({ tabs: tabs.concat(this.getTab(panel)) })
+        }
+    }
+
+    getPanelsWithAccess() {
+        const { content } = this.props
+
+        this.setState({ tabs: [] }, async () => {
+            // eslint-disable-next-line no-restricted-syntax
+            for (const panel of content) {
+                await this.checkPanel(panel)
+            }
+        })
+    }
+
+    render() {
+        const {
+            content,
+            getWidgetProps,
+            activeEntity,
+            open,
+            changeActiveEntity,
+            className,
+            style,
+        } = this.props
+        const { tabs } = this.state
+        const isInvisible = every(
+            content,
+            item => getWidgetProps(item.id).isVisible === false,
+        )
+
+        return (
+            <PanelShortHand
+                tabs={tabs}
+                {...this.props}
+                open={isUndefined(activeEntity) ? open : activeEntity}
+                style={{ display: isInvisible && 'none', ...style }}
+                onVisibilityChange={changeActiveEntity}
+                className={className}
+            >
+                {map(content, meta => this.getContent(meta))}
+            </PanelShortHand>
+        )
+    }
 }
 
 PanelRegion.propTypes = {
-  /**
-   * Список элементов
-   */
-  content: PropTypes.array.isRequired,
-  /**
-   * ID страницы
-   */
-  pageId: PropTypes.string.isRequired,
-  /**
-   * Класс
-   */
-  className: PropTypes.string,
-  /**
-   * Стили
-   */
-  style: PropTypes.object,
-  /**
-   * Цвет панели
-   */
-  color: PropTypes.string,
-  /***
-   * Иконка панели
-   */
-  icon: PropTypes.string,
-  /**
-   * Текст заголовка
-   */
-  headerTitle: PropTypes.string,
-  /**
-   * Текст футера
-   */
-  footerTitle: PropTypes.string,
-  /**
-   * Флаг открытия панели
-   */
-  open: PropTypes.bool,
-  /**
-   * Флаг возможности скрывать содержимое панели
-   */
-  collapsible: PropTypes.bool,
-  /**
-   * Флаг наличия табов
-   */
-  hasTabs: PropTypes.bool,
-  /**
-   * Флаг открытия на весь экран
-   */
-  fullScreen: PropTypes.bool,
-  getWidget: PropTypes.func.isRequired,
-  resolveVisibleDependency: PropTypes.func,
-  dependency: PropTypes.object,
-};
+    /**
+     * Список элементов
+     */
+    content: PropTypes.array.isRequired,
+    /**
+     * ID страницы
+     */
+    pageId: PropTypes.string.isRequired,
+    /**
+     * Класс
+     */
+    className: PropTypes.string,
+    /**
+     * Стили
+     */
+    style: PropTypes.object,
+    /**
+     * Цвет панели
+     */
+    color: PropTypes.string,
+    /** *
+     * Иконка панели
+     */
+    icon: PropTypes.string,
+    /**
+     * Текст заголовка
+     */
+    headerTitle: PropTypes.string,
+    /**
+     * Текст футера
+     */
+    footerTitle: PropTypes.string,
+    /**
+     * Флаг открытия панели
+     */
+    open: PropTypes.bool,
+    /**
+     * Флаг возможности скрывать содержимое панели
+     */
+    collapsible: PropTypes.bool,
+    /**
+     * Флаг наличия табов
+     */
+    hasTabs: PropTypes.bool,
+    /**
+     * Флаг открытия на весь экран
+     */
+    fullScreen: PropTypes.bool,
+    getWidget: PropTypes.func.isRequired,
+    resolveVisibleDependency: PropTypes.func,
+    dependency: PropTypes.object,
+    getWidgetProps: PropTypes.func,
+    changeActiveEntity: PropTypes.func,
+    authProvider: PropTypes.func,
+    activeEntity: PropTypes.any,
+    user: PropTypes.any,
+}
 
 PanelRegion.defaultProps = {
-  open: true,
-  collapsible: false,
-  hasTabs: false,
-  fullScreen: false,
-};
+    open: true,
+    collapsible: false,
+    hasTabs: false,
+    fullScreen: false,
+}
 
-export { PanelRegion };
+export { PanelRegion }
 export default compose(
-  setDisplayName('PanelRegion'),
-  withRegionContainer({ listKey: 'panels' }),
-  withSecurity,
-  withWidgetProps
-)(PanelRegion);
+    setDisplayName('PanelRegion'),
+    withRegionContainer({ listKey: 'panels' }),
+    withSecurity,
+    withWidgetProps,
+)(PanelRegion)

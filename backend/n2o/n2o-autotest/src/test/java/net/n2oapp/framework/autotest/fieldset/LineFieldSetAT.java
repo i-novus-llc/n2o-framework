@@ -28,7 +28,6 @@ public class LineFieldSetAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
@@ -36,6 +35,7 @@ public class LineFieldSetAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
@@ -52,20 +52,24 @@ public class LineFieldSetAT extends AutoTestBase {
 
         // expanded
         fieldset = fieldsets.fieldset(1, LineFieldSet.class);
-        fieldset.fields().shouldHaveSize(2);
+        fieldset.fields().shouldHaveSize(3);
+        InputText masterField = fieldset.fields().field("master").control(InputText.class);
         fieldset.shouldBeCollapsible();
         fieldset.shouldBeExpanded();
         fieldset.shouldHaveLabel("Line2");
-        fieldset.collapseContent();
+        fieldset.collapse();
         fieldset.shouldBeCollapsed();
-        fieldset.expandContent();
+        fieldset.expand();
         fieldset.shouldBeExpanded();
 
         // collapsed
         fieldset = fieldsets.fieldset(2, LineFieldSet.class);
         fieldset.shouldBeCollapsed();
         fieldset.shouldBeCollapsible();
-        fieldset.shouldHaveLabel("Line3");
+        fieldset.shouldHaveLabel("Line3 test");
+        fieldset.shouldHaveDescription("Подзаголовок филдсета");
+        masterField.val("123");
+        fieldset.shouldHaveLabel("Line3 123");
 
         // not collapsible fieldset
         fieldset = fieldsets.fieldset(3, LineFieldSet.class);
@@ -89,11 +93,11 @@ public class LineFieldSetAT extends AutoTestBase {
 
         LineFieldSet line1 = fieldsets.fieldset(1, LineFieldSet.class);
         LineFieldSet line2 = fieldsets.fieldset(2, LineFieldSet.class);
-        line1.shouldNotBeVisible();
-        line2.shouldNotBeVisible();
+        line1.shouldBeHidden();
+        line2.shouldBeHidden();
 
         inputText.val("test");
-        line1.shouldNotBeVisible();
+        line1.shouldBeHidden();
         line2.shouldBeVisible();
         line2.fields().field("field2").shouldExists();
     }

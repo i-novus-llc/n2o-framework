@@ -1,38 +1,48 @@
 .search-bar__nav-link-disabled {
-  color: $gray-200!important;
-  user-select: none!important;
-  cursor: default!important;
-  outline: none!important;
+    color: $gray-200 !important;
+    user-select: none !important;
+    cursor: default !important;
+    outline: none !important;
 }
 
 .n2o-search-bar {
-  display: flex;
-  position: relative;
+    display: flex;
+    position: relative;
 
-  &__control {
+    .n2o-search-bar__clear-icon {
+        color: gray;
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .n2o-search-bar__clear-icon.with-search {
+        right: 30px;
+        top: calc(50% - 6px);
+    }
+
+    .n2o-search-bar__clear-icon:hover {
+        cursor: pointer;
+        color: #0d151c;
+    }
+}
+
+.n2o-search-bar__control {
     position: relative;
     width: 100%;
 
-    & i {
-      position: absolute;
-      right: 10px;
-      top: calc(50% - 8px);
+    i {
+        position: absolute;
+        right: 10px;
+        top: calc(50% - 6px);
+        font-size: 14px;
     }
-  }
-  &__link-container {
+}
+
+.n2o-search-bar__link-container {
     display: flex;
     align-items: center;
 
     .n2o-search-bar__popup_icon-left {
-      color:  #172b4d!important;
+        color: #172b4d !important;
     }
-  }
-  .n2o-search-bar__clear-icon {
-    color: gray;
-  }
-
-  .n2o-search-bar__clear-icon:hover {
-    cursor: pointer;
-    color: #0d151c;
-  }
 }

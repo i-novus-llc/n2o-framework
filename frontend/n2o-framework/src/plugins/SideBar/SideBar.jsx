@@ -1,20 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import isEqual from 'lodash/isEqual';
-import map from 'lodash/map';
-import get from 'lodash/get';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import isEqual from 'lodash/isEqual'
+import map from 'lodash/map'
+import get from 'lodash/get'
 import {
-  compose,
-  withState,
-  lifecycle,
-  withHandlers,
-  setDisplayName,
-} from 'recompose';
-import { withTranslation } from 'react-i18next';
+    compose,
+    withState,
+    lifecycle,
+    withHandlers,
+    setDisplayName,
+} from 'recompose'
+import { withTranslation } from 'react-i18next'
 
-import SidebarItemContainer from './SidebarItemContainer';
-import UserBox from '../../components/snippets/UserBox/UserBox';
+import UserBox from '../../components/snippets/UserBox/UserBox'
+
+import { SidebarItemContainer } from './SidebarItemContainer'
 
 /**
  * Sidebar
@@ -34,150 +35,149 @@ import UserBox from '../../components/snippets/UserBox/UserBox';
  * @constructor
  */
 export function SideBar({
-  activeId,
-  brand,
-  brandImage,
-  userBox,
-  items,
-  visible,
-  width,
-  controlled,
-  onToggle,
-  extra,
-  homePageUrl,
-  t,
+    activeId,
+    brand,
+    brandImage,
+    userBox,
+    items,
+    visible,
+    controlled,
+    onToggle,
+    extra,
+    homePageUrl,
+    t,
 }) {
-  const renderItems = items =>
-    map(items, (item, i) => (
-      <SidebarItemContainer
-        key={i}
-        item={item}
-        activeId={activeId}
-        sidebarOpen={visible}
-      />
-    ));
+    const renderItems = items => map(items, (item, i) => (
+        <SidebarItemContainer
+            key={i}
+            item={item}
+            activeId={activeId}
+            sidebarOpen={visible}
+        />
+    ))
 
-  const withoutBrandImage = !visible && !brandImage;
+    const withoutBrandImage = !visible && !brandImage
 
-  return (
-    <aside
-      className={cn('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
-    >
-      <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
-        <a className="d-flex align-items-center" href={homePageUrl}>
-          {brandImage && (
-            <img
-              className={cn({ 'mr-2': visible })}
-              src={brandImage}
-              alt=""
-              width="30"
-              height="30"
-            />
-          )}
-          {(visible || withoutBrandImage) && (
-            <span className="n2o-nav-brand__text">
-              {withoutBrandImage ? brand.substring(0, 1) : brand}
-            </span>
-          )}
-        </a>
-      </div>
-      {userBox && (
-        <UserBox {...userBox} compressed={!visible}>
-          {renderItems(get(userBox, 'items'))}
-        </UserBox>
-      )}
-      <nav className="n2o-sidebar__nav">
-        <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
-      </nav>
-      <div className="n2o-sidebar__footer">
-        <div className="n2o-sidebar__extra">
-          <ul className="n2o-sidebar__nav-list">{renderItems(extra)}</ul>
-        </div>
-        {!controlled && (
-          <div onClick={onToggle} className="n2o-sidebar__toggler">
-            <span className="n2o-sidebar__nav-item">
-              <span
-                className={cn('n2o-sidebar__nav-item-icon', {
-                  'mr-1': visible,
-                })}
-              >
-                <i className="fa fa-angle-double-left" />
-              </span>
-              {visible && <span>{t('hide')}</span>}
-            </span>
-          </div>
-        )}
-      </div>
-    </aside>
-  );
+    return (
+        <aside
+            className={classNames('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
+        >
+            <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
+                <a className="d-flex align-items-center" href={homePageUrl}>
+                    {brandImage && (
+                        <img
+                            className={classNames({ 'mr-2': visible })}
+                            src={brandImage}
+                            alt=""
+                            width="30"
+                            height="30"
+                        />
+                    )}
+                    {(visible || withoutBrandImage) && (
+                        <span className="n2o-nav-brand__text">
+                            {withoutBrandImage ? brand.substring(0, 1) : brand}
+                        </span>
+                    )}
+                </a>
+            </div>
+            {userBox && (
+                <UserBox {...userBox} compressed={!visible}>
+                    {renderItems(get(userBox, 'items'))}
+                </UserBox>
+            )}
+            <nav className="n2o-sidebar__nav">
+                <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
+            </nav>
+            <div className="n2o-sidebar__footer">
+                <div className="n2o-sidebar__extra">
+                    <ul className="n2o-sidebar__nav-list">{renderItems(extra)}</ul>
+                </div>
+                {!controlled && (
+                    <div onClick={onToggle} className="n2o-sidebar__toggler">
+                        <span className="n2o-sidebar__nav-item">
+                            <span
+                                className={classNames('n2o-sidebar__nav-item-icon', {
+                                    'mr-1': visible,
+                                })}
+                            >
+                                <i className="fa fa-angle-double-left" />
+                            </span>
+                            {visible && <span>{t('hide')}</span>}
+                        </span>
+                    </div>
+                )}
+            </div>
+        </aside>
+    )
 }
 
 SideBar.propTypes = {
-  /**
-   * ID активного элемента
-   */
-  activeId: PropTypes.string,
-  /**
-   * Бренд сайдбара
-   */
-  brand: PropTypes.string,
-  /**
-   * Картинка бренда
-   */
-  brandImage: PropTypes.string,
-  /**
-   * Блок пользователя
-   */
-  userBox: PropTypes.object,
-  /**
-   * Элементы сайдбара
-   */
-  items: PropTypes.array,
-  /**
-   * Флаг сжатия
-   */
-  visible: PropTypes.bool,
-  /**
-   * Длина
-   */
-  width: PropTypes.number,
-  /**
-   * Флаг включения режима controlled
-   */
-  controlled: PropTypes.bool,
-  /**
-   * Callback на переключение сжатия
-   */
-  onToggle: PropTypes.func,
-  /**
-   * Extra элементы
-   */
-  extra: PropTypes.array,
-  /**
-   * Адрес ссылка бренда
-   */
-  homePageUrl: PropTypes.string,
-};
+    /**
+     * ID активного элемента
+     */
+    activeId: PropTypes.string,
+    /**
+     * Бренд сайдбара
+     */
+    brand: PropTypes.string,
+    /**
+     * Картинка бренда
+     */
+    brandImage: PropTypes.string,
+    /**
+     * Блок пользователя
+     */
+    userBox: PropTypes.object,
+    /**
+     * Элементы сайдбара
+     */
+    items: PropTypes.array,
+    /**
+     * Флаг сжатия
+     */
+    visible: PropTypes.bool,
+    /**
+     * Длина
+     */
+    width: PropTypes.number,
+    /**
+     * Флаг включения режима controlled
+     */
+    controlled: PropTypes.bool,
+    /**
+     * Callback на переключение сжатия
+     */
+    onToggle: PropTypes.func,
+    /**
+     * Extra элементы
+     */
+    extra: PropTypes.array,
+    /**
+     * Адрес ссылка бренда
+     */
+    homePageUrl: PropTypes.string,
+    t: PropTypes.func,
+}
 
 SideBar.defaultProps = {
-  controlled: false,
-  brand: '',
-  homePageUrl: '/',
-  t: () => {},
-};
+    controlled: false,
+    brand: '',
+    homePageUrl: '/',
+    t: () => {},
+}
 
 export default compose(
-  withTranslation(),
-  setDisplayName('Sidebar'),
-  withState('visible', 'setVisible', ({ visible }) => visible),
-  withHandlers({
-    onToggle: ({ visible, setVisible }) => () => setVisible(!visible),
-  }),
-  lifecycle({
-    componentDidUpdate(prevProps) {
-      if (!isEqual(prevProps.visible, this.props.visible)) {
-        this.setState({ visible: this.props.visible });
-      }
-    },
-  })
-)(SideBar);
+    withTranslation(),
+    setDisplayName('Sidebar'),
+    withState('visible', 'setVisible', ({ visible }) => visible),
+    withHandlers({
+        onToggle: ({ visible, setVisible }) => () => setVisible(!visible),
+    }),
+    lifecycle({
+        componentDidUpdate(prevProps) {
+            if (!isEqual(prevProps.visible, this.props.visible)) {
+                this.setState({ visible: this.props.visible })
+            }
+        },
+    }),
+)(SideBar)

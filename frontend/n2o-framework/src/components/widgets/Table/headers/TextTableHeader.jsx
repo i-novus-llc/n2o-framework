@@ -1,12 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Sorter from '../../../snippets/Sorter/Sorter';
-import { compose, lifecycle, withHandlers } from 'recompose';
-import { batchActions } from 'redux-batched-actions';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, lifecycle, withHandlers } from 'recompose'
+import { batchActions } from 'redux-batched-actions'
+
+// eslint-disable-next-line import/no-named-as-default
+import Sorter from '../../../snippets/Sorter/Sorter'
 import {
-  changeFrozenColumn,
-  changeColumnVisiblity,
-} from '../../../../actions/columns';
+    changeFrozenColumn,
+    changeColumnVisiblity,
+} from '../../../../actions/columns'
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
@@ -16,52 +18,54 @@ import {
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
-class TextTableHeader extends React.Component {
-  render() {
-    const { id, sortable, sorting, label, onSort, style } = this.props;
+class TextTableHeader extends React.PureComponent {
+    render() {
+        const { id, sortable, sorting, label, onSort, style } = this.props
 
-    return (
-      <span className="n2o-advanced-table-header-title" style={style}>
-        {sortable ? (
-          <Sorter sorting={sorting} columnKey={id} onSort={onSort}>
-            {label}
-          </Sorter>
-        ) : (
-          label
-        )}
-      </span>
-    );
-  }
+        return (
+            <span className="n2o-advanced-table-header-title" style={style}>
+                {sortable ? (
+                    <Sorter sorting={sorting} columnKey={id} onSort={onSort}>
+                        {label}
+                    </Sorter>
+                ) : (
+                    label
+                )}
+            </span>
+        )
+    }
 }
 
 TextTableHeader.propTypes = {
-  id: PropTypes.string,
-  sortable: PropTypes.bool,
-  sorting: PropTypes.string,
-  label: PropTypes.string,
-  onSort: PropTypes.func,
-};
+    id: PropTypes.string,
+    sortable: PropTypes.bool,
+    sorting: PropTypes.string,
+    label: PropTypes.string,
+    onSort: PropTypes.func,
+    style: PropTypes.object,
+}
 
 const enhance = compose(
-  withHandlers({
-    toggleVisibility: ({ dispatch, widgetId, columnId }) => visible => {
-      dispatch(
-        batchActions([
-          changeColumnVisiblity(widgetId, columnId, visible),
-          changeFrozenColumn(widgetId, columnId),
-        ])
-      );
-    },
-  }),
-  lifecycle({
-    componentDidMount() {
-      const { visible, toggleVisibility } = this.props;
+    withHandlers({
+        toggleVisibility: ({ dispatch, widgetId, columnId }) => (visible) => {
+            dispatch(
+                batchActions([
+                    changeColumnVisiblity(widgetId, columnId, visible),
+                    changeFrozenColumn(widgetId, columnId),
+                ]),
+            )
+        },
+    }),
+    lifecycle({
+        componentDidMount() {
+            const { visible, toggleVisibility } = this.props
 
-      if (visible === false) {
-        toggleVisibility(visible);
-      }
-    },
-  })
-);
-export { TextTableHeader };
-export default enhance(TextTableHeader);
+            if (visible === false) {
+                toggleVisibility(visible)
+            }
+        },
+    }),
+)
+
+export { TextTableHeader }
+export default enhance(TextTableHeader)

@@ -1,7 +1,8 @@
-import React from 'react';
-import isEmpty from 'lodash/isEmpty';
-import SecurityCheck from './SecurityCheck';
-import PropTypes from 'prop-types';
+import React from 'react'
+import isEmpty from 'lodash/isEmpty'
+import PropTypes from 'prop-types'
+
+import SecurityCheck from './SecurityCheck'
 
 /**
  * Вспомогательная функция для SecurityCheck
@@ -12,24 +13,23 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 function SecurityNotRender({ component, config, ...rest }) {
-  return isEmpty(config) ? (
-    component
-  ) : (
-    <SecurityCheck
-      config={config}
-      {...rest}
-      render={({ permissions }) => {
-        return permissions ? component : null;
-      }}
-    />
-  );
+    return isEmpty(config) ? (
+        component
+    ) : (
+        <SecurityCheck
+            config={config}
+            {...rest}
+            render={({ permissions }) => (permissions ? component : null)}
+        />
+    )
 }
 
 SecurityNotRender.propTypes = {
-  authProvider: PropTypes.func,
-  config: PropTypes.object,
-  user: PropTypes.object,
-  onPermissionsSet: PropTypes.func,
-};
+    authProvider: PropTypes.func,
+    config: PropTypes.object,
+    user: PropTypes.object,
+    onPermissionsSet: PropTypes.func,
+    component: PropTypes.any,
+}
 
-export default SecurityNotRender;
+export default SecurityNotRender

@@ -25,6 +25,19 @@
                 <xs:documentation>Наименование страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="html-title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок вкладки браузера.
+                    Если не задано, то будет использоваться наименование страницы.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация страницы.</xs:documentation>
@@ -48,6 +61,16 @@
         <xs:attribute name="show-title" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -86,6 +109,19 @@
                         <xs:documentation>Наименование страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="html-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок вкладки браузера.
+                            Если не задано, то будет использоваться наименование страницы.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL страницы.</xs:documentation>
@@ -99,6 +135,16 @@
                 <xs:attribute name="show-title" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>

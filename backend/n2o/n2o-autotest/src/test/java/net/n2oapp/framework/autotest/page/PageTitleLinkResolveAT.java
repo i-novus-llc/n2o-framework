@@ -41,13 +41,13 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/test.query.xml"));
     }
 
     @Test
     public void testPathParam() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/path_params/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/path_params/page.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -99,8 +99,8 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     public void testQueryParams() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/query_params/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/query_params/page.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

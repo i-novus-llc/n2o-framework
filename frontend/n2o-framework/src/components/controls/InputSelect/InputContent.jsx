@@ -1,10 +1,12 @@
-import React from 'react';
-import find from 'lodash/find';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
+import React from 'react'
+import find from 'lodash/find'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
 
-import SelectedItems from './SelectedItems';
-import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
+import SelectedItems from './SelectedItems'
+import { getNextId, getPrevId, getFirstNotDisabledId } from './utils'
 
 /**
  * InputSelectGroup
@@ -14,8 +16,6 @@ import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
  * @reactProps {function} onRemoveItem - callback при нажатии на удаление элемента из выбранных при мульти выборе
  * @reactProps {function} onFocus - событие фокуса
  * @reactProps {function} onBlur - событие потери фокуса
- * @reactProps {node} inputFocus - элемент на котором произошло событие фокуса
- * @reactProps {boolean} isSelected
  * @reactProps {array} selected - список выбранных элементов
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} valueFieldId
@@ -36,137 +36,122 @@ import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
  * @reactProps {boolean} isExpanded - флаг видимости popUp
  */
 
-class InputContent extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._textRef = null;
-  }
-
-  setTextRef = el => {
-    this._textRef = el;
-  };
-
-  onSelect = item => {
-    this.props.onSelect(item);
-  };
-
-  render() {
-    const {
-      disabled,
-      value,
-      placeholder,
-      onRemoveItem,
-      onFocus,
-      onBlur,
-      inputFocus,
-      isSelected,
-      selected,
-      labelFieldId,
-      valueFieldId,
-      clearSelected,
-      multiSelect,
-      collapseSelected,
-      lengthToGroup,
-      onInputChange,
-      openPopUp,
-      closePopUp,
-      activeValueId,
-      setActiveValueId,
-      disabledValues,
-      options,
-      onClick,
-      isExpanded,
-      autoFocus,
-      setSelectedListRef,
-      setRef,
-      tags,
-      mode,
-      maxTagTextLength,
-    } = this.props;
+function InputContent({
+    disabled,
+    value,
+    placeholder,
+    onRemoveItem,
+    onFocus,
+    onBlur,
+    onSelect,
+    selected,
+    labelFieldId,
+    valueFieldId,
+    clearSelected,
+    multiSelect,
+    collapseSelected,
+    lengthToGroup,
+    onInputChange,
+    openPopUp,
+    closePopUp,
+    activeValueId,
+    setActiveValueId,
+    disabledValues,
+    options,
+    onClick,
+    isExpanded,
+    autoFocus,
+    setRef,
+    tags,
+    mode,
+    maxTagTextLength,
+}) {
     /**
      * Обработчик изменения инпута при нажатии на клавишу
      * @param e - событие изменения
      * @private
      */
-    const handleKeyDown = e => {
-      if (
-        multiSelect &&
-        e.key === 'Backspace' &&
-        selected.length &&
-        !e.target.value
-      ) {
-        const endElementOfSelect = selected[selected.length - 1];
-        onRemoveItem(endElementOfSelect);
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        if (!isExpanded) {
-          openPopUp(true);
-          setActiveValueId(
-            getFirstNotDisabledId(
-              options,
-              selected,
-              disabledValues,
-              valueFieldId
+    const handleKeyDown = (e) => {
+        if (
+            multiSelect &&
+            e.key === 'Backspace' &&
+            selected.length &&
+            !e.target.value
+        ) {
+            const endElementOfSelect = selected[selected.length - 1]
+
+            onRemoveItem(endElementOfSelect)
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            if (!isExpanded) {
+                openPopUp(true)
+                setActiveValueId(
+                    getFirstNotDisabledId(
+                        options,
+                        selected,
+                        disabledValues,
+                        valueFieldId,
+                    ),
+                )
+            } else if (activeValueId) {
+                setActiveValueId(
+                    getNextId(
+                        options,
+                        activeValueId,
+                        valueFieldId,
+                        selected,
+                        disabledValues,
+                    ),
+                )
+            } else {
+                setActiveValueId(
+                    getFirstNotDisabledId(
+                        options,
+                        selected,
+                        disabledValues,
+                        valueFieldId,
+                    ),
+                )
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            setActiveValueId(
+                getPrevId(
+                    options,
+                    activeValueId,
+                    valueFieldId,
+                    selected,
+                    disabledValues,
+                ),
             )
-          );
-        } else {
-          if (activeValueId) {
-            setActiveValueId(
-              getNextId(
-                options,
-                activeValueId,
-                valueFieldId,
-                selected,
-                disabledValues
-              )
-            );
-          } else {
-            setActiveValueId(
-              getFirstNotDisabledId(
-                options,
-                selected,
-                disabledValues,
-                valueFieldId
-              )
-            );
-          }
+        } else if (e.key === 'Enter') {
+            e.preventDefault()
+
+            const findEquals = find(options, item => (
+                String(item[labelFieldId]) === value &&
+                !selected.find(entity => isEqual(entity, item))
+            ))
+
+            if (mode === 'autocomplete') {
+                const newSelected = findEquals || value
+
+                onSelect(newSelected)
+                setActiveValueId(null)
+            } else if (!isEmpty(findEquals)) {
+                onSelect(findEquals)
+                setActiveValueId(null)
+            }
+        } else if (e.key === 'Escape') {
+            closePopUp(false)
         }
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setActiveValueId(
-          getPrevId(
-            options,
-            activeValueId,
-            valueFieldId,
-            selected,
-            disabledValues
-          )
-        );
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-
-        const findEquals = find(
-          options,
-          item => item[valueFieldId] === activeValueId
-        );
-
-        const newValue =
-          mode === 'autocomplete' ? findEquals || value : findEquals;
-
-        if (newValue) {
-          this.onSelect(newValue);
-          setActiveValueId(null);
-        }
-      } else if (e.key === 'Escape') {
-        closePopUp(false);
-      }
-    };
+    }
 
     const handleClick = ({ target }) => {
-      target.select();
-      onClick && onClick();
-    };
+        target.select()
+        if (onClick) {
+            onClick()
+        }
+    }
 
     /**
      * Обработчик изменения инпута
@@ -174,102 +159,107 @@ class InputContent extends React.Component {
      * @private
      */
 
-    const handleInputChange = e => {
-      onInputChange(e.target.value);
+    const handleInputChange = (e) => {
+        onInputChange(e.target.value)
 
-      if (tags) {
-        setActiveValueId(null);
-      }
-    };
+        if (tags) {
+            setActiveValueId(null)
+        }
+    }
 
-    const getPlaceholder = selected.length > 0 ? '' : placeholder;
+    const getPlaceholder = selected.length > 0 ? '' : placeholder
 
     return (
-      <React.Fragment>
-        {multiSelect ? (
-          <React.Fragment>
-            <SelectedItems
-              selected={selected}
-              labelFieldId={labelFieldId}
-              onRemoveItem={onRemoveItem}
-              onDeleteAll={clearSelected}
-              disabled={disabled}
-              collapseSelected={collapseSelected}
-              lengthToGroup={lengthToGroup}
-              maxTagTextLength={maxTagTextLength}
-            />
-            <textarea
-              onKeyDown={handleKeyDown}
-              ref={setRef}
-              placeholder={getPlaceholder}
-              disabled={disabled}
-              value={value}
-              onChange={handleInputChange}
-              onClick={handleClick}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              className={cn('form-control n2o-inp', {
-                'n2o-inp--multi': multiSelect,
-              })}
-              autoFocus={autoFocus}
-            />
-          </React.Fragment>
-        ) : (
-          <input
-            onKeyDown={handleKeyDown}
-            ref={setRef}
-            placeholder={getPlaceholder}
-            disabled={disabled}
-            value={value}
-            onChange={handleInputChange}
-            onClick={handleClick}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            type="text"
-            className="form-control n2o-inp"
-            autoFocus={autoFocus}
-          />
-        )}
-      </React.Fragment>
-    );
-  }
+        <>
+            {multiSelect ? (
+                <>
+                    <SelectedItems
+                        selected={selected}
+                        labelFieldId={labelFieldId}
+                        onRemoveItem={onRemoveItem}
+                        onDeleteAll={clearSelected}
+                        disabled={disabled}
+                        collapseSelected={collapseSelected}
+                        lengthToGroup={lengthToGroup}
+                        maxTagTextLength={maxTagTextLength}
+                    />
+                    <textarea
+                        onKeyDown={handleKeyDown}
+                        ref={setRef}
+                        placeholder={getPlaceholder}
+                        disabled={disabled}
+                        value={value}
+                        title={value}
+                        onChange={handleInputChange}
+                        onClick={handleClick}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                        className={cn('form-control n2o-inp', {
+                            'n2o-inp--multi': multiSelect,
+                        })}
+                        /* eslint-disable-next-line jsx-a11y/no-autofocus */
+                        autoFocus={autoFocus}
+                    />
+                </>
+            ) : (
+                <input
+                    onKeyDown={handleKeyDown}
+                    ref={setRef}
+                    placeholder={getPlaceholder}
+                    disabled={disabled}
+                    title={value}
+                    value={value}
+                    onChange={handleInputChange}
+                    onClick={handleClick}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    type="text"
+                    className="form-control n2o-inp"
+                    /* eslint-disable-next-line jsx-a11y/no-autofocus */
+                    autoFocus={autoFocus}
+                    autoComplete="nope"
+                />
+            )}
+        </>
+    )
 }
 
 InputContent.propTypes = {
-  isExpanded: PropTypes.bool,
-  disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  placeholder: PropTypes.string,
-  onInputChange: PropTypes.func,
-  selected: PropTypes.array,
-  labelFieldId: PropTypes.string,
-  onRemoveItem: PropTypes.func,
-  clearSelected: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  inputFocus: PropTypes.node,
-  multiSelect: PropTypes.bool,
-  collapseSelected: PropTypes.bool,
-  lengthToGroup: PropTypes.number,
-  openPopUp: PropTypes.func,
-  closePopUp: PropTypes.func,
-  activeValueId: PropTypes.string,
-  setActiveValueId: PropTypes.func,
-  disabledValues: PropTypes.array,
-  options: PropTypes.object,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  isSelected: PropTypes.bool,
-  valueFieldId: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  maxTagTextLength: PropTypes.number,
-};
+    isExpanded: PropTypes.bool,
+    disabled: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    placeholder: PropTypes.string,
+    onInputChange: PropTypes.func,
+    selected: PropTypes.array,
+    labelFieldId: PropTypes.string,
+    onRemoveItem: PropTypes.func,
+    clearSelected: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    multiSelect: PropTypes.bool,
+    collapseSelected: PropTypes.bool,
+    lengthToGroup: PropTypes.number,
+    openPopUp: PropTypes.func,
+    closePopUp: PropTypes.func,
+    activeValueId: PropTypes.string,
+    setActiveValueId: PropTypes.func,
+    disabledValues: PropTypes.array,
+    options: PropTypes.object,
+    onSelect: PropTypes.func,
+    onClick: PropTypes.func,
+    valueFieldId: PropTypes.string,
+    autoFocus: PropTypes.bool,
+    maxTagTextLength: PropTypes.number,
+    setRef: PropTypes.func,
+    tags: PropTypes.any,
+    mode: PropTypes.string,
+}
 
 InputContent.defaultProps = {
-  multiSelect: false,
-  disabled: false,
-  collapseSelected: true,
-  autoFocus: false,
-};
+    multiSelect: false,
+    disabled: false,
+    collapseSelected: true,
+    autoFocus: false,
+}
 
-export default InputContent;
+export default InputContent

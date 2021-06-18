@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import { withTranslation } from 'react-i18next';
+import React, { PureComponent } from 'react'
+import { withTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
-class Page404 extends Component {
-  render() {
-    return <h1>{this.props.t('pageNotFound')}</h1>;
-  }
+class Page404 extends PureComponent {
+    render() {
+        const { t } = this.props
+
+        return <h1>{t('pageNotFound')}</h1>
+    }
 }
 
-Page404.propTypes = {};
-Page404.defaultProps = {};
+Page404.propTypes = {
+    t: PropTypes.func,
+}
+Page404.defaultProps = {}
 
-export default withTranslation()(Page404);
+export default withTranslation()(Page404)

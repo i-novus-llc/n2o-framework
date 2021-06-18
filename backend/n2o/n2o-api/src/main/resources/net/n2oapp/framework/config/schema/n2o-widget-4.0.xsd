@@ -1141,6 +1141,11 @@
                         <xs:documentation>Запускать фильтрацию по мере ввода.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="default-values-query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор запроса значений по умолчанию для фильтров.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

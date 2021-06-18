@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 /**
  * Описание поля
  * @param {object} props - пропсы
@@ -8,15 +8,15 @@ import PropTypes from 'prop-types';
  * <Description value='Введите номер телефона'/>
  */
 
-const descriptionStyle = { fontSize: '0.8em' };
+const descriptionStyle = { fontSize: '0.8em' }
 const Description = ({ value, ...props }) => (
-  <div {...props} style={descriptionStyle}>
-    {value}
-  </div>
-);
+    <div {...props} style={descriptionStyle}>
+        {value}
+    </div>
+)
 
 Description.propTypes = {
-  value: PropTypes.string,
-};
+    value: PropTypes.string,
+}
 
-export default Description;
+export default Description

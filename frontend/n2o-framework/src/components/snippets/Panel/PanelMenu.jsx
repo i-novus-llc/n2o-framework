@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import TabNav from '../../regions/Tabs/TabNav';
-import PanelNavItem from './PanelNavItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+
+import { TabNav } from '../../regions/Tabs/TabNav'
+
+import { PanelNavItem } from './PanelNavItem'
 
 /**
  * Компонент меню для {@link Panel}
@@ -16,56 +18,56 @@ import PanelNavItem from './PanelNavItem';
  */
 
 function PanelMenu({
-  children,
-  collapsible,
-  onToggle,
-  fullScreen,
-  onFullScreenClick,
-  isOpen,
-  fullScreenIcon,
+    children,
+    collapsible,
+    onToggle,
+    fullScreen,
+    onFullScreenClick,
+    isOpen,
+    fullScreenIcon,
 }) {
-  return (
-    <div className="panel-block-flex">
-      <TabNav className="panel-block-flex panel-tab-nav">
-        {collapsible && (
-          <PanelNavItem
-            onClick={onToggle}
-            className={cn('collapse-toggle', {
-              'collapse-toggle--up': !isOpen,
-            })}
-            isToolBar={false}
-          >
-            <i className="fa fa-angle-down" aria-hidden={true} />
-          </PanelNavItem>
-        )}
-        {fullScreen && (
-          <PanelNavItem
-            onClick={onFullScreenClick}
-            className="fullscreen-toggle"
-            isToolBar={false}
-          >
-            <i className={cn('fa', fullScreenIcon)} aria-hidden={true} />
-          </PanelNavItem>
-        )}
-        {children}
-      </TabNav>
-    </div>
-  );
+    return (
+        <div className="panel-block-flex">
+            <TabNav className="panel-block-flex panel-tab-nav">
+                {collapsible && (
+                    <PanelNavItem
+                        onClick={onToggle}
+                        className={classNames('collapse-toggle', {
+                            'collapse-toggle--up': !isOpen,
+                        })}
+                        isToolBar={false}
+                    >
+                        <i className="fa fa-angle-down" aria-hidden />
+                    </PanelNavItem>
+                )}
+                {fullScreen && (
+                    <PanelNavItem
+                        onClick={onFullScreenClick}
+                        className="fullscreen-toggle"
+                        isToolBar={false}
+                    >
+                        <i className={classNames('fa', fullScreenIcon)} aria-hidden />
+                    </PanelNavItem>
+                )}
+                {children}
+            </TabNav>
+        </div>
+    )
 }
 
 PanelMenu.propTypes = {
-  fullScreen: PropTypes.bool,
-  onFullScreenClick: PropTypes.func,
-  fullScreenIcon: PropTypes.string,
-  children: PropTypes.node,
-  collapsible: PropTypes.bool,
-  onToggle: PropTypes.func,
-  isOpen: PropTypes.bool,
-};
+    fullScreen: PropTypes.bool,
+    onFullScreenClick: PropTypes.func,
+    fullScreenIcon: PropTypes.string,
+    children: PropTypes.node,
+    collapsible: PropTypes.bool,
+    onToggle: PropTypes.func,
+    isOpen: PropTypes.bool,
+}
 
 PanelMenu.defaultProps = {
-  fullScreen: false,
-  collapsible: false,
-};
+    fullScreen: false,
+    collapsible: false,
+}
 
-export default PanelMenu;
+export default PanelMenu

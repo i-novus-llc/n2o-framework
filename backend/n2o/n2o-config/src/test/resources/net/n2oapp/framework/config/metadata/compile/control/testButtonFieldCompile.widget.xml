@@ -16,7 +16,7 @@
         <button id="btn2" action-id="act1" label="edit" icon="fa fa-pencil" type="icon"/>
         <button id="btn3" label="load" icon="fa fa-download"/>
         <button id="btn4">
-            <show-modal page-id="test" route="test2/:param1/:param2?param3=:param3">
+            <show-modal page-id="test" route="/test2/:param1/:param2?param3=:param3">
                 <path-param name="param1" value="{field1}"/>
                 <path-param name="param2" value="1"/>
                 <query-param name="param3" value="{field3}"/>

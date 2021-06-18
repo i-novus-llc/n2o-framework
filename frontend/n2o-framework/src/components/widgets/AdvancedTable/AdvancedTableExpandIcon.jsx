@@ -1,7 +1,7 @@
-import React from 'react';
-import { compose, withHandlers, pure } from 'recompose';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
+import React from 'react'
+import { compose, withHandlers, pure } from 'recompose'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 /**
  * Компонент кнопки открытия подстроки
@@ -14,48 +14,50 @@ import cn from 'classnames';
  * @constructor
  */
 function AdvancedTableExpandIcon({
-  record,
-  expanded,
-  onExpand,
-  expandedFieldId,
-  expandedComponent,
+    record,
+    expanded,
+    onExpand,
+    expandedFieldId,
+    expandedComponent,
 }) {
-  return (
-    <span
-      className={cn({
-        'n2o-advanced-table-expand':
-          record.children || record[expandedFieldId] || expandedComponent,
-      })}
-      onClick={onExpand}
-    >
-      {(record[expandedFieldId] || record.children || expandedComponent) && (
-        <i
-          className={cn('fa', 'n2o-advanced-table-expand-icon', {
-            'n2o-advanced-table-expand-icon-expanded': expanded,
-            'fa-angle-right': !expanded,
-            'fa-angle-down': expanded,
-          })}
-        />
-      )}
-    </span>
-  );
+    return (
+        <span
+            className={classNames({
+                'n2o-advanced-table-expand': record.children || record[expandedFieldId] || expandedComponent,
+            })}
+            onClick={onExpand}
+        >
+            {(record[expandedFieldId] || record.children || expandedComponent) && (
+                <i
+                    className={classNames('fa', 'n2o-advanced-table-expand-icon', {
+                        'n2o-advanced-table-expand-icon-expanded': expanded,
+                        'fa-angle-right': !expanded,
+                        'fa-angle-down': expanded,
+                    })}
+                />
+            )}
+        </span>
+    )
 }
 
 AdvancedTableExpandIcon.propTypes = {
-  record: PropTypes.object,
-  expanded: PropTypes.bool,
-  onExpand: PropTypes.func,
-};
+    expandedFieldId: PropTypes.string,
+    expandedComponent: PropTypes.any,
+    record: PropTypes.object,
+    expanded: PropTypes.bool,
+    onExpand: PropTypes.func,
+}
 
 AdvancedTableExpandIcon.defaultProps = {
-  record: {},
-};
+    record: {},
+}
 
 const enhance = compose(
-  withHandlers({
-    onExpand: ({ onExpand, record }) => e => onExpand(record, e),
-  }),
-  pure
-);
-export { AdvancedTableExpandIcon };
-export default enhance(AdvancedTableExpandIcon);
+    withHandlers({
+        onExpand: ({ onExpand, record }) => e => onExpand(record, e),
+    }),
+    pure,
+)
+
+export { AdvancedTableExpandIcon }
+export default enhance(AdvancedTableExpandIcon)

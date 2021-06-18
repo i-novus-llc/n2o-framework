@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import uniqueId from 'lodash/uniqueId';
-import isString from 'lodash/isString';
-import map from 'lodash/map';
-import withTooltip from '../../withTooltip';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import uniqueId from 'lodash/uniqueId'
+import isString from 'lodash/isString'
+import map from 'lodash/map'
+
+import withTooltip from '../../withTooltip'
 
 /**
  * CollapsedCell
@@ -15,95 +16,97 @@ import withTooltip from '../../withTooltip';
  */
 
 class CollapsedCell extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collapsed: true,
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            collapsed: true,
+        }
 
-    this._changeVisibility = this._changeVisibility.bind(this);
-  }
+        this.changeVisibility = this.changeVisibility.bind(this)
+    }
 
-  _changeVisibility(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    this.setState(prevState => {
-      return { collapsed: !prevState.collapsed };
-    });
-  }
+    changeVisibility(e) {
+        e.stopPropagation()
+        e.preventDefault()
+        this.setState(prevState => ({ collapsed: !prevState.collapsed }))
+    }
 
-  render() {
-    const {
-      model,
-      fieldKey,
-      color,
-      amountToGroup,
-      labelFieldId,
-      visible,
-    } = this.props;
+    render() {
+        const {
+            model,
+            fieldKey,
+            color,
+            amountToGroup,
+            labelFieldId,
+            visible,
+        } = this.props
+        const { collapsed } = this.state
 
-    const data = model[fieldKey] || [];
-    const items = this.state.collapsed ? data.slice(0, amountToGroup) : data;
-    const isButtonNeeded = data.length > amountToGroup;
-    const buttonTitle = this.state.collapsed ? 'еще' : 'скрыть';
-    const labelClasses = cx('badge', `badge-${color}`);
+        const data = model[fieldKey] || []
+        const items = collapsed ? data.slice(0, amountToGroup) : data
+        const isButtonNeeded = data.length > amountToGroup
+        const buttonTitle = collapsed ? 'еще' : 'скрыть'
+        const labelClasses = classNames('badge', `badge-${color}`)
 
-    return (
-      visible && (
-        <React.Fragment>
-          {map(items, item => (
-            <React.Fragment key={uniqueId('collapsed-cell')}>
-              <span className={labelClasses}>
-                {isString(item) ? item : item[labelFieldId]}
-              </span>{' '}
-            </React.Fragment>
-          ))}
-          {isButtonNeeded && (
-            <a
-              href="#"
-              onClick={this._changeVisibility}
-              className="collapsed-cell-control"
-            >
-              {buttonTitle}
-            </a>
-          )}
-        </React.Fragment>
-      )
-    );
-  }
+        return (
+            visible && (
+                <>
+                    {map(items, item => (
+                        <React.Fragment key={uniqueId('collapsed-cell')}>
+                            <span className={labelClasses}>
+                                {isString(item) ? item : item[labelFieldId]}
+                            </span>
+                            {' '}
+                        </React.Fragment>
+                    ))}
+                    {isButtonNeeded && (
+
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                        <a
+                            href="#"
+                            onClick={this.changeVisibility}
+                            className="collapsed-cell-control"
+                        >
+                            {buttonTitle}
+                        </a>
+                    )}
+                </>
+            )
+        )
+    }
 }
 
 CollapsedCell.propTypes = {
-  /**
+    /**
    * Модель даных
    */
-  model: PropTypes.object.isRequired,
-  /**
+    model: PropTypes.object.isRequired,
+    /**
    * Ключ значения из модели
    */
-  fieldKey: PropTypes.string.isRequired,
-  /**
+    fieldKey: PropTypes.string.isRequired,
+    /**
    * Цвет
    */
-  color: PropTypes.string,
-  /**
+    color: PropTypes.string,
+    /**
    * Количество элементов для группировки
    */
-  amountToGroup: PropTypes.number,
-  /**
+    amountToGroup: PropTypes.number,
+    /**
    * Ключ label из модели
    */
-  labelFieldId: PropTypes.string,
-  /**
+    labelFieldId: PropTypes.string,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-};
+    visible: PropTypes.bool,
+}
 
 CollapsedCell.defaultProps = {
-  amountToGroup: 3,
-  color: 'secondary',
-  visible: true,
-};
+    amountToGroup: 3,
+    color: 'secondary',
+    visible: true,
+}
 
-export default withTooltip(CollapsedCell);
+export default withTooltip(CollapsedCell)

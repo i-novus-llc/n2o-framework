@@ -61,12 +61,27 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
+    public void titleShouldHaveText(String title) {
+
+    }
+
+    @Override
     public void scrollUp() {
 
     }
 
     @Override
     public void scrollDown() {
+
+    }
+
+    @Override
+    public void shouldHaveCssClass(String classname) {
+
+    }
+
+    @Override
+    public void shouldHaveStyle(String style) {
 
     }
 }

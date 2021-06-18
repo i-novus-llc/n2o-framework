@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.test;
 
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.pack.N2oOperationsPack;
@@ -32,6 +33,7 @@ public abstract class N2oTestBase {
         Locale locale = new Locale("ru");
         LocaleContextHolder.setLocale(locale);
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
+        ScriptProcessor.getScriptEngine();
 
         OverrideProperties n2oProperties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         OverrideProperties appProperties = PropertiesReader.getPropertiesFromClasspath("application.properties");

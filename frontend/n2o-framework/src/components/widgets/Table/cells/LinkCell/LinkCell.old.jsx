@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import get from 'lodash/get';
-import Button from 'reactstrap/lib/Button';
-import { compose, setDisplayName } from 'recompose';
-import withCell from '../../withCell';
-import { Link } from 'react-router-dom';
-import { LinkType } from '../../../../../impl/linkTypes';
-import { LinkCellType } from './linkCellTypes';
-import Toolbar from '../../../../buttons/Toolbar';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import get from 'lodash/get'
+import Button from 'reactstrap/lib/Button'
+import { compose, setDisplayName } from 'recompose'
+import { Link } from 'react-router-dom'
+
+import withCell from '../../withCell'
+import { LinkType } from '../../../../../impl/linkTypes'
+
+import { LinkCellType } from './linkCellTypes'
 
 /**
  * Компонент LinkCell
@@ -30,113 +31,111 @@ import Toolbar from '../../../../buttons/Toolbar';
  * @constructor
  */
 function LinkCell({
-  id,
-  fieldKey,
-  className,
-  style,
-  model,
-  callActionImpl,
-  icon,
-  type,
-  url,
-  target,
-  visible,
-  ...rest
-}) {
-  const props = {
+    id,
+    fieldKey,
+    className,
     style,
-    className: cn('n2o-link-cell', 'p-0', { [className]: className }),
-  };
+    model,
+    callActionImpl,
+    icon,
+    type,
+    url,
+    target,
+    visible,
+    // eslint-disable-next-line no-unused-vars
+    ...rest
+}) {
+    const props = {
+        style,
+        className: cn('n2o-link-cell', 'p-0', { [className]: className }),
+    }
 
-  const handleClick = e => {
-    callActionImpl(e, {});
-  };
+    const handleClick = (e) => {
+        callActionImpl(e, {})
+    }
 
-  const getLinkContent = () => {
-    return (
-      <React.Fragment>
-        {icon &&
-          (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) && (
-            <i style={{ marginRight: 5 }} className={icon} />
-          )}
-        {(type === LinkCellType.ICONANDTEXT || type === LinkCellType.TEXT) &&
+    const getLinkContent = () => (
+        <>
+            {icon &&
+          (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) &&
+                (<i style={{ marginRight: 5 }} className={icon} />)}
+            {(type === LinkCellType.ICONANDTEXT || type === LinkCellType.TEXT) &&
           get(model, fieldKey || id)}
-      </React.Fragment>
-    );
-  };
+        </>
+    )
 
-  return (
-    visible &&
+    return (
+        visible &&
     (url ? (
-      <React.Fragment>
-        {target === LinkType.APPLICATION && (
-          <Link to={url} {...props} onClick={handleClick}>
-            {getLinkContent()}
-          </Link>
-        )}
-        {(target === LinkType.SELF || target === LinkType.BLANK) && (
-          <a
-            onClick={e => e.stopPropagation()}
-            href={url}
-            target={target === LinkType.BLANK ? '_blank' : ''}
-            {...props}
-          >
-            {getLinkContent()}
-          </a>
-        )}
-      </React.Fragment>
+        <>
+            {target === LinkType.APPLICATION && (
+                <Link to={url} {...props} onClick={handleClick}>
+                    {getLinkContent()}
+                </Link>
+            )}
+            {(target === LinkType.SELF || target === LinkType.BLANK) && (
+                <a
+                    onClick={e => e.stopPropagation()}
+                    href={url}
+                    target={target === LinkType.BLANK ? '_blank' : ''}
+                    {...props}
+                >
+                    {getLinkContent()}
+                </a>
+            )}
+        </>
     ) : (
-      <Button color="link" onClick={handleClick} {...props}>
-        {getLinkContent()}
-      </Button>
+        <Button color="link" onClick={handleClick} {...props}>
+            {getLinkContent()}
+        </Button>
     ))
-  );
+    )
 }
 
 LinkCell.propTypes = {
-  /**
+    /**
    * Иконка
    */
-  icon: PropTypes.string,
-  /**
+    icon: PropTypes.string,
+    /**
    * Тип ячейки
    */
-  type: PropTypes.string,
-  /**
+    type: PropTypes.string,
+    /**
    * ID ячейки
    */
-  id: PropTypes.string,
-  /**
+    id: PropTypes.string,
+    /**
    * Ключ значения из модели
    */
-  fieldKey: PropTypes.string,
-  /**
+    fieldKey: PropTypes.string,
+    /**
    * Модель данных
    */
-  model: PropTypes.object,
-  /**
+    model: PropTypes.object,
+    /**
    * Флаг видимости
    */
-  visible: PropTypes.bool,
-  /**
+    visible: PropTypes.bool,
+    /**
    * При наличии этого параметра, в зависимости от
    * параметра target будет создана ссылка с соответствующим таргетом,
    * при отсутствии, компонент будет вызывать приходящий экшен
    */
-  url: PropTypes.string,
-  /**
+    url: PropTypes.string,
+    /**
    * Тип ссылки
    */
-  target: PropTypes.string,
-};
+    target: PropTypes.string,
+}
 
 LinkCell.defaultProps = {
-  type: LinkCellType.TEXT,
-  visible: true,
-};
+    type: LinkCellType.TEXT,
+    visible: true,
+}
 
-export { LinkCell };
+export { LinkCell }
 export default compose(
-  setDisplayName('LinkCell'),
-  withCell
-)(LinkCell);
+    setDisplayName('LinkCell'),
+    withCell,
+)(LinkCell)

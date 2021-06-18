@@ -1,5 +1,5 @@
 export const LinkType = {
-  SELF: 'self',
-  APPLICATION: 'application',
-  BLANK: '_blank',
-};
+    SELF: 'self',
+    APPLICATION: 'application',
+    BLANK: '_blank',
+}

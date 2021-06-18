@@ -1,29 +1,29 @@
-import isEqual from 'lodash/isEqual';
-import isArray from 'lodash/isArray';
-import isBoolean from 'lodash/isBoolean';
-import isFunction from 'lodash/isFunction';
-import each from 'lodash/each';
-import isEmpty from 'lodash/isEmpty';
-import find from 'lodash/find';
-import pickBy from 'lodash/pickBy';
-import get from 'lodash/get';
-import compact from 'lodash/compact';
-import map from 'lodash/map';
-import has from 'lodash/has';
-import some from 'lodash/some';
-import { batchActions } from 'redux-batched-actions';
+import isEqual from 'lodash/isEqual'
+import isArray from 'lodash/isArray'
+import isBoolean from 'lodash/isBoolean'
+import isFunction from 'lodash/isFunction'
+import each from 'lodash/each'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
+import pickBy from 'lodash/pickBy'
+import get from 'lodash/get'
+import compact from 'lodash/compact'
+import map from 'lodash/map'
+import has from 'lodash/has'
+import flatten from 'lodash/flatten'
+import { batchActions } from 'redux-batched-actions'
 
-import { isPromise } from '../../tools/helpers';
-import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
+import { isPromise } from '../../tools/helpers'
+import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin'
 
-import * as presets from './presets';
+import * as presets from './presets'
 
 function findPriorityMessage(messages) {
-  return (
-    find(messages, { severity: 'danger' }) ||
-    find(messages, { severity: 'warning' }) ||
-    find(messages, { severity: 'success' })
-  );
+    return (
+        find(messages, { severity: 'danger' }) ||
+        find(messages, { severity: 'warning' }) ||
+        find(messages, { severity: 'success' })
+    )
 }
 
 /**
@@ -32,47 +32,33 @@ function findPriorityMessage(messages) {
  * @returns {*}
  */
 function hasError(messages) {
-  return [].concat
-    .apply([], Object.values(messages))
-    .reduce((res, msg) => msg.severity === 'danger' || res, false);
+    return flatten(Object.values(messages)).reduce((res, msg) => msg.severity === 'danger' || res, false)
 }
 
 function addError(
-  fieldId,
-  { text = true, severity = true },
-  options = {},
-  errors
+    fieldId,
+    { text = true, severity = true },
+    options = {},
+    errors,
 ) {
-  if (!errors[fieldId]) {
-    errors[fieldId] = [];
-  }
+    if (!errors[fieldId]) {
+        errors[fieldId] = []
+    }
 
-  errors[fieldId].push({});
-  const last = errors[fieldId].length - 1;
+    errors[fieldId].push({
+        text: isBoolean(text) ? options.text : text,
+        severity: isBoolean(severity) ? options.severity : severity,
+    })
 
-  if (isBoolean(text)) {
-    errors[fieldId][last].text = options.text;
-  } else {
-    errors[fieldId][last].text = text;
-  }
-
-  if (isBoolean(severity)) {
-    errors[fieldId][last].severity = options.severity;
-  } else {
-    errors[fieldId][last].severity = severity;
-  }
-
-  return errors;
+    return errors
 }
 
 function getMultiFields(registeredFields, fieldId) {
-  const regExp = new RegExp(`${fieldId}(\\[.*]).*$`);
+    const regExp = new RegExp(`${fieldId}(\\[.*]).*$`)
 
-  return compact(
-    map(registeredFields, (field, fieldId) =>
-      regExp.test(fieldId) ? fieldId : null
+    return compact(
+        map(registeredFields, (field, fieldId) => (regExp.test(fieldId) ? fieldId : null)),
     )
-  );
 }
 
 /**
@@ -84,106 +70,130 @@ function getMultiFields(registeredFields, fieldId) {
  * @returns
  */
 export const validateField = (
-  validationConfig,
-  formName,
-  state,
-  isTouched = false
+    validationConfig,
+    formName,
+    state,
+    isTouched = false,
+) => (values, dispatch) => validate(validationConfig, formName, state, isTouched, values, dispatch)
+
+export const getStoreValidator = (
+    validationConfig,
+    formName,
+    store,
 ) => (values, dispatch) => {
-  const registeredFields = get(state, ['form', formName, 'registeredFields']);
-  const validation = pickBy(validationConfig, (value, key) =>
-    get(registeredFields, `${key}.visible`, true)
-  );
-  const errors = {};
-  const promiseList = [Promise.resolve()];
+    const state = store ? store.getState() : {}
+    const stateValues = get(state, ['form', formName, 'values'])
 
-  each(validation, (validationList, fieldId) => {
-    if (isArray(validationList)) {
-      each(validationList, options => {
-        const resolveValidationResult = (isValid, fieldId) => {
-          if (isPromise(isValid)) {
-            promiseList.push(
-              new Promise(resolve => {
-                isValid.then(
-                  resp => {
-                    each(resp && resp.message, message => {
-                      addError(fieldId, message, options, errors);
-                    });
-                    resolve();
-                  },
-                  () => {
-                    resolve();
-                  }
-                );
-              })
-            );
-          } else if (!isValid) {
-            addError(fieldId, {}, options, errors);
-          }
-        };
+    /*
+     * TODO: разобраться
+     * при изменении данных формы из кода
+     * в asyncChangeFields приходят не актуальный values
+     * поэтому данные берём из стора сами
+     */
+    return validate(validationConfig, formName, state, false, stateValues, dispatch)
+}
 
-        const validationFunction = presets[options.type];
+function validate(
+    validationConfig,
+    formName,
+    state,
+    isTouched = false,
+    values,
+    dispatch,
+) {
+    const registeredFields = get(state, ['form', formName, 'registeredFields'])
+    const validation = pickBy(validationConfig, (value, key) => get(registeredFields, `${key}.visible`, true))
+    const errors = {}
+    const promiseList = [Promise.resolve()]
 
-        if (options.multi) {
-          const multiFields = getMultiFields(registeredFields, fieldId);
+    each(validation, (validationList, fieldId) => {
+        if (isArray(validationList)) {
+            each(validationList, (options) => {
+                const resolveValidationResult = (isValid, fieldId) => {
+                    if (isPromise(isValid)) {
+                        promiseList.push(
+                            new Promise((resolve) => {
+                                isValid.then(
+                                    (resp) => {
+                                        each(resp && resp.message, (message) => {
+                                            addError(fieldId, message, options, errors)
+                                        })
+                                        resolve()
+                                    },
+                                    () => {
+                                        resolve()
+                                    },
+                                )
+                            }),
+                        )
+                    } else if (!isValid) {
+                        addError(fieldId, {}, options, errors)
+                    }
+                }
 
-          map(multiFields, fieldId => {
-            const isValid =
-              isFunction(validationFunction) &&
-              validationFunction(fieldId, values, options, dispatch);
+                const validationFunction = presets[options.type]
 
-            resolveValidationResult(isValid, fieldId);
-          });
-        } else {
-          const isValid =
-            isFunction(validationFunction) &&
-            validationFunction(fieldId, values, options, dispatch);
+                if (options.multi) {
+                    const multiFields = getMultiFields(registeredFields, fieldId)
 
-          resolveValidationResult(isValid, fieldId);
+                    map(multiFields, (fieldId) => {
+                        const isValid = isFunction(validationFunction) &&
+                            validationFunction(fieldId, values, options, dispatch)
+
+                        resolveValidationResult(isValid, fieldId)
+                    })
+                } else {
+                    const isValid = isFunction(validationFunction) &&
+                        validationFunction(fieldId, values, options, dispatch)
+
+                    resolveValidationResult(isValid, fieldId)
+                }
+            })
         }
-      });
-    }
-  });
+    })
 
-  return Promise.all(promiseList).then(() => {
-    const messagesAction = map(errors, (messages, fieldId) => {
-      if (!isEmpty(messages)) {
-        const message = findPriorityMessage(messages);
-        const nowTouched = get(registeredFields, [fieldId, 'touched']);
+    return Promise.all(promiseList).then(() => {
+        // eslint-disable-next-line consistent-return
+        const messagesAction = map(errors, (messages, fieldId) => {
+            if (!isEmpty(messages)) {
+                const message = findPriorityMessage(messages)
+                const nowTouched = get(registeredFields, [fieldId, 'touched'])
 
-        if (
-          (isTouched && !nowTouched) ||
-          !isEqual(message, get(registeredFields, [fieldId, 'message']))
-        ) {
-          return addFieldMessage(formName, fieldId, message, isTouched);
+                if (
+                    (isTouched && !nowTouched) ||
+                    !isEqual(message, get(registeredFields, [fieldId, 'message']))
+                ) {
+                    return addFieldMessage(formName, fieldId, message, isTouched)
+                }
+            }
+        }).filter(Boolean)
+
+        each(registeredFields, (field, key) => {
+            const currentError = has(errors, key)
+            const errorInStore = field.message
+
+            if (!currentError && errorInStore) {
+                dispatch(removeFieldMessage(formName, key))
+            }
+        })
+
+        if (messagesAction) {
+            dispatch(batchActions(messagesAction))
         }
-      }
-    }).filter(Boolean);
 
-    each(registeredFields, (field, key) => {
-      const currentError = has(errors, key);
-      const errorInStore = field.message;
-
-      if (!currentError && errorInStore) {
-        dispatch(removeFieldMessage(formName, key));
-      }
-    });
-
-    if (messagesAction) {
-      dispatch(batchActions(messagesAction));
-    }
-
-    return hasError(errors);
-  });
-};
+        return hasError(errors)
+    })
+}
 
 export default function createValidator(
-  validationConfig = {},
-  formName,
-  state,
-  fields
+    validationConfig = {},
+    formName,
+    store,
+    fields,
 ) {
-  return {
-    asyncValidate: validateField(validationConfig, formName, state),
-    asyncBlurFields: fields || [],
-  };
+    return {
+        asyncValidate: getStoreValidator(validationConfig, formName, store),
+        asyncBlurFields: fields || [],
+        asyncChangeFields: fields || [],
+    }
 }

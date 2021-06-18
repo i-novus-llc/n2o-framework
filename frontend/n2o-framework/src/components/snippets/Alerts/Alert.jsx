@@ -1,13 +1,13 @@
-import React from 'react';
-import defaultTo from 'lodash/defaultTo';
-import isArray from 'lodash/isArray';
-import map from 'lodash/map';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withTranslation } from 'react-i18next';
+import React from 'react'
+import defaultTo from 'lodash/defaultTo'
+import isArray from 'lodash/isArray'
+import map from 'lodash/map'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { withTranslation } from 'react-i18next'
 
-import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
-import InlineSpinner from '../Spinner/InlineSpinner';
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
+import InlineSpinner from '../Spinner/InlineSpinner'
 /**
  * Компонент сообщения-алерта
  * @reactProps {string} label - лейбл алерта
@@ -29,213 +29,220 @@ import InlineSpinner from '../Spinner/InlineSpinner';
  *             text={this.text} />
  */
 class Alert extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      detailsVisible: false,
-    };
-    this.toggleDetails = this.toggleDetails.bind(this);
-    this.renderAlert = this.renderAlert.bind(this);
-    this.renderDefaultAlert = this.renderDefaultAlert.bind(this);
-    this.renderLoaderAlert = this.renderLoaderAlert.bind(this);
-  }
-
-  /**
-   * скрытие / показ деталей
-   */
-  toggleDetails() {
-    this.setState({
-      detailsVisible: !this.state.detailsVisible,
-    });
-  }
-
-  renderAlert() {
-    const { loader } = this.props;
-    if (loader) {
-      return this.renderLoaderAlert();
-    } else {
-      return this.renderDefaultAlert();
-    }
-  }
-
-  renderLoaderAlert() {
-    const { severity, className, style, text, animate, t } = this.props;
-
-    return (
-      <div
-        className={classNames(
-          'n2o-alert',
-          'n2o-alert-loader',
-          'alert',
-          'n2o-snippet',
-          className,
-          {
-            [`alert-${severity}`]: severity,
-            'n2o-alert--animated': animate,
-          }
-        )}
-        style={style}
-      >
-        <div className="n2o-alert-body-container">
-          <InlineSpinner />
-          {text || `${t('loading')}...`}
-        </div>
-      </div>
-    );
-  }
-
-  formatDetailes(details) {
-    if (isArray(details)) {
-      return map(details, d => (
-        <React.Fragment>
-          {d}
-          <br />
-        </React.Fragment>
-      ));
+    constructor(props) {
+        super(props)
+        this.state = {
+            detailsVisible: false,
+        }
+        this.toggleDetails = this.toggleDetails.bind(this)
+        this.renderAlert = this.renderAlert.bind(this)
+        this.renderDefaultAlert = this.renderDefaultAlert.bind(this)
+        this.renderLoaderAlert = this.renderLoaderAlert.bind(this)
     }
 
-    return details;
-  }
+    /**
+     * скрытие / показ деталей
+     */
+    toggleDetails() {
+        const { detailsVisible } = this.state
 
-  renderDefaultAlert() {
-    const {
-      label,
-      text,
-      severity,
-      closeButton,
-      className,
-      style,
-      icon,
-      details,
-      onDismiss,
-      help,
-      animate,
-      t,
-    } = this.props;
+        this.setState({
+            detailsVisible: !detailsVisible,
+        })
+    }
 
-    const { detailsVisible } = this.state;
+    renderAlert() {
+        const { loader } = this.props
 
-    return (
-      <div
-        className={classNames('n2o-alert', 'alert', className, {
-          [`alert-${severity}`]: severity,
-          'n2o-alert--animated': animate,
-        })}
-        style={style}
-      >
-        <div className="n2o-alert-help">
-          {help && <HelpPopover help={help} />}
-        </div>
-        <div className="n2o-alert-body-container">
-          {label && (
-            <div className="n2o-alert-header">
-              {icon && <i className={icon} />}
-              <h4>{label}</h4>
+        if (loader) {
+            return this.renderLoaderAlert()
+        }
+
+        return this.renderDefaultAlert()
+    }
+
+    renderLoaderAlert() {
+        const { severity, className, style, text, animate, t } = this.props
+
+        return (
+            <div
+                className={classNames(
+                    'n2o-alert',
+                    'n2o-alert-loader',
+                    'alert',
+                    'n2o-snippet',
+                    className,
+                    {
+                        [`alert-${severity}`]: severity,
+                        'n2o-alert--animated': animate,
+                    },
+                )}
+                style={style}
+            >
+                <div className="n2o-alert-body-container">
+                    <InlineSpinner />
+                    {text || `${t('loading')}...`}
+                </div>
             </div>
-          )}
-          <div className={'n2o-alert-body'}>
-            <div className="n2o-alert-body-text white-space-pre-line">
-              {text}
-            </div>
-            {details && (
-              <a
-                className="alert-link details-label"
-                onClick={this.toggleDetails}
-              >
-                {detailsVisible ? t('hide') : t('details')}
-              </a>
-            )}
-            {detailsVisible && (
-              <div className="details">{this.formatDetailes(details)}</div>
-            )}
-          </div>
-        </div>
-        <div className="n2o-alert-close-container">
-          {defaultTo(closeButton, true) && (
-            <button className="close n2o-alert-close" onClick={onDismiss}>
-              <span>×</span>
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  }
+        )
+    }
 
-  /**
-   * Базовый рендер
-   */
-  render() {
-    const { visible } = this.props;
-    return visible !== false && this.renderAlert();
-  }
+    formatDetailes = (details) => {
+        if (isArray(details)) {
+            return map(details, d => (
+                <>
+                    {d}
+                    <br />
+                </>
+            ))
+        }
+
+        return details
+    }
+
+    renderDefaultAlert() {
+        const {
+            label,
+            text,
+            severity,
+            closeButton,
+            className,
+            style,
+            icon,
+            details,
+            onDismiss,
+            help,
+            animate,
+            t,
+        } = this.props
+
+        const { detailsVisible } = this.state
+
+        return (
+            <div
+                className={classNames('n2o-alert', 'alert', className, {
+                    [`alert-${severity}`]: severity,
+                    'n2o-alert--animated': animate,
+                })}
+                style={style}
+            >
+                <div className="n2o-alert-help">
+                    {help && <HelpPopover help={help} />}
+                </div>
+                <div className="n2o-alert-body-container">
+                    {label && (
+                        <div className="n2o-alert-header">
+                            {icon && <i className={icon} />}
+                            <h4>{label}</h4>
+                        </div>
+                    )}
+                    <div className="n2o-alert-body">
+                        <div className="n2o-alert-body-text white-space-pre-line">
+                            {text}
+                        </div>
+                        {details && (
+                            <a
+                                className="alert-link details-label"
+                                onClick={this.toggleDetails}
+                            >
+                                {detailsVisible ? t('hide') : t('details')}
+                            </a>
+                        )}
+                        {detailsVisible && (
+                            <div className="details">{this.formatDetailes(details)}</div>
+                        )}
+                    </div>
+                </div>
+                <div className="n2o-alert-close-container">
+                    {defaultTo(closeButton, true) && (
+                        <button className="close n2o-alert-close" onClick={onDismiss} type="button">
+                            <span>×</span>
+                        </button>
+                    )}
+                </div>
+            </div>
+        )
+    }
+
+    /**
+     * Базовый рендер
+     */
+    render() {
+        const { visible } = this.props
+
+        return visible !== false && this.renderAlert()
+    }
 }
 
 Alert.defaultProps = {
-  text: '',
-  label: '',
-  severity: 'info',
-  details: '',
-  closeButton: true,
-  visible: true,
-  onDismiss: () => {},
-  position: 'relative',
-  animate: false,
-  t: () => {},
-};
+    text: '',
+    label: '',
+    severity: 'info',
+    details: '',
+    closeButton: true,
+    visible: true,
+    onDismiss: () => {},
+    position: 'relative',
+    animate: false,
+    t: () => {},
+}
 
 Alert.propTypes = {
-  /**
-   * Заголовок алерта
-   */
-  label: PropTypes.string,
-  /**
-   * Текст алерта
-   */
-  text: PropTypes.string,
-  /**
-   * Цвет алерта
-   */
-  severity: PropTypes.oneOf([['info', 'danger', 'warning', 'success']]),
-  /**
-   * Подробности алерта
-   */
-  details: PropTypes.string,
-  /**
-   * Флаг показа кнопки закрытия
-   */
-  closeButton: PropTypes.bool,
-  /**
-   * Callback на закрытие
-   */
-  onDismiss: PropTypes.func,
-  /**
-   * Класс алерта
-   */
-  className: PropTypes.string,
-  /**
-   * Стили
-   */
-  style: PropTypes.object,
-  /**
-   * Иконка рядом с заголовком
-   */
-  icon: PropTypes.string,
-  /**
-   * Видимость
-   */
-  visible: PropTypes.bool,
-  /**
-   * Позиционирование алерта
-   */
-  position: PropTypes.string,
-  /**
-   * Кнопка tooltip
-   */
-  help: PropTypes.string,
-  /**
-   * Флаг включения всплытия с анимацией
-   */
-  animate: PropTypes.bool,
-};
+    /**
+     * Заголовок алерта
+     */
+    label: PropTypes.string,
+    /**
+     * Текст алерта
+     */
+    text: PropTypes.string,
+    /**
+     * Цвет алерта
+     */
+    severity: PropTypes.oneOf([['info', 'danger', 'warning', 'success']]),
+    /**
+     * Подробности алерта
+     */
+    details: PropTypes.string,
+    /**
+     * Флаг показа кнопки закрытия
+     */
+    closeButton: PropTypes.bool,
+    /**
+     * Callback на закрытие
+     */
+    onDismiss: PropTypes.func,
+    /**
+     * Класс алерта
+     */
+    className: PropTypes.string,
+    /**
+     * Стили
+     */
+    style: PropTypes.object,
+    /**
+     * Иконка рядом с заголовком
+     */
+    icon: PropTypes.string,
+    /**
+     * Видимость
+     */
+    visible: PropTypes.bool,
+    /**
+     * Позиционирование алерта
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
+    position: PropTypes.string,
+    /**
+     * Кнопка tooltip
+     */
+    help: PropTypes.string,
+    /**
+     * Флаг включения всплытия с анимацией
+     */
+    animate: PropTypes.bool,
+    t: PropTypes.func,
+    loader: PropTypes.any,
+}
 
-export default withTranslation()(Alert);
+export default withTranslation()(Alert)

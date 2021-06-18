@@ -1,9 +1,5 @@
-import simple from './simple/simple';
-
-import SimpleHeaderContainer from './Header/SimpleHeader/SimpleHeaderContainer';
+import simple from './simple/simple'
 
 export default {
-  simple: simple,
-
-  SimpleHeaderContainer: SimpleHeaderContainer,
-};
+    simple,
+}

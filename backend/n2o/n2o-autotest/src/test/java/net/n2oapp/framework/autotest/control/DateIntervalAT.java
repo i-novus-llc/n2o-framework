@@ -48,6 +48,9 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldExists();
 
         dateInterval.shouldBeEmpty();
+        dateInterval.shouldBeCollapsed();
+        dateInterval.expand();
+        dateInterval.shouldBeExpanded();
         dateInterval.beginVal("12.02.2020");
         dateInterval.beginShouldHaveValue("12.02.2020");
         dateInterval.endVal("15.02.2020");
@@ -92,6 +95,9 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldExists();
 
         dateInterval.shouldBeEmpty();
+        dateInterval.shouldBeCollapsed();
+        dateInterval.expand();
+        dateInterval.shouldBeExpanded();
         dateInterval.beginVal("12/02/2020 08:20:15");
         dateInterval.beginShouldHaveValue("12/02/2020 08:20:15");
         dateInterval.endVal("15/02/2020 12:34:56");
@@ -109,6 +115,9 @@ public class DateIntervalAT extends AutoTestBase {
                 .control(DateInterval.class);
         dateInterval.shouldExists();
 
+        dateInterval.shouldBeCollapsed();
+        dateInterval.expand();
+        dateInterval.shouldBeExpanded();
         // проверка, что значения, выходящие за границы min/max, не вводятся
         dateInterval.beginVal("09.02.2020");
         dateInterval.beginShouldBeEmpty();

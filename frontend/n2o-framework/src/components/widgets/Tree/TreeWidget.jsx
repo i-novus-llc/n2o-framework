@@ -1,11 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import TreeContainer from './container/TreeContainer';
-import StandardWidget from '../StandardWidget';
-import Fieldsets from '../Form/fieldsets';
+import StandardWidget from '../StandardWidget'
+import { dependency } from '../../../core/dependency'
 
-import dependency from '../../../core/dependency';
+import TreeContainer from './container/TreeContainer'
 
 /**
  * Виджет таблица
@@ -27,111 +26,136 @@ import dependency from '../../../core/dependency';
  * @reactProps {array} table.cells
  */
 class TreeWidget extends React.Component {
-  /**
+    /**
    * Замена src на компонент
    */
-  getWidgetProps() {
-    const {
-      hasFocus,
-      hasSelect,
-      autoFocus,
-      rowClick,
-      childIcon,
-      multiselect,
-      showLine,
-      filter,
-      expandBtn,
-      bulkData,
-      parentFieldId,
-      valueFieldId,
-      labelFieldId,
-      iconFieldId,
-      imageFieldIdd,
-      badgeFieldId,
-      badgeColorFieldId,
-      hasCheckboxes,
-      draggable,
-      childrenFieldId,
-    } = this.props;
-    const { toolbar, actions, dataProvider, placeholder } = this.props;
-    const { resolveProps } = this.context;
-    return {
-      toolbar,
-      actions,
-      hasFocus,
-      hasSelect,
-      autoFocus,
-      placeholder,
-      dataProvider,
-      rowClick,
-      childIcon,
-      multiselect,
-      showLine,
-      filter,
-      expandBtn,
-      bulkData,
-      parentFieldId,
-      valueFieldId,
-      labelFieldId,
-      iconFieldId,
-      imageFieldIdd,
-      badgeFieldId,
-      badgeColorFieldId,
-      hasCheckboxes,
-      draggable,
-      childrenFieldId,
-    };
-  }
+    getWidgetProps() {
+        const {
+            hasFocus,
+            hasSelect,
+            autoFocus,
+            rowClick,
+            childIcon,
+            multiselect,
+            showLine,
+            filter,
+            expandBtn,
+            bulkData,
+            parentFieldId,
+            valueFieldId,
+            labelFieldId,
+            iconFieldId,
+            imageFieldIdd,
+            badgeFieldId,
+            badgeColorFieldId,
+            hasCheckboxes,
+            draggable,
+            childrenFieldId,
+        } = this.props
+        const { toolbar, actions, dataProvider, placeholder } = this.props
 
-  render() {
-    const {
-      id: widgetId,
-      toolbar,
-      disabled,
-      actions,
-      fetchOnInit,
-      pageId,
-      className,
-      style,
-    } = this.props;
-    return (
-      <StandardWidget
-        disabled={disabled}
-        widgetId={widgetId}
-        toolbar={toolbar}
-        actions={actions}
-        className={className}
-        style={style}
-      >
-        <TreeContainer
-          widgetId={widgetId}
-          pageId={pageId}
-          fetchOnInit={fetchOnInit}
-          {...this.getWidgetProps()}
-        />
-      </StandardWidget>
-    );
-  }
+        return {
+            toolbar,
+            actions,
+            hasFocus,
+            hasSelect,
+            autoFocus,
+            placeholder,
+            dataProvider,
+            rowClick,
+            childIcon,
+            multiselect,
+            showLine,
+            filter,
+            expandBtn,
+            bulkData,
+            parentFieldId,
+            valueFieldId,
+            labelFieldId,
+            iconFieldId,
+            imageFieldIdd,
+            badgeFieldId,
+            badgeColorFieldId,
+            hasCheckboxes,
+            draggable,
+            childrenFieldId,
+        }
+    }
+
+    render() {
+        const {
+            id: widgetId,
+            toolbar,
+            disabled,
+            actions,
+            fetchOnInit,
+            pageId,
+            className,
+            style,
+        } = this.props
+
+        return (
+            <StandardWidget
+                disabled={disabled}
+                widgetId={widgetId}
+                toolbar={toolbar}
+                actions={actions}
+                className={className}
+                style={style}
+            >
+                <TreeContainer
+                    widgetId={widgetId}
+                    pageId={pageId}
+                    fetchOnInit={fetchOnInit}
+                    {...this.getWidgetProps()}
+                />
+            </StandardWidget>
+        )
+    }
 }
 
 TreeWidget.defaultProps = {
-  toolbar: {},
-  filter: {},
-};
+    toolbar: {},
+    filter: {},
+}
 
 TreeWidget.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  containerId: PropTypes.string.isRequired,
-  pageId: PropTypes.string.isRequired,
-  widgetId: PropTypes.string,
-  actions: PropTypes.object,
-  toolbar: PropTypes.object,
-  dataProvider: PropTypes.object,
-};
+    className: PropTypes.string,
+    style: PropTypes.object,
+    containerId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    widgetId: PropTypes.string,
+    actions: PropTypes.object,
+    toolbar: PropTypes.object,
+    dataProvider: PropTypes.object,
+    hasFocus: PropTypes.bool,
+    hasSelect: PropTypes.bool,
+    autoFocus: PropTypes.any,
+    rowClick: PropTypes.func,
+    childIcon: PropTypes.string,
+    multiselect: PropTypes.bool,
+    showLine: PropTypes.bool,
+    filter: PropTypes.object,
+    expandBtn: PropTypes.bool,
+    bulkData: PropTypes.bool,
+    parentFieldId: PropTypes.string,
+    valueFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    iconFieldId: PropTypes.string,
+    imageFieldIdd: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    hasCheckboxes: PropTypes.bool,
+    draggable: PropTypes.bool,
+    childrenFieldId: PropTypes.string,
+    placeholder: PropTypes.string,
+    id: PropTypes.string,
+    disabled: PropTypes.bool,
+    fetchOnInit: PropTypes.bool,
+}
 
 TreeWidget.contextTypes = {
-  resolveProps: PropTypes.func,
-};
+    resolveProps: PropTypes.func,
+}
 
-export default dependency(TreeWidget);
+export default dependency(TreeWidget)

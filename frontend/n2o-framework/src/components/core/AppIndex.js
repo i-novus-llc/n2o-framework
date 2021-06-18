@@ -1,2 +1,3 @@
-import Application from './templates/AppWithSideBar';
-export default Application;
+import Application from './Application'
+
+export default Application

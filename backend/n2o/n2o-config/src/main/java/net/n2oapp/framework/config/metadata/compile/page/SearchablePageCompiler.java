@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -31,16 +32,15 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     @Override
     public SearchablePage compile(N2oSearchablePage source, PageContext context, CompileProcessor p) {
         SearchablePage page = new SearchablePage();
-        page.setSearchModelPrefix(ReduxModel.FILTER.getId());
-        page.setSearchWidgetId(source.getSearchBar().getSearchWidgetId());
         page.setSearchModelKey(source.getSearchBar().getSearchFilterId());
-
+        page.setSearchModelPrefix(ReduxModel.FILTER.getId());
         page.setSearchBar(compileSearchBar(source, p));
 
-        SearchBarScope searchBarScope = new SearchBarScope(page.getSearchWidgetId(), page.getSearchModelKey());
+        SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getSearchWidgetId(), page.getSearchModelKey());
         compilePage(source, page, context, p, source.getItems(), searchBarScope);
-        if (page.getSearchWidgetId() == null)
-            page.setSearchWidgetId(searchBarScope.getWidgetId());
+
+        page.setSearchWidgetId(CompileUtil.generateWidgetId(page.getId(),
+                p.cast(source.getSearchBar().getSearchWidgetId(), searchBarScope.getWidgetId())));
 
         compileSearchBarRoute(page, source.getSearchBar().getSearchParam());
         return page;
@@ -77,7 +77,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected String getPropertyPageSrc() {
+    protected String getSrcProperty() {
         return "n2o.api.page.searchable.src";
     }
 

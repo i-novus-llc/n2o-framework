@@ -1,6 +1,5 @@
-import NotFoundFactory from './NotFoundFactory';
+import { NotFoundFactory } from './NotFoundFactory'
 
-const actionResolver = (src, { actions = {} }) =>
-  actions[src] || NotFoundFactory;
+export const actionResolver = (src, { actions = {} }) => actions[src] || NotFoundFactory
 
-export default actionResolver;
+export default actionResolver

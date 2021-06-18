@@ -1,0 +1,27 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="test1"/>
+        <row>
+            <col>
+                <input-text id="test1"/>
+            </col>
+        </row>
+        <multi-set>
+            <field id="test1">
+                <!-- should be ignored -->
+                <dependencies>
+                    <requiring>true</requiring>
+                </dependencies>
+            </field>
+        </multi-set>
+        <line>
+            <set>
+                <row>
+                    <col>
+                        <input-text id="test1"/>
+                    </col>
+                </row>
+            </set>
+        </line>
+    </fields>
+</form>

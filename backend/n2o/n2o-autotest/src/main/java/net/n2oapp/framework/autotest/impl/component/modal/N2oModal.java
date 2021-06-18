@@ -53,14 +53,19 @@ public class N2oModal extends N2oComponent implements Modal {
     }
 
     @Override
-    public void clickBackdrop() {
-        int widthOffset = element().getSize().getWidth() / 2 + 10;
-        element().click(ClickOptions.usingDefaultMethod().offsetX(widthOffset));
+    public void close() {
+        element().$(".modal-header .close").click();
     }
 
     @Override
-    public void close() {
-        element().$(".modal-header .close").click();
+    public void closeByEsc() {
+        element().parent().parent().pressEscape();
+    }
+
+    @Override
+    public void clickBackdrop() {
+        int widthOffset = element().getSize().getWidth() / 2 + 10;
+        element().click(ClickOptions.usingDefaultMethod().offsetX(widthOffset));
     }
 
     public class N2oModalToolbar implements ModalToolbar {

@@ -47,14 +47,16 @@ public class PanelRegionAT extends AutoTestBase {
         PanelRegion panel1 = page.regions().region(0, PanelRegion.class);
         panel1.shouldExists();
         panel1.shouldHaveTitle("Panel1");
+        panel1.shouldHaveCssClass("css-on-panel");
+        panel1.shouldHaveStyle("width: 90%;");
         panel1.shouldHaveBorderColor(Colors.DANGER);
         panel1.shouldHaveIcon("fa-exclamation");
         panel1.shouldBeCollapsible();
         panel1.shouldBeCollapsed();
-        panel1.expandContent();
+        panel1.expand();
         panel1.shouldBeExpanded();
         panel1.shouldHaveFooterTitle("Footer");
-        panel1.collapseContent();
+        panel1.collapse();
         panel1.shouldBeCollapsed();
 
         // not collapsible panel
@@ -100,13 +102,13 @@ public class PanelRegionAT extends AutoTestBase {
 
         // testing collapse/expand state of nesting regions
         // after collapse->expand global region
-        panel.collapseContent();
-        line.collapseContent();
+        panel.collapse();
+        line.collapse();
         tabs.tab(1).click();
 
-        panelRegion.collapseContent();
+        panelRegion.collapse();
         panelRegion.shouldBeCollapsed();
-        panelRegion.expandContent();
+        panelRegion.expand();
 
         panel.shouldBeCollapsed();
         line.shouldBeCollapsed();

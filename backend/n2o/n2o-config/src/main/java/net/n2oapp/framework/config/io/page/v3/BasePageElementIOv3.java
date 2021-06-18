@@ -24,7 +24,11 @@ public abstract class BasePageElementIOv3<T extends N2oBasePage> implements Name
     @Override
     public void io(Element e, T m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "title", m::getTitle, m::setTitle);
+        p.attribute(e, "html-title", m::getHtmlTitle, m::setHtmlTitle);
         p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);

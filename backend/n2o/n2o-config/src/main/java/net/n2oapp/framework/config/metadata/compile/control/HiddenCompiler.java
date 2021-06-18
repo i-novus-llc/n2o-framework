@@ -8,13 +8,11 @@ import net.n2oapp.framework.api.metadata.meta.control.Hidden;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-
 /**
  * Компиляция компонента hidden (Скрытый компонент ввода)
  */
 @Component
-public class HiddenCompiler extends StandardFieldCompiler<Hidden, N2oHidden>{
+public class HiddenCompiler extends StandardFieldCompiler<Hidden, N2oHidden> {
 
     @Override
     protected String getControlSrcProperty() {
@@ -29,8 +27,7 @@ public class HiddenCompiler extends StandardFieldCompiler<Hidden, N2oHidden>{
     @Override
     public StandardField<Hidden> compile(N2oHidden source, CompileContext<?, ?> context, CompileProcessor p) {
         Hidden field = new Hidden();
-        StandardField<Hidden> hiddenField = compileStandardField(field, source, context, p);
-        hiddenField.setVisible(false);
-        return hiddenField;
+        source.setVisible("false");
+        return compileStandardField(field, source, context, p);
     }
 }

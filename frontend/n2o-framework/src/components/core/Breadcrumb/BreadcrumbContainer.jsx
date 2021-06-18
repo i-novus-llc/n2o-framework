@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, getContext, withProps } from 'recompose';
-import map from 'lodash/map';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, getContext, withProps } from 'recompose'
+import map from 'lodash/map'
 
-import { getModelSelector } from '../../../selectors/models';
-import propsResolver from '../../../utils/propsResolver';
+import { getModelSelector } from '../../../selectors/models'
+import propsResolver from '../../../utils/propsResolver'
 
 /**
- * Контейнер для {@link Breadcrumb}
+ * Контейнер для {@link DefaultBreadcrumb}
  * @reactProps {object} items -массив из {label, href} объектов, описывающих одну вкладку ("крошку")
  *
  * @example
@@ -23,49 +23,48 @@ import propsResolver from '../../../utils/propsResolver';
  *  ]
  * <Breadcrumb  items={items}/>
  * */
-function BreadcrumbContainer(props) {
-  const DefaultBreadcrumb = props.defaultBreadcrumb;
-  return (
-    <React.Fragment>
-      <DefaultBreadcrumb items={props.items} />
-    </React.Fragment>
-  );
+function BreadcrumbContainer({ items, defaultBreadcrumb: DefaultBreadcrumb }) {
+    return (
+        <>
+            <DefaultBreadcrumb items={items} />
+        </>
+    )
 }
 
 BreadcrumbContainer.propTypes = {
-  defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      modelLink: PropTypes.string,
-      path: PropTypes.string,
-    })
-  ),
-};
+    defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string,
+            modelLink: PropTypes.string,
+            path: PropTypes.string,
+        }),
+    ),
+}
 
 BreadcrumbContainer.defaultProps = {
-  items: [],
-  defaultBreadcrumb: () => null,
-};
+    items: [],
+    defaultBreadcrumb: () => null,
+}
 
 export default compose(
-  getContext({
-    store: PropTypes.object,
-    defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  }),
-  withProps(props => ({
-    items: map(props.items, item => {
-      if (item.modelLink) {
-        return {
-          ...item,
-          label: propsResolver(
-            item.label,
-            getModelSelector(item.modelLink)(props.store.getState())
-          ),
-        };
-      }
-
-      return item;
+    getContext({
+        store: PropTypes.object,
+        defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     }),
-  }))
-)(BreadcrumbContainer);
+    withProps(props => ({
+        items: map(props.items, (item) => {
+            if (item.modelLink) {
+                return {
+                    ...item,
+                    label: propsResolver(
+                        item.label,
+                        getModelSelector(item.modelLink)(props.store.getState()),
+                    ),
+                }
+            }
+
+            return item
+        }),
+    })),
+)(BreadcrumbContainer)

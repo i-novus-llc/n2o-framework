@@ -25,7 +25,10 @@ public class Toolbar extends StrictMap<String, List<Group>> implements Compiled 
     }
 
     public Group getGroup(int index) {
-        List<Group> groups = values().stream().flatMap(List::stream).collect(Collectors.toList());
-        return groups.get(index);
+        return getGroups().get(index);
+    }
+
+    public List<Group> getGroups() {
+        return values().stream().flatMap(List::stream).collect(Collectors.toList());
     }
 }

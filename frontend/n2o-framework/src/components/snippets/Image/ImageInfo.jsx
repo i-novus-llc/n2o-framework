@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * ImageInfo - блок информации
@@ -7,24 +7,26 @@ import PropTypes from 'prop-types';
  * @reactProps {string} description
  */
 
-export default function ImageInfo({ title, description }) {
-  return (
-    <section className="n2o-image__info">
-      {title && <h4 className="n2o-image__info_label">{title}</h4>}
-      {description && (
-        <p className="n2o-image__info_description">{description}</p>
-      )}
-    </section>
-  );
+export function ImageInfo({ title, description }) {
+    return (
+        <section className="n2o-image__info">
+            {title && <h4 className="n2o-image__info_label">{title}</h4>}
+            {description && (
+                <p className="n2o-image__info_description">{description}</p>
+            )}
+        </section>
+    )
 }
 
 ImageInfo.propTypes = {
-  /**
-   * title
-   */
-  title: PropTypes.string,
-  /**
-   * description
-   */
-  description: PropTypes.string,
-};
+    /**
+     * title
+     */
+    title: PropTypes.string,
+    /**
+     * description
+     */
+    description: PropTypes.string,
+}
+
+export default ImageInfo

@@ -1,168 +1,216 @@
-import produce from 'immer';
-import has from 'lodash/has';
-import set from 'lodash/set';
-import merge from 'deepmerge';
-import { actionTypes } from 'redux-form';
+import produce from 'immer'
+import has from 'lodash/has'
+import set from 'lodash/set'
+import merge from 'deepmerge'
+import { actionTypes } from 'redux-form'
 
 import {
-  DISABLE_FIELD,
-  ENABLE_FIELD,
-  SHOW_FIELD,
-  HIDE_FIELD,
-  REGISTER_FIELD_EXTRA,
-  ADD_FIELD_MESSAGE,
-  REMOVE_FIELD_MESSAGE,
-  REGISTER_DEPENDENCY,
-  SET_FIELD_FILTER,
-  SHOW_FIELDS,
-  HIDE_FIELDS,
-  ENABLE_FIELDS,
-  DISABLE_FIELDS,
-  SET_REQUIRED,
-  UNSET_REQUIRED,
-  SET_LOADING,
-} from '../constants/formPlugin';
+    DISABLE_FIELD,
+    ENABLE_FIELD,
+    SHOW_FIELD,
+    HIDE_FIELD,
+    REGISTER_FIELD_EXTRA,
+    ADD_FIELD_MESSAGE,
+    REMOVE_FIELD_MESSAGE,
+    REGISTER_DEPENDENCY,
+    SET_FIELD_FILTER,
+    SHOW_FIELDS,
+    HIDE_FIELDS,
+    ENABLE_FIELDS,
+    DISABLE_FIELDS,
+    SET_REQUIRED,
+    UNSET_REQUIRED,
+    SET_LOADING,
+} from '../constants/formPlugin'
 
 const ACTION_TYPES = [
-  DISABLE_FIELD,
-  ENABLE_FIELD,
-  SHOW_FIELD,
-  HIDE_FIELD,
-  REGISTER_FIELD_EXTRA,
-  ADD_FIELD_MESSAGE,
-  REMOVE_FIELD_MESSAGE,
-  REGISTER_DEPENDENCY,
-  SET_FIELD_FILTER,
-  SHOW_FIELDS,
-  HIDE_FIELDS,
-  ENABLE_FIELDS,
-  DISABLE_FIELDS,
-  SET_REQUIRED,
-  UNSET_REQUIRED,
-  SET_LOADING,
-];
+    DISABLE_FIELD,
+    ENABLE_FIELD,
+    SHOW_FIELD,
+    HIDE_FIELD,
+    REGISTER_FIELD_EXTRA,
+    ADD_FIELD_MESSAGE,
+    REMOVE_FIELD_MESSAGE,
+    REGISTER_DEPENDENCY,
+    SET_FIELD_FILTER,
+    SHOW_FIELDS,
+    HIDE_FIELDS,
+    ENABLE_FIELDS,
+    DISABLE_FIELDS,
+    SET_REQUIRED,
+    UNSET_REQUIRED,
+    SET_LOADING,
+]
 
 const defaultState = {
-  isInit: true,
-  visible: true,
-  disabled: false,
-  message: null,
-  filter: [],
-  dependency: null,
-  required: false,
-  loading: false,
-};
+    isInit: true,
+    visible: true,
+    disabled: false,
+    message: null,
+    filter: [],
+    dependency: null,
+    required: false,
+    loading: false,
+}
 
 /**
  * Редюсер удаления/добваления алертов
  * @ignore
  */
-const formPlugin = produce((state, { type, payload, meta }) => {
-  if (ACTION_TYPES.includes(type)) {
-    state.registeredFields = state.registeredFields || {};
-    state.registeredFields[payload.name] =
-      state.registeredFields[payload.name] || {};
-  }
-  switch (type) {
-    case REGISTER_FIELD_EXTRA: {
-      const initialState = merge(defaultState, payload.initialState || {});
-
-      Object.assign(state.registeredFields[payload.name], initialState);
-      break;
+// eslint-disable-next-line complexity
+export const formPlugin = produce((state, { type, payload, meta }) => {
+    if (ACTION_TYPES.includes(type)) {
+        state.registeredFields = state.registeredFields || {}
+        state.registeredFields[payload.name] =
+      state.registeredFields[payload.name] || {}
     }
+    switch (type) {
+        case REGISTER_FIELD_EXTRA: {
+            const initialState = merge(defaultState, payload.initialState || {})
 
-    case DISABLE_FIELD:
-      state.registeredFields[payload.name].disabled = true;
-      break;
+            Object.assign(state.registeredFields[payload.name], initialState)
 
-    case ENABLE_FIELD:
-      state.registeredFields[payload.name].disabled = false;
-      break;
+            break
+        }
 
-    case SHOW_FIELD:
-      state.registeredFields[payload.name].visible = true;
-      break;
+        case DISABLE_FIELD:
+            state.registeredFields[payload.name].disabled = true
 
-    case HIDE_FIELD:
-      state.registeredFields[payload.name].visible = false;
-      break;
+            break
 
-    case ADD_FIELD_MESSAGE:
-      state.registeredFields[payload.name].message = state.registeredFields[payload.name].message || {};
-      Object.assign(state.registeredFields[payload.name].message, payload.message);
-      break;
+        case ENABLE_FIELD:
+            state.registeredFields[payload.name].disabled = false
 
-    case REMOVE_FIELD_MESSAGE:
-      state.registeredFields[payload.name].message = null;
-      break;
+            break
 
-    case REGISTER_DEPENDENCY:
-      state.registeredFields[payload.name].dependency = payload.dependency;
-      break;
+        case SHOW_FIELD: {
+            state.registeredFields[payload.name].visible = true
 
-    case SET_FIELD_FILTER:
-      state.registeredFields[payload.name].filter =
-        state.registeredFields[payload.name].filter
-          .filter(f => f.filterId !== payload.filter.filterId)
-          .concat(payload.filter);
-      break;
+            break
+        }
+        case HIDE_FIELD: {
+            state.registeredFields[payload.name].visible = false
 
-    case SET_REQUIRED:
-      state.registeredFields[payload.name].required = true;
-      break;
+            break
+        }
+        case ADD_FIELD_MESSAGE: {
+            state.registeredFields[payload.name].message = state.registeredFields[payload.name].message || {}
+            Object.assign(state.registeredFields[payload.name].message, payload.message)
 
-    case UNSET_REQUIRED:
-      state.registeredFields[payload.name].required = false;
-      break;
+            break
+        }
+        case REMOVE_FIELD_MESSAGE: {
+            state.registeredFields[payload.name].message = null
 
-    case SET_LOADING:
-      state.registeredFields[payload.name].loading = payload.loading;
-      break;
+            break
+        }
+        case REGISTER_DEPENDENCY: {
+            state.registeredFields[payload.name].dependency = payload.dependency
 
-    case SHOW_FIELDS:
-      payload.names.forEach(name => {
-        state.registeredFields[name].visible = true;
-      });
-      break;
+            break
+        }
+        case SET_FIELD_FILTER: {
+            state.registeredFields[payload.name].filter =
+                state.registeredFields[payload.name].filter
+                    .filter(f => f.filterId !== payload.filter.filterId)
+                    .concat(payload.filter)
 
-    case HIDE_FIELDS:
-      payload.names.forEach(name => {
-        state.registeredFields[name].visible = false;
-      });
-      break;
+            break
+        }
 
-    case DISABLE_FIELDS:
-      payload.names.forEach(name => {
-        state.registeredFields[name].disabled = true;
-      });
-      break;
+        case SET_REQUIRED: {
+            state.registeredFields[payload.name].required = true
 
-    case ENABLE_FIELDS:
-      payload.names.forEach(name => {
-        state.registeredFields[name].disabled = false;
-      });
-      break;
+            break
+        }
 
-    case actionTypes.CHANGE: {
-      const { field } = meta;
-      if (!field) {
-        break;
-      }
-      const customFormAction = has(payload, 'keepDirty');
-      const value = customFormAction ? payload.value : payload;
+        case UNSET_REQUIRED: {
+            state.registeredFields[payload.name].required = false
 
-      /*
-       * TODO придумать как аккуратно отказаться от _.set
-       *  сейчас он раскручивает поля ввида values[field[index].property]
-       */
-      set(state, `values[${field}]`, value);
+            break
+        }
 
-      if (customFormAction && !payload.keepDirty) {
-        set(state, `initial[${field}]`, payload.value);
-      }
-      break;
+        case SET_LOADING: {
+            state.registeredFields[payload.name].loading = payload.loading
+
+            break
+        }
+
+        case SHOW_FIELDS: {
+            payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                // показываем поля только если у них нет своего условия на видимость
+                if (
+                    field.dependency &&
+                    field.dependency.some(({ type }) => type === 'visible')
+                ) {
+                    return
+                }
+                field.visible = true
+            })
+
+            break
+        }
+
+        case HIDE_FIELDS: {
+            payload.names.forEach((name) => {
+                state.registeredFields[name].visible = false
+            })
+
+            break
+        }
+
+        case DISABLE_FIELDS: {
+            payload.names.forEach((name) => {
+                state.registeredFields[name].disabled = true
+            })
+
+            break
+        }
+
+        case ENABLE_FIELDS: {
+            payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                // поля доступны только если у них нет своего условия на доступность
+                if (
+                    field.dependency &&
+                    field.dependency.some(({ type }) => type === 'enabled')
+                ) {
+                    return
+                }
+                field.disabled = false
+            })
+
+            break
+        }
+
+        case actionTypes.CHANGE: {
+            const { field } = meta
+
+            if (!field) {
+                break
+            }
+            const customFormAction = has(payload, 'keepDirty')
+            const value = customFormAction ? payload.value : payload
+
+            /*
+             * TODO придумать как аккуратно отказаться от _.set
+             *  сейчас он раскручивает поля ввида values[field[index].property]
+             */
+            set(state, `values[${field}]`, value)
+
+            if (customFormAction && !payload.keepDirty) {
+                set(state, `initial[${field}]`, payload.value)
+            }
+
+            break
+        }
+
+        default:
+            break
     }
-  }
-}, defaultState);
+}, defaultState)
 
-export default formPlugin;
+export default formPlugin

@@ -98,9 +98,10 @@ public class CopyValuesControllerTest {
         params.put("id", new String[]{"1"});
         GetDataResponse response = testQuery("/testCopy", pipeline, params);
         assertThat(response.getList().size(), is(1));
-        assertThat(response.getList().get(0).size(), is(2));
+        assertThat(response.getList().get(0).size(), is(3));
         assertThat(response.getList().get(0).get("id"), is(1L));
         assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
+        assertThat(response.getList().get(0).get("org.name"), is("org1"));
     }
 
     private GetDataResponse testQuery(String path,

@@ -19,8 +19,12 @@ public class SimplePageElementIOv3 implements NamespaceIO<N2oSimplePage> {
     @Override
     public void io(Element e, N2oSimplePage m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "title", m::getTitle, m::setTitle);
+        p.attribute(e, "html-title", m::getHtmlTitle, m::setHtmlTitle);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e,null, m::getWidget, m::setWidget, p.anyOf(N2oWidget.class), widgetDefaultNamespace);

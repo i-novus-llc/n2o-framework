@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from '../Icon/Icon';
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import { Icon } from '../Icon/Icon'
 
 /**
  * Компонент заголовка для {@link Panel}
@@ -9,17 +10,17 @@ import Icon from '../Icon/Icon';
  */
 
 function PanelTitle({ icon, children }) {
-  return (
-    <a>
-      {icon && <Icon name={icon} className="p-0 mr-2" />}
-      {children}
-    </a>
-  );
+    return (
+        <a>
+            {icon && <Icon name={icon} className="p-0 mr-2" />}
+            {children}
+        </a>
+    )
 }
 
 PanelTitle.propTypes = {
-  icon: PropTypes.string,
-  children: PropTypes.node,
-};
+    icon: PropTypes.string,
+    children: PropTypes.node,
+}
 
-export default PanelTitle;
+export default PanelTitle

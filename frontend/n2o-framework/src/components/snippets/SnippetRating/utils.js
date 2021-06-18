@@ -1,20 +1,22 @@
 const condition = (i, count, inclusive) => {
-  if (inclusive) {
-    return i <= parseInt(count);
-  }
-  return i < parseInt(count);
-};
+    if (inclusive) {
+        return i <= parseInt(count, 10)
+    }
+
+    return i < parseInt(count, 10)
+}
 
 export const mapToNum = (
-  count,
-  callback,
-  { increment = 1, start = 0, inclusive = false } = {}
+    count,
+    callback,
+    { increment = 1, start = 0, inclusive = false } = {},
 ) => {
-  if (!count) return null;
-  const buf = [];
+    if (!count) { return null }
+    const buf = []
 
-  for (let i = start; condition(i, count, inclusive); i = i + increment) {
-    buf.push(callback(i));
-  }
-  return buf;
-};
+    for (let i = start; condition(i, count, inclusive); i += increment) {
+        buf.push(callback(i))
+    }
+
+    return buf
+}

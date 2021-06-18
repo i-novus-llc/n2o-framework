@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, withHandlers, mapProps } from 'recompose';
-import get from 'lodash/get';
-import cx from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, withHandlers, mapProps } from 'recompose'
+import get from 'lodash/get'
+import cx from 'classnames'
 
-import Control from '../StandardField/Control';
-import Measure from '../StandardField/Measure';
-import Label from '../StandardField/Label';
-import FieldActions from '../StandardField/FieldActions';
-import InlineSpinner from '../../../../snippets/Spinner/InlineSpinner';
-import Description from '../StandardField/Description';
-import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes';
+import Control from '../StandardField/Control'
+import Measure from '../StandardField/Measure'
+import Label from '../StandardField/Label'
+import FieldActions from '../StandardField/FieldActions'
+import InlineSpinner from '../../../../snippets/Spinner/InlineSpinner'
+import Description from '../StandardField/Description'
+import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes'
 
 /**
  * Компонент - RangeField формы
@@ -47,204 +47,233 @@ import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes';
  *             description="Введите расстояние от пункта А до пункта Б"
  *             style={display: 'inline-block'}/>
  */
-export function RangeField({
-  beginControl,
-  endControl,
-  id,
-  visible,
-  label,
-  control,
-  description,
-  measure,
-  required,
-  className,
-  labelPosition,
-  labelAlignment,
-  labelWidth,
-  style,
-  fieldActions,
-  loading,
-  autoFocus,
-  labelStyle,
-  controlStyle,
-  labelClass,
-  validationClass,
-  controlClass,
-  onFocus,
-  onBlur,
-  placeholder,
-  touched,
-  message,
-  colLength,
-  help,
-  value,
-  onChange,
-  onBeginValueChange,
-  onEndValueChange,
-  begin,
-  end,
-  divider,
-  ...props
+export function RangeFieldComponent({
+    beginControl,
+    endControl,
+    id,
+    visible,
+    label,
+    control,
+    description,
+    measure,
+    required,
+    className,
+    labelPosition,
+    labelAlignment,
+    labelWidth,
+    style,
+    fieldActions,
+    loading,
+    autoFocus,
+    labelStyle,
+    controlStyle,
+    labelClass,
+    validationClass,
+    controlClass,
+    onFocus,
+    onBlur,
+    placeholder,
+    touched,
+    message,
+    help,
+    value,
+    onChange,
+    onBeginValueChange,
+    onEndValueChange,
+    begin,
+    end,
+    divider,
+    ...props
 }) {
-  const validationMap = {
-    'is-valid': 'text-success',
-    'is-invalid': 'text-danger',
-    'has-warning': 'text-warning',
-  };
-  const labelWidthPixels =
-    labelWidth === 'default'
-      ? 180
-      : labelWidth === 'min' || labelWidth === '100%'
-      ? undefined
-      : labelWidth;
+    const validationMap = {
+        'is-valid': 'text-success',
+        'is-invalid': 'text-danger',
+        'has-warning': 'text-warning',
+    }
 
-  const extendedLabelStyle = {
-    width: labelWidthPixels,
-    flex: labelWidthPixels ? 'none' : undefined,
-    ...labelStyle,
-  };
-
-  return visible ? (
-    <div
-      className={cx(
-        'n2o-range-field',
-        'n2o-form-group',
-        'form-group',
-        className,
-        {
-          ['label-' + labelPosition]: labelPosition,
+    const getLabelWidthPixels = (labelWidth) => {
+        switch (labelWidth) {
+            case 'default':
+                return 180
+            case 'min' || '100%':
+                return undefined
+            default:
+                return labelWidth
         }
-      )}
-      style={style}
-    >
-      <Label
-        id={id}
-        value={label}
-        style={extendedLabelStyle}
-        className={cx(
-          labelClass,
-          { ['label-alignment-' + labelAlignment]: labelAlignment },
-          'n2o-label'
-        )}
-        required={required}
-        help={help}
-      />
-      <div className="n2o-range-field-body">
+    }
+
+    const labelWidthPixels = getLabelWidthPixels(labelWidth)
+
+    const extendedLabelStyle = {
+        width: labelWidthPixels,
+        flex: labelWidthPixels ? 'none' : undefined,
+        ...labelStyle,
+    }
+
+    return visible ? (
         <div
-          className={cx(
-            'n2o-range-field-controls-container',
-            'd-flex',
-            'align-items-center',
-            {
-              'n2o-range-field-body--divider': !divider,
-            }
-          )}
+            className={cx(
+                'n2o-range-field',
+                'n2o-form-group',
+                'form-group',
+                className,
+                {
+                    [`label-${labelPosition}`]: labelPosition,
+                },
+            )}
+            style={style}
         >
-          <div className="n2o-range-field-start n2o-range-field-item mr-3">
-            <div className="d-flex align-items-center">
-              <Control
-                placeholder={placeholder}
-                visible={visible}
-                autoFocus={autoFocus}
-                value={begin}
-                onBlur={value => onBlur({ begin: value, end })}
-                onFocus={onFocus}
-                onChange={onBeginValueChange}
-                {...beginControl}
-                {...props}
-                className={cx(beginControl && beginControl.className, {
-                  [validationClass]: touched,
-                })}
-              />
-              <Measure value={measure} />
+            <Label
+                id={id}
+                value={label}
+                style={extendedLabelStyle}
+                className={cx(
+                    labelClass,
+                    { [`label-alignment-${labelAlignment}`]: labelAlignment },
+                    'n2o-label',
+                )}
+                required={required}
+                help={help}
+            />
+            <div className="n2o-range-field-body">
+                <div
+                    className={cx(
+                        'n2o-range-field-controls-container',
+                        'd-flex',
+                        'align-items-center',
+                        {
+                            'n2o-range-field-body--divider': !divider,
+                        },
+                    )}
+                >
+                    <div className="n2o-range-field-start n2o-range-field-item mr-3">
+                        <div className="d-flex align-items-center">
+                            <Control
+                                placeholder={placeholder}
+                                visible={visible}
+                                autoFocus={autoFocus}
+                                value={begin}
+                                onBlur={value => onBlur({ begin: value, end })}
+                                onFocus={onFocus}
+                                onChange={onBeginValueChange}
+                                {...beginControl}
+                                {...props}
+                                className={cx(beginControl && beginControl.className, {
+                                    [validationClass]: touched,
+                                })}
+                            />
+                            <Measure value={measure} />
+                        </div>
+                    </div>
+                    {divider && <div className="n2o-range-field-divider">{divider}</div>}
+                    <div className="n2o-range-field-end n2o-range-field-item ml-3">
+                        <div className="d-flex align-items-center">
+                            <Control
+                                placeholder={placeholder}
+                                visible={visible}
+                                autoFocus={false}
+                                value={end}
+                                onBlur={value => onBlur({ begin, end: value })}
+                                onFocus={onFocus}
+                                onChange={onEndValueChange}
+                                {...endControl}
+                                {...props}
+                                className={cx(endControl && endControl.className, {
+                                    [validationClass]: touched,
+                                })}
+                            />
+                            <Measure value={measure} />
+                        </div>
+                    </div>
+                </div>
+                {loading && <InlineSpinner />}
+                <FieldActions actions={fieldActions} />
             </div>
-          </div>
-          {divider && <div className="n2o-range-field-divider">{divider}</div>}
-          <div className="n2o-range-field-end n2o-range-field-item ml-3">
-            <div className="d-flex align-items-center">
-              <Control
-                placeholder={placeholder}
-                visible={visible}
-                autoFocus={false}
-                value={end}
-                onBlur={value => onBlur({ begin, end: value })}
-                onFocus={onFocus}
-                onChange={onEndValueChange}
-                {...endControl}
-                {...props}
-                className={cx(endControl && endControl.className, {
-                  [validationClass]: touched,
-                })}
-              />
-              <Measure value={measure} />
+            <Description value={description} />
+            <div
+                className={cx('n2o-validation-message', validationMap[validationClass])}
+            >
+                {touched && message && message.text}
             </div>
-          </div>
         </div>
-        {loading && <InlineSpinner />}
-        <FieldActions actions={fieldActions} />
-      </div>
-      <Description value={description} />
-      <div
-        className={cx('n2o-validation-message', validationMap[validationClass])}
-      >
-        {touched && message && message.text}
-      </div>
-    </div>
-  ) : null;
+    ) : null
 }
 
-RangeField.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  control: PropTypes.node,
-  visible: PropTypes.bool,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  onChange: PropTypes.func,
-  description: PropTypes.string,
-  measure: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  fieldActions: FieldActionsPropTypes,
-  valiastionClass: PropTypes.string,
-  loading: PropTypes.bool,
-  touched: PropTypes.bool,
-  labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  labelAlignment: PropTypes.oneOf(['left', 'right']),
-  labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
-  message: PropTypes.object,
-  help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  divider: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-};
+RangeFieldComponent.propTypes = {
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    control: PropTypes.node,
+    visible: PropTypes.bool,
+    required: PropTypes.bool,
+    disabled: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    onChange: PropTypes.func,
+    description: PropTypes.string,
+    measure: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    fieldActions: FieldActionsPropTypes,
+    valiastionClass: PropTypes.string,
+    loading: PropTypes.bool,
+    touched: PropTypes.bool,
+    labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    labelAlignment: PropTypes.oneOf(['left', 'right']),
+    labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
+    message: PropTypes.object,
+    help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    divider: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    beginControl: PropTypes.object,
+    endControl: PropTypes.object,
+    id: PropTypes.string,
+    labelStyle: PropTypes.object,
+    controlStyle: PropTypes.object,
+    labelClass: PropTypes.string,
+    validationClass: PropTypes.string,
+    controlClass: PropTypes.string,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    placeholder: PropTypes.string,
+    value: PropTypes.object,
+    onBeginValueChange: PropTypes.func,
+    onEndValueChange: PropTypes.func,
+    begin: PropTypes.oneOf(['string', null]),
+    end: PropTypes.oneOf(['string', null]),
+    enabled: PropTypes.bool,
+}
 
-RangeField.defaultProps = {
-  visible: true,
-  required: false,
-  control: <input />,
-  loading: false,
-  className: '',
-  style: {},
-  enabled: true,
-  disabled: false,
-  onChange: () => {},
-  divider: false,
-};
+RangeFieldComponent.defaultProps = {
+    visible: true,
+    required: false,
+    control: <input />,
+    loading: false,
+    className: '',
+    style: {},
+    enabled: true,
+    disabled: false,
+    onChange: () => {},
+    divider: false,
+}
 
-const isValid = period => period !== '';
+const isValid = period => period !== ''
 
-export default compose(
-  mapProps(props => ({
-    ...props,
-    begin: get(props, 'value.begin', null),
-    end: get(props, 'value.end', null),
-  })),
-  withHandlers({
-    onBeginValueChange: ({ end, onChange }) => begin => {
-      isValid(begin) && onChange({ begin, end });
-    },
+export const RangeField = compose(
+    mapProps(props => ({
+        ...props,
+        begin: get(props, 'value.begin', null),
+        end: get(props, 'value.end', null),
+    })),
+    withHandlers({
+        onBeginValueChange: ({ end, onChange }) => (begin) => {
+            if (isValid(begin)) {
+                onChange({ begin, end })
+            }
+        },
 
-    onEndValueChange: ({ begin, onChange }) => end => {
-      isValid(end) && onChange({ begin, end });
-    },
-  })
-)(RangeField);
+        onEndValueChange: ({ begin, onChange }) => (end) => {
+            if (isValid(end)) {
+                onChange({ begin, end })
+            }
+        },
+    }),
+)(RangeFieldComponent)
+
+export default RangeField

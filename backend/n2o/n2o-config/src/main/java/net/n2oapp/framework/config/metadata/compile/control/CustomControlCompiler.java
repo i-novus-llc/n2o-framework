@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Сборка компонентов ввода
  */
 @Component
-public class CustomControlCompiler extends ComponentCompiler<CustomControl, N2oCustomControl> {
+public class CustomControlCompiler extends ComponentCompiler<CustomControl, N2oCustomControl, CompileContext<?, ?>> {
 
     @Override
     public Class<? extends Source> getSourceClass() {

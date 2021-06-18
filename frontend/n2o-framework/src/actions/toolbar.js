@@ -1,22 +1,24 @@
 import {
-  CHANGE_BUTTON_COLOR,
-  CHANGE_BUTTON_COUNT,
-  CHANGE_BUTTON_DISABLED,
-  CHANGE_BUTTON_TITLE,
-  CHANGE_BUTTON_SIZE,
-  CHANGE_BUTTON_VISIBILITY,
-  CHANGE_BUTTON_HINT,
-  CHANGE_BUTTON_MESSAGE,
-  CHANGE_BUTTON_CLASS,
-  CHANGE_BUTTON_STYLE,
-  REGISTER_BUTTON,
-  CALL_ACTION_IMPL,
-  TOGGLE_BUTTON_VISIBILITY,
-  TOGGLE_BUTTON_DISABLED,
-  CHANGE_BUTTON_ICON,
-  REMOVE_BUTTON,
-} from '../constants/toolbar';
-import createActionHelper from './createActionHelper';
+    CHANGE_BUTTON_COLOR,
+    CHANGE_BUTTON_COUNT,
+    CHANGE_BUTTON_DISABLED,
+    CHANGE_BUTTON_TITLE,
+    CHANGE_BUTTON_SIZE,
+    CHANGE_BUTTON_VISIBILITY,
+    CHANGE_BUTTON_HINT,
+    CHANGE_BUTTON_MESSAGE,
+    CHANGE_BUTTON_CLASS,
+    CHANGE_BUTTON_STYLE,
+    REGISTER_BUTTON,
+    CALL_ACTION_IMPL,
+    TOGGLE_BUTTON_VISIBILITY,
+    TOGGLE_BUTTON_DISABLED,
+    CHANGE_BUTTON_ICON,
+    REMOVE_BUTTON,
+    REMOVE_BUTTONS,
+} from '../constants/toolbar'
+
+import createActionHelper from './createActionHelper'
 
 /**
  * Вызов функции эшкен импла
@@ -25,7 +27,7 @@ import createActionHelper from './createActionHelper';
  * @param options
  */
 export function callActionImpl(actionSrc, options) {
-  return createActionHelper(CALL_ACTION_IMPL)({ actionSrc, options });
+    return createActionHelper(CALL_ACTION_IMPL)({ actionSrc, options })
 }
 
 /**
@@ -35,11 +37,11 @@ export function callActionImpl(actionSrc, options) {
  * @param visible
  */
 export function changeButtonVisiblity(key, buttonId, visible) {
-  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({
-    key,
-    buttonId,
-    visible,
-  });
+    return createActionHelper(CHANGE_BUTTON_VISIBILITY)({
+        key,
+        buttonId,
+        visible,
+    })
 }
 
 /**
@@ -48,7 +50,7 @@ export function changeButtonVisiblity(key, buttonId, visible) {
  * @param buttonId
  */
 export function setButtonVisible(key, buttonId) {
-  return changeButtonVisiblity(key, buttonId, true);
+    return changeButtonVisiblity(key, buttonId, true)
 }
 
 /**
@@ -57,7 +59,7 @@ export function setButtonVisible(key, buttonId) {
  * @param buttonId
  */
 export function setButtonHidden(key, buttonId) {
-  return changeButtonVisiblity(key, buttonId, false);
+    return changeButtonVisiblity(key, buttonId, false)
 }
 
 /**
@@ -66,7 +68,7 @@ export function setButtonHidden(key, buttonId) {
  * @param buttonId
  */
 export function toggleButtonVisiblity(key, buttonId) {
-  return createActionHelper(TOGGLE_BUTTON_VISIBILITY)({ key, buttonId });
+    return createActionHelper(TOGGLE_BUTTON_VISIBILITY)({ key, buttonId })
 }
 
 /**
@@ -76,11 +78,11 @@ export function toggleButtonVisiblity(key, buttonId) {
  * @param disabled
  */
 export function changeButtonDisabled(key, buttonId, disabled) {
-  return createActionHelper(CHANGE_BUTTON_DISABLED)({
-    key,
-    buttonId,
-    disabled,
-  });
+    return createActionHelper(CHANGE_BUTTON_DISABLED)({
+        key,
+        buttonId,
+        disabled,
+    })
 }
 
 /**
@@ -89,7 +91,7 @@ export function changeButtonDisabled(key, buttonId, disabled) {
  * @param buttonId
  */
 export function setButtonDisabled(key, buttonId) {
-  return changeButtonDisabled(key, buttonId, true);
+    return changeButtonDisabled(key, buttonId, true)
 }
 
 /**
@@ -98,7 +100,7 @@ export function setButtonDisabled(key, buttonId) {
  * @param buttonId
  */
 export function setButtonEnabled(key, buttonId) {
-  return changeButtonDisabled(key, buttonId, false);
+    return changeButtonDisabled(key, buttonId, false)
 }
 
 /**
@@ -107,7 +109,7 @@ export function setButtonEnabled(key, buttonId) {
  * @param buttonId
  */
 export function toggleButtonDisabled(key, buttonId) {
-  return createActionHelper(TOGGLE_BUTTON_DISABLED)({ key, buttonId });
+    return createActionHelper(TOGGLE_BUTTON_DISABLED)({ key, buttonId })
 }
 
 /**
@@ -117,7 +119,7 @@ export function toggleButtonDisabled(key, buttonId) {
  * @param title
  */
 export function changeButtonTitle(key, buttonId, title) {
-  return createActionHelper(CHANGE_BUTTON_TITLE)({ key, buttonId, title });
+    return createActionHelper(CHANGE_BUTTON_TITLE)({ key, buttonId, title })
 }
 
 /**
@@ -127,7 +129,7 @@ export function changeButtonTitle(key, buttonId, title) {
  * @param size
  */
 export function changeButtonSize(key, buttonId, size) {
-  return createActionHelper(CHANGE_BUTTON_SIZE)({ key, buttonId, size });
+    return createActionHelper(CHANGE_BUTTON_SIZE)({ key, buttonId, size })
 }
 
 /**
@@ -137,7 +139,7 @@ export function changeButtonSize(key, buttonId, size) {
  * @param color
  */
 export function changeButtonColor(key, buttonId, color) {
-  return createActionHelper(CHANGE_BUTTON_COLOR)({ key, buttonId, color });
+    return createActionHelper(CHANGE_BUTTON_COLOR)({ key, buttonId, color })
 }
 
 /**
@@ -147,7 +149,7 @@ export function changeButtonColor(key, buttonId, color) {
  * @param count
  */
 export function changeButtonCount(key, buttonId, count) {
-  return createActionHelper(CHANGE_BUTTON_COUNT)({ key, buttonId, count });
+    return createActionHelper(CHANGE_BUTTON_COUNT)({ key, buttonId, count })
 }
 
 /**
@@ -157,7 +159,7 @@ export function changeButtonCount(key, buttonId, count) {
  * @param hint
  */
 export function changeButtonHint(key, buttonId, hint) {
-  return createActionHelper(CHANGE_BUTTON_HINT)({ key, buttonId, hint });
+    return createActionHelper(CHANGE_BUTTON_HINT)({ key, buttonId, hint })
 }
 
 /**
@@ -167,7 +169,7 @@ export function changeButtonHint(key, buttonId, hint) {
  * @param message
  */
 export function changeButtonMessage(key, buttonId, message) {
-  return createActionHelper(CHANGE_BUTTON_MESSAGE)({ key, buttonId, message });
+    return createActionHelper(CHANGE_BUTTON_MESSAGE)({ key, buttonId, message })
 }
 
 /**
@@ -177,7 +179,7 @@ export function changeButtonMessage(key, buttonId, message) {
  * @param icon
  */
 export function changeButtonIcon(key, buttonId, icon) {
-  return createActionHelper(CHANGE_BUTTON_ICON)({ key, buttonId, icon });
+    return createActionHelper(CHANGE_BUTTON_ICON)({ key, buttonId, icon })
 }
 
 /**
@@ -187,7 +189,7 @@ export function changeButtonIcon(key, buttonId, icon) {
  * @param style
  */
 export function changeButtonStyle(key, buttonId, style) {
-  return createActionHelper(CHANGE_BUTTON_STYLE)({ key, buttonId, style });
+    return createActionHelper(CHANGE_BUTTON_STYLE)({ key, buttonId, style })
 }
 
 /**
@@ -197,17 +199,20 @@ export function changeButtonStyle(key, buttonId, style) {
  * @param className
  */
 export function changeButtonClass(key, buttonId, className) {
-  return createActionHelper(CHANGE_BUTTON_CLASS)({ key, buttonId, className });
+    return createActionHelper(CHANGE_BUTTON_CLASS)({ key, buttonId, className })
 }
 
-export function removeButton(key) {
-  return createActionHelper(REMOVE_BUTTON)({ key });
+export function removeButton(key, buttonId) {
+    return createActionHelper(REMOVE_BUTTON)({ key, buttonId })
+}
+
+export function removeButtons(key) {
+    return createActionHelper(REMOVE_BUTTONS)({ key })
 }
 
 /**
- * Экшен регистрации кнопки в редаксе
- * @param key
- * @param buttonId
+ * @typedef RegisterButtonConfig
+ * @extends Object
  * @param id
  * @param size
  * @param title
@@ -225,37 +230,34 @@ export function removeButton(key) {
  * @param conditions
  * @param hintPosition
  */
+/**
+ * Экшен регистрации кнопки в редаксе
+ * @param {string} key
+ * @param {string} buttonId
+ * @param {RegisterButtonConfig} config
+ */
 export function registerButton(
-  key,
-  buttonId,
-  {
-    id,
-    size,
-    title,
-    count,
-    icon,
-    color,
-    resolveEnabled,
-    visible,
-    parentId,
-    disabled,
-    hint,
-    className,
-    style,
-    containerKey,
-    conditions,
-    hintPosition,
-  }
-) {
-  return createActionHelper(REGISTER_BUTTON)({
     key,
     buttonId,
-    count,
-    visible,
-    disabled,
-    containerKey,
-    conditions,
-    resolveEnabled,
-    hintPosition,
-  });
+    {
+        count,
+        resolveEnabled,
+        visible,
+        disabled,
+        containerKey,
+        conditions,
+        hintPosition,
+    },
+) {
+    return createActionHelper(REGISTER_BUTTON)({
+        key,
+        buttonId,
+        count,
+        visible,
+        disabled,
+        containerKey,
+        conditions,
+        resolveEnabled,
+        hintPosition,
+    })
 }

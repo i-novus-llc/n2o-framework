@@ -105,6 +105,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
         assertThat(table.getComponent().getTextWrap(), is(false));
+        assertThat(table.getFiltersDefaultValuesQueryId(), is("test"));
     }
 
     @Test
@@ -347,11 +348,11 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 .getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());
         assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
-        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['table']"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
         assertThat(columnHeaders.get(2).getVisible(), nullValue());
         assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
-        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['form']"));
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
     }
 
     @Test
