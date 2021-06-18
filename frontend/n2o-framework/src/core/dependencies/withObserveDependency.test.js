@@ -7,7 +7,7 @@ import { createStore } from 'redux'
 import reducers from '../../reducers'
 import history from '../../history'
 import { registerFieldDependency } from '../../actions/formPlugin'
-import { setModel } from '../../actions/models'
+import { setModel } from '../../ducks/models/store'
 
 import withObserveDependency from './withObserveDependency'
 

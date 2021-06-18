@@ -1,10 +1,10 @@
 /**
  * Created by emamoshin on 03.11.2017.
  */
-import { createSelector } from 'reselect'
+import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
-import { PREFIXES } from '../constants/models'
+import { PREFIXES } from './constants'
 
 /*
   Базовые селекторы

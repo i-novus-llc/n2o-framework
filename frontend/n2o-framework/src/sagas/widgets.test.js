@@ -1,8 +1,8 @@
 import { runSaga } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 
-import { setModel } from '../actions/models'
-import { PREFIXES } from '../constants/models'
+import { setModel } from '../ducks/models/store'
+import { PREFIXES } from '../ducks/models/constants'
 import {
     changeCountWidget,
     changePageWidget,

@@ -14,9 +14,9 @@ import {
 import {
     makeGetModelByPrefixSelector,
     makeGetFilterModelSelector,
-} from '../../../selectors/models'
+} from '../../../ducks/models/selectors'
 import { dataRequestWidget } from '../../../actions/widgets'
-import { PREFIXES } from '../../../constants/models'
+import { PREFIXES } from '../../../ducks/models/constants'
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`

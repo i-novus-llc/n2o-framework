@@ -13,7 +13,7 @@ import {
     enableFields,
     disableFields,
 } from '../../../actions/formPlugin'
-import { makeGetResolveModelSelector } from '../../../selectors/models'
+import { makeGetResolveModelSelector } from '../../../ducks/models/selectors'
 import propsResolver from '../../../utils/propsResolver'
 
 import Label from './fields/StandardField/Label'

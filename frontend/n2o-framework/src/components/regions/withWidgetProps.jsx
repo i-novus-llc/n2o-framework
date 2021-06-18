@@ -11,7 +11,7 @@ import { widgetsSelector } from '../../selectors/widgets'
 import {
     makeModelsByPrefixSelector,
     modelsSelector,
-    getModelsByDependency } from '../../selectors/models'
+    getModelsByDependency } from '../../ducks/models/selectors'
 import { pagesSelector, makePageMetadataByIdSelector } from '../../selectors/pages'
 import {
     hideWidget,
@@ -20,7 +20,7 @@ import {
     enableWidget,
     dataRequestWidget,
 } from '../../actions/widgets'
-import { PREFIXES } from '../../constants/models'
+import { PREFIXES } from '../../ducks/models/constants'
 import { reduceFunction } from '../../sagas/widgetDependency/resolve'
 
 /**

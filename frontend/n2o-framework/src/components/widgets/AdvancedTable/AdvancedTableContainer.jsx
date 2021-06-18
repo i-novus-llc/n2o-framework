@@ -21,12 +21,12 @@ import { setTableSelectedId } from '../../../actions/widgets'
 import { TABLE } from '../widgetTypes'
 import columnHOC from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
-import { setModel } from '../../../actions/models'
-import { PREFIXES } from '../../../constants/models'
+import { setModel } from '../../../ducks/models/store'
+import { PREFIXES } from '../../../ducks/models/constants'
 import {
     makeGetFilterModelSelector,
     makeGetModelByPrefixSelector,
-} from '../../../selectors/models'
+} from '../../../ducks/models/selectors'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'

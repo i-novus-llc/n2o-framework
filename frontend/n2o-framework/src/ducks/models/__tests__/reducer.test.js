@@ -1,14 +1,11 @@
-import {
-    SET,
-    REMOVE,
-    SYNC,
-    UPDATE,
-    UPDATE_MAP,
-    COPY,
-    REMOVE_ALL,
-} from '../constants/models'
-
-import models from './models'
+import models, {
+    setModel,
+    removeModel,
+    syncModel,
+    updateModel,
+    updateMapModel,
+    removeAllModel
+} from '../store'
 
 describe('Тесты models reducer', () => {
     it('Проверка SET', () => {
@@ -16,7 +13,7 @@ describe('Тесты models reducer', () => {
             models(
                 {},
                 {
-                    type: SET,
+                    type: setModel.type,
                     payload: {
                         prefix: 'prefix',
                         key: 'key',
@@ -46,7 +43,7 @@ describe('Тесты models reducer', () => {
                     ],
                 },
                 {
-                    type: REMOVE,
+                    type: removeModel.type,
                     payload: {
                         prefix: 'datasource',
                         key: 0,
@@ -63,7 +60,7 @@ describe('Тесты models reducer', () => {
             models(
                 {},
                 {
-                    type: SYNC,
+                    type: syncModel.type,
                     payload: {
                         prefix: 'edit',
                         keys: ['Page.Widget1'],
@@ -95,7 +92,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: UPDATE,
+                    type: updateModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey',
@@ -117,7 +114,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: UPDATE,
+                    type: updateModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey',
@@ -139,7 +136,7 @@ describe('Тесты models reducer', () => {
                     edit: {},
                 },
                 {
-                    type: UPDATE,
+                    type: updateModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey',
@@ -165,7 +162,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: UPDATE,
+                    type: updateModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey1',
@@ -192,7 +189,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: UPDATE,
+                    type: updateModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey',
@@ -214,7 +211,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: UPDATE,
+                    type: updateModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey',
@@ -239,7 +236,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: UPDATE_MAP,
+                    type: updateMapModel.type,
                     payload: {
                         prefix: 'edit',
                         key: 'editKey',
@@ -281,7 +278,7 @@ describe('Тесты models reducer', () => {
                     },
                 },
                 {
-                    type: REMOVE_ALL,
+                    type: removeAllModel.type,
                     payload: {
                         key: 'testKey',
                     },
@@ -292,21 +289,4 @@ describe('Тесты models reducer', () => {
             edit: {},
         })
     })
-})
-
-const createState = (resolve = {}, filter = {}) => ({
-    resolve: {
-        proto_clients: {
-            id: 1,
-            name: 'Ivan',
-            surname: 'Ivanov',
-        },
-        ...resolve,
-    },
-    filter: {
-        proto_form: {
-            test: 'test',
-        },
-        ...filter,
-    },
 })

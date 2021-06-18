@@ -19,6 +19,7 @@ import findIndex from 'lodash/findIndex'
 import values from 'lodash/values'
 import eq from 'lodash/eq'
 import get from 'lodash/get'
+import omit from 'lodash/omit'
 
 import propsResolver from '../../../utils/propsResolver'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
@@ -508,7 +509,9 @@ class AdvancedTable extends Component {
         let newMulti = multi || []
 
         if (!status) {
-            forOwn(data, ({ id }) => delete newMulti[id])
+            forOwn(data, ({ id }) => {
+                newMulti = omit(newMulti, id)
+            })
         } else {
             forOwn(data, (value) => {
                 newMulti = { ...newMulti, ...{ [value.id]: value } }
@@ -532,7 +535,7 @@ class AdvancedTable extends Component {
         }
 
         if (newMulti[index]) {
-            delete newMulti[index]
+            newMulti = omit(newMulti, index)
             checkedState[index] = false
         } else {
             checkedState = {

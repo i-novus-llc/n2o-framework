@@ -25,12 +25,12 @@ import {
     makeFormModelPrefixSelector,
     makeWidgetValidationSelector,
 } from '../selectors/widgets'
-import { getModelSelector, selectionTypeSelector } from '../selectors/models'
+import { getModelSelector, selectionTypeSelector } from '../ducks/models/selectors'
 import { validateField } from '../core/validation/createValidator'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
-import { setModel } from '../actions/models'
+import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../actions/pages'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets'

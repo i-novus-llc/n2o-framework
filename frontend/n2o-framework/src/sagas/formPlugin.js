@@ -12,13 +12,12 @@ import isFunction from 'lodash/isFunction'
 import { addFieldMessage, removeFieldMessage } from '../actions/formPlugin'
 import { makeFormByName, messageSelector } from '../selectors/formPlugin'
 import { getWidgetFieldValidation } from '../selectors/widgets'
-import { setModel } from '../actions/models'
+import { setModel, copyModel } from '../ducks/models/store'
 import { SET_REQUIRED, UNSET_REQUIRED } from '../constants/formPlugin'
-import { COPY } from '../constants/models'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
-} from '../selectors/models'
+} from '../ducks/models/selectors'
 import evalExpression, { parseExpression } from '../utils/evalExpression'
 import * as validationPresets from '../core/validation/presets'
 
@@ -175,5 +174,5 @@ export const formPluginSagas = [
     ),
     takeEvery([SET_REQUIRED, UNSET_REQUIRED], checkFieldValidation),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
-    takeEvery(COPY, copyAction),
+    takeEvery(copyModel.type, copyAction),
 ]

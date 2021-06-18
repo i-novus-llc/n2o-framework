@@ -21,7 +21,7 @@ import {
     DISABLE,
     RESOLVE,
 } from '../constants/widgets'
-import { CLEAR, PREFIXES } from '../constants/models'
+import { PREFIXES } from '../ducks/models/constants'
 import {
     changeCountWidget,
     changePageWidget,
@@ -30,7 +30,7 @@ import {
     resetWidgetState,
     setWidgetMetadata,
 } from '../actions/widgets'
-import { removeModel, setModel } from '../actions/models'
+import { removeModel, setModel, clearModel } from '../ducks/models/store'
 import {
     makeSelectedIdSelector,
     makeWidgetByIdSelector,
@@ -39,7 +39,7 @@ import {
 } from '../selectors/widgets'
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { getLocation, rootPageSelector } from '../selectors/global'
-import { makeGetModelByPrefixSelector } from '../selectors/models'
+import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
 import { FETCH_WIDGET_DATA } from '../core/api'
 import { generateErrorMeta } from '../utils/generateErrorMeta'
 import { id } from '../utils/id'
@@ -334,7 +334,7 @@ function* clearFilters(action) {
  */
 export default apiProvider => [
     fork(getData, apiProvider),
-    takeEvery(CLEAR, clearForm),
+    takeEvery(clearModel, clearForm),
     takeEvery(RESOLVE, runResolve),
     takeEvery(DISABLE, clearOnDisable),
     takeEvery(CHANGE_PAGE, clearFilters),

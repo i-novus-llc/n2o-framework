@@ -16,7 +16,7 @@ import keys from 'lodash/keys'
 import find from 'lodash/find'
 
 import evalExpression from '../utils/evalExpression'
-import { SET } from '../constants/models'
+import { setModel } from '../ducks/models/store'
 import { REGISTER_BUTTON } from '../constants/toolbar'
 // eslint-disable-next-line import/no-cycle
 import { resolveColumn } from '../ducks/columns/sagas'
@@ -103,7 +103,7 @@ function* watchRegister() {
 
                 yield fork(ConditionHandlers[type], payloadRegister)
                 // todo: Перейти на redux-saga@1.0.0 и использовать takeLeading
-                yield takeEvery(SET, watchModel, entities)
+                yield takeEvery(setModel, watchModel, entities)
             }
         }
     } finally {

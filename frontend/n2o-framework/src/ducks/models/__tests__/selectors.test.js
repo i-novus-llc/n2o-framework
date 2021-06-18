@@ -7,7 +7,7 @@ import {
     getModelSelector,
     getModelsByDependency,
     makeModelsByPrefixSelector,
-} from './models'
+} from '../selectors'
 
 const state = {
     models: {

@@ -18,7 +18,7 @@ import { dataRequestWidget } from '../actions/widgets'
 import { getLocation, rootPageSelector } from '../selectors/global'
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { regionsSelector } from '../selectors/regions'
-import { modelsSelector } from '../selectors/models'
+import { modelsSelector } from '../ducks/models/selectors'
 import { setActiveEntity } from '../actions/regions'
 import { authSelector } from '../selectors/auth'
 

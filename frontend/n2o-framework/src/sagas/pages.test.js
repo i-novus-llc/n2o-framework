@@ -17,14 +17,14 @@ import {
     SET_STATUS,
 } from '../constants/pages'
 import {
-    SET,
-    COPY,
-    SYNC,
-    REMOVE,
-    UPDATE,
-    UPDATE_MAP,
-} from '../constants/models'
-import { combineModels } from '../actions/models'
+    combineModels,
+    setModel,
+    copyModel,
+    syncModel,
+    removeModel,
+    updateModel,
+    updateMapModel,
+} from '../ducks/models/store'
 import { defaultApiProvider, FETCH_PAGE_METADATA } from '../core/api'
 import { FETCH_END, FETCH_START } from '../constants/fetch'
 import { CHANGE_ROOT_PAGE } from '../constants/global'
@@ -514,7 +514,14 @@ describe('Сага для для наблюдения за изменением 
         gen.next()
         const mockChan = channel()
         expect(gen.next().value).toEqual(
-            actionChannel([SET, COPY, SYNC, REMOVE, UPDATE, UPDATE_MAP]),
+            actionChannel([
+                setModel.type,
+                copyModel.type,
+                syncModel.type,
+                removeModel.type,
+                updateModel.type,
+                updateMapModel.type,
+            ]),
         )
         expect(gen.next(mockChan).value).toEqual(select())
         expect(gen.next().value).toEqual(take(mockChan))

@@ -15,9 +15,15 @@ import {
     REGISTER_DEPENDENCY,
     UPDATE_WIDGET_DEPENDENCY,
 } from '../constants/dependency'
-import { CLEAR, COPY, REMOVE, REMOVE_ALL, SET } from '../constants/models'
+import {
+    clearModel,
+    copyModel,
+    removeModel,
+    removeAllModel,
+    setModel,
+} from '../ducks/models/store'
 import { DEPENDENCY_ORDER } from '../core/dependencyTypes'
-import { getModelsByDependency } from '../selectors/models'
+import { getModelsByDependency } from '../ducks/models/selectors'
 import { makeWidgetVisibleSelector } from '../selectors/widgets'
 
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
@@ -131,9 +137,23 @@ export function* resolveWidgetDependency(
 export const widgetDependencySagas = [
     takeEvery(REGISTER_DEPENDENCY, registerDependency),
     takeEvery(UPDATE_WIDGET_DEPENDENCY, updateDependency),
-    takeEvery([SET, REMOVE, REMOVE_ALL, COPY, CLEAR], updateModel),
+    takeEvery([
+        setModel.type,
+        removeModel.type,
+        removeAllModel.type,
+        copyModel.type,
+        clearModel.type,
+    ], updateModel),
     takeEvery(
-        [SET, REMOVE, REMOVE_ALL, COPY, CLEAR, REGISTER_DEPENDENCY, UPDATE_WIDGET_DEPENDENCY],
+        [
+            setModel.type,
+            removeModel.type,
+            removeAllModel.type,
+            copyModel.type,
+            clearModel.type,
+            REGISTER_DEPENDENCY,
+            UPDATE_WIDGET_DEPENDENCY,
+        ],
         function* noWidgetRecursion() {
             // Костыль, для сохранения предыдущего состояния, нужен чтобы не загнаться в рекурсивное обновление
             prevState = cloneDeep(yield select())

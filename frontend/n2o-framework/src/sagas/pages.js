@@ -28,17 +28,17 @@ import pickBy from 'lodash/pickBy'
 import { getAction, getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 
-import {
-    SET,
-    COPY,
-    SYNC,
-    REMOVE,
-    UPDATE,
-    UPDATE_MAP,
-} from '../constants/models'
 import { MAP_URL, METADATA_REQUEST, RESET } from '../constants/pages'
 import { metadataFail, metadataSuccess, setStatus } from '../actions/pages'
-import { combineModels } from '../actions/models'
+import {
+    combineModels,
+    setModel,
+    copyModel,
+    syncModel,
+    removeModel,
+    updateModel,
+    updateMapModel,
+} from '../ducks/models/store'
 import { changeRootPage } from '../actions/global'
 import { destroyOverlay } from '../actions/overlays'
 import { rootPageSelector } from '../selectors/global'
@@ -283,12 +283,12 @@ export function* flowDefaultModels(config) {
 
     if (!isEmpty(observableModels)) {
         const modelsChan = yield actionChannel([
-            SET,
-            COPY,
-            SYNC,
-            REMOVE,
-            UPDATE,
-            UPDATE_MAP,
+            setModel.type,
+            copyModel.type,
+            syncModel.type,
+            removeModel.type,
+            updateModel.type,
+            updateMapModel.type,
         ])
 
         try {

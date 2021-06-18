@@ -3,7 +3,7 @@ import { mount } from 'enzyme'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 
-import { setModel } from '../../actions/models'
+import { setModel } from '../../ducks/models/store'
 import { dataRequestWidget } from '../../actions/widgets'
 
 import WidgetFilters from './WidgetFilters'

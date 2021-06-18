@@ -24,11 +24,11 @@ import {
     setTableSelectedId,
     sortByWidget,
 } from '../../actions/widgets'
-import { setModel, removeAllModel } from '../../actions/models'
+import { setModel, removeAllModel } from '../../ducks/models/store'
 import {
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
-} from '../../selectors/models'
+} from '../../ducks/models/selectors'
 import {
     isAnyTableFocusedSelector,
     makeWidgetByIdSelector,

@@ -3,7 +3,7 @@ import { connectRouter } from 'connected-react-router'
 import { reducer as formReducer } from 'redux-form'
 
 import widgets from './reducers/widgets'
-import models from './reducers/models'
+import models from './ducks/models/store'
 import global from './reducers/global'
 import pages from './reducers/pages'
 import overlays from './reducers/overlays'
