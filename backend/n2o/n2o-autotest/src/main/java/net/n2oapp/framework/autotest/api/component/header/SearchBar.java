@@ -12,6 +12,8 @@ public interface SearchBar extends Component {
 
     void search(String title);
 
+    void shouldHaveValue(String value);
+
     SearchResult searchResult();
 
     void clear();
