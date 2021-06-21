@@ -963,10 +963,75 @@ link:#_Клик_click[Клик по строке]
 |Показать общее количество записей
 |true
 
-|hide-single-page
+|show-single-page
 |true false
-|Скрыть паджинацию на единственной странице
-|true
+|Показать паджинацию на единственной странице
+|false
+
+|layout
+|bordered, flat, separated, bordered-rounded, flat-rounded, separated-rounded
+|Устанавливает представление компонента
+|separated
+
+|prev-label
+|Строка
+|Текст кнопки "Предыдущая страница"
+|
+
+|prev-icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка кнопки "Предыдущая страница"
+|fa fa-angle-left
+
+|next-label
+|Строка
+|Текст кнопки "Следующая страница"
+|
+
+|next-icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка кнопки "Следующая страница"
+|fa fa-angle-right
+
+|first-label
+|Строка
+|Текст кнопки "Первая страница"
+|
+
+|first-icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка кнопки "Первая страница"
+|fa fa-angle-double-left
+
+|last-label
+|Строка
+|Текст кнопки "Последняя страница"
+|
+
+|last-icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка кнопки "Последняя страница"
+|fa fa-angle-double-right
+
+|max-pages
+|Число
+|Максимальное кол-во кнопок перехода между страницами
+|5
+
+|place
+|topLeft topRight bottomLeft bottomRight topCenter bottomCenter
+|Место расположения пагинации
+|bottomLeft
+
+|class
+|Строка
+|CSS класс, который будет добавлен к виджету
+|
+
+|style
+|CSS свойство
+|Стиль виджета
+|
 
 |===
 
