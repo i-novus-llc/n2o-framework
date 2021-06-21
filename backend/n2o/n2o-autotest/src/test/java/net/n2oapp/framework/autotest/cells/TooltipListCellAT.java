@@ -32,7 +32,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/tooltip_list/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
 
         page = open(StandardPage.class);
         page.shouldExists();
@@ -41,7 +41,7 @@ public class TooltipListCellAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oCellsPack(), new N2oAllDataPack());
     }
 

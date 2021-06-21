@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -76,7 +77,8 @@ public class N2oController {
 
     @GetMapping("/n2o/config")
     public AppConfig config() {
-        List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
+        //todo fix header
+        List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
         Assert.isTrue(!headers.isEmpty(), "No header metadata found");
         configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
         return configBuilder.get();

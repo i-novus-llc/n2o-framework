@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <header title="Хедер">
+        <search query-id="popupSearch"
+                filter-field-id="filterValue"
+                url-field-id="href"
+                label-field-id="label"
+                icon-field-id="icon"
+                description-field-id="description"
+
+                advanced-target="application"
+                advanced-url="/search"
+                advanced-param="q"/>
+    </header>
+</application>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <header title="Хедер">
+        <nav>
+            <page page-id="menu1" label="Доступно всем"/>
+            <page page-id="menu2" label="Требуется роль admin"/>
+            <page page-id="menu3" label="Требуется право edit"/>
+            <page page-id="menu4" label="Только анонимам"/>
+        </nav>
+        <extra-menu>
+            <a href="#" label="#{username}"/>
+        </extra-menu>
+    </header>
+
+</application>

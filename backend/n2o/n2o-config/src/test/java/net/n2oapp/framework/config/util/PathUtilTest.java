@@ -28,7 +28,7 @@ public class PathUtilTest {
     @Test
     public void testConvertUrlToAbsolutePath() {
         assert PathUtil.convertUrlToAbsolutePath("classpath*:META-INF/conf/") == null;
-        assert PathUtil.convertUrlToAbsolutePath("jar:file:/C:/n2o-bundle/conf/default.header.xml") == null;
+        assert PathUtil.convertUrlToAbsolutePath("jar:file:/C:/n2o-bundle/conf/default.application.xml") == null;
         assert "C:/app/conf/test.xml".equals(PathUtil.convertUrlToAbsolutePath("file:C:/app/conf/test.xml"));
     }
 
@@ -42,10 +42,10 @@ public class PathUtilTest {
 
     @Test
     public void testConvertRootPathToFileUrl() {
-        String localPath = "test/default.header.xml";
-        String fileUrl1 = "classpath*:META-INF/conf/test/default.header.xml";
+        String localPath = "test/default.application.xml";
+        String fileUrl1 = "classpath*:META-INF/conf/test/default.application.xml";
         assert fileUrl1.equals(PathUtil.convertRootPathToFilePathPattern("classpath*:META-INF/conf/**/*.xml", localPath));
-        String fileUrl2 = "file:/C:/app/conf/test/default.header.xml";
+        String fileUrl2 = "file:/C:/app/conf/test/default.application.xml";
         assert fileUrl2.equals(PathUtil.convertRootPathToFilePathPattern("C:/app/conf", localPath));
         assert fileUrl2.equals(PathUtil.convertRootPathToFilePathPattern("C:/app/conf/", localPath));
         assert fileUrl2.equals(PathUtil.convertRootPathToFilePathPattern("C:/app/conf/", "/" + localPath));
