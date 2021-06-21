@@ -50,4 +50,14 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
             elm = element().$("div.n2o-advanced-table-header-cel");
         elm.shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
     }
+
+    @Override
+    public void shouldHaveIcon(String icon) {
+        element().$(".n2o-icon").shouldHave(Condition.cssClass(icon));
+    }
+
+    @Override
+    public void shouldNotHaveIcon() {
+        element().$(".n2o-icon").shouldNotBe(Condition.exist);
+    }
 }

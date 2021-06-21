@@ -93,11 +93,11 @@ public class LineFieldSetAT extends AutoTestBase {
 
         LineFieldSet line1 = fieldsets.fieldset(1, LineFieldSet.class);
         LineFieldSet line2 = fieldsets.fieldset(2, LineFieldSet.class);
-        line1.shouldNotBeVisible();
-        line2.shouldNotBeVisible();
+        line1.shouldBeHidden();
+        line2.shouldBeHidden();
 
         inputText.val("test");
-        line1.shouldNotBeVisible();
+        line1.shouldBeHidden();
         line2.shouldBeVisible();
         line2.fields().field("field2").shouldExists();
     }
