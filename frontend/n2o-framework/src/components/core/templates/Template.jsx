@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -14,7 +14,7 @@ function Layout({ children, layout, header, sidebar, footer, ...rest }) {
     const { fullSizeHeader, fixed } = layout
     const controlled = header.sidebarSwitcher
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+    const toggleSidebar = useCallback(() => setSidebarOpen(sidebarOpen => !sidebarOpen), [])
 
     const layoutContainerClasses = classNames(
         'n2o-layout-container',

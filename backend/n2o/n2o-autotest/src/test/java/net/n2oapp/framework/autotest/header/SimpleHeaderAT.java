@@ -35,39 +35,39 @@ public class SimpleHeaderAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack());
     }
-
-    @Test
-    public void simpleHeader() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/header/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/header/testPage1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/header/testJsonSimpleHeader.header.xml"));
-
-        String rootUrl = getBaseUrl();
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        page.header().brandNameShouldBe("Лого");
-        page.header().nav().shouldHaveSize(2);
-        AnchorMenuItem link = page.header().nav().anchor(0);
-        link.labelShouldHave("ссылка");
-        link.urlShouldHave(rootUrl + "/");
-
-        DropdownMenuItem dropdown = page.header().nav().dropdown(1);
-        dropdown.labelShouldHave("список");
-        dropdown.click();
-        dropdown.item(0).labelShouldHave("Название страницы");
-        dropdown.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
-        dropdown.item(0).click();
-        page.breadcrumb().titleShouldHaveText("Название страницы");
-
-        dropdown.click();
-        dropdown.item(1).labelShouldHave("элемент списка №2");
-        dropdown.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
-        dropdown.item(1).click();
-        page.breadcrumb().titleShouldHaveText("Вторая страница");
-
-        page.header().extra().shouldHaveSize(1);
-        link = page.header().extra().item(0, AnchorMenuItem.class);
-        link.labelShouldHave("ссылка из extra-menu");
-        link.urlShouldHave(getBaseUrl() + "/");
-    }
+// TODO https://jira.i-novus.ru/browse/NNO-6612
+//     @Test
+//     public void simpleHeader() {
+//         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/header/index.page.xml"),
+//                 new CompileInfo("net/n2oapp/framework/autotest/header/testPage1.page.xml"),
+//                 new CompileInfo("net/n2oapp/framework/autotest/header/testJsonSimpleHeader.header.xml"));
+//
+//         String rootUrl = getBaseUrl();
+//         SimplePage page = open(SimplePage.class);
+//         page.shouldExists();
+//         page.header().brandNameShouldBe("Лого");
+//         page.header().nav().shouldHaveSize(2);
+//         AnchorMenuItem link = page.header().nav().anchor(0);
+//         link.labelShouldHave("ссылка");
+//         link.urlShouldHave(rootUrl + "/");
+//
+//         DropdownMenuItem dropdown = page.header().nav().dropdown(1);
+//         dropdown.labelShouldHave("список");
+//         dropdown.click();
+//         dropdown.item(0).labelShouldHave("Название страницы");
+//         dropdown.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
+//         dropdown.item(0).click();
+//         page.breadcrumb().titleShouldHaveText("Название страницы");
+//
+//         dropdown.click();
+//         dropdown.item(1).labelShouldHave("элемент списка №2");
+//         dropdown.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
+//         dropdown.item(1).click();
+//         page.breadcrumb().titleShouldHaveText("Вторая страница");
+//
+//         page.header().extra().shouldHaveSize(1);
+//         link = page.header().extra().item(0, AnchorMenuItem.class);
+//         link.labelShouldHave("ссылка из extra-menu");
+//         link.urlShouldHave(getBaseUrl() + "/");
+//     }
 }

@@ -40,43 +40,43 @@ public class FieldsAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/fields/default.access.xml"));
     }
+// TODO https://jira.i-novus.ru/browse/NNO-6612
+//     @Test
+//     public void testAdminAccess() {
+//         Map<String, Object> user = new HashMap<>();
+//         user.put("username", "Admin");
+//         user.put("roles", Collections.singleton("admin"));
+//         user.put("permissions", Collections.singleton("edit"));
+//         setUserInfo(user);
+//
+//         SimplePage page = open(SimplePage.class);
+//         page.shouldExists();
+//         page.header().brandNameShouldBe("N2O");
+//         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
+//
+//         Fields fields = page.widget(FormWidget.class).fields();
+//         fields.shouldHaveSize(3);
+//         fields.field("Доступно всем").shouldExists();
+//         fields.field("Только с ролью admin").shouldExists();
+//         fields.field("Только с правом edit").shouldExists();
+//         fields.field("Только анонимам").shouldNotExists();
+//     }
 
-    @Test
-    public void testAdminAccess() {
-        Map<String, Object> user = new HashMap<>();
-        user.put("username", "Admin");
-        user.put("roles", Collections.singleton("admin"));
-        user.put("permissions", Collections.singleton("edit"));
-        setUserInfo(user);
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
-
-        Fields fields = page.widget(FormWidget.class).fields();
-        fields.shouldHaveSize(3);
-        fields.field("Доступно всем").shouldExists();
-        fields.field("Только с ролью admin").shouldExists();
-        fields.field("Только с правом edit").shouldExists();
-        fields.field("Только анонимам").shouldNotExists();
-    }
-
-    @Test
-    public void testAnonymousAccess() {
-        setUserInfo(null);
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
-
-        Fields fields = page.widget(FormWidget.class).fields();
-        fields.shouldHaveSize(2);
-        fields.field("Доступно всем").shouldExists();
-        fields.field("Только с ролью admin").shouldNotExists();
-        fields.field("Только с правом edit").shouldNotExists();
-        fields.field("Только анонимам").shouldExists();
-    }
+//     @Test
+//     public void testAnonymousAccess() {
+//         setUserInfo(null);
+//
+//         SimplePage page = open(SimplePage.class);
+//         page.shouldExists();
+//         page.header().brandNameShouldBe("N2O");
+//         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
+//
+//         Fields fields = page.widget(FormWidget.class).fields();
+//         fields.shouldHaveSize(2);
+//         fields.field("Доступно всем").shouldExists();
+//         fields.field("Только с ролью admin").shouldNotExists();
+//         fields.field("Только с правом edit").shouldNotExists();
+//         fields.field("Только анонимам").shouldExists();
+//     }
 
 }
