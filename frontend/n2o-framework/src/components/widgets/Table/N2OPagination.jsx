@@ -26,7 +26,7 @@ import { PREFIXES } from '../../../constants/models'
  * @reactProps {number} activePage
  * @reactProps {function} onChangePage
  */
-class TablePagination extends Component {
+class N2OPagination extends Component {
     componentDidUpdate(prevProps) {
         const { datasource, onChangePage, activePage, count, size } = this.props
 
@@ -45,68 +45,96 @@ class TablePagination extends Component {
             size,
             activePage,
             onChangePage,
+            layout,
             prev,
+            prevLabel,
+            prevIcon,
             next,
+            nextLabel,
+            nextIcon,
             first,
+            firstLabel,
+            firstIcon,
             last,
-            lazy,
-            showCountRecords,
-            hideSinglePage,
-            maxButtons,
-            withoutBody,
-            prevText,
-            nextText,
+            lastLabel,
+            lastIcon,
+            showCount,
+            showSinglePage,
+            maxPages,
             filters,
+            className,
+            style,
         } = this.props
+
+        const onSelect = page => onChangePage(page, { ...filters })
 
         return (
             count > 0 && (
                 <Pagination
-                    onSelect={page => onChangePage(page, { ...filters })}
+                    onSelect={onSelect}
                     activePage={activePage}
                     count={count}
                     size={size}
-                    maxButtons={maxButtons}
-                    stepIncrement={10}
+                    maxPages={maxPages}
+                    layout={layout}
                     prev={prev}
-                    prevText={prevText}
+                    prevLabel={prevLabel}
+                    prevIcon={prevIcon}
                     next={next}
-                    nextText={nextText}
+                    nextLabel={nextLabel}
+                    nextIcon={nextIcon}
                     first={first}
+                    firstLabel={firstLabel}
+                    firstIcon={firstIcon}
                     last={last}
-                    lazy={lazy}
-                    showCountRecords={showCountRecords}
-                    hideSinglePage={hideSinglePage}
-                    withoutBody={withoutBody}
+                    lastLabel={lastLabel}
+                    lastIcon={lastIcon}
+                    showCount={showCount}
+                    showSinglePage={showSinglePage}
+                    className={className}
+                    style={style}
                 />
             )
         )
     }
 }
 
-TablePagination.propTypes = {
+N2OPagination.propTypes = {
     count: PropTypes.number,
     size: PropTypes.number,
     activePage: PropTypes.number,
     onChangePage: PropTypes.func,
     datasource: PropTypes.array,
-    maxButtons: PropTypes.number,
+    maxPages: PropTypes.number,
+    layout: PropTypes.oneOf([
+        'bordered',
+        'flat',
+        'separated',
+        'flat-rounded',
+        'bordered-rounded',
+        'separated-rounded',
+    ]),
     prev: PropTypes.bool,
+    prevIcon: PropTypes.string,
+    prevLabel: PropTypes.string,
     next: PropTypes.bool,
+    nextIcon: PropTypes.string,
+    nextLabel: PropTypes.string,
     first: PropTypes.bool,
+    firstIcon: PropTypes.string,
+    firstLabel: PropTypes.string,
     last: PropTypes.bool,
-    lazy: PropTypes.any,
-    showCountRecords: PropTypes.bool,
-    hideSinglePage: PropTypes.bool,
-    withoutBody: PropTypes.bool,
-    prevText: PropTypes.string,
-    nextText: PropTypes.string,
+    lastIcon: PropTypes.string,
+    lastLabel: PropTypes.string,
+    showCount: PropTypes.bool,
+    showSinglePage: PropTypes.bool,
     filters: PropTypes.object,
+    className: PropTypes.string,
+    style: PropTypes.object,
 }
 
-TablePagination.defaultProps = {
+N2OPagination.defaultProps = {
     datasource: [],
-    maxButtons: 4,
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -133,9 +161,12 @@ function mapDispatchToProps(dispatch, ownProps) {
     }
 }
 
-// eslint-disable-next-line no-class-assign
-TablePagination = connect(
+const N2OPaginationComponent = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(TablePagination)
-export default TablePagination
+)(N2OPagination)
+
+export const getN2OPagination = (paging, place, widgetId) => (
+    paging ? { [place]: <N2OPaginationComponent widgetId={widgetId} {...paging} /> } : {})
+
+export default N2OPaginationComponent
