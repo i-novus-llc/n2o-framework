@@ -1,24 +1,23 @@
 package net.n2oapp.framework.config.metadata.application;
 
+import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.header.CompiledHeader;
+import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
-import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.header.SearchBar;
+import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции простого хедера
@@ -33,26 +32,28 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
+        builder.properties("n2o.homepage.id=index");
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oQueriesPack());
     }
 
     @Test
     public void inlineMenu() {
-        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
-                .get(new HeaderContext("headerWithMenu"));
+                .get(new ApplicationContext("headerWithMenu"));
 
-        assertThat(header.getBrand(), is("N2O"));
+        Header header = application.getHeader();
+        assertThat(header.getLogo().getTitle(), is("N2O"));
         assertThat(header.getSrc(), is("test"));
         assertThat(header.getClassName(), is("class"));
-        assertThat(header.getHomePageUrl(), is("/pageRoute"));
+        assertThat(header.getLogo().getHref(), is("/pageRoute"));
         assertThat(header.getStyle().size(), is(1));
         assertThat(header.getStyle().get("marginLeft"),is("10px"));
 
-        assertThat(header.getItems().size(), is(3));
-        SimpleMenu headerItems = header.getItems();
+        assertThat(header.getMenu().size(), is(3));
+        SimpleMenu headerItems = header.getMenu();
         // sub-menu
         assertThat(headerItems.get(0).getLabel(), is("test"));
         assertThat(headerItems.get(0).getHref(), is("/page1"));
@@ -101,8 +102,8 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(2).getSubItems().get(0).getLinkType(), is(HeaderItem.LinkType.inner));
         assertThat(subItems.get(2).getSubItems().get(0).getType(), is("link"));
 
-        assertThat(header.getExtraItems().size(), is(1));
-        HeaderItem extraItem = header.getExtraItems().get(0);
+        assertThat(header.getExtraMenu().size(), is(1));
+        HeaderItem extraItem = header.getExtraMenu().get(0);
         // sub-menu
         assertThat(extraItem.getLabel(), is("#{username}"));
         assertThat(extraItem.getHref(), is("https://ya.ru/"));
@@ -133,39 +134,40 @@ public class HeaderCompileTest extends SourceCompileTestBase {
 
     @Test
     public void externalMenu() {
-        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithExternalMenu.application.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
-                .get(new HeaderContext("headerWithExternalMenu"));
+                .get(new ApplicationContext("headerWithExternalMenu"));
 
-        assertThat(header.getHomePageUrl(), is("http://google.com/"));
-        assertThat(header.getItems().size(), is(3));
-        assertThat(header.getItems().get(0).getSubItems().size(), is(2));
-        assertThat(header.getItems().get(0).getSubItems().get(0).getLabel(), is("test2"));
-        assertThat(header.getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
-        assertThat(header.getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
-        assertThat(header.getItems().get(1).getLabel(), is("headerLabel"));
+        Header header = application.getHeader();
+        assertThat(header.getLogo().getHref(), is("http://google.com/"));
+        assertThat(header.getMenu().size(), is(3));
+        assertThat(header.getMenu().get(0).getSubItems().size(), is(2));
+        assertThat(header.getMenu().get(0).getSubItems().get(0).getLabel(), is("test2"));
+        assertThat(header.getMenu().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
+        assertThat(header.getMenu().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
+        assertThat(header.getMenu().get(1).getLabel(), is("headerLabel"));
     }
 
     @Test
     public void testBind() {
-        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
-                .bind().get(new HeaderContext("headerWithMenu"), null);
+                .bind().get(new ApplicationContext("headerWithMenu"), null);
 
-        assertThat(header.getExtraItems().get(0).getLabel(), is("test"));
+        assertThat(application.getHeader().getExtraMenu().get(0).getLabel(), is("test"));
     }
 
     @Test
     public void searchBarTest() {
-        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithSearch.application.xml",
                 "net/n2oapp/framework/config/metadata/application/search.query.xml")
-                .bind().get(new HeaderContext("headerWithSearch"), null);
-        SearchBar searchBar = header.getSearch();
+                .bind().get(new ApplicationContext("headerWithSearch"), null);
+        SearchBar searchBar = application.getHeader().getSearch();
         assertThat(searchBar, notNullValue());
         assertThat("urlId", is(searchBar.getUrlFieldId()));
         assertThat("labelId", is(searchBar.getLabelFieldId()));

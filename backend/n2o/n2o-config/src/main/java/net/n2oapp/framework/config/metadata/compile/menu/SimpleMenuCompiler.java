@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * Компиляция простого меню
  */
 @Component
-public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSimpleMenu, HeaderContext>, SourceClassAware {
+public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSimpleMenu, ApplicationContext>, SourceClassAware {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -25,7 +25,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     @Override
-    public SimpleMenu compile(N2oSimpleMenu source, HeaderContext context, CompileProcessor p) {
+    public SimpleMenu compile(N2oSimpleMenu source, ApplicationContext context, CompileProcessor p) {
         SimpleMenu items = new SimpleMenu();
         IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope();
         if (source != null && source.getMenuItems() != null)

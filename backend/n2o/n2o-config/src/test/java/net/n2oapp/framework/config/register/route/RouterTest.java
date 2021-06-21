@@ -236,7 +236,7 @@ public class RouterTest {
     public void get_root_homepage() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.header.id", "");
-        ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.header.homepage.id", "index");
+        ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.homepage.id", "index");
         MockBindPipeline pipeline = new MockBindPipeline(env);
         N2oRouter router = new N2oRouter(env, pipeline);
         pipeline.mock("index", (r, p) -> {

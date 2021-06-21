@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.test;
 
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -51,9 +51,8 @@ public abstract class JsonMetadataTestBase extends N2oTestBase {
             return new PageContext(info.getId());
         else if (N2oWidget.class.isAssignableFrom(info.getBaseSourceClass()))
             return new WidgetContext(info.getId());
-        //todo fix header
-        else if (N2oHeader.class.isAssignableFrom(info.getBaseSourceClass()))
-            return new HeaderContext(info.getId());
+        else if (N2oApplication.class.isAssignableFrom(info.getBaseSourceClass()))
+            return new ApplicationContext(info.getId());
         else
             throw new IllegalArgumentException("Unsupported class [" + info.getBaseSourceClass() + "]. Please use assertEquals(context)");
     }

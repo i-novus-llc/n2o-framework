@@ -1,19 +1,19 @@
-package net.n2oapp.framework.api.metadata.header;
+package net.n2oapp.framework.api.metadata.application;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.application.Logo;
+import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 
 import java.util.Map;
 
 /**
- * Клиентская модель заголовока приложения
+ * Клиентская модель боковой панели
  */
 @Getter
 @Setter
-public class Header implements Compiled {
+public class Sidebar implements Compiled {
     @JsonProperty
     private String src;
     @JsonProperty
@@ -27,16 +27,13 @@ public class Header implements Compiled {
     @JsonProperty
     private SimpleMenu extraMenu;
     @JsonProperty
-    private SearchBar search;
+    private Side side;
     @JsonProperty
-    private SidebarSwitcher sidebarSwitcher;
-
-    @Getter
-    @Setter
-    public static class SidebarSwitcher implements Compiled {
-        @JsonProperty("defaultIcon")
-        private String icon;
-        @JsonProperty
-        private String toggledIcon;
-    }
+    private SidebarState defaultState;
+    @JsonProperty
+    private SidebarState toggledState;
+    @JsonProperty
+    private Boolean toggleOnHover;
+    @JsonProperty
+    private Boolean overlay;
 }

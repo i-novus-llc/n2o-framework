@@ -17,4 +17,21 @@
             <a label="#{username}" href="/otherTest"/>
         </extra-menu>
     </header>
+
+    <sidebar>
+        <nav >
+            <page page-id="testHeaderAccessTransformer" route="/main"/>
+            <sub-menu label="Test Sub Menu">
+                <page page-id="testHeaderAccessTransformer" route="/main"/>
+            </sub-menu>
+            <a label="#{username}" href="/test/innerPage"/>
+        </nav>
+        <extra-menu>
+            <page page-id="testHeaderAccessTransformer" route="/main"/>
+            <sub-menu label="Test Sub Menu">
+                <page page-id="testHeaderAccessTransformer" route="/main"/>
+            </sub-menu>
+            <a label="#{username}" href="/otherTest"/>
+        </extra-menu>
+    </sidebar>
 </application>

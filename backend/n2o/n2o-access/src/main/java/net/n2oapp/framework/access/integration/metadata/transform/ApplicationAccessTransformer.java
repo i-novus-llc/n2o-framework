@@ -3,36 +3,44 @@ package net.n2oapp.framework.access.integration.metadata.transform;
 import net.n2oapp.framework.access.metadata.schema.AccessContext;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.application.Application;
+import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.header.CompiledHeader;
+import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
- * Трансформатор доступа хедера
+ * Трансформатор доступа к элементам приложения
  */
 @Component
-public class HeaderAccessTransformer extends BaseAccessTransformer<CompiledHeader, HeaderContext> {
+public class ApplicationAccessTransformer extends BaseAccessTransformer<Application, ApplicationContext> {
     @Override
     public Class<? extends Compiled> getCompiledClass() {
-        return CompiledHeader.class;
+        return Application.class;
     }
 
     @Override
-    public CompiledHeader transform(CompiledHeader compiled, HeaderContext context, CompileProcessor p) {
+    public Application transform(Application compiled, ApplicationContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        mapSecurity(compiled, accessSchema, p);
+        transformHeader(compiled.getHeader(), accessSchema, p);
+        transformSidebar(compiled.getSidebar(), accessSchema, p);
         return compiled;
     }
 
-    private void mapSecurity(CompiledHeader compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
-        mapSecurityItems(compiled.getItems(), schema, p);
-        mapSecurityItems(compiled.getExtraItems(), schema, p);
+    private void transformHeader(Header compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
+        mapSecurityItems(compiled.getMenu(), schema, p);
+        mapSecurityItems(compiled.getExtraMenu(), schema, p);
+    }
+
+    private void transformSidebar(Sidebar compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
+        mapSecurityItems(compiled.getMenu(), schema, p);
+        mapSecurityItems(compiled.getExtraMenu(), schema, p);
     }
 
     private void mapSecurityItems(SimpleMenu items, SimpleCompiledAccessSchema schema, CompileProcessor p) {
