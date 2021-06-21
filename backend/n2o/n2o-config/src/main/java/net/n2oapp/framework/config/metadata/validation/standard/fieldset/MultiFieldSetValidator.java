@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.IdValidationUtil
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Валидатор филдсета с динамическим числом полей
@@ -31,8 +31,7 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
      */
     private void validateItems(N2oMultiFieldSet source, ValidateProcessor p) {
         FieldsScope fieldsScope = p.getScope(FieldsScope.class);
-        boolean hasDependencies = fieldsScope.isHasDependencies();
-        ArrayList fields = new ArrayList(fieldsScope);
+        HashMap fields = new HashMap(fieldsScope);
 
         // ignoring external fieldsScope in multiSet fields
         FieldsScope scope = new FieldsScope();
@@ -40,8 +39,7 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
 
         // restore scope state
         fieldsScope.clear();
-        fieldsScope.setHasDependencies(hasDependencies);
-        fieldsScope.addAll(fields);
+        fieldsScope.putAll(fields);
     }
 
     @Override
