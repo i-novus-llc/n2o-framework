@@ -17,19 +17,18 @@ import find from 'lodash/find'
 
 import evalExpression from '../utils/evalExpression'
 import { setModel } from '../ducks/models/store'
-import { REGISTER_BUTTON } from '../constants/toolbar'
+import { registerButton } from '../ducks/toolbar/store'
 // eslint-disable-next-line import/no-cycle
 import { resolveColumn } from '../ducks/columns/sagas'
 import { registerColumn } from '../ducks/columns/store'
-
 // eslint-disable-next-line import/no-cycle
-import { resolveButton } from './toolbar'
+import { resolveButton } from '../ducks/toolbar/sagas'
 
 /**
  * Обработчики вызова зависимостей
  */
 const ConditionHandlers = {
-    [REGISTER_BUTTON]: resolveButton,
+    [registerButton.type]: resolveButton,
     [registerColumn.type]: resolveColumn,
 }
 
@@ -93,8 +92,8 @@ function* watchRegister() {
 
         while (true) {
             const { type, payload: payloadRegister } = yield take([
-                REGISTER_BUTTON,
                 registerColumn.type,
+                registerButton.type,
             ])
             const { conditions } = payloadRegister
 

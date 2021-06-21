@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 
 import { PREFIXES } from '../../../ducks/models/constants'
-import { callActionImpl } from '../../../actions/toolbar'
+import { callActionImpl } from '../../../ducks/toolbar/store'
 import { startInvoke } from '../../../actions/actionImpl'
 import { updateModel, setModel } from '../../../ducks/models/store'
 

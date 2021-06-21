@@ -1,16 +1,15 @@
 import { put } from '@redux-saga/core/effects'
 
 import {
-    CHANGE_BUTTON_DISABLED,
-    CHANGE_BUTTON_VISIBILITY,
-    CHANGE_BUTTON_MESSAGE,
-} from '../constants/toolbar'
-import { changeButtonVisiblity } from '../actions/toolbar'
+    changeButtonVisibility,
+    changeButtonMessage,
+    changeButtonDisabled,
+} from '../store'
 
 import {
     resolveButton,
     setParentVisibleIfAllChildChangeVisible,
-} from './toolbar'
+} from '../sagas'
 
 const setupResolveButton = () => resolveButton({
     conditions: {
@@ -35,14 +34,14 @@ describe('Проверка саги toolbar', () => {
         const gen = setupResolveButton()
         gen.next()
         let { value } = gen.next({ model: { test: 'test' } })
-        expect(value.payload.action.type).toEqual(CHANGE_BUTTON_VISIBILITY)
+        expect(value.payload.action.type).toEqual(changeButtonVisibility.type)
         expect(value.payload.action.payload.visible).toBe(true)
         gen.next()
         value = gen.next().value
-        expect(value.payload.action.type).toEqual(CHANGE_BUTTON_DISABLED)
+        expect(value.payload.action.type).toEqual(changeButtonDisabled.type)
         expect(value.payload.action.payload.disabled).toBe(true)
         value = gen.next().value
-        expect(value.payload.action.type).toEqual(CHANGE_BUTTON_MESSAGE)
+        expect(value.payload.action.type).toEqual(changeButtonMessage.type)
         expect(value.payload.action.payload.message).toBe('test message')
         gen.next()
         expect(gen.next().done).toBe(true)
@@ -70,7 +69,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
         })
         gen.next()
         expect(gen.next(testData).value).toEqual(
-            put(changeButtonVisiblity('fieldKey', 'btnId', false)),
+            put(changeButtonVisibility('fieldKey', 'btnId', false)),
         )
         expect(gen.next().done).toBe(true)
     })
@@ -94,24 +93,11 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
         })
         gen.next()
         expect(gen.next(testData).value).toEqual(
-            put(changeButtonVisiblity('fieldKey', 'btnId', true)),
+            put(changeButtonVisibility('fieldKey', 'btnId', true)),
         )
         expect(gen.next().done).toBe(true)
     })
     it('Экшен не отправляется если родитель имеет такую же видимость как и потомки', () => {
-        const testData = {
-            btnId: {
-                visible: true,
-            },
-            btnChild1Id: {
-                visible: true,
-                parentId: 'btnId',
-            },
-            btnChild2Id: {
-                visible: true,
-                parentId: 'btnId',
-            },
-        }
         const gen = setParentVisibleIfAllChildChangeVisible({
             id: 'btnChild1Id',
             key: 'fieldKey',

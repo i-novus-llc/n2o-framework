@@ -1,21 +1,19 @@
-import {
-    CHANGE_BUTTON_VISIBILITY,
-    CHANGE_BUTTON_TITLE,
-    CHANGE_BUTTON_COUNT,
-    CHANGE_BUTTON_SIZE,
-    CHANGE_BUTTON_COLOR,
-    CHANGE_BUTTON_DISABLED,
-    TOGGLE_BUTTON_DISABLED,
-    TOGGLE_BUTTON_VISIBILITY,
-    REGISTER_BUTTON,
-    CHANGE_BUTTON_HINT,
-    CHANGE_BUTTON_ICON,
-    CHANGE_BUTTON_CLASS,
-    CHANGE_BUTTON_STYLE,
-} from '../constants/toolbar'
-import { RESET_STATE } from '../constants/widgets'
-
-import toolbar from './toolbar'
+import { RESET_STATE } from '../../../constants/widgets'
+import toolbar, {
+    registerButton,
+    changeButtonTitle,
+    changeButtonCount,
+    changeButtonSize,
+    changeButtonColor,
+    changeButtonDisabled,
+    toggleButtonDisabled,
+    changeButtonHint,
+    changeButtonStyle,
+    changeButtonIcon,
+    changeButtonClass,
+    toggleButtonVisibility,
+    changeButtonVisibility,
+} from '../store'
 
 describe('Проверка toolbar reducer', () => {
     it('Проверка REGISTER_BUTTON', () => {
@@ -25,7 +23,7 @@ describe('Проверка toolbar reducer', () => {
                     buttonKey: {},
                 },
                 {
-                    type: REGISTER_BUTTON,
+                    type: registerButton,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -68,7 +66,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_VISIBILITY,
+                    type: changeButtonVisibility,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -96,7 +94,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_TITLE,
+                    type: changeButtonTitle,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -124,7 +122,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_COUNT,
+                    type: changeButtonCount,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -152,7 +150,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_SIZE,
+                    type: changeButtonSize,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -180,7 +178,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_COLOR,
+                    type: changeButtonColor,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -208,7 +206,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_DISABLED,
+                    type: changeButtonDisabled,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -236,7 +234,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: TOGGLE_BUTTON_DISABLED,
+                    type: toggleButtonDisabled,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -263,7 +261,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: TOGGLE_BUTTON_VISIBILITY,
+                    type: toggleButtonVisibility,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -290,7 +288,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_HINT,
+                    type: changeButtonHint,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -321,7 +319,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_STYLE,
+                    type: changeButtonStyle,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -355,7 +353,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_ICON,
+                    type: changeButtonIcon,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -383,7 +381,7 @@ describe('Проверка toolbar reducer', () => {
                     },
                 },
                 {
-                    type: CHANGE_BUTTON_CLASS,
+                    type: changeButtonClass,
                     payload: {
                         key: 'buttonKey',
                         buttonId: 'buttonId',
@@ -416,7 +414,7 @@ describe('Проверка toolbar reducer', () => {
                     type: RESET_STATE,
                     payload: {
                         widgetId: 'WidgetId',
-                        buttonbuttonId: 'buttonId',
+                        buttonId: 'buttonId',
                         buttonKey: 'buttonKey',
                     },
                 },

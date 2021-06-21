@@ -9,7 +9,7 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 import { compose, setDisplayName } from 'recompose'
 import get from 'lodash/get'
 
-import { callActionImpl } from '../../actions/toolbar'
+import { callActionImpl } from '../../ducks/toolbar/store'
 import { resolveWidget } from '../../actions/widgets'
 import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 import SecurityNotRender from '../../core/auth/SecurityNotRender'

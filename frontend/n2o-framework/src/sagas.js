@@ -14,7 +14,7 @@ import { conditionsSaga } from './sagas/conditions'
 import { widgetDependencySagas } from './sagas/widgetDependency'
 import regionsSagas from './ducks/regions/sagas'
 import { overlaysSagas } from './sagas/overlays'
-import toolbarSagas from './sagas/toolbar'
+import toolbarSagas from './ducks/toolbar/sagas'
 
 export default function generateSagas(dispatch, config) {
     return function* rootSaga() {

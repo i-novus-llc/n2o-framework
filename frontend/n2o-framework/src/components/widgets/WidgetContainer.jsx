@@ -14,7 +14,7 @@ import has from 'lodash/has'
 import cx from 'classnames'
 import { batchActions } from 'redux-batched-actions'
 
-import { callActionImpl } from '../../actions/toolbar'
+import { callActionImpl } from '../../ducks/toolbar/store'
 import { Placeholder } from '../snippets/Placeholder/Placeholder'
 import {
     dataRequestWidget,

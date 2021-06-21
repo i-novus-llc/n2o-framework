@@ -5,17 +5,17 @@ import every from 'lodash/every'
 import some from 'lodash/some'
 import printJS from 'print-js'
 
+import { dataProviderResolver } from '../../core/dataProviderResolver'
+// eslint-disable-next-line import/no-cycle
+import { resolveConditions } from '../../sagas/conditions'
+
+import { getContainerButtons } from './selectors'
+import { PRINT_BUTTON } from './constants'
 import {
     changeButtonDisabled,
-    changeButtonVisiblity,
+    changeButtonVisibility,
     changeButtonMessage,
-} from '../actions/toolbar'
-import { getContainerButtons } from '../selectors/toolbar'
-import { dataProviderResolver } from '../core/dataProviderResolver'
-import { PRINT_BUTTON } from '../constants/toolbar'
-
-// eslint-disable-next-line import/no-cycle
-import { resolveConditions } from './conditions'
+} from './store'
 
 /**
  * Resolve buttons conditions
@@ -32,7 +32,7 @@ export function* resolveButton(button) {
             const nextVisible = resolveConditions(visible, state).resolve
 
             yield put(
-                changeButtonVisiblity(button.key, button.buttonId, nextVisible),
+                changeButtonVisibility(button.key, button.buttonId, nextVisible),
             )
             yield call(setParentVisibleIfAllChildChangeVisible, button)
         }
@@ -80,10 +80,10 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
         const isParentVisible = get(buttons, [parentId, 'visible'], false)
 
         if (isAllChildHidden && isParentVisible) {
-            yield put(changeButtonVisiblity(key, parentId, false))
+            yield put(changeButtonVisibility(key, parentId, false))
         }
         if (isAllChildVisible && !isParentVisible) {
-            yield put(changeButtonVisiblity(key, parentId, true))
+            yield put(changeButtonVisibility(key, parentId, true))
         }
     }
 }

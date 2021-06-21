@@ -14,7 +14,7 @@ import {
     isLoading,
     errorSelector,
     getContainerButtons,
-} from './toolbar'
+} from '../selectors'
 
 const state = {
     toolbar: {
