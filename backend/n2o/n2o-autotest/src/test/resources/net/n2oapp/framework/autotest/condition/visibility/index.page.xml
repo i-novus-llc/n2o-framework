@@ -98,14 +98,14 @@
         <region>
             <form>
                 <fields>
-                    <input-text id="charactersNumber" label="charactersNumber">
+                    <input-text id="charactersNumber" label="FirstInput">
                         <dependencies>
                             <set-value on="qrCodeSetting">
                                 qrCodeSetting
                             </set-value>
                         </dependencies>
                     </input-text>
-                    <input-text id="qrCodeSetting" label="qrCodeSetting"/>
+                    <input-text id="qrCodeSetting" label="SecondInput"/>
                     <input-text id="type1" label="Type1" visible="false" description="видим при qrCodeSetting >= 1">
                         <dependencies>
                             <visibility on="qrCodeSetting">
