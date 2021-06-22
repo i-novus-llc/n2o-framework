@@ -50,19 +50,9 @@
                 <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="image-src" type="xs:string">
+        <xs:attribute name="image" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Путь к картинке, может быть взят из контекста</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-image" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Путь к картинке по умолчанию, если не найден image-src</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="image-shape" type="imageShape">
-            <xs:annotation>
-                <xs:documentation>Форма картинки. Возможные варианты: square, circle, rounded</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>

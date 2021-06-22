@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции простого хедера
  */
-public class HeaderCompileTest extends SourceCompileTestBase {
+public class SidebarCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -106,7 +106,6 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         HeaderItem extraItem = header.getExtraMenu().get(0);
         // sub-menu
         assertThat(extraItem.getLabel(), is("#{username}"));
-        assertThat(extraItem.getImage(), is("#{image}"));
         assertThat(extraItem.getHref(), is("https://ya.ru/"));
         assertThat(extraItem.getLinkType(), is(HeaderItem.LinkType.inner));
         assertThat(extraItem.getSubItems().size(), is(2));

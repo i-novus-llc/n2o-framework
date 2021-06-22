@@ -34,11 +34,13 @@ public class ApplicationAccessTransformer extends BaseAccessTransformer<Applicat
     }
 
     private void transformHeader(Header compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
+        if (compiled == null) return;
         mapSecurityItems(compiled.getMenu(), schema, p);
         mapSecurityItems(compiled.getExtraMenu(), schema, p);
     }
 
     private void transformSidebar(Sidebar compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
+        if (compiled == null) return;
         mapSecurityItems(compiled.getMenu(), schema, p);
         mapSecurityItems(compiled.getExtraMenu(), schema, p);
     }

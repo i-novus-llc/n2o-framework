@@ -38,18 +38,14 @@ public class N2oSimpleMenu extends N2oMenu {
         private String pageId;
         private String href;
         private String icon;
+        private String image;
         private String route;
         private Target target;
         private MenuItem[] subMenu;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
 
-    @Getter
-    @Setter
     public static class SubMenuItem extends MenuItem {
-        private String imageSrc;
-        private String defaultImage;
-        private ImageShape imageShape;
     }
 
     public static class PageItem extends MenuItem {

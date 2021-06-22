@@ -54,7 +54,7 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
 
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ApplicationContext("testHeaderAccessTransformer"));
+                .get(new ApplicationContext("testApplicationAccessTransformer"));
 
         checkMenuItem(application.getHeader().getMenu().get(0));
         checkMenuItem(application.getHeader().getExtraMenu().get(0));
@@ -95,7 +95,7 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
 
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ApplicationContext("testHeaderAccessTransformer"));
+                .get(new ApplicationContext("testApplicationAccessTransformer"));
         Header header = application.getHeader();
         assertAccess(((Security) header.getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         assertAccess(((Security) header.getMenu().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
@@ -116,7 +116,7 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2permitAll.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ApplicationContext("testHeaderAccessTransformer"));
+                .get(new ApplicationContext("testApplicationAccessTransformer"));
         checkPermitAll(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         checkPermitAll(((Security) application.getSidebar().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
@@ -133,7 +133,7 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2anonym.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ApplicationContext("testHeaderAccessTransformer"));
+                .get(new ApplicationContext("testApplicationAccessTransformer"));
         checkAnonym(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         checkAnonym(((Security) application.getSidebar().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
@@ -150,7 +150,7 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2auth.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ApplicationContext("testHeaderAccessTransformer"));
+                .get(new ApplicationContext("testApplicationAccessTransformer"));
         checkAuth(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         checkAuth(((Security) application.getSidebar().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }

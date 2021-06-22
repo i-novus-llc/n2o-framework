@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
-import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -27,7 +26,7 @@ public class AppConfigServlet extends HttpServlet {
     private ExposedResourceBundleMessageSource messageSource;
     private ReadCompileBindTerminalPipeline pipeline;
     private MetadataEnvironment environment;
-    private String headerSourceId;
+    private String applicationSourceId;
 
     @Override
     public void init() {
@@ -58,8 +57,8 @@ public class AppConfigServlet extends HttpServlet {
     }
 
     private Application getApplication() {
-        if (headerSourceId != null && !headerSourceId.isEmpty())
-            return pipeline.get(new ApplicationContext(headerSourceId), null);
+        if (applicationSourceId != null && !applicationSourceId.isEmpty())
+            return pipeline.get(new ApplicationContext(applicationSourceId), null);
         List<SourceInfo> apps = environment.getMetadataRegister().find(N2oApplication.class);
         if (apps == null || apps.isEmpty()) {
             return pipeline.get(new ApplicationContext("default"), null);
@@ -97,8 +96,8 @@ public class AppConfigServlet extends HttpServlet {
         this.pipeline = pipeline;
     }
 
-    public void setHeaderSourceId(String headerSourceId) {
-        this.headerSourceId = headerSourceId;
+    public void setApplicationSourceId(String applicationSourceId) {
+        this.applicationSourceId = applicationSourceId;
     }
 
     public void setEnvironment(MetadataEnvironment environment) {

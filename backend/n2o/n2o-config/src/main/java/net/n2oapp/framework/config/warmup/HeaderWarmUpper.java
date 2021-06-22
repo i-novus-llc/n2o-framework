@@ -24,14 +24,14 @@ public class HeaderWarmUpper implements EnvironmentAware {
 
     @EventListener(N2oStartedEvent.class)
     public void warmUp() {
-        String headerId = environment.getProperty("n2o.header.id", String.class);
+        String applicationId = environment.getProperty("n2o.application.id", String.class);
         String welcomePageId = environment.getProperty("n2o.homepage.id", String.class);
         // необходимо чтобы зарегистрировать рутовые страницы в RouteRegister
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = applicationBuilder
                 .read().transform().validate().cache()
                 .compile().transform().cache();
-        if (headerId != null && !headerId.isEmpty()) {
-            pipeline.get(new ApplicationContext(headerId));
+        if (applicationId != null && !applicationId.isEmpty()) {
+            pipeline.get(new ApplicationContext(applicationId));
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             PageContext context = new PageContext(welcomePageId, "/");
             try {

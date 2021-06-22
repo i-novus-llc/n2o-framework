@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public class HeaderItem implements Compiled, PropertiesAware {
     private LinkType linkType;
     @JsonProperty
     private String icon;
+    @JsonProperty
+    private String image;
     @JsonProperty
     private Target target;
     @JsonProperty

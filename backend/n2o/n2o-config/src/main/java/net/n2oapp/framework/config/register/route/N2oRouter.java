@@ -141,11 +141,11 @@ public class N2oRouter implements MetadataRouter {
      * Прогрев сборки хедера и регистрация корневых маршрутов
      */
     private void warmUpRootRoutes() {
-        String headerId = environment.getSystemProperties().getProperty("n2o.header.id", String.class);
+        String applicationId = environment.getSystemProperties().getProperty("n2o.application.id", String.class);
         String welcomePageId = environment.getSystemProperties().getProperty("n2o.homepage.id", String.class);
         // необходимо чтобы зарегистрировать рутовые страницы в RouteRegister
-        if (headerId != null && !headerId.isEmpty()) {
-            pipeline.get(new ApplicationContext(headerId));
+        if (applicationId != null && !applicationId.isEmpty()) {
+            pipeline.get(new ApplicationContext(applicationId));
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             pipeline.get(new PageContext(welcomePageId, "/"));
         }

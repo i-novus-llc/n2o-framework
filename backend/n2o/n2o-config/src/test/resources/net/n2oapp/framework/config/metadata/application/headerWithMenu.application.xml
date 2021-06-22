@@ -17,7 +17,7 @@
         </nav>
 
         <extra-menu>
-            <sub-menu label="#{username}">
+            <sub-menu label="#{username}" image="#{image}">
                 <a label="Test" href="https://ya.ru/" icon="test-icon" target="newWindow"/>
                 <sub-menu label="sub2">
                     <page page-id="pageWithoutLabel"/>
