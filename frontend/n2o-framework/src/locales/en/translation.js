@@ -3,6 +3,8 @@ export default {
     'All unsaved data will be lost, are you sure you want to leave?',
     login: 'Login',
     paginationInterval: '(0){records};(1){record};(2-inf){records};',
+    paginationCount: 'record',
+    paginationCount_plural: 'records',
     paginationTotal: 'Total',
     noData: 'No data',
     chooseTime: 'Choose time',
