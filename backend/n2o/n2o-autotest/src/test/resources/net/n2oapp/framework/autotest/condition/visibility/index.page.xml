@@ -106,7 +106,7 @@
                         </dependencies>
                     </input-text>
                     <input-text id="qrCodeSetting" label="SecondInput"/>
-                    <input-text id="type1" label="Type1" visible="false" description="видим при qrCodeSetting >= 1">
+                    <input-text id="type1" label="Type1" visible="false" description="видим при SecondInput >= 1">
                         <dependencies>
                             <visibility on="qrCodeSetting">
                                 qrCodeSetting >= 1
@@ -116,7 +116,7 @@
                             </enabling>
                         </dependencies>
                     </input-text>
-                    <input-text id="type2" label="Type2" visible="false" description="видим при charactersNumber == 2">
+                    <input-text id="type2" label="Type2" visible="false" description="видим при FirstInput == 2">
                         <dependencies>
                             <visibility on="charactersNumber,qrCodeSetting">
                                 charactersNumber == 2
