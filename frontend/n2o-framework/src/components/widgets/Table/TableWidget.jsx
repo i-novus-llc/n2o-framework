@@ -6,8 +6,9 @@ import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 // eslint-disable-next-line import/no-named-as-default
 import dependency from '../../../core/dependency'
+import { pagingType } from '../../snippets/Pagination/types'
 
-import TablePagination from './TablePagination'
+import { getN2OPagination } from './N2OPagination'
 import TableContainer from './TableContainer'
 
 /**
@@ -85,6 +86,8 @@ class TableWidget extends React.Component {
             style,
         } = this.props
 
+        const { place = 'bottomLeft' } = paging
+
         return (
             <StandardWidget
                 disabled={disabled}
@@ -92,9 +95,7 @@ class TableWidget extends React.Component {
                 toolbar={toolbar}
                 actions={actions}
                 filter={this.prepareFilters()}
-                bottomLeft={
-                    paging && <TablePagination widgetId={widgetId} {...paging} />
-                }
+                {...getN2OPagination(paging, place, widgetId)}
                 className={className}
                 style={style}
             >
@@ -138,7 +139,7 @@ TableWidget.propTypes = {
             cells: PropTypes.array,
         }),
     ),
-    paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    paging: pagingType,
     filter: PropTypes.object,
     id: PropTypes.string,
     disabled: PropTypes.bool,

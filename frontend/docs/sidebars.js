@@ -9,6 +9,7 @@ module.exports = {
                            label: 'Общее',
                            items: [
                                'buttons',
+                               'pagination'
                            ],
                        },
                        {

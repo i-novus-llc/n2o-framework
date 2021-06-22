@@ -455,24 +455,46 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Атрибуты**
 
-|Наименование    |Тип            |Описание                                                       |Значение по умолчанию|
-|----------------|---------------|---------------------------------------------------------------|---------------------|
-|src             |React компонент|Реализация паджинации                                          |Pagination           |
-|prev            |true false     |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                |
-|next            |true false     |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                |
-|last            |true false     |Показать/скрыть кнопку быстрого перехода на последнюю страницу |false                |
-|first           |true false     |Показать/скрыть кнопку быстрого перехода на первую страницу    |true                 |
-|show-count      |true false     |Показать общее количество записей                              |true                 |
-|hide-single-page|true false     |Скрыть паджинацию на единственной странице                     |true                 |
+|Наименование    |Тип                                                                         |Описание                                                       |Значение по умолчанию   |
+|----------------|----------------------------------------------------------------------------|---------------------------------------------------------------|------------------------|
+|src             |React компонент                                                             |Реализация паджинации                                          |Pagination              |
+|layout          |bordered, flat, separated, bordered-rounded, flat-rounded, separated-rounded|Устанавливает представление компонента                         |separated               |
+|prev            |true false                                                                  |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                   |
+|prev-label      |Строка                                                                      |Наименование                                                   |null                    |
+|prev-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-left        |
+|next            |true false                                                                  |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                   |
+|next-label      |Строка                                                                      |Наименование                                                   |null                    |
+|next-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-right       |
+|last            |true false                                                                  |Показать/скрыть кнопку быстрого перехода на последнюю страницу |false                   |
+|last-label      |Строка                                                                      |Наименование                                                   |null                    |
+|last-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-double-right|
+|first           |true false                                                                  |Показать/скрыть кнопку быстрого перехода на первую страницу    |true                    |
+|first-label     |Строка                                                                      |Наименование                                                   |null                    |
+|first-icon      |[CSS класс](https://fontawesome.ru/all-icons/#directional)                  |Иконка кнопки                                                  |fa fa-angle-double-left |
+|show-count      |true false                                                                  |Показать общее количество записей                              |true                    |
+|show-single-page|true false                                                                  |Показать паджинацию на единственной странице                   |true                    |
+|max-pages       |Число                                                                       |Максимальное кол-во кнопок перехода между страницами           |5                       |
+|place           |topLeft, topRight, bottomLeft, bottomRight, topCenter, bottomCenter         |Место расположения пагинации                                   |bottomLeft              |
+|class           |Строка                                                                      |CSS класс, который будет добавлен к виджету                    |                        |
+|style           |CSS свойство                                                                |Стиль виджета                                                  |                        |
 
 **Пример**
 
 ```xml
 <pagination
+  layout="separated-rounded"
+  first="true"
+  last="true"
   prev="true"
   next="true"
-  first="true"
-  last="false"/>
+  first-label="На первую"
+  last-icon="fa fa-space-shuttle"
+  prev-label="Сюда"
+  next-label="Туда"
+  max-pages="5"
+  place="bottomCenter"
+  style="display: flex; alignItems: baseline"
+  class="some-class"/>
 ```
 
 #### &lt;filters&gt;

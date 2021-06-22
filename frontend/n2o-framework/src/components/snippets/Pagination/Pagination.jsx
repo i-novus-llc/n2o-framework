@@ -5,19 +5,121 @@ import { withTranslation } from 'react-i18next'
 
 import { PaginationButton } from './PaginationButton'
 
+const getLabel = (direction, icon, label, additionalClass) => {
+    if (icon && label) {
+        if (direction === 'left') {
+            return (
+                <>
+                    <span className={classNames(icon, additionalClass)} aria-hidden="true" />
+                    {' '}
+                    <span>{label}</span>
+                </>
+            )
+        }
+
+        if (direction === 'right') {
+            return (
+                <>
+                    <span>{label}</span>
+                    {' '}
+                    <span className={classNames(icon, additionalClass)} aria-hidden="true" />
+                </>
+            )
+        }
+    }
+
+    if (icon) {
+        return (<i className={classNames(icon, additionalClass)} aria-hidden="true" />)
+    }
+
+    return label
+}
+
+const getControlButton = (buttonType, icon, label, activePage, onSelect, lastPage) => {
+    const buttonsOptions = {
+        first: { direction: 'left', props: { eventKey: 1, disabled: activePage === 1 }, additionalClass: 'first-button' },
+        last: { direction: 'right', props: { eventKey: lastPage, disabled: lastPage === activePage }, additionalClass: 'last-button' },
+        next: { direction: 'right', props: { eventKey: activePage + 1, disabled: lastPage === activePage }, additionalClass: 'next-button' },
+        prev: { direction: 'left', props: { eventKey: activePage - 1, disabled: activePage === 1 }, additionalClass: 'previous-button' },
+    }
+
+    const buttonOption = buttonsOptions[buttonType]
+
+    return (
+        <PaginationButton
+            {...buttonOption.props}
+            label={getLabel(buttonOption.direction, icon, label, buttonOption.additionalClass)}
+            onSelect={onSelect}
+            tabIndex={0}
+        />
+    )
+}
+
+/**
+ * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
+ * @param activePage {number} - номер активной страницы
+ * @param maxPages {number} - максимальное кол-во отображаемых кнопок перехода между страницами
+ * @param onSelect {function} - callback нажатия по кнопке страницы
+ * @param totalPages {number} - общее количество страниц
+ * @returns {Array} - вовзращает список кнопок
+ */
+const renderBodyPaging = (activePage, maxPages, onSelect, totalPages) => {
+    const getPager = (totalPages, currentPage, maxPages) => {
+        let startPage
+        let endPage
+
+        if (totalPages <= maxPages) {
+            // if we have less than maxPages so show all
+            startPage = 1
+            endPage = totalPages
+        } else {
+            // we have more than maxPages so calculate start and end pages
+            const middle = Math.ceil(maxPages / 2)
+
+            if (currentPage <= middle) {
+                startPage = 1
+                endPage = maxPages
+            } else if (currentPage + (maxPages - middle) >= totalPages) {
+                startPage = totalPages - (maxPages - 1)
+                endPage = totalPages
+            } else {
+                startPage = currentPage - Math.floor(maxPages / 2)
+                endPage = currentPage + middle - 1
+            }
+        }
+
+        return [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i)
+    }
+
+    return getPager(totalPages, activePage, maxPages).map(page => (
+        <PaginationButton
+            key={page.toString()}
+            tabIndex={0}
+            eventKey={page}
+            label={page}
+            active={page === activePage}
+            onSelect={onSelect}
+        />
+    ))
+}
+
 /**
  * Компонент интерфейса разбивки по страницам
  * @reactProps {boolean} prev - показать/скрыть кнопку быстрого перехода на предыдущую страницу
- * @reactProps {boolean} prevText - текс кнопки
+ * @reactProps {boolean} prevIcon - Вид иконки быстрого перехода на предудущую страницу
+ * @reactProps {boolean} prevLabel - текс кнопки
  * @reactProps {boolean} next - показать/скрыть кнопку быстрого перехода на следующую страницу
- * @reactProps {boolean} nextText - текст кнопки
+ * @reactProps {boolean} nextIcon - Вид иконки быстрого перехода на следующую страницу
+ * @reactProps {boolean} nextLabel - текст кнопки
  * @reactProps {boolean} first - показать/скрыть кнопку быстрого перехода на первую страницу
+ * @reactProps {boolean} firstIcon - Вид иконки быстрого перехода на первую страницу
+ * @reactProps {boolean} firstLabel - текст кнопки
  * @reactProps {boolean} last - показать/скрыть кнопку быстрого перехода на последнюю страницу
- * @reactProps {boolean} withoutBody - скрыть тело пагинации
- * @reactProps {boolean} showCountRecords - показать индикатор общего кол-ва записей
- * @reactProps {boolean} hideSinglePage - скрывать компонент, если страница единственная
- * @reactProps {number} maxButtons - максимальное кол-во кнопок перехода между страницами
- * @reactProps {number} stepIncrement - шаг дополнительной кнопки (1,2.3 ... 11)
+ * @reactProps {boolean} lastIcon - Вид иконки быстрого перехода на последнюю страницу
+ * @reactProps {boolean} lastLabel - текст кнопки
+ * @reactProps {boolean} showCount - показать индикатор общего кол-ва записей
+ * @reactProps {boolean} showSinglePage - показывать компонент, если страница единственная
+ * @reactProps {number} maxPages - максимальное кол-во отображаемых кнопок перехода между страницами
  * @reactProps {number} count - общее кол-во записей
  * @reactProps {number} size - кол-во записей на одной странице
  * @reactProps {number} activePage - номер активной страницы
@@ -28,281 +130,140 @@ import { PaginationButton } from './PaginationButton'
  *             activePage={datasource.page}
  *             count={datasource.count}
  *             size={datasource.size}
- *             maxButtons={4}
- *             stepIncrement={10} />
+ *             maxPages={5}/>
  */
-class Pagination extends React.Component {
-    /**
-     * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
-     * @param activePage
-     * @param pages
-     * @param maxButtons
-     * @param stepIncrement
-     * @param onSelect
-     * @returns {Array} - вовзращает список кнопок
-     */
-    renderBodyPaging = (activePage, pages, maxButtons, stepIncrement, onSelect) => {
-        const pageButtons = []
+const Pagination = (props) => {
+    const {
+        layout = 'separated',
+        activePage = 1,
+        count = 1,
+        size = 1,
+        maxPages = 5,
+        first = false,
+        last = false,
+        prev = false,
+        next = false,
+        showCount = true,
+        showSinglePage = false,
+        onSelect,
+        className,
+        prevIcon = 'fa fa-angle-left',
+        prevLabel = null,
+        nextIcon = 'fa fa-angle-right',
+        nextLabel = null,
+        firstIcon = 'fa fa-angle-double-left',
+        firstLabel = null,
+        lastIcon = 'fa fa-angle-double-right',
+        lastLabel = null,
+        style = { display: 'flex', alignItems: 'baseline' },
+        t = () => {},
+    } = props
 
-        let startPage
-        let endPage
+    const pages = Math.ceil(count / size) || 1
+    const lastPage = Math.ceil(count / size)
 
-        if (maxButtons && maxButtons < pages) {
-            startPage = Math.max(
-                Math.min(
-                    activePage - Math.floor(maxButtons / 2, 10),
-                    pages - maxButtons + 1,
-                ),
-                1,
-            )
-            endPage = startPage + maxButtons
-        } else {
-            startPage = 1
-            endPage = maxButtons
-        }
+    return (
+        <nav
+            className={classNames('n2o-pagination', className)}
+            style={style}
+        >
+            {showSinglePage || pages > 1 ? (
+                <ul className={classNames('pagination', 'd-inline-flex', layout)}>
+                    {first && getControlButton('first', firstIcon, firstLabel, activePage, onSelect, lastPage)}
+                    {prev && getControlButton('prev', prevIcon, prevLabel, activePage, onSelect, lastPage)}
+                    {renderBodyPaging(activePage, maxPages, onSelect, pages)}
+                    {next && getControlButton('next', nextIcon, nextLabel, activePage, onSelect, lastPage)}
+                    {last && getControlButton('last', lastIcon, lastLabel, activePage, onSelect, lastPage)}
+                </ul>
+            ) : null}
 
-        if (endPage > pages) {
-            endPage = pages
-        }
-
-        for (let page = startPage; page <= endPage; ++page) {
-            pageButtons.push(
-                <PaginationButton
-                    key={page}
-                    tabIndex={0}
-                    eventKey={page}
-                    label={page}
-                    active={page === activePage}
-                    onSelect={onSelect}
-                />,
-            )
-        }
-
-        if (stepIncrement && endPage < pages - 1) {
-            pageButtons.push(
-                <PaginationButton
-                    label="..."
-                    tabIndex={-1}
-                    key="ellipsisMiddle"
-                    noBorder
-                    disabled
-                />,
-            )
-            pageButtons.push(
-                <PaginationButton
-                    tabIndex={0}
-                    key={
-                        activePage + stepIncrement > pages
-                            ? pages
-                            : activePage + stepIncrement
-                    }
-                    eventKey={
-                        activePage + stepIncrement > pages
-                            ? pages
-                            : activePage + stepIncrement
-                    }
-                    label={
-                        activePage + stepIncrement > pages
-                            ? pages
-                            : activePage + stepIncrement
-                    }
-                    onSelect={onSelect}
-                />,
-            )
-            if (activePage + stepIncrement < pages) {
-                pageButtons.push(
-                    <PaginationButton
-                        label="..."
-                        tabIndex={-1}
-                        key="ellipsisLast"
-                        noBorder
-                        disabled
-                    />,
-                )
-            }
-        } else if (stepIncrement && endPage === pages - 1) {
-            pageButtons.push(
-                <PaginationButton
-                    key={pages}
-                    eventKey={pages}
-                    label={pages}
-                    onSelect={onSelect}
-                />,
-            )
-        }
-
-        if (startPage > 1) {
-            if (startPage > 2) {
-                pageButtons.unshift(
-                    <PaginationButton
-                        label="..."
-                        key="ellipsisFirst"
-                        tabIndex={-1}
-                        noBorder
-                        disabled
-                    />,
-                )
-            }
-
-            pageButtons.unshift(
-                <PaginationButton
-                    key={1}
-                    eventKey={1}
-                    label="1"
-                    tabIndex={0}
-                    onSelect={onSelect}
-                />,
-            )
-        }
-
-        return pageButtons
-    }
-
-    /**
-     * Базовый рендер компонента
-     */
-    render() {
-        const {
-            activePage,
-            count,
-            size,
-            maxButtons,
-            stepIncrement,
-            first,
-            last,
-            prev,
-            next,
-            showCountRecords,
-            hideSinglePage,
-            onSelect,
-            className,
-            withoutBody,
-            prevText,
-            nextText,
-            t,
-        } = this.props
-        const pages = Math.ceil(count / size, 10) || 1
-        const lastPage = Math.ceil(count / size)
-
-        return (
-            <nav
-                className="n2o-pagination"
-                style={{ display: 'flex', alignItems: 'baseline' }}
-            >
-                {hideSinglePage && pages === 1 ? null : (
-                    <ul className={classNames('pagination', 'd-inline-flex', className)}>
-                        {first && (
-                            <PaginationButton
-                                eventKey={1}
-                                label="&laquo;"
-                                disabled={activePage === 1}
-                                onSelect={onSelect}
-                                /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
-                                tabIndex={1}
-                            />
-                        )}
-                        {prev && (
-                            <PaginationButton
-                                eventKey={activePage - 1}
-                                label={prevText || '&lsaquo;'}
-                                disabled={activePage === 1}
-                                onSelect={onSelect}
-                                tabIndex={0}
-                            />
-                        )}
-                        {!withoutBody &&
-              this.renderBodyPaging(
-                  activePage,
-                  pages,
-                  maxButtons,
-                  stepIncrement,
-                  onSelect,
-              )}
-                        {next && (
-                            <PaginationButton
-                                eventKey={activePage + 1}
-                                label={nextText || '&rsaquo;'}
-                                disabled={lastPage === activePage}
-                                onSelect={onSelect}
-                                tabIndex={0}
-                            />
-                        )}
-                        {last && (
-                            <PaginationButton
-                                eventKey={lastPage}
-                                label="&raquo;"
-                                disabled={lastPage === activePage}
-                                onSelect={onSelect}
-                                tabIndex={0}
-                            />
-                        )}
-                    </ul>
-                )}
-                {/* eslint-disable react/jsx-one-expression-per-line */}
-                {showCountRecords && (
-                    <span
-                        className="n2o-pagination-info"
-                        style={{
-                            paddingLeft: hideSinglePage && pages === 1 ? 0 : '1rem',
-                            display: 'inline-flex',
-                        }}
-                    >
-                        {`${t('paginationTotal')} ${count}`}
-
-            &nbsp;
-                        {t('paginationInterval', { postProcess: 'interval', count })}
-                    </span>
-                )}
-            </nav>
-        )
-    }
+            {showCount && (
+                <span
+                    className="n2o-pagination-total"
+                    style={{
+                        paddingLeft: showSinglePage || pages > 1 ? '1rem' : 0,
+                        display: 'inline-flex',
+                    }}
+                >
+                    {`${t('paginationTotal')} ${count} ${t('paginationCount', { count })}`}
+                </span>
+            )}
+        </nav>
+    )
 }
 
 Pagination.propTypes = {
+    /**
+     *  Стиль
+     * */
+    layout: PropTypes.oneOf([
+        'bordered',
+        'flat',
+        'separated',
+        'flat-rounded',
+        'bordered-rounded',
+        'separated-rounded',
+    ]),
     /**
      * Показать/скрыть кнопку быстрого перехода на предыдущую страницу
      */
     prev: PropTypes.bool,
     /**
+     * Вид иконки быстрого перехода на предудущую страницу
+     * */
+    prevIcon: PropTypes.string,
+    /**
      * Текст кнопки 'Назад'
      */
-    prevText: PropTypes.string,
+    prevLabel: PropTypes.string,
     /**
      * Показать/скрыть кнопку быстрого перехода на следующую страницу
      */
     next: PropTypes.bool,
     /**
+     * Вид иконки быстрого перехода на следующую страницу
+     */
+    nextIcon: PropTypes.string,
+    /**
      * Текст кнопки 'Вперед'
      */
-    nextText: PropTypes.string,
+    nextLabel: PropTypes.string,
     /**
      * Показать/скрыть кнопку быстрого перехода на первую страницу
      */
     first: PropTypes.bool,
     /**
+     * Вид иконки быстрого перехода на первую страницу
+     * */
+    firstIcon: PropTypes.string,
+    /**
+     * Текст кнопки 'First'
+     */
+    firstLabel: PropTypes.string,
+    /**
      * Показать/скрыть кнопку быстрого перехода на последнюю страницу
      */
     last: PropTypes.bool,
     /**
-     * Скрыть тело пагинации
+     * Вид иконки быстрого перехода на последнюю страницу
+     * */
+    lastIcon: PropTypes.string,
+    /**
+     * Текст кнопки 'Last'
      */
-    withoutBody: PropTypes.bool,
+    lastLabel: PropTypes.string,
     /**
      * Показать индикатор общего кол-ва записей
      */
-    showCountRecords: PropTypes.bool,
+    showCount: PropTypes.bool,
     /**
      * Скрывать компонент, если страница единственная
      */
-    hideSinglePage: PropTypes.bool,
+    showSinglePage: PropTypes.bool,
     /**
      * Максимальное кол-во кнопок перехода между страницами
      */
-    maxButtons: PropTypes.number,
-    /**
-     * Шаг дополнительной кнопки (1,2.3 ... 11)
-     */
-    stepIncrement: PropTypes.number,
+    maxPages: PropTypes.number,
     /**
      * Общее кол-во записей
      */
@@ -324,23 +285,7 @@ Pagination.propTypes = {
      */
     className: PropTypes.string,
     t: PropTypes.func,
-}
-
-Pagination.defaultProps = {
-    prev: false,
-    prevText: null,
-    next: false,
-    nextText: null,
-    first: false,
-    last: false,
-    withoutBody: false,
-    showCountRecords: true,
-    hideSinglePage: true,
-    maxButtons: 4,
-    count: 1,
-    size: 1,
-    activePage: 1,
-    t: () => {},
+    style: PropTypes.object,
 }
 
 export default withTranslation()(Pagination)
