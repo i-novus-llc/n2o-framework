@@ -98,6 +98,7 @@ public class TilesAT extends AutoTestBase {
 
         Paging paging = tiles.paging();
         paging.totalElementsShouldBe(8);
+        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
@@ -121,6 +122,7 @@ public class TilesAT extends AutoTestBase {
 
         paging = tiles2.paging();
         paging.totalElementsShouldNotExist();
+        paging.shouldHaveLayout(Paging.Layout.SEPARATED_ROUNDED);
         paging.prevShouldExist();
         paging.prevShouldHaveLabel("Prev");
         paging.prevShouldHaveIcon("fa-angle-down");

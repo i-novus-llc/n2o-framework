@@ -191,6 +191,7 @@ public class CardsAT extends AutoTestBase {
 
         Paging paging = cards.paging();
         paging.totalElementsShouldBe(8);
+        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
@@ -212,6 +213,7 @@ public class CardsAT extends AutoTestBase {
         CardsWidget cards2 = page.regions().region(0, SimpleRegion.class).content().widget(1, CardsWidget.class);
         paging = cards2.paging();
         paging.totalElementsShouldNotExist();
+        paging.shouldHaveLayout(Paging.Layout.BORDERED);
         paging.prevShouldExist();
         paging.prevShouldHaveLabel("Prev");
         paging.prevShouldHaveIcon("fa-angle-down");

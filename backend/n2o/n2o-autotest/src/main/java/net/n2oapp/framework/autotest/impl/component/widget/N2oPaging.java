@@ -29,6 +29,11 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
+    public void shouldHaveLayout(Layout layout) {
+        element().$(".n2o-pagination pagination").shouldHave(Condition.cssClass(layout.getTitle()));
+    }
+
+    @Override
     public int totalElements() {
         String info = paginationInfo().text();
         info = info.split(" ")[1];

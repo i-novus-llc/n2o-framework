@@ -12,6 +12,8 @@ public interface Paging extends Component {
 
     void pagingShouldHave(String number);
 
+    void shouldHaveLayout(Layout layout);
+
     int totalElements();
 
     void totalElementsShouldBe(int count);
@@ -57,4 +59,24 @@ public interface Paging extends Component {
     void lastShouldHaveIcon(String icon);
 
     void selectLast();
+
+
+    enum Layout {
+        BORDERED("bordered"),
+        FLAT("flat"),
+        SEPARATED("separated"),
+        BORDERED_ROUNDED("bordered-rounded"),
+        FLAT_ROUNDED("flat-rounded"),
+        SEPARATED_ROUNDED("separated-rounded");
+
+        private String title;
+
+        Layout(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
 }

@@ -16,7 +16,7 @@
                     <text/>
                 </block>
             </content>
-            <pagination next="true" prev="true" last="true" first="true"
+            <pagination next="true" prev="true" last="true" first="true" layout="separated-rounded"
                         first-label="First" prev-label="Prev" next-label="Next" last-label="Last"
                         first-icon="fa fa-angle-double-down" prev-icon="fa fa-angle-down"
                         next-icon="fa fa-angle-up" last-icon="fa fa-angle-double-up"
