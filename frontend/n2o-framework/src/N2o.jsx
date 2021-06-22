@@ -17,7 +17,7 @@ import apiProvider from './core/api'
 import SecurityProvider from './core/auth/SecurityProvider'
 import Router from './components/core/Router'
 import Application from './components/core/Application'
-import { HeaderFooterTemplate } from './components/core/templates'
+import { Template } from './components/core/templates'
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb'
 import globalFnDate from './utils/globalFnDate'
 import configureErrorPages from './components/errors'
@@ -131,7 +131,7 @@ N2o.propTypes = {
 const EnhancedN2O = compose(
     withTranslation(),
     defaultProps({
-        defaultTemplate: HeaderFooterTemplate,
+        defaultTemplate: Template,
         defaultBreadcrumb: DefaultBreadcrumb,
         defaultPage: 'StandardPage',
         defaultErrorPages: configureErrorPages(),
