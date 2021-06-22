@@ -209,7 +209,7 @@ describe('Тестирование саги', () => {
         expect(gen.next().value).toEqual(
             put(
                 change(mockData.formName, mockData.fields.field1.name, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: 'test',
                 }),
             ),
