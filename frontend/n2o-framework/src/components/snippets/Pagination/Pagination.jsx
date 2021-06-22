@@ -5,12 +5,12 @@ import { withTranslation } from 'react-i18next'
 
 import { PaginationButton } from './PaginationButton'
 
-const getLabel = (direction, icon, label) => {
+const getLabel = (direction, icon, label, additionalClass) => {
     if (icon && label) {
         if (direction === 'left') {
             return (
                 <>
-                    <span className={icon} aria-hidden="true" />
+                    <span className={classNames(icon, additionalClass)} aria-hidden="true" />
                     {' '}
                     <span>{label}</span>
                 </>
@@ -22,14 +22,14 @@ const getLabel = (direction, icon, label) => {
                 <>
                     <span>{label}</span>
                     {' '}
-                    <span className={icon} aria-hidden="true" />
+                    <span className={classNames(icon, additionalClass)} aria-hidden="true" />
                 </>
             )
         }
     }
 
     if (icon) {
-        return (<i className={icon} aria-hidden="true" />)
+        return (<i className={classNames(icon, additionalClass)} aria-hidden="true" />)
     }
 
     return label
@@ -37,10 +37,10 @@ const getLabel = (direction, icon, label) => {
 
 const getControlButton = (buttonType, icon, label, activePage, onSelect, lastPage) => {
     const buttonsOptions = {
-        first: { direction: 'left', props: { eventKey: 1, disabled: activePage === 1 } },
-        last: { direction: 'right', props: { eventKey: lastPage, disabled: lastPage === activePage } },
-        next: { direction: 'right', props: { eventKey: activePage + 1, disabled: lastPage === activePage } },
-        prev: { direction: 'left', props: { eventKey: activePage - 1, disabled: activePage === 1 } },
+        first: { direction: 'left', props: { eventKey: 1, disabled: activePage === 1 }, additionalClass: 'first-button' },
+        last: { direction: 'right', props: { eventKey: lastPage, disabled: lastPage === activePage }, additionalClass: 'last-button' },
+        next: { direction: 'right', props: { eventKey: activePage + 1, disabled: lastPage === activePage }, additionalClass: 'next-button' },
+        prev: { direction: 'left', props: { eventKey: activePage - 1, disabled: activePage === 1 }, additionalClass: 'previous-button' },
     }
 
     const buttonOption = buttonsOptions[buttonType]
@@ -48,7 +48,7 @@ const getControlButton = (buttonType, icon, label, activePage, onSelect, lastPag
     return (
         <PaginationButton
             {...buttonOption.props}
-            label={getLabel(buttonOption.direction, icon, label)}
+            label={getLabel(buttonOption.direction, icon, label, buttonOption.additionalClass)}
             onSelect={onSelect}
             tabIndex={0}
         />
@@ -179,15 +179,13 @@ const Pagination = (props) => {
 
             {showCount && (
                 <span
-                    className="n2o-pagination-info"
+                    className="n2o-pagination-total"
                     style={{
                         paddingLeft: showSinglePage || pages > 1 ? '1rem' : 0,
                         display: 'inline-flex',
                     }}
                 >
-                    {`${t('paginationTotal')} ${count}`}
-                    <>&nbsp;</>
-                    {t('paginationInterval', { postProcess: 'interval', count })}
+                    {`${t('paginationTotal')} ${count} ${t('paginationCount', { count })}`}
                 </span>
             )}
         </nav>
