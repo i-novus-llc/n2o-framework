@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.collection;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
@@ -17,4 +18,6 @@ public interface Cells extends ComponentsCollection {
     void click();
 
     void hover();
+
+    void shouldHaveColor(Colors color);
 }

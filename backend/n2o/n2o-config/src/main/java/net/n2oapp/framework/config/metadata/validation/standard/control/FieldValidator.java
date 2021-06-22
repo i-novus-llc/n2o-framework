@@ -25,11 +25,11 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     public void validate(N2oField source, ValidateProcessor p) {
         if (p.getScope(FieldsScope.class) != null) {
             FieldsScope scope = p.getScope(FieldsScope.class);
-            scope.add(source);
-            if (source.getDependencies() != null)
-                scope.setHasDependencies(true);
-            if (scope.isHasDependencies())
-                p.checkIdsUnique(scope, "Поле {0} встречается более одного раза.");
+            Boolean sameFieldIdHasDependency = scope.get(source.getId());
+            if (sameFieldIdHasDependency != null && (sameFieldIdHasDependency || source.getDependencies() != null))
+                throw new N2oMetadataValidationException(
+                        String.format("Поле %s встречается более одного раза", source.getId()));
+            scope.put(source.getId(), source.getDependencies() != null);
         }
         checkDefaultValues(source);
         checkDependencies(source);

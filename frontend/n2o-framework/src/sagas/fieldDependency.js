@@ -85,7 +85,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
-    const { type, expression } = dependency
+    const { type, expression, on } = dependency
 
     const evalResult = expression
         ? evalExpression(expression, values)
@@ -209,8 +209,15 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
         }
         case 'fetchValue': {
             const watcher = yield fork(fetchValue, formName, fieldName, dependency)
-            const action = yield take(actionTypes.CHANGE)
+            const action = yield take((action) => {
+                if (action.type !== actionTypes.CHANGE) { return false }
+                // TODO Выяснить может ли fetch быть без зависимостей, если нет, то убрать
+                if (!on || !on.length) { return true }
 
+                return on.includes(get(action, 'meta.field'))
+            })
+
+            // TODO разобраться с этим условием, не уверен что актуально
             if (get(action, 'meta.field') !== fieldName) {
                 yield cancel(watcher)
             }
@@ -229,6 +236,12 @@ export function* checkAndModify(
     fieldName,
     actionType,
 ) {
+    const isInitAction = [
+        actionTypes.INITIALIZE,
+        REGISTER_FIELD_EXTRA,
+    ].includes(actionType)
+    const isChangeAction = actionType === actionTypes.CHANGE
+
     // eslint-disable-next-line no-restricted-syntax
     for (const fieldId of Object.keys(fields)) {
         const field = fields[fieldId]
@@ -236,23 +249,17 @@ export function* checkAndModify(
         if (field.dependency) {
             // eslint-disable-next-line no-restricted-syntax
             for (const dep of field.dependency) {
-                const isInitAction = [
-                    actionTypes.INITIALIZE,
-                    REGISTER_FIELD_EXTRA,
-                ].includes(actionType)
-                const isChangeAction = actionType === actionTypes.CHANGE
-
                 if (
                     (isInitAction && dep.applyOnInit) ||
-                    (isChangeAction && includes(dep.on, fieldName)) ||
-                    (isChangeAction &&
+                    (isChangeAction && (
+                        includes(dep.on, fieldName) ||
                         some(
                             dep.on,
                             field => includes(field, '.') && includes(field, fieldName),
                         )
-                    )
+                    ))
                 ) {
-                    yield call(modify, values, formName, fieldId, dep, field)
+                    yield fork(modify, values, formName, fieldId, dep, field)
                 }
             }
         }
