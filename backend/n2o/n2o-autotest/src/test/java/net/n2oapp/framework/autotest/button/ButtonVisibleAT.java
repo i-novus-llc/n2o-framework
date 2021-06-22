@@ -56,7 +56,7 @@ public class ButtonVisibleAT extends AutoTestBase {
         type.shouldBeEmpty();
         button.shouldNotExists();
         subMenu.shouldExists();
-        subMenu.shouldNotBeVisible();
+        subMenu.shouldBeHidden();
 
         type.check("button and all menu items");
         button.shouldExists();
@@ -81,6 +81,6 @@ public class ButtonVisibleAT extends AutoTestBase {
         type.check("none");
         button.shouldNotExists();
         subMenu.shouldExists();
-        subMenu.shouldNotBeVisible();
+        subMenu.shouldBeHidden();
     }
 }
