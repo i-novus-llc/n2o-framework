@@ -87,7 +87,7 @@ describe('Проверка саги dependency', () => {
             })
             const next = gen.next()
             expect(next.value.payload.action.payload).toEqual({
-                keepDirty: false,
+                keepDirty: true,
                 value: 12,
             })
         })
