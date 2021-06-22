@@ -194,6 +194,7 @@ public class CardsAT extends AutoTestBase {
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
@@ -208,15 +209,21 @@ public class CardsAT extends AutoTestBase {
         cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
 
 
-        CardsWidget cards2 = page.regions().region(1, SimpleRegion.class).content().widget(CardsWidget.class);
-        cards2.shouldExists();
-
+        CardsWidget cards2 = page.regions().region(0, SimpleRegion.class).content().widget(1, CardsWidget.class);
         paging = cards2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.nextShouldExist();
-        paging.firstShouldNotExist();
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
+        paging.firstShouldExist();
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.lastShouldExist();
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
         cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");

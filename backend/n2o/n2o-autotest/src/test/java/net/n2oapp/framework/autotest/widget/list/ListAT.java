@@ -85,6 +85,7 @@ public class ListAT extends AutoTestBase {
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
@@ -96,13 +97,21 @@ public class ListAT extends AutoTestBase {
         paging.activePageShouldBe("1");
 
 
-        ListWidget list2 = page.regions().region(1, SimpleRegion.class).content().widget(ListWidget.class);
+        ListWidget list2 = page.regions().region(0, SimpleRegion.class).content().widget(1, ListWidget.class);
         paging = list2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.nextShouldExist();
-        paging.firstShouldNotExist();
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
+        paging.firstShouldExist();
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.lastShouldExist();
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
         list2.content(0).body(TextCell.class).textShouldHave("test1");

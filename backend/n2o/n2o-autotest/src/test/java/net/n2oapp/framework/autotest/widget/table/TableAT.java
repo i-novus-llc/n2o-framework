@@ -181,6 +181,7 @@ public class TableAT extends AutoTestBase {
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
@@ -192,13 +193,21 @@ public class TableAT extends AutoTestBase {
         paging.activePageShouldBe("1");
 
 
-        TableWidget table2 = page.regions().region(1, SimpleRegion.class).content().widget(TableWidget.class);
+        TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         paging = table2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.nextShouldExist();
-        paging.firstShouldNotExist();
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
+        paging.firstShouldExist();
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.lastShouldExist();
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
         table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");

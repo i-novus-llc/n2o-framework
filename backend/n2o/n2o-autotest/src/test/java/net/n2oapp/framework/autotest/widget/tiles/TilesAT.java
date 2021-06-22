@@ -101,6 +101,7 @@ public class TilesAT extends AutoTestBase {
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
@@ -115,15 +116,23 @@ public class TilesAT extends AutoTestBase {
         tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
 
 
-        TilesWidget tiles2 = page.regions().region(1, SimpleRegion.class).content().widget(TilesWidget.class);
+        TilesWidget tiles2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TilesWidget.class);
         tiles2.shouldExists();
 
         paging = tiles2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.nextShouldExist();
-        paging.firstShouldNotExist();
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
+        paging.firstShouldExist();
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.lastShouldExist();
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
         tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");

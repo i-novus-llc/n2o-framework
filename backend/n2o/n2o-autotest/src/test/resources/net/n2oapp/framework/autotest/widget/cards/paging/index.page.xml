@@ -1,31 +1,31 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <regions>
-        <region>
-            <cards query-id="test" size="3" height="100">
-                <content>
-                    <col>
-                        <block text-field-id="text">
-                            <text/>
-                        </block>
-                    </col>
-                </content>
-                <pagination/>
-            </cards>
-        </region>
-        <region>
-            <cards query-id="test" size="3" height="100">
-                <content>
-                    <col>
-                        <block text-field-id="text">
-                            <text/>
-                        </block>
-                    </col>
-                </content>
-                <pagination next="true" prev="true" last="true" first="false"
-                            hide-single-page="false" show-count="false"/>
-            </cards>
-        </region>
+        <cards query-id="test" size="3" height="100">
+            <content>
+                <col>
+                    <block text-field-id="text">
+                        <text/>
+                    </block>
+                </col>
+            </content>
+            <pagination/>
+        </cards>
+
+        <cards query-id="test" size="3" height="100">
+            <content>
+                <col>
+                    <block text-field-id="text">
+                        <text/>
+                    </block>
+                </col>
+            </content>
+            <pagination next="true" prev="true" last="true" first="true"
+                        first-label="First" prev-label="Prev" next-label="Next" last-label="Last"
+                        first-icon="fa fa-angle-double-down" prev-icon="fa fa-angle-down"
+                        next-icon="fa fa-angle-up" last-icon="fa fa-angle-double-up"
+                        hide-single-page="false" show-count="false"/>
+        </cards>
     </regions>
 </page>
 

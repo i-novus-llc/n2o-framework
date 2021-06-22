@@ -56,6 +56,16 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
+    public void prevShouldHaveLabel(String label) {
+        prevButton().parent().shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void prevShouldHaveIcon(String icon) {
+        prevButton().shouldHave(Condition.cssClass(icon));
+    }
+
+    @Override
     public void selectPrev() {
         prevButton().click();
     }
@@ -68,6 +78,16 @@ public class N2oPaging extends N2oComponent implements Paging {
     @Override
     public void nextShouldExist() {
         nextButton().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void nextShouldHaveLabel(String label) {
+        nextButton().parent().shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void nextShouldHaveIcon(String icon) {
+        nextButton().shouldHave(Condition.cssClass(icon));
     }
 
     @Override
@@ -86,6 +106,16 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
+    public void firstShouldHaveLabel(String label) {
+        firstButton().parent().shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void firstShouldHaveIcon(String icon) {
+        firstButton().shouldHave(Condition.cssClass(icon));
+    }
+
+    @Override
     public void selectFirst() {
         firstButton().click();
     }
@@ -101,36 +131,42 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
+    public void lastShouldHaveLabel(String label) {
+        lastButton().parent().shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void lastShouldHaveIcon(String icon) {
+        lastButton().shouldHave(Condition.cssClass(icon));
+    }
+
+    @Override
     public void selectLast() {
         lastButton().click();
     }
 
 
     private SelenideElement pageNumberButton(String number) {
-        return element().$$(".n2o-pagination .page-item .page-link").findBy(Condition.text(number));
+        return element().$$(".n2o-pagination .page-link").findBy(Condition.text(number));
     }
 
     private SelenideElement paginationInfo() {
         return element().$(".n2o-pagination .n2o-pagination-info");
     }
 
-    private SelenideElement navigateButton(String iconClass) {
-        return element().$$(".n2o-pagination .page-link i").findBy(Condition.cssClass(iconClass));
-    }
-
     private SelenideElement prevButton() {
-        return navigateButton("fa-angle-left");
+        return element().$(".n2o-pagination .page-link .prev-button");
     }
 
     private SelenideElement nextButton() {
-        return navigateButton("fa-angle-right");
+        return element().$(".n2o-pagination .page-link .next-button");
     }
 
     private SelenideElement firstButton() {
-        return navigateButton("fa-angle-double-left");
+        return element().$(".n2o-pagination .page-link .first-button");
     }
 
     private SelenideElement lastButton() {
-        return navigateButton("fa-angle-double-right");
+        return element().$(".n2o-pagination .page-link .last-button");
     }
 }

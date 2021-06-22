@@ -22,11 +22,19 @@ public interface Paging extends Component {
 
     void prevShouldExist();
 
+    void prevShouldHaveLabel(String label);
+
+    void prevShouldHaveIcon(String icon);
+
     void selectPrev();
 
     void nextShouldNotExist();
 
     void nextShouldExist();
+
+    void nextShouldHaveLabel(String label);
+
+    void nextShouldHaveIcon(String icon);
 
     void selectNext();
 
@@ -34,11 +42,19 @@ public interface Paging extends Component {
 
     void firstShouldExist();
 
+    void firstShouldHaveLabel(String label);
+
+    void firstShouldHaveIcon(String icon);
+
     void selectFirst();
 
     void lastShouldNotExist();
 
     void lastShouldExist();
+
+    void lastShouldHaveLabel(String label);
+
+    void lastShouldHaveIcon(String icon);
 
     void selectLast();
 }
