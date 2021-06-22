@@ -9,14 +9,10 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  * Филдсет для автотестирования
  */
 public abstract class N2oFieldSet extends N2oComponent implements FieldSet {
-    @Override
-    public void shouldBeVisible() {
-        element().shouldBe(Condition.visible);
-    }
 
-    @Override
+    @Deprecated
     public void shouldNotBeVisible() {
-        element().shouldBe(Condition.hidden);
+        shouldBeHidden();
     }
 
     @Override

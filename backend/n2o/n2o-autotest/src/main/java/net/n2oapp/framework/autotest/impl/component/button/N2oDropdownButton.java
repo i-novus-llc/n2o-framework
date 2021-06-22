@@ -28,8 +28,13 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
     }
 
     @Override
-    public void shouldNotBeVisible() {
+    public void shouldBeHidden() {
         element().parent().shouldNotHave(Condition.cssClass("visible"));
+    }
+
+    @Deprecated
+    public void shouldNotBeVisible() {
+        shouldBeHidden();
     }
 
     @Override

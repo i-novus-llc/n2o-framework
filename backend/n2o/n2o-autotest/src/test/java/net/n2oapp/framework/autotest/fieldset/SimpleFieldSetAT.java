@@ -81,11 +81,11 @@ public class SimpleFieldSetAT extends AutoTestBase {
 
         SimpleFieldSet set1 = fieldsets.fieldset(1, SimpleFieldSet.class);
         SimpleFieldSet set2 = fieldsets.fieldset(2, SimpleFieldSet.class);
-        set1.shouldNotBeVisible();
-        set2.shouldNotBeVisible();
+        set1.shouldBeHidden();
+        set2.shouldBeHidden();
 
         inputText.val("test");
-        set1.shouldNotBeVisible();
+        set1.shouldBeHidden();
         set2.shouldBeVisible();
         set2.fields().field("field2").shouldExists();
     }

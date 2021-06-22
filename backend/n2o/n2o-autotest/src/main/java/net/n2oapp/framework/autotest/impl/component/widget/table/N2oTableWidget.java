@@ -61,8 +61,13 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void shouldBeInvisible() {
+        public void shouldBeHidden() {
             element().$(".n2o-filter").shouldBe(Condition.hidden);
+        }
+
+        @Deprecated
+        public void shouldBeInvisible() {
+            shouldBeHidden();
         }
     }
 

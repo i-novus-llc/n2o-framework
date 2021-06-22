@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.condition;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -93,6 +94,39 @@ public class VisibilityAT extends AutoTestBase {
         fields2.field("Field L22").control(InputText.class).shouldNotExists();
         fields2.field("Field R12").control(InputText.class).shouldExists();
         fields2.field("Field R22").control(InputText.class).shouldExists();
+    }
+
+    @Test
+    public void testDependenciesAndVisibility() {
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
+
+        Fields fields = page.regions().region(2, SimpleRegion.class).content().widget(FormWidget.class).fields();
+        fields.shouldHaveSize(2);
+
+        InputText firstInput = fields.field("FirstInput").control(InputText.class);
+        firstInput.shouldExists();
+        firstInput.shouldBeEnabled();
+        firstInput.val("2");
+        firstInput.shouldHaveValue("2");
+        InputText secondInput = fields.field("SecondInput").control(InputText.class);
+        secondInput.shouldExists();
+        secondInput.shouldBeEnabled();
+        secondInput.val("2");
+        secondInput.shouldHaveValue("2");
+
+        InputText type1Input = fields.field("Type1").control(InputText.class);
+        type1Input.shouldExists();
+        InputText type2Input = fields.field("Type2").control(InputText.class);
+        type2Input.shouldExists();
+
+        //при смене значения на secondInput на 1, в соответствии с условием visibility type2Input должен быть скрыт
+        secondInput.val("1");
+        secondInput.shouldHaveValue("1");
+        firstInput.shouldHaveValue("1");
+        type1Input.shouldExists();
+        type2Input.shouldNotExists();
     }
 
 }
