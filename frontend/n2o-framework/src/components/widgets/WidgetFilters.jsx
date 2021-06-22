@@ -71,8 +71,8 @@ class WidgetFilters extends React.Component {
 
         if (
             !isEqual(prevProps.filterModel, filterModel) &&
-      !isEqual(filterModel, defaultValues) &&
-      !isEqual(filterModel, reduxFormFilter)
+            !isEqual(filterModel, defaultValues) &&
+            !isEqual(filterModel, reduxFormFilter)
         ) {
             this.setState(() => ({
                 defaultValues: filterModel,
@@ -83,22 +83,18 @@ class WidgetFilters extends React.Component {
     handleChangeModel(values) {
         const {
             widgetId,
-            filterModel,
             setFilterModel,
             searchOnChange,
             dispatch,
             validation,
         } = this.props
-
         const { store } = this.context
         const state = store.getState()
 
-        if (!isEqual(filterModel, values)) {
-            setFilterModel(widgetId, values)
-            validateField(validation, this.formName, state, true)(values, dispatch)
-            if (searchOnChange) {
-                this.debouncedHandleFilter()
-            }
+        setFilterModel(widgetId, values)
+        validateField(validation, this.formName, state, true)(values, dispatch)
+        if (searchOnChange) {
+            this.debouncedHandleFilter()
         }
     }
 
