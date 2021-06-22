@@ -30,7 +30,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void shouldHaveLayout(Layout layout) {
-        element().$(".n2o-pagination pagination").shouldHave(Condition.cssClass(layout.getTitle()));
+        element().$(".n2o-pagination .pagination").shouldHave(Condition.cssClass(layout.getTitle()));
     }
 
     @Override
@@ -156,11 +156,11 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     private SelenideElement paginationInfo() {
-        return element().$(".n2o-pagination .n2o-pagination-info");
+        return element().$(".n2o-pagination .n2o-pagination-total");
     }
 
     private SelenideElement prevButton() {
-        return element().$(".n2o-pagination .page-link .prev-button");
+        return element().$(".n2o-pagination .page-link .previous-button");
     }
 
     private SelenideElement nextButton() {
