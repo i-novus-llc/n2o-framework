@@ -1,73 +1,64 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { shallowToJson } from 'enzyme-to-json'
+import createMockStore from 'redux-mock-store'
 
 import SimpleHeader from './SimpleHeader'
-import MetaJSON from './simpleHeaderData'
+import headerJSON from './simpleHeaderData'
 
-const props = MetaJSON
+const store = createMockStore()({})
 
-const setup = (propOverrides, defaultProps = props) => {
-    const props = { ...defaultProps, ...propOverrides }
-
-    const wrapper = mount(
+const setup = props => mount(
+    <Provider store={store}>
         <Router>
             <SimpleHeader {...props} />
-        </Router>,
-    )
+        </Router>
+    </Provider>
+)
 
-    return {
-        props,
-        wrapper,
-    }
-}
+describe('SimpleHeader', () => {
+    it('Переданные элементы хедера отрисовались', () => {
+        const header = setup(headerJSON)
+        header.update()
 
-describe('<SimpleHeader />', () => {
-    it.skip('проверяет создание компонента', () => {
-        const { wrapper } = setup()
-        wrapper.update()
-        expect(shallowToJson(wrapper)).toMatchSnapshot()
+        expect(header.find('Navbar').exists()).toBeTruthy()
+        expect(header.find('Nav').exists()).toBeTruthy()
+        expect(header.find('SidebarSwitcher').exists()).toBeTruthy()
+        expect(header.find('Logo').exists()).toBeTruthy()
+        expect(header.find('Badge').exists()).toBeTruthy()
+        expect(header.find('SearchBar').exists()).toBeTruthy()
     })
-    it('проверяет props', () => {
-        const { wrapper } = setup()
-        const expectedValue = props.items[1]
-        wrapper.update()
-        expect(wrapper.find('NavItemContainer').get(1).props.item).toBe(
-            expectedValue,
-        )
+
+    it('Открытие меню', () => {
+        const header = setup(headerJSON)
+        header.update()
+
+        header
+             .find('.dropdown-toggle')
+             .first()
+             .simulate('click')
+         expect(
+             header
+                 .find('.dropdown-menu')
+                 .first()
+                 .hasClass('show'),
+         ).toBeTruthy()
     })
-    it('проверяет открытие меню', () => {
-        const { wrapper } = setup()
-        wrapper.update()
-        wrapper
-            .find('.dropdown-toggle')
-            .first()
-            .simulate('click')
-        expect(
-            wrapper
-                .find('.dropdown-menu')
-                .first()
-                .hasClass('show'),
-        ).toBeTruthy()
-    })
+
     it('проверяет, что активный элемент устанавливается правильно', () => {
-        const { wrapper } = setup()
-        wrapper.update()
-        wrapper
+        const header = setup(headerJSON)
+        header.update()
+
+        header
             .find('button.dropdown-item')
             .first()
             .simulate('click')
         expect(
-            wrapper
+            header
                 .find('a.nav-link.dropdown-item')
                 .last()
                 .hasClass('active'),
         ).toBeTruthy()
-    })
-    it('проверяет баджи', () => {
-        const { wrapper } = setup()
-        wrapper.update()
-        expect(wrapper.find('Badge').exists()).toBeTruthy()
     })
 })

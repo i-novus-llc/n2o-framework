@@ -24,76 +24,56 @@ import NavItemContainer from './NavItemContainer'
  * @param {string|element} props.brandImage - изображение брэнда
  * @param {array} props.items - элементы навбар-меню (левое меню)
  * @param {boolean} props.fixed - фиксированный хэдер или нет
- * @param {array} props.extraItems - элементы навбар-меню (правое меню)
+ * @param {array} props.extraMenu - элементы навбар-меню (правое меню)
  * @param {boolean} props.collapsed - находится в состоянии коллапса или нет
  * @param {boolean} props.search - есть поле поиска / нет поля поиска
  * @param {boolean} props.color - стиль хэдера (default или inverse)
  * @param {boolean} props.className - css-класс
  * @param {boolean} props.style - объект стиля
  * @example
- * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
- * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
- * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('_blank' или null)
- * //subItems {array} (массив из элементов дропдауна)
- *<SimpleHeader  items = { [
- *     {
- *       id: 'link',
- *       label: 'link',
- *       href: '/test',
- *       type: 'link',
- *       target: '_blank',
- *     },
- *     {
- *       id: 'dropdown',
- *       label: 'dropdown',
- *       type: 'dropdown',
- *       subItems: [{id: 'test1',label: 'test1', href: '/', badge: 'badge1', badgeColor: 'color1'},
- *       {id: 'test123', label: 'test1', href: '/',  badge: 'badge2', badgeColor: 'color2'}]
- *     },
- *     {
- *       id: 'test',
- *       label: 'test',
- *       type: 'dropdown',
- *       subItems: [{id: 'test123s',label: 'test1', href: '/', badge: 'badge1', badgeColor: 'color1'},
- *       {id: 'test12asd3',label: 'test1', href: '/',  badge: 'badge2', badgeColor: 'color2'}]
- *     }
- *     ] }
- *     extraItems = { [
- *     {
- *       id: "213",
- *       label: 'ГКБ №7',
- *       type: 'text',
- *     },
- *     {
- *       id: "2131",
- *       label: 'Постовая медсестра',
- *       type: 'dropdown',
- *       subItems: [{label: 'test1', href: '/', linkType: 'inner'}, {label: 'test1', href: '/'}]
- *     },
- *     {
- *       id: "2131",
- *       label: 'admin',
- *       type: 'dropdown',
- *       subItems: [{label: 'test1', href: '/'}, {label: 'test1', href: '/'}]
- *     }
- *     ] }
- *    brand="N2O"
- *    brandImage= "http://getbootstrap.com/assets/brand/bootstrap-solid.svg"
- *    activeId={"test123"}/>
- *
  */
 
-class SimpleHeader extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            isOpen: false,
-        }
+function Logo({ title, className, style, href, src }) {
+    return (
+        <section className={classNames('d-flex', className)} style={style}>
+            {src && (
+                <NavbarBrand className="n2o-brand" href={href}>
+                    <NavbarBrandContent brandImage={src} />
+                </NavbarBrand>
+            )}
+            {title && (
+                <a href={href} className="navbar-brand">
+                    {title}
+                </a>
+            )}
+        </section>
+    )
+}
 
-        this.toggle = this.toggle.bind(this)
+function SidebarSwitcher({
+    defaultIcon,
+    toggleIcon,
+    sidebarOpen,
+    toggleSidebar,
+}) {
+    return (
+        <i
+            className={classNames('n2o-sidebar-switcher', {
+                [defaultIcon]: sidebarOpen,
+                [toggleIcon]: !sidebarOpen,
+            })}
+            aria-hidden="true"
+            onClick={toggleSidebar}
+        />
+    )
+}
+
+class SimpleHeader extends React.Component {
+    state = {
+        isOpen: false,
     }
 
-    toggle() {
+    toggle = () => {
         const { isOpen } = this.state
 
         this.setState({
@@ -113,15 +93,19 @@ class SimpleHeader extends React.Component {
         const {
             color,
             fixed,
-            items,
             activeId,
-            extraItems,
-            brandImage,
-            brand,
+            logo,
+            menu,
+            extraMenu,
+            sidebarSwitcher,
+            toggleSidebar,
+            sidebarOpen,
             className,
             search,
-            homePageUrl,
         } = this.props
+
+        const { items } = menu
+
         let { style } = this.props
         const { isOpen } = this.state
 
@@ -148,14 +132,22 @@ class SimpleHeader extends React.Component {
         }
 
         const navItems = mapItems(items)
-        const extraNavItems = mapItems(extraItems, { right: true })
+        const extraNavItems = mapItems(extraMenu.items, { right: true })
+
+        const simpleHeaderClassNames = classNames(
+            'n2o-header',
+            `n2o-header-${color}`,
+            className,
+            {
+                'navbar-container-fixed': fixed,
+                'navbar-container-relative': !fixed,
+            },
+        )
 
         return (
             <div
                 style={style}
-                className={`navbar-container-${
-                    fixed ? 'fixed' : 'relative'
-                } ${className} n2o-header n2o-header-${color} `}
+                className={simpleHeaderClassNames}
             >
                 <Navbar
                     color={navColor}
@@ -163,16 +155,14 @@ class SimpleHeader extends React.Component {
                     dark={isInversed}
                     expand="lg"
                 >
-                    {brandImage && (
-                        <NavbarBrand className="n2o-brand" href={homePageUrl}>
-                            <NavbarBrandContent brandImage={brandImage} />
-                        </NavbarBrand>
+                    {sidebarSwitcher && (
+                        <SidebarSwitcher
+                            toggleSidebar={toggleSidebar}
+                            sidebarOpen={sidebarOpen}
+                            {...sidebarSwitcher}
+                        />
                     )}
-                    {brand && (
-                        <a href={homePageUrl} className="navbar-brand">
-                            {brand}
-                        </a>
-                    )}
+                    {logo && <Logo {...logo} />}
                     {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
                     <Collapse
                         isOpen={isOpen}
@@ -197,59 +187,58 @@ class SimpleHeader extends React.Component {
     }
 }
 
+Logo.propTypes = {
+    title: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    href: PropTypes.string,
+    src: PropTypes.string,
+}
+
+Logo.defaultProps = {
+    href: '/',
+}
+
+SidebarSwitcher.propTypes = {
+    defaultIcon: PropTypes.string,
+    toggleIcon: PropTypes.string,
+    sidebarOpen: PropTypes.bool,
+    toggleSidebar: PropTypes.func,
+}
+
+SidebarSwitcher.defaultProps = {
+    defaultIcon: 'fa fa-times',
+    toggleIcon: 'fa fa-bars',
+}
+
+const menuType = PropTypes.shape(
+    {
+        src: PropTypes.string,
+        items: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                title: PropTypes.string.isRequired,
+                href: PropTypes.string,
+                linkType: PropTypes.oneOf(['inner', 'outer']),
+                type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
+                items: PropTypes.array,
+                badge: PropTypes.string,
+                badgeColor: PropTypes.string,
+                target: PropTypes.string,
+                security: PropTypes.object,
+            }),
+        ) },
+)
+
 SimpleHeader.propTypes = {
     /**
      * ID активного элемента
      */
     activeId: PropTypes.string,
     /**
-     * Бренд хедера
-     */
-    brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    /**
-     * Картинка бренда
-     */
-    brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    /**
-     * Элементы хедера
-     */
-    items: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            label: PropTypes.string.isRequired,
-            href: PropTypes.string,
-            linkType: PropTypes.oneOf(['inner', 'outer']),
-            type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-            subItems: PropTypes.array,
-            badge: PropTypes.string,
-            badgeColor: PropTypes.string,
-            target: PropTypes.string,
-        }),
-    ),
-    /**
-     * Extra элементы хедера
-     */
-    extraItems: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            label: PropTypes.string.isRequired,
-            href: PropTypes.string,
-            linkType: PropTypes.oneOf(['inner', 'outer']),
-            type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-            subItems: PropTypes.array,
-            badge: 'badge',
-            badgeColor: 'color',
-            target: PropTypes.string,
-        }),
-    ),
-    /**
      * Строка поиска
      */
     search: PropTypes.bool,
-    /**
-     * Адрес ссылка бренда
-     */
-    homePageUrl: PropTypes.string,
     /**
      * Цвет хедера
      */
@@ -275,18 +264,23 @@ SimpleHeader.propTypes = {
      */
     localeSelect: PropTypes.bool,
     width: PropTypes.number,
+    logo: PropTypes.object,
+    menu: menuType,
+    extraMenu: menuType,
+    sidebarSwitcher: PropTypes.object,
+    toggleSidebar: PropTypes.func,
+    sidebarOpen: PropTypes.bool,
 }
 
 SimpleHeader.defaultProps = {
     color: 'default',
     fixed: true,
-    homePageUrl: '/',
     collapsed: true,
     className: '',
-    items: [],
-    extraItems: [],
+    extraMenu: {},
     search: false,
     style: {},
+    menu: {},
     localeSelect: false,
 }
 

@@ -25,6 +25,7 @@ import { SidebarItemContainer } from './SidebarItemContainer'
  * @param userBox - настройка userBox
  * @param items - массив итемов
  * @param visible - видимость
+ * @param sidebarOpen - видимость если controlled
  * @param width - длина сайдбара
  * @param controlled - флаг контроллед режима
  * @param onToggle - переключение compressed
@@ -42,6 +43,7 @@ export function SideBar({
     userBox,
     items,
     visible,
+    sidebarOpen,
     controlled,
     onToggle,
     extra,
@@ -49,33 +51,35 @@ export function SideBar({
     className,
     t,
 }) {
+    const currentVisible = controlled ? sidebarOpen : visible
+
     const renderItems = items => map(items, (item, i) => (
         <SidebarItemContainer
             key={i}
             item={item}
             activeId={activeId}
-            sidebarOpen={visible}
+            sidebarOpen={currentVisible}
         />
     ))
 
-    const withoutBrandImage = !visible && !brandImage
+    const withoutBrandImage = !currentVisible && !brandImage
 
     return (
         <aside
-            className={classNames('n2o-sidebar', className, { 'n2o-sidebar--compressed': !visible })}
+            className={classNames('n2o-sidebar', className, { 'n2o-sidebar--compressed': !currentVisible })}
         >
-            <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
-                <a className="d-flex align-items-center" href={homePageUrl}>
+            <div className="n2o-sidebar__nav-brand n2o-nav-brand">
+                <a className="d-flex align-items-center ml-1" href={homePageUrl}>
                     {brandImage && (
                         <img
-                            className={classNames({ 'mr-2': visible })}
+                            className={classNames({ 'mr-2': currentVisible })}
                             src={brandImage}
                             alt=""
                             width="30"
                             height="30"
                         />
                     )}
-                    {(visible || withoutBrandImage) && (
+                    {(currentVisible || withoutBrandImage) && (
                         <span className="n2o-nav-brand__text">
                             {withoutBrandImage ? brand.substring(0, 1) : brand}
                         </span>
@@ -138,6 +142,10 @@ SideBar.propTypes = {
      * Флаг сжатия
      */
     visible: PropTypes.bool,
+    /**
+     * Флаг сжатия если controlled
+     */
+    sidebarOpen: PropTypes.bool,
     /**
      * Длина
      */

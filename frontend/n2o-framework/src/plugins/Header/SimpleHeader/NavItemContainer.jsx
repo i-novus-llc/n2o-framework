@@ -13,7 +13,7 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
- * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, label, href,type, link, linkType}
+ * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
  * @param {string} props.activeId  - id активного item'a
  * @param {string} props.  - id активного item'a
  */
@@ -36,7 +36,7 @@ const NavItemContainer = ({
             target={item.target}
         >
             {item.icon && <NavItemIcon icon={item.icon} />}
-            {item.label}
+            {item.title}
         </NavLink>
     )
 
@@ -54,7 +54,7 @@ const NavItemContainer = ({
                         target={item.target}
                     >
                         {item.icon && <i className={cx('mr-1', item.icon)} />}
-                        {item.label}
+                        {item.title}
                     </a>
                     {renderBadge(item)}
                 </NavItem>
@@ -71,7 +71,7 @@ const NavItemContainer = ({
                     target={item.target}
                 >
                     {item.icon && <NavItemIcon icon={item.icon} />}
-                    {item.label}
+                    {item.title}
                 </NavLink>
                 {renderBadge(item)}
             </NavItem>
@@ -82,7 +82,7 @@ const NavItemContainer = ({
         <UncontrolledDropdown nav inNavbar direction={direction}>
             <DropdownToggle nav caret>
                 {item.icon && <NavItemIcon icon={item.icon} />}
-                {item.label}
+                {item.title}
             </DropdownToggle>
             <DropdownMenu right={get(options, 'right', false)}>
                 {dropdownItems}
@@ -93,18 +93,18 @@ const NavItemContainer = ({
     let dropdownItems = []
 
     if (item.type === 'dropdown' && !sidebarOpen) {
-        dropdownItems = item.subItems.map(child => (
+        dropdownItems = item.items.map(child => (
             <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
         ))
         if (
             item.type === 'dropdown' &&
-            item.subItems.length > 1 &&
+            item.items.length > 1 &&
             type === 'sidebar'
         ) {
             dropdownItems = [
                 <DropdownItem key={-1} onClick={e => e.preventDefault()}>
                     {item.icon && <NavItemIcon icon={item.icon} />}
-                    <a className="dropdown-item">{item.oldLabel || item.label}</a>
+                    <a className="dropdown-item">{item.title}</a>
                 </DropdownItem>,
                 ...dropdownItems,
             ]
@@ -113,14 +113,14 @@ const NavItemContainer = ({
         const defaultLink = item => (
             <Link className="dropdown-item" to={item.href} target={item.target}>
                 {item.icon && <NavItemIcon icon={item.icon} />}
-                {item.label}
+                {item.title}
             </Link>
         )
         const linkItem = item => (item.linkType === 'outer'
             ? defaultLink(item)
             : getInnerLink(item, 'dropdown-item'))
 
-        dropdownItems = item.subItems.map(() => (
+        dropdownItems = item.items.map(() => (
             <DropdownItem>
                 {' '}
                 {linkItem(item)}
@@ -135,7 +135,7 @@ const NavItemContainer = ({
         (item.type === 'text' && (
             <NavItem>
                 {item.icon && <NavItemIcon icon={item.icon} />}
-                <span className="nav-link">{item.label}</span>
+                <span className="nav-link">{item.title}</span>
             </NavItem>
         )) ||
         null
@@ -144,12 +144,12 @@ const NavItemContainer = ({
 
 NavItemContainer.propTypes = {
     item: PropTypes.shape({
-        label: PropTypes.string,
+        title: PropTypes.string,
         href: PropTypes.string,
         icon: PropTypes.string,
         linkType: PropTypes.oneOf(['inner', 'outer']),
         withSubMenu: PropTypes.bool,
-        subItems: PropTypes.array,
+        items: PropTypes.array,
     }),
     type: PropTypes.oneOf(['header', 'sidebar']),
     open: PropTypes.bool,

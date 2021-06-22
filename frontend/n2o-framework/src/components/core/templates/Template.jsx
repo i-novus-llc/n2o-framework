@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -9,7 +9,12 @@ import Footer from '../../../plugins/Footer/Footer'
 import MenuContainer from '../../../plugins/Menu/MenuContainer'
 
 function Layout({ children, layout, header, sidebar, footer, ...rest }) {
+    const [sidebarOpen, setSidebarOpen] = useState(true)
+
     const { fullSizeHeader, fixed } = layout
+    const controlled = header.sidebarSwitcher
+
+    const toggleSidebar = useCallback(() => setSidebarOpen(sidebarOpen => !sidebarOpen), [])
 
     const layoutContainerClasses = classNames(
         'n2o-layout-container',
@@ -25,11 +30,21 @@ function Layout({ children, layout, header, sidebar, footer, ...rest }) {
         return (
             <div className={layoutContainerClasses}>
                 {header && (
-                    <SimpleHeader {...header} {...rest} />
+                    <SimpleHeader
+                        toggleSidebar={toggleSidebar}
+                        sidebarOpen={sidebarOpen}
+                        {...header}
+                        {...rest}
+                    />
                 )}
                 <div className="w-100 d-flex flex-row overflow-auto">
                     {sidebar && (
-                        <Sidebar {...sidebar} {...rest} />
+                        <Sidebar
+                            controlled={controlled}
+                            sidebarOpen={sidebarOpen}
+                            {...sidebar}
+                            {...rest}
+                        />
                     )}
                     <div className={classNames('w-100', { 'application-body-container-fixed': fixed })}>
                         <div className="application-body container-fluid">{children}</div>
@@ -43,11 +58,22 @@ function Layout({ children, layout, header, sidebar, footer, ...rest }) {
     return (
         <div className={layoutContainerClasses}>
             {sidebar && (
-                <Sidebar className={classNames({ 'n2o-fixed-sidebar': fixed })} {...sidebar} {...rest} />
+                <Sidebar
+                    controlled={controlled}
+                    sidebarOpen={sidebarOpen}
+                    className={classNames({ 'n2o-fixed-sidebar': fixed })}
+                    {...sidebar}
+                    {...rest}
+                />
             )}
             <div className={classNames('w-100 d-flex flex-column', { 'vh-100': fixed })}>
                 {header && (
-                    <SimpleHeader {...header} {...rest} />
+                    <SimpleHeader
+                        toggleSidebar={toggleSidebar}
+                        sidebarOpen={sidebarOpen}
+                        {...header}
+                        {...rest}
+                    />
                 )}
                 <div className={classNames({ 'd-flex': sidebar, 'application-body-container-fixed': fixed })}>
                     <div className="application-body container-fluid">{children}</div>
