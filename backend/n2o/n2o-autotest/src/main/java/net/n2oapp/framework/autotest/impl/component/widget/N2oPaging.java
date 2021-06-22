@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -21,12 +20,12 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void selectPage(String number) {
-        getItems().findBy(Condition.text(number)).click();
+        pageNumberButton(number).click();
     }
 
     @Override
     public void pagingShouldHave(String number) {
-        getItems().findBy(Condition.text(number)).shouldBe(Condition.exist);
+        pageNumberButton(number).shouldBe(Condition.exist);
     }
 
     @Override
@@ -63,12 +62,12 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void nextShouldNotExist() {
-        getItems().findBy(Condition.text("›")).shouldNotBe(Condition.exist);
+        nextButton().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void nextShouldExist() {
-        getItems().findBy(Condition.text("›")).shouldBe(Condition.exist);
+        nextButton().shouldBe(Condition.exist);
     }
 
     @Override
@@ -106,31 +105,32 @@ public class N2oPaging extends N2oComponent implements Paging {
         lastButton().click();
     }
 
-    private ElementsCollection getItems() {
-        return element().$$(".n2o-pagination .page-item .page-link");
+
+    private SelenideElement pageNumberButton(String number) {
+        return element().$$(".n2o-pagination .page-item .page-link").findBy(Condition.text(number));
     }
 
     private SelenideElement paginationInfo() {
         return element().$(".n2o-pagination .n2o-pagination-info");
     }
 
-    private SelenideElement button(String text) {
-        return getItems().findBy(Condition.text(text));
+    private SelenideElement navigateButton(String iconClass) {
+        return element().$$(".n2o-pagination .page-link i").findBy(Condition.cssClass(iconClass));
     }
 
     private SelenideElement prevButton() {
-        return button("‹");
+        return navigateButton("fa-angle-left");
     }
 
     private SelenideElement nextButton() {
-        return button("›");
+        return navigateButton("fa-angle-right");
     }
 
     private SelenideElement firstButton() {
-        return button("«");
+        return navigateButton("fa-angle-double-left");
     }
 
     private SelenideElement lastButton() {
-        return button("»");
+        return navigateButton("fa-angle-double-right");
     }
 }

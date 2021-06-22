@@ -181,7 +181,7 @@ public class CardsAT extends AutoTestBase {
     }
 
     @Test
-    public void testPagination() {
+    public void testPaging() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);

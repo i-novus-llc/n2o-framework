@@ -88,7 +88,7 @@ public class TilesAT extends AutoTestBase {
     }
 
     @Test
-    public void testPagination() {
+    public void testPaging() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
