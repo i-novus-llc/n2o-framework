@@ -179,7 +179,7 @@ class Pagination extends React.Component {
             withoutBody,
             prevText,
             nextText,
-            t,
+            t: translate,
         } = this.props
         const pages = Math.ceil(count / size, 10) || 1
         const lastPage = Math.ceil(count / size)
@@ -247,10 +247,10 @@ class Pagination extends React.Component {
                             display: 'inline-flex',
                         }}
                     >
-                        {`${t('paginationTotal')} ${count}`}
+                        {`${translate('paginationTotal')} ${count}`}
 
             &nbsp;
-                        {t('paginationCount', { count })}
+                        {translate('paginationCount', { count })}
                     </span>
                 )}
             </nav>
