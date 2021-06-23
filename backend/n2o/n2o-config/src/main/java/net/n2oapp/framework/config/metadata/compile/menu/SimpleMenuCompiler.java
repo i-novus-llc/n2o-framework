@@ -13,6 +13,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 /**
  * Компиляция простого меню
  */
@@ -26,19 +28,21 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
 
     @Override
     public SimpleMenu compile(N2oSimpleMenu source, ApplicationContext context, CompileProcessor p) {
-        SimpleMenu items = new SimpleMenu();
+        SimpleMenu simpleMenu = new SimpleMenu();
+        ArrayList<HeaderItem> items = new ArrayList<>();
         IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope();
         if (source != null && source.getMenuItems() != null)
             for (N2oSimpleMenu.MenuItem mi : source.getMenuItems())
                 items.add(createMenuItem(mi, idx, p));
-        return items;
+        simpleMenu.setItems(items);
+        return simpleMenu;
     }
 
     private HeaderItem createMenuItem(N2oSimpleMenu.MenuItem mi, IndexScope idx, CompileProcessor p) {
         HeaderItem item = new HeaderItem();
         item.setPageId(mi.getPageId());
         item.setId("menuItem" + idx.get());
-        item.setLabel(mi.getLabel());
+        item.setTitle(mi.getLabel());
         item.setIcon(mi.getIcon());
         item.setTarget(mi.getTarget());
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
@@ -47,7 +51,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         if (mi.getSubMenu() == null || mi.getSubMenu().length == 0)
             createLinkItem(mi, item, p);
         else {
-            SimpleMenu subItems = new SimpleMenu();
+            ArrayList<HeaderItem> subItems = new ArrayList<>();
             for (N2oSimpleMenu.MenuItem subMenu : mi.getSubMenu())
                 subItems.add(createMenuItem(subMenu, idx, p));
             item.setSubItems(subItems);
@@ -63,8 +67,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             item.setHref(mi.getHref());
         else {
             N2oPage page = p.getSource(mi.getPageId(), N2oPage.class);
-            if (item.getLabel() == null)
-                item.setLabel(page.getName() == null ? page.getId() : page.getName());
+            if (item.getTitle() == null)
+                item.setTitle(page.getName() == null ? page.getId() : page.getName());
             if (mi.getRoute() == null)
                 item.setHref(page.getRoute() == null ? "/" + mi.getPageId() : page.getRoute());
             else

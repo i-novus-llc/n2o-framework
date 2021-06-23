@@ -63,8 +63,8 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        assertThat(application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test

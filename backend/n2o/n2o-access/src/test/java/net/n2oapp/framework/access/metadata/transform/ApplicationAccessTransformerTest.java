@@ -56,15 +56,15 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
 
-        checkMenuItem(application.getHeader().getMenu().get(0));
-        checkMenuItem(application.getHeader().getExtraMenu().get(0));
-        checkMenuItem(application.getSidebar().getMenu().get(0));
-        checkMenuItem(application.getSidebar().getExtraMenu().get(0));
+        checkMenuItem(application.getHeader().getMenu().getItems().get(0));
+        checkMenuItem(application.getHeader().getExtraMenu().getItems().get(0));
+        checkMenuItem(application.getSidebar().getMenu().getItems().get(0));
+        checkMenuItem(application.getSidebar().getExtraMenu().getItems().get(0));
 
-        assertThat(((Security) application.getHeader().getMenu().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
-        assertThat(((Security) application.getSidebar().getMenu().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
-        checkAnchor(application.getHeader().getExtraMenu().get(2));
-        checkAnchor(application.getSidebar().getExtraMenu().get(2));
+        assertThat(((Security) application.getHeader().getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
+        assertThat(((Security) application.getSidebar().getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
+        checkAnchor(application.getHeader().getExtraMenu().getItems().get(2));
+        checkAnchor(application.getSidebar().getExtraMenu().getItems().get(2));
     }
 
     private void checkAnchor(HeaderItem headerItem) {
@@ -97,17 +97,17 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
         Header header = application.getHeader();
-        assertAccess(((Security) header.getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) header.getMenu().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertThat(((Security) header.getMenu().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
-        assertAccess(((Security) header.getExtraMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) header.getExtraMenu().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) header.getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) header.getMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertThat(((Security) header.getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
+        assertAccess(((Security) header.getExtraMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) header.getExtraMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         Sidebar sidebar = application.getSidebar();
-        assertAccess(((Security) sidebar.getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) sidebar.getMenu().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertThat(((Security) sidebar.getMenu().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
-        assertAccess(((Security) sidebar.getExtraMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) sidebar.getExtraMenu().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) sidebar.getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) sidebar.getMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertThat(((Security) sidebar.getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
+        assertAccess(((Security) sidebar.getExtraMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) sidebar.getExtraMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
 
     @Test
@@ -117,8 +117,8 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
-        checkPermitAll(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        checkPermitAll(((Security) application.getSidebar().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkPermitAll(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkPermitAll(((Security) application.getSidebar().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
 
     private void checkPermitAll(Map<String, Security.SecurityObject> securityMap) {
@@ -134,8 +134,8 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
-        checkAnonym(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        checkAnonym(((Security) application.getSidebar().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkAnonym(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkAnonym(((Security) application.getSidebar().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
 
     private void checkAnonym(Map<String, Security.SecurityObject> securityMap) {
@@ -151,8 +151,8 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
-        checkAuth(((Security) application.getHeader().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        checkAuth(((Security) application.getSidebar().getMenu().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkAuth(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkAuth(((Security) application.getSidebar().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
 
     private void checkAuth(Map<String, Security.SecurityObject> securityMap) {

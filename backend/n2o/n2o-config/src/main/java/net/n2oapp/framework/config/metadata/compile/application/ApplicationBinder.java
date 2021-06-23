@@ -18,11 +18,12 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
 
     @Override
     public Application bind(Application compiled, BindProcessor p) {
-        if (compiled.getHeader() != null && compiled.getHeader().getExtraMenu() != null)
-            compiled.getHeader().getExtraMenu()
+        if (compiled.getHeader() != null && compiled.getHeader().getExtraMenu() != null
+                && compiled.getHeader().getExtraMenu().getItems() != null)
+            compiled.getHeader().getExtraMenu().getItems()
                     .stream()
-                    .filter(item -> item.getLabel() != null)
-                    .forEach(item -> item.setLabel(p.resolveText(item.getLabel())));
+                    .filter(item -> item.getTitle() != null)
+                    .forEach(item -> item.setTitle(p.resolveText(item.getTitle())));
         return compiled;
     }
 }

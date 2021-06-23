@@ -45,8 +45,9 @@ public class ApplicationAccessTransformer extends BaseAccessTransformer<Applicat
         mapSecurityItems(compiled.getExtraMenu(), schema, p);
     }
 
-    private void mapSecurityItems(SimpleMenu items, SimpleCompiledAccessSchema schema, CompileProcessor p) {
-        for (HeaderItem item : items) {
+    private void mapSecurityItems(SimpleMenu simpleMenu, SimpleCompiledAccessSchema schema, CompileProcessor p) {
+        if (simpleMenu == null || simpleMenu.getItems() == null) return;
+        for (HeaderItem item : simpleMenu.getItems()) {
             if (item.getSubItems() == null) {
                 mapSecurityItem(schema, p, item);
             } else {

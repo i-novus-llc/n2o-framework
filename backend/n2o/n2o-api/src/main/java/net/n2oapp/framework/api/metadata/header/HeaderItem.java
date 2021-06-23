@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Getter
@@ -17,7 +18,7 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String id;
     @JsonProperty
-    private String label;
+    private String title;
     @JsonProperty
     private String href;
     @JsonProperty
@@ -28,8 +29,8 @@ public class HeaderItem implements Compiled, PropertiesAware {
     private String image;
     @JsonProperty
     private Target target;
-    @JsonProperty
-    private SimpleMenu subItems;
+    @JsonProperty("items")
+    private ArrayList<HeaderItem> subItems;
     @JsonProperty("type")
     private String type;
     private String pageId;
