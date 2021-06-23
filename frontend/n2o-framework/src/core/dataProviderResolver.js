@@ -25,15 +25,20 @@ export function dataProviderResolver(state, dataProvider, query, options) {
         formMapping,
         size,
     } = dataProvider
-
-    const { origin, pathname, query: queryFromUrl = {} } = urlParse(url)
-
+    const { origin, pathname, query: queryFromUrl = {}, hash } = urlParse(url)
     const pathParams = getParams(pathMapping, state)
     const queryParams = getParams(queryMapping, state)
     const headersParams = getParams(headersMapping, state)
     const formParams = getParams(formMapping, state)
     const baseQuery = { ...query, ...options, ...queryParams }
-    let basePath = pathToRegexp.compile(pathname)(pathParams)
+    let path = pathname
+
+    // если хеш является частью роутинга, то приклеиваем его обратно
+    if (hash && hash.includes('/')) {
+        path = `${pathname}${pathname.endsWith('/') ? '' : '/'}${hash}`
+    }
+
+    let basePath = pathToRegexp.compile(path)(pathParams)
     let compiledUrl = basePath
 
     if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl)) {

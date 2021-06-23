@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import omit from 'lodash/omit'
 import set from 'lodash/set'
 import configureMockStore from 'redux-mock-store'
-import { call, put } from 'redux-saga/effects'
+import { fork, put } from 'redux-saga/effects'
 
 import {
     DISABLE_FIELD,
@@ -143,7 +143,7 @@ describe('Тестирование саги', () => {
     it('Тестирование вызова функции экшена на саге', () => {
         const gen = setup(mockData)
         expect(gen.next().value).toEqual(
-            call(
+            fork(
                 modify,
                 mockData.values,
                 mockData.formName,
@@ -209,7 +209,7 @@ describe('Тестирование саги', () => {
         expect(gen.next().value).toEqual(
             put(
                 change(mockData.formName, mockData.fields.field1.name, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: 'test',
                 }),
             ),
