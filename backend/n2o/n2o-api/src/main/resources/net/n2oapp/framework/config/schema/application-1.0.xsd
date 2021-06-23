@@ -209,6 +209,16 @@
                 <xs:documentation>Реализация подвала приложения. По умолчанию DefaultFooter</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>css класс подвала приложения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль подвала приложения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="right-text" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Текст в подвале приложения справа</xs:documentation>

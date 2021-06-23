@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Тестирование компиляции простого хедера
+ * Тестирование компиляции заголовка
  */
 public class HeaderCompileTest extends SourceCompileTestBase {
     @Override

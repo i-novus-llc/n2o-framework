@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="testPage">
+    <sidebar src="test" class="class"
+            title="N2O" home-page-url="/pageRoute" style="margin-left:10px"
+             visible="false" >
+        <nav>
+            <sub-menu label="test">
+                <a label="hrefLabel" href="http://test.com"/>
+            </sub-menu>
+        </nav>
+    </sidebar>
+</application>

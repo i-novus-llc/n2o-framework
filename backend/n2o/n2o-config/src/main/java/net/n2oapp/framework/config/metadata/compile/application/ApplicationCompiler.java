@@ -32,7 +32,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
 
         application.setHeader(initHeader(source.getHeader(), context, p));
         application.setSidebar(initSidebar(source.getSidebar(), context, p));
-        application.setFooter(initFooter(source.getFooter(), context, p));
+        application.setFooter(initFooter(source.getFooter(), p));
 
         return application;
     }
@@ -61,7 +61,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     }
 
     private Sidebar initSidebar(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
-        if (source == null) return null;
+        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Sidebar sidebar = new Sidebar();
         sidebar.setSrc(source.getSrc());
         sidebar.setClassName(source.getCssClass());
@@ -70,6 +70,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         logo.setTitle(source.getTitle());
         logo.setSrc(source.getLogoSrc());
         logo.setHref(source.getHomePageUrl());
+        logo.setClassName(source.getLogoClass());
         sidebar.setLogo(logo);
         sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
@@ -81,8 +82,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         return sidebar;
     }
 
-    private Footer initFooter(N2oFooter source, ApplicationContext context, CompileProcessor p) {
-        if (source == null) return null;
+    private Footer initFooter(N2oFooter source, CompileProcessor p) {
+        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Footer footer = new Footer();
         footer.setSrc(source.getSrc());
         footer.setClassName(source.getCssClass());

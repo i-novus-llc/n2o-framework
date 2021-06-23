@@ -44,6 +44,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         item.setId("menuItem" + idx.get());
         item.setTitle(mi.getLabel());
         item.setIcon(mi.getIcon());
+        item.setImage(mi.getImage());
         item.setTarget(mi.getTarget());
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
                 HeaderItem.LinkType.outer :
