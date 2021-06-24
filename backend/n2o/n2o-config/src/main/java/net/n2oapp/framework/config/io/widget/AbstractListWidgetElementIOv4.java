@@ -13,7 +13,6 @@ import org.jdom2.Element;
  */
 public abstract class AbstractListWidgetElementIOv4<T extends N2oAbstractListWidget> extends WidgetElementIOv4<T> {
 
-
     @Override
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);

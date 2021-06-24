@@ -36,7 +36,8 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
             pagination.setNext(p.cast(source.getPagination().getNext(), p.resolve(property("n2o.api.widget.list.paging.next"), Boolean.class)));
             pagination.setFirst(p.cast(source.getPagination().getFirst(), p.resolve(property("n2o.api.widget.list.paging.first"), Boolean.class)));
             pagination.setLast(p.cast(source.getPagination().getLast(), p.resolve(property("n2o.api.widget.list.paging.last"), Boolean.class)));
-            pagination.setShowSinglePage(p.cast((source.getPagination().getHideSinglePage() == null ? null : !source.getPagination().getHideSinglePage()), source.getPagination().getShowSinglePage() ,
+            pagination.setShowSinglePage(
+                    p.cast((source.getPagination().getHideSinglePage() == null ? null : !source.getPagination().getHideSinglePage()), source.getPagination().getShowSinglePage() ,
                     p.resolve(property("n2o.api.widget.list.paging.show_single_page"), Boolean.class)));
             pagination.setShowCount(p.cast(source.getPagination().getShowCount(), p.resolve(property("n2o.api.widget.list.paging.show_count"), Boolean.class)));
             pagination.setSrc(source.getPagination().getSrc());
