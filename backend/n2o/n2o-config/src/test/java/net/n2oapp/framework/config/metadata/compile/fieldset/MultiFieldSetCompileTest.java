@@ -44,6 +44,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet.getSrc(), is("MultiFieldset"));
         assertThat(multiFieldSet.getLabel(), is("Заголовок"));
         assertThat(multiFieldSet.getChildrenLabel(), is("`'Участник '+index`"));
+        assertThat(multiFieldSet.getFirstChildrenLabel(), is("Участник"));
         assertThat(multiFieldSet.getName(), is("members"));
         assertThat(multiFieldSet.getAddButtonLabel(), is("Добавить участника"));
         assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("Удалить всех участников"));
@@ -57,6 +58,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         MultiFieldSet multiFieldSet2 = (MultiFieldSet) fieldsets.get(1);
         assertThat(multiFieldSet2.getSrc(), is("test"));
         assertThat(multiFieldSet2.getChildrenLabel(), is("`members[index].name`"));
+        assertThat(multiFieldSet2.getFirstChildrenLabel(), is(nullValue()));
         assertThat(multiFieldSet2.getCanRemoveFirstItem(), is(false));
         assertThat(multiFieldSet2.getNeedAddButton(), is(true));
         assertThat(multiFieldSet2.getNeedRemoveButton(), is(true));

@@ -20,6 +20,7 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
         MultiFieldSet fieldSet = new MultiFieldSet();
         compileFieldSet(fieldSet, source, context, p);
         fieldSet.setChildrenLabel(p.resolveJS(source.getChildrenLabel()));
+        fieldSet.setFirstChildrenLabel(p.resolveJS(source.getFirstChildrenLabel()));
         fieldSet.setSrc(p.cast(source.getSrc(),
                 p.resolve(property("n2o.api.fieldset.multi_set.src"), String.class)));
         fieldSet.setName(source.getId());
