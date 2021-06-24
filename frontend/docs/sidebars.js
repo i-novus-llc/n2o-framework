@@ -9,7 +9,6 @@ module.exports = {
                     label: 'Общее',
                     items: [
                         'buttons',
-                        'pagination'
                     ],
                 },
                 {
@@ -26,6 +25,7 @@ module.exports = {
                     label: 'Навигация',
                     items: [
                         'menu',
+                        'pagination',
                     ],
                 },
                 {
