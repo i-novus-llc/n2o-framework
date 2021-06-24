@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.api.metadata.control.list.N2oRadioGroup;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -45,6 +46,7 @@ public class RadioGroupAT extends AutoTestBase {
         Fields fields = page.widget(FormWidget.class).fields();
         RadioGroup radio = fields.field("Radio1").control(RadioGroup.class);
         radio.shouldExists();
+        radio.shouldHaveType(N2oRadioGroup.RadioGroupType.defaultType);
         radio.shouldHaveOptions("One", "Two", "Three");
         radio.shouldBeEmpty();
         radio.check("Three");
@@ -54,6 +56,7 @@ public class RadioGroupAT extends AutoTestBase {
 
         RadioGroup btnRadio = fields.field("BtnRadio").control(RadioGroup.class);
         btnRadio.shouldExists();
+        btnRadio.shouldHaveType(N2oRadioGroup.RadioGroupType.btn);
         btnRadio.shouldHaveOptions("One", "Two", "Three");
         btnRadio.check("Three");
         btnRadio.shouldBeChecked("Three");
@@ -62,6 +65,7 @@ public class RadioGroupAT extends AutoTestBase {
 
         RadioGroup tabsRadio = fields.field("TabsRadio").control(RadioGroup.class);
         tabsRadio.shouldExists();
+        tabsRadio.shouldHaveType(N2oRadioGroup.RadioGroupType.tabs);
         tabsRadio.shouldHaveOptions("One", "Two", "Three");
         tabsRadio.check("Three");
         tabsRadio.shouldBeChecked("Three");
