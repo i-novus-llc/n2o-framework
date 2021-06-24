@@ -8,6 +8,20 @@
                     <option id="three" name="Three"/>
                 </options>
             </radio-group>
+            <radio-group id="radio2" label="BtnRadio" type="btn">
+                <options>
+                    <option id="one" name="One"/>
+                    <option id="two" name="Two"/>
+                    <option id="three" name="Three"/>
+                </options>
+            </radio-group>
+            <radio-group id="radio3" label="TabsRadio" type="tabs">
+                <options>
+                    <option id="one" name="One"/>
+                    <option id="two" name="Two"/>
+                    <option id="three" name="Three"/>
+                </options>
+            </radio-group>
         </fields>
     </form>
 </simple-page>
