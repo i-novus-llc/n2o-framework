@@ -62,5 +62,7 @@ public class ToolbarCellAT extends AutoTestBase {
         dropdownButton.menuItem("one").shouldExists();
         dropdownButton.menuItem("two").shouldExists();
         dropdownButton.menuItem("three").shouldExists();
+        dropdownButton.menuItem("one").click();
+        dropdownButton.shouldBeCollapsed();
     }
 }

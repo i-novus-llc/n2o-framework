@@ -36,3 +36,23 @@ div.checkbox {
         }
     }
 }
+
+.n2o-checkbox {
+    .n2o-popover button {
+        padding: 0;
+        margin-left: 5px;
+        background-color: transparent;
+        border: none;
+    }
+
+    .n2o-popover:hover {
+        i {
+            color: $pink;
+        }
+    }
+
+    .n2o-popover button:active,
+    .n2o-popover button:focus {
+        outline: none;
+    }
+}
