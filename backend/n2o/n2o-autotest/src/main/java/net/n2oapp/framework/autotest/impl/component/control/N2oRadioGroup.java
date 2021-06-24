@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.api.metadata.control.list.N2oRadioGroup.RadioGroupType;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 
 /**
@@ -36,18 +35,7 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
     }
 
     @Override
-    public void shouldHaveType(RadioGroupType type) {
-        if (type == null) return;
-        switch (type) {
-            case defaultType:
-                element().shouldHave(Condition.cssClass("n2o-radio-group-default"));
-                break;
-            case btn:
-                element().shouldHave(Condition.cssClass("n2o-radio-group-btn"));
-                break;
-            case tabs:
-                element().shouldHave(Condition.cssClass("n2o-radio-group-tabs"));
-                break;
-        }
+    public void shouldHaveType(RadioType type) {
+        element().shouldHave(Condition.cssClass("n2o-radio-group-" + type.name().toLowerCase()));
     }
 }
