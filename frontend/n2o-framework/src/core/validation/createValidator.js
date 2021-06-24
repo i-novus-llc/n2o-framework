@@ -194,6 +194,5 @@ export default function createValidator(
     return {
         asyncValidate: getStoreValidator(validationConfig, formName, store),
         asyncBlurFields: fields || [],
-        asyncChangeFields: fields || [],
     }
 }
