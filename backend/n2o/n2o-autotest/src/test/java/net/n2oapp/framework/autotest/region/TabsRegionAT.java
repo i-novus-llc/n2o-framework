@@ -170,7 +170,5 @@ public class TabsRegionAT extends AutoTestBase {
         // make invisible tab3
         radio.check("invisible tab3");
         tabs.shouldHaveSize(2);
-
-        tab1.shouldBeActive();
     }
 }
