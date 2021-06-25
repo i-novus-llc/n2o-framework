@@ -35,11 +35,19 @@ export class MenuContainer extends React.Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const { items, extraItems, user } = this.props
+        const { user } = this.props
+        /*
+        * TODO сделать обертку которая передает items
+        *  исбавиться от get
+        */
+        const items = get(this.props, 'header.menu.items')
+        const prevItems = get(prevProps, 'header.menu.items')
+        const extraItems = get(prevProps, 'header.extraMenu.items')
+        const prevExtraItems = get(prevProps, 'header.extraMenu.items')
 
         if (
-            !isEqual(items, prevProps.items) ||
-            !isEqual(extraItems, prevProps.extraItems) ||
+            !isEqual(items, prevItems) ||
+            !isEqual(extraItems, prevExtraItems) ||
             !isEqual(user, prevProps.user)
         ) {
             await this.getItemsWithAccess()
@@ -75,9 +83,9 @@ export class MenuContainer extends React.Component {
                     [type]: toArray(uniqBy(prevState[type].concat(item), 'id')),
                 }))
             }
-            if (item.subItems) {
+            if (item.items) {
                 // eslint-disable-next-line no-restricted-syntax
-                for (const subItem of item.subItems) {
+                for (const subItem of item.items) {
                     await this.checkItem(subItem, 'items', item.id)
                 }
             }
@@ -89,20 +97,20 @@ export class MenuContainer extends React.Component {
 
         const parentIndex = findIndex(stateItem, i => i.id === id)
         const parentItem = get(stateItem, parentIndex.toString())
-        let subItems = get(parentItem, 'subItems', [])
+        let subItems = get(parentItem, 'items', [])
 
         subItems = filter(subItems, i => i.id !== item.id)
-        parentItem.subItems = subItems
+        parentItem.items = subItems
         this.setState((prevState) => {
             const newState = prevState
 
-            newState[type][parentIndex].subItems = subItems
+            newState[type][parentIndex].items = subItems
 
             return newState
         })
     }
 
-    async makeSecure(metadata) {
+    async makeSecure(config) {
         const makeSecure = async (items, type) => {
             if (isArray(items) && !isEmpty(items)) {
                 // eslint-disable-next-line no-restricted-syntax
@@ -111,7 +119,13 @@ export class MenuContainer extends React.Component {
                 }
             }
         }
-        const { items, extraItems } = metadata
+        /*
+        * TODO сделать обертку которая передает items
+        *  исбавиться от get
+        */
+
+        const items = get(config, 'header.menu.items')
+        const extraItems = get(config, 'header.extraMenu.items')
 
         await makeSecure(items, 'items')
         await makeSecure(extraItems, 'extraItems')
@@ -124,17 +138,27 @@ export class MenuContainer extends React.Component {
 
     mapRenderProps() {
         const { items, extraItems } = this.state
+        const { header } = this.props
+
+        if (!header) {
+            return this.props
+        }
+
+        const headerProps = {
+            header: {
+                ...header,
+                menu: {
+                    items: filter(items, i => !i.items || !isEmpty(i.items)),
+                },
+                extraMenu: {
+                    items: filter(extraItems, i => !i.items || !isEmpty(i.items)),
+                },
+            },
+        }
 
         return {
             ...this.props,
-            items: filter(
-                items,
-                i => !i.subItems || !isEmpty(i.subItems),
-            ),
-            extraItems: filter(
-                extraItems,
-                i => !i.subItems || !isEmpty(i.subItems),
-            ),
+            ...headerProps,
         }
     }
 
@@ -147,10 +171,9 @@ export class MenuContainer extends React.Component {
 
 MenuContainer.propTypes = {
     render: PropTypes.func,
-    items: PropTypes.any,
-    extraItems: PropTypes.any,
     user: PropTypes.any,
     authProvider: PropTypes.any,
+    header: PropTypes.object,
 }
 
 MenuContainer.defaultProps = {

@@ -138,7 +138,7 @@ describe('Проверка MenuContainer', () => {
                     href: '/pageRoute',
                     type: 'dropdown',
                     linkType: 'inner',
-                    subItems: [
+                    items: [
                         {
                             id: 'menuItem2',
                             label: 'Название страницы',
@@ -169,7 +169,8 @@ describe('Проверка MenuContainer', () => {
             'items',
             'menuItem1',
         )
-        expect(wrapper.state().items[1].subItems).toEqual([
+        console.log('Yo!!!', wrapper.state())
+        expect(wrapper.state().items[1].items).toEqual([
             {
                 id: 'menuItem3',
                 label: 'элемент списка №2',
@@ -181,7 +182,7 @@ describe('Проверка MenuContainer', () => {
     })
 
     it('Правильно удаляет пустые dropdown', () => {
-        const wrapper = setup()
+        const wrapper = setup({header: {}})
         wrapper.setState({
             items: [
                 {
@@ -201,12 +202,11 @@ describe('Проверка MenuContainer', () => {
                     href: '/pageRoute',
                     type: 'dropdown',
                     linkType: 'inner',
-                    subItems: [],
+                    items: [],
                 },
             ],
         })
-
-        expect(wrapper.instance().mapRenderProps().items).toEqual([
+        expect(wrapper.instance().mapRenderProps().header.menu.items).toEqual([
             {
                 id: 'menuItem0',
                 label: 'ссылка',
