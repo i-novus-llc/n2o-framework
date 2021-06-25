@@ -250,7 +250,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
         >
           paginationTotal 151
            
-          paginationInterval
+          paginationCount
         </span>
       </nav>
     </Pagination>

@@ -250,7 +250,7 @@ class Pagination extends React.Component {
                         {`${t('paginationTotal')} ${count}`}
 
             &nbsp;
-                        {t('paginationInterval', { postProcess: 'interval', count })}
+                        {t('paginationCount', { count })}
                     </span>
                 )}
             </nav>
