@@ -1,23 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Radio from '../Radio/RadioN2O'
 import mapProp from '../../../utils/mapProp'
-
-import RadioGroup from './RadioGroup'
+import { Group as RadioGroup } from '../Radio/Group'
 
 /**
  * Контейнер для RadioGroup(пропсы прокидывает)
  * @reactProps {object} radioGroup - пропсы для RadioGroup
  * @reactProps {array} radios -  пропсы для Radio
+ * FIXME тут скорее всего упадёт из-за того что пропсы новые не передал правильно,
+ *  но я не нашёл кто использует это и как, поэтому пока оставлю как есть %)
  */
 function RadioGroupContainer({ radioGroup, radios, ...props }) {
     return (
-        <RadioGroup {...radioGroup} {...props}>
-            {mapProp(radios).map(radio => (
-                <Radio {...radio} />
-            ))}
-        </RadioGroup>
+        <RadioGroup
+            {...radioGroup}
+            {...props}
+            options={mapProp(radios)}
+        />
     )
 }
 

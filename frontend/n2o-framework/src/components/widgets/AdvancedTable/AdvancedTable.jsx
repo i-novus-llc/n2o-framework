@@ -24,7 +24,7 @@ import propsResolver from '../../../utils/propsResolver'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
-import RadioN2O from '../../controls/Radio/RadioN2O'
+import { InputRadio } from '../../controls/Radio/Input'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon'
@@ -664,10 +664,11 @@ class AdvancedTable extends Component {
                 }
                 if (rowSelection === rowSelectionType.RADIO) {
                     return (
-                        <RadioN2O
+                        <InputRadio
                             className="n2o-advanced-table-row-radio"
                             inline
                             checked={checked[model.id]}
+                            value={model.id}
                             onChange={() => this.handleChangeRadioChecked(model.id)}
                         />
                     )
