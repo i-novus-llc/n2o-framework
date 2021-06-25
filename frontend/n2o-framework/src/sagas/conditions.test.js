@@ -35,19 +35,30 @@ describe('Проверка саги toolbar', () => {
             ),
         ).toEqual({
             someType: {
-                ...buttons.someType,
+                'models.resolve[\'__patients-update\']': [
+                    {
+                        name: 'buttonsButton',
+                    },
+                ],
                 'model.resolve[\'__contacts\']': [
+                    {
+                        name: 'payloadButton',
+                        conditions: {
+                            enabled: [
+                                {
+                                    modelLink: 'model.resolve[\'__contacts\']',
+                                },
+                            ],
+                        },
+                    },
+                ],
+                'models.resolve[\'__patients\']': [
                     {
                         name: 'payloadButton',
                         conditions: {
                             visible: [
                                 {
                                     modelLink: 'models.resolve[\'__patients\']',
-                                },
-                            ],
-                            enabled: [
-                                {
-                                    modelLink: 'model.resolve[\'__contacts\']',
                                 },
                             ],
                         },
