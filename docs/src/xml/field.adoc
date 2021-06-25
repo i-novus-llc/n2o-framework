@@ -1501,12 +1501,12 @@ card - вид горизонтальной карточки с показом н
 |inline
 |true false
 |Отображение элементов на одной строке
-|false
+|false, при type='tabs' inline='true'
 
 |type
-|Строка
+|default btn tabs
 |Тип кнопок
-|
+|default
 
 |===
 
@@ -1514,7 +1514,7 @@ card - вид горизонтальной карточки с показом н
 
 [source,xml]
 ----
-<radio-group id="gender" inline="false" type="defaultType"/>
+<radio-group id="gender" inline="false" type="default"/>
 ----
 
 === <checkbox-group>
@@ -1531,9 +1531,9 @@ card - вид горизонтальной карточки с показом н
 |false
 
 |type
-|Строка
-|
-|
+|default btn
+|Тип кнопок
+|default
 
 |===
 
@@ -1541,7 +1541,7 @@ card - вид горизонтальной карточки с показом н
 
 [source,xml]
 ----
-<checkbox-group id="gender" inline="false" type="defaultType"/>
+<checkbox-group id="gender" inline="false" type="default"/>
 ----
 
 === <pills>
