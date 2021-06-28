@@ -6,9 +6,8 @@ import { createStructuredSelector } from 'reselect'
 
 // eslint-disable-next-line import/no-named-as-default
 import Alerts from '../snippets/Alerts/Alerts'
-import { GLOBAL_KEY } from '../../constants/alerts'
-import { makeAlertsByKeySelector } from '../../selectors/alerts'
-import { removeAlert } from '../../actions/alerts'
+import { GLOBAL_KEY } from '../../ducks/alerts/constants'
+import { alertsByKeySelector, removeAlert } from '../../ducks/alerts/store'
 
 /**
  * Глобальные алерты
@@ -45,7 +44,7 @@ GlobalAlerts.defaultProps = {
 }
 
 const mapStateToProps = createStructuredSelector({
-    alerts: (state, props) => makeAlertsByKeySelector(GLOBAL_KEY)(state, props),
+    alerts: (state, props) => alertsByKeySelector(GLOBAL_KEY)(state, props),
 })
 
 const mapDispatchToProps = dispatch => ({

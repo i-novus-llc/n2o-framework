@@ -7,13 +7,13 @@ import { compose, pure } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 
 import propsResolver from '../../../utils/propsResolver'
-import { registerColumn } from '../../../actions/columns'
+import { registerColumn } from '../../../ducks/columns/store'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
 import {
     isInitSelector,
     isVisibleSelector,
     isDisabledSelector,
-} from '../../../selectors/columns'
+} from '../../../ducks/columns/selectors'
 
 /**
  * колонка-контейнер

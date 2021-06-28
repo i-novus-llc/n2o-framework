@@ -10,13 +10,13 @@ import {
     makeWidgetCountSelector,
     makeWidgetSizeSelector,
     makeWidgetPageSelector,
-} from '../../../selectors/widgets'
+} from '../../../ducks/widgets/selectors'
 import {
     makeGetModelByPrefixSelector,
     makeGetFilterModelSelector,
-} from '../../../selectors/models'
-import { dataRequestWidget } from '../../../actions/widgets'
-import { PREFIXES } from '../../../constants/models'
+} from '../../../ducks/models/selectors'
+import { dataRequestWidget } from '../../../ducks/widgets/store'
+import { PREFIXES } from '../../../ducks/models/constants'
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`

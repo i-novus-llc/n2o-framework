@@ -5,11 +5,11 @@ import { createStructuredSelector } from 'reselect'
 import { change } from 'redux-form'
 import PropTypes from 'prop-types'
 
-import { registerFieldExtra } from '../../../../../actions/formPlugin'
+import { registerFieldExtra } from '../../../../../ducks/form/store'
 import {
     isInitSelector,
     formValueSelector,
-} from '../../../../../selectors/formPlugin'
+} from '../../../../../ducks/form/selectors'
 import evalExpression, {
     parseExpression,
 } from '../../../../../utils/evalExpression'
