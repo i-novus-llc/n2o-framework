@@ -5,11 +5,13 @@ import { batchActions } from 'redux-batched-actions'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
 
-import { registerRegion, setActiveEntity, mapUrl } from '../../actions/regions'
 import {
+    registerRegion,
+    setActiveRegion,
+    mapUrl,
     makeRegionIsInitSelector,
     makeRegionActiveEntitySelector,
-} from '../../selectors/regions'
+} from '../../ducks/regions/store'
 
 const createRegionContainer = config => (WrappedComponent) => {
     const { listKey } = config
@@ -40,21 +42,19 @@ const createRegionContainer = config => (WrappedComponent) => {
                     alwaysRefresh,
                 } = props
 
-                dispatch(
-                    registerRegion(id, {
-                        regionId: id,
-                        activeEntity,
-                        isInit: true,
-                        lazy,
-                        alwaysRefresh,
-                        [listKey]: get(props, listKey, []),
-                    }),
-                )
+                dispatch(registerRegion(id, {
+                    regionId: id,
+                    activeEntity,
+                    isInit: true,
+                    lazy,
+                    alwaysRefresh,
+                    [listKey]: get(props, listKey, []),
+                }))
             },
             changeActiveEntity: props => (value) => {
                 const { dispatch, id } = props
 
-                dispatch(batchActions([setActiveEntity(id, value), mapUrl(value)]))
+                dispatch(batchActions([setActiveRegion(id, value), mapUrl(value)]))
             },
         }),
         lifecycle({

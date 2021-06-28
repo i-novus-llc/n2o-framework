@@ -63,7 +63,7 @@ stories
       Компонент 'Список'
       ~~~js
       import List from 'n2o-framework/lib/components/widgets/List/List';
-      
+
       <List data={data} selectedId={2} />
       ~~~
       `,
@@ -106,7 +106,7 @@ stories
       Компонент 'Список'
       ~~~js
       import List from 'n2o-framework/lib/components/widgets/List/List';
-      
+
       <List data={data} divider={false} />
       ~~~
       `,
@@ -343,18 +343,23 @@ stories
             3000,
         )))
 
-        const newMeta = { ...metadata }
-        newMeta.List.placeholder = {
-            rows: 3,
-            paragraph: 4,
-            avatar: true,
-            type: 'list',
+        const newMeta = {
+            ...metadata,
+            List: {
+                ...metadata.List,
+                placeholder: {
+                    rows: 3,
+                    paragraph: 4,
+                    avatar: true,
+                    type: 'list',
+                }
+            }
         }
 
         return (
             <Factory
                 level={WIDGETS}
-                {...metadata.List}
+                {...newMeta.List}
                 hasMoreNutton
                 id="List"
             />

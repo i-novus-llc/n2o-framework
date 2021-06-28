@@ -1,7 +1,7 @@
 import reduce from 'lodash/reduce'
 import { call, put } from 'redux-saga/effects'
 
-import { dataRequestWidget, disableWidget, enableWidget, hideWidget, showWidget } from '../../actions/widgets'
+import { dataRequestWidget, disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks/widgets/store'
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 

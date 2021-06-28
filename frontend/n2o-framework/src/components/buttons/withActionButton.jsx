@@ -9,15 +9,15 @@ import isNil from 'lodash/isNil'
 import { getFormValues } from 'redux-form'
 
 import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
-import { registerButton, removeButton } from '../../actions/toolbar'
+import { registerButton, removeButton } from '../../ducks/toolbar/store'
 import {
     isDisabledSelector,
     messageSelector,
     isInitSelector,
     isVisibleSelector,
     countSelector,
-} from '../../selectors/toolbar'
-import { makeWidgetValidationSelector } from '../../selectors/widgets'
+} from '../../ducks/toolbar/selectors'
+import { makeWidgetValidationSelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'

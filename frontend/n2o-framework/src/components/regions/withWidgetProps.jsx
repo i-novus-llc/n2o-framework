@@ -7,20 +7,21 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import isEmpty from 'lodash/isEmpty'
 
-import { widgetsSelector } from '../../selectors/widgets'
+import { widgetsSelector } from '../../ducks/widgets/selectors'
 import {
     makeModelsByPrefixSelector,
     modelsSelector,
-    getModelsByDependency } from '../../selectors/models'
-import { pagesSelector, makePageMetadataByIdSelector } from '../../selectors/pages'
+    getModelsByDependency,
+} from '../../ducks/models/selectors'
+import { pagesSelector, makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
 import {
     hideWidget,
     showWidget,
     disableWidget,
     enableWidget,
     dataRequestWidget,
-} from '../../actions/widgets'
-import { PREFIXES } from '../../constants/models'
+} from '../../ducks/widgets/store'
+import { PREFIXES } from '../../ducks/models/constants'
 import { reduceFunction } from '../../sagas/widgetDependency/resolve'
 
 /**

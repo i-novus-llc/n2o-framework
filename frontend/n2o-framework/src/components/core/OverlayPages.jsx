@@ -6,8 +6,8 @@ import map from 'lodash/map'
 import has from 'lodash/has'
 import defaultTo from 'lodash/defaultTo'
 
-import { closeOverlay, hidePrompt } from '../../actions/overlays'
-import { overlaysSelector } from '../../selectors/overlays'
+import { closeOverlay, hidePrompt } from '../../ducks/overlays/store'
+import { overlaysSelector } from '../../ducks/overlays/selectors'
 
 // eslint-disable-next-line import/no-cycle
 import DrawerPage from './DrawerPage'

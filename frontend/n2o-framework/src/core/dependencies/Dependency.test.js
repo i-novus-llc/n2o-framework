@@ -8,16 +8,14 @@ import set from 'lodash/set'
 import configureMockStore from 'redux-mock-store'
 import { fork, put } from 'redux-saga/effects'
 
-import {
-    DISABLE_FIELD,
-    ENABLE_FIELD,
-    REGISTER_DEPENDENCY,
-    HIDE_FIELD,
-    SHOW_FIELD,
-    SET_FIELD_FILTER,
-} from '../../constants/formPlugin'
-import { showField, hideField, enableField, disableField } from '../../actions/formPlugin'
-import formPluginReducer from '../../reducers/formPlugin'
+import formPluginReducer, {
+    showField,
+    hideField,
+    enableField,
+    disableField,
+    registerFieldDependency,
+    setFilterValue
+} from '../../ducks/form/store'
 import { checkAndModify, modify } from '../../sagas/fieldDependency'
 
 import withDependency from './withDependency'
@@ -57,7 +55,7 @@ const mockData = {
 
 const actions = [
     {
-        type: DISABLE_FIELD,
+        type: disableField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -66,7 +64,7 @@ const actions = [
     },
 
     {
-        type: ENABLE_FIELD,
+        type: enableField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -74,7 +72,7 @@ const actions = [
         meta: { form: 'mockForm' },
     },
     {
-        type: HIDE_FIELD,
+        type: hideField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -83,7 +81,7 @@ const actions = [
     },
 
     {
-        type: SHOW_FIELD,
+        type: showField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -91,7 +89,7 @@ const actions = [
         meta: { form: 'mockForm' },
     },
     {
-        type: REGISTER_DEPENDENCY,
+        type: registerFieldDependency.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -107,7 +105,7 @@ const actions = [
         meta: { form: 'mockForm' },
     },
     {
-        type: SET_FIELD_FILTER,
+        type: setFilterValue.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -302,6 +300,6 @@ describe('Тестирование HOC', () => {
             </Provider>,
         )
         expect(store.getActions()).toHaveLength(1)
-        expect(store.getActions()[0].type).toEqual(REGISTER_DEPENDENCY)
+        expect(store.getActions()[0].type).toEqual(registerFieldDependency.type)
     })
 })

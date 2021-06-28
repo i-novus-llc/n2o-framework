@@ -3,10 +3,10 @@ import get from 'lodash/get'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { setModel } from '../../../../../actions/models'
-import { setTableSelectedId } from '../../../../../actions/widgets'
-import { PREFIXES } from '../../../../../constants/models'
-import { makeGetResolveModelSelector } from '../../../../../selectors/models'
+import { setModel } from '../../../../../ducks/models/store'
+import { setTableSelectedId } from '../../../../../ducks/widgets/store'
+import { PREFIXES } from '../../../../../ducks/models/constants'
+import { makeGetResolveModelSelector } from '../../../../../ducks/models/selectors'
 
 export default (EditableCell) => {
     class EditableCellWithActions extends React.PureComponent {

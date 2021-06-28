@@ -19,8 +19,8 @@ import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
     makePageStatusByIdSelected,
-} from '../../selectors/pages'
-import { rootPageSelector } from '../../selectors/global'
+} from '../../ducks/pages/selectors'
+import { rootPageSelector } from '../../ducks/global/store'
 import { Spinner } from '../snippets/Spinner/Spinner'
 
 import withMetadata from './withMetadata'

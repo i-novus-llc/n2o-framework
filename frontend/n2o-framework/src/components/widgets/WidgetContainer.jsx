@@ -14,7 +14,7 @@ import has from 'lodash/has'
 import cx from 'classnames'
 import { batchActions } from 'redux-batched-actions'
 
-import { callActionImpl } from '../../actions/toolbar'
+import { callActionImpl } from '../../ducks/toolbar/store'
 import { Placeholder } from '../snippets/Placeholder/Placeholder'
 import {
     dataRequestWidget,
@@ -23,19 +23,19 @@ import {
     setActive,
     setTableSelectedId,
     sortByWidget,
-} from '../../actions/widgets'
-import { setModel, removeAllModel } from '../../actions/models'
+} from '../../ducks/widgets/store'
+import { setModel, removeAllModel } from '../../ducks/models/store'
 import {
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
-} from '../../selectors/models'
+} from '../../ducks/models/selectors'
 import {
     isAnyTableFocusedSelector,
     makeWidgetByIdSelector,
-} from '../../selectors/widgets'
-import { removeAlerts } from '../../actions/alerts'
+} from '../../ducks/widgets/selectors'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { InitMetadataContext } from '../../core/dependency'
+import { removeAllAlerts } from '../../ducks/alerts/store'
 
 const s = {}
 
@@ -138,7 +138,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             componentWillUnmount() {
                 const { widgetId, dispatch } = this.props
                 const actions = [
-                    removeAlerts(widgetId),
+                    removeAllAlerts(widgetId),
                     removeAllModel(widgetId),
                     setTableSelectedId(widgetId, null),
                 ]

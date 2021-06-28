@@ -8,7 +8,7 @@ import unionBy from 'lodash/unionBy'
 
 import cachingStore from '../../utils/cacher'
 import { fetchInputSelectData } from '../../core/api'
-import { addAlert, removeAlerts } from '../../actions/alerts'
+import { addAlert, removeAllAlerts } from '../../ducks/alerts/store'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 
 /**
@@ -246,7 +246,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
     const mapDispatchToProps = (dispatch, ownProps) => ({
         addAlert: message => dispatch(addAlert(`${ownProps.form}.${ownProps.labelFieldId}`, message)),
-        removeAlerts: () => dispatch(removeAlerts(`${ownProps.form}.${ownProps.labelFieldId}`)),
+        removeAlerts: () => dispatch(removeAllAlerts(`${ownProps.form}.${ownProps.labelFieldId}`)),
     })
 
     return connect(
