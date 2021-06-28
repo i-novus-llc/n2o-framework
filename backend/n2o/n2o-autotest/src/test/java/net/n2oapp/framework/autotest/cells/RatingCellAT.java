@@ -64,11 +64,11 @@ public class RatingCellAT extends AutoTestBase {
         rows.row(0).cell(1, RatingCell.class).maxShouldBe(10);
         rows.row(0).cell(1, RatingCell.class).value("5");
         Alerts.Alert alert = simplePage.alerts().alert(0);
-        alert.shouldExists();
+        alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(Colors.SUCCESS);
         rows.row(0).cell(1, RatingCell.class).valueShouldBe("5");
         rows.row(1).cell(1, RatingCell.class).value("8");
-        alert.shouldExists();
+        alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(Colors.SUCCESS);
         rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
         //проверка что значение сохранилось на бэке
