@@ -128,7 +128,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
-                !Boolean.TRUE.equals(source.getFetchOnInit())) {
+                source.getMasterFieldId() != null) {
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
             String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             return normalize(colon(selectedId)) + normalize(source.getId());
