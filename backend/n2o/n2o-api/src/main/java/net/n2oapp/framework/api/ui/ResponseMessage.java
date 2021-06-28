@@ -30,8 +30,6 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String position = "relative";
     @JsonProperty
-    private String placement;
-    @JsonProperty
     private Boolean loader = false;
     @JsonProperty
     private Boolean animate = false;
@@ -41,9 +39,6 @@ public class ResponseMessage implements Serializable {
     private List<String> stacktrace;
     @JsonProperty
     private Object data;
-
-    public ResponseMessage() {
-    }
 
     public void setSeverityType(SeverityType severity) {
         this.severity = severity != null ? severity.getId() : null;
