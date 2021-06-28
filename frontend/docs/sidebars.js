@@ -25,6 +25,7 @@ module.exports = {
                     label: 'Навигация',
                     items: [
                         'menu',
+                        'pagination',
                     ],
                 },
                 {
