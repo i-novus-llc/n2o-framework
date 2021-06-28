@@ -26,8 +26,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         initWelcomePage(source, p);
 
         Application.Layout layout = new Application.Layout();
-        layout.setFixed(p.cast(source.getNavigationLayoutFixed(), true));
-        layout.setFullSizeHeader(source.getNavigationLayout() == null || source.getNavigationLayout().equals(NavigationLayout.fullSizeHeader) ? true : false);
+        layout.setFixed(p.cast(source.getNavigationLayoutFixed(), p.resolve(property("n2o.navigationLayout.fixed"), Boolean.class)));
+        layout.setFullSizeHeader(source.getNavigationLayout() == null || source.getNavigationLayout().equals(NavigationLayout.fullSizeHeader));
         application.setLayout(layout);
 
         application.setHeader(initHeader(source.getHeader(), context, p));
@@ -40,7 +40,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Header initHeader(N2oHeader source, ApplicationContext context, CompileProcessor p) {
         if (source == null) return null;
         Header header = new Header();
-        header.setSrc(source.getSrc());
+        header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.header.src"), String.class)));
         header.setClassName(source.getCssClass());
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Logo logo = new Logo();
@@ -63,7 +63,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Sidebar initSidebar(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Sidebar sidebar = new Sidebar();
-        sidebar.setSrc(source.getSrc());
+        sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
         sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Logo logo = new Logo();
@@ -85,7 +85,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Footer initFooter(N2oFooter source, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Footer footer = new Footer();
-        footer.setSrc(source.getSrc());
+        footer.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.footer.src"), String.class)));
         footer.setClassName(source.getCssClass());
         footer.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         footer.setTextRight(source.getRightText());

@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.application;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Component;
 
 import java.util.Map;
 
@@ -12,13 +12,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class Footer implements Compiled {
-    @JsonProperty
-    private String src;
-    @JsonProperty
-    private String className;
-    @JsonProperty
-    private Map<String, String> style;
+public class Footer extends Component {
     @JsonProperty
     private String textRight;
     @JsonProperty
