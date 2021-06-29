@@ -9,10 +9,7 @@ import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ActionResponseInfo;
-import net.n2oapp.framework.api.ui.QueryRequestInfo;
-import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.ui.*;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
@@ -42,12 +39,14 @@ public class DataController extends AbstractController {
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         QueryRequestInfo requestInfo = createQueryRequestInfo(path, parameters, user);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
+        responseInfo.setAlertMessageBuilder(getMessageBuilder());
         return controllerFactory.execute(requestInfo, responseInfo);
     }
 
     public SetDataResponse setData(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
         ActionRequestInfo requestInfo = createActionRequestInfo(path, parameters, headers, body, user);
         ActionResponseInfo responseInfo = new ActionResponseInfo();
+        responseInfo.setAlertMessageBuilder(getMessageBuilder());
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
         resolveRedirect(requestInfo, result);
         resolveRefresh(requestInfo, result);

@@ -28,6 +28,7 @@ public class CountController extends AbstractController {
     public Integer getCount(HttpServletRequest request, HttpServletResponse response) {
         QueryRequestInfo requestInfo = createQueryRequestInfo(request);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
+        responseInfo.setAlertMessageBuilder(getMessageBuilder());
         //результат не процессится
         dataProcessingStack.processQuery(requestInfo, responseInfo);
         try {

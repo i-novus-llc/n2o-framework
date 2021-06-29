@@ -1,8 +1,10 @@
 package net.n2oapp.framework.api.ui;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.*;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.PropertyResolver;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -18,19 +20,23 @@ import java.util.StringTokenizer;
 public class AlertMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
+    private PropertyResolver propertyResolver;
     private Boolean showStacktrace = true;
 
-    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
+        this.propertyResolver = propertyResolver;
     }
 
-    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, Boolean showStacktrace) {
+    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
+                               Boolean showStacktrace) {
         this.messageSourceAccessor = messageSourceAccessor;
+        this.propertyResolver = propertyResolver;
         this.showStacktrace = showStacktrace;
     }
 
     public ResponseMessage build(Exception e) {
-        ResponseMessage resp = new ResponseMessage();
+        ResponseMessage resp = constractMessage();
         resp.setText(buildText(e));
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
@@ -43,11 +49,28 @@ public class AlertMessageBuilder {
         return resp;
     }
 
+    public ResponseMessage buildSuccessMessage(String successText, DataSet data) {
+        ResponseMessage message = constractMessage();
+        message.setSeverityType(SeverityType.success);
+        message.setText(StringUtils.resolveLinks(successText, data));
+        message.setData(data);
+        return message;
+    }
+
+    private ResponseMessage constractMessage() {
+        ResponseMessage message = new ResponseMessage();
+        if (propertyResolver != null) {
+            message.setPosition(propertyResolver.getProperty("n2o.api.message.position"));
+            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement"));
+        }
+        return message;
+    }
+
     private List<ResponseMessage> buildValidationMessages(N2oValidationException e) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
-                ResponseMessage resp = new ResponseMessage();
+                ResponseMessage resp = constractMessage();
                 //resp.setChoice(e.getChoice()); todo use dialog
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());

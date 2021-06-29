@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.PropertyResolver;
 
 /**
  * Веб сервер для прогона автотестов
@@ -26,7 +27,8 @@ public class AutoTestApplication {
     }
 
     @Bean
-    AlertMessageBuilder messageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
-        return new AlertMessageBuilder(messageSourceAccessor);
+    AlertMessageBuilder messageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
+                                       PropertyResolver propertyResolver) {
+        return new AlertMessageBuilder(messageSourceAccessor, propertyResolver);
     }
 }

@@ -68,6 +68,7 @@ public class N2oServletConfiguration {
         pageServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         pageServlet.setMessageBuilder(messageBuilder);
         pageServlet.setSubModelsProcessor(subModelsProcessor);
+        pageServlet.setPropertyResolver(env.getSystemProperties());
         pageClientCacheTemplate.ifPresent(pageServlet::setClientCacheTemplate);
         return new ServletRegistrationBean(pageServlet, n2oApiUrl + "/page/*");
     }

@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -34,6 +35,7 @@ import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 public abstract class AbstractController {
     private MetadataRouter router;
     private MetadataEnvironment environment;
+    private AlertMessageBuilder messageBuilder;
 
     public AbstractController(MetadataEnvironment environment) {
         this.environment = environment;
@@ -51,6 +53,14 @@ public abstract class AbstractController {
 
     public void setRouter(MetadataRouter router) {
         this.router = router;
+    }
+
+    public AlertMessageBuilder getMessageBuilder() {
+        return messageBuilder;
+    }
+
+    public void setMessageBuilder(AlertMessageBuilder messageBuilder) {
+        this.messageBuilder = messageBuilder;
     }
 
     @SuppressWarnings("unchecked")

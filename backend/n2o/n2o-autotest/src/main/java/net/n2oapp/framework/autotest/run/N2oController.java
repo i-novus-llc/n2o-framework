@@ -95,7 +95,7 @@ public class N2oController {
     public ResponseEntity<GetDataResponse> getData(HttpServletRequest request) {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-
+        dataController.setMessageBuilder(messageBuilder);
         GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
@@ -104,7 +104,7 @@ public class N2oController {
     public ResponseEntity<SetDataResponse> setData(@RequestBody Object body, HttpServletRequest request) {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-
+        dataController.setMessageBuilder(messageBuilder);
         SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), getBody(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
@@ -114,7 +114,7 @@ public class N2oController {
             return new DataSet((Map<? extends String, ?>) body);
         else {
             DataSet dataSet = new DataSet("$list", body);
-            dataSet.put("$count", body != null ? ((List)body).size() : 0);
+            dataSet.put("$count", body != null ? ((List) body).size() : 0);
             return dataSet;
         }
     }

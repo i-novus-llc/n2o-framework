@@ -18,6 +18,7 @@ public class ResponseInfo  {
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
     private boolean stackedMessages = false;
+    private AlertMessageBuilder alertMessageBuilder;
 
 
     public void addMessage(ResponseMessage message) {

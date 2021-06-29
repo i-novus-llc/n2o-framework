@@ -42,12 +42,14 @@ public class N2oRestConfiguration {
     public DataController dataController(ControllerFactory controllerFactory,
                                          MetadataEnvironment environment,
                                          MetadataRouter router) {
-        return new DataController(controllerFactory, environment, router);
+        DataController dataController = new DataController(controllerFactory, environment, router);
+        dataController.setMessageBuilder(messageBuilder(environment));
+        return dataController;
     }
 
     @Bean
     public AlertMessageBuilder messageBuilder(MetadataEnvironment environment) {
-        return new AlertMessageBuilder(environment.getMessageSource(), showStacktrace);
+        return new AlertMessageBuilder(environment.getMessageSource(), environment.getSystemProperties(), showStacktrace);
     }
 
 }

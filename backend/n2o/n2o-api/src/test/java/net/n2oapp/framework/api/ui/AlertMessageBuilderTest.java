@@ -18,13 +18,13 @@ public class AlertMessageBuilderTest {
     public void testAnyException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("n2o.exceptions.error.message", "n2o.exceptions.error.message")).thenReturn("Internal error");
-        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource);
+        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, null);
         Exception e = new IllegalStateException();
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("Internal error"));
         assertThat(message.getSeverity(), is("danger"));
         assertThat(message.getStacktrace(), hasItem(containsString("AlertMessageBuilderTest")));
-        builder = new AlertMessageBuilder(messageSource, false);
+        builder = new AlertMessageBuilder(messageSource, null, false);
         message = builder.build(e);
         assertThat(message.getStacktrace(), nullValue());
     }
@@ -33,7 +33,7 @@ public class AlertMessageBuilderTest {
     public void testUserException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("user.code", "user.code")).thenReturn("User message {0}");
-        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource);
+        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, null);
         N2oException e = new N2oUserException("user.code").addData("test");
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("User message test"));

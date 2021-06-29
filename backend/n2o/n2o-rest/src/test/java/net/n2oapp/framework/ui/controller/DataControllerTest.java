@@ -338,7 +338,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         Map<String, Object> map = new HashMap<>();
         OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
-                new AlertMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
+                new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null), builder.getEnvironment());
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);

@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.PropertyResolver;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,13 +32,14 @@ public abstract class N2oServlet extends HttpServlet {
     protected ObjectMapper objectMapper = new ObjectMapper();
     private AlertMessageBuilder messageBuilder;
     private ClientCacheTemplate clientCacheTemplate;
+    private PropertyResolver propertyResolver;
 
 
     @Override
     public void init() throws ServletException {
         super.init();
         if (messageBuilder == null)
-            messageBuilder = new AlertMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()));
+            messageBuilder = new AlertMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()), propertyResolver);
     }
 
     public UserContext getUser(HttpServletRequest req) {
@@ -148,5 +150,9 @@ public abstract class N2oServlet extends HttpServlet {
 
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    public void setPropertyResolver(PropertyResolver propertyResolver) {
+        this.propertyResolver = propertyResolver;
     }
 }
