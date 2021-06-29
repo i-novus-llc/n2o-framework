@@ -145,7 +145,7 @@ public class N2oController {
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, environment));
         beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
-                operationProcessor, environment));
+                operationProcessor, messageBuilder, environment));
         return new N2oControllerFactory(beans);
     }
 

@@ -28,7 +28,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private Boolean closeButton;
     @JsonProperty
-    private String position = "relative";
+    private String position;
     @JsonProperty
     private String placement;
     @JsonProperty
