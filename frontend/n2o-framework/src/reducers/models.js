@@ -18,7 +18,7 @@ import {
     CLEAR,
     PREFIXES,
 } from '../constants/models'
-import { omitDeep, setIn } from '../tools/helpers'
+import { setIn } from '../tools/helpers'
 
 /**
  * Префиксы моделей в N2O
@@ -120,10 +120,16 @@ export default function models(state = modelState, action) {
             return { ...merge(state, action.payload.combine) }
         }
         case REMOVE_ALL: {
-            return {
-                ...state,
-                ...omitDeep(omit(state, PREFIXES.filter), [action.payload.key]),
-            }
+            const { key: excludeKey } = action.payload
+
+            Object.keys(state).forEach((stateKey) => {
+                if (stateKey === PREFIXES.filter) {
+                    return
+                }
+                delete state[stateKey][excludeKey]
+            })
+
+            return state
         }
         case CLEAR: {
             const res = {}
