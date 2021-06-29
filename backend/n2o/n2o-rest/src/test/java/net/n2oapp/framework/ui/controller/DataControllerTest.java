@@ -337,14 +337,16 @@ public class DataControllerTest extends DataControllerTestBase {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();
+        AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null);
         OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
-                new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null), builder.getEnvironment());
+                messageBuilder, builder.getEnvironment());
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
+        controller.setMessageBuilder(messageBuilder);
         return controller.setData(path, params , null, body, new UserContext(contextEngine));
     }
 
