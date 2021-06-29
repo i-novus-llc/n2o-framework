@@ -7,7 +7,7 @@ import * as presets from '../../../../core/validation/presets'
 import {
     addFieldMessage,
     removeFieldMessage,
-} from '../../../../actions/formPlugin'
+} from '../../../../ducks/form/store'
 
 export default (Field) => {
     function FieldWithValidate(props) {

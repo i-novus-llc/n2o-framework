@@ -1,4 +1,4 @@
-import { defaultState } from '../reducers/alerts'
+import { initialState } from '../ducks/alerts/store'
 
 import { generateErrorMeta } from './generateErrorMeta'
 
@@ -12,7 +12,7 @@ describe('проверка generateErrorMeta', () => {
             alert: {
                 messages: [
                     {
-                        ...defaultState,
+                        ...initialState,
                         ...{ value: 'any message' },
                     },
                 ],
@@ -25,7 +25,7 @@ describe('проверка generateErrorMeta', () => {
             alert: {
                 messages: [
                     {
-                        ...defaultState,
+                        ...initialState,
                     },
                 ],
             },

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, getContext, withProps } from 'recompose'
 import map from 'lodash/map'
 
-import { getModelSelector } from '../../../selectors/models'
+import { getModelSelector } from '../../../ducks/models/selectors'
 import propsResolver from '../../../utils/propsResolver'
 
 /**

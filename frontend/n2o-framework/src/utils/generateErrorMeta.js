@@ -1,7 +1,7 @@
-import { defaultState } from '../reducers/alerts'
+import { initialState } from '../ducks/alerts/store'
 
 export function generateErrorMeta(msg) {
-    const metaMsg = { ...defaultState, ...msg }
+    const metaMsg = { ...initialState, ...msg }
 
     return {
         alert: {

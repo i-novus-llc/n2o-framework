@@ -14,7 +14,7 @@ import React from 'react'
 import widgetContainer from '../WidgetContainer'
 import { FORM } from '../widgetTypes'
 import createValidator from '../../../core/validation/createValidator'
-import { PREFIXES } from '../../../constants/models'
+import { PREFIXES } from '../../../ducks/models/constants'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'

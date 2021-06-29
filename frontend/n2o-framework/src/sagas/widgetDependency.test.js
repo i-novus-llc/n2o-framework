@@ -1,13 +1,14 @@
 import { runSaga } from 'redux-saga'
 
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes'
+
 import {
-    DATA_REQUEST,
-    DISABLE,
-    ENABLE,
-    HIDE,
-    SHOW,
-} from '../constants/widgets'
+    dataRequestWidget,
+    disableWidget,
+    enableWidget,
+    hideWidget,
+    showWidget
+} from '../ducks/widgets/store'
 
 import {
     resolveWidgetDependency,
@@ -88,7 +89,7 @@ describe('Проверка саги widgetDependency', () => {
                 'testWidget',
             )
 
-            expect(dispatched[0].type).toEqual(DATA_REQUEST)
+            expect(dispatched[0].type).toEqual(dataRequestWidget.type)
         })
     })*/
     describe('тесты resolveWidgetDependency', () => {
@@ -119,7 +120,7 @@ describe('Проверка саги widgetDependency', () => {
                 widgetsDependencies,
             )
 
-            expect(dispatched[0].type).toBe(DATA_REQUEST)
+            expect(dispatched[0].type).toBe(dataRequestWidget.type)
         })
     })
     describe('reduceFunction', () => {
@@ -189,7 +190,7 @@ describe('Проверка саги widgetDependency', () => {
                 {},
                 true,
             )
-            expect(dispatched[0].type).toEqual(DATA_REQUEST)
+            expect(dispatched[0].type).toEqual(dataRequestWidget.type)
             expect(dispatched[0].payload).toEqual({
                 widgetId: 'test1',
                 options: {},
@@ -226,7 +227,7 @@ describe('Проверка саги widgetDependency', () => {
                         },
                     ],
                 )
-                expect(dispatched[0].type).toEqual(SHOW)
+                expect(dispatched[0].type).toEqual(showWidget.type)
                 expect(dispatched[0].payload).toEqual({
                     widgetId: 'test1',
                 })
@@ -261,7 +262,8 @@ describe('Проверка саги widgetDependency', () => {
                         },
                     ],
                 )
-                expect(dispatched[0].type).toEqual(HIDE)
+
+                expect(dispatched[0].type).toEqual(hideWidget.type)
                 expect(dispatched[0].payload).toEqual({
                     widgetId: 'test1',
                 })
@@ -290,7 +292,7 @@ describe('Проверка саги widgetDependency', () => {
                         },
                     ],
                 )
-                expect(dispatched[0].type).toEqual(ENABLE)
+                expect(dispatched[0].type).toEqual(enableWidget.type)
                 expect(dispatched[0].payload).toEqual({
                     widgetId: 'test1',
                 })
@@ -317,7 +319,7 @@ describe('Проверка саги widgetDependency', () => {
                         },
                     ],
                 )
-                expect(dispatched[0].type).toEqual(DISABLE)
+                expect(dispatched[0].type).toEqual(disableWidget.type)
                 expect(dispatched[0].payload).toEqual({
                     widgetId: 'test1',
                 })

@@ -4,7 +4,7 @@ import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 import { connect } from 'react-redux'
 
-import { makeAlertsByKeySelector } from '../../selectors/alerts'
+import { alertsByKeySelector } from '../../ducks/alerts/store'
 
 /**
  * HOC для контейнеров {@Link InputSelectContainer} и {@Link N2OSelectContainer}
@@ -170,9 +170,8 @@ function withListContainer(WrappedComponent) {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    alerts: makeAlertsByKeySelector(`${ownProps.form}.${ownProps.labelFieldId}`)(
-        state,
-    ),
+    alerts: alertsByKeySelector(`${ownProps.form}.${ownProps.labelFieldId}`)(state),
+
 })
 
 export default withListContainer

@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'
 import { batchDispatchMiddleware } from 'redux-batched-actions'
 import { routerMiddleware } from 'connected-react-router'
+import { configureStore } from '@reduxjs/toolkit'
 
 import generateReducer from './reducers'
 import generateSagas from './sagas'
@@ -11,34 +11,33 @@ import generateSagas from './sagas'
 const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()
 
-export default function configureStore(initialState, history, config = {}) {
+export default (initialState, history, config = {}) => {
     const middlewares = [
         batchDispatchMiddleware,
         thunkMiddleware,
+        () => next => (action) => {
+            if (Object.prototype.toString.call(action) === '[object Object]') {
+                const { payload = {}, meta = {}, ...actionFields } = action
+
+                return next({ ...actionFields, payload, meta })
+            }
+
+            return next(action)
+        },
         sagaMiddleware,
         routerMiddleware(history),
     ]
-    let composeEnhancers = compose
 
     if (process.env.NODE_ENV === 'development') {
         middlewares.push(loggerMiddleware)
     }
 
-    if (
-        typeof window === 'object' &&
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ) {
-        composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    }
-
-    const enhancers = [applyMiddleware(...middlewares)]
-
-    const store = createStore(
-        generateReducer(history, config.customReducers),
-        initialState,
-        composeEnhancers(...enhancers),
-    )
+    const store = configureStore({
+        reducer: generateReducer(history, config.customReducers),
+        preloadedState: initialState,
+        middleware: middlewares,
+        devTools: true,
+    })
 
     sagaMiddleware.run(generateSagas(store.dispatch, config))
 

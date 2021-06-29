@@ -11,8 +11,8 @@ import {
     makePageLoadingByIdSelector,
     makePageMetadataByIdSelector,
     makePageTitleByIdSelector,
-} from '../../selectors/pages'
-import { makeShowPromptByName } from '../../selectors/overlays'
+} from '../../ducks/pages/selectors'
+import { makeShowPromptByName } from '../../ducks/overlays/selectors'
 
 import withActions from './withActions'
 

@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect'
 import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 
-import { userSelector } from '../../selectors/auth'
+import { userSelector } from '../../ducks/user/selectors'
 
 import { SECURITY_CHECK } from './authTypes'
 

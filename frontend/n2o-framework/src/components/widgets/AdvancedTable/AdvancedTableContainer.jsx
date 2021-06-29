@@ -17,17 +17,17 @@ import { replace } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
 import widgetContainer from '../WidgetContainer'
-import { setTableSelectedId } from '../../../actions/widgets'
+import { setTableSelectedId } from '../../../ducks/widgets/store'
 import { TABLE } from '../widgetTypes'
 import columnHOC from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
-import { setModel } from '../../../actions/models'
-import { PREFIXES } from '../../../constants/models'
+import { setModel } from '../../../ducks/models/store'
+import { PREFIXES } from '../../../ducks/models/constants'
 import {
     makeGetFilterModelSelector,
     makeGetModelByPrefixSelector,
-} from '../../../selectors/models'
-import { getContainerColumns } from '../../../selectors/columns'
+} from '../../../ducks/models/selectors'
+import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
