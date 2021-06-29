@@ -36,7 +36,7 @@ public class AlertMessageBuilder {
     }
 
     public ResponseMessage build(Exception e) {
-        ResponseMessage resp = constractMessage();
+        ResponseMessage resp = constructMessage(new ResponseMessage());
         resp.setText(buildText(e));
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
@@ -50,15 +50,14 @@ public class AlertMessageBuilder {
     }
 
     public ResponseMessage buildSuccessMessage(String successText, DataSet data) {
-        ResponseMessage message = constractMessage();
+        ResponseMessage message = constructMessage(new ResponseMessage());
         message.setSeverityType(SeverityType.success);
         message.setText(StringUtils.resolveLinks(successText, data));
         message.setData(data);
         return message;
     }
 
-    private ResponseMessage constractMessage() {
-        ResponseMessage message = new ResponseMessage();
+    public ResponseMessage constructMessage(ResponseMessage message) {
         if (propertyResolver != null) {
             message.setPosition(propertyResolver.getProperty("n2o.api.message.position"));
             message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement"));
@@ -70,7 +69,7 @@ public class AlertMessageBuilder {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
-                ResponseMessage resp = constractMessage();
+                ResponseMessage resp = constructMessage(new ResponseMessage());
                 //resp.setChoice(e.getChoice()); todo use dialog
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());

@@ -2,11 +2,11 @@ package net.n2oapp.framework.ui.controller.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
@@ -24,11 +24,15 @@ import java.util.Map;
 @Controller
 public class BulkActionController extends SetController {
 
+    private AlertMessageBuilder messageBuilder;
+
 
     public BulkActionController(DataProcessingStack dataProcessingStack,
                                 N2oOperationProcessor actionProcessor,
+                                AlertMessageBuilder messageBuilder,
                                 MetadataEnvironment environment) {
         super(dataProcessingStack, actionProcessor, environment);
+        this.messageBuilder = messageBuilder;
     }
 
     @Override
@@ -52,7 +56,7 @@ public class BulkActionController extends SetController {
                     BulkOperationUtils.throwExceptionWithChoice(e, ignoreIds, id, bulkRequestInfo.getOperation());
                 }
         }
-        return BulkOperationUtils.createFinalResponse(choice, bulkRequestInfo.getOperation());
+        return messageBuilder.constructMessage(BulkOperationUtils.createFinalResponse(choice, bulkRequestInfo.getOperation()));
     }
 
 

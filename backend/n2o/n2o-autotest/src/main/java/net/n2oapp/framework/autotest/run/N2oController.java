@@ -140,8 +140,8 @@ public class N2oController {
                 operationProcessor, messageBuilder, environment));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder, environment));
-        beans.put("bulkActionController", new BulkActionController(dataProcessingStack,
-                operationProcessor, environment));
+        beans.put("bulkActionController", new BulkActionController(dataProcessingStack, operationProcessor,
+                messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, environment));
         beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,

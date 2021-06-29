@@ -24,7 +24,7 @@ public class ResponseInfo  {
     public void addMessage(ResponseMessage message) {
         if (messageList == null)
             messageList = new ArrayList<>();
-        messageList.add(message);
+        messageList.add(alertMessageBuilder.constructMessage(message));
     }
 
     public void addAttribute(String name, Object value) {
