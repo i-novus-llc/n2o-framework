@@ -17,5 +17,9 @@ public interface RadioGroup extends Control {
         DEFAULT,
         BTN,
         TABS;
+
+        public String name(String prefix) {
+            return prefix + name().toLowerCase();
+        }
     }
 }
