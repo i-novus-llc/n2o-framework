@@ -30,6 +30,8 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String position = "relative";
     @JsonProperty
+    private String placement;
+    @JsonProperty
     private Boolean loader = false;
     @JsonProperty
     private Boolean animate = false;

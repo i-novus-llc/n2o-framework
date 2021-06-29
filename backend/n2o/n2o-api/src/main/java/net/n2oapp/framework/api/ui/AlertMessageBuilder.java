@@ -13,18 +13,18 @@ import java.util.StringTokenizer;
 
 
 /**
- * Сборка сообщения об ошибке в формате клиента
+ * Сборка сообщения об ошибке\успехе в формате клиента
  */
-public class ErrorMessageBuilder {
+public class AlertMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
     private Boolean showStacktrace = true;
 
-    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor;
     }
 
-    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor, Boolean showStacktrace) {
+    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, Boolean showStacktrace) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.showStacktrace = showStacktrace;
     }

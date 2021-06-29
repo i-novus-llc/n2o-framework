@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteNotFoundException;
@@ -29,15 +29,15 @@ public abstract class N2oServlet extends HttpServlet {
     protected static final Log logger = LogFactory.getLog(N2oServlet.class);
     public static final String USER = "user";
     protected ObjectMapper objectMapper = new ObjectMapper();
-    private ErrorMessageBuilder errorMessageBuilder;
+    private AlertMessageBuilder messageBuilder;
     private ClientCacheTemplate clientCacheTemplate;
 
 
     @Override
     public void init() throws ServletException {
         super.init();
-        if (errorMessageBuilder == null)
-            errorMessageBuilder = new ErrorMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()));
+        if (messageBuilder == null)
+            messageBuilder = new AlertMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()));
     }
 
     public UserContext getUser(HttpServletRequest req) {
@@ -130,16 +130,16 @@ public abstract class N2oServlet extends HttpServlet {
     private MetaSaga buildMeta(Exception exception) {
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
-        meta.getAlert().setMessages(Collections.singletonList(errorMessageBuilder.build(exception)));
+        meta.getAlert().setMessages(Collections.singletonList(messageBuilder.build(exception)));
         return meta;
     }
 
-    public ErrorMessageBuilder getErrorMessageBuilder() {
-        return errorMessageBuilder;
+    public AlertMessageBuilder getMessageBuilder() {
+        return messageBuilder;
     }
 
-    public void setErrorMessageBuilder(ErrorMessageBuilder errorMessageBuilder) {
-        this.errorMessageBuilder = errorMessageBuilder;
+    public void setMessageBuilder(AlertMessageBuilder messageBuilder) {
+        this.messageBuilder = messageBuilder;
     }
 
     public void setClientCacheTemplate(ClientCacheTemplate clientCacheTemplate) {

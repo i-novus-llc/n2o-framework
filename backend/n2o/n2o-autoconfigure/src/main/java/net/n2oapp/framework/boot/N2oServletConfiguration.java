@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
@@ -55,7 +55,7 @@ public class N2oServletConfiguration {
 
     @Bean
     public ServletRegistrationBean pageServlet(MetadataEnvironment env, MetadataRouter router,
-                                               ErrorMessageBuilder errorMessageBuilder,
+                                               AlertMessageBuilder messageBuilder,
                                                SubModelsProcessor subModelsProcessor,
                                                Optional<ClientCacheTemplate> pageClientCacheTemplate) {
         PageServlet pageServlet = new PageServlet();
@@ -66,7 +66,7 @@ public class N2oServletConfiguration {
         pageServlet.setPipeline(pipeline);
         pageServlet.setRouter(router);
         pageServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        pageServlet.setErrorMessageBuilder(errorMessageBuilder);
+        pageServlet.setMessageBuilder(messageBuilder);
         pageServlet.setSubModelsProcessor(subModelsProcessor);
         pageClientCacheTemplate.ifPresent(pageServlet::setClientCacheTemplate);
         return new ServletRegistrationBean(pageServlet, n2oApiUrl + "/page/*");
@@ -74,10 +74,10 @@ public class N2oServletConfiguration {
 
     @Bean
     public ServletRegistrationBean dataServlet(DataController controller,
-                                               ErrorMessageBuilder errorMessageBuilder) {
+                                               AlertMessageBuilder messageBuilder) {
         DataServlet dataServlet = new DataServlet(controller);
         dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        dataServlet.setErrorMessageBuilder(errorMessageBuilder);
+        dataServlet.setMessageBuilder(messageBuilder);
         return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
     }
 

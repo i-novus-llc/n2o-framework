@@ -133,7 +133,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         QueryProcessor queryProcessor = mock(QueryProcessor.class);
         Map<String, Object> map = new HashMap<>();
-        ErrorMessageBuilder messageBuilder = new ErrorMessageBuilder(builder.getEnvironment().getMessageSource());
+        AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource());
         OperationController operationController = new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, builder.getEnvironment());
         QueryController queryController = new QueryController(dataProcessingStack, queryProcessor, null,

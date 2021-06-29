@@ -6,10 +6,9 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
 import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.ui.ResponseMessage;
@@ -28,18 +27,18 @@ public abstract class GetController implements ControllerTypeAware {
     private DataProcessingStack dataProcessingStack;
     private QueryProcessor queryProcessor;
     private SubModelsProcessor subModelsProcessor;
-    private ErrorMessageBuilder errorMessageBuilder;
+    private AlertMessageBuilder messageBuilder;
 
 
     protected GetController(DataProcessingStack dataProcessingStack,
                             QueryProcessor queryProcessor,
                             SubModelsProcessor subModelsProcessor,
-                            ErrorMessageBuilder errorMessageBuilder,
+                            AlertMessageBuilder messageBuilder,
                             MetadataEnvironment environment) {
         this.dataProcessingStack = dataProcessingStack;
         this.queryProcessor = queryProcessor;
         this.subModelsProcessor = subModelsProcessor;
-        this.errorMessageBuilder = errorMessageBuilder;
+        this.messageBuilder = messageBuilder;
     }
 
     public abstract GetDataResponse execute(QueryRequestInfo requestScope, QueryResponseInfo responseInfo);
@@ -108,7 +107,7 @@ public abstract class GetController implements ControllerTypeAware {
         return subModelsProcessor;
     }
 
-    public ErrorMessageBuilder getErrorMessageBuilder() {
-        return errorMessageBuilder;
+    public AlertMessageBuilder getMessageBuilder() {
+        return messageBuilder;
     }
 }

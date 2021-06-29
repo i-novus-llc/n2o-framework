@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipelin
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
@@ -338,7 +338,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         Map<String, Object> map = new HashMap<>();
         OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
-                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
+                new AlertMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
