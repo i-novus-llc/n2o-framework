@@ -12,7 +12,7 @@ public class CheckboxGroupIOv2 extends ListFieldIOv2<N2oCheckboxGroup> {
     public void io(Element e, N2oCheckboxGroup m, IOProcessor p) {
         super.io(e, m, p);
         p.attributeBoolean(e, "inline", m::getInline, m::setInline);
-        p.attribute(e, "type", m::getType, m::setType);
+        p.attributeEnum(e, "type", m::getType, m::setType, N2oCheckboxGroup.CheckboxGroupType.class);
     }
 
     @Override

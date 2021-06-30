@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
@@ -34,6 +35,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -437,5 +439,59 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(1).getId(), is("test3"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
+    }
+
+    @Test
+    public void testPaginationDefaultParams() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationDefault.widget.xml")
+                .get(new WidgetContext("testTable4PaginationDefault"));
+        Pagination pagination = table.getPaging();
+
+        assertThat(pagination.getFirst(), is(true));
+        assertThat(pagination.getLast(), is(false));
+        assertThat(pagination.getPrev(), is(false));
+        assertThat(pagination.getNext(), is(false));
+        assertThat(pagination.getShowSinglePage(), is(false));
+        assertThat(pagination.getShowCount(), is(true));
+        assertThat(pagination.getLayout(), is(Layout.separated));
+        assertThat(pagination.getPrevLabel(), is(nullValue()));
+        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
+        assertThat(pagination.getNextLabel(), is(nullValue()));
+        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
+        assertThat(pagination.getFirstLabel(), is(nullValue()));
+        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
+        assertThat(pagination.getLastLabel(), is(nullValue()));
+        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
+        assertThat(pagination.getMaxPages(), is(5));
+        assertThat(pagination.getClassName(), is(nullValue()));
+        assertThat(pagination.getStyle(), is(nullValue()));
+        assertThat(pagination.getPlace(), is(Place.bottomLeft));
+    }
+
+    @Test
+    public void testPaginationNonDefaultParams() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationNonDefault.widget.xml")
+                .get(new WidgetContext("testTable4PaginationNonDefault"));
+        Pagination pagination = table.getPaging();
+
+        assertThat(pagination.getFirst(), is(true));
+        assertThat(pagination.getLast(), is(true));
+        assertThat(pagination.getPrev(), is(true));
+        assertThat(pagination.getNext(), is(true));
+        assertThat(pagination.getShowSinglePage(), is(false));
+        assertThat(pagination.getShowCount(), is(true));
+        assertThat(pagination.getLayout(), is(Layout.separatedRounded));
+        assertThat(pagination.getPrevLabel(), is("prev"));
+        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
+        assertThat(pagination.getNextLabel(), is("next"));
+        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
+        assertThat(pagination.getFirstLabel(), is("first"));
+        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
+        assertThat(pagination.getLastLabel(), is("last"));
+        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
+        assertThat(pagination.getMaxPages(), is(10));
+        assertThat(pagination.getClassName(), is("class"));
+        assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
+        assertThat(pagination.getPlace(), is(Place.topLeft));
     }
 }

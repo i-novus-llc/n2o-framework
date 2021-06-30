@@ -5,7 +5,7 @@
 1. Перейти в директорию `~/frontend`
 2. Установить зависимости (эта команда выполняется, если у вас их нет):    
    `yarn install`
-3. Открыть файл `~/frontend/demo/src/setupProxy.js` и подставить нужный URL в свойство `target`:
+3. Перейти по пути `~/frontend/demo/src`, создать копию файла `setupProxy.example.js` переименовать ее в `setupProxy.js` Открыть файл `~/frontend/demo/src/setupProxy.js` и подставить нужный URL в свойство `target`:
 >![n2o-sandbox](readme/setupProxy.png "Настройка setupProxy")
 4. Установить необходимые библиотеки для корректного выполнения приложения:       
    `yarn run build:libs`

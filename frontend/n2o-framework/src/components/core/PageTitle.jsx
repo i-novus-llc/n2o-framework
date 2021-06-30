@@ -5,7 +5,7 @@ import isUndefined from 'lodash/isUndefined'
 import classNames from 'classnames'
 import { createStructuredSelector } from 'reselect'
 
-import { getModelSelector } from '../../selectors/models'
+import { getModelSelector } from '../../ducks/models/selectors'
 import propsResolver from '../../utils/propsResolver'
 
 function PageTitle({ className, title, model }) {

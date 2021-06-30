@@ -27,8 +27,8 @@ import {
     isDisabledSelector,
     messageSelector,
     requiredSelector,
-} from '../../../../selectors/formPlugin'
-import { registerFieldExtra } from '../../../../actions/formPlugin'
+} from '../../../../ducks/form/selectors'
+import { registerFieldExtra } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
 
 import withFieldValidate from './withFieldValidate'

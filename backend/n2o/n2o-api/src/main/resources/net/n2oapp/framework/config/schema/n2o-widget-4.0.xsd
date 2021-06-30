@@ -233,7 +233,7 @@
                     </xs:element>
                     <xs:element name="pagination" type="paginationDefinition">
                         <xs:annotation>
-                            <xs:documentation>Паджинация.</xs:documentation>
+                            <xs:documentation>Пагинация списка.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="rows" type="rowsListDefinition" minOccurs="0">
@@ -300,7 +300,7 @@
                     </xs:element>
                     <xs:element name="pagination" type="paginationDefinition" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>Паджинация таблицы.</xs:documentation>
+                            <xs:documentation>Пагинация таблицы.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="filters" type="filtersDefinition" minOccurs="0">
@@ -879,7 +879,7 @@
                 </xs:attribute>
                 <xs:element name="pagination" type="paginationDefinition">
                     <xs:annotation>
-                        <xs:documentation>Паджинация таблицы.</xs:documentation>
+                        <xs:documentation>Пагинация плиток.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="content">
@@ -954,7 +954,7 @@
                 </xs:attribute>
                 <xs:element name="pagination" type="paginationDefinition">
                     <xs:annotation>
-                        <xs:documentation>Паджинация таблицы.</xs:documentation>
+                        <xs:documentation>Пагинация карточек.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="content">
@@ -1100,7 +1100,7 @@
     <xs:complexType name="paginationDefinition">
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация паджинации.</xs:documentation>
+                <xs:documentation>Реализация пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="prev" type="xs:boolean" default="false">
@@ -1128,9 +1128,74 @@
                 <xs:documentation>Показать общее количество записей.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="hide-single-page" type="xs:boolean" default="true">
+        <xs:attribute name="show-single-page" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Скрыть паджинацию на единственной странице.</xs:documentation>
+                <xs:documentation>Показать пагинацию на единственной странице.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="layout" type="layoutEnum" default="separated">
+            <xs:annotation>
+                <xs:documentation>Устанавливает представление компонента.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="prev-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Предыдущая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="prev-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Предыдущая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="next-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Следующая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="next-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Следующая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="first-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Первая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="first-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Первая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="last-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Последняя страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="last-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Последняя страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="max-pages" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Максимальное кол-во кнопок перехода между страницами.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс, который будет добавлен к пагинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль пагинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="place" type="placeEnum" default="bottomLeft">
+            <xs:annotation>
+                <xs:documentation>Место расположения пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1192,6 +1257,27 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="layoutEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="bordered"/>
+            <xs:enumeration value="flat"/>
+            <xs:enumeration value="separated"/>
+            <xs:enumeration value="bordered-rounded"/>
+            <xs:enumeration value="flat-rounded"/>
+            <xs:enumeration value="separated-rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="placeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="topLeft"/>
+            <xs:enumeration value="topRight"/>
+            <xs:enumeration value="bottomLeft"/>
+            <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="topCenter"/>
+            <xs:enumeration value="bottomCenter"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="generateDefinition">
         <xs:annotation>

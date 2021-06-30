@@ -9,8 +9,8 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
-import { makeWidgetSizeSelector } from '../../../selectors/widgets'
-import { changeSizeWidget, dataRequestWidget } from '../../../actions/widgets'
+import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
+import { changeSizeWidget, dataRequestWidget } from '../../../ducks/widgets/store'
 
 const SIZES = [5, 10, 20, 50]
 

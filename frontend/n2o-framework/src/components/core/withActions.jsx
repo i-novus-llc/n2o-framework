@@ -5,7 +5,7 @@ import { compose, withProps, pure } from 'recompose'
 import {
     makePageActionsByIdSelector,
     makePageToolbarByIdSelector,
-} from '../../selectors/pages'
+} from '../../ducks/pages/selectors'
 
 const withActions = (Component) => {
     class ComponentWithActions extends PureComponent {

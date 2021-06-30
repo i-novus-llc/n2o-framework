@@ -25,6 +25,7 @@ module.exports = {
                     label: 'Навигация',
                     items: [
                         'menu',
+                        'pagination',
                     ],
                 },
                 {
@@ -82,6 +83,7 @@ module.exports = {
                 'uxcases_input',
                 'uxcases_list',
                 'uxcases_list_actions',
+                'uxcases_filters'
             ],
         },
         {

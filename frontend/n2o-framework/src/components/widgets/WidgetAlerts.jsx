@@ -5,8 +5,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
-import { makeAlertsByKeySelector } from '../../selectors/alerts'
-import { removeAlert } from '../../actions/alerts'
+import { removeAlert, alertsByKeySelector } from '../../ducks/alerts/store'
 
 /**
  * Компонент-редакс-обертка над алертами виджета
@@ -34,12 +33,8 @@ WidgetAlerts.propTypes = {
     onDismiss: PropTypes.func,
 }
 
-WidgetAlerts.defaultProps = {
-    alerts: [],
-}
-
 const mapStateToProps = createStructuredSelector({
-    alerts: (state, props) => makeAlertsByKeySelector(props.widgetId)(state, props),
+    alerts: (state, props) => alertsByKeySelector(props.widgetId)(state, props),
 })
 
 function mapDispatchToProps(dispatch, ownProps) {

@@ -5,13 +5,13 @@ import pullAt from 'lodash/pullAt'
 
 import PanelShortHand from '../../snippets/Panel/PanelShortHand'
 import Wireframe from '../../snippets/Wireframe/Wireframe'
-import { metadataSuccess } from '../../../actions/pages'
+import { metadataSuccess } from '../../../ducks/pages/store'
 import ListMetadata from '../List/ListMetadata.meta'
 import AuthButtonContainer from '../../../core/auth/AuthLogin'
 import { makeStore } from '../../../../.storybook/decorators/utils'
 import cloneObject from '../../../utils/cloneObject'
 import panelStyles from '../../snippets/Panel/panelStyles'
-import { dataSuccessWidget, hideWidget } from '../../../actions/widgets'
+import { dataSuccessWidget, hideWidget } from '../../../ducks/widgets/store'
 import Factory from '../../../core/factory/Factory'
 
 import SecurePanelRegion from './PanelRegion.meta'
@@ -40,8 +40,8 @@ stories.add(
       Компонент 'Регион панель'
       ~~~js
       import RegionPanel from 'n2o-framework/lib/components/regions/Panel/RegionPanel';
-      
-      <RegionPanel 
+
+      <RegionPanel
           className="test"
           color="secondary"
           icon="fa fa-exclamation"

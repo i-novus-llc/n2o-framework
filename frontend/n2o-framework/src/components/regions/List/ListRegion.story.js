@@ -14,7 +14,7 @@ import cloneObject from '../../../utils/cloneObject'
 import { makeStore } from '../../../../.storybook/decorators/utils'
 import AuthButtonContainer from '../../../core/auth/AuthLogin'
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta'
-import { metadataSuccess } from '../../../actions/pages'
+import { metadataSuccess } from '../../../ducks/pages/store'
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import Factory from '../../../core/factory/Factory'
 
@@ -46,8 +46,8 @@ stories.add(
       Компонент 'Регион Список'
       ~~~js
       import ListRegion from 'n2o-framework/lib/components/regions/List/ListRegion';
-      
-      <ListRegion 
+
+      <ListRegion
           pageId="Page"
           content={[
             {
