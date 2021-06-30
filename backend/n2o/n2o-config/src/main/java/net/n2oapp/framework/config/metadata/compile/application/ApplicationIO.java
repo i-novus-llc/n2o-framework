@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.application;
 
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
+import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.metadata.compile.header.HeaderIO;
@@ -29,7 +30,7 @@ public class ApplicationIO implements NamespaceIO<N2oApplication> {
 
     @Override
     public void io(Element e, N2oApplication m, IOProcessor p) {
-        p.attribute(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout);
+        p.attributeEnum(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout, NavigationLayout.class);
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIO());

@@ -6,7 +6,7 @@
     <sub-menu label="sub" icon="sub-icon">
         <page page-id="test2" label="test2" icon="pageIcon" route="pageRoute"/>
         <a label="test3" href="/test3" icon="icon" target="newWindow"/>
-        <sub-menu label="sub2" icon="subIcon" default-image="defaultImage" image-shape="circle" image-src="imageSrc">
+        <sub-menu label="sub2" icon="subIcon" image="#{image}">
             <page page-id="test4" label="test4"/>
             <a label="test5" href="/test5"/>
         </sub-menu>

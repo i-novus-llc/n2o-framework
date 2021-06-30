@@ -11,7 +11,7 @@ public class AccessTransformersPack implements MetadataPack<N2oApplicationBuilde
     @Override
     public void build(N2oApplicationBuilder b) {
         b.transformers(
-                new HeaderAccessTransformer(),
+                new ApplicationAccessTransformer(),
                 new ObjectAccessTransformer(),
                 new PageAccessTransformer(),
                 new QueryAccessTransformer(),

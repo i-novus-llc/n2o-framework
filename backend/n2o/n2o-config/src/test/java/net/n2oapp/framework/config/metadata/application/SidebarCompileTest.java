@@ -1,6 +1,9 @@
 package net.n2oapp.framework.config.metadata.application;
 
 import net.n2oapp.framework.api.metadata.application.Application;
+import net.n2oapp.framework.api.metadata.application.Side;
+import net.n2oapp.framework.api.metadata.application.Sidebar;
+import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
@@ -21,9 +24,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Тестирование компиляции заголовка
+ * Тестирование компиляции бокового меню
  */
-public class HeaderCompileTest extends SourceCompileTestBase {
+public class SidebarCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -39,22 +42,29 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineMenu() {
+    public void sidebarMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
-                .get(new ApplicationContext("headerWithMenu"));
+                "net/n2oapp/framework/config/metadata/application/sidebarWithMenu.application.xml")
+                .get(new ApplicationContext("sidebarWithMenu"));
 
-        Header header = application.getHeader();
-        assertThat(header.getLogo().getTitle(), is("N2O"));
-        assertThat(header.getSrc(), is("test"));
-        assertThat(header.getClassName(), is("class"));
-        assertThat(header.getLogo().getHref(), is("/pageRoute"));
-        assertThat(header.getStyle().size(), is(1));
-        assertThat(header.getStyle().get("marginLeft"),is("10px"));
+        Sidebar sidebar = application.getSidebar();
+        assertThat(sidebar.getDefaultState(), is(SidebarState.none));
+        assertThat(sidebar.getToggledState(), is(SidebarState.micro));
+        assertThat(sidebar.getToggleOnHover(), is(false));
+        assertThat(sidebar.getSide(), is(Side.right));
+        assertThat(sidebar.getOverlay(), is(false));
+        assertThat(sidebar.getLogo().getSrc(), is("/logo.png"));
+        assertThat(sidebar.getLogo().getClassName(), is("logo-class"));
+        assertThat(sidebar.getLogo().getTitle(), is("N2O"));
+        assertThat(sidebar.getSrc(), is("test"));
+        assertThat(sidebar.getClassName(), is("class"));
+        assertThat(sidebar.getLogo().getHref(), is("/pageRoute"));
+        assertThat(sidebar.getStyle().size(), is(1));
+        assertThat(sidebar.getStyle().get("marginLeft"),is("10px"));
 
-        assertThat(header.getMenu().getItems().size(), is(3));
-        ArrayList<HeaderItem> headerItems = header.getMenu().getItems();
+        assertThat(sidebar.getMenu().getItems().size(), is(3));
+        ArrayList<HeaderItem> headerItems = sidebar.getMenu().getItems();
         // sub-menu
         assertThat(headerItems.get(0).getTitle(), is("test"));
         assertThat(headerItems.get(0).getHref(), is("/page1"));
@@ -103,8 +113,8 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(2).getSubItems().get(0).getLinkType(), is(HeaderItem.LinkType.inner));
         assertThat(subItems.get(2).getSubItems().get(0).getType(), is("link"));
 
-        assertThat(header.getExtraMenu().getItems().size(), is(1));
-        HeaderItem extraItem = header.getExtraMenu().getItems().get(0);
+        assertThat(sidebar.getExtraMenu().getItems().size(), is(1));
+        HeaderItem extraItem = sidebar.getExtraMenu().getItems().get(0);
         // sub-menu
         assertThat(extraItem.getTitle(), is("#{username}"));
         assertThat(extraItem.getImage(), is("#{image}"));
@@ -137,52 +147,38 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void externalMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/application/headerWithExternalMenu.application.xml",
+                "net/n2oapp/framework/config/metadata/application/sidebarWithExternalMenu.application.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
-                .get(new ApplicationContext("headerWithExternalMenu"));
+                .get(new ApplicationContext("sidebarWithExternalMenu"));
 
-        Header header = application.getHeader();
-        assertThat(header.getLogo().getHref(), is("http://google.com/"));
-        assertThat(header.getMenu().getItems().size(), is(3));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().size(), is(2));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getTitle(), is("test2"));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
-        assertThat(header.getMenu().getItems().get(1).getTitle(), is("headerLabel"));
+        Sidebar sidebar = application.getSidebar();
+        assertThat(sidebar.getLogo().getHref(), is("http://google.com/"));
+        assertThat(sidebar.getMenu().getItems().size(), is(3));
+        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().size(), is(2));
+        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getTitle(), is("test2"));
+        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
+        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
+        assertThat(sidebar.getMenu().getItems().get(1).getTitle(), is("headerLabel"));
     }
 
     @Test
     public void testBind() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
-                .bind().get(new ApplicationContext("headerWithMenu"), null);
+                "net/n2oapp/framework/config/metadata/application/sidebarWithMenu.application.xml")
+                .bind().get(new ApplicationContext("sidebarWithMenu"), null);
 
-        assertThat(application.getHeader().getExtraMenu().getItems().get(0).getTitle(), is("test"));
+        assertThat(application.getSidebar().getExtraMenu().getItems().get(0).getTitle(), is("test"));
     }
 
     @Test
-    public void searchBarTest() {
+    public void testInvisibleSidebar() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/headerWithSearch.application.xml",
-                "net/n2oapp/framework/config/metadata/application/search.query.xml")
-                .bind().get(new ApplicationContext("headerWithSearch"), null);
-        SearchBar searchBar = application.getHeader().getSearch();
-        assertThat(searchBar, notNullValue());
-        assertThat("urlId", is(searchBar.getUrlFieldId()));
-        assertThat("labelId", is(searchBar.getLabelFieldId()));
-        assertThat("iconId", is(searchBar.getIconFieldId()));
-        assertThat("descriptionId", is(searchBar.getDescrFieldId()));
+                "net/n2oapp/framework/config/metadata/application/invisibleSidebar.application.xml")
+                .bind().get(new ApplicationContext("invisibleSidebar"), null);
 
-        assertThat(searchBar.getSearchPageLocation(), notNullValue());
-        assertThat("advancedUrl", is(searchBar.getSearchPageLocation().getUrl()));
-        assertThat("param", is(searchBar.getSearchPageLocation().getSearchQueryName()));
-        assertThat(SearchBar.LinkType.inner, is(searchBar.getSearchPageLocation().getLinkType()));
-
-        assertThat(searchBar.getDataProvider(), notNullValue());
-        assertThat("n2o/data/search", is(searchBar.getDataProvider().getUrl()));
-        assertThat("filterId", is(searchBar.getDataProvider().getQuickSearchParam()));
+        assertThat(application.getSidebar(), nullValue());
     }
 }

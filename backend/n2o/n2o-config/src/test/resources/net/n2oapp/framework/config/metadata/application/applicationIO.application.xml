@@ -15,14 +15,14 @@
         <nav src="Nav" ref-id="MenuRef">
             <page page-id="test1" label="test1" route="/test1" icon="test-icon"/>
             <a href="/a" label="test2" icon="test2-icon" target="newWindow"/>
-            <sub-menu label="sub" icon="sub-icon" default-image="def" image-shape="circle" image-src="image.png">
+            <sub-menu label="sub" icon="sub-icon" image="image.png">
                 <page page-id="test3" icon="test3-icon" label="test3" route="/test3"/>
                 <a label="test4" href="/test4" target="self" icon="fa fa-sign-out"/>
             </sub-menu>
         </nav>
 
         <extra-menu>
-            <sub-menu label="test">
+            <sub-menu label="test" image="#{imageSrc}" icon="icon">
                 <a label="test5" href="/test5" target="self" icon="fa fa-sign-out"/>
             </sub-menu>
         </extra-menu>
@@ -48,5 +48,7 @@
             <page page-id="test"/>
         </nav>
     </sidebar>
+
+    <footer src="testSrc" visible="false" left-text="LeftText" right-text="RightText"/>
 
 </application>

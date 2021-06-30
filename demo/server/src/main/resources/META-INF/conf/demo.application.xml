@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="ProtoPage">
-    <header class="inverse" >
+    <header class="inverse" title="N2O">
         <search query-id="ProtoClient"
                 filter-field-id="surname"
                 url-field-id="url"
@@ -22,4 +22,5 @@
             <!--<page page-id="refbooks" route="/refbooks"/>-->
         </nav>
     </header>
+    <footer left-text="N2O ${n2o.version} 2013-2021"/>
 </application>

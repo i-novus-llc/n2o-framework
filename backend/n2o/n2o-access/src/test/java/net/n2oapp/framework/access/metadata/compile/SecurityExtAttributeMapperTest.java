@@ -1,13 +1,13 @@
 package net.n2oapp.framework.access.metadata.compile;
 
 import net.n2oapp.framework.access.metadata.Security;
-import net.n2oapp.framework.api.metadata.header.CompiledHeader;
+import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -29,6 +29,9 @@ import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+/**
+ * Тестирование сборки атрибутов прав доступа
+ */
 public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
 
     @Override
@@ -48,8 +51,8 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
 
     @Test
     public void inlineMenu() {
-        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.application.xml")
-                .get(new HeaderContext("securityExtAttrMapperTest"));
+        Application application = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.application.xml")
+                .get(new ApplicationContext("securityExtAttrMapperTest"));
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
@@ -60,8 +63,8 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        assertThat(header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test

@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.application;
 
 
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationIO;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
@@ -31,5 +32,15 @@ public class ApplicationValidateTest extends SourceValidationTestBase {
     @Test
     public void testHeaderValidation() {
         validate("net/n2oapp/framework/config/metadata/application/applicationHeaderValidate.application.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testHeaderValidationFail() {
+        validate("net/n2oapp/framework/config/metadata/application/applicationHeaderValidateFail.application.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testSidebarValidationFail() {
+        validate("net/n2oapp/framework/config/metadata/application/applicationSidebarValidateFail.application.xml");
     }
 }

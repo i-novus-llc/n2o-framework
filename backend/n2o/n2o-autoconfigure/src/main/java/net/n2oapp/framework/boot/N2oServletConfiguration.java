@@ -29,8 +29,8 @@ import java.util.Optional;
 
 @Configuration
 public class N2oServletConfiguration {
-    @Value("${n2o.header.id:}")
-    private String headerId;
+    @Value("${n2o.application.id:}")
+    private String applicationId;
 
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
@@ -102,7 +102,7 @@ public class N2oServletConfiguration {
                 .compile().transform().cache().copy()
                 .bind();
         appConfigServlet.setPipeline(pipeline);
-        appConfigServlet.setHeaderSourceId(headerId);
+        appConfigServlet.setApplicationSourceId(applicationId);
         return new ServletRegistrationBean(appConfigServlet, n2oApiUrl + "/config", "/n2o/config.json");
     }
 }

@@ -58,9 +58,7 @@ public class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
     private void subMenu(Element e, N2oSimpleMenu.SubMenuItem m, IOProcessor p) {
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
-        p.attribute(e, "default-image", m::getDefaultImage, m::setDefaultImage);
-        p.attribute(e, "image-src", m::getImageSrc, m::setImageSrc);
-        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
+        p.attribute(e, "image", m::getImage, m::setImage);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getSubMenu, m::setSubMenu, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("page", N2oSimpleMenu.PageItem.class, this::page)
