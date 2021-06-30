@@ -5,7 +5,7 @@ services:
     ports:
       - "8700:8080"
     environment:
-      - SERVER_SERVLET_CONTEXT_PATH=/next/demo
+      - SERVER_SERVLET_CONTEXT_PATH=/demo
   storybook:
     ports:
       - "8702:80"
