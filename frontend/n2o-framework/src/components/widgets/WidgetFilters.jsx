@@ -12,11 +12,11 @@ import debounce from 'lodash/debounce'
 import { createStructuredSelector } from 'reselect'
 
 import { Filter } from '../snippets/Filter/Filter'
-import { dataRequestWidget } from '../../actions/widgets'
-import { PREFIXES } from '../../constants/models'
-import { setModel, removeModel } from '../../actions/models'
-import { makeGetFilterModelSelector } from '../../selectors/models'
-import { makeWidgetFilterVisibilitySelector } from '../../selectors/widgets'
+import { dataRequestWidget } from '../../ducks/widgets/store'
+import { PREFIXES } from '../../ducks/models/constants'
+import { setModel, removeModel } from '../../ducks/models/store'
+import { makeGetFilterModelSelector } from '../../ducks/models/selectors'
+import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
 
@@ -71,8 +71,8 @@ class WidgetFilters extends React.Component {
 
         if (
             !isEqual(prevProps.filterModel, filterModel) &&
-      !isEqual(filterModel, defaultValues) &&
-      !isEqual(filterModel, reduxFormFilter)
+            !isEqual(filterModel, defaultValues) &&
+            !isEqual(filterModel, reduxFormFilter)
         ) {
             this.setState(() => ({
                 defaultValues: filterModel,
@@ -83,22 +83,18 @@ class WidgetFilters extends React.Component {
     handleChangeModel(values) {
         const {
             widgetId,
-            filterModel,
             setFilterModel,
             searchOnChange,
             dispatch,
             validation,
         } = this.props
-
         const { store } = this.context
         const state = store.getState()
 
-        if (!isEqual(filterModel, values)) {
-            setFilterModel(widgetId, values)
-            validateField(validation, this.formName, state, true)(values, dispatch)
-            if (searchOnChange) {
-                this.debouncedHandleFilter()
-            }
+        setFilterModel(widgetId, values)
+        validateField(validation, this.formName, state, true)(values, dispatch)
+        if (searchOnChange) {
+            this.debouncedHandleFilter()
         }
     }
 

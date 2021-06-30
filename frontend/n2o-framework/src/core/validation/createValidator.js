@@ -14,7 +14,7 @@ import flatten from 'lodash/flatten'
 import { batchActions } from 'redux-batched-actions'
 
 import { isPromise } from '../../tools/helpers'
-import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin'
+import { addFieldMessage, removeFieldMessage } from '../../ducks/form/store'
 
 import * as presets from './presets'
 
@@ -194,6 +194,5 @@ export default function createValidator(
     return {
         asyncValidate: getStoreValidator(validationConfig, formName, store),
         asyncBlurFields: fields || [],
-        asyncChangeFields: fields || [],
     }
 }

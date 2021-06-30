@@ -12,8 +12,8 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
-import { getContainerColumns } from '../../../selectors/columns'
-import { toggleColumnVisiblity } from '../../../actions/columns'
+import { getContainerColumns } from '../../../ducks/columns/selectors'
+import { toggleColumnVisibility } from '../../../ducks/columns/store'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -56,7 +56,7 @@ const mapStateToProps = (state, props) => ({
 const enhance = compose(
     connect(mapStateToProps),
     withHandlers({
-        toggleVisibility: ({ dispatch, entityKey }) => id => dispatch(toggleColumnVisiblity(entityKey, id)),
+        toggleVisibility: ({ dispatch, entityKey }) => id => dispatch(toggleColumnVisibility(entityKey, id)),
     }),
     withHandlers({
         renderColumnDropdown: ({ toggleVisibility }) => (columns) => {

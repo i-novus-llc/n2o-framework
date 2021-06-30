@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { registerFieldDependency } from '../../actions/formPlugin'
+import { registerFieldDependency } from '../../ducks/form/store'
 
 export default (Component) => {
     class DependencyContainer extends React.Component {

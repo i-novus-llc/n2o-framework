@@ -1,7 +1,7 @@
-import { metadataSuccess } from '../../src/actions/pages';
+import { metadataSuccess } from '../../src/ducks/pages/store';
 
 import { store } from './utils';
-import { changeRootPage } from '../../src/actions/global';
+import { changeRootPage } from '../../src/ducks/global/store';
 
 const buildSimplePage = (widget, id) => {
   const widgetIds = Object.keys(widget);

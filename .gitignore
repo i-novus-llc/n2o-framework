@@ -37,6 +37,7 @@ local.application.properties
 *.orig
 
 # Frontend ignore
+setupProxy.js
 
 # Build output
 dist/

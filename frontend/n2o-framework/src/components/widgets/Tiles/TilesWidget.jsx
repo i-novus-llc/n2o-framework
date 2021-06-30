@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import Pagination from '../Table/TablePagination'
+import { getN2OPagination } from '../Table/N2OPagination'
+import { pagingType } from '../../snippets/Pagination/types'
 
 import TilesContainer from './TilesContainer'
 
@@ -30,7 +31,7 @@ function TilesWidget(
     },
     context,
 ) {
-    const { size } = paging
+    const { size, place = 'bottomLeft' } = paging
     const prepareFilters = () => context.resolveProps(filter, Fieldsets.StandardFieldset)
 
     return (
@@ -39,7 +40,7 @@ function TilesWidget(
             widgetId={widgetId}
             toolbar={toolbar}
             filter={prepareFilters()}
-            bottomLeft={paging && <Pagination {...paging} widgetId={widgetId} />}
+            {...getN2OPagination(paging, place, widgetId)}
             className={className}
             style={style}
         >
@@ -74,7 +75,7 @@ TilesWidget.propTypes = {
     fetchOnInit: PropTypes.bool,
     id: PropTypes.string,
     tile: PropTypes.node,
-    paging: PropTypes.object,
+    paging: pagingType,
     colsSm: PropTypes.number,
     colsMd: PropTypes.number,
     colsLg: PropTypes.number,

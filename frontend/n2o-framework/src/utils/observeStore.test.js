@@ -2,7 +2,7 @@ import mockStore from 'redux-mock-store'
 import sinon from 'sinon'
 import { createStore } from 'redux'
 
-import { setModel } from '../actions/models'
+import { setModel } from '../ducks/models/store'
 import reducers from '../reducers'
 import history from '../history'
 

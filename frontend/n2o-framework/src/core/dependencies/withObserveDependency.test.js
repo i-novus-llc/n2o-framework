@@ -6,8 +6,8 @@ import { createStore } from 'redux'
 
 import reducers from '../../reducers'
 import history from '../../history'
-import { registerFieldDependency } from '../../actions/formPlugin'
-import { setModel } from '../../actions/models'
+import { registerFieldDependency } from '../../ducks/form/store'
+import { setModel } from '../../ducks/models/store'
 
 import withObserveDependency from './withObserveDependency'
 
@@ -22,9 +22,19 @@ const setup = (store, props = {}, onChange) => {
     )
 }
 
+const initialState = {
+    form: {
+        testForm: {
+            registeredFields: {
+                testField: {}
+            }
+        }
+    }
+}
+
 describe('Проверка хока withObserveDependency', () => {
     it('подписывается на события', () => {
-        const store = createStore(reducers(history))
+        const store = createStore(reducers(history), initialState)
         store.dispatch(
             registerFieldDependency('testForm', 'testField', [
                 {
@@ -57,7 +67,7 @@ describe('Проверка хока withObserveDependency', () => {
 
     it('срабатывает onChange reRender', () => {
         const onChange = sinon.spy()
-        const store = createStore(reducers(history))
+        const store = createStore(reducers(history), initialState)
         store.dispatch(
             registerFieldDependency('testForm', 'testField', [
                 {
@@ -93,7 +103,7 @@ describe('Проверка хока withObserveDependency', () => {
 
     it('срабатывает onChange fetch', () => {
         const onChange = sinon.spy()
-        const store = createStore(reducers(history))
+        const store = createStore(reducers(history), initialState)
         store.dispatch(
             registerFieldDependency('testForm', 'testField', [
                 {

@@ -8,7 +8,7 @@ import fetchMock from 'fetch-mock'
 import Wireframe from '../../components/snippets/Wireframe/Wireframe'
 import Factory from '../factory/Factory'
 import { WIDGETS } from '../factory/factoryLevels'
-import { userLogin, userLogout as userLogoutAction } from '../../actions/auth'
+import { userLogin, userLogout as userLogoutAction } from '../../ducks/user/store'
 
 import SecurityCheck from './SecurityCheck'
 import AuthButtonContainer from './AuthLogin'

@@ -4,6 +4,9 @@ export default {
     login: 'Логин',
     paginationInterval:
         '(0){записей};(1){запись};(2-4){записи};(5-inf){записей};',
+    paginationCount_0: 'запись',
+    paginationCount_1: 'записи',
+    paginationCount_2: 'записей',
     paginationTotal: 'Всего',
     noData: 'Нет данных для отображения',
     chooseTime: 'Выберите время',

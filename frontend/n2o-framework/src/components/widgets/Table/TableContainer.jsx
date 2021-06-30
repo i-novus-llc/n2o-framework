@@ -6,7 +6,7 @@ import find from 'lodash/find'
 import debounce from 'lodash/debounce'
 
 import widgetContainer from '../WidgetContainer'
-import { setTableSelectedId } from '../../../actions/widgets'
+import { setTableSelectedId } from '../../../ducks/widgets/store'
 import { TABLE } from '../widgetTypes'
 
 // eslint-disable-next-line import/no-named-as-default

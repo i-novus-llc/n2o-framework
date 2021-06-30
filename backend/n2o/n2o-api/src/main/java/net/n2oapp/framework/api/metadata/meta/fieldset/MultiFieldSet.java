@@ -15,6 +15,8 @@ public class MultiFieldSet extends FieldSet {
     @JsonProperty
     private String childrenLabel;
     @JsonProperty
+    private String firstChildrenLabel;
+    @JsonProperty
     private String addButtonLabel;
     @JsonProperty
     private String removeAllButtonLabel;

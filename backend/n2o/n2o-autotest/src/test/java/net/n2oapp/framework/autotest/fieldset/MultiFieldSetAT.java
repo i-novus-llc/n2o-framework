@@ -70,8 +70,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset2.item(0);
         MultiFieldSetItem item2 = fieldset2.item(1);
-        item1.shouldHaveLabel("Участник 1");
-        item2.shouldHaveLabel("Участник 2");
+        item1.shouldHaveLabel("Участник");
+        item2.shouldHaveLabel("Участник №2");
         // проверяем корректность набора полей
         InputText name1 = item1.fields().field("name").control(InputText.class);
         name1.shouldExists();

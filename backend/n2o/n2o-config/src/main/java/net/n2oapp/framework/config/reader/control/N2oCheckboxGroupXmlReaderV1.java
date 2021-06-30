@@ -6,6 +6,7 @@ import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.control.multi.N2oCheckboxGroup;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeEnum;
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;
 
 @Component
@@ -13,7 +14,7 @@ public class N2oCheckboxGroupXmlReaderV1 extends N2oStandardControlReaderV1<N2oC
     @Override
     public N2oCheckboxGroup read(Element element, Namespace namespace) {
         N2oCheckboxGroup n2oCheckboxGroup = new N2oCheckboxGroup();
-        n2oCheckboxGroup.setType(getAttributeString(element, "type"));
+        n2oCheckboxGroup.setType(getAttributeEnum(element, "type", N2oCheckboxGroup.CheckboxGroupType.class));
         return getQueryFieldDefinition(element, n2oCheckboxGroup);
     }
 

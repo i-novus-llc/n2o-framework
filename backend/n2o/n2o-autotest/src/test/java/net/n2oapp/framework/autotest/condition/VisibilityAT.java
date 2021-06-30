@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.condition;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;

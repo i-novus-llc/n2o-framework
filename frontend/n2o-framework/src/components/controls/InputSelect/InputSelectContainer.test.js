@@ -6,7 +6,7 @@ import { mount } from 'enzyme'
 import InputSelectContainer from './InputSelectContainer'
 
 const mockStore = configureMockStore()
-const store = mockStore({})
+const store = mockStore({ alerts: {} })
 
 const props = {
     loading: false,

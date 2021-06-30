@@ -8,9 +8,9 @@ import {
     makeWidgetVisibleSelector,
     makeWidgetEnabledSelector,
     makeWidgetIsInitSelector,
-} from '../selectors/widgets'
+} from '../ducks/widgets/selectors'
 import { registerDependency } from '../actions/dependency'
-import { registerWidget } from '../actions/widgets'
+import { registerWidget } from '../ducks/widgets/store'
 
 export const InitMetadataContext = React.createContext({
     metadata: {
