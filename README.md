@@ -8,4 +8,4 @@
 
 [N2O Framework](https://n2oapp.net/demo/) - это библиотека, написанная на Java и ReactJS, позволяющая создавать web приложения со сложными пользовательскими интерфейсами без глубоких знаний web технологий и frontend фреймворков.
 
-[Sandbox](https://n2oapp.net/sandbox/) <span> | </span>    [Демо](https://n2oapp.net/demo/) <span> | </span>    [Документация](https://n2oapp.net/manual/overview) <span> | </span>  [API Reference](https://n2oapp.net/docs/xml/index)  <span> | </span> [Storybook](https://n2oapp.net/storybook/)
+[Sandbox](https://n2oapp.net/sandbox/) <span> | </span>    [Демо](https://n2oapp.net/demo/) <span> | </span>    [Документация](https://n2oapp.net/docs/manual/overview) <span> | </span>  [API Reference](https://n2oapp.net/docs/xml/index)  <span> | </span> [Storybook](https://n2oapp.net/storybook/)
