@@ -2,12 +2,12 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
-import createMockStore from 'redux-mock-store'
+import { makeStore } from '../../../../.storybook/decorators/utils'
 
 import SimpleHeader from './SimpleHeader'
 import headerJSON from './simpleHeaderData'
 
-const store = createMockStore()({})
+const {store} = makeStore()
 
 const setup = props => mount(
     <Provider store={store}>

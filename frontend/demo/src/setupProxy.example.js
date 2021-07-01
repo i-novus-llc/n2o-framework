@@ -1,12 +1,12 @@
-const proxy = require("http-proxy-middleware");
+const proxy = require('http-proxy-middleware')
 
-module.exports = function(app) {
-  // app.post('/n2o/locale', (req, res) => {
-  //   res.status(200);
-  //   res.send();
-  // });
+module.exports = function (app) {
+    // app.post('/n2o/locale', (req, res) => {
+    //   res.status(200);
+    //   res.send();
+    // });
 
-  //   заготовка нового mock config
+    //   заготовка нового mock config
 
     // app.get("/n2o/config", (req, res) => {
     //     res.send({
@@ -126,11 +126,11 @@ module.exports = function(app) {
     //                 overlay: false,
     //             },
     //             footer: {
-    //                 textRight: "string",
-    //                 textLeft: "string",
-    //                 src: "string",
-    //                 className: "string",
-    //                 style: "string",
+    //                 textRight: "text right position very very test long string",
+    //                 textLeft: "text left position very very test long string",
+    //                 src: "footer",
+    //                 className: "footer-custom-class",
+    //                 style: {},
     //             },
     //         },
     //         user: {
@@ -142,11 +142,13 @@ module.exports = function(app) {
     //     })
     // })
 
-  app.use(
-    proxy("/n2o", {
-      // target: "https://n2oapp.net/sandbox/view/NL2hn" //прокси на сендбокс
-      target: "https://n2o.i-novus.ru/next/demo/",
-      changeOrigin: true
-    })
-  );
+    app.use(
+        proxy("/n2o", {
+            // target: "https://n2oapp.net/sandbox/view/NL2hn/" прокси на sandbox
+            target: "https://n2o.i-novus.ru/next/demo/",
+            changeOrigin: true
+        }),
+    );
 };
+
+
