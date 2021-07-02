@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TreeSelect from 'rc-tree-select'
 import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
 import filterF from 'lodash/filter'
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
+import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 import map from 'lodash/map'
 import memoize from 'lodash/memoize'
 import some from 'lodash/some'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import { compose, withState, setDisplayName } from 'recompose'
+import { compose, setDisplayName } from 'recompose'
 import { withTranslation } from 'react-i18next'
+import onClickOutsideHOC from 'react-onclickoutside'
 
 import { Icon } from '../../snippets/Icon/Icon'
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner'
@@ -68,12 +70,8 @@ function InputSelectTree({
     value,
     onBlur,
     searchPlaceholder,
-    dropdownExpanded,
-    setDropdownExpanded,
     placeholder,
-    setTreeExpandedKeys,
     notFoundContent = t('noData'),
-    treeExpandedKeys,
     closePopupOnSelect,
     loading,
     isLoading,
@@ -101,12 +99,15 @@ function InputSelectTree({
     className,
     dropdownPopupAlign,
     showCheckedStrategy,
-    _control,
-    setControlRef,
     maxTagTextLength,
     disabled,
     ...rest
 }) {
+    const [treeExpandedKeys, setTreeExpandedKeys] = useState([])
+    const [dropdownExpanded, setDropdownExpanded] = useState(false)
+    const [_control, setControlRef] = useState(null)
+    const [searchValue, setSearchValue] = useState('')
+
     const popupProps = {
         prefixCls: 'n2o-select-tree',
         iconFieldId,
@@ -115,6 +116,8 @@ function InputSelectTree({
         badgeFieldId,
         badgeColorFieldId,
     }
+
+    InputSelectTree.handleClickOutside = () => setSearchValue('')
 
     /**
      * Функуия для создания дерева.
@@ -254,6 +257,7 @@ function InputSelectTree({
             // eslint-disable-next-line react/no-find-dom-node
             findDOMNode(_control).focus()
         }
+        onBlur()
     }
 
     /**
@@ -261,10 +265,14 @@ function InputSelectTree({
      * @param value
      */
     const handleSearch = (value) => {
+        setSearchValue(value)
         onSearch(value)
 
         return true
     }
+
+    const clearSearch = () => setSearchValue('')
+
     /**
      * Функция для контроля открытия/закрытия popup
      * @param visible
@@ -303,7 +311,12 @@ function InputSelectTree({
     // eslint-disable-next-line react/prop-types
     const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
 
-    const clearIcon = <Icon name="fa fa-times" />
+    const clearIcon = (
+        <Icon
+            onClick={clearSearch}
+            name="fa fa-times n2o-input-select-tree__clear-icon"
+        />
+    )
 
     const inputIcon = loading ? (
         <InlineSpinner />
@@ -314,45 +327,51 @@ function InputSelectTree({
     const getPopupContainer = container => container
 
     return (
-        <TreeSelect
-            ref={setControlRef}
-            /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
-            tabIndex={1}
-            {...value && { value: setValue(value) }}
-            open={dropdownExpanded}
-            onDropdownVisibleChange={handleDropdownVisibleChange}
-            className={cx('n2o form-control', 'n2o-input-select-tree', className, {
-                loading,
-                'n2o-disabled': disabled,
-            })}
-            switcherIcon={renderSwitcherIcon}
-            inputIcon={inputIcon}
-            multiple={multiSelect}
-            treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
-            treeData={createTree(data)}
-            filterTreeNode={handlerFilter}
-            treeNodeFilterProp={labelFieldId}
-            treeNodeLabelProp={labelFieldId}
-            maxTagTextLength={maxTagTextLength}
-            removeIcon={clearIcon}
-            clearIcon={clearIcon}
-            onChange={handleChange}
-            onSelect={handleSelect}
-            onSearch={handleSearch}
-            treeExpandedKeys={treeExpandedKeys}
-            onTreeExpand={onTreeExpand}
-            dropdownPopupAlign={dropdownPopupAlign}
-            prefixCls="n2o-select-tree"
-            showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
-            getPopupContainer={getPopupContainer}
-            notFoundContent={loading ? <InlineSpinner /> : notFoundContent}
-            placeholder={placeholder}
-            searchPlaceholder={searchPlaceholder}
-            disabled={disabled}
-            {...rest}
-        >
-            {children}
-        </TreeSelect>
+        <div className="w-100 d-flex position-relative">
+            <TreeSelect
+                ref={setControlRef}
+                /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
+                tabIndex={1}
+                {...value && { value: setValue(value) }}
+                open={dropdownExpanded}
+                onDropdownVisibleChange={handleDropdownVisibleChange}
+                className={cx('n2o form-control', 'n2o-input-select-tree', className, {
+                    loading,
+                    'n2o-disabled': disabled,
+                })}
+                switcherIcon={renderSwitcherIcon}
+                inputIcon={inputIcon}
+                multiple={multiSelect}
+                treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
+                treeData={createTree(data)}
+                filterTreeNode={handlerFilter}
+                treeNodeFilterProp={labelFieldId}
+                treeNodeLabelProp={labelFieldId}
+                maxTagTextLength={maxTagTextLength}
+                removeIcon={clearIcon}
+                clearIcon={clearIcon}
+                onChange={handleChange}
+                onSelect={handleSelect}
+                onSearch={handleSearch}
+                treeExpandedKeys={treeExpandedKeys}
+                onTreeExpand={onTreeExpand}
+                dropdownPopupAlign={dropdownPopupAlign}
+                prefixCls="n2o-select-tree"
+                showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
+                getPopupContainer={getPopupContainer}
+                notFoundContent={loading ? <InlineSpinner /> : notFoundContent}
+                placeholder={placeholder}
+                searchPlaceholder={searchPlaceholder}
+                disabled={disabled}
+                searchValue={searchValue}
+                {...rest}
+            >
+                {children}
+            </TreeSelect>
+            {searchValue && isEmpty(value) &&
+            <Icon name="fa fa-times n2o-input-select-tree__search-clear-icon" onClick={clearSearch} />
+            }
+        </div>
     )
 }
 
@@ -549,10 +568,13 @@ InputSelectTree.propTypes = {
 
 export { TreeNode, InputSelectTree }
 
-export default compose(
+const enhance = compose(
     withTranslation(),
     setDisplayName('InputSelectTree'),
-    withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
-    withState('dropdownExpanded', 'setDropdownExpanded', false),
-    withState('_control', 'setControlRef', null),
 )(InputSelectTree)
+
+const clickOutsideConfig = {
+    handleClickOutside: () => InputSelectTree.handleClickOutside,
+}
+
+export default onClickOutsideHOC(enhance, clickOutsideConfig)
