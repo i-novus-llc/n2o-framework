@@ -64,7 +64,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             },
         }
         const gen = setParentVisibleIfAllChildChangeVisible({
-            id: 'btnChild1Id',
+            buttonId: 'btnChild1Id',
             key: 'fieldKey',
         })
         gen.next()
@@ -88,7 +88,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             },
         }
         const gen = setParentVisibleIfAllChildChangeVisible({
-            id: 'btnChild1Id',
+            buttonId: 'btnChild1Id',
             key: 'fieldKey',
         })
         gen.next()
@@ -99,7 +99,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
     })
     it('Экшен не отправляется если родитель имеет такую же видимость как и потомки', () => {
         const gen = setParentVisibleIfAllChildChangeVisible({
-            id: 'btnChild1Id',
+            buttonId: 'btnChild1Id',
             key: 'fieldKey',
         })
         gen.next()
