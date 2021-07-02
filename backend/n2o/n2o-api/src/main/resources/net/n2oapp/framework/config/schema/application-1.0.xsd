@@ -10,7 +10,7 @@
         <xs:sequence>
             <xs:element name="header" type="headerDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Заголовок приложения</xs:documentation>
+                    <xs:documentation>Хедер</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="sidebar" type="sidebarDefinition" minOccurs="0">
@@ -70,17 +70,17 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>css класс заголовка</xs:documentation>
+                <xs:documentation>css класс хедера</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль заголовка</xs:documentation>
+                <xs:documentation>Стиль хедера</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Видимость заголовка. По умолчанию true</xs:documentation>
+                <xs:documentation>Видимость хедера. По умолчанию true</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="logo-src" type="xs:string">
@@ -172,8 +172,8 @@
             <xs:annotation>
                 <xs:documentation>Состояние сайдбара по умолчанию. Возможные значения:
                     none - скрыт полностью
-                    micro - отображаются только иконки
-                    mini - отображаются иконки + название в узком контейнере
+                    micro - отображается тонкая полоска
+                    mini - отображаются только иконки
                     maxi - широкая боковая панель.
                     По умолчанию none
                 </xs:documentation>
@@ -184,8 +184,8 @@
                 <xs:documentation>Состояние боковой панели принимаемое при нажатии на кнопку toggle-sidebar, которую можно
                     добавить в меню заголовка приложения. Возможные значения:
                     none - скрыт полностью
-                    micro - отображаются только иконки
-                    mini - отображаются иконки + название в узком контейнере
+                    micro - отображается тонкая полоска
+                    mini - отображаются только иконки
                     maxi - широкая боковая панель.
                     По умолчанию maxi
                 </xs:documentation>
@@ -271,12 +271,12 @@
             </xs:enumeration>
             <xs:enumeration value="micro">
                 <xs:annotation>
-                    <xs:documentation>отображаются только иконки</xs:documentation>
+                    <xs:documentation>отображается тонкая полоска</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="mini">
                 <xs:annotation>
-                    <xs:documentation>отображаются иконки + название в узком контейнере</xs:documentation>
+                    <xs:documentation>отображаются только иконки</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="maxi">
