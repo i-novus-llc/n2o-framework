@@ -119,18 +119,4 @@
 
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>docs</id>
-            <dependencies>
-                <dependency>
-                    <groupId>net.n2oapp.framework</groupId>
-                    <artifactId>docs</artifactId>
-                    <version>${project.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
 </project>
