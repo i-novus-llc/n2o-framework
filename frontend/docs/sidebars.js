@@ -81,6 +81,7 @@ module.exports = {
             label: 'Примеры',
             items: [
                 'uxcases_input',
+                'uxcases_edit_data',
                 'uxcases_list',
                 'uxcases_list_actions',
                 'uxcases_filters'
