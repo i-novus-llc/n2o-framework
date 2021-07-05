@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 
@@ -19,6 +18,7 @@ import java.util.Map;
 public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
+    private String parentPageId;
     private String parentWidgetId;
     private String failAlertWidgetId;
     private String successAlertWidgetId;
