@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест хедера
+ * Автотест шапки(header)
  */
 public class SimpleHeaderAT extends AutoTestBase {
 

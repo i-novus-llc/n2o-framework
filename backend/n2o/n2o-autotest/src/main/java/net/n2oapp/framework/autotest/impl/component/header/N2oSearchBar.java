@@ -11,7 +11,7 @@ import org.openqa.selenium.Keys;
 
 
 /**
- * Базовый класс панели поиска в хедере для автотестирования
+ * Базовый класс панели поиска в шапке для автотестирования
  */
 public class N2oSearchBar extends N2oComponent implements SearchBar {
 

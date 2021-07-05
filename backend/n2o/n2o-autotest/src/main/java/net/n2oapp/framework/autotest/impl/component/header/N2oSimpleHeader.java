@@ -10,7 +10,7 @@ import net.n2oapp.framework.autotest.impl.collection.N2oMenu;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
- * Простой хедер для автотестирования
+ * Шапка(header) для автотестирования
  */
 public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
 

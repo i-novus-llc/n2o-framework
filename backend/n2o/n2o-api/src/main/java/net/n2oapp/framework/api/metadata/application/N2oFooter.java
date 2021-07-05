@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 
 /**
- * Исходная модель подвала приложения
+ * Исходная модель подвала (footer)
  */
 @Getter
 @Setter
@@ -22,7 +22,7 @@ public class N2oFooter extends N2oComponent {
     private String leftText;
 
     /**
-     * Видимость подвала приложения
+     * Видимость подвала
      */
     private Boolean visible;
 }

@@ -11,10 +11,10 @@ N2O - компонентно-ориентированный фреймворк.
 ### Структура приложения
 
 Структура приложения - описание компонентов общих для всего приложения:
-заголовок с навигацией, боковая панель, подвал сайта.
+заголовок с навигацией, боковая панель, подвал.
 Структура приложения задается в файле `*.application.xml`.
 Обычно в приложении существует только один файл `application.xml`
-Если их в несколько, то необходимо задать идентификатор структуры приложения в настройке `n2o.application.id`.
+Если их несколько, то необходимо задать идентификатор структуры приложения в настройке `n2o.application.id`.
 
 ```xml title="Структура приложения"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -32,12 +32,12 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
-#### Хедер
+#### Шапка (header)
 
-Хедер - это заголовок каждой страницы,
+Шапка (header) - это заголовок каждой страницы,
 содержащий логотип и название, меню навигации, меню пользователя и строку поиска по приложению.
 
-```xml title="Структура хедера"
+```xml title="Структура шапки"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
     <header title="Мое приложение">
@@ -69,11 +69,11 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
-#### Подвала сайта
+#### Подвал (footer)
 
-Подвал сайта - информация, отображаемая внизу страницы.
+Подвал (footer) - информация, отображаемая внизу страницы.
 
-```xml title="Структура подвала сайта"
+```xml title="Структура подвала"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
     <footer left-text="N2O 7.17.0 2013-2021"/>
@@ -93,9 +93,9 @@ N2O - компонентно-ориентированный фреймворк.
 </nav>
 ```
 
-Либо перечисляется внутри элементов `<nav>` и `<extra-menu>` хедера или боковой панели:
+Либо перечисляется внутри элементов `<nav>` и `<extra-menu>` шапки или боковой панели:
 
-```xml title="Меню навигации в хедере и боковой панели"
+```xml title="Меню навигации в приложении"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
     <header title="Мое приложение">
@@ -114,7 +114,7 @@ N2O - компонентно-ориентированный фреймворк.
 ```
 
 На меню навигации, заданному в отдельном файле, можно ссылаться
-через атрибут `ref-id` в элементах `<nav>` и `<extra-menu>` хедера или боковой панели:
+через атрибут `ref-id` в элементах `<nav>` и `<extra-menu>` шапки или боковой панели:
 
 ```xml title="Ссылка на меню навигации"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -714,72 +714,3 @@ __*Основные виды ячеек*__
 |&lt;link&gt;    |LinkCell       |[Ячейка ссылка](https://n2oapp.net/sandbox/editor/manual_cell_link/)          |
 |&lt;checkbox&gt;|CheckboxCell   |[Ячейка чекбокс](https://n2oapp.net/sandbox/editor/manual_cell_checkbox/)     |
 |&lt;toolbar&gt; |ToolbarCell    |[Ячейка с меню кнопок](https://n2oapp.net/sandbox/editor/manual_cell_toolbar/)|
-
-
-### Хедер
-
-Хедер - это заголовок каждой страницы,
-содержащий меню навигации, меню пользователя и другое.
-Структура хедера задается в файле `*.header.xml`.
-Обычно в приложении существует только один хедер.
-Если их в приложении несколько, то необходимо задать идентификатор хедера в настройке `n2o.header.id`.
-
-![](./images/header.png)
-
-```xml title="Структура хедера"
-<?xml version='1.0' encoding='UTF-8'?>
-<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
-        brand-name="Мое приложение">
-  <nav>
-    ...
-  </nav>
-  <extra-menu>
-    ...
-  </extra-menu>
-</header>
-```
-
-### Меню навигации
-
-Меню навигации задаётся в файлах вида `*.menu.xml`:
-
-```xml title="Меню навигации в отдельном файле"
-<?xml version='1.0' encoding='UTF-8'?>
-<nav xmlns="http://n2oapp.net/framework/config/schema/menu-2.0">
-  <page page-id="menu1" label="Первая страница"/>
-  <page page-id="menu2" label="Вторая страница"/>
-  ...
-</nav>
-```
-
-Либо перечисляется внутри элементов `<nav>` и `<extra-menu>` хедера:
-
-```xml title="Меню навигации в хедере"
-<?xml version='1.0' encoding='UTF-8'?>
-<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
-        brand-name="Мое приложение">
-    <nav>
-      <page page-id="menu1" label="Первая страница"/>
-      <page page-id="menu2" label="Вторая страница"/>
-    </nav>
-</header>
-```
-
-На меню навигации, заданному в отдельном файле, можно ссылаться
-через атрибут `ref-id` в элементах `<nav>` и `<extra-menu>` хедера:
-
-```xml title="Ссылка на меню навигации"
-<?xml version='1.0' encoding='UTF-8'?>
-<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0">
-    <nav ref-id="myMenu"/>
-</header>
-```
-
-__*Виды меню навигации*__
-
-|Вид             |Описание                       |
-|----------------|-------------------------------|
-|&lt;page&gt;    |Ссылка на страницу N2O         |
-|&lt;a&gt;       |Ссылка на произвольную страницу|
-|&lt;sub-menu&gt;|Вложенное меню                 |
-
