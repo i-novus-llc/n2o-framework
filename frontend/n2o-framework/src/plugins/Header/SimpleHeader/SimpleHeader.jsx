@@ -8,14 +8,14 @@ import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import Navbar from 'reactstrap/lib/Navbar'
 import Nav from 'reactstrap/lib/Nav'
-import NavbarBrand from 'reactstrap/lib/NavbarBrand'
 import NavbarToggler from 'reactstrap/lib/NavbarToggler'
 import Collapse from 'reactstrap/lib/Collapse'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 
-import { NavbarBrandContent } from './NavbarBrandContent'
 import NavItemContainer from './NavItemContainer'
+import { Logo } from './Logo'
+import { SidebarSwitcher } from './SidebarSwitcher'
 
 /**
  * Хедер-плагин
@@ -32,41 +32,6 @@ import NavItemContainer from './NavItemContainer'
  * @param {boolean} props.style - объект стиля
  * @example
  */
-
-function Logo({ title, className, style, href, src }) {
-    return (
-        <section className={classNames('d-flex', className)} style={style}>
-            {src && (
-                <NavbarBrand className="n2o-brand" href={href}>
-                    <NavbarBrandContent brandImage={src} />
-                </NavbarBrand>
-            )}
-            {title && (
-                <a href={href} className="navbar-brand">
-                    {title}
-                </a>
-            )}
-        </section>
-    )
-}
-
-function SidebarSwitcher({
-    defaultIcon,
-    toggleIcon,
-    sidebarOpen,
-    toggleSidebar,
-}) {
-    return (
-        <i
-            className={classNames('n2o-sidebar-switcher', {
-                [defaultIcon]: sidebarOpen,
-                [toggleIcon]: !sidebarOpen,
-            })}
-            aria-hidden="true"
-            onClick={toggleSidebar}
-        />
-    )
-}
 
 class SimpleHeader extends React.Component {
     state = {
@@ -185,30 +150,6 @@ class SimpleHeader extends React.Component {
             </div>
         )
     }
-}
-
-Logo.propTypes = {
-    title: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    href: PropTypes.string,
-    src: PropTypes.string,
-}
-
-Logo.defaultProps = {
-    href: '/',
-}
-
-SidebarSwitcher.propTypes = {
-    defaultIcon: PropTypes.string,
-    toggleIcon: PropTypes.string,
-    sidebarOpen: PropTypes.bool,
-    toggleSidebar: PropTypes.func,
-}
-
-SidebarSwitcher.defaultProps = {
-    defaultIcon: 'fa fa-times',
-    toggleIcon: 'fa fa-bars',
 }
 
 const menuType = PropTypes.shape(

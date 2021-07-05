@@ -6,7 +6,7 @@ module.exports = function (app) {
     //   res.send();
     // });
 
-    //   заготовка нового mock config
+    //  mock config json
 
     // app.get("/n2o/config", (req, res) => {
     //     res.send({
@@ -17,11 +17,11 @@ module.exports = function (app) {
     //             },
     //             header: {
     //                 src: "SimpleHeader",
-    //                 className: "customSimpleHeaderclassName",
+    //                 className: "customHeaderClassName",
     //                 style: {},
     //                 logo: {
     //                     title: "N2O logo",
-    //                     className: "customSimpleHeaderLogoClassName",
+    //                     className: "customHeaderLogoClassName",
     //                     style: {},
     //                     href: "/",
     //                     src: "https://avatars0.githubusercontent.com/u/25926683?s=200&v=4",
@@ -83,9 +83,9 @@ module.exports = function (app) {
     //                 },
     //             },
     //             sidebar: {
-    //                 src: "string",
-    //                 className: "string",
-    //                 style: "string",
+    //                 src: "Sidebar",
+    //                 className: "sidebarClassName",
+    //                 style: {},
     //                 logo: {
     //                     title: "string",
     //                     className: "string",
@@ -120,10 +120,10 @@ module.exports = function (app) {
     //                     }]
     //                 },
     //                 side: 'right',
-    //                 defaultState: 'none',
-    //                 toggledState: 'none',
+    //                 defaultState: 'mini',
+    //                 toggledState: 'maxi',
     //                 toggleOnHover: true,
-    //                 overlay: false,
+    //                 overlay: true,
     //             },
     //             footer: {
     //                 textRight: "text right position very very test long string",

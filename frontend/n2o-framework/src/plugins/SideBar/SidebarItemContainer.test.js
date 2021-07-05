@@ -14,7 +14,7 @@ describe('Тесты SidebarItemContainer', () => {
         const wrapper = setup({
             item: {
                 type: 'link',
-                label: 'test',
+                title: 'test',
                 href: 'testHref',
             },
         })
@@ -24,7 +24,7 @@ describe('Тесты SidebarItemContainer', () => {
         const wrapper = setup({
             item: {
                 type: 'dropdown',
-                label: 'test',
+                title: 'test',
             },
         })
         expect(wrapper.find('SidebarDropdown').exists()).toEqual(true)

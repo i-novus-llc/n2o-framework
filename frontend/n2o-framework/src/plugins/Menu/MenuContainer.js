@@ -180,7 +180,7 @@ MenuContainer.defaultProps = {
     render: () => {},
 }
 
-export default compose(
+export const ConfigContainer = compose(
     getContext({
         getFromConfig: PropTypes.func,
     }),
@@ -193,3 +193,5 @@ export default compose(
         }),
     })),
 )(MenuContainer)
+
+export default ConfigContainer
