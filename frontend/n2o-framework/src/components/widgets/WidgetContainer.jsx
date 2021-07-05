@@ -290,7 +290,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             widgetId: PropTypes.string,
             pageId: PropTypes.string,
             fetchOnInit: PropTypes.bool,
-            placeholder: PropTypes.oneOfType(PropTypes.bool, PropTypes.object),
+            placeholder: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
             size: PropTypes.number,
             page: PropTypes.number,
             filterDefaultValues: PropTypes.object,
@@ -299,7 +299,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             validation: PropTypes.object,
             onSetFilter: PropTypes.func,
             dataProviderFromState: PropTypes.object,
-            widget: PropTypes.node,
+            widget: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
             modelPrefix: PropTypes.node,
             /* redux */
             visible: PropTypes.bool,
