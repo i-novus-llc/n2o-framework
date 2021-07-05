@@ -19,7 +19,9 @@ export const SimpleTooltip = ({ id, message, trigger, placement }) => {
 
     const toggle = useCallback(() => setTooltipOpen(tooltipOpen => !tooltipOpen), [])
 
-    if (isUndefined(message)) { return null }
+    if (isUndefined(message) || typeof document === 'undefined') {
+        return null
+    }
 
     return (
         <Tooltip
