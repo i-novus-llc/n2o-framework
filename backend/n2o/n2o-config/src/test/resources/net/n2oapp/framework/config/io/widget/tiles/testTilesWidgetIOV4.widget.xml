@@ -9,5 +9,5 @@
         </block>
     </content>
     <pagination next="true" prev="true" last="true" first="false"
-                hide-single-page="false" show-count="false"/>
+                show-single-page="false" show-count="false"/>
 </tiles>

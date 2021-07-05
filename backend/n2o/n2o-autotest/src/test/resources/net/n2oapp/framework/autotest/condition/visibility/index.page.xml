@@ -95,5 +95,36 @@
                 </fields>
             </form>
         </region>
+        <region>
+            <form>
+                <fields>
+                    <input-text id="charactersNumber" label="FirstInput">
+                        <dependencies>
+                            <set-value on="qrCodeSetting">
+                                qrCodeSetting
+                            </set-value>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="qrCodeSetting" label="SecondInput"/>
+                    <input-text id="type1" label="Type1" visible="false" description="видим при SecondInput >= 1">
+                        <dependencies>
+                            <visibility on="qrCodeSetting">
+                                qrCodeSetting >= 1
+                            </visibility>
+                            <enabling on="qrCodeSetting">
+                                qrCodeSetting == 1
+                            </enabling>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="type2" label="Type2" visible="false" description="видим при FirstInput == 2">
+                        <dependencies>
+                            <visibility on="charactersNumber,qrCodeSetting">
+                                charactersNumber == 2
+                            </visibility>
+                        </dependencies>
+                    </input-text>
+                </fields>
+            </form>
+        </region>
     </regions>
 </page>

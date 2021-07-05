@@ -38,33 +38,18 @@ $checkbox-font-size: 11px !default;
 $custom-checkbox-margin: 0 !default;
 
 // Radio
-$radio-border: 1px solid #bbb !default;
-$radio-background-color: #f5f5f5 !default;
-$radio-background-color-after: #777 !default;
-$radio-border-radius: 50% !default;
-$radio-focus-border-color: rgba(82, 168, 236, 0.8) !default;
-$radio-disabled-border-color: rgba(187, 187, 187, 0.55) !default;
-$radio-disabled-background: rgba(51, 51, 51, 0.55) !default;
-$radio-cursor: pointer !default;
-$radio-cursor-disabled: not-allowed !default;
-$radio-width: 16px !default;
-$radio-height: 16px !default;
-//Radio
 $n2o-radio-background-color: #90a4ae !default;
 $n2o-radio-width: 1rem !default;
 $n2o-radio-height: 1rem !default;
-$n2o-radio-top: 0.25rem !default;
-$n2o-radio-left: -1.5rem !default;
-$n2o-radio-right: auto !default;
-$n2o-radio-bottom: auto !default;
 $n2o-radio-focus-box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(22, 56, 81, 0.25) !default;
-$n2o-radio-checked-background-color: #163851 !default;
-$n2o-radio-checked-background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23fff'/%3E%3C/svg%3E") !default;
-$n2o-radio-checked-background-repeat: no-repeat !default;
-$n2o-radio-checked-background-position: center !default;
-$n2o-radio-checked-background-size: 50% !default;
-$n2o-radio-border: none !default;
-$n2o-radio-margin: none !default;
+$n2o-radio-checked-border-color: #163851 !default;
+$n2o-radio-checked-background-color: #f5f5f5 !default;
+$n2o-radio-margin: 0 !default;
+$n2o-radio-input-margin-right: 1.5rem;
+$n2o-radio-input-tabs-padding: $nav-link-padding-y $nav-link-padding-x;
+$n2o-radio-input-border-width: $nav-tabs-border-width;
+$n2o-radio-input-border-color: $gray-300;
+$n2o-radio-input-hover-border-color: $gray-200;
 
 //ProgressBar
 $small-height: 10px !default;

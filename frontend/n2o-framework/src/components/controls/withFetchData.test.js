@@ -4,7 +4,7 @@ import fetchMock from 'fetch-mock'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 
-import { addAlert, removeAlerts } from '../../actions/alerts'
+import { removeAllAlerts } from '../../ducks/alerts/store'
 
 import withFetchData from './withFetchData'
 
@@ -114,7 +114,9 @@ describe('fetchData HOC test', () => {
     })
 
     it('Обработка серверной ошибки', async () => {
-        const { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
+        const { wrapper } = setup({
+            dataProvider: { url: dataUrl }
+        }, () => ({
             status: 401,
             response: {
                 json: () => ({
@@ -141,8 +143,8 @@ describe('fetchData HOC test', () => {
 
         expect(1).toBe(1)
 
-        expect(store.getActions()[1].payload.severity).toBe('danger')
-        expect(store.getActions()[1].payload.text).toBe(
+        expect(store.getActions()[1].payload.alert.severity).toBe('danger')
+        expect(store.getActions()[1].payload.alert.text).toBe(
             'Произошла внутренняя ошибка',
         )
     })
@@ -206,9 +208,12 @@ describe('fetchData HOC test', () => {
             .props()
             ._fetchData()
 
+
+
         await delay(400)
-        expect(store.getActions()[1].payload.severity).toBe('danger')
-        expect(store.getActions()[1].payload.text).toBe(
+
+        expect(store.getActions()[1].payload.alert.severity).toBe('danger')
+        expect(store.getActions()[1].payload.alert.text).toBe(
             'Произошла внутренняя ошибка',
         )
 
@@ -219,6 +224,6 @@ describe('fetchData HOC test', () => {
 
         await delay(400)
 
-        expect(store.getActions()[2]).toEqual(removeAlerts('form.labelFieldId'))
+        expect(store.getActions()[2]).toEqual(removeAllAlerts('form.labelFieldId'))
     })
 })

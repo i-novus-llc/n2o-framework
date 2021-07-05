@@ -14,16 +14,11 @@ import classNames from 'classnames'
  * @reactProps {number} eventKey
  * @reactProps {string|number} label - текст внутри кнопки пагинации
  */
-export class PaginationButton extends React.Component {
-    constructor(props) {
-        super(props)
-        this.handleClick = this.handleClick.bind(this)
-    }
+export const PaginationButton = (props) => {
+    const { disabled, onSelect, eventKey, label, active, noBorder, tabIndex } = props
 
-    handleClick(e) {
+    const handleClick = (e) => {
         e.preventDefault()
-
-        const { disabled, onSelect, eventKey } = this.props
 
         if (disabled) {
             return
@@ -34,26 +29,22 @@ export class PaginationButton extends React.Component {
         }
     }
 
-    render() {
-        const { label, active, disabled, noBorder, tabIndex } = this.props
-
-        return (
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-            <li
-                className={classNames('page-item', { active, disabled })}
-                onClick={this.handleClick}
+    return (
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+        <li
+            className={classNames('page-item', { active, disabled })}
+            onClick={handleClick}
+        >
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/control-has-associated-label */}
+            <a
+                className={classNames('page-link', noBorder ? 'no-border' : '')}
+                href="#"
+                tabIndex={tabIndex}
             >
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/control-has-associated-label */}
-                <a
-                    className={classNames('page-link', noBorder ? 'no-border' : '')}
-                    href="#"
-                    /* eslint-disable-next-line react/no-danger */
-                    dangerouslySetInnerHTML={{ __html: label }}
-                    tabIndex={tabIndex}
-                />
-            </li>
-        )
-    }
+                { label }
+            </a>
+        </li>
+    )
 }
 
 PaginationButton.propTypes = {
@@ -63,7 +54,7 @@ PaginationButton.propTypes = {
     noBorder: PropTypes.bool,
     onSelect: PropTypes.func,
     eventKey: PropTypes.number,
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.element]),
 }
 
 export default PaginationButton

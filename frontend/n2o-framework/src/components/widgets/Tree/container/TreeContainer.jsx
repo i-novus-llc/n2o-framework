@@ -7,7 +7,7 @@ import toString from 'lodash/toString'
 
 import Tree from '../component/Tree'
 import widgetContainer from '../../WidgetContainer'
-import { setTableSelectedId } from '../../../../actions/widgets'
+import { setTableSelectedId } from '../../../../ducks/widgets/store'
 import { TREE } from '../../widgetTypes'
 
 import { propTypes, defaultProps } from './allProps'

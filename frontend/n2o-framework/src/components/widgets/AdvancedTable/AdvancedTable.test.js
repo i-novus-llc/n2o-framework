@@ -552,7 +552,7 @@ describe('<AdvancedTable/>', () => {
             const wrapper = setup({
                 rowSelection: 'radio',
             })
-            expect(wrapper.find('RadioN2O input').length).toBe(3)
+            expect(wrapper.find('input[type="radio"]').length).toBe(3)
         })
 
         it('корректно отрабатывает выбор строк radio', () => {
@@ -561,7 +561,7 @@ describe('<AdvancedTable/>', () => {
             })
 
             const table = wrapper.find('AdvancedTable').last()
-            const radios = wrapper.find('RadioN2O input')
+            const radios = wrapper.find('input[type="radio"]')
 
             radios.at(0).simulate('change', { target: { checked: false } })
             expect(table.state().checked).toEqual({

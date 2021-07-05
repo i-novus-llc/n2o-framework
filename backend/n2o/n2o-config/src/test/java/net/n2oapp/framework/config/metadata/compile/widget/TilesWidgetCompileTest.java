@@ -69,11 +69,11 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oImageCell) tile.getComponent()).getData(), is("/test"));
 
         assertThat(tiles.getPaging().getFirst(), is(false));
-        assertThat(tiles.getPaging().getHideSinglePage(), is(false));
+        assertThat(tiles.getPaging().getShowSinglePage(), is(true));
         assertThat(tiles.getPaging().getLast(), is(true));
         assertThat(tiles.getPaging().getNext(), is(true));
         assertThat(tiles.getPaging().getPrev(), is(true));
-        assertThat(tiles.getPaging().getShowCountRecords(), is(false));
+        assertThat(tiles.getPaging().getShowCount(), is(false));
         assertThat(tiles.getPaging().getSize(), is(5));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
@@ -86,11 +86,11 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsLg(), is(4));
 
         assertThat(tiles.getPaging().getFirst(), is(true));
-        assertThat(tiles.getPaging().getHideSinglePage(), is(true));
+        assertThat(tiles.getPaging().getShowSinglePage(), is(false));
         assertThat(tiles.getPaging().getLast(), is(false));
         assertThat(tiles.getPaging().getNext(), is(false));
         assertThat(tiles.getPaging().getPrev(), is(false));
-        assertThat(tiles.getPaging().getShowCountRecords(), is(true));
+        assertThat(tiles.getPaging().getShowCount(), is(true));
         assertThat(tiles.getPaging().getSize(), is(10));
     }
 }

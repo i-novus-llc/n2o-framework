@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import { dependency } from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
-import Pagination from '../Table/TablePagination'
+import { getN2OPagination } from '../Table/N2OPagination'
+import { pagingType } from '../../snippets/Pagination/types'
 
 import CardsContainer from './CardsContainer'
 
@@ -26,7 +27,7 @@ function CardsWidget(
     },
     context,
 ) {
-    const { size } = paging
+    const { size, place = 'bottomLeft' } = paging
     const prepareFilters = () => context.resolveProps(filter, StandardFieldset)
 
     return (
@@ -35,7 +36,7 @@ function CardsWidget(
             widgetId={widgetId}
             toolbar={toolbar}
             filter={prepareFilters()}
-            bottomLeft={paging && <Pagination {...paging} widgetId={widgetId} />}
+            {...getN2OPagination(paging, place, widgetId)}
             className={className}
             style={style}
         >
@@ -69,7 +70,7 @@ CardsWidget.propTypes = {
     cards: PropTypes.array,
     align: PropTypes.string,
     height: PropTypes.string,
-    paging: PropTypes.object,
+    paging: pagingType,
     verticalAlign: PropTypes.string,
 }
 

@@ -4,7 +4,7 @@ import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-import { userLogin, userLogout as userLogoutAction } from '../../actions/auth'
+import { userLogin, userLogout as userLogoutAction } from '../../ducks/user/store'
 
 import SecurityCheck from './SecurityCheck'
 

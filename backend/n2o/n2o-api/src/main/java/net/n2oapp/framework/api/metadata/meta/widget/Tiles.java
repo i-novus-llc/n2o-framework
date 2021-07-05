@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Клиентская модель виджета Плитки

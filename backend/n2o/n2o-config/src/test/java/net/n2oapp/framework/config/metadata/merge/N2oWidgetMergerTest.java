@@ -111,7 +111,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getHideSinglePage(), is(true));
+        assertThat(pagination.getShowSinglePage(), is(true));
         assertThat(pagination.getShowCount(), is(true));
 
         N2oRow rows = table.getRows();

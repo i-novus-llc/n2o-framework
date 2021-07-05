@@ -72,6 +72,7 @@ public class SearchHeaderAT extends AutoTestBase {
 
 
         searchBar.search("filterValue2");
+        searchBar.shouldHaveValue("filterValue2");
         searchResult = searchBar.searchResult();
         searchResult.shouldHaveSize(1);
         searchResult.item(0, SearchItem.class).shouldHaveTitle("label2");
