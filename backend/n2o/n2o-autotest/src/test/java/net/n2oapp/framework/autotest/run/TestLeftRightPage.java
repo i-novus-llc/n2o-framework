@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
+import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -22,6 +23,11 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
 
     @Override
     public SimpleHeader header() {
+        return null;
+    }
+
+    @Override
+    public Footer footer() {
         return null;
     }
 
