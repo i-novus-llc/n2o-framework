@@ -167,6 +167,9 @@
     input {
         padding: $input-select-padding;
         padding-right: 65px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .n2o-input-items > textarea,
