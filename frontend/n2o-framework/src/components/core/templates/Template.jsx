@@ -12,7 +12,7 @@ function Layout({ children, layout, header, sidebar, footer, ...rest }) {
     const [sidebarOpen, setSidebarOpen] = useState(true)
 
     const { fullSizeHeader, fixed } = layout
-    const controlled = header.sidebarSwitcher
+    const controlled = header?.sidebarSwitcher
 
     const toggleSidebar = useCallback(() => setSidebarOpen(sidebarOpen => !sidebarOpen), [])
 
