@@ -5,19 +5,13 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
-import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
-import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
-import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-
-import java.util.Map;
 
 /**
  * Абстрактный контроллер получения данных
@@ -65,33 +59,6 @@ public abstract class GetController implements ControllerTypeAware {
         if (!page.getCollection().isEmpty() && requestInfo.isSubModelsExists() && requestInfo.getSize() == 1) {
             DataSet dataSet = page.getCollection().iterator().next();
             subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet);
-        }
-    }
-
-
-    public static class RecordNotFoundCollector implements N2oSubModelsProcessor.OnErrorCallback {
-        private QueryResponseInfo responseInfo;
-
-        public RecordNotFoundCollector(QueryResponseInfo responseInfo) {
-            this.responseInfo = responseInfo;
-        }
-
-        @Override
-        public void onError(RuntimeException e, Map<String, Object> dataSet, String controlId) {
-            if (e instanceof N2oRecordNotFoundException) {
-                dataSet.put(controlId, null);
-                ResponseMessage message = new ResponseMessage();
-                message.setText("{n2o.fillingErrorValueIsAbsent}");
-                message.setSeverityType(SeverityType.danger);
-                message.setField(controlId);
-                responseInfo.addMessage(message);
-            } else {
-                ResponseMessage message = new ResponseMessage();
-                message.setText("{n2o.fillingErrorDataLoadException}");
-                message.setSeverityType(SeverityType.danger);
-                message.setField(controlId);
-                responseInfo.addMessage(message);
-            }
         }
     }
 

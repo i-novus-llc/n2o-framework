@@ -105,7 +105,7 @@ public class N2oValidationModule implements DataProcessing {
 
     private void prepareResponse(List<FailInfo> fails, ResponseInfo responseInfo) {
         for (FailInfo fail : fails) {
-            ResponseMessage message = new ResponseMessage();
+            ResponseMessage message = responseInfo.constructMessage();
             message.setText(fail.getMessage());
             message.setField(fail.getFieldId());
             message.setSeverityType(fail.getSeverity());

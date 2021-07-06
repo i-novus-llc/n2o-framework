@@ -12,16 +12,24 @@ title: Руководство по миграции
 
 - У `<pagination>` в списковых виджетах атрибут `hide-single-page` (по умолчанию `true`), отвечающий за скрытие пагинации на единственной странице, 
 был переименован в `show-single-page` (по умолчанию `false`). Обратная совместимость сохранена.
+- В компонентах `ragio-group` и `checkbox-group` тип `n2o` (который был по умолчанию) переименован в `default`.
+Тип, который раньше назывался `default` и отвечал за стандартную html верстку компонента, удален.
 
 **Изменения в Java API**
 
 - Изменено api автотестов. Методы компонентов с выпадающими элементами (InputSelect, Select, TimePicker, LineFieldSet, LineRegion, PanelRegion) приведены к единому виду.
 Теперь для изменения и проверки состояния выпадающего элемента в них используются методы: `expand()`, `collapse()`, `shouldBeExpanded()`, `shouldBeCollapsed()`.
+- Класс `ErrorMessageBuilder` переименован в `AlertMessageBuilder`
 
-**Изменения в XML API**
+**Изменения в настройках**
 
-- В компонентах `ragio-group` и `checkbox-group` тип `n2o` (который был по умолчанию) переименован в `default`.
-Тип, который раньше назывался `default` и отвечал за стандартную html верстку компонента, удален.
+- Появилась возможность управлять положением сообщений об успехе/ошибке.
+Для этого введены следующие настройки:
+
+`n2o.api.message.position` - фиксированная (`fixed`) или относительная (`relative`) позиция сообщения . 
+Стоит обратить внимание, что по умолчанию значение `fixed`, что отличается от старого поведения, которое можно вернуть, использовав значение `relative`.
+
+`n2o.api.message.placement` - положение сообщения на странице при фиксации (`top`/`bottom`). По умолчанию `top`.
 
 
 ### Миграция с 7.15 на 7.16
@@ -55,9 +63,9 @@ title: Руководство по миграции
 
 **Изменения в настройках**
 
-- Настройки n2o.engine.mongodb.connection_url, n2o.engine.mongodb.database_name будут упразднены в следующих версиях,
+- Настройки `n2o.engine.mongodb.connection_url`, `n2o.engine.mongodb.database_name` будут упразднены в следующих версиях,
 рекомендуется использовать аналогичные org.springframework.boot.autoconfigure.mongo.MongoProperties
-(spring.data.mongodb.uri, spring.data.mongodb.database и т.д.)
+(`spring.data.mongodb.uri`, `spring.data.mongodb.database` и т.д.)
 
 ### Миграция с 7.13 на 7.14
 
