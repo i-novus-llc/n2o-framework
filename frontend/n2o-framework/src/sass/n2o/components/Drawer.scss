@@ -55,7 +55,7 @@
 .drawer-content-wrapper {
     position: fixed;
     background: $drawer-content-bg;
-    min-width: 100px;
+    min-width: max-content;
 }
 
 .drawer-bottom {
