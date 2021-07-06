@@ -65,7 +65,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             },
         }
         const gen = setParentVisibleIfAllChildChangeVisible({
-            id: 'btnChild1Id',
+            buttonId: 'btnChild1Id',
             key: 'fieldKey',
         })
         gen.next()
@@ -89,7 +89,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             },
         }
         const gen = setParentVisibleIfAllChildChangeVisible({
-            id: 'btnChild1Id',
+            buttonId: 'btnChild1Id',
             key: 'fieldKey',
         })
         gen.next()
@@ -113,7 +113,7 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
             },
         }
         const gen = setParentVisibleIfAllChildChangeVisible({
-            id: 'btnChild1Id',
+            buttonId: 'btnChild1Id',
             key: 'fieldKey',
         })
         gen.next()
