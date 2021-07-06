@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись подвала приложения
+ * Чтение/запись подвала (footer)
  */
 @Component
 public class FooterIO extends ComponentIO<N2oFooter> {

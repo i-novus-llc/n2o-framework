@@ -138,7 +138,7 @@ public class N2oRouter implements MetadataRouter {
     }
 
     /**
-     * Прогрев сборки хедера и регистрация корневых маршрутов
+     * Прогрев сборки приложения и регистрация корневых маршрутов
      */
     private void warmUpRootRoutes() {
         String applicationId = environment.getSystemProperties().getProperty("n2o.application.id", String.class);

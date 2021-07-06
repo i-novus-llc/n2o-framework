@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 
 /**
- * Базовый класс элемента выпадающего списка поиска в хедере для автотестирования
+ * Базовый класс элемента выпадающего списка поиска в шапке для автотестирования
  */
 public class N2oSearchItem extends N2oComponent implements SearchItem {
 

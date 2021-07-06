@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.application;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.application.Side;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.header.Header;
@@ -10,7 +9,7 @@ import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import org.springframework.stereotype.Component;
 
 /**
- * Базовое связывание данных в хедере
+ * Базовое связывание данных в шапке
  */
 @Component
 public class ApplicationBinder implements BaseMetadataBinder<Application> {

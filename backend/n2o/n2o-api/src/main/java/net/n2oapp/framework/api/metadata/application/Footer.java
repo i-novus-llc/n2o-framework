@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.Component;
 import java.util.Map;
 
 /**
- * Клиентская модель подвала сайта
+ * Клиентская модель подвала (footer)
  */
 @Getter
 @Setter
