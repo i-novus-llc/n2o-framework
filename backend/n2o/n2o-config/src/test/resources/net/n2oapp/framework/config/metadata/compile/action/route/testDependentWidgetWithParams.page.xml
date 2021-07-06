@@ -9,7 +9,7 @@
                 </fields>
             </form>
 
-            <form id="dependent" depends-on="main">
+            <form id="dependent" depends-on="main" detail-field-id="id">
                 <fields>
                     <button widget-id="main">
                         <open-drawer
