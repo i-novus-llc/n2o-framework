@@ -29,13 +29,14 @@ export function FullSizeSidebar({
                             sidebarOpen={sidebarOpen}
                             {...header}
                             {...rest}
+                            className={classNames('flex-grow-0', { [header.className]: header.className })}
                         />
                     )
                 }
-                <div className={classNames({ 'd-flex': sidebar, 'application-body-container-fixed': fixed })}>
+                <div className={classNames({ 'd-flex w-100 flex-grow-1': sidebar, 'application-body-container-fixed': fixed })}>
                     <div className="application-body container-fluid">{layoutChildren}</div>
                 </div>
-                { !isEmpty(footer) && <Footer {...footer} />}
+                {!isEmpty(footer) && <Footer {...footer} />}
             </div>
         </div>
     )

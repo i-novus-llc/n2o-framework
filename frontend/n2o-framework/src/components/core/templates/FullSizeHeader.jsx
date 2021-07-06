@@ -27,11 +27,12 @@ export function FullSizeHeader({
                         sidebarOpen={sidebarOpen}
                         {...header}
                         {...rest}
+                        className={classNames('flex-grow-0', { [header.className]: header.className })}
                     />
                 )
             }
             <div className={classNames(
-                'w-100 d-flex overflow-auto',
+                'w-100 d-flex overflow-auto flex-grow-1',
                 {
                     'flex-row': side === 'left',
                     'flex-row-reverse': side === 'right',
@@ -39,11 +40,11 @@ export function FullSizeHeader({
             )}
             >
                 {children}
-                <div className={classNames('w-100', { 'application-body-container-fixed': fixed })}>
+                <div className={classNames('w-100 d-flex flex-column', { 'application-body-container-fixed': fixed })}>
                     <div className="application-body container-fluid">{layoutChildren}</div>
-                    {!isEmpty(footer) && <Footer {...footer} />}
                 </div>
             </div>
+            {!isEmpty(footer) && <Footer {...footer} />}
         </div>
     )
 }
