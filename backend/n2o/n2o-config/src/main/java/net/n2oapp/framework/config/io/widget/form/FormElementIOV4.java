@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
@@ -34,6 +36,8 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
+        p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePosition.class);
+        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
         p.attribute(e, "refresh-widget-id", t::getRefreshWidgetId, t::setRefreshWidgetId);
         p.attribute(e, "route", t::getRoute, t::setRoute);
