@@ -5,6 +5,9 @@ import net.n2oapp.framework.config.metadata.pack.N2oCellsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирование чтения/записи ячейки загрузки файлов
+ */
 public class FileUploadCellXmlIOTest {
 
     @Test

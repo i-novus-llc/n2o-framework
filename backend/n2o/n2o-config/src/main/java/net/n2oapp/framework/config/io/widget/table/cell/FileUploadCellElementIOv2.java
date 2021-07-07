@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись ячейки с возможностью загружать файл
+ * Чтение/запись ячейки загрузки файлов
  */
 @Component
 public class FileUploadCellElementIOv2 extends AbstractCellElementIOv2<N2oFileUploadCell> {

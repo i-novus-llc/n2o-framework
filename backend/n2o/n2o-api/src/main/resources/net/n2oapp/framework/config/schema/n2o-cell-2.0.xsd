@@ -5,7 +5,6 @@
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-
     <xs:element name="text" type="textDefinition"/>
     <xs:element name="link" type="linkDefinition"/>
     <xs:element name="list" type="listDefinition"/>
@@ -19,6 +18,7 @@
     <xs:element name="rating" type="ratingDefinition"/>
     <xs:element name="switch" type="switchCellDefinition"/>
     <xs:element name="tooltip-list" type="tooltipListDefinition"/>
+    <xs:element name="file-upload" type="fileUploadDefinition"/>
     <xs:element name="cell" type="customDefinition"/>
 
     <xs:complexType name="cells">
@@ -605,7 +605,7 @@
         <xs:complexContent>
             <xs:extension base="cellDefinition">
                 <xs:annotation>
-                    <xs:documentation>Ячейка позволяющая загрузить файл.</xs:documentation>
+                    <xs:documentation>Ячейка загрузки файлов.</xs:documentation>
                 </xs:annotation>
 
                 <xs:attribute name="multi" type="xs:boolean" default="false">
@@ -663,25 +663,21 @@
                         <xs:documentation>Доступные расширения файлов (через запятую).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-
                 <xs:attribute name="label" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст в ячейке по умолчанию</xs:documentation>
+                        <xs:documentation>Текст в ячейке по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-
                 <xs:attribute name="upload-icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка загрузки файлов</xs:documentation>
+                        <xs:documentation>Иконка загрузки файлов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-
                 <xs:attribute name="delete-icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка удаления файлов</xs:documentation>
+                        <xs:documentation>Иконка удаления файлов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>

@@ -2,7 +2,7 @@
     <columns>
         <column text-field-id="test1">
             <file-upload multi="true" ajax="true"
-                         upload-url="/uploaudDoc" delete-url="/deleteDoc"
+                         upload-url="/uploadDoc" delete-url="/deleteDoc"
                          value-field-id="id" label-field-id="name"
                          message-field-id="message" url-field-id="/downloadDoc"
                          request-param="file" show-size="true"

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция ячейки загрузки файла
+ * Компиляция ячейки загрузки файлов
  */
 @Component
 public class FileUploadCellCompiler  extends AbstractCellCompiler<FileUploadCell, N2oFileUploadCell> {

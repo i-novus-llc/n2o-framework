@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Тест компиляции редактируемой ячейки
+ * Тестирование компиляции ячейки загрузки файлов
  */
 public class FileUploadCellCompileTest extends SourceCompileTestBase {
 
@@ -27,14 +27,14 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack()
-                , new N2oControlsPack(), new N2oControlsV2IOPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack(),
+                new N2oControlsPack(), new N2oControlsV2IOPack());
         builder.ios(new FileUploadCellElementIOv2());
         builder.compilers(new FileUploadCellCompiler());
     }
 
     @Test
-    public void testCompileEditCell() {
+    public void testCompileFileUploadCell() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testFileUploadCell.widget.xml")
                 .get(new WidgetContext("testFileUploadCell"));
 
@@ -44,10 +44,8 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getVisible(), nullValue());
         assertThat(cell.getJsonVisible(), nullValue());
         assertThat(cell.getStyle(), nullValue());
-
         assertThat(cell.getMulti(), is(false));
         assertThat(cell.getAjax(), is(true));
-
         assertThat(cell.getUploadUrl(), nullValue());
         assertThat(cell.getDeleteUrl(), nullValue());
         assertThat(cell.getValueFieldId(), is("id"));
@@ -69,10 +67,8 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getJsonVisible(), is(true));
         assertThat(cell.getStyle(), nullValue());
         assertThat(cell.getReactStyle().size(), is(2));
-
         assertThat(cell.getMulti(), is(true));
         assertThat(cell.getAjax(), is(false));
-
         assertThat(cell.getUploadUrl(), is("/uploadDoc"));
         assertThat(cell.getDeleteUrl(), is("/deleteDoc"));
         assertThat(cell.getValueFieldId(), is("testId"));

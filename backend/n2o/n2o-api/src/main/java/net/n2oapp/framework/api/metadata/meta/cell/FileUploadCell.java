@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 
 /**
- * Клиентская модель ячейки таблицы с загрузкой файлов
+ * Клиентская модель ячейки загрузки файлов
  */
 @Getter
 @Setter
