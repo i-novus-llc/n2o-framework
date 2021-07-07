@@ -27,6 +27,16 @@
 .n2o-layout-fixed {
     overflow: hidden;
     max-height: 100vh;
+
+    .application-body {
+        height: 100vh;
+    }
+}
+
+.n2o-layout-fixed.n2o-layout-full-size-header {
+    .application-body {
+        height: auto;
+    }
 }
 
 .application-body-container-fixed {

@@ -228,7 +228,10 @@ $n2o-slider-rail-color: $gray-200;
 $spinner-background-cover-color: rgba(255, 255, 255, 0.5);
 
 // Sidebar
-$sidebar-width: 260px !default;
+$sidebar-width: 240px !default;
+$sidebar-micro-width: 20px !default;
+$sidebar-mini-width: 80px !default;
+$sidebar-maxi-width: 160px !default;
 $sidebar-max-compressed-width: 60px !default;
 $sidebar-color: $gray-200 !default;
 $sidebar-bg-color: $primary !default;

@@ -236,7 +236,7 @@
                 </xs:attribute>
                 <xs:attribute name="footer-title" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Заголовок для футера.</xs:documentation>
+                        <xs:documentation>Заголовок для подвала региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="active-param" type="xs:string">

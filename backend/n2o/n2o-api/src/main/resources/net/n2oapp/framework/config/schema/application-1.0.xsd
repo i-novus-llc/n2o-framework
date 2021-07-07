@@ -10,7 +10,7 @@
         <xs:sequence>
             <xs:element name="header" type="headerDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Заголовок приложения</xs:documentation>
+                    <xs:documentation>Шапка(header)</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="sidebar" type="sidebarDefinition" minOccurs="0">
@@ -20,7 +20,7 @@
             </xs:element>
             <xs:element name="footer" type="footerDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Подвал приложения</xs:documentation>
+                    <xs:documentation>Подвал(footer)</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -70,17 +70,17 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>css класс заголовка</xs:documentation>
+                <xs:documentation>css класс шапки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль заголовка</xs:documentation>
+                <xs:documentation>Стиль шапки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Видимость заголовка. По умолчанию true</xs:documentation>
+                <xs:documentation>Видимость шапки. По умолчанию true</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="logo-src" type="xs:string">
@@ -172,8 +172,8 @@
             <xs:annotation>
                 <xs:documentation>Состояние сайдбара по умолчанию. Возможные значения:
                     none - скрыт полностью
-                    micro - отображаются только иконки
-                    mini - отображаются иконки + название в узком контейнере
+                    micro - отображается тонкая полоска
+                    mini - отображаются только иконки
                     maxi - широкая боковая панель.
                     По умолчанию none
                 </xs:documentation>
@@ -184,8 +184,8 @@
                 <xs:documentation>Состояние боковой панели принимаемое при нажатии на кнопку toggle-sidebar, которую можно
                     добавить в меню заголовка приложения. Возможные значения:
                     none - скрыт полностью
-                    micro - отображаются только иконки
-                    mini - отображаются иконки + название в узком контейнере
+                    micro - отображается тонкая полоска
+                    mini - отображаются только иконки
                     maxi - широкая боковая панель.
                     По умолчанию maxi
                 </xs:documentation>
@@ -206,32 +206,32 @@
     <xs:complexType name="footerDefinition">
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация подвала приложения. По умолчанию DefaultFooter</xs:documentation>
+                <xs:documentation>Реализация подвала. По умолчанию DefaultFooter</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>css класс подвала приложения</xs:documentation>
+                <xs:documentation>css класс подвала</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль подвала приложения</xs:documentation>
+                <xs:documentation>Стиль подвала</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="right-text" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Текст в подвале приложения справа</xs:documentation>
+                <xs:documentation>Текст в подвале справа</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="left-text" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Текст в подвале приложения слева</xs:documentation>
+                <xs:documentation>Текст в подвале слева</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Видимость подвала приложения. По умолчанию true</xs:documentation>
+                <xs:documentation>Видимость подвала. По умолчанию true</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -271,12 +271,12 @@
             </xs:enumeration>
             <xs:enumeration value="micro">
                 <xs:annotation>
-                    <xs:documentation>отображаются только иконки</xs:documentation>
+                    <xs:documentation>отображается тонкая полоска</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="mini">
                 <xs:annotation>
-                    <xs:documentation>отображаются иконки + название в узком контейнере</xs:documentation>
+                    <xs:documentation>отображаются только иконки</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="maxi">

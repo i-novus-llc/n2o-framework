@@ -35,7 +35,7 @@ public class ListFieldFiltrationAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/test.query.xml"));
     }

@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.api.collection;
 import net.n2oapp.framework.autotest.api.component.header.SearchItem;
 
 /**
- * Список с результатами поиска в хедере для автотестирования
+ * Список с результатами поиска в шапке для автотестирования
  */
 public interface SearchResult extends ComponentsCollection {
 

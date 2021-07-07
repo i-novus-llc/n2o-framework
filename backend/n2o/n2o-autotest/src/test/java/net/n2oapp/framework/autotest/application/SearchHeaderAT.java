@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест поиска в хедере
+ * Автотест поиска в шапке
  */
 public class SearchHeaderAT extends AutoTestBase {
 

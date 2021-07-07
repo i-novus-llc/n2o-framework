@@ -14,7 +14,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 
 /**
- * Прогрев сборки хедера и регистрация маршрутов
+ * Прогрев сборки приложения и регистрация маршрутов
  */
 public class HeaderWarmUpper implements EnvironmentAware {
     private static Logger log = LoggerFactory.getLogger(HeaderWarmUpper.class);

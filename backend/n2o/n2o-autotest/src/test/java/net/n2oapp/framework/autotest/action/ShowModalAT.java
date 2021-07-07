@@ -94,9 +94,9 @@ public class ShowModalAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Настраиваемое модальное окно");
 
-        Button openModalWithHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с хедером");
+        Button openModalWithHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с шапкой");
         openModalWithHeader.shouldExists();
-        Button openModalWithoutHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть без хедера");
+        Button openModalWithoutHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть без шапки");
         openModalWithoutHeader.shouldExists();
 
         openModalWithHeader.click();
@@ -170,7 +170,7 @@ public class ShowModalAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Настраиваемое модальное окно");
-        StandardButton openModalButton = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с хедером");
+        StandardButton openModalButton = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с шапкой");
         openModalButton.shouldExists();
         openModalButton.shouldBeEnabled();
         openModalButton.click();

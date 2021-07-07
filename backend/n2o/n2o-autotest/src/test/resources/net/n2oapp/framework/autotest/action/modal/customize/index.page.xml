@@ -3,10 +3,10 @@
              name="Настраиваемое модальное окно">
     <form>
         <toolbar>
-            <button label="Открыть с хедером" model="filter">
+            <button label="Открыть с шапкой" model="filter">
                 <show-modal page-id="test"/>
             </button>
-            <button label="Открыть без хедера" model="filter">
+            <button label="Открыть без шапки" model="filter">
                 <show-modal page-id="test" has-header="false" backdrop="true"/>
             </button>
         </toolbar>

@@ -87,4 +87,6 @@ SidebarContainer.propTypes = {
     authProvider: PropTypes.any,
 }
 
+export const SimpleSidebar = compose(withSecurity)(SidebarContainer)
+
 export default compose(withSecurity)(SidebarContainer)
