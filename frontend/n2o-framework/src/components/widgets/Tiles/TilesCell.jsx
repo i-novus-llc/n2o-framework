@@ -13,18 +13,20 @@ import propsResolver from '../../../utils/propsResolver'
  * @reactProps {object} model - Модель
  */
 function TilesCell(props) {
-    const { component, model } = props
+    const { component, model, style } = props
 
     const getPassProps = () => omit(props, ['component', 'model'])
 
     return (
-        <Factory
-            src={get(component, 'src')}
-            level={CELLS}
-            model={model}
-            {...propsResolver(omit(component, ['src']), model)}
-            {...getPassProps()}
-        />
+        <div style={style}>
+            <Factory
+                src={get(component, 'src')}
+                level={CELLS}
+                model={model}
+                {...propsResolver(omit(component, ['src']), model)}
+                {...getPassProps()}
+            />
+        </div>
     )
 }
 

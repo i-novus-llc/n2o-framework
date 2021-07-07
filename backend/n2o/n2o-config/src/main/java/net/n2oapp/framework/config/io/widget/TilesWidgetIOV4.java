@@ -38,6 +38,8 @@ public class TilesWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oTiles> {
         p.attribute(e, "id", b::getId, b::setId);
         p.attribute(e, "text-field-id", b::getTextFieldId, b::setTextFieldId);
         p.attribute(e, "tooltip-field-id", b::getTooltipFieldId, b::setTooltipFieldId);
+        p.attribute(e, "class", b::getCssClass, b::setCssClass);
+        p.attribute(e, "style", b::getStyle, b::setStyle);
         p.anyChild(e, null, b::getComponent, b::setComponent, p.anyOf(N2oCell.class), CellIOv2.NAMESPACE);
     }
 }
