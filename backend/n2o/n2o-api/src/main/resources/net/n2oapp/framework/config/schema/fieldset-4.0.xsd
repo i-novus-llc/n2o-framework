@@ -70,6 +70,11 @@
                         <xs:documentation>Заголовок филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подзаголовок филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="field-label-location" type="locationType">
                     <xs:annotation>
                         <xs:documentation>Расположение лейблов.</xs:documentation>
@@ -155,6 +160,14 @@
                         <xs:documentation>
                             Заголовок дочерних элементов.
                             С помощью {index} можно управлять нумерацией.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="first-children-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок первого дочернего элемента.
+                            Для возможности отображать без нумерации.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

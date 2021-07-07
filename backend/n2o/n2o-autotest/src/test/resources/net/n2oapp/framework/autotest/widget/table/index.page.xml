@@ -3,6 +3,11 @@
     <table id="test" src="AdvancedTableWidget" class="n2o" size="5" query-id="testTable" route="/table"
            fetch-on-init="true">
         <columns>
+            <column text-field-id="id">
+                <dependencies>
+                    <visibility >false</visibility>
+                </dependencies>
+            </column>
             <column text-field-id="name" label="Имя" width="50px" style="color: red"/>
             <column text-field-id="surname" label="Фамилия" icon="fa fa-plus" class="font-italic">
                 <icon type="iconAndText" icon="fa fa-plus"/>

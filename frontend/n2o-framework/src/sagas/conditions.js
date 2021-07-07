@@ -1,14 +1,10 @@
 import {
-    call,
     all,
-    take,
     fork,
     takeEvery,
-    cancelled,
 } from 'redux-saga/effects'
 import map from 'lodash/map'
 import reduce from 'lodash/reduce'
-import forOwn from 'lodash/forOwn'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
@@ -16,21 +12,24 @@ import keys from 'lodash/keys'
 import find from 'lodash/find'
 
 import evalExpression from '../utils/evalExpression'
-import { SET } from '../constants/models'
-import { REGISTER_BUTTON } from '../constants/toolbar'
-import { REGISTER_COLUMN } from '../constants/columns'
-
+import { setModel } from '../ducks/models/store'
+import { registerButton, removeButton } from '../ducks/toolbar/store'
 // eslint-disable-next-line import/no-cycle
-import { resolveButton } from './toolbar'
+import { resolveColumn } from '../ducks/columns/sagas'
+import { registerColumn } from '../ducks/columns/store'
 // eslint-disable-next-line import/no-cycle
-import { resolveColumn } from './column'
+import { resolveButton } from '../ducks/toolbar/sagas'
 
 /**
  * Обработчики вызова зависимостей
  */
 const ConditionHandlers = {
-    [REGISTER_BUTTON]: resolveButton,
-    [REGISTER_COLUMN]: resolveColumn,
+    [registerButton.type]: resolveButton,
+    [registerColumn.type]: resolveColumn,
+}
+
+const REMOVE_TO_ADD_ACTIONS_NAMES_DICT = {
+    [removeButton.type]: registerButton.type,
 }
 
 /**
@@ -46,9 +45,8 @@ export const resolveConditions = (conditions = [], state) => {
             const { expression, modelLink } = condition
 
             const context = get(state, modelLink, {})
-            const isMulti = modelLink.includes('multi')
 
-            const type = isMulti ? { mode: 'multi' } : { mode: 'single' }
+            const type = modelLink.includes('multi') ? { mode: 'multi' } : { mode: 'single' }
 
             return !evalExpression(expression, context, type)
                 ? acc.concat(condition)
@@ -68,7 +66,7 @@ export const resolveConditions = (conditions = [], state) => {
  * @param entities
  * @param action
  */
-export function* watchModel(entities, { payload }) {
+function* watchModel(entities, { payload }) {
     const { prefix, key } = payload
     const groupTypes = keys(entities)
     const modelLink = `models.${prefix}['${key}']`
@@ -83,33 +81,42 @@ export function* watchModel(entities, { payload }) {
     }
 }
 
+function watchRemove(entities, action) {
+    const { type, payload } = action
+    const conditions = entities[REMOVE_TO_ADD_ACTIONS_NAMES_DICT[type]]
+    const modelLinks = keys(conditions)
+    const newConditions = {}
+
+    modelLinks.forEach((modelLink) => {
+        const curModelLinkConditions = conditions[modelLink].filter(
+            ({ key, buttonId }) => key !== payload.key || buttonId !== payload.buttonId,
+        )
+
+        if (curModelLinkConditions.length) {
+            newConditions[modelLink] = curModelLinkConditions
+        }
+    })
+    entities[REMOVE_TO_ADD_ACTIONS_NAMES_DICT[type]] = newConditions
+}
+
+function* conditionWatchers() {
+    const entities = {}
+
+    yield takeEvery([registerButton.type, registerColumn.type], watchRegister, entities)
+    yield takeEvery(setModel, watchModel, entities)
+    yield takeEvery(removeButton.type, watchRemove, entities)
+}
+
 /**
- * Наблюдение за регистрацией сущностей и SET'ом моделей
+ * Наблюдение за регистрацией сущностей
  * @return
  */
-function* watchRegister() {
-    try {
-        let entities = {}
+function* watchRegister(entities, { type, payload }) {
+    const { conditions } = payload
 
-        while (true) {
-            const { type, payload: payloadRegister } = yield take([
-                REGISTER_BUTTON,
-                REGISTER_COLUMN,
-            ])
-            const { conditions } = payloadRegister
-
-            if (conditions && !isEmpty(conditions)) {
-                entities = yield call(prepareEntity, entities, payloadRegister, type)
-
-                yield fork(ConditionHandlers[type], payloadRegister)
-                // todo: Перейти на redux-saga@1.0.0 и использовать takeLeading
-                yield takeEvery(SET, watchModel, entities)
-            }
-        }
-    } finally {
-        if (yield cancelled()) {
-            // todo: добавить cancel саги, когда кнопка unregister
-        }
+    if (conditions && !isEmpty(conditions)) {
+        prepareEntity(entities, payload, type)
+        yield fork(ConditionHandlers[type], payload)
     }
 }
 
@@ -122,21 +129,35 @@ function* watchRegister() {
  */
 export function prepareEntity(entities, payload, type) {
     const { conditions } = payload
-    const newEntities = { ...entities }
-    const modelsLinkBuffer = []
+    const handledModelLinks = {}
 
-    forOwn(conditions, condition => map(condition, ({ modelLink }) => {
-        if (!modelsLinkBuffer.includes(modelLink)) {
-            const modelLinkArray = get(entities, [type, modelLink], null)
-                ? [...get(entities, [type, modelLink], {}), { ...payload }]
-                : [{ ...payload }]
+    // collect conditions objects grouping by modelLink
+    keys(conditions).forEach((conditionType) => { // conditionType -- enabled, visible, etc(?)
+        conditions[conditionType].forEach((conditionItem) => {
+            const { modelLink } = conditionItem
 
-            set(newEntities, [type, modelLink], modelLinkArray)
-            modelsLinkBuffer.push(modelLink)
+            if (!handledModelLinks[modelLink]) {
+                handledModelLinks[modelLink] = { [conditionType]: [] }
+            }
+            if (!handledModelLinks[modelLink][conditionType]) {
+                handledModelLinks[modelLink][conditionType] = []
+            }
+            handledModelLinks[modelLink][conditionType].push(conditionItem)
+        })
+    })
+
+    // iterate through modelLinks groups and set data to entity
+    keys(handledModelLinks).forEach((modelLink) => {
+        const currentModelLinkConditions = get(entities, [type, modelLink])
+
+        if (Array.isArray(currentModelLinkConditions)) {
+            currentModelLinkConditions.push({ ...payload, conditions: handledModelLinks[modelLink] })
+        } else {
+            set(entities, [type, modelLink], [{ ...payload, conditions: handledModelLinks[modelLink] }])
         }
-    }))
+    })
 
-    return newEntities
+    return entities
 }
 
-export const conditionsSaga = [fork(watchRegister)]
+export const conditionsSaga = [fork(conditionWatchers)]

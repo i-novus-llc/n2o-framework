@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.fieldset.MultiFieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
@@ -16,6 +15,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование филдсета с динамическим числом полей
@@ -44,6 +44,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet.getSrc(), is("MultiFieldset"));
         assertThat(multiFieldSet.getLabel(), is("Заголовок"));
         assertThat(multiFieldSet.getChildrenLabel(), is("`'Участник '+index`"));
+        assertThat(multiFieldSet.getFirstChildrenLabel(), is("Участник"));
         assertThat(multiFieldSet.getName(), is("members"));
         assertThat(multiFieldSet.getAddButtonLabel(), is("Добавить участника"));
         assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("Удалить всех участников"));
@@ -52,14 +53,17 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet.getNeedRemoveButton(), is(false));
         assertThat(multiFieldSet.getNeedRemoveAllButton(), is(true));
         assertThat(multiFieldSet.getNeedCopyButton(), is(true));
+        assertThat(multiFieldSet.getDescription(), is("description"));
 
         MultiFieldSet multiFieldSet2 = (MultiFieldSet) fieldsets.get(1);
         assertThat(multiFieldSet2.getSrc(), is("test"));
         assertThat(multiFieldSet2.getChildrenLabel(), is("`members[index].name`"));
+        assertThat(multiFieldSet2.getFirstChildrenLabel(), is(nullValue()));
         assertThat(multiFieldSet2.getCanRemoveFirstItem(), is(false));
         assertThat(multiFieldSet2.getNeedAddButton(), is(true));
         assertThat(multiFieldSet2.getNeedRemoveButton(), is(true));
         assertThat(multiFieldSet2.getNeedRemoveAllButton(), is(false));
         assertThat(multiFieldSet2.getNeedCopyButton(), is(false));
+        assertThat(multiFieldSet2.getDescription(), nullValue());
     }
 }

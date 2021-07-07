@@ -1,0 +1,19 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="test1"/>
+        <row>
+            <col>
+                <input-text id="test2"/>
+            </col>
+        </row>
+        <line>
+            <set>
+                <row>
+                    <col>
+                        <input-text id="test3"/>
+                    </col>
+                </row>
+            </set>
+        </line>
+    </fields>
+</form>

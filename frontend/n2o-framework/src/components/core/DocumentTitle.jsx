@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { getModelSelector } from '../../selectors/models'
+import { getModelSelector } from '../../ducks/models/selectors'
 import propsResolver from '../../utils/propsResolver'
 
 function DocumentTitle({ htmlTitle, model }) {

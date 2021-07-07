@@ -1,11 +1,51 @@
 .n2o-fieldset {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+
+    .col:empty {
+        display: none;
+    }
+
+    .n2o-fieldset__label-container {
+        margin-bottom: 10px;
+        display: flex;
+    }
 
     .n2o-fieldset__label {
-        margin-bottom: 10px;
+        margin-bottom: 0;
         font-size: 16px;
         font-weight: 700;
         color: #474747;
-        line-height: 30px;
+        line-height: normal;
+    }
+
+    .n2o-fieldset__label.with-description {
+        margin-bottom: 0;
+        padding: 0 5px 0 0;
+        line-height: 15px;
+    }
+
+    .n2o-fieldset__description {
+        margin: 3px 0 0 10px;
+        font-size: 12px;
+    }
+
+    .n2o-panel-header-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        .n2o-fieldset__description {
+            margin: 3px 10px 0 10px;
+            font-weight: lighter;
+            line-height: 15px;
+        }
+    }
+
+    .n2o-collapse-panel.with-description {
+        margin-bottom: 15px;
+    }
+
+    .n2o-panel-header.with-description {
+        margin-bottom: 5px;
     }
 }

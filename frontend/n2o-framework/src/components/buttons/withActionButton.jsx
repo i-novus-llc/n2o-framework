@@ -3,25 +3,24 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { compose, withPropsOnChange } from 'recompose'
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { getFormValues } from 'redux-form'
-import isUndefined from 'lodash/isUndefined'
 
-import { registerButton } from '../../actions/toolbar'
+import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
+import { registerButton, removeButton } from '../../ducks/toolbar/store'
 import {
     isDisabledSelector,
     messageSelector,
     isInitSelector,
     isVisibleSelector,
     countSelector,
-} from '../../selectors/toolbar'
-import { makeWidgetValidationSelector } from '../../selectors/widgets'
+} from '../../ducks/toolbar/selectors'
+import { makeWidgetValidationSelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
-import { id } from '../../utils/id'
+import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
 import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 
@@ -30,13 +29,13 @@ const ConfirmMode = {
     MODAL: 'modal',
 }
 
-const N2O_ROOT = document.getElementById('n2o')
-
-const RenderTooltip = ({ id, message }) => !isUndefined(message) && (
-    <UncontrolledTooltip target={id} boundariesElement={N2O_ROOT}>
-        {message}
-    </UncontrolledTooltip>
-)
+/*
+ * TODO декомпозировать ХОК
+ *  вынести отдельно части, отвечающие за
+ *  - вызов регистрации/удаления кнопок из стора
+ *  - рендер
+ *  - вызов валидации
+ */
 
 export default function withActionButton(options = {}) {
     const { onClick } = options
@@ -52,28 +51,34 @@ export default function withActionButton(options = {}) {
 
       constructor(props) {
           super(props)
+          this.generatedTooltipId = getID()
+          this.generatedButtonId = props.uid || getID()
+      }
+
+      componentWillUnmount() {
+          const { removeButton, entityKey, id } = this.props
+
+          removeButton(entityKey, id)
+      }
+
+      componentDidMount() {
           this.initIfNeeded()
-          this.generatedTooltipId = id()
-          this.generatedButtonId = props.uid || id()
       }
 
       initIfNeeded = () => {
           const {
-              isInit,
               entityKey,
               id,
               initialProps: { visible = true, disabled, count, conditions } = {},
               registerButton,
           } = this.props
 
-          if (!isInit) {
-              registerButton(entityKey, id, {
-                  visible,
-                  disabled,
-                  count,
-                  conditions,
-              })
-          }
+          registerButton(entityKey, id, {
+              visible,
+              disabled,
+              count,
+              conditions,
+          })
       };
 
       // eslint-disable-next-line consistent-return
@@ -194,9 +199,9 @@ export default function withActionButton(options = {}) {
 
           return (
               <div id={this.generatedTooltipId}>
-                  <RenderTooltip
-                      message={currentMessage}
+                  <SimpleTooltip
                       id={this.generatedTooltipId}
+                      message={currentMessage}
                   />
                   <WrappedComponent
                       {...omit(this.props, [
@@ -262,6 +267,9 @@ export default function withActionButton(options = {}) {
                 registerButton: (entityKey, id, initialProps) => {
                     dispatch(registerButton(entityKey, id, initialProps))
                 },
+                removeButton: (entityKey, id) => {
+                    dispatch(removeButton(entityKey, id))
+                },
             }
         }
 
@@ -281,6 +289,7 @@ export default function withActionButton(options = {}) {
             validate: PropTypes.object,
             confirm: PropTypes.object,
             registerButton: PropTypes.func,
+            removeButton: PropTypes.func,
             dispatch: PropTypes.func,
             validationConfig: PropTypes.func,
             confirmMode: PropTypes.string,

@@ -405,9 +405,8 @@ class InputSelect extends React.Component {
 
     /**
      * Обрабатывает клик за пределы компонента
-     * onClickOutside сам дергает этот метод
+     * вызывается библиотекой react-onclickoutside
      */
-
     handleClickOutside() {
         const { resetOnBlur, onBlur } = this.props
         const { isExpanded } = this.state

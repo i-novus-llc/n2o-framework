@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName, withHandlers } from 'recompose'
 import get from 'lodash/get'
@@ -90,12 +90,14 @@ function ImageCell(props) {
         ? defaultImageProps
         : propsResolver(defaultImageProps, model)
 
+    const Wrapper = url || target ? LinkActionWrapper : Fragment
+
     return (
         <span
             className="n2o-image-cell-container"
             onClick={onClick}
         >
-            <LinkActionWrapper
+            <Wrapper
                 url={url}
                 pathMapping={pathMapping}
                 queryMapping={queryMapping}
@@ -124,7 +126,7 @@ function ImageCell(props) {
                         onClick={onClick}
                     />
                 )}
-            </LinkActionWrapper>
+            </Wrapper>
             {hasInfo && <ImageInfo title={title} description={description} />}
         </span>
     )

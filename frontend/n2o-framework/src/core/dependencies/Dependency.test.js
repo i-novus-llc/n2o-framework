@@ -6,18 +6,16 @@ import get from 'lodash/get'
 import omit from 'lodash/omit'
 import set from 'lodash/set'
 import configureMockStore from 'redux-mock-store'
-import { call, put } from 'redux-saga/effects'
+import { fork, put } from 'redux-saga/effects'
 
-import {
-    DISABLE_FIELD,
-    ENABLE_FIELD,
-    REGISTER_DEPENDENCY,
-    HIDE_FIELD,
-    SHOW_FIELD,
-    SET_FIELD_FILTER,
-} from '../../constants/formPlugin'
-import { showField, hideField, enableField, disableField } from '../../actions/formPlugin'
-import formPluginReducer from '../../reducers/formPlugin'
+import formPluginReducer, {
+    showField,
+    hideField,
+    enableField,
+    disableField,
+    registerFieldDependency,
+    setFilterValue
+} from '../../ducks/form/store'
 import { checkAndModify, modify } from '../../sagas/fieldDependency'
 
 import withDependency from './withDependency'
@@ -57,7 +55,7 @@ const mockData = {
 
 const actions = [
     {
-        type: DISABLE_FIELD,
+        type: disableField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -66,7 +64,7 @@ const actions = [
     },
 
     {
-        type: ENABLE_FIELD,
+        type: enableField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -74,7 +72,7 @@ const actions = [
         meta: { form: 'mockForm' },
     },
     {
-        type: HIDE_FIELD,
+        type: hideField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -83,7 +81,7 @@ const actions = [
     },
 
     {
-        type: SHOW_FIELD,
+        type: showField.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -91,7 +89,7 @@ const actions = [
         meta: { form: 'mockForm' },
     },
     {
-        type: REGISTER_DEPENDENCY,
+        type: registerFieldDependency.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -107,7 +105,7 @@ const actions = [
         meta: { form: 'mockForm' },
     },
     {
-        type: SET_FIELD_FILTER,
+        type: setFilterValue.type,
         payload: {
             name: 'field1',
             form: 'mockForm',
@@ -143,7 +141,7 @@ describe('Тестирование саги', () => {
     it('Тестирование вызова функции экшена на саге', () => {
         const gen = setup(mockData)
         expect(gen.next().value).toEqual(
-            call(
+            fork(
                 modify,
                 mockData.values,
                 mockData.formName,
@@ -209,7 +207,7 @@ describe('Тестирование саги', () => {
         expect(gen.next().value).toEqual(
             put(
                 change(mockData.formName, mockData.fields.field1.name, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: 'test',
                 }),
             ),
@@ -225,7 +223,7 @@ describe('Тестирование саги', () => {
         expect(gen.next().value).toEqual(
             put(
                 change(mockData.formName, mockData.fields.field1.name, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: null,
                 }),
             ),
@@ -302,6 +300,6 @@ describe('Тестирование HOC', () => {
             </Provider>,
         )
         expect(store.getActions()).toHaveLength(1)
-        expect(store.getActions()[0].type).toEqual(REGISTER_DEPENDENCY)
+        expect(store.getActions()[0].type).toEqual(registerFieldDependency.type)
     })
 })

@@ -17,8 +17,7 @@ import get from 'lodash/get'
 import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
-import { makeFormByName } from '../selectors/formPlugin'
-import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin'
+import { makeFormByName } from '../ducks/form/selectors'
 import {
     enableField,
     disableField,
@@ -29,7 +28,8 @@ import {
     setLoading,
     addFieldMessage,
     removeFieldMessage,
-} from '../actions/formPlugin'
+    registerFieldExtra,
+} from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
@@ -63,7 +63,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
         if (model) {
             yield put(
                 change(form, field, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: valueFieldId ? currentModel : model,
                 }),
             )
@@ -71,7 +71,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
     } catch (e) {
         yield put(
             change(form, field, {
-                keepDirty: false,
+                keepDirty: true,
                 value: null,
                 error: true,
             }),
@@ -85,7 +85,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
-    const { type, expression } = dependency
+    const { type, expression, on } = dependency
 
     const evalResult = expression
         ? evalExpression(expression, values)
@@ -131,7 +131,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
             yield put(
                 change(formName, fieldName, {
-                    keepDirty: false,
+                    keepDirty: true,
                     value: evalResult,
                 }),
             )
@@ -142,7 +142,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             if (values[fieldName] !== null && evalResultCheck(evalResult)) {
                 yield put(
                     change(formName, fieldName, {
-                        keepDirty: false,
+                        keepDirty: true,
                         value: null,
                     }),
                 )
@@ -209,8 +209,15 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
         }
         case 'fetchValue': {
             const watcher = yield fork(fetchValue, formName, fieldName, dependency)
-            const action = yield take(actionTypes.CHANGE)
+            const action = yield take((action) => {
+                if (action.type !== actionTypes.CHANGE) { return false }
+                // TODO Выяснить может ли fetch быть без зависимостей, если нет, то убрать
+                if (!on || !on.length) { return true }
 
+                return on.includes(get(action, 'meta.field'))
+            })
+
+            // TODO разобраться с этим условием, не уверен что актуально
             if (get(action, 'meta.field') !== fieldName) {
                 yield cancel(watcher)
             }
@@ -229,6 +236,12 @@ export function* checkAndModify(
     fieldName,
     actionType,
 ) {
+    const isInitAction = [
+        actionTypes.INITIALIZE,
+        registerFieldExtra.type,
+    ].includes(actionType)
+    const isChangeAction = actionType === actionTypes.CHANGE
+
     // eslint-disable-next-line no-restricted-syntax
     for (const fieldId of Object.keys(fields)) {
         const field = fields[fieldId]
@@ -236,22 +249,17 @@ export function* checkAndModify(
         if (field.dependency) {
             // eslint-disable-next-line no-restricted-syntax
             for (const dep of field.dependency) {
-                const isInitAction = [
-                    actionTypes.INITIALIZE,
-                    REGISTER_FIELD_EXTRA,
-                ].includes(actionType)
-                const isChangeAction = actionType === actionTypes.CHANGE
-
                 if (
                     (isInitAction && dep.applyOnInit) ||
-          (isChangeAction && includes(dep.on, fieldName)) ||
-          (isChangeAction &&
-            some(
-                dep.on,
-                field => includes(field, '.') && includes(field, fieldName),
-            ))
+                    (isChangeAction && (
+                        includes(dep.on, fieldName) ||
+                        some(
+                            dep.on,
+                            field => includes(field, '.') && includes(field, fieldName),
+                        )
+                    ))
                 ) {
-                    yield call(modify, values, formName, fieldId, dep, field)
+                    yield fork(modify, values, formName, fieldId, dep, field)
                 }
             }
         }
@@ -272,11 +280,11 @@ export function* resolveDependency(action) {
             form.values,
             form.registeredFields,
             formName,
-            action.type === REGISTER_FIELD_EXTRA ? action.payload.name : fieldName,
+            action.type === registerFieldExtra.type ? action.payload.name : fieldName,
             action.type,
         )
     } catch (e) {
-    // todo: падает тут из-за отсутствия формы
+        // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
         console.error(e)
     }
@@ -285,7 +293,7 @@ export function* resolveDependency(action) {
 export function* catchAction() {
     yield takeEvery(actionTypes.INITIALIZE, resolveDependency)
     // ToDo: Убрать debounce и вообще по возможности REGISTER_FIELD_EXTRA
-    yield debounce(50, REGISTER_FIELD_EXTRA, resolveDependency)
+    yield debounce(50, registerFieldExtra.type, resolveDependency)
     yield takeEvery(actionTypes.CHANGE, resolveDependency)
 }
 

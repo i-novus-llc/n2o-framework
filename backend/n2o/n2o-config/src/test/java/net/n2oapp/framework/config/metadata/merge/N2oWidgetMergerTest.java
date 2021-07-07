@@ -92,6 +92,9 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getTextWrap(), is(true));
         assertThat(table.getTableSize(), is(Size.lg));
         assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
+        assertThat(table.getSearchOnChange(), is(true));
+        assertThat(table.getFiltersDefaultValuesQueryId(), is("test"));
+        assertThat(table.getFilterPosition(), is(N2oTable.FilterPosition.left));
 
         AbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
@@ -108,7 +111,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getHideSinglePage(), is(true));
+        assertThat(pagination.getShowSinglePage(), is(true));
         assertThat(pagination.getShowCount(), is(true));
 
         N2oRow rows = table.getRows();

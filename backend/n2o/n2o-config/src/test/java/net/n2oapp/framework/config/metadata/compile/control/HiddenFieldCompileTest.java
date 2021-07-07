@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.Hidden;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -35,10 +38,13 @@ public class HiddenFieldCompileTest extends SourceCompileTestBase {
     public void testField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testHiddenFieldCompile.widget.xml")
                 .get(new WidgetContext("testHiddenFieldCompile"));
-        assertThat((form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("testId"));
-        assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl(), instanceOf(Hidden.class));
-        assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testId"));
-        assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputHidden"));
-    }
+        StandardField hidden = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
+        assertThat(hidden.getControl().getId(), is("testId"));
+        assertThat(hidden.getControl().getSrc(), is("InputHidden"));
+        assertThat(hidden.getDependencies().size(), is(1));
+        assertThat(hidden.getDependencies().get(0).getType(), is(ValidationType.visible));
+        assertThat(hidden.getDependencies().get(0).getOn().isEmpty(), is(true));
+        assertThat(hidden.getDependencies().get(0).getExpression(), is("false"));
+    }
 }

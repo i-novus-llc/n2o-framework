@@ -18,6 +18,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -83,7 +87,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             case deleteMany:
                 return deleteMany(invocation, inParams, data);
             case count:
-                return data.size();
+                return count(inParams, data);
             case echo:
                 return inParams;
         }
@@ -110,6 +114,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         List<DataSet> modifiableData = new ArrayList<>(data);
         modifiableData = filter(filters, inParams, modifiableData);
         return modifiableData.isEmpty() ? null : modifiableData.get(0);
+    }
+
+    private int count(Map<String, Object> inParams,
+                      List<DataSet> data) {
+        List<String> filters = (List<String>) inParams.get("filters");
+        List<DataSet> modifiableData = new ArrayList<>(data);
+        return filter(filters, inParams, modifiableData).size();
     }
 
     private Object create(N2oTestDataProvider invocation,
@@ -382,6 +393,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (m.get(field) instanceof Number && pattern instanceof Number) {
                             return ((Number) m.get(field)).longValue() < ((Number) pattern).longValue();
                         }
+                        if (pattern instanceof LocalDate) {
+                            LocalDate date = LocalDate.parse(m.get(field).toString());
+                            return date.isEqual((ChronoLocalDate) pattern) || date.isBefore((ChronoLocalDate) pattern);
+                        }
+                        if (pattern instanceof LocalDateTime) {
+                            LocalDateTime dateTime = LocalDateTime.parse(m.get(field).toString());
+                            return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isBefore((ChronoLocalDateTime<?>) pattern);
+                        }
                         return m.get(field).toString().compareTo(pattern.toString()) < 0;
                     })
                     .collect(Collectors.toList());
@@ -398,6 +417,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return false;
                         if (m.get(field) instanceof Number && pattern instanceof Number) {
                             return ((Long) ((Number) m.get(field)).longValue()).compareTo(((Number) pattern).longValue()) > 0;
+                        }
+                        if (pattern instanceof LocalDate) {
+                            LocalDate date = LocalDate.parse(m.get(field).toString());
+                            return date.isEqual((ChronoLocalDate) pattern) || date.isAfter((ChronoLocalDate) pattern);
+                        }
+                        if (pattern instanceof LocalDateTime) {
+                            LocalDateTime dateTime = LocalDateTime.parse(m.get(field).toString());
+                            return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isAfter((ChronoLocalDateTime<?>) pattern);
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) > 0;
                     })

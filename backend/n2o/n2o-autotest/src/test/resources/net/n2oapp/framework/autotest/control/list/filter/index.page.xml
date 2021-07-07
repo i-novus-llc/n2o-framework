@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Фильтрация списковых полей">
+    <form query-id="test">
+        <fields>
+            <input-text id="type" domain="integer" description="Должно стоять 1"/>
+            <input-select id="test1" label="Фильтр по type" query-id="test" cache="false"
+                          description="При type=1 должно быть 2 значения">
+                <pre-filters>
+                    <eq field-id="type" value="{type}"/>
+                </pre-filters>
+            </input-select>
+
+            <input-select id="test2" label="Фильтр по константе" query-id="test"
+                          description="Должно быть 2 значения">
+                <pre-filters>
+                    <eq field-id="type" value="1"/>
+                </pre-filters>
+            </input-select>
+
+            <input-select id="test3" label="Фильтр по ссылке с кэшированием" query-id="test" cache="true"
+                          description="При type=1 должно быть 2 значения">
+                <pre-filters>
+                    <eq field-id="type" value="{type}"/>
+                </pre-filters>
+            </input-select>
+
+            <radio-group id="test4" label="Фильтр по радио кнопкам" cache="true" query-id="test"
+                         description="При type=1 должно быть 2 значения">
+                <pre-filters>
+                    <eq field-id="type" value="{type}"/>
+                </pre-filters>
+                <dependencies>
+                    <fetch on="type"/>
+                </dependencies>
+            </radio-group>
+
+            <checkbox-group id="test5" label="Фильтр по чекбоксам" cache="true" query-id="test"
+                            description="При type=1 должно быть 2 значения">
+                <pre-filters>
+                    <eq field-id="type" value="{type}"/>
+                </pre-filters>
+                <dependencies>
+                    <fetch on="type"/>
+                </dependencies>
+            </checkbox-group>
+        </fields>
+
+        <pre-filters>
+            <eq field-id="id" value="1"/>
+        </pre-filters>
+    </form>
+</simple-page>

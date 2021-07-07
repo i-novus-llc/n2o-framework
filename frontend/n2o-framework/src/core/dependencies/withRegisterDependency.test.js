@@ -28,9 +28,18 @@ const setup = (store, props = {}) => {
 
 describe('Проверка хока withRegisterDependency', () => {
     it('регистрирует fields', () => {
-        const store = createStore(reducers(history), {})
-        expect(store.getState().form).toEqual({})
-        const wrapper = setup(store)
+        const store = createStore(reducers(history), {
+            form: {
+                testForm: {
+                    registeredFields: {
+                        test: {}
+                    }
+                }
+            }
+        })
+
+        setup(store)
+
         expect(store.getState().form.testForm.registeredFields.test).toMatchObject({
             dependency: [
                 {

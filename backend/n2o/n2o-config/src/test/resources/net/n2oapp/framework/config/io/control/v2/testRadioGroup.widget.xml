@@ -1,5 +1,5 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <radio-group id="testId" inline="true" type="type"></radio-group>
+        <radio-group id="testId" inline="true" type="btn"></radio-group>
     </fields>
 </form>

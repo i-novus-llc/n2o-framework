@@ -9,9 +9,7 @@
                     size="5">
                 <content>
                     <col size="6">
-                        <block text-field-id="test1" tooltip-field-id="tooltip" id="11">
-                            <text/>
-                        </block>
+                        <block text-field-id="test1" tooltip-field-id="tooltip" id="11"/>
                         <block id="12">
                             <image src="cell12"/>
                         </block>

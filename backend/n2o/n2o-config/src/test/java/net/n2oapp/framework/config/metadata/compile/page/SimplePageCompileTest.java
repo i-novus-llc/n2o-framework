@@ -60,6 +60,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getClassName(), is("testClass"));
         assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
+        assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
         assertThat(page.getRoutes().getList().size(), is(2));
@@ -87,6 +88,6 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
                 .get(new ModalPageContext("testSimpleModalPage", "/modal"));
         assertThat(page.getId(), is("modal"));
         assertThat(page.getPageProperty().getTitle(), nullValue());
-        assertThat(page.getPageProperty().getHeaderTitle(), is("testPage"));
+        assertThat(page.getPageProperty().getModalHeaderTitle(), is("testPage"));
     }
 }

@@ -117,6 +117,7 @@ public class FieldToolbarAT extends AutoTestBase {
         page.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
         page.alerts().alert(0).shouldHaveText("test");
 
+        dropdownButton.click();
         dropdownButton.menuItem("Открыть модальное окно").click();
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Другая страница");

@@ -25,6 +25,8 @@ public interface Drawer extends Component {
 
     void closeByEsc();
 
+    void clickBackdrop();
+
     void footerShouldBeFixed();
 
     void footerShouldNotBeFixed();

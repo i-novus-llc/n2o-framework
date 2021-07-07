@@ -127,7 +127,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return source.getRoute();
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
+                source.getDetailFieldId() != null) {
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
             String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             return normalize(colon(selectedId)) + normalize(source.getId());
@@ -417,7 +418,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
         if (searchBarScope != null) {
-            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchBarScope.getWidgetId());
+            PageScope pageScope = p.getScope(PageScope.class);
+            String searchWidgetId = pageScope != null ?
+                    CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :
+                    searchBarScope.getWidgetId();
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchWidgetId);
             modelLink.setFieldValue(searchBarScope.getModelKey());
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
 
@@ -672,7 +677,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);
-                    } else{
+                    } else {
                         ModelLink link = new ModelLink(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);

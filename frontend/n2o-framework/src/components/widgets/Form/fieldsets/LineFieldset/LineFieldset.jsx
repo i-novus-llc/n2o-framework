@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { isBoolean } from 'lodash'
 
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
-import evalExpression, {
-    parseExpression,
-} from '../../../../../utils/evalExpression'
 
 class LineFieldset extends React.Component {
     constructor(props) {
@@ -25,6 +21,7 @@ class LineFieldset extends React.Component {
             expand,
             className,
             hasSeparator,
+            description,
         } = this.props
 
         return {
@@ -35,6 +32,7 @@ class LineFieldset extends React.Component {
             expand,
             className,
             hasSeparator,
+            description,
         }
     }
 
@@ -44,7 +42,8 @@ class LineFieldset extends React.Component {
             rows,
             label: title,
             className,
-            hasSeparator } = this.props
+            hasSeparator,
+            description } = this.props
 
         return {
             render,
@@ -52,30 +51,12 @@ class LineFieldset extends React.Component {
             title,
             className,
             hasSeparator,
+            description,
         }
-    }
-
-    resolveVisible() {
-        const { visible, activeModel } = this.props
-        const expression = parseExpression(visible)
-
-        if (expression) {
-            return evalExpression(expression, activeModel)
-        }
-
-        if (isBoolean(visible)) {
-            return visible
-        }
-
-        return true
     }
 
     render() {
         const { collapsible } = this.props
-
-        if (!this.resolveVisible()) {
-            return null
-        }
 
         if (collapsible) {
             return <CollapseFieldset {...this.getCollapseProps()} />
@@ -100,6 +81,7 @@ LineFieldset.propTypes = {
     className: PropTypes.string,
     hasSeparator: PropTypes.bool,
     visible: PropTypes.string,
+    description: PropTypes.string,
     activeModel: PropTypes.object,
 }
 

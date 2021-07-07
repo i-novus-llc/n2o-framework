@@ -6,7 +6,8 @@ import PropTypes from 'prop-types'
 import dependency from '../../../core/dependency'
 import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import Pagination from '../Table/TablePagination'
+import { getN2OPagination } from '../Table/N2OPagination'
+import { pagingType } from '../../snippets/Pagination/types'
 
 import ListContainer from './ListContainer'
 
@@ -62,7 +63,7 @@ function ListWidget(
     },
     context,
 ) {
-    const { size } = paging
+    const { size, place = 'bottomLeft' } = paging
 
     const prepareFilters = () => context.resolveProps(filter, Fieldsets.StandardFieldset)
 
@@ -75,7 +76,7 @@ function ListWidget(
             toolbar={toolbar}
             actions={actions}
             filter={prepareFilters()}
-            bottomLeft={paging && <Pagination widgetId={widgetId} {...paging} />}
+            {...getN2OPagination(paging, place, widgetId)}
             className={className}
             style={style}
         >
@@ -123,7 +124,7 @@ ListWidget.propTypes = {
     prevText: PropTypes.string,
     nextText: PropTypes.string,
     hasSelect: PropTypes.bool,
-    paging: PropTypes.object,
+    paging: pagingType,
     placeholder: PropTypes.object,
     divider: PropTypes.bool,
     rows: PropTypes.bool,
@@ -139,9 +140,9 @@ ListWidget.defaultProps = {
     filter: {},
     list: {},
     paging: {
-        prevText: 'Назад',
-        nextText: 'Вперед',
-        withoutBody: true,
+        prevLabel: 'Назад',
+        nextLabel: 'Вперед',
+        maxPages: 0,
         prev: true,
         next: true,
     },

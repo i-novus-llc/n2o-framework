@@ -1,7 +1,7 @@
 {
   "name": "n2o-frontend",
   "private": true,
-  "version": "7.15.0",
+  "version": "7.16.0",
   "workspaces": [
     "n2o-framework",
     "n2o-auth",
@@ -22,9 +22,8 @@
     "version:major": "lerna version major --no-git-tag-version --no-push --yes",
     "clean": "lerna run clean && lerna clean",
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
-    "compile:es:watch": "lerna run --stream --scope n2o-framework compile:es:watch",
     "compile:lib:watch": "lerna run --stream --scope n2o-framework compile:lib:watch",
-    "compile:watch": "concurrently --kill-others \"yarn run compile:es:watch\" \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
+    "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
     "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-framework storybook",
     "docs": "lerna run --scope n2o-framework esdoc && lerna run --scope n2o-framework build-storybook",
     "esdoc:n2o": "lerna run --scope n2o-framework esdoc",

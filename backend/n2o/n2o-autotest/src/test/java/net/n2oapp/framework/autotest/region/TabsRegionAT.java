@@ -1,6 +1,9 @@
 package net.n2oapp.framework.autotest.region;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -104,8 +107,8 @@ public class TabsRegionAT extends AutoTestBase {
 
         // testing collapse/expand state of nesting regions
         // after switch between tabs in global region
-        panel.collapseContent();
-        line.collapseContent();
+        panel.collapse();
+        line.collapse();
         tabs.tab(1).click();
 
         tabsRegion.tab(1).click();
@@ -137,5 +140,35 @@ public class TabsRegionAT extends AutoTestBase {
         tabs = page.regions().region(1, TabsRegion.class);
         tabs.shouldHaveSize(1);
         tabs.shouldNotHaveScrollbar();
+    }
+
+    @Test
+    public void testVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+
+        RadioGroup radio = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields()
+                .field("radio").control(RadioGroup.class);
+
+        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(2);
+        TabsRegion.TabItem tab1 = tabs.tab(Condition.text("One"));
+        tab1.shouldBeActive();
+        TabsRegion.TabItem tab4 = tabs.tab(Condition.text("Four"));
+
+        // make visible tab3
+        radio.check("visible tab3");
+        tabs.shouldHaveSize(3);
+        TabsRegion.TabItem tab3 = tabs.tab(Condition.text("Three"));
+        tab3.click();
+        tab3.shouldBeActive();
+        InputText field3 = tab3.content().widget(FormWidget.class).fields().field("field3").control(InputText.class);
+        field3.shouldHaveValue("test3");
+
+        // make invisible tab3
+        radio.check("invisible tab3");
+        tabs.shouldHaveSize(2);
     }
 }

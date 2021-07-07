@@ -102,4 +102,9 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     private SelenideElement removeAllButton() {
         return element().$(".n2o-multi-fieldset__remove-all.btn");
     }
+
+    @Override
+    protected SelenideElement description() {
+        return element().parent().$(".n2o-fieldset__description");
+    }
 }

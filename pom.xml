@@ -11,11 +11,11 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.16.0-SNAPSHOT</version>
+    <version>7.17.0-SNAPSHOT</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
-    <url>https://n2oapp.net/docs/manual/</url>
+    <url>https://n2oapp.net</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -225,6 +225,7 @@
                 <module>frontend/n2o-framework</module>
                 <module>frontend/demo</module>
                 <module>frontend/n2o-simple-project</module>
+                <module>frontend/docs</module>
             </modules>
         </profile>
         <profile>
@@ -256,15 +257,6 @@
         </profile>
         <profile>
             <id>docs</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>docs</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>docusaurus</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>

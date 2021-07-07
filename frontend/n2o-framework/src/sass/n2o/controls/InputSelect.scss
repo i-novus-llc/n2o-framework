@@ -3,6 +3,43 @@
     position: relative;
     white-space: nowrap;
 
+    > button {
+        position: relative;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+
+        &:disabled {
+            pointer-events: none;
+        }
+    }
+
+    .selected-item {
+        display: flex;
+        padding: 2px 4px 2px 6px;
+        justify-content: center;
+        align-items: center;
+
+        > button {
+            font-size: inherit;
+            padding: inherit;
+        }
+
+        > img {
+            height: $image-selected-height !important;
+            padding-right: 5px;
+        }
+
+        > i {
+            display: flex;
+            padding-right: 5px;
+        }
+
+        max-width: $selected-item-width;
+        margin: $selected-item-margin-y $selected-item-margin-x;
+    }
+
     .n2o-dropdown-control {
         top: auto;
         left: auto;
@@ -143,30 +180,19 @@
         }
     }
 
-    .n2o-inp {
-        .n2o-inp--multi {
-            resize: none;
-            overflow: hidden;
-            border: none;
-        }
-    }
-
-    > button {
-        position: relative;
-        width: 100%;
-        padding: 0;
-        margin: 0;
+    .n2o-inp.n2o-inp--multi {
+        resize: none;
+        overflow: hidden;
         border: none;
-
-        &:disabled {
-            pointer-events: none;
-        }
     }
 
     .n2o-input-items > .valueText,
     input {
         padding: $input-select-padding;
         padding-right: 65px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .n2o-input-items > textarea,
@@ -188,6 +214,7 @@
         outline: none;
         background: transparent;
         text-overflow: ellipsis;
+        width: 100%;
     }
 
     .n2o-input-container {
@@ -265,21 +292,6 @@
         background: $multiselect-item-color;
         border: 1px solid #ccc;
         z-index: 3;
-    }
-
-    .selected-item {
-        display: flex;
-        padding: 2px 4px 2px 6px;
-        justify-content: center;
-        align-items: center;
-
-        > button {
-            font-size: inherit;
-            padding: inherit;
-        }
-
-        max-width: $selected-item-width;
-        margin: $selected-item-margin-y $selected-item-margin-x;
     }
 
     .n2o-input-control {

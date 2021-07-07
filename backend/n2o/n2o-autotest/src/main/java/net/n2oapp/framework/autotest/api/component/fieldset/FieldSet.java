@@ -8,11 +8,14 @@ import net.n2oapp.framework.autotest.api.component.Component;
 public interface FieldSet extends Component {
     void shouldBeEmpty();
 
-    void shouldBeVisible();
-
+    @Deprecated
     void shouldNotBeVisible();
 
     void shouldHaveLabel(String label);
 
     void shouldNotHaveLabel();
+
+    void shouldHaveDescription(String description);
+
+    void shouldNotHaveDescription();
 }

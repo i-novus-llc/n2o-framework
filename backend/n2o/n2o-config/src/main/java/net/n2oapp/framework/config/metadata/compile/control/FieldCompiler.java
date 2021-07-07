@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -82,6 +83,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
+        } else if (conditionGetter.get() != null) {
+            conditionSetter.accept(defaultValue);
+            dependency.setValue(conditionGetter.get());
+            source.addDependency(dependency);
         } else {
             conditionSetter.accept(defaultValue);
         }
@@ -132,7 +137,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void compileFieldToolbar(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getToolbar() != null) {
             Toolbar toolbar = p.compile(source.getToolbar(), context);
-            field.setToolbar(new Group[]{toolbar.getGroup(0)});
+            field.setToolbar(toolbar.getGroups().toArray(Group[]::new));
         }
     }
 
@@ -417,14 +422,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defValue = ScriptProcessor.resolveExpression((String) defValue);
                 }
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = getModelLink(control, source, context, p, defaultValues);
+                    ModelLink defaultValue = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
                     if (source.getRefFieldId() == null)
                         defaultValue.setValue(defValue);
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-                    ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
+                    ModelLink modelLink = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
                     if (defValue instanceof DefaultValues) {
                         Map<String, Object> values = ((DefaultValues) defValue).getValues();
                         if (values != null) {
@@ -447,7 +452,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 }
             } else {
                 if (source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefFieldId() != null) {
-                    ModelLink modelLink = getModelLink(control, source, context, p, defaultValues);
+                    ModelLink modelLink = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
@@ -488,25 +493,58 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private ModelLink getModelLink(D control, S source, CompileContext<?, ?> context, CompileProcessor p, ModelsScope defaultValues) {
+    /**
+     * Получение модели для дефолтного значения поля
+     *
+     * @param source            Исходная модель поля
+     * @param fieldId           Идентификатор поля
+     * @param defaultModelScope Информация о значениях по умолчанию модели
+     * @param context           Контекст сборки метаданных
+     * @param p                 Процессор сборки метаданных
+     * @return Модель для дефолтного значения поля
+     */
+    private ModelLink getDefaultValueModelLink(S source, String fieldId, ModelsScope defaultModelScope, CompileContext<?, ?> context, CompileProcessor p) {
+        String widgetId = getDefaultValueLinkWidgetId(source, fieldId, defaultModelScope.getWidgetId(), context, p);
+
         ModelLink defaultValue;
+        if (source.getRefFieldId() != null) {
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), widgetId, source.getRefFieldId());
+        } else {
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), widgetId);
+            defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
+        }
+
+        if (N2oField.Page.THIS.equals(source.getRefPage()))
+            defaultValue.setObserve(true);
+
+        return defaultValue;
+    }
+
+    /**
+     * Получение идентификатора виджета, на который будет ссылаться модель для дефолтного значения поля
+     *
+     * @param source          Исходная модель поля
+     * @param fieldId         Идентификатор поля
+     * @param defaultWidgetId Идентификатор виджета по умолчанию
+     * @param context         Контекст сборки метаданных
+     * @param p               Процессор сборки метаданных
+     * @return Идентификатор виджета
+     */
+    private String getDefaultValueLinkWidgetId(S source, String fieldId, String defaultWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
+        String widgetId;
         if (N2oField.Page.PARENT.equals(source.getRefPage())) {
             if (context instanceof PageContext) {
-                String widgetId = source.getRefWidgetId() == null ?
+                widgetId = source.getRefWidgetId() == null ?
                         ((PageContext) context).getParentClientWidgetId() :
                         CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
                                 source.getRefWidgetId());
-                defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel(), ReduxModel.RESOLVE),
-                        widgetId, source.getRefFieldId());
             } else {
-                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found",
-                        control.getId()));
+                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", fieldId));
             }
         } else {
-            String widgetId = source.getRefWidgetId() == null ? defaultValues.getWidgetId()
-                    : CompileUtil.generateWidgetId(((PageContext) context).getClientPageId(), source.getRefWidgetId());
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultValues.getModel()), widgetId, source.getRefFieldId());
+            widgetId = source.getRefWidgetId() == null ? defaultWidgetId
+                    : CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), source.getRefWidgetId());
         }
-        return defaultValue;
+        return widgetId;
     }
 }

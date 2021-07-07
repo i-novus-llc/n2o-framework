@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <form>
         <fields>
             <multi-set id="members1" can-add="false">
                 <input-text id="name"/>
             </multi-set>
-            <multi-set id="members2" add-label="Добавить участника"
-                       label="Заголовок" children-label="Участник {(index + 1)}">
+            <multi-set id="members2" description="Подзаголовок филдсета"
+                       add-label="Добавить участника" label="Заголовок"
+                       children-label="Участник №{(index + 1)}" first-children-label="Участник">
                 <set>
                     <input-text id="name"/>
                     <input-text id="age"/>

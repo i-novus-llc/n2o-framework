@@ -20,6 +20,7 @@ import withActionsEditableCell from './withActionsEditableCell'
  * @reactProps {boolean} editable - флаг разрешения редактирования
  * @reactProps {string} model - значение модели
  * @reactProps {boolean} disabled - флаг активности
+ * @reactProps {string} strategy - стиль вывода popper fixed
  */
 export class EditableCell extends React.Component {
     constructor(props) {
@@ -165,6 +166,7 @@ export class EditableCell extends React.Component {
                                     openOnFocus: true,
                                     showButtons: false,
                                     resetOnNotValid: false,
+                                    strategy: 'fixed',
                                 })}
                             </div>
                         </HotKeys>

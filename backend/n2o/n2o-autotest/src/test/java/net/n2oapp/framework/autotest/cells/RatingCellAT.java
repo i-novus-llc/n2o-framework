@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.cells;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -61,12 +62,20 @@ public class RatingCellAT extends AutoTestBase {
 
         //проверка редактируемых ячеек
         rows.row(0).cell(1, RatingCell.class).maxShouldBe(10);
+        Alerts.Alert alert = simplePage.alerts().alert(0);
+
         rows.row(0).cell(1, RatingCell.class).value("5");
-        simplePage.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("Данные сохранены");
+        alert.shouldHaveColor(Colors.SUCCESS);
+        rows.row(0).cell(1, RatingCell.class).shouldExists();
         rows.row(0).cell(1, RatingCell.class).valueShouldBe("5");
+
         rows.row(1).cell(1, RatingCell.class).value("8");
-        simplePage.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("Данные сохранены");
+        alert.shouldHaveColor(Colors.SUCCESS);
+        rows.row(1).cell(1, RatingCell.class).shouldExists();
         rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
+
         //проверка что значение сохранилось на бэке
         Selenide.refresh();
         simplePage.shouldExists();

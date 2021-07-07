@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -446,6 +447,13 @@ public class TestDataProviderEngineTest {
 
         Integer result = (Integer) engine.invoke(provider, inParams);
         assertThat(result, is(151));
+
+        // with filters
+        inParams.put("filters", Collections.singletonList("age :eq :age"));
+        inParams.put("age", 34);
+
+        result = (Integer) engine.invoke(provider, inParams);
+        assertThat(result, is(4));
     }
 
     @Test
@@ -555,8 +563,25 @@ public class TestDataProviderEngineTest {
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607775L));
 
+        inParams.put("filters", Arrays.asList("birthday :more :birthday.begin"));
+        inParams.remove("id");
+        inParams.put("birthday.begin", LocalDateTime.parse("2018-01-18T00:00:00"));
+        //Фильтр по birthday "more"
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(5607640L));
+
+        inParams.put("filters", Arrays.asList("birthday :less :birthday.end"));
+        inParams.remove("birthday.begin");
+        inParams.put("birthday.end", LocalDateTime.parse("1927-01-01T00:00:00"));
+        //Фильтр по birthday "less"
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(5607677L));
+
 
         inParams.put("filters", Arrays.asList("id :less :id"));
+        inParams.remove("birthday.end");
         inParams.put("id", 2);
         //Фильтр по id "less"
         //Ожидается первая по id запись в хранилище
@@ -737,7 +762,7 @@ public class TestDataProviderEngineTest {
 
         List<Map> result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("Евгений"));
-        assertThat(result.get(0).get("birthday"), is("01.01.1957 00:00:00"));
+        assertThat(result.get(0).get("birthday"), is("1957-01-01T00:00:00"));
         assertTrue((Boolean) result.get(0).get("vip"));
         assertThat(((Map) result.get(0).get("gender")).get("id"), is(2));
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Женский"));

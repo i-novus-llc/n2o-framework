@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
@@ -61,23 +62,61 @@ public class TableAT extends AutoTestBase {
         table.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");
 
         table.toolbar().topRight().button(0, StandardButton.class).click();
-        table.filters().shouldBeInvisible();
+        table.filters().shouldBeHidden();
         table.toolbar().topRight().button(0, StandardButton.class).click();
 
-        table.columns().rows().row(0).cell(0).element().parent().shouldHave(Condition.cssClass("bg-danger"));
-        table.columns().rows().row(1).cell(0).element().parent().shouldHave(Condition.cssClass("bg-info"));
-        table.columns().rows().row(2).cell(0).element().parent().shouldHave(Condition.cssClass("bg-success"));
-        table.columns().headers().header(0).shouldHaveTitle("Имя");
-        table.columns().headers().header(0).shouldHaveStyle("color: red");
-        table.columns().headers().header(1).shouldHaveTitle("Фамилия");
-        table.columns().headers().header(1).shouldHaveCssClass("font-italic");
-        table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
+        table.columns().rows().row(0).shouldHaveColor(Colors.DANGER);
+        table.columns().rows().row(1).shouldHaveColor(Colors.INFO);
+        table.columns().rows().row(2).shouldHaveColor(Colors.SUCCESS);
+
+        for (int i = 0; i < 3; i++) {
+            table.columns().rows().row(i).cell(0).shouldBeHidden();
+            table.columns().rows().row(i).cell(1).shouldBeVisible();
+            table.columns().rows().row(i).cell(2).shouldBeVisible();
+            table.columns().rows().row(i).cell(2).shouldHaveIcon("fa-plus");
+            table.columns().rows().row(i).cell(3).shouldBeVisible();
+        }
+
+        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(1).shouldBeVisible();
+        table.columns().headers().header(1).shouldHaveTitle("Имя");
+        table.columns().headers().header(1).shouldHaveStyle("color: red");
+        table.columns().headers().header(2).shouldBeVisible();
+        table.columns().headers().header(2).shouldHaveTitle("Фамилия");
+        table.columns().headers().header(2).shouldHaveCssClass("font-italic");
+        table.columns().headers().header(2).shouldHaveIcon("fa-plus");
+        table.columns().headers().header(3).shouldBeVisible();
+        table.columns().headers().header(3).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).click();
-        table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Имя").click();
-        table.columns().headers().header(0).shouldNotHaveTitle();
-        table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Имя").click();
-        table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
+
+        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(1).shouldBeVisible();
+        table.columns().headers().header(2).shouldBeHidden();
+        table.columns().headers().header(3).shouldBeVisible();
+        for (int i = 0; i < 3; i++) {
+            table.columns().rows().row(i).cell(0).shouldBeHidden();
+            table.columns().rows().row(i).cell(1).shouldBeVisible();
+            table.columns().rows().row(i).cell(2).shouldBeHidden();
+            table.columns().rows().row(i).cell(2).shouldNotHaveIcon();
+            table.columns().rows().row(i).cell(3).shouldBeVisible();
+        }
+
+        table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
+
+        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(1).shouldBeVisible();
+        table.columns().headers().header(2).shouldBeVisible();
+        table.columns().headers().header(2).shouldHaveIcon("fa-plus");
+        table.columns().headers().header(3).shouldBeVisible();
+        for (int i = 0; i < 3; i++) {
+            table.columns().rows().row(i).cell(0).shouldBeHidden();
+            table.columns().rows().row(i).cell(1).shouldBeVisible();
+            table.columns().rows().row(i).cell(2).shouldBeVisible();
+            table.columns().rows().row(i).cell(2).shouldHaveIcon("fa-plus");
+            table.columns().rows().row(i).cell(3).shouldBeVisible();
+        }
     }
 
     @Test
@@ -139,9 +178,11 @@ public class TableAT extends AutoTestBase {
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         Paging paging = table.paging();
         paging.totalElementsShouldBe(8);
+        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
@@ -153,13 +194,22 @@ public class TableAT extends AutoTestBase {
         paging.activePageShouldBe("1");
 
 
-        TableWidget table2 = page.regions().region(1, SimpleRegion.class).content().widget(TableWidget.class);
+        TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         paging = table2.paging();
         paging.totalElementsShouldNotExist();
+        paging.shouldHaveLayout(Paging.Layout.FLAT);
         paging.prevShouldExist();
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.nextShouldExist();
-        paging.firstShouldNotExist();
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
+        paging.firstShouldExist();
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.lastShouldExist();
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
         table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");

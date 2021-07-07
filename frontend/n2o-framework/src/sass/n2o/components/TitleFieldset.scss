@@ -7,15 +7,13 @@
 .title-fieldset-line {
     align-self: center;
     width: 100%;
-    height: $collapse-line-height;
-    background-color: $collapse-line-color;
+    border-bottom: $collapse-line-height solid $collapse-line-color;
 }
 
 .title-fieldset-text {
     color: #474747;
     text-indent: initial;
-    height: 30px;
-    line-height: 28px;
+    line-height: normal;
     white-space: nowrap;
     font-weight: 700;
 

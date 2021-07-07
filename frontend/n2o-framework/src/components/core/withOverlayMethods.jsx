@@ -11,8 +11,8 @@ import {
     makePageLoadingByIdSelector,
     makePageMetadataByIdSelector,
     makePageTitleByIdSelector,
-} from '../../selectors/pages'
-import { makeShowPromptByName } from '../../selectors/overlays'
+} from '../../ducks/pages/selectors'
+import { makeShowPromptByName } from '../../ducks/overlays/selectors'
 
 import withActions from './withActions'
 
@@ -68,7 +68,8 @@ function withOverlayMethods(WrappedComponent) {
             return (
                 <WrappedComponent
                     {...this.props}
-                    headerTitle={get(this.props, 'metadata.page.headerTitle', '')}
+                    title={get(this.props, 'metadata.page.title', '')}
+                    modalHeaderTitle={get(this.props, 'metadata.page.modalHeaderTitle', '')}
                     closeOverlay={this.closeOverlay}
                     renderFromSrc={this.renderFromSrc}
                 />

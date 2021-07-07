@@ -4,13 +4,13 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.16.0-SNAPSHOT</version>
+        <version>7.17.0-SNAPSHOT</version>
     </parent>
 
     <groupId>net.n2oapp.routing</groupId>
     <artifactId>routing-datasource</artifactId>
     <name>routing-datasource</name>
-    <version>7.16.0-SNAPSHOT</version>
+    <version>7.17.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>

@@ -7,7 +7,7 @@ import { compose, withProps } from 'recompose'
 import some from 'lodash/some'
 
 import withObserveDependency from '../../../core/dependencies/withObserveDependency'
-import { loadingSelector } from '../../../selectors/formPlugin'
+import { loadingSelector } from '../../../ducks/form/selectors'
 
 import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
