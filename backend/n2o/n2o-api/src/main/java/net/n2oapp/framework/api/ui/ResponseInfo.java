@@ -21,8 +21,8 @@ public class ResponseInfo  {
     private AlertMessageBuilder alertMessageBuilder;
 
 
-    public ResponseMessage constructMessage() {
-        return alertMessageBuilder.constructMessage();
+    public ResponseMessage constructMessage(RequestInfo requestInfo) {
+        return alertMessageBuilder.constructMessage(requestInfo);
     }
 
     public void addMessage(ResponseMessage message) {

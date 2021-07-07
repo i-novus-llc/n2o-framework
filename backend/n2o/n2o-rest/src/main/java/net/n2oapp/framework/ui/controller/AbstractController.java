@@ -92,10 +92,11 @@ public abstract class AbstractController {
         requestInfo.setRefresh(actionCtx.getRefresh());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
+        requestInfo.setMessagePosition(actionCtx.getMessagePosition());
+        requestInfo.setMessagePlacement(actionCtx.getMessagePlacement());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
-        //requestInfo.setChoice(); todo
         return requestInfo;
     }
 

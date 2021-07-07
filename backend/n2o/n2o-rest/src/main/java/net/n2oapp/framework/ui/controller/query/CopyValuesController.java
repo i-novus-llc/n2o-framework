@@ -46,7 +46,7 @@ public class CopyValuesController extends DefaultValuesController {
                 merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
                 return defaultModel;
             } catch (N2oException e) {
-                responseInfo.addMessage(getMessageBuilder().build(e));
+                responseInfo.addMessage(getMessageBuilder().build(e, requestInfo));
             }
         }
         defaultModel.remove(N2oQuery.Field.PK);//при копировании идентификатор должен быть null, иначе будет изменение

@@ -37,7 +37,17 @@ public class AlertMessageBuilder {
 
     public ResponseMessage build(Exception e) {
         ResponseMessage resp = constructMessage();
+        return prepareMessage(e, resp);
+    }
+
+    public ResponseMessage build(Exception e, RequestInfo requestInfo) {
+        ResponseMessage resp = constructMessage(requestInfo);
+        return prepareMessage(e, resp);
+    }
+
+    private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         resp.setText(buildText(e));
+
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
@@ -49,15 +59,15 @@ public class AlertMessageBuilder {
         return resp;
     }
 
-    public ResponseMessage buildSuccessMessage(String successText, DataSet data) {
-        ResponseMessage message = constructMessage();
+    public ResponseMessage buildSuccessMessage(String successText, RequestInfo requestInfo, DataSet data) {
+        ResponseMessage message = constructMessage(requestInfo);
         message.setSeverityType(SeverityType.success);
         message.setText(StringUtils.resolveLinks(successText, data));
         message.setData(data);
         return message;
     }
 
-    public ResponseMessage constructMessage() {
+    private ResponseMessage constructMessage() {
         ResponseMessage message = new ResponseMessage();
         if (propertyResolver != null) {
             message.setPosition(propertyResolver.getProperty("n2o.api.message.position"));
@@ -66,11 +76,20 @@ public class AlertMessageBuilder {
         return message;
     }
 
-    private List<ResponseMessage> buildValidationMessages(N2oValidationException e) {
+    public ResponseMessage constructMessage(RequestInfo requestInfo) {
+        ResponseMessage message = constructMessage();
+        if (requestInfo.getMessagePosition() != null)
+            message.setPosition(requestInfo.getMessagePosition().name());
+        if (requestInfo.getMessagePlacement() != null)
+            message.setPlacement(requestInfo.getMessagePlacement().name());
+        return message;
+    }
+
+    private List<ResponseMessage> buildValidationMessages(N2oValidationException e, RequestInfo requestInfo) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
-                ResponseMessage resp = constructMessage();
+                ResponseMessage resp = constructMessage(requestInfo);
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());
@@ -107,10 +126,10 @@ public class AlertMessageBuilder {
             return localizedMessage;
     }
 
-    public List<ResponseMessage> buildMessages(Exception e) {
+    public List<ResponseMessage> buildMessages(Exception e, RequestInfo requestInfo) {
         return e instanceof N2oValidationException
-                ? buildValidationMessages((N2oValidationException) e)
-                : Collections.singletonList(build(e));
+                ? buildValidationMessages((N2oValidationException) e, requestInfo)
+                : Collections.singletonList(build(e, requestInfo));
     }
 
 }

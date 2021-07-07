@@ -34,7 +34,7 @@ public abstract class DefaultValuesController extends GetController {
             String widgetId = requestInfo.getFailAlertWidgetId() == null
                     ? requestInfo.getMessagesForm()
                     : requestInfo.getFailAlertWidgetId();
-            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e), widgetId);
+            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), widgetId);
             response.setStatus(e.getHttpStatus());
             return response;
         }

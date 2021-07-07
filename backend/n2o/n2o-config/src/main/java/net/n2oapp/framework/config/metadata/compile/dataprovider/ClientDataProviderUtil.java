@@ -172,6 +172,8 @@ public class ClientDataProviderUtil {
             actionContext.setSuccessAlertWidgetId(actionContextData.getSuccessAlertWidgetId());
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
+            actionContext.setMessagePosition(actionContextData.getMessagePosition());
+            actionContext.setMessagePlacement(actionContextData.getMessagePlacement());
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)
