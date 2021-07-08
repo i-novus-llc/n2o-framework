@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -12,7 +11,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -49,6 +51,8 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
 
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("test1"));
+        assertThat(tile.getClassName(), is("test"));
+        assertThat(tile.getStyle(), is(Map.of("color", "red")));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
 
         tile = tiles.getTile().get(1);
@@ -65,11 +69,11 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oImageCell) tile.getComponent()).getData(), is("/test"));
 
         assertThat(tiles.getPaging().getFirst(), is(false));
-        assertThat(tiles.getPaging().getHideSinglePage(), is(false));
+        assertThat(tiles.getPaging().getShowSinglePage(), is(true));
         assertThat(tiles.getPaging().getLast(), is(true));
         assertThat(tiles.getPaging().getNext(), is(true));
         assertThat(tiles.getPaging().getPrev(), is(true));
-        assertThat(tiles.getPaging().getShowCountRecords(), is(false));
+        assertThat(tiles.getPaging().getShowCount(), is(false));
         assertThat(tiles.getPaging().getSize(), is(5));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
@@ -82,11 +86,11 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsLg(), is(4));
 
         assertThat(tiles.getPaging().getFirst(), is(true));
-        assertThat(tiles.getPaging().getHideSinglePage(), is(true));
+        assertThat(tiles.getPaging().getShowSinglePage(), is(false));
         assertThat(tiles.getPaging().getLast(), is(false));
         assertThat(tiles.getPaging().getNext(), is(false));
         assertThat(tiles.getPaging().getPrev(), is(false));
-        assertThat(tiles.getPaging().getShowCountRecords(), is(true));
+        assertThat(tiles.getPaging().getShowCount(), is(true));
         assertThat(tiles.getPaging().getSize(), is(10));
     }
 }

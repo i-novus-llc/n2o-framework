@@ -129,9 +129,9 @@ StandardWidget.propTypes = {
     disabled: PropTypes.bool,
     left: PropTypes.element,
     top: PropTypes.element,
-    topLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-    topCenter: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-    topRight: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+    topLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node]),
+    topCenter: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node]),
+    topRight: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node]),
     bottomLeft: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.array,

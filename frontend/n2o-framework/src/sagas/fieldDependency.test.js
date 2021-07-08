@@ -3,13 +3,12 @@ import { put } from 'redux-saga/effects'
 import fetchMock from 'fetch-mock'
 import { actionTypes } from 'redux-form'
 
-import { SET_LOADING,
-    DISABLE_FIELD,
-    ENABLE_FIELD,
-    SHOW_FIELD,
-    HIDE_FIELD,
-} from '../constants/formPlugin'
-import { showField } from '../actions/formPlugin'
+import {
+    showField,
+    hideField,
+    enableField,
+    setLoading
+} from '../ducks/form/store'
 import { FETCH_END, FETCH_START } from '../constants/fetch'
 
 import { modify, fetchValue } from './fieldDependency'
@@ -38,7 +37,7 @@ describe('Проверка саги dependency', () => {
                 expression: 'testField === 0',
             })
             let next = gen.next()
-            expect(next.value.payload.action.type).toEqual(ENABLE_FIELD)
+            expect(next.value.payload.action.type).toEqual(enableField.type)
             expect(next.value.payload.action.payload).toEqual({
                 name: 'testField',
                 form: 'testForm',
@@ -66,7 +65,7 @@ describe('Проверка саги dependency', () => {
                 expression: 'testField === 1',
             })
             const next = gen.next()
-            expect(next.value.payload.action.type).toEqual(HIDE_FIELD)
+            expect(next.value.payload.action.type).toEqual(hideField.type)
             expect(gen.next().done).toEqual(true)
         })
         it('Проверка type visible с ложным expression', () => {
@@ -87,7 +86,7 @@ describe('Проверка саги dependency', () => {
             })
             const next = gen.next()
             expect(next.value.payload.action.payload).toEqual({
-                keepDirty: false,
+                keepDirty: true,
                 value: 12,
             })
         })
@@ -178,7 +177,7 @@ describe('Проверка саги dependency', () => {
                     name: '',
                 },
             ).toPromise()
-            expect(dispatched[0].type).toBe(SET_LOADING)
+            expect(dispatched[0].type).toBe(setLoading.type)
             expect(dispatched[0].payload.loading).toBe(true)
             expect(dispatched[1].type).toBe(FETCH_START)
             expect(dispatched[2].type).toBe(FETCH_END)
@@ -187,7 +186,7 @@ describe('Проверка саги dependency', () => {
                 keepDirty: true,
                 value: 'new name',
             })
-            expect(dispatched[4].type).toBe(SET_LOADING)
+            expect(dispatched[4].type).toBe(setLoading.type)
             expect(dispatched[4].payload.loading).toBe(false)
         })
     })

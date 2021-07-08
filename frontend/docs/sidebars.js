@@ -1,109 +1,161 @@
 module.exports = {
     docs: [
-    {
-        type: 'category',
-        label: 'Компоненты',
-        items: [
-                       {
-                           type: 'category',
-                           label: 'Общее',
-                           items: [
-                               'buttons',
-                           ],
-                       },
-                       {
-                           type: 'category',
-                           label: 'Разметка',
-                           items: [
-                               'pages',
-                               'regions',
-                               'fieldset',
-                           ],
-                       },
-                       {
-                           type: 'category',
-                           label: 'Навигация',
-                           items: [
-                               'menu',
-                           ],
-                       },
-                       {
-                           type: 'category',
-                           label: 'Взаимодействие',
-                           items: [
-                               'modal',
-                               'alerts',
-                               'actions',
-                           ],
-                       },
-                       {
-                           type: 'category',
-                           label: 'Ввод данных',
-                           items: [
-                               'fields',
-                               'select',
-                               'select_tree',
-                               'date_time',
-                               'cells',
-                           ],
-                       },
-                       {
-                           type: 'category',
-                           label: 'Интерфейс',
-                           items: [
-                               'image',
-                               'checkbox',
-                               'radio',
-                               'progress_bar',
-                               'slider',
-                               'switcher',
-                               'rating',
-                           ],
-                       },
-                       {
-                           type: 'category',
-                           label: 'Виджеты',
-                           items: [
-                               'table',
-                               'chart',
-                               'cards',
-                               'form',
-                               'list',
-                               'tree',
-                               'tiles',
-                           ],
-                       },
-                   ],
-    },
-    {
-         type: 'category',
-         label: 'Примеры',
-         items: [
-            'uxcases_input',
-            'uxcases_list',
-            'uxcases_list_actions'
-         ]
-    },
-    {
-        type: 'category',
-        label: 'Manual',
-        items: [
-            'manual/index',
-        ]
-    },
-    {
-        type: 'category',
-        label: 'Migration',
-        items: [
-            'migration/migration',
-        ]
-    },
-    {
-        type: 'category',
-        label: 'Xml',
-        items: [
-            'xml/index',
-        ]
-    },
-    ]
+        'introduction',
+        {
+            type: 'category',
+            label: 'Руководство',
+            items: [
+                'guides/manual/getstarted',
+                'guides/manual/configs',
+                'guides/manual/components',
+                'guides/manual/data',
+                'guides/manual/defaultvalue',
+                'guides/manual/dependency',
+                'guides/manual/filters',
+                'guides/manual/validation',
+                'guides/manual/setting',
+                'guides/manual/context',
+                'guides/manual/dynamic',
+                'guides/manual/processing',
+                'guides/manual/security',
+                'guides/manual/conclusion',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Xml api',
+            items: [
+                'guides/xml/page',
+                'guides/xml/widget',
+                'guides/xml/fieldset',
+                'guides/xml/field',
+                'guides/xml/action',
+                'guides/xml/cell',
+                'guides/xml/chart',
+                'guides/xml/object',
+                'guides/xml/query',
+                'guides/xml/dataprovider',
+                'guides/xml/header',
+                'guides/xml/menu',
+                'guides/xml/access',
+                'guides/xml/accesspoint',
+                'guides/xml/processing',
+                'guides/xml/base',
+
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Миграция',
+            items: [
+                'guides/migration/from_6_0_to_7_0',
+                'guides/migration/from_7_0_to_7_1',
+                'guides/migration/from_7_1_to_7_2',
+                'guides/migration/from_7_2_to_7_3',
+                'guides/migration/from_7_3_to_7_4',
+                'guides/migration/from_7_4_to_7_5',
+                'guides/migration/from_7_5_to_7_6',
+                'guides/migration/from_7_6_to_7_7',
+                'guides/migration/from_7_7_to_7_8',
+                'guides/migration/from_7_8_to_7_9',
+                'guides/migration/from_7_9_to_7_10',
+                'guides/migration/from_7_10_to_7_11',
+                'guides/migration/from_7_11_to_7_12',
+                'guides/migration/from_7_12_to_7_13',
+                'guides/migration/from_7_13_to_7_14',
+                'guides/migration/from_7_14_to_7_15',
+                'guides/migration/from_7_15_to_7_16',
+                'guides/migration/from_7_16_to_7_17',
+            ]
+        }
+    ],
+    examples: [
+        {
+            type: 'category',
+            label: 'Компоненты',
+            items: [
+                {
+                    type: 'category',
+                    label: 'Общие',
+                    items: [
+                        'buttons',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Разметка',
+                    items: [
+                        'examples/components/pages',
+                        'examples/components/regions',
+                        'examples/components/fieldset',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Навигация',
+                    items: [
+                        'examples/components/menu',
+                        'examples/components/pagination',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Взаимодействие',
+                    items: [
+                        'examples/components/modal',
+                        'examples/components/alerts',
+                        'examples/components/actions',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Ввод данных',
+                    items: [
+                        'examples/components/fields',
+                        'examples/components/select',
+                        'examples/components/select_tree',
+                        'examples/components/date_time',
+                        'examples/components/cells',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Интерфейс',
+                    items: [
+                        'examples/components/image',
+                        'examples/components/checkbox',
+                        'examples/components/radio',
+                        'examples/components/progress_bar',
+                        'examples/components/slider',
+                        'examples/components/switcher',
+                        'examples/components/rating',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Виджеты',
+                    items: [
+                        'examples/components/table',
+                        'examples/components/chart',
+                        'examples/components/cards',
+                        'examples/components/form',
+                        'examples/components/list',
+                        'examples/components/tree',
+                        'examples/components/tiles',
+                    ],
+                },
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Варианты использования',
+            items: [
+                'examples/cases/uxcases_input',
+                'examples/cases/uxcases_edit_data',
+                'examples/cases/uxcases_list',
+                'examples/cases/uxcases_list_actions',
+                'examples/cases/uxcases_filters',
+            ],
+        },
+    ],
 }

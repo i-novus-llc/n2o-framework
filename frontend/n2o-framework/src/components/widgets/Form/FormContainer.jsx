@@ -14,7 +14,7 @@ import React from 'react'
 import widgetContainer from '../WidgetContainer'
 import { FORM } from '../widgetTypes'
 import createValidator from '../../../core/validation/createValidator'
-import { PREFIXES } from '../../../constants/models'
+import { PREFIXES } from '../../../ducks/models/constants'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
@@ -62,8 +62,14 @@ class Container extends React.Component {
         super(props)
         const { resolveModel, datasource } = props
         const initialValues = mergeInitial(resolveModel, datasource)
+        const { widgetId, fieldsets, validation, store } = this.props
+        const fields = getFieldsKeys(fieldsets)
 
-        this.state = { initialValues }
+        this.state = {
+            initialValues,
+            validators: createValidator(validation, widgetId, store, fields),
+            fields,
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -94,7 +100,7 @@ class Container extends React.Component {
             setActive, modelPrefix, reduxFormValues,
             resolveModel, onResolve, onSetModel, widgetId,
         } = this.props
-        const { initialValues } = this.state
+        const { initialValues, validators } = this.state
 
         if (setActive) {
             setActive()
@@ -116,18 +122,26 @@ class Container extends React.Component {
                 reduxFormValues,
             )
         }
+
+        /*
+         * редакс-форма не вызывает валидацию, если change не был вызван пользователем,
+         * а пришёл откуда-то асинхронно (из саг), даже если диспачить startAsyncValidation & etc.
+         *
+         * поэтому пока, для фикса, отказываемя от asyncChangeFields и вызываем валидацию сами по изменениям
+         * TODO разобраться как обойти или отказаться от редакс-формы в пользу чего-то другого
+         */
+        validators.asyncValidate(reduxFormValues, dispatch)
     }
 
     render() {
-        const { initialValues } = this.state
-        const { widgetId, fieldsets, validation, store } = this.props
-        const fields = getFieldsKeys(fieldsets)
+        const { initialValues, validators, fields } = this.state
+        const { widgetId } = this.props
 
         return (
             <ReduxForm
                 form={widgetId}
                 fields={fields}
-                {...createValidator(validation, widgetId, store, fields)}
+                {...validators}
                 {...this.props}
                 initialValues={initialValues}
                 onChange={this.onChange}

@@ -17,8 +17,8 @@ import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/TableContainer'
-import { setTableSelectedId } from '../../../actions/widgets'
-import { makeWidgetPageSelector } from '../../../selectors/widgets'
+import { setTableSelectedId } from '../../../ducks/widgets/store'
+import { makeWidgetPageSelector } from '../../../ducks/widgets/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import List from './List'

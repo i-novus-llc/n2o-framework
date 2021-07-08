@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.header.SearchBar;
@@ -21,8 +22,12 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
 
     @Override
     public void search(String val) {
-        element().$(".n2o-search-bar__control .n2o-input-text").should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
+        input().should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
+    }
 
+    @Override
+    public void shouldHaveValue(String value) {
+        input().shouldHave(Condition.value(value));
     }
 
     @Override
@@ -34,5 +39,9 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
     @Override
     public void clear() {
         element().$(".n2o-search-bar__control .n2o-search-bar__clear-icon").should(Condition.exist).click();
+    }
+
+    private SelenideElement input() {
+        return element().$(".n2o-search-bar__control .n2o-input-text");
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { metadataSuccess } from '../../../actions/pages'
+import { metadataSuccess } from '../../../ducks/pages/store'
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta'
 import { makeStore } from '../../../../.storybook/decorators/utils'
 
@@ -26,15 +26,15 @@ stories.add(
     Компонент 'Простой регион'
     ~~~js
     import NoneRegion from 'n2o-framework/lib/components/regions/None/NoneRegion';
-    
-    <NoneRegion 
-      pageId="Page" 
+
+    <NoneRegion
+      pageId="Page"
       items={[
         {
             widgetId: "Page_Html",
             label: "HTML
         }
-      ]} 
+      ]}
     />
     ~~~
     `,

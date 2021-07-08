@@ -8,12 +8,12 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import {
-    showFields,
-    hideFields,
-    enableFields,
-    disableFields,
-} from '../../../actions/formPlugin'
-import { makeGetResolveModelSelector } from '../../../selectors/models'
+    showMultiFields,
+    hideMultiFields,
+    enableMultiFields,
+    disableMultiFields,
+} from '../../../ducks/form/store'
+import { makeGetResolveModelSelector } from '../../../ducks/models/selectors'
 import propsResolver from '../../../utils/propsResolver'
 
 import Label from './fields/StandardField/Label'
@@ -146,13 +146,13 @@ class Fieldset extends React.Component {
     }
 
     setVisible(nextVisibleField) {
-        const { showFields, hideFields, form } = this.props
+        const { showMultiFields, hideMultiFields, form } = this.props
 
         this.setState(() => {
             if (nextVisibleField) {
-                showFields(form, this.fields)
+                showMultiFields(form, this.fields)
             } else {
-                hideFields(form, this.fields)
+                hideMultiFields(form, this.fields)
             }
 
             return {
@@ -162,12 +162,12 @@ class Fieldset extends React.Component {
     }
 
     setEnabled(nextEnabledField) {
-        const { enableFields, disableFields, form } = this.props
+        const { enableMultiFields, disableMultiFields, form } = this.props
 
         if (nextEnabledField) {
-            enableFields(form, this.fields)
+            enableMultiFields(form, this.fields)
         } else {
-            disableFields(form, this.fields)
+            disableMultiFields(form, this.fields)
         }
         this.setState({
             enabled: nextEnabledField,
@@ -331,10 +331,10 @@ Fieldset.propTypes = {
     enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     dependency: PropTypes.array,
     form: PropTypes.string,
-    showFields: PropTypes.func,
-    hideFields: PropTypes.func,
-    enableFields: PropTypes.func,
-    disableFields: PropTypes.func,
+    showMultiFields: PropTypes.func,
+    hideMultiFields: PropTypes.func,
+    enableMultiFields: PropTypes.func,
+    disableMultiFields: PropTypes.func,
     modelPrefix: PropTypes.string,
     type: PropTypes.string,
     parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -355,10 +355,10 @@ Fieldset.contextTypes = {
 
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
-        showFields,
-        hideFields,
-        enableFields,
-        disableFields,
+        showMultiFields,
+        hideMultiFields,
+        enableMultiFields,
+        disableMultiFields,
     },
     dispatch,
 )

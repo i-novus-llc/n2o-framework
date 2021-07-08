@@ -2,17 +2,17 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { reducer as formReducer } from 'redux-form'
 
-import widgets from './reducers/widgets'
-import models from './reducers/models'
-import global from './reducers/global'
-import pages from './reducers/pages'
-import alerts from './reducers/alerts'
-import overlays from './reducers/overlays'
-import columns from './reducers/columns'
-import toolbar from './reducers/toolbar'
-import { formPlugin } from './reducers/formPlugin'
-import user from './reducers/auth'
-import regions from './reducers/regions'
+import widgets from './ducks/widgets/store'
+import models from './ducks/models/store'
+import global from './ducks/global/store'
+import pages from './ducks/pages/store'
+import overlays from './ducks/overlays/store'
+import columns from './ducks/columns/store'
+import toolbar from './ducks/toolbar/store'
+import formSlice from './ducks/form/store'
+import user from './ducks/user/store'
+import alerts from './ducks/alerts/store'
+import regions from './ducks/regions/store'
 
 const formHack = (state, action) => {
     state = formReducer(state, action)
@@ -21,7 +21,7 @@ const formHack = (state, action) => {
     const formState = state[formName]
 
     if (formName) {
-        const newFormState = formPlugin(formState, action)
+        const newFormState = formSlice(formState, action)
 
         if (formState !== newFormState) {
             state = { ...state, [formName]: newFormState }
