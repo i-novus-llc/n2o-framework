@@ -19,7 +19,7 @@ export function FullSizeSidebar({
     footer,
     ...rest }) {
     return (
-        <div className={layoutClassName}>
+        <>
             {children}
             <div className={classNames('w-100 d-flex flex-column', { 'vh-100': fixed })}>
                 {
@@ -38,7 +38,7 @@ export function FullSizeSidebar({
                 </div>
                 {!isEmpty(footer) && <Footer {...footer} />}
             </div>
-        </div>
+        </>
     )
 }
 

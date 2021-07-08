@@ -24,7 +24,7 @@ export function Logo({ title, className, style, href, src, showContent, isMiniVi
                 </NavbarBrand>
             )}
             {title && (
-                <a href={href} className="navbar-brand">
+                <a href={href} className="navbar-brand logo-title">
                     {title}
                 </a>
             )}
