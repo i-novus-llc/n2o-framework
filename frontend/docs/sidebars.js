@@ -84,7 +84,8 @@ module.exports = {
                 'uxcases_edit_data',
                 'uxcases_list',
                 'uxcases_list_actions',
-                'uxcases_filters'
+                'uxcases_filters',
+                'uxcases_table'
             ],
         },
         {
