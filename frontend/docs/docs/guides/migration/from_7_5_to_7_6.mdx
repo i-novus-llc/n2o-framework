@@ -1,0 +1,15 @@
+---
+title: Миграция с 7.5 на 7.6
+---
+
+### Изменения в XML API {#changes-xml-api}
+
+- Добавлен новый функционал для передачи параметров в url открываемой страницы -
+тэги `<path-param>` и `<query-param>`.
+- Упразднены `<pre-filters>` в `show-modal` и `open-page`, пока на уровне xml,
+в следующих версиях будет убрано совсем. Вместо них необходимо использовать `<query-param>` и `<path-param>`.
+- Упразднены `master-field-id` и `detail-field-id` в `show-modal` и `open-page`,
+пока на уровне xml, в следующих версиях будет убрано совсем.
+Вместо них необходимо использовать `<path-param>` и `<pre-filters>` в виджете на открываемой странице.
+- Переименованы &lt;in-parameters&gt; и &lt;out-parameters&gt; в &lt;in&gt; и &lt;out>, а &lt;param&gt; в &lt;field>
+- Упразднен `layout` у &lt;page>. Вместо него необходимо использовать src с указанием класса страницы.
