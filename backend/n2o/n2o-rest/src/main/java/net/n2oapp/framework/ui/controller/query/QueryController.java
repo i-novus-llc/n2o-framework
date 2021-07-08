@@ -50,7 +50,7 @@ public class QueryController extends GetController {
             String widgetId = requestInfo.getFailAlertWidgetId() == null
                     ? requestInfo.getMessagesForm()
                     : requestInfo.getFailAlertWidgetId();
-            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e), widgetId);
+            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), widgetId);
             response.setStatus(e.getHttpStatus());
             logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
             return response;

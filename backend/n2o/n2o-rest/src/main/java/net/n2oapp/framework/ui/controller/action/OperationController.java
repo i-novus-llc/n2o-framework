@@ -22,7 +22,7 @@ import org.springframework.stereotype.Controller;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
- * Вылняет действие(action) пришедшие с клиента
+ * Выполняет действия(action), пришедшие с клиента
  */
 @Controller
 public class OperationController extends SetController {
@@ -69,7 +69,7 @@ public class OperationController extends SetController {
                 String widgetId = requestInfo.getFailAlertWidgetId() == null
                         ? requestInfo.getMessagesForm()
                         : requestInfo.getFailAlertWidgetId();
-                response.addResponseMessages(messageBuilder.buildMessages(e), widgetId);
+                response.addResponseMessages(messageBuilder.buildMessages(e, requestInfo), widgetId);
             }
         }
         response.setStatus(e.getHttpStatus());
@@ -87,7 +87,7 @@ public class OperationController extends SetController {
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));
         else if (requestInfo.isMessageOnSuccess())
             response.addResponseMessage(
-                    messageBuilder.buildSuccessMessage(requestInfo.getOperation().getSuccessText(), data),
+                    messageBuilder.buildSuccessMessage(requestInfo.getOperation().getSuccessText(), requestInfo, data),
                     requestInfo.getSuccessAlertWidgetId());
         return response;
     }

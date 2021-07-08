@@ -99,6 +99,8 @@ public class N2oClientDataProviderUtil {
         actionContextData.setRoute(submit.getRoute());
         actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
+        actionContextData.setMessagePosition(submit.getMessagePosition());
+        actionContextData.setMessagePlacement(submit.getMessagePlacement());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());

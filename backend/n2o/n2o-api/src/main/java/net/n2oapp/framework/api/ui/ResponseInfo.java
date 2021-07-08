@@ -21,10 +21,14 @@ public class ResponseInfo  {
     private AlertMessageBuilder alertMessageBuilder;
 
 
+    public ResponseMessage constructMessage(RequestInfo requestInfo) {
+        return alertMessageBuilder.constructMessage(requestInfo);
+    }
+
     public void addMessage(ResponseMessage message) {
         if (messageList == null)
             messageList = new ArrayList<>();
-        messageList.add(alertMessageBuilder.constructMessage(message));
+        messageList.add(message);
     }
 
     public void addAttribute(String name, Object value) {

@@ -24,8 +24,6 @@ import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
-import net.n2oapp.framework.ui.controller.action.BulkActionController;
-import net.n2oapp.framework.ui.controller.action.BulkActionMergeController;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
@@ -140,12 +138,8 @@ public class N2oController {
                 operationProcessor, messageBuilder, environment));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder, environment));
-        beans.put("bulkActionController", new BulkActionController(dataProcessingStack, operationProcessor,
-                messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, environment));
-        beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
-                operationProcessor, messageBuilder, environment));
         return new N2oControllerFactory(beans);
     }
 

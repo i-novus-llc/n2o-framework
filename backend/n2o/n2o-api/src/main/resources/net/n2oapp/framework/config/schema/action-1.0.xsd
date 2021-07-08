@@ -585,6 +585,20 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="message-position" type="messagePosition">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Фиксированное или относительное положение сообщения.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="message-placement" type="messagePlacement">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Положение сообщения при фиксации.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="optimistic" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
@@ -609,6 +623,34 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="messagePosition">
+        <xs:restriction>
+            <xs:annotation>
+                <xs:documentation>Фиксированное или относительное положение сообщения.</xs:documentation>
+            </xs:annotation>
+            <xs:enumeration value="fixed">
+                <xs:annotation>
+                    <xs:documentation>Фиксированное положение.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="relative">
+                <xs:annotation>
+                    <xs:documentation>Относительное положение.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="messagePlacement">
+        <xs:restriction>
+            <xs:annotation>
+                <xs:documentation>Положение сообщения при фиксации.</xs:documentation>
+            </xs:annotation>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="httpInvokeMethodDef">
         <xs:restriction>
@@ -924,6 +966,20 @@
         <xs:attribute name="message-on-fail" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Показать сообщение о неудачном выполнении действия.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message-position" type="messagePosition">
+            <xs:annotation>
+                <xs:documentation>
+                    Фиксированное или относительное положение сообщения.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message-placement" type="messagePlacement">
+            <xs:annotation>
+                <xs:documentation>
+                    Положение сообщения при фиксации.
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string">
