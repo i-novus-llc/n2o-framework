@@ -38,5 +38,10 @@ public class N2oAlerts extends N2oComponentsCollection implements Alerts {
         public void shouldHavePlacement(Placement placement) {
             element().parent().should(Condition.cssClass(placement.name().toLowerCase()));
         }
+
+        @Override
+        public void shouldHaveStacktrace() {
+            element().should(Condition.cssClass("with-details"));
+        }
     }
 }

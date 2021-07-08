@@ -19,6 +19,8 @@ public interface Alerts extends ComponentsCollection {
 
         void shouldHavePlacement(Placement placement);
 
+        void shouldHaveStacktrace();
+
         enum Position {
             FIXED,
             RELATIVE;
