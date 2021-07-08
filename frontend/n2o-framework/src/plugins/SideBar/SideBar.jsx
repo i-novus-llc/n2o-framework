@@ -51,12 +51,12 @@ export function SideBar({
     className,
     logo,
     menu,
-    extraMenu,
-    defaultState = 'maxi',
+    extraMenu = {},
+    defaultState = 'mini',
     toggledState = 'maxi',
     onMouseEnter,
     onMouseLeave,
-    t,
+    side = 'left',
 }) {
     const currentVisible = controlled ? sidebarOpen : visible
     const { items = [] } = menu
@@ -66,6 +66,13 @@ export function SideBar({
 
     const isMiniView = (defaultState === 'mini' && !currentVisible) ||
             (toggledState === 'mini' && currentVisible)
+
+    const toggleIconClassNames = classNames(
+        {
+            'fa fa-angle-double-left': (visible && side === 'left') || (!visible && side) === 'right',
+            'fa fa-angle-double-right': (!visible && side === 'left') || (visible && side) === 'right',
+        },
+    )
 
     const renderItems = items => map(items, (item, i) => (
         <SidebarItemContainer
@@ -123,9 +130,8 @@ export function SideBar({
                                     'mr-1': visible,
                                 })}
                             >
-                                <i className="fa fa-angle-double-left" />
+                                <i className={toggleIconClassNames} />
                             </span>
-                            {visible && <span>{t('hide')}</span>}
                         </span>
                     </div>
                 )}
@@ -187,13 +193,11 @@ SideBar.propTypes = {
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     overlay: PropTypes.bool,
-    t: PropTypes.func,
 }
 
 SideBar.defaultProps = {
     controlled: false,
     menu: {},
-    t: () => {},
 }
 
 export default compose(

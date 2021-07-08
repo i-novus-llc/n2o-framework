@@ -39,6 +39,11 @@
     }
 }
 
+.navbar-brand.logo-title {
+    text-align: center;
+    white-space: pre-wrap;
+}
+
 .n2o-sidebar-overlay {
     height: 100%;
     z-index: 100;
@@ -123,6 +128,10 @@
     .n2o-sidebar__item-dropdown-label {
         font-size: 19px;
     }
+
+    .navbar-brand.logo-title {
+        font-size: 10px;
+    }
 }
 
 .n2o-sidebar.maxi {
@@ -138,7 +147,7 @@
         font-size: 12px;
     }
 
-    .navbar-brand {
+    .navbar-brand.logo-title {
         font-size: 14px;
     }
 }
@@ -234,4 +243,8 @@
 
 .n2o-fixed-sidebar {
     height: 100vh;
+}
+
+.n2o-sidebar.none {
+    display: none;
 }

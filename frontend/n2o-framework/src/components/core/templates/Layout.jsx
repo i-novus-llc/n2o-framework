@@ -13,7 +13,7 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const { fullSizeHeader, fixed } = layout
-    const controlled = header.sidebarSwitcher
+    const controlled = header.sidebarSwitcher || sidebar.toggleOnHover
 
     const { toggleOnHover, side, overlay, defaultState, className } = sidebar
     const toggleSidebar = useCallback(() => setSidebarOpen(sidebarOpen => !sidebarOpen), [])
@@ -50,7 +50,7 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
         ...rest,
     }
 
-    const WrappedSidebar = useCallback(() => {
+    const WrappedSidebar = useCallback(({ sidebarProps }) => {
         if (isEmpty(sidebar)) {
             return <></>
         }
@@ -68,18 +68,22 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
         }
 
         return <SimpleSidebar {...sidebarProps} />
-    }, [sidebar, overlay, sidebarProps, defaultState])
+    }, [sidebar, overlay, defaultState])
 
     return (
-        fullSizeHeader ? (
-            <FullSizeHeader {...layoutProps}>
-                <WrappedSidebar />
-            </FullSizeHeader>
-        ) : (
-            <FullSizeSidebar {...layoutProps}>
-                <WrappedSidebar />
-            </FullSizeSidebar>
-        )
+        <div className={layoutClassName}>
+            {
+                fullSizeHeader ? (
+                    <FullSizeHeader {...layoutProps}>
+                        <WrappedSidebar sidebarProps={sidebarProps} />
+                    </FullSizeHeader>
+                ) : (
+                    <FullSizeSidebar {...layoutProps}>
+                        <WrappedSidebar sidebarProps={sidebarProps} />
+                    </FullSizeSidebar>
+                )
+            }
+        </div>
     )
 }
 
