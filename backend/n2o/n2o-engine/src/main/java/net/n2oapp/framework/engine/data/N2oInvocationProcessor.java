@@ -1,7 +1,7 @@
 package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -28,7 +27,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import static net.n2oapp.framework.engine.util.InvocationParametersMapping.*;
+import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
+import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
+import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
 
 /**
  * Процессор вызова процедур
@@ -49,8 +50,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     public DataSet invoke(N2oInvocation invocation, DataSet inDataSet,
                           Collection<AbstractParameter> inParameters,
                           Collection<ObjectSimpleField> outParameters) {
-        final Map<String, FieldMapping> inMapping = InvocationParametersMapping.extractInFieldMapping(inParameters);
-        final Map<String, String> outMapping = InvocationParametersMapping.extractOutFieldMapping(outParameters);
+        final Map<String, FieldMapping> inMapping = MappingProcessor.extractInFieldMapping(inParameters);
+        final Map<String, String> outMapping = MappingProcessor.extractOutFieldMapping(outParameters);
         prepareInValues(inParameters, inDataSet);
         DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
@@ -69,7 +70,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
         else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
-        return DataSetMapper.extract(result, outMapping);
+
+        return DataSetUtil.extract(result, outMapping);
     }
 
 

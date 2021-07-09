@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.api.CollectionPage;
+import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
@@ -18,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgument
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
-import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -29,8 +29,8 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.engine.util.InvocationParametersMapping.normalizeValue;
-import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
+import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
+import static net.n2oapp.framework.engine.util.MappingProcessor.*;
 
 /**
  * Процессор выборок
@@ -70,15 +70,16 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
             try {
-                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(),
+                result = ((ArgumentsInvocationEngine) engine).invoke(
+                        (N2oArgumentsInvocation) selection.getInvocation(),
+                        mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
                                 query, criteria, criteriaConstructor, domainProcessor));
             } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
             }
         } else {
             Map<String, Object> map = new LinkedHashMap<>();
-            InvocationParametersMapping.prepareMapForQuery(map, query, criteria);
+            prepareMapForQuery(map, query, criteria);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
             } catch (Exception e) {
@@ -159,16 +160,18 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
             try {
-                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(),
-                                query, criteria, criteriaConstructor, domainProcessor));
+                result = ((ArgumentsInvocationEngine) engine).invoke(
+                        (N2oArgumentsInvocation) selection.getInvocation(),
+                        mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
+                                query, criteria, criteriaConstructor, domainProcessor)
+                );
             } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
             }
         } else if (engine instanceof MapInvocationEngine) {
             Map<String, Object> map = new LinkedHashMap<>();
-            InvocationParametersMapping.prepareMapForQuery(map, query, criteria);
-            InvocationParametersMapping.prepareMapForPage(map, criteria, pageStartsWith0);
+            prepareMapForQuery(map, query, criteria);
+            prepareMapForPage(map, criteria, pageStartsWith0);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
             } catch (Exception e) {
@@ -236,6 +239,51 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 }
             }
         }
+    }
+
+    public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
+        map.put("select", query.getSelectExpressions());
+        Set<String> joins = new LinkedHashSet<>(query.getJoinExpressions());
+
+        List<String> where = new ArrayList<>();
+        for (Restriction r : criteria.getRestrictions()) {
+            N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
+            if (filter.getText() != null)
+                where.add(filter.getText());
+            inMap(map, filter.getMapping(), r.getValue());
+            N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
+            if (!field.getNoJoin())
+                joins.add(field.getJoinBody());
+        }
+        map.put("filters", where);
+
+        List<String> sortingExp = new ArrayList<>();
+        if (criteria.getSorting() != null)
+            for (Sorting sorting : criteria.getSortings()) {
+                N2oQuery.Field field = query.getFieldsMap().get(sorting.getField());
+                if (field.getNoSorting())
+                    continue;
+                sortingExp.add(field.getSortingBody());
+                inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
+                if (!field.getNoJoin())
+                    joins.add(field.getJoinBody());
+            }
+        map.put("sorting", sortingExp);
+
+        if (criteria.getAdditionalFields() != null) {
+            criteria.getAdditionalFields().entrySet().stream().filter(es -> es.getValue() != null)
+                    .forEach(es -> map.put(es.getKey(), es.getValue()));
+        }
+
+        map.put("join", new ArrayList<>(joins));
+    }
+
+    public static void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
+        map.put("limit", criteria.getSize());
+        map.put("offset", criteria.getFirst());
+        if (criteria.getCount() != null)
+            map.put("count", criteria.getCount());
+        map.put("page", pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
     }
 
     private Object prepareValue(Object value, N2oQuery.Filter filter) {

@@ -38,11 +38,13 @@ import static org.mockito.Mockito.when;
 public class InvocationProcessorTest {
 
     private N2oInvocationProcessor invocationProcessor;
+    private JavaDataProviderEngine javaDataProviderEngine;
 
     @Before
     public void setUp() throws Exception {
         N2oInvocationFactory actionInvocationFactory = mock(N2oInvocationFactory.class);
-        when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(new JavaDataProviderEngine());
+        javaDataProviderEngine = new JavaDataProviderEngine();
+        when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(javaDataProviderEngine);
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
@@ -52,6 +54,7 @@ public class InvocationProcessorTest {
         when(processor.resolve(anyString())).thenAnswer((Answer<String>) invocation -> (String) invocation.getArguments()[0]);
         when(processor.resolve(anyInt())).thenAnswer((Answer<Integer>) invocation -> (Integer) invocation.getArguments()[0]);
         when(processor.resolve(anyList())).thenAnswer((Answer<List>) invocation -> (List) invocation.getArguments()[0]);
+        when(processor.resolve(anyBoolean())).thenAnswer((Answer<Boolean>) invocation -> (Boolean) invocation.getArguments()[0]);
         N2oEnvironment env = new N2oEnvironment();
         env.setContextProcessor(processor);
         invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory);

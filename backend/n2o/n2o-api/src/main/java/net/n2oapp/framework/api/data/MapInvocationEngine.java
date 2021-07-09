@@ -19,6 +19,6 @@ public interface MapInvocationEngine<T extends N2oMapInvocation> extends ActionI
     Object invoke(T invocation, Map<String, Object> data);
 
     default Object invoke(T invocation, Object data) {
-        return invoke(invocation, (Map<String, Object>)data);
+        return invoke(invocation, (Map<String, Object>) data);
     }
 }

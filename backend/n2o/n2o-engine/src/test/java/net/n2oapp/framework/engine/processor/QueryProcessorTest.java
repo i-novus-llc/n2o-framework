@@ -8,9 +8,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.data.QueryProcessor;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.register.MetaType;
@@ -42,6 +39,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -62,6 +60,7 @@ public class QueryProcessorTest {
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
         when(contextProcessor.resolve(anyInt())).then((Answer) invocation -> invocation.getArguments()[0]);
+        when(contextProcessor.resolve(anyBoolean())).then((Answer) invocation -> invocation.getArguments()[0]);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
@@ -140,9 +139,7 @@ public class QueryProcessorTest {
     @Test
     public void query4Java() {
         when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
-        JavaDataProviderEngine javaDataEngineMock = mock(JavaDataProviderEngine.class);
         List<Object> list = new ArrayList<>();
-        ///  when(javaDataEngineMock.invoke(any(), any())).thenReturn(list);
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
 
         //case without arguments
@@ -151,7 +148,7 @@ public class QueryProcessorTest {
         assertThat(collectionPage.getCount(), is(10));
         DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
-//        //case with primitive
+        //case with primitive
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("value", "test"));
         criteria.addRestriction(new Restriction("value", "test"));
@@ -168,9 +165,7 @@ public class QueryProcessorTest {
         dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
-        //case with page request (spring data) todo
     }
-
 
     @Test
     public void testCriteriaRestrictionMerge() {

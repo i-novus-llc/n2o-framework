@@ -1,74 +1,19 @@
-package net.n2oapp.criteria.dataset;
+package net.n2oapp.framework.engine.util;
 
+import net.n2oapp.criteria.dataset.DataList;
+import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-/**
- * User: iryabov
- * Date: 17.02.13
- * Time: 14:09
- */
-public class DataSetMapperTest {
-    @Test
-    public void testExtractFromArray() {
-        Map<String, String> mapping = new HashMap<String, String>();
-        mapping.put("id", "[0]");
-        mapping.put("name", "[1]");
-        Object[] source = new Object[]{1, "test"};
-        DataSet dataSet = DataSetMapper.extract(source, mapping);
-        assertThat(dataSet.get("id"), is(1));
-        assertThat(dataSet.get("name"), is("test"));
-    }
-
-    @Test
-    public void testExtractFromEntity() {
-        Map<String, String> mapping = new HashMap<String, String>();
-        mapping.put("id", "id");
-        mapping.put("name", "name");
-        Entity source = new Entity();
-        source.setId(1);
-        source.setName("test");
-        DataSet dataSet = DataSetMapper.extract(source, mapping);
-        assertThat(dataSet.get("id"), is(1));
-        assertThat(dataSet.get("name"), is("test"));
-    }
-
-    @Test
-    public void testMapToArray() {
-        Map<String, String> mapping = new LinkedHashMap<>();
-        mapping.put("id", "[0]");
-        mapping.put("name", "[1]");
-        mapping.put("desc", null);
-        DataSet dataSet = new DataSet();
-        dataSet.put("id", 1);
-        dataSet.put("name", "test");
-        dataSet.put("desc", "test");
-        Object[] value = DataSetMapper.map(dataSet, mapping);
-        assertThat(value.length, is(3));
-        assertThat(value[0], is(1));
-        assertThat(value[1], is("test"));
-        assertThat(value[2], is("test"));
-    }
-
-    @Test
-    public void testMapToArrayEntity() {
-        Map<String, String> mapping = new HashMap<String, String>();
-        mapping.put("id", "[0].id");
-        mapping.put("name", "[0].name");
-        DataSet dataSet = new DataSet();
-        dataSet.put("id", 1);
-        dataSet.put("name", "test");
-        Object[] value = DataSetMapper.map(dataSet, mapping, Entity.class.getName());
-        assertThat(value.length, is(1));
-        assertThat(value[0], instanceOf(Entity.class));
-        assertThat(((Entity) value[0]).getId(), is(1));
-        assertThat(((Entity) value[0]).getName(), is("test"));
-    }
+public class MapInvocationUtilTest {
 
     @Test
     public void testMapToMap() {
@@ -116,7 +61,7 @@ public class DataSetMapperTest {
         listItemSet.add(new DataSet("codeValue", "code2"));
         listItem.add("codes", listItemSet);
 
-        Map<String, Object> value = DataSetMapper.mapToMap(dataSet, mapping);
+        Map<String, Object> value = MapInvocationUtil.mapToMap(dataSet, mapping);
         assertThat(value.size(), is(5));
         assertThat(value.get("id"), is(1));
         assertThat(value.get("name"), is("test"));
@@ -139,17 +84,6 @@ public class DataSetMapperTest {
         assertThat(personCodes.contains(new DataSet("value", "code2")), is(true));
     }
 
-    @Test
-    public void testPrimitiveMapping() {
-        Map<String, String> mapping = new HashMap<>();
-        mapping.put("id", "[0]");
-        DataSet dataSet = new DataSet("id", 2L);
-        Object[] map = DataSetMapper.map(dataSet, mapping, "java.lang.Long");
-
-        assertThat(map[0], instanceOf(Long.class));
-        assertThat(map[0], is(2L));
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void testMapToMapThrowIllegalArgs() {
         DataSet dataSet = new DataSet();
@@ -162,27 +96,6 @@ public class DataSetMapperTest {
         mapping.put("name", new FieldMapping("[1]"));
         mapping.put("surname", new FieldMapping("[2]"));
 
-        DataSetMapper.mapToMap(dataSet, mapping);
-    }
-
-    public static class Entity {
-        private Integer id;
-        private String name;
-
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
+        MapInvocationUtil.mapToMap(dataSet, mapping);
     }
 }
