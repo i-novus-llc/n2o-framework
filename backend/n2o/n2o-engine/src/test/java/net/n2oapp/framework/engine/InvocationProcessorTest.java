@@ -19,7 +19,6 @@ import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.util.TestEntity;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
@@ -479,55 +478,6 @@ public class InvocationProcessorTest {
         // Result
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
         assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
-    }
-
-    /**
-     * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
-     */
-    @Ignore
-    @Test
-    public void testNameMappingWithArgumentsInvocationProvider() {
-        N2oJavaDataProvider invocation = new N2oJavaDataProvider();
-        invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
-        invocation.setMethod("methodWithThreeArguments");
-        Argument argument1 = new Argument();
-        argument1.setName("first");
-        argument1.setType(Argument.Type.PRIMITIVE);
-        Argument argument2 = new Argument();
-        argument2.setName("second");
-        argument2.setType(Argument.Type.PRIMITIVE);
-        Argument argument3 = new Argument();
-        argument3.setName("third");
-        argument3.setType(Argument.Type.PRIMITIVE);
-        invocation.setArguments(new Argument[]{argument1, argument2, argument3});
-
-        // STRUCTURE
-        ObjectSimpleField firstArg = new ObjectSimpleField();
-        firstArg.setId("a");
-        firstArg.setMapping("first");
-        ObjectSimpleField secondArg = new ObjectSimpleField();
-        secondArg.setId("b");
-        secondArg.setMapping("[second]");
-        ObjectSimpleField thirdArg = new ObjectSimpleField();
-        thirdArg.setId("c");
-        thirdArg.setMapping("['third']");
-        List<AbstractParameter> inParameters = Arrays.asList(secondArg, firstArg, thirdArg);
-
-        // DATASET
-        DataSet dataSet = new DataSet();
-        dataSet.put("c", true);
-        dataSet.put("b", 123);
-        dataSet.put("a", "test");
-
-        ObjectSimpleField response = new ObjectSimpleField();
-        response.setId("result");
-        response.setMapping("#this");
-        List<ObjectSimpleField> outParameters = Arrays.asList(response);
-
-        // Result
-        javaDataProviderEngine.setJavaMapping("map");
-        DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
-        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123, Third argument: true"));
     }
 
     @Test

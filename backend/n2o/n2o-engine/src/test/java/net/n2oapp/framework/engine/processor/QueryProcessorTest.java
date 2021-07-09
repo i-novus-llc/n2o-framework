@@ -28,9 +28,7 @@ import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
-import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
@@ -77,7 +75,6 @@ public class QueryProcessorTest {
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4JavaMapping.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
@@ -169,30 +166,6 @@ public class QueryProcessorTest {
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
-
-    /**
-     * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
-     */
-    @Ignore
-    @Test
-    public void testNameMappingWithArgumentsInvocationProvider() {
-        JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
-        javaDataProviderEngine.setJavaMapping("map");
-        when(factory.produce(any())).thenReturn(javaDataProviderEngine);
-
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4JavaMapping"));
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.addRestriction(new Restriction("firstArg", "test"));
-        criteria.addRestriction(new Restriction("secondArg", 123));
-        criteria.addRestriction(new Restriction("thirdArg", true));
-
-        CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
-        assertThat(collectionPage.getCount(), is(1));
-        // Result
-        DataSet result = ((List<DataSet>) collectionPage.getCollection()).get(0);
-        assertThat(result, Matchers.is("Invocation success. First argument: test, Second argument: 123, Third argument: true"));
-    }
-
 
     @Test
     public void testCriteriaRestrictionMerge() {
