@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.run;
 
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.PropertyResolver;
 
 /**
  * Веб сервер для прогона автотестов
@@ -26,7 +27,8 @@ public class AutoTestApplication {
     }
 
     @Bean
-    ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
-        return new ErrorMessageBuilder(messageSourceAccessor);
+    AlertMessageBuilder messageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
+                                       PropertyResolver propertyResolver) {
+        return new AlertMessageBuilder(messageSourceAccessor, propertyResolver);
     }
 }

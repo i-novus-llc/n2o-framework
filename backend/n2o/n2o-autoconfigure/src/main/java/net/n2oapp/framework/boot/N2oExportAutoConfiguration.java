@@ -2,7 +2,7 @@ package net.n2oapp.framework.boot;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.export.ExportController;
 import net.n2oapp.framework.export.ExportDataServlet;
 import net.n2oapp.framework.ui.controller.query.QueryController;
@@ -29,10 +29,10 @@ public class N2oExportAutoConfiguration {
 
     @Bean
     public ServletRegistrationBean exportDataServlet(ExportController controller,
-                                                     ErrorMessageBuilder errorMessageBuilder) {
+                                                     AlertMessageBuilder messageBuilder) {
         ExportDataServlet exportDataServlet = new ExportDataServlet(controller);
         exportDataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        exportDataServlet.setErrorMessageBuilder(errorMessageBuilder);
+        exportDataServlet.setMessageBuilder(messageBuilder);
         return new ServletRegistrationBean(exportDataServlet, n2oApiUrl + "/export");
     }
 }

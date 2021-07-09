@@ -3,9 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,8 @@ public class ActionContext extends ObjectContext {
     private RefreshSaga refresh;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
+    private MessagePosition messagePosition;
+    private MessagePlacement messagePlacement;
     /**
      * Маппинг path, query, header, form параметров url к in параметрам операции
      */

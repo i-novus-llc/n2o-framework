@@ -6,10 +6,9 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
@@ -26,9 +25,9 @@ public class CopyValuesController extends DefaultValuesController {
     public CopyValuesController(DataProcessingStack dataProcessingStack,
                                 QueryProcessor queryProcessor,
                                 SubModelsProcessor subModelsProcessor,
-                                ErrorMessageBuilder errorMessageBuilder,
+                                AlertMessageBuilder messageBuilder,
                                 MetadataEnvironment environment) {
-        super(dataProcessingStack, queryProcessor, subModelsProcessor, errorMessageBuilder, environment);
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class CopyValuesController extends DefaultValuesController {
                 merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
                 return defaultModel;
             } catch (N2oException e) {
-                responseInfo.addMessage(getErrorMessageBuilder().build(e));
+                responseInfo.addMessage(getMessageBuilder().build(e, requestInfo));
             }
         }
         defaultModel.remove(N2oQuery.Field.PK);//при копировании идентификатор должен быть null, иначе будет изменение
