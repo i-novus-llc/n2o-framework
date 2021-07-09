@@ -26,6 +26,7 @@ module.exports = {
             type: 'category',
             label: 'XML API',
             items: [
+                'guides/xml/application',
                 'guides/xml/page',
                 'guides/xml/widget',
                 'guides/xml/fieldset',
@@ -36,13 +37,11 @@ module.exports = {
                 'guides/xml/object',
                 'guides/xml/query',
                 'guides/xml/dataprovider',
-                'guides/xml/header',
                 'guides/xml/menu',
                 'guides/xml/access',
                 'guides/xml/accesspoint',
                 'guides/xml/processing',
                 'guides/xml/base',
-
             ],
         },
         {
