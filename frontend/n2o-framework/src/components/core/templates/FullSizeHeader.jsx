@@ -19,7 +19,7 @@ export function FullSizeHeader({
     footer,
     ...rest }) {
     return (
-        <div className={layoutClassName}>
+        <>
             {
                 !isEmpty(header) && (
                     <SimpleHeader
@@ -45,7 +45,7 @@ export function FullSizeHeader({
                 </div>
             </div>
             {!isEmpty(footer) && <Footer {...footer} />}
-        </div>
+        </>
     )
 }
 
