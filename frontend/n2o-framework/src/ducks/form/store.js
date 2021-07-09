@@ -395,13 +395,15 @@ const formSlice = createSlice({
                     const field = state.registeredFields[key]
 
                     // показываем поля только если у них нет своего условия на видимость
-                    if (
-                        field.dependency &&
-                        field.dependency.some(({ type }) => type === 'visible')
-                    ) {
-                        return
+                    if (field) {
+                        if (
+                            field.dependency &&
+                            field.dependency.some(({ type }) => type === 'visible')
+                        ) {
+                            return
+                        }
+                        field.visible = true
                     }
-                    field.visible = true
                 })
             },
         },
@@ -431,7 +433,11 @@ const formSlice = createSlice({
                 const { names } = action.payload
 
                 names.forEach((key) => {
-                    state.registeredFields[key].visible = false
+                    const field = state.registeredFields[key]
+
+                    if (field) {
+                        field.visible = false
+                    }
                 })
             },
         },

@@ -1,0 +1,488 @@
+---
+title: Провайдеры данных
+---
+
+### Стандартные провайдеры {#Standard_providers}
+
+**Библиотека компонентов**
+
+```
+http://n2oapp.net/framework/config/schema/data-provider-1.0
+```
+
+#### &lt;sql&gt; {#sql}
+
+Вызов SQL запросов.
+
+**Атрибуты**
+
+|Наименование     |Тип       |Описание                                        |Значение по умолчанию         |
+|-----------------|----------|------------------------------------------------|------------------------------|
+|data-source      |Строка    |Jndi имя jdbc источника данных                  |Основной DataSource приложения|
+|file             |Строка    |Путь к файлу .sql в ресурсах проекта            |                              |
+|row-mapper       |map, index|Способ получения значений из jdbc в запросах sql|map                           |
+|connection-url   |Строка    |URL подключения к базе данных                   |                              |
+|username         |Строка    |Имя пользователя                                |                              |
+|password         |Строка    |Пароль                                          |                              |
+|driver-class-name|Строка    |JDBC драйвер                                    |                              |
+
+**Тело**
+
+SQL запрос.
+
+:::note
+
+В запросе могут быть использованы плейсхолдеры через "двоеточие".
+
+:::
+
+**Пример**
+
+```xml
+<sql>
+UPDATE mytable SET :params WHERE id = :id;
+</sql>
+```
+
+:::note
+
+Плейсхолдер *:params* собирается по телу входящих параметров операции.
+
+:::
+
+```xml title="SQL запрос для &lt;query&gt;"
+<query>
+  <list>
+    <sql>
+      SELECT :select
+      FROM mytable :join
+      WHERE :filters
+      ORDER BY :sorting
+      OFFSET :offset
+      LIMIT :limit
+    </sql>
+  </list>
+</query>
+```
+
+:::note
+
+Плейсхолдеры *:select*, *:filters*, *:sorting*, *:join*, *:limit*, *:offset* собираются по критериям выборки.
+
+:::
+
+#### &lt;mongodb&gt; {#mongodb}
+
+Вызов запросов к MongoDb.
+
+**Атрибуты**
+
+|Наименование   |Тип                                                         |Описание                         |Значение по умолчанию|
+|---------------|------------------------------------------------------------|---------------------------------|---------------------|
+|connection-url |Строка                                                      |Адрес подключения                |                     |
+|database-name  |Строка                                                      |Имя базы данных                  |                     |
+|collection-name|Строка                                                      |Имя коллекции документов         |                     |
+|operation      |find insertOne updateOne deleteOne deleteMany countDocuments|Операция, выполняемая провайдером|                     |
+
+```xml title="Запрос к MongoDb для &lt;query&gt;"
+<query>
+  <list>
+    <mongodb connection-url="mongodb:/testurl"
+           database-name="dbName"
+           collection-name="user"
+           operation="find"/>
+  </list>
+</query>
+```
+
+#### &lt;rest&gt; {#rest}
+
+Вызов REST запросов.
+
+**Атрибуты**
+
+|Наименование     |Тип                   |Описание                                   |Значение по умолчанию|
+|-----------------|----------------------|-------------------------------------------|---------------------|
+|method           |get, post, put, delete|Http метод запроса                         |get                  |
+|filters-separator|Строка                |Разделитель между фильтрами                |&amp;                |
+|sorting-separator|Строка                |Разделитель между сортировками             |&amp;                |
+|select-separator |Строка                |Разделитель между столбцами                |&amp;                |
+|join-separator   |Строка                |Разделитель между присоединёнными таблицами|&amp;                |
+|content-type     |Строка                |Тип контента                               |application/json     |
+|proxy-host       |Строка                |Адрес прокси                               |                     |
+|proxy-port       |Строка                |Порт прокси                                |                     |
+
+**Тело**
+
+Запрос REST
+
+:::note
+
+В запросе могут быть использованы плейсхолдеры в фигурных скобках.
+
+:::
+
+**Пример**
+
+```xml
+<rest method="put">
+  /myservice/myentity/{id}
+</rest>
+```
+
+```xml title="REST запрос для &lt;query&gt;"
+<query>
+  <list result-mapping="content" count-mapping="totalElements">
+    <rest method="get" filters-separator=";">
+/myservice/myentity/findAll;{filters}?{sortings}&amp;offset={offset};&amp;limit={limit}
+    </rest>
+  </list>
+</query>
+```
+
+```json title="Результат REST запроса для &lt;query&gt;"
+{
+  "content" : [{}, {}, ...],
+  "totalElements" : 100500
+}
+```
+
+:::note
+
+Плейсхолдеры *{select}*, *{filters}*, *{sorting}*, *{join}*, *{limit}*, *{offset}*, *{page}* собираются по критериям выборки.
+
+:::
+
+#### &lt;java&gt; {#java}
+
+Вызов java методов.
+
+:::note
+
+Если не указан IoC контейнер (Spring, EJB), то будет вызов static метода.
+
+:::
+
+**Атрибуты**
+
+|Наименование|Тип                          |Описание                             |Значение по умолчанию|
+|------------|-----------------------------|-------------------------------------|---------------------|
+|class       |Строка|Полное имя java класса|Из атрибута `service-class` в объекте|                     |
+|method      |Строка|Имя java метода       |                                     |                     |
+
+**Пример**
+
+```xml
+<java
+  class="com.example.MyService"
+  method="calcSum">
+  <arguments>
+      <argument name="a" type="primitive"/>
+      <argument name="b" type="primitive"/>
+  </arguments>
+  <spring/>
+</java>
+```
+
+```java title="Java класс с методом calcSum"
+package com.example;
+
+public class MyService {
+    public static int calcSum(int a, int b) {
+      return a + b;
+    }
+}
+```
+
+```xml title="Вызов java метода для &lt;query&gt;"
+<query>
+  <list count-mapping="count" result-mapping="list">
+    <java
+      class="com.example.MyService"
+      method="getList">
+      <arguments>
+        <argument
+          type="criteria"
+          class="com.example.MyCriteria"/>
+      </arguments>
+    </java>
+  </list>
+</query>
+```
+
+```java title="Java класс с методом getList"
+package com.example;
+
+public class MyService {
+    public static List<MyEntity> getList(MyCriteria filters) {
+      ...
+    }
+}
+```
+
+:::note
+
+Фильтры, сортировки, паджинация и другие параметры выборки устанавливаются в объект типа *criteria*.
+Поддерживаются интерфейсы *org.springframework.data.domain.Pageable*, *org.springframework.data.domain.Sort*, *org.springframework.data.domain.Example*, *net.n2oapp.criteria.api.Criteria*.
+
+:::
+
+##### &lt;arguments&gt; {#arguments}
+
+Аргументы метода.
+
+:::note
+
+Порядок следования XML элементов соответствует порядку следования аргументов метода.
+
+:::
+
+###### &lt;argument&gt; {#argument}
+
+Аргумент метода.
+
+**Атрибуты**
+
+|Наименование |Тип                               |Описание                        |Значение по умолчанию                                                                                                  |
+|-------------|----------------------------------|--------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+|name         |Строка                            |Наименование аргумента метода   |                                                                                                                       |
+|type         |primitive, class, entity, criteria|Тип аргумента                   |                                                                                                                       |
+|class        |Строка                            |Полное имя java класса аргумента|Для `type="primitive"` определяется автоматически. Для `type="entity"` определяется по атрибуту `entity-class` объекта.|
+|default-value|Строка                            |Значение по умолчанию           |                                                                                                                       |
+
+##### &lt;spring&gt; {#spring}
+
+Вызов Spring бинов.
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание                 |Значение по умолчанию                           |
+|------------|------|-------------------------|------------------------------------------------|
+|bean        |Строка|Идентификатор Spring бина|Если не задан `bean`, то будет поиск по `class`.|
+
+**Пример**
+
+```xml
+<java method="calc">
+  <spring bean="calculator"/>
+</java>
+```
+
+##### &lt;ejb&gt; {#ejb}
+
+Вызов EJB бинов.
+
+**Подключение**
+
+```xml
+<dependency>
+  <groupId>net.n2oapp.framework</groupId>
+  <artifactId>n2o-spring-boot-starter</artifactId>
+  <version>${n2o.version}</version>
+</dependency>
+```
+
+**Атрибуты**
+
+|Наименование|Тип         |Описание              |Значение по умолчанию                                                                |
+|------------|------------|----------------------|-------------------------------------------------------------------------------------|
+|bean        |Строка      |Идентификатор EJB бина|                                                                                     |
+|protocol    |Строка      |Протокол URI          |                                                                                     |
+|application |Строка      |Имя ear приложения    |                                                                                     |
+|module      |Строка      |Имя ejb модуля        |                                                                                     |
+|distinct    |Строка      |Имя участка           |                                                                                     |
+|statefull   |true / false|С состоянием или без  |false                                                                                |
+|uri         |Строка      |Адрес remote бина     |Составляется из `protocol`, `application`, `module`, `distinct`, `bean`, `statefull`.|
+
+**Пример**
+
+```xml
+<java class="com.example.MyClass" method="mycall">
+  <ejb
+    protocol="ejb"
+    application="myapp"
+    module="mymodule"
+    bean="mybean"/>
+</java>
+```
+
+### JPA
+
+#### &lt;find&gt;
+
+#### &lt;persist&gt;
+
+#### &lt;merge&gt;
+
+#### &lt;remove&gt;
+
+#### &lt;query&gt;
+
+### Spring Data
+
+Вызов Spring Data сервисов.
+
+**Подключение**
+
+```xml
+<dependency>
+  <groupId>net.n2oapp.framework</groupId>
+  <artifactId>n2o-engine-spring</artifactId>
+  <version>${n2o.version}</version>
+</dependency>
+```
+
+**Библиотека компонентов**
+
+```
+http://n2oapp.net/framework/config/schema/spring-data-1.0
+```
+
+:::note
+
+Поддерживаются интерфейсы *CrudRepository*, *PagingAndSortingRepository*, *JpaRepository*, *QueryByExampleExecutor*, *JpaSpecificationExecutor*, *QueryDslPredicateExecutor*.
+
+:::
+
+**Пример**
+
+```xml
+<find-all
+  service-class="com.example.MyService"
+  entity-class="com.example.MyEntity"
+  executor="specification"/>
+```
+
+```java title="Spring Data сервис"
+public interface MyService extends JpaRepository<MyEntity>, JpaSpecificationExecutor {
+  //метод findAll в JpaSpecificationExecutor
+}
+```
+
+#### Базовые свойства {#Basic_properties}
+
+**Атрибуты**
+
+|Наименование |Тип                             |Описание                        |Значение по умолчанию                 |
+|-------------|--------------------------------|--------------------------------|--------------------------------------|
+|service-class|Строка                          |Класс сервиса                   |Из атрибута `service-class` в объекте |
+|entity-class |Строка                          |Класс целевой сущности          |Из атрибута `entity-class` в объекте  |
+|bean         |Строка                          |Идентификатор Spring бина       |Поиск бина по классу.                 |
+|executor     |example, specification, querydsl|Способ задания критериев запроса|Если не задан, то поиск без критериев.|
+
+##### &lt;arguments&gt;
+
+Аргументы метода.
+Аналогично аргументам [java провайдера](#java).
+
+#### &lt;find-one&gt;
+
+Поиск одного элемента по идентификатору или критериям.
+
+**Пример**
+
+```xml
+<find-one
+  service-class="com.example.MyService"
+  entity-class="com.example.MyEntity"/>
+```
+
+```java title="Spring Data сервис"
+public interface MyService extends JpaRepository<MyEntity> {
+  //метод findOne в JpaRepository
+}
+```
+
+#### &lt;find-all&gt;
+
+Поиск списка (`List`, `Slice`, `Page`) элементов по критериям.
+
+**Пример**
+
+```xml
+<find-all
+  service-class="com.example.MyService"
+  entity-class="com.example.MyEntity"
+  executor="example"/>
+```
+
+```java title="Spring Data сервис поиска по Example"
+public interface MyService extends JpaRepository<MyEntity>, QueryByExampleExecutor {
+  //метод findAll в QueryByExampleExecutor
+}
+```
+
+#### &lt;find-by&gt;
+
+Поиск списка (`List`, `Slice`, `Page`) элементов или одного элемента по [не стандартным методам](http://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation).
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание                                  |Значение по умолчанию|
+|------------|------|------------------------------------------|---------------------|
+|method      |Строка|Полное название метода Spring Data сервиса|                     |
+
+**Пример**
+
+```xml
+<find-by method="findByLastname"
+  service-class="com.example.PersonRepository"
+  entity-class="com.example.Person">
+  <arguments>
+    <argument name="lastname" type="primitive"/>
+  </arguments>
+</find-by>
+```
+
+```java title="Spring Data сервис поиска по Lastname"
+public interface PersonRepository extends Repository<Person, Long> {
+  List<Person> findByLastname(String lastname);
+}
+```
+
+#### &lt;count&gt;
+
+Подсчёт количества записей по критериям.
+
+#### &lt;exists&gt;
+
+Определение существования записи по идентификатору или критериям.
+
+#### &lt;save&gt;
+
+Создание или изменение записи.
+
+#### &lt;delete&gt;
+
+Удаление одной записи по идентификатору или критериям.
+
+#### &lt;delete-all&gt;
+
+Удаление списка записей по критериям.
+
+#### &lt;invoke&gt;
+
+Вызов произвольного метода.
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание                                  |Значение по умолчанию|
+|------------|------|------------------------------------------|---------------------|
+|method      |Строка|Полное название метода Spring Data сервиса|                     |
+
+**Пример**
+
+```xml
+<invoke method="close"
+  service-class="com.example.MyService">
+  <arguments>
+    <argument name="id" type="primitive"/>
+  </arguments>
+</invoke>
+```
+
+```java title="Spring Data сервис с методом close"
+public interface MyService extends Repository<MyEntity, Long> {
+  void close(Long id);
+}
+```

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
 import toString from 'lodash/toString'
 
-import withFetchData from '../withFetchData'
+import listContainer from '../listContainer'
 import { Group, RadioTypes } from '../Radio/Group'
 import Spinner from '../../snippets/Spinner/InlineSpinner'
 
@@ -106,4 +106,4 @@ RadioGroupControl.defaultProps = {
     isLoading: false,
 }
 
-export default withFetchData(RadioGroupControl)
+export default listContainer(RadioGroupControl)
