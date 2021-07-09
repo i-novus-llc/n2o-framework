@@ -48,7 +48,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
         assertThat(sidebar.getSrc(), is("Sidebar"));
         assertThat(sidebar.getDefaultState(), is(SidebarState.none));
         assertThat(sidebar.getToggledState(), is(SidebarState.maxi));
-        assertThat(sidebar.getToggleOnHover(), is(true));
+        assertThat(sidebar.getToggleOnHover(), is(false));
         assertThat(sidebar.getOverlay(), is(false));
         assertThat(sidebar.getSide(), is(Side.left));
     }
@@ -63,7 +63,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
         Sidebar sidebar = application.getSidebar();
         assertThat(sidebar.getDefaultState(), is(SidebarState.none));
         assertThat(sidebar.getToggledState(), is(SidebarState.micro));
-        assertThat(sidebar.getToggleOnHover(), is(false));
+        assertThat(sidebar.getToggleOnHover(), is(true));
         assertThat(sidebar.getSide(), is(Side.right));
         assertThat(sidebar.getOverlay(), is(false));
         assertThat(sidebar.getLogo().getSrc(), is("/logo.png"));
