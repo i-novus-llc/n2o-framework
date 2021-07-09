@@ -1,9 +1,6 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="layout">
     <header class="inverse">
         <nav>
-            <sub-menu label="Page">
-                <page page-id="page" label="SquareResizableLayout"/>
-            </sub-menu>
             <sub-menu label="Layout">
                 <page page-id="layout" label="SquareResizableLayout"/>
             </sub-menu>

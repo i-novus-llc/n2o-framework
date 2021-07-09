@@ -13,6 +13,7 @@ module.exports = {
                 'guides/manual/dependency',
                 'guides/manual/filters',
                 'guides/manual/validation',
+                'guides/manual/routing',
                 'guides/manual/setting',
                 'guides/manual/context',
                 'guides/manual/dynamic',
