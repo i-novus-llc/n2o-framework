@@ -898,7 +898,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="tilesBlockDefinition">
+    <xs:complexType name="blockDefinition">
         <xs:annotation>
             <xs:documentation>Блок.</xs:documentation>
         </xs:annotation>
@@ -924,6 +924,24 @@
                 </xs:annotation>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tilesBlockDefinition">
+        <xs:annotation>
+            <xs:documentation>Блок.</xs:documentation>
+        </xs:annotation>
+        <xs:extension base="blockDefinition">
+            <xs:attribute name="class" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>CSS класс.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="style" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Стиль блока.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:extension>
     </xs:complexType>
 
     <xs:complexType name="cardsReferenceDefinition">
@@ -983,36 +1001,8 @@
             </xs:annotation>
         </xs:attribute>
         <xs:sequence>
-            <xs:element name="block" type="cardsBlockDefinition"/>
+            <xs:element name="block" type="blockDefinition"/>
         </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="cardsBlockDefinition">
-        <xs:annotation>
-            <xs:documentation>Блок.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор блока.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="text-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поле выборки, отображаемое в блоке в виде текста.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="tooltip-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:complexContent>
-            <xs:extension base="cell:cells">
-                <xs:annotation>
-                    <xs:documentation>Ячейка с содержимым блока.</xs:documentation>
-                </xs:annotation>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="rowsTableDefinition">
