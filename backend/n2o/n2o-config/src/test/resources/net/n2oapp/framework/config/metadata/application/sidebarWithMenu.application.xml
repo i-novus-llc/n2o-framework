@@ -4,7 +4,7 @@
              welcome-page-id="testPage">
     <sidebar src="test" class="class"
             title="N2O" home-page-url="/pageRoute" style="margin-left:10px"
-             toggled-state="micro" toggle-on-hover="false" side="right" overlay="false"
+             toggled-state="micro" toggle-on-hover="true" side="right" overlay="false"
              default-state="none" logo-src="/logo.png" logo-class="logo-class">
         <nav>
             <sub-menu label="test">

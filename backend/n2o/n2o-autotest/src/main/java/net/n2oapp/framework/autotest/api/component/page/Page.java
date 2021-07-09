@@ -4,6 +4,7 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
+import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 
 /**
@@ -12,6 +13,8 @@ import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 public interface Page extends Component {
 
     SimpleHeader header();
+
+    Sidebar sidebar();
 
     Footer footer();
 
