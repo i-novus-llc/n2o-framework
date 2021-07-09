@@ -1,7 +1,0 @@
-= Руководство по миграции
-{project-version}
-:toc: left
-:toclevels: 2
-:toc-title: Содержание
-
-include::migration.adoc[]

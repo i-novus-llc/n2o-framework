@@ -1,0 +1,42 @@
+---
+title: Миграция с 6.0 на 7.0
+---
+
+### Изменения в сборке {#changes-build}
+
+- N2O теперь встраивается в Spring Boot приложение с помощью стартера `n2o-spring-boot-starter`
+- Статические ресурсы клиента N2O теперь нужно собирать самостоятельно, либо подключить модуль `n2o-web`
+- Для работы с SQL из N2O теперь необходимо подключить `n2o-engine-sql` модуль
+- Вместо `n2o-build.properties` необходимо использовать `application.properties`
+
+### Изменения в XML API {#changes-xml-api}
+
+- Во всех `<set-value-expression>` в теле необходимо в конце явно вызывать команду return с тем значением, которое хотели установить
+- Если `<set-value-expression>` возвращает `undefined`, то значение не будет установлено
+- Во всех dependency условиях должны быть javaScript expression, а не statements. Т.е. запрещены многострочные команды, объявление переменных и т.п.
+- Глобальные линки упразднены. Вместо них используется ссылки на модели с URI синтаксисом
+- Стандартный формат даты и времени в REST изменился с `dd.MM.yyyy HH:mm` на ISO `YYYY-MM-DDTHH:mm:ss.sssZ`
+- Вёрстка всех компонентов формы стала растягиваемой вместо фиксированной. Т.е. используется grid система bootstrap. Ширина всех полей теперь по умолчанию 100%. Если на одной строке `<row>` несколько полей, то их ширина пропорциональна. Разные пропорции можно задать с помощью bootstrap классов `.col-md-x`, где x число от 1 до 12
+- Упразднена схема `n2o-widget-1.0`, `n2o-widget-2.0`. Нужно использовать `widget-4.0`
+- Упразднена схема `fieldset-1.0`. Нужно использовать `fieldset-4.0`
+- Упразднена схема `action-invocation-1.0`. Нужно использовать `n2o-invocation2-2.0`
+- Упразднена схема `query-1.0` и `query-2.0`. Нужно использовать `query-3.0` или `query-4.0`
+- Упразднен `multi-clasifier`. Вместо него используйте `select` с `type=multi` или `input-select` с `type=multi`
+- У формы упразднён `edit` элемент. Нужно создавать кнопки самостоятельно
+- В схеме `n2o-widget-3.0` не поддерживаются настройки `<settings/>`.  Необходимо использовать `n2o-widget-4.0`
+- Фильтры в схеме доступа `access-1.0` больше не поддерживаются. Необходимо использовать `access-2.0`
+
+### Изменения в Java API {#changes-java-api}
+
+- `LocalizationHolder` и библиотека i18n больше не используются. Для локализации нужно использовать бин `MessageSourceAccessor`.
+- `N2oBusinessException` устарел, вместо него рекомендуется использовать `N2oUserException`
+- `N2oException` принимает и сообщения и код сообщений в качестве message (код из файлов message source). Сообщения могут быть шаблонизированы через плейсхолдеры {0}.
+- Полностью изменился процесс компиляции метаданных. Устарели классы `GlobalMetadataStorage`, `MetadataStorage`, `UserMetadataStorage`, `N2oCompiler` и все его наследники, `CompileContext`, `MetadataValidator`, `Transformer` и др.
+- Все методы API вместо класса `N2oMetadata` используют интерфейс `SourceMetadata`.
+- Интерфейс `N2oEvent` сменил название на `N2oAction`, класс  `AbstractEvent` сменил название на `N2oAbstractAction`, класс  `Custom` сменил название на `N2oCustomAction`, класс `InvokeEvent`   сменил название на `N2oInvokeAction`, класс `ShowModal` сменил название на `N2oShowModal`, интерфейс `PageIdAwareCompileEvent` сменил название на `PageIdAwareCompileAction`
+- Все events перенесены из `net.n2oapp.framework.api.metadata.event` в `net.n2oapp.framework.api.metadata.event.action`
+- Класс `N2oFieldSet` перенесен из `net.n2oapp.framework.api.metadata.global.view.widget` в `net.n2oapp.framework.api.metadata.global.view.fieldset`, `N2oFieldSet`  стал абстрактным. Для реализации нужно выбрать один из следующих вариантов: `N2oSetFieldSet`, `N2oLineFieldSet`, `N2oCheckboxLineFieldSet`
+- Упразднён процессинг SQL, REST. Вместо этого нужно переопределять соответствующие бины.
+- В интерфейсе `SourceLoader` метод `read` переименован в `load`.
+- Класс `JavaSourceReader` переименован в `JavaSourceLoader`.
+- `N2oEvent` стал классом и наследником Spring `ApplicationEvent`, в его конструкторе появился аргумент source, в который нужно передать инициатора события (publisher)

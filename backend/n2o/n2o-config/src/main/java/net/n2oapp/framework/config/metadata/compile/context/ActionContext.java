@@ -20,6 +20,7 @@ import java.util.Map;
 public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
+    private String parentPageId;
     private String parentWidgetId;
     private String failAlertWidgetId;
     private String successAlertWidgetId;

@@ -1,5 +1,7 @@
 const CONFIG = require('./src/ci-config.json')
 
+const { version } = require('../package.json')
+
 let contextPath = CONFIG.docusaurusUrl || '/'
 
 if (contextPath[contextPath.length - 1] !== '/') {
@@ -14,7 +16,7 @@ module.exports = {
     // Текст вкладки браузера и h1 на дефолтной главной странице (useDocusaurusContext().siteConfig.title)
     title: CONFIG.title || 'N2O',
     // Хост вашего сайта без пути и слеша в конце. Ваще ХЗ на кой оно нужно и на что влияет. Скорее что-то для SEO.
-    url: CONFIG.url || 'https://n2o.i-novus.ru',
+    url: CONFIG.url || 'https://n2oapp.net',
     // Путь, по которому нужно открывать документацию (аналог contextPath), н.р. /docusaurus/
     // Требуется для корректных ссылок на статику
     baseUrl: contextPath,
@@ -41,12 +43,22 @@ module.exports = {
             },
             items: [
                 {
-                    to: 'docs/',
-                    activeBasePath: 'docs',
+                    type: 'doc',
+                    docId: 'introduction',
                     label: 'Документация',
                     position: 'left',
                 },
-                { to: 'blog', label: 'Блог', position: 'left' },
+                {
+                    type: 'doc',
+                    docId: 'buttons',
+                    label: 'Примеры',
+                    position: 'left',
+                },
+                {
+                    type: 'docsVersionDropdown',
+                    position: 'right',
+                    dropdownActiveClassDisabled: true,
+                },
                 {
                     href: 'https://github.com/i-novus-llc/n2o-framework',
                     label: 'GitHub',
@@ -65,13 +77,19 @@ module.exports = {
             {
                 docs: {
                     sidebarPath: require.resolve('./sidebars.js'),
-                },
-                blog: {
-                    showReadingTime: true,
+                    disableVersioning: false,
+                    lastVersion: 'current',
+                    onlyIncludeVersions: ['current'],
+                    versions: {
+                        current: {
+                            label: `${version} 🚧`,
+                        },
+                    },
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
                 },
+
             },
         ],
     ],
