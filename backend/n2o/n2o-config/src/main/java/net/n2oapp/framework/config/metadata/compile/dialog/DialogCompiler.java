@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -43,11 +44,12 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         if (source.getToolbar() != null) {
             // double close for all invoke action
             source.getToolbar().getAllActions().stream()
-                    .filter(act -> act instanceof N2oInvokeAction)
+                    .filter(N2oInvokeAction.class::isInstance)
                     .forEach(act -> ((N2oInvokeAction) act).setDoubleCloseOnSuccess(true));
             // dialog parentWidgetId as all menu item's widgetId
-            Arrays.stream(source.getToolbar().getItems()).filter(i -> i instanceof N2oButton)
-                    .forEach(mi -> ((N2oButton) mi).setWidgetId(context.getParentWidgetId()));
+            String btnWidgetId = context.getParentWidgetId().substring(context.getParentPageId().length() + 1);
+            Arrays.stream(source.getToolbar().getItems()).filter(N2oButton.class::isInstance)
+                    .forEach(mi -> ((N2oButton) mi).setWidgetId(btnWidgetId));
 
             ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(
                     p.resolve(property("n2o.api.dialog.toolbar.place"), String.class));
@@ -55,8 +57,11 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
             widgetScope.setClientWidgetId(context.getClientWidgetId());
             ParentRouteScope pageRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p),
                     context.getPathRouteMapping(), context.getQueryRouteMapping());
+            PageScope pageScope = new PageScope();
+            pageScope.setPageId(context.getParentPageId());
+
             Toolbar toolbar = p.compile(source.getToolbar(), context, new IndexScope(), widgetScope, object,
-                    pageRouteScope, toolbarPlaceScope);
+                    pageRouteScope, toolbarPlaceScope, pageScope);
             dialog.setToolbar(toolbar);
         }
         return dialog;
