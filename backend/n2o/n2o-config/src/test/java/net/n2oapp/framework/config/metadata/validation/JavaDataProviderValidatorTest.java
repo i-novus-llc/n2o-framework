@@ -33,7 +33,6 @@ public class JavaDataProviderValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oObjectsPack(), new N2oDataProvidersPack(), new N2oQueriesPack());
         builder.validators(new ObjectValidator(), new QueryValidator(), new JavaDataProviderValidator());
-        builder.propertySources("net/n2oapp/framework/config/metadata/validation/provider/java-provider-validation.properties");
     }
 
     @Test

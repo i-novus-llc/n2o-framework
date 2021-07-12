@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="#this.collection" filters="thirdArg, nameArg, firstArg">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
+              method="methodWithThreeArguments">
+            <arguments>
+                <argument name="first"/>
+                <argument name="criteria" type="criteria" class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
+                <argument name="third"/>
+            </arguments>
+        </java>
+    </list>
+
+    <fields>
+        <field id="firstArg" domain="integer">
+            <select mapping="testField"/>
+            <filters>
+                <eq filter-id="firstArg" mapping="['first']"/>
+            </filters>
+        </field>
+
+        <field id="thirdArg" domain="boolean">
+            <select mapping="value" normalize="T(java.lang.Boolean).valueOf(#this)"/>
+            <filters>
+                <eq filter-id="thirdArg" mapping="[third]"/>
+            </filters>
+        </field>
+
+        <field id="nameArg" domain="string">
+            <select mapping="name"/>
+            <filters>
+                <eq filter-id="nameArg" mapping="['criteria'].name"/>
+            </filters>
+        </field>
+    </fields>
+</query>

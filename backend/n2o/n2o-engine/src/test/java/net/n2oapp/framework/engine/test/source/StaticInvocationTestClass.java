@@ -39,6 +39,12 @@ public class StaticInvocationTestClass {
         return "Invocation success. First argument: " + firstArgument + ", Second argument: " + secondArgument;
     }
 
+    public static String methodWithThreeArguments(String first, Integer second, Boolean third) {
+        return "Invocation success. First argument: " + first +
+                ", Second argument: " + second +
+                ", Third argument: " + third;
+    }
+
     public static void methodVoid(String argument) {
     }
 

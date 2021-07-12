@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.validation.standard.invocation;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
@@ -22,8 +21,7 @@ public class JavaDataProviderValidator extends TypedMetadataValidator<N2oJavaDat
 
     @Override
     public void validate(N2oJavaDataProvider provider, ValidateProcessor p) {
-        String mapping = p.resolve(Placeholders.property("n2o.engine.java.mapping"), String.class);
-        if ("map".equals(mapping) && provider.getArguments() != null) {
+        if (provider.getArguments() != null) {
             DataProviderScope scope = p.getScope(DataProviderScope.class);
             String message = scope.getQueryId() != null ? "В выборке " + scope.getQueryId() :
                     "В объекте " + scope.getObjectId();
