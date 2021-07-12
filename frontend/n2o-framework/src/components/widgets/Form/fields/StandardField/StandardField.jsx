@@ -163,7 +163,7 @@ class StandardField extends React.Component {
                                 {...props}
                                 {...control}
                                 className={cx(control.className, {
-                                    [validationClass]: touched,
+                                    [validationClass]: validationClass && touched,
                                     'form-control__with-toolbar': toolbar,
                                 })}
                             />
@@ -230,7 +230,7 @@ StandardField.propTypes = {
     labelStyle: PropTypes.object,
     controlStyle: PropTypes.object,
     labelClass: PropTypes.string,
-    validationClass: PropTypes.string,
+    validationClass: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([false])]),
     controlClass: PropTypes.string,
     enabled: PropTypes.bool,
     onFocus: PropTypes.func,

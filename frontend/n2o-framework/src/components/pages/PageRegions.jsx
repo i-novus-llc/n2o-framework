@@ -16,7 +16,7 @@ import Factory from '../../core/factory/Factory'
  */
 function PageRegions({ id, regions, width }) {
     return map(regions, (place, key) => (
-        <div className={`n2o-page__${key}`} style={{ width: width[key] }}>
+        <div key={key} className={`n2o-page__${key}`} style={{ width: width[key] }}>
             {map(place, (region, index) => (
                 <Factory
                     key={`region-${key}-${index}`}

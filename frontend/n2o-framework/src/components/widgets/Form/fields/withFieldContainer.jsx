@@ -158,26 +158,21 @@ export default (Field) => {
      * @returns {string}
      */
 
-    /**
-     * Бозовый рендер
-     * @returns {*}
-     */
-
     render() {
-        FieldContainer.propTypes = {
-            mapProps: PropTypes.func,
-            input: PropTypes.string,
-            onChange: PropTypes.func,
-            onBlur: PropTypes.func,
-            onFocus: PropTypes.func,
-        }
-
         const { mapProps } = this.props
 
         const props = mapProps(this.props)
 
         return <Field {...props} />
     }
+    }
+
+    FieldContainer.propTypes = {
+        mapProps: PropTypes.func,
+        input: PropTypes.object,
+        onChange: PropTypes.func,
+        onBlur: PropTypes.func,
+        onFocus: PropTypes.func,
     }
 
     const mapStateToProps = (state, ownProps) => {
