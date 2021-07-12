@@ -190,28 +190,6 @@ public abstract class AbstractController {
         }
     }
 
-    @Deprecated
-    protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
-        CompiledQuery query;
-        QueryContext queryCtx = (QueryContext) getRoutingResult(request, CompiledQuery.class);
-        DataSet data = queryCtx.getParams(request.getPathInfo(), request.getParameterMap());
-        query = environment.getReadCompileBindTerminalPipelineFunction()
-                .apply(new N2oPipelineSupport(environment))
-                .get(queryCtx, data);
-        QueryRequestInfo requestInfo = new QueryRequestInfo();
-        requestInfo.setUser(getUser(request));
-        requestInfo.setQuery(query);
-        requestInfo.setData(data);
-        requestInfo.setUpload(queryCtx.getUpload() != null ? queryCtx.getUpload() : UploadType.query);
-        requestInfo.setCriteria(prepareCriteria(requestInfo.getQuery(), data, queryCtx));
-        requestInfo.setSuccessAlertWidgetId(queryCtx.getSuccessAlertWidgetId());
-        requestInfo.setFailAlertWidgetId(queryCtx.getFailAlertWidgetId());
-        requestInfo.setMessagesForm(queryCtx.getMessagesForm());
-        request.setAttribute("messageForm", queryCtx.getFailAlertWidgetId());
-        prepareSelectedId(requestInfo);
-        return requestInfo;
-    }
-
     protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
         CompiledQuery query;
         QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, params);
