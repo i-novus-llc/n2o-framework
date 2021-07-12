@@ -34,6 +34,7 @@ export function FullSizeHeader({
                             },
                         )
                         }
+                        color={header.className}
                     />
                 )
             }
