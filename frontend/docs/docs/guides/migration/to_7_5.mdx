@@ -1,0 +1,27 @@
+---
+title: Миграция с 7.4 на 7.5
+---
+
+### Изменения в сборке {#changes-build}
+
+- Модули `n2o-engine-ejb`, `n2o-config-ehcache`, `n2o-config-hazelcast` удалены.
+Вместо них нужно использовать зависимости `spring-jdbc`, `ejb-api`, `ehcache`, `hazelcast` соответственно.
+
+### Изменения в настройках {#changes-settings}
+
+- Вместо `n2o.access.N2oObjectAccessPoint.default=false` используется настройка `n2o.access.deny_objects=true`,
+и другие настройки:
+```
+Запрещен ли доступ к объектам по умолчанию
+n2o.access.deny_objects=true
+Запрещен ли доступ к страницам по умолчанию
+n2o.access.deny_pages=false
+Запрещен ли доступ к url по умолчанию
+n2o.access.deny_urls=false
+```
+
+### Изменения в XML API {#changes-xml-api}
+
+- Пустая строка в контексте ведет себя аналогично null (отсутствие значения)
+- В `<input-select-tree>` полностью удален `<grouping-nodes>`, атрибуты из `<inheritance-nodes>` перенесены в `<input-select-tree>`
+- Атрибут `search-field-id` в списковых компонентах переименован в `search-filter-id`

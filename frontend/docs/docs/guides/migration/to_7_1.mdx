@@ -1,0 +1,23 @@
+---
+title: Миграция с 7.0 на 7.1
+---
+
+### Изменения в сборке {#changes-build}
+
+- Вместо React компонента `TableWidget` используется `AdvancedTableWidget` (`n2o.api.widget.table.src`)
+- Удалён модуль `n2o-header`
+- Удалён модуль `n2o-config-audit`
+
+### Изменения в XML API {#changes-xml-api}
+
+- Для перерисовки опций в компонентах `<radio-group>`, `<checkbox-group>` вместо `depends-on` необходимо использовать `<dependencies>` `<fetch>`.
+- Фильтры доступа в `access-schema-1.0` больше не считываются, вместо них необходимо использовать `<object-filters>` в `access-2.0`
+- Для `query-4.0` больше нет автогенерации тела фильтров и элементов `<select/>` и `<sorting/>`
+
+### Изменения в Java API {#changes-java-api}
+
+- Изменено API у `MetadataBinder`, вместо `CompileProcessor` используется `BindProcessor`
+- Изменено API у `SourceValidator`, в метод validate добавлен аргумент `ValidationProcessor`
+- Изменено API у метода execute в `PipelineOperation`, добавлены аргументы `BindProcessor`, `ValidationProcessor`
+- Удалены deprecated классы из пакета `net.n2oapp.framework.api.metadata.local.*`
+- Удалены deprecated классы `AuthorizationApi`, `SimpleAuthorizationApi`, `DataAccessChecker`, `UrlFilter`
