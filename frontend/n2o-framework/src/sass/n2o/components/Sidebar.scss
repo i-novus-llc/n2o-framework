@@ -1,11 +1,9 @@
 .n2o-sidebar {
     display: flex;
     flex-direction: column;
-    min-width: $sidebar-width;
-    max-width: $sidebar-width;
     color: $sidebar-color;
     background-color: $sidebar-bg-color;
-    transition: 0.2s ease-in-out;
+    overflow-y: scroll;
 
     .n2o-user-box__title {
         color: $sidebar-color;
@@ -45,6 +43,7 @@
 }
 
 .n2o-sidebar-overlay {
+    position: fixed;
     height: 100%;
     z-index: 100;
     transition: 0.2s ease-in-out;
@@ -246,5 +245,9 @@
 }
 
 .n2o-sidebar.none {
+    display: none;
+}
+
+.n2o-sidebar::-webkit-scrollbar {
     display: none;
 }
