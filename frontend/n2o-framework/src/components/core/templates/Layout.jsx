@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
@@ -21,22 +21,6 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
     const closeSideBar = useCallback(() => setSidebarOpen(false), [])
     const layoutClassName = layoutContainerClasses(header, sidebar, fullSizeHeader, fixed, side)
 
-    const sidebarProps = {
-        controlled,
-        sidebarOpen,
-        onMouseEnter: toggleOnHover && openSideBar,
-        onMouseLeave: toggleOnHover && closeSideBar,
-        ...sidebar,
-        ...rest,
-        className: classNames(
-            className,
-            {
-                'n2o-fixed-sidebar': fixed && !fullSizeHeader,
-                'n2o-sidebar-overlay': overlay,
-            },
-        ),
-    }
-
     const layoutProps = {
         layoutClassName,
         header,
@@ -50,16 +34,38 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
         ...rest,
     }
 
-    const WrappedSidebar = useCallback(({ sidebarProps }) => {
+    const sidebarProps = useMemo(() => ({
+        controlled,
+        onMouseEnter: toggleOnHover && openSideBar,
+        onMouseLeave: toggleOnHover && closeSideBar,
+        ...sidebar,
+        ...rest,
+        className: classNames(
+            className,
+            {
+                'n2o-fixed-sidebar': fixed && !fullSizeHeader,
+                'n2o-sidebar-overlay': overlay,
+            },
+        ),
+        sidebarOpen,
+    }), [
+        sidebar,
+        sidebarOpen,
+    ])
+
+    const WrappedSidebar = useCallback(() => {
         if (isEmpty(sidebar)) {
-            return <></>
+            return null
         }
 
         if (overlay) {
             return (
                 <div className={classNames(
                     'n2o-sidebar',
-                    defaultState,
+                    {
+                        [defaultState]: !sidebarOpen && defaultState === 'none',
+                        'n2o-sidebar-overlay': overlay,
+                    },
                 )}
                 >
                     <SimpleSidebar {...sidebarProps} />
@@ -67,19 +73,21 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
             )
         }
 
-        return <SimpleSidebar {...sidebarProps} />
-    }, [sidebar, overlay, defaultState])
+        return (
+            <SimpleSidebar {...sidebarProps} />
+        )
+    }, [sidebar, overlay, sidebarProps, sidebarOpen, defaultState])
 
     return (
         <div className={layoutClassName}>
             {
                 fullSizeHeader ? (
                     <FullSizeHeader {...layoutProps}>
-                        <WrappedSidebar sidebarProps={sidebarProps} />
+                        <WrappedSidebar />
                     </FullSizeHeader>
                 ) : (
                     <FullSizeSidebar {...layoutProps}>
-                        <WrappedSidebar sidebarProps={sidebarProps} />
+                        <WrappedSidebar />
                     </FullSizeSidebar>
                 )
             }
