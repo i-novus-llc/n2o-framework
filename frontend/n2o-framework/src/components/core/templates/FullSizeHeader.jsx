@@ -27,7 +27,13 @@ export function FullSizeHeader({
                         sidebarOpen={sidebarOpen}
                         {...header}
                         {...rest}
-                        className={classNames('flex-grow-0', { [header.className]: header.className })}
+                        className={classNames(
+                            'flex-grow-0',
+                            {
+                                [header.className]: header.className,
+                            },
+                        )
+                        }
                     />
                 )
             }

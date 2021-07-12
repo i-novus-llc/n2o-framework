@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export function SidebarSwitcher({
-    defaultIcon,
-    toggleIcon,
+    defaultIcon = 'fa fa-bars',
+    toggledIcon = 'fa fa-times',
     sidebarOpen,
     toggleSidebar,
 }) {
@@ -12,7 +12,7 @@ export function SidebarSwitcher({
         <i
             className={classNames('n2o-sidebar-switcher', {
                 [defaultIcon]: sidebarOpen,
-                [toggleIcon]: !sidebarOpen,
+                [toggledIcon]: !sidebarOpen,
             })}
             aria-hidden="true"
             onClick={toggleSidebar}
@@ -21,12 +21,12 @@ export function SidebarSwitcher({
 }
 SidebarSwitcher.propTypes = {
     defaultIcon: PropTypes.string,
-    toggleIcon: PropTypes.string,
+    toggledIcon: PropTypes.string,
     sidebarOpen: PropTypes.bool,
     toggleSidebar: PropTypes.func,
 }
 
 SidebarSwitcher.defaultProps = {
     defaultIcon: 'fa fa-times',
-    toggleIcon: 'fa fa-bars',
+    toggledIcon: 'fa fa-bars',
 }
