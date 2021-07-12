@@ -3,4 +3,29 @@
         background-color: $input-disabled-bg;
         opacity: 1;
     }
+
+    .n2o-select-tree-selection__clear {
+        right: 10px !important;
+    }
+}
+
+.n2o-input-select-tree__search-clear-icon {
+    position: absolute;
+    right: 10px;
+    top: 25%;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 4px 5px;
+    text-align: center;
+    vertical-align: center;
+    transition: all 0.15s linear;
+}
+
+.n2o-input-select-tree__search-clear-icon:hover {
+    background-color: #dce3e7;
+}
+
+.n2o-input-select-tree__clear-icon {
+    padding: 4px 5px;
 }
