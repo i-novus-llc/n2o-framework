@@ -30,6 +30,7 @@ export function FullSizeSidebar({
                             {...header}
                             {...rest}
                             className={classNames('flex-grow-0', { [header.className]: header.className })}
+                            color={header.className}
                         />
                     )
                 }

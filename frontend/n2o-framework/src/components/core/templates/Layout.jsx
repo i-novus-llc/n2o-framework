@@ -44,7 +44,6 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
             className,
             {
                 'n2o-fixed-sidebar': fixed && !fullSizeHeader,
-                'n2o-sidebar-overlay': overlay,
             },
         ),
         sidebarOpen,
@@ -65,6 +64,7 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
                     {
                         [defaultState]: !sidebarOpen && defaultState === 'none',
                         'n2o-sidebar-overlay': overlay,
+                        'overlay-right': overlay && side === 'right',
                     },
                 )}
                 >
@@ -76,7 +76,7 @@ export function Layout({ children, layout, header, sidebar, footer, ...rest }) {
         return (
             <SimpleSidebar {...sidebarProps} />
         )
-    }, [sidebar, overlay, sidebarProps, sidebarOpen, defaultState])
+    }, [sidebar, overlay, sidebarProps, side, defaultState, sidebarOpen])
 
     return (
         <div className={layoutClassName}>
