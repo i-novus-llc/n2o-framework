@@ -115,7 +115,9 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private void initValidate(N2oButton source, PerformButton button, CompileContext<?, ?> context, CompileProcessor p) {
         if (ValidateType.WIDGET.getId().equals(source.getValidate().getId()))
-            button.setValidatedWidgetId(initWidgetId(source, context, p));
+            button.setValidateWidgetId(initWidgetId(source, context, p));
+        else if (ValidateType.PAGE.getId().equals(source.getValidate().getId()))
+            button.setValidatePageId(p.getScope(PageScope.class).getPageId());
     }
 
     private void initConfirm(N2oButton source, PerformButton button, CompiledObject.Operation operation,
