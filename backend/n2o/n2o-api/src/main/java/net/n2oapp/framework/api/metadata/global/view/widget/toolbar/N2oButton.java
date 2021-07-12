@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdAware, ModelAware {
     private String actionId;
-    private Boolean validate;
+    private ValidateType validate;
     private Boolean rounded;
     private N2oAction action;
     private ReduxModel model;

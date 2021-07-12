@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -86,7 +87,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setWidgetId(widgetId);
         saveButton.setAction(action);
         saveButton.setModel(p.cast(pageContext.getSubmitModel(), ReduxModel.RESOLVE));
-        saveButton.setValidate(true);
+        saveButton.setValidate(ValidateType.WIDGET);
         return Collections.singletonList(saveButton);
     }
 }

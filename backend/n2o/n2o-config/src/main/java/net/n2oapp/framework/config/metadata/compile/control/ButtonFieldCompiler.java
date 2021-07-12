@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -49,9 +50,6 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
 
         initItem(field, source, context, p);
 
-        if (source.getValidate() != null && source.getValidate()) {
-            field.setValidatedWidgetId(initWidgetId(source, context, p));
-        }
         return field;
     }
 
@@ -108,7 +106,12 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
 
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
-        button.setValidate(source.getValidate());
+
+        if (source.getValidate() != null) {
+            button.setValidate(source.getValidate().getId());
+            if (ValidateType.WIDGET.getId().equals(source.getValidate().getId()))
+                button.setValidatedWidgetId(initWidgetId(source, context, p));
+        }
     }
 
     private Action compileAction(N2oButtonField source, ButtonField button, CompileContext<?, ?> context, CompileProcessor p) {
