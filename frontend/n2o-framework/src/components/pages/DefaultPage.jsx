@@ -69,7 +69,7 @@ DefaultPage.propTypes = {
     metadata: PropTypes.object,
     toolbar: PropTypes.object,
     entityKey: PropTypes.string,
-    error: PropTypes.object,
+    error: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf([false])]),
     children: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.func,

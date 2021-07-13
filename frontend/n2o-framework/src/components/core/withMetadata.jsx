@@ -132,7 +132,7 @@ const withMetadata = (Component) => {
         rootPage: PropTypes.bool,
         metadata: PropTypes.object,
         loading: PropTypes.bool,
-        error: PropTypes.object,
+        error: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf([false])]),
         location: PropTypes.object,
         getMetadata: PropTypes.func,
         reset: PropTypes.func,

@@ -31,7 +31,7 @@ export function Factory(props, context) {
 }
 
 Factory.propTypes = {
-    src: PropTypes.string.isRequired,
+    src: PropTypes.string,
     level: PropTypes.string,
     security: PropTypes.object,
     children: PropTypes.any,

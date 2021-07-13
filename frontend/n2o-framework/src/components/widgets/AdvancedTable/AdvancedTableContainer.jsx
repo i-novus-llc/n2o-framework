@@ -287,7 +287,7 @@ class AdvancedTableContainer extends React.Component {
 
 AdvancedTableContainer.propTypes = {
     autoFocus: PropTypes.any,
-    selectedId: PropTypes.string,
+    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onResolve: PropTypes.func,
     hasSelect: PropTypes.bool,
     actions: PropTypes.any,
