@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.page;
 
+import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
@@ -41,6 +42,8 @@ public interface Page extends Component {
     void shouldHaveCssClass(String classname);
 
     void shouldHaveStyle(String style);
+
+    void shouldHaveLayout(NavigationLayout layout);
 
     interface PageToolbar {
         Toolbar topLeft();

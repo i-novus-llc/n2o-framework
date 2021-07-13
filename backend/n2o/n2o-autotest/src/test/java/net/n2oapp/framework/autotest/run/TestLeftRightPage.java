@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.run;
 
+import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
@@ -94,6 +95,11 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
 
     @Override
     public void shouldHaveStyle(String style) {
+
+    }
+
+    @Override
+    public void shouldHaveLayout(NavigationLayout layout) {
 
     }
 }
