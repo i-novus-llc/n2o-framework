@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isEqual from 'lodash/isEqual'
@@ -36,7 +36,7 @@ import { SidebarItemContainer } from './SidebarItemContainer'
  * @constructor
  */
 export const sidebarView = {
-    none: 'd-none',
+    none: 'none',
     micro: 'micro',
     mini: 'mini',
     maxi: 'maxi',
@@ -58,6 +58,7 @@ export function SideBar({
     onMouseLeave,
     side = 'left',
 }) {
+    const sidebarRef = useRef()
     const currentVisible = controlled ? sidebarOpen : visible
     const { items = [] } = menu
 
@@ -89,6 +90,7 @@ export function SideBar({
 
     const sideBarClasses = classNames(
         'n2o-sidebar',
+        side,
         className,
         {
             [sidebarView[defaultState]]: !currentVisible,
@@ -101,6 +103,7 @@ export function SideBar({
             className={sideBarClasses}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            ref={sidebarRef}
         >
             <div className={classNames(
                 'n2o-sidebar__nav-brand n2o-nav-brand',

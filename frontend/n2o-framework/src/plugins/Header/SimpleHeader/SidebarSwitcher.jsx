@@ -7,11 +7,10 @@ export function SidebarSwitcher({
     toggledIcon,
     sidebarOpen,
     toggleSidebar,
-    isInversed,
 }) {
     return (
         <i
-            className={classNames('n2o-sidebar-switcher', sidebarOpen ? defaultIcon : toggledIcon, { inverse: isInversed })}
+            className={classNames('n2o-sidebar-switcher', sidebarOpen ? toggledIcon : defaultIcon)}
             aria-hidden="true"
             onClick={toggleSidebar}
         />
@@ -21,6 +20,5 @@ SidebarSwitcher.propTypes = {
     defaultIcon: PropTypes.string,
     toggledIcon: PropTypes.string,
     sidebarOpen: PropTypes.bool,
-    isInversed: PropTypes.bool,
     toggleSidebar: PropTypes.func,
 }

@@ -1,9 +1,22 @@
+.n2o-sidebar.none {
+    transform: translate(-100%, 0);
+    max-width: 0;
+}
+
+.n2o-sidebar.none.overlay-right,
+.n2o-sidebar.none.right {
+    transform: translate(100%, 0);
+    max-width: 0;
+}
+
 .n2o-sidebar {
     display: flex;
     flex-direction: column;
     color: $sidebar-color;
     background-color: $sidebar-bg-color;
     overflow-y: scroll;
+    transition: all 0.15s ease !important;
+    max-width: $sidebar-maxi-width;
 
     .n2o-user-box__title {
         color: $sidebar-color;
@@ -47,7 +60,6 @@
     position: fixed;
     height: 100%;
     z-index: 100;
-    transition: 0.2s ease-in-out;
 }
 
 .n2o-sidebar__item {
@@ -263,10 +275,6 @@
 
 .n2o-fixed-sidebar {
     height: 100vh;
-}
-
-.n2o-sidebar.none {
-    display: none;
 }
 
 .n2o-sidebar::-webkit-scrollbar {
