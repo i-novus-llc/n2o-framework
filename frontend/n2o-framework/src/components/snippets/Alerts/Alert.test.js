@@ -20,9 +20,9 @@ const setup = (propOverrides) => {
 describe('<Alert />', () => {
     it('проверяет скрытие кнопки закрытия по closeButton', () => {
         let { wrapper } = setup({ closeButton: true })
-        expect(wrapper.find('button.close')).toHaveLength(1)
+        expect(wrapper.find('.close.n2o-alert-close.n2o-alert-close__icon')).toHaveLength(1)
         wrapper = setup({ closeButton: false }).wrapper
-        expect(wrapper.find('button.close')).toHaveLength(0)
+        expect(wrapper.find('.close.n2o-alert-close.n2o-alert-close__icon')).toHaveLength(0)
     })
 
     it('проверяет выполнение onDismiss при закрытии', () => {

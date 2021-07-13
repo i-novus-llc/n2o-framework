@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тестирование положения сообщения об ошибке/успехе">
+    <form object-id="test">
+        <toolbar>
+            <group>
+                <button label="Успех" disable-on-empty-model="false">
+                    <invoke operation-id="save" message-position="relative"/>
+                </button>
+                <button label="Ошибка валидации" disable-on-empty-model="false">
+                    <invoke operation-id="validate" message-placement="bottom"/>
+                </button>
+            </group>
+
+            <group>
+                <button label="Успех/Ошибка в модальном окне" disable-on-empty-model="false">
+                    <show-modal page-id="modal"/>
+                </button>
+            </group>
+
+            <group>
+                <button label="Ошибка со стектрейсом" disable-on-empty-model="false">
+                    <show-modal page-id="modal2"/>
+                </button>
+            </group>
+        </toolbar>
+    </form>
+</simple-page>

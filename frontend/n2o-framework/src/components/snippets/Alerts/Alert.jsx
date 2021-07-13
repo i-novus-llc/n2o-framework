@@ -118,11 +118,17 @@ class Alert extends React.Component {
 
         const { detailsVisible } = this.state
 
+        const closeIconClasses = classNames(
+            'close n2o-alert-close n2o-alert-close__icon',
+            { 'with-details': details },
+        )
+
         return (
             <div
                 className={classNames('n2o-alert', 'alert', className, {
                     [`alert-${severity}`]: severity,
                     'n2o-alert--animated': animate,
+                    'with-details': details,
                 })}
                 style={style}
             >
@@ -153,13 +159,9 @@ class Alert extends React.Component {
                         )}
                     </div>
                 </div>
-                <div className="n2o-alert-close-container">
-                    {defaultTo(closeButton, true) && (
-                        <button className="close n2o-alert-close" onClick={onDismiss} type="button">
-                            <span>×</span>
-                        </button>
-                    )}
-                </div>
+                {defaultTo(closeButton, true) && (
+                    <div className={closeIconClasses} onClick={onDismiss}>×</div>
+                )}
             </div>
         )
     }

@@ -149,7 +149,6 @@ public class WidgetXmlReaderTest {
         assert openPage.getContainerId().equals("test");
         assert openPage.getResultContainerId().equals("test");
         assert openPage.getRefreshOnClose().equals(true);
-        assert openPage.getUpload().name().toLowerCase().equals("copy");
         assert openPage.getWidth().equals("100");
         assert openPage.getPreFilters()[0].getFieldId().equals("id");
         assert openPage.getPreFilters()[0].getTargetWidgetId().equals("test");
@@ -165,7 +164,6 @@ public class WidgetXmlReaderTest {
         assert showModal.getContainerId().equals("test");
         assert showModal.getResultContainerId().equals("test");
         assert showModal.getRefreshOnClose().equals(true);
-        assert showModal.getUpload().name().toLowerCase().equals("copy");
         assert showModal.getWidth().equals("100");
         assert showModal.getPreFilters()[0].getFieldId().equals("id");
         assert showModal.getPreFilters()[0].getTargetWidgetId().equals("test");

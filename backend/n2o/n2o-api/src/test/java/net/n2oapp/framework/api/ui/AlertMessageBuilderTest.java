@@ -11,20 +11,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Тесты {@link ErrorMessageBuilder}
+ * Тесты {@link AlertMessageBuilder}
  */
-public class ErrorMessageBuilderTest {
+public class AlertMessageBuilderTest {
     @Test
     public void testAnyException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("n2o.exceptions.error.message", "n2o.exceptions.error.message")).thenReturn("Internal error");
-        ErrorMessageBuilder builder = new ErrorMessageBuilder(messageSource);
+        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, null);
         Exception e = new IllegalStateException();
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("Internal error"));
         assertThat(message.getSeverity(), is("danger"));
-        assertThat(message.getStacktrace(), hasItem(containsString("ErrorMessageBuilderTest")));
-        builder = new ErrorMessageBuilder(messageSource, false);
+        assertThat(message.getStacktrace(), hasItem(containsString("AlertMessageBuilderTest")));
+        builder = new AlertMessageBuilder(messageSource, null, false);
         message = builder.build(e);
         assertThat(message.getStacktrace(), nullValue());
     }
@@ -33,7 +33,7 @@ public class ErrorMessageBuilderTest {
     public void testUserException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("user.code", "user.code")).thenReturn("User message {0}");
-        ErrorMessageBuilder builder = new ErrorMessageBuilder(messageSource);
+        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, null);
         N2oException e = new N2oUserException("user.code").addData("test");
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("User message test"));

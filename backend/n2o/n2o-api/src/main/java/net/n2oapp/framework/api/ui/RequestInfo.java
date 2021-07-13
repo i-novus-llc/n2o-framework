@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.user.UserContext;
 
 import java.util.LinkedHashMap;
@@ -21,6 +23,8 @@ public class RequestInfo {
     private String failAlertWidgetId;
     private String successAlertWidgetId;
     private String messagesForm;
+    private MessagePosition messagePosition;
+    private MessagePlacement messagePlacement;
     private CompileContext<?, ?> context;
 
     public void addAttribute(String name, Object value) {

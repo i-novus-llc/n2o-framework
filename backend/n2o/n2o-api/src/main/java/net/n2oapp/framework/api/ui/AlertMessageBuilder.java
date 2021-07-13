@@ -1,8 +1,10 @@
 package net.n2oapp.framework.api.ui;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.*;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.PropertyResolver;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,25 +15,39 @@ import java.util.StringTokenizer;
 
 
 /**
- * Сборка сообщения об ошибке в формате клиента
+ * Сборка сообщения об ошибке\успехе в формате клиента
  */
-public class ErrorMessageBuilder {
+public class AlertMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
+    private PropertyResolver propertyResolver;
     private Boolean showStacktrace = true;
 
-    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
+        this.propertyResolver = propertyResolver;
     }
 
-    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor, Boolean showStacktrace) {
+    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
+                               Boolean showStacktrace) {
         this.messageSourceAccessor = messageSourceAccessor;
+        this.propertyResolver = propertyResolver;
         this.showStacktrace = showStacktrace;
     }
 
     public ResponseMessage build(Exception e) {
-        ResponseMessage resp = new ResponseMessage();
+        ResponseMessage resp = constructMessage();
+        return prepareMessage(e, resp);
+    }
+
+    public ResponseMessage build(Exception e, RequestInfo requestInfo) {
+        ResponseMessage resp = constructMessage(requestInfo);
+        return prepareMessage(e, resp);
+    }
+
+    private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         resp.setText(buildText(e));
+
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
@@ -43,12 +59,37 @@ public class ErrorMessageBuilder {
         return resp;
     }
 
-    private List<ResponseMessage> buildValidationMessages(N2oValidationException e) {
+    public ResponseMessage buildSuccessMessage(String successText, RequestInfo requestInfo, DataSet data) {
+        ResponseMessage message = constructMessage(requestInfo);
+        message.setSeverityType(SeverityType.success);
+        message.setText(StringUtils.resolveLinks(successText, data));
+        message.setData(data);
+        return message;
+    }
+
+    private ResponseMessage constructMessage() {
+        ResponseMessage message = new ResponseMessage();
+        if (propertyResolver != null) {
+            message.setPosition(propertyResolver.getProperty("n2o.api.message.position"));
+            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement"));
+        }
+        return message;
+    }
+
+    public ResponseMessage constructMessage(RequestInfo requestInfo) {
+        ResponseMessage message = constructMessage();
+        if (requestInfo.getMessagePosition() != null)
+            message.setPosition(requestInfo.getMessagePosition().name());
+        if (requestInfo.getMessagePlacement() != null)
+            message.setPlacement(requestInfo.getMessagePlacement().name());
+        return message;
+    }
+
+    private List<ResponseMessage> buildValidationMessages(N2oValidationException e, RequestInfo requestInfo) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
-                ResponseMessage resp = new ResponseMessage();
-                //resp.setChoice(e.getChoice()); todo use dialog
+                ResponseMessage resp = constructMessage(requestInfo);
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());
@@ -85,10 +126,10 @@ public class ErrorMessageBuilder {
             return localizedMessage;
     }
 
-    public List<ResponseMessage> buildMessages(Exception e) {
+    public List<ResponseMessage> buildMessages(Exception e, RequestInfo requestInfo) {
         return e instanceof N2oValidationException
-                ? buildValidationMessages((N2oValidationException) e)
-                : Collections.singletonList(build(e));
+                ? buildValidationMessages((N2oValidationException) e, requestInfo)
+                : Collections.singletonList(build(e, requestInfo));
     }
 
 }
