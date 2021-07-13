@@ -27,7 +27,9 @@ public class Application implements Compiled {
     @Getter
     @Setter
     public static class Layout implements Compiled {
+        @JsonProperty
         private Boolean fullSizeHeader;
+        @JsonProperty
         private Boolean fixed;
     }
 

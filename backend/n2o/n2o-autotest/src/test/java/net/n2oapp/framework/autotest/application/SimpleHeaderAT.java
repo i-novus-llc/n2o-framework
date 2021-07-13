@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.header;
+package net.n2oapp.framework.autotest.application;
 
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
@@ -38,9 +38,9 @@ public class SimpleHeaderAT extends AutoTestBase {
 
     @Test
     public void simpleHeader() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/header/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/header/testPage1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/header/test.application.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/header/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/header/testPage1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/header/test.application.xml"));
 
         String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);

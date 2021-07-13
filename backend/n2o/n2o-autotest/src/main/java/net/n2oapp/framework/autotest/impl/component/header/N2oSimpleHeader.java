@@ -41,4 +41,14 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
         return N2oSelenide.component(element().$(".navbar-collapse .n2o-search-bar"), N2oSearchBar.class);
     }
 
+    @Override
+    public void sidebarSwitcherShouldExist() {
+        element().$(".n2o-sidebar-switcher").should(Condition.exist);
+    }
+
+    @Override
+    public void switchSidebar() {
+        element().$(".n2o-sidebar-switcher").click();
+    }
+
 }

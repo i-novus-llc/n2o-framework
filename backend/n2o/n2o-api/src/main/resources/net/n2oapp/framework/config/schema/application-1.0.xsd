@@ -191,9 +191,9 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="toggle-on-hover" type="xs:boolean" >
+        <xs:attribute name="toggle-on-hover" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Открывается ли панель по hover. По умолчанию true</xs:documentation>
+                <xs:documentation>Открывается ли панель по hover. По умолчанию false</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="overlay" type="xs:boolean" >

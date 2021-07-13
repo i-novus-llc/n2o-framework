@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.application.Side;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
-import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
@@ -21,7 +19,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции бокового меню
@@ -42,6 +41,19 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    public void defaultSidebar() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/defaultSidebar.application.xml")
+                .get(new ApplicationContext("defaultSidebar"));
+        Sidebar sidebar = application.getSidebar();
+        assertThat(sidebar.getSrc(), is("Sidebar"));
+        assertThat(sidebar.getDefaultState(), is(SidebarState.none));
+        assertThat(sidebar.getToggledState(), is(SidebarState.maxi));
+        assertThat(sidebar.getToggleOnHover(), is(false));
+        assertThat(sidebar.getOverlay(), is(false));
+        assertThat(sidebar.getSide(), is(Side.left));
+    }
+
+    @Test
     public void sidebarMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
@@ -51,7 +63,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
         Sidebar sidebar = application.getSidebar();
         assertThat(sidebar.getDefaultState(), is(SidebarState.none));
         assertThat(sidebar.getToggledState(), is(SidebarState.micro));
-        assertThat(sidebar.getToggleOnHover(), is(false));
+        assertThat(sidebar.getToggleOnHover(), is(true));
         assertThat(sidebar.getSide(), is(Side.right));
         assertThat(sidebar.getOverlay(), is(false));
         assertThat(sidebar.getLogo().getSrc(), is("/logo.png"));

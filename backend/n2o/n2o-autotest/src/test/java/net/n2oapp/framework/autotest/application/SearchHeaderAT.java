@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.header;
+package net.n2oapp.framework.autotest.application;
 
 import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.header.SearchBar;
