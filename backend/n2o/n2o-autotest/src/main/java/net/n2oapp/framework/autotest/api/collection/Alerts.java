@@ -14,5 +14,25 @@ public interface Alerts extends ComponentsCollection {
         void shouldHaveText(String text);
 
         void shouldHaveColor(Colors colors);
+
+        void shouldHavePosition(Position position);
+
+        void shouldHavePlacement(Placement placement);
+
+        void shouldHaveStacktrace();
+
+        enum Position {
+            FIXED,
+            RELATIVE;
+
+            public String name(String prefix) {
+                return prefix + name().toLowerCase();
+            }
+        }
+
+        enum Placement {
+            TOP,
+            BOTTOM
+        }
     }
 }
