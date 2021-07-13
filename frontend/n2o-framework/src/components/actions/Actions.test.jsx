@@ -24,7 +24,7 @@ const setup = (propsOverride) => {
     }
 
     return mount(
-        <Provider store={mockStore()({})}>
+        <Provider store={mockStore()({ toolbar: {} })}>
             <Actions {...props} {...propsOverride} />
         </Provider>,
     )

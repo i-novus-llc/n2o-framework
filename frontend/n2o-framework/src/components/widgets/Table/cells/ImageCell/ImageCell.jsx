@@ -90,22 +90,26 @@ function ImageCell(props) {
         ? defaultImageProps
         : propsResolver(defaultImageProps, model)
 
-    const Wrapper = url || target ? LinkActionWrapper : Fragment
+    let Wrapper = Fragment
+    let wrapperProps = {}
+
+    if (url || target) {
+        Wrapper = LinkActionWrapper
+        wrapperProps = {
+            url,
+            pathMapping,
+            queryMapping,
+            target,
+            className: classNames('n2o-image-cell', { 'with-statuses': hasStatuses }),
+        }
+    }
 
     return (
         <span
             className="n2o-image-cell-container"
             onClick={onClick}
         >
-            <Wrapper
-                url={url}
-                pathMapping={pathMapping}
-                queryMapping={queryMapping}
-                target={target}
-                className={classNames('n2o-image-cell', {
-                    'with-statuses': hasStatuses,
-                })}
-            >
+            <Wrapper {...wrapperProps}>
                 <Image
                     id={id}
                     visible={visible}

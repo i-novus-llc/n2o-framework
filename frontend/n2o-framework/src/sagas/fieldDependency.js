@@ -4,7 +4,6 @@ import {
     select,
     take,
     fork,
-    debounce,
     takeEvery,
     delay,
     cancel,
@@ -292,8 +291,7 @@ export function* resolveDependency(action) {
 
 export function* catchAction() {
     yield takeEvery(actionTypes.INITIALIZE, resolveDependency)
-    // ToDo: Убрать debounce и вообще по возможности REGISTER_FIELD_EXTRA
-    yield debounce(50, registerFieldExtra.type, resolveDependency)
+    yield takeEvery(registerFieldExtra.type, resolveDependency)
     yield takeEvery(actionTypes.CHANGE, resolveDependency)
 }
 
