@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import { createStructuredSelector } from 'reselect'
 import cx from 'classnames'
 
 import { registerButton, removeAllButtons } from '../../ducks/toolbar/store'
@@ -214,19 +213,19 @@ class ButtonContainer extends React.Component {
     }
 }
 
-const mapStateToProps = createStructuredSelector({
-    isInit: (state, ownProps) => isInitSelector(ownProps.containerKey, ownProps.id)(state),
-    visible: (state, ownProps) => isVisibleSelector(ownProps.containerKey, ownProps.id)(state),
-    disabled: (state, ownProps) => isDisabledSelector(ownProps.containerKey, ownProps.id)(state),
-    color: (state, ownProps) => colorSelector(ownProps.containerKey, ownProps.id)(state),
-    size: (state, ownProps) => sizeSelector(ownProps.containerKey, ownProps.id)(state),
-    title: (state, ownProps) => titleSelector(ownProps.containerKey, ownProps.id)(state),
-    count: (state, ownProps) => countSelector(ownProps.containerKey, ownProps.id)(state),
-    icon: (state, ownProps) => iconSelector(ownProps.containerKey, ownProps.id)(state),
-    hint: (state, ownProps) => hintSelector(ownProps.containerKey, ownProps.id)(state),
-    hintPosition: (state, ownProps) => hintPositionSelector(ownProps.containerKey, ownProps.id)(state),
-    className: (state, ownProps) => classSelector(ownProps.containerKey, ownProps.id)(state),
-    style: (state, ownProps) => styleSelector(ownProps.containerKey, ownProps.id)(state),
+const mapStateToProps = (state, { containerKey, id }) => ({
+    isInit: isInitSelector(state, containerKey, id),
+    visible: isVisibleSelector(state, containerKey, id),
+    disabled: isDisabledSelector(state, containerKey, id),
+    color: colorSelector(state, containerKey, id),
+    size: sizeSelector(state, containerKey, id),
+    title: titleSelector(state, containerKey, id),
+    count: countSelector(state, containerKey, id),
+    icon: iconSelector(state, containerKey, id),
+    hint: hintSelector(state, containerKey, id),
+    hintPosition: hintPositionSelector(state, containerKey, id),
+    className: classSelector(state, containerKey, id),
+    style: styleSelector(state, containerKey, id),
 })
 
 ButtonContainer.propTypes = {

@@ -199,7 +199,7 @@ Alert.propTypes = {
     /**
      * Цвет алерта
      */
-    severity: PropTypes.oneOf([['info', 'danger', 'warning', 'success']]),
+    severity: PropTypes.oneOf(['info', 'danger', 'warning', 'success']),
     /**
      * Подробности алерта
      */

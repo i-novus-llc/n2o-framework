@@ -90,7 +90,7 @@ RadioGroupControl.propTypes = {
     visible: PropTypes.bool,
     style: PropTypes.object,
     className: PropTypes.string,
-    size: PropTypes.number.isRequired,
+    size: PropTypes.number,
     type: PropTypes.oneOf([RadioTypes.button, RadioTypes.input, RadioTypes.tabs]),
     isLoading: PropTypes.bool,
     _fetchData: PropTypes.func,
