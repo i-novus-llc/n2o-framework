@@ -52,10 +52,18 @@ public class ArgumentsInvocationUtil {
                 Argument.Type.CRITERIA.equals(arg.getType()))).collect(Collectors.toList()).size() > 1)
             throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
 
+        boolean hasOnlyOneEntity = hasOnlyOneEntity(argumentInstances);
         int idx = 0;
+
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
+            String mapping;
+            if (hasOnlyOneEntity) {
+                mapping = filter.getMapping() != null ? filter.getMapping() : filter.getFilterField();
+                if (!mapping.startsWith("["))
+                    mapping = "[0]." + mapping;
+            } else
+                mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
             MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
             idx++;
         }
@@ -79,26 +87,45 @@ public class ArgumentsInvocationUtil {
             return null;
 
         Object[] result = instantiateArguments(invocation.getArguments());
-        boolean hasOnlyOneEntity = result.length == 1 && result[0] != null;
+        boolean hasOnlyOneEntity = hasOnlyOneEntity(result);
+        int idx = 0;
 
-        if (hasOnlyOneEntity) {
-            for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
-                String mapping = entry.getValue().getMapping() != null ? entry.getValue().getMapping() : entry.getKey();
-                MappingProcessor.inMap(result, "[0]." + mapping, dataSet.get(entry.getKey()));
-            }
-        } else {
-            int idx = 0;
-            for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
-                String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
-                MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
-                idx++;
-            }
+        for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
+            String mapping;
+            if (hasOnlyOneEntity) {
+                mapping = entry.getValue().getMapping() != null ? entry.getValue().getMapping() : entry.getKey();
+                if (!mapping.startsWith("["))
+                    mapping = "[0]." + mapping;
+            } else
+                mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
+            MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
+            idx++;
         }
 
         resolveDefaultValues(invocation.getArguments(), domainProcessor, result);
         return result;
     }
 
+    /**
+     * Проверка, что входящий массив содержит только единственную реализацию экземпляра аргумента
+     *
+     * @param instances Массив реализаций классов аргументов
+     * @return true, если входящий массив содержит только единственную реализацию экземпляра аргумента и больше ничего,
+     * иначе - false
+     */
+    private static boolean hasOnlyOneEntity(Object[] instances) {
+        return instances.length == 1 && instances[0] != null;
+    }
+
+    /**
+     * Получение маппинга аргумента
+     *
+     * @param arguments      Массив аргументов
+     * @param idx            Индекс возможной позиции
+     * @param mapping        Указанный маппинг
+     * @param defaultMapping Маппинг по умолчанию
+     * @return Маппинг аргумента
+     */
     private static String getMapping(Argument[] arguments, int idx, String mapping, String defaultMapping) {
         String resultMapping;
         int argIdx;
