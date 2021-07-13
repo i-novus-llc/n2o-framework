@@ -57,13 +57,7 @@ public class ArgumentsInvocationUtil {
 
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            String mapping;
-            if (hasOnlyOneEntity) {
-                mapping = filter.getMapping() != null ? filter.getMapping() : filter.getFilterField();
-                if (!mapping.startsWith("["))
-                    mapping = "[0]." + mapping;
-            } else
-                mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
+            String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField(), hasOnlyOneEntity);
             MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
             idx++;
         }
@@ -91,13 +85,7 @@ public class ArgumentsInvocationUtil {
         int idx = 0;
 
         for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
-            String mapping;
-            if (hasOnlyOneEntity) {
-                mapping = entry.getValue().getMapping() != null ? entry.getValue().getMapping() : entry.getKey();
-                if (!mapping.startsWith("["))
-                    mapping = "[0]." + mapping;
-            } else
-                mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
+            String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey(), hasOnlyOneEntity);
             MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
             idx++;
         }
@@ -107,11 +95,10 @@ public class ArgumentsInvocationUtil {
     }
 
     /**
-     * Проверка, что входящий массив содержит только единственную реализацию экземпляра аргумента
+     * Проверка, что входящий массив состоит только из одного экземпляра аргумента
      *
      * @param instances Массив реализаций классов аргументов
-     * @return true, если входящий массив содержит только единственную реализацию экземпляра аргумента и больше ничего,
-     * иначе - false
+     * @return true, если входящий массив состоит только из одного экземпляра аргумента, иначе - false
      */
     private static boolean hasOnlyOneEntity(Object[] instances) {
         return instances.length == 1 && instances[0] != null;
@@ -120,24 +107,31 @@ public class ArgumentsInvocationUtil {
     /**
      * Получение маппинга аргумента
      *
-     * @param arguments      Массив аргументов
-     * @param idx            Индекс возможной позиции
-     * @param mapping        Указанный маппинг
-     * @param defaultMapping Маппинг по умолчанию
+     * @param arguments        Массив аргументов
+     * @param idx              Индекс возможной позиции
+     * @param mapping          Указанный маппинг
+     * @param defaultMapping   Маппинг по умолчанию
+     * @param hasOnlyOneEntity Результирующий массив состоит только из одного экземпляра
      * @return Маппинг аргумента
      */
-    private static String getMapping(Argument[] arguments, int idx, String mapping, String defaultMapping) {
+    private static String getMapping(Argument[] arguments, int idx, String mapping,
+                                     String defaultMapping, boolean hasOnlyOneEntity) {
         String resultMapping;
-        int argIdx;
-        if (mapping != null) {
-            argIdx = findArgumentPosition(arguments, mapping.substring(1, mapping.indexOf("]")).replace("'", ""));
-            resultMapping = argIdx == -1 ? mapping :
-                    "[" + argIdx + "]" + mapping.substring(mapping.indexOf("]") + 1);
+        if (hasOnlyOneEntity) {
+            resultMapping = mapping != null ? mapping : defaultMapping;
+            if (!resultMapping.startsWith("["))
+                resultMapping = "[0]." + resultMapping;
         } else {
-            argIdx = findArgumentPosition(arguments, defaultMapping);
-            resultMapping = argIdx == -1 ? "[" + idx + "]" :
-                    "[" + argIdx + "]";
-
+            int argIdx;
+            if (mapping != null) {
+                argIdx = findArgumentPosition(arguments, mapping.substring(1, mapping.indexOf("]")).replace("'", ""));
+                resultMapping = argIdx == -1 ? mapping :
+                        "[" + argIdx + "]" + mapping.substring(mapping.indexOf("]") + 1);
+            } else {
+                argIdx = findArgumentPosition(arguments, defaultMapping);
+                resultMapping = argIdx == -1 ? "[" + idx + "]" :
+                        "[" + argIdx + "]";
+            }
         }
         return resultMapping;
     }
