@@ -66,3 +66,14 @@
 .btn {
     width: 100%;
 }
+
+.modal-dialog {
+    .modal.fade & {
+        transition: top 0.3s ease-out;
+        top: -50px;
+    }
+
+    .modal.show & {
+        top: 0;
+    }
+}

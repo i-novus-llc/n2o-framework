@@ -246,3 +246,7 @@
         bottom: 35px;
     }
 }
+
+.modal-open .n2o-alerts--fixed {
+    left: calc((100vw - 17px) * 0.5);
+}
