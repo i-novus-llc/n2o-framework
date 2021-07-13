@@ -25,9 +25,8 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void brandLogoShouldBe(String brandName) {
-        element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0)
-                .shouldHave(Condition.text(brandName));
+    public void brandLogoShouldBe(String logo) {
+        element().$(".n2o-brand__image").shouldHave(Condition.attributeMatching("src", ".*"+logo));
     }
 
     @Override

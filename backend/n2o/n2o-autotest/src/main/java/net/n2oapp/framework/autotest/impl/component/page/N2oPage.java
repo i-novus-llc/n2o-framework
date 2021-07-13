@@ -97,7 +97,7 @@ public class N2oPage extends N2oComponent implements Page {
     public void shouldHaveLayout(NavigationLayout layout) {
         if (NavigationLayout.fullSizeHeader.equals(layout))
             element().$(".n2o-layout-full-size-header").should(Condition.exist);
-        if (NavigationLayout.fullSizeHeader.equals(layout))
+        else if (NavigationLayout.fullSizeHeader.equals(layout))
             element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
     }
 

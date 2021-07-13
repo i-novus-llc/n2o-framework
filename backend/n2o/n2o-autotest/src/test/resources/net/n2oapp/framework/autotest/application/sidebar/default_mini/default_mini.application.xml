@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="index">
-    <sidebar title="Боковая панель по умолчанию только икоки" default-state="mini" toggle-on-hover="false">
+    <sidebar title="Боковая панель по умолчанию только иконки" default-state="mini" toggle-on-hover="false">
         <nav>
             <page page-id="index" icon="fa fa-cutlery" label="Раздел 1"/>
             <a label="Раздел 2" href="i-novus.ru" icon="fa fa-coffee"/>
