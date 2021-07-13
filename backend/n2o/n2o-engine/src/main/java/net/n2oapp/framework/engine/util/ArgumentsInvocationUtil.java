@@ -12,20 +12,17 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.SpelParserConfiguration;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
  * Утилитный класс, служащий для преобразования данных вызова в массив аргументов
  */
 public class ArgumentsInvocationUtil {
-    private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
-
 
     /**
      * Собирает аргументы для действия invocation в выборке
@@ -52,12 +49,10 @@ public class ArgumentsInvocationUtil {
                 Argument.Type.CRITERIA.equals(arg.getType()))).collect(Collectors.toList()).size() > 1)
             throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
 
-        boolean hasOnlyOneEntity = hasOnlyOneEntity(argumentInstances);
         int idx = 0;
-
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField(), hasOnlyOneEntity);
+            String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
             MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
             idx++;
         }
@@ -81,11 +76,10 @@ public class ArgumentsInvocationUtil {
             return null;
 
         Object[] result = instantiateArguments(invocation.getArguments());
-        boolean hasOnlyOneEntity = hasOnlyOneEntity(result);
-        int idx = 0;
 
+        int idx = 0;
         for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
-            String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey(), hasOnlyOneEntity);
+            String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
             MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
             idx++;
         }
@@ -95,44 +89,29 @@ public class ArgumentsInvocationUtil {
     }
 
     /**
-     * Проверка, что входящий массив состоит только из одного экземпляра аргумента
-     *
-     * @param instances Массив реализаций классов аргументов
-     * @return true, если входящий массив состоит только из одного экземпляра аргумента, иначе - false
-     */
-    private static boolean hasOnlyOneEntity(Object[] instances) {
-        return instances.length == 1 && instances[0] != null;
-    }
-
-    /**
      * Получение маппинга аргумента
      *
      * @param arguments        Массив аргументов
      * @param idx              Индекс возможной позиции
      * @param mapping          Указанный маппинг
      * @param defaultMapping   Маппинг по умолчанию
-     * @param hasOnlyOneEntity Результирующий массив состоит только из одного экземпляра
      * @return Маппинг аргумента
      */
-    private static String getMapping(Argument[] arguments, int idx, String mapping,
-                                     String defaultMapping, boolean hasOnlyOneEntity) {
+    private static String getMapping(Argument[] arguments, int idx, String mapping, String defaultMapping) {
+        validateMapping(mapping);
+
         String resultMapping;
-        if (hasOnlyOneEntity) {
-            resultMapping = mapping != null ? mapping : defaultMapping;
-            if (!resultMapping.startsWith("["))
-                resultMapping = "[0]." + resultMapping;
+        int argIdx;
+        if (mapping != null) {
+            argIdx = findArgumentPosition(arguments, mapping.substring(1, mapping.indexOf("]")).replace("'", ""));
+            resultMapping = argIdx == -1 ? mapping :
+                    "[" + argIdx + "]" + mapping.substring(mapping.indexOf("]") + 1);
         } else {
-            int argIdx;
-            if (mapping != null) {
-                argIdx = findArgumentPosition(arguments, mapping.substring(1, mapping.indexOf("]")).replace("'", ""));
-                resultMapping = argIdx == -1 ? mapping :
-                        "[" + argIdx + "]" + mapping.substring(mapping.indexOf("]") + 1);
-            } else {
-                argIdx = findArgumentPosition(arguments, defaultMapping);
-                resultMapping = argIdx == -1 ? "[" + idx + "]" :
-                        "[" + argIdx + "]";
-            }
+            argIdx = findArgumentPosition(arguments, defaultMapping);
+            resultMapping = argIdx == -1 ? "[" + idx + "]" :
+                    "[" + argIdx + "]";
         }
+
         return resultMapping;
     }
 
@@ -192,5 +171,17 @@ public class ArgumentsInvocationUtil {
             }
         }
         return argumentInstances;
+    }
+
+    private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+](\\..+)?").asPredicate();
+
+    /**
+     * Валидирование маппинга поля
+     *
+     * @param mapping Маппинг
+     */
+    private static void validateMapping(String mapping) {
+        if (!MAPPING_PATTERN.test(mapping))
+            throw new IllegalArgumentException("Not valid mapping: " + mapping);
     }
 }
