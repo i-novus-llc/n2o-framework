@@ -42,7 +42,7 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     }
 
     @Override
-    public void sidebarSwitcherShouldExist() {
+    public void sidebarSwitcherShouldExists() {
         element().$(".n2o-sidebar-switcher").should(Condition.exist);
     }
 

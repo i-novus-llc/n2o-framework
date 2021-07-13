@@ -43,13 +43,13 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExist();
+        header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().brandNameShouldBe("Лого");
         page.sidebar().brandLogoShouldBe("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldBeHidden();
+        page.sidebar().shouldHaveState(SidebarState.none);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExist();
+        header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.shouldHaveLayout(NavigationLayout.fullSizeSidebar);
     }
@@ -73,7 +73,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExist();
+        header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldBeFixed();
     }
@@ -86,7 +86,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExist();
+        header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldBeRight();
     }
@@ -99,7 +99,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExist();
+        header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldBeOverlay();
     }

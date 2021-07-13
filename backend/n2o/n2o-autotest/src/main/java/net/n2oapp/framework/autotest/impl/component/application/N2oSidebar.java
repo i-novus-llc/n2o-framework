@@ -31,7 +31,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public void shouldBeFixed() {
-        element().shouldHave(Condition.cssClass("n2o-fixed-sidebar"));
+        element().parent().shouldHave(Condition.cssClass("n2o-layout-fixed"));
     }
 
     @Override
