@@ -28,7 +28,7 @@ public class TextCellAT extends AutoTestBase {
         super.setUp();
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/text/test.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
@@ -41,7 +41,7 @@ public class TextCellAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oCellsPack(), new N2oAllDataPack());
     }
 

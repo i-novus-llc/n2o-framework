@@ -6,13 +6,13 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
@@ -40,13 +40,13 @@ import net.n2oapp.framework.config.reader.GroovySourceReader;
 import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
+import net.n2oapp.framework.config.register.ConfigRepository;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
-import net.n2oapp.framework.config.register.ConfigRepository;
-import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
+import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -109,7 +109,7 @@ public class N2oEnvironmentConfiguration {
                 new MetaType("page", N2oPage.class),
                 new MetaType("widget", N2oWidget.class),
                 new MetaType("fieldset", N2oFieldSet.class),
-                new MetaType("header", N2oHeader.class),
+                new MetaType("application", N2oApplication.class),
                 new MetaType("menu", N2oMenu.class)));
         return register;
     }

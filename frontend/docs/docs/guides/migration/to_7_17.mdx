@@ -4,6 +4,43 @@ title: Миграция с 7.16 на 7.17
 
 ### Изменения в XML API {#changes-xml-api}
 
+- Настройка шапки, подвала и боковой панели приложения перенесена в файл application.xml. Это новый тип метаданных,
+описывающий структуру приложения. Требуется мигрировать содержимое файла *.header.xml в аналогичный файл *.application.xml.
+
+```xml title="Пример преобразования header в application"
+Было:
+<?xml version='1.0' encoding='UTF-8'?>
+<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
+        color="inverse"
+        welcome-page-id="ProtoPage"
+        brand-name="N2O">
+    <nav>
+        <page page-id="ProtoPage" route="/proto" label="${contacts}"/>
+    </nav>
+</header>
+
+Стало:
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+        welcome-page-id="ProtoPage">
+    <header title="N2O"
+            css-class="inverse">
+          <nav>
+              <page page-id="ProtoPage" route="/proto" label="${contacts}"/>
+          </nav>
+    </header>
+</application>
+```
+
+Обратить внимание:
+-свойство `color` в `header` теперь необходимо задавать в `css-class`;
+-подвал раньше генерировался автоматически, теперь его необходимо прописывать в `application.xml`.
+
+- Настройка `n2o.header.homepage.id` переименована в `n2o.homepage.id`.
+- Настройка `n2o.header.id` переименована в `n2o.application.id`.
+- Настройка `n2o.header.fixed` переименована в `n2o.navigationLayout.fixed`.
+- Упразднена настройка `n2o.header.title`.
+
 - У `<pagination>` в списковых виджетах атрибут `hide-single-page` (по умолчанию `true`), отвечающий за скрытие пагинации на единственной странице,
 был переименован в `show-single-page` (по умолчанию `false`). Обратная совместимость сохранена.
 

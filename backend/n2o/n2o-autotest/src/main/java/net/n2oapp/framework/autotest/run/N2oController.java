@@ -7,8 +7,8 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.rest.ControllerFactory;
@@ -17,7 +17,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
@@ -74,9 +74,9 @@ public class N2oController {
 
     @GetMapping("/n2o/config")
     public AppConfig config() {
-        List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
-        Assert.isTrue(!headers.isEmpty(), "No header metadata found");
-        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
+        List<SourceInfo> apps = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
+        Assert.isTrue(!apps.isEmpty(), "No header metadata found");
+        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(apps.get(0).getId()), new DataSet()));
         return configBuilder.get();
     }
 

@@ -263,7 +263,7 @@
                 </xs:attribute>
                 <xs:attribute name="has-header" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Наличие хедера.</xs:documentation>
+                        <xs:documentation>Наличие шапки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">

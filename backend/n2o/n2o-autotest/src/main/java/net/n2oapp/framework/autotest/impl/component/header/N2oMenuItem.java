@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.component.header.MenuItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
- * Базовый класс кнопки в меню хедера для автотестирования
+ * Базовый класс кнопки в меню для автотестирования
  */
 public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
 

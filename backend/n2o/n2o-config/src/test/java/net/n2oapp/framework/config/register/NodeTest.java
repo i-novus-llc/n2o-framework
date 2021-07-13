@@ -19,12 +19,12 @@ public class NodeTest {
         String folderPath =
                 "classpath*:META-INF/conf/**/*.xml";
         String absolutePath =
-                "jar:file:/C:/n2o-bundle/target/n2o-bundle-1.0-SNAPSHOT/WEB-INF/lib/n2o-config.jar!/META-INF/conf/header/default.header.xml";
+                "jar:file:/C:/n2o-bundle/target/n2o-bundle-1.0-SNAPSHOT/WEB-INF/lib/n2o-config.jar!/META-INF/conf/header/default.application.xml";
         String localPath
-                = "header/default.header.xml";
+                = "header/default.application.xml";
         assert localPath.equals(Node.calculateLocalPathByLocationPattern(folderPath, absolutePath));
 
-        assert Node.calculateLocalPathByLocationPattern("classpath*:META-INF/conf/header/default.header.xml", absolutePath).equals("default.header.xml");
+        assert Node.calculateLocalPathByLocationPattern("classpath*:META-INF/conf/header/default.application.xml", absolutePath).equals("default.application.xml");
 
     }
 
@@ -33,11 +33,11 @@ public class NodeTest {
     public void testCalculateLocalPathByDirectoryPath() throws Exception {
 
         String folderPath = "C:/Temp";
-        String absolutePath = "file:/C:/Temp/header/default.header.xml";
-        String localPath = "header/default.header.xml";
+        String absolutePath = "file:/C:/Temp/header/default.application.xml";
+        String localPath = "header/default.application.xml";
         assert localPath.equals(Node.calculateLocalPathByDirectoryPath(folderPath, absolutePath));
 
-        absolutePath = "C:/Temp/header/default.header.xml";
+        absolutePath = "C:/Temp/header/default.application.xml";
         assert localPath.equals(Node.calculateLocalPathByDirectoryPath(folderPath, absolutePath));
 
     }
