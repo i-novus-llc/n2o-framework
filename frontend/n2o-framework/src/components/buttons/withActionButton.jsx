@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { compose, withPropsOnChange } from 'recompose'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
@@ -11,6 +10,7 @@ import isNil from 'lodash/isNil'
 import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
 import { registerButton, removeButton } from '../../ducks/toolbar/store'
 import {
+    toolbarSelector,
     isDisabledSelector,
     messageSelector,
     isInitSelector,
@@ -73,63 +73,57 @@ export default function withActionButton(options = {}) {
 
     return (WrappedComponent) => {
         class ButtonContainer extends React.Component {
-      state = { confirmVisible: false };
+            state = { confirmVisible: false }
 
-      isConfirm = false;
+            isConfirm = false
 
-      lastEvent = null;
+            lastEvent = null
 
-      constructor(props) {
-          super(props)
-          this.generatedTooltipId = getID()
-          this.generatedButtonId = props.uid || getID()
-      }
+            constructor(props) {
+                super(props)
+                this.generatedTooltipId = getID()
+                this.generatedButtonId = props.uid || getID()
+            }
 
-      componentWillUnmount() {
-          const { removeButton, entityKey, id } = this.props
+            componentWillUnmount() {
+                const { removeButton, entityKey, id } = this.props
 
-          removeButton(entityKey, id)
-      }
+                removeButton(entityKey, id)
+            }
 
-      componentDidMount() {
-          this.initIfNeeded()
-      }
+            componentDidMount() {
+                this.initIfNeeded()
+            }
 
-      initIfNeeded = () => {
-          const {
-              entityKey,
-              id,
-              initialProps: { visible = true, disabled, count, conditions } = {},
-              registerButton,
-          } = this.props
+            initIfNeeded = () => {
+                const {
+                    entityKey,
+                    id,
+                    initialProps: {
+                        visible = true,
+                        disabled,
+                        count,
+                        conditions,
+                    } = {},
+                    registerButton,
+                } = this.props
 
-          registerButton(entityKey, id, {
-              visible,
-              disabled,
-              count,
-              conditions,
-          })
-      };
+                registerButton(entityKey, id, { visible, disabled, count, conditions })
+            }
 
-      // eslint-disable-next-line consistent-return
-      mapConfirmProps = () => {
-          const { confirm } = this.props
+            // eslint-disable-next-line consistent-return
+            mapConfirmProps = () => {
+                const { confirm } = this.props
 
-          if (confirm) {
-              const { store } = this.context
-              const state = store.getState()
-              const { modelLink, text } = confirm
-              const resolvedText = linkResolver(state, {
-                  link: modelLink,
-                  value: text,
-              })
+                if (confirm) {
+                    const { store } = this.context
+                    const state = store.getState()
+                    const { modelLink, text } = confirm
+                    const resolvedText = linkResolver(state, { link: modelLink, value: text })
 
-              return {
-                  ...confirm,
-                  text: resolvedText,
-              }
-          }
-      };
+                    return { ...confirm, text: resolvedText }
+                }
+            }
 
       /**
        * Запуск валидации при клике на кнопку тулбара
@@ -168,130 +162,143 @@ export default function withActionButton(options = {}) {
           }
       };
 
-      handleClick = async (e) => {
-          e.persist()
-          const failValidate = await this.validationFields()
-          const { confirm } = this.props
-          const { store } = this.context
-          const state = store.getState()
+            handleClick = async (e) => {
+                e.persist()
+                const failValidate = await this.validationFields()
+                const { confirm } = this.props
+                const { store } = this.context
+                const state = store.getState()
 
-          if (!onClick || failValidate) {
-              return
-          }
-          if (confirm && !this.isConfirm && shouldConfirm) {
-              this.lastEvent = e
-              this.lastEvent.preventDefault()
-              this.handleOpenConfirmModal()
-          } else {
-              this.isConfirm = false
-              onClick(
-                  this.lastEvent || e,
-                  {
-                      ...omit(this.props, [
-                          'isInit',
-                          'initialProps',
-                          'registerButton',
-                          'uid',
-                      ]),
-                      isConfirm: this.isConfirm,
-                  },
-                  state,
-              )
-              this.lastEvent = null
-          }
-      };
+                if (!onClick || failValidate) {
+                    return
+                }
+                if (confirm && !this.isConfirm && shouldConfirm) {
+                    this.lastEvent = e
+                    this.lastEvent.preventDefault()
+                    this.handleOpenConfirmModal()
+                } else {
+                    this.isConfirm = false
+                    onClick(
+                        this.lastEvent || e,
+                        {
+                            ...omit(this.props, [
+                                'isInit',
+                                'initialProps',
+                                'registerButton',
+                                'uid',
+                                'validationConfig',
+                                'formValues',
+                            ]),
+                            isConfirm: this.isConfirm,
+                        },
+                        state,
+                    )
+                    this.lastEvent = null
+                }
+            }
 
-      handleConfirm = (e) => {
-          this.isConfirm = true
-          this.handleCloseConfirmModal(e, () => {
-              this.handleClick(e)
-          })
-      };
+            handleConfirm = (e) => {
+                this.isConfirm = true
+                this.handleCloseConfirmModal(e, () => {
+                    this.handleClick(e)
+                })
+            }
 
-      handleOpenConfirmModal = (cb) => {
-          this.setState({ confirmVisible: true }, cb)
-      };
+            handleOpenConfirmModal = (cb) => {
+                this.setState({ confirmVisible: true }, cb)
+            }
 
-      handleCloseConfirmModal = (e, cb) => {
-          // eslint-disable-next-line no-return-assign
-          const defaultCb = () => (this.lastEvent = null)
+            handleCloseConfirmModal = (e, cb) => {
+                // eslint-disable-next-line no-return-assign
+                const defaultCb = () => (this.lastEvent = null)
 
-          this.setState({ confirmVisible: false }, cb || defaultCb)
-      };
+                this.setState({ confirmVisible: false }, cb || defaultCb)
+            }
 
-      render() {
-          const { confirm, hint, message, toolbar, visible, visibleFromState, disabled, disabledFromState } = this.props
-          const { confirmVisible } = this.state
-          const confirmMode = get(confirm, 'mode')
+            render() {
+                const {
+                    confirm,
+                    hint,
+                    message,
+                    visible,
+                    visibleFromState,
+                    disabled,
+                    disabledFromState,
+                } = this.props
+                const { confirmVisible } = this.state
+                const confirmMode = get(confirm, 'mode')
 
-          const currentVisible = !isNil(visible)
-              ? visible
-              : visibleFromState
+                const currentVisible = !isNil(visible)
+                    ? visible
+                    : visibleFromState
 
-          const currentDisabled = !isNil(disabled)
-              ? disabled
-              : disabledFromState
+                const currentDisabled = !isNil(disabled)
+                    ? disabled
+                    : disabledFromState
 
-          const currentMessage = currentDisabled ? message || hint : hint
+                const currentMessage = currentDisabled ? message || hint : hint
 
-          return (
-              <div id={this.generatedTooltipId}>
-                  <SimpleTooltip
-                      id={this.generatedTooltipId}
-                      message={currentMessage}
-                  />
-                  <WrappedComponent
-                      {...omit(this.props, [
-                          'isInit',
-                          'targetTooltip',
-                          'initialProps',
-                          'registerButton',
-                          'uid',
-                      ])}
-                      disabled={currentDisabled}
-                      visible={currentVisible}
-                      onClick={this.handleClick}
-                      id={this.generatedButtonId}
-                      toolbar={toolbar}
-                  />
-                  {
-                      confirmMode === ConfirmMode.POPOVER
-                          ? (
-                              <PopoverConfirm
-                                  {...this.mapConfirmProps(confirm)}
-                                  isOpen={confirmVisible}
-                                  onConfirm={this.handleConfirm}
-                                  onDeny={this.handleCloseConfirmModal}
-                                  target={this.generatedButtonId}
-                              />
-                          )
-                          : null
-                  }
-                  {
-                      confirmMode === ConfirmMode.MODAL
-                          ? (
-                              <ModalDialog
-                                  {...this.mapConfirmProps(confirm)}
-                                  visible={confirmVisible}
-                                  onConfirm={this.handleConfirm}
-                                  onDeny={this.handleCloseConfirmModal}
-                                  close={this.handleCloseConfirmModal}
-                              />
-                          )
-                          : null
-                  }
-              </div>
-          )
-      }
+                return (
+                    <div id={this.generatedTooltipId}>
+                        <SimpleTooltip
+                            id={this.generatedTooltipId}
+                            message={currentMessage}
+                        />
+                        <WrappedComponent
+                            {...omit(this.props, [
+                                'isInit',
+                                'targetTooltip',
+                                'initialProps',
+                                'registerButton',
+                                'uid',
+                                'validationConfig',
+                                'formValues',
+                            ])}
+                            disabled={currentDisabled}
+                            visible={currentVisible}
+                            onClick={this.handleClick}
+                            id={this.generatedButtonId}
+                        />
+                        {
+                            confirmMode === ConfirmMode.POPOVER
+                                ? (
+                                    <PopoverConfirm
+                                        {...this.mapConfirmProps(confirm)}
+                                        isOpen={confirmVisible}
+                                        onConfirm={this.handleConfirm}
+                                        onDeny={this.handleCloseConfirmModal}
+                                        target={this.generatedButtonId}
+                                    />
+                                )
+                                : null
+                        }
+                        {
+                            confirmMode === ConfirmMode.MODAL
+                                ? (
+                                    <ModalDialog
+                                        {...this.mapConfirmProps(confirm)}
+                                        visible={confirmVisible}
+                                        onConfirm={this.handleConfirm}
+                                        onDeny={this.handleCloseConfirmModal}
+                                        close={this.handleCloseConfirmModal}
+                                    />
+                                )
+                                : null
+                        }
+                    </div>
+                )
+            }
         }
 
-        const mapStateToProps = createStructuredSelector({
-            isInit: (state, ownProps) => isInitSelector(ownProps.entityKey, ownProps.id)(state),
-            visibleFromState: (state, ownProps) => isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
-            disabledFromState: (state, ownProps) => isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
-            message: (state, ownProps) => messageSelector(ownProps.entityKey, ownProps.id)(state),
-            count: (state, ownProps) => countSelector(ownProps.entityKey, ownProps.id)(state),
-            toolbar: state => state.toolbar,
+        const mapStateToProps = (state, { entityKey, id, validatedWidgetId }) => ({
+            isInit: isInitSelector(state, entityKey, id),
+            visibleFromState: isVisibleSelector(state, entityKey, id),
+            disabledFromState: isDisabledSelector(state, entityKey, id),
+            message: messageSelector(state, entityKey, id),
+            count: countSelector(state, entityKey, id),
+            validationConfig: makeWidgetValidationSelector(validatedWidgetId)(state),
+            formValues: getFormValues(validatedWidgetId)(state),
+            toolbar: toolbarSelector(state),
         })
 
         function mapDispatchToProps(dispatch) {

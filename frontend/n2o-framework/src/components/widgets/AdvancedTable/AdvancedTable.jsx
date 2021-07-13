@@ -814,7 +814,7 @@ class AdvancedTable extends Component {
 
 AdvancedTable.propTypes = {
     children: PropTypes.any,
-    selectedId: PropTypes.string,
+    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     rowClass: PropTypes.string,
     resolveModel: PropTypes.any,
     filters: PropTypes.any,

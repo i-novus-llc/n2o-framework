@@ -1,196 +1,173 @@
 import { createSelector } from '@reduxjs/toolkit'
 
-/*
- селектор для всех кнопок
- */
-
 /**
- * @param {Object.<string, any>} state
+ * Получить slice toolbar'а
+ * @param {Object.<string, any>} state стейт стора
  * @return {Toolbar.store}
  */
-export const toolbarSelector = state => state.toolbar || {}
+export const toolbarSelector = state => state.toolbar
 
-/**
- * @param {string} containerKey
- * @return {Object.<string, any>}
- */
+// ToDo: Разобраться с сагой. Как то странно она работает
 export const getContainerButtons = containerKey => createSelector(
     toolbarSelector,
     toolbar => toolbar[containerKey] || {},
 )
 
 /**
- * селектор для кнопки по уникальному ключу
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Получить контейнер с кнопками
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId id контейнера кнопок
  * @return {Object.<string, any>}
  */
-export const makeButtonByKeyAndIdSelector = (key, id) => createSelector(
-    getContainerButtons(key),
-    containerButtons => containerButtons[id] || {},
+const buttonsContainerSelector = (state, containerId) => toolbarSelector(state)[containerId] || {}
+
+/**
+ * Получить кнопку
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
+ * @return {Object.<string, any>}
+ */
+export const buttonSelector = (state, containerId, buttonId) => (
+    buttonsContainerSelector(state, containerId)[buttonId] || {}
 )
 
 /**
- * селектор для того, чтобы узнать зарегистрирована кнопка или нет
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор зарегистрирована ли кнопка
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {boolean}
  */
-export const isInitSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.isInit,
-)
+export const isInitSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).isInit
 
 /**
- *  селектор видимости кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор видимости
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {boolean}
  */
-export const isVisibleSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.visible,
-)
+export const isVisibleSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).visible
 
 /**
- * селектор блокировки кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор заблокирована ли кнопка
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {boolean}
  */
-export const isDisabledSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.disabled,
+export const isDisabledSelector = (state, containerId, buttonId) => (
+    buttonSelector(state, containerId, buttonId).disabled
 )
 
 /**
- * селектор пазмера кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор размера
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {string}
  */
-export const sizeSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.size,
-)
+export const sizeSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).size
 
 /**
- * селектор цвета кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор цвета
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {string}
  */
-export const colorSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.color,
-)
+export const colorSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).color
 
 /**
- * селектор счетчика кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор счетчика
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {number}
  */
-export const countSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.count,
-)
+export const countSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).count
 
 /**
- * селектор имени кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор тайтла
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {string}
  */
-export const titleSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.title,
-)
+export const titleSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).title
 
 /**
- * селектор посказаки кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор подсказки кнопки
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {string}
  */
-export const hintSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.hint,
-)
+export const hintSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).hint
 
 /**
- * селектор посказаки кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор сообщения
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {any}
  */
-export const messageSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.message,
-)
+export const messageSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).message
 
 /**
- * селектор расположения посказаки кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор расположения подсказки
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {any}
  */
 
-export const hintPositionSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.hintPosition,
+export const hintPositionSelector = (state, containerId, buttonId) => (
+    buttonSelector(state, containerId, buttonId).hintPosition
 )
 
 /**
- * селектор иконки кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор иконки
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {string}
  */
-export const iconSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.icon,
-)
+export const iconSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).icon
 
 /**
- * селектор стиля кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор стиля
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {CSSStyleDeclaration}
  */
-export const styleSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.style,
-)
+export const styleSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).style
 
 /**
- * селектор класса кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор css-класса
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {string}
  */
-export const classSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.className,
-)
+export const classSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).className
 
 /**
- * селектор выполнения
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор загружаются ли данные
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {boolean}
  */
-export const isLoading = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.loading,
-)
+export const isLoading = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).loading
+
 /**
- * селектор ошибок экшена кнопки
- * @param {string} key - ключ в сторе
- * @param {string} id - id кнопки
+ * Селектор ошибки кнопки
+ * @param {Object.<string, any>} state стейт стора
+ * @param {string} containerId - id контейнера кнопок
+ * @param {string} buttonId - id кнопки
  * @return {any}
  */
-export const errorSelector = (key, id) => createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => button.error,
-)
+export const errorSelector = (state, containerId, buttonId) => buttonSelector(state, containerId, buttonId).error

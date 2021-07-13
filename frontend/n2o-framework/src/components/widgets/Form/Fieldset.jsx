@@ -31,7 +31,7 @@ import { resolveExpression } from './utils'
  * @reactProps {array} labelWidth - ширина лейбела - Либо число, либо 'min' - займет минимальное возможное пространство, либо default - 100px
  * @reactProps {array} labelAlignment - выравнивание текста внутри лейбла
  * @reactProps {number} defaultCol
- * @reactProps {number} autoFocusId
+ * @reactProps {number|string} autoFocusId
  * @reactProps {node} component
  * @reactProps {node} children
  * @example
@@ -320,7 +320,7 @@ Fieldset.propTypes = {
     labelWidth: PropTypes.array,
     labelAlignment: PropTypes.array,
     defaultCol: PropTypes.number,
-    autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.oneOf([false])]),
     component: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.node,
