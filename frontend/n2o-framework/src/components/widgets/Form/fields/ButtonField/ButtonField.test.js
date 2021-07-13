@@ -10,7 +10,7 @@ const setup = () => {
     }
 
     return mount(
-        <Provider store={mockStore()({})}>
+        <Provider store={mockStore()({ toolbar: {} })}>
             <ButtonField {...props} />
         </Provider>,
     )

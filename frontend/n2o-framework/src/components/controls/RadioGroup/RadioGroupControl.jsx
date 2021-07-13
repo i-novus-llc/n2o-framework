@@ -82,7 +82,7 @@ RadioGroupControl.propTypes = {
     style: PropTypes.object,
     className: PropTypes.string,
     fetchData: PropTypes.func,
-    size: PropTypes.number.isRequired,
+    size: PropTypes.number,
     type: PropTypes.oneOf(['default', 'n2o', 'btn']),
     isLoading: PropTypes.bool,
     _fetchData: PropTypes.func,
