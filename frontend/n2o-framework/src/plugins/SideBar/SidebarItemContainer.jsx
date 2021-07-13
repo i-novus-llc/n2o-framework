@@ -72,12 +72,17 @@ export function SidebarItemContainer({
         ? renderOuterLink(item)
         : renderInnerLink(item))
     // eslint-disable-next-line react/prop-types
-    const renderOuterLink = ({ href, title, icon }) => (
-        <a className="n2o-sidebar__item" href={href}>
-            {renderIcon(icon, title, type, sidebarOpen)}
-            {title}
-        </a>
-    )
+    const renderOuterLink = ({ href, title, icon }) => {
+        const id = generateId()
+
+        return (
+            <a id={id} className="n2o-sidebar__item" href={href}>
+                {icon && renderIcon(icon, title, type, sidebarOpen)}
+                {!isMiniView && title}
+                {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
+            </a>
+        )
+    }
     // eslint-disable-next-line react/prop-types
     const renderInnerLink = ({ href, title, icon }) => {
         const id = generateId()
@@ -91,7 +96,7 @@ export function SidebarItemContainer({
                     activeClassName="active"
                     id={id}
                 >
-                    {renderIcon(icon, title, type, sidebarOpen)}
+                    {icon && renderIcon(icon, title, type, sidebarOpen)}
                     <span className={classNames(
                         'n2o-sidebar__item-title',
                         {

@@ -26,6 +26,14 @@
         color: $primary;
     }
 
+    .n2o-sidebar-switcher.inverse {
+        color: white;
+    }
+
+    .n2o-sidebar-switcher.inverse:hover {
+        color: $gray-200;
+    }
+
     &.n2o-header-default {
         border-bottom: $card-border-width solid $card-border-color;
     }

@@ -120,10 +120,11 @@ class SimpleHeader extends React.Component {
                     dark={isInversed}
                     expand="lg"
                 >
-                    {sidebarSwitcher && (
+                    {!isEmpty(sidebarSwitcher) && (
                         <SidebarSwitcher
                             toggleSidebar={toggleSidebar}
                             sidebarOpen={sidebarOpen}
+                            isInversed
                             {...sidebarSwitcher}
                         />
                     )}
