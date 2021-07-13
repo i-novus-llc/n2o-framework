@@ -125,42 +125,42 @@ export default function withActionButton(options = {}) {
                 }
             }
 
-      /**
-       * Запуск валидации при клике на кнопку тулбара
-       * @param isTouched - отображение ошибок филдов
-       * @returns {Promise<*>}
-       */
-      validationFields = async (isTouched = true) => {
-          const { store } = this.context
-          const {
-              validate,
-              dispatch,
-          } = this.props
+            /**
+            * Запуск валидации при клике на кнопку тулбара
+            * @param isTouched - отображение ошибок филдов
+            * @returns {Promise<*>}
+            */
+            validationFields = async (isTouched = true) => {
+                const { store } = this.context
+                const {
+                    validate,
+                    dispatch,
+                } = this.props
 
-          switch (validate) {
-              case 'widget': {
-                  const { validateWidgetId } = this.props
-                  const state = store.getState()
+                switch (validate) {
+                    case 'widget': {
+                        const { validateWidgetId } = this.props
+                        const state = store.getState()
 
-                  return validateForm(
-                      get(state, ['widgets', validateWidgetId, 'validation']),
-                      validateWidgetId,
-                      store.getState(),
-                      isTouched,
-                      get(state, ['form', validateWidgetId, 'values']),
-                      dispatch,
-                  )
-              }
-              case 'page': {
-                  const { validatePageId } = this.props
+                        return validateForm(
+                            get(state, ['widgets', validateWidgetId, 'validation']),
+                            validateWidgetId,
+                            store.getState(),
+                            isTouched,
+                            get(state, ['form', validateWidgetId, 'values']),
+                            dispatch,
+                        )
+                    }
+                    case 'page': {
+                        const { validatePageId } = this.props
 
-                  return validatePage(validatePageId, store, isTouched, dispatch)
-              }
-              default: {
-                  return false
-              }
-          }
-      };
+                        return validatePage(validatePageId, store, isTouched, dispatch)
+                    }
+                    default: {
+                        return false
+                    }
+                }
+            };
 
             handleClick = async (e) => {
                 e.persist()
@@ -186,8 +186,6 @@ export default function withActionButton(options = {}) {
                                 'initialProps',
                                 'registerButton',
                                 'uid',
-                                'validationConfig',
-                                'formValues',
                             ]),
                             isConfirm: this.isConfirm,
                         },
@@ -251,8 +249,6 @@ export default function withActionButton(options = {}) {
                                 'initialProps',
                                 'registerButton',
                                 'uid',
-                                'validationConfig',
-                                'formValues',
                             ])}
                             disabled={currentDisabled}
                             visible={currentVisible}
@@ -290,14 +286,12 @@ export default function withActionButton(options = {}) {
             }
         }
 
-        const mapStateToProps = (state, { entityKey, id, validatedWidgetId }) => ({
+        const mapStateToProps = (state, { entityKey, id }) => ({
             isInit: isInitSelector(state, entityKey, id),
             visibleFromState: isVisibleSelector(state, entityKey, id),
             disabledFromState: isDisabledSelector(state, entityKey, id),
             message: messageSelector(state, entityKey, id),
             count: countSelector(state, entityKey, id),
-            validationConfig: makeWidgetValidationSelector(validatedWidgetId)(state),
-            formValues: getFormValues(validatedWidgetId)(state),
             toolbar: toolbarSelector(state),
         })
 
