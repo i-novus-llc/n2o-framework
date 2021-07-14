@@ -14,7 +14,7 @@ module.exports = {
     /* Обязательные поля */
 
     // Текст вкладки браузера и h1 на дефолтной главной странице (useDocusaurusContext().siteConfig.title)
-    title: CONFIG.title || 'N2O',
+    title: CONFIG.title || 'N2O Framework',
     // Хост вашего сайта без пути и слеша в конце. Ваще ХЗ на кой оно нужно и на что влияет. Скорее что-то для SEO.
     url: CONFIG.url || 'https://n2oapp.net',
     // Путь, по которому нужно открывать документацию (аналог contextPath), н.р. /docusaurus/
@@ -29,7 +29,7 @@ module.exports = {
     // Ссылка относительно папки static. Можно указать http адрес
     favicon: 'img/favicon.ico',
     organizationName: CONFIG.organizationName || 'Ай-Новус',
-    projectName: 'Документация N2O',
+    projectName: 'N2O Framework',
     themeConfig: {
         prism: {
             theme: require('prism-react-renderer/themes/oceanicNext'),
@@ -37,7 +37,7 @@ module.exports = {
         navbar: {
             title: CONFIG.navbarTitle || '',
             logo: {
-                alt: CONFIG.navbarIconAlt || 'Документация N2O',
+                alt: CONFIG.navbarIconAlt || 'N2O Framework',
                 src: CONFIG.navbarIconSrc || 'img/logo_dark.png',
                 srcDark: CONFIG.navbarIconSrcLight || 'img/logo_light.png',
             },
