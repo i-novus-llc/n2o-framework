@@ -19,6 +19,7 @@ module.exports = {
                 'guides/manual/dynamic',
                 'guides/manual/processing',
                 'guides/manual/security',
+                'guides/manual/customization',
                 'guides/manual/conclusion',
             ],
         },

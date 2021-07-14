@@ -1,0 +1,188 @@
+---
+title: Кастомизация
+---
+Кастомизация - это способ расширить UI возможности N2O через создание собственной темы стилей или визуальных компонентов.
+
+Для создания кастомизации вам понадобятся знания следующих технологий:
+- [Sass](https://sass-lang.com/)
+- [React](https://reactjs.org/)
+
+### Подключение
+
+Перед тем как подключить кастомизацию к проекту необходимо создать React приложение c N2O Framework (описывается в разделе [Создание проекта](getstarted/)).
+
+Кастомизации передаются в N2O с помощью конфигурационного объекта:
+
+```js title="frontend/src/index.js"
+import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
+
+const config = {
+    ... //кастомизации
+}
+
+ReactDOM.render(
+  <React.StrictMode>
+    <N2O {...createFactoryConfig(config)} />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+```
+
+Конфигурационный объект содержит наборы компонентов, разбитые по типам кастомизации:
+
+```js
+const config = {
+  regions,
+  widgets,
+  controls,
+  cells,
+  fieldsets,
+  fields,
+  defaultTemplate,
+  routes
+};
+```
+:::note
+
+Хорошей практикой будет создать папку `components` в `frontend/src` для размещения в ней всех ваших компонентов.
+В папке `components` разделить компоненты по типам кастомизаций, например: `/pages`, `/widgets`, `/cells`.
+В каждой из этих папок будут находиться:
+- папки с кастомными компонентами
+- файл `index.js`, в котором будут экспортироваться эти компоненты
+
+```js title="frontend/src/components/pages/index.js"
+import HelloPage from './HelloPage/HelloPage.js';
+
+export default {
+    HelloPage
+};
+```
+В config объект передать импортированные наборы компонентов:
+
+```js title="frontend/src/index.js"
+import pages from './components/pages';
+
+const config = {
+    pages,
+}
+```
+
+:::
+
+Переданные в N2O компоненты можно использовать в конфигурациях с помощью атрибута `src`:
+
+```xml title="Подключение кастомного компонента"
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             src="HelloPage">
+    ...
+</simple-page>
+```
+
+### Отладка {#dev_mode_start}
+
+Для отладки кастомизаций необходимо будет запустить приложение в режиме разработки.
+В режиме разработки все вносимые в проект изменения автоматически применяются и сразу отображается результат.
+Для этого необходимо клиентскую часть проекта запустить на локальном NodeJS сервере,
+а серверная часть может находиться как удаленно, так и запущена локально.
+
+Проксирование запросов с NodeJs на сервер N2O осуществляется с помощью библиотеки `http-proxy-middleware`.
+Для подключения `http-proxy-middleware` к проекту выполните команду:
+
+```
+yarn add http-proxy-middleware --save-dev
+```
+
+URL целевого сервера указывается в файле `setupProxy.js`. Создайте его в папке
+`src` и укажите цель для проксирования:
+
+```js title="frontend/src/setupProxy.js"
+const proxy = require('http-proxy-middleware');
+module.exports = function(app) {
+    app.use(proxy('/n2o',
+        {
+            // URL целевого сервера (локальный или удаленный)
+            target: "http://localhost:8080/",
+            changeOrigin: true
+        }
+    ));
+};
+```
+
+Запуск NodeJs выполняется командой:
+
+```
+yarn start
+```
+Приложение откроется по адресу `http://localhost:3000`.
+
+### Кастомизация стилей
+
+Кастомизация стилей предназначена для изменения общего внешнего оформления приложения в соответствии с вашими пожеланиями.
+Кастомизация стилей заключается в переопределении стилей стандартных css классов и css-переменных N2O и Bootstrap на свои собственные.
+
+Стандартные стили N2O находятся в папке `frontend/node_modules/n2o-framework/src/sass`:
+```js title="frontend/node_modules/n2o-framework/src/sass"
+/n2o             // папка со основными стилями N2O
+/theme           // папка со стилями темы N2O
+bootstrap.scss   // корневой файл всех стилей, импортированных из библиотеки bootstrap
+n2o.scss         // корневой файл всех стилей N2O
+variables.scss   // корневой файл всех css-переменных N2O
+```
+
+Сборка стилей N2O выполняется с помощью библиотеки `node-sass`.
+Для ее подключения выполните команду:
+
+```
+yarn add node-sass@4.14.1 --save-dev
+```
+После этого файл `index.css`, расположенный в папке `src` проекта, необходимо переименовать в `index.scss`.
+
+Чтобы передать управление стилями проекту, необходимо отредактировать директивы `import` в файле `index.js`:
+
+```js title="src/index.js"
+//import 'n2o-framework/dist/n2o.css';  // эту директиву необходимо удалить
+import './index.scss';                  // файл index.css необходимо переименовать в index.scss
+...
+```
+
+Файл `index.scss` является корневым файлом стилей вашего проекта, поэтому все файлы стилей должны подключаться в него.
+Первым должен быть подключен корневой файл стилей N2O:
+
+```scss title="frontend/src/index.scss"
+@import "n2o-framework/src/sass/n2o.scss";
+...
+```
+
+Теперь необходимо скопировать в ваш проект файлы со стилями и css-переменными, которые вы будете переопределять, из `frontend/node_modules/n2o-framework/src/sass`.
+
+:::note
+Хорошей практикой считается хранение файлов стилей проекта в отдельной папке, например `/sass`.
+Рекомендуется сохранять такие же названия папкам, которые вы будете копировать из n2o-framework.
+:::
+
+Для подключения измененных стилей укажите относительный путь до файла с изменениями в `index.scss`:
+``` scss title="frontend/src/index.scss"
+// стандартные стили N2O
+@import "n2o-framework/src/sass/n2o.scss";
+
+// файлы общих стилей вашего проекта
+@import "./sass/variables.scss";
+@import "./sass/theme/variables";
+...
+// файлы стилей компонентов вашего проекта
+@import "./sass/someComponent.scss";
+@import "./sass/anotherComponent.scss"
+```
+
+:::note
+При подключении файлов стилей к проекту решающее значение имеет очередность подключения. Следует строго придерживаться
+следующего порядка:
+1. файл стилей  N2O
+2. файлы с css-переменными вашего проекта
+3. файлы стилей компонентов, контролов, темы вашего проекта
+:::
+
+Если запустить проект в [режиме разработки](#dev_mode_start), все изменения в файлах стилей будут подхватываться и сразу отображаться.
+
