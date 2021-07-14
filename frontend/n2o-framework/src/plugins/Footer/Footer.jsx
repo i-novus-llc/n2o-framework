@@ -1,35 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getContext } from 'recompose'
+import classNames from 'classnames'
 
-/* eslint-disable react/prop-types,react/jsx-one-expression-per-line */
-function Footer({ version }) {
-    const currentYear = new Date().getFullYear()
-
+function Footer({ textRight, textLeft, className, style }) {
     const { N2O_ELEMENT_VISIBILITY } = window
-    let style = {}
 
     if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.footer === false) {
         style = { ...style, display: 'none' }
     }
 
     return (
-        <footer className="n2o-footer bg-dark py-2" style={style}>
-            <div className="container-fluid">
-                <span className="text-muted text-left">
-
-          N2O
-                    {version}
-                    {' '}
-
-&copy; 2013-
-                    {currentYear}
-                </span>
+        <footer className={classNames('n2o-footer bg-dark py-2', className)} style={style}>
+            <div className="container-fluid text-white d-flex">
+                {
+                    textLeft && (
+                        <div className="align-self-start w-100 ml-1 text-left">
+                            {textLeft}
+                        </div>
+                    )
+                }
+                {
+                    textRight && (
+                        <div className="align-self-end w-100 mr-1 text-right">
+                            {textRight}
+                        </div>
+                    )
+                }
             </div>
         </footer>
     )
 }
 
-export default getContext({
-    version: PropTypes.string,
-})(Footer)
+Footer.propTypes = {
+    textRight: PropTypes.string,
+    textLeft: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+}
+
+export default Footer

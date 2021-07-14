@@ -8,7 +8,7 @@ import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.MenuItem;
 
 /**
- * Кнопки хедера для автотестирования
+ * Меню для автотестирования
  */
 public class N2oMenu extends N2oComponentsCollection implements Menu {
 

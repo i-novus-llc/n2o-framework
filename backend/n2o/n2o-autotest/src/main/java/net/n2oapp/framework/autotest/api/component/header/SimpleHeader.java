@@ -16,4 +16,8 @@ public interface SimpleHeader extends Component {
 
     SearchBar search();
 
+    void sidebarSwitcherShouldExists();
+
+    void switchSidebar();
+
 }

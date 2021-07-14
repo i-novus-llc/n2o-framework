@@ -7,25 +7,23 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
-import net.n2oapp.framework.ui.controller.action.BulkActionController;
-import net.n2oapp.framework.ui.controller.action.BulkActionMergeController;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
@@ -54,7 +52,7 @@ public class N2oController {
     private N2oApplicationBuilder builder;
 
     private DataProcessingStack dataProcessingStack;
-    private ErrorMessageBuilder errorMessageBuilder;
+    private AlertMessageBuilder messageBuilder;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
@@ -64,21 +62,21 @@ public class N2oController {
     private String basePath;
 
     @Autowired
-    public N2oController(DataProcessingStack dataProcessingStack, ErrorMessageBuilder errorMessageBuilder,
+    public N2oController(DataProcessingStack dataProcessingStack, AlertMessageBuilder messageBuilder,
                          QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
                          DomainProcessor domainProcessor) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
-        this.errorMessageBuilder = errorMessageBuilder;
+        this.messageBuilder = messageBuilder;
         this.operationProcessor = operationProcessor;
         this.domainProcessor = domainProcessor;
     }
 
     @GetMapping("/n2o/config")
     public AppConfig config() {
-        List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
-        Assert.isTrue(!headers.isEmpty(), "No header metadata found");
-        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
+        List<SourceInfo> apps = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
+        Assert.isTrue(!apps.isEmpty(), "No header metadata found");
+        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(apps.get(0).getId()), new DataSet()));
         return configBuilder.get();
     }
 
@@ -95,7 +93,7 @@ public class N2oController {
     public ResponseEntity<GetDataResponse> getData(HttpServletRequest request) {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-
+        dataController.setMessageBuilder(messageBuilder);
         GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
@@ -104,7 +102,7 @@ public class N2oController {
     public ResponseEntity<SetDataResponse> setData(@RequestBody Object body, HttpServletRequest request) {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-
+        dataController.setMessageBuilder(messageBuilder);
         SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), getBody(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
@@ -114,7 +112,7 @@ public class N2oController {
             return new DataSet((Map<? extends String, ?>) body);
         else {
             DataSet dataSet = new DataSet("$list", body);
-            dataSet.put("$count", body != null ? ((List)body).size() : 0);
+            dataSet.put("$count", body != null ? ((List) body).size() : 0);
             return dataSet;
         }
     }
@@ -135,17 +133,13 @@ public class N2oController {
         subModelsProcessor.setEnvironment(environment);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, errorMessageBuilder, environment));
+                subModelsProcessor, messageBuilder, environment));
         beans.put("operationController", new OperationController(dataProcessingStack,
-                operationProcessor, errorMessageBuilder, environment));
+                operationProcessor, messageBuilder, environment));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
-                errorMessageBuilder, environment));
-        beans.put("bulkActionController", new BulkActionController(dataProcessingStack,
-                operationProcessor, environment));
+                messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, errorMessageBuilder, environment));
-        beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
-                operationProcessor, environment));
+                subModelsProcessor, messageBuilder, environment));
         return new N2oControllerFactory(beans);
     }
 

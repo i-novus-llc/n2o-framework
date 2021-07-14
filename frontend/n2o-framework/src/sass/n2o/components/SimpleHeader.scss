@@ -1,7 +1,29 @@
+.n2o-sidebar-switcher {
+    margin-right: 2rem;
+    width: 1rem;
+    font-size: 20px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.n2o-sidebar-switcher:hover {
+    color: $primary;
+}
+
+.n2o-header-inverse {
+    .n2o-sidebar-switcher {
+        color: white;
+    }
+
+    .n2o-sidebar-switcher:hover {
+        color: $gray-200;
+    }
+}
+
 .n2o-header {
     .navbar {
         min-height: $header-min-height;
-        padding: 0.5rem 2rem !important;
+        padding: 0.5rem 1.3rem !important;
 
         .navbar-collapse {
             .navbar-nav {

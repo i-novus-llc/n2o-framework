@@ -36,6 +36,6 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
 
     @Override
     public void shouldHaveType(RadioType type) {
-        element().shouldHave(Condition.cssClass("n2o-radio-group-" + type.name().toLowerCase()));
+        element().shouldHave(Condition.cssClass(type.name("n2o-radio-group-")));
     }
 }

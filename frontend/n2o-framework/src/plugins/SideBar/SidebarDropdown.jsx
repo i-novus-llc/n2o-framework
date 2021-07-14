@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { compose, withState, withHandlers } from 'recompose'
 
 // eslint-disable-next-line import/no-cycle
@@ -9,53 +9,70 @@ import { renderIcon } from './SidebarItemContainer'
 /**
  * Sidebar Dropdown Item
  * @param sidebarOpen - флаг сжатия сайдбара
- * @param label - текст дропдауна
+ * @param title - текст дропдауна
  * @param children - subItems
  * @param isOpen - флаг видимости subItems
  * @param toggle - переключене видимости
  * @param iconClass - класс
  * @param type - тип
+ * @param id - id
  * @returns {*}
  * @constructor
  */
 function SidebarDropdown({
     sidebarOpen,
-    label,
+    title,
     children,
     isOpen,
     toggle,
-    iconClass,
+    icon,
     type,
+    showContent,
+    isMiniView,
+    id,
+
 }) {
+    const itemDropdownClass = classNames(
+        'n2o-sidebar__item-dropdown-label',
+        {
+            'justify-content-center': isMiniView,
+        },
+    )
+
+    const subItemsClass = classNames(
+        'n2o-sidebar__subitems',
+        {
+            visible: showContent,
+        },
+    )
+
     return (
-        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
-        <div
-            onMouseOver={!sidebarOpen && !isOpen && toggle}
-            onMouseLeave={!sidebarOpen && isOpen && toggle}
-            className="n2o-sidebar__item-dropdown"
-        >
+        <div className="n2o-sidebar__item-dropdown">
             <div
-                onClick={sidebarOpen && toggle}
-                className={cn('n2o-sidebar__item-dropdown-label', {
-                    'n2o-sidebar__item-dropdown-label--up': isOpen,
-                })}
+                onClick={toggle}
+                className={itemDropdownClass}
+                id={id}
             >
-                {renderIcon(iconClass, label, type, sidebarOpen, true)}
-                {sidebarOpen && <span>{label}</span>}
+                {renderIcon(icon, title, type, sidebarOpen, true)}
+                <span className={classNames('n2o-sidebar__item-title', { mini: isMiniView, visible: showContent })}>{title}</span>
             </div>
-            {isOpen && <div className="n2o-sidebar__subitems">{children}</div>}
+            {isOpen && (<div className={subItemsClass}>{children}</div>
+            )}
         </div>
     )
 }
 
 SidebarDropdown.propTypes = {
     sidebarOpen: PropTypes.bool,
-    label: PropTypes.string,
+    title: PropTypes.string,
     children: PropTypes.node,
     isOpen: PropTypes.bool,
+    showContent: PropTypes.bool,
+    isMiniView: PropTypes.bool,
     toggle: PropTypes.func,
-    iconClass: PropTypes.string,
+    icon: PropTypes.string,
     type: PropTypes.string,
+    id: PropTypes.string,
 }
 
 export default compose(

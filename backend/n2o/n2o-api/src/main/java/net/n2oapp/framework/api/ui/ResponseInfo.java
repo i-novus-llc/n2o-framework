@@ -18,7 +18,12 @@ public class ResponseInfo  {
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
     private boolean stackedMessages = false;
+    private AlertMessageBuilder alertMessageBuilder;
 
+
+    public ResponseMessage constructMessage(RequestInfo requestInfo) {
+        return alertMessageBuilder.constructMessage(requestInfo);
+    }
 
     public void addMessage(ResponseMessage message) {
         if (messageList == null)

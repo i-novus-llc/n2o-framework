@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+             xmlns:test="http://n2oapp.net/framework/config/schema/test"
+             welcome-page-id="testPage">
+    <header src="test" class="class"
+            title="N2O" home-page-url="/pageRoute" style="margin-left:10px">
+        <nav>
+            <sub-menu label="test">
+                <page test:testAttr="testAttribute" page-id="pageWithoutLabel" route="/page1"/>
+                <a label="hrefLabel" href="http://test.com"/>
+                <sub-menu label="sub1">
+                    <page page-id="pageWithoutLabel"/>
+                </sub-menu>
+            </sub-menu>
+            <page page-id="pageWithoutLabel" label="headerLabel"/>
+            <a label="hrefLabel" href="http://test.com"/>
+        </nav>
+
+        <extra-menu>
+            <sub-menu label="#{username}" image="#{image}">
+                <a label="Test" href="https://ya.ru/" icon="test-icon" target="newWindow"/>
+                <sub-menu label="sub2">
+                    <page page-id="pageWithoutLabel"/>
+                </sub-menu>
+            </sub-menu>
+        </extra-menu>
+    </header>
+</application>

@@ -10,7 +10,7 @@ import net.n2oapp.framework.autotest.impl.collection.N2oMenu;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
- * Простой хедер для автотестирования
+ * Шапка(header) для автотестирования
  */
 public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
 
@@ -39,6 +39,16 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     @Override
     public SearchBar search() {
         return N2oSelenide.component(element().$(".navbar-collapse .n2o-search-bar"), N2oSearchBar.class);
+    }
+
+    @Override
+    public void sidebarSwitcherShouldExists() {
+        element().$(".n2o-sidebar-switcher").should(Condition.exist);
+    }
+
+    @Override
+    public void switchSidebar() {
+        element().$(".n2o-sidebar-switcher").click();
     }
 
 }

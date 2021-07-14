@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class N2oSimpleMenu extends N2oMenu {
         private String pageId;
         private String href;
         private String icon;
+        private String image;
         private String route;
         private Target target;
         private MenuItem[] subMenu;

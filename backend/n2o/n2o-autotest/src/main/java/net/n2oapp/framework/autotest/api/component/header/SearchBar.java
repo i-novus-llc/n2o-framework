@@ -4,7 +4,7 @@ import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.Component;
 
 /**
- * Панель поиска в хедере для автотестирования
+ * Панель поиска в шапке для автотестирования
  */
 public interface SearchBar extends Component {
 
