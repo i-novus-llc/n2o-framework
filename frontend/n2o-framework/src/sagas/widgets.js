@@ -150,6 +150,7 @@ export function* setWidgetDataSuccess(
         headers: headersParams,
     })
 
+    yield put(changeCountWidget(widgetId, data.count))
     if (isEqual(data.list, currentDatasource) && !isEmpty(currentDatasource)) {
         yield put(setModel(PREFIXES.datasource, widgetId, null))
         yield put(setModel(PREFIXES.datasource, widgetId, data.list))
@@ -159,7 +160,6 @@ export function* setWidgetDataSuccess(
     if (isNil(data.list) || isEmpty(data.list)) {
         yield put(setModel(PREFIXES.resolve, widgetId, null))
     }
-    yield put(changeCountWidget(widgetId, data.count))
     yield data.page && put(changePageWidget(widgetId, data.page))
     if (data.metadata) {
         yield put(setWidgetMetadata(widgetState.pageId, widgetId, data.metadata))
