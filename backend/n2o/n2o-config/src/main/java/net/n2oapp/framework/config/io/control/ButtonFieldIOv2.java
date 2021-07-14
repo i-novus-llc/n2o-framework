@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import org.jdom2.Element;
@@ -28,7 +29,7 @@ public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements Contro
         p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "color", m::getColor, m::setColor);
-        p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
+        p.attributeEnum(e, "validate", m::getValidate, m::setValidate, ValidateType.class);
         p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
         p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);

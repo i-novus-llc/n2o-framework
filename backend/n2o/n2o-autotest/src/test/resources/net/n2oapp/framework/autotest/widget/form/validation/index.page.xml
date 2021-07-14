@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Тестирование валидации форм">
+    <regions>
+        <form id="form" object-id="test">
+            <toolbar>
+                <button label="Валидировать форму"
+                        validate="widget"
+                        widget-id="form1"
+                        disable-on-empty-model="false">
+                    <invoke operation-id="save"/>
+                </button>
+                <button label="Валидировать страницу"
+                        validate="page"
+                        disable-on-empty-model="false">
+                    <invoke operation-id="save">
+                        <form-param id="name1" value="{name}" ref-widget-id="form1"/>
+                        <form-param id="name2" value="{name}" ref-widget-id="form2"/>
+                        <form-param id="name3" value="{name}" ref-widget-id="form3"/>
+                    </invoke>
+                </button>
+            </toolbar>
+        </form>
+
+        <tabs>
+            <tab name="form1">
+                <form id="form1">
+                    <fields>
+                        <input-text id="name" label="form1.name" required="true"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="form2">
+                <form id="form2">
+                    <fields>
+                        <input-text id="name" label="form2.name" required="true"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="form3">
+                <form id="form3">
+                    <fields>
+                        <input-text id="name" label="form3.name" required="true"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

@@ -86,10 +86,29 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="validate" type="xs:boolean" default="false">
+                <xs:attribute name="validate" default="none">
                     <xs:annotation>
-                        <xs:documentation>Валидирование формы при нажатии на кнопку.</xs:documentation>
+                        <xs:documentation>Валидирование форм при нажатии на кнопку.</xs:documentation>
                     </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="page">
+                                <xs:annotation>
+                                    <xs:documentation>Валидирование всех форм страницы.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="widget">
+                                <xs:annotation>
+                                    <xs:documentation>Валидирование текущей формы.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="none">
+                                <xs:annotation>
+                                    <xs:documentation>Отсутствие валидации.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="rounded" type="xs:boolean" default="false">
                     <xs:annotation>

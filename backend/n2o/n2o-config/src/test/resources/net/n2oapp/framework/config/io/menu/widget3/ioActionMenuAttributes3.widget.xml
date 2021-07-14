@@ -7,7 +7,7 @@
                    color="test" context="true" default="true" primary="true"
                    icon="test" key="test"
                    type="textAndIcon" visible="true"
-                   validate="false" refresh-policy="selected">
+                   refresh-policy="selected">
             <event>
                 <evt:a href="test"/>
             </event>
