@@ -42,7 +42,7 @@ public class AlertPositionAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/alert/modal2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
