@@ -4,7 +4,7 @@ import ruLocaleData from 'react-intl/locale-data/ru';
 import createFactoryConfigLight from "n2o-framework/lib/core/factory/createFactoryConfigLight";
 import FactoryProvider from "n2o-framework/lib/core/factory/FactoryProvider";
 import Factory from "n2o-framework/lib/core/factory/Factory";
-import JumbotronPage from "../JumbortonPage";
+import JumbotronPage from "../JumbotronPage";
 import { REGIONS } from "n2o-framework/src/core/factory/factoryLevels";
 
 addLocaleData(ruLocaleData);

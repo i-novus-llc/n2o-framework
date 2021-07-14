@@ -2,28 +2,28 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="SquareResizableLayout">
     <regions>
         <panel place="topLeft">
-            <form upload="defaults" name="Положение региона topLeft" default-values-query-id="customization">
+            <form upload="defaults" name="Положение региона topLeft" >
                 <fields>
                     <input-text enabled="false" id="place" default-value="topLeft"/>
                 </fields>
             </form>
         </panel>
         <panel place="topRight">
-            <form upload="defaults" name="Положение региона topRight" default-values-query-id="customization">
+            <form upload="defaults" name="Положение региона topRight" >
                 <fields>
                     <input-text enabled="false" id="place" default-value="topRight"/>
                 </fields>
             </form>
         </panel>
         <panel place="bottomLeft">
-            <form upload="defaults" name="Положение региона bottomLeft" default-values-query-id="customization">
+            <form upload="defaults" name="Положение региона bottomLeft" >
                 <fields>
                     <input-text enabled="false" id="place" label="" default-value="bottomLeft"/>
                 </fields>
             </form>
         </panel>
         <panel place="bottomRight" >
-            <form upload="defaults" name="Положение региона bottomRight" default-values-query-id="customization">
+            <form upload="defaults" name="Положение региона bottomRight" >
                 <fields>
                     <input-text enabled="false" id="place" label="" default-value="bottomRight"/>
                 </fields>
