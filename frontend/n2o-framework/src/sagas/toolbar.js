@@ -37,18 +37,18 @@ export function* resolveButton(button) {
         }
 
         if (enabled) {
-            const nextEnable = get(resolveConditions(enabled, state), 'resolve')
+            const resolvedEnabled = resolveConditions(enabled, state)
 
-            yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnable))
-        }
-        if (!get(resolveConditions(enabled, state), 'resolve')) {
-            yield put(
-                changeButtonMessage(
-                    button.key,
-                    button.buttonId,
-                    get(resolveConditions(enabled, state), 'message'),
-                ),
-            )
+            yield put(changeButtonDisabled(button.key, button.buttonId, !resolvedEnabled?.resolve))
+            if (!resolvedEnabled?.resolve) {
+                yield put(
+                    changeButtonMessage(
+                        button.key,
+                        button.buttonId,
+                        resolvedEnabled?.message,
+                    ),
+                )
+            }
         }
     }
 
@@ -64,11 +64,11 @@ export function* resolveButton(button) {
 /**
  * Функция для мониторинга изменения видимости родителя списка
  * @param key
- * @param id
+ * @param buttonId
  */
-export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
+export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }) {
     const buttons = yield select(getContainerButtons(key))
-    const currentBtn = get(buttons, id)
+    const currentBtn = get(buttons, buttonId)
     const parentId = get(currentBtn, 'parentId')
 
     if (parentId) {
