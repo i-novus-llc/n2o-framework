@@ -1,7 +1,5 @@
 const CONFIG = require('./src/ci-config.json')
 
-const { version } = require('../package.json')
-
 let contextPath = CONFIG.docusaurusUrl || '/'
 
 if (contextPath[contextPath.length - 1] !== '/') {
@@ -82,7 +80,7 @@ module.exports = {
                     onlyIncludeVersions: ['current'],
                     versions: {
                         current: {
-                            label: `${version} 🚧`,
+                            label: `${CONFIG.docusaurusVersion} 🚧`,
                         },
                     },
                 },

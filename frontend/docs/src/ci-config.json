@@ -1,4 +1,5 @@
 {
-    "docusaurusUrl": "/",
-    "sandboxUrl": "https://n2oapp.net/sandbox"
+  "docusaurusUrl": "/",
+  "sandboxUrl": "https://n2oapp.net/sandbox",
+  "docusaurusVersion": "7.18.0-SNAPSHOT"
 }
