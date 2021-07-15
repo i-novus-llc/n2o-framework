@@ -1,7 +1,6 @@
 import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
 import isArray from 'lodash/isArray'
-import each from 'lodash/each'
 import isString from 'lodash/isString'
 import merge from 'lodash/merge'
 
@@ -53,47 +52,32 @@ export default function propsResolver(
     data = {},
     additionalBlackList = [],
 ) {
-    let obj = {}
+    const obj = isArray(props) ? [] : {}
+    const fullBlackList = merge(blackList, additionalBlackList)
 
-    if (isArray(props)) {
-        obj = []
-    }
     if (isObject(props) && !isFunction(props)) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const k in props) {
-            if (isObject(props[k])) {
-                if (merge(blackList, additionalBlackList).includes(k)) {
-                    obj[k] = props[k]
-                } else {
-                    obj[k] = propsResolver(props[k], data)
-                }
-            } else if (parseExpression(props[k])) {
-                obj[k] = evalExpression(parseExpression(props[k]), data)
+        Object.keys(props).forEach((key) => {
+            const property = props[key]
+
+            if (isObject(property)) {
+                obj[key] = fullBlackList.includes(key)
+                    ? property : propsResolver(property, data)
             } else {
-                obj[k] = props[k]
-            }
-        }
-        each(props, (p, k) => {
-            if (isObject(p)) {
-                if (merge(blackList, additionalBlackList).includes(k)) {
-                    obj[k] = p
-                } else {
-                    obj[k] = propsResolver(p, data)
-                }
-            } else if (parseExpression(p)) {
-                obj[k] = evalExpression(parseExpression(p), data)
-            } else {
-                obj[k] = p
+                const parsedExpression = parseExpression(property)
+
+                obj[key] = parsedExpression ? evalExpression(parsedExpression, data) : property
             }
         })
 
         return obj
-    } if (isString(props)) {
-        if (parseExpression(props)) {
-            return evalExpression(parseExpression(props), data)
-        }
+    }
 
-        return props
+    if (isString(props)) {
+        const parsedExpression = parseExpression(props)
+
+        if (parsedExpression) {
+            return evalExpression(parsedExpression, data)
+        }
     }
 
     return props

@@ -43,21 +43,16 @@ function Tiles(props) {
                 className={cn('n2o-tiles__item')}
                 style={{ width: tileWidth, minHeight: tileHeight }}
             >
-                {map(tile, (cell) => {
-                    const { component } = cell
-
-                    return (
-                        <TilesCell
-                            className={cn('n2o-tiles__cell', component.className)}
-                            index={index}
-                            widgetId={id}
-                            model={element}
-                            onResolve={onResolve}
-                            dispatch={dispatch}
-                            {...cell}
-                        />
-                    )
-                })}
+                {map(tile, cell => (
+                    <TilesCell
+                        index={index}
+                        widgetId={id}
+                        model={element}
+                        onResolve={onResolve}
+                        dispatch={dispatch}
+                        {...cell}
+                    />
+                ))}
             </div>
         </div>
     )
