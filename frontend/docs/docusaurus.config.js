@@ -80,7 +80,7 @@ module.exports = {
                     onlyIncludeVersions: ['current'],
                     versions: {
                         current: {
-                            label: `${CONFIG.docusaurusVersion} 🚧`,
+                            label: `${CONFIG.n2oVersion} 🚧`,
                         },
                     },
                 },
