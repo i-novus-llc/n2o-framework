@@ -155,6 +155,13 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
 
         case HIDE_FIELDS: {
             payload.names.forEach((name) => {
+                if (!state.registeredFields[name]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Attempt to hide a non-existent field "${name}"`)
+
+                    return
+                }
+
                 state.registeredFields[name].visible = false
             })
 
@@ -163,6 +170,13 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
 
         case DISABLE_FIELDS: {
             payload.names.forEach((name) => {
+                if (!state.registeredFields[name]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Attempt to disable a non-existent field "${name}"`)
+
+                    return
+                }
+
                 state.registeredFields[name].disabled = true
             })
 
