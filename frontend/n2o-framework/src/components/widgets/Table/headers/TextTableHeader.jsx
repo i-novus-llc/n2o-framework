@@ -7,8 +7,8 @@ import { batchActions } from 'redux-batched-actions'
 import Sorter from '../../../snippets/Sorter/Sorter'
 import {
     changeFrozenColumn,
-    changeColumnVisiblity,
-} from '../../../../actions/columns'
+    changeColumnVisibility,
+} from '../../../../ducks/columns/store'
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
@@ -50,7 +50,7 @@ const enhance = compose(
         toggleVisibility: ({ dispatch, widgetId, columnId }) => (visible) => {
             dispatch(
                 batchActions([
-                    changeColumnVisiblity(widgetId, columnId, visible),
+                    changeColumnVisibility(widgetId, columnId, visible),
                     changeFrozenColumn(widgetId, columnId),
                 ]),
             )

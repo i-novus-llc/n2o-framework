@@ -24,8 +24,8 @@
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="file-upload" type="controlFileUploadDefinition"/>
     <xs:element name="image-upload" type="controlImageUploadDefinition"/>
-    <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
-    <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
+    <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup"/>
+    <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup"/>
     <xs:element name="select" type="controlSelectDefinition"/>
     <xs:element name="pills" type="controlPillsDefinition"/>
     <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
@@ -65,8 +65,8 @@
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
             <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
             <xs:element name="image-upload" type="controlImageUploadDefinition" minOccurs="0"/>
-            <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
-            <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
+            <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup" minOccurs="0"/>
+            <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
             <xs:element name="pills" type="controlPillsDefinition" minOccurs="0"/>
             <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
@@ -433,6 +433,40 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Тип кнопок</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOptionsListInlineDefinitionRadioGroup">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="inline" type="xs:boolean" default="false" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Отображение элементов на одной строке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="radioGroupTypeEnum" default="default" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Тип кнопок</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOptionsListInlineDefinitionCheckboxGroup">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="inline" type="xs:boolean" default="false" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Отображение элементов на одной строке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="checkboxGroupTypeEnum" default="default" use="optional">
                     <xs:annotation>
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
@@ -1889,6 +1923,21 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="null"/>
             <xs:enumeration value="false"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="radioGroupTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="default"/>
+            <xs:enumeration value="btn"/>
+            <xs:enumeration value="tabs"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="checkboxGroupTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="default"/>
+            <xs:enumeration value="btn"/>
         </xs:restriction>
     </xs:simpleType>
 

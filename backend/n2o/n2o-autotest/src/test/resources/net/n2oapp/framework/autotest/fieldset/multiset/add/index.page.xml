@@ -5,8 +5,9 @@
             <multi-set id="members1" can-add="false">
                 <input-text id="name"/>
             </multi-set>
-            <multi-set id="members2" add-label="Добавить участника" description="Подзаголовок филдсета"
-                       label="Заголовок" children-label="Участник {(index + 1)}">
+            <multi-set id="members2" description="Подзаголовок филдсета"
+                       add-label="Добавить участника" label="Заголовок"
+                       children-label="Участник №{(index + 1)}" first-children-label="Участник">
                 <set>
                     <input-text id="name"/>
                     <input-text id="age"/>

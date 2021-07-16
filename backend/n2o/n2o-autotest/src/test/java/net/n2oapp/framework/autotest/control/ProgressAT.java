@@ -31,7 +31,7 @@ public class ProgressAT extends AutoTestBase {
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/progress/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/progress/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -40,7 +40,7 @@ public class ProgressAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oAllDataPack());
     }
 

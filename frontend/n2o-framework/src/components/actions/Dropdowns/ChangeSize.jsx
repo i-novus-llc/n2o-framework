@@ -6,8 +6,8 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 import { connect } from 'react-redux'
 
-import { changeSizeWidget, dataRequestWidget } from '../../../actions/widgets'
-import { makeWidgetSizeSelector } from '../../../selectors/widgets'
+import { changeSizeWidget, dataRequestWidget } from '../../../ducks/widgets/store'
+import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 
 /**
  * Дропдаун для выбора размера(size) виджета

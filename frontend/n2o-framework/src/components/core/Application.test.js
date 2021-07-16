@@ -25,7 +25,7 @@ const setup = (propOverrides) => {
 }
 
 describe('<Application />', () => {
-    it('tests component existence', () => {
+    it('__tests__ component existence', () => {
         const { wrapper } = setup()
         expect(wrapper.exists()).toBe(true)
     })

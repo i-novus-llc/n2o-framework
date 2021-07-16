@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class N2oButtonField extends N2oField implements ModelAware, WidgetIdAwar
     private ReduxModel model;
     private String actionId;
     private String color;
-    private Boolean validate;
+    private ValidateType validate;
     private String tooltipPosition;
     private Boolean rounded;
 

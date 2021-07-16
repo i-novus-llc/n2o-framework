@@ -14,10 +14,33 @@ import flatten from 'lodash/flatten'
 import { batchActions } from 'redux-batched-actions'
 
 import { isPromise } from '../../tools/helpers'
-import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin'
+import { addFieldMessage, removeFieldMessage } from '../../ducks/form/store'
 
 import * as presets from './presets'
 
+/**
+ * @typedef {Object} ValidationMessage
+ * @property {'danger'|'warning'|'success'} severity
+ * @property {string} text
+ */
+
+/**
+ * @typedef {Record<string, Array<ValidationMessage>>} ValidationResult
+ */
+
+/**
+ * @typedef {Object} ValidationConfig
+ * @property {'danger'|'warning'|'success'} severity
+ * @property {string} text
+ * @property {string} validationKey
+ * @property {string|'required'} type
+ * TODO Заполнить нормально все поля
+ */
+
+/**
+ * @param {Array<ValidationMessage>} messages
+ * @return {ValidationMessage | void}
+ */
 function findPriorityMessage(messages) {
     return (
         find(messages, { severity: 'danger' }) ||
@@ -28,13 +51,22 @@ function findPriorityMessage(messages) {
 
 /**
  * есть ли ошибки или нет
- * @param messages
- * @returns {*}
+ * @param {ValidationResult} messages
+ * @returns {boolean}
  */
 function hasError(messages) {
     return flatten(Object.values(messages)).reduce((res, msg) => msg.severity === 'danger' || res, false)
 }
 
+/**
+ * @param {string} fieldId
+ * @param {Object} message
+ * @param {string|boolean} [message.text]
+ * @param {'danger'|'warning'|'success'|boolean} [message.severity]
+ * @param {ValidationMessage} options
+ * @param {ValidationResult} errors
+ * @return {ValidationResult} errors
+ */
 function addError(
     fieldId,
     { text = true, severity = true },
@@ -63,11 +95,11 @@ function getMultiFields(registeredFields, fieldId) {
 
 /**
  * функция валидации
- * @param validationConfig
- * @param formName
- * @param state
- * @param isTouched
- * @returns
+ * @param {Record<string, ValidationConfig>} validationConfig
+ * @param {string} formName
+ * @param {Object} state
+ * @param {boolean} isTouched
+ * @return {Function}
  */
 export const validateField = (
     validationConfig,
@@ -93,7 +125,16 @@ export const getStoreValidator = (
     return validate(validationConfig, formName, state, false, stateValues, dispatch)
 }
 
-function validate(
+/**
+ * @param {Record<string, ValidationConfig>} validationConfig
+ * @param {string} formName
+ * @param {Object} state
+ * @param {boolean} isTouched
+ * @param {Object} values
+ * @param {Function} dispatch
+ * @return {Promise<boolean>} has error
+ */
+export function validate(
     validationConfig,
     formName,
     state,
@@ -194,6 +235,5 @@ export default function createValidator(
     return {
         asyncValidate: getStoreValidator(validationConfig, formName, store),
         asyncBlurFields: fields || [],
-        asyncChangeFields: fields || [],
     }
 }

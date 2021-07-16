@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
@@ -20,9 +20,9 @@ public abstract class DefaultValuesController extends GetController {
     protected DefaultValuesController(DataProcessingStack dataProcessingStack,
                                       QueryProcessor queryProcessor,
                                       SubModelsProcessor subModelsProcessor,
-                                      ErrorMessageBuilder errorMessageBuilder,
+                                      AlertMessageBuilder messageBuilder,
                                       MetadataEnvironment environment) {
-        super(dataProcessingStack, queryProcessor, subModelsProcessor, errorMessageBuilder, environment);
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
     }
 
     @Override
@@ -34,7 +34,7 @@ public abstract class DefaultValuesController extends GetController {
             String widgetId = requestInfo.getFailAlertWidgetId() == null
                     ? requestInfo.getMessagesForm()
                     : requestInfo.getFailAlertWidgetId();
-            GetDataResponse response = new GetDataResponse(getErrorMessageBuilder().buildMessages(e), widgetId);
+            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), widgetId);
             response.setStatus(e.getHttpStatus());
             return response;
         }

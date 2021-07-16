@@ -339,7 +339,7 @@ InputNumber.propTypes = {
     /**
      * Режим использования компонента
      */
-    mode: PropTypes.oneOf(inputMode.DEFAULT, inputMode.PICKER),
+    mode: PropTypes.oneOf([inputMode.DEFAULT, inputMode.PICKER]),
     placeholder: PropTypes.string,
 }
 

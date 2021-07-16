@@ -10,8 +10,8 @@ import filter from 'lodash/filter'
 import first from 'lodash/first'
 import get from 'lodash/get'
 
-import { TabNav } from './TabNav'
-import { TabNavItem } from './TabNavItem'
+import { Group, RadioTypes } from '../../controls/Radio/Group'
+
 import { TabContent } from './TabContent'
 
 /**
@@ -62,14 +62,12 @@ class Tabs extends React.Component {
 
     /**
     * установка активного таба
-    * @param event
     * @param id
-    * @param prevId
     */
-    handleChangeActive = (event, id, prevId) => {
+    handleChangeActive = (id) => {
         const { onChangeActive } = this.props
 
-        onChangeActive(event, id, prevId)
+        onChangeActive({}, id, this.defaultOpenedId)
     };
 
     /**
@@ -121,16 +119,18 @@ class Tabs extends React.Component {
                 return null
             }
 
-            return (
-                <TabNavItem
-                    id={id}
-                    title={title}
-                    icon={icon}
-                    disabled={disabled}
-                    active={activeId === id}
-                    onClick={this.handleChangeActive}
-                />
-            )
+            return {
+                className: 'n2o-tabs-nav-item',
+                value: id,
+                disabled,
+                label: (
+                    <>
+                        {icon && <span className={icon} />}
+                        {' '}
+                        {title}
+                    </>
+                ),
+            }
         })
 
         return (
@@ -142,18 +142,21 @@ class Tabs extends React.Component {
             >
                 {!isEmpty(tabNavItems) && (
                     <div
-                        className={classNames('n2o-nav-tabs', {
+                        className={classNames('n2o-tabs-nav', {
                             'n2o-nav-tabs_tabs-fixed': maxHeight,
                         })}
                     >
                         {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
-                        <TabNav
+                        <Group
                             className={classNames('n2o-nav-tabs__tabs-list', {
                                 navClassName,
                             })}
-                        >
-                            {tabNavItems}
-                        </TabNav>
+                            options={tabNavItems}
+                            inline
+                            type={RadioTypes.tabs}
+                            onChange={this.handleChangeActive}
+                            value={activeId}
+                        />
                     </div>
                 )}
                 <div

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
@@ -33,5 +34,10 @@ public class N2oCells extends N2oComponentsCollection implements Cells {
     @Override
     public void hover() {
         elements().get(0).parent().hover();
+    }
+
+    @Override
+    public void shouldHaveColor(Colors color) {
+        elements().get(0).parent().shouldHave(Condition.cssClass(color.name("bg-")));
     }
 }

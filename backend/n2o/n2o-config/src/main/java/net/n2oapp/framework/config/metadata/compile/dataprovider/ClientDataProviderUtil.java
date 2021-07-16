@@ -166,12 +166,17 @@ public class ClientDataProviderUtil {
                     initTargetWidgetModel(p, source.getTargetModel())));
             actionContext.setRedirect(actionContextData.getRedirect());
             actionContext.setRefresh(actionContextData.getRefresh());
+            PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null)
+                actionContext.setParentPageId(pageScope.getPageId());
             actionContext.setParentWidgetId(actionContextData.getParentWidgetId());
             actionContext.setFailAlertWidgetId(actionContextData.getFailAlertWidgetId());
             actionContext.setMessagesForm(actionContextData.getMessagesForm());
             actionContext.setSuccessAlertWidgetId(actionContextData.getSuccessAlertWidgetId());
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
+            actionContext.setMessagePosition(actionContextData.getMessagePosition());
+            actionContext.setMessagePlacement(actionContextData.getMessagePlacement());
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)

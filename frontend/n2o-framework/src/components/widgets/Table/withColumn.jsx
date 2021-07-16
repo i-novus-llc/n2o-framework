@@ -4,16 +4,17 @@ import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import { compose, pure } from 'recompose'
+import classNames from 'classnames'
 import { createStructuredSelector } from 'reselect'
 
 import propsResolver from '../../../utils/propsResolver'
-import { registerColumn } from '../../../actions/columns'
+import { registerColumn } from '../../../ducks/columns/store'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
 import {
     isInitSelector,
     isVisibleSelector,
     isDisabledSelector,
-} from '../../../selectors/columns'
+} from '../../../ducks/columns/selectors'
 
 /**
  * колонка-контейнер
@@ -69,10 +70,12 @@ const withColumn = (WrappedComponent) => {
      */
         render() {
             const { columnVisible, columnDisabled, security, model } = this.props
+            const resolvedProps = propsResolver(this.getPassProps(), model, ['toolbar'])
             const cellEl = (
                 <WrappedComponent
                     disabled={columnDisabled}
-                    {...propsResolver(this.getPassProps(), model, ['toolbar'])}
+                    {...resolvedProps}
+                    className={classNames('n2o-widget-list-cell', resolvedProps.className)}
                 />
             )
 

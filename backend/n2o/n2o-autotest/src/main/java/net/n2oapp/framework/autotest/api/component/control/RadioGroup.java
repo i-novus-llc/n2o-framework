@@ -10,4 +10,16 @@ public interface RadioGroup extends Control {
     void check(String label);
 
     void shouldHaveOptions(String... options);
+
+    void shouldHaveType(RadioType type);
+
+    enum RadioType {
+        DEFAULT,
+        BTN,
+        TABS;
+
+        public String name(String prefix) {
+            return prefix + name().toLowerCase();
+        }
+    }
 }

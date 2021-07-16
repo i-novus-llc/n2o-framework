@@ -10,7 +10,7 @@ import Dropdown from './Dropdown'
 const mockStore = configureMockStore()
 
 const setup = (props) => {
-    const store = mockStore({})
+    const store = mockStore({ toolbar: {} })
     const wrapper = mount(
         <Provider store={store}>
             <FactoryProvider config={createFactoryConfig({})}>

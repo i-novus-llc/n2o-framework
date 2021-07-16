@@ -9,8 +9,8 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 import { connect } from 'react-redux'
 
-import { toggleColumnVisiblity } from '../../../actions/columns'
-import { getContainerColumns } from '../../../selectors/columns'
+import { toggleColumnVisibility } from '../../../ducks/columns/store'
+import { getContainerColumns } from '../../../ducks/columns/selectors'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -32,7 +32,7 @@ class ToggleColumn extends React.Component {
     toggleVisibility(id) {
         const { dispatch, entityKey } = this.props
 
-        dispatch(toggleColumnVisiblity(entityKey, id))
+        dispatch(toggleColumnVisibility(entityKey, id))
     }
 
     /**

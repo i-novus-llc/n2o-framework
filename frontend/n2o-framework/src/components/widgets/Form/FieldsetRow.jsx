@@ -19,9 +19,9 @@ function FieldsetRow({ rowId, row, ...rest }) {
 }
 
 FieldsetRow.propTypes = {
-    rowId: PropTypes.string,
+    rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     row: PropTypes.object,
-    colId: PropTypes.string,
+    colId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export default pure(FieldsetRow)

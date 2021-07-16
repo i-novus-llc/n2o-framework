@@ -37,6 +37,9 @@ public interface TableWidget extends StandardWidget {
 
         void shouldBeVisible();
 
+        void shouldBeHidden();
+
+        @Deprecated
         void shouldBeInvisible();
     }
 

@@ -4,7 +4,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllValidatorsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.test.N2oTestBase;
@@ -25,7 +25,7 @@ public class DemoMetadataTest extends N2oTestBase {
     protected void configure(N2oApplicationBuilder b) {
         super.configure(b);
         b.loaders(new XmlMetadataLoader(b.getEnvironment().getNamespaceReaderFactory()));
-        b.packs(new N2oAllValidatorsPack(), new N2oAllDataPack(), new N2oAllPagesPack(), new N2oHeaderPack());
+        b.packs(new N2oAllValidatorsPack(), new N2oAllDataPack(), new N2oAllPagesPack(), new N2oApplicationPack());
         b.scanners(new XmlInfoScanner());
         builder.scan();
     }

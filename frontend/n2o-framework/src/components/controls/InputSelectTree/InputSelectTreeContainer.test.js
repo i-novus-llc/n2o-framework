@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import InputSelectTreeContainer from './InputSelectTreeContainer'
 
 const mockStore = configureMockStore()
-const store = mockStore({})
+const store = mockStore({ alerts: {} })
 
 const setup = (propOverrides = {}) => {
     const props = {

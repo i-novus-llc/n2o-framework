@@ -55,7 +55,6 @@ export function Cards(props) {
             onResolve={onResolve}
             dispatch={dispatch}
             {...cell}
-            className={classNames('n2o-cards__cell', cell.className)}
         />
     )
 

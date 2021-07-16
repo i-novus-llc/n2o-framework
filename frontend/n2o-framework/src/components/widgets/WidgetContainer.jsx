@@ -14,7 +14,7 @@ import has from 'lodash/has'
 import cx from 'classnames'
 import { batchActions } from 'redux-batched-actions'
 
-import { callActionImpl } from '../../actions/toolbar'
+import { callActionImpl } from '../../ducks/toolbar/store'
 import { Placeholder } from '../snippets/Placeholder/Placeholder'
 import {
     dataRequestWidget,
@@ -23,19 +23,19 @@ import {
     setActive,
     setTableSelectedId,
     sortByWidget,
-} from '../../actions/widgets'
-import { setModel, removeAllModel } from '../../actions/models'
+} from '../../ducks/widgets/store'
+import { setModel, removeAllModel } from '../../ducks/models/store'
 import {
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
-} from '../../selectors/models'
+} from '../../ducks/models/selectors'
 import {
     isAnyTableFocusedSelector,
     makeWidgetByIdSelector,
-} from '../../selectors/widgets'
-import { removeAlerts } from '../../actions/alerts'
+} from '../../ducks/widgets/selectors'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { InitMetadataContext } from '../../core/dependency'
+import { removeAllAlerts } from '../../ducks/alerts/store'
 
 const s = {}
 
@@ -138,7 +138,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             componentWillUnmount() {
                 const { widgetId, dispatch } = this.props
                 const actions = [
-                    removeAlerts(widgetId),
+                    removeAllAlerts(widgetId),
                     removeAllModel(widgetId),
                     setTableSelectedId(widgetId, null),
                 ]
@@ -290,7 +290,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             widgetId: PropTypes.string,
             pageId: PropTypes.string,
             fetchOnInit: PropTypes.bool,
-            placeholder: PropTypes.oneOfType(PropTypes.bool, PropTypes.object),
+            placeholder: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
             size: PropTypes.number,
             page: PropTypes.number,
             filterDefaultValues: PropTypes.object,
@@ -299,7 +299,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             validation: PropTypes.object,
             onSetFilter: PropTypes.func,
             dataProviderFromState: PropTypes.object,
-            widget: PropTypes.node,
+            widget: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
             modelPrefix: PropTypes.node,
             /* redux */
             visible: PropTypes.bool,

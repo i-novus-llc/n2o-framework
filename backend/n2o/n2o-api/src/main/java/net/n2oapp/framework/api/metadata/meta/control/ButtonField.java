@@ -29,7 +29,7 @@ public class ButtonField extends Field {
     @JsonProperty
     private Confirm confirm;
     @JsonProperty
-    private Boolean validate;
+    private String validate;
     @JsonProperty
     private String validatedWidgetId;
 

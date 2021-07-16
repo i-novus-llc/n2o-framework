@@ -1,80 +1,66 @@
 {
-  "brand": "Лого",
-  "brandImage": "https://avatars0.githubusercontent.com/u/25926683?s=200&v=4",
-  "activeId": "menuItem0",
-  "color": "invert",
-  "fixed": false,
-  "collapsed": true,
-  "className": "",
-  "search": false,
-  "items": [
-    {
+  "src": "SimpleHeader",
+  "className": "customSimpleHeaderclassName",
+  "style": {},
+  "logo": {
+    "title": "N2O logo",
+    "className": "customSimpleHeaderLogoClassName",
+    "style": {},
+    "href": "/",
+    "src": "https://avatars0.githubusercontent.com/u/25926683?s=200&v=4"
+  },
+  "menu": {
+    "src": "string",
+    "items": [{
       "id": "menuItem0",
-      "label": "ссылка",
+      "type": "dropdown",
       "href": "/",
-      "type": "link",
-      "linkType": "outer",
       "target": "_blank",
-      "security": {
-        "roles": [
-          "admin"
-        ]
-      }
-    },
-    {
-      "id": "menuItem1",
-      "label": "список",
-      "href": "/pageRoute",
-      "type": "dropdown",
-      "linkType": "inner",
-      "subItems": [
+      "items":[
         {
-          "id": "menuItem2",
-          "label": "Название страницы",
-          "href": "/pageRoute",
-          "type": "link",
-          "linkType": "inner",
-          "badge": "бадж 1",
-          "badgeColor": "danger"
-        },
-        {
-          "id": "menuItem3",
-          "label": "элемент списка №2",
-          "href": "/pageRoute1",
-          "type": "link",
-          "linkType": "inner",
-          "badge": "бадж 2",
-          "badgeColor": "danger"
-        }
-      ]
-    }
-  ],
-  "extraItems": [
-    {
-      "id": "text",
-      "label": "текст",
-      "type": "text"
-    },
-    {
-      "id": "dropdown1",
-      "label": "список №2",
-      "type": "dropdown",
-      "subItems": [
-        {
-          "label": "элемент списка №1",
-          "href": "/",
-          "type": "link",
-          "badge": "бадж 1",
-          "badgeColor": "warning"
-        },
-        {
-          "label": "элемент списка №2",
+          "id": "subMenuItem0",
           "type": "link",
           "href": "/",
-          "badge": "бадж 2",
+          "target": "_blank",
+          "icon": "fa fa square",
+          "security": {},
+          "title": "subMenuItem0",
+          "badge": "badge",
           "badgeColor": "warning"
         }
-      ]
-    }
-  ]
+      ],
+      "icon": "fa fa square",
+      "security": {},
+      "title": "menuItem0"
+    }]
+  },
+  "extraMenu": {
+    "src": "string",
+    "items": [{
+      "id": "menuItem0",
+      "type": "dropdown",
+      "href": "/",
+      "target": "_blank",
+      "items":[
+        {
+          "id": "subMenuItem0",
+          "type": "link",
+          "href": "/",
+          "target": "_blank",
+          "items":[],
+          "icon": "fa fa square",
+          "security": {},
+          "title": "subMenuItem0"
+        }
+      ],
+      "icon": "fa fa square",
+      "security": {},
+      "title": "menuItem0"
+    }]
+  },
+  "search": {},
+  "sidebarSwitcher": {
+    "defaultIcon": "fa fa-times",
+    "toggledIcon": "fa fa-bars"
+  }
 }

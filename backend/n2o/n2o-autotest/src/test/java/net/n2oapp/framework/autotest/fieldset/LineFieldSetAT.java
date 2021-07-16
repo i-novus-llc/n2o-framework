@@ -33,9 +33,9 @@ public class LineFieldSetAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -93,11 +93,11 @@ public class LineFieldSetAT extends AutoTestBase {
 
         LineFieldSet line1 = fieldsets.fieldset(1, LineFieldSet.class);
         LineFieldSet line2 = fieldsets.fieldset(2, LineFieldSet.class);
-        line1.shouldNotBeVisible();
-        line2.shouldNotBeVisible();
+        line1.shouldBeHidden();
+        line2.shouldBeHidden();
 
         inputText.val("test");
-        line1.shouldNotBeVisible();
+        line1.shouldBeHidden();
         line2.shouldBeVisible();
         line2.fields().field("field2").shouldExists();
     }

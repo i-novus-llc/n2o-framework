@@ -11,13 +11,17 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import pick from 'lodash/pick'
 
-import { metadataRequest, resetPage, mapUrl } from '../../actions/pages'
+import {
+    metadataRequest,
+    resetPage,
+    mapUrl,
+} from '../../ducks/pages/store'
 import {
     makePageMetadataByIdSelector,
     makePageLoadingByIdSelector,
     makePageErrorByIdSelector,
-} from '../../selectors/pages'
-import { getLocation } from '../../selectors/global'
+} from '../../ducks/pages/selectors'
+import { getLocation } from '../../ducks/global/store'
 
 const withMetadata = (Component) => {
     class ComponentWithMetadata extends React.Component {
@@ -132,7 +136,7 @@ const withMetadata = (Component) => {
         rootPage: PropTypes.bool,
         metadata: PropTypes.object,
         loading: PropTypes.bool,
-        error: PropTypes.object,
+        error: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf([false])]),
         location: PropTypes.object,
         getMetadata: PropTypes.func,
         reset: PropTypes.func,

@@ -13,6 +13,11 @@ import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
 
     /**
+     * Идентификатор родительской страницы
+     */
+    private String parentPageId;
+
+    /**
      * Идентификатор родительского виджета, откуда вызывается действие
      */
     private String parentWidgetId;

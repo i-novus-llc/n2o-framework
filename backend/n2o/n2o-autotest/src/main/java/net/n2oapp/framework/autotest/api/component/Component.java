@@ -11,4 +11,7 @@ public interface Component {
 
     void shouldExists();
     void shouldNotExists();
+
+    void shouldBeVisible();
+    void shouldBeHidden();
 }

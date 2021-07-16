@@ -5,7 +5,7 @@ import { model, model2, modelFromDefaultView } from './switchCellStoryProps'
 
 const setupOptions = props => shallow(<SwitchCell {...props} />)
 
-describe('SwitchCell tests <SwitchCell>', () => {
+describe('SwitchCell __tests__ <SwitchCell>', () => {
     it('Компонент возвращает верный cell - TextCell', () => {
         const wrapper = setupOptions(model)
         expect(wrapper.props().src).toBe('TextCell')

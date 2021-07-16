@@ -9,8 +9,8 @@ import TabsWithDependency from 'N2oStorybook/json/TabsWithDependency'
 import fetchMock from 'fetch-mock'
 import { getStubData } from 'N2oStorybook/fetchMock'
 
-import { metadataSuccess } from '../../../actions/pages'
-import { hideWidget, showWidget } from '../../../actions/widgets'
+import { metadataSuccess } from '../../../ducks/pages/store'
+import { hideWidget, showWidget } from '../../../ducks/widgets/store'
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta'
 import ListMetadata from '../List/ListMetadata.meta'
 import AuthButtonContainer from '../../../core/auth/AuthLogin'
@@ -55,8 +55,8 @@ stories
       Компонент 'Табы'
       ~~~js
       import TabsRegion from 'n2o-framework/lib/components/regions/Tabs/TabsRegion';
-      
-      <TabsRegion 
+
+      <TabsRegion
           pageId="Page"
           items={[
             {
@@ -66,7 +66,7 @@ stories
               widgetId: "Page_Html",
               label: "HTML"
             }
-          ]} 
+          ]}
        />
       ~~~
       `,
@@ -82,8 +82,8 @@ stories
       Компонент 'Табы'
       ~~~js
       import TabsRegion from 'n2o-framework/lib/components/regions/Tabs/TabsRegion';
-      
-      <TabsRegion 
+
+      <TabsRegion
           pageId="Page"
           items={[
             {
@@ -93,7 +93,7 @@ stories
               widgetId: "Page_Html",
               label: "HTML"
             }
-          ]} 
+          ]}
        />
       ~~~
       `,

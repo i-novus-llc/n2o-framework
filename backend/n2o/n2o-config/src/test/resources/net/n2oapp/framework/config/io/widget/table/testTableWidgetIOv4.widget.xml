@@ -20,8 +20,7 @@
                             redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
-                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"
-                               validate="true"/>
+                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"/>
                 </sub-menu>
             </toolbar>
         </column>
@@ -74,8 +73,11 @@
             <default>Неопределенный</default>
         </switch>
     </rows>
-    <pagination src="test" first="false" hide-single-page="false"
-                last="false" next="false" prev="false" show-count="false">
+    <pagination src="test" first="false" show-single-page="false"
+                last="false" next="false" prev="false" show-count="false" layout="bordered" prev-label="prev"
+                prev-icon="fa fa-angle-left" next-label="next" next-icon="fa fa-angle-right" first-label="first"
+                first-icon="fa fa-angle-double-left" last-label="last" last-icon="fa fa-angle-double-right" max-pages="5"
+                class="class" style="style" place="bottomLeft">
     </pagination>
     <filters place="left" search-on-change="true" default-values-query-id="test">
         <ctr:input-text id="test"/>
@@ -93,15 +95,14 @@
         <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>
     <toolbar place="bottomLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true"
-                tooltip-position="bottom">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" tooltip-position="bottom">
             <close src="test"/>
         </button>
         <button action-id="test2" class="test" icon="test" label="test" type="icon">
             <close src="test"/>
         </button>
         <sub-menu>
-            <menu-item action-id="test1" icon="test" label="test" class="test" validate="true"/>
+            <menu-item action-id="test1" icon="test" label="test" class="test"/>
             <menu-item action-id="test2" icon="test" label="test" class="test" tooltip-position="left"/>
             <menu-item action-id="test3" icon="test" label="test" class="test"/>
         </sub-menu>

@@ -15,7 +15,7 @@ const setup = (propOverrides, method) => {
 
     let wrapper
 
-    if (method == 'mount') {
+    if (method === 'mount') {
         wrapper = mount(<WrapperComp {...props} />)
     } else {
         wrapper = shallow(<WrapperComp {...props} />)
@@ -28,53 +28,43 @@ const setup = (propOverrides, method) => {
 }
 
 const classicN2oProps = {
+    layout: 'separated',
+    prev: true,
+    prevIcon: 'fa fa-angle-left',
+    prevLabel: 'Prev',
+    next: true,
+    nextIcon: 'fa fa-angle-right',
+    nextLabel: 'Next',
+    first: true,
+    firstIcon: 'fa fa-angle-double-left',
+    firstLabel: 'First',
+    last: true,
+    lastIcon: 'fa fa-angle-double-right',
+    lastLabel: 'Last',
     activePage: 1,
     count: 151,
-    size: 10,
-    maxButtons: 4,
-    stepIncrement: 10,
+    maxPages: 5,
 }
 
 describe('<Pagination />', () => {
-    it('проверяет рендер с дефолтными настройками', () => {
-        const { wrapper } = setup()
-        expect(wrapper).toMatchSnapshot()
+    it('проверяет установку props', () => {
+        const { wrapper } = setup({ ...classicN2oProps },
+            'mount',
+        )
+
+        expect(wrapper.find('.separated').exists()).toBeTruthy()
+        expect(wrapper.find('.fa-angle-double-left').exists()).toBeTruthy()
+        expect(wrapper.find('.fa-angle-double-right').exists()).toBeTruthy()
+        expect(wrapper.find('.fa-angle-left').exists()).toBeTruthy()
+        expect(wrapper.find('.fa-angle-right').exists()).toBeTruthy()
+
+        expect(wrapper.find('span').at(1).text()).toEqual('First')
+        expect(wrapper.find('span').at(3).text()).toEqual('Prev')
+        expect(wrapper.find('span').at(4).text()).toEqual('Next')
+        expect(wrapper.find('span').at(6).text()).toEqual('Last')
     })
 
-    it('проверяет рендер с полным функционалом', () => {
-        const { wrapper } = setup({
-            prev: true,
-            next: true,
-            first: true,
-            last: true,
-            maxButtons: 4,
-            stepIncrement: 10,
-            count: 151,
-            size: 10,
-            activePage: 1,
-        })
-        expect(wrapper).toMatchSnapshot()
-    })
-
-    it('проверяет рендер с классическими настрйоками n2o', () => {
-        const { wrapper } = setup(classicN2oProps)
-        expect(wrapper).toMatchSnapshot()
-    })
-
-    // it('проверяет состояние на разных страницах', () => {
-    //   const values = [3, 4, 5, 6, 7, 13, 14, 15, 16, 1];
-    //   const { wrapper } = setup(classicN2oProps, 'mount');
-    //   values.forEach(v => {
-    //     expect(wrapper).toMatchSnapshot();
-    //     wrapper
-    //       .find('.page-item')
-    //       .at(v - 1)
-    //       .simulate('click');
-    //     expect(wrapper).toMatchSnapshot();
-    //   });
-    // });
-
-    it('проверяет работы вызова callback при смене страницы', () => {
+    it('проверяет работу вызова callback при смене страницы', () => {
         const value = 3
         const onSelect = jest.fn()
         const { wrapper } = setup(
@@ -82,14 +72,12 @@ describe('<Pagination />', () => {
             'mount',
         )
 
-        expect(wrapper).toMatchSnapshot()
-
         wrapper
             .find('.page-item')
             .at(value - 1)
             .simulate('click')
 
-        expect(onSelect).toHaveBeenCalledWith(3, expect.anything())
+        expect(onSelect).toHaveBeenCalledWith(1, expect.anything())
     })
 
     it('проверяет установку класса active для номера страницы', () => {

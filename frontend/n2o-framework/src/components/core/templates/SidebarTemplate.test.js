@@ -20,7 +20,7 @@ const setup = (propsOverride) => {
 
 describe('<SidebarTemplate />', () => {
     it('компонент должен отрисоваться', () => {
-        const wrapper = setup()
+        const wrapper = setup({items : []})
 
         expect(wrapper.find('.application').exists()).toBeTruthy()
     })

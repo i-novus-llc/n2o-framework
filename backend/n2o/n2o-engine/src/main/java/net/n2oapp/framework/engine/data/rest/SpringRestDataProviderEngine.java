@@ -167,7 +167,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
             args.put(paramKey, resolveType(str, args.get(paramKey)));
             return str;
         }
-        List<String> params = ((List<String>) args.get(paramKey));
+        List<Object> params = ((List<Object>) args.get(paramKey));
         AtomicInteger i = new AtomicInteger();
         Optional<String> result = params
                 .stream()

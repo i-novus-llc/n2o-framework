@@ -8,7 +8,7 @@ import StandardButton from './StandardButton'
 const mockStore = configureMockStore()
 const delay = timeout => new Promise(res => setTimeout(res, timeout))
 const setup = (props) => {
-    const store = mockStore({})
+    const store = mockStore({ toolbar: {} })
     const wrapper = mount(
         <Provider store={store}>
             <StandardButton {...props} />

@@ -14,16 +14,17 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.72",
-    "@docusaurus/preset-classic": "2.0.0-alpha.72",
+    "@docusaurus/core": "2.0.0-beta.3",
+    "@docusaurus/preset-classic": "2.0.0-beta.3",
     "@mdx-js/react": "^1.6.21",
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
-    "docusaurus-plugin-sass": "^0.1.12",
+    "docusaurus-plugin-sass": "^0.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-intersection-observer": "^8.31.0"
+    "react-intersection-observer": "^8.31.0",
+    "sass": "^1.35.1"
   },
   "peerDependencies": {
     "prism-react-renderer": "*"

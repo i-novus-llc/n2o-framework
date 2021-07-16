@@ -9,7 +9,7 @@ import withListContainer from './withListContainer'
 const dataUrl = 'test'
 
 const mockStore = configureMockStore()
-const store = mockStore({})
+const store = mockStore({ alerts: {} })
 
 const delay = ms => new Promise(r => setTimeout(() => r(), ms))
 

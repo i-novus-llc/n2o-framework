@@ -14,7 +14,7 @@ import net.n2oapp.framework.autotest.impl.collection.N2oToolbar;
  */
 public class N2oStandardField extends N2oField implements StandardField {
 
-    static final String CSS_SELECTOR = ".form-control, .n2o-input, .n2o-date-picker, .n2o-radio-container, " +
+    static final String CSS_SELECTOR = ".form-control, .n2o-input, .n2o-date-picker, .n2o-radio-group, " +
             ".n2o-checkbox-group, .n2o-file-uploader-control, .n2o-image-uploader-control, .n2o-code-editor, .n2o-html, .n2o-output-text, " +
             ".n2o-output-list, .n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress, .n2o-number-picker";
 

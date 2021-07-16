@@ -1,13 +1,16 @@
 package net.n2oapp.framework.autotest.region;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +35,8 @@ public class TabsRegionAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -137,5 +140,35 @@ public class TabsRegionAT extends AutoTestBase {
         tabs = page.regions().region(1, TabsRegion.class);
         tabs.shouldHaveSize(1);
         tabs.shouldNotHaveScrollbar();
+    }
+
+    @Test
+    public void testVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+
+        RadioGroup radio = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields()
+                .field("radio").control(RadioGroup.class);
+
+        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(2);
+        TabsRegion.TabItem tab1 = tabs.tab(Condition.text("One"));
+        tab1.shouldBeActive();
+        TabsRegion.TabItem tab4 = tabs.tab(Condition.text("Four"));
+
+        // make visible tab3
+        radio.check("visible tab3");
+        tabs.shouldHaveSize(3);
+        TabsRegion.TabItem tab3 = tabs.tab(Condition.text("Three"));
+        tab3.click();
+        tab3.shouldBeActive();
+        InputText field3 = tab3.content().widget(FormWidget.class).fields().field("field3").control(InputText.class);
+        field3.shouldHaveValue("test3");
+
+        // make invisible tab3
+        radio.check("invisible tab3");
+        tabs.shouldHaveSize(2);
     }
 }

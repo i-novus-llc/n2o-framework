@@ -81,4 +81,20 @@ describe('dataProviderResolver', () => {
             'https://i-novus.ru/test/321/Michael-Jackson?param1=param1Value',
         )
     })
+    it('Хеш, как часть роутинга', () => {
+        const { url } = dataProviderResolver(state, createDataProvider({
+            url: 'https://i-novus.ru/#/test/:id/:name'
+        }), query, options)
+        expect(url).toBe(
+            'https://i-novus.ru/#/test/321/Michael-Jackson?param1=param1Value',
+        )
+    })
+    it('Хеш на элемент', () => {
+        const { url } = dataProviderResolver(state, createDataProvider({
+            url: 'https://i-novus.ru/test/:id/:name#main'
+        }), query, options)
+        expect(url).toBe(
+            'https://i-novus.ru/test/321/Michael-Jackson?param1=param1Value',
+        )
+    })
 })

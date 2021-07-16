@@ -5,13 +5,16 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -72,8 +75,9 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testToolbar() {
-        Form f = (Form) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.widget.xml")
-                .get(new WidgetContext("testToolbar"));
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.page.xml")
+                .get(new PageContext("testToolbar"));
+        Form f = (Form) page.getWidget();
 
         assertThat(f.getToolbar().size(), is(2));
 
@@ -83,7 +87,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b1.getAction(), notNullValue());
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
-        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['$testToolbar']"));
+        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_main']"));
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
@@ -97,7 +101,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(f.getActions().containsKey("testId3"), is(true));
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
-        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
+        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
         assertThat(((PerformButton)b3).getUrl(), is("http://example.com"));
@@ -105,13 +109,19 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         AbstractButton b4 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
         assertThat(b4.getId(), is("testId4"));
-        assertThat(b4.getValidatedWidgetId(), is("testWidgetId"));
+        assertThat(b4.getValidate(), is("widget"));
+        assertThat(b4.getValidateWidgetId(), is("testToolbar_testWidgetId"));
 
         AbstractButton b5 = f.getToolbar().get("topLeft").get(0).getButtons().get(2);
         assertThat(b5.getId(), is("testId5"));
-        assertThat(b5.getValidatedWidgetId(), is("$testToolbar"));
+        assertThat(b5.getValidateWidgetId(), is("testToolbar_main"));
 
-        AbstractButton b7 = f.getToolbar().get("topLeft").get(0).getButtons().get(3);
+        AbstractButton b6 = f.getToolbar().get("topLeft").get(0).getButtons().get(3);
+        assertThat(b6.getId(), is("testId6"));
+        assertThat(b6.getValidate(), is("page"));
+        assertThat(b6.getValidatePageId(), is("testToolbar"));
+
+        AbstractButton b7 = f.getToolbar().get("topLeft").get(0).getButtons().get(4);
         assertThat(b7.getId(), is("testId7"));
         assertThat(b7.getSrc(), is("MyCustomButton"));
         assertThat(b7.getAction(), notNullValue());
@@ -124,8 +134,8 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testToolbarMenuItem() {
-        Form f = (Form) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.widget.xml")
-                .get(new WidgetContext("testToolbar"));
+        Form f = (Form) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.page.xml")
+                .get(new PageContext("testToolbar"))).getWidget();
 
         assertThat(f.getToolbar().size(), is(2));
         Submenu button = (Submenu)f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
@@ -133,7 +143,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
         assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));
-        assertThat(item.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
+        assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }
 

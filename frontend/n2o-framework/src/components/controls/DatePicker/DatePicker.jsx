@@ -106,9 +106,6 @@ DatePicker.propTypes = {
      */
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
-    /**
-     * Placeholder
-   *  /
     configLocale: PropTypes.oneOf(['en', 'ru']),
     /**
      * Автофокус на контроле
@@ -120,7 +117,6 @@ DatePicker.propTypes = {
     openOnFocus: PropTypes.bool,
     defaultTime: PropTypes.string,
     className: PropTypes.string,
-    configLocale: PropTypes.string,
     t: PropTypes.func,
 }
 
