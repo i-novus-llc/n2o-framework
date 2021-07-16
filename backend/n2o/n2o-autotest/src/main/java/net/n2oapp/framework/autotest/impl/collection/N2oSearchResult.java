@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.header.SearchItem;
 
 /**
- * Базовый класс списка с результатами поиска в хедере для автотестирования
+ * Базовый класс списка с результатами поиска в шапке для автотестирования
  */
 public class N2oSearchResult extends N2oComponentsCollection implements SearchResult {
 

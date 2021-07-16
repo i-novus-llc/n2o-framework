@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+             navigation-layout="fullSizeSidebar"
+             navigation-layout-fixed="true"
+             welcome-page-id="test">
+
+    <header
+            sidebar-icon="fa fa-bars"
+            sidebar-toggled-icon="fa fa-bars"
+            title="test"
+            visible="false"
+            class="css"
+            logo-src="logo"
+            src="Header" home-page-url="home" style="margin-left:10px;width:300px">
+        <nav src="Nav" ref-id="MenuRef">
+            <page page-id="test1" label="test1" route="/test1" icon="test-icon"/>
+            <a href="/a" label="test2" icon="test2-icon" target="newWindow"/>
+            <sub-menu label="sub" icon="sub-icon" image="image.png">
+                <page page-id="test3" icon="test3-icon" label="test3" route="/test3"/>
+                <a label="test4" href="/test4" target="self" icon="fa fa-sign-out"/>
+            </sub-menu>
+        </nav>
+
+        <extra-menu>
+            <sub-menu label="test" image="#{imageSrc}" icon="icon">
+                <a label="test5" href="/test5" target="self" icon="fa fa-sign-out"/>
+            </sub-menu>
+        </extra-menu>
+
+        <search query-id="testQuery"
+                filter-field-id="filterId"
+                url-field-id="urlId"
+                label-field-id="labelId"
+                icon-field-id="iconId"
+                description-field-id="descriptionId"
+                advanced-target="application"
+                advanced-url="advancedUrl"
+                advanced-param="param"/>
+    </header>
+
+    <sidebar visible="false" title="test" class="class" default-state="none" home-page-url="/test"
+             logo-class="logoClass" logo-src="logo.png" overlay="false" side="right" src="SidebarSrc" style="style"
+             toggle-on-hover="true" toggled-state="maxi">
+        <extra-menu>
+            <a label="test" href="/test"/>
+        </extra-menu>
+        <nav>
+            <page page-id="test"/>
+        </nav>
+    </sidebar>
+
+    <footer src="testSrc" visible="false" left-text="LeftText" right-text="RightText"/>
+
+</application>

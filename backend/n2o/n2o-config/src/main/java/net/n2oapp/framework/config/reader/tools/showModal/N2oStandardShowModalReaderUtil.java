@@ -1,11 +1,9 @@
 package net.n2oapp.framework.config.reader.tools.showModal;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.tools.AfterCancel;
 import net.n2oapp.framework.api.metadata.global.view.tools.AfterSubmit;
-import net.n2oapp.framework.api.ui.FormModel;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.reader.tools.PreFilterReaderV1Util;
 import org.jdom2.Element;
@@ -46,9 +44,6 @@ public class N2oStandardShowModalReaderUtil {
         String actionId = getAttributeString(element, "action-id");
         if (actionId == null) return;
         showModal.setSubmitOperationId(actionId);
-        FormModel model = getAttributeEnum(element, "model", FormModel.class);
-        if (model != null)
-            showModal.setUpload(model.getUpload());
         showModal.setCreateMore(getAttributeBoolean(element, "create-more"));
         showModal.setFocusAfterSubmit(getAttributeBoolean(element, "focus-after-submit"));
         showModal.setRefreshOnClose(getAttributeBoolean(element, "refresh-on-close"));

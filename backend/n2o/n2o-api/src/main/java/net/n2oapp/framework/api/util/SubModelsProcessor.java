@@ -5,7 +5,6 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Процессор для вычисления вложенных моделей
@@ -27,8 +26,4 @@ public interface SubModelsProcessor {
      * @return Результат выборки
      */
     CollectionPage<DataSet> getQueryResult(String queryId);
-
-    interface OnErrorCallback {
-        void onError(RuntimeException e, Map<String, Object> dataSet, String controlId);
-    }
 }

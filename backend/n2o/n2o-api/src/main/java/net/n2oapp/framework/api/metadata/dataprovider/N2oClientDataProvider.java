@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 
 import java.io.Serializable;
@@ -47,6 +49,8 @@ public class N2oClientDataProvider implements Serializable {
         private String messagesForm;
         private boolean messageOnSuccess;
         private boolean messageOnFail;
+        private MessagePosition messagePosition;
+        private MessagePlacement messagePlacement;
         private CompiledObject.Operation operation;
     }
 }

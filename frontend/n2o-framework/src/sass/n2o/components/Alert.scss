@@ -28,20 +28,6 @@
     z-index: 1100;
 }
 
-.n2o-alerts--fixed {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    z-index: 1100;
-
-    .details {
-        height: 350px;
-        overflow: auto;
-        word-break: break-all;
-    }
-}
-
 .n2o-alert {
     display: flex;
     align-items: baseline;
@@ -102,10 +88,15 @@
 .n2o-alert-body .details {
     margin-top: 10px;
     background-color: $gray-200;
-    padding: $input-padding;
+    padding: 10px;
     color: $dark;
+    line-height: 1.55;
+    height: 350px;
     border: 1px solid $gray-400;
     border-radius: $border-radius-base;
+    overflow: scroll;
+    word-break: break-all;
+    scrollbar-width: none;
 }
 
 .alert-border-info {
@@ -172,8 +163,90 @@
     .n2o-alert-close-container {
         margin-left: 0;
     }
+}
 
-    .details {
-        overflow: auto;
+.n2o-alert .details::-webkit-scrollbar {
+    display: none;
+}
+
+.n2o-alerts--fixed {
+    position: fixed;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    transform: translate(-50%, 0);
+    z-index: 100;
+
+    .alert {
+        padding: 5px 5px 5px 15px;
     }
+
+    .n2o-alert-body {
+        padding: 0;
+
+        .details-label {
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: none;
+        }
+
+        .n2o-alert-body-text {
+            font-size: 14px;
+        }
+
+        .details {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+    }
+
+    .n2o-alert {
+        align-items: center;
+
+        .close {
+            padding: 0 !important;
+            line-height: 0;
+            font-size: 16px;
+            cursor: pointer;
+            text-shadow: none;
+            margin-bottom: 4px;
+
+            .n2o-icon {
+                padding: 0;
+            }
+        }
+
+        .n2o-alert-close__icon {
+            font-size: 22px;
+            margin-left: 10px;
+            margin-right: 5px;
+        }
+
+        .n2o-alert-close__icon.with-details {
+            align-self: flex-start;
+            margin-top: 6%;
+            margin-right: 8px;
+            margin-left: 0;
+            position: absolute;
+            right: 0;
+        }
+    }
+
+    .n2o-alert.with-details {
+        position: relative;
+        padding: 5px 10px 10px 10px;
+    }
+
+    &.top {
+        top: 45px;
+    }
+
+    &.bottom {
+        bottom: 35px;
+    }
+}
+
+.modal-open .n2o-alerts--fixed {
+    left: calc((100vw - 17px) * 0.5);
 }

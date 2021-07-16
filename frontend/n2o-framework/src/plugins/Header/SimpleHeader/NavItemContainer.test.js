@@ -15,9 +15,9 @@ describe('Тесты NavItemContainer', () => {
             sidebarOpen: false,
             item: {
                 id: '2131',
-                label: 'test',
+                title: 'test',
                 type: 'dropdown',
-                subItems: [{ label: 'test1', href: '/', linkType: 'inner' }],
+                items: [{ title: 'test1', href: '/', linkType: 'inner' }],
             },
         })
         expect(wrapper.find('Dropdown').exists()).toEqual(true)

@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 
 
@@ -30,6 +32,8 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String refreshWidgetId;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
+    private MessagePosition messagePosition;
+    private MessagePlacement messagePlacement;
     private Boolean optimistic;
     private Boolean submitForm;
     private RequestMethod method;

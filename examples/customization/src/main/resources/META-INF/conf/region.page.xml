@@ -4,12 +4,12 @@
       xmlns:other="http://n2oapp.net/framework/config/schema/custom">
     <regions>
         <region src="SelectRegion" place="left" other:title="Заголовок региона SelectRegion" other:pageId="region">
-            <form id="firstWidget" other:label="Первый элемент региона" other:active="true" default-values-query-id="customization">
+            <form id="firstWidget" other:label="Первый элемент региона" other:active="true" >
                 <fields>
                     <input-text id="id" label="Идентификатор"/>
                 </fields>
             </form>
-            <form id="secondWidget" other:label="Второй элемент региона" default-values-query-id="customization">
+            <form id="secondWidget" other:label="Второй элемент региона" >
                 <fields>
                     <input-text id="id" label="Идентификатор"/>
                     <input-text id="name" label="Название"/>

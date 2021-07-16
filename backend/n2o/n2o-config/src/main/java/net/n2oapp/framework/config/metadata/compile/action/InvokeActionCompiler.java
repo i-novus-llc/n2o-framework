@@ -169,6 +169,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContextData.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
         actionContextData.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         actionContextData.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
+        actionContextData.setMessagePosition(source.getMessagePosition());
+        actionContextData.setMessagePlacement(source.getMessagePlacement());
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));
         dataProvider.setActionContextData(actionContextData);
         ClientDataProvider compiledDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);

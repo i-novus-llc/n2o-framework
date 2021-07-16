@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
-import get from 'lodash/get'
 import {
     compose,
     withState,
@@ -13,7 +12,7 @@ import {
 } from 'recompose'
 import { withTranslation } from 'react-i18next'
 
-import UserBox from '../../components/snippets/UserBox/UserBox'
+import { Logo } from '../Header/SimpleHeader/Logo'
 
 import { SidebarItemContainer } from './SidebarItemContainer'
 
@@ -25,73 +24,107 @@ import { SidebarItemContainer } from './SidebarItemContainer'
  * @param userBox - настройка userBox
  * @param items - массив итемов
  * @param visible - видимость
+ * @param sidebarOpen - видимость если controlled
  * @param width - длина сайдбара
  * @param controlled - флаг контроллед режима
  * @param onToggle - переключение compressed
  * @param extra - екстра итемы
- * @param homePageUrl - url брэнда
+ * @param className - class
+ * @param logo - настройки лого
  * @param t - функция перевода
  * @returns {*}
  * @constructor
  */
+export const sidebarView = {
+    none: 'none',
+    micro: 'micro',
+    mini: 'mini',
+    maxi: 'maxi',
+}
+
 export function SideBar({
     activeId,
-    brand,
-    brandImage,
-    userBox,
-    items,
     visible,
+    sidebarOpen,
     controlled,
     onToggle,
-    extra,
-    homePageUrl,
-    t,
+    className,
+    logo,
+    menu,
+    extraMenu = {},
+    defaultState = 'mini',
+    toggledState = 'maxi',
+    onMouseEnter,
+    onMouseLeave,
+    side = 'left',
 }) {
+    const sidebarRef = useRef()
+    const currentVisible = controlled ? sidebarOpen : visible
+    const { items = [] } = menu
+
+    const showContent = (toggledState === 'mini' && currentVisible) ||
+            (toggledState === 'maxi' && (currentVisible || defaultState === 'mini'))
+
+    const isMiniView = (defaultState === 'mini' && !currentVisible) ||
+            (toggledState === 'mini' && currentVisible)
+
+    const toggleIconClassNames = classNames(
+        {
+            'fa fa-angle-double-left': (visible && side === 'left') || (!visible && side) === 'right',
+            'fa fa-angle-double-right': (!visible && side === 'left') || (visible && side) === 'right',
+        },
+    )
+
     const renderItems = items => map(items, (item, i) => (
         <SidebarItemContainer
             key={i}
             item={item}
             activeId={activeId}
-            sidebarOpen={visible}
+            sidebarOpen={currentVisible}
+            defaultState={defaultState}
+            toggledState={toggledState}
+            showContent={showContent}
+            isMiniView={isMiniView}
         />
     ))
 
-    const withoutBrandImage = !visible && !brandImage
+    const sideBarClasses = classNames(
+        'n2o-sidebar',
+        side,
+        className,
+        {
+            [sidebarView[defaultState]]: !currentVisible,
+            [sidebarView[toggledState]]: currentVisible,
+        },
+    )
 
     return (
         <aside
-            className={classNames('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
+            className={sideBarClasses}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            ref={sidebarRef}
         >
-            <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
-                <a className="d-flex align-items-center" href={homePageUrl}>
-                    {brandImage && (
-                        <img
-                            className={classNames({ 'mr-2': visible })}
-                            src={brandImage}
-                            alt=""
-                            width="30"
-                            height="30"
-                        />
-                    )}
-                    {(visible || withoutBrandImage) && (
-                        <span className="n2o-nav-brand__text">
-                            {withoutBrandImage ? brand.substring(0, 1) : brand}
-                        </span>
-                    )}
-                </a>
-            </div>
-            {userBox && (
-                <UserBox {...userBox} compressed={!visible}>
-                    {renderItems(get(userBox, 'items'))}
-                </UserBox>
+            <div className={classNames(
+                'n2o-sidebar__nav-brand n2o-nav-brand',
+                {
+                    'justify-content-center': isMiniView,
+                },
             )}
-            <nav className="n2o-sidebar__nav">
+            >
+                <div className="d-flex align-items-center">
+                    {logo && <Logo {...logo} showContent={showContent} isMiniView={isMiniView} />}
+                </div>
+            </div>
+            <nav className={classNames('n2o-sidebar__nav', { visible: showContent })}>
                 <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
             </nav>
             <div className="n2o-sidebar__footer">
-                <div className="n2o-sidebar__extra">
-                    <ul className="n2o-sidebar__nav-list">{renderItems(extra)}</ul>
-                </div>
+                {showContent && (
+                    <div className="n2o-sidebar__extra">
+                        <ul className="n2o-sidebar__nav-list">{renderItems(extraMenu.items)}</ul>
+                    </div>
+                )}
                 {!controlled && (
                     <div onClick={onToggle} className="n2o-sidebar__toggler">
                         <span className="n2o-sidebar__nav-item">
@@ -100,9 +133,8 @@ export function SideBar({
                                     'mr-1': visible,
                                 })}
                             >
-                                <i className="fa fa-angle-double-left" />
+                                <i className={toggleIconClassNames} />
                             </span>
-                            {visible && <span>{t('hide')}</span>}
                         </span>
                     </div>
                 )}
@@ -117,17 +149,13 @@ SideBar.propTypes = {
      */
     activeId: PropTypes.string,
     /**
-     * Бренд сайдбара
-     */
-    brand: PropTypes.string,
-    /**
-     * Картинка бренда
-     */
-    brandImage: PropTypes.string,
-    /**
      * Блок пользователя
      */
     userBox: PropTypes.object,
+    /**
+     * Настройки лого и брэнда
+     */
+    logo: PropTypes.object,
     /**
      * Элементы сайдбара
      */
@@ -136,6 +164,10 @@ SideBar.propTypes = {
      * Флаг сжатия
      */
     visible: PropTypes.bool,
+    /**
+     * Флаг сжатия если controlled
+     */
+    sidebarOpen: PropTypes.bool,
     /**
      * Длина
      */
@@ -155,15 +187,20 @@ SideBar.propTypes = {
     /**
      * Адрес ссылка бренда
      */
-    homePageUrl: PropTypes.string,
-    t: PropTypes.func,
+    side: PropTypes.string,
+    className: PropTypes.string,
+    menu: PropTypes.object,
+    extraMenu: PropTypes.object,
+    defaultState: PropTypes.string,
+    toggledState: PropTypes.string,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    overlay: PropTypes.bool,
 }
 
 SideBar.defaultProps = {
     controlled: false,
-    brand: '',
-    homePageUrl: '/',
-    t: () => {},
+    menu: {},
 }
 
 export default compose(

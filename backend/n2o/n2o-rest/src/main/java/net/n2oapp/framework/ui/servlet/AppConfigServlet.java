@@ -2,11 +2,11 @@ package net.n2oapp.framework.ui.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.metadata.header.Header;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
+import net.n2oapp.framework.api.metadata.application.Application;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.SourceInfo;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -26,7 +26,7 @@ public class AppConfigServlet extends HttpServlet {
     private ExposedResourceBundleMessageSource messageSource;
     private ReadCompileBindTerminalPipeline pipeline;
     private MetadataEnvironment environment;
-    private String headerSourceId;
+    private String applicationSourceId;
 
     @Override
     public void init() {
@@ -53,17 +53,17 @@ public class AppConfigServlet extends HttpServlet {
     }
 
     private Map<String, Object> getMenu() {
-        return new ObjectMapper().convertValue(getHeader(), Map.class);
+        return new ObjectMapper().convertValue(getApplication(), Map.class);
     }
 
-    private Header getHeader() {
-        if (headerSourceId != null && !headerSourceId.isEmpty())
-            return pipeline.get(new HeaderContext(headerSourceId), null);
-        List<SourceInfo> headers = environment.getMetadataRegister().find(N2oHeader.class);
-        if (headers == null || headers.isEmpty()) {
-            return pipeline.get(new HeaderContext("default"), null);
+    private Application getApplication() {
+        if (applicationSourceId != null && !applicationSourceId.isEmpty())
+            return pipeline.get(new ApplicationContext(applicationSourceId), null);
+        List<SourceInfo> apps = environment.getMetadataRegister().find(N2oApplication.class);
+        if (apps == null || apps.isEmpty()) {
+            return pipeline.get(new ApplicationContext("default"), null);
         }
-        return pipeline.get(new HeaderContext(headers.get(0).getId()), null);
+        return pipeline.get(new ApplicationContext(apps.get(0).getId()), null);
     }
 
     private Map<String, String> getMessages() {
@@ -96,8 +96,8 @@ public class AppConfigServlet extends HttpServlet {
         this.pipeline = pipeline;
     }
 
-    public void setHeaderSourceId(String headerSourceId) {
-        this.headerSourceId = headerSourceId;
+    public void setApplicationSourceId(String applicationSourceId) {
+        this.applicationSourceId = applicationSourceId;
     }
 
     public void setEnvironment(MetadataEnvironment environment) {

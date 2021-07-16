@@ -18,7 +18,7 @@ title: Начало работы
 
 Для начала потребуется установить следующее программное обеспечение:
 
-- [Open JDK 8+](https://openjdk.java.net/)
+- [Open JDK 11+](https://openjdk.java.net/)
 - [Apache Maven 3+](http://maven.apache.org/download.cgi)
 - [IntelliJ IDEA](http://www.jetbrains.com/idea/download/)
 
@@ -84,7 +84,7 @@ title: Начало работы
 
 ```xml
 <properties>
-  <n2o.version>7.12.0</n2o.version>
+  <n2o.version>7.16.0</n2o.version>
 </properties>
 
 <dependencies>
@@ -138,15 +138,20 @@ spring.http.encoding.force=true
 
 ##### Самостоятельное создание N2O React проекта
 
-Для сборки React проекта используется система сборок [NPM 6+](https://www.npmjs.com/).
+Для работы с React проектом потребуются [Node.js 14+](https://nodejs.org/), [npm 6+](https://docs.npmjs.com/) и
+[yarn](https://yarnpkg.com/getting-started/).
+
+Сборка React проекта выполняется менеджером пакетов yarn.
 
 В корне проекта выполните команду:
 
 ```
 npm init react-app frontend
 ```
+Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, проинициализирует React проект.
 
 Перейдите в папку `/frontend`:
+
 ```
 cd frontend
 ```
@@ -154,20 +159,28 @@ cd frontend
 и установите библиотеку `n2o-framework`:
 
 ```
-npm install n2o-framework --save
+yarn add n2o-framework --save
 ```
 
-Далее измените файл `/frontend/src/index.js` следующим образом:
+Далее необходимо удалить ненужные файлы и импорты. Удалите файлы App.css, App.js, App.test.js, logo.svg,
+reportWebVitals.js.
+
+Отредактируйте файл `/frontend/src/index.js`. Он должен выглядеть следующим образом:
 
 ```
 import React from 'react';
 import ReactDOM from 'react-dom';
-import N2O from 'n2o';
+import N2O from 'n2o-framework';
 
-import 'n2o/dist/n2o.css';
+import 'n2o-framework/dist/n2o.css';
 import './index.css';
 
-ReactDOM.render(<N2O/>, document.getElementById('root'));
+ReactDOM.render(
+  <React.StrictMode>
+    <N2O />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 ```
 
 Теперь N2O React проект готов.
@@ -175,7 +188,7 @@ ReactDOM.render(<N2O/>, document.getElementById('root'));
 Для сборки выполните команду:
 
 ```
-npm run build
+yarn run build
 ```
 
 В результате в папке `/build` появится `index.html` и другие статические ресурсы.

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import { compose, pure } from 'recompose'
+import classNames from 'classnames'
 import { createStructuredSelector } from 'reselect'
 
 import propsResolver from '../../../utils/propsResolver'
@@ -69,10 +70,12 @@ const withColumn = (WrappedComponent) => {
      */
         render() {
             const { columnVisible, columnDisabled, security, model } = this.props
+            const resolvedProps = propsResolver(this.getPassProps(), model, ['toolbar'])
             const cellEl = (
                 <WrappedComponent
                     disabled={columnDisabled}
-                    {...propsResolver(this.getPassProps(), model, ['toolbar'])}
+                    {...resolvedProps}
+                    className={classNames('n2o-widget-list-cell', resolvedProps.className)}
                 />
             )
 

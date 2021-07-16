@@ -27,7 +27,7 @@
                     <hidden id="id" default-value="1"/>
                 </fields>
                 <toolbar place="bottomLeft">
-                    <button label="Check" validate="true">
+                    <button label="Check" validate="widget">
                         <invoke operation-id="echo"/>
                     </button>
                 </toolbar>
@@ -57,7 +57,7 @@
 
                 </fields>
                 <toolbar place="bottomLeft">
-                    <button label="Check" validate="true">
+                    <button label="Check" validate="widget">
                         <invoke operation-id="echo"/>
                     </button>
                     <button label="Empty" disable-on-empty-model="false"/>

@@ -9,28 +9,6 @@ import Alert from './Alert'
  * Компонент обертка для Alert
  */
 export class Alerts extends Component {
-    constructor(props) {
-        super(props)
-
-        this.ref = React.createRef()
-
-        this.state = {
-            style: {},
-        }
-    }
-
-    componentDidUpdate() {
-        const { style } = this.state
-
-        if (!style.width && this.ref.current) {
-            this.setState({
-                style: {
-                    width: `${this.ref.current.clientWidth}px`,
-                },
-            })
-        }
-    }
-
   filterAlerts = (alerts) => {
       const absoluteAlerts = []
       const relativeAlerts = []
@@ -55,15 +33,18 @@ export class Alerts extends Component {
 
   renderAlerts = alerts => map(alerts, alert => <Alert {...alert} />);
 
+  getAlertPlacement = alerts => (alerts.length !== 0 ? alerts[0].placement || 'bottom' : null)
+
   render() {
       const { alerts } = this.props
-      const { style } = this.state
       const { absoluteAlerts, relativeAlerts, fixedAlerts } = this.filterAlerts(
           alerts,
       )
 
+      const fixedAlertsPlacement = this.getAlertPlacement(fixedAlerts)
+
       return (
-          <div className="n2o-alerts-container" ref={this.ref}>
+          <div className="n2o-alerts-container">
               {!isEmpty(absoluteAlerts) && (
                   <div className="n2o-alerts--absolute">
                       {this.renderAlerts(absoluteAlerts)}
@@ -75,7 +56,7 @@ export class Alerts extends Component {
                   </div>
               )}
               {!isEmpty(fixedAlerts) && (
-                  <div className="n2o-alerts--fixed" style={style}>
+                  <div className={`n2o-alerts--fixed ${fixedAlertsPlacement}`}>
                       {this.renderAlerts(fixedAlerts)}
                   </div>
               )}

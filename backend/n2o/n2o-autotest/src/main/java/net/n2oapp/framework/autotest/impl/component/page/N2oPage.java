@@ -1,12 +1,17 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
 import com.codeborne.selenide.*;
+import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.application.Footer;
+import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
+import net.n2oapp.framework.autotest.impl.component.application.N2oFooter;
+import net.n2oapp.framework.autotest.impl.component.application.N2oSidebar;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import org.openqa.selenium.WebElement;
 
@@ -17,6 +22,16 @@ public class N2oPage extends N2oComponent implements Page {
 
     public SimpleHeader header() {
         return new N2oSimpleHeader(element().$(".n2o-header"));
+    }
+
+    @Override
+    public Sidebar sidebar() {
+        return new N2oSidebar(element().$(".n2o-sidebar"));
+    }
+
+    @Override
+    public Footer footer() {
+        return new N2oFooter(element().$(".n2o-footer"));
     }
 
     @Override
@@ -76,6 +91,14 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public void shouldHaveStyle(String style) {
         element().$(".n2o-page-body").shouldHave(Condition.attribute("style", style));
+    }
+
+    @Override
+    public void shouldHaveLayout(NavigationLayout layout) {
+        if (NavigationLayout.fullSizeHeader.equals(layout))
+            element().$(".n2o-layout-full-size-header").should(Condition.exist);
+        else if (NavigationLayout.fullSizeSidebar.equals(layout))
+            element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
     }
 
 

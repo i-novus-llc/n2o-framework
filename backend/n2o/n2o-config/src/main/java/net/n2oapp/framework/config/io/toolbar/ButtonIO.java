@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
         p.attribute(e, "action-id", b::getActionId, b::setActionId);
-        p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
+        p.attributeEnum(e, "validate", b::getValidate, b::setValidate, ValidateType.class);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
 

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/pageRoute">
+    <form route="/main">
+        <fields>
+            <input-text id="id"/>
+        </fields>
+    </form>
+</simple-page>

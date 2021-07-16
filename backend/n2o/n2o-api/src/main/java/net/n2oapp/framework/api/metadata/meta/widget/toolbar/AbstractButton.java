@@ -44,9 +44,11 @@ public abstract class AbstractButton extends Component implements IdAware, Seria
     @JsonProperty
     private Confirm confirm;
     @JsonProperty
-    private Boolean validate;
+    private String validate;
     @JsonProperty
-    private String validatedWidgetId;
+    private String validateWidgetId;
+    @JsonProperty
+    private String validatePageId;
 
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {

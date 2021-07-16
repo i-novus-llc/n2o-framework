@@ -9,32 +9,40 @@ import styles from './styles.module.css'
 
 const features = [
     {
-        title: 'Easy to Use',
+        title: 'Реактивный',
         imageUrl: 'img/undraw_docusaurus_mountain.svg',
         description: (
             <>
-                Docusaurus was designed from the ground up to be easily installed and
-                used to get your website up and running quickly.
+                Создавать интерактивные приложения на N2O можно легко и быстро как в конструкторе.
+                Для этого Вам не потребуются глубокие знания языков программирования.
+                Разработка происходит в декларативном стиле на языке XML.
+                Подключение к данным легко реализуется через SQL, REST, Spring и другие технологии.
             </>
         ),
     },
     {
-        title: 'Focus on What Matters',
+        title: 'Мощный',
         imageUrl: 'img/undraw_docusaurus_tree.svg',
         description: (
             <>
-                Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-                ahead and move your docs into the <code>docs</code> directory.
+                N2O имеет встроенную библиотеку React компонентов с настраиваемой вёрсткой и поведением.
+                С их помощью Вы можете компоновать страницу как хотите.
+                N2O поддерживает условия видимости и доступности полей, кнопок, панелей; фильтрации, сортировки данных;
+                открытия ссылок, вложенных страниц, модальных окон; валидации, сохранения и печати данных.
             </>
         ),
     },
     {
-        title: 'Powered by React',
+        title: 'Открытый',
         imageUrl: 'img/undraw_docusaurus_react.svg',
         description: (
             <>
-                Extend or customize your website layout by reusing React. Docusaurus can
-                be extended while reusing the same header and footer.
+                N2O Framework - библиотека с открытым исходным кодом,
+                Вы можете использовать её свободно в любых проектах.
+                N2O - компонентный фреймворк и его можно расширить под любые требования:
+                создать свою тему стилей; добавить специфические React компоненты;
+                реализовать новый способ получения данных.
+                В N2O есть механизмы быстрого подключения системы авторизации, журналирования, аудита и отчетов.
             </>
         ),
     },
@@ -73,7 +81,7 @@ export default function Home() {
                                 styles.getStarted,
                             )}
                             to={useBaseUrl('docs/')}>
-                            Get Started
+                            Начать работу
                         </Link>
                     </div>
                 </div>

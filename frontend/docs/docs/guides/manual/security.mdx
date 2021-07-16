@@ -33,12 +33,14 @@ __*Атрибуты доступа*__
 ```
 
 ```xml title="Ограничение доступа к странице с помощью атрибутов"
-<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
-  xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
-  ...
-  <page sec:roles="admin, user"/>
-  ...
-</header>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <header class="inverse" title="N2O">
+      ...
+      <page sec:roles="admin, user"/>
+      ...
+    </header>
+</application>
 ```
 
 При нехватке прав доступа визуальный компонент будет скрыт.

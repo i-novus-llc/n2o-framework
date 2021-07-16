@@ -4,7 +4,5 @@ public enum ControllerType {
     query,
     defaults,
     copy,
-    operation,
-    bulkOperation,
-    bulkMergeOperation
+    operation
 }
