@@ -98,10 +98,9 @@ public class ArgumentsInvocationUtil {
      * @return Маппинг аргумента
      */
     private static String getMapping(Argument[] arguments, int idx, String mapping, String defaultMapping) {
-        validateMapping(mapping);
-
         String resultMapping;
         int argIdx;
+
         if (mapping != null) {
             argIdx = findArgumentPosition(arguments, mapping.substring(1, mapping.indexOf("]")).replace("'", ""));
             resultMapping = argIdx == -1 ? mapping :
@@ -174,14 +173,4 @@ public class ArgumentsInvocationUtil {
     }
 
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+](\\..+)?").asPredicate();
-
-    /**
-     * Валидирование маппинга поля
-     *
-     * @param mapping Маппинг
-     */
-    private static void validateMapping(String mapping) {
-        if (!MAPPING_PATTERN.test(mapping))
-            throw new IllegalArgumentException("Not valid mapping: " + mapping);
-    }
 }

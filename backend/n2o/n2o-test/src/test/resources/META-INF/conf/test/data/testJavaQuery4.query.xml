@@ -21,7 +21,7 @@
         <field id="id">
             <select/>
             <filters>
-                <eq filter-id="id" mapping="id"/>
+                <eq filter-id="id" mapping="[0].id"/>
             </filters>
         </field>
 
