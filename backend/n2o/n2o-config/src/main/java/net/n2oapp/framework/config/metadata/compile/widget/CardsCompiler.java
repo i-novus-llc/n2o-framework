@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -79,7 +80,10 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         List<N2oCell> cells = new ArrayList<>(source.length);
         for (N2oCards.Block block : source) {
             block.setId(p.cast(block.getId(), block.getTextFieldId()));
-            cells.add(p.compile(block.getComponent(), context, p, new IndexScope(), new ComponentScope(block), scopes));
+            N2oCell cell = block.getComponent();
+            if (cell == null)
+                cell = new N2oTextCell();
+            cells.add(p.compile(cell, context, p, new IndexScope(), new ComponentScope(block), scopes));
         }
         return cells;
     }

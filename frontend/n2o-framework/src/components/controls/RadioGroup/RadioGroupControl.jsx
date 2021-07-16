@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import uniqueId from 'lodash/uniqueId'
+import toString from 'lodash/toString'
 
-import withFetchData from '../withFetchData'
-import Radio from '../Radio/Radio'
-import RadioN2O from '../Radio/RadioN2O'
-import RadioButton from '../Radio/RadioButton'
+import listContainer from '../listContainer'
+import { Group, RadioTypes } from '../Radio/Group'
 import Spinner from '../../snippets/Spinner/InlineSpinner'
-
-import RadioGroup from './RadioGroup'
 
 /**
  * Wrapper для радиогруппы
@@ -26,48 +24,59 @@ import RadioGroup from './RadioGroup'
  * @reactProps {number} size - размер
  * @reactProps {string} type - тип чекбокса
  */
-
-class RadioGroupControl extends React.Component {
-    componentDidMount() {
-        const { _fetchData, size, labelFieldId } = this.props
-
+function RadioGroupControl({
+    data,
+    labelFieldId,
+    type,
+    isLoading,
+    inline,
+    className,
+    value,
+    onChange,
+    valueFieldId,
+    disabled,
+    visible,
+    style,
+    size,
+    _fetchData,
+}) {
+    useEffect(() => {
         _fetchData({
             size,
             [`sorting.${labelFieldId}`]: 'ASC',
         })
+    }, [_fetchData, labelFieldId, size])
+    const [groupName] = useState(uniqueId('n2o-radio-group-control'))
+    const changeHandler = useCallback((value) => {
+        const item = data.find(item => toString(item[valueFieldId]) === toString(value))
+
+        return onChange(item)
+    }, [onChange, data, valueFieldId])
+
+    if (isLoading) {
+        return <Spinner />
     }
 
-    render() {
-        const { data, labelFieldId, type, isLoading } = this.props
+    const options = data ? data.map(radio => ({
+        value: radio[valueFieldId],
+        label: radio[labelFieldId],
+        disabled: radio.disabled,
+    })) : []
 
-        const radioTypes = {
-            default: Radio,
-            n2o: RadioN2O,
-            btn: RadioButton,
-        }
-
-        const RadioElement = radioTypes[type]
-
-        return (
-            <>
-                {!isLoading && (
-                    <RadioGroup {...this.props}>
-                        {data &&
-              data.map(radio => (
-                  <RadioElement
-                      key={radio.id}
-                      value={radio}
-                      label={radio[labelFieldId]}
-                      disabled={radio.disabled}
-                      checked={radio.checked}
-                  />
-              ))}
-                    </RadioGroup>
-                )}
-                {isLoading && <Spinner />}
-            </>
-        )
-    }
+    return (
+        <Group
+            value={value?.[valueFieldId]}
+            onChange={changeHandler}
+            disabled={disabled}
+            visible={visible}
+            style={style}
+            className={className}
+            name={groupName}
+            inline={inline}
+            type={type}
+            options={options}
+        />
+    )
 }
 
 RadioGroupControl.propTypes = {
@@ -81,9 +90,8 @@ RadioGroupControl.propTypes = {
     visible: PropTypes.bool,
     style: PropTypes.object,
     className: PropTypes.string,
-    fetchData: PropTypes.func,
-    size: PropTypes.number.isRequired,
-    type: PropTypes.oneOf(['default', 'n2o', 'btn']),
+    size: PropTypes.number,
+    type: PropTypes.oneOf([RadioTypes.button, RadioTypes.input, RadioTypes.tabs]),
     isLoading: PropTypes.bool,
     _fetchData: PropTypes.func,
 }
@@ -93,9 +101,9 @@ RadioGroupControl.defaultProps = {
     labelFieldId: 'name',
     value: {},
     visible: true,
-    type: 'default',
+    type: RadioTypes.input,
     onChange: () => {},
     isLoading: false,
 }
 
-export default withFetchData(RadioGroupControl)
+export default listContainer(RadioGroupControl)

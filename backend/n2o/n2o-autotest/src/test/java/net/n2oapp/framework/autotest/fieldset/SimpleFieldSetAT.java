@@ -35,9 +35,9 @@ public class SimpleFieldSetAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -81,11 +81,11 @@ public class SimpleFieldSetAT extends AutoTestBase {
 
         SimpleFieldSet set1 = fieldsets.fieldset(1, SimpleFieldSet.class);
         SimpleFieldSet set2 = fieldsets.fieldset(2, SimpleFieldSet.class);
-        set1.shouldNotBeVisible();
-        set2.shouldNotBeVisible();
+        set1.shouldBeHidden();
+        set2.shouldBeHidden();
 
         inputText.val("test");
-        set1.shouldNotBeVisible();
+        set1.shouldBeHidden();
         set2.shouldBeVisible();
         set2.fields().field("field2").shouldExists();
     }

@@ -39,9 +39,9 @@ public class MultiFieldSetAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -70,8 +70,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset2.item(0);
         MultiFieldSetItem item2 = fieldset2.item(1);
-        item1.shouldHaveLabel("Участник 1");
-        item2.shouldHaveLabel("Участник 2");
+        item1.shouldHaveLabel("Участник");
+        item2.shouldHaveLabel("Участник №2");
         // проверяем корректность набора полей
         InputText name1 = item1.fields().field("name").control(InputText.class);
         name1.shouldExists();
@@ -383,11 +383,11 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         MultiFieldSet multiSet1 = fieldsets.fieldset(1, MultiFieldSet.class);
         MultiFieldSet multiSet2 = fieldsets.fieldset(2, MultiFieldSet.class);
-        multiSet1.shouldNotBeVisible();
-        multiSet2.shouldNotBeVisible();
+        multiSet1.shouldBeHidden();
+        multiSet2.shouldBeHidden();
 
         inputText.val("test");
-        multiSet1.shouldNotBeVisible();
+        multiSet1.shouldBeHidden();
         multiSet2.shouldBeVisible();
         multiSet2.addButtonShouldBeExist();
     }

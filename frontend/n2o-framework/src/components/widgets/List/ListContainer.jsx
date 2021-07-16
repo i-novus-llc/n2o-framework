@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
@@ -9,7 +8,6 @@ import map from 'lodash/map'
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import get from 'lodash/get'
 import find from 'lodash/find'
 
 import widgetContainer from '../WidgetContainer'
@@ -17,8 +15,8 @@ import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/TableContainer'
-import { setTableSelectedId } from '../../../actions/widgets'
-import { makeWidgetPageSelector } from '../../../selectors/widgets'
+import { setTableSelectedId } from '../../../ducks/widgets/store'
+import { makeWidgetPageSelector } from '../../../ducks/widgets/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import List from './List'
@@ -105,7 +103,6 @@ class ListContainer extends React.Component {
                 widgetId={widgetId}
                 positionFixed={false}
                 modifiers={{}}
-                className={classNames('n2o-widget-list-cell', get(section, 'className', ''))}
             />
         )
     }

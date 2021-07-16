@@ -1,186 +1,160 @@
-.custom-radio-button-align {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 10;
-}
+.n2o-radio-input {
+    cursor: pointer;
 
-.custom-radio-align {
-    z-index: 1;
-    left: 0;
-    top: 4px;
-    width: $n2o-radio-width;
-    height: $n2o-radio-height;
-}
-
-.btn {
-    > .alt-radio {
-        position: absolute;
-        margin: 0;
-        opacity: 0;
-
-        @extend .custom-radio-button-align;
-    }
-}
-
-.n2o-radio {
-    .alt {
-        padding-top: 5px;
-        margin-bottom: 0;
+    &.disabled {
+        cursor: default;
+        color: $gray-600;
     }
 
-    .alt-radio {
-        vertical-align: top;
-        width: $radio-width;
-        height: $radio-height;
-        margin: 0 3px 0 0 !important;
-
-        + .alt-radio-block {
-            cursor: $radio-cursor;
-            line-height: 17px;
-        }
-
-        &:not(:checked) {
-            position: absolute;
-            opacity: 0;
-
-            + .alt-radio-block {
-                position: relative;
-                padding: 0 0 0 20px;
-
-                &::before {
-                    content: '';
-                    position: absolute;
-                    top: 1px;
-                    left: 0;
-                    width: 12px;
-                    height: 12px;
-                    border: $radio-border;
-                    background-color: $radio-background-color;
-                    border-radius: $radio-border-radius;
-                    box-sizing: content-box;
-                }
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    top: 5px;
-                    left: 4px;
-                    width: 6px;
-                    height: 6px;
-                    border-radius: $radio-border-radius;
-                    background: $radio-background-color-after;
-                    opacity: 0;
-                    box-sizing: content-box;
-                }
-            }
-        }
-
-        &:checked + .alt-radio-block::after {
-            opacity: 1;
-        }
-
-        &:focus + .alt-radio-block::before {
-            border-color: $radio-focus-border-color;
-            outline: 0;
-        }
-
-        &:disabled {
-            + .alt-radio-block {
-                cursor: $radio-cursor-disabled;
-
-                &::before {
-                    border-color: $radio-disabled-border-color;
-                }
-
-                &::after {
-                    background: $radio-disabled-background;
-                }
-            }
-        }
-    }
-}
-
-div.radio {
-    > .n2o-radio {
-        padding-left: 0;
-    }
-
-    > label {
-        margin-bottom: 0;
-    }
-}
-
-.n2o-radio-container {
-    .custom-radio {
+    /// type = default
+    &.n2o-radio-input-n2o, // для обратной совместимости
+    &.n2o-radio-input-default {
         margin: $n2o-radio-margin;
 
-        .custom-control-label::before {
-            top: $n2o-radio-top;
-            right: $n2o-radio-right;
-            bottom: $n2o-radio-bottom;
-            left: $n2o-radio-left;
-            width: $n2o-radio-width;
-            height: $n2o-radio-height;
-            background-color: $n2o-radio-background-color;
-            border: $n2o-radio-border;
+        input {
+            display: none;
         }
 
-        .custom-control-label::after {
-            top: $n2o-radio-top;
-            right: $n2o-radio-right;
-            bottom: $n2o-radio-bottom;
-            left: $n2o-radio-left;
+        &::before {
+            content: ' ';
             width: $n2o-radio-width;
             height: $n2o-radio-height;
+            margin-right: 0.5rem;
+            background: $n2o-radio-background-color;
+            border-radius: 50%;
+            display: inline-block;
         }
 
-        .custom-control-input:focus ~ .custom-control-label::before {
+        &.checked::before {
+            background: $n2o-radio-checked-background-color;
+            border: 5px solid;
+            border-color: $n2o-radio-checked-border-color;
+        }
+
+        &.disabled::before {
+            box-shadow: none !important;
+        }
+
+        &:focus::before,
+        &:hover::before {
             box-shadow: $n2o-radio-focus-box-shadow;
         }
+    }
 
-        .custom-control-input:checked ~ .custom-control-label::before {
-            background-color: $n2o-radio-checked-background-color;
+    /// type = tabs
+    &.n2o-radio-input-tabs {
+        input[type="radio"] {
+            display: none;
         }
 
-        .custom-control-input:checked ~ .custom-control-label::after {
-            background-image: $n2o-radio-checked-background-image;
-            background-repeat: $n2o-radio-checked-background-repeat;
-            background-position: $n2o-radio-checked-background-position;
-            background-size: $n2o-radio-checked-background-size;
+        border: $n2o-radio-input-border-width solid transparent;
+        padding: $n2o-radio-input-tabs-padding;
+        margin: 0;
+
+        &.checked {
+            border-color: $n2o-radio-input-border-color;
+            color: $gray-700;
         }
+
+        &:hover:not(.checked):not(.disabled),
+        &:focus:not(.checked):not(.disabled) {
+            border-color: $n2o-radio-input-hover-border-color;
+            color: $pink;
+        }
+    }
+
+    /// type = btn
+    // Просто наследуемся от бутстрап классов, чтобы самим не переопределять ничего
+    &.n2o-radio-input-btn {
+        @extend .btn;
+        @extend .btn-secondary;
     }
 }
 
-.n2o-radio-inline {
-    padding-left: 0;
+.n2o-radio-group {
+    display: flex;
+    flex-direction: column;
 
-    > .custom-radio {
-        &:last-child {
-            margin-right: 0;
-        }
-
-        margin-right: 1.5rem;
+    &.n2o-radio-group-inline {
+        flex-direction: row;
     }
 
-    > .radio {
-        display: inline-block;
+    /// type = default
+    &.n2o-radio-group-n2o, // для обратной совместимости
+    &.n2o-radio-group-default {
+        &.n2o-radio-group-inline {
+            .n2o-radio-input {
+                margin-right: $n2o-radio-input-margin-right;
+                margin-bottom: 0;
+            }
 
-        > .alt {
-            margin-right: 5px;
+            .n2o-radio-input:last-child {
+                margin-right: 0;
+            }
+        }
+    }
 
-            > .alt-radio-block {
-                padding-left: 15px;
+    /// type = tabs
+    &.n2o-radio-group-tabs {
+        position: relative;
+
+        &::before {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+
+        &.n2o-radio-group-inline {
+            width: 100%;
+
+            &::before {
+                border-bottom: $n2o-radio-input-border-width solid $n2o-radio-input-border-color;
+            }
+
+            .n2o-radio-input.n2o-radio-input-tabs {
+                &.checked {
+                    border-bottom: $n2o-radio-input-border-width solid $white;
+                }
+
+                &:not(.checked) {
+                    border-bottom: transparent;
+                }
             }
         }
 
-        > label {
-            margin-right: 5px;
+        &.n2o-radio-group-vertical {
+            &::before {
+                border-right: $n2o-radio-input-border-width solid $n2o-radio-input-border-color;
+            }
+
+            // stylelint-disable-next-line
+            .n2o-radio-input.n2o-radio-input-tabs {
+                &.checked {
+                    border-right: $n2o-radio-input-border-width solid $white;
+                }
+
+                &:not(.checked) {
+                    border-right: transparent;
+                }
+            }
         }
     }
-}
 
-.custom-control-input {
-    @extend .custom-radio-align;
+    /// type = btn
+    // Просто наследуемся от бутстрап классов, чтобы самим не переопределять ничего
+    &.n2o-radio-group-btn {
+        @extend .btn-group-toggle;
+
+        &.n2o-radio-group-inline {
+            @extend .btn-group;
+        }
+
+        &.n2o-radio-group-vertical {
+            @extend .btn-group-vertical;
+        }
+    }
 }

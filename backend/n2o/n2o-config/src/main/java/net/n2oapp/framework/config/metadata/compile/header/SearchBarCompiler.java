@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import org.springframework.stereotype.Component;
@@ -20,16 +20,15 @@ import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryCont
 /**
  * Компиляция панели поиска
  */
-
 @Component
-public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearchBar, HeaderContext>, SourceClassAware {
+public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearchBar, ApplicationContext>, SourceClassAware {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSearchBar.class;
     }
 
     @Override
-    public SearchBar compile(N2oSearchBar source, HeaderContext context, CompileProcessor p) {
+    public SearchBar compile(N2oSearchBar source, ApplicationContext context, CompileProcessor p) {
         SearchBar searchBar = new SearchBar();
         searchBar.setUrlFieldId(source.getUrlFieldId());
         searchBar.setLabelFieldId(source.getLabelFieldId());

@@ -3,6 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .body-container {
@@ -24,12 +25,32 @@
     overflow: auto;
 }
 
+.n2o-layout-fixed {
+    overflow: hidden;
+    max-height: 100vh;
+
+    .application-body {
+        height: 100%;
+    }
+}
+
+.n2o-layout-fixed.n2o-layout-full-size-header {
+    .application-body {
+        height: auto;
+    }
+}
+
+.application-body-container-fixed {
+    overflow-y: auto;
+}
+
 .n2o-footer {
-    height: $footer-height;
+    height: auto;
 }
 
 .navbar-brand {
     display: flex;
+    align-items: center;
 }
 
 .icon-bar {

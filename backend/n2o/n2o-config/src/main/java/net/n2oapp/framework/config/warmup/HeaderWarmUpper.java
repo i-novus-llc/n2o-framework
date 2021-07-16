@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.event.N2oStartedEvent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
 import org.slf4j.Logger;
@@ -14,7 +14,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 
 /**
- * Прогрев сборки хедера и регистрация маршрутов
+ * Прогрев сборки приложения и регистрация маршрутов
  */
 public class HeaderWarmUpper implements EnvironmentAware {
     private static Logger log = LoggerFactory.getLogger(HeaderWarmUpper.class);
@@ -24,14 +24,14 @@ public class HeaderWarmUpper implements EnvironmentAware {
 
     @EventListener(N2oStartedEvent.class)
     public void warmUp() {
-        String headerId = environment.getProperty("n2o.header.id", String.class);
-        String welcomePageId = environment.getProperty("n2o.header.homepage.id", String.class);
+        String applicationId = environment.getProperty("n2o.application.id", String.class);
+        String welcomePageId = environment.getProperty("n2o.homepage.id", String.class);
         // необходимо чтобы зарегистрировать рутовые страницы в RouteRegister
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = applicationBuilder
                 .read().transform().validate().cache()
                 .compile().transform().cache();
-        if (headerId != null && !headerId.isEmpty()) {
-            pipeline.get(new HeaderContext(headerId));
+        if (applicationId != null && !applicationId.isEmpty()) {
+            pipeline.get(new ApplicationContext(applicationId));
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             PageContext context = new PageContext(welcomePageId, "/");
             try {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose } from "recompose";
 import FormGroup from "reactstrap/lib/FormGroup";
@@ -9,73 +9,75 @@ import withWidgetProps from "n2o-framework/lib/components/regions/withWidgetProp
 import Factory from "n2o-framework/lib/core/factory/Factory";
 import { WIDGETS } from "n2o-framework/lib/core/factory/factoryLevels";
 
-/**
- *
- */
-class SelectRegion extends React.Component {
-  state = {
-    widgetId: null
-  };
+class SelectRegion extends Component {
+  constructor(props) {
+    super();
+    const { content } = props;
+    const widget = content.find(widget => widget.active);
+    this.state = {
+      widgetId: widget && widget.id
+    };
+  }
 
   handleChange = e => {
-    this.setWidgetId(e.target.value);
+    const { widgetId: widgetIdFromState } = this.state;
+    const { value: widgetId } = e.target;
+    if (widgetId !== widgetIdFromState) this.setState(prev => ({ ...prev, widgetId }));
   };
 
-  setWidgetId = widgetId => {
-    if (widgetId !== this.state.widgetId) this.setState(() => ({ widgetId }));
-  };
-
-  /**
-   * Рендер
-   */
   render() {
-    const { title, items, getWidget, pageId } = this.props;
-
+    const { title, content } = this.props;
     const { widgetId } = this.state;
 
     return (
-      <div>
-        <FormGroup>
-          {title ? <Label>{title}</Label> : null}
-          <Input type="select" name="changeRegion" onChange={this.handleChange}>
-            {items.map(item => {
-              if (item.active && !widgetId) this.setWidgetId(item.widgetId);
+        <div>
+          <FormGroup>
+            {title ? <Label>{title}</Label> : null}
+            <Input
+                type="select"
+                name="changeRegion"
+                value={widgetId}
+                onChange={this.handleChange}
+            >
+              {content.map(widget => {
+                return (
+                    <option
+                        key={widget.id}
+                        value={widget.id}
+                        selected={widget.active}
+                    >
+                      {widget.label}
+                    </option>
+                );
+              })}
+            </Input>
+          </FormGroup>
+          <div>
+            {content.map(widget => {
               return (
-                <option
-                  key={item.widgetId}
-                  value={item.widgetId}
-                  selected={item.active}
-                >
-                  {item.label}
-                </option>
+                  <div
+                      key={widget.id}
+                      style={{
+                        display: widgetId === widget.id ? "block" : "none"
+                      }}
+                  >
+                    <Factory
+                        src={widget.src}
+                        id={widget.id}
+                        level={WIDGETS}
+                        {...widget}
+                    />
+                  </div>
               );
             })}
-          </Input>
-        </FormGroup>
-        <div>
-          {items.map(item => {
-            return (
-              <div
-                style={{
-                  display: widgetId === item.widgetId ? "block" : "none"
-                }}
-              >
-                <Factory
-                  id={item.widgetId}
-                  level={WIDGETS}
-                  {...getWidget(pageId, item.widgetId)}
-                />
-              </div>
-            );
-          })}
+          </div>
         </div>
-      </div>
     );
   }
 }
 
 SelectRegion.propTypes = {
-  items: PropTypes.array.isRequired,
+  content: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
   title: PropTypes.string

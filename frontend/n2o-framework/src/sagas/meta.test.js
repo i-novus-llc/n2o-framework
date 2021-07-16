@@ -1,10 +1,10 @@
 import React from 'react'
 import { runSaga } from 'redux-saga'
 
-import { DATA_REQUEST } from '../constants/widgets'
-import { ADD_MULTI, REMOVE_ALL } from '../constants/alerts'
-import { ADD_FIELD_MESSAGE } from '../constants/formPlugin'
+import { dataRequestWidget } from '../ducks/widgets/store'
+import { addFieldMessage } from '../ducks/form/store'
 import { UPDATE_WIDGET_DEPENDENCY } from '../constants/dependency'
+import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 
 import {
     closeModalEffect,
@@ -161,9 +161,9 @@ describe('Сага для перехвата меты, сайд-эффектов
         it('Проверяет диспатч экшена создания Alert', () => {
             const { alert } = setupAlertEffect()
             let gen = alert.next()
-            expect(gen.value.payload.action.type).toEqual(REMOVE_ALL)
+            expect(gen.value.payload.action.type).toEqual(removeAllAlerts.type)
             gen = alert.next()
-            expect(gen.value.payload.action.type).toEqual(ADD_MULTI)
+            expect(gen.value.payload.action.type).toEqual(addMultiAlerts.type)
         })
 
         it('Проверяет payload саги alertEffect', () => {
@@ -190,7 +190,7 @@ describe('Сага для перехвата меты, сайд-эффектов
         it('Проверяет диспатч экшена обновления данных', () => {
             const { refresh } = setupRefresh()
             const { value } = refresh.next()
-            expect(value.payload.action.type).toEqual(DATA_REQUEST)
+            expect(value.payload.action.type).toEqual(dataRequestWidget.type)
         })
 
         it('Проверяет payload саги refreshEffect', () => {
@@ -208,7 +208,7 @@ describe('Сага для перехвата меты, сайд-эффектов
             let gen = messageForm.next()
             gen = messageForm.next()
             expect(gen.value.payload.action.payload[0].type).toEqual(
-                ADD_FIELD_MESSAGE,
+                addFieldMessage.type,
             )
         })
 

@@ -90,7 +90,7 @@ FormWidget.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     containerId: PropTypes.string,
-    pageId: PropTypes.string.isRequired,
+    pageId: PropTypes.string,
     widgetId: PropTypes.string,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,

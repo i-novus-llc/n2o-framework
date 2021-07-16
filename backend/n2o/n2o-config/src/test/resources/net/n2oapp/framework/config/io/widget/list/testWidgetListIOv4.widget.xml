@@ -29,7 +29,7 @@
         </extra>
     </content>
     <pagination next="true" prev="true" last="true" first="false"
-                hide-single-page="false" show-count="false"/>
+                hide-single-page="true" show-count="false"/>
     <rows>
         <click enabled="true">
             <a href="https://www.google.com/"/>

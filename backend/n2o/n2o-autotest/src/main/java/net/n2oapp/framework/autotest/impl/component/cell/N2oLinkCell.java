@@ -28,14 +28,4 @@ public class N2oLinkCell extends N2oCell implements LinkCell {
     public void shouldNotHaveText() {
         element().shouldHave(Condition.empty);
     }
-
-    @Override
-    public void shouldHaveIcon(String icon) {
-        element().$(".n2o-icon").shouldHave(Condition.cssClass(icon));
-    }
-
-    @Override
-    public void shouldNotHaveIcon() {
-        element().$(".n2o-icon").shouldNot(Condition.exist);
-    }
 }

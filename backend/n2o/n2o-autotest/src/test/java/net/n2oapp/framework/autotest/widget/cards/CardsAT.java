@@ -14,7 +14,7 @@ import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,8 +39,8 @@ public class CardsAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oHeaderPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/test.query.xml"));
     }
 
@@ -181,7 +181,7 @@ public class CardsAT extends AutoTestBase {
     }
 
     @Test
-    public void testPagination() {
+    public void testPaging() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -191,9 +191,11 @@ public class CardsAT extends AutoTestBase {
 
         Paging paging = cards.paging();
         paging.totalElementsShouldBe(8);
+        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
         paging.prevShouldNotExist();
         paging.nextShouldNotExist();
         paging.firstShouldExist();
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
@@ -208,15 +210,22 @@ public class CardsAT extends AutoTestBase {
         cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
 
 
-        CardsWidget cards2 = page.regions().region(1, SimpleRegion.class).content().widget(CardsWidget.class);
-        cards2.shouldExists();
-
+        CardsWidget cards2 = page.regions().region(0, SimpleRegion.class).content().widget(1, CardsWidget.class);
         paging = cards2.paging();
         paging.totalElementsShouldNotExist();
+        paging.shouldHaveLayout(Paging.Layout.BORDERED);
         paging.prevShouldExist();
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.nextShouldExist();
-        paging.firstShouldNotExist();
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
+        paging.firstShouldExist();
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.lastShouldExist();
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
         cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");

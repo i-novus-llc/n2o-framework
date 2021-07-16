@@ -33,7 +33,7 @@ public class OutputListAT extends AutoTestBase {
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_list/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/output_list/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -42,7 +42,7 @@ public class OutputListAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
     }
 

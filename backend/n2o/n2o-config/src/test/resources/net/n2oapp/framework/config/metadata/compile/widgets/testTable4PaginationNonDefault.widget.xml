@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable4SortableCompile"
+       object-id="utBlank" selection="radio">
+
+    <columns>
+        <column text-field-id="id"/>
+    </columns>
+    <pagination first="true" last="true" show-single-page="false" next="true"
+                prev="true" show-count="true" layout="separated-rounded" prev-label="prev" prev-icon="fa fa-angle-left"
+                next-label="next" next-icon="fa fa-angle-right" first-label="first" first-icon="fa fa-angle-double-left"
+                last-label="last" last-icon="fa fa-angle-double-right" max-pages="10" class="class" style="height: 10; width: 15" place="topLeft"/>
+</table>

@@ -20,21 +20,20 @@ import isEmpty from 'lodash/isEmpty'
 import some from 'lodash/some'
 
 import { START_INVOKE } from '../constants/actionImpls'
-import { CALL_ACTION_IMPL } from '../constants/toolbar'
 import {
     makeFormModelPrefixSelector,
     makeWidgetValidationSelector,
-} from '../selectors/widgets'
-import { getModelSelector, selectionTypeSelector } from '../selectors/models'
+} from '../ducks/widgets/selectors'
+import { getModelSelector, selectionTypeSelector } from '../ducks/models/selectors'
 import { validateField } from '../core/validation/createValidator'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
-import { setModel } from '../actions/models'
-import { disablePage, enablePage } from '../actions/pages'
+import { setModel } from '../ducks/models/store'
+import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
-import { disableWidgetOnFetch, enableWidget } from '../actions/widgets'
-import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar'
+import { disableWidgetOnFetch, enableWidget } from '../ducks/widgets/store'
+import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 
 import fetchSaga from './fetch'
 
@@ -198,7 +197,7 @@ export function* handleInvoke(apiProvider, action) {
             yield put(disableWidgetOnFetch(widgetId))
 
             for (let index = 0; index <= buttonIds.length - 1; index += 1) {
-                yield put(setButtonDisabled(pageId, buttonIds[index]))
+                yield put(changeButtonDisabled(pageId, buttonIds[index], true))
             }
         }
         let model = data || {}
@@ -213,11 +212,11 @@ export function* handleInvoke(apiProvider, action) {
         const meta = merge(action.meta.success || {}, response.meta || {})
         const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId))
         const { submitForm } = dataProvider
+        const needRedirectOrCloseModal = meta.redirect || meta.modalsToClose
 
         if (
-            (needResolve &&
-            (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
-            (!isEqual(model, response.data) && submitForm)
+            (needResolve && (optimistic || !needRedirectOrCloseModal)) ||
+            (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm)
         ) {
             yield put(
                 setModel(modelPrefix, widgetId, optimistic ? model : response.data),
@@ -240,7 +239,7 @@ export function* handleInvoke(apiProvider, action) {
             yield put(enableWidget(widgetId))
 
             for (let index = 0; index <= buttonIds.length - 1; index += 1) {
-                yield put(setButtonEnabled(pageId, buttonIds[index]))
+                yield put(changeButtonDisabled(pageId, buttonIds[index], false))
             }
         }
     }
@@ -253,7 +252,7 @@ export function* handleDummy() {
 }
 
 export default (apiProvider, factories) => [
-    throttle(500, CALL_ACTION_IMPL, handleAction, factories),
+    throttle(500, callActionImpl.type, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
     takeEvery('n2o/button/Dummy', handleDummy),
 ]

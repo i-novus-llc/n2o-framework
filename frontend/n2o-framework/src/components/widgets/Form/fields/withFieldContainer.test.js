@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
-import { registerFieldExtra } from '../../../../actions/formPlugin'
+import { registerFieldExtra } from '../../../../ducks/form/store'
 
 import withFieldContainer from './withFieldContainer'
 

@@ -19,12 +19,13 @@ import findIndex from 'lodash/findIndex'
 import values from 'lodash/values'
 import eq from 'lodash/eq'
 import get from 'lodash/get'
+import omit from 'lodash/omit'
 
 import propsResolver from '../../../utils/propsResolver'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
-import RadioN2O from '../../controls/Radio/RadioN2O'
+import { InputRadio } from '../../controls/Radio/Input'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon'
@@ -508,7 +509,9 @@ class AdvancedTable extends Component {
         let newMulti = multi || []
 
         if (!status) {
-            forOwn(data, ({ id }) => delete newMulti[id])
+            forOwn(data, ({ id }) => {
+                newMulti = omit(newMulti, id)
+            })
         } else {
             forOwn(data, (value) => {
                 newMulti = { ...newMulti, ...{ [value.id]: value } }
@@ -532,7 +535,7 @@ class AdvancedTable extends Component {
         }
 
         if (newMulti[index]) {
-            delete newMulti[index]
+            newMulti = omit(newMulti, index)
             checkedState[index] = false
         } else {
             checkedState = {
@@ -664,10 +667,11 @@ class AdvancedTable extends Component {
                 }
                 if (rowSelection === rowSelectionType.RADIO) {
                     return (
-                        <RadioN2O
+                        <InputRadio
                             className="n2o-advanced-table-row-radio"
                             inline
                             checked={checked[model.id]}
+                            value={model.id}
                             onChange={() => this.handleChangeRadioChecked(model.id)}
                         />
                     )
@@ -810,7 +814,7 @@ class AdvancedTable extends Component {
 
 AdvancedTable.propTypes = {
     children: PropTypes.any,
-    selectedId: PropTypes.string,
+    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     rowClass: PropTypes.string,
     resolveModel: PropTypes.any,
     filters: PropTypes.any,

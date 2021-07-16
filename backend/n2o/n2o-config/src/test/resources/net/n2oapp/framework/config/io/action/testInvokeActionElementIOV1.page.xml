@@ -11,6 +11,8 @@
                     refresh-on-success="false"
                     message-on-fail="false"
                     message-on-success="false"
+                    message-position="fixed"
+                    message-placement="top"
                     redirect-url="/testUrl"
                     redirect-target="newWindow"
                     refresh-widget-id="testWidget"

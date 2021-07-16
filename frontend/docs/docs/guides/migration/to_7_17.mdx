@@ -1,0 +1,69 @@
+---
+title: Миграция с 7.16 на 7.17
+---
+
+### Изменения в XML API {#changes-xml-api}
+
+- Настройка шапки, подвала и боковой панели приложения перенесена в файл application.xml. Это новый тип метаданных,
+описывающий структуру приложения. Требуется мигрировать содержимое файла *.header.xml в аналогичный файл *.application.xml.
+
+```xml title="Пример преобразования header в application"
+Было:
+<?xml version='1.0' encoding='UTF-8'?>
+<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
+        color="inverse"
+        welcome-page-id="index"
+        brand-name="N2O">
+    <nav>
+        <page page-id="index" route="/home" label="${contacts}"/>
+    </nav>
+</header>
+
+Стало:
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+        welcome-page-id="index">
+    <header title="N2O"
+            css-class="inverse">
+          <nav>
+              <page page-id="index" route="/home" label="${contacts}"/>
+          </nav>
+    </header>
+</application>
+```
+
+Обратить внимание:
+-свойство `color` в `header` теперь необходимо задавать в `css-class`;
+-подвал раньше генерировался автоматически, теперь его необходимо прописывать в `application.xml`.
+
+- Настройка `n2o.header.homepage.id` переименована в `n2o.homepage.id`.
+- Настройка `n2o.header.id` переименована в `n2o.application.id`.
+- Настройка `n2o.header.fixed` переименована в `n2o.navigationLayout.fixed`.
+- Упразднена настройка `n2o.header.title`.
+
+- У `<pagination>` в списковых виджетах атрибут `hide-single-page` (по умолчанию `true`), отвечающий за скрытие пагинации на единственной странице,
+был переименован в `show-single-page` (по умолчанию `false`). Обратная совместимость сохранена.
+
+- В компонентах `ragio-group` и `checkbox-group` тип `n2o` (который был по умолчанию) переименован в `default`.
+Тип, который раньше назывался `default` и отвечал за стандартную html верстку компонента, удален.
+
+- Изменены значения атрибута `validate` у кнопок с (`true`, `false`) на (`page`, `widget`, `none`).
+Теперь кнопка может валидировать все виджеты страницы с помощью значения `page`.
+Значение `widget` валидирует только текущий виджет и работает так же, как и значение `true` до этого.
+Значение `none` не валидирует ничего и заменяет собой `false`.
+Временно сохранена обратная совместимость.
+
+### Изменения в Java API {#changes-java-api}
+
+- Изменено api автотестов. Методы компонентов с выпадающими элементами (InputSelect, Select, TimePicker, LineFieldSet, LineRegion, PanelRegion) приведены к единому виду.
+Теперь для изменения и проверки состояния выпадающего элемента в них используются методы: `expand()`, `collapse()`, `shouldBeExpanded()`, `shouldBeCollapsed()`.
+
+### Изменения в настройках
+
+- Появилась возможность управлять положением сообщений об успехе/ошибке.
+Для этого введены следующие настройки:
+
+`n2o.api.message.position` - фиксированная (`fixed`) или относительная (`relative`) позиция сообщения .
+Стоит обратить внимание, что по умолчанию значение `fixed`, что отличается от старого поведения, которое можно вернуть, использовав значение `relative`.
+
+`n2o.api.message.placement` - положение сообщения на странице при фиксации (`top`/`bottom`). По умолчанию `top`.

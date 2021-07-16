@@ -49,16 +49,16 @@ function ButtonsCell({
 
 ButtonsCell.propTypes = {
     /**
-   * Класс
-   */
+    * Класс
+    */
     className: PropTypes.string,
     /**
-   * ID ячейки
-   */
+    * ID ячейки
+    */
     id: PropTypes.string,
     /**
-   * Флаг видимости
-   */
+    * Флаг видимости
+    */
     visible: PropTypes.bool,
     model: PropTypes.any,
     toolbar: PropTypes.any,

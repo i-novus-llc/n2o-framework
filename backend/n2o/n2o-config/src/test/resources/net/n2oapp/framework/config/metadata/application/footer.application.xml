@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <header>
+        <nav>
+            <a label="Test" href="i-novus.ru"/>
+        </nav>
+    </header>
+    <footer right-text="RightText" left-text="LeftText" src="Footer" class="footer-class" style="background-color:primary"/>
+</application>

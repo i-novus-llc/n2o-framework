@@ -17,15 +17,15 @@ public class N2oRadioCell extends N2oCell implements RadioCell {
 
     @Override
     public void shouldBeChecked() {
-        radioElement().shouldBe(Condition.checked);
+        radioElement().shouldHave(Condition.cssClass("checked"));
     }
 
     @Override
     public void shouldBeUnchecked() {
-        radioElement().shouldNotBe(Condition.checked);
+        radioElement().shouldNotHave(Condition.cssClass("checked"));
     }
 
     private SelenideElement radioElement() {
-        return element().$(".n2o-input");
+        return element().$(".n2o-radio-input");
     }
 }

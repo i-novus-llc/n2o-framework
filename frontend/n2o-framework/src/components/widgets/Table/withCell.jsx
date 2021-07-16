@@ -6,10 +6,10 @@ import unset from 'lodash/unset'
 import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 
-import { PREFIXES } from '../../../constants/models'
-import { callActionImpl } from '../../../actions/toolbar'
+import { PREFIXES } from '../../../ducks/models/constants'
+import { callActionImpl } from '../../../ducks/toolbar/store'
 import { startInvoke } from '../../../actions/actionImpl'
-import { updateModel, setModel } from '../../../actions/models'
+import { updateModel, setModel } from '../../../ducks/models/store'
 
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 
 // eslint-disable-next-line func-names
 export default function (WrappedComponent) {
-    function ReturnedComponent({
+    function WithCellComponent({
         onActionImpl,
         onInvoke,
         onUpdateModel,
@@ -102,7 +102,7 @@ export default function (WrappedComponent) {
         )
     }
 
-    ReturnedComponent.propTypes = {
+    WithCellComponent.propTypes = {
         onActionImpl: PropTypes.func,
         onInvoke: PropTypes.func,
         onUpdateModel: PropTypes.func,
@@ -119,5 +119,5 @@ export default function (WrappedComponent) {
     return connect(
         null,
         mapDispatchToProps,
-    )(ReturnedComponent)
+    )(WithCellComponent)
 }

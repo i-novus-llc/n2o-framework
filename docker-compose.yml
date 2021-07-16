@@ -12,17 +12,6 @@ services:
       placement:
         constraints:
           - node.role == worker
-  docs:
-    image: "${DOCKER_REGISTRY}/n2o/docs:${TAG}"
-    ports:
-      - "80"
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-      placement:
-        constraints:
-          - node.role == worker
   storybook:
     image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
     ports:

@@ -9,7 +9,7 @@ import { WIDGETS, SNIPPETS } from '../../../core/factory/factoryLevels'
 import Factory from '../../../core/factory/Factory'
 import withPage from '../../../../.storybook/decorators/withPage'
 import widgetWithErrors from '../../core/PageWithErrors'
-import { GLOBAL_KEY } from '../../../constants/alerts'
+import { GLOBAL_KEY } from '../../../ducks/alerts/constants'
 import GlobalAlerts from '../../core/GlobalAlerts'
 
 import Alert from './Alert'
@@ -53,7 +53,7 @@ stories
                 text: `
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           label="Лейбл алерта"
           text="Текст алерта"
@@ -79,7 +79,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           label="Лейбл алерта"
           text="Текст алерта"
@@ -104,7 +104,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           text="Текст алерта"
           visible={true}
@@ -133,7 +133,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           label="Лейбл алерта"
           text="Текст алерта"
@@ -178,7 +178,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           {...props}
           color="info"
@@ -221,7 +221,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           label="Лейбл алерта"
           details="Подробности алерта"
@@ -258,7 +258,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           label="Лейбл алерта"
           details="Подробности алерта"
@@ -283,7 +283,7 @@ stories
      Компонент Alert
       ~~~js
       import Alert from 'n2o-framework/lib/components/snippets/Alert/Alert';
-      
+
       <Alert
           loader={true}
           severity="secondary"
