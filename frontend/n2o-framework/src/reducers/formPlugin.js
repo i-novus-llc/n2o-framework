@@ -141,13 +141,15 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
                 const field = state.registeredFields[name]
 
                 // показываем поля только если у них нет своего условия на видимость
-                if (
-                    field.dependency &&
-                    field.dependency.some(({ type }) => type === 'visible')
-                ) {
-                    return
+                if (field) {
+                    if (
+                        field.dependency &&
+                        field.dependency.some(({ type }) => type === 'visible')
+                    ) {
+                        return
+                    }
+                    field.visible = true
                 }
-                field.visible = true
             })
 
             break
@@ -155,14 +157,16 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
 
         case HIDE_FIELDS: {
             payload.names.forEach((name) => {
-                if (!state.registeredFields[name]) {
+                const field = state.registeredFields[name]
+
+                if (!field) {
                     // eslint-disable-next-line no-console
                     console.warn(`Attempt to hide a non-existent field "${name}"`)
-
-                    return
                 }
 
-                state.registeredFields[name].visible = false
+                if (field) {
+                    field.visible = false
+                }
             })
 
             break
