@@ -16,6 +16,7 @@ export default function configureStore(initialState, history, config = {}) {
         'n2o/models/SET',
         'n2o/widgets/CHANGE_PAGE',
         'n2o/widgets/DATA_SUCCESS',
+        'n2o/widgets/RESOLVE',
         'n2o/overlays/DESTROY', // Странный баг, что дровер рендерится, когда его уже быть не должно. Нужно синхронно обрабатывать этот экшен
     ])
 
