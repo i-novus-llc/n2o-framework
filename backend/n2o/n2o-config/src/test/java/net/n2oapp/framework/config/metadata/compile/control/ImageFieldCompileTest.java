@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
@@ -49,6 +50,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getTitle(), is("`title`"));
         assertThat(field.getDescription(), is("`Description`"));
         assertThat(field.getTextPosition(), is(TextPosition.top));
+        assertThat(field.getShape(), is(ImageShape.circle));
         assertThat(field.getWidth(), is("500px"));
         assertThat(field.getStatuses().length, is(2));
         assertThat(field.getStatuses()[0].getSrc(), Matchers.is("testSrc"));
