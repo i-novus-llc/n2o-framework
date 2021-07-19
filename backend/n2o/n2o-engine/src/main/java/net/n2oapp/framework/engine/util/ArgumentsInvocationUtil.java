@@ -15,8 +15,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -51,9 +49,11 @@ public class ArgumentsInvocationUtil {
 
         int idx = 0;
         for (Restriction r : criteria.getRestrictions()) {
-            N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
-            MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
+            if (r.getValue() != null) {
+                N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
+                String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
+                MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
+            }
             idx++;
         }
 
@@ -79,8 +79,10 @@ public class ArgumentsInvocationUtil {
 
         int idx = 0;
         for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
-            String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
-            MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
+            if (dataSet.get(entry.getKey()) != null) {
+                String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
+                MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
+            }
             idx++;
         }
 
@@ -91,10 +93,10 @@ public class ArgumentsInvocationUtil {
     /**
      * Получение маппинга аргумента
      *
-     * @param arguments        Массив аргументов
-     * @param idx              Индекс возможной позиции
-     * @param mapping          Указанный маппинг
-     * @param defaultMapping   Маппинг по умолчанию
+     * @param arguments      Массив аргументов
+     * @param idx            Индекс возможной позиции
+     * @param mapping        Указанный маппинг
+     * @param defaultMapping Маппинг по умолчанию
      * @return Маппинг аргумента
      */
     private static String getMapping(Argument[] arguments, int idx, String mapping, String defaultMapping) {
@@ -171,6 +173,4 @@ public class ArgumentsInvocationUtil {
         }
         return argumentInstances;
     }
-
-    private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+](\\..+)?").asPredicate();
 }

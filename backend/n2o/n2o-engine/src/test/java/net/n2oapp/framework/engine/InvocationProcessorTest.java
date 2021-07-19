@@ -478,6 +478,17 @@ public class InvocationProcessorTest {
         // Result
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
         assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
+
+
+        // DATASET with null value
+        dataSet = new DataSet();
+        dataSet.put("firstArgument", "test");
+        dataSet.put("secondArgument", null);
+
+        // Result
+        result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
+        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: null"));
+
     }
 
     /**
