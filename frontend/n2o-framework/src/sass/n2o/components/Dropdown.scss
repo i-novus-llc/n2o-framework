@@ -13,6 +13,11 @@
 
 .n2o-dropdown-menu.dropdown-menu {
     padding: 0;
+
+    .btn {
+        border: none;
+        text-align: left;
+    }
 }
 
 .n2o-dropdown-check-container {
