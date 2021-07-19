@@ -620,7 +620,7 @@
                         <xs:documentation>Наличие тултипа.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="shape" type="shapeType">
+                <xs:attribute name="shape" type="shapeType" default="rounded">
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
@@ -1046,7 +1046,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:attribute name="shape" type="shapeType">
+                <xs:attribute name="shape" type="shapeType" default="rounded">
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
