@@ -407,8 +407,8 @@ REST провайдер выполняет http запросы к backend сер
     </java>
   </invocation>
   <in>
-    <field id="firstName"/>
-    <field id="lastName"/>
+    <field id="firstName" mapping="[0].firstName"/>
+    <field id="lastName" mapping="[0].lastName"/>
   </in>
 </operation>
 ```
@@ -732,7 +732,8 @@ integer[]
 Провайдеры делятся по типу входных параметров: "ключ значение" и "массив значений".
 
 Java провайдеры используют тип параметров "массив значений".
-Поэтому в маппинге java нужно обращаться к номеру аргумента, например, `[0]`.
+Поэтому в маппинге java нужно обращаться к номеру аргумента, например, `[0]`,
+либо через имя аргумента, если он указан, например, `['name']`
 
 Провайдеры sql, rest и mongodb используют "ключ значение".
 Поэтому в маппинге нужно обращаться к ключу, например, `['name']`.
@@ -883,7 +884,7 @@ __*Типы аргументов java провайдера*__
 package com.example;
 
 class Calculator {
-  public static Long sum(Long a, Long b) {
+  public static Long sum(Long arg1, Long arg2) {
     return a + b;
   }
 }
@@ -891,7 +892,7 @@ class Calculator {
 
 Чтобы смапить значение поля ввода в примитивный аргумент java метода, достаточно указать порядковый номер аргумента:
 
-```xml title="Маппинг примитивов в java провайдере"
+```xml title="Маппинг примитивов в java провайдере по индексам аргументов"
 <operation>
   <invocation>
     <java class="com.example.Calculator" method="sum">
@@ -908,10 +909,28 @@ class Calculator {
 </operation>
 ```
 
+Альтернативный способ задания маппинга:
+
+```xml title="Маппинг примитивов в java провайдере по именам аргументов"
+<operation>
+  <invocation>
+    <java class="com.example.Calculator" method="sum">
+      <arguments>
+        <argument type="primitive" name="arg1"/>
+        <argument type="primitive" name="arg2"/>
+      </arguments>
+    </java>
+  </invocation>
+  <in>
+    <field id="a" mapping="['arg1']"/>
+    <field id="b" mapping="['arg2']"/>
+  </in>
+</operation>
+```
+
 :::note
 
-Если поля указаны именно в том порядке, в котором и соответствующие
-им аргументы, то указывать маппинг необязательно.
+Аргументы должны быть указаны в том же порядке, что и соответствующие аргументы java метода
 
 :::
 
@@ -933,7 +952,6 @@ class MyEntity {
 ```
 
 Тип `entity` может быть задан только один раз среди всех аргументов.
-Маппинг в сущность задаётся напрямую, без указания порядкового номера аргумента:
 
 ```xml title="Маппинг сущности в java провайдере"
 <operation>
@@ -946,9 +964,8 @@ class MyEntity {
     </java>
   </invocation>
   <in>
-    <!-- Для type="entity" в mapping нет [0]. -->
-    <field id="firstName" mapping="name"/>
-    <field id="lastName" mapping="surname"/>
+    <field id="firstName" mapping="[0].name"/>
+    <field id="lastName" mapping="[0].surname"/>
   </in>
 </operation>
 ```
@@ -983,7 +1000,6 @@ class MyCriteria extends Criteria {
 ```
 
 Тип `criteria` может быть задан только один раз среди всех аргументов.
-Маппинг фильтров в критерии задаётся напрямую, без указания порядкового номера аргумента.
 Маппинга сортировки и паджинации не предусмотрено, они передаются через базовый класс наследник.
 
 
@@ -1004,9 +1020,8 @@ class MyCriteria extends Criteria {
   <fields>
     <field id="birthday">
       <filters>
-          <!-- Для type="criteria" в mapping нет [0]. -->
-          <more filter-id="birthdays.begin" mapping="['birthdayAfter']"/>
-          <less filter-id="birthdays.end" mapping="['birthdayBefore']"/>
+          <more filter-id="birthdays.begin" mapping="[0].birthdayAfter"/>
+          <less filter-id="birthdays.end" mapping="[0].birthdayBefore"/>
       </filters>
       <sorting/>
     </field>
@@ -1236,8 +1251,8 @@ class MyEntity {
 <object entity-class="com.example.MyEntity">
   <fields>
     <!-- Простые поля -->
-    <field id="id" domain="long" mapping="id"/>
-    <field id="birthday" domain="date" mapping="birthDate"/>
+    <field id="id" domain="long" mapping="['id']"/>
+    <field id="birthday" domain="date" mapping="['birthDate']"/>
   </fields>
 </object>
 ```
@@ -1260,7 +1275,7 @@ class MyEntity {
 ```xml title="Маппинг полей с @OneToOne"
 <fields>
   <reference id="address"
-    mapping="addr">
+    mapping="['addr']">
     <!-- Вложенные поля -->
     <field id="home" domain="string"/>
     <field id="work" domain="string"/>
@@ -1271,7 +1286,7 @@ class MyEntity {
 ```xml title="Вариант с определением полей во внешнем файле"
 <fields>
   <reference id="address"
-    mapping="addr"
+    mapping="['addr']"
     object-id="address"/> <!-- Ссылка на объект address.object.xml -->
 </fields>
 ```
@@ -1301,7 +1316,7 @@ class MyEntity {
 ```xml title="Маппинг полей с @ManyToOne"
 <fields>
   <reference id="sex"
-    mapping="gender"
+    mapping="['gender']"
     required="true"
     object-id="gender"/>
 </fields>
@@ -1334,13 +1349,13 @@ class MyEntity {
 ```xml title="Маппинг полей с @OneToMany и @ManyToMany"
 <fields>
   <set id="statuses"
-    mapping="statuses">
+    mapping="['statuses']">
     <!--Вложенные поля-->
     <field id="id" domain="integer"/>
     <field id="name" domain="string"/>
   </set>
   <list id="addresses"
-    mapping="addrs"
+    mapping="['addrs']"
     object-id="address"/><!--Ссылка на объект-->
 </fields>
 ```
@@ -1362,8 +1377,8 @@ class MyService {
 <object entity-class="com.example.Employee">
   <!-- Маппинг и структура полей сущности -->
   <fields>
-    <field id="name" mapping="name" normalize="..."/>
-    <reference id="org" mapping="organization" object-id="org"/>
+    <field id="name" mapping="['name']" normalize="..."/>
+    <reference id="org" mapping="['organization']" object-id="org"/>
     <list id="departments" entity-class="com.example.Department">
       <field id="id"/>
       <field id="name"/>
