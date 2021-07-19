@@ -620,17 +620,7 @@
                         <xs:documentation>Наличие тултипа.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="shape">
-                    <xs:annotation>
-                        <xs:documentation>Тип формы изображения.</xs:documentation>
-                    </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="circle"/>
-                            <xs:enumeration value="rounded"/>
-                            <xs:enumeration value="polaroid"/>
-                        </xs:restriction>
-                    </xs:simpleType>
+                <xs:attribute name="shape" type="shapeType" default="rounded">
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
@@ -1055,6 +1045,8 @@
                             <xs:enumeration value="bottom"/>
                         </xs:restriction>
                     </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="shape" type="shapeType" default="rounded">
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
@@ -1938,6 +1930,17 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="default"/>
             <xs:enumeration value="btn"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="shapeType">
+        <xs:annotation>
+            <xs:documentation>Тип формы изображения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="rounded"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -2,6 +2,7 @@
     <fields>
         <image id="testId" src="testSrc" depends-on="name,type" label="testLabel"
                url="{Url}" data="data:image/jpeg;base64{image}" title="{title}" description="{Description}"
+               shape="circle"
                text-position="top" width="500px">
             <statuses>
                 <status

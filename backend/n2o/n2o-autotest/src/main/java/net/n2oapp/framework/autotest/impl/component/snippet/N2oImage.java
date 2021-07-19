@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.snippet.Image;
 
@@ -17,6 +18,11 @@ public class N2oImage extends N2oSnippet implements Image {
     @Override
     public void shouldHaveDescription(String text) {
         imageInfo().$(".n2o-image__info_description").shouldHave(Condition.text(text));
+    }
+
+    @Override
+    public void shouldHaveShape(ImageShape shape) {
+        element().$(".n2o-image__image-container").should(Condition.cssClass(shape.name()));
     }
 
     @Override

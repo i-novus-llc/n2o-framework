@@ -13,6 +13,7 @@
                    url="images/hamburg-3846525__340.jpg"
                    title="Заголовок"
                    description="описание"
+                   shape="circle"
                    text-position="bottom"
             />
         </fields>
