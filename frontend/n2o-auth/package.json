@@ -3,9 +3,7 @@
 	"version": "7.16.0",
 	"description": "Пакеты для работы с N2O Security",
 	"main": "lib/index.js",
-	"module": "es/index.js",
 	"files": [
-		"es",
 		"lib"
 	],
 	"scripts": {

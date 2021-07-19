@@ -4,12 +4,24 @@
     "@babel/plugin-transform-runtime",
     "@babel/plugin-proposal-class-properties"
   ],
+  "sourceMaps": "inline",
   "env": {
     "test": {
       "presets": ["@babel/preset-react", "@babel/preset-env"],
       "plugins": [
         ["@babel/plugin-transform-modules-commonjs"],
         "babel-plugin-require-context-hook"
+      ]
+    },
+    "development": {
+      "plugins": [],
+      "presets": [
+        ["@babel/preset-react", { "development": true }],
+        ["@babel/preset-env", {
+          "targets": {
+            "browsers": "last 2 Chrome versions"
+          }
+        }]
       ]
     }
   }
