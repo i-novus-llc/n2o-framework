@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oImageField;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
@@ -37,6 +38,7 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
         imageField.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.field.image_field.text_position"), TextPosition.class)));
         imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
+        imageField.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.field.image_field.shape"), ImageShape.class)));
         imageField.setStatuses(compileStatuses(source.getStatuses(), p));
         return imageField;
     }
