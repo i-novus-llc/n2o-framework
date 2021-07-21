@@ -62,19 +62,19 @@ public class RatingCellAT extends AutoTestBase {
 
         //проверка редактируемых ячеек
         rows.row(0).cell(1, RatingCell.class).maxShouldBe(10);
-        Alerts.Alert alert = simplePage.alerts().alert(0);
+        Alerts alerts = simplePage.alerts();
 
         rows.row(0).cell(1, RatingCell.class).value("5");
-        alert.shouldHaveText("Данные сохранены");
-        alert.shouldHaveColor(Colors.SUCCESS);
         rows.row(0).cell(1, RatingCell.class).shouldExists();
         rows.row(0).cell(1, RatingCell.class).valueShouldBe("5");
+        alerts.shouldHaveSize(1);
+        alerts.alert(0).shouldHaveColor(Colors.SUCCESS);
 
         rows.row(1).cell(1, RatingCell.class).value("8");
-        alert.shouldHaveText("Данные сохранены");
-        alert.shouldHaveColor(Colors.SUCCESS);
         rows.row(1).cell(1, RatingCell.class).shouldExists();
         rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
+        alerts.shouldHaveSize(1);
+        alerts.alert(0).shouldHaveColor(Colors.SUCCESS);
 
         //проверка что значение сохранилось на бэке
         Selenide.refresh();
