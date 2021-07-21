@@ -52,13 +52,9 @@ public class RatingCellAT extends AutoTestBase {
 
         //проверка не редактируемых ячеек
         rows.row(0).cell(0, RatingCell.class).maxShouldBe(10);
-        rows.row(0).cell(0, RatingCell.class).valueShouldBe("10");
+        rows.row(0).cell(0, RatingCell.class).valueShouldBe("8");
         rows.row(0).cell(0, RatingCell.class).value("5");
-        rows.row(0).cell(0, RatingCell.class).valueShouldBe("10");
-
-        rows.row(1).cell(0, RatingCell.class).valueShouldBe("3");
-        rows.row(1).cell(0, RatingCell.class).value("2");
-        rows.row(1).cell(0, RatingCell.class).valueShouldBe("3");
+        rows.row(0).cell(0, RatingCell.class).valueShouldBe("8");
 
         //проверка редактируемых ячеек
         rows.row(0).cell(1, RatingCell.class).maxShouldBe(10);
@@ -70,17 +66,10 @@ public class RatingCellAT extends AutoTestBase {
         alerts.shouldHaveSize(1);
         alerts.alert(0).shouldHaveColor(Colors.SUCCESS);
 
-        rows.row(1).cell(1, RatingCell.class).value("8");
-        rows.row(1).cell(1, RatingCell.class).shouldExists();
-        rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
-        alerts.shouldHaveSize(1);
-        alerts.alert(0).shouldHaveColor(Colors.SUCCESS);
-
         //проверка что значение сохранилось на бэке
         Selenide.refresh();
         simplePage.shouldExists();
         rows.row(0).cell(1, RatingCell.class).valueShouldBe("5");
-        rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
     }
 
 }
