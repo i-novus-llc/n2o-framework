@@ -4,25 +4,29 @@
 
 const path = require('path')
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const extractLess = new ExtractTextPlugin({
-    filename: 'n2o.css',
-    disable: process.env.NODE_ENV === 'development',
-})
+const sourceDir = path.resolve(__dirname, '../src')
+const distDir = path.resolve(__dirname, '../dist')
+const plugins = []
+const isProduction = process.env.NODE_ENV === 'production'
+// const isDevelopment = !isProduction
+
+if (isProduction) {
+    plugins.push(new MiniCssExtractPlugin({
+        filename: 'n2o.css',
+    }))
+}
 
 module.exports = {
-    context: path.resolve(__dirname, '../src'),
-
+    context: sourceDir,
     entry: ['./sass/n2o.scss'],
-
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: distDir,
         filename: 'n2o.js',
         library: 'N2O',
         libraryTarget: 'umd',
     },
-
     stats: {
         colors: true,
         reasons: false,
@@ -34,33 +38,24 @@ module.exports = {
         cached: false,
         cachedAssets: false,
     },
-
     resolve: {
-        modules: [path.resolve(__dirname, '../src'), 'node_modules'],
+        modules: [sourceDir, 'node_modules'],
         extensions: ['.js', '.jsx'],
     },
-
     module: {
         rules: [
             {
                 test: /\.(js|jsx)?$/,
-                include: [path.resolve(__dirname, '../src')],
+                include: [sourceDir],
                 use: ['babel-loader'],
             },
             {
-                test: /\.scss/,
-                use: extractLess.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                        },
-                        {
-                            loader: 'sass-loader',
-                        },
-                    ],
-                    // use style-loader in development
-                    fallback: 'style-loader',
-                }),
+                test: /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    { loader: 'css-loader', options: { sourceMap: true, importLoaders: 1 } },
+                    { loader: 'sass-loader', options: { sourceMap: true } },
+                ],
             },
             {
                 test: /.(ttf|otf|eot|svg|woff(2)?)(\?[\da-z]+)?$/,
@@ -77,7 +72,6 @@ module.exports = {
             },
         ],
     },
-
     externals: {
         react: {
             root: 'React',
@@ -92,6 +86,5 @@ module.exports = {
             amd: 'react-dom',
         },
     },
-
-    plugins: [extractLess],
+    plugins,
 }

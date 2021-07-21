@@ -11,12 +11,9 @@
   ],
   "gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd",
   "main": "lib/index.js",
-  "module": "es/index.js",
   "files": [
     "css",
-    "es",
-    "lib",
-    "umd"
+    "lib"
   ],
   "scripts": {
     "build": "nwb build-react-component --no-demo",

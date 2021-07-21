@@ -1,7 +1,7 @@
 module.exports = {
   type: 'web-module',
   npm: {
-    esModules: true,
+    esModules: false,
     umd: false
   }
 }

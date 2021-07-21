@@ -3,12 +3,8 @@
   "version": "7.16.0",
   "description": "Плагин упрощающий работу с Крипто-Про в N2O-7",
   "main": "lib/index.js",
-  "module": "es/index.js",
   "files": [
-    "css",
-    "es",
-    "lib",
-    "umd"
+    "lib"
   ],
   "scripts": {
     "build": "nwb build-react-component",
