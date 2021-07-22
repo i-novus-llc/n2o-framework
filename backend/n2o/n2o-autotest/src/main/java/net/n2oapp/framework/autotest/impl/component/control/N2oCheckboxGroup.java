@@ -17,7 +17,7 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
     public void shouldBeEmpty() {
-        element().$$(".checkbox .n2o-input").find(Condition.checked).shouldNotBe(Condition.exist);
+        element().$$(".custom-control .n2o-input").find(Condition.checked).shouldNotBe(Condition.exist);
     }
 
     @Override
@@ -44,10 +44,10 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
     public void shouldHaveOptions(String... options) {
-        element().$$(".checkbox").shouldHave(CollectionCondition.exactTexts(options));
+        element().$$(".custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
     }
 
     private SelenideElement inputElement(String label) {
-        return element().$$(".checkbox").findBy(Condition.text(label)).$(".n2o-input");
+        return element().$$(".custom-control").findBy(Condition.text(label)).$(".n2o-input");
     }
 }
