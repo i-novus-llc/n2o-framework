@@ -48,7 +48,7 @@ public class RatingCellAT extends AutoTestBase {
         simplePage.shouldExists();
 
         TableWidget.Rows rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(2);
+        rows.shouldHaveSize(1);
 
         //проверка не редактируемых ячеек
         rows.row(0).cell(0, RatingCell.class).maxShouldBe(10);
