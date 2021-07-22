@@ -126,7 +126,7 @@ CheckboxN2O.defaultProps = {
 }
 
 const CheckboxN2OWrapped = compose(
-    setDisplayName('CheckboxN2O'),
+    setDisplayName('Checkbox'),
     lifecycle({
         componentDidMount() {
             this.setState({ elementId: uniqueId('checkbox-') })
