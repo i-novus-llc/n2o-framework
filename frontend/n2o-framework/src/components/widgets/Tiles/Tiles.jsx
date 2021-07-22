@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import map from 'lodash/map'
 import { withResizeDetector } from 'react-resize-detector'
 
@@ -40,7 +40,7 @@ function Tiles(props) {
     const renderTilesItem = (element, index) => (
         <div className={`col-${col} d-flex justify-content-center`}>
             <div
-                className={cn('n2o-tiles__item')}
+                className={classNames('n2o-tiles__item')}
                 style={{ width: tileWidth, minHeight: tileHeight }}
             >
                 {map(tile, (cell) => {
@@ -48,7 +48,7 @@ function Tiles(props) {
 
                     return (
                         <TilesCell
-                            className={cn('n2o-tiles__cell', component.className)}
+                            className={classNames('n2o-tiles__cell', component.className)}
                             index={index}
                             widgetId={id}
                             model={element}
@@ -63,51 +63,53 @@ function Tiles(props) {
     )
 
     return (
-        <div className={cn('n2o-tiles__container col-12', className)}>
-            {data &&
-        data.length &&
-        map(data, (element, index) => renderTilesItem(element, index))}
+        <div className={classNames('n2o-tiles__container col-12', className)}>
+            {
+                data?.length
+                    ? map(data, (element, index) => renderTilesItem(element, index))
+                    : ''
+            }
         </div>
     )
 }
 
 Tiles.propTypes = {
     /**
-   * имя css класса карточки
-   */
+     * имя css класса карточки
+     */
     className: PropTypes.string,
     /**
-   * массив объектов cell из которых состоит виджет
-   */
-    tiles: PropTypes.array,
-    /**
-   * данные объектов cell
-   */
+     * данные объектов cell
+     */
     data: PropTypes.array,
     /**
-   *  количество колонок в мобильном режиме
-   */
+     *  количество колонок в мобильном режиме
+     */
     colsSm: PropTypes.number,
     /**
-   * количество колонок в режиме планшета
-   */
+     * количество колонок в режиме планшета
+     */
     colsMd: PropTypes.number,
     /**
-   * количество колонок в режиме десктопа
-   */
+     * количество колонок в режиме десктопа
+     */
     colsLg: PropTypes.number,
     /**
-   * id виджета
-   */
+     * id виджета
+     */
     id: PropTypes.number,
     /**
-   * высота виджета
-   */
+     * высота виджета
+     */
     tileHeight: PropTypes.string,
     /**
-   * ширина виджета
-   */
+     * ширина виджета
+     */
     tileWidth: PropTypes.string,
+    tile: PropTypes.node,
+    width: PropTypes.number,
+    onResolve: PropTypes.func,
+    dispatch: PropTypes.func,
 }
 
 Tiles.defaultProps = {
