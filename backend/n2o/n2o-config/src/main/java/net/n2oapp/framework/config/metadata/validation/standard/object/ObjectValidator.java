@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
-import net.n2oapp.framework.config.metadata.compile.dataprovider.DataProviderScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,15 +29,12 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
         if (object.getObjectFields() != null && object.getObjectFields().length != 0)
             checkForExistsReferenceObject(object.getId(), object.getObjectFields(), p);
 
-        DataProviderScope dataProviderScope = new DataProviderScope();
-        dataProviderScope.setObjectId(object.getId());
-
         if (object.getOperations() != null)
             for (N2oObject.Operation operation : object.getOperations()) {
                 if (operation.getInFields() != null)
                     checkForExistsReferenceObject(object.getId(), operation.getInFields(), p);
                 if (operation.getInvocation() != null)
-                    p.validate(operation.getInvocation(), dataProviderScope);
+                    p.validate(operation.getInvocation());
             }
     }
 

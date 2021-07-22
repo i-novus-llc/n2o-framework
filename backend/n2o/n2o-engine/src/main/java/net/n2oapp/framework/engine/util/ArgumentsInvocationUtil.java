@@ -12,23 +12,15 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.expression.Expression;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.SpelParserConfiguration;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.engine.util.MappingProcessor.inMap;
-
 /**
  * Утилитный класс, служащий для преобразования данных вызова в массив аргументов
  */
 public class ArgumentsInvocationUtil {
-    private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
-
 
     /**
      * Собирает аргументы для действия invocation в выборке
@@ -47,21 +39,22 @@ public class ArgumentsInvocationUtil {
         if (ArrayUtils.isEmpty(argumentInstances))
             return new Object[0];
 
-        int criteriaIdx = -1;
-        for (int i = 0; i < invocation.getArguments().length; i++) {
-            if (Argument.Type.CRITERIA.equals(invocation.getArguments()[i].getType())) {
+        for (int i = 0; i < invocation.getArguments().length; i++)
+            if (Argument.Type.CRITERIA.equals(invocation.getArguments()[i].getType()))
                 argumentInstances[i] = criteriaConstructor.construct(criteria, argumentInstances[i]);
-                criteriaIdx = i;
-            }
-        }
 
-        if (Arrays.stream(invocation.getArguments()).filter(arg -> (arg.getType().equals(Argument.Type.ENTITY) ||
-                arg.getType().equals(Argument.Type.CRITERIA))).collect(Collectors.toList()).size() > 1)
+        if (Arrays.stream(invocation.getArguments()).filter(arg -> (Argument.Type.ENTITY.equals(arg.getType()) ||
+                Argument.Type.CRITERIA.equals(arg.getType()))).collect(Collectors.toList()).size() > 1)
             throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
+
+        int idx = 0;
         for (Restriction r : criteria.getRestrictions()) {
-            N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            String mapping = filter.getMapping().startsWith("[") ? filter.getMapping() : "[" + criteriaIdx + "]." + filter.getMapping();
-            inMap(argumentInstances, mapping, r.getValue());
+            if (r.getValue() != null) {
+                N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
+                String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
+                MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
+            }
+            idx++;
         }
 
         resolveDefaultValues(invocation.getArguments(), domainProcessor, argumentInstances);
@@ -79,30 +72,63 @@ public class ArgumentsInvocationUtil {
      */
     public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet dataSet,
                                      Map<String, FieldMapping> inMapping, DomainProcessor domainProcessor) {
-        inMapping = changeInMappingForEntity(invocation, inMapping);
         if (invocation.getArguments() == null || invocation.getArguments().length == 0)
             return null;
 
         Object[] result = instantiateArguments(invocation.getArguments());
-        boolean hasOnlyOneEntity = result.length == 1 && result[0] != null;
+
         int idx = 0;
-
-        for (Map.Entry<String, FieldMapping> map : inMapping.entrySet()) {
-            Object value = dataSet.get(map.getKey());
-            String mapping = map.getValue().getMapping();
-            if ((mapping != null && !mapping.startsWith("[") && !mapping.endsWith("]")) || value != null) {
-                String resultMapping = mapping;
-                if (resultMapping == null)
-                    resultMapping = hasOnlyOneEntity ? "[0]." + map.getKey() : "[" + idx + "]";
-
-                Expression expression = writeParser.parseExpression(resultMapping);
-                expression.setValue(result, value);
+        for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
+            if (dataSet.get(entry.getKey()) != null) {
+                String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
+                MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
             }
             idx++;
         }
 
         resolveDefaultValues(invocation.getArguments(), domainProcessor, result);
         return result;
+    }
+
+    /**
+     * Получение маппинга аргумента
+     *
+     * @param arguments      Массив аргументов
+     * @param idx            Индекс возможной позиции
+     * @param mapping        Указанный маппинг
+     * @param defaultMapping Маппинг по умолчанию
+     * @return Маппинг аргумента
+     */
+    private static String getMapping(Argument[] arguments, int idx, String mapping, String defaultMapping) {
+        String resultMapping;
+        int argIdx;
+
+        if (mapping != null) {
+            argIdx = findArgumentPosition(arguments, mapping.substring(1, mapping.indexOf("]")).replace("'", ""));
+            resultMapping = argIdx == -1 ? mapping :
+                    "[" + argIdx + "]" + mapping.substring(mapping.indexOf("]") + 1);
+        } else {
+            argIdx = findArgumentPosition(arguments, defaultMapping);
+            resultMapping = argIdx == -1 ? "[" + idx + "]" :
+                    "[" + argIdx + "]";
+        }
+
+        return resultMapping;
+    }
+
+
+    /**
+     * Находит по имени номер позиции аргумента среди всех аргументов провайдера
+     *
+     * @param arguments Аргументы провайдера
+     * @param name      Имя аргумента
+     * @return Номер позиции аргумента или -1, если не был найден
+     */
+    private static int findArgumentPosition(Argument[] arguments, String name) {
+        for (int i = 0; i < arguments.length; i++)
+            if (name.equals(arguments[i].getName()))
+                return i;
+        return -1;
     }
 
     /**
@@ -146,53 +172,5 @@ public class ArgumentsInvocationUtil {
             }
         }
         return argumentInstances;
-    }
-
-    /**
-     * Изменение маппинга вызова согласно наличию entity аргумента
-     *
-     * @param invocation Вызов действия
-     * @param inMapping  Маппинг входных данных
-     * @return Измененный маппинг вызова
-     */
-    private static Map<String, FieldMapping> changeInMappingForEntity(N2oArgumentsInvocation invocation,
-                                                                      Map<String, FieldMapping> inMapping) {
-        if (ArrayUtils.isEmpty(invocation.getArguments())) {
-            final int[] idx = {0};
-            for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
-                if (entry.getValue().getMapping() == null)
-                    entry.getValue().setMapping(String.format("[%s]", idx[0]++));
-            }
-        } else {
-            int entityPosition = findEntityPosition(invocation.getArguments());
-            if (entityPosition != -1) {
-                // позиция entity используется для создания префикса
-                String prefix = "[" + entityPosition + "].";
-                for (String key : inMapping.keySet()) {
-                    if (inMapping.get(key) != null) {
-                        String mapping = inMapping.get(key).getMapping();
-                        if (mapping != null && !mapping.startsWith("["))
-                            inMapping.get(key).setMapping(prefix + mapping);
-                    }
-                }
-            }
-        }
-        return inMapping;
-    }
-
-    /**
-     * Находит номер позиции entity в аргументах провайдера
-     *
-     * @param arguments Аргументы провайдера
-     * @return Номер позиции entity или -1, если не был найден
-     */
-    private static int findEntityPosition(Argument[] arguments) {
-        for (int i = 0; i < arguments.length; i++) {
-            if ((arguments[i].getType() != null) &&
-                    (arguments[i].getType().equals(Argument.Type.ENTITY))) {
-                return i;
-            }
-        }
-        return -1;
     }
 }

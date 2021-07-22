@@ -16,7 +16,6 @@ import java.util.List;
 public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJavaDataProvider> {
 
     private List<ObjectLocator> locators = Collections.emptyList();
-    private String javaMapping;
 
     @Override
     public Class<? extends N2oJavaDataProvider> getType() {
@@ -51,14 +50,6 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
 
     public void setLocators(List<ObjectLocator> locators) {
         this.locators = locators;
-    }
-
-    public String getJavaMapping() {
-        return javaMapping;
-    }
-
-    public void setJavaMapping(String javaMapping) {
-        this.javaMapping = javaMapping;
     }
 
     private Object invokeMethod(Class<?> targetClass, String method, Object targetObject, Object[] args) {

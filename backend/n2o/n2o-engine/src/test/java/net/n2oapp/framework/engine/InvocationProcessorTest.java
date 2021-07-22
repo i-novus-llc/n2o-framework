@@ -76,7 +76,7 @@ public class InvocationProcessorTest {
 
         ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
-        param.setMapping("innerObj");
+        param.setMapping("[0].innerObj");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         ObjectSimpleField childParam = new ObjectSimpleField();
         childParam.setId("name");
@@ -130,7 +130,7 @@ public class InvocationProcessorTest {
         List<AbstractParameter> inMapping = new ArrayList<>();
         ObjectSimpleField param1 = new ObjectSimpleField();
         param1.setId("entity");
-        param1.setMapping("testField");
+        param1.setMapping("[0].testField");
         inMapping.add(param1);
 
         ObjectSimpleField param2 = new ObjectSimpleField();
@@ -196,7 +196,7 @@ public class InvocationProcessorTest {
         List<AbstractParameter> inMapping = new ArrayList<>();
         ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
-        param.setMapping("innerObj");
+        param.setMapping("[0].innerObj");
         param.setEnabled("entity.id != null");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         ObjectSimpleField inParam1 = new ObjectSimpleField();
@@ -261,7 +261,7 @@ public class InvocationProcessorTest {
         List<AbstractParameter> inMapping = new ArrayList<>();
         ObjectReferenceField param = new ObjectReferenceField();
         param.setId("entity");
-        param.setMapping("innerObj");
+        param.setMapping("[0].innerObj");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         ObjectSimpleField inParam1 = new ObjectSimpleField();
         inParam1.setId("name");
@@ -274,7 +274,7 @@ public class InvocationProcessorTest {
 
         ObjectListField listParam = new ObjectListField();
         listParam.setId("entities");
-        listParam.setMapping("innerObjList");
+        listParam.setMapping("[0].innerObjList");
         listParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         inParam1 = new ObjectSimpleField();
         inParam1.setId("name");
@@ -338,7 +338,7 @@ public class InvocationProcessorTest {
 
         ObjectSimpleField childParam = new ObjectSimpleField();
         childParam.setId("name");
-        childParam.setMapping("valueStr");
+        childParam.setMapping("[0].valueStr");
         childParam.setNormalize("#this.toLowerCase()");
 
         DataSet innerDataSet = new DataSet();
@@ -478,6 +478,64 @@ public class InvocationProcessorTest {
         // Result
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
         assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123"));
+
+
+        // DATASET with null value
+        dataSet = new DataSet();
+        dataSet.put("firstArgument", "test");
+        dataSet.put("secondArgument", null);
+
+        // Result
+        result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
+        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: null"));
+
+    }
+
+    /**
+     * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
+     */
+    @Test
+    public void testNameMappingWithArgumentsInvocationProvider() {
+        N2oJavaDataProvider invocation = new N2oJavaDataProvider();
+        invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+        invocation.setMethod("methodWithThreeArguments");
+        Argument argument1 = new Argument();
+        argument1.setName("first");
+        argument1.setType(Argument.Type.PRIMITIVE);
+        Argument argument2 = new Argument();
+        argument2.setName("second");
+        argument2.setType(Argument.Type.PRIMITIVE);
+        Argument argument3 = new Argument();
+        argument3.setName("third");
+        argument3.setType(Argument.Type.PRIMITIVE);
+        invocation.setArguments(new Argument[]{argument1, argument2, argument3});
+
+        // STRUCTURE
+        ObjectSimpleField firstArg = new ObjectSimpleField();
+        firstArg.setId("a");
+        firstArg.setMapping("['first']");
+        ObjectSimpleField secondArg = new ObjectSimpleField();
+        secondArg.setId("b");
+        secondArg.setMapping("[second]");
+        ObjectSimpleField thirdArg = new ObjectSimpleField();
+        thirdArg.setId("c");
+        thirdArg.setMapping("['third']");
+        List<AbstractParameter> inParameters = Arrays.asList(secondArg, firstArg, thirdArg);
+
+        // DATASET
+        DataSet dataSet = new DataSet();
+        dataSet.put("c", true);
+        dataSet.put("b", 123);
+        dataSet.put("a", "test");
+
+        ObjectSimpleField response = new ObjectSimpleField();
+        response.setId("result");
+        response.setMapping("#this");
+        List<ObjectSimpleField> outParameters = Arrays.asList(response);
+
+        // Result
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
+        assertThat(result.get("result"), is("Invocation success. First argument: test, Second argument: 123, Third argument: true"));
     }
 
     @Test
@@ -494,11 +552,12 @@ public class InvocationProcessorTest {
         //Simple
         ObjectSimpleField simpleParam = new ObjectSimpleField();
         simpleParam.setId("valueStr");
+        simpleParam.setMapping("[0].valueStr");
 
         //List
         ObjectListField listParam = new ObjectListField();
         listParam.setId("entities");
-        listParam.setMapping("innerObjList");
+        listParam.setMapping("[0].innerObjList");
         listParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         ObjectSimpleField childParam1 = new ObjectSimpleField();
         childParam1.setId("id");

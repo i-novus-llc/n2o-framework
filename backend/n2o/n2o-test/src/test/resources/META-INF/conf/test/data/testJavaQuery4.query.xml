@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="#this.collection">
+        <java method="getCollectionPage">
+            <spring bean="testController"/>
+            <arguments>
+                <argument type="criteria" class="net.n2oapp.framework.test.engine.TestCriteria"/>
+            </arguments>
+        </java>
+    </list>
+    <count count-mapping="#this.count">
+        <java method="getCollectionPage">
+            <spring bean="testController"/>
+            <arguments>
+                <argument type="criteria" class="net.n2oapp.framework.test.engine.TestCriteria"/>
+            </arguments>
+        </java>
+    </count>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id" mapping="[0].id"/>
+            </filters>
+        </field>
+
+        <field id="value">
+            <select/>
+            <sorting/>
+        </field>
+    </fields>
+</query>
