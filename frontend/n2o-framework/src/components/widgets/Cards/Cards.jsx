@@ -77,9 +77,11 @@ export function Cards(props) {
 
     return (
         <div className={classNames('n2o-cards__container col-12', className)}>
-            {data && data.length
-                ? map(data, (item, index) => renderCard(item, index))
-                : ''}
+            {
+                data?.length
+                    ? map(data, (item, index) => renderCard(item, index))
+                    : ''
+            }
         </div>
     )
 }
