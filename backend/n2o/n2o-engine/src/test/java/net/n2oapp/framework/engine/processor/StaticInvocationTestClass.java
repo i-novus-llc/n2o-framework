@@ -7,6 +7,7 @@ import net.n2oapp.criteria.api.Criteria;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -30,6 +31,10 @@ public class StaticInvocationTestClass {
 
     public static String methodWithTwoArguments(String firstArgument, Integer secondArgument) {
         return "Invocation success. First argument: " + firstArgument + ", Second argument: " + secondArgument;
+    }
+
+    public static CollectionPage<Model> methodWithThreeArguments(Integer first, MyCriteria criteria, Boolean third) {
+        return new CollectionPage<>(1, Arrays.asList(new Model(first, third.toString(), criteria.getName())), criteria);
     }
 
     public static void methodVoid(String argument) {

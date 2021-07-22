@@ -2,7 +2,7 @@ package net.n2oapp.framework.engine.data;
 
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
@@ -68,7 +68,7 @@ public class N2oOperationProcessor {
 
         Map<String, String> failOutParamsMapping = failOutParameters.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getMapping()));
-        return DataSetMapper.extract(e, failOutParamsMapping);
+        return DataSetUtil.extract(e, failOutParamsMapping);
     }
 
     private void validateRequiredFields(Collection<AbstractParameter> inParameters, DataSet inDataSet) {

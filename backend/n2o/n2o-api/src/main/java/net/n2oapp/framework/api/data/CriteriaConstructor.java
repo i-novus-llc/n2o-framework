@@ -3,16 +3,15 @@ package net.n2oapp.framework.api.data;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 
 /**
- * Конструктор java критериев
+ * Конструктор критериев
  */
 public interface CriteriaConstructor {
-
     /**
-     * Конструирование java критерия по классу и критерию N2O
+     * Конструирование критерия по критерию фильтрации и экземпляру объекта
      *
-     * @param criteria      исходный критерий
-     * @param criteriaClass класс критерия приложения
-     * @return критерий, используемый в прилоежении
+     * @param criteria Критерий фильтрации
+     * @param instance Экземпляр класса
+     * @return Сконструированный критерий
      */
-    <T> T construct(N2oPreparedCriteria criteria, Class<T> criteriaClass);
+    Object construct(N2oPreparedCriteria criteria, Object instance);
 }

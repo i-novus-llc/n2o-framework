@@ -2,8 +2,6 @@ package net.n2oapp.framework.api.criteria;
 
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 
 import java.util.*;
 

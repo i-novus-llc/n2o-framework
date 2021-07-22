@@ -20,7 +20,6 @@
         <module>n2o-engine</module>
         <module>n2o-rest</module>
         <module>n2o-access</module>
-        <module>n2o-export</module>
         <module>n2o-test</module>
         <module>n2o-autoconfigure</module>
         <module>n2o-spring-boot-starter</module>

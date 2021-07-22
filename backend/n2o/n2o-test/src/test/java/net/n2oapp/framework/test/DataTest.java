@@ -59,9 +59,9 @@ public class DataTest {
     }
 
     @Test
-    public void testJavaDataQuery3() {
+    public void testJavaDataQuery4() {
         RestTemplate restTemplate = new RestTemplate();
-        String queryPath = "/n2o/data/test/java/v3";
+        String queryPath = "/n2o/data/test/java/v4";
         String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
@@ -72,7 +72,7 @@ public class DataTest {
         assert result.getList().size() == 10;
 
         //test data by id
-        fooResourceUrl = "http://localhost:" + port + queryPath + "?queryId=testJavaQuery3&size=1&page=1&id=3";
+        fooResourceUrl = "http://localhost:" + port + queryPath + "?queryId=testJavaQuery4&size=1&page=1&id=3";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();

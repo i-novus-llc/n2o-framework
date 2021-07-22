@@ -16,13 +16,7 @@ public class N2oCriteriaConstructor implements CriteriaConstructor {
     }
 
     @Override
-    public <T> T construct(N2oPreparedCriteria criteria, Class<T> criteriaClass) {
-        T instance = null;
-        try {
-            instance = criteriaClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public Object construct(N2oPreparedCriteria criteria, Object instance) {
         if (instance instanceof Criteria) {
             ((Criteria) instance).setSorting(criteria.getSorting());
             ((Criteria) instance).setSize(criteria.getSize());
