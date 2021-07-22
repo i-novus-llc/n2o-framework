@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Checkbox from '../Checkbox/Checkbox'
 import withFetchData from '../withFetchData'
 import { CheckboxN2OWrapped } from '../Checkbox/CheckboxN2O'
 import CheckboxButton from '../Checkbox/CheckboxButton'
@@ -46,7 +45,7 @@ export class CheckboxGroupControl extends React.Component {
         const { data, labelFieldId, valueFieldId, type, isLoading } = this.props
 
         const checkboxTypes = {
-            default: Checkbox,
+            default: CheckboxN2OWrapped,
             n2o: CheckboxN2OWrapped,
             btn: CheckboxButton,
         }
