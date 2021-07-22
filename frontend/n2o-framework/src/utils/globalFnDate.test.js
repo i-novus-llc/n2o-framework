@@ -6,8 +6,8 @@ import evalExpression from './evalExpression'
 const testFormat = { timeFormat: 'HH', dateFormat: 'DD.MM' }
 const testFormatForArgs = { timeFormat: 'HH.mm.ss', dateFormat: 'DD.MM.YYYY' }
 
-const stringFormats = `${testFormat.dateFormat} ${testFormat.timeFormat}`
-const stringFormatsToArgs = `${testFormatForArgs.dateFormat} ${
+const stringFormats = `${testFormat.dateFormat}T${testFormat.timeFormat}`
+const stringFormatsToArgs = `${testFormatForArgs.dateFormat}T${
     testFormatForArgs.timeFormat
 }`
 
@@ -192,17 +192,17 @@ describe('Проверка globalFnDate', () => {
 describe('Проверка изменения глобального формата', () => {
     it('Проверка работы в globalFnDate', () => {
         globalFnDate.addFormat({ timeFormat: 'hh:ss', dateFormat: 'DD.MM' })
-        expect(date.now()).toEqual(moment().format('DD.MM hh:ss'))
+        expect(date.now()).toEqual(moment().format('DD.MMThh:ss'))
         globalFnDate.addFormat({
             timeFormat: 'hh:mm:ss',
             dateFormat: 'DD.MM.YYYY',
         })
-        expect(date.now()).toEqual(moment().format('DD.MM.YYYY hh:mm:ss'))
+        expect(date.now()).toEqual(moment().format('DD.MM.YYYYThh:mm:ss'))
     })
     it('Проверка работы evalExpression', () => {
         globalFnDate.addFormat({ timeFormat: 'HH:mm', dateFormat: 'DD.MM' })
         expect(evalExpression('$.now()', {})).toEqual(
-            moment().format('DD.MM HH:mm'),
+            moment().format('DD.MMTHH:mm'),
         )
     })
 })
