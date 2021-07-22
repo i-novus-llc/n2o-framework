@@ -262,7 +262,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
         }
     } catch (err) {
         // eslint-disable-next-line no-console
-        console.error(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`)
+        console.warn(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`)
         yield put(
             dataFailWidget(
                 widgetId,
