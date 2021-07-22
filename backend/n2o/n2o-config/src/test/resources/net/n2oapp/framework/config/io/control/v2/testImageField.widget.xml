@@ -5,6 +5,7 @@
                data="data:image/jpeg;base64{image}"
                title="{label}"
                text-position="left"
+               shape="circle"
                width="400px"
         >
             <statuses>
