@@ -77,6 +77,13 @@ const formSlice = createSlice({
             reducer(state, action) {
                 const { name } = action.payload
 
+                if (!state.registeredFields[name]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Attempt to disable a non-existent field "${name}"`)
+
+                    return
+                }
+
                 state.registeredFields[name].disabled = true
             },
         },
@@ -160,6 +167,13 @@ const formSlice = createSlice({
              */
             reducer(state, action) {
                 const { name } = action.payload
+
+                if (!state.registeredFields[name]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Attempt to hide a non-existent field "${name}"`)
+
+                    return
+                }
 
                 state.registeredFields[name].visible = false
             },
@@ -466,8 +480,15 @@ const formSlice = createSlice({
             reducer(state, action) {
                 const { names } = action.payload
 
-                names.forEach((key) => {
-                    state.registeredFields[key].disabled = true
+                names.forEach((name) => {
+                    if (!state.registeredFields[name]) {
+                        // eslint-disable-next-line no-console
+                        console.warn(`Attempt to disable a non-existent field "${name}"`)
+
+                        return
+                    }
+
+                    state.registeredFields[name].disabled = true
                 })
             },
         },

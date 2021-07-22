@@ -212,8 +212,8 @@ describe('Проверка linkResolver', () => {
             },
         })
         expect(res).toEqual({
-            begin: moment().format('DD.MM.YYYY HH'),
-            end: moment().format('DD.MM.YYYY HH'),
+            begin: moment().format('DD.MM.YYYYTHH'),
+            end: moment().format('DD.MM.YYYYTHH'),
         })
     })
     it('value и link (кривой), value обьект', () => {
