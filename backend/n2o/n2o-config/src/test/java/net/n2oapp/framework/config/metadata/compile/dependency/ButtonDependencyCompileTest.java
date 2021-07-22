@@ -65,8 +65,10 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         condition = buttons.get(2).getConditions().get(ValidationType.enabled).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property2"));
-        // if disable-on-empty-model = auto, should not have contains enabled !_.isEmpty(this) condition for MULTI model
-        assertThat(buttons.get(3).getConditions().get(ValidationType.enabled), nullValue());
+        // if disable-on-empty-model = auto, should have contains enabled !_.isEmpty(this) condition for MULTI model
+        condition = buttons.get(3).getConditions().get(ValidationType.enabled).get(0);
+        assertThat(condition.getModelLink(), is("models.multi['testButtonDependency_table']"));
+        assertThat(condition.getExpression(), is("!_.isEmpty(this)"));
         // if disable-on-empty-model = true, should have contains enabled !_.isEmpty(this) condition for MULTI model
         condition = buttons.get(4).getConditions().get(ValidationType.enabled).get(0);
         assertThat(condition.getModelLink(), is("models.multi['testButtonDependency_table']"));
