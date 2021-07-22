@@ -60,10 +60,12 @@ public class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getType(), is(ListType.single));
         assertThat(select.getClosePopupOnSelect(), is(true));
         assertThat(select.getCleanable(), is(true));
-        assertThat(select.getData().size(), is(2));
+        assertThat(select.getData().size(), is(3));
         assertThat(select.getData().get(0).get("id"), is("type1"));
         assertThat(select.getData().get(0).get("name"), is("A"));
         assertThat(select.getData().get(1).get("id"), is("type2"));
         assertThat(select.getData().get(1).get("name"), is("B"));
+        assertThat(select.getData().get(2).get("id"), is(3));
+        assertThat(select.getData().get(2).get("name"), is("true"));
     }
 }

@@ -46,7 +46,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             List<Map<String, Object>> list = new ArrayList<>();
             for (Map<String, String> option : source.getOptions()) {
                 DataSet dataItem = new DataSet();
-                option.forEach((f, v) -> dataItem.put(f, p.resolve(v, String.class)));
+                option.forEach((f, v) -> dataItem.put(f,
+                        f.equals("name") ? p.resolve(v, String.class) : p.resolve(v)));
                 list.add(dataItem);
             }
             listControl.setData(list);
