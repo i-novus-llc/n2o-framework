@@ -12,7 +12,7 @@ import cx from 'classnames'
  * @reactProps {boolean} bordered - флаг рамки вокруг иконки
  * @reactProps {boolean} circular - флаг закругления вокруг иконки
  */
-export function Icon({ name, className, disabled, spin, circular, bordered, style }) {
+export function Icon({ name, className, disabled, spin, circular, bordered, style, onClick }) {
     const iconClass = cx({
         'n2o-icon': true,
         [name]: name,
@@ -23,7 +23,7 @@ export function Icon({ name, className, disabled, spin, circular, bordered, styl
         bordered,
     })
 
-    return <i className={iconClass} style={style} />
+    return <i className={iconClass} style={style} onClick={onClick} />
 }
 
 Icon.propTypes = {

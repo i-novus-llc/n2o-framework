@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import TreeSelect from 'rc-tree-select'
 import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
@@ -8,7 +8,6 @@ import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 import map from 'lodash/map'
-import memoize from 'lodash/memoize'
 import some from 'lodash/some'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
@@ -126,7 +125,7 @@ function InputSelectTree({
      * @param items
      * @returns {*}
      */
-    const createTree = memoize((items) => {
+    const createTree = useCallback((items) => {
         const itemsByID = [...items].reduce(
             (acc, item) => ({
                 ...acc,
@@ -172,7 +171,7 @@ function InputSelectTree({
                 return false
             })
             .reduce((acc, key) => [...acc, { ...itemsByID[key] }], [])
-    })
+    }, [ajax, format, hasChildrenFieldId, parentFieldId, popupProps, valueFieldId])
 
     /**
      * Функция для поиска.
