@@ -1,8 +1,8 @@
 import moment from 'moment'
 
 let formats = {
-    dateFormat: 'YYYY-MM-DD',
-    timeFormat: 'HH:mm:ss',
+    dateFormat: 'yyyy-MM-dd',
+    timeFormat: '00:00:00',
 }
 
 /**
@@ -11,7 +11,7 @@ let formats = {
  * @param overrideFormat
  * @returns {string}
  */
-const getFormat = overrideFormat => `${(overrideFormat || formats).dateFormat} ${
+const getFormat = overrideFormat => `${(overrideFormat || formats).dateFormat}T${
     (overrideFormat || formats).timeFormat
 }`
 
