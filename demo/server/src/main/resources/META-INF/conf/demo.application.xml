@@ -22,5 +22,5 @@
             <!--<page page-id="refbooks" route="/refbooks"/>-->
         </nav>
     </header>
-    <footer left-text="N2O ${n2o.version} 2013-2021"/>
+    <footer left-text="N2O ${n2o.version} © 2013-2021"/>
 </application>

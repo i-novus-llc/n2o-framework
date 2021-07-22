@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class AppConfigServlet extends HttpServlet {
@@ -40,6 +41,7 @@ public class AppConfigServlet extends HttpServlet {
         addedValues.put("messages", getMessages());
 
         res.setContentType("application/json");
+        res.setCharacterEncoding(StandardCharsets.UTF_8.toString());
         PrintWriter out = res.getWriter();
         try {
             appConfigJsonWriter.writeValues(out, addedValues);

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
@@ -9,7 +8,6 @@ import map from 'lodash/map'
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import get from 'lodash/get'
 import find from 'lodash/find'
 
 import widgetContainer from '../WidgetContainer'
@@ -105,7 +103,6 @@ class ListContainer extends React.Component {
                 widgetId={widgetId}
                 positionFixed={false}
                 modifiers={{}}
-                className={classNames('n2o-widget-list-cell', get(section, 'className', ''))}
             />
         )
     }
