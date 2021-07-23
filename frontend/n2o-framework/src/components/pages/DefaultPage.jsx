@@ -52,15 +52,16 @@ function DefaultPage({
                 </div>
             )}
             {children}
-            {toolbar &&
-        (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) &&
-            (
-                <div className="n2o-page-actions">
-                    <Toolbar entityKey={entityKey} toolbar={toolbar.bottomLeft} />
-                    <Toolbar entityKey={entityKey} toolbar={toolbar.bottomCenter} />
-                    <Toolbar entityKey={entityKey} toolbar={toolbar.bottomRight} />
-                </div>
-            )}
+            {
+                toolbar && (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) &&
+                (
+                    <div className="n2o-page-actions">
+                        <Toolbar entityKey={entityKey} toolbar={toolbar.bottomLeft} />
+                        <Toolbar entityKey={entityKey} toolbar={toolbar.bottomCenter} />
+                        <Toolbar entityKey={entityKey} toolbar={toolbar.bottomRight} />
+                    </div>
+                )
+            }
         </div>
     )
 }
