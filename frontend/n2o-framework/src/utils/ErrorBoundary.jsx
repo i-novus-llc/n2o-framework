@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 /**
- * @ignore
+ * TODO find usages and remove
+ * @deprecated
  */
 class ErrorBoundary extends React.Component {
     constructor(props) {
