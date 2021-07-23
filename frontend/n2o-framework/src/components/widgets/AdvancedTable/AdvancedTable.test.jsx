@@ -442,9 +442,9 @@ describe('<AdvancedTable/>', () => {
                     .last()
                     .state().checked,
             ).toEqual({
-                1: true,
-                2: true,
-                3: true,
+                1: data[0],
+                2: data[1],
+                3: data[2],
             })
 
             wrapper
@@ -463,11 +463,7 @@ describe('<AdvancedTable/>', () => {
                     .find('AdvancedTable')
                     .last()
                     .state().checked,
-            ).toEqual({
-                1: false,
-                2: false,
-                3: false,
-            })
+            ).toEqual({})
         })
 
         it('корректно отрабатывает выбор строк', () => {
@@ -481,27 +477,24 @@ describe('<AdvancedTable/>', () => {
             checkboxes.at(1).simulate('change', { target: { checked: false } })
             expect(table.state().checkedAll).toBe(false)
             expect(table.state().checked).toEqual({
-                1: true,
-                2: false,
-                3: false,
+                1: data[0],
             })
 
             checkboxes.at(2).simulate('change', { target: { checked: false } })
 
             expect(table.state().checkedAll).toBe(false)
             expect(table.state().checked).toEqual({
-                1: true,
-                2: true,
-                3: false,
+                1: data[0],
+                2: data[1],
             })
 
             checkboxes.at(3).simulate('change', { target: { checked: false } })
 
             expect(table.state().checkedAll).toBe(true)
             expect(table.state().checked).toEqual({
-                1: true,
-                2: true,
-                3: true,
+                1: data[0],
+                2: data[1],
+                3: data[2],
             })
         })
         it('корректно отрабатывает выбор строк autoCheckboxOnSelect', () => {
@@ -516,27 +509,24 @@ describe('<AdvancedTable/>', () => {
             rows.at(0).simulate('click')
             expect(table.state().checkedAll).toBe(false)
             expect(table.state().checked).toEqual({
-                1: true,
-                2: false,
-                3: false,
+                1: data[0],
             })
 
             rows.at(1).simulate('click')
 
             expect(table.state().checkedAll).toBe(false)
             expect(table.state().checked).toEqual({
-                1: true,
-                2: true,
-                3: false,
+                1: data[0],
+                2: data[1],
             })
 
             rows.at(2).simulate('click')
 
             expect(table.state().checkedAll).toBe(true)
             expect(table.state().checked).toEqual({
-                1: true,
-                2: true,
-                3: true,
+                1: data[0],
+                2: data[1],
+                3: data[2],
             })
         })
     })
@@ -565,19 +555,19 @@ describe('<AdvancedTable/>', () => {
 
             radios.at(0).simulate('change', { target: { checked: false } })
             expect(table.state().checked).toEqual({
-                1: true,
+                1: data[0],
             })
 
             radios.at(1).simulate('change', { target: { checked: false } })
 
             expect(table.state().checked).toEqual({
-                2: true,
+                2: data[1],
             })
 
             radios.at(2).simulate('change', { target: { checked: false } })
 
             expect(table.state().checked).toEqual({
-                3: true,
+                3: data[2],
             })
         })
         it('корректно отрабатывает выбор radio через строку', () => {
@@ -590,19 +580,19 @@ describe('<AdvancedTable/>', () => {
 
             rows.at(0).simulate('click')
             expect(table.state().checked).toEqual({
-                1: true,
+                1: data[0],
             })
 
             rows.at(1).simulate('click')
 
             expect(table.state().checked).toEqual({
-                2: true,
+                2: data[1],
             })
 
             rows.at(2).simulate('click')
 
             expect(table.state().checked).toEqual({
-                3: true,
+                3: data[2],
             })
         })
     })

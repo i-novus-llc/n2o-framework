@@ -110,10 +110,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
                 if (
                     (hasVisibleDeps || fetchOnInit) &&
-          visible &&
-          (isEqual(dataProvider, dataProviderFromState) ||
-            !dataProviderFromState ||
-            isEmpty(dataProviderFromState))
+                    visible &&
+                    (isEqual(dataProvider, dataProviderFromState) ||
+                        !dataProviderFromState ||
+                        isEmpty(dataProviderFromState))
                 ) {
                     this.onFetch()
                 }
@@ -124,17 +124,17 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
                 if (
                     (!prevProps.visible && visible) ||
-          (!isEqual(prevProps.dataProviderFromState, dataProviderFromState) &&
-            !isEmpty(prevProps.dataProviderFromState) &&
-            !isEmpty(dataProviderFromState))
+                    (!isEqual(prevProps.dataProviderFromState, dataProviderFromState) &&
+                        !isEmpty(prevProps.dataProviderFromState) &&
+                        !isEmpty(dataProviderFromState))
                 ) {
                     this.onFetch()
                 }
             }
 
             /**
-       * Диспатч экшена удаления виджета
-       */
+             * Диспатч экшена удаления виджета
+             */
             componentWillUnmount() {
                 const { widgetId, dispatch } = this.props
                 const actions = [
@@ -146,141 +146,141 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                 dispatch(batchActions(actions))
             }
 
-      isEqualRegisteredWidgetWithProps = () => {
-          const { widget } = this.props
-          const propsParamsNames = keys(this.props)
-          const widgetParamsNames = filter(keys(widget), key => key !== 'error')
-          const commonParamsNames = []
+            isEqualRegisteredWidgetWithProps = () => {
+                const { widget } = this.props
+                const propsParamsNames = keys(this.props)
+                const widgetParamsNames = filter(keys(widget), key => key !== 'error')
+                const commonParamsNames = []
 
-          map(widgetParamsNames, (widgetParamName) => {
-              if (includes(propsParamsNames, widgetParamName)) {
-                  commonParamsNames.push(widgetParamName)
-              }
-          })
+                map(widgetParamsNames, (widgetParamName) => {
+                    if (includes(propsParamsNames, widgetParamName)) {
+                        commonParamsNames.push(widgetParamName)
+                    }
+                })
 
-          const widgetStateParams = pick(widget, commonParamsNames)
-          const widgetPropsParams = pick(this.props, commonParamsNames)
+                const widgetStateParams = pick(widget, commonParamsNames)
+                const widgetPropsParams = pick(this.props, commonParamsNames)
 
-          return isEqual(widgetStateParams, widgetPropsParams)
-      };
+                return isEqual(widgetStateParams, widgetPropsParams)
+            };
 
-      onSetModel(prefix, widgetId, model) {
-          const { dispatch } = this.props
+            onSetModel(prefix, widgetId, model) {
+                const { dispatch } = this.props
 
-          dispatch(setModel(prefix, widgetId, model))
-      }
+                dispatch(setModel(prefix, widgetId, model))
+            }
 
-      onResolve(newModel, oldModel) {
-          const { widgetId, dispatch } = this.props
+            onResolve(newModel, oldModel) {
+                const { widgetId, dispatch } = this.props
 
-          if (!isEqual(newModel, oldModel)) {
-              dispatch(resolveWidget(widgetId, newModel))
-          }
-      }
+                if (!isEqual(newModel, oldModel)) {
+                    dispatch(resolveWidget(widgetId, newModel))
+                }
+            }
 
-      onSort(id, direction) {
-          const { widgetId, isActive, dispatch } = this.props
+            onSort(id, direction) {
+                const { widgetId, isActive, dispatch } = this.props
 
-          dispatch(sortByWidget(widgetId, id, direction))
-          dispatch(dataRequestWidget(widgetId))
-          !isActive && dispatch(setActive(widgetId))
-      }
+                dispatch(sortByWidget(widgetId, id, direction))
+                dispatch(dataRequestWidget(widgetId))
+                !isActive && dispatch(setActive(widgetId))
+            }
 
-      onFocus() {
-          const { widgetId, dispatch } = this.props
+            onFocus() {
+                const { widgetId, dispatch } = this.props
 
-          dispatch(setActive(widgetId))
-      }
+                dispatch(setActive(widgetId))
+            }
 
-      onFetch(options) {
-          const { widgetId, dispatch } = this.props
+            onFetch(options) {
+                const { widgetId, dispatch } = this.props
 
-          dispatch(dataRequestWidget(widgetId, options))
-      }
+                dispatch(dataRequestWidget(widgetId, options))
+            }
 
-      /**
-       * @deprecated
-       */
-      onActionImpl({ src, component, options }) {
-          const { dispatch } = this.props
+            /**
+             * @deprecated
+             */
+            onActionImpl({ src, component, options }) {
+                const { dispatch } = this.props
 
-          dispatch(callActionImpl(src || component, { ...options, dispatch }))
-      }
+                dispatch(callActionImpl(src || component, { ...options, dispatch }))
+            }
 
-      /**
-       * Диспатч экшена регистрации виджета
-       */
-      initIfNeeded(initMetadata) {
-          const {
-              dispatch,
-              isInit,
-              widgetId,
-              pageId,
-              size,
-              page,
-              defaultSorting,
-              validation,
-              dataProvider,
-              modelPrefix,
-          } = this.props
+            /**
+             * Диспатч экшена регистрации виджета
+             */
+            initIfNeeded(initMetadata) {
+                const {
+                    dispatch,
+                    isInit,
+                    widgetId,
+                    pageId,
+                    size,
+                    page,
+                    defaultSorting,
+                    validation,
+                    dataProvider,
+                    modelPrefix,
+                } = this.props
 
-          const { visible: defaultVisible } = initMetadata
+                const { visible: defaultVisible } = initMetadata
 
-          if (!isInit || !this.isEqualRegisteredWidgetWithProps()) {
-              dispatch(
-                  registerWidget(widgetId, {
-                      pageId,
-                      size,
-                      type: widgetType,
-                      page,
-                      sorting: defaultSorting,
-                      dataProvider,
-                      validation,
-                      modelPrefix,
-                      isVisible: defaultVisible,
-                  }),
-              )
-          }
-      }
+                if (!isInit || !this.isEqualRegisteredWidgetWithProps()) {
+                    dispatch(
+                        registerWidget(widgetId, {
+                            pageId,
+                            size,
+                            type: widgetType,
+                            page,
+                            sorting: defaultSorting,
+                            dataProvider,
+                            validation,
+                            modelPrefix,
+                            isVisible: defaultVisible,
+                        }),
+                    )
+                }
+            }
 
-      /**
-       *Базовый рендер
-       */
-      render() {
-          const { visible, isLoading, placeholder } = this.props
-          const propsToPass = mapProps({
-              ...this.props,
-              onSetModel: this.onSetModel,
-              onResolve: this.onResolve,
-              onFocus: this.onFocus,
-              onFetch: this.onFetch,
-              onSort: this.onSort,
-              onActionImpl: this.onActionImpl,
-          })
-          const style = {
-              position: 'relative',
-          }
+            /**
+             * Базовый рендер
+             */
+            render() {
+                const { visible, isLoading, placeholder } = this.props
+                const propsToPass = mapProps({
+                    ...this.props,
+                    onSetModel: this.onSetModel,
+                    onResolve: this.onResolve,
+                    onFocus: this.onFocus,
+                    onFetch: this.onFetch,
+                    onSort: this.onSort,
+                    onActionImpl: this.onActionImpl,
+                })
+                const style = {
+                    position: 'relative',
+                }
 
-          return (
-              <div
-                  className={cx(
-                      visible ? s.visible : s.hidden,
-                      isLoading ? s.loading : '',
-                  )}
-                  style={style}
-              >
-                  <Placeholder
-                      once
-                      loading={placeholder && isLoading}
-                      {...placeholder}
-                  >
-                      <Spinner loading={isLoading} type="cover">
-                          <WrappedComponent {...propsToPass} />
-                      </Spinner>
-                  </Placeholder>
-              </div>
-          )
-      }
+                return (
+                    <div
+                        className={cx(
+                            visible ? s.visible : s.hidden,
+                            isLoading ? s.loading : '',
+                        )}
+                        style={style}
+                    >
+                        <Placeholder
+                            once
+                            loading={placeholder && isLoading}
+                            {...placeholder}
+                        >
+                            <Spinner loading={isLoading} type="cover">
+                                <WrappedComponent {...propsToPass} />
+                            </Spinner>
+                        </Placeholder>
+                    </div>
+                )
+            }
         }
 
         WidgetContainer.propTypes = {
