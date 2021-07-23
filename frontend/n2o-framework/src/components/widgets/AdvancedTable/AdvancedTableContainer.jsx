@@ -385,8 +385,8 @@ const enhance = compose(
                         props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
                     }
                 },
-                onSetSelection: (model) => {
-                    props.dispatch(setModel(PREFIXES.multi, props.widgetId, model))
+                onSetSelection: (models) => {
+                    props.dispatch(setModel(PREFIXES.multi, props.widgetId, models))
                 },
                 setSelectionType: (type) => {
                     props.dispatch(

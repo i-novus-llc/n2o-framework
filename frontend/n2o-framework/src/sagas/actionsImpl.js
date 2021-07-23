@@ -110,7 +110,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
 
     const { widgetId } = action.payload
     const multi = get(state, 'models.multi')
-    const multiModel = get(state, `models.multi.${widgetId}`)
+    const multiModel = multi?.[widgetId] || []
     const widget = get(state, `widgets.${widgetId}`)
     const hasMultiModel = some(values(multi), model => !isEmpty(model))
 
@@ -127,13 +127,13 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
 
     const createModelRequest = () => {
         if (isSelectionTypeCheckbox && hasMultiModel) {
-            const ids = Object.values(multiModel).map(i => i.id)
+            const ids = multiModel.map(i => i.id)
 
             if (needResolve) {
                 return { ...model, ids }
             }
 
-            return map(values(multiModel), modelElement => ({ ...modelElement, ...formParams }))
+            return map(multiModel, modelElement => ({ ...modelElement, ...formParams }))
         }
         const ids = get(model, 'ids')
         const requestIds = Array.isArray(ids) ? ids : [ids]
