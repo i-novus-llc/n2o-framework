@@ -148,12 +148,12 @@ export function* copyAction({ payload }) {
             }
             : [...targetModelField, ...sourceModel]
     } else if (treePath) {
-        if (sourceModel) {
+        if (typeof sourceModel === 'undefined') {
+            newModel = {}
+        } else {
             newModel = target.field
                 ? merge({}, targetModel, withTreeObject(path, sourceModel))
                 : sourceModel
-        } else {
-            newModel = {}
         }
     } else {
         newModel = target.field
