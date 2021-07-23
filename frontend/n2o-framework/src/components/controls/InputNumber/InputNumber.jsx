@@ -178,7 +178,7 @@ export class InputNumber extends React.Component {
         if (!isNil(value) && isValid(value, min, max)) {
             this.setState({ value }, () => onBlur(value))
         } else {
-            this.setState({ value: null }, () => onBlur())
+            this.setState({ value: null }, () => onBlur(null))
         }
     }
 
