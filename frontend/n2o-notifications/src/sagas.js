@@ -1,13 +1,13 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import { take, call, fork, select, put, takeEvery } from "redux-saga/effects";
+import { take, call, fork, select, put } from "redux-saga/effects";
 import isEmpty from 'lodash/isEmpty';
 import eq from 'lodash/eq';
 import {
+  requestConfigSuccess,
   userConfigSelector,
   localizationSelector
-} from "n2o-framework/lib/selectors/global";
-import { REQUEST_CONFIG_SUCCESS } from "n2o-framework/lib/constants/global";
+} from "n2o-framework/lib/ducks/global/store";
 import { eventChannel } from "redux-saga";
 import { setCounter, add } from "./actions";
 
@@ -17,7 +17,7 @@ const getServerURL = url =>
   eq(process.env.NODE_ENV, "development") ? DEV_SERVER_URL : url;
 
 export function* connectWS() {
-  yield take(REQUEST_CONFIG_SUCCESS);
+  yield take(requestConfigSuccess.type);
   const user = yield select(userConfigSelector);
   const messagesURLs = yield select(localizationSelector);
   if (!isEmpty(user) && user.token && !isEmpty(messagesURLs)) {
