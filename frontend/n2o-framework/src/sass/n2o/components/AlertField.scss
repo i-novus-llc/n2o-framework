@@ -1,3 +1,8 @@
 .n2o-alert-field {
     display: block;
 }
+
+.n2o-alert-field.alert-primary {
+    background-color: $primary;
+    color: white;
+}
