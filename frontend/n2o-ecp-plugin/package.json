@@ -1,6 +1,6 @@
 {
   "name": "n2o-ecp-plugin",
-  "version": "7.17.1",
+  "version": "7.17.2",
   "description": "Плагин упрощающий работу с Крипто-Про в N2O-7",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "crypto-pro": "^2.0.5",
-    "n2o-framework": "^7.17.1"
+    "n2o-framework": "^7.17.2"
   },
   "devDependencies": {
     "nwb": "0.25.0"
