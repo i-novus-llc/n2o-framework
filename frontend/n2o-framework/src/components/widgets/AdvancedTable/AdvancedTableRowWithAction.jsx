@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { pure } from 'recompose'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import evalExpression from '../../../utils/evalExpression'
 
@@ -24,23 +24,34 @@ function AdvancedTableRowWithAction(props) {
         clickFocusWithAction,
     } = props
 
-    const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
-        'table-active': isRowActive,
-        'row-click':
-      (rowClick && evalExpression(rowClick.enablingCondition, model)) ||
-      (rowClick &&
-        evalExpression(rowClick.enablingCondition, model) === undefined),
-        'row-deleted':
-      rowClick && evalExpression(rowClick.enablingCondition, model) === false,
-        [rowClass]: rowClass,
-    })
+    const enablingCondition = useMemo(() => {
+        if (!rowClick) { return true }
+        const enablingCondition = evalExpression(rowClick.enablingCondition, model)
+
+        return (enablingCondition || enablingCondition === undefined)
+    }, [rowClick, model])
+
+    const onClick = useMemo(() => (enablingCondition
+        ? clickWithAction
+        : () => {}), [clickWithAction, enablingCondition])
+
+    const classes = classNames(
+        className,
+        'n2o-table-row n2o-advanced-table-row',
+        enablingCondition ? 'row-click' : 'row-deleted',
+        {
+            'table-active': isRowActive,
+            [rowClass]: rowClass,
+        },
+    )
+
     const newProps = {
-        ...pick(props, ['className', 'data-row-key', 'onFocus', 'style']),
+        ...pick(props, ['data-row-key', 'onFocus', 'style']),
         ref: el => setRef && setRef(el, model.id),
         tabIndex: 0,
         key: model.id,
         className: classes,
-        onClick: clickWithAction,
+        onClick,
         onFocus: clickFocusWithAction,
     }
 
