@@ -1,5 +1,5 @@
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="layout">
-    <header class="inverse">
+
+    <header class="inverse" xmlns="http://n2oapp.net/framework/config/schema/header-2.0" welcome-page-id="layout">
         <nav>
             <sub-menu label="Layout">
                 <page page-id="layout" label="SquareResizableLayout"/>
@@ -23,4 +23,3 @@
             <a href="#/print" label="PrintPage" target="self"/>
         </nav>
     </header>
-</application>
