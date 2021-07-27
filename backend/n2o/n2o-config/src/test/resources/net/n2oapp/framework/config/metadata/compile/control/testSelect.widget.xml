@@ -8,7 +8,6 @@
             <options>
                 <option id="type1" name="A"/>
                 <option id="type2" name="B"/>
-                <option id="3" name="true"/>
             </options>
         </select>
     </fields>
