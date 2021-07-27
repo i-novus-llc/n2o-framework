@@ -1,6 +1,7 @@
 ---
 title: Поля ввода
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Компоненты ввода и вывода в полях виджета.
 
@@ -295,11 +296,11 @@ Java Script выражение
 
 **Пример**
 
-
-
 ```xml
 <input-text id="name" length="10" domain="string"/>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_fields_input" />
 
 ### &lt;auto-complete&gt;
 
@@ -327,6 +328,8 @@ Java Script выражение
      search-filter-id="surnameLike" tags="true"/>
 ```
 
+<Sandbox height={200} projectId="uxcomponents_fields_autocomplete" />
+
 ### &lt;input-money&gt;
 
 Компонент ввода денежных единиц
@@ -350,6 +353,8 @@ Java Script выражение
 </input-money>
 ```
 
+<Sandbox height={100} projectId="uxcomponents_fields_input_money" />
+
 ### &lt;password&gt;
 
 Компонент ввода пароля
@@ -365,6 +370,8 @@ Java Script выражение
 ```xml
 <password id="password" eye="true"/>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_fields_password" />
 
 ### &lt;output-text&gt;
 
@@ -385,6 +392,8 @@ Java Script выражение
 <output-text id="text" icon="fa fa-plus" position="left"
              type="iconAndText" format="number 0,0.00"/>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_output_fields_output_text" />
 
 ### &lt;output-list&gt;
 
@@ -407,6 +416,8 @@ Java Script выражение
 <output-list id="list" label-field-id="label" href-field-id="link"
              target="application" direction="row" separator=","/>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_output_fields_output_list" />
 
 ### &lt;image&gt;
 
@@ -435,6 +446,8 @@ Java Script выражение
     </statuses>
 </image>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_image_image" />
 
 ### &lt;statuses&gt;
 
@@ -482,6 +495,8 @@ place="topLeft"
 <masked-input id="phone" mask="+7 (999) 999-99-99"/>
 ```
 
+<Sandbox height={100} projectId="uxcomponents_fields_masked_input" />
+
 ### &lt;number-picker&gt;
 
 Компонент выбора числа из диапазона
@@ -500,6 +515,8 @@ place="topLeft"
 <number-picker id="count" min="2" max="10"/>
 ```
 
+<Sandbox height={100} projectId="uxcomponents_fields_number_picker" />
+
 ### &lt;checkbox&gt;
 
 Компонент ввода флажок
@@ -515,6 +532,8 @@ place="topLeft"
 ```xml
 <checkbox id="vip" unchecked="false"/>
 ```
+
+<Sandbox height={150} projectId="uxcomponents_checkbox_simple" />
 
 ### &lt;date-time&gt;
 
@@ -536,6 +555,8 @@ place="topLeft"
 <date-time id="date" date-format="DD.MM.YYYY" min="2018-01-01T08:00:00Z" utc="true"/>
 ```
 
+<Sandbox height={400} projectId="uxcomponents_date_time_date_time" />
+
 ### &lt;time-picker&gt;
 
 Компонент ввода времени
@@ -555,6 +576,8 @@ place="topLeft"
 ```xml
 <time-picker id="test1" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm"/>
 ```
+
+<Sandbox height={400} projectId="uxcomponents_date_time_time" />
 
 ### &lt;file-upload&gt;
 
@@ -588,6 +611,8 @@ place="topLeft"
              url-field-id="url" show-size="true"
              accept=".img,.png"/>
 ```
+
+<Sandbox height={150} projectId="uxcomponents_fields_file_upload" />
 
 ### &lt;image-upload&gt;
 
@@ -634,6 +659,8 @@ place="topLeft"
              accept=".img,.png"/>
 ```
 
+<Sandbox height={150} projectId="uxcomponents_image_image_upload" />
+
 ### &lt;text-area&gt;
 
 Компонент ввода многострочного текста
@@ -651,6 +678,8 @@ place="topLeft"
 <text-area id="comment" max-rows="10" placeholder="Введите свой комментарий"/>
 ```
 
+<Sandbox height={150} projectId="uxcomponents_fields_text_area" />
+
 ### &lt;text-editor&gt;
 
 Компонент редактирования текста
@@ -666,6 +695,8 @@ place="topLeft"
 ```xml
 <text-editor id="editor" toolbar-url="META-INF/resources/toolbar.json"/>
 ```
+
+<Sandbox height={150} projectId="uxcomponents_fields_text_editor" />
 
 ### &lt;code-editor&gt;
 
@@ -685,6 +716,8 @@ place="topLeft"
 <code-editor id="editor" language="java"/>
 ```
 
+<Sandbox height={150} projectId="uxcomponents_fields_code_editor" />
+
 ### &lt;text&gt;
 
 Компонент текста
@@ -700,6 +733,8 @@ place="topLeft"
 ```xml
 <text>Привет, {username}</text>
 ```
+
+<Sandbox height={150} projectId="uxcomponents_output_fields_text" />
 
 **Тело**
 
@@ -743,6 +778,8 @@ HTML разметка с плейсхолдерами
 </code>
 ```
 
+<Sandbox height={150} projectId="uxcomponents_output_fields_code_viewer" />
+
 **Тело**
 
 Программный код
@@ -764,6 +801,8 @@ HTML разметка с плейсхолдерами
 ```xml
  <rating max="5" show-tooltip="false" half="false"/>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_rating_rating" />
 
 ### &lt;field&gt;
 
@@ -822,6 +861,8 @@ HTML разметка с плейсхолдерами
 <slider id="percent" measure="%" min="0" max="100" step="5"/>
 ```
 
+<Sandbox height={100} projectId="uxcomponents_slider_slider" />
+
 ### &lt;alert&gt;
 
 Компонент вывода оповещения
@@ -843,6 +884,8 @@ HTML разметка с плейсхолдерами
     Что-то пошло не так
 </alert>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_alerts_simple" />
 
 **Тело**
 
@@ -869,6 +912,8 @@ HTML разметка с плейсхолдерами
 <progress id="progress" max="100" color="info"/>
 ```
 
+<Sandbox height={100} projectId="uxcomponents_progress_progress" />
+
 ### &lt;status&gt;
 
 Компонент отображения статуса
@@ -886,6 +931,8 @@ HTML разметка с плейсхолдерами
 ```xml
 <status id="status" color="success" text="Задача выполнена"/>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_fields_status" />
 
 ### &lt;hidden&gt;
 
@@ -1019,6 +1066,8 @@ HTML разметка с плейсхолдерами
 <select id="gender" label="Пол" query-id="genders" cleanable="false" />
 ```
 
+<Sandbox height={300} projectId="uxcomponents_select_select" />
+
 ### &lt;input-select&gt;
 
 Компонент ввода текста с выбором из выпадающего списка
@@ -1035,8 +1084,10 @@ HTML разметка с плейсхолдерами
 **Пример**
 
 ```xml
-<select id="gender" label="Пол" query-id="genders" type="single"/>
+<input-select id="gender" label="Пол" query-id="genders" type="single"/>
 ```
+
+<Sandbox height={300} projectId="uxcomponents_select_input_select" />
 
 ### &lt;select-tree&gt;
 
@@ -1067,6 +1118,8 @@ HTML разметка с плейсхолдерами
                    query-id="address" has-children-field-id="hasChildren" search-filter-id="name"/>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_select_tree_tree" />
+
 ### &lt;radio-group&gt;
 
 Компонент радио кнопок
@@ -1083,6 +1136,8 @@ HTML разметка с плейсхолдерами
 ```xml
 <radio-group id="gender" inline="false" type="default"/>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_radio_group_column" />
 
 ### &lt;checkbox-group&gt;
 
@@ -1101,6 +1156,8 @@ HTML разметка с плейсхолдерами
 ```xml
 <checkbox-group id="gender" inline="false" type="default"/>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_checkbox_group" />
 
 ### &lt;pills&gt;
 
@@ -1167,6 +1224,8 @@ HTML разметка с плейсхолдерами
 ```xml
 <date-interval id="interval" date-format="DD/MM/YYYY"/>
 ```
+
+<Sandbox height={400} projectId="uxcomponents_date_time_date_interval" />
 
 ### &lt;input-interval&gt;
 
