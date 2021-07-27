@@ -10,7 +10,6 @@ const factoryConfigShape = PropTypes.shape({
     fieldsets: PropTypes.objectOf(PropTypes.func),
     fields: PropTypes.objectOf(PropTypes.func),
     snippets: PropTypes.objectOf(PropTypes.func),
-    templates: PropTypes.objectOf(PropTypes.func),
     buttons: PropTypes.objectOf(PropTypes.element),
 })
 

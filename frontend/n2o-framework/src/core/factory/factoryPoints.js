@@ -10,5 +10,4 @@ export default [
     'actions',
     'snippets',
     'buttons',
-    'templates',
 ]
