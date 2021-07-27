@@ -3,13 +3,12 @@ import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
-import Footer from '../../../plugins/Footer/Footer'
-import SimpleHeader from '../../../plugins/Header/SimpleHeader/SimpleHeader'
+import { Factory } from '../../../core/factory/Factory'
+import { TEMPLATES } from '../../../core/factory/factoryLevels'
 
 import { layoutContainerClasses } from './utils'
 import { Layout as FullSizeSidebar } from './layout/FullSizeSidebar'
 import { Layout as FullSizeHeader } from './layout/FullSizeHeader'
-import { Sidebar } from './Sidebar'
 
 export function Page({
     children: content,
@@ -17,7 +16,6 @@ export function Page({
     header: headerProps,
     sidebar: sidebarProps,
     footer: footerProps,
-    ...rest
 }) {
     const [sidebarOpened, setSidebarOpened] = useState(false)
 
@@ -31,7 +29,8 @@ export function Page({
     const layoutClassName = layoutContainerClasses(headerProps, sidebarProps, fullSizeHeader, fixed, side)
 
     const sidebar = !isEmpty(sidebarProps) && (
-        <Sidebar
+        <Factory
+            level={TEMPLATES}
             {...sidebarProps}
             controlled={controlled}
             openSideBar={openSideBar}
@@ -40,9 +39,9 @@ export function Page({
             sidebarOpen={sidebarOpened}
         />
     )
-    const footer = !isEmpty(footerProps) && (<Footer {...footerProps} />)
+    const footer = !isEmpty(footerProps) && (<Factory {...footerProps} />)
     const header = !isEmpty(headerProps) && (
-        <SimpleHeader
+        <Factory
             toggleSidebar={toggleSidebar}
             sidebarOpen={sidebarOpened}
             {...headerProps}
