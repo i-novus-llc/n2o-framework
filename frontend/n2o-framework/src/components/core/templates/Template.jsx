@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 import { ConfigContainer } from '../../../plugins/Menu/MenuContainer'
 
-import { Page } from './Page'
+import { Layout } from './Layout'
 
 function Template({ children }) {
     return (
         <div className="application">
-            <ConfigContainer render={config => <Page {...config}>{children}</Page>} />
+            <ConfigContainer render={config => <Layout {...config}>{children}</Layout>} />
         </div>
     )
 }
