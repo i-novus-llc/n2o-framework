@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.alert;
 
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
@@ -29,6 +30,7 @@ public class AlertPositionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        ScriptProcessor.getScriptEngine();
     }
 
     @Override
