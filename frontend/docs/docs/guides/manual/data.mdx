@@ -1,6 +1,7 @@
 ---
 title: Связывание с данными
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 В N2O Framework визуальные компоненты связываются с данными через объекты и выборки.
 Объекты и выборки делегируют свои вызовы провайдерам данных.
@@ -31,7 +32,7 @@ title: Связывание с данными
 </object>
 ```
 
-[Подробнее об объектах](../xml/index.mdx#Object)
+[Подробнее об объектах](../xml/object)
 
 #### Операции объекта {#Object_operations}
 
@@ -60,7 +61,7 @@ title: Связывание с данными
 </operation>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_object_operations/)
+<Sandbox height={200} projectId="data_object_operations" />
 
 #### Валидации объекта
 
@@ -81,7 +82,7 @@ title: Связывание с данными
 </validations>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_object_validation_condition/)
+<Sandbox height={400} projectId="data_object_validation_condition" />
 
 Условия пишутся на языке JavaScript.
 
@@ -105,7 +106,7 @@ title: Связывание с данными
 </validations>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_object_validation_constraint/)
+<Sandbox height={300} projectId="data_object_validation_constraint" />
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для [провайдера](#Data_providers)
@@ -137,11 +138,11 @@ title: Связывание с данными
 За получение списка записей отвечает элемент `<list>`.
 За получение общего количества записей — элемент `<count>`.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_query_list/)
+<Sandbox height={500} projectId="data_query_list" />
 
 А за получение одной уникальной записи — `<unique>`.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_query_unique/)
+<Sandbox height={300} projectId="data_query_unique" />
 
 Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
 
@@ -151,7 +152,7 @@ title: Связывание с данными
 </list>
 ```
 
-[Подробнее о выборках](../xml/index.mdx#Query)
+[Подробнее о выборках](../xml/query)
 
 #### Поля выборки {#Selection_fields}
 
@@ -192,7 +193,7 @@ title: Связывание с данными
 <list>
 ```
 
-##### Фильтры выборки {#Selection_filters}
+#### Фильтры выборки {#Selection_filters}
 
 Фильтров у одного поля выборки может быть много.
 Различаются они по типу фильтрации.
@@ -225,7 +226,7 @@ __*Типы фильтраций*__
 </filters>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_query_list_filters/)
+<Sandbox height={700} projectId="data_query_list_filters" />
 
 Атрибут `filter-id` задаёт уникальный идентификатор фильтра,
 по которому можно определить поле выборки и тип фильтрации.
@@ -320,7 +321,7 @@ __*Настройки SQL провайдера*__
 Если необходимо подключиться к другой базе данных, то можно задать
 класс jdbc драйвера настройкой `n2o.engine.jdbc.driver-class-name`.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_sql/)
+<Sandbox height={400} projectId="data_providers_sql" />
 
 #### REST провайдер данных
 
@@ -358,7 +359,7 @@ REST провайдер выполняет http запросы к backend сер
 </operation>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_rest/)
+<Sandbox height={400} projectId="data_providers_rest" />
 
 #### Java провайдеры данных
 
@@ -556,7 +557,7 @@ __*Автоматическая генерация для mongodb провайд
 
 Доступны операции insertOne, updateOne, deleteOne, deleteMany, countDocuments.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_mongodb/)
+<Sandbox height={300} projectId="data_providers_mongodb" />
 
 
 ### Типы данных
@@ -627,7 +628,7 @@ integer[]
 
 Подобная связь называется биндингом.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_binding_simple/)
+<Sandbox height={200} projectId="data_binding_simple" />
 
 #### Биндинг составных полей
 
@@ -656,7 +657,7 @@ integer[]
 <field id="gender.id"/> <!-- 1 -->
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_binding_select/)
+<Sandbox height={200} projectId="data_binding_select" />
 
 #### Биндинг интервальных полей
 
@@ -686,8 +687,7 @@ integer[]
 <field id="period.end"/> <!-- 31.12.2018 00:00 -->
 ```
 
-
-[Пример](https://n2oapp.net/sandbox/editor/data_binding_interval/)
+<Sandbox height={350} projectId="data_binding_interval" />
 
 #### Биндинг полей множественного выбора
 
@@ -771,7 +771,7 @@ Java провайдеры используют тип параметров "ма
 </query>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_sql_mapping/)
+<Sandbox height={300} projectId="data_providers_sql_mapping" />
 
 ```xml title="Маппинг фильтров в rest провайдере"
 <query>
@@ -803,7 +803,7 @@ Java провайдеры используют тип параметров "ма
 </query>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_rest_mapping/)
+<Sandbox height={500} projectId="data_providers_rest_mapping" />
 
 ```xml title="Маппинг сортировки в mongodb провайдере"
 <query>
@@ -1443,7 +1443,7 @@ __*Модели виджета*__
 |edit      |Модель данных, в момент редактирования.            |Форма, открытая на редактирование, с изменёнными полями.          |
 
 На модель виджета ссылаются в зависимостях,
-например, при [предустановленной фильтрации](#pre-filters).
+например, при [предустановленной фильтрации](../xml/base#pre-filters).
 
 ```xml title="Ссылка на модель виджета в предустановленной фильтрации"
 <pre-filters>
@@ -1455,7 +1455,7 @@ __*Модели виджета*__
 </pre-filters>
 ```
 
-На модель виджета так же ссылаются в [действиях](#Buttons_and_Actions),
+На модель виджета так же ссылаются в [действиях](../xml/action),
 чтобы задать область данных, над которой происходит действие.
 
 ```xml title="Ссылка на модель виджета в действиях"
