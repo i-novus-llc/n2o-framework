@@ -68,8 +68,8 @@ public class DomainProcessor {
             String strValue = (String) value;
             if (strValue.isEmpty())
                 return null;
-            else if (strValue.startsWith("'") && strValue.endsWith("'")) {
-                value = strValue.substring(1, strValue.length() - 1);
+            if (StringUtils.isEscapedString(strValue)) {
+                value = StringUtils.unwrapEscapedString(strValue);
                 domain = Domain.STRING.getName();
             }
         }

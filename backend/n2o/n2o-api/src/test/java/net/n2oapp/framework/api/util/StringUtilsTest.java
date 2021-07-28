@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -61,9 +62,25 @@ public class StringUtilsTest {
 
     @Test
     public void unwrapLink() {
-        assert StringUtils.unwrapLink("{text}").equals("text");
-        assert StringUtils.unwrapLink("text") == null;
-        assert StringUtils.unwrapLink("`text`") == null;
+        assertThat(StringUtils.unwrapLink("{text}"), is("text"));
+        assertThat(StringUtils.unwrapLink("text"), nullValue());
+        assertThat(StringUtils.unwrapLink("`text`"), nullValue());
+    }
+
+    @Test
+    public void isEscapedString() {
+        assertThat(StringUtils.isEscapedString("'123'"), is(true));
+        assertThat(StringUtils.isEscapedString("''123''"), is(true));
+        assertThat(StringUtils.isEscapedString("'false'"), is(true));
+        assertThat(StringUtils.isEscapedString("false"), is(false));
+    }
+
+    @Test
+    public void unwrapEscapedString() {
+        assertThat(StringUtils.unwrapEscapedString("'true'"), is("true"));
+        assertThat(StringUtils.unwrapEscapedString("'''text'''"), is("''text''"));
+        assertThat(StringUtils.unwrapEscapedString("'123'"), is("123"));
+        assertThat(StringUtils.unwrapEscapedString("123"), is("123"));
     }
 
     @Test
