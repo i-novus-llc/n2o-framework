@@ -112,7 +112,7 @@ public abstract class StringUtils {
      * Примеры:
      * {@code
      *      isEscapedString("'true'");  //true
-     *      isEscapedString("'123'");   //false
+     *      isEscapedString("'123'");   //true
      *      isEscapedString("true");    //false
      * }
      * @param text Текст
