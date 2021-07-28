@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Сохранение и загрузка данных RouteRegister в БД
+ * Сохранение и загрузка данных RouteRegister в реляционную БД
  */
 public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, CompileContext> {
 

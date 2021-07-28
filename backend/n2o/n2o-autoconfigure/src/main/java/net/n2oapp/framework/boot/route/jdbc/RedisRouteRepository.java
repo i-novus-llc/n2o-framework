@@ -14,6 +14,9 @@ import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Сохранение и загрузка данных RouteRegister в Redis (key-value) БД
+ */
 public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, CompileContext> {
 
     private static final Logger logger = LoggerFactory.getLogger(JDBCRouteRepository.class);
@@ -21,7 +24,7 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Value("${n2o.config.register.redis.hash-key:routes}")
+    @Value("${n2o.config.register.hash.key:routes}")
     private String HASH_KEY;
 
     private HashOperations<String, String, CompileContext> hashOperations;
