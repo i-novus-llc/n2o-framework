@@ -30,7 +30,7 @@ public class N2oRouteRepositoryAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnClass(RedisTemplate.class)
-    @ConditionalOnProperty(name = "n2o.config.register.store-type", havingValue = "hash")
+    @ConditionalOnProperty(name = "n2o.config.register.store-type", havingValue = "redis")
     public ConfigRepository<RouteInfoKey, CompileContext> redisRouteRepository() {
         return new RedisRouteRepository();
     }

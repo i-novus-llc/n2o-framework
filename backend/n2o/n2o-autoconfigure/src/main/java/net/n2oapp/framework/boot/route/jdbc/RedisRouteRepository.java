@@ -24,7 +24,7 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Value("${n2o.config.register.hash.key:routes}")
+    @Value("${n2o.config.register.redis.key:routes}")
     private String HASH_KEY;
 
     private HashOperations<String, String, CompileContext> hashOperations;

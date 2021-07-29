@@ -287,7 +287,7 @@ http://localhost:8080/n2o/data/persons?name_like=Joe
 http://localhost:8080/n2o/data/persons?sorting_name=asc
 ```
 
-### Репликация маршрутизации с использованием БД
+### Репликация маршрутизации
 
 #### Репликации роутов через jdbc
 
@@ -306,8 +306,8 @@ context binary
 
 4. Для автоматического создания таблицы при старте сервиса необходимо задать настройку `n2o.config.register.jdbc.create-table=true`.
 
-#### Репликации роутов через in-memory хэш (redis)
+#### Репликации роутов через Redis
 
-1. Задайте настройку `n2o.config.register.store-type=hash`.
+1. Задайте настройку `n2o.config.register.store-type=redis.
 2. Настройте RedisTemplate.
-3. Для изменения ключа, по которому будут сохраняться пути, необходимо задать настройку `n2o.config.register.hash.key=routes`.
+3. Для изменения ключа, по которому будут сохраняться пути, необходимо задать настройку `n2o.config.register.redis.key=routes`.
