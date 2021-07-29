@@ -4,3 +4,9 @@
     justify-content: space-between;
     width: 100%;
 }
+
+.modal-dialog {
+    .btn-group > div {
+        margin-right: 0;
+    }
+}

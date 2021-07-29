@@ -10,16 +10,12 @@ import some from 'lodash/some'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
-import reduce from 'lodash/reduce'
-import forOwn from 'lodash/forOwn'
-import every from 'lodash/every'
 import flattenDeep from 'lodash/flattenDeep'
 import isArray from 'lodash/isArray'
 import findIndex from 'lodash/findIndex'
 import values from 'lodash/values'
 import eq from 'lodash/eq'
 import get from 'lodash/get'
-import omit from 'lodash/omit'
 
 import propsResolver from '../../../utils/propsResolver'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
@@ -98,7 +94,7 @@ class AdvancedTable extends Component {
             data: props.data || [],
             expandedRowKeys: [],
             columns: [],
-            checked: props.data ? this.mapChecked(props.data) : {},
+            checked: props.data && !isEmpty(props.multi) ? this.mapChecked(props.multi) : {},
             children: get(props, 'children', 'collapse'),
         }
 
@@ -177,19 +173,7 @@ class AdvancedTable extends Component {
             !isEmpty(filters) &&
             rowSelection === 'checkbox'
         ) {
-            const newMulti = reduce(
-                data,
-                (acc, model) => {
-                    if (get(checked, model.id)) {
-                        acc[model.id] = model
-                    }
-
-                    return acc
-                },
-                {},
-            )
-
-            onSetSelection(newMulti)
+            onSetSelection(data.filter(model => checked[model.id]))
         }
 
         if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
@@ -213,7 +197,7 @@ class AdvancedTable extends Component {
                 this.closeAllRows()
             }
             if (data && !isEqual(prevProps.data, data)) {
-                const checked = this.mapChecked(data, multi)
+                const checked = this.mapChecked(multi)
 
                 state = {
                     data: isArray(data) ? data : [data],
@@ -239,7 +223,7 @@ class AdvancedTable extends Component {
         }
 
         if (
-            !isEqual(prevState.checked, checked) &&
+            (!isEqual(prevState.checked, checked) || !isEqual(data, prevProps.data)) &&
             rowSelection === rowSelectionType.CHECKBOX
         ) {
             // eslint-disable-next-line react/no-find-dom-node
@@ -247,8 +231,8 @@ class AdvancedTable extends Component {
                 this.selectAllCheckbox,
             ).querySelector('input')
 
-            const isSomeOneChecked = some(checked, i => i)
-            const isAllChecked = every(checked, i => i)
+            const isSomeOneChecked = data.some(item => checked[item.id])
+            const isAllChecked = data.every(item => checked[item.id])
 
             selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked
             selectAllCheckbox.checked = isAllChecked
@@ -262,7 +246,7 @@ class AdvancedTable extends Component {
             !isEqual(resolveModel, prevProps.resolveModel) &&
             autoFocus
         ) {
-            this.setState({ checked: { [resolveModel.id]: true } })
+            this.setState({ checked: { [resolveModel.id]: resolveModel } })
         }
     }
 
@@ -291,11 +275,11 @@ class AdvancedTable extends Component {
         }
     }
 
-    mapChecked = (data, multi) => {
+    mapChecked = (multi = []) => {
         const checked = {}
 
-        map(data, (item) => {
-            checked[item.id] = (multi && multi[item.id]) || false
+        multi.forEach((item) => {
+            checked[item.id] = item
         })
 
         return checked
@@ -383,7 +367,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    handleRowClick(id, index, needReturn, noResolve) {
+    handleRowClick(id, needReturn, noResolve, model) {
         const {
             hasFocus,
             hasSelect,
@@ -400,7 +384,7 @@ class AdvancedTable extends Component {
 
         if (needToReturn) { return }
 
-        if (rowSelection === rowSelectionType.RADIO) { this.handleChangeRadioChecked(index) }
+        if (rowSelection === rowSelectionType.RADIO) { this.handleChangeRadioChecked(model) }
 
         if (!noResolve && hasSelect && hasFocus) {
             this.setSelectAndFocus(id, id)
@@ -411,7 +395,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    handleRowClickWithAction(id, index, needReturn, noResolve, model) {
+    handleRowClickWithAction(id, needReturn, noResolve, model) {
         const {
             hasFocus,
             hasSelect,
@@ -439,7 +423,7 @@ class AdvancedTable extends Component {
             onRowClickAction(model)
         }
 
-        if (rowSelection === rowSelectionType.RADIO) { this.handleChangeRadioChecked(index) }
+        if (rowSelection === rowSelectionType.RADIO) { this.handleChangeRadioChecked(model) }
 
         if (needToReturn) { return }
 
@@ -503,77 +487,51 @@ class AdvancedTable extends Component {
     }
 
     checkAll = (status) => {
-        const { onSetSelection, multi, data } = this.props
+        const { onSetSelection, data } = this.props
         const { checked } = this.state
-        const newChecked = {}
-        let newMulti = multi || []
+        const newChecked = { ...checked }
 
-        if (!status) {
-            forOwn(data, ({ id }) => {
-                newMulti = omit(newMulti, id)
-            })
-        } else {
-            forOwn(data, (value) => {
-                newMulti = { ...newMulti, ...{ [value.id]: value } }
-            })
-        }
-        onSetSelection(newMulti)
-        forOwn(Object.keys(checked), (value) => {
-            newChecked[value] = status
+        data.forEach((item) => {
+            if (status) {
+                newChecked[item.id] = item
+            } else {
+                delete newChecked[item.id]
+            }
         })
+        onSetSelection(Object.values(newChecked))
         this.setState(() => ({
             checked: newChecked,
         }))
     }
 
-    handleChangeChecked = (index) => {
-        const { onSetSelection, data, multi } = this.props
+    handleChangeChecked = (model) => {
+        const index = model.id
+        const { onSetSelection } = this.props
         const { checked } = this.state
-        let newMulti = multi || []
-        let checkedState = {
-            ...checked,
-        }
+        const newChecked = { ...checked }
 
-        if (newMulti[index]) {
-            newMulti = omit(newMulti, index)
-            checkedState[index] = false
+        if (checked[index]) {
+            delete newChecked[index]
         } else {
-            checkedState = {
-                ...checked,
-                [index]: !checked[index],
-            }
-            let item = null
-
-            forOwn(checkedState, (value, key) => {
-                if (value) {
-                    item = find(data, i => get(i, 'id').toString() === key.toString()) || {}
-                    const itemId = get(item, 'id')
-
-                    if (itemId) { newMulti = { ...newMulti, ...{ [itemId]: item } } }
-                }
-            })
+            newChecked[index] = model
         }
-        onSetSelection(newMulti)
+
+        onSetSelection(Object.values(newChecked))
         this.setState(() => ({
-            checked: checkedState,
+            checked: newChecked,
         }))
     }
 
-    handleChangeRadioChecked(index) {
-        const { rowSelection, onSetSelection, data } = this.props
+    handleChangeRadioChecked(model) {
+        const { rowSelection, onSetSelection } = this.props
 
         if (rowSelection !== rowSelectionType.RADIO) { return }
-        const checkedState = {
-            [index]: true,
-        }
-        const id = findIndex(data, i => get(i, 'id') === index)
-        const newMulti = {
-            [index]: data[id],
-        }
 
-        onSetSelection(newMulti)
+        onSetSelection([model])
         this.setState(() => ({
-            checked: checkedState,
+            checked: {
+                [model.id]: model,
+            },
         }))
     }
 
@@ -620,17 +578,17 @@ class AdvancedTable extends Component {
             model,
             setRef: this.setRowRef,
             handleRowClick: () => {
-                this.handleRowClick(model.id, model.id, false, false)
+                this.handleRowClick(model.id, false, false, model)
                 if (
                     autoCheckboxOnSelect &&
                     rowSelection === rowSelectionType.CHECKBOX
                 ) {
-                    this.handleChangeChecked(model.id)
+                    this.handleChangeChecked(model)
                 }
             },
-            handleRowClickFocus: () => this.handleRowClick(model.id, model.id, true, false),
-            clickWithAction: () => this.handleRowClickWithAction(model.id, model.id, false, false, model),
-            clickFocusWithAction: () => this.handleRowClickWithAction(model.id, model.id, true, true, model),
+            handleRowClickFocus: () => this.handleRowClick(model.id, true, false, model),
+            clickWithAction: () => this.handleRowClickWithAction(model.id, false, false, model),
+            clickFocusWithAction: () => this.handleRowClickWithAction(model.id, true, true, model),
         }
     }
 
@@ -660,8 +618,8 @@ class AdvancedTable extends Component {
                         <CheckboxN2O
                             className="n2o-advanced-table-row-checkbox"
                             inline
-                            checked={checked[model.id]}
-                            onChange={() => this.handleChangeChecked(model.id)}
+                            checked={!!checked[model.id]}
+                            onChange={() => this.handleChangeChecked(model)}
                         />
                     )
                 }
@@ -670,9 +628,9 @@ class AdvancedTable extends Component {
                         <InputRadio
                             className="n2o-advanced-table-row-radio"
                             inline
-                            checked={checked[model.id]}
+                            checked={!!checked[model.id]}
                             value={model.id}
-                            onChange={() => this.handleChangeRadioChecked(model.id)}
+                            onChange={() => this.handleChangeRadioChecked(model)}
                         />
                     )
                 }
@@ -826,7 +784,7 @@ AdvancedTable.propTypes = {
     isActive: PropTypes.bool,
     isAnyTableFocused: PropTypes.bool,
     hasSelect: PropTypes.bool,
-    multi: PropTypes.any,
+    multi: PropTypes.array,
     setSelectionType: PropTypes.func,
     onRowClickAction: PropTypes.func,
     onResolve: PropTypes.func,

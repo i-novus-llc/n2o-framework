@@ -242,7 +242,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelType.AUTO.equals(disableOnEmptyModel) &&
-                ReduxModel.RESOLVE.equals(source.getModel()) &&
+                (ReduxModel.RESOLVE.equals(source.getModel()) || ReduxModel.MULTI.equals(source.getModel())) &&
                 parentIsNotCell;
 
         if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {

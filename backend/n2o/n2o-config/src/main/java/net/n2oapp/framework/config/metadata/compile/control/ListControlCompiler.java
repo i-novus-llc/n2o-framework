@@ -76,10 +76,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             String id = control.getId() + ".id";
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
             if (modelsScope != null) {
-                ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
-                onSet.setParam(source.getParam());
-                onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
-                onSet.setValue("`id`");
+                ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
                 ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);
@@ -87,6 +84,14 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                     modelsScope.add(control.getId(), onSet);
             }
         }
+    }
+
+    protected ModelLink compileLinkOnSet(StandardField<T> control, S source, ModelsScope modelsScope) {
+        ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
+        onSet.setParam(source.getParam());
+        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
+        onSet.setValue("`id`");
+        return onSet;
     }
 
     protected StandardField<T> compileFetchDependencies(StandardField<T> field, S source, CompileProcessor p) {
@@ -116,7 +121,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             scope.add(createSubModel(source, data));
     }
 
-    private SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data) {
+    protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data) {
         return new SubModelQuery(
                 item.getId(),
                 item.getQueryId(),

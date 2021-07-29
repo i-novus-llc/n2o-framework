@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.validation.field;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
@@ -30,6 +31,7 @@ public class InvisibleFieldValidationAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        ScriptProcessor.getScriptEngine();
     }
 
     @Override

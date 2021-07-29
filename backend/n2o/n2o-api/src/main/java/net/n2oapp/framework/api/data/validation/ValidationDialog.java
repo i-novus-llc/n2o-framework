@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.data.validation;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
@@ -33,7 +33,7 @@ public class ValidationDialog extends InvocationValidation {
             if (getOutParametersList() != null)
                 for (ObjectSimpleField parameter : getOutParametersList())
                     outMapping.put(parameter.getId(), parameter.getMapping());
-            result = DataSetMapper.extract(dataSet, outMapping);
+            result = DataSetUtil.extract(dataSet, outMapping);
         }
 
         if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM))

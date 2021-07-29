@@ -12,6 +12,12 @@
     border-bottom: none;
 }
 
+.modal-dialog {
+    .modal-page-overlay--border-bottom-none {
+        border-bottom: 1px solid #90a4ae;
+    }
+}
+
 .modal-page-overlay--border-top-none {
     border-top: none;
 }

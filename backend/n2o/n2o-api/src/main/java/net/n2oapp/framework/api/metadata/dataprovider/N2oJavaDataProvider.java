@@ -16,11 +16,6 @@ public class N2oJavaDataProvider extends AbstractDataProvider implements N2oArgu
     private Argument[] arguments;
     private DIProvider diProvider;
 
-    @Override
-    public Argument[] getArguments() {
-        return arguments;
-    }
-
     public void setSpringProvider(SpringProvider spring) {
         if (getDiProvider() == null || spring != null)
             setDiProvider(spring);
