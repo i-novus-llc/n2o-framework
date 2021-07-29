@@ -53,12 +53,8 @@ public class RedisRouteRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        try {
-            redisServer = RedisServer.builder().port(appPort).build();
-            redisServer.start();
-        } catch (Exception e) {
-            //do nothing
-        }
+        redisServer = RedisServer.builder().port(appPort).build();
+        redisServer.start();
     }
 
     @AfterEach
