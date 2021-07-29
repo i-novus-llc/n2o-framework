@@ -9,11 +9,7 @@
                     <option id="2" name="Женский"/>
                 </options>
             </radio-group>
-            <input-text id="maiden" label="Девичья фамилия">
-                <dependencies>
-                    <visibility on="gender">gender.id==2</visibility>
-                </dependencies>
-            </input-text>
+            <input-text id="maiden" label="Девичья фамилия" visible="{gender.id==2}"/>
         </fields>
     </form>
 </simple-page>
