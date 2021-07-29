@@ -8,6 +8,16 @@ import FormPlugin from './FormPlugin'
 
 const initialState = FormPlugin.defaultState
 
+// eslint-disable-next-line no-console
+const warnNonExistent = (field, property) => console.warn(`Attempt to change "${property}" a non-existent field "${field}"`)
+
+/*
+ * TODO выделить filedset'ы нормально в редакс и убрать поля:
+ *  disabled_field, disabled_set, visible_field, visible_set
+ *  которые нужны для отключения и скрытия полей в зависимсти от филдсетов и нормального возвращения к предыдущему состоянию
+ */
+
+/* eslint-disable consistent-return */
 const formSlice = createSlice({
     name: 'n2o/formPlugin',
     initialState,
@@ -76,15 +86,12 @@ const formSlice = createSlice({
              */
             reducer(state, action) {
                 const { name } = action.payload
+                const field = state.registeredFields[name]
 
-                if (!state.registeredFields[name]) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Attempt to disable a non-existent field "${name}"`)
+                if (!field) { return warnNonExistent(name, 'disabled') }
 
-                    return
-                }
-
-                state.registeredFields[name].disabled = true
+                field.disabled_field = true
+                field.disabled = field.disabled_field || field.disabled_set
             },
         },
 
@@ -111,8 +118,12 @@ const formSlice = createSlice({
              */
             reducer(state, action) {
                 const { name } = action.payload
+                const field = state.registeredFields[name]
 
-                state.registeredFields[name].disabled = false
+                if (!field) { return warnNonExistent(name, 'disabled') }
+
+                field.disabled_field = false
+                field.disabled = field.disabled_field || field.disabled_set
             },
         },
 
@@ -139,8 +150,12 @@ const formSlice = createSlice({
              */
             reducer(state, action) {
                 const { name } = action.payload
+                const field = state.registeredFields[name]
 
-                state.registeredFields[name].visible = true
+                if (!field) { return warnNonExistent(name, 'visible') }
+
+                field.visible_field = true
+                field.visible = field.visible_field && field.visible_set
             },
         },
 
@@ -167,15 +182,12 @@ const formSlice = createSlice({
              */
             reducer(state, action) {
                 const { name } = action.payload
+                const field = state.registeredFields[name]
 
-                if (!state.registeredFields[name]) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Attempt to hide a non-existent field "${name}"`)
+                if (!field) { return warnNonExistent(name, 'visible') }
 
-                    return
-                }
-
-                state.registeredFields[name].visible = false
+                field.visible_field = false
+                field.visible = field.visible_field && field.visible_set
             },
         },
 
@@ -408,16 +420,10 @@ const formSlice = createSlice({
                 names.forEach((key) => {
                     const field = state.registeredFields[key]
 
-                    // показываем поля только если у них нет своего условия на видимость
-                    if (field) {
-                        if (
-                            field.dependency &&
-                            field.dependency.some(({ type }) => type === 'visible')
-                        ) {
-                            return
-                        }
-                        field.visible = true
-                    }
+                    if (!field) { return warnNonExistent(key, 'visible') }
+
+                    field.visible_set = true
+                    field.visible = field.visible_field && field.visible_set
                 })
             },
         },
@@ -449,9 +455,10 @@ const formSlice = createSlice({
                 names.forEach((key) => {
                     const field = state.registeredFields[key]
 
-                    if (field) {
-                        field.visible = false
-                    }
+                    if (!field) { return warnNonExistent(key, 'visible') }
+
+                    field.visible_set = false
+                    field.visible = field.visible_field && field.visible_set
                 })
             },
         },
@@ -481,14 +488,12 @@ const formSlice = createSlice({
                 const { names } = action.payload
 
                 names.forEach((name) => {
-                    if (!state.registeredFields[name]) {
-                        // eslint-disable-next-line no-console
-                        console.warn(`Attempt to disable a non-existent field "${name}"`)
+                    const field = state.registeredFields[name]
 
-                        return
-                    }
+                    if (!field) { return warnNonExistent(name, 'disabled') }
 
-                    state.registeredFields[name].disabled = true
+                    field.disabled_set = true
+                    field.disabled = field.disabled_field || field.disabled_set
                 })
             },
         },
@@ -520,14 +525,10 @@ const formSlice = createSlice({
                 names.forEach((key) => {
                     const field = state.registeredFields[key]
 
-                    // поля доступны только если у них нет своего условия на доступность
-                    if (
-                        field.dependency &&
-                        field.dependency.some(({ type }) => type === 'enabled')
-                    ) {
-                        return
-                    }
-                    field.disabled = false
+                    if (!field) { return warnNonExistent(key, 'disabled') }
+
+                    field.disabled_set = false
+                    field.disabled = field.disabled_field || field.disabled_set
                 })
             },
         },
