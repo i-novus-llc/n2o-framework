@@ -42,10 +42,14 @@ const ACTION_TYPES = [
     SET_LOADING,
 ]
 
-const defaultState = {
+export const defaultState = {
     isInit: true,
     visible: true,
+    visible_field: true,
+    visible_set: true,
     disabled: false,
+    disabled_field: false,
+    disabled_set: false,
     message: null,
     filter: [],
     dependency: null,
@@ -53,10 +57,14 @@ const defaultState = {
     loading: false,
 }
 
+// eslint-disable-next-line no-console
+const warnNonExistent = (field, property) => console.warn(`Attempt to change "${property}" a non-existent field "${field}"`)
+
 /**
  * Редюсер удаления/добваления алертов
  * @ignore
  */
+/* eslint-disable consistent-return */
 // eslint-disable-next-line complexity
 export const formPlugin = produce((state, { type, payload, meta }) => {
     if (ACTION_TYPES.includes(type)) {
@@ -73,23 +81,47 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
             break
         }
 
-        case DISABLE_FIELD:
-            state.registeredFields[payload.name].disabled = true
+        case DISABLE_FIELD: {
+            const { name } = payload
+            const field = state.registeredFields[name]
+
+            if (!field) { return warnNonExistent(name, 'disabled') }
+
+            field.disabled_field = true
+            field.disabled = field.disabled_field || field.disabled_set
 
             break
+        }
+        case ENABLE_FIELD: {
+            const { name } = payload
+            const field = state.registeredFields[name]
 
-        case ENABLE_FIELD:
-            state.registeredFields[payload.name].disabled = false
+            if (!field) { return warnNonExistent(name, 'disabled') }
+
+            field.disabled_field = false
+            field.disabled = field.disabled_field || field.disabled_set
 
             break
-
+        }
         case SHOW_FIELD: {
-            state.registeredFields[payload.name].visible = true
+            const { name } = payload
+            const field = state.registeredFields[name]
+
+            if (!field) { return warnNonExistent(name, 'visible') }
+
+            field.visible_field = true
+            field.visible = field.visible_field && field.visible_set
 
             break
         }
         case HIDE_FIELD: {
-            state.registeredFields[payload.name].visible = false
+            const { name } = payload
+            const field = state.registeredFields[name]
+
+            if (!field) { return warnNonExistent(name, 'visible') }
+
+            field.visible_field = false
+            field.visible = field.visible_field && field.visible_set
 
             break
         }
@@ -140,16 +172,10 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
 
-                // показываем поля только если у них нет своего условия на видимость
-                if (field) {
-                    if (
-                        field.dependency &&
-                        field.dependency.some(({ type }) => type === 'visible')
-                    ) {
-                        return
-                    }
-                    field.visible = true
-                }
+                if (!field) { return warnNonExistent(name, 'visible') }
+
+                field.visible_set = true
+                field.visible = field.visible_field && field.visible_set
             })
 
             break
@@ -159,14 +185,10 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
 
-                if (!field) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Attempt to hide a non-existent field "${name}"`)
-                }
+                if (!field) { return warnNonExistent(name, 'visible') }
 
-                if (field) {
-                    field.visible = false
-                }
+                field.visible_set = false
+                field.visible = field.visible_field && field.visible_set
             })
 
             break
@@ -174,14 +196,12 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
 
         case DISABLE_FIELDS: {
             payload.names.forEach((name) => {
-                if (!state.registeredFields[name]) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Attempt to disable a non-existent field "${name}"`)
+                const field = state.registeredFields[name]
 
-                    return
-                }
+                if (!field) { return warnNonExistent(name, 'disabled') }
 
-                state.registeredFields[name].disabled = true
+                field.disabled_set = true
+                field.disabled = field.disabled_field || field.disabled_set
             })
 
             break
@@ -191,14 +211,10 @@ export const formPlugin = produce((state, { type, payload, meta }) => {
             payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
 
-                // поля доступны только если у них нет своего условия на доступность
-                if (
-                    field.dependency &&
-                    field.dependency.some(({ type }) => type === 'enabled')
-                ) {
-                    return
-                }
-                field.disabled = false
+                if (!field) { return warnNonExistent(name, 'disabled') }
+
+                field.disabled_set = false
+                field.disabled = field.disabled_field || field.disabled_set
             })
 
             break

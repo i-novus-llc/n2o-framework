@@ -13,7 +13,7 @@ import {
     SET_LOADING,
 } from '../constants/formPlugin'
 
-import formPlugin from './formPlugin'
+import formPlugin, { defaultState } from './formPlugin'
 
 describe('Тесты formPlugin reducer', () => {
     it('Проверка DISABLE_FIELD', () => {
@@ -22,14 +22,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -43,14 +36,9 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
+                    ...defaultState,
                     disabled: true,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    disabled_field: true
                 },
             },
         })
@@ -62,14 +50,9 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
+                            disabled: true,
+                            disabled_field: true
                         },
                     },
                 },
@@ -83,14 +66,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    ...defaultState,
                 },
             },
         })
@@ -102,14 +78,9 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
+                            visible: false,
+                            visible_field: false,
                         },
                     },
                 },
@@ -123,14 +94,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    ...defaultState,
                 },
             },
         })
@@ -142,14 +106,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -163,14 +120,9 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
+                    ...defaultState,
                     visible: false,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    visible_field: false,
                 },
             },
         })
@@ -182,14 +134,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -204,16 +149,10 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
+                    ...defaultState,
                     message: {
                         0: 'message',
-                    },
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    }
                 },
             },
         })
@@ -225,14 +164,10 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
+                            message: {
+                                0: 'message',
+                            }
                         },
                     },
                 },
@@ -247,14 +182,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    ...defaultState,
                 },
             },
         })
@@ -266,14 +194,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -291,14 +212,9 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: true,
-                    filter: [],
-                    isInit: true,
-                    message: null,
+                    ...defaultState,
                     visible: false,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    disabled: true,
                 },
             },
         })
@@ -310,14 +226,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -332,14 +241,8 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    required: false,
+                    ...defaultState,
                     dependency: 'dependency',
-                    loading: false,
                 },
             },
         })
@@ -351,14 +254,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -377,13 +273,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    dependency: null,
-                    required: false,
-                    disabled: false,
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    loading: false,
+                    ...defaultState,
                     filter: [
                         {
                             'filter.name': 'Oleg',
@@ -394,20 +284,13 @@ describe('Тесты formPlugin reducer', () => {
         })
     })
 
-    it('Проверка SHOW_FIELD', () => {
+    it('Проверка SET_REQUIRED', () => {
         expect(
             formPlugin(
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -421,14 +304,8 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
+                    ...defaultState,
                     required: true,
-                    loading: false,
                 },
             },
         })
@@ -440,14 +317,8 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
+                            ...defaultState,
                             required: false,
-                            loading: false,
                         },
                     },
                 },
@@ -461,14 +332,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    ...defaultState,
                 },
             },
         })
@@ -479,14 +343,8 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         'testName.id': {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
+                            visible: false,
                         },
                     },
                 },
@@ -500,14 +358,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 'testName.id': {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
-                    loading: false,
+                    ...defaultState,
                 },
             },
         })
@@ -518,14 +369,7 @@ describe('Тесты formPlugin reducer', () => {
                 {
                     registeredFields: {
                         testName: {
-                            isInit: true,
-                            visible: true,
-                            disabled: false,
-                            message: null,
-                            filter: [],
-                            dependency: null,
-                            required: false,
-                            loading: false,
+                            ...defaultState,
                         },
                     },
                 },
@@ -541,13 +385,7 @@ describe('Тесты formPlugin reducer', () => {
         ).toEqual({
             registeredFields: {
                 testName: {
-                    disabled: false,
-                    filter: [],
-                    isInit: true,
-                    message: null,
-                    visible: true,
-                    dependency: null,
-                    required: false,
+                    ...defaultState,
                     loading: true,
                 },
             },

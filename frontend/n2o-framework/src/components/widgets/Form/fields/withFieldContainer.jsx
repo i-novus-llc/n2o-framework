@@ -71,7 +71,9 @@ export default (Field) => {
             if (!isInit) {
                 registerFieldExtra(form, name, {
                     visible: visibleToRegister,
+                    visible_field: visibleToRegister,
                     disabled: disabledToRegister,
+                    disabled_field: disabledToRegister,
                     dependency: this.modifyDependency(dependency, parentIndex),
                     required: requiredToRegister,
                     validation,

@@ -32,8 +32,12 @@ const mockData = {
     fields: {
         field1: {
             name: 'field1',
+            visible_set: true,
+            visible_field: true,
             visible: true,
             disabled: false,
+            disabled_set: false,
+            disabled_field: false,
             dependency: [
                 {
                     applyOnInit: true,
@@ -182,7 +186,9 @@ describe('Тестирование саги', () => {
         expect(gen.next().done).toBe(true)
         set(mockData, 'values.field2', 'test')
         gen = setupModify(mockData)
-        expect(gen.next().value).toBe(undefined)
+        expect(gen.next().value).toEqual(
+            put(showField(mockData.formName, mockData.fields.field1.name))
+        )
         expect(gen.next().done).toBe(true)
     })
     it('Проверка модификатора enabled зависимости', () => {
@@ -196,7 +202,9 @@ describe('Тестирование саги', () => {
         expect(gen.next().done).toBe(true)
         set(mockData, 'values.field2', 'test')
         gen = setupModify(mockData)
-        expect(gen.next().value).toEqual(undefined)
+        expect(gen.next().value).toEqual(
+            put(enableField(mockData.formName, mockData.fields.field1.name))
+        )
         expect(gen.next().done).toBe(true)
     })
     it('Проверка модификатора setValue зависимости', () => {
@@ -237,7 +245,7 @@ describe('Тестирование саги', () => {
 describe('Тестирование редюсера', () => {
     const initialState = {
         registeredFields: {
-            field1: pick(mockData.fields.field1, ['name', 'visible', 'disabled']),
+            field1: mockData.fields.field1,
         },
     }
     it('Тестирование регистрации зависимости', () => {
@@ -263,7 +271,7 @@ describe('Тестирование редюсера', () => {
             ),
         ).toBe(false)
     })
-    it('Тестирование экшенов блокировки', () => {
+    it('Тестирование экшенов видимости', () => {
         expect(
             get(
                 formPluginReducer(initialState, actions[2]),
