@@ -57,6 +57,8 @@ describe('withFieldContainer', () => {
                 disabled: true,
                 dependency: 'test',
                 required: true,
+                visible_field: true,
+                disabled_field: true,
             }),
         )
     })
