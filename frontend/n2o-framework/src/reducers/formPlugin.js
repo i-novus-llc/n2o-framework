@@ -1,4 +1,3 @@
-import reduce from 'lodash/reduce'
 import has from 'lodash/has'
 import set from 'lodash/set'
 import get from 'lodash/get'
@@ -24,29 +23,20 @@ import {
     SET_LOADING,
 } from '../constants/formPlugin'
 
-const defaultState = {
+export const defaultState = {
     isInit: true,
     visible: true,
+    visible_field: true,
+    visible_set: true,
     disabled: false,
+    disabled_field: false,
+    disabled_set: false,
     message: null,
     filter: [],
     dependency: null,
     required: false,
     loading: false,
 }
-
-const setValueByNames = (state, names, props) => ({
-
-    ...state,
-    ...reduce(
-        names,
-        (result, name) => ({
-            ...result,
-            [name]: { ...state[name], ...props },
-        }),
-        {},
-    ),
-})
 
 function resolve(state = defaultState, action) {
     switch (action.type) {
@@ -56,14 +46,6 @@ function resolve(state = defaultState, action) {
                 ...state,
                 ...merge(defaultState, action.payload.initialState || {}),
             }
-        case DISABLE_FIELD:
-            return { ...state, disabled: true }
-        case ENABLE_FIELD:
-            return { ...state, disabled: false }
-        case SHOW_FIELD:
-            return { ...state, visible: true }
-        case HIDE_FIELD:
-            return { ...state, visible: false }
         case ADD_FIELD_MESSAGE:
             return { ...state, message: { ...action.payload.message } }
         case REMOVE_FIELD_MESSAGE:
@@ -75,14 +57,6 @@ function resolve(state = defaultState, action) {
                 filter: state.filter
                     .filter(f => f.filterId !== action.payload.filter.filterId)
                     .concat(action.payload.filter) }
-        case SHOW_FIELDS:
-            return setValueByNames(state, action.payload.names, { visible: true })
-        case DISABLE_FIELDS:
-            return setValueByNames(state, action.payload.names, { disabled: true })
-        case ENABLE_FIELDS:
-            return setValueByNames(state, action.payload.names, { disabled: false })
-        case HIDE_FIELDS:
-            return setValueByNames(state, action.payload.names, { visible: false })
         case SET_REQUIRED:
             return { ...state, required: true }
         case UNSET_REQUIRED:
@@ -117,19 +91,19 @@ export function resolveChange(state, { payload, meta }) {
     return newState
 }
 
+// eslint-disable-next-line no-console
+const warnNonExistent = (field, property) => console.warn(`Attempt to change "${property}" a non-existent field "${field}"`)
+
 /**
  * Редюсер удаления/добваления алертов
  * @ignore
  */
+/* eslint-disable consistent-return */
 // eslint-disable-next-line consistent-return
 export default function formPlugin(state = {}, action) {
     // ToDo: Переписать
     switch (action.type) {
         case REGISTER_FIELD_EXTRA:
-        case DISABLE_FIELD:
-        case ENABLE_FIELD:
-        case SHOW_FIELD:
-        case HIDE_FIELD:
         case ADD_FIELD_MESSAGE:
         case REMOVE_FIELD_MESSAGE:
         case REGISTER_DEPENDENCY:
@@ -142,29 +116,49 @@ export default function formPlugin(state = {}, action) {
                 ['registeredFields', action.payload.name],
                 resolve(get(state, ['registeredFields', action.payload.name]), action),
             )
-        case DISABLE_FIELDS:
-        case HIDE_FIELDS:
-            return set(
-                state,
-                'registeredFields',
-                resolve(get(state, 'registeredFields'), action),
-            )
         case actionTypes.CHANGE:
             return resolveChange(state, action)
-        case ENABLE_FIELDS: {
-            action.payload.names.forEach((name) => {
-                const field = state.registeredFields[name]
+        case DISABLE_FIELD: {
+            const { name } = action.payload
+            const field = state.registeredFields[name]
 
-                // поля доступны только если у них нет своего условия на доступность
-                if (
-                    field.dependency &&
-                    field.dependency.some(({ type }) => type === 'enabled')
-                ) {
-                    return
-                }
+            if (!field) { return warnNonExistent(name, 'disabled') }
 
-                field.disabled = false
-            })
+            field.disabled_field = true
+            field.disabled = field.disabled_field || field.disabled_set
+
+            break
+        }
+        case ENABLE_FIELD: {
+            const { name } = action.payload
+            const field = state.registeredFields[name]
+
+            if (!field) { return warnNonExistent(name, 'disabled') }
+
+            field.disabled_field = false
+            field.disabled = field.disabled_field || field.disabled_set
+
+            break
+        }
+        case SHOW_FIELD: {
+            const { name } = action.payload
+            const field = state.registeredFields[name]
+
+            if (!field) { return warnNonExistent(name, 'visible') }
+
+            field.visible_field = true
+            field.visible = field.visible_field && field.visible_set
+
+            break
+        }
+        case HIDE_FIELD: {
+            const { name } = action.payload
+            const field = state.registeredFields[name]
+
+            if (!field) { return warnNonExistent(name, 'visible') }
+
+            field.visible_field = false
+            field.visible = field.visible_field && field.visible_set
 
             break
         }
@@ -172,20 +166,53 @@ export default function formPlugin(state = {}, action) {
             action.payload.names.forEach((name) => {
                 const field = state.registeredFields[name]
 
-                // показываем поля только если у них нет своего условия на видимость
-                if (
-                    field.dependency &&
-                    field.dependency.some(({ type }) => type === 'visible')
-                ) {
-                    return
-                }
+                if (!field) { return warnNonExistent(name, 'visible') }
 
-                field.visible = true
+                field.visible_set = true
+                field.visible = field.visible_field && field.visible_set
             })
 
             break
         }
-        default:
-            return state
+        case HIDE_FIELDS: {
+            action.payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                if (!field) { return warnNonExistent(name, 'visible') }
+
+                field.visible_set = false
+                field.visible = field.visible_field && field.visible_set
+            })
+
+            break
+        }
+
+        case DISABLE_FIELDS: {
+            action.payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                if (!field) { return warnNonExistent(name, 'disabled') }
+
+                field.disabled_set = true
+                field.disabled = field.disabled_field || field.disabled_set
+            })
+
+            break
+        }
+
+        case ENABLE_FIELDS: {
+            action.payload.names.forEach((name) => {
+                const field = state.registeredFields[name]
+
+                if (!field) { return warnNonExistent(name, 'disabled') }
+
+                field.disabled_set = false
+                field.disabled = field.disabled_field || field.disabled_set
+            })
+
+            break
+        }
     }
+
+    return state
 }
