@@ -37,7 +37,11 @@ describe('Проверка хока withRegisterDependency', () => {
         expect(store.getState().form.testForm.registeredFields.test).toEqual({
             isInit: true,
             visible: true,
+            visible_set: true,
+            visible_field: true,
             disabled: false,
+            disabled_set: false,
+            disabled_field: false,
             message: null,
             filter: [],
             dependency: [

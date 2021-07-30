@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
     compose,
@@ -67,14 +68,17 @@ export default (Field) => {
                 validation,
             } = props
 
-            !isInit &&
-        registerFieldExtra(form, name, {
-            visible: visibleToRegister,
-            disabled: disabledToRegister,
-            dependency: this.modifyDependency(dependency, parentIndex),
-            required: requiredToRegister,
-            validation,
-        })
+            if (!isInit) {
+                registerFieldExtra(form, name, {
+                    visible: visibleToRegister,
+                    visible_field: visibleToRegister,
+                    disabled: disabledToRegister,
+                    disabled_field: disabledToRegister,
+                    dependency: this.modifyDependency(dependency, parentIndex),
+                    required: requiredToRegister,
+                    validation,
+                })
+            }
         }
 
     modifyDependency = (dependency, parentIndex) => {
@@ -109,8 +113,13 @@ export default (Field) => {
     onChange(e) {
         const { input, onChange } = this.props
 
-        input && input.onChange(e)
-        onChange && onChange(e)
+        if (input) {
+            input.onChange(e)
+        }
+
+        if (onChange) {
+            onChange(e)
+        }
     }
 
     /**
@@ -120,8 +129,13 @@ export default (Field) => {
     onBlur(e) {
         const { input, onBlur } = this.props
 
-        input && input.onBlur(e)
-        onBlur && onBlur(e.target.value)
+        if (input) {
+            input.onBlur(e)
+        }
+
+        if (onBlur) {
+            onBlur(e.target.value)
+        }
     }
 
     /**
@@ -131,8 +145,13 @@ export default (Field) => {
     onFocus(e) {
         const { input, onFocus } = this.props
 
-        input && input.onFocus(e)
-        onFocus && onFocus(e.target.value)
+        if (input) {
+            input.onFocus(e)
+        }
+
+        if (onFocus) {
+            onFocus(e.target.value)
+        }
     }
 
     /**
@@ -141,15 +160,19 @@ export default (Field) => {
      * @returns {string}
      */
 
-    /**
-     * Бозовый рендер
-     * @returns {*}
-     */
     render() {
         const props = this.props.mapProps(this.props)
 
         return <Field {...props} />
     }
+    }
+
+    FieldContainer.propTypes = {
+        mapProps: PropTypes.func,
+        input: PropTypes.object,
+        onChange: PropTypes.func,
+        onBlur: PropTypes.func,
+        onFocus: PropTypes.func,
     }
 
     const mapStateToProps = (state, ownProps) => {
