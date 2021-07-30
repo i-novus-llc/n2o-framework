@@ -92,12 +92,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
 
     switch (type) {
         case 'enabled': {
-            const currentEnabled = field.disabled === false
             const nextEnabled = Boolean(evalResult)
-
-            if (currentEnabled === nextEnabled) {
-                break
-            }
 
             if (nextEnabled) {
                 yield put(enableField(formName, fieldName))
@@ -108,12 +103,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'visible': {
-            const currentVisible = field.visible === undefined || field.visible === true
             const nextVisible = Boolean(evalResult)
-
-            if (currentVisible === nextVisible) {
-                break
-            }
 
             if (nextVisible) {
                 yield put(showField(formName, fieldName))
