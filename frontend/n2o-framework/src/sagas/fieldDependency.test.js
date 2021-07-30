@@ -33,7 +33,7 @@ const setupModify = (
 
 describe('Проверка саги dependency', () => {
     describe('Проверка modify', () => {
-        it('Проверка type enabled с истинным expression', () => {
+        it('Проверка type enabled с ложным expression', () => {
             const gen = setupModify('enabled', {
                 expression: 'testField === 0',
             })
@@ -50,7 +50,7 @@ describe('Проверка саги dependency', () => {
             next = gen.next()
             expect(next.done).toEqual(true)
         })
-        it('Проверка type enabled с ложным expression', () => {
+        it('Проверка type enabled с истинным expression', () => {
             const gen = setupModify(
                 'enabled',
                 {
@@ -59,11 +59,10 @@ describe('Проверка саги dependency', () => {
                 { testField: 1 },
             )
             const next = gen.next()
-
-            expect(next.value).toBe(undefined)
-            expect(next.done).toEqual(true)
+            expect(next.value.payload.action.type).toEqual(DISABLE_FIELD)
+            expect(gen.next().done).toEqual(true)
         })
-        it('Проверка type visible с истинным expression', () => {
+        it('Проверка type visible с ложным expression', () => {
             const gen = setupModify('visible', {
                 expression: 'testField === 1',
             })
@@ -72,7 +71,7 @@ describe('Проверка саги dependency', () => {
             expect(next.value.payload.action.type).toEqual(HIDE_FIELD)
             expect(gen.next().done).toEqual(true)
         })
-        it('Проверка type visible с ложным expression', () => {
+        it('Проверка type visible с истинным expression', () => {
             const gen = setupModify(
                 'visible',
                 {
@@ -81,9 +80,8 @@ describe('Проверка саги dependency', () => {
                 { testField: 1 },
             )
             const next = gen.next()
-
-            expect(next.value).toBe(undefined)
-            expect(next.done).toEqual(true)
+            expect(next.value.payload.action.type).toEqual(SHOW_FIELD)
+            expect(gen.next().done).toEqual(true)
         })
         it('Проверка type setValue', () => {
             const gen = setupModify('setValue', {
