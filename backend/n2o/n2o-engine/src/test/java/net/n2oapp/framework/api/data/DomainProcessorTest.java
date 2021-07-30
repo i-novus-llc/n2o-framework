@@ -71,6 +71,17 @@ public class DomainProcessorTest {
     }
 
     @Test
+    public void testEscapeString() {
+        DomainProcessor proc = new DomainProcessor();
+        assertThat(proc.deserialize("'true'"), is("true"));
+        assertThat(proc.deserialize("''true''"), is("'true'"));
+        assertThat(proc.deserialize("'''true'''"), is("''true''"));
+        assertThat(proc.deserialize("'123'"), is("123"));
+        assertThat(proc.deserialize("'2014-02-01T18:15:00'"), is("2014-02-01T18:15:00"));
+        assertThat(proc.deserialize("some'''string"), is("some'''string"));
+    }
+
+    @Test
     public void testSimpleTyping() {
         DomainProcessor proc = DomainProcessor.getInstance();
         assert proc.deserialize("true", "Boolean") instanceof Boolean;
