@@ -111,9 +111,10 @@ module.exports = {
                 },
                 {
                     type: 'category',
-                    label: 'Ввод данных',
+                    label: 'Ввод и вывод данных',
                     items: [
                         'examples/components/fields',
+                        'examples/components/output_fields',
                         'examples/components/select',
                         'examples/components/select_tree',
                         'examples/components/date_time',

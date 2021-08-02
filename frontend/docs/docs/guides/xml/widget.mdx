@@ -1,6 +1,7 @@
 ---
 title: Виджеты
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
 
@@ -31,9 +32,9 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 |style                  |CSS свойство                             |Стиль виджета                                                             |                                                                                       |
 |name                   |Строка                                   |Наименование виджета                                                      |                                                                                       |
 |icon                   |[CSS класс](http://fontawesome.io/icons/)|Иконка виджета                                                            |                                                                                       |
-|query-id               |Ссылка на [выборку](#Query)              |Выборка виджета                                                           |                                                                                       |
-|object-id              |Ссылка на [объект](#Object)              |Объект виджета                                                            |Объект выборки виджета                                                                 |
-|default-values-query-id|Ссылка на [выборку](#Query)              |Выборка виджета, используемая для получения значений по умолчанию         |                                                                                       |
+|query-id               |Ссылка на [выборку](../xml/query)        |Выборка виджета                                                           |                                                                                       |
+|object-id              |Ссылка на [объект](../xml/object)        |Объект виджета                                                            |Объект выборки виджета                                                                 |
+|default-values-query-id|Ссылка на [выборку](../xml/query)        |Выборка виджета, используемая для получения значений по умолчанию         |                                                                                       |
 |size                   |Число                                    |Количество записей, которое отображает виджет                             |10                                                                                     |
 |fetch-on-init          |true false                               |Настройка получения данных виджета при инициализации                      |true, если у виджета есть выборка и он независимый                                     |
 |auto-focus             |true false                               |Автоматическая установка фокуса на виджете                                |true                                                                                   |
@@ -82,7 +83,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Обработчик действия](#Actions)
+[Обработчик действия](../xml/action)
 
 **Пример**
 
@@ -148,7 +149,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Обработчик действия](#Actions)
+[Обработчик действия](../xml/action)
 
 **Пример**
 
@@ -164,6 +165,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
   <open-page page-id="register" action-id="create"/>
 </button>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_buttons_button"/>
 
 ##### &lt;sub-menu&gt; {#sub-menu_in_widget}
 
@@ -186,6 +189,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
   <menu-item>...</menu-item>
 </sub-menu>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_buttons_dropdown_button" />
 
 ###### &lt;menu-item&gt;
 
@@ -256,7 +261,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Предустановленные фильтры](#pre-filters)
+[Предустановленные фильтры](../xml/base#pre-filters)
 
 ### &lt;table&gt;
 
@@ -289,6 +294,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
   <pagination>...</pagination>
 </table>
 ```
+
+<Sandbox height={300} projectId="uxcomponents_tables_simple" />
 
 #### &lt;columns&gt;
 
@@ -345,7 +352,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Ячейка](#Cells)
+[Ячейка](../xml/cell)
 
 ##### &lt;filter-column&gt;
 
@@ -383,8 +390,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Ячейка](#Cells)
-[Поле фильтра](#filter)
+[Ячейка](../xml/cell), [Поле фильтра](#filter)
 
 #### &lt;filter&gt;
 
@@ -392,7 +398,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Поле ввода](#Input_fields)
+[Поле ввода](../xml/field)
 
 **Пример**
 
@@ -436,8 +442,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Переключатель](#switch_in_base),
-[Клик по строке](#click)
+[Переключатель](../xml/base#switch_in_base),
+[Клик по строке](../xml/base#click)
 
 **Примеры**
 
@@ -506,7 +512,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-Список [филдсетов](#Fieldsets) или [полей](#Input_fields)
+Список [филдсетов](../xml/fieldset) или [полей](../xml/field)
 
 **Пример**
 
@@ -528,7 +534,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 |Наименование           |Тип                                 |Описание                                                                                                                                                                                                                                     |Значение по умолчанию|
 |-----------------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|default-values-query-id|Ссылка на [выборку](#Query)|Выборка значений по умолчанию. Её результат сливается со значениями по умолчанию, заданными в полях.                                                                                                                                         |                     |
+|default-values-query-id|Ссылка на [выборку](../xml/query)|Выборка значений по умолчанию. Её результат сливается со значениями по умолчанию, заданными в полях.                                                                                                                                         |                     |
 |mode                   |one-model two-models                |Режим работы формы. Возможные значения: one-model - одна модель редактируется и отправляется. two-models - 2х модельный режим (при первой загрузке данные копируются в модель resolve и edit. При редактировании формы меняется модель edit.)|one-model            |
 |unsaved-data-prompt    |true false                          |Показать предупреждение о наличии несохраненных данных.                                                                                                                                                                                      |false                |
 
@@ -545,10 +551,12 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 </form>
 ```
 
+<Sandbox height={350} projectId="uxcomponents_form_form" />
+
 **Тело**
 
 Поля формы, меню управляющих кнопок виджета и/или
-[действие обновления компонента](#fetch)
+[действие обновления компонента](../xml/field#fetch)
 
 #### &lt;fields&gt;
 
@@ -556,7 +564,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-Список [филдсетов](#Fieldsets) или [полей](#Input_fields)
+Список [филдсетов](../xml/fieldset) или [полей](../xml/field)
 
 **Пример**
 
@@ -601,6 +609,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 </tree>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_tree_tree" />
 
 :::note
 
@@ -651,6 +660,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 </list>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_list_list" />
+
 #### &lt;content&gt;
 
 Содержимое строк списка.
@@ -659,14 +670,14 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 |Наименование|Тело              |
 |------------|------------------|
-|left-top    |[Ячейка](#Cells)|
-|left-bottom |[Ячейка](#Cells)|
-|header      |[Ячейка](#Cells)|
-|body        |[Ячейка](#Cells)|
-|sub-header  |[Ячейка](#Cells)|
-|right-top   |[Ячейка](#Cells)|
-|right-bottom|[Ячейка](#Cells)|
-|extra       |[Ячейка](#Cells)|
+|left-top    |[Ячейка](../xml/cell)|
+|left-bottom |[Ячейка](../xml/cell)|
+|header      |[Ячейка](../xml/cell)|
+|body        |[Ячейка](../xml/cell)|
+|sub-header  |[Ячейка](../xml/cell)|
+|right-top   |[Ячейка](../xml/cell)|
+|right-bottom|[Ячейка](../xml/cell)|
+|extra       |[Ячейка](../xml/cell)|
 
 **Пример**
 
@@ -691,7 +702,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-Список [графиков](#Charts)
+Список графиков
 
 **Пример**
 
@@ -700,6 +711,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
     <areas>...</areas>
 </chart>
 ```
+
+<Sandbox height={350} projectId="uxcomponents_charts_areas" />
 
 ### &lt;html&gt;
 
@@ -775,10 +788,9 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
 на определенные сущности (бронирование переговорных комнат и т.д.).
 
-|value-field-id
-|Строка
-|Поле выборки, отвечающее за маппинг ресурсов
-|
+|Наименование       |Тип              |Описание                                                         |Значение по умолчанию|
+|-------------------|-----------------|-----------------------------------------------------------------|---------------------|
+|value-field-id     |Строка           |Поле выборки, отвечающее за маппинг ресурсов                     |                     |
 
 **Пример**
 
@@ -815,7 +827,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Обработчик действия](#Actions)
+[Обработчик действия](../xml/action)
 
 #### &lt;action-on-select-event>
 
@@ -823,7 +835,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Обработчик действия](#Actions)
+[Обработчик действия](../xml/action)
 
 #### &lt;formats&gt;
 
@@ -882,6 +894,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 </tiles>
 ```
 
+<Sandbox projectId="uxcomponents_tiles_tiles" />
+
 #### &lt;content&gt;
 
 Содержимое виджета плитки.
@@ -922,7 +936,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Ячейка](#Cells)
+[Ячейка](../xml/cell)
 
 ### &lt;cards&gt;
 
@@ -944,6 +958,8 @@ http://n2oapp.net/framework/config/schema/widget-4.0
   <pagination>...</pagination>
 </tiles>
 ```
+
+<Sandbox height={420} projectId="uxcomponents_cards_card_single_line" />
 
 #### &lt;col&gt;
 
@@ -995,7 +1011,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Ячейка](#Cells)
+[Ячейка](../xml/cell)
 
 ### &lt;widget&gt;
 

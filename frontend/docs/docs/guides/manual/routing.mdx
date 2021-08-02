@@ -1,6 +1,7 @@
 ---
 title: Маршрутизация
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Каждой странице N2O выдается свой URL адрес.
 С помощью маршрутизации можно контролировать формирование URL адресов этих страниц.
@@ -45,7 +46,7 @@ http://localhost:8080/#/[route]
 </nav>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_header/)
+<Sandbox height={200} projectId="routing_header" showHeader />
 
 ```
 http://localhost:8080/#/home
@@ -63,7 +64,7 @@ http://localhost:8080/#/home
 </application>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_header/)
+<Sandbox height={200} projectId="routing_header" showHeader />
 
 ```
 http://localhost:8080/#/
@@ -82,7 +83,7 @@ http://localhost:8080/#/
 <simple-page>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_widget/)
+<Sandbox height={300} projectId="routing_widget" showHeader />
 
 ```
 http://localhost:8080/#/list
@@ -107,7 +108,7 @@ http://localhost:8080/#/list
 </table>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_widget_master_detail/)
+<Sandbox height={400} projectId="routing_widget_master_detail" showHeader />
 
 ```
 http://localhost:8080/#/person/123/docs
@@ -131,8 +132,6 @@ http://localhost:8080/#/person/123/docs
 </table>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_widget_master_param/)
-
 Если `master-param` не задан, имя параметра пути сгенерируется автоматически.
 
 ### Маршрутизация вложенных страниц
@@ -142,8 +141,6 @@ http://localhost:8080/#/person/123/docs
 ````xml
 <open-page page-id="childPage" route="/child"/>
 ````
-
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_page/)
 
 ```
 http://localhost:8080/#/parent/child
@@ -249,8 +246,6 @@ http://localhost:8080/#/persons?main_name=Joe
 </query>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_query/)
-
 ```
 http://localhost:8080/n2o/data/persons
 ```
@@ -266,8 +261,6 @@ http://localhost:8080/n2o/data/persons
 </field>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_query/)
-
 ```
 http://localhost:8080/n2o/data/persons?name_like=Joe
 ```
@@ -280,8 +273,6 @@ http://localhost:8080/n2o/data/persons?name_like=Joe
   ...
 </field>
 ````
-
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_query/)
 
 ```
 http://localhost:8080/n2o/data/persons?sorting_name=asc
