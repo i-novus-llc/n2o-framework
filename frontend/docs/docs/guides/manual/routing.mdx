@@ -309,5 +309,34 @@ context binary
 #### Репликации роутов через Redis
 
 1. Задайте настройку `n2o.config.register.store-type=redis.
-2. Настройте RedisTemplate.
+2. Настройте RedisTemplate с помощью Jedis или Lettuce:
+
+```java title="Jedis"
+@Bean
+JedisConnectionFactory redisConnectionFactory() {
+    JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
+    ...
+    return connectionFactory;
+}
+```
+
+```java title="Lettuce"
+@Bean
+LettuceConnectionFactory redisConnectionFactory() {
+    LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory();
+    ...
+    return connectionFactory;
+}
+```
+
+```
+@Bean
+public RedisTemplate redisTemplate() {
+    RedisTemplate template = new RedisTemplate<>();
+    template.setConnectionFactory(redisConnectionFactory());
+	...
+    return template;
+}
+```
+
 3. Для изменения ключа, по которому будут сохраняться пути, необходимо задать настройку `n2o.config.register.redis.key=routes`.
