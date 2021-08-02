@@ -74,10 +74,8 @@ public class AlertMessageBuilder {
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         resp.setText(buildText(e));
 
-        if (showStacktrace && !(e instanceof N2oUserException)) {
+        if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
-            resp.setTimeout(null);
-        }
         if (e instanceof N2oException)
             resp.setField(((N2oException) e).getField());
         return resp;
