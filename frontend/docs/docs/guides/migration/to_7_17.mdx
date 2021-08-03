@@ -2,6 +2,76 @@
 title: Миграция с 7.16 на 7.17
 ---
 
+### Изменения в кастомизации Frontend {#changes-frontend-customization}
+- Настройка шапки, подвала и боковой панели приложения. Появился параметр `templates` в котором задаются кастомные компоненты `header` `footer` `sidebar`
+
+Было:
+```jsx title="Пример config в 7.16"
+import ...
+
+const config = {
+    pages,
+    regions,
+    widgets,
+    controls,
+    cells,
+    fieldsets,
+    fields,
+    defaultTemplate: AppTemplate,
+    security: {
+        authProvider,
+        externalLoginUrl: './',
+    },
+};
+
+class App extends Component {
+  render() {
+    return <N2o {...createFactoryConfig(config)} />;
+  }
+}
+
+export default App;
+```
+
+Стало:
+```xml {2-4} title="Пример application.xml"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="index">
+    <header src="CustomHeader" />
+    <sidebar src="CustomSidebar" />
+    <footer src="CustomFooter" />
+</application>
+```
+
+```jsx {11-15} title="Пример config в 7.17"
+import ...
+
+const config = {
+    pages,
+    regions,
+    widgets,
+    controls,
+    cells,
+    fieldsets,
+    fields,
+    templates: {
+        CustomHeader,
+        CustomSidebar,
+        CustomFooter,
+    },
+    security: {
+        authProvider,
+        externalLoginUrl: './',
+    },
+};
+
+function App() {
+    return <N2O {...createFactoryConfig(config)} />
+}
+
+export default App;
+```
+
+
 ### Изменения в XML API {#changes-xml-api}
 
 - Настройка шапки, подвала и боковой панели приложения перенесена в файл application.xml. Это новый тип метаданных,
