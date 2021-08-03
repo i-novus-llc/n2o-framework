@@ -278,22 +278,15 @@ http://localhost:8080/n2o/data/persons?name_like=Joe
 http://localhost:8080/n2o/data/persons?sorting_name=asc
 ```
 
-### Репликация маршрутизации с использованием БД (через JDBC)
+### Репликация маршрутизации
 
-Для включения репликации роутов через jdbc необходимо добавить параметр:
+#### Репликации роутов через jdbc
 
-```
-n2o.config.register.store-type=jdbc
-```
-и необходимо настроить JdbcTemplate.
+1. Задайте настройку `n2o.config.register.store-type=jdbc`.
+2. Настройте JdbcTemplate.
+3. Для изменения названия используемой таблицы необходимо задать настройку `n2o.config.register.jdbc.table-name=route_repository`.
 
-Для изменения названия используемой таблицы необходимо задать параметр:
-
-```
-n2o.config.register.jdbc.table-name=route_repository
-```
-
-структура поля таблицы:
+Структура таблицы:
 
 ```
 id uuid PRIMARY KEY,
@@ -302,8 +295,39 @@ class char(255),
 context binary
 ```
 
-Для автоматического создания таблицы при старте сервиса необходимо задать параметр:
+4. Для автоматического создания таблицы при старте сервиса необходимо задать настройку `n2o.config.register.jdbc.create-table=true`.
+
+#### Репликации роутов через Redis
+
+1. Задайте настройку `n2o.config.register.store-type=redis.
+2. Настройте RedisTemplate с помощью Jedis или Lettuce:
+
+```java title="Jedis"
+@Bean
+JedisConnectionFactory redisConnectionFactory() {
+    JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
+    ...
+    return connectionFactory;
+}
+```
+
+```java title="Lettuce"
+@Bean
+LettuceConnectionFactory redisConnectionFactory() {
+    LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory();
+    ...
+    return connectionFactory;
+}
+```
 
 ```
-n2o.config.register.jdbc.create-table=true
+@Bean
+public RedisTemplate redisTemplate() {
+    RedisTemplate template = new RedisTemplate<>();
+    template.setConnectionFactory(redisConnectionFactory());
+	...
+    return template;
+}
 ```
+
+3. Для изменения ключа, по которому будут сохраняться пути, необходимо задать настройку `n2o.config.register.redis.key=routes`.

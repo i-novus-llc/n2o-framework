@@ -12,11 +12,9 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Проверка добавления и удаления элементов из RouteRegister
@@ -72,13 +70,8 @@ public class RouteRegisterTest {
         register.addRoute("/p/w", new MockCompileContext<>("/p/w", "pW", null, Page.class));
         register.addRoute("/p/w/c/b", new MockCompileContext<>("/p/w/c/b", "pWcB", null, Page.class));
         register.addRoute("/p/w/c", new MockCompileContext<>("/p/w/c", "pWc", null, Page.class));
-        register.clear("/p/w/c");
-        String[] sortedUrl = new String[]{"/p/w"};
-        Iterator<Map.Entry<RouteInfoKey, CompileContext>> iter = register.iterator();
-        for (int i = 0; iter.hasNext(); i++) {
-            Map.Entry<RouteInfoKey, CompileContext> info = iter.next();
-            assertEquals(sortedUrl[i], info.getKey().getUrlMatching());
-        }
+        register.clearAll();
+        assertFalse(register.iterator().hasNext());
     }
 
     @Test
@@ -127,8 +120,8 @@ public class RouteRegisterTest {
         }
 
         @Override
-        public void clear(Predicate<? super RouteInfoKey> filter) {
-            repository.entrySet().removeIf(e -> filter.test(e.getKey()));
+        public void clearAll() {
+            repository.clear();
         }
     }
 }

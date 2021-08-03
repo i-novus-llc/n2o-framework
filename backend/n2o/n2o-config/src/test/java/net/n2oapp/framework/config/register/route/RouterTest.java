@@ -17,10 +17,9 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.function.Predicate;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование поиска метаданных по url
@@ -294,8 +293,7 @@ public class RouterTest {
         }
 
         @Override
-        public void clear(Predicate<? super RouteInfoKey> filter) {
-            repository.entrySet().removeIf(e -> filter.test(e.getKey()));
+        public void clearAll() {
         }
     }
 }

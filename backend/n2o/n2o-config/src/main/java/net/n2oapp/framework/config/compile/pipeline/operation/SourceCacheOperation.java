@@ -17,7 +17,6 @@ import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.NoOpCacheManager;
-import org.springframework.util.SerializationUtils;
 
 import java.util.function.Supplier;
 

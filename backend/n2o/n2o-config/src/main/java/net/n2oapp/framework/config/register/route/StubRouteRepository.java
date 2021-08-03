@@ -7,7 +7,6 @@ import net.n2oapp.framework.config.register.ConfigRepository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * Заглушка для RouteRepository (не хранит данные)
@@ -25,6 +24,6 @@ public class StubRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     }
 
     @Override
-    public void clear(Predicate<? super RouteInfoKey> filter) {
+    public void clearAll() {
     }
 }
