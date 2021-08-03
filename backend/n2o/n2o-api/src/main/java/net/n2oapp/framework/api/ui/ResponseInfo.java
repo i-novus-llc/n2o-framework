@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 
 import java.util.*;
@@ -21,8 +22,8 @@ public class ResponseInfo  {
     private AlertMessageBuilder alertMessageBuilder;
 
 
-    public ResponseMessage constructMessage(RequestInfo requestInfo) {
-        return alertMessageBuilder.constructMessage(requestInfo);
+    public ResponseMessage constructMessage(RequestInfo requestInfo, SeverityType severityType) {
+        return alertMessageBuilder.buildMessage(requestInfo, severityType);
     }
 
     public void addMessage(ResponseMessage message) {
