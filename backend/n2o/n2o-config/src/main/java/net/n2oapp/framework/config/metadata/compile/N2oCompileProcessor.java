@@ -307,7 +307,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             BindLink resultLink = createLink(link, value);
             if (resultLink != null) return resultLink;
         }
-        return link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+        return link;
     }
 
     @Override

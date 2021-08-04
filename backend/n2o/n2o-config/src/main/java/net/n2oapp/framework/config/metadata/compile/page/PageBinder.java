@@ -43,8 +43,8 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                             page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(), modelLink);
                         });
             }
-
         }
+
         if (page.getBreadcrumb() != null)
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
                     .forEach(b -> {
