@@ -85,3 +85,7 @@ body, #n2o{
     margin-top: -10px;
     margin-left: -10px;
 }
+
+.n2o-footer .container-fluid {
+    color: #e5e5e5 !important;
+}
