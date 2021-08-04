@@ -58,7 +58,7 @@ function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter
             type: 'SET_N2O_ELEMENT_VISIBILITY',
             payload: {
                 header: showHeader,
-                breadcrumb: showBreadcrumb,
+                breadcrumb: showBreadcrumb || showHeader,
                 footer: showFooter,
             },
         }
