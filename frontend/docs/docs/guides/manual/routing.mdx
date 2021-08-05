@@ -1,6 +1,7 @@
 ---
 title: Маршрутизация
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Каждой странице N2O выдается свой URL адрес.
 С помощью маршрутизации можно контролировать формирование URL адресов этих страниц.
@@ -45,7 +46,7 @@ http://localhost:8080/#/[route]
 </nav>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_header/)
+<Sandbox height={200} projectId="routing_header" showHeader />
 
 ```
 http://localhost:8080/#/home
@@ -63,7 +64,7 @@ http://localhost:8080/#/home
 </application>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_header/)
+<Sandbox height={200} projectId="routing_header" showHeader />
 
 ```
 http://localhost:8080/#/
@@ -82,7 +83,7 @@ http://localhost:8080/#/
 <simple-page>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_widget/)
+<Sandbox height={300} projectId="routing_widget" showHeader />
 
 ```
 http://localhost:8080/#/list
@@ -107,7 +108,7 @@ http://localhost:8080/#/list
 </table>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_widget_master_detail/)
+<Sandbox height={400} projectId="routing_widget_master_detail" showHeader />
 
 ```
 http://localhost:8080/#/person/123/docs
@@ -131,8 +132,6 @@ http://localhost:8080/#/person/123/docs
 </table>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_widget_master_param/)
-
 Если `master-param` не задан, имя параметра пути сгенерируется автоматически.
 
 ### Маршрутизация вложенных страниц
@@ -142,8 +141,6 @@ http://localhost:8080/#/person/123/docs
 ````xml
 <open-page page-id="childPage" route="/child"/>
 ````
-
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_page/)
 
 ```
 http://localhost:8080/#/parent/child
@@ -249,8 +246,6 @@ http://localhost:8080/#/persons?main_name=Joe
 </query>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_query/)
-
 ```
 http://localhost:8080/n2o/data/persons
 ```
@@ -266,8 +261,6 @@ http://localhost:8080/n2o/data/persons
 </field>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_query/)
-
 ```
 http://localhost:8080/n2o/data/persons?name_like=Joe
 ```
@@ -281,28 +274,19 @@ http://localhost:8080/n2o/data/persons?name_like=Joe
 </field>
 ````
 
-[Пример](https://n2oapp.net/sandbox/editor/manual_routing_query/)
-
 ```
 http://localhost:8080/n2o/data/persons?sorting_name=asc
 ```
 
-### Репликация маршрутизации с использованием БД (через JDBC)
+### Репликация маршрутизации
 
-Для включения репликации роутов через jdbc необходимо добавить параметр:
+#### Репликации роутов через jdbc
 
-```
-n2o.config.register.store-type=jdbc
-```
-и необходимо настроить JdbcTemplate.
+1. Задайте настройку `n2o.config.register.store-type=jdbc`.
+2. Настройте JdbcTemplate.
+3. Для изменения названия используемой таблицы необходимо задать настройку `n2o.config.register.jdbc.table-name=route_repository`.
 
-Для изменения названия используемой таблицы необходимо задать параметр:
-
-```
-n2o.config.register.jdbc.table-name=route_repository
-```
-
-структура поля таблицы:
+Структура таблицы:
 
 ```
 id uuid PRIMARY KEY,
@@ -311,8 +295,39 @@ class char(255),
 context binary
 ```
 
-Для автоматического создания таблицы при старте сервиса необходимо задать параметр:
+4. Для автоматического создания таблицы при старте сервиса необходимо задать настройку `n2o.config.register.jdbc.create-table=true`.
+
+#### Репликации роутов через Redis
+
+1. Задайте настройку `n2o.config.register.store-type=redis.
+2. Настройте RedisTemplate с помощью Jedis или Lettuce:
+
+```java title="Jedis"
+@Bean
+JedisConnectionFactory redisConnectionFactory() {
+    JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
+    ...
+    return connectionFactory;
+}
+```
+
+```java title="Lettuce"
+@Bean
+LettuceConnectionFactory redisConnectionFactory() {
+    LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory();
+    ...
+    return connectionFactory;
+}
+```
 
 ```
-n2o.config.register.jdbc.create-table=true
+@Bean
+public RedisTemplate redisTemplate() {
+    RedisTemplate template = new RedisTemplate<>();
+    template.setConnectionFactory(redisConnectionFactory());
+	...
+    return template;
+}
 ```
+
+3. Для изменения ключа, по которому будут сохраняться пути, необходимо задать настройку `n2o.config.register.redis.key=routes`.

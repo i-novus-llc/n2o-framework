@@ -55,9 +55,9 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
     }
 
     @Override
-    public void clear(String startUrlMatching) {
-        register.keySet().removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
-        repository.clear(s -> s.getUrlMatching().startsWith(startUrlMatching));
+    public void clearAll() {
+        register.clear();
+        repository.clearAll();
     }
 
     @Override
@@ -80,6 +80,6 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
 
     @Override
     public void handleEvent(MetadataChangedEvent event) {
-        this.clear("/");
+        this.clearAll();
     }
 }

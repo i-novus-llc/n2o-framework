@@ -144,8 +144,6 @@ N2O - компонентно-ориентированный фреймворк.
 Простая страница содержит один единственный компонент-виджет,
 занимающий всё свободное пространство.
 
-![](./images/page_simple.png)
-
 ```xml title="Простая страница"
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
   name="Моя страница">
@@ -153,10 +151,10 @@ N2O - компонентно-ориентированный фреймворк.
 </simple-page>
 ```
 
+![](./images/page_simple.png)
+
 Сложные страницы поделены на регионы,
 которые могут располагаться в разных областях страницы.
-
-![](./images/page_standard.png)
 
 ```xml title="Стандартная страница"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -168,7 +166,7 @@ N2O - компонентно-ориентированный фреймворк.
 </page>
 ```
 
-![](./images/page_left_right.png)
+![](./images/page_standard.png)
 
 ```xml title="Страница с разметкой регионов "слева и справа""
 <?xml version='1.0' encoding='UTF-8'?>
@@ -183,7 +181,7 @@ N2O - компонентно-ориентированный фреймворк.
 </page>
 ```
 
-![](./images/page_top_left_right.png)
+![](./images/page_left_right.png)
 
 ```xml title="Страница с разметкой регионов "сверху, слева и справа""
 <?xml version='1.0' encoding='UTF-8'?>
@@ -201,7 +199,7 @@ N2O - компонентно-ориентированный фреймворк.
 </page>
 ```
 
-![](./images/page_searchable.png)
+![](./images/page_top_left_right.png)
 
 ```xml title="Страница с поисковой строкой"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -214,22 +212,22 @@ N2O - компонентно-ориентированный фреймворк.
 </searchable-page>
 ```
 
+![](./images/page_searchable.png)
+
 __*Виды страниц*__
 
-|Вид                        |React компонент |Описание                                                                                                               |
-|---------------------------|----------------|-----------------------------------------------------------------------------------------------------------------------|
-|&lt;simple-page&gt;        |SimplePage      |[Страница с единственным виджетом](https://n2oapp.net/sandbox/editor/manual_page_simple/)                              |
-|&lt;page&gt;               |StandardPage    |[Страница с регионами](https://n2oapp.net/sandbox/editor/manual_page_standard/)                                        |
-|&lt;left-right-page&gt;    |LeftRightPage   |[Страница с разметкой регионов "слева и справа"](https://n2oapp.net/sandbox/editor/manual_page_left_right/)            |
-|&lt;top-left-right-page&gt;|TopLeftRightPage|[Страница с разметкой регионов "сверху, слева и справа"](https://n2oapp.net/sandbox/editor/manual_page_top_left_right/)|
-|&lt;searchable-page&gt;    |SearchablePage  |[Страница с поисковой строкой](https://n2oapp.net/sandbox/editor/manual_page_searchable/)                              |
+|Вид                        |React компонент |Описание                                                                                 |
+|---------------------------|----------------|-----------------------------------------------------------------------------------------|
+|&lt;simple-page&gt;        |SimplePage      |[Страница с единственным виджетом](../xml/page#simple-page)                              |
+|&lt;page&gt;               |StandardPage    |[Страница с регионами](../xml/page#page)                                                 |
+|&lt;left-right-page&gt;    |LeftRightPage   |[Страница с разметкой регионов "слева и справа"](../xml/page#left-right-page)            |
+|&lt;top-left-right-page&gt;|TopLeftRightPage|[Страница с разметкой регионов "сверху, слева и справа"](../xml/page#top-left-right-page)|
+|&lt;searchable-page&gt;    |SearchablePage  |[Страница с поисковой строкой](../xml/page#searchable-page)                              |
 
 ### Регион
 
 В регион могут вкладываться произвольное количество виджетов и регионов.
 Регионы имеют свою верстку для различной компоновки виджетов.
-
-![](./images/tabs.png)
 
 ```xml title="Регион в виде вкладок"
 <regions>
@@ -242,14 +240,16 @@ __*Виды страниц*__
 </regions>
 ```
 
+![](./images/tabs.png)
+
 __*Виды регионов*__
 
 |Вид           |React компонент|Описание                                                                                   |
 |--------------|---------------|-------------------------------------------------------------------------------------------|
-|&lt;region&gt;|NoneRegion     |[Виджеты без обрамления](https://n2oapp.net/sandbox/editor/manual_regions_region/)         |
-|&lt;tabs&gt;  |TabsRegion     |[Виджеты во вкладках](https://n2oapp.net/sandbox/editor/manual_regions_tabs/)              |
-|&lt;panel&gt; |PanelRegion    |[Виджеты в панелях](https://n2oapp.net/sandbox/editor/manual_regions_panel/)               |
-|&lt;line&gt;  |ListRegion     |[Горизонтальная черта над виджетом](https://n2oapp.net/sandbox/editor/manual_regions_line/)|
+|&lt;region&gt;|NoneRegion     |[Виджеты без обрамления](../xml/page#region)         |
+|&lt;tabs&gt;  |TabsRegion     |[Виджеты во вкладках](../xml/page#tabs)              |
+|&lt;panel&gt; |PanelRegion    |[Виджеты в панелях](../xml/page#panel)               |
+|&lt;line&gt;  |ListRegion     |[Горизонтальная черта над виджетом](../xml/page#line)|
 
 ### Виджет
 
@@ -292,21 +292,19 @@ __*Виды основных виджетов*__
 
 |Вид          |React компонент|Описание                                                          |
 |-------------|---------------|------------------------------------------------------------------|
-|&lt;form&gt; |FormWidget     |[Форма](https://n2oapp.net/sandbox/editor/manual_widget_form/)    |
-|&lt;table&gt;|TableWidget    |[Таблица](https://n2oapp.net/sandbox/editor/manual_widget_table/) |
-|&lt;list&gt; |ListWidget     |[Список](https://n2oapp.net/sandbox/editor/manual_widget_list/)   |
-|&lt;tree&gt; |TreeWidget     |[Дерево](https://n2oapp.net/sandbox/editor/manual_widget_tree/)   |
-|&lt;cards&gt;|CardsWidget    |[Карточки](https://n2oapp.net/sandbox/editor/manual_widget_cards/)|
-|&lt;tiles&gt;|TilesWidget    |[Плитки](https://n2oapp.net/sandbox/editor/manual_widget_tiles/)  |
+|&lt;form&gt; |FormWidget     |[Форма](../xml/widget#form)    |
+|&lt;table&gt;|TableWidget    |[Таблица](../xml/widget#table) |
+|&lt;list&gt; |ListWidget     |[Список](../xml/widget#list)   |
+|&lt;tree&gt; |TreeWidget     |[Дерево](../xml/widget#tree)   |
+|&lt;cards&gt;|CardsWidget    |[Карточки](../xml/widget#cards)|
+|&lt;tiles&gt;|TilesWidget    |[Плитки](../xml/widget#tiles)  |
 
-Описание других виджетов можно посмотреть [здесь](../xml/index.mdx#Widgets).
+Описание других виджетов можно посмотреть [здесь](../xml/widget).
 
 #### Таблица
 
 Таблица - виджет N2O, представляющий данные в виде таблицы
 с возможностью сортировки, фильтрации, паджинации.
-
-![](./images/table.png)
 
 ```xml title="Виджет таблица"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -319,14 +317,15 @@ __*Виды основных виджетов*__
   </columns>
 </table>
 ```
+
+![](./images/table.png)
+
 Столбцы таблицы задаются внутри элемента `<columns>`.
 
 #### Форма
 
 Форма - виджет N2O, представляющий одну запись данных
 в виде полей с возможностью просмотра или редактирования.
-
-![](./images/widget_form.png)
 
 ```xml title="Виджет форма"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -338,6 +337,9 @@ __*Виды основных виджетов*__
   </fields>
 </form>
 ```
+
+![](./images/widget_form.png)
+
 Поля формы задаются внутри элемента `<fields>`.
 
 #### Автоматическое сохранение данных формы
@@ -434,15 +436,13 @@ __*Виды основных виджетов*__
 Кнопка - это визуальный элемент, на который можно нажать для выполнения действия.
 Кнопка может иметь разный размер, цвет, верстку:
 
-![](./images/button-icon.png)
-
 ```xml title="Иконка кнопки"
 <button label="Кнопка"/>
 <button label="Кнопка  с иконкой" icon="fa fa-plus"/>
 <button label="Иконка" icon="fa fa-pencil" type="icon"/>
 ```
 
-![](./images/button-color.png)
+![](./images/button-icon.png)
 
 ```xml title="Цвет кнопки"
 <button label="Главная" color="primary"/>
@@ -450,7 +450,7 @@ __*Виды основных виджетов*__
 <button label="Ссылка" color="link"/>
 ```
 
-![](./images/button-submenu.png)
+![](./images/button-color.png)
 
 ```xml title="Кнопка с выпадающим списком"
 <sub-menu label="Меню">
@@ -459,15 +459,16 @@ __*Виды основных виджетов*__
 </sub-menu>
 ```
 
+![](./images/button-submenu.png)
+
 Кнопка является React компонентом и имеет несколько реализаций:
 
 __*Виды кнопок*__
 
 |Вид             |React компонент|Описание                                                                           |
 |----------------|---------------|-----------------------------------------------------------------------------------|
-|&lt;button&gt;  |PerformButton  |[Кнопка с действием](https://n2oapp.net/sandbox/editor/manual_action_button/)      |
-|&lt;link&gt;    |LinkButton     |Кнопка-ссылка на другую страницу                                                   |
-|&lt;sub-menu&gt;|DropdownButton |[Кнопка с вложенным меню](https://n2oapp.net/sandbox/editor/manual_action_submenu/)|
+|&lt;button&gt;  |PerformButton  |[Кнопка с действием](../xml/widget#button_in_widget)      |
+|&lt;sub-menu&gt;|DropdownButton |[Кнопка с вложенным меню](../xml/widget#sub-menu_in_widget)|
 
 #### Действие кнопки
 
@@ -477,16 +478,16 @@ __*Виды кнопок*__
 
 __*Виды действий*__
 
-|Вид               |Redux действие             |Описание                                                                                                             |
-|------------------|---------------------------|---------------------------------------------------------------------------------------------------------------------|
-|&lt;invoke&gt;    |n2o/actionImpl/START_INVOKE|[Отправка данных формы](https://n2oapp.net/sandbox/editor/manual_action_invoke/)                                     |
-|&lt;show-modal&gt;|n2o/modals/INSERT          |[Открытие модального окна](https://n2oapp.net/sandbox/editor/manual_action_show_modal/)                              |
-|&lt;open-page&gt; |                           |[Открытие вложенной страницы](https://n2oapp.net/sandbox/editor/manual_action_open_page/)                            |
-|&lt;close&gt;     |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](https://n2oapp.net/sandbox/editor/manual_action_close/)|
-|&lt;refresh&gt;   |n2o/widgets/DATA_REQUEST   |Обновление данных виджета                                                                                            |
-|&lt;clear&gt;     |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](https://n2oapp.net/sandbox/editor/manual_action_clear/)                                     |
-|&lt;copy&gt;      |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](https://n2oapp.net/sandbox/editor/manual_action_copy/)         |
-|&lt;print&gt;     |n2o/toolbar/PRINT_BUTTON   |Печать документа                                                                                                     |
+|Вид               |Redux действие             |Описание                                                                          |
+|------------------|---------------------------|----------------------------------------------------------------------------------|
+|&lt;invoke&gt;    |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                     |
+|&lt;show-modal&gt;|n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                              |
+|&lt;open-page&gt; |                           |[Открытие вложенной страницы](../xml/action#open-page)                            |
+|&lt;close&gt;     |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)|
+|&lt;refresh&gt;   |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
+|&lt;clear&gt;     |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                     |
+|&lt;copy&gt;      |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)         |
+|&lt;print&gt;     |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
 
 Действие можно задать внутри кнопки:
 
@@ -519,7 +520,7 @@ __*Виды действий*__
 
 ### Филдсеты
 
-Филдсеты группируют [поля](#Input_fields)
+Филдсеты группируют [поля](../xml/field)
 и другие филдсеты со своей вёрсткой и логикой.
 Филдсеты задаются в файлах вида `*.fieldset.xml`.
 
@@ -546,8 +547,8 @@ __*Виды филдсетов*__
 
 |Вид         |React компонент |Описание                                                                                  |
 |------------|----------------|------------------------------------------------------------------------------------------|
-|&lt;set&gt; |StandardFieldset|[Филдсет без верстки](https://n2oapp.net/sandbox/editor/manual_fieldset_set/)             |
-|&lt;line&gt;|LineFieldset    |[Филдсет с горизонтальной чертой](https://n2oapp.net/sandbox/editor/manual_fieldset_line/)|
+|&lt;set&gt; |StandardFieldset|[Филдсет без верстки](../xml/fieldset#set)             |
+|&lt;line&gt;|LineFieldset    |[Филдсет с горизонтальной чертой](../xml/fieldset#line)|
 
 В филдсете поля можно расположить в строку или столбец
 с помощью элементов `<row>` и `<col>`.
@@ -604,8 +605,6 @@ __*Мульти-филдсеты*__
 
 Поля перечисляются на форме в элементе `<fields>`:
 
-[Поля в форме](https://n2oapp.net/sandbox/editor/manual_fields_form/)
-
 ![](./images/form.png)
 
 ```xml
@@ -617,8 +616,6 @@ __*Мульти-филдсеты*__
 ```
 
 Либо вкладываются в филдсет:
-
-[Поля в филдсете](https://n2oapp.net/sandbox/editor/manual_fields_fieldset/)
 
 ![](./images/fieldset.png)
 
@@ -635,25 +632,25 @@ __*Основные виды полей*__
 
 |Вид                      |React компонент      |Описание                                                                                                                         |
 |-------------------------|---------------------|---------------------------------------------------------------------------------------------------------------------------------|
-|&lt;input-text&gt;       |InputText InputNumber|[Поле ввода текста или чисел](https://n2oapp.net/sandbox/editor/manual_fields_input_text/)                                       |
-|&lt;output-text&gt;      |OutputText           |[Поле вывода текста](https://n2oapp.net/sandbox/editor/manual_fields_output_text/)                                               |
-|&lt;checkbox&gt;         |Checkbox             |[Поле чекбокса](https://n2oapp.net/sandbox/editor/manual_fields_checkbox/)                                                       |
-|&lt;date-time&gt;        |DatePicker           |[Поле ввода даты и времени](https://n2oapp.net/sandbox/editor/manual_fields_date_time/)                                          |
-|&lt;select&gt;           |Select               |[Поле выбора из выпадающего списка](https://n2oapp.net/sandbox/editor/manual_fields_select/)                                     |
-|&lt;input-select&gt;     |InputSelect          |[Поле ввода текста с выбором из выпадающего списка](https://n2oapp.net/sandbox/editor/manual_fields_input_select/)               |
-|&lt;radio-group&gt;      |RadioGroup           |[Поле группы радио кнопок](https://n2oapp.net/sandbox/editor/manual_fields_radio_group/)                                         |
-|&lt;checkbox-group&gt;   |CheckboxGroup        |[Поле группы чекбоксов](https://n2oapp.net/sandbox/editor/manual_fields_checkbox_group/)                                         |
-|&lt;text-area&gt;        |TextArea             |[Многострочное поле ввода](https://n2oapp.net/sandbox/editor/manual_fields_text_area/)                                           |
-|&lt;input-select-tree&gt;|InputSelectTree      |[Компонент ввода с выбором в выпадающем списке в виде дерева](https://n2oapp.net/sandbox/editor/manual_fields_input_select_tree/)|
-|&lt;text&gt;             |Text                 |[Компонент текста](https://n2oapp.net/sandbox/editor/manual_fields_text/)                                                        |
-|&lt;text-editor&gt;      |TextEditor           |[Компонент редактора текста](https://n2oapp.net/sandbox/editor/manual_fields_text_editor/)                                       |
-|&lt;date-interval&gt;    |DateInterval         |[Компонент ввода интервала дат](https://n2oapp.net/sandbox/editor/manual_fields_date_interval/)                                  |
-|&lt;code-editor&gt;      |CodeEditor           |[Компонент редактора кода](https://n2oapp.net/sandbox/editor/manual_fields_code_editor/)                                         |
-|&lt;file-upload&gt;      |FileUpload           |[Компонент загрузки файлов](https://n2oapp.net/sandbox/editor/manual_fields_file_upload/)                                        |
-|&lt;slider&gt;           |Slider               |[Компонент ползунок](https://n2oapp.net/sandbox/editor/manual_fields_slider/)                                                    |
-|&lt;time-picker&gt;      |TimePicker           |[Компонент ввода времени](https://n2oapp.net/sandbox/editor/manual_fields_time_picker/)                                          |
+|&lt;input-text&gt;       |InputText InputNumber|[Поле ввода текста или чисел](../xml/field#input-text)                                       |
+|&lt;output-text&gt;      |OutputText           |[Поле вывода текста](../xml/field#output-text)                                               |
+|&lt;checkbox&gt;         |Checkbox             |[Поле чекбокса](../xml/field#checkbox)                                                       |
+|&lt;date-time&gt;        |DatePicker           |[Поле ввода даты и времени](../xml/field#date-time)                                          |
+|&lt;select&gt;           |Select               |[Поле выбора из выпадающего списка](../xml/field#select)                                     |
+|&lt;input-select&gt;     |InputSelect          |[Поле ввода текста с выбором из выпадающего списка](../xml/field#input-select)               |
+|&lt;radio-group&gt;      |RadioGroup           |[Поле группы радио кнопок](../xml/field#radio-group)                                         |
+|&lt;checkbox-group&gt;   |CheckboxGroup        |[Поле группы чекбоксов](../xml/field#checkbox-group)                                         |
+|&lt;text-area&gt;        |TextArea             |[Многострочное поле ввода](../xml/field#text-area)                                           |
+|&lt;input-select-tree&gt;|InputSelectTree      |[Компонент ввода с выбором в выпадающем списке в виде дерева](../xml/field#input-select-tree)|
+|&lt;text&gt;             |Text                 |[Компонент текста](../xml/field#text)                                                        |
+|&lt;text-editor&gt;      |TextEditor           |[Компонент редактора текста](../xml/field#text-editor)                                       |
+|&lt;date-interval&gt;    |DateInterval         |[Компонент ввода интервала дат](../xml/field#date-interval)                                  |
+|&lt;code-editor&gt;      |CodeEditor           |[Компонент редактора кода](../xml/field#code-editor)                                         |
+|&lt;file-upload&gt;      |FileUpload           |[Компонент загрузки файлов](../xml/field#file-upload)                                        |
+|&lt;slider&gt;           |Slider               |[Компонент ползунок](../xml/field#slider)                                                    |
+|&lt;time-picker&gt;      |TimePicker           |[Компонент ввода времени](../xml/field#time-picker)                                          |
 
-Описание других видов полей можно посмотреть [здесь](../xml/index.mdx#Input_fields).
+Описание других видов полей можно посмотреть [здесь](../xml/field).
 
 ### Ячейка
 
@@ -706,11 +703,11 @@ __*Основные виды полей*__
 
 __*Основные виды ячеек*__
 
-|Элемент         |React компонент|Описание                                                                      |
-|----------------|---------------|------------------------------------------------------------------------------|
-|&lt;text&gt;    |TextCell       |[Текстовая ячейка](https://n2oapp.net/sandbox/editor/manual_cell_text/)       |
-|&lt;badge&gt;   |BadgeCell      |[Ячейка значок](https://n2oapp.net/sandbox/editor/manual_cell_badge/)         |
-|&lt;icon&gt;    |IconCell       |[Ячейка иконка](https://n2oapp.net/sandbox/editor/manual_cell_icon/)          |
-|&lt;link&gt;    |LinkCell       |[Ячейка ссылка](https://n2oapp.net/sandbox/editor/manual_cell_link/)          |
-|&lt;checkbox&gt;|CheckboxCell   |[Ячейка чекбокс](https://n2oapp.net/sandbox/editor/manual_cell_checkbox/)     |
-|&lt;toolbar&gt; |ToolbarCell    |[Ячейка с меню кнопок](https://n2oapp.net/sandbox/editor/manual_cell_toolbar/)|
+|Элемент         |React компонент|Описание                                   |
+|----------------|---------------|-------------------------------------------|
+|&lt;text&gt;    |TextCell       |[Текстовая ячейка](../xml/cell#text)       |
+|&lt;badge&gt;   |BadgeCell      |[Ячейка значок](../xml/cell#badge)         |
+|&lt;icon&gt;    |IconCell       |[Ячейка иконка](../xml/cell#icon)          |
+|&lt;link&gt;    |LinkCell       |[Ячейка ссылка](../xml/cell#link)          |
+|&lt;checkbox&gt;|CheckboxCell   |[Ячейка чекбокс](../xml/cell#checkbox)     |
+|&lt;toolbar&gt; |ToolbarCell    |[Ячейка с меню кнопок](../xml/cell#toolbar)|

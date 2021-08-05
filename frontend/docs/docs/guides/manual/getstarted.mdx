@@ -84,7 +84,7 @@ title: Начало работы
 
 ```xml
 <properties>
-  <n2o.version>7.16.0</n2o.version>
+  <n2o.version>7.17.0</n2o.version>
 </properties>
 
 <dependencies>
@@ -148,15 +148,20 @@ spring.http.encoding.force=true
 ```
 npm init react-app frontend
 ```
-Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, проинициализирует React проект.
+Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, проинициализирует React проект последней версии.
 
 Перейдите в папку `/frontend`:
 
 ```
 cd frontend
 ```
+Так как в библиотеке `n2o-framework` используется версия React `16.14.0` необходимо будет понизить версию в проекте командой
 
-и установите библиотеку `n2o-framework`:
+```
+npm install --save react@16.14.0 react-dom@16.14.0
+```
+
+Затем установите библиотеку `n2o-framework`:
 
 ```
 yarn add n2o-framework --save
@@ -167,7 +172,7 @@ reportWebVitals.js.
 
 Отредактируйте файл `/frontend/src/index.js`. Он должен выглядеть следующим образом:
 
-```
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import N2O from 'n2o-framework';
@@ -289,14 +294,14 @@ n.n2oapp.framework.config.ConfigStarter  : N2O was started
 
 ### Плагин для Intellij IDEA
 
-Для удобной работы с файлами N2O в IntelliJ IDEA создан специальный плагин. Шаги установки:
+Для удобной работы с файлами N2O в IntelliJ IDEA создан плагин [N2O Framework](https://plugins.jetbrains.com/plugin/13999-n2o-framework).
+Шаги установки:
 
-1. Скачайте файл [n2o-idea-plugin.zip](attachments/n2o-idea-plugin.zip)
-2. В IDEA в меню выберите: Settings > Plugins > Install Plugin from disk
-3. В открывшемся окне выбора файла выберите скачанный файл
-4. Нажмите Apply, перезапустите IDEA
+1. В IDEA в меню `File` выберите: `Settings > Plugins`
+2. В открывшемся окне на вкладке Marketplace в строке поиска введите "N2O Framework"
+3. Нажмите Install, перезапустите IDEA
 
-![](./images/index-1a4c8.png)
+![](./images/ideaPlugin.jpg)
 
 ### Создание Hello World
 

@@ -12,12 +12,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.SerializationUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Сохранение и загрузка данных RouteRegister в БД
+ * Сохранение и загрузка данных RouteRegister в реляционную БД
  */
 public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, CompileContext> {
 
@@ -51,18 +52,9 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     }
 
     @Override
-    public void clear(Predicate<? super RouteInfoKey> filter) {
-        final String selectSQL = "SELECT id, url, class FROM " + tableName;
-        final String deleteSQL = "DELETE FROM " + tableName + " WHERE id in ";
-
-        String deleteList = jdbcTemplate.queryForList(selectSQL).stream()
-                .filter(f -> filter.test(getKey(f)))
-                .map(a -> "'" + a.get("id") + "'")
-                .reduce((a, b) -> a + "," + b).orElseGet(String::new);
-
-        if (!deleteList.isEmpty()) {
-            jdbcTemplate.update(deleteSQL + "(" + deleteList + ")");
-        }
+    public void clearAll() {
+        final String deleteSQL = "DELETE FROM " + tableName;
+        jdbcTemplate.update(deleteSQL);
     }
 
     @Override

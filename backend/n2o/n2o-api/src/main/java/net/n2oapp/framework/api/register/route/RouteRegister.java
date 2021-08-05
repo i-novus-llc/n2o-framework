@@ -13,21 +13,19 @@ public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileC
     /**
      * Регистрация URL адреса метаданной
      *
-     * @param urlPattern шаблон URl адреса метаданной
-     * @param context    контекст сборки метаданной
+     * @param urlPattern Шаблон URl адреса метаданной
+     * @param context    Контекст сборки метаданной
      */
     void addRoute(String urlPattern, CompileContext<? extends Compiled, ?> context);
 
     /**
-     * Удаление информации об адресах метаданных, начинающихся с определенного URL.
-     *
-     * @param startPattern URL начального адреса
+     * Удаление информации об адресах метаданных
      */
-    void clear(String startPattern);
+    void clearAll();
 
     /**
      * Синхронизация с репозиторием
-     * @return true если появились новые данные
+     * @return true, если появились новые данные
      */
     default boolean synchronize() {
         return false;
