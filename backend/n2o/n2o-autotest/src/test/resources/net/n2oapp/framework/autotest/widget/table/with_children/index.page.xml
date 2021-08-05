@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тестирование древовидной таблицы">
+    <table query-id="test" children="expand">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+        <rows>
+            <click enabled="{typeof isParent == 'undefined' || isParent == null || !isParent}">
+                <show-modal page-id="modal" route="/modal"/>
+            </click>
+        </rows>
+    </table>
+</simple-page>
