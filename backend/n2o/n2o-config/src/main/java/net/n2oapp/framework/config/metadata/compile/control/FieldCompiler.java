@@ -336,8 +336,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                         enablingConditions.add(dependency.getValue());
                 }
             }
-            if (object.getValidations() == null)
-                object.setValidations(new ArrayList<>());
+            ArrayList<Validation> objectValidations = new ArrayList<>();
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);
@@ -350,11 +349,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     compiledValidation.addEnablingConditions(enablingConditions);
                 }
                 compiledValidation.addEnablingConditions(visibilityConditions);
-                object.addValidation(compiledValidation);
+                objectValidations.add(compiledValidation);
                 serverValidations.add(compiledValidation);
                 if (compiledValidation.getSide() == null || compiledValidation.getSide().contains("client"))
                     clientValidations.add(compiledValidation);
             }
+            if (object != null)
+                object.getValidations().addAll(objectValidations);
         }
     }
 
