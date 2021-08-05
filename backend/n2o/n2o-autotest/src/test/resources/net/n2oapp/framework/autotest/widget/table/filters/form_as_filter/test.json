@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "period": {
+      "id": "HALF_YEAR"
+    }
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "period": {
+      "id": "YEAR"
+    }
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "period": {
+      "id": "HALF_YEAR"
+    }
+  },
+  {
+    "id": 4,
+    "name": "test4",
+    "period": {
+      "id": "FIVE_YEARS"
+    }
+  }
+]
