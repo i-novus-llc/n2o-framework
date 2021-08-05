@@ -28,7 +28,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,15 +46,10 @@ import static org.hamcrest.Matchers.notNullValue;
  */
 public class StandardFieldCompileTest extends SourceCompileTestBase {
 
-    private Form form;
-
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-
-        form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml")
-                .get(new WidgetContext("testStandardField"));
     }
 
     @Override
@@ -63,11 +57,14 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oCellsPack(), new N2oControlsPack(), new N2oAllDataPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/mapping/testCell.object.xml"));
     }
 
     @Test
     public void testDependencies() {
+        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
+                .get(new WidgetContext("testStandardField"));
+
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getDependencies().size(), is(10));
 
@@ -113,6 +110,10 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testToolbar() {
+        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
+                .get(new WidgetContext("testStandardField"));
+
         Group[] toolbar = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0)
                 .getToolbar();
 
@@ -132,6 +133,9 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testValidations() {
+        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
+                .get(new WidgetContext("testStandardField"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(2).getFields().get(0);
 
         List<Validation> clientValidations = field.getClientValidations();
@@ -175,8 +179,31 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    public void testInlineValidations() {
+        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.widget.xml")
+                .get(new WidgetContext("testStandardFieldInlineValidations"));
+        List<Field> fields = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields();
+
+        List<Validation> clientValidations = fields.get(0).getClientValidations();
+        assertThat(clientValidations.size(), is(1));
+        assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(clientValidations.get(0).getMessage(), is("Только Казань"));
+        assertThat(clientValidations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+        assertThat(((ConditionValidation) clientValidations.get(0)).getExpression(), is("city=='Казань'"));
+
+        List<Validation> serverValidations = fields.get(0).getServerValidations();
+        assertThat(serverValidations.size(), is(1));
+        assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(serverValidations.get(0).getMessage(), is("Только Казань"));
+        assertThat(serverValidations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+        assertThat(((ConditionValidation) serverValidations.get(0)).getExpression(), is("city=='Казань'"));
+
+    }
+
+    @Test
     public void testSubmit() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmit"));
         Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
@@ -224,7 +251,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSubmitInDependentWidget() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testSubmitInDependentWidget.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testSubmitInDependentWidget.page.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testSubmitInDependentWidget"));
         StandardField field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
                 .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
@@ -237,7 +265,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSubmitWithoutRoute() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmitWithoutRoute"));
         Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
