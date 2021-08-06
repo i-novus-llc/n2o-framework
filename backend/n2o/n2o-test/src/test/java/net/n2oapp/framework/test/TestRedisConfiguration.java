@@ -15,7 +15,10 @@ public class TestRedisConfiguration {
     private RedisServer redisServer;
 
     public TestRedisConfiguration(@Value("${spring.redis.port}") int port) {
-        this.redisServer = new RedisServer(port);
+        this.redisServer = RedisServer.builder()
+                .port(port)
+                .setting("maxmemory 128M")
+                .build();
     }
 
     @PostConstruct
