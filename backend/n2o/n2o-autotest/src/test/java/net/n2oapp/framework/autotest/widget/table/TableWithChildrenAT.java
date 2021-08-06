@@ -1,5 +1,8 @@
 package net.n2oapp.framework.autotest.widget.table;
 
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Cells;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -15,9 +18,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 
 /**
- * Автотест атрибута children="expand"
+ * Тестирование древовидной таблицы
  */
-public class ChildrenColumnAT extends AutoTestBase {
+public class TableWithChildrenAT extends AutoTestBase {
+
+    private SimplePage page;
 
     @BeforeAll
     public static void beforeClass() {
@@ -28,6 +33,13 @@ public class ChildrenColumnAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        page = open(SimplePage.class);
+        page.shouldExists();
     }
 
     @Override
@@ -38,13 +50,6 @@ public class ChildrenColumnAT extends AutoTestBase {
 
     @Test
     public void testTable() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/children_column/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/children_column/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Children column");
-
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.paging().totalElementsShouldBe(4);
@@ -82,4 +87,25 @@ public class ChildrenColumnAT extends AutoTestBase {
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "11", "12", "13", "2", "21", "22", "23", "3", "4"));
     }
 
+    @Test
+    public void testRowClickEnabled() {
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+        table.paging().totalElementsShouldBe(4);
+        table.columns().rows().shouldHaveSize(10);
+
+        Cells parentRow = table.columns().rows().row(0);
+        parentRow.cell(1).textShouldHave("test1");
+        parentRow.shouldNotBeClickable();
+        Modal modal = N2oSelenide.modal();
+        parentRow.click();
+        modal.shouldNotExists();
+
+        Cells childrenRow = table.columns().rows().row(1);
+        childrenRow.cell(1).textShouldHave("name11");
+        childrenRow.shouldBeClickable();
+        childrenRow.click();
+        modal.shouldExists();
+        modal.close();
+    }
 }

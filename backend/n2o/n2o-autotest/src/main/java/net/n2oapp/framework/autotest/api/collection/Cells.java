@@ -17,6 +17,10 @@ public interface Cells extends ComponentsCollection {
 
     void click();
 
+    void shouldBeClickable();
+
+    void shouldNotBeClickable();
+
     void hover();
 
     void shouldHaveColor(Colors color);
