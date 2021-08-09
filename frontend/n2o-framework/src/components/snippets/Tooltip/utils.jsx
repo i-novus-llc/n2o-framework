@@ -91,15 +91,17 @@ export function RenderTooltipBody({
             })}
         >
             {hint && (
-                <div
-                    {...getArrowProps({
-                        ref: arrowRef,
-                        'data-placement': placement,
-                        className: arrowClassName(theme),
-                    })}
-                />
+                <>
+                    <div
+                        {...getArrowProps({
+                            ref: arrowRef,
+                            'data-placement': placement,
+                            className: arrowClassName(theme),
+                        })}
+                    />
+                    <RenderTooltipHint hint={hint} />
+                </>
             )}
-            <RenderTooltipHint hint={hint} />
         </div>
     )
 }
