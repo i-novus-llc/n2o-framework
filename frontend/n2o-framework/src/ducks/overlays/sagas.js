@@ -3,6 +3,7 @@ import { isDirty } from 'redux-form'
 import keys from 'lodash/keys'
 import has from 'lodash/has'
 import get from 'lodash/get'
+import { LOCATION_CHANGE } from 'connected-react-router'
 
 import { makePageWidgetsByIdSelector } from '../pages/selectors'
 import { refreshEffect } from '../../sagas/meta'
@@ -97,11 +98,12 @@ export const overlaysSagas = [
     takeEvery(CLOSE, checkPrompt),
 
     takeEvery(
-        action => action.meta &&
+        action => (action.meta &&
       action.payload &&
       !action.payload.prompt &&
       action.meta.modalsToClose &&
-      action.type !== CLOSE,
+      action.type !== CLOSE) ||
+      action.type === LOCATION_CHANGE,
         closeOverlays,
     ),
     fork(onCloseEffects),
