@@ -14,12 +14,15 @@
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     color: white;
     font-size: 14px;
+    max-width: 200px;
 }
 
 .list-text-cell__tooltip-container__body {
     padding: 5px;
     align-items: center;
     vertical-align: center;
+    max-width: 200px;
+    word-wrap: break-word;
 }
 
 .tooltip-arrow[data-placement*='bottom']::before {

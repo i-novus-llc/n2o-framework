@@ -27,6 +27,7 @@ function FileUploader({
     onStartUpload,
     uploaderClass,
     saveBtnStyle,
+    deleteIcon,
     t,
 }) {
     const showControl = multiple || (!multiple && isEmpty(files))
@@ -63,6 +64,7 @@ function FileUploader({
                             autoUpload={autoUpload}
                             showSize={showSize}
                             disabled={disabled}
+                            deleteIcon={deleteIcon}
                         />
                     )}
                     {!autoUpload && (
@@ -100,6 +102,7 @@ FileUploader.propTypes = {
     onRemove: PropTypes.func,
     accept: PropTypes.string,
     className: PropTypes.string,
+    deleteIcon: PropTypes.string,
     autoUpload: PropTypes.bool,
     disabled: PropTypes.bool,
     multiple: PropTypes.bool,
