@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.17.5",
+  "version": "7.17.6",
   "description": "N2O React",
   "repository": {
     "type": "git",
@@ -94,7 +94,7 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "2.20.1",
-    "n2o-auth": "^7.17.5",
+    "n2o-auth": "^7.17.6",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
     "print-js": "1.5.0",
@@ -175,6 +175,7 @@
     "@babel/standalone": "^7.0.0",
     "@storybook/addon-jest": "5.0.6",
     "@storybook/addon-options": "5.0.6",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "axios-mock-adapter": "^1.16.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.0",
@@ -182,7 +183,6 @@
     "core-js": "2.6",
     "css-loader": "^0.28.9",
     "enzyme": "^3.9.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "enzyme-to-json": "^3.1.0",
     "esdoc": "1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
