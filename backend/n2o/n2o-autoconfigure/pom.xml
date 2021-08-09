@@ -87,12 +87,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-export</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
             <optional>true</optional>
