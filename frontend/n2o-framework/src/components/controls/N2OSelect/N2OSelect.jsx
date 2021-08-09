@@ -86,6 +86,7 @@ class N2OSelect extends React.Component {
         }
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
         const { options } = this.props
         const state = {}

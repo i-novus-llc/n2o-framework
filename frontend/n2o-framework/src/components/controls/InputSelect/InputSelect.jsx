@@ -96,6 +96,7 @@ class InputSelect extends React.Component {
         this.toggle = this.toggle.bind(this)
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
         const state = {}
         const { multiSelect, value, labelFieldId, options } = nextProps

@@ -62,6 +62,7 @@ class Calendar extends React.Component {
         this.setState({ calendarType: type })
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(props) {
         if (props.value) {
             this.setState({
@@ -366,6 +367,7 @@ class Calendar extends React.Component {
     /**
      * Навешивание листенера на нажатие кнопок
      */
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
         document.addEventListener('keydown', this.onKeyDown)
     }

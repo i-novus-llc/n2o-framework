@@ -56,6 +56,7 @@ class ExportModal extends React.Component {
    * Обработка новых проспов
    * @param newProps
    */
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(newProps) {
         this.type = {
             ...this.type,
