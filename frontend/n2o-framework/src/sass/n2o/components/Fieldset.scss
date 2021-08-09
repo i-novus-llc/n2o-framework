@@ -1,11 +1,13 @@
 .n2o-fieldset {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
 
     .col:empty {
         display: none;
     }
 
     .n2o-fieldset__label-container {
+        padding-top: 10px;
+        box-sizing: border-box;
         margin-bottom: 10px;
         display: flex;
     }
