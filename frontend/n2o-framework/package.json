@@ -2,9 +2,12 @@
   "name": "n2o-framework",
   "version": "7.16.0",
   "description": "N2O React",
+  "private": true,
+  "homepage": "https://n2oapp.net/",
   "repository": {
     "type": "git",
-    "url": "git@github.com:i-novus-llc/n2o-framework.git"
+    "url": "git@github.com:i-novus-llc/n2o-framework.git",
+    "directory": "frontend/n2o-framework"
   },
   "main": "lib/index.js",
   "files": [
