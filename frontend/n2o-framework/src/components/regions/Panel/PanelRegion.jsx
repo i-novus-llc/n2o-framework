@@ -45,6 +45,7 @@ class PanelRegion extends React.Component {
         this.getTab = this.getTab.bind(this)
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps() {
         this.getPanelsWithAccess()
     }

@@ -93,6 +93,7 @@ class DateTimeControl extends React.Component {
     /**
      * Обработка новых пропсов
      */
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(props) {
         const { value, dateFormat, configLocale, timeFormat, dateDivider, outputFormat } = props
 
@@ -259,6 +260,7 @@ class DateTimeControl extends React.Component {
     /**
      * Навешивание листенеров для появления / исчезания попапа
      */
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
         if (typeof window !== 'undefined') {
             document.addEventListener('mousedown', this.onClickOutside.bind(this))
