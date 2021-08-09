@@ -3,7 +3,7 @@
  */
 // Глобал enzyme
 import Enzyme, { shallow, render, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
 
 registerRequireContextHook();

@@ -51,6 +51,7 @@ class InputSelectContainer extends React.Component {
         }
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
         const resetMode = (nextProps.filterValues || []).reduce(
             (res, val) => res || val.resetMode,

@@ -28,6 +28,7 @@ class SecurityCheck extends React.Component {
         await this.checkPermissions(this.props)
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
         const { user, config } = this.props
 
