@@ -1,6 +1,7 @@
 ---
 title: Связывание с данными
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 В N2O Framework визуальные компоненты связываются с данными через объекты и выборки.
 Объекты и выборки делегируют свои вызовы провайдерам данных.
@@ -31,7 +32,7 @@ title: Связывание с данными
 </object>
 ```
 
-[Подробнее об объектах](../xml/index.mdx#Object)
+[Подробнее об объектах](../xml/object)
 
 #### Операции объекта {#Object_operations}
 
@@ -60,7 +61,7 @@ title: Связывание с данными
 </operation>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_object_operations/)
+<Sandbox height={200} projectId="data_object_operations" />
 
 #### Валидации объекта
 
@@ -81,7 +82,7 @@ title: Связывание с данными
 </validations>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_object_validation_condition/)
+<Sandbox height={400} projectId="data_object_validation_condition" />
 
 Условия пишутся на языке JavaScript.
 
@@ -105,7 +106,7 @@ title: Связывание с данными
 </validations>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_object_validation_constraint/)
+<Sandbox height={300} projectId="data_object_validation_constraint" />
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для [провайдера](#Data_providers)
@@ -137,11 +138,11 @@ title: Связывание с данными
 За получение списка записей отвечает элемент `<list>`.
 За получение общего количества записей — элемент `<count>`.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_query_list/)
+<Sandbox height={500} projectId="data_query_list" />
 
 А за получение одной уникальной записи — `<unique>`.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_query_unique/)
+<Sandbox height={300} projectId="data_query_unique" />
 
 Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
 
@@ -151,7 +152,7 @@ title: Связывание с данными
 </list>
 ```
 
-[Подробнее о выборках](../xml/index.mdx#Query)
+[Подробнее о выборках](../xml/query)
 
 #### Поля выборки {#Selection_fields}
 
@@ -192,7 +193,7 @@ title: Связывание с данными
 <list>
 ```
 
-##### Фильтры выборки {#Selection_filters}
+#### Фильтры выборки {#Selection_filters}
 
 Фильтров у одного поля выборки может быть много.
 Различаются они по типу фильтрации.
@@ -225,7 +226,7 @@ __*Типы фильтраций*__
 </filters>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_query_list_filters/)
+<Sandbox height={700} projectId="data_query_list_filters" />
 
 Атрибут `filter-id` задаёт уникальный идентификатор фильтра,
 по которому можно определить поле выборки и тип фильтрации.
@@ -320,7 +321,7 @@ __*Настройки SQL провайдера*__
 Если необходимо подключиться к другой базе данных, то можно задать
 класс jdbc драйвера настройкой `n2o.engine.jdbc.driver-class-name`.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_sql/)
+<Sandbox height={400} projectId="data_providers_sql" />
 
 #### REST провайдер данных
 
@@ -358,7 +359,7 @@ REST провайдер выполняет http запросы к backend сер
 </operation>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_rest/)
+<Sandbox height={400} projectId="data_providers_rest" />
 
 #### Java провайдеры данных
 
@@ -407,8 +408,8 @@ REST провайдер выполняет http запросы к backend сер
     </java>
   </invocation>
   <in>
-    <field id="firstName"/>
-    <field id="lastName"/>
+    <field id="firstName" mapping="[0].firstName"/>
+    <field id="lastName" mapping="[0].lastName"/>
   </in>
 </operation>
 ```
@@ -556,7 +557,7 @@ __*Автоматическая генерация для mongodb провайд
 
 Доступны операции insertOne, updateOne, deleteOne, deleteMany, countDocuments.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_mongodb/)
+<Sandbox height={300} projectId="data_providers_mongodb" />
 
 
 ### Типы данных
@@ -627,7 +628,7 @@ integer[]
 
 Подобная связь называется биндингом.
 
-[Пример](https://n2oapp.net/sandbox/editor/data_binding_simple/)
+<Sandbox height={200} projectId="data_binding_simple" />
 
 #### Биндинг составных полей
 
@@ -656,7 +657,7 @@ integer[]
 <field id="gender.id"/> <!-- 1 -->
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_binding_select/)
+<Sandbox height={200} projectId="data_binding_select" />
 
 #### Биндинг интервальных полей
 
@@ -686,8 +687,7 @@ integer[]
 <field id="period.end"/> <!-- 31.12.2018 00:00 -->
 ```
 
-
-[Пример](https://n2oapp.net/sandbox/editor/data_binding_interval/)
+<Sandbox height={350} projectId="data_binding_interval" />
 
 #### Биндинг полей множественного выбора
 
@@ -729,13 +729,14 @@ integer[]
 Для их приведения в соответствие используется атрибут `mapping`.
 Выражение в `mapping` записывается на языке [SpEL](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions).
 
-Провайдеры делятся по типу входных параметров: "ключ значение" и "массив значений".
+Провайдеры используют тип входных параметров: "ключ значение".
 
-Java провайдеры используют тип параметров "массив значений".
-Поэтому в маппинге java нужно обращаться к номеру аргумента, например, `[0]`.
+:::note
 
-Провайдеры sql, rest и mongodb используют "ключ значение".
-Поэтому в маппинге нужно обращаться к ключу, например, `['name']`.
+Java провайдеры в качестве альтернативы могут использовать тип входных параметров "массив значений".
+Поэтому в маппинге java можно также обращаться по индексу аргумента, например, `[0]`, `[1].name`.
+
+:::
 
 #### Маппинг фильтров
 
@@ -771,7 +772,7 @@ Java провайдеры используют тип параметров "ма
 </query>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_sql_mapping/)
+<Sandbox height={500} projectId="data_providers_sql_mapping" />
 
 ```xml title="Маппинг фильтров в rest провайдере"
 <query>
@@ -803,7 +804,7 @@ Java провайдеры используют тип параметров "ма
 </query>
 ```
 
-[Пример](https://n2oapp.net/sandbox/editor/data_providers_rest_mapping/)
+<Sandbox height={500} projectId="data_providers_rest_mapping" />
 
 ```xml title="Маппинг сортировки в mongodb провайдере"
 <query>
@@ -889,29 +890,28 @@ class Calculator {
 }
 ```
 
-Чтобы смапить значение поля ввода в примитивный аргумент java метода, достаточно указать порядковый номер аргумента:
+Чтобы смапить значение поля ввода в примитивный аргумент java метода, достаточно указать имя аргумента:
 
 ```xml title="Маппинг примитивов в java провайдере"
 <operation>
   <invocation>
     <java class="com.example.Calculator" method="sum">
       <arguments>
-        <argument type="primitive"/>
-        <argument type="primitive"/>
+        <argument type="primitive" name="arg1"/>
+        <argument type="primitive" name="arg2"/>
       </arguments>
     </java>
   </invocation>
   <in>
-    <field id="a" mapping="[0]"/>
-    <field id="b" mapping="[1]"/>
+    <field id="a" mapping="['arg1']"/>
+    <field id="b" mapping="['arg2']"/>
   </in>
 </operation>
 ```
 
 :::note
 
-Если поля указаны именно в том порядке, в котором и соответствующие
-им аргументы, то указывать маппинг необязательно.
+Аргументы должны быть указаны в том же порядке, что и соответствующие аргументы java метода
 
 :::
 
@@ -933,7 +933,6 @@ class MyEntity {
 ```
 
 Тип `entity` может быть задан только один раз среди всех аргументов.
-Маппинг в сущность задаётся напрямую, без указания порядкового номера аргумента:
 
 ```xml title="Маппинг сущности в java провайдере"
 <operation>
@@ -946,9 +945,8 @@ class MyEntity {
     </java>
   </invocation>
   <in>
-    <!-- Для type="entity" в mapping нет [0]. -->
-    <field id="firstName" mapping="name"/>
-    <field id="lastName" mapping="surname"/>
+    <field id="firstName" mapping="[0].name"/>
+    <field id="lastName" mapping="[0].surname"/>
   </in>
 </operation>
 ```
@@ -983,7 +981,6 @@ class MyCriteria extends Criteria {
 ```
 
 Тип `criteria` может быть задан только один раз среди всех аргументов.
-Маппинг фильтров в критерии задаётся напрямую, без указания порядкового номера аргумента.
 Маппинга сортировки и паджинации не предусмотрено, они передаются через базовый класс наследник.
 
 
@@ -1004,9 +1001,8 @@ class MyCriteria extends Criteria {
   <fields>
     <field id="birthday">
       <filters>
-          <!-- Для type="criteria" в mapping нет [0]. -->
-          <more filter-id="birthdays.begin" mapping="['birthdayAfter']"/>
-          <less filter-id="birthdays.end" mapping="['birthdayBefore']"/>
+          <more filter-id="birthdays.begin" mapping="[0].birthdayAfter"/>
+          <less filter-id="birthdays.end" mapping="[0].birthdayBefore"/>
       </filters>
       <sorting/>
     </field>
@@ -1236,8 +1232,8 @@ class MyEntity {
 <object entity-class="com.example.MyEntity">
   <fields>
     <!-- Простые поля -->
-    <field id="id" domain="long" mapping="id"/>
-    <field id="birthday" domain="date" mapping="birthDate"/>
+    <field id="id" domain="long" mapping="['id']"/>
+    <field id="birthday" domain="date" mapping="['birthDate']"/>
   </fields>
 </object>
 ```
@@ -1260,7 +1256,7 @@ class MyEntity {
 ```xml title="Маппинг полей с @OneToOne"
 <fields>
   <reference id="address"
-    mapping="addr">
+    mapping="['addr']">
     <!-- Вложенные поля -->
     <field id="home" domain="string"/>
     <field id="work" domain="string"/>
@@ -1271,7 +1267,7 @@ class MyEntity {
 ```xml title="Вариант с определением полей во внешнем файле"
 <fields>
   <reference id="address"
-    mapping="addr"
+    mapping="['addr']"
     object-id="address"/> <!-- Ссылка на объект address.object.xml -->
 </fields>
 ```
@@ -1301,7 +1297,7 @@ class MyEntity {
 ```xml title="Маппинг полей с @ManyToOne"
 <fields>
   <reference id="sex"
-    mapping="gender"
+    mapping="['gender']"
     required="true"
     object-id="gender"/>
 </fields>
@@ -1334,13 +1330,13 @@ class MyEntity {
 ```xml title="Маппинг полей с @OneToMany и @ManyToMany"
 <fields>
   <set id="statuses"
-    mapping="statuses">
+    mapping="['statuses']">
     <!--Вложенные поля-->
     <field id="id" domain="integer"/>
     <field id="name" domain="string"/>
   </set>
   <list id="addresses"
-    mapping="addrs"
+    mapping="['addrs']"
     object-id="address"/><!--Ссылка на объект-->
 </fields>
 ```
@@ -1362,8 +1358,8 @@ class MyService {
 <object entity-class="com.example.Employee">
   <!-- Маппинг и структура полей сущности -->
   <fields>
-    <field id="name" mapping="name" normalize="..."/>
-    <reference id="org" mapping="organization" object-id="org"/>
+    <field id="name" mapping="['name']" normalize="..."/>
+    <reference id="org" mapping="['organization']" object-id="org"/>
     <list id="departments" entity-class="com.example.Department">
       <field id="id"/>
       <field id="name"/>
@@ -1443,7 +1439,7 @@ __*Модели виджета*__
 |edit      |Модель данных, в момент редактирования.            |Форма, открытая на редактирование, с изменёнными полями.          |
 
 На модель виджета ссылаются в зависимостях,
-например, при [предустановленной фильтрации](#pre-filters).
+например, при [предустановленной фильтрации](../xml/base#pre-filters).
 
 ```xml title="Ссылка на модель виджета в предустановленной фильтрации"
 <pre-filters>
@@ -1455,7 +1451,7 @@ __*Модели виджета*__
 </pre-filters>
 ```
 
-На модель виджета так же ссылаются в [действиях](#Buttons_and_Actions),
+На модель виджета так же ссылаются в [действиях](../xml/action),
 чтобы задать область данных, над которой происходит действие.
 
 ```xml title="Ссылка на модель виджета в действиях"

@@ -62,16 +62,25 @@ public class DomainProcessor {
     public Object deserialize(Object value, String domain) {
         if (value == null)
             return null;
-        if (value instanceof String && ((String) value).isEmpty())
-            return null;
         if (StringUtils.isDynamicValue(value))
             return value;
+        if (value instanceof String) {
+            String strValue = (String) value;
+            if (strValue.isEmpty())
+                return null;
+            if (StringUtils.isEscapedString(strValue)) {
+                value = StringUtils.unwrapEscapedString(strValue);
+                domain = Domain.STRING.getName();
+            }
+        }
+
         if (domain == null) {
             //пытаемся подобрать домен по значению, если не подобрали - возвращаем значение как есть
             domain = findDomain(value);
             if (domain == null)
                 return value;
         }
+
         domain = domain.toLowerCase();
         if (isArray(domain)) {
             return convertArray(value, domain);
@@ -80,6 +89,7 @@ public class DomainProcessor {
         } else if (StringUtils.isJson(value)) {
             return convertObject(((String) value).substring(1, ((String) value).length() - 1), domain);
         }
+
         return convertObject(value, domain);
     }
 

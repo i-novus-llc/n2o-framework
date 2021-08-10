@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table object-id="test">
+        <columns>
+            <column text-field-id="name">
+                <link>
+                    <open-page page-id="page" route="/:name/open">
+                        <path-param name="name" value="{name}"/>
+                        <query-param name="age" value="{age}"/>
+                        <query-param name="orgId" value="22"/>
+                    </open-page>
+                </link>
+            </column>
+        </columns>
+    </table>
+</simple-page>

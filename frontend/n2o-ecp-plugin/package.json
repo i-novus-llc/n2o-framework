@@ -2,13 +2,21 @@
   "name": "n2o-ecp-plugin",
   "version": "7.16.0",
   "description": "Плагин упрощающий работу с Крипто-Про в N2O-7",
+  "private": true,
+  "homepage": "https://n2oapp.net/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:i-novus-llc/n2o-framework.git",
+    "directory": "frontend/n2o-ecp-plugin"
+  },
+  "author": "",
+  "license": "MIT",
+  "keywords": [
+    "react-component"
+  ],
   "main": "lib/index.js",
-  "module": "es/index.js",
   "files": [
-    "css",
-    "es",
-    "lib",
-    "umd"
+    "lib"
   ],
   "scripts": {
     "build": "nwb build-react-component",
@@ -32,12 +40,5 @@
     "react-dom": "*",
     "reactstrap": "*",
     "recompose": "*"
-  },
-  "author": "",
-  "homepage": "",
-  "license": "MIT",
-  "repository": "",
-  "keywords": [
-    "react-component"
-  ]
+  }
 }

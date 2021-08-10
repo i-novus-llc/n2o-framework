@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <region>
+            <form id="period">
+                <fields>
+                    <set>
+                        <radio-group id="period" label="Period" param="period" inline="true">
+                            <options>
+                                <option id="WEEK" name="Week"/>
+                                <option id="MONTH" name="Month"/>
+                                <option id="HALF_YEAR" name="Half year"/>
+                                <option id="YEAR" name="Year"/>
+                                <option id="FIVE_YEARS" name="5 years"/>
+                            </options>
+                            <default-value id="YEAR" name="Year"/>
+                        </radio-group>
+                    </set>
+                </fields>
+            </form>
+            <table depends-on="period" query-id="test" fetch-on-init="true">
+                <columns>
+                    <column text-field-id="name"/>
+                </columns>
+                <pre-filters>
+                    <eq field-id="period.id" value="{period.id}"/>
+                </pre-filters>
+            </table>
+        </region>
+
+    </regions>
+</page>

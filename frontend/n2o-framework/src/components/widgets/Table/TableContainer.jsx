@@ -55,6 +55,7 @@ export const withWidgetContainer = widgetContainer(
 )
 
 export const withContainerLiveCycle = lifecycle({
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
         const {
             selectedId: prevSelectedId,

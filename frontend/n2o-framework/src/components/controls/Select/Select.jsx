@@ -33,6 +33,7 @@ export class Select extends React.Component {
         this.onChange = this.onChange.bind(this)
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(props) {
         const { value: stateValue } = this.state
         const { value: propsValue } = props

@@ -108,6 +108,31 @@ public abstract class StringUtils {
     }
 
     /**
+     * Проверка, что строка окаймлена экранированными символами
+     * Примеры:
+     * {@code
+     *      isEscapedString("'true'");  //true
+     *      isEscapedString("'123'");   //true
+     *      isEscapedString("true");    //false
+     * }
+     * @param text Текст
+     * @return
+     */
+    public static boolean isEscapedString(String text) {
+        return text.startsWith("'") && text.endsWith("'");
+    }
+
+    /**
+     * Получение текста внутри экранированных символов
+     *
+     * @param text Текст
+     * @return Текст без экранированных символов или исходный текст
+     */
+    public static String unwrapEscapedString(String text) {
+        return isEscapedString(text) ? text.substring(1, text.length() - 1) : text;
+    }
+
+    /**
      * Проверка, что значение - json(то есть обрамлено двойными {{ }} )
      * Примеры:
      * {@code

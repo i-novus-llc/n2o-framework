@@ -1,11 +1,11 @@
 import { takeEvery, put, select } from 'redux-saga/effects'
 import { touch, change, actionTypes } from 'redux-form'
 import get from 'lodash/get'
+import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
-import setWith from 'lodash/setWith'
 import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 
@@ -117,11 +117,7 @@ export function* copyAction({ payload }) {
     const expression = parseExpression(sourceMapper)
     let newModel = {}
     const targetModelField = get(targetModel, [target.field], [])
-
-    const path = target.field
-    const treePath = includes(path, '.')
-
-    const withTreeObject = (path, sheetValue) => setWith({}, path, sheetValue)
+    const treePath = includes(target.field, '.')
 
     if (expression) {
         sourceModel = evalExpression(expression, sourceModel)
@@ -152,13 +148,8 @@ export function* copyAction({ payload }) {
             }
             : [...targetModelField, ...sourceModel]
     } else if (treePath) {
-        if (sourceModel) {
-            newModel = target.field
-                ? merge({}, targetModel, withTreeObject(path, sourceModel))
-                : sourceModel
-        } else {
-            newModel = {}
-        }
+        newModel = merge({}, targetModel)
+        set(newModel, target.field, sourceModel)
     } else {
         newModel = target.field
             ? {
@@ -168,7 +159,9 @@ export function* copyAction({ payload }) {
             : sourceModel
     }
 
-    yield put(change(target.key, target.field, get(newModel, path)))
+    const value = get(newModel, target.field)
+
+    yield put(change(target.key, target.field, typeof value === 'undefined' ? null : value))
     yield put(setModel(target.prefix, target.key, newModel))
 }
 

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <checkbox-group id="gender" inline="false" css-class="n2o" visible="true" param="genders"
+                            label="Label" query-id="testSelect" label-field-id="name">
+                <pre-filters>
+                    <notEq field-id="ref" value="`someField`"/>
+                    <contains field-id="country">
+                        <value>1</value>
+                        <value>2</value>
+                        <value>3</value>
+                    </contains>
+                </pre-filters>
+            </checkbox-group>
+
+            <checkbox-group id="inn" format="{name}  {inn}"/>
+            <checkbox-group id="pass" format="password"/>
+        </fields>
+    </form>
+</simple-page>

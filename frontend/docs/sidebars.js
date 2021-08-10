@@ -49,6 +49,7 @@ module.exports = {
             type: 'category',
             label: 'Миграция',
             items: [
+                'guides/migration/to_7_18',
                 'guides/migration/to_7_17',
                 'guides/migration/to_7_16',
                 'guides/migration/to_7_15',
@@ -110,9 +111,10 @@ module.exports = {
                 },
                 {
                     type: 'category',
-                    label: 'Ввод данных',
+                    label: 'Ввод и вывод данных',
                     items: [
                         'examples/components/fields',
+                        'examples/components/output_fields',
                         'examples/components/select',
                         'examples/components/select_tree',
                         'examples/components/date_time',

@@ -1,6 +1,7 @@
 ---
 title: Структура приложения
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 ## Структура приложения (&lt;application&gt;) {#Application}
 
@@ -71,6 +72,8 @@ http://n2oapp.net/framework/config/schema/application-1.0
 </application>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_menu_header_on_top" showHeader />
+
 ### Боковая панель (&lt;sidebar&gt;)
 
 **Атрибуты**
@@ -103,6 +106,8 @@ http://n2oapp.net/framework/config/schema/application-1.0
     </sidebar>
 </application>
 ```
+
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_simple" showHeader />
 
 ### Подвал (&lt;footer&gt;)
 
@@ -140,7 +145,7 @@ http://n2oapp.net/framework/config/schema/application-1.0
 
 **Тело**
 
-Список элементов [меню](#Menu)
+Список элементов [меню](../xml/menu)
 
 **Пример**
 

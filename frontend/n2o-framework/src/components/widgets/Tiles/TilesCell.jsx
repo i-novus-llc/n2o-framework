@@ -14,7 +14,7 @@ import propsResolver from '../../../utils/propsResolver'
  * @reactProps {object} model - Модель
  */
 function TilesCell(props) {
-    const { component, model, style } = props
+    const { component, model, style, className } = props
     const resolvedProps = propsResolver(omit(component, ['src']), model)
 
     return (
@@ -25,7 +25,7 @@ function TilesCell(props) {
                 model={model}
                 {...resolvedProps}
                 {...omit(props, ['component', 'model'])}
-                className={classNames('n2o-cards__cell', resolvedProps.className)}
+                className={classNames('n2o-cards__cell', resolvedProps.className, className)}
             />
         </div>
     )

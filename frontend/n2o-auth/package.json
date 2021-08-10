@@ -2,10 +2,15 @@
 	"name": "n2o-auth",
 	"version": "7.16.0",
 	"description": "Пакеты для работы с N2O Security",
-	"main": "lib/index.js",
-	"module": "es/index.js",
+    "private": true,
+    "homepage": "https://n2oapp.net/",
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:i-novus-llc/n2o-framework.git",
+      "directory": "frontend/n2o-auth"
+    },
+    "main": "lib/index.js",
 	"files": [
-		"es",
 		"lib"
 	],
 	"scripts": {

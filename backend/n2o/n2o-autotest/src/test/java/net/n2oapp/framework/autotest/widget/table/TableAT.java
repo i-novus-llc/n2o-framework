@@ -2,12 +2,15 @@ package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -117,6 +120,34 @@ public class TableAT extends AutoTestBase {
             table.columns().rows().row(i).cell(2).shouldHaveIcon("fa-plus");
             table.columns().rows().row(i).cell(3).shouldBeVisible();
         }
+    }
+
+    @Test
+    public void testRowClickEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
+
+        Cells firstRow = table.columns().rows().row(0);
+        firstRow.cell(1).textShouldHave("1");
+        firstRow.shouldNotBeClickable();
+        Modal modal = N2oSelenide.modal();
+        firstRow.click();
+        modal.shouldNotExists();
+
+        Cells thirdRow = table.columns().rows().row(2);
+        thirdRow.cell(1).textShouldHave("2");
+        thirdRow.shouldBeClickable();
+        thirdRow.click();
+        modal.shouldExists();
+        modal.close();
     }
 
     @Test

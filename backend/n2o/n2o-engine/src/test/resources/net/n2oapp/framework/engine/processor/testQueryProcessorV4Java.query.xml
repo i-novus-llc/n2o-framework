@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns:="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
 
     <list count-mapping="size()" result-mapping="#this">
         <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
@@ -39,7 +39,7 @@
         <field id="id" domain="integer">
             <select mapping="testField"/>
             <filters>
-                <eq filter-id="id" mapping="id"/>
+                <eq filter-id="id" mapping="[1].id"/>
                 <more filter-id="id"/>
                 <less filter-id="id"/>
             </filters>
@@ -55,7 +55,7 @@
         <field id="name" domain="string">
             <select mapping="name"/>
             <filters>
-                <eq filter-id="name" mapping="name"/>
+                <eq filter-id="name" mapping="[1].name"/>
             </filters>
         </field>
     </fields>

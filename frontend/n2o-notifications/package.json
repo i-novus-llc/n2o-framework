@@ -3,20 +3,22 @@
   "version": "7.16.0",
   "description": "n2o-notifications React component",
   "author": "",
-  "homepage": "",
   "license": "Apache-2.0",
-  "repository": "",
+  "private": true,
+  "homepage": "https://n2oapp.net/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:i-novus-llc/n2o-framework.git",
+    "directory": "frontend/n2o-notifications"
+  },
   "keywords": [
     "react-component"
   ],
   "gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd",
   "main": "lib/index.js",
-  "module": "es/index.js",
   "files": [
     "css",
-    "es",
-    "lib",
-    "umd"
+    "lib"
   ],
   "scripts": {
     "build": "nwb build-react-component --no-demo",
@@ -36,7 +38,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.13.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "mocha": "^6.2.2",
     "nwb": "0.25.0"
   },

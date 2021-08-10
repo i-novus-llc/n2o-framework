@@ -30,9 +30,12 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
             checkForExistsReferenceObject(object.getId(), object.getObjectFields(), p);
 
         if (object.getOperations() != null)
-            for (N2oObject.Operation operation : object.getOperations())
+            for (N2oObject.Operation operation : object.getOperations()) {
                 if (operation.getInFields() != null)
                     checkForExistsReferenceObject(object.getId(), operation.getInFields(), p);
+                if (operation.getInvocation() != null)
+                    p.validate(operation.getInvocation());
+            }
     }
 
     /**

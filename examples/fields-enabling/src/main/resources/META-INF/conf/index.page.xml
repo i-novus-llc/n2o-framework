@@ -9,11 +9,7 @@
                     <option id="2" name="Женский"/>
                 </options>
             </radio-group>
-            <input-text id="maiden" label="Девичья фамилия">
-                <dependencies>
-                    <enabling on="gender">gender.id==2</enabling>
-                </dependencies>
-            </input-text>
+            <input-text id="maiden" label="Девичья фамилия" enabled="{gender.id==2}"/>
         </fields>
     </form>
 </simple-page>

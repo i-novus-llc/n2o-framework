@@ -199,6 +199,7 @@ class DateInput extends React.Component {
         )
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(props) {
         const { value, dateFormat } = props
 

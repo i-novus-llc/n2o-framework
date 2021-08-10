@@ -1,6 +1,7 @@
 ---
 title: Страницы
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
 
@@ -11,6 +12,8 @@ title: Страницы
 ```
 http://n2oapp.net/framework/config/schema/page-3.0
 ```
+
+## Виды страниц {#pages}
 
 ### &lt;simple-page&gt; {#simple-page}
 
@@ -26,6 +29,8 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </simple-page>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_pages_simple_page" />
+
 **Атрибуты**
 
 |Наименование|Тип       |Описание                                                      |Значение по умолчанию                 |
@@ -39,7 +44,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 **Тело**
 
-[Виджет](#Widgets)
+[Виджет](../xml/widget)
 
 ### &lt;page&gt;
 
@@ -47,17 +52,17 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 **Атрибуты**
 
-|Наименование|Тип                         |Описание                                                      |Значение по умолчанию                 |
-|------------|----------------------------|--------------------------------------------------------------|--------------------------------------|
-|src         |Строка                      |Реализация страницы                                           |                                      |
-|name        |Строка                      |Наименование страницы                                         |                                      |
-|route       |Строка                      |URL страницы                                                  |Формируется из идентификатора страницы|
-|modal-size  |sm lg                       |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id   |Ссылка на [объект](#Object)|Главный объект страницы                                       |                                      |
+|Наименование|Тип                              |Описание                                                      |Значение по умолчанию                 |
+|------------|---------------------------------|--------------------------------------------------------------|--------------------------------------|
+|src         |Строка                           |Реализация страницы                                           |                                      |
+|name        |Строка                           |Наименование страницы                                         |                                      |
+|route       |Строка                           |URL страницы                                                  |Формируется из идентификатора страницы|
+|modal-size  |sm lg                            |Размер модального окна, если страница открыта в модальном окне|                                      |
+|object-id   |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
 
 **Тело**
 
-Список [регионов](#Regions)
+Список [регионов](#regions), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -71,6 +76,8 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </page>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_pages_simple_regions" />
+
 ### &lt;left-right-page&gt; {#left-right-page}
 
 Страница с двумя регионами.
@@ -83,11 +90,11 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |name        |Строка                     |Наименование страницы                                         |                                      |
 |route       |Строка                     |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                      |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id   |Ссылка на [объект](#Object)|Главный объект страницы                                       |                                      |
+|object-id   |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
 
 **Тело**
 
-[Регионы &lt;left&gt; &lt;right&gt;](#left_right)
+Регионы [left и right](#left-right-region), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -102,6 +109,28 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </left-right-page>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_pages_left_right_regions" />
+
+#### Регионы &lt;left&gt; &lt;right&gt; {#left-right-region}
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание      |Значение по умолчанию|
+|------------|------|--------------|---------------------|
+|width       |Строка|Ширина региона|                     |
+
+**Тело**
+
+Список [регионов](#regions)
+Список [виджетов](../xml/widget)
+
+**Пример**
+
+```xml
+<left width="40%">...</left>
+<right width="60%">...</right>
+```
+
 ### &lt;top-left-right-page&gt; {#top-left-right-page}
 
 Страница с тремя регионами.
@@ -114,13 +143,12 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |name             |Строка                     |Наименование страницы                                         |                                      |
 |route            |Строка                     |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size       |sm lg                      |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id        |Ссылка на [объект](#Object)|Главный объект страницы                                       |                                      |
+|object-id        |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
 |scroll-top-button|true false                 |Показывается ли кнопка скролла в начало страницы              |false                                 |
-
 
 **Тело**
 
-[Регионы &lt;top&gt; &lt;left&gt; &lt;right&gt;](#top_left_right)
+Регионы [top, left и right](#top-left-right-region), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -136,6 +164,33 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </top-left-right-page>
 ```
 
+<Sandbox height={420} projectId="uxcomponents_pages_three_regions" />
+
+#### Регионы &lt;top&gt; &lt;left&gt; &lt;right&gt; {#top-left-right-region}
+
+**Атрибуты**
+
+|Наименование|Тип       |Описание                                                           |Значение по умолчанию|
+|------------|----------|-------------------------------------------------------------------|---------------------|
+|width       |Строка    |Ширина региона                                                     |                     |
+|fixed       |true false|Зафиксирован ли регион. Фиксироваться может максимум 2 региона из 3|false                |
+|offset      |Число     |Отступ от верхней границы при фиксировании                         |                     |
+
+
+**Пример**
+
+```xml
+<top fixed="true" offset="100">...</top>
+<left width="40%">...</left>
+<right fixed="true" width="60%" offset="100">...</right>
+```
+
+**Тело**
+
+Список [регионов](#regions)
+Список [виджетов](../xml/widget)
+
+
 ### &lt;searchable-page&gt; {#searchable-page}
 
 Страница с поисковой строкой.
@@ -148,11 +203,11 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |name        |Строка                     |Наименование страницы                                         |                                      |
 |route       |Строка                     |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                      |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id   |Ссылка на [объект](#Object)|Главный объект страницы                                       |                                      |
+|object-id   |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
 
 **Тело**
 
-[Поисковая строка](#search-bar)
+[Поисковая строка](#search-bar), Список [регионов](#regions), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -167,24 +222,26 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </page>
 ```
 
-#### &lt;regions&gt; {#regions}
+<Sandbox height={600} projectId="uxcomponents_pages_search" />
 
-Регионы страницы.
+#### &lt;search-bar&gt; {#search-bar}
 
-**Тело**
+Поисковая строка.
 
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
+**Атрибуты**
+
+|Наименование    |Тип   |Описание                                             |Значение по умолчанию                                     |
+|----------------|------|-----------------------------------------------------|----------------------------------------------------------|
+|class           |Строка|CSS класс стилей                                     |                                                          |
+|placeholder     |Строка|Подсказка для ввода                                  |                                                          |
+|search-widget-id|Строка|Идентификатор виджета для которого производится поиск|Главный виджет страницы                                   |
+|search-filter-id|Строка|Идентификатор фильтра                                |                                                          |
+|search-param    |Строка|Параметр поиска                                      |Идентификатор виджета + Идентификатор фильтра (table_name)|
 
 **Пример**
 
 ```xml
-<regions>
-  <form>...</form>
-  <tabs>...</tabs>
-  <line>...</line>
-  <panel>...</panel>
-</regions>
+<search-bar button-label="Искать" search-widget-id="main" search-filter-id="name"/>
 ```
 
 #### &lt;actions&gt; {#actions}
@@ -224,7 +281,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 **Тело**
 
-[Обработчик действия](#Actions)
+[Обработчик действия](../xml/action)
 
 **Пример**
 
@@ -259,132 +316,20 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </toolbar>
 ```
 
-#### &lt;left&gt; &lt;right&gt; {#left_right}
-
-Регионы &lt;left-right-page&gt;.
-
-**Атрибуты**
-
-|Наименование|Тип   |Описание      |Значение по умолчанию|
-|------------|------|--------------|---------------------|
-|width       |Строка|Ширина региона|                     |
-
-
-**Пример**
-
-```xml
-<left width="40%">...</left>
-<right width="60%">...</right>
-```
-
-**Тело**
-
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
-
-#### &lt;top&gt; &lt;left&gt; &lt;right&gt; {#top_left_right}
-
-Регионы &lt;top-left-right-page&gt;.
-
-**Атрибуты**
-
-|Наименование|Тип       |Описание                                                           |Значение по умолчанию|
-|------------|----------|-------------------------------------------------------------------|---------------------|
-|width       |Строка    |Ширина региона                                                     |                     |
-|fixed       |true false|Зафиксирован ли регион. Фиксироваться может максимум 2 региона из 3|false                |
-|offset      |Число     |Отступ от верхней границы при фиксировании                         |                     |
-
-
-**Пример**
-
-```xml
-<top fixed="true" offset="100">...</top>
-<left width="40%">...</left>
-<right fixed="true" width="60%" offset="100">...</right>
-```
-
-**Тело**
-
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
-
-#### &lt;search-bar&gt; {#search-bar}
-
-Поисковая строка.
-
-**Атрибуты**
-
-|Наименование    |Тип   |Описание                                             |Значение по умолчанию                                     |
-|----------------|------|-----------------------------------------------------|----------------------------------------------------------|
-|class           |Строка|CSS класс стилей                                     |                                                          |
-|placeholder     |Строка|Подсказка для ввода                                  |                                                          |
-|search-widget-id|Строка|Идентификатор виджета для которого производится поиск|Главный виджет страницы                                   |
-|search-filter-id|Строка|Идентификатор фильтра                                |                                                          |
-|search-param    |Строка|Параметр поиска                                      |Идентификатор виджета + Идентификатор фильтра (table_name)|
-
-**Пример**
-
-```xml
-<search-bar button-label="Искать" search-widget-id="main" search-filter-id="name"/>
-```
-
 ##### &lt;button&gt;
 
-[Кнопка](#button_in_widget)
+[Кнопка](../xml/widget#button_in_widget)
 
 ##### &lt;sub-menu&gt;
 
-[Кнопка с выпадающим меню](#sub-menu_in_widget)
+[Кнопка с выпадающим меню](../xml/widget#sub-menu_in_widget)
 
-##### &lt;link&gt; {#link}
+##### &lt;group&gt;
 
-[Ссылка](#link_cell)
-
-###### &lt;menu-item&gt;
-
-Пункт выпадающего меню.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                        |Описание                                                     |Значение по умолчанию     |
-|------------|---------------------------------------------------------------------------|-------------------------------------------------------------|--------------------------|
-|action-id   |Ссылка на [действие виджета](#action)                                      |Действие виджета, которое будет вызвано при нажатии на кнопку|                          |
-|label       |Строка                                                                     |Заголовок пункта меню                                        |Вычисляется из `action-id`|
-|icon        |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка пункта меню                                           |Вычисляется из `action-id`|
-|class       |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|CSS класс пункта меню                                        |                          |
-|style       |CSS свойство                                                               |Стиль пункта меню                                            |                          |
+[Группа кнопок](../xml/widget#group)
 
 
-**Пример**
-
-```xml
-<menu-item action-id="create"/>
-```
-
-```xml
-<menu-item label="Удалить запись" icon="fa-trash">
-  <invoke operations-id="delete"/>
-</menu-item>
-```
-
-##### &lt;group&gt; {#group}
-
-Группа кнопок.
-
-**Тело**
-
-Список [кнопок](#button_in_widget) или [кнопок с выпадающим меню](#sub-menu_in_widget)
-
-**Пример**
-
-```xml
-<group>
-    <button>...</button>
-    <sub-menu>...</sub-menu>
-</group>
-```
-
-## Регионы {#Regions}
+## Регионы {#regions}
 
 **Библиотека компонентов**
 
@@ -433,7 +378,9 @@ http://n2oapp.net/framework/config/schema/region-2.0
 </tabs>
 ```
 
-### &lt;tab&gt; {#tab}
+<Sandbox height={300} projectId="uxcomponents_regions_tabs" />
+
+#### &lt;tab&gt; {#tab}
 
 Вкладка.
 
@@ -456,8 +403,8 @@ http://n2oapp.net/framework/config/schema/region-2.0
 
 **Тело**
 
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
+Список [регионов](#regions)
+Список [виджетов](../xml/widget)
 
 ### &lt;line&gt; {#line}
 
@@ -482,10 +429,12 @@ http://n2oapp.net/framework/config/schema/region-2.0
 </line>
 ```
 
+<Sandbox height={300} projectId="uxcomponents_regions_line" />
+
 **Тело**
 
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
+Список [регионов](#regions)
+Список [виджетов](../xml/widget)
 
 ### &lt;panel&gt; {#panel}
 
@@ -513,10 +462,12 @@ http://n2oapp.net/framework/config/schema/region-2.0
 </panel>
 ```
 
+<Sandbox height={200} projectId="uxcomponents_regions_panel" />
+
 **Тело**
 
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
+Список [регионов](#regions)
+Список [виджетов](../xml/widget)
 
 ### &lt;region&gt; {#region}
 
@@ -534,5 +485,5 @@ http://n2oapp.net/framework/config/schema/region-2.0
 
 **Тело**
 
-Список [регионов](#Regions)
-Список [виджетов](#Widgets)
+Список [регионов](#regions)
+Список [виджетов](../xml/widget)

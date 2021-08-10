@@ -22,7 +22,7 @@ public class DataSetConverter {
     public static List<DataSet> convert(Collection collection, Map<String, String> fieldsMapping) {
         List<DataSet> dataSetPage = new ArrayList<>(collection.size());
         for (Object row : collection) {
-            dataSetPage.add(DataSetMapper.extract(row, fieldsMapping));
+            dataSetPage.add(DataSetUtil.extract(row, fieldsMapping));
         }
         return dataSetPage;
     }

@@ -1,6 +1,7 @@
 ---
 title: Действия
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 **Библиотека компонентов**
 ```
@@ -51,17 +52,19 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </open-page>
 ```
 
+<Sandbox height={200} projectId="uxcomponents_actions_open_page" showHeader />
+
 #### &lt;pre-filters&gt; {#pre-filters_in_action}
 
 **Тело**
 
-[Предустановленные фильтры](#pre-filters)
+[Предустановленные фильтры](../xml/base#pre-filters)
 
 #### &lt;path-param&gt;,  &lt;query-param&gt; {#path-param}
 
 **Тело**
 
-[Параметры действия](#Request_parameters)
+[Параметры запроса](../xml/base#Request_parameters)
 
 ### &lt;show-modal&gt; {#show-modal}
 
@@ -113,17 +116,19 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </show-modal>
 ```
 
+<Sandbox height={350} projectId="uxcomponents_modal_modal" />
+
 #### &lt;pre-filters&gt; {#pre-filters_in_action2}
 
 **Тело**
 
-[Предустановленные фильтры](#pre-filters)
+[Предустановленные фильтры](../xml/base#pre-filters)
 
 #### &lt;path-param&gt;,  &lt;query-param&gt; {#path-param_query-param}
 
 **Тело**
 
-[Параметры действия](#Request_parameters)
+[Параметры запроса](../xml/base#Request_parameters)
 
 ### &lt;open-drawer&gt; {#open-drawer}
 
@@ -178,23 +183,25 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </open-drawer>
 ```
 
+<Sandbox height={400} projectId="uxcomponents_modal_drawer" />
+
 #### &lt;pre-filters&gt; {#pre-filters_in_action3}
 
 **Тело**
 
-[Предустановленные фильтры](#pre-filters)
+[Предустановленные фильтры](../xml/base#pre-filters)
 
 #### &lt;path-param&gt;,  &lt;query-param&gt;
 
 **Тело**
 
-[Параметры действия](#Request_parameters)
+[Параметры запроса](../xml/base#Request_parameters)
 
 #### &lt;pre-fields&gt; {#pre-fields}
 
 **Тело**
 
-[Предустановленные поля](#Preset_fields)
+[Предустановленные поля](../manual/filters#Preset_fields)
 
 ### &lt;a&gt; {#a}
 
@@ -204,20 +211,22 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 |Наименование|Тип                         |Описание                                                                                                                                           |Значение по умолчанию|
 |------------|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|href        |Строка                      |Адрес URL. Возможно использование плейсхолдеров {placeholder}                                                                                      |                     |
+|href        |Строка                      |Адрес URL. Возможно использование плейсхолдеров {placeholder}. Подробнее [о формировании ссылки](../manual/routing#маршрутизация-вложенных-страниц)                                                                                    |                     |
 |target      |self, newWindow, application|Сценарий открытия ссылки: `self` - в текущей вкладке, `newWindow` - в новой вкладке, `application` - в текущем приложении (без обращения к серверу)|self                 |
 
 #### &lt;path-param&gt;,  &lt;query-param&gt; {#path-param_query-param}
 
 **Тело**
 
-[Параметры действия](#Request_parameters)
+[Параметры запроса](../xml/base#Request_parameters)
 
 **Пример**
 
 ```xml
 <a href="https://google.com"/>
 ```
+
+<Sandbox height={100} projectId="uxcomponents_actions_link" />
 
 ### &lt;print&gt; {#print}
 
@@ -233,7 +242,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Тело**
 
-[Параметры действия](#Request_parameters)
+[Параметры запроса](../xml/base#Request_parameters)
 
 **Пример**
 
@@ -243,6 +252,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </print>
 
 ```
+
+<Sandbox height={250} projectId="uxcomponents_actions_print" />
 
 ### &lt;refresh&gt; {#refresh}
 
@@ -259,6 +270,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 ```xml
 <refresh widget-id="reports"/>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_actions_refresh" />
 
 ### &lt;invoke&gt; {#invoke}
 
@@ -287,7 +300,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Тело**
 
-[Параметры действия](#Request_parameters)
+[Параметры запроса](../xml/base#Request_parameters)
 
 **Пример**
 
@@ -299,6 +312,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
     <header-param name="..." value="..."/>
 </invoke>
 ```
+
+<Sandbox height={200} projectId="uxcomponents_actions_submit" />
 
 ### &lt;perform-validation&gt; {#perform-validation}
 
@@ -327,7 +342,9 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <close unsaved-data-prompt="false"/>
 ```
 
-##### &lt;copy&gt; {#copy}
+<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader />
+
+### &lt;copy&gt; {#copy}
 
 Копирование данных.
 
@@ -347,9 +364,10 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Пример**
 
 ```xml
-<copy source-field-id="id" target-widget-id="table"
-      target-field-id="dictionary.id"/>
+<copy source-field-id="id" target-widget-id="table" target-field-id="dictionary.id"/>
 ```
+
+<Sandbox height={250} projectId="uxcomponents_actions_copy"/>
 
 ### &lt;clear&gt; {#clear}
 
@@ -368,27 +386,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <clear model="edit"/>
 ```
 
-### &lt;set-value&gt; {#set-value}
-
-Установить значение в модель.
-
-**Атрибуты**
-
-|Наименование   |Тип                  |Описание                                                                                                                        |Значение по умолчанию|
-|---------------|---------------------|--------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|target-field-id|Ссылка на поле модели|Поле модели, которое будет перезаписано значением, которое вернет функция в теле. При отсутствии, будет перезаписана вся модель.|                     |
-
-**Тело**
-
-JavaScript функция.
-
-**Пример**
-
-```xml
-<set-value model="edit" target-field-id="fullname">
-  return firstName + lastName;
-</set-value>
-```
+<Sandbox height={200} projectId="uxcomponents_actions_clear"/>
 
 ### &lt;execute-query&gt; {#execute-query}
 
@@ -404,7 +402,7 @@ JavaScript функция.
 
 **Тело**
 
-[Фильтры](#filters)
+[Предустановленные фильтры](../xml/base#pre-filters)
 
 **Пример**
 
@@ -444,16 +442,23 @@ JavaScript функция.
 
 **Атрибуты**
 
-|Наименование |Тип                                 |Описание                 |Значение по умолчанию|
-|-------------|------------------------------------|-------------------------|---------------------|
-|source-widget|Строка                              |Ссылка на исходный виджет|Текущий виджет       |
-|source-model |resolve filter edit multi datasource|Исходная модель          |resolve              |
-|to           |Строка                              |Поле для записи значения |Вся модель           |
-|target-widget|Строка                              |Ссылка на целевой виджет |Текущий виджет       |
-|target-model |resolve filter edit multi datasource|Целевая модель           |resolve              |
-|merge-mode   |merge, replace, add                 |Тип слияния данных       |replace              |
+|Наименование   |Тип                                 |Описание                 |Значение по умолчанию|
+|---------------|------------------------------------|-------------------------|---------------------|
+|target-field-id|Ссылка на поле модели               |Поле модели, которое будет перезаписано значением, которое вернет функция в теле. При отсутствии, будет перезаписана вся модель.||
+|source-widget  |Строка                              |Ссылка на исходный виджет|Текущий виджет       |
+|source-model   |resolve filter edit multi datasource|Исходная модель          |resolve              |
+|to             |Строка                              |Поле для записи значения |Вся модель           |
+|target-widget  |Строка                              |Ссылка на целевой виджет |Текущий виджет       |
+|target-model   |resolve filter edit multi datasource|Целевая модель           |resolve              |
+|merge-mode     |merge, replace, add                 |Тип слияния данных       |replace              |
 
-**Пример**
+**Примеры**
+
+```xml
+<set-value model="edit" target-field-id="fullname">
+  return firstName + lastName;
+</set-value>
+```
 
 ```xml
 <button label="Сколько время?">
