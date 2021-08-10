@@ -5,10 +5,6 @@ services:
     image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
     build:
       context: demo/server
-  storybook:
-    image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
-    build:
-      context: frontend/n2o-framework
   docusaurus:
     image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
     build:
