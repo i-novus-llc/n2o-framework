@@ -64,6 +64,7 @@ function DateInterval({
     return (
         <DateTimeControl
             {...rest}
+            strategy="fixed"
             value={mappedValue}
             onChange={handleChange}
             onBlur={handleBlur}

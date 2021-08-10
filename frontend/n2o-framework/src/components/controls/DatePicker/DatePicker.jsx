@@ -25,7 +25,14 @@ import DateTimeControl from './DateTimeControl'
 function DatePicker(props) {
     const { value, defaultValue } = props
 
-    return <DateTimeControl {...props} value={value || defaultValue || null} type="date-picker" />
+    return (
+        <DateTimeControl
+            strategy="fixed"
+            {...props}
+            value={value || defaultValue || null}
+            type="date-picker"
+        />
+    )
 }
 
 DatePicker.defaultProps = {
