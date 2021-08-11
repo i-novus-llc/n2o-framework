@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
 import isUndefined from 'lodash/isUndefined'
@@ -147,17 +147,26 @@ function PopupItems({
             disabledValues,
         )
     }
+
+    const onMouseOver = useCallback((item) => {
+        if (setActiveValueId) {
+            setActiveValueId(item[valueFieldId])
+        }
+    }, [setActiveValueId, valueFieldId])
+
+    const onMouseLeave = useCallback(() => setActiveValueId(''), [setActiveValueId])
+
     const renderSingleItem = (item, index) => {
         const disabled = getDisabled(item)
 
         return (
             <DropdownItem
                 className={cx('n2o-eclipse-content', {
-                    active: activeValueId === item[valueFieldId],
+                    active: activeValueId === item[valueFieldId] && !disabled,
                     'n2o-eclipse-content__with-status': withStatus(item),
                 })}
-                onMouseOver={() => setActiveValueId && setActiveValueId(item[valueFieldId])
-                }
+                onMouseOver={onMouseOver}
+                onMouseLeave={onMouseLeave}
                 disabled={disabled}
                 ref={handleRef}
                 key={index}
@@ -173,11 +182,11 @@ function PopupItems({
                     <DropdownItem
                         className={cx('n2o-eclipse-content__description', {
                             'n2o-eclipse-content__description-with-icon':
-                !hasCheckboxes && item[iconFieldId],
+                                                !hasCheckboxes && item[iconFieldId],
                             'n2o-eclipse-content__description-with-checkbox':
-                hasCheckboxes && !item[iconFieldId],
+                                                hasCheckboxes && !item[iconFieldId],
                             'n2o-eclipse-content__description-with-icon-checkbox':
-                hasCheckboxes && item[iconFieldId],
+                                                hasCheckboxes && item[iconFieldId],
                         })}
                         header
                     >
