@@ -16,9 +16,8 @@ public class N2oCheckboxGroup extends N2oMultiListFieldAbstract implements Inlin
     private CheckboxGroupType type;
 
     public enum CheckboxGroupType implements IdAware {
-        defaultType("default"),
-        @Deprecated n2o("n2o"),
-        btn("btn");
+        DEFAULT("default"),
+        BTN("btn");
 
         private final String value;
 
