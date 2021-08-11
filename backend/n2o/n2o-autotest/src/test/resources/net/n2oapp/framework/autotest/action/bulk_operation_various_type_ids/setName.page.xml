@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form object-id="test">
+        <fields>
+            <hidden id="ids" param="ids"/>
+            <hidden id="names" param="names"/>
+            <output-text id="outIds" label="ids">
+                <dependencies>
+                    <set-value on="ids">
+                        <![CDATA[
+                        console.log('=> set value ids', typeof ids);
+                        function wrap(id) { return '"' + id + '"' }
+                        if (typeof ids === 'undefined') { return 'empty list' }
+                        if (typeof ids === 'string') { return wrap(ids) }
+                        if (Array.isArray(ids)) {
+                            return ids.map(wrap).join(', ')
+                        }
+                        return 'error: ids must be string|Array<string>'
+                        ]]>
+                    </set-value>
+                </dependencies>
+            </output-text>
+            <output-text id="outNames" label="names">
+                <dependencies>
+                    <set-value on="names">
+                        <![CDATA[
+                        console.log('=> set value names', typeof names);
+                        function wrap(name) { return '"' + name + '"' }
+                        if (typeof names === 'undefined') { return 'empty list' }
+                        if (typeof names === 'string') { return wrap(names) }
+                        if (Array.isArray(names)) {
+                            return names.map(wrap).join(', ')
+                        }
+                        return 'error: names must be string|Array<string>'
+                        ]]>
+                    </set-value>
+                </dependencies>
+            </output-text>
+            <input-text id="newName" label="Новое имя"/>
+        </fields>
+    </form>
+</simple-page>
