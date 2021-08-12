@@ -90,7 +90,7 @@ function createSquasher(nonSquashedActions = []) {
                 squashing = false
             }
 
-            next(action)
+            return next(action)
         },
 
         function storePatcher(store) {
