@@ -52,7 +52,7 @@ const FileUploaderControl = (WrappedComponent) => {
             })
 
             if (isEmpty(value) && model) {
-                const files = model[fieldKey]
+                const files = model[fieldKey] || []
 
                 this.setState({
                     files: Array.isArray(files)
