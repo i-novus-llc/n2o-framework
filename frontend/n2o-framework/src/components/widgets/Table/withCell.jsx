@@ -76,13 +76,11 @@ export default function (WrappedComponent) {
         const callAction = (data) => {
             const resolvedAction = resolveWidget(data)
             const action = isEmpty(defaultAction) ? resolvedAction : ({
-
                 ...defaultAction,
             })
 
             set(action, 'payload.data', data)
             unset(action, 'payload.modelLink')
-
             dispatch(action)
         }
 
