@@ -9,7 +9,7 @@
                              label-field-id="fileName"
                              upload-url="/files"
                              delete-url="/files"
-                             accept=".img,.png,.json"
+                             accept=".img,.xml,.json"
                              request-param="file"
                              multi="true"
                 >

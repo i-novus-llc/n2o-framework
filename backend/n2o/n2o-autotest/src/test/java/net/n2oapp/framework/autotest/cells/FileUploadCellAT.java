@@ -35,8 +35,7 @@ public class FileUploadCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/test.query.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
@@ -50,6 +49,7 @@ public class FileUploadCellAT extends AutoTestBase {
 
     @Test
     public void oneFileUploadTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml"));
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
         TableWidget tableWidget = simplePage.widget(TableWidget.class);
@@ -60,7 +60,7 @@ public class FileUploadCellAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         // загрузка файла с неразрешенным расширением
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/cells/fileupload/index.page.xml");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml");
         // загрузка не произошла
         fileUpload.uploadFilesShouldBe(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
@@ -75,5 +75,32 @@ public class FileUploadCellAT extends AutoTestBase {
         fileUpload.uploadFilesShouldBe(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
+
+    @Test
+    public void multiFileUploadTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/multi/index.page.xml"));
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+        TableWidget tableWidget = simplePage.widget(TableWidget.class);
+        tableWidget.shouldExists();
+        TableWidget.Rows rows = tableWidget.columns().rows();
+        FileUploadCell fileUpload = rows.row(0).cell(0, FileUploadCell.class);
+        fileUpload.shouldExists();
+        fileStoreController.clearFileStore();
+
+        // загрузка нормального файла
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json",
+                "net/n2oapp/framework/autotest/control/test2.json");
+        fileUpload.uploadFilesShouldBe(2);
+        fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
+        fileUpload.uploadFileNameShouldBe(0, "test1.json");
+        fileUpload.uploadFileShouldHaveLink(1, "http://localhost:" + port + "/files/test2.json");
+        fileUpload.uploadFileNameShouldBe(1, "test2.json");
+        assertThat(fileStoreController.getFileStore().size(), is(2));
+        fileUpload.deleteFile(0);
+        fileUpload.uploadFilesShouldBe(1);
+        assertThat(fileStoreController.getFileStore().size(), is(1));
+    }
+
 
 }

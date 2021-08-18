@@ -90,14 +90,14 @@ public class FileUploadAT extends AutoTestBase {
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 
+    @Test
     public void serialTwoFileUploadTest() {
         FileUploadControl fileUpload = getFields().field("FileUpload3").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
 
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test2.json");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json",
+                "net/n2oapp/framework/autotest/control/test2.json");
         fileUpload.uploadFilesShouldBe(2);
 
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
