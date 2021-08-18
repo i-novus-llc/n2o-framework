@@ -14,7 +14,7 @@
         <field id="birthdate">
             <select/>
         </field>
-        <field id="files" domain="object[]">
+        <field id="docs" domain="object[]">
             <select/>
         </field>
     </fields>

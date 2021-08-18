@@ -7,9 +7,9 @@
                 <file-upload id="docs"
                              url-field-id="url"
                              label-field-id="fileName"
-                             upload-url="http://localhost:0/files"
-                             delete-url="http://localhost:0/files"
-                             accept=".img,.png,.xml"
+                             upload-url="/files"
+                             delete-url="/files"
+                             accept=".img,.png,.json"
                              request-param="file"
                              multi="true"
                 >
