@@ -127,10 +127,16 @@ function InputContent({
         } else if (e.key === 'Enter') {
             e.preventDefault()
 
-            const findEquals = find(options, item => (
-                String(item[labelFieldId]) === value &&
-                !selected.find(entity => isEqual(entity, item))
-            ))
+            let findEquals
+
+            if (activeValueId) {
+                findEquals = activeValueId
+            } else {
+                findEquals = find(options, item => (
+                    String(item[labelFieldId]) === value &&
+                        !selected.find(entity => isEqual(entity, item))
+                ))
+            }
 
             if (mode === 'autocomplete') {
                 const newSelected = findEquals || value
