@@ -91,8 +91,7 @@ public class FileUploadAT extends AutoTestBase {
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 
-    @Ignore // потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadCellAT
-    @Test
+    // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadCellAT
     public void serialTwoFileUploadTest() {
         FileUploadControl fileUpload = getFields().field("FileUpload3").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
