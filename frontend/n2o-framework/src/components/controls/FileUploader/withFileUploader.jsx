@@ -42,7 +42,7 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         componentDidMount() {
-            const { mapper, value } = this.props
+            const { mapper, value, model, fieldKey } = this.props
             const { files } = this.state
 
             this.setState({
@@ -50,6 +50,16 @@ const FileUploaderControl = (WrappedComponent) => {
                     ? mapper(value)
                     : this.mapFiles(!isEmpty(value) ? value : files),
             })
+
+            if (isEmpty(value) && model) {
+                const files = model[fieldKey] || []
+
+                this.setState({
+                    files: Array.isArray(files)
+                        ? this.mapFiles(files)
+                        : this.mapFiles([files]),
+                })
+            }
         }
 
         componentDidUpdate(prevProps) {
@@ -107,7 +117,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
             return {
                 id: file[valueFieldId],
-                name: file[labelFieldId],
+                name: file[labelFieldId] || file.fileName,
                 status: file[statusFieldId],
                 size: file[sizeFieldId],
                 response: file[responseFieldId],
@@ -607,6 +617,8 @@ const FileUploaderControl = (WrappedComponent) => {
          */
         deleteRequest: PropTypes.func,
         onBlur: PropTypes.func,
+        model: PropTypes.object,
+        fieldKey: PropTypes.string,
     }
 
     return ReturnedComponent
