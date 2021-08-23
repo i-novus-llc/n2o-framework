@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
-           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-4.0"
            xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
 
     <xs:element name="table" type="tableReferenceDefinition"/>
     <xs:element name="list" type="listWidgetReferenceDefinition"/>
@@ -57,7 +58,6 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
-            <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -66,48 +66,14 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="fetch-on-init" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Настройка получения данных виджета при инициализации.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="auto-focus" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Автоматическая установка фокуса на виджете.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="upload" type="act:uploadType">
-            <xs:annotation>
-                <xs:documentation>Источник данных виджета.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="ref-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ссылка на родительский файл виджета.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="master-param" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Параметр фильтра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="depends-on" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Ссылка на master виджет.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="master-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Ссылка на поле выборки в master виджете. Используется вместе с depends-on. По умолчанию "id"
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="detail-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Ссылка на поле выборки в текущем виджете. Используется вместе с depends-on.
-                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
@@ -143,16 +109,6 @@
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка виджета.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="query-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор выборки, на основе которой построен компонент.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="object-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор объекта.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="size" type="xs:integer">
@@ -208,10 +164,10 @@
                         <xs:documentation>Доступность действий.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="tool:clientModel">
+                <xs:attribute name="context" type="act:datasourceContext">
                     <xs:annotation>
-                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                        <xs:documentation>
+                            Контекст выполнения действия
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -535,16 +491,17 @@
     </xs:complexType>
 
     <xs:complexType name="visibilityDependencyDefinition">
-        <xs:attribute name="ref-widget-id" type="xs:string"/>
-        <xs:attribute name="ref-model" type="reduxModelEnum"/>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Источник данных вычисления условия видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="context" type="act:datasourceContext">
+            <xs:annotation>
+                <xs:documentation>Контекст вычисления условия видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
-
-    <xs:simpleType name="reduxModelEnum">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="resolve"/>
-            <xs:enumeration value="filter"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:complexType name="formReferenceDefinition">
         <xs:complexContent>
@@ -554,23 +511,7 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="fields" type="fieldsDefinition" minOccurs="0"/>
-                    <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="default-values-query-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Выборка значений по умолчанию.
-                            Её результат сливается со значениями по умолчанию, заданными в полях.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="mode" type="formMode" default="one-model">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Режим формы. Может быть одно или двух модельный(количество моделей на клиенте).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
@@ -595,9 +536,6 @@
                 <xs:annotation>
                     <xs:documentation>Виджет дерево.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="pre-filters" type="preFiltersDefinition"/>
-                </xs:sequence>
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" default="false"/>
@@ -1377,183 +1315,6 @@
             <xs:enumeration value="workWeek"/>
             <xs:enumeration value="day"/>
             <xs:enumeration value="agenda"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:complexType name="preFiltersDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="like" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notIn" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="preFilterDefBase">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Поле в выборке виджета, по которому будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="preFilterDefValue">
-        <xs:complexContent>
-            <xs:extension base="preFieldDefBase">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="value" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="required" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFilterDefValues">
-        <xs:complexContent>
-            <xs:extension base="preFieldDefValue">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="0"/>
-                </xs:sequence>
-                <xs:attribute name="values" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значения фильтра (через запятую).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="required" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFilterDefValuesWithBody">
-        <xs:complexContent>
-            <xs:extension base="preFieldDefValues">
-                <xs:annotation>
-                    <xs:documentation>
-                        Предустановленная фильтрация поля выборки. Со возможностью задания списка значений в теле.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldDefBase">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Поле ввода в виджете, по которому будет предустановка.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="ref-widget-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="param" type="xs:string">
-        </xs:attribute>
-        <xs:attribute name="ref-model" type="reduxModel">
-            <xs:annotation>
-                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="reset-on-change" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="routable" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldDefValue">
-        <xs:complexContent>
-            <xs:extension base="preFieldDefBase">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="value" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значение предустановки (одно значение).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldDefValues">
-        <xs:complexContent>
-            <xs:extension base="preFieldDefBase">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="values" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значения предустановки (через запятую).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:simpleType name="reduxModel">
-        <xs:annotation>
-            <xs:documentation>Модель данных.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="resolve"/>
-            <xs:enumeration value="filter"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="formMode">
-        <xs:annotation>
-            <xs:documentation>Режим формы.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="one-model"/>
-            <xs:enumeration value="two-models"/>
         </xs:restriction>
     </xs:simpleType>
 
