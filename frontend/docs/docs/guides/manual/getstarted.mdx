@@ -80,7 +80,7 @@ title: Начало работы
 #### Подключение N2O сервера
 
 Сервер N2O подключается к любому Spring Boot проекту.
-Для этого в `pom.xml` достаточно добавить одну зависимость:
+Для этого в `pom.xml` после раздела `<parent>` достаточно добавить одну зависимость:
 
 ```xml
 <properties>
@@ -122,7 +122,7 @@ spring.http.encoding.forceResponse=true
 spring.http.encoding.force=true
 ```
 
-Таким образом структура папок внутри проекта будет выглядеть следующим образом:
+Структура папок внутри проекта будет выглядеть следующим образом:
 
 ![](./images/dirs.png)
 
@@ -148,7 +148,7 @@ spring.http.encoding.force=true
 ```
 npm init react-app frontend
 ```
-Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, проинициализирует React проект последней версии.
+Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, включая index.js.
 
 Перейдите в папку `/frontend`:
 
@@ -162,8 +162,8 @@ cd frontend
 yarn add n2o-framework
 ```
 
-Далее необходимо удалить ненужные файлы и импорты. Удалите файлы App.css, App.js, App.test.js, logo.svg,
-reportWebVitals.js.
+Далее необходимо удалить лишние файлы, созданные после инициализации. Удалите файлы `App.css`, `App.js`, `App.test.js`, `logo.svg`,
+`reportWebVitals.js`.
 
 Отредактируйте файл `/frontend/src/index.js`. Он должен выглядеть следующим образом:
 
@@ -171,13 +171,22 @@ reportWebVitals.js.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import N2O from 'n2o-framework';
+import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
+import { authProvider } from 'n2o-auth';
 
 import 'n2o-framework/dist/n2o.css';
 import './index.css';
 
+const config = {
+  security: {
+    authProvider,
+    externalLoginUrl: '/'
+  }
+};
+
 ReactDOM.render(
   <React.StrictMode>
-    <N2O />
+    <N2O {...createFactoryConfig(config)} />
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -185,15 +194,21 @@ ReactDOM.render(
 
 Теперь N2O React проект готов.
 
-Для сборки выполните команду:
+Для сборки проекта в папке `/frontend` выполните команду:
 
 ```
-yarn run build
+yarn
 ```
 
-В результате в папке `/build` появится `index.html` и другие статические ресурсы.
+А затем:
 
-Чтобы подключить статические ресурсы из папки `/frontend/build` к N2O серверу,
+```
+yarn build
+```
+
+В результате в папке `/frontend/build` появится `index.html` и другие статические ресурсы.
+
+Чтобы подключить статические ресурсы к N2O серверу,
 в файле `pom.xml` в разделе `<plugins>` добавьте `maven-resources-plugin`:
 
 ```xml
@@ -219,6 +234,8 @@ yarn run build
     </executions>
 </plugin>
 ```
+
+Теперь N2O сервер будет раздавать статические ресурсы собранные в React проекте в папке `/frontend/build`.
 
 :::tip
 
@@ -253,12 +270,12 @@ mvn clean package
 jar файл со встроенным WEB сервером, названный в формате `[artifactId]-[version].jar`.
 Например, `myproject-1.0.jar`.
 
-Запустите сервер командой:
+Запустите сервер из корневой папки командой:
 
 ```
 java -jar target/myproject-1.0.jar
 ```
-
+В консоли должна будет отобразиться строка `N2O was started`.
 Приложение можно будет открыть в браузере по адресу `http://localhost:8080`.
 
 
@@ -269,19 +286,15 @@ java -jar target/myproject-1.0.jar
 Для этого, при запуске сервера, в аргументе командной строки укажите путь к проекту:
 
 ```
-java -jar target/myproject-1.0.jar --n2o.project.path=/myProject
+java -jar target/myproject-1.0.jar --n2o.project.path=/home/myProject
 ```
 
 (в IDEA можно указать: Run/Debug Configurations -> Program arguments)
 
-При старте сервера будет произведено сканирование директорий
-в больших проектах для ускорения сканирования — рекомендуется через запятую указать более точные пути
-
-в консоли командной строки будут напечатаны найденные пути,
-из которого N2O Framework будет брать XML файлы:
+При старте сервера будет произведено сканирование директорий из которых N2O Framework будет брать XML файлы:
 
 ```
-n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: [/myProject/src/main/resources/META-INF/conf]
+n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: [/home/myProject/src/main/resources/META-INF/conf]
 net.n2oapp.watchdir.WatchDir             : WatchDir is started.
 n.n2oapp.framework.config.ConfigStarter  : N2O was started
 ```
@@ -319,7 +332,7 @@ n.n2oapp.framework.config.ConfigStarter  : N2O was started
 ```
 
 Если был настроен [моментальный подхват изменений](#Instant_pickup_of_changes),
-то просто обновите страницу браузера `http://localhost:8080/`:
+то просто обновите страницу браузера `http://localhost:8080/`, если нет - просто пересоберите и перезапустите сервер:
 
 ![](./images/index-ac3c3.png)
 
