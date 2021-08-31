@@ -334,7 +334,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addRoute(widgetRouteScope.getUrl());
         if (compiled.getMasterLink() != null)
             routes.addPathMapping(compiled.getMasterParam(),
-                    Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
+                    Redux.dispatchSelectedWidget(compiled.getMasterLink().getDatasource(), colon(compiled.getMasterParam())));
 
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
         //todo для формы не существует selected!
@@ -504,7 +504,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
                 masterWidgetId = widgetScope.getDependsOnWidgetId();
-                ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
+                PageScope pageScope = p.getScope(PageScope.class);
+                String datasource = pageScope == null ? masterWidgetId :
+                        pageScope.getWidgetIdDatasourceMap().get(masterWidgetId);
+                ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, datasource);
                 DependencyCondition condition = new DependencyCondition();
                 condition.setGlobalMasterWidgetId(masterWidgetId);
                 condition.setOn(bindLink.getBindLink());
@@ -518,7 +521,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 DependencyCondition visibilityCondition = new DependencyCondition();
                 List<DependencyCondition> visible = new ArrayList<>();
                 if (masterWidgetId != null) {
-                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
+                    PageScope pageScope = p.getScope(PageScope.class);
+                    String datasource = pageScope == null ? masterWidgetId
+                            : pageScope.getWidgetIdDatasourceMap().get(pageScope.getGlobalWidgetId(source.getDependsOn()));
+                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, datasource).getBindLink());
                 }
                 visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
                 visible.add(visibilityCondition);
@@ -666,14 +672,18 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
-                        String widgetId = masterWidgetId;
+                        String datasource = null;
                         if (preFilter.getRefWidgetId() != null) {
-                            widgetId = preFilter.getRefPageId() == null ?
-                                    pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
+                            datasource = preFilter.getRefPageId() == null ?
+                                    pageScope.getWidgetIdDatasourceMap().get(pageScope.getGlobalWidgetId(preFilter.getRefWidgetId()))
                                     : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
                         }
+                        if (datasource == null) {
+                            datasource = pageScope == null ? masterWidgetId :
+                                    pageScope.getWidgetIdDatasourceMap().get(masterWidgetId);
+                        }
                         ReduxModel model = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
-                        ModelLink link = new ModelLink(model, widgetId);
+                        ModelLink link = new ModelLink(model, datasource);
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);

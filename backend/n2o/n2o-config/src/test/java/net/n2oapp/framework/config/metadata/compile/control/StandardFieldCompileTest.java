@@ -227,26 +227,26 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         ModelLink link = dataProvider.getPathMapping().get("name1");
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
-        assertThat(link.getWidgetId(), nullValue());
+        assertThat(link.getDatasource(), nullValue());
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_id2"));
+        assertThat(link.getDatasource(), is("testStandardFieldSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
         assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_id3"));
+        assertThat(link.getDatasource(), is("testStandardFieldSubmit_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmit_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_form"));
+        assertThat(link.getDatasource(), is("testStandardFieldSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_form']"));
     }
 
@@ -290,26 +290,26 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         ModelLink link = dataProvider.getPathMapping().get("name1");
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
-        assertThat(link.getWidgetId(), nullValue());
+        assertThat(link.getDatasource(), nullValue());
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmitWithoutRoute_id2"));
+        assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
         assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmitWithoutRoute_id3"));
+        assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmitWithoutRoute_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
+        assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_form']"));
     }
 

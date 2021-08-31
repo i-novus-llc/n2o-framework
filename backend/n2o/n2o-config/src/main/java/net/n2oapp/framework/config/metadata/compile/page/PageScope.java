@@ -19,6 +19,7 @@ public class PageScope implements Serializable {
     private String resultWidgetId;
     private Set<String> widgetIds;
     private Map<String, String> widgetIdQueryIdMap;
+    private Map<String, String> widgetIdDatasourceMap;
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);

@@ -131,7 +131,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             throw new N2oException("widget-id for action " + source.getId() + " not specified");
 
         if (currentClientWidgetId == null)
-            currentClientWidgetId = actionModelLink.getWidgetId();
+            currentClientWidgetId = actionModelLink.getDatasource();
 
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
 
@@ -343,7 +343,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             // генерация маршрута для динамической страницы с моделью resolve
             boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
             if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = actionModelLink.getWidgetId() + "_id";
+                String masterIdParam = actionModelLink.getDatasource() + "_id";
                 String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
                 pathMapping.put(masterIdParam, actionModelLink);
                 return dynamicPageActionRoute;

@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
@@ -78,6 +79,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (!CollectionUtils.isEmpty(sourceWidgets))
             pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
                     .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
+        pageScope.setWidgetIdDatasourceMap(sourceWidgets.stream()
+                .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
+                        w -> pageScope.getGlobalWidgetId(w.getDatasource() == null ? w.getId() : w.getDatasource()))));
         Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope,
                 breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
         registerRoutes(pageRoutes, context, p);

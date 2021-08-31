@@ -165,6 +165,13 @@
                 <xs:documentation>Видимость виджета.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Имя источника данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
