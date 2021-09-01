@@ -51,7 +51,7 @@ InputRadio.propTypes = {
     checked: PropTypes.bool,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
-    label: PropTypes.string,
+    label: PropTypes.node,
     name: PropTypes.string,
     className: PropTypes.string,
     type: PropTypes.oneOf([RadioTypes.input, RadioTypes.button, RadioTypes.tabs]),
