@@ -157,6 +157,7 @@ public class TabsRegionAT extends AutoTestBase {
         TabsRegion.TabItem tab1 = tabs.tab(Condition.text("One"));
         tab1.shouldBeActive();
         TabsRegion.TabItem tab4 = tabs.tab(Condition.text("Four"));
+        tab4.shouldNotBeActive();
 
         // make visible tab3
         radio.check("visible tab3");
@@ -170,5 +171,6 @@ public class TabsRegionAT extends AutoTestBase {
         // make invisible tab3
         radio.check("invisible tab3");
         tabs.shouldHaveSize(2);
+        tab1.shouldBeActive();
     }
 }
