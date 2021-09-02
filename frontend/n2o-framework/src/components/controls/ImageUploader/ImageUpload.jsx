@@ -35,6 +35,7 @@ function ImageUpload(props) {
         customUploaderSize,
         canDelete,
         shape,
+        accept,
     } = props
     const showControl = multiple || (!multiple && isEmpty(files))
     const componentClassContainer = `${componentClass}-container`
@@ -61,7 +62,7 @@ function ImageUpload(props) {
             shape === 'circle',
                         })}
                         style={customUploaderSize}
-                        accept="image/*"
+                        accept={accept}
                         multiple={multiple}
                         disabled={disabled}
                         onDrop={onImagesDrop}
@@ -130,6 +131,7 @@ ImageUpload.propTypes = {
     customUploaderSize: PropTypes.number,
     canDelete: PropTypes.bool,
     shape: PropTypes.string,
+    accept: PropTypes.string,
 }
 
 export default ImageUpload
