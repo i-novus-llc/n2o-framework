@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first">
     <regions>
         <line place="single">
-            <table id="test" route="/widget">
+            <table id="test" route="/widget" datasource="ds1">
                 <toolbar>
                     <button id="id1">
                         <a href="/test" target="application"/>
@@ -24,7 +24,7 @@
             </table>
         </line>
         <line place="single">
-            <table id="secondWgt" route="/second">
+            <table id="secondWgt" route="/second" datasource="ds1">
                 <toolbar>
                     <button id="secWgt" model="filter" widget-id="test">
                         <a href="test/:minPrice/" target="newWindow">

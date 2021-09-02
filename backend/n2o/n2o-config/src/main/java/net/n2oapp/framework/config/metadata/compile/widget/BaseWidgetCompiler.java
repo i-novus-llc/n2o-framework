@@ -204,6 +204,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 widgetRouteScope, subModelsScope, copiedFieldScope, object));
         compileRouteWidget(compiled, source, getDataProviderQuery(compiled.getQueryId(), p), p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
+        PageScope pageScope = p.getScope(PageScope.class);
+        compiled.setDatasource(pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
+                ? compiled.getId() : pageScope.getWidgetIdDatasourceMap().get(compiled.getId()));
     }
 
     protected void collectValidation(FieldSet fs, Map<String, List<Validation>> clientValidations, ValidationScope validationScope) {
@@ -422,7 +425,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             String searchWidgetId = pageScope != null ?
                     CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :
                     searchBarScope.getWidgetId();
-            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchWidgetId);
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
+                    pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
+                    searchWidgetId : pageScope.getWidgetIdDatasourceMap().get(searchWidgetId));
             modelLink.setFieldValue(searchBarScope.getModelKey());
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
 
@@ -672,16 +677,15 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
-                        String datasource = null;
+                        String refWidgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
-                            datasource = preFilter.getRefPageId() == null ?
-                                    pageScope.getWidgetIdDatasourceMap().get(pageScope.getGlobalWidgetId(preFilter.getRefWidgetId()))
+                            refWidgetId = preFilter.getRefPageId() == null ?
+                                    pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
                                     : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
                         }
-                        if (datasource == null) {
-                            datasource = pageScope == null ? masterWidgetId :
-                                    pageScope.getWidgetIdDatasourceMap().get(masterWidgetId);
-                        }
+                        String datasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
+                                ? refWidgetId : pageScope.getWidgetIdDatasourceMap().get(refWidgetId);
+
                         ReduxModel model = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
                         ModelLink link = new ModelLink(model, datasource);
                         link.setValue(prefilterValue);

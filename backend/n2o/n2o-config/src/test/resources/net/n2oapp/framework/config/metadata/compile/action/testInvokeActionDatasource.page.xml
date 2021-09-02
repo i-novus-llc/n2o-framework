@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table query-id="testActionContext" datasource="ds1">
+        <toolbar>
+            <button id="create" model="filter">
+                <invoke operation-id="create" optimistic="true"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

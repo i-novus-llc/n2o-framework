@@ -79,9 +79,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (!CollectionUtils.isEmpty(sourceWidgets))
             pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
                     .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
-        pageScope.setWidgetIdDatasourceMap(sourceWidgets.stream()
+        pageScope.setWidgetIdDatasourceMap(new HashMap<>());
+        pageScope.getWidgetIdDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
                         w -> pageScope.getGlobalWidgetId(w.getDatasource() == null ? w.getId() : w.getDatasource()))));
+        if (context.getParentWidgetIdDatasourceMap() != null)
+            pageScope.getWidgetIdDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope,
                 breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
         registerRoutes(pageRoutes, context, p);

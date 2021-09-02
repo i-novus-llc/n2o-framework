@@ -15,6 +15,8 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -43,27 +45,31 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCopyAction() {
+        ModalPageContext modalPageContext = new ModalPageContext("testCopyAction", "/modal");
+        HashMap<String, String> parentWidgetIdDatasourceMap = new HashMap<>();
+        parentWidgetIdDatasourceMap.put("page_form", "page_form_ds");
+        modalPageContext.setParentWidgetIdDatasourceMap(parentWidgetIdDatasourceMap);
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.page.xml")
-                .get(new ModalPageContext("testCopyAction", "/modal"));
+                .get(modalPageContext);
 
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         CopyAction action = (CopyAction) table.getActions().get("test");
         assertThat(action.getType(), is("n2o/models/COPY"));
-        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
         assertThat(action.getPayload().getSource().getField(), nullValue());
         assertThat(action.getPayload().getSource().getPrefix(), is("edit"));
-        assertThat(action.getPayload().getTarget().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_ds1"));
         assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getTarget().getPrefix(), is("filter"));
 
         action = (CopyAction) table.getActions().get("item");
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
-        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
         assertThat(action.getPayload().getSource().getField(), nullValue());
         assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.RESOLVE.getId()));
-        assertThat(action.getPayload().getTarget().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_ds1"));
         assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getMode(), is(CopyMode.merge));
         assertThat(action.getMeta().getModalsToClose(), is(1));
@@ -71,7 +77,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         action = (CopyAction) table.getActions().get("btn");
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.EDIT.getId()));
-        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
         assertThat(action.getPayload().getSource().getField(), is("id"));
         assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
         assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
@@ -80,8 +86,8 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getMeta().getModalsToClose(), is(1));
 
         action = (CopyAction) page.getActions().get("menuItem0");
-        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("page_form_ds"));
     }
 
     @Test
