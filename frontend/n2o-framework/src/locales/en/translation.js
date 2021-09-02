@@ -46,4 +46,5 @@ export default {
     calendarToday: 'Today',
     calendarAgenda: 'Agenda',
     calendarNoEventsInRange: 'There are no events in this range.',
+    imageUploadAvailableImageTypes: 'You can only upload file',
 }
