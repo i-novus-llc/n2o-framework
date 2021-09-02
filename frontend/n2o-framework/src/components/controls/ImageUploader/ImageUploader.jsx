@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'recompose'
+import { withTranslation } from 'react-i18next'
 
 import withFileUploader from '../FileUploader/withFileUploader'
 
@@ -68,6 +70,7 @@ ImageUpload.defaultProps = {
     showTooltip: true,
     canDelete: true,
     lightbox: false,
+    accept: 'image/*',
 }
 
 ImageUploader.propTypes = {
@@ -97,4 +100,7 @@ ImageUploader.propTypes = {
     shape: PropTypes.string,
 }
 
-export default withFileUploader(ImageUploader)
+export default compose(
+    withTranslation(),
+    withFileUploader,
+)(ImageUploader)
