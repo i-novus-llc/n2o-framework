@@ -48,4 +48,5 @@ export default {
     calendarAllDay: 'Весь день',
     calendarDate: 'Дата',
     calendarTime: 'Время',
+    imageUploadAvailableImageTypes: 'Вы можете загрузить только файл',
 }
