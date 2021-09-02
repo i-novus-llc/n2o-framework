@@ -251,7 +251,7 @@ export function* resolveDependency(action) {
 
         yield call(
             checkAndModify,
-            form.values,
+            form.values || {},
             form.registeredFields,
             formName,
             action.type === REGISTER_FIELD_EXTRA ? action.payload.name : fieldName,
