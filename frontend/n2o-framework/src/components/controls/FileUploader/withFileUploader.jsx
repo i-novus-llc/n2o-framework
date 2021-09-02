@@ -196,6 +196,13 @@ const FileUploaderControl = (WrappedComponent) => {
          * @param files
          */
         handleImagesDrop(files) {
+            const { accept, t } = this.props
+            let errorText = `${t('imageUploadAvailableImageTypes')} JPG/PNG/SVG`
+
+            if (accept) {
+                errorText = `${t('imageUploadAvailableImageTypes')} ${accept}`
+            }
+
             if (everyIsValid(files)) {
                 this.setState({
                     imgError: {},
@@ -211,7 +218,7 @@ const FileUploaderControl = (WrappedComponent) => {
             } else {
                 this.setState({
                     imgError: {
-                        message: 'You can only upload JPG/PNG/SVG file!',
+                        message: errorText,
                     },
                 })
             }
@@ -459,6 +466,7 @@ const FileUploaderControl = (WrappedComponent) => {
     }
 
     ReturnedComponent.defaultProps = {
+        t: () => {},
         requestParam: 'file',
         visible: true,
         icon: 'fa fa-upload',
@@ -607,6 +615,7 @@ const FileUploaderControl = (WrappedComponent) => {
          */
         deleteRequest: PropTypes.func,
         onBlur: PropTypes.func,
+        t: PropTypes.func,
     }
 
     return ReturnedComponent
