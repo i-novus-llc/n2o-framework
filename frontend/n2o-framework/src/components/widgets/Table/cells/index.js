@@ -21,6 +21,7 @@ import StatusCell from './StatusCell/StatusCell'
 import SwitchCell from './SwitchCell/SwitchCell'
 // eslint-disable-next-line import/no-named-as-default
 import ListTextCell from './ListTextCell/ListTextCell'
+import { FileUploadCell } from './FileUploadCell/FileUploadCell'
 
 export default {
     TextCell,
@@ -37,4 +38,5 @@ export default {
     StatusCell,
     ListTextCell,
     SwitchCell,
+    FileUploadCell,
 }

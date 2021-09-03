@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
-import filter from 'lodash/filter'
-import first from 'lodash/first'
 import get from 'lodash/get'
 
 import { Group, RadioTypes } from '../../controls/Radio/Group'
@@ -43,20 +41,19 @@ class Tabs extends React.Component {
         const { onChangeActive, children, activeId } = this.props
 
         const getActiveEntityVisibility = (children) => {
-            const activeEntityMeta = first(
-                filter(children, child => get(child, 'props.id') === activeId),
-            )
+            const activeEntityMeta = find(children, child => get(child, 'props.id') === activeId)
 
             return get(activeEntityMeta, 'props.visible')
         }
 
-        const activeEntityVisibilityChanged = getActiveEntityVisibility(children) !==
-                getActiveEntityVisibility(prevProps.children)
+        const activeEntityVisibility = getActiveEntityVisibility(children)
 
-        const firstVisibleTab = first(filter(children, child => child.props.visible))
+        const activeEntityVisibilityChanged = activeEntityVisibility !== getActiveEntityVisibility(prevProps.children)
 
-        if (activeEntityVisibilityChanged && !getActiveEntityVisibility(children)) {
-            onChangeActive(get(firstVisibleTab, 'key'), prevProps.activeId)
+        if (activeEntityVisibilityChanged && !activeEntityVisibility) {
+            const firstVisibleTab = find(children, child => child.props.visible)
+
+            onChangeActive(get(firstVisibleTab, 'key'), get(firstVisibleTab, 'key', prevProps.activeId))
         }
     }
 

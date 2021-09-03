@@ -42,7 +42,7 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         componentDidMount() {
-            const { mapper, value } = this.props
+            const { mapper, value, model, fieldKey } = this.props
             const { files } = this.state
 
             this.setState({
@@ -50,6 +50,16 @@ const FileUploaderControl = (WrappedComponent) => {
                     ? mapper(value)
                     : this.mapFiles(!isEmpty(value) ? value : files),
             })
+
+            if (isEmpty(value) && model) {
+                const files = model[fieldKey] || []
+
+                this.setState({
+                    files: Array.isArray(files)
+                        ? this.mapFiles(files)
+                        : this.mapFiles([files]),
+                })
+            }
         }
 
         componentDidUpdate(prevProps) {
@@ -107,7 +117,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
             return {
                 id: file[valueFieldId],
-                name: file[labelFieldId],
+                name: file[labelFieldId] || file.fileName,
                 status: file[statusFieldId],
                 size: file[sizeFieldId],
                 response: file[responseFieldId],
@@ -196,6 +206,13 @@ const FileUploaderControl = (WrappedComponent) => {
          * @param files
          */
         handleImagesDrop(files) {
+            const { accept, t } = this.props
+            let errorText = `${t('imageUploadAvailableImageTypes')} JPG/PNG/SVG`
+
+            if (accept) {
+                errorText = `${t('imageUploadAvailableImageTypes')} ${accept}`
+            }
+
             if (everyIsValid(files)) {
                 this.setState({
                     imgError: {},
@@ -211,7 +228,7 @@ const FileUploaderControl = (WrappedComponent) => {
             } else {
                 this.setState({
                     imgError: {
-                        message: 'You can only upload JPG/PNG/SVG file!',
+                        message: errorText,
                     },
                 })
             }
@@ -459,6 +476,7 @@ const FileUploaderControl = (WrappedComponent) => {
     }
 
     ReturnedComponent.defaultProps = {
+        t: () => {},
         requestParam: 'file',
         visible: true,
         icon: 'fa fa-upload',
@@ -607,6 +625,9 @@ const FileUploaderControl = (WrappedComponent) => {
          */
         deleteRequest: PropTypes.func,
         onBlur: PropTypes.func,
+        model: PropTypes.object,
+        fieldKey: PropTypes.string,
+        t: PropTypes.func,
     }
 
     return ReturnedComponent
