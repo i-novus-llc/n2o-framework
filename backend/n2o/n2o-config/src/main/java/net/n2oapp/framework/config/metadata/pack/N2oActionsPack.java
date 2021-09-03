@@ -20,7 +20,6 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new AnchorElementIOV1(),
                 new CloseActionElementIOV1(),
                 new SetValueElementIOV1(),
-                new N2oValidateActionElementIOV1(),
                 new PerformElementIOv1(),
                 new CopyActionElementIOV1(),
                 new ClearActionElementIOV1(),
