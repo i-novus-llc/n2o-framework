@@ -95,11 +95,11 @@ public class BulkOperationAT extends AutoTestBase {
     }
 
     @Test
-    public void bulkOperationVariousTypeIdsTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_various_type_ids/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_various_type_ids/setName.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_various_type_ids/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_various_type_ids/test.query.xml"));
+    public void bulkOperationStringIdsTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/setName.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Bulk Операции с разными типами id");
@@ -111,7 +111,7 @@ public class BulkOperationAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         TextCell id1 = rows.row(0).cell(1, TextCell.class);
         TextCell id2 = rows.row(1).cell(1, TextCell.class);
-        id1.textShouldHave("127");
+        id1.textShouldHave("8590e766-c120-4191-9bde-381d8ae83bf4");
         id2.textShouldHave("7590e766-c120-4191-9bde-381d8ae83bf3");
 
         // выбор нескольких строк
@@ -143,7 +143,7 @@ public class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-        table.columns().rows().shouldHaveSize(2);
+        table.columns().rows().shouldHaveSize(1);
     }
 
 }
