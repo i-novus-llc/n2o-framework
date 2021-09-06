@@ -12,6 +12,7 @@ import flowRight from 'lodash/flowRight'
 import values from 'lodash/values'
 import pickBy from 'lodash/pickBy'
 import isNil from 'lodash/isNil'
+import isPlainObject from 'lodash/isPlainObject'
 
 import parseFormatter from '../../../utils/parseFormatter'
 
@@ -23,11 +24,20 @@ const PropsEnd = createContext()
 
 const EndTag = () => (
     <PropsEnd.Consumer>
-        {({ text, format, children }) => (
-            <>
-                {!isNil(text) ? parseFormatter(text, format) : children}
-            </>
-        )}
+        {({ text, format, children }) => {
+            if (isNil(text)) {
+                return children
+            }
+
+            const parseText = parseFormatter(text, format)
+
+            // если text передан как object, он попадет в render и уронит приложение
+            if (isPlainObject(parseText)) {
+                return children
+            }
+
+            return parseText
+        }}
     </PropsEnd.Consumer>
 )
 
