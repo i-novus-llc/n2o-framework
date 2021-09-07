@@ -94,7 +94,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     page.getPageProperty().getModelLink()));
             page.getPageProperty().setModalHeaderTitle(p.resolveText(page.getPageProperty().getModalHeaderTitle(),
                     page.getPageProperty().getModelLink()));
-
         }
     }
 
@@ -108,15 +107,12 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                                 addSubModelLinkToModels(models, f);
                             else if (w instanceof Table && ((Table) w).getFiltersDefaultValuesQueryId() != null)
                                 addDefaultFilterValueLinkToModels(models, f, p);
-
-
     }
 
     private void addSubModelLinkToModels(Models models, Filter f) {
         ModelLink link = constructLink(models, f.getLink(), f.getLink().getSubModelQuery().getSubModel());
         link.setParam(f.getParam());
         link.setSubModelQuery(f.getLink().getSubModelQuery());
-
         if (link.getValue() == null)
             link.setValue(f.getLink().getValue());
         models.add(link.getModel(), link.getDatasource(), link.getFieldId(), link);
@@ -125,7 +121,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void addDefaultFilterValueLinkToModels(Models models, Filter f, BindProcessor p) {
         ModelLink link = constructLink(models, f.getLink(), f.getFilterId());
         link.setParam(link.getDatasource() + "_" + f.getFilterId());
-
         Object linkValue = p.getLinkValue(link);
         link.setValue(linkValue != null ? linkValue : f.getLink().getValue());
         models.add(link.getModel(), link.getDatasource(), link.getFieldId(), link);
@@ -135,7 +130,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         ReduxModel model = filterLink.getModel();
         String widgetId = filterLink.getDatasource();
         ModelLink link = new ModelLink(model, widgetId, fieldId);
-
         ModelLink pageLink = models.get(model, widgetId, fieldId);
         if (pageLink != null)
             link.setValue(pageLink.getValue());

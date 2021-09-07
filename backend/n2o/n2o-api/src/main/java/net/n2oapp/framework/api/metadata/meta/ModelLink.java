@@ -87,7 +87,7 @@ public class ModelLink extends BindLink {
         if (o == null || o.getClass() != this.getClass())
             return false;
         ModelLink that = (ModelLink) o;
-        if (this.getModel() == null || this.getDatasource() == null || that.getModel() == null || that.getDatasource() == null)
+        if (getModel() == null || getDatasource() == null || that.getModel() == null || that.getDatasource() == null)
             return false;
 
         String thisSubModelQueryLink;

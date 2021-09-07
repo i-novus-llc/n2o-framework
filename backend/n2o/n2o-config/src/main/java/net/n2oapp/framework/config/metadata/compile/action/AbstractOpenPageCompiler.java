@@ -230,10 +230,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             else
                 actionDataModelClientWidgetId = clientWidgetId;
 
-            if (actionDataModel != null && actionDataModelClientWidgetId != null)
-                return new ModelLink(actionDataModel, pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
+            if (actionDataModel != null && actionDataModelClientWidgetId != null) {
+                String datasource = (pageScope == null || pageScope.getWidgetIdDatasourceMap() == null)
                         ? actionDataModelClientWidgetId
-                        : pageScope.getWidgetIdDatasourceMap().get(actionDataModelClientWidgetId), N2oQuery.Field.PK);
+                        : pageScope.getWidgetIdDatasourceMap().get(actionDataModelClientWidgetId);
+                return new ModelLink(actionDataModel, datasource, N2oQuery.Field.PK);
+            }
         }
         return null;
     }
