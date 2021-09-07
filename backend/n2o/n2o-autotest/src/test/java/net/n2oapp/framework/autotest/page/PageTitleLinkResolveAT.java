@@ -47,6 +47,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     @Test
     public void testPathParam() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/masterWidget.widget.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
