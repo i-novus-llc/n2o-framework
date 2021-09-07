@@ -119,7 +119,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 N2oWidget widget = ((N2oWidget) item);
                 String refId = ((N2oWidget) item).getRefId();
                 if (refId != null && !DynamicUtil.isDynamic(refId))
-                    widget = (N2oWidget) p.merge(item, p.getSource(refId, N2oWidget.class));
+                    widget = (N2oWidget) p.merge(p.getSource(refId, N2oWidget.class), item);
                 if (widget.getId() == null)
                     widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);

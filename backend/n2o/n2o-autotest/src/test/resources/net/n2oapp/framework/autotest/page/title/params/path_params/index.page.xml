@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
       name="Start page">
     <regions>
-        <table id="master" ref-id="master"/>
+        <table id="master" ref-id="masterWidget"/>
 
         <form depends-on="master" detail-field-id="id" query-id="test" route="/:master_id/detail">
             <fields>
