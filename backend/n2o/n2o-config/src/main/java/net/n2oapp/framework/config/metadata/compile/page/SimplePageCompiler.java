@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
@@ -51,8 +52,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();
-        if (source.getWidget().getRefId() != null)
-            p.merge(source.getWidget(), p.getSource(source.getWidget().getRefId(), N2oWidget.class));
+        String refId = source.getWidget().getRefId();
+        if (refId != null && !DynamicUtil.isDynamic(refId))
+            p.merge(source.getWidget(), p.getSource(refId, N2oWidget.class));
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         if (widget.getQueryId() != null)

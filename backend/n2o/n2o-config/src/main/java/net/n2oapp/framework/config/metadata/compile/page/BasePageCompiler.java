@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -116,8 +117,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         for (SourceComponent item : items) {
             if (item instanceof N2oWidget) {
                 N2oWidget widget = ((N2oWidget) item);
-                if (((N2oWidget)item).getRefId() != null)
-                    widget = (N2oWidget) p.merge(item, p.getSource(((N2oWidget)item).getRefId(), N2oWidget.class));
+                String refId = ((N2oWidget) item).getRefId();
+                if (refId != null && !DynamicUtil.isDynamic(refId))
+                    widget = (N2oWidget) p.merge(item, p.getSource(refId, N2oWidget.class));
                 if (widget.getId() == null)
                     widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
