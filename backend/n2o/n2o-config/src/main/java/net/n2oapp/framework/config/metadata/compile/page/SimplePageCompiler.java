@@ -51,6 +51,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();
+        if (source.getWidget().getRefId() != null)
+            p.merge(source.getWidget(), p.getSource(source.getWidget().getRefId(), N2oWidget.class));
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         if (widget.getQueryId() != null)
