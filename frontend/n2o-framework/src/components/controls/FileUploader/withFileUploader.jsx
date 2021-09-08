@@ -193,7 +193,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 errorText = `${t('imageUploadAvailableImageTypes')} ${accept}`
             }
 
-            if (everyIsValid(files)) {
+            if (everyIsValid(files) && files.length !== 0) {
                 this.setState({
                     imgError: {},
                 })
