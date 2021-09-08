@@ -20,6 +20,8 @@ import org.junit.Test;
 import java.util.*;
 import java.util.function.BiFunction;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 public class N2oSubModelsProcessorTest {
@@ -108,20 +110,23 @@ public class N2oSubModelsProcessorTest {
         subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         dataSet = new DataSet("gender[0].id", null).add("gender[1].id", null);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert ((List) dataSet.get("gender")).isEmpty();
+        assertThat(((List) dataSet.get("gender")).isEmpty(), is(true));
 
         //компонент с <options>
         Map<String, Object> optionsMap = new HashMap<>();
         optionsMap.put("id", 1);
         optionsMap.put("name", "test");
+        optionsMap.put("type", "1");
         List<Map<String, Object>> options = Collections.singletonList(optionsMap);
         subModelQuery = new SubModelQuery("gender", null, "id", "name", true, options);
-        dataSet = new DataSet("gender[0].id", 1);
+        dataSet = new DataSet("gender[0].id", "1");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
+        assertThat(((Map) ((List) dataSet.get("gender")).get(0)).get("id"), is(1));
+        assertThat(((Map) ((List) dataSet.get("gender")).get(0)).get("name"), is("test"));
+        assertThat(((Map) ((List) dataSet.get("gender")).get(0)).get("type"), is("1"));
 
         optionsMap.put("id", 2);
-        dataSet = new DataSet("gender[0].id", 2);
+        dataSet = new DataSet("gender[0].id", "2");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
     }
