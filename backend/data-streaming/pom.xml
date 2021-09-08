@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.13.14-SNAPSHOT</version>
+        <version>7.13.14</version>
     </parent>
 
     <groupId>net.n2oapp.datastreaming</groupId>
