@@ -86,15 +86,14 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
         for (ObjectSimpleField parameter : invocationParameters) {
             Object value = resultDataSet.get(parameter.getId());
+            if (value == null && parameter.getDefaultValue() != null && parameter.getMapping() == null) {
+                value = contextProcessor.resolve(parameter.getDefaultValue());
+            }
             if (value != null && parameter.getNormalize() != null) {
                 value = normalizeValue(value, parameter.getNormalize(), resultDataSet, parser, applicationContext);
             }
-            else if (value == null && parameter.getDefaultValue() != null && parameter.getMapping() == null) {
-                value = contextProcessor.resolve(parameter.getDefaultValue());
-            }
             resultDataSet.put(parameter.getId(), value);
         }
-
     }
 
     /**
