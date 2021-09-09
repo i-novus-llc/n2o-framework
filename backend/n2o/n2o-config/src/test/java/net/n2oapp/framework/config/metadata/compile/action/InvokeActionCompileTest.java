@@ -279,7 +279,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     public void datasource() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionDatasource.page.xml")
                 .get(new PageContext("testInvokeActionDatasource"));
-        Table table = (Table) page.getWidget();
+        Form table = (Form) page.getWidget();
         InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("create").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModelLink(), is("models.filter['testInvokeActionDatasource_ds1']"));

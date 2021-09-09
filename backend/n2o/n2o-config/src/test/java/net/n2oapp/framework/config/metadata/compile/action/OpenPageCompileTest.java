@@ -118,7 +118,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
         LinkActionImpl action = (LinkActionImpl) page.getWidget().getActions().get("id2");
-        assertThat(action.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(action.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
         assertThat(action.getPathMapping().get("page_test_id").getValue(), is("`id`"));
         assertThat(action.getQueryMapping().size(), is(0));
 
@@ -130,7 +130,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(context.getParentModelLink().getFieldId(), is("id"));
-        assertThat(context.getParentModelLink().getDatasource(), is("page_ds1"));
+        assertThat(context.getParentModelLink().getDatasource(), is("page_test"));
         assertThat(context.getParentModelLink().getSubModelQuery(), nullValue());
 
         SimplePage openPage = (SimplePage) read().compile().get(context);
@@ -141,7 +141,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
 
         assertThat(((Filter) openPage.getWidget().getFilters().get(0)).getParam(), is("page_test_id"));
         assertThat(((Filter) openPage.getWidget().getFilters().get(0)).getFilterId(), is("id"));
-        assertThat(((Filter) openPage.getWidget().getFilters().get(0)).getLink().getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(((Filter) openPage.getWidget().getFilters().get(0)).getLink().getBindLink(), is("models.resolve['page_test']"));
         assertThat(((Filter) openPage.getWidget().getFilters().get(0)).getLink().getValue(), is("`id`"));
 
         Map<String, ReduxAction> pathMapping = openPage.getRoutes().getPathMapping();
@@ -256,9 +256,9 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
 
         LinkActionImpl linkAction = (LinkActionImpl) page.getWidget().getActions().get("masterDetail");
-        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
         assertThat(linkAction.getPathMapping().get("page_test_id").getValue(), is("`id`"));
-        assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkAction.getQueryMapping().get("secondName").getBindLink(), nullValue());
 
         PageContext context = (PageContext) route("/page/widget/gender/masterDetail", Page.class);
@@ -279,7 +279,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         Filter filter = (Filter) openPageWidget.getFilters().get(0);
         assertThat(filter.getParam(), is("name"));
         assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['page_test']"));
         assertThat(filter.getLink().getValue(), is("`name`"));
 
         filter = (Filter) openPageWidget.getFilters().get(1);
@@ -291,13 +291,13 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         filter = (Filter) openPageWidget.getFilters().get(2);
         assertThat(filter.getParam(), is("surname"));
         assertThat(filter.getFilterId(), is("surname"));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['page_test']"));
         assertThat(filter.getLink().getValue(), is("`surname`"));
 
         filter = (Filter) openPageWidget.getFilters().get(3);
         assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
-        assertThat(filter.getLink().getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(filter.getLink().getBindLink(), is("models.resolve['page_test']"));
         assertThat(filter.getLink().getValue(), is("`masterId`"));
 
         Map<String, ReduxAction> pathMapping = openPage.getRoutes().getPathMapping();
@@ -338,7 +338,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(filter.getFilterId(), is("detailId"));
         assertThat(filter.getLink().getValue(), is("`masterId`"));
         assertThat(context.getQueryRouteMapping().get("surname").getValue(), is("`surname`"));
-        assertThat(context.getQueryRouteMapping().get("surname").getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(context.getQueryRouteMapping().get("surname").getBindLink(), is("models.filter['page_test']"));
     }
 
     @Test

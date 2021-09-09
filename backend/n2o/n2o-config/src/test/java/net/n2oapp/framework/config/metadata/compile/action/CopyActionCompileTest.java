@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.CopyActionElementIOV1;
@@ -52,7 +53,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.page.xml")
                 .get(modalPageContext);
 
-        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        Form table = (Form) page.getRegions().get("single").get(0).getContent().get(0);
 
         CopyAction action = (CopyAction) table.getActions().get("test");
         assertThat(action.getType(), is("n2o/models/COPY"));
