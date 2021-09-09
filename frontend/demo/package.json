@@ -1,6 +1,6 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.17.8",
+  "version": "7.17.9",
   "private": true,
   "homepage": ".",
   "scripts": {
@@ -31,8 +31,8 @@
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
     "moment": "^2.24.0",
-    "n2o-auth": "^7.17.8",
-    "n2o-framework": "^7.17.8",
+    "n2o-auth": "^7.17.9",
+    "n2o-framework": "^7.17.9",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.1.0",
