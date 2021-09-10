@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 @Getter
 public class ModelLink extends BindLink {
     private ReduxModel model;
-    private String widgetId;
+    private String datasource;
     private String fieldId;
     @Setter
     private SubModelQuery subModelQuery;
@@ -33,32 +33,32 @@ public class ModelLink extends BindLink {
     }
 
     public ModelLink(ModelLink link) {
-        super(createBindLink(link.model, link.widgetId, link.fieldId));
+        super(createBindLink(link.model, link.datasource, link.fieldId));
         this.model = link.model;
-        this.widgetId = link.widgetId;
+        this.datasource = link.datasource;
         this.fieldId = link.fieldId;
         setValue(link.getValue());
         setSubModelQuery(link.subModelQuery);
         setParam(link.param);
     }
 
-    public ModelLink(ReduxModel model, String widgetId) {
-        super(createBindLink(model, widgetId, null));
+    public ModelLink(ReduxModel model, String datasource) {
+        super(createBindLink(model, datasource, null));
         this.model = model;
-        this.widgetId = widgetId;
+        this.datasource = datasource;
     }
 
-    public ModelLink(ReduxModel model, String widgetId, String fieldId) {
-        super(createBindLink(model, widgetId, fieldId));
+    public ModelLink(ReduxModel model, String datasource, String fieldId) {
+        super(createBindLink(model, datasource, fieldId));
         this.model = model;
-        this.widgetId = widgetId;
+        this.datasource = datasource;
         this.fieldId = fieldId;
     }
 
     public String getFieldId() {
         if (fieldId != null) return fieldId;
         if (getFieldValue() != null && getFieldValue().contains(".map(function(t){return t."))
-            return getFieldValue().substring(0, getFieldValue().indexOf("."));
+            return getFieldValue().substring(0, getFieldValue().indexOf('.'));
 
         return fieldId != null ? fieldId : getFieldValue();
     }
@@ -67,9 +67,9 @@ public class ModelLink extends BindLink {
      * Получить ссылку на модель виджета*
      */
     public ModelLink getWidgetLink() {
-        if (getModel() == null || getWidgetId() == null)
+        if (getModel() == null || getDatasource() == null)
             return null;
-        ModelLink widgetLink = new ModelLink(getModel(), getWidgetId());
+        ModelLink widgetLink = new ModelLink(getModel(), getDatasource());
         if (getFieldId() == null || getFieldId().equals("id")) {
             widgetLink.setSubModelQuery(getSubModelQuery());
         }
@@ -87,7 +87,7 @@ public class ModelLink extends BindLink {
         if (o == null || o.getClass() != this.getClass())
             return false;
         ModelLink that = (ModelLink) o;
-        if (model == null || widgetId == null || that.model == null || that.widgetId == null)
+        if (getModel() == null || getDatasource() == null || that.getModel() == null || that.getDatasource() == null)
             return false;
 
         String thisSubModelQueryLink;
@@ -96,12 +96,12 @@ public class ModelLink extends BindLink {
         String thisFieldId = this.getFieldId();
         if (this.getSubModelQuery() != null)
             thisFieldId = this.getSubModelQuery().getSubModel();
-        thisSubModelQueryLink = createBindLink(this.getModel(), this.getWidgetId(), thisFieldId);
+        thisSubModelQueryLink = createBindLink(this.getModel(), this.getDatasource(), thisFieldId);
 
         String thatFieldId = that.getFieldId();
         if (that.getSubModelQuery() != null)
             thatFieldId = that.getSubModelQuery().getSubModel();
-        thatSubModelQueryLink = createBindLink(that.getModel(), that.getWidgetId(), thatFieldId);
+        thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
 
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
             return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
@@ -134,7 +134,7 @@ public class ModelLink extends BindLink {
         return "ModelLink{" +
                 super.toString() +
                 ", model=" + model +
-                ", widgetId='" + widgetId + '\'' +
+                ", widgetId='" + datasource + '\'' +
                 ", fieldId='" + fieldId + '\'' +
                 '}';
     }

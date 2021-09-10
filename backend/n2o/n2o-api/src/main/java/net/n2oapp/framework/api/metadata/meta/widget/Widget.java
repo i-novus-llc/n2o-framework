@@ -48,6 +48,8 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     @JsonProperty
     private ClientDataProvider dataProvider;
     @JsonProperty
+    private String datasource;
+    @JsonProperty
     private Toolbar toolbar;
     @JsonProperty
     @Deprecated

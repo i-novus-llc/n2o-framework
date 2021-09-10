@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      object-id="testJsonForm">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <regions>
         <tabs place="single">
-            <table id="table" src="test" object-id="testJsonForm">
+            <form id="table" src="test" object-id="testJsonForm" datasource="ds1">
                 <toolbar>
                     <sub-menu>
                         <menu-item id="filter" label="Видимость" context="true"
@@ -30,7 +29,7 @@
                     <button id="btn6">
                         <close/>
                         <dependencies>
-                            <visibility on="field1" ref-widget-id="test" ref-model="filter">a==b</visibility>
+                            <visibility ref-widget-id="test" ref-model="filter">a==b</visibility>
                             <enabling message="Не указана дата">c==d</enabling>
                         </dependencies>
                     </button>
@@ -40,13 +39,13 @@
                             <menu-item>
                                 <close/>
                                 <dependencies>
-                                    <visibility on="field1,field2" ref-widget-id="test" ref-model="filter">a==b</visibility>
+                                    <visibility ref-widget-id="test" ref-model="filter">a==b</visibility>
                                     <enabling message="Не указана дата">c==d</enabling>
                                 </dependencies>
                             </menu-item>
                         </sub-menu>
                 </toolbar>
-            </table>
+            </form>
             <table id="test"/>
         </tabs>
     </regions>
