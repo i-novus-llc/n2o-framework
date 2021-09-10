@@ -569,8 +569,10 @@ public class SecurityProviderTest {
 
         securityFilters.setAuthenticatedFilters(Arrays.asList(
                 new N2oObjectFilter("foo", "1", FilterType.eq, "filter1"),
+                new N2oObjectFilter("name", FilterType.isNotNull, "filter7"),
                 new N2oObjectFilter("surname", "1", FilterType.eqOrIsNull, "filter6")));
-        securityFilters.setAnonymousFilters(Collections.singletonList(
+        securityFilters.setAnonymousFilters(Arrays.asList(
+                new N2oObjectFilter("age", FilterType.isNull, "filter8"),
                 new N2oObjectFilter("foo", "1", FilterType.notEq, "filter2")));
         securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
                 new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterType.in, "filter3"))));
@@ -581,12 +583,12 @@ public class SecurityProviderTest {
 
         //аутентифицирован
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        //foo == 1 and surname == null
-        securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
+        //foo == 1 and name != null and surname == null
+        securityProvider.checkRestrictions(new DataSet().add("foo", 1).add("name", "Ivan"), securityFilters, userContext);
         //foo != 1
-        notStrictSecurityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
+        notStrictSecurityProvider.checkRestrictions(new DataSet().add("foo", 1).add("name", "Ivan"), securityFilters, userContext);
         try {
-            securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
+            securityProvider.checkRestrictions(new DataSet().add("name", "Ivan").add("foo", 2), securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
@@ -594,7 +596,7 @@ public class SecurityProviderTest {
         //foo == null
         notStrictSecurityProvider.checkRestrictions(new DataSet(), securityFilters, userContext);
         try {
-            securityProvider.checkRestrictions(new DataSet(), securityFilters, userContext);
+            securityProvider.checkRestrictions(new DataSet().add("name", "Ivan"), securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
@@ -603,17 +605,20 @@ public class SecurityProviderTest {
         //анонимный доступ
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         //foo != 1
-        try {
-            securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
-        } catch (AccessDeniedException e) {
-            Assert.fail();
-        }
+        securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
         //foo == 1
         try {
             securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
+        }
+        //age != null
+        try {
+            securityProvider.checkRestrictions(new DataSet().add("foo", 3).add("age", 10), securityFilters, userContext);
+            Assert.fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("age"));
         }
 
         //доступ аутентифицированным и по ролям
@@ -623,7 +628,8 @@ public class SecurityProviderTest {
         try {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
-                            .add("bar", 2),
+                            .add("bar", 2)
+                            .add("name", "Ivan"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
             Assert.fail();
@@ -632,7 +638,8 @@ public class SecurityProviderTest {
         try {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
-                            .add("bar", 4),
+                            .add("bar", 4)
+                            .add("name", "Ivan"),
                     securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
@@ -649,6 +656,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
+                            .add("name", "Ivan")
                             .add("list", Arrays.asList(3, 2, 1, 4)),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
@@ -660,6 +668,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
+                            .add("name", "Ivan")
                             .add("list", Arrays.asList(1, 2)),
                     securityFilters, userContext);
             Assert.fail();
