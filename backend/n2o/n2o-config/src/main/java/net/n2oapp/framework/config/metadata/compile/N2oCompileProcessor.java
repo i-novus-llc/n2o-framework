@@ -371,21 +371,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public void resolveFiltersModels(String filtersDefaultValuesQueryId, List<Filter> filters) {
-        if (subModelsProcessor == null) return;
+    public DataSet executeQuery(String queryId) {
+        if (subModelsProcessor == null) return null;
 
-        DataSet queryResult = ((List<DataSet>) subModelsProcessor.getQueryResult(filtersDefaultValuesQueryId)
+        return ((List<DataSet>) subModelsProcessor.getQueryResult(queryId, params)
                 .getCollection()).get(0);
-
-        for (Filter filter : filters) {
-            Object value = queryResult.get(filter.getFilterId());
-            if (value != null) {
-                ModelLink link = new ModelLink(filter.getLink());
-                link.setValue(value);
-                link.setParam(link.getWidgetId() + "_" + filter.getFilterId());
-                filter.setLink(link);
-            }
-        }
     }
 
     @Override

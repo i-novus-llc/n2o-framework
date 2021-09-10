@@ -150,12 +150,11 @@ public interface BindProcessor {
     ModelLink resolveSubModels(ModelLink link);
 
     /**
-     * Разрешить модели полей-фильтров
+     * Получить значение выборки с текущими параметрами запроса
      *
-     * @param filtersDefaultValuesQueryId Идентификатор выборки для получения дефолтных значений фильтров
-     * @param filters                     Список фильтров
+     * @param queryId Идентификатор выборки
      */
-    void resolveFiltersModels(String filtersDefaultValuesQueryId, List<Filter> filters);
+    DataSet executeQuery(String queryId);
 
     /**
      * Получить локализованное сообщение по коду и аргументам
