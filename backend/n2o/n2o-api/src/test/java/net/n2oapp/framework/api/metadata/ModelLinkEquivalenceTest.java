@@ -4,10 +4,17 @@ import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ModelLinkEquivalenceTest {
+
+    @Test
+    public void testSimple() {
+        ModelLink link1 = new ModelLink(ReduxModel.RESOLVE, "widget", "id");
+        ModelLink link2 = new ModelLink(ReduxModel.RESOLVE, "widget");
+        link2.setValue("`id`");
+        assertTrue(link1.equalsLink(link2));
+    }
     @Test
     public void testEquals() {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.RESOLVE, "widget", "field.id");

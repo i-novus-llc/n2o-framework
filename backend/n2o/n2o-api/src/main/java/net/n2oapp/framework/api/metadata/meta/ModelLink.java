@@ -35,16 +35,6 @@ public class ModelLink extends BindLink {
         setValue(value);
     }
 
-    public ModelLink(ModelLink link, Object value) {
-        super(createBindLink(link.model, link.widgetId, link.fieldId));
-        this.model = link.getModel();
-        this.widgetId = link.getWidgetId();
-        this.fieldId = link.fieldId;
-        setValue(link.getValue());
-        setSubModelQuery(link.getSubModelQuery());
-        setParam(link.getParam());
-    }
-
     public ModelLink(ModelLink link) {
         super(createBindLink(link.model, link.widgetId, link.fieldId));
         this.model = link.getModel();
@@ -53,6 +43,7 @@ public class ModelLink extends BindLink {
         setValue(link.getValue());
         setSubModelQuery(link.getSubModelQuery());
         setParam(link.getParam());
+        setObserve(link.getObserve());
     }
 
     public ModelLink(ReduxModel model, String widgetId) {
@@ -155,13 +146,7 @@ public class ModelLink extends BindLink {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BindLink)) return false;
-        ModelLink modelLink1 = (ModelLink) o;
-        return Objects.equals(this.getWidgetId(), modelLink1.getWidgetId()) &&
-                Objects.equals(this.getModel(), modelLink1.getModel()) &&
-                Objects.equals(this.fieldId, modelLink1.fieldId) &&
-                Objects.equals(this.getValue(), modelLink1.getValue());
+        return super.equals(o);
     }
 
     @Override

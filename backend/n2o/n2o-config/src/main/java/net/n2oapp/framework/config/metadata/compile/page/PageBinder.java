@@ -136,7 +136,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         new HashSet<>(models.entrySet()).stream().filter(e -> !e.getValue().isConst()).forEach(e -> {
                     ModelLink link = models.get(e.getKey());
                     ModelLink resolvedLink = (ModelLink) p.resolveLink(link);
-                    models.add(link, resolvedLink);
+                    models.put(e.getKey(), resolvedLink);
                 }
         );
         new HashSet<>(models.entrySet()).stream().filter(e -> e.getValue().isConst() && e.getValue().getSubModelLink() != null).forEach(e -> {
