@@ -101,33 +101,23 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     DataSet data = p.executeQuery(w.getFiltersDefaultValuesQueryId());
                     if (data != null) {
                         for (Filter filter : w.getFilters()) {
-                            addDefaultFilterValueLinkToModels(models, w.getId(), filter, data);
+                            addDefaultFilterValueLinkToModels(models, w.getId(), filter, data, p);
                         }
                     }
                 }
     }
 
-    private void addDefaultFilterValueLinkToModels(Models models, String widgetId, Filter f, DataSet data) {
+    private void addDefaultFilterValueLinkToModels(Models models, String widgetId, Filter f, DataSet data, BindProcessor p) {
         Object value = data.get(f.getFilterId());
-        if (value != null) {
+        if (value != null && !p.canResolveParam(f.getLink().getParam())) {
             ModelLink link = new ModelLink(f.getLink());
             link.setValue(value);
             link.setParam(link.getWidgetId() + "_" + f.getFilterId());
             f.setLink(link);
+            models.add(ReduxModel.FILTER, widgetId, f.getFilterId(), f.getLink());
         }
-        models.add(ReduxModel.FILTER, widgetId, f.getFilterId(), f.getLink());
     }
 
-    private ModelLink constructLink(Models models, ModelLink filterLink, String fieldId) {
-        ReduxModel model = filterLink.getModel();
-        String widgetId = filterLink.getWidgetId();
-        ModelLink link = new ModelLink(model, widgetId, fieldId);
-
-        ModelLink pageLink = models.get(model, widgetId, fieldId);
-        if (pageLink != null)
-            link.setValue(pageLink.getValue());
-        return link;
-    }
 
     private void resolveLinks(Models models, BindProcessor p) {
         new HashSet<>(models.entrySet()).stream().filter(e -> !e.getValue().isConst()).forEach(e -> {

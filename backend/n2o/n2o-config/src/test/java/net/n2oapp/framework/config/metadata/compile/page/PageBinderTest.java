@@ -221,19 +221,39 @@ public class PageBinderTest extends SourceCompileTestBase {
     }
 
     /**
-     * Разрешение моделей ссылающихся на родительский виджет и родительскую страницу
+     * Разрешение моделей фильтров через выборку
      */
     @Test
     public void defaultValuesQueryTest() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
         PageContext context = new PageContext("testDefValQuery", "table");
+        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet(), subModelsProcessor);
-        //ссылка на родительский виджет
+        //Значение из выборки
         ModelLink name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test1"));
+
+        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet()), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
+        page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
+                .get(context, new DataSet(), subModelsProcessor);
+
+        //Значение по умолчанию на поле, т.к. в выборке не пришло значение
+        name = page.getModels().get("filter['table_main'].name");
+        assertThat(name.getValue(), is("test2"));
+
+        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
+        page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
+                .get(context, new DataSet("name", "test3"), subModelsProcessor);
+
+        //Значение из запроса, т.к. оно самое приоритетное
+        name = page.getModels().get("filter['table_main'].name");
+        assertThat(name.getValue(), is("test3"));
     }
 }

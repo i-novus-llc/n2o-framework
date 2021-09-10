@@ -8,7 +8,7 @@
         </columns>
 
         <filters default-values-query-id="default">
-            <input-text id="name" />
+            <input-text id="name" default-value="test2" param="name"/>
         </filters>
     </table>
 </simple-page>
