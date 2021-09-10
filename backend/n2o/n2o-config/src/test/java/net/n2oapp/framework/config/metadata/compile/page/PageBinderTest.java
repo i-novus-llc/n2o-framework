@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.criteria.api.CollectionPage;
+import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -17,6 +19,7 @@ import org.junit.Test;
 
 import java.util.*;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -33,7 +36,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.getEnvironment().getContextProcessor().set("test", "Test");
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
-                new N2oWidgetsPack(), new N2oRegionsPack());
+                new N2oWidgetsPack(), new N2oRegionsPack(), new N2oCellsPack());
     }
 
     @Test
@@ -109,7 +112,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
-        context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("prev", "/page")));
+        context.setBreadcrumbs(singletonList(new Breadcrumb("prev", "/page")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
         assertThat(page.getBreadcrumb().get(1).getLabel(), is("Hello, Joe"));
@@ -215,5 +218,22 @@ public class PageBinderTest extends SourceCompileTestBase {
         //ссылка на родительскую страницу
         ModelLink mainId2 = page.getModels().get("resolve['table_modal_dependent'].mainId2");
         assertThat(mainId2.getValue(), is(2));
+    }
+
+    /**
+     * Разрешение моделей ссылающихся на родительский виджет и родительскую страницу
+     */
+    @Test
+    public void defaultValuesQueryTest() {
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
+        PageContext context = new PageContext("testDefValQuery", "table");
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
+                .get(context, new DataSet(), subModelsProcessor);
+        //ссылка на родительский виджет
+        ModelLink name = page.getModels().get("filter['table_main'].name");
+        assertThat(name.getValue(), is("test1"));
     }
 }
