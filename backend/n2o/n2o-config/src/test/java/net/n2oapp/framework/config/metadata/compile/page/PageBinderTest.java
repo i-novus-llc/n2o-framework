@@ -15,10 +15,7 @@ import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -191,5 +188,32 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
         assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test2"));
         assertThat(((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).size(), is(1));
+    }
+
+    /**
+     * Разрешение моделей ссылающихся на родительский виджет и родительскую страницу
+     */
+    @Test
+    public void refModelBinderTest() {
+        DataSet data = new DataSet("id", 2);
+        PageContext context = new PageContext("testRefModel", "/table/:id/modal");
+        context.setParentWidgetId("table");
+        context.setClientPageId("table_modal");
+        context.setParentClientPageId("_");
+        context.setParentClientWidgetId("table");
+        context.setParentRoute("/table/:id");
+        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "table", "id"));
+        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModel.RESOLVE, "table", "id")));
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.query.xml")
+                .get(context, data);
+        //ссылка на родительский виджет
+        ModelLink mainId = page.getModels().get("resolve['table_modal_dependent'].mainId");
+        assertThat(mainId.getObserve(), is(true));
+        assertThat(mainId.getBindLink(), is("models.resolve['table_modal_main']"));
+        assertThat(mainId.getValue(), is("`id`"));
+        //ссылка на родительскую страницу
+        ModelLink mainId2 = page.getModels().get("resolve['table_modal_dependent'].mainId2");
+        assertThat(mainId2.getValue(), is(2));
     }
 }

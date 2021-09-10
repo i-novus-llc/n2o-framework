@@ -297,10 +297,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         Optional<String> res = Optional.empty();
         if (context != null) {
             if (context.getQueryRouteMapping() != null) {
-                res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equals(link)).map(Map.Entry::getKey).findAny();
+                res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
             }
             if (res.isEmpty() && context.getPathRouteMapping() != null) {
-                res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equals(link)).map(Map.Entry::getKey).findAny();
+                res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
             }
         }
         Object value = null;
