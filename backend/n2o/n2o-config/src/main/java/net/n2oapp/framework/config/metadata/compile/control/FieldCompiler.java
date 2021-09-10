@@ -203,6 +203,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+                link.setParam(filter.getParam());
                 filter.setLink(link);
                 filtersScope.addFilter(filter);
             });
@@ -488,8 +489,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), control.getId(),
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);
-                if (modelsScope.hasModels())
-                    modelsScope.add(control.getId(), onSet);
             }
         }
     }

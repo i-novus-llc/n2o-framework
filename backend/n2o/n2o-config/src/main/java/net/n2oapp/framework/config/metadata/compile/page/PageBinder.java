@@ -7,11 +7,11 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import java.util.Map;
  * Базовое связывание данных на странице
  */
 public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D> {
-    public D bindPage(D page, BindProcessor p, List<Widget> widgets) {
+    public D bindPage(D page, BindProcessor p, List<Widget<?>> widgets) {
         if (widgets != null)
             widgets.forEach(p::bind);
 
@@ -33,13 +33,12 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                 if (page.getModels() == null) {
                     page.setModels(new Models());
                 }
-                HashMap<String, ModelLink> resolvedModelLinks = new HashMap<>();
+                //копирование ссылок из квери параметров роутера в модель, если такой квери параметр есть в запросе
                 page.getRoutes().getQueryMapping().keySet().stream()
+                        .filter(p::canResolveParam)
                         .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
-                        .forEach(param -> resolvedModelLinks.put(param, (ModelLink) p.resolveLink(page.getRoutes().getQueryMapping().get(param).getOnSet())));
-                resolvedModelLinks.keySet().stream().filter(param -> (resolvedModelLinks.get(param).isConst() && resolvedModelLinks.get(param).isLink()))
                         .forEach(param -> {
-                            ModelLink modelLink = resolvedModelLinks.get(param);
+                            ModelLink modelLink = (ModelLink) page.getRoutes().getQueryMapping().get(param).getOnSet();
                             page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(), modelLink);
                         });
             }
@@ -54,11 +53,9 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
 
         if (page.getModels() != null) {
+            //разрешение контекстных значений в моделях
             page.getModels().values().forEach(bl -> {
-                Object value = p.getLinkValue(bl);
-                if (value != null)
-                    bl.setValue(value);
-                else if (bl.getValue() instanceof String) {
+                if (bl.getValue() instanceof String) {
                     bl.setValue(p.resolveText((String) bl.getValue()));
                 } else if (bl.getValue() instanceof DefaultValues) {
                     DefaultValues dv = (DefaultValues) bl.getValue();
@@ -69,8 +66,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     }
                 }
             });
-            //порядок вызова функций важен, сначала разрешаются submodels, потом удаляются значения по умолчанию которые резолвятся из url
-            collectFiltersToModels(page.getModels(), widgets, p);
             resolveLinks(page.getModels(), p);
         }
         if (page.getPageProperty() != null) {
@@ -90,16 +85,21 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         return page;
     }
 
-    private void collectFiltersToModels(Models models, List<Widget> widgets, BindProcessor p) {
+    /**
+     * Добавление значений фильтров таблицы в модели
+     *
+     * @param models
+     * @param widgets
+     * @param p
+     */
+    private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
-            for (Widget w : widgets)
+            for (Widget<?> w : widgets)
                 if (w.getFilters() != null)
-                    for (Filter f : (List<Filter>) w.getFilters())
+                    for (Filter f : w.getFilters())
                         if (f.getRoutable())
                             if (f.getLink().getSubModelQuery() != null)
                                 addSubModelLinkToModels(models, f);
-                            else if (w instanceof Table && ((Table) w).getFiltersDefaultValuesQueryId() != null)
-                                addDefaultFilterValueLinkToModels(models, f, p);
     }
 
     private void addSubModelLinkToModels(Models models, Filter f) {
@@ -116,7 +116,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         ModelLink link = constructLink(models, f.getLink(), f.getFilterId());
         link.setParam(link.getWidgetId() + "_" + f.getFilterId());
 
-        Object linkValue = p.getLinkValue(link);
+        Object linkValue = p.resolveLinkValue(link);
         link.setValue(linkValue != null ? linkValue : f.getLink().getValue());
         models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
     }
@@ -133,9 +133,16 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     }
 
     private void resolveLinks(Models models, BindProcessor p) {
-        models.keySet().forEach(param -> {
-                    models.put(param, (ModelLink) p.resolveLink(models.get(param)));
-                    p.resolveSubModels(models.get(param));
+        new HashSet<>(models.entrySet()).stream().filter(e -> !e.getValue().isConst()).forEach(e -> {
+                    ModelLink link = models.get(e.getKey());
+                    ModelLink resolvedLink = (ModelLink) p.resolveLink(link);
+                    models.add(link, resolvedLink);
+                }
+        );
+        new HashSet<>(models.entrySet()).stream().filter(e -> e.getValue().isConst() && e.getValue().getSubModelLink() != null).forEach(e -> {
+                    ModelLink link = models.get(e.getKey());
+                    ModelLink resolvedSubModelLink = p.resolveSubModels(link);
+                    models.add(link.getSubModelLink(), resolvedSubModelLink);
                 }
         );
     }

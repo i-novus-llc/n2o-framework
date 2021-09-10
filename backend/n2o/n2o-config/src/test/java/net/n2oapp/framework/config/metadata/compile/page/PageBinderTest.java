@@ -45,7 +45,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 .get(new PageContext("testPageBinders"), new DataSet());
 
         assertThat(page.getModels().get("resolve['testPageBinders_main'].name").getValue(), is("Test"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), is("models.resolve['testPageBinders_main']"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), is("models.resolve['testPageBinders_main'].gender"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].gender").getValue()).getValues().get("id"), is("Test"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), is("models.resolve['testPageBinders_main']"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("begin"), is("01.11.2018"));
@@ -118,6 +118,9 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(page.getBreadcrumb().get(1).getLabel(), is("Hello, Joe"));
     }
 
+    /**
+     * Разрешение вложенных моделей в фильтрах по url параметру
+     */
     @Test
     public void resolveTableFilterSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
@@ -126,7 +129,14 @@ public class PageBinderTest extends SourceCompileTestBase {
         doAnswer(invocation -> {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
-            data.put(subModelQueries.get(0).getSubModel() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
+            if (subModelQueries.get(0).getMulti()) {
+                List<DataSet> list = (List<DataSet>) data.get(subModelQueries.get(0).getSubModel());
+                for (DataSet item : list) {
+                    item.put("name", "test" + item.get("id"));
+                }
+            } else {
+                data.put(subModelQueries.get(0).getSubModel() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
+            }
             return null;
         }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
 
@@ -168,12 +178,15 @@ public class PageBinderTest extends SourceCompileTestBase {
         //multi поле из параметров
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(0)).getValues().get("name"), is("test1"));
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(1)).getValues().get("name"), is("test2"));
+
+
         data.put("w0_testSingleDefault_id", "2");
         data.put("w0_testMultiDefault_id", Arrays.asList("2"));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
                 .get(new PageContext("testSubModels"), data, subModelsProcessor);
+
         //Фильтры из URL перекрывают дефолтные значения
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
         assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test2"));

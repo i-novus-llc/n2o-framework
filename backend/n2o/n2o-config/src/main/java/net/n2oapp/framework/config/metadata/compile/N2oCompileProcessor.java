@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
@@ -14,6 +15,7 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -30,8 +32,10 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 
 /**
@@ -288,30 +292,30 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public BindLink resolveLink(BindLink link) {
-        if (link == null || context == null)
-            return link;
+        if (link == null)
+            return null;
         Optional<String> res = Optional.empty();
-        if (context.getQueryRouteMapping() != null) {
-            res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
+        if (context != null) {
+            if (context.getQueryRouteMapping() != null) {
+                res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equals(link)).map(Map.Entry::getKey).findAny();
+            }
+            if (res.isEmpty() && context.getPathRouteMapping() != null) {
+                res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equals(link)).map(Map.Entry::getKey).findAny();
+            }
         }
-        if (!res.isPresent() && context.getPathRouteMapping() != null) {
-            res = context.getPathRouteMapping().keySet().stream().filter(ri -> context.getPathRouteMapping().get(ri).equals(link)).findAny();
-        }
+        Object value = null;
         if (res.isPresent()) {
-            Object value = params.get(res.get());
-            BindLink resultLink = createLink(link, value);
-            if (resultLink != null) return resultLink;
+            value = params.get(res.get());
+        } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
+            value = params.get(((ModelLink) link).getParam());
         }
-        if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
-            Object value = params.get(((ModelLink) link).getParam());
-            BindLink resultLink = createLink(link, value);
-            if (resultLink != null) return resultLink;
-        }
-        return link;
+        if (value == null)
+            return link;
+        return createLink(link, value);
     }
 
     @Override
-    public Object getLinkValue(ModelLink link) {
+    public Object resolveLinkValue(ModelLink link) {
         return link.getParam() != null ? params.get(link.getParam()) : null;
     }
 
@@ -327,10 +331,43 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public void resolveSubModels(ModelLink link) {
-        if (link.getSubModelQuery() == null) return;
-        resolveDefaultValues(link);
-        executeSubModels(link);
+    public ModelLink resolveSubModels(ModelLink link) {
+        if (link == null) return null;
+        if (link.getSubModelQuery() == null) return link;
+        if (link.getValue() == null) return link;
+        if (link.getValue() instanceof List) {
+            List<DataSet> dataList = new ArrayList<>();
+            for (Object o : (List<?>)link.getValue()) {
+                if (o instanceof DefaultValues) {
+                    dataList.add(new DataSet(((DefaultValues) o).getValues()));
+                } else {
+                    dataList.add(new DataSet("id", o));
+                }
+            }
+            DataSet dataSet = new DataSet(link.getSubModelQuery().getSubModel(), dataList);
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ModelLink resolvedLink = link.getSubModelLink();
+            List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
+            resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
+            return resolvedLink;
+        } else if (link.getValue() instanceof DefaultValues) {
+            DataSet dataSet = new DataSet();
+            dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ModelLink resolvedLink = link.getSubModelLink();
+            resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
+            return resolvedLink;
+        } else {
+            DataSet dataSet = new DataSet();
+            dataSet.put(link.getSubModelQuery().getSubModel() + ".id", link.getValue());
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ModelLink resolvedLink = link.getSubModelLink();
+            resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
+            return resolvedLink;
+        }
     }
 
     @Override
@@ -345,6 +382,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             if (value != null) {
                 ModelLink link = new ModelLink(filter.getLink());
                 link.setValue(value);
+                link.setParam(link.getWidgetId() + "_" + filter.getFilterId());
                 filter.setLink(link);
             }
         }
@@ -440,48 +478,27 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
     }
 
-    private void executeSubModels(ModelLink link) {
-        if (link.getValue() == null || link.getSubModelQuery().getSubModel() == null)
-            return;
-        if (link.getValue() instanceof List) {
-            for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
-                DataSet dataSet = new DataSet();
-                dataSet.put(link.getSubModelQuery().getSubModel(), defaultValues.getValues());
-                if (subModelsProcessor != null)
-                    subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-                defaultValues.setValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel()));
-            }
-        } else if (link.getValue() instanceof DefaultValues) {
-            DataSet dataSet = new DataSet();
-            dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
-            if (subModelsProcessor != null)
-                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-            ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel()));
-        }
-    }
 
-    private void resolveDefaultValues(ModelLink link) {
-        if (link.getSubModelQuery().getValueFieldId() == null) return;
-
-        if (link.getParam() != null && params.containsKey(link.getParam())) {
-            if (params.get(link.getParam()) instanceof List) {
-                List<DefaultValues> values = new ArrayList<>();
-                for (Object value : (List) params.get(link.getParam())) {
-                    DefaultValues defaultValues = new DefaultValues();
-                    defaultValues.setValues(new HashMap<>());
-                    defaultValues.getValues().put(link.getSubModelQuery().getValueFieldId(), value);
-                    values.add(defaultValues);
-                }
-                if (!values.isEmpty())
-                    link.setValue(values);
-            } else {
+    private Object resolveSubModelValue(ModelLink link, Object value) {
+        if (link.getSubModelQuery() == null) return link.getValue();
+        if (value == null) return null;
+        String valueFieldId = castDefault(link.getSubModelQuery().getValueFieldId(), "id");
+        if (value instanceof List) {
+            List<DefaultValues> values = new ArrayList<>();
+            for (Object list : (List<?>) value) {
                 DefaultValues defaultValues = new DefaultValues();
                 defaultValues.setValues(new HashMap<>());
-                defaultValues.getValues().put(link.getSubModelQuery().getValueFieldId(), params.get(link.getParam()));
-                link.setValue(link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()
-                        ? Collections.singletonList(defaultValues)
-                        : defaultValues);
+                defaultValues.getValues().put(valueFieldId, list);
+                values.add(defaultValues);
             }
+            return values;
+        } else {
+            DefaultValues defaultValues = new DefaultValues();
+            defaultValues.setValues(new HashMap<>());
+            defaultValues.getValues().put(valueFieldId, value);
+            return link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()
+                    ? Collections.singletonList(defaultValues)
+                    : defaultValues;
         }
     }
 

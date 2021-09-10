@@ -80,8 +80,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
                     colon(source.getParam()));
             paramScope.addQueryMapping(source.getParam(), onGet, onSet);
-            if (modelsScope.hasModels())
-                modelsScope.add(control.getId(), onSet);
         }
     }
 

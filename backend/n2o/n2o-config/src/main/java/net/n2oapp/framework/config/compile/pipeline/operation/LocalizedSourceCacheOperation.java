@@ -23,6 +23,6 @@ public class LocalizedSourceCacheOperation<S extends SourceMetadata> extends Sou
     @Override
     protected String getKey(String id, Class<? extends SourceMetadata> sourceClass) {
         Locale locale = LocaleContextHolder.getLocale();
-        return id + "." + sourceClass.getSimpleName() + "." +locale.getLanguage();
+        return id + "." + sourceClass.getSimpleName() + "." + locale.getLanguage();
     }
 }
