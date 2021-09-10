@@ -52,10 +52,10 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
     }
 
     @Override
-    public CollectionPage<DataSet> getQueryResult(String queryId) {
+    public CollectionPage<DataSet> getQueryResult(String queryId, DataSet params) {
         CompiledQuery query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
-                .get(new QueryContext(queryId), new DataSet());
+                .get(new QueryContext(queryId), params);
         return queryProcessor.executeOneSizeQuery(query, new N2oPreparedCriteria());
     }
 

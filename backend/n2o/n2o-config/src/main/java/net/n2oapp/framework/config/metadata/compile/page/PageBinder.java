@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
@@ -51,6 +52,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
                     });
 
+        collectFiltersToModels(page.getModels(), widgets, p);
 
         if (page.getModels() != null) {
             //разрешение контекстных значений в моделях
@@ -95,30 +97,25 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget<?> w : widgets)
-                if (w.getFilters() != null)
-                    for (Filter f : w.getFilters())
-                        if (f.getRoutable())
-                            if (f.getLink().getSubModelQuery() != null)
-                                addSubModelLinkToModels(models, f);
+                if (w.getFilters() != null && w.getFiltersDefaultValuesQueryId() != null) {
+                    DataSet data = p.executeQuery(w.getFiltersDefaultValuesQueryId());
+                    if (data != null) {
+                        for (Filter filter : w.getFilters()) {
+                            addDefaultFilterValueLinkToModels(models, w.getId(), filter, data);
+                        }
+                    }
+                }
     }
 
-    private void addSubModelLinkToModels(Models models, Filter f) {
-        ModelLink link = constructLink(models, f.getLink(), f.getLink().getSubModelQuery().getSubModel());
-        link.setParam(f.getParam());
-        link.setSubModelQuery(f.getLink().getSubModelQuery());
-
-        if (link.getValue() == null)
-            link.setValue(f.getLink().getValue());
-        models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
-    }
-
-    private void addDefaultFilterValueLinkToModels(Models models, Filter f, BindProcessor p) {
-        ModelLink link = constructLink(models, f.getLink(), f.getFilterId());
-        link.setParam(link.getWidgetId() + "_" + f.getFilterId());
-
-        Object linkValue = p.resolveLinkValue(link);
-        link.setValue(linkValue != null ? linkValue : f.getLink().getValue());
-        models.add(link.getModel(), link.getWidgetId(), link.getFieldId(), link);
+    private void addDefaultFilterValueLinkToModels(Models models, String widgetId, Filter f, DataSet data) {
+        Object value = data.get(f.getFilterId());
+        if (value != null) {
+            ModelLink link = new ModelLink(f.getLink());
+            link.setValue(value);
+            link.setParam(link.getWidgetId() + "_" + f.getFilterId());
+            f.setLink(link);
+        }
+        models.add(ReduxModel.FILTER, widgetId, f.getFilterId(), f.getLink());
     }
 
     private ModelLink constructLink(Models models, ModelLink filterLink, String fieldId) {
