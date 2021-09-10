@@ -42,7 +42,7 @@ public class BindLink implements Compiled {
     }
 
     public boolean isConst() {
-        return !isEmpty() && !StringUtils.isJs(getValue());
+        return !isEmpty() && !StringUtils.isJs(getValue()) || bindLink == null;
     }
 
     public boolean isLink() {
@@ -59,15 +59,6 @@ public class BindLink implements Compiled {
      */
     public void setFieldValue(String field) {
         this.value = Placeholders.js(field);
-    }
-
-    /**
-     * Получить поле модели, установленное ссылкой в значении
-     *
-     * @return Поле модели или null
-     */
-    public String getFieldValue() {
-        return StringUtils.isJs(value) ? value.toString().substring(1, value.toString().length() -1) : null;
     }
 
 

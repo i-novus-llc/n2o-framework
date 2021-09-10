@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -127,14 +129,25 @@ public interface BindProcessor {
      * @param link Ссылка
      * @return Значение параметра
      */
-    Object getLinkValue(ModelLink link);
+    @Deprecated(since = "7.18.0")
+    default Object getLinkValue(ModelLink link) {
+        return resolveLink(link);
+    }
+
+    /**
+     * Получение значения параметра из адресной строки по ссылке
+     *
+     * @param link Ссылка
+     * @return Значение параметра
+     */
+    Object resolveLinkValue(ModelLink link);
 
     /**
      * Попытаться разрешить вложенные модели ссылки
      *
      * @param link ссылка на значение
      */
-    void resolveSubModels(ModelLink link);
+    ModelLink resolveSubModels(ModelLink link);
 
     /**
      * Разрешить модели полей-фильтров
