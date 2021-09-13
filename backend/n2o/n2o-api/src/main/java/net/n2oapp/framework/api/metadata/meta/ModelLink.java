@@ -14,19 +14,34 @@ import java.util.Objects;
  */
 @Getter
 public class ModelLink extends BindLink {
+    /**
+     * Тип модели
+     */
     private ReduxModel model;
+    /**
+     * Клиентский идентификатор виджета
+     */
     private String widgetId;
+    /**
+     * Идентификатор поля виджета
+     */
     private String fieldId;
+    /**
+     * Информация о том, как получить вложенную модель этого поля
+     */
     @Setter
     private SubModelQuery subModelQuery;
+    /**
+     * Параметр запроса, содержащий значение
+     */
     @Setter
     private String param;
     /**
-     * Обновление только после появления данных у целевого виджета
+     * Может лои значение параметра (param) или ссылки (value) измениться на текущей странице?
      */
     @Setter
     @JsonProperty
-    private Boolean observe;
+    private boolean observe = false;
 
     public ModelLink() {
     }
@@ -43,7 +58,7 @@ public class ModelLink extends BindLink {
         setValue(link.getValue());
         setSubModelQuery(link.getSubModelQuery());
         setParam(link.getParam());
-        setObserve(link.getObserve());
+        setObserve(link.isObserve());
     }
 
     public ModelLink(ReduxModel model, String widgetId) {

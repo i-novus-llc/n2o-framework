@@ -121,7 +121,17 @@ public interface BindProcessor {
      *
      * @param link Ссылка
      */
-    BindLink resolveLink(BindLink link);
+    default BindLink resolveLink(BindLink link) {
+        return resolveLink(link, false);
+    }
+
+    /**
+     * Пытается превратить ссылку в константное значение, если ссылка не меняется (observable=false)
+     *
+     * @param observable Превращать ли ссылку в константу, если ссылка может измениться на текущей странице?
+     * @param link       Ссылка
+     */
+    BindLink resolveLink(BindLink link, boolean observable);
 
     /**
      * Получение значения параметра из адресной строки по ссылке
