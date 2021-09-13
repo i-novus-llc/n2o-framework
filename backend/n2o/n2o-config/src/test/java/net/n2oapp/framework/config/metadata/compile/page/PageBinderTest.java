@@ -212,7 +212,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 .get(context, data);
         //ссылка на родительский виджет
         ModelLink mainId = page.getModels().get("resolve['table_modal_dependent'].mainId");
-        assertThat(mainId.getObserve(), is(true));
+        assertThat(mainId.isObserve(), is(true));
         assertThat(mainId.getBindLink(), is("models.resolve['table_modal_main']"));
         assertThat(mainId.getValue(), is("`id`"));
         //ссылка на родительскую страницу
@@ -232,7 +232,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet(), subModelsProcessor);
-        //Значение из выборки
+        //Разрешится значение из выборки
         ModelLink name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test1"));
 
@@ -242,7 +242,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet(), subModelsProcessor);
 
-        //Значение по умолчанию на поле, т.к. в выборке не пришло значение
+        //Разрешится значение по умолчанию на поле, т.к. в выборке не пришло значение
         name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test2"));
 
@@ -252,7 +252,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet("name", "test3"), subModelsProcessor);
 
-        //Значение из запроса, т.к. оно самое приоритетное
+        //Разрешится значение из запроса, т.к. оно самое приоритетное
         name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test3"));
     }

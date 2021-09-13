@@ -13,8 +13,14 @@ import java.util.Objects;
  * Ссылка на модель Redux
  */
 public class BindLink implements Compiled {
+    /**
+     * Адрес ссылки в Redux
+     */
     @JsonProperty("link")
     private String bindLink;
+    /**
+     * Константное значение или ссылка на поле в модели bindLink
+     */
     @JsonProperty
     private Object value;
 

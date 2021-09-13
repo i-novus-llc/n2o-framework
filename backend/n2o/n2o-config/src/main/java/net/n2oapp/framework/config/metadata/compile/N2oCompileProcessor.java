@@ -291,7 +291,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public BindLink resolveLink(BindLink link) {
+    public BindLink resolveLink(BindLink link, boolean observable) {
         if (link == null)
             return null;
         Optional<String> res = Optional.empty();
@@ -307,7 +307,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (res.isPresent()) {
             value = params.get(res.get());
         } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
-            value = params.get(((ModelLink) link).getParam());
+            if (observable || !((ModelLink) link).isObserve())
+                value = params.get(((ModelLink) link).getParam());
         }
         if (value == null)
             return link;

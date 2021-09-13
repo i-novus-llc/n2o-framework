@@ -88,11 +88,11 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     }
 
     /**
-     * Добавление значений фильтров таблицы в модели
+     * Добавление значений фильтров таблицы из выборки в модели
      *
-     * @param models
-     * @param widgets
-     * @param p
+     * @param models Модели
+     * @param widgets Виджеты
+     * @param p Процессор связывания
      */
     private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
@@ -109,7 +109,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
     private void addDefaultFilterValueLinkToModels(Models models, String widgetId, Filter f, DataSet data, BindProcessor p) {
         Object value = data.get(f.getFilterId());
-        if (value != null && !p.canResolveParam(f.getLink().getParam())) {
+        if (value != null && !p.canResolveParam(f.getParam())) {
             ModelLink link = new ModelLink(f.getLink());
             link.setValue(value);
             link.setParam(link.getWidgetId() + "_" + f.getFilterId());
@@ -122,7 +122,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void resolveLinks(Models models, BindProcessor p) {
         new HashSet<>(models.entrySet()).stream().filter(e -> !e.getValue().isConst()).forEach(e -> {
                     ModelLink link = models.get(e.getKey());
-                    ModelLink resolvedLink = (ModelLink) p.resolveLink(link);
+                    ModelLink resolvedLink = (ModelLink) p. resolveLink(link, true);
                     models.put(e.getKey(), resolvedLink);
                 }
         );

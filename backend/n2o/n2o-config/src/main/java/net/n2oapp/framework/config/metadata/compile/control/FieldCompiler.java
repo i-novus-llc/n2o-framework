@@ -204,6 +204,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 link.setParam(filter.getParam());
+                link.setObserve(true);
                 filter.setLink(link);
                 filtersScope.addFilter(filter);
             });
