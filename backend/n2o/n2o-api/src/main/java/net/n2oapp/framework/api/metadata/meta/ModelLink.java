@@ -84,6 +84,13 @@ public class ModelLink extends BindLink {
         return result;
     }
 
+    @Override
+    public void setValue(Object value) {
+        super.setValue(value);
+        if (isConst())
+            setObserve(false);
+    }
+
     /**
      * Получить поле модели, установленное ссылкой в значении
      *
