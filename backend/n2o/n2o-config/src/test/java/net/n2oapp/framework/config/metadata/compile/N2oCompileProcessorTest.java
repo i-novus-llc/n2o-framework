@@ -8,8 +8,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -55,12 +56,41 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         testML.setValue("`testField`");
         //проверяем, что заменился линк
         BindLink resultLink = processor.resolveLink(testML);
-//        assertThat(testML.getBindLink(), nullValue());todo может можно оставить bindLink с конктантой?
         assertThat(resultLink.getValue(), is("testValue"));
         testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
         resultLink = processor.resolveLink(testML);
         //проверяем, что замена не произошла
         assertThat(resultLink.getBindLink(), is("models.resolve['widgetId']"));
+    }
+
+    @Test
+    public void testResolveMultiLink() {
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        doAnswer(invocation -> {
+            DataSet data = invocation.getArgument(1);
+            data.put("id", 1);
+            data.put("name", "test");
+            return data;
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
+        PageContext context = new PageContext("test");
+
+        DataSet data = new DataSet();
+        data.put("types", List.of("1", "2"));
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
+
+        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "filters");
+        link.setValue("`types.map(function(t){return t.id})`");
+        link.setParam("types");
+        SubModelQuery subModelQuery = new SubModelQuery("query1");
+        subModelQuery.setSubModel("types");
+        subModelQuery.setMulti(true);
+        link.setSubModelQuery(subModelQuery);
+        //проверяем, что заменился линк
+        BindLink resultLink = processor.resolveLink(link);
+        resultLink = processor.resolveSubModels((ModelLink) resultLink);
+        List<DefaultValues> types = (List<DefaultValues>) resultLink.getValue();
+        assertThat(types.get(0).getValues().get("id"), is("1"));
+        assertThat(types.get(1).getValues().get("id"), is("2"));
     }
 
     @Test

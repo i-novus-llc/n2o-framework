@@ -14,9 +14,9 @@ import java.util.List;
  * Базовое связывание виджета с данными
  */
 @Component
-public class WidgetBinder implements BaseMetadataBinder<Widget> {
+public class WidgetBinder implements BaseMetadataBinder<Widget<?>> {
     @Override
-    public Widget bind(Widget widget, BindProcessor p) {
+    public Widget<?> bind(Widget<?> widget, BindProcessor p) {
         if (widget.getToolbar() != null) {
             for (List<Group> grp : widget.getToolbar().values()) {
                 grp.forEach(g -> {

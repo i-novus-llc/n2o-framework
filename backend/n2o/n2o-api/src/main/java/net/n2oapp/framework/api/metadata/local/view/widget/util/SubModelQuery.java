@@ -16,6 +16,7 @@ public class SubModelQuery implements Compiled {
 
     private String subModel;
     private String queryId;
+    @Deprecated //"id" always
     private String valueFieldId;
     private String labelFieldId;
     private Boolean multi;
