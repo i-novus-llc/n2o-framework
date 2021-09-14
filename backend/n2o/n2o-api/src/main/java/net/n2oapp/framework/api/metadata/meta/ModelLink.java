@@ -3,27 +3,45 @@ package net.n2oapp.framework.api.metadata.meta;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+
+import java.util.Objects;
 
 /**
  * Ссылка на модель виджета
  */
 @Getter
 public class ModelLink extends BindLink {
+    /**
+     * Тип модели
+     */
     private ReduxModel model;
+    /**
+     * Клиентский идентификатор виджета
+     */
     private String widgetId;
+    /**
+     * Идентификатор поля виджета
+     */
     private String fieldId;
+    /**
+     * Информация о том, как получить вложенную модель этого поля
+     */
     @Setter
     private SubModelQuery subModelQuery;
+    /**
+     * Параметр запроса, содержащий значение
+     */
     @Setter
     private String param;
     /**
-     * Обновление только после появления данных у целевого виджета
+     * Может лои значение параметра (param) или ссылки (value) измениться на текущей странице?
      */
     @Setter
     @JsonProperty
-    private Boolean observe;
+    private boolean observe = false;
 
     public ModelLink() {
     }
@@ -34,12 +52,13 @@ public class ModelLink extends BindLink {
 
     public ModelLink(ModelLink link) {
         super(createBindLink(link.model, link.widgetId, link.fieldId));
-        this.model = link.model;
-        this.widgetId = link.widgetId;
+        this.model = link.getModel();
+        this.widgetId = link.getWidgetId();
         this.fieldId = link.fieldId;
         setValue(link.getValue());
-        setSubModelQuery(link.subModelQuery);
-        setParam(link.param);
+        setSubModelQuery(link.getSubModelQuery());
+        setParam(link.getParam());
+        setObserve(link.isObserve());
     }
 
     public ModelLink(ReduxModel model, String widgetId) {
@@ -56,16 +75,38 @@ public class ModelLink extends BindLink {
     }
 
     public String getFieldId() {
-        if (fieldId != null) return fieldId;
-        if (getFieldValue() != null && getFieldValue().contains(".map(function(t){return t."))
-            return getFieldValue().substring(0, getFieldValue().indexOf("."));
+        String result = null;
+        String fieldValue = getFieldValue();
+        if (fieldId != null) result = fieldId;
+        if (fieldValue != null)
+            if (result != null) result += "." + fieldValue;
+            else result = fieldValue;
+        return result;
+    }
 
-        return fieldId != null ? fieldId : getFieldValue();
+    @Override
+    public void setValue(Object value) {
+        super.setValue(value);
+        if (isConst())
+            setObserve(false);
     }
 
     /**
-     * Получить ссылку на модель виджета*
+     * Получить поле модели, установленное ссылкой в значении
+     *
+     * @return Поле модели или null
      */
+    public String getFieldValue() {
+        if (StringUtils.isJs(getValue())) {
+            String js = getValue().toString().substring(1, getValue().toString().length() - 1);
+            if (js.contains(".map(function(t){return t."))
+                return js.substring(0, js.indexOf("."));
+            else
+                return js;
+        }
+        return null;
+    }
+
     public ModelLink getWidgetLink() {
         if (getModel() == null || getWidgetId() == null)
             return null;
@@ -75,6 +116,12 @@ public class ModelLink extends BindLink {
         }
         return widgetLink;
     }
+
+    public ModelLink getSubModelLink() {
+        if (subModelQuery == null) return null;
+        return new ModelLink(getModel(), getWidgetId(), subModelQuery.getSubModel());
+    }
+
 
     /**
      * Эквивалентны ли ссылки на модели.

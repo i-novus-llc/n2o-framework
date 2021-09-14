@@ -185,7 +185,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
-        assertThat(page.getRoutes().getQueryMapping().size(), is(13));
 
         Table detail = (Table) page.getRegions().get("left").get(0).getContent().get(1);
         ClientDataProvider dataProvider = detail.getDataProvider();

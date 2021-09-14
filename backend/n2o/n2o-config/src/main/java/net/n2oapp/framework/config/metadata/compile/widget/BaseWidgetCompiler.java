@@ -29,6 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -246,6 +247,24 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setActions(widgetActions);
     }
 
+    protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
+        if (paramScope != null && !paramScope.getQueryMapping().isEmpty()) {
+            PageRoutes routes = p.getScope(PageRoutes.class);
+            Models models = p.getScope(Models.class);
+            paramScope.getQueryMapping().forEach((k, v) -> {
+                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)) {
+                    if (routes != null)
+                        routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
+                } else {
+                    if (models != null && v.getOnSet() instanceof ModelLink) {
+                        ModelLink link = (ModelLink) v.getOnSet();
+                        models.add(link, link);
+                    }
+                }
+            });
+        }
+    }
+
     private void compileFetchOnInit(S source, D compiled) {
         if (compiled.getComponent() == null)
             return;
@@ -346,7 +365,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addPathMapping(selectedId, widgetIdMapping);
 
         if (query != null) {
-            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getRoutable)
+            ((List<Filter>) compiled.getFilters()).stream()
+                    .filter(Filter::getRoutable)
+                    .filter(f -> !f.getLink().isConst())
                     .forEach(filter -> {
                         ReduxAction onGet;
                         String filterId = filter.getFilterId();
@@ -630,6 +651,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             filter.setRoutable(false);
             String masterFieldId = p.cast(source.getMasterFieldId(), N2oQuery.Field.PK);
             ModelLink link = Redux.linkQuery(masterWidgetId, masterFieldId, source.getQueryId());
+            link.setParam(filter.getParam());
             filter.setLink(link);
             filters.add(filter);
         }
@@ -664,8 +686,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
+                        //фильтр из родительского маршрута
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
+                        //фильтр ссылается на модель текущей страницы
                         String widgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
                             widgetId = preFilter.getRefPageId() == null ?
@@ -678,6 +702,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         link.setParam(filter.getParam());
                         filter.setLink(link);
                     } else {
+                        //фильтр с константным значением или значением из параметра в url
                         ModelLink link = new ModelLink(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);
