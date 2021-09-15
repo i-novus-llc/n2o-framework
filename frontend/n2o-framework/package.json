@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.17.10",
+  "version": "7.17.11",
   "description": "N2O React",
   "repository": {
     "type": "git",
@@ -94,7 +94,7 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "2.20.1",
-    "n2o-auth": "^7.17.10",
+    "n2o-auth": "^7.17.11",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
     "print-js": "1.5.0",

@@ -1,6 +1,6 @@
 {
   "name": "n2o-notifications",
-  "version": "7.17.10",
+  "version": "7.17.11",
   "description": "n2o-notifications React component",
   "author": "",
   "homepage": "",
@@ -28,7 +28,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "n2o-framework": "^7.17.10",
+    "n2o-framework": "^7.17.11",
     "net": "^1.0.2",
     "sockjs-client": "^1.3.0",
     "stompjs": "^2.3.3"
