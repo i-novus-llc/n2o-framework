@@ -5,6 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
@@ -341,7 +342,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (link == null) return null;
         if (link.getSubModelQuery() == null) return link;
         if (link.getValue() == null) return link;
-        if (link.getValue() instanceof List) {
+        if (link.getValue() instanceof Collection) {
+            if (!link.getSubModelQuery().isMulti())
+                throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must be multi for value " + link.getValue());
             List<DataSet> dataList = new ArrayList<>();
             for (Object o : (List<?>)link.getValue()) {
                 if (o instanceof DefaultValues) {
@@ -358,6 +361,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
             return resolvedLink;
         } else if (link.getValue() instanceof DefaultValues) {
+            if (link.getSubModelQuery().isMulti())
+                throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must not be multi for value " + link.getValue());
             DataSet dataSet = new DataSet();
             dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
             if (subModelsProcessor != null)
@@ -367,11 +372,22 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             return resolvedLink;
         } else {
             DataSet dataSet = new DataSet();
-            dataSet.put(link.getSubModelQuery().getSubModel() + ".id", link.getValue());
+            if (link.getSubModelQuery().isMulti()) {
+                ArrayList<DataSet> list = new ArrayList<>();
+                list.add(new DataSet("id", link.getValue()));
+                dataSet.put(link.getSubModelQuery().getSubModel(), list);
+            } else {
+                dataSet.put(link.getSubModelQuery().getSubModel() + ".id", link.getValue());
+            }
             if (subModelsProcessor != null)
                 subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
             ModelLink resolvedLink = link.getSubModelLink();
-            resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
+            if (link.getSubModelQuery().isMulti()) {
+                List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
+                resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
+            } else {
+                resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
+            }
             return resolvedLink;
         }
     }
@@ -471,30 +487,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
                     resultMap.put(v.getFieldId(), k);
                 }
             });
-        }
-    }
-
-
-    private Object resolveSubModelValue(ModelLink link, Object value) {
-        if (link.getSubModelQuery() == null) return link.getValue();
-        if (value == null) return null;
-        String valueFieldId = castDefault(link.getSubModelQuery().getValueFieldId(), "id");
-        if (value instanceof List) {
-            List<DefaultValues> values = new ArrayList<>();
-            for (Object list : (List<?>) value) {
-                DefaultValues defaultValues = new DefaultValues();
-                defaultValues.setValues(new HashMap<>());
-                defaultValues.getValues().put(valueFieldId, list);
-                values.add(defaultValues);
-            }
-            return values;
-        } else {
-            DefaultValues defaultValues = new DefaultValues();
-            defaultValues.setValues(new HashMap<>());
-            defaultValues.getValues().put(valueFieldId, value);
-            return link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()
-                    ? Collections.singletonList(defaultValues)
-                    : defaultValues;
         }
     }
 
