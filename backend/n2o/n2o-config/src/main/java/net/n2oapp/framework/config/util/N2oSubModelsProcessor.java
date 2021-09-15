@@ -103,11 +103,12 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
             if (StringUtils.isDynamicValue(subModel.get(valueFieldId)))
                 continue;
             Object value = domainProcessor.deserialize(subModel.get(valueFieldId));
-            subModelQuery.getOptions().forEach(option -> {
-                if (value.equals(option.get(valueFieldId)) && option.get(labelFieldId) != null) {
-                    subModel.putAll(option);
-                }
-            });
+            if (value != null)
+                subModelQuery.getOptions().forEach(option -> {
+                    if (value.equals(option.get(valueFieldId)) && option.get(labelFieldId) != null) {
+                        subModel.putAll(option);
+                    }
+                });
         }
     }
 

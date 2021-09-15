@@ -129,7 +129,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         doAnswer(invocation -> {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
-            if (subModelQueries.get(0).getMulti()) {
+            if (subModelQueries.get(0).isMulti()) {
                 List<DataSet> list = (List<DataSet>) data.get(subModelQueries.get(0).getSubModel());
                 for (DataSet item : list) {
                     item.put("name", "test" + item.get("id"));
