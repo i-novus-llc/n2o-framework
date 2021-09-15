@@ -64,16 +64,18 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveMultiLink() {
+    public void testResolveMultiLinkWithListValue() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);
-            data.put("id", 1);
-            data.put("name", "test");
+            data.put("types", List.of(
+                    new DataSet().add("id", 1).add("name", "test1"),
+                    new DataSet().add("id", 2).add("name", "test2")));
             return data;
         }).when(subModelsProcessor).executeSubModels(anyList(), any());
         PageContext context = new PageContext("test");
 
+        //проверяем, что заменился линк на массив из 2х элементов
         DataSet data = new DataSet();
         data.put("types", List.of("1", "2"));
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
@@ -85,12 +87,47 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         subModelQuery.setSubModel("types");
         subModelQuery.setMulti(true);
         link.setSubModelQuery(subModelQuery);
-        //проверяем, что заменился линк
+
         BindLink resultLink = processor.resolveLink(link);
         resultLink = processor.resolveSubModels((ModelLink) resultLink);
         List<DefaultValues> types = (List<DefaultValues>) resultLink.getValue();
-        assertThat(types.get(0).getValues().get("id"), is("1"));
-        assertThat(types.get(1).getValues().get("id"), is("2"));
+        assertThat(types.size(), is(2));
+        assertThat(types.get(0).getValues().get("id"), is(1));
+        assertThat(types.get(0).getValues().get("name"), is("test1"));
+        assertThat(types.get(1).getValues().get("id"), is(2));
+        assertThat(types.get(1).getValues().get("name"), is("test2"));
+    }
+
+    @Test
+    public void testResolveMultiLinkWithSingleValue() {
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        doAnswer(invocation -> {
+            DataSet data = invocation.getArgument(1);
+            data.put("types", List.of(
+                    new DataSet().add("id", 1).add("name", "test1")));
+            return data;
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
+        PageContext context = new PageContext("test");
+
+        //проверяем, что заменился линк на массив из 1 элемента
+        DataSet data = new DataSet();
+        data.put("types", "1");
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
+
+        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "filters");
+        link.setValue("`types.map(function(t){return t.id})`");
+        link.setParam("types");
+        SubModelQuery subModelQuery = new SubModelQuery("query1");
+        subModelQuery.setSubModel("types");
+        subModelQuery.setMulti(true);
+        link.setSubModelQuery(subModelQuery);
+
+        BindLink resultLink = processor.resolveLink(link);
+        resultLink = processor.resolveSubModels((ModelLink) resultLink);
+        List<DefaultValues> types = (List<DefaultValues>) resultLink.getValue();
+        assertThat(types.size(), is(1));
+        assertThat(types.get(0).getValues().get("id"), is(1));
+        assertThat(types.get(0).getValues().get("name"), is("test1"));
     }
 
     @Test
