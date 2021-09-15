@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import org.springframework.stereotype.Component;
 
+/**
+ * Связывание данных в виджете Карточки
+ */
 @Component
 public class CardsBinder extends BaseListWidgetBinder<Cards> {
     @Override

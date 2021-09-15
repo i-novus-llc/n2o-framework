@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import org.springframework.stereotype.Component;
 
+/**
+ * Связывание данных в виджете Плитки
+ */
 @Component
 public class TilesBinder extends BaseListWidgetBinder<Tiles> {
 
