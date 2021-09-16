@@ -66,9 +66,7 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
 
     @Override
     public void handleMetadataChange(String id, Class<? extends SourceMetadata> sourceClass) {
-        Cache cache = cacheTemplate.getCacheManager().getCache(cacheRegion);
-        if (cache != null)
-            cacheTemplate.getCacheManager().getCache(cacheRegion).evict(getKey(id, sourceClass));
+        handleAllMetadataChange();
     }
 
     @Override
