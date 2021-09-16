@@ -6,6 +6,9 @@ if (contextPath[contextPath.length - 1] !== '/') {
     contextPath += '/'
 }
 
+const description = 'N2O Framework - библиотека с открытым исходным кодом, написанная на Java и ReactJS. Позволяет создавать веб приложения со сложными пользовательскими интерфейсами без глубоких знаний веб технологий и фронтенд фреймворков.'
+
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
 
@@ -68,6 +71,13 @@ module.exports = {
             style: 'dark',
             copyright: `Copyright © ${new Date().getFullYear()} N2O, Inc. Built with I-Novus.`,
         },
+        metadatas: [{
+            name: 'description',
+            content: description
+        }, {
+            property: 'og:description',
+            content: description
+        }],
     },
     presets: [
         [
