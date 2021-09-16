@@ -16,106 +16,105 @@ import withActionButton from '../withActionButton'
 
 class DropdownButton extends React.Component {
   state = {
-      open: false,
+      opened: false,
       popperKey: 0,
   };
 
   toggle = () => {
       let { popperKey } = this.state
-      const { open } = this.state
-      const openNext = !open
+      const { opened } = this.state
 
-      if (openNext) {
+      if (!opened) {
           popperKey += 1
       }
 
-      this.setState({ open: openNext, popperKey })
+      this.setState({ opened: !opened, popperKey })
   };
 
-  handleClickOutside = () => {
-      const { open } = this.state
+    onClick = () => {
+        this.setState({ opened: false })
+    }
 
-      if (open) {
-          this.toggle()
-      }
-  };
+    handleClickOutside = () => {
+        this.onClick()
+    };
 
-  render() {
-      const {
-          subMenu,
-          id: entityKey,
-          className,
-          showToggleIcon,
-          toolbar,
-          ...rest
-      } = this.props
-      const { open, popperKey } = this.state
-      const storesSubMenu = get(toolbar, entityKey)
-      let dropdownVisible = false
+    render() {
+        const {
+            subMenu,
+            id: entityKey,
+            className,
+            showToggleIcon,
+            toolbar,
+            ...rest
+        } = this.props
+        const { opened, popperKey } = this.state
+        const storesSubMenu = get(toolbar, entityKey)
+        let dropdownVisible = false
 
-      if (subMenu && storesSubMenu) {
-          dropdownVisible = some(subMenu, (subMenuItem) => {
-              if (subMenuItem && subMenuItem.visible !== undefined) {
-                  return subMenuItem.visible
-              }
+        if (subMenu && storesSubMenu) {
+            dropdownVisible = some(subMenu, (subMenuItem) => {
+                if (subMenuItem && subMenuItem.visible !== undefined) {
+                    return subMenuItem.visible
+                }
 
-              const storesSubMenuItem = storesSubMenu[subMenuItem.id]
+                const storesSubMenuItem = storesSubMenu[subMenuItem.id]
 
-              return get(storesSubMenuItem, 'visible')
-          })
-      }
+                return get(storesSubMenuItem, 'visible')
+            })
+        }
 
-      return (
-          <div className={classNames('n2o-dropdown', { visible: dropdownVisible })}>
-              <Manager>
-                  <Reference>
-                      {({ ref }) => (
-                          <SimpleButton
-                              {...rest}
-                              onClick={this.toggle}
-                              innerRef={ref}
-                              className={classNames('n2o-dropdown-control', {
-                                  className,
-                                  'dropdown-toggle': showToggleIcon,
-                              })}
-                              caret
-                          />
-                      )}
-                  </Reference>
-                  <Popper key={popperKey} placement="bottom-start" strategy="fixed">
-                      {({ ref, style, placement }) => (
-                          <div
-                              ref={ref}
-                              style={style}
-                              data-placement={placement}
-                              className={classNames('dropdown-menu n2o-dropdown-menu', {
-                                  'd-block': open,
-                              })}
-                          >
-                              {map(subMenu, ({ src, component, ...rest }) => (component ? (
-                                  React.createElement(
-                                      component,
-                                      { ...rest, entityKey, onClick: this.toggle },
-                                  )
-                              ) : (
-                                  <Factory
-                                      key={rest.id}
-                                      {...rest}
-                                      entityKey={entityKey}
-                                      level={BUTTONS}
-                                      src={src}
-                                      onClick={this.toggle}
-                                      className={classNames('dropdown-item', rest.className)}
-                                      tag="div"
-                                  />
-                              )))}
-                          </div>
-                      )}
-                  </Popper>
-              </Manager>
-          </div>
-      )
-  }
+        return (
+            <div className={classNames('n2o-dropdown', { visible: dropdownVisible })}>
+                <Manager>
+                    <Reference>
+                        {({ ref }) => (
+                            <SimpleButton
+                                {...rest}
+                                onClick={this.toggle}
+                                innerRef={ref}
+                                className={classNames('n2o-dropdown-control', {
+                                    className,
+                                    'dropdown-toggle': showToggleIcon,
+                                })}
+                                caret
+                            />
+                        )}
+                    </Reference>
+                    <Popper key={popperKey} placement="bottom-start" strategy="fixed">
+                        {({ ref, style, placement }) => (
+                            <div
+                                ref={ref}
+                                style={style}
+                                data-placement={placement}
+                                className={classNames('dropdown-menu n2o-dropdown-menu', {
+                                    'd-block': opened,
+                                })}
+                            >
+                                {map(subMenu, ({ src, component, ...rest }) => (component ? (
+                                    React.createElement(
+                                        component,
+                                        { ...rest, entityKey, onClick: this.toggle },
+                                    )
+                                ) : (
+                                    <Factory
+                                        key={rest.id}
+                                        {...rest}
+                                        entityKey={entityKey}
+                                        level={BUTTONS}
+                                        src={src}
+                                        onClick={this.onClick}
+                                        className={classNames('dropdown-item', rest.className)}
+                                        tag="div"
+                                    />
+                                )))}
+                            </div>
+                        )}
+                    </Popper>
+                </Manager>
+            </div>
+        )
+    }
 }
 
 DropdownButton.propTypes = {
