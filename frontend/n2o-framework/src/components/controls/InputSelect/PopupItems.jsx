@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
 import isUndefined from 'lodash/isUndefined'
@@ -128,6 +128,14 @@ function PopupItems({
         return some(selectedToCompare, selectedItem => isEqual(selectedItem, itemToCompare))
     }
 
+    const onMouseOver = useCallback((item) => {
+        if (setActiveValueId) {
+            setActiveValueId(item[valueFieldId])
+        }
+    }, [setActiveValueId, valueFieldId])
+
+    const onMouseLeave = useCallback(() => setActiveValueId(''), [setActiveValueId])
+
     const renderSingleItem = (item, index) => {
         const disabled = !isNil(item[enabledFieldId])
             ? !item[enabledFieldId]
@@ -143,11 +151,11 @@ function PopupItems({
         return (
             <DropdownItem
                 className={cx('n2o-eclipse-content', {
-                    active: activeValueId === item[valueFieldId],
+                    active: activeValueId === item[valueFieldId] && !disabled,
                     'n2o-eclipse-content__with-status': withStatus(item),
                 })}
-                onMouseOver={() => setActiveValueId && setActiveValueId(item[valueFieldId])
-                }
+                onMouseOver={onMouseOver}
+                onMouseLeave={onMouseLeave}
                 disabled={disabled}
                 ref={handleRef}
                 key={index}
