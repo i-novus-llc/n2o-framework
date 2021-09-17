@@ -24,7 +24,7 @@ import {
     setTableSelectedId,
     sortByWidget,
 } from '../../ducks/widgets/store'
-import { setModel, removeAllModel } from '../../ducks/models/store'
+import { setModel, removeAllModel, removeModel } from '../../ducks/models/store'
 import {
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
@@ -105,8 +105,16 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                     visible,
                     dataProviderFromState,
                     dataProvider,
+                    dispatch,
+                    widgetId,
                 } = this.props
+
                 const hasVisibleDeps = has(this.context, 'metadata.dependency.visible')
+                const hasFetchDeps = has(this.context, 'metadata.dependency.fetch')
+
+                if (hasFetchDeps && !fetchOnInit) {
+                    dispatch(removeModel('datasource', widgetId))
+                }
 
                 if (
                     (hasVisibleDeps || fetchOnInit) &&
@@ -137,6 +145,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
              */
             componentWillUnmount() {
                 const { widgetId, dispatch } = this.props
+
                 const actions = [
                     removeAllAlerts(widgetId),
                     removeAllModel(widgetId),
