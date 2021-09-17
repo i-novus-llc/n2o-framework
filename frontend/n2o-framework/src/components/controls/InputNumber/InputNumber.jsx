@@ -161,6 +161,10 @@ export class InputNumber extends React.Component {
                 onBlur(newValue)
             })
         }
+
+        if ((value === null || value === '') && min) {
+            this.setState({ value: min }, () => onChange(min))
+        }
     }
 
     onBlur() {
