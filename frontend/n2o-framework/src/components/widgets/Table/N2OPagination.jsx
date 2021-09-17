@@ -42,6 +42,7 @@ class N2OPagination extends Component {
     render() {
         const {
             count,
+            datasource,
             size,
             activePage,
             onChangePage,
@@ -67,6 +68,7 @@ class N2OPagination extends Component {
         } = this.props
 
         const onSelect = page => onChangePage(page, { ...filters })
+        const currentShowCount = typeof showCount === 'boolean' ? showCount : !isEmpty(datasource)
 
         return (
             count > 0 && (
@@ -89,7 +91,7 @@ class N2OPagination extends Component {
                     last={last}
                     lastLabel={lastLabel}
                     lastIcon={lastIcon}
-                    showCount={showCount}
+                    showCount={currentShowCount}
                     showSinglePage={showSinglePage}
                     className={className}
                     style={style}
