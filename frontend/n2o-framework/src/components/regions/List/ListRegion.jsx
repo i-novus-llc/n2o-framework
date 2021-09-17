@@ -4,6 +4,7 @@ import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 import pick from 'lodash/pick'
 import every from 'lodash/every'
+import some from 'lodash/some'
 import get from 'lodash/get'
 
 import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
@@ -48,9 +49,9 @@ class ListRegion extends React.Component {
             'collapsible',
             'expand',
         ])
-        const isVisible = every(content, meta => (get(getWidgetProps(meta.id), 'datasource') === undefined
-            ? true
-            : get(getWidgetProps(meta.id), 'isVisible')))
+
+        const isVisible = every(content, meta => get(getWidgetProps(meta.id), 'datasource') === undefined) ||
+                some(content, meta => get(getWidgetProps(meta.id), 'isVisible'))
 
         return (
             <div
