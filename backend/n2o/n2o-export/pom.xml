@@ -4,7 +4,7 @@
     <parent>
         <artifactId>n2o</artifactId>
         <groupId>net.n2oapp.framework</groupId>
-        <version>7.13.15-SNAPSHOT</version>
+        <version>7.13.15</version>
     </parent>
 
     <artifactId>n2o-export</artifactId>
