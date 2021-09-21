@@ -34,6 +34,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
@@ -325,8 +326,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         .collect(Collectors.toMap(N2oParam::getName, param -> {
                             String widgetId = param.getRefWidgetId();
                             ModelLink link = Redux.linkParam(param, p);
-                            if (ReduxModel.RESOLVE.equals(link.getModel()) && widgetIdQueryIdMap != null &&
-                                    widgetIdQueryIdMap.get(widgetId) != null)
+                            if (ReduxModel.RESOLVE.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
+                                    && widgetIdQueryIdMap != null
+                                    && widgetIdQueryIdMap.get(widgetId) != null)
                                 link.setSubModelQuery(new SubModelQuery(widgetIdQueryIdMap.get(widgetId)));
                             return link;
                         }));

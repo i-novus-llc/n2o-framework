@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -119,7 +121,17 @@ public interface BindProcessor {
      *
      * @param link Ссылка
      */
-    BindLink resolveLink(BindLink link);
+    default BindLink resolveLink(BindLink link) {
+        return resolveLink(link, false);
+    }
+
+    /**
+     * Пытается превратить ссылку в константное значение, если ссылка не меняется (observable=false)
+     *
+     * @param observable Превращать ли ссылку в константу, если ссылка может измениться на текущей странице?
+     * @param link       Ссылка
+     */
+    BindLink resolveLink(BindLink link, boolean observable);
 
     /**
      * Получение значения параметра из адресной строки по ссылке
@@ -127,22 +139,32 @@ public interface BindProcessor {
      * @param link Ссылка
      * @return Значение параметра
      */
-    Object getLinkValue(ModelLink link);
+    @Deprecated(since = "7.18.0")
+    default Object getLinkValue(ModelLink link) {
+        return resolveLink(link);
+    }
+
+    /**
+     * Получение значения параметра из адресной строки по ссылке
+     *
+     * @param link Ссылка
+     * @return Значение параметра
+     */
+    Object resolveLinkValue(ModelLink link);
 
     /**
      * Попытаться разрешить вложенные модели ссылки
      *
      * @param link ссылка на значение
      */
-    void resolveSubModels(ModelLink link);
+    ModelLink resolveSubModels(ModelLink link);
 
     /**
-     * Разрешить модели полей-фильтров
+     * Получить значение выборки с текущими параметрами запроса
      *
-     * @param filtersDefaultValuesQueryId Идентификатор выборки для получения дефолтных значений фильтров
-     * @param filters                     Список фильтров
+     * @param queryId Идентификатор выборки
      */
-    void resolveFiltersModels(String filtersDefaultValuesQueryId, List<Filter> filters);
+    DataSet executeQuery(String queryId);
 
     /**
      * Получить локализованное сообщение по коду и аргументам

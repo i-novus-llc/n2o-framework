@@ -1,5 +1,6 @@
 ---
 title: Виджеты
+description: ""
 ---
 import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
@@ -352,7 +353,51 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 
 **Тело**
 
-[Ячейка](../xml/cell)
+[Ячейка](../xml/cell) и [зависимости столбца](../xml/widget#dependencies)
+
+#### &lt;dependencies&gt;
+
+Зависимости столбца
+
+**Пример**
+
+```xml
+<column text-field-id="name">
+  <dependencies>
+    ...
+  </dependencies>
+</column>
+```
+
+**Тело**
+
+[Условие видимости](../xml/widget#visibility)
+
+##### &lt;visibility&gt;
+
+Условие видимости
+
+**Атрибуты**
+
+|Наименование|Тип       |Описание                                  |Значение по умолчанию |
+|------------|----------|------------------------------------------|----------------------|
+|on          |Строка    |Поля, от которых зависит условие видимости|Вычисляется по условию|
+|reset       |true false|Сбросить значение при скрытии             |false                 |
+
+**Тело**
+
+Java Script выражение
+
+**Пример**
+
+```xml
+<column text-field-id="name">
+    <dependencies>
+        <visibility on="type" reset="true">type.id == 1</visibility>
+        <!-- Колонка видима, если type.id равен 1 -->
+    </dependencies>
+</column>
+```
 
 ##### &lt;filter-column&gt;
 

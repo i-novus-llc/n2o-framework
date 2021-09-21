@@ -3,47 +3,56 @@ title: Меню
 ---
 import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
-Меню позволяет пользователю переходить по разным разделам сайта или сервиса
+Меню позволяет пользователю переходить по разным разделам сайта или сервиса.
+Может находиться в шапке сайта или боковой панели.
 
 **Когда используется**
 - для верхнеуровневой навигации по основным разделам
 
 
 ### Меню сверху
-<Sandbox height={120} projectId="uxcomponents_menu_header_on_top" showHeader />
+- Основное меню расположено в шапке
+
+<Sandbox height={300} projectId="uxcomponents_menu_header_on_top" showHeader />
 
 ### Бренд
-<Sandbox height={120} projectId="uxcomponents_menu_brand" showHeader />
+
+<Sandbox height={200} projectId="uxcomponents_menu_brand" showHeader />
 
 ### Бренд на светлом фоне
-<Sandbox height={120} projectId="uxcomponents_menu_brand_light_background" showHeader />
 
-### Внутренняя ссылка
-<Sandbox height={120} projectId="uxcomponents_menu_page" showHeader />
-
-### Внешняя ссылка
-<Sandbox height={120} projectId="uxcomponents_menu_a" showHeader />
+<Sandbox height={200} projectId="uxcomponents_menu_brand_light_background" showHeader />
 
 ### Выпадающее меню
-<Sandbox height={120} projectId="uxcomponents_menu_submenu" showHeader />
 
-### Стандартная боковая панель
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_simple" showHeader />
+<Sandbox height={300} projectId="uxcomponents_menu_submenu" showHeader />
+
+### Боковая панель
+- Боковая панель по умолчанию скрыта, появляется при нажатии на иконку меню в шапке
+
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_simple" showHeader />
 
 ### Боковая панель во всю высоту
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_fullsize" showHeader />
+- Боковая панель по умолчанию скрыта, появляется при нажатии на иконку меню в шапке, занимает всю высоту страницы
 
-### Фиксированная боковая панель
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_fixed" showHeader />
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_fullsize" showHeader />
 
 ### Боковая панель справа
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_right" showHeader />
+- Боковая панель по умолчанию скрыта, появляется справа при нажатии на иконку меню в шапке, занимает всю высоту страницы
 
-### Боковая панель по умолчанию тонкая полоса
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_default_micro" showHeader />
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_right" showHeader />
 
-### Боковая панель по умолчанию только иконки
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_default_mini" showHeader />
+### Боковая панель микро
+- Боковая панель по умолчанию свернута в узкую полосу; расширяется при наведении и перекрывает контент; занимает всю высоту страницы
 
-### Боковая панель перекрывает страницу
-<Sandbox height={300} projectId="uxcomponents_menu_sidebar_overlay" showHeader />
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_default_micro" showHeader />
+
+### Боковая панель мини
+- Боковая панель по умолчанию частично свернута, показаны только иконки меню; расширяется при нажатии на иконку меню в шапке; занимает всю высоту страницы
+
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_default_mini" showHeader />
+
+### Боковая панель с перекрытием
+- Боковая панель по умолчанию скрыта; расширяется поверх контента при нажатии на иконку меню в шапке;
+
+<Sandbox height={400} projectId="uxcomponents_menu_sidebar_overlay" showHeader />

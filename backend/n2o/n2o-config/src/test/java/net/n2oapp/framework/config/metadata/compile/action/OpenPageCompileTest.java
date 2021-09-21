@@ -448,7 +448,6 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         data.put("surname", "Ivanov");
         data.put("gender_id", 1);
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getModels().size(), is(5));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].surname").getValue(), is("testName"));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));

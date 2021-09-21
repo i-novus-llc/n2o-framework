@@ -10,25 +10,25 @@
                 <!-- widget-id задан в параметре -->
                 <button id="refWidgetId" widget-id="form2">
                     <open-page page-id="testOpenPageRoutePage" route="/:param1/:param3/open">
-                        <path-param name="param1" value="{field}" ref-widget-id="form"/>
-                        <query-param name="param2" value="{field}" ref-widget-id="form"/>
+                        <path-param name="param1" value="{id}" ref-widget-id="form"/>
+                        <query-param name="param2" value="{id}" ref-widget-id="form"/>
                         <!-- сабмодель не добавляется для параметров с не resolve моделью -->
-                        <path-param name="param3" value="{field}" ref-widget-id="form" ref-model="filter"/>
-                        <query-param name="param4" value="{field}" ref-widget-id="form" ref-model="filter"/>
+                        <path-param name="param3" value="{id}" ref-widget-id="form" ref-model="filter"/>
+                        <query-param name="param4" value="{id}" ref-widget-id="form" ref-model="filter"/>
                     </open-page>
                 </button>
                 <!-- widget-id задан в кнопке -->
                 <button id="buttonWidgetId" widget-id="form2">
                     <open-page page-id="testOpenPageRoutePage" route="/:param5/open">
-                        <path-param name="param5" value="{field}"/>
-                        <query-param name="param6" value="{field}"/>
+                        <path-param name="param5" value="{id}"/>
+                        <query-param name="param6" value="{id}"/>
                     </open-page>
                 </button>
                 <!-- widget-id - текущий виджет -->
                 <button id="currentWidgetId">
                     <open-page page-id="testOpenPageRoutePage" route="/:param7/open">
-                        <path-param name="param7" value="{field}"/>
-                        <query-param name="param8" value="{field}"/>
+                        <path-param name="param7" value="{id}"/>
+                        <query-param name="param8" value="{id}"/>
                     </open-page>
                 </button>
             </toolbar>
