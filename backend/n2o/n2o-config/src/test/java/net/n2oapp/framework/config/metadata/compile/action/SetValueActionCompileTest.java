@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.event.action.MergeMode;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.SetValueElementIOV1;
@@ -46,7 +47,7 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testSetValueAction.page.xml")
                 .get(new PageContext("testSetValueAction", "/w"));
 
-        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        Form table = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         SetValueAction testAction = (SetValueAction) table.getActions().get("test");
         assertThat(testAction.getType(), is("n2o/models/COPY"));
         assertThat(testAction.getPayload().getSource().getKey(), is("w_list"));

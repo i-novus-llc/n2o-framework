@@ -22,15 +22,21 @@ import {
     globalSelector,
 } from '../../ducks/global/store'
 
+// eslint-disable-next-line import/no-named-as-default
+import GlobalAlerts from './GlobalAlerts'
+
 function Application(props) {
     const { ready, loading, render, locale, ...config } = props
 
     numeral.locale(locale)
 
     return (
-        <Spinner type="cover" loading={loading}>
-            {ready && render(config)}
-        </Spinner>
+        <>
+            <GlobalAlerts />
+            <Spinner type="cover" loading={loading}>
+                {ready && render(config)}
+            </Spinner>
+        </>
     )
 }
 

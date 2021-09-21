@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Ячейка file-upload">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="docs" label="Документ" tooltip-field-id="fio">
+                <file-upload id="docs"
+                             url-field-id="url"
+                             label-field-id="fileName"
+                             upload-url="/files"
+                             delete-url="/files"
+                             accept=".img,.xml,.json"
+                             request-param="file"
+                             multi="true"
+                >
+                </file-upload>
+            </column>
+            <column text-field-id="fio" label="Фамилия И.О."/>
+        </columns>
+    </table>
+</simple-page>

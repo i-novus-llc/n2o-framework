@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -33,7 +34,10 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,7 +52,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                         PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
-        List<N2oWidget> sourceWidgets = collectWidgets(items);
+        List<N2oWidget> sourceWidgets = collectWidgets(items, p);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
@@ -104,22 +108,25 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return page;
     }
 
-    protected List<N2oWidget> collectWidgets(SourceComponent[] items) {
+    protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
         List<N2oWidget> result = new ArrayList<>();
         if (items != null) {
             Map<String, Integer> ids = new HashMap<>();
-            addWidgets(items, result, ids, "w");
+            addWidgets(items, result, ids, "w", p);
         }
         return result;
     }
 
     private void addWidgets(SourceComponent[] items, List<N2oWidget> result,
-                            Map<String, Integer> ids, String prefix) {
+                            Map<String, Integer> ids, String prefix, CompileProcessor p) {
         if (!ids.containsKey(prefix))
             ids.put(prefix, 1);
         for (SourceComponent item : items) {
             if (item instanceof N2oWidget) {
                 N2oWidget widget = ((N2oWidget) item);
+                String refId = ((N2oWidget) item).getRefId();
+                if (refId != null && !DynamicUtil.isDynamic(refId))
+                    widget = (N2oWidget) p.merge(p.getSource(refId, N2oWidget.class), item);
                 if (widget.getId() == null)
                     widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
@@ -127,9 +134,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 if (((N2oTabsRegion) item).getTabs() != null)
                     for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
                         if (tab.getContent() != null)
-                            addWidgets(tab.getContent(), result, ids, ((N2oTabsRegion) item).getAlias());
+                            addWidgets(tab.getContent(), result, ids, ((N2oTabsRegion) item).getAlias(), p);
             } else if (item instanceof N2oRegion && ((N2oRegion) item).getContent() != null)
-                addWidgets(((N2oRegion) item).getContent(), result, ids, ((N2oRegion) item).getAlias());
+                addWidgets(((N2oRegion) item).getContent(), result, ids, ((N2oRegion) item).getAlias(), p);
         }
     }
 

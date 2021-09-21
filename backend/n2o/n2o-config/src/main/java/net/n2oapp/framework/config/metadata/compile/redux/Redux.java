@@ -176,8 +176,7 @@ public abstract class Redux {
             PageScope pageScope = p.getScope(PageScope.class);
             String widgetId = CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
             ModelLink link = new ModelLink(preFilter.getRefModel(),
-                    pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                            widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId));
+                    getDatasourceId(pageScope, widgetId));
             link.setValue(value);
             return link;
         } else {
@@ -191,8 +190,7 @@ public abstract class Redux {
             PageScope pageScope = p.getScope(PageScope.class);
             String widgetId = CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId());
             ModelLink link = new ModelLink(param.getRefModel(),
-                    pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                            widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId));
+                    getDatasourceId(pageScope, widgetId));
             link.setValue(value);
             return link;
         } else {
@@ -205,5 +203,16 @@ public abstract class Redux {
         if (PK.equals(fieldId) && queryId != null)
             link.setSubModelQuery(new SubModelQuery(queryId));
         return link;
+    }
+
+    /**
+     * Получение идентификатора источника данных
+     * @param pageScope     информация о странице
+     * @param widgetId      иденитификатор виджета
+     * @return      идентификатор источника данных
+     */
+    private static String getDatasourceId(PageScope pageScope, String widgetId) {
+        return pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
+                widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId);
     }
 }

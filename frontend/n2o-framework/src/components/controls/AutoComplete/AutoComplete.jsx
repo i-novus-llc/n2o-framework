@@ -52,7 +52,7 @@ class AutoComplete extends React.Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        const { value, options } = this.props
+        const { value, options, tags } = this.props
         const compareListProps = ['options', 'value']
         const compareListState = ['input']
 
@@ -75,8 +75,15 @@ class AutoComplete extends React.Component {
                 const currentValue = isArray(value) ? value : [value]
 
                 state.value = value ? currentValue : []
+
+                if (isEmpty(state.value)) {
+                    state.input = value && !tags ? value : ''
+                }
             }
-            if (!isEmpty(state)) { this.setState(state) }
+
+            if (!isEmpty(state)) {
+                this.setState(state)
+            }
         }
     };
 

@@ -72,17 +72,14 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     @Override
     protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, CompileProcessor p) {
-        if (source.getParam() != null) {
-            String id = control.getId() + ".id";
-            ModelsScope modelsScope = p.getScope(ModelsScope.class);
-            if (modelsScope != null) {
-                ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
-                ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
-                        colon(source.getParam()));
-                paramScope.addQueryMapping(source.getParam(), onGet, onSet);
-                if (modelsScope.hasModels())
-                    modelsScope.add(control.getId(), onSet);
-            }
+        if (source.getParam() == null) return;
+        String id = control.getId() + ".id";
+        ModelsScope modelsScope = p.getScope(ModelsScope.class);
+        if (modelsScope != null) {
+            ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
+            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
+                    colon(source.getParam()));
+            paramScope.addQueryMapping(source.getParam(), onGet, onSet);
         }
     }
 

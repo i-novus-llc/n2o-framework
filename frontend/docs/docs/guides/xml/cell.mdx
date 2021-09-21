@@ -1,5 +1,6 @@
 ---
 title: Ячейки
+description: ""
 ---
 import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
@@ -214,6 +215,41 @@ http://n2oapp.net/framework/config/schema/n2o-cell-2.0
 ```
 
 <Sandbox height={250} projectId="uxcomponents_cells_image" />
+
+### &lt;file-upload&gt; {#file-upload-cell}
+
+Загрузка файлов.
+
+**Атрибуты**
+
+|Наименование    |Тип                                                               |Описание                                                |Значение по умолчанию|
+|----------------|------------------------------------------------------------------|--------------------------------------------------------|---------------------|
+|label           |Строка                                                            |Универсальный заголовок поля                            |                     |
+|multi           |true false                                                        |Поддержка загрузки нескольких файлов                    |false                |
+|ajax            |true false                                                        |Поддержка загрузки через ajax запрос                    |true                 |
+|upload-url      |Строка                                                            |URL загрузки файла                                      |                     |
+|delete-url      |Строка                                                            |URL удаления файла                                      |                     |
+|value-field-id  |Строка                                                            |Поле выборки, содержащее идентификатор файла            |id                   |
+|label-field-id  |Строка                                                            |Поле выборки, содержащее наименование файла             |name                 |
+|message-field-id|Строка                                                            |Поле выборки, содержащее сообщение файла                |message              |
+|url-field-id    |Строка                                                            |Поле выборки, содержащее URL скачивания файла           |url                  |
+|request-param   |Строка                                                            |Наименование поля в запросе miltipart form data         |file                 |
+|show-size       |true false                                                        |Отображение размера файла                               |true                 |
+|accept          |Строка                                                            |Доступные расширения файлов (через запятую)             |                     |
+|delete-icon     |Строка                                                            |Иконка удаления файлов                                  |                     |
+|upload-icon     |Строка                                                            |Иконка загрузки файлов                                  |                     |
+
+
+**Пример**
+
+```xml
+<file-upload label="Загрузить файл"
+             upload-url="/files/upload"
+             delete-url="/files/delete"
+             accept=".img,.png"/>
+```
+
+
 
 ### &lt;statuses&gt; {#statuses}
 

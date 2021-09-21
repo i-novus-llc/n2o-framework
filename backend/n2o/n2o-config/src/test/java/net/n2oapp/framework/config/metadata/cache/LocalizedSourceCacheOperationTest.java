@@ -28,6 +28,7 @@ public class LocalizedSourceCacheOperationTest {
 
     @Test
     public void test() {
+        LocaleContextHolder.setLocale(new Locale("ru"));
         CacheTemplate cacheTemplate = mock(CacheTemplate.class);
         MetadataRegister metadataRegister = mock(MetadataRegister.class);
         when(cacheTemplate.execute(eq("n2o.source"), eq("test.N2oPage.ru"), any())).thenReturn(getPage());

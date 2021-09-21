@@ -149,10 +149,10 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(0).getParam(), is("id"));
         assertThat(filters.get(0).getFilterId(), is("id"));
         assertThat(filters.get(0).getRoutable(), is(false));
-        assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_ds1']"));
+        assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().size(), is(0));
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_ds1']"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
         assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(drawerWidget.getUpload(), is(UploadType.query));
 
@@ -264,7 +264,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(2).getParam(), is("id"));
         assertThat(filters.get(2).getFilterId(), is("id"));
         assertThat(filters.get(2).getRoutable(), is(false));
-        assertThat(filters.get(2).getLink().getBindLink(), is("models.resolve['p_ds1']"));
+        assertThat(filters.get(2).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(2).getLink().getValue(), is("`id`"));
         assertThat(filters.get(0).getParam(), is("p_updateWithPrefilters_main_secondId"));
         assertThat(filters.get(0).getFilterId(), is("secondId"));
@@ -277,7 +277,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_ds1']"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
         assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
@@ -315,7 +315,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         OpenDrawer openDrawer = (OpenDrawer) ((Widget) rootPage.getRegions().get("left").get(0).getContent().get(0))
                 .getActions().get("updateEditWithPrefilters");
-        assertThat(openDrawer.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_ds1']"));
+        assertThat(openDrawer.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
 
         Page openDrawerPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(openDrawerPage.getId(), is("p_updateEditWithPrefilters"));

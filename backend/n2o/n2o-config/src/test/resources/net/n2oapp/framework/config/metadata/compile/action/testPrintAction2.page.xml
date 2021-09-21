@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
       route="/page" name="first">
     <regions>
-        <table id="test" route="/widget" datasource="ds1">
+        <form id="test" route="/widget" datasource="ds1">
             <toolbar>
                 <button id="id1">
                     <print url="/test"/>
@@ -21,8 +21,8 @@
                     <show-modal page-id="testPrintAction"/>
                 </button>
             </toolbar>
-        </table>
-        <table id="secondWgt" route="/second" datasource="ds2">
+        </form>
+        <form id="secondWgt" route="/second" datasource="ds2">
             <toolbar>
                 <button id="secWgt" model="filter" widget-id="test">
                     <print url="test/:minPrice/">
@@ -30,7 +30,7 @@
                     </print>
                 </button>
             </toolbar>
-        </table>
+        </form>
     </regions>
 </page>
 

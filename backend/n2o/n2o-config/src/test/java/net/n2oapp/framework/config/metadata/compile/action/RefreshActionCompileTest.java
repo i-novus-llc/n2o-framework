@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -41,7 +41,7 @@ public class RefreshActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testRefreshAction.page.xml")
                 .get(new PageContext("testRefreshAction"));
 
-        List<AbstractButton> buttons = ((Table) page.getRegions().get("single").get(0).getContent().get(1))
+        List<AbstractButton> buttons = ((Form) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().get("topLeft").get(0).getButtons();
 
         assertThat(buttons.size(), is(2));

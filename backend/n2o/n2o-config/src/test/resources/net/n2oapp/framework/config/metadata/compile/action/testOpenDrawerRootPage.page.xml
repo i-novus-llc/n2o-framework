@@ -1,7 +1,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <regions>
         <region place="left">
-            <table id="main" query-id="testShowModal" route="/" datasource="ds1">
+            <table id="main" query-id="testShowModal" route="/">
                 <toolbar>
                     <button id="create" model="filter">
                         <open-drawer page-id="testShowModalPage" modal-size="sm"

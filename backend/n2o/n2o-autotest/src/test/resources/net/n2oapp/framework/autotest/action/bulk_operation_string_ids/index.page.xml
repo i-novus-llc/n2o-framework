@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Bulk Операции с разными типами id">
+    <table query-id="test" object-id="test" checkboxes="true">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+        <toolbar>
+            <button model="multi" label="Изменить выбранные">
+                <show-modal page-id="setName" submit-operation-id="updateMany"
+                            route="/updateAll">
+                    <query-param name="ids" value="{this*.id}"/>
+                    <query-param name="names" value="{this*.name}"/>
+                </show-modal>
+            </button>
+            <button model="multi" label="Удалить выбранные">
+                <invoke operation-id="deleteMany"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>
