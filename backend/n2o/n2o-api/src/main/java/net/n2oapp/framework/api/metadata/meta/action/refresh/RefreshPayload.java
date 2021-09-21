@@ -13,4 +13,6 @@ import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 public class RefreshPayload implements ActionPayload {
     @JsonProperty
     private String widgetId;
+    @JsonProperty
+    private String modelId;
 }

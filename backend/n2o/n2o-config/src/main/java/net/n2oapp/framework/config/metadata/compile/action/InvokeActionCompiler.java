@@ -65,6 +65,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId, routeScope));
         invokeAction.getMeta().setFail(initFailMeta(invokeAction, source, context, p, currentWidgetId));
         invokeAction.getPayload().setWidgetId(targetWidgetId);
+        invokeAction.getPayload().setModelId(datasource);
         if (widgetScope == null) {
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }

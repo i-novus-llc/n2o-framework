@@ -284,6 +284,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModelLink(), is("models.filter['testInvokeActionDatasource_ds1']"));
         assertThat(testAction.getPayload().getWidgetId(), is("testInvokeActionDatasource_main"));
+        assertThat(testAction.getPayload().getModelId(), is("testInvokeActionDatasource_ds1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/create"));
     }
