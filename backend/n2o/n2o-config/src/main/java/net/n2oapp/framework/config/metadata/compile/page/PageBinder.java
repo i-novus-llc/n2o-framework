@@ -23,24 +23,37 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     public D bindPage(D page, BindProcessor p, List<Widget<?>> widgets) {
         if (widgets != null)
             widgets.forEach(p::bind);
-        bindRoutes(page, p);
+
+        if (page.getRoutes() != null) {
+            Map<String, BindLink> pathMappings = new HashMap<>();
+            page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));
+            for (PageRoutes.Route route : page.getRoutes().getList()) {
+                route.setPath(p.resolveUrl(route.getPath(), pathMappings, null));
+            }
+            if (page.getRoutes().getQueryMapping() != null) {
+                if (page.getModels() == null) {
+                    page.setModels(new Models());
+                }
+                //копирование ссылок из квери параметров роутера в модель, если такой квери параметр есть в запросе
+                page.getRoutes().getQueryMapping().keySet().stream()
+                        .filter(p::canResolveParam)
+                        .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
+                        .forEach(param -> {
+                            ModelLink modelLink = (ModelLink) page.getRoutes().getQueryMapping().get(param).getOnSet();
+                            page.getModels().add(modelLink.getModel(), modelLink.getDatasource(), modelLink.getFieldId(), modelLink);
+                        });
+            }
+        }
+
         if (page.getBreadcrumb() != null)
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
                     .forEach(b -> {
                         b.setPath(p.resolveUrl(b.getPath()));
                         b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
                     });
-        bindModels(page, p, widgets);
-        bindProperty(page, p);
-        if (page.getBreadcrumb() != null) {
-            for (Breadcrumb crumb : page.getBreadcrumb()) {
-                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
-            }
-        }
-        return page;
-    }
 
-    private void bindModels(D page, BindProcessor p, List<Widget<?>> widgets) {
+        collectFiltersToModels(page.getModels(), widgets, p);
+
         if (page.getModels() != null) {
             //разрешение контекстных значений в моделях
             page.getModels().values().forEach(bl -> {
@@ -57,33 +70,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             });
             resolveLinks(page.getModels(), p);
         }
-    }
-
-    private void bindRoutes(D page, BindProcessor p) {
-        if (page.getRoutes() != null) {
-            Map<String, BindLink> pathMappings = new HashMap<>();
-            page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));
-            for (PageRoutes.Route route : page.getRoutes().getList()) {
-                route.setPath(p.resolveUrl(route.getPath(), pathMappings, null));
-            }
-            if (page.getRoutes().getQueryMapping() != null) {
-                if (page.getModels() == null) {
-                    page.setModels(new Models());
-                }
-                HashMap<String, ModelLink> resolvedModelLinks = new HashMap<>();
-                page.getRoutes().getQueryMapping().keySet().stream()
-                        .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
-                        .forEach(param -> resolvedModelLinks.put(param, (ModelLink) p.resolveLink(page.getRoutes().getQueryMapping().get(param).getOnSet())));
-                resolvedModelLinks.keySet().stream().filter(param -> (resolvedModelLinks.get(param).isConst() && resolvedModelLinks.get(param).isLink()))
-                        .forEach(param -> {
-                            ModelLink modelLink = resolvedModelLinks.get(param);
-                            page.getModels().add(modelLink.getModel(), modelLink.getDatasource(), modelLink.getFieldId(), modelLink);
-                        });
-            }
-        }
-    }
-
-    private void bindProperty(D page, BindProcessor p) {
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
                     page.getPageProperty().getModelLink()));
@@ -91,7 +77,14 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     page.getPageProperty().getModelLink()));
             page.getPageProperty().setModalHeaderTitle(p.resolveText(page.getPageProperty().getModalHeaderTitle(),
                     page.getPageProperty().getModelLink()));
+
         }
+        if (page.getBreadcrumb() != null) {
+            for (Breadcrumb crumb : page.getBreadcrumb()) {
+                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
+            }
+        }
+        return page;
     }
 
     /**
