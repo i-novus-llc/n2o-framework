@@ -23,7 +23,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.reader.event.*;
 import net.n2oapp.framework.config.reader.fieldset.FieldSetXmlReaderV2;
 import net.n2oapp.framework.config.reader.fieldset.FieldSetXmlReaderV3;
-import net.n2oapp.framework.config.reader.page.PageXmlReaderV1;
 import net.n2oapp.framework.config.reader.query.QueryElementReaderV3;
 import net.n2oapp.framework.config.reader.widget.widget3.*;
 
@@ -33,10 +32,6 @@ import net.n2oapp.framework.config.reader.widget.widget3.*;
 public class SelectiveStandardReader extends SelectiveReader {
 
     public SelectiveStandardReader() {
-    }
-
-    public SelectiveStandardReader addPage1() {
-        return addReader(new PageXmlReaderV1());
     }
 
     public SelectiveStandardReader addPage2() {

@@ -41,8 +41,6 @@ public class WidgetXmlReaderTest {
             .addEventsReader()
             .addFieldSet3Reader();
 
-    private SelectiveReader pageReader = new SelectiveStandardReader().addPage1()
-            .addWidgetReaderV3();
 
     @Before
     public void setUp() throws Exception {
@@ -82,12 +80,6 @@ public class WidgetXmlReaderTest {
         assertInheritanceTree(inheritanceTree);
     }
 
-
-    @Test
-    public void refWidget() {
-        N2oPage page = pageReader.readByPath("net/n2oapp/framework/config/reader/widget/testWidgetReaderRefForm.page.xml");
-        assertRefWidget(page);
-    }
 
     protected void assertWidgetAttribute(N2oWidget widget) {
         assert widget.getName().equals("test");

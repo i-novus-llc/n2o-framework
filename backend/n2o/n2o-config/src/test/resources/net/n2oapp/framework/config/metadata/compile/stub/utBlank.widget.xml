@@ -1,10 +1,5 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-3.0"
-      xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
-      xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-2.0">
-    <query-id>utBlank</query-id>
-
-    <fs:field-set>
-        <ctrl:input-text id="id"/>
-    </fs:field-set>
-
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="id"/>
+    </fields>
 </form>
