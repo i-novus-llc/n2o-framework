@@ -137,7 +137,7 @@ const enhance = compose(
             dispatch(
                 batchActions([
                     updateModel(searchModelPrefix, searchWidgetId, searchModelKey, value),
-                    dataRequestWidget(searchWidgetId),
+                    dataRequestWidget(searchWidgetId, { page: 1 }),
                 ]),
             )
         },
