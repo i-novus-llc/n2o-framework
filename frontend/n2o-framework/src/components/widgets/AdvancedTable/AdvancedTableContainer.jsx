@@ -13,7 +13,7 @@ import map from 'lodash/map'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
-import { replace } from 'connected-react-router'
+import { push } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
 import widgetContainer from '../WidgetContainer'
@@ -347,7 +347,7 @@ export const withWidgetHandlers = compose(
                 dispatch(action)
             } else if (url) {
                 if (target === 'application') {
-                    dispatch(replace(compiledUrl))
+                    dispatch(push(compiledUrl))
                 } else if (target === '_blank') {
                     window.open(compiledUrl)
                 } else {
