@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.java.EjbInvocatio
 import net.n2oapp.framework.api.metadata.global.dao.invocation.java.JavaInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.java.SpringInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 import org.jdom2.Element;

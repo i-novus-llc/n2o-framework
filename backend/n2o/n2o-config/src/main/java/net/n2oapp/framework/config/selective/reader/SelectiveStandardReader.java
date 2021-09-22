@@ -20,7 +20,6 @@ import net.n2oapp.framework.config.io.region.PanelRegionIOv1;
 import net.n2oapp.framework.config.io.region.TabsRegionIOv1;
 import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.reader.event.*;
-import net.n2oapp.framework.config.reader.query.QueryElementReaderV3;
 import net.n2oapp.framework.config.reader.widget.widget3.CustomWidgetXmlReaderV3;
 import net.n2oapp.framework.config.reader.widget.widget3.TreeXmlReaderV3;
 
@@ -119,8 +118,7 @@ public class SelectiveStandardReader extends SelectiveReader {
     }
 
     public SelectiveStandardReader addQueryReader() {
-        return addReader(new QueryElementReaderV3())
-                .addReader(new JavaDataProviderIOv1())
+        return addReader(new JavaDataProviderIOv1())
                 .addReader(new QueryElementIOv4())
                 .addReader(new TestDataProviderIOv1());
     }

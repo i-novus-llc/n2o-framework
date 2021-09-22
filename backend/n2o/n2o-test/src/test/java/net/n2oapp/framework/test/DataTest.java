@@ -85,33 +85,6 @@ public class DataTest {
     }
 
     @Test
-    public void sqlQuery3() {
-        RestTemplate restTemplate = new RestTemplate();
-        String queryPath = "/n2o/data/test/sql/v3";
-        String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
-        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(50));
-        assertThat(result.getSize(), is(10));
-        assertThat(result.getPage(), is(1));
-        assertThat(result.getList().size(), is(10));
-        assertThat(result.getList(), isOrdered());
-
-        //test data by id
-        fooResourceUrl = "http://localhost:" + port + queryPath + "?size=1&page=1&id=3";
-        response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        result = response.getBody();
-        assertThat(result.getCount(), is(1));
-        assertThat(result.getSize(), is(1));
-        assertThat(result.getPage(), is(1));
-        assertThat(result.getList().size(), is(1));
-        assertThat(result.getList().get(0).get("id"), is(3));
-        assertThat(result.getList().get(0).get("value"), is("+79655000022"));
-    }
-
-    @Test
     public void sqlQuery4() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/sql/v4";
