@@ -19,9 +19,6 @@ import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.io.region.PanelRegionIOv1;
 import net.n2oapp.framework.config.io.region.TabsRegionIOv1;
 import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
-import net.n2oapp.framework.config.reader.event.*;
-import net.n2oapp.framework.config.reader.widget.widget3.CustomWidgetXmlReaderV3;
-import net.n2oapp.framework.config.reader.widget.widget3.TreeXmlReaderV3;
 
 /**
  * Чтение файлов для тестов
@@ -84,23 +81,10 @@ public class SelectiveStandardReader extends SelectiveReader {
                 .addReader(new MultiFieldsetElementIOv4());
     }
 
-    public SelectiveStandardReader addEventsReader() {
-        addReader(InvokeActionReaderV1.getInstance());
-        addReader(new AnchorReaderV1());
-        addReader(new OnClickReaderV1());
-        addReader(new SetValueExpressionEventReaderV1());
-        addReader(new OpenPageReaderV1());
-        addReader(new ShowModalFormReaderV1());
-        addReader(new ShowModalWithActionReaderV1());
-        addReader(new ActionAndCloseReaderV1());
-        addReader(new CloseEventReaderV1());
-        addReader(new ValidateEventReaderV1());
-        return this;
-    }
-
 
     public SelectiveStandardReader addObjectReader() {
-        return addReader(new ObjectElementIOv4()).addReader(new ObjectElementIOv3());
+        return addReader(new ObjectElementIOv4())
+                .addReader(new ObjectElementIOv3());
     }
 
     public SelectiveStandardReader addInvocationsReader2() {
@@ -122,13 +106,4 @@ public class SelectiveStandardReader extends SelectiveReader {
                 .addReader(new QueryElementIOv4())
                 .addReader(new TestDataProviderIOv1());
     }
-
-    public SelectiveStandardReader addWidgetReaderV3() {
-        // http://n2oapp.net/framework/config/schema/n2o-widget-3.0
-        addReader(new TreeXmlReaderV3());
-        addReader(new CustomWidgetXmlReaderV3());
-
-        return this;
-    }
-
 }

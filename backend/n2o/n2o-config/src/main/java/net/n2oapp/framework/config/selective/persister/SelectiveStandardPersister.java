@@ -13,8 +13,6 @@ import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
-import net.n2oapp.framework.config.io.query.QueryElementIOv4;
-import net.n2oapp.framework.config.persister.event.*;
 import net.n2oapp.framework.config.persister.invocation.N2oJavaInvocationPersister;
 import net.n2oapp.framework.config.persister.invocation.N2oRestInvocationPersister;
 
@@ -24,8 +22,7 @@ import net.n2oapp.framework.config.persister.invocation.N2oRestInvocationPersist
 public class SelectiveStandardPersister extends SelectivePersister {
 
     public SelectiveStandardPersister addControlPersister() {
-        return addEventPersister()
-                .addPersister(new CheckboxGroupIOv2())
+        return addPersister(new CheckboxGroupIOv2())
                 .addPersister(new CheckboxIOv2())
                 .addPersister(new CustomFieldIOv2())
                 .addPersister(new DateIntervalIOv2())
@@ -65,11 +62,6 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new N2oRestInvocationPersister());
     }
 
-    public SelectiveStandardPersister addQueryPersister() {
-        return addPersister(new QueryElementIOv4());
-
-    }
-
     public SelectiveStandardPersister addDataProviders() {
         return addPersister(new RestDataProviderIOv1())
                 .addPersister(new SqlDataProviderIOv1())
@@ -77,17 +69,6 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new TestDataProviderIOv1())
                 .addPersister(new MongoDbDataProviderIOv1())
                 .addPersister(new CamundaDataProviderIOv1());
-    }
-
-    public SelectiveStandardPersister addEventPersister() {
-        return addPersister(AnchorPersister.getInstance())
-                .addPersister(ShowModalFormPersister.getInstance())
-                .addPersister(new InvokeActionPersister())
-                .addPersister(OpenPagePersister.getInstance())
-                .addPersister(ShowModalFromClassifierPersister.getInstance())
-                .addPersister(ShowModalPersister.getInstance())
-                .addPersister(OnClickPersister.getInstance())
-                .addPersister(SetValueExpressionEventPersister.getInstance());
     }
 
     @Override
