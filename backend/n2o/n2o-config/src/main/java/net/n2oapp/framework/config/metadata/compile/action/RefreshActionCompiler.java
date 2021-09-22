@@ -32,7 +32,8 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
                 initTargetWidget(context, p);
         String datasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
                 targetWidgetId : pageScope.getWidgetIdDatasourceMap().get(targetWidgetId);
-        ((RefreshPayload) refreshAction.getPayload()).setWidgetId(datasource);
+        ((RefreshPayload) refreshAction.getPayload()).setWidgetId(targetWidgetId);
+        ((RefreshPayload) refreshAction.getPayload()).setModelId(datasource);
         return refreshAction;
     }
 }

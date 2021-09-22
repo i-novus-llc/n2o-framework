@@ -20,4 +20,6 @@ public class InvokeActionPayload implements ActionPayload {
     private ClientDataProvider dataProvider;
     @JsonProperty
     private String modelLink;
+    @JsonProperty
+    private String modelId;
 }
