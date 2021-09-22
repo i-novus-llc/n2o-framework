@@ -176,13 +176,13 @@ describe('Проверка саги widgets', () => {
             baseQuery,
         )
         expect(dispatched[0]).toEqual(
-            put(setModel(PREFIXES.datasource, widgetId, [])).payload.action,
+            put(changeCountWidget(widgetId, response.count)).payload.action,
         )
         expect(dispatched[1]).toEqual(
-            put(setModel(PREFIXES.resolve, widgetId, null)).payload.action,
+            put(setModel(PREFIXES.datasource, widgetId, [])).payload.action,
         )
         expect(dispatched[2]).toEqual(
-            put(changeCountWidget(widgetId, response.count)).payload.action,
+            put(setModel(PREFIXES.resolve, widgetId, null)).payload.action,
         )
         expect(dispatched[3]).toEqual(
             put(changePageWidget(widgetId, response.page)).payload.action,
