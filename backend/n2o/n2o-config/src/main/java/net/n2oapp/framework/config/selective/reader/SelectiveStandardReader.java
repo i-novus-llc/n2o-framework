@@ -21,10 +21,9 @@ import net.n2oapp.framework.config.io.region.TabsRegionIOv1;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsV1ReadersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.reader.event.*;
-import net.n2oapp.framework.config.reader.fieldset.FieldSetXmlReaderV2;
-import net.n2oapp.framework.config.reader.fieldset.FieldSetXmlReaderV3;
 import net.n2oapp.framework.config.reader.query.QueryElementReaderV3;
-import net.n2oapp.framework.config.reader.widget.widget3.*;
+import net.n2oapp.framework.config.reader.widget.widget3.CustomWidgetXmlReaderV3;
+import net.n2oapp.framework.config.reader.widget.widget3.TreeXmlReaderV3;
 
 /**
  * Чтение файлов для тестов
@@ -81,14 +80,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         return this;
     }
 
-    public SelectiveStandardReader addFieldSet2Reader() {
-        return addControlReader().addReader(new FieldSetXmlReaderV2());
-    }
-
-    public SelectiveStandardReader addFieldSet3Reader() {
-        return addControlReader().addReader(new FieldSetXmlReaderV3());
-    }
-
     public SelectiveStandardReader addFieldSet4Reader() {
         return addControlReader()
                 .addReader(new SetFieldsetElementIOv4())
@@ -138,12 +129,8 @@ public class SelectiveStandardReader extends SelectiveReader {
 
     public SelectiveStandardReader addWidgetReaderV3() {
         // http://n2oapp.net/framework/config/schema/n2o-widget-3.0
-        addReader(new FormXmlReaderV3());
-        addReader(new EditFormXmlReaderV3());
-        addReader(new TableXmlReaderV3());
         addReader(new TreeXmlReaderV3());
         addReader(new CustomWidgetXmlReaderV3());
-        addReader(new WizardXmlReaderV3());
 
         return this;
     }

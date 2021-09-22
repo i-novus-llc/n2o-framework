@@ -8,9 +8,6 @@ import net.n2oapp.framework.config.io.widget.*;
 import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
-import net.n2oapp.framework.config.reader.widget.widget3.EditFormXmlReaderV3;
-import net.n2oapp.framework.config.reader.widget.widget3.FormXmlReaderV3;
-import net.n2oapp.framework.config.reader.widget.widget3.TableXmlReaderV3;
 
 public class N2oWidgetsIOPack implements MetadataPack<ReadersBuilder> {
     @Override
@@ -27,8 +24,5 @@ public class N2oWidgetsIOPack implements MetadataPack<ReadersBuilder> {
                 new SubmenuIO(),
                 new TilesWidgetIOV4(),
                 new CardsWidgetIOV4());
-        b.readers(new FormXmlReaderV3(),
-                new TableXmlReaderV3(),
-                new EditFormXmlReaderV3());
     }
 }

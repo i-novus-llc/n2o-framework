@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:ctr="http://n2oapp.net/framework/config/schema/base/control-base-1.0"
-           xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-1.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/base/action-base-1.0"
            xmlns:prop="http://n2oapp.net/framework/config/schema/base/properties-base-1.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/base/n2o-widget-base-1.0"

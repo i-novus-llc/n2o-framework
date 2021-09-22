@@ -6,10 +6,6 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.event.action.*;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
@@ -20,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oColorCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
-import net.n2oapp.framework.config.reader.widget.cell.*;
 import net.n2oapp.framework.config.selective.reader.SelectiveReader;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Before;
@@ -38,8 +33,7 @@ import static org.mockito.Mockito.mock;
 public class WidgetXmlReaderTest {
     private SelectiveReader widgetReader = new SelectiveStandardReader()
             .addWidgetReaderV3()
-            .addEventsReader()
-            .addFieldSet3Reader();
+            .addEventsReader();
 
 
     @Before
@@ -48,29 +42,6 @@ public class WidgetXmlReaderTest {
         StaticSpringContext staticSpringContext = new StaticSpringContext();
         staticSpringContext.setApplicationContext(applicationContext);
         staticSpringContext.setCacheTemplate(new CacheTemplateByMapMock());
-    }
-
-
-    @Test
-    public void testFormWidget() {
-
-        N2oForm refForm = widgetReader.readByPath("net/n2oapp/framework/config/reader/widget/form/testWidgetReaderForm.widget.xml");
-        assert refForm.getRefId().equals("test");
-    }
-
-    @Test
-    public void testTableWidget() {
-        widgetReader.addReader(new N2oColorCellXmlReader())
-                .addReader(new N2oCheckboxCellXmlReader())
-                .addReader(new N2oCustomCellXmlReader())
-                .addReader(new N2oIconCellXmlReader())
-                .addReader(new N2oLinkCellXmlReader())
-                .addReader(new N2oTextCellXmlReader())
-                .addReader(new N2oImageCellXmlReader())
-                .addReader(new N2oProgressBarCellXmlReader());
-        N2oTable table = widgetReader.readByPath("net/n2oapp/framework/config/reader/widget/table/testWidgetReaderTable1.widget.xml");
-        assertWidgetAttribute(table);
-        assertStandardTable(table);
     }
 
     @Test
@@ -88,23 +59,6 @@ public class WidgetXmlReaderTest {
         assert widget.getCssClass().equals("test");
         assert widget.getCustomize().equals("css");
         assert widget.getQueryId().equals("blank");
-    }
-
-    protected void assertStandardForm(N2oForm form) {
-        assert form.getItems().length == 1;
-        NamespaceUriAware field = ((N2oFieldsetRow) ((N2oFieldSet) form.getItems()[0]).getItems()[0]).getItems()[0];
-        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
-    }
-
-    protected void assertFieldSetAttribute(N2oForm form, boolean isRow) {
-        assert form.getItems().length == 1;
-        N2oFieldSet fieldSet = (N2oFieldSet) form.getItems()[0];
-        assert fieldSet.getDependencyCondition().equals("test");
-        assert fieldSet.getFieldLabelLocation().name().toLowerCase().equals("left");
-        assert fieldSet.getLabel().equals("test");
-        assert ((N2oFieldsetRow) fieldSet.getItems()[0]).getClass().equals(N2oFieldsetRow.class);
-        NamespaceUriAware field = ((N2oFieldsetRow) fieldSet.getItems()[0]).getItems()[0];
-        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
     }
 
     protected void assertStandardTable(N2oTable table) {
@@ -182,21 +136,6 @@ public class WidgetXmlReaderTest {
         assert tree.getParentFieldId().equals("id");
         assert tree.getLabelFieldId().equals("id");
         assert tree.getHasChildrenFieldId().equals("id");
-    }
-
-
-    protected void assertCustomWidget(N2oCustomWidget custom) {
-        assert custom.getSrc().equals("test");
-    }
-
-    protected void assertRefWidget(N2oPage page) {
-        assert page.getWidgets().size() == 3;
-        assert page.getWidgets().get(0).getId().equals("form");
-        assert page.getWidgets().get(1).getId().equals("table");
-        assert page.getWidgets().get(2).getId().equals("tree");
-        assert page.getWidgets().get(0).getRefId().equals("testFormReader");
-        assert page.getWidgets().get(1).getRefId().equals("testTableReader");
-        assert page.getWidgets().get(2).getRefId().equals("testTreeReader1");
     }
 
 }
