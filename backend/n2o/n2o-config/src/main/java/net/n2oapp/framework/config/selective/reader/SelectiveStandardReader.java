@@ -18,7 +18,6 @@ import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.io.region.PanelRegionIOv1;
 import net.n2oapp.framework.config.io.region.TabsRegionIOv1;
-import net.n2oapp.framework.config.metadata.pack.N2oControlsV1ReadersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.reader.event.*;
 import net.n2oapp.framework.config.reader.query.QueryElementReaderV3;
@@ -56,7 +55,6 @@ public class SelectiveStandardReader extends SelectiveReader {
     }
 
     public SelectiveStandardReader addControlReader() {
-        new N2oControlsV1ReadersPack().build(this);
         this.addReader(new CheckboxGroupIOv2())
                 .addReader(new CheckboxIOv2())
                 .addReader(new CustomFieldIOv2())
