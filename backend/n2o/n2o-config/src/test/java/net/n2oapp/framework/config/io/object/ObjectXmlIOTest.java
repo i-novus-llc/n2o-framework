@@ -13,8 +13,8 @@ import org.junit.Test;
  */
 public class ObjectXmlIOTest {
     ION2oMetadataTester tester = new ION2oMetadataTester()
-            .addReader(new SelectiveStandardReader().addObjectReader().addInvocationsReader2().addDataProviders())
-            .addPersister(new SelectiveStandardPersister().addObjectPersister().addInvocationObjectPersister().addDataProviders());
+            .addReader(new SelectiveStandardReader().addObjectReader().addDataProviders())
+            .addPersister(new SelectiveStandardPersister().addObjectPersister().addDataProviders());
 
     @Test
     public void testObjectV4XmlIO() {

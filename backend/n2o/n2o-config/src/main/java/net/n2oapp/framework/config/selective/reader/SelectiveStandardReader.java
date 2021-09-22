@@ -18,7 +18,6 @@ import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.io.region.PanelRegionIOv1;
 import net.n2oapp.framework.config.io.region.TabsRegionIOv1;
-import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 
 /**
  * Чтение файлов для тестов
@@ -85,11 +84,6 @@ public class SelectiveStandardReader extends SelectiveReader {
     public SelectiveStandardReader addObjectReader() {
         return addReader(new ObjectElementIOv4())
                 .addReader(new ObjectElementIOv3());
-    }
-
-    public SelectiveStandardReader addInvocationsReader2() {
-        new N2oInvocationV2ReadersPack().build(this);
-        return this;
     }
 
     public SelectiveStandardReader addDataProviders() {

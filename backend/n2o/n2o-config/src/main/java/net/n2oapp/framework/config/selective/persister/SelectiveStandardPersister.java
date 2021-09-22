@@ -13,8 +13,6 @@ import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
-import net.n2oapp.framework.config.persister.invocation.N2oJavaInvocationPersister;
-import net.n2oapp.framework.config.persister.invocation.N2oRestInvocationPersister;
 
 /**
  * Сохранение в xml-файл для тестов
@@ -54,12 +52,6 @@ public class SelectiveStandardPersister extends SelectivePersister {
 
     public SelectiveStandardPersister addObjectPersister() {
         return addPersister(new ObjectElementIOv4()).addPersister(new ObjectElementIOv3());
-    }
-
-    public SelectiveStandardPersister addInvocationObjectPersister() {
-        return addObjectPersister()
-                .addPersister(new N2oJavaInvocationPersister())
-                .addPersister(new N2oRestInvocationPersister());
     }
 
     public SelectiveStandardPersister addDataProviders() {

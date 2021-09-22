@@ -22,8 +22,7 @@ public class N2oAllIOPack implements MetadataPack<N2oApplicationBuilder> {
 
         b.packs(new N2oRegionsV1IOPack(), new N2oWidgetsIOPack(),
                 new N2oFieldSetsIOPack(), new N2oControlsV2IOPack(),
-                new N2oDataProvidersIOPack(),
-                new N2oInvocationV2ReadersPack(), new N2oCellsIOPack(),
+                new N2oDataProvidersIOPack(), new N2oCellsIOPack(),
                 new N2oChartsIOPack());
     }
 }

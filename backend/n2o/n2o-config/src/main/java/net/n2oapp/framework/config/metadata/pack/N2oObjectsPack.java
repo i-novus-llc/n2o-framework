@@ -23,7 +23,6 @@ public class N2oObjectsPack implements MetadataPack<N2oApplicationBuilder> {
                 new MandatoryValidationCompiler(),
                 new ConditionValidationCompiler(),
                 new ValidationDialogCompiler());
-        b.packs(new N2oInvocationV2ReadersPack());
         b.mergers(new N2oObjectSimpleFieldMerger(), new N2oObjectReferenceFieldMerger(),
                 new N2oObjectListFieldMerger(), new N2oObjectSetFieldMerger());
     }
