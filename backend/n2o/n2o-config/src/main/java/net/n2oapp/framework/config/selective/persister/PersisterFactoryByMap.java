@@ -23,7 +23,7 @@ import java.util.Map;
 public class PersisterFactoryByMap implements NamespacePersisterFactory<NamespaceUriAware, NamespacePersister<NamespaceUriAware>>, IOProcessorAware, MetadataEnvironmentAware {
 
     private Map<Class<?>, Map<String, NamespacePersister>> map = new HashMap<>();
-    private IOProcessor ioProcessor = new IOProcessorImpl(this);;
+    private IOProcessor ioProcessor = new IOProcessorImpl(this);
 
 
     @SuppressWarnings("unchecked")

@@ -25,7 +25,6 @@ public class AccessSchemaPack implements MetadataPack<N2oApplicationBuilder> {
                 .ios(new UrlAccessPointIOv2())
                 .ios(new ObjectFiltersAccessPointIOv2())
                 .compilers(new SimpleAccessSchemaCompiler())
-                .packs(new AccessPointsV1Pack())
                 .packs(new AccessPointsIOV2Pack())
                 .packs(new AccessTransformersPack())
                 .extensions(new SecurityExtensionAttributeMapper())

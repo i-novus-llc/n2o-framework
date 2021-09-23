@@ -2,12 +2,9 @@ package net.n2oapp.framework.config.selective;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
-import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.PersistersBuilder;
 import net.n2oapp.framework.api.pack.ReadersBuilder;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.selective.persister.SelectivePersister;
 import net.n2oapp.framework.config.selective.reader.SelectiveReader;
 import net.n2oapp.framework.config.util.FileSystemUtil;
@@ -31,27 +28,6 @@ public class ION2oMetadataTester implements ReadersBuilder<ION2oMetadataTester>,
     public ION2oMetadataTester(SelectiveReader selectiveReader, SelectivePersister selectivePersister) {
         this.selectiveReader = selectiveReader;
         this.selectivePersister = selectivePersister;
-    }
-
-    public ION2oMetadataTester addReader(NamespaceReader reader) {
-        selectiveReader.addReader(reader);
-        return this;
-    }
-
-
-    public ION2oMetadataTester addPersister(NamespacePersister persister) {
-        selectivePersister.addPersister(persister);
-        return this;
-    }
-
-    public ION2oMetadataTester addReader(SelectiveReader reader){
-        this.selectiveReader = reader;
-        return this;
-    }
-
-    public ION2oMetadataTester addPersister(SelectivePersister persister){
-        this.selectivePersister = persister;
-        return this;
     }
 
     public ION2oMetadataTester addIO(NamespaceIO io){
@@ -82,20 +58,6 @@ public class ION2oMetadataTester implements ReadersBuilder<ION2oMetadataTester>,
     public boolean check(String path) {
         assert isCheck(path, null);
         return true;
-    }
-
-    @Override
-    @SafeVarargs
-    public final ION2oMetadataTester persisters(NamespacePersister<? extends NamespaceUriAware>... persisters) {
-        Stream.of(persisters).forEach(this::addPersister);
-        return this;
-    }
-
-    @Override
-    @SafeVarargs
-    public final ION2oMetadataTester readers(NamespaceReader<? extends NamespaceUriAware>... readers) {
-        Stream.of(readers).forEach(this::addReader);
-        return this;
     }
 
     @Override

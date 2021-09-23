@@ -14,11 +14,14 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.operation.BindOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.CompileOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.ReadOperation;
+import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
+import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
+import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
 import net.n2oapp.framework.config.metadata.compile.query.N2oQueryCompiler;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
+import net.n2oapp.framework.config.selective.SelectiveMetadataLoader;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
@@ -63,7 +66,10 @@ public class QueryProcessorTest {
         queryProcessor.setEnvironment(environment);
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
-                .loaders(new SelectiveStandardReader().addQueryReader())
+                .loaders(new SelectiveMetadataLoader()
+                        .add(new QueryElementIOv4())
+                        .add(new TestDataProviderIOv1())
+                        .add(new JavaDataProviderIOv1()))
                 .operations(new ReadOperation(), new CompileOperation(), new BindOperation())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),

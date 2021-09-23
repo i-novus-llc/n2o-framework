@@ -114,12 +114,6 @@ public class SelectivePersister implements PersistersBuilder<SelectivePersister>
     }
 
     @Override
-    public SelectivePersister persisters(NamespacePersister<? extends NamespaceUriAware>... persisters) {
-        Stream.of(persisters).forEach(this::addPersister);
-        return this;
-    }
-
-    @Override
     public SelectivePersister ios(NamespaceIO<? extends NamespaceUriAware>... ios) {
         Stream.of(ios).forEach(io -> persisterFactory.add(new ProxyNamespaceIO(io)));
         return this;

@@ -44,10 +44,4 @@ public class SelectiveMetadataLoader implements SourceLoader<CompileInfo> {
             MetadataParamHolder.setParams(null);
         }
     }
-
-    public void setReaderFactory(NamespaceReaderFactory readerFactory) {
-        this.readerFactory = readerFactory;
-    }
-
-
 }
