@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
@@ -123,16 +122,6 @@ public abstract class BaseWidgetReaderTest {
 
     protected void assertCustomWidget(N2oCustomWidget custom) {
         assert custom.getSrc().equals("test");
-    }
-
-    protected void assertRefWidget(N2oPage page) {
-        assert page.getWidgets().size() == 3;
-        assert page.getWidgets().get(0).getId().equals("form");
-        assert page.getWidgets().get(1).getId().equals("table");
-        assert page.getWidgets().get(2).getId().equals("tree");
-        assert page.getWidgets().get(0).getRefId().equals("testFormReader");
-        assert page.getWidgets().get(1).getRefId().equals("testTableReader");
-        assert page.getWidgets().get(2).getRefId().equals("testTreeReader1");
     }
 
     protected void assertFieldSetAttribute(N2oForm form) {

@@ -1,20 +1,18 @@
 package net.n2oapp.framework.access.metadata;
 
-import net.n2oapp.framework.access.metadata.pack.AccessPointsV1PersistersPack;
-import net.n2oapp.framework.access.metadata.pack.AccessPointsV1ReadersPack;
+import net.n2oapp.framework.access.metadata.accesspoint.io.ObjectAccessPointIOv2;
+import net.n2oapp.framework.access.metadata.accesspoint.io.UrlAccessPointIOv2;
+import net.n2oapp.framework.access.metadata.schema.io.SimpleAccessIOv2;
 import net.n2oapp.framework.access.metadata.schema.simple.N2oSimpleAccessSchema;
-import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaPersister;
-import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaReaderV1;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 public class SimpleAccessSchemaIOTest {
 
     final static ION2oMetadataTester tester = new ION2oMetadataTester()
-            .addReader(new SimpleAccessSchemaReaderV1())
-            .addPersister(new SimpleAccessSchemaPersister())
-            .addPack(new AccessPointsV1ReadersPack())
-            .addPack(new AccessPointsV1PersistersPack());
+            .addIO(new ObjectAccessPointIOv2())
+            .addIO(new SimpleAccessIOv2())
+            .addIO(new UrlAccessPointIOv2());
 
     @Test
     public void simpleAccessSchemaXmlIOTest() {

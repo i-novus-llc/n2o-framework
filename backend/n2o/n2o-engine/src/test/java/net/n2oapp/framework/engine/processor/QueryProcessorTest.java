@@ -1,8 +1,6 @@
 package net.n2oapp.framework.engine.processor;
 
 import net.n2oapp.criteria.api.CollectionPage;
-import net.n2oapp.criteria.api.Direction;
-import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -26,17 +24,13 @@ import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
-import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
 import java.util.List;
 
-import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -72,69 +66,12 @@ public class QueryProcessorTest {
                 .loaders(new SelectiveStandardReader().addQueryReader())
                 .operations(new ReadOperation(), new CompileOperation(), new BindOperation())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
-                .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
+                .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4JavaMapping.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
     }
-
-    @Test
-    public void query3Sql() {
-        when(factory.produce(any())).thenReturn(new SqlDataProviderEngineMock());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setCount(10);
-        criteria.setPage(2);
-        criteria.setSize(5);
-        criteria.addRestriction(new Restriction("surname", "Фамилия", FilterType.eq));
-        criteria.addRestriction(new Restriction("surname", "Фамилия", FilterType.eq));
-        criteria.addRestriction(new Restriction("gender.name", "Женский", FilterType.like));
-        criteria.setSorting(new Sorting("name", Direction.DESC));
-        CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
-        assertThat(collectionPage.getCount(), is(11));//был запрос за count
-        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
-        assertThat(dataSet.get("id"), is(1));//автоинкремент от 1
-        assertThat(dataSet.get("surname"), is("Фамилия"));//есть в display
-        assertThat(dataSet.get("patr.name"), is("Без отчества"));//значение по умолчанию в display
-        assertThat(dataSet.get("gender.name"), nullValue());//нет display
-    }
-
-    @Test
-    public void query3SqlGetOneRecordTest1() {
-        when(factory.produce(any())).thenReturn(new SqlDPEOneSizeMock(1));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setSize(1);
-        criteria.setSorting(new Sorting("name", Direction.DESC));
-
-        CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
-        assertThat(collectionPage.getCollection().size(), is(1));
-    }
-
-    @Test
-    public void query3SqlGetOneRecordTest2() {
-        when(factory.produce(any())).thenReturn(new SqlDPEOneSizeMock(2));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setSize(1);
-        criteria.setSorting(new Sorting("name", Direction.DESC));
-
-        assertOnException(() -> queryProcessor.execute(query, criteria), N2oFoundMoreThanOneRecordException.class);
-    }
-
-    @Test
-    public void query3SqlGetOneRecordTest0() {
-        when(factory.produce(any())).thenReturn(new SqlDPEOneSizeMock(0));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setSize(1);
-        criteria.setSorting(new Sorting("name", Direction.DESC));
-
-        assertOnException(() -> queryProcessor.execute(query, criteria), N2oRecordNotFoundException.class);
-    }
-
 
     @Test
     public void query4Java() {

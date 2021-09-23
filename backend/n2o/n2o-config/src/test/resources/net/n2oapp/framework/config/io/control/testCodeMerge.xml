@@ -1,3 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<n2o:code-merge xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-control-1.0" id="testCodeMerge" merge-view="three-way"
-                allow-editing-originals="true" rows="40" collapse-identical="true" connect-align="true" show-differences="true" label="тест" language="xml"/>

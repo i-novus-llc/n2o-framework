@@ -1,8 +1,6 @@
 package net.n2oapp.framework.access.metadata.schema.permission;
 
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
-import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaReaderV1;
-import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.aware.ReaderFactoryAware;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;

@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.selective.persister;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.io.*;
+import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
+import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.pack.PersistersBuilder;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
@@ -10,13 +13,10 @@ import org.custommonkey.xmlunit.ElementNameQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
-import org.jdom2.util.NamespaceStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
@@ -109,7 +109,7 @@ public class SelectivePersister implements PersistersBuilder<SelectivePersister>
 
     @SuppressWarnings("unchecked")
     private String toString(NamespaceUriAware n2o) {
-        Element element = persisterFactory.produce(n2o.getClass(),  n2o.getNamespace()).persist(n2o,n2o.getNamespace());
+        Element element = persisterFactory.produce(n2o.getClass(), n2o.getNamespace()).persist(n2o, n2o.getNamespace());
         return XML_OUTPUTTER.outputString(element);
     }
 

@@ -17,7 +17,6 @@ public class InfoStatus {
         SYSTEM("{n2o.system}"),
         SERVER("{n2o.server}"),
         MODIFY("{n2o.modify}"),
-        CONFLICT("{n2o.conflict}"),
         DUPLICATE("{n2o.duplicated}");
 
         public String value;
