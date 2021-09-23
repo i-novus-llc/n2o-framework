@@ -1,15 +1,15 @@
 package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
-import net.n2oapp.framework.api.pack.ReadersBuilder;
+import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.*;
 
 /**
  * Набор считывателей ячеек
  */
-public class N2oCellsIOPack implements MetadataPack<ReadersBuilder> {
+public class N2oCellsIOPack implements MetadataPack<XmlIOBuilder> {
     @Override
-    public void build(ReadersBuilder b) {
+    public void build(XmlIOBuilder b) {
         b.ios(new TextCellElementIOv2(),
                 new CheckboxCellElementIOv2(),
                 new LinkCellElementIOv2(),

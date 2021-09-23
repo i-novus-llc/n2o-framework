@@ -9,8 +9,7 @@ import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.pack.MetadataPack;
-import net.n2oapp.framework.api.pack.PersistersBuilder;
-import net.n2oapp.framework.api.pack.ReadersBuilder;
+import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.MetaType;
@@ -37,10 +36,7 @@ import java.util.stream.Stream;
 /**
  * Конструктор окружения {@link N2oEnvironment} и конвеера сборки метаданных {@link ReadPipeline}
  */
-public class N2oApplicationBuilder implements
-        ReadersBuilder<N2oApplicationBuilder>,
-        PersistersBuilder<N2oApplicationBuilder>,
-        PipelineSupport {
+public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder>, PipelineSupport {
     private static final Logger logger = LoggerFactory.getLogger(N2oApplicationBuilder.class);
 
     private MetadataEnvironment environment;
