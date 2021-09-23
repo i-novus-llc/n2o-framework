@@ -1,9 +1,10 @@
 import reduce from 'lodash/reduce'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { dataRequestWidget, disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks/widgets/store'
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
+import { makeModelIdSelector } from '../../ducks/widgets/selectors'
 
 export const reduceFunction = (isTrue, { model, config }) => isTrue && propsResolver(`\`${config.condition}\``, model)
 
@@ -45,7 +46,9 @@ export function* resolveEnabled(widgetId, model) {
  * @returns {IterableIterator<*>}
  */
 export function* resolveFetch(widgetId) {
-    yield put(dataRequestWidget(widgetId))
+    const modelId = yield select(makeModelIdSelector(widgetId))
+
+    yield put(dataRequestWidget(widgetId, modelId))
 }
 
 /**

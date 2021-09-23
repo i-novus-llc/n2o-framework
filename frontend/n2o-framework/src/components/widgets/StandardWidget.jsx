@@ -21,7 +21,7 @@ import WidgetFilters from './WidgetFilters'
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter } = this.props
+        const { widgetId, toolbar, filter, modelId } = this.props
         const { [place]: propsPlace } = this.props
 
         if (propsPlace && React.isValidElement(propsPlace)) {
@@ -34,9 +34,9 @@ class StandardWidget extends React.Component {
 
         switch (place) {
             case 'left':
-                return <WidgetFilters widgetId={widgetId} {...filterProps} />
+                return <WidgetFilters widgetId={widgetId} modelId={modelId} {...filterProps} />
             case 'top':
-                return <WidgetFilters widgetId={widgetId} {...filterProps} />
+                return <WidgetFilters widgetId={widgetId} modelId={modelId} {...filterProps} />
             case 'topLeft':
                 return <Toolbar toolbar={toolbar.topLeft} entityKey={widgetId} />
             case 'topRight':
@@ -50,7 +50,7 @@ class StandardWidget extends React.Component {
             case 'bottomCenter':
                 return <Toolbar toolbar={toolbar.bottomCenter} entityKey={widgetId} />
             case 'right':
-                return <WidgetFilters widgetId={widgetId} {...filterProps} />
+                return <WidgetFilters widgetId={widgetId} modelId={modelId} {...filterProps} />
             default:
                 break
         }
@@ -60,11 +60,9 @@ class StandardWidget extends React.Component {
         const { widgetId, disabled, filter, className, style, children } = this.props
 
         const classes = classNames([
+            className,
             'n2o-standard-widget-layout',
-            {
-                [className]: className,
-                'n2o-disabled': disabled,
-            },
+            { 'n2o-disabled': disabled },
         ])
 
         return (
@@ -123,6 +121,7 @@ StandardWidget.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     widgetId: PropTypes.string,
+    modelId: PropTypes.string,
     toolbar: PropTypes.object,
     actions: PropTypes.object,
     filter: PropTypes.object,

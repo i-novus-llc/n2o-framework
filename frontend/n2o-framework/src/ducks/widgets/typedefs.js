@@ -19,6 +19,7 @@
  * Payload для экшена DATA_REQUEST
  * @typedef WidgetsStore.dataRequestWidgetPayload
  * @property {string} widgetId
+ * @property {string} modelId
  * @property {object} options
  */
 
@@ -39,6 +40,7 @@
  * Payload для экшена RESOLVE
  * @typedef WidgetsStore.resolveWidgetPayload
  * @property {string} widgetId
+ * @property {string} modelId
  * @property {object} model
  */
 

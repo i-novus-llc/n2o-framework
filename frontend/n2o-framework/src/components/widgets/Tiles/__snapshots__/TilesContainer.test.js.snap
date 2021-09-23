@@ -175,6 +175,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           "isLoading": true,
           "isResolved": false,
           "isVisible": true,
+          "modelId": undefined,
           "modelPrefix": undefined,
           "page": undefined,
           "pageId": undefined,
@@ -285,6 +286,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
             "isLoading": true,
             "isResolved": false,
             "isVisible": true,
+            "modelId": undefined,
             "modelPrefix": undefined,
             "page": undefined,
             "pageId": undefined,
@@ -399,6 +401,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
               "isLoading": true,
               "isResolved": false,
               "isVisible": true,
+              "modelId": undefined,
               "modelPrefix": undefined,
               "page": undefined,
               "pageId": undefined,
@@ -412,12 +415,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           width="260"
         >
           <div
-            className=""
-            style={
-              Object {
-                "position": "relative",
-              }
-            }
+            className="position-relative"
           >
             <Placeholder
               loading={false}
@@ -543,6 +541,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                         "isLoading": true,
                         "isResolved": false,
                         "isVisible": true,
+                        "modelId": undefined,
                         "modelPrefix": undefined,
                         "page": undefined,
                         "pageId": undefined,
@@ -663,6 +662,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           "isLoading": true,
                           "isResolved": false,
                           "isVisible": true,
+                          "modelId": undefined,
                           "modelPrefix": undefined,
                           "page": undefined,
                           "pageId": undefined,
@@ -792,6 +792,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             "isLoading": true,
                             "isResolved": false,
                             "isVisible": true,
+                            "modelId": undefined,
                             "modelPrefix": undefined,
                             "page": undefined,
                             "pageId": undefined,
@@ -922,6 +923,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               "isLoading": true,
                               "isResolved": false,
                               "isVisible": true,
+                              "modelId": undefined,
                               "modelPrefix": undefined,
                               "page": undefined,
                               "pageId": undefined,
