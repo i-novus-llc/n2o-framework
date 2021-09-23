@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import toNumber from 'lodash/toNumber'
 import toString from 'lodash/toString'
 import isNil from 'lodash/isNil'
@@ -242,7 +242,7 @@ export class InputNumber extends React.Component {
                         step={step}
                         min={min}
                         max={max}
-                        className={cn(['form-control', { [className]: className }])}
+                        className={classNames(['form-control', { [className]: className }])}
                         onBlur={this.onBlur}
                         onFocus={onFocus}
                         onChange={({ target }) => this.onChange(target.value)}

@@ -85,6 +85,7 @@ class TreeWidget extends React.Component {
     render() {
         const {
             id: widgetId,
+            datasource: modelId = widgetId,
             toolbar,
             disabled,
             actions,
@@ -98,6 +99,7 @@ class TreeWidget extends React.Component {
             <StandardWidget
                 disabled={disabled}
                 widgetId={widgetId}
+                modelId={modelId}
                 toolbar={toolbar}
                 actions={actions}
                 className={className}
@@ -105,6 +107,7 @@ class TreeWidget extends React.Component {
             >
                 <TreeContainer
                     widgetId={widgetId}
+                    modelId={modelId}
                     pageId={pageId}
                     fetchOnInit={fetchOnInit}
                     {...this.getWidgetProps()}
@@ -124,7 +127,6 @@ TreeWidget.propTypes = {
     style: PropTypes.object,
     containerId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    widgetId: PropTypes.string,
     actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,
@@ -150,6 +152,7 @@ TreeWidget.propTypes = {
     childrenFieldId: PropTypes.string,
     placeholder: PropTypes.string,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     disabled: PropTypes.bool,
     fetchOnInit: PropTypes.bool,
 }

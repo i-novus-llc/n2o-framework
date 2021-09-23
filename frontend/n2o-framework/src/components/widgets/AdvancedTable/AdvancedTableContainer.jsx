@@ -110,10 +110,10 @@ class AdvancedTableContainer extends React.Component {
     }
 
     renderCell(props) {
-        const { actions } = this.props
+        const { actions, modelId } = this.props
         const propStyles = pick(props, ['width'])
 
-        return <ReduxCell {...propStyles} {...props} actions={actions} />
+        return <ReduxCell {...propStyles} {...props} actions={actions} modelId={modelId} />
     }
 
     handleSetFilter(filter) {
@@ -152,6 +152,7 @@ class AdvancedTableContainer extends React.Component {
           cells,
           headers,
           widgetId,
+          modelId,
           sorting,
           onSort,
           registredColumns,
@@ -194,6 +195,7 @@ class AdvancedTableContainer extends React.Component {
                           index,
                           key: cell.id,
                           widgetId,
+                          modelId,
                           columnId: cell.id,
                           model: record,
                           as: 'div',
@@ -295,6 +297,7 @@ AdvancedTableContainer.propTypes = {
     datasource: PropTypes.any,
     headers: PropTypes.any,
     widgetId: PropTypes.string,
+    modelId: PropTypes.string,
     sorting: PropTypes.any,
     onSort: PropTypes.func,
     onFetch: PropTypes.func,
@@ -364,6 +367,7 @@ const enhance = compose(
         {
             mapProps: props => ({
                 widgetId: props.widgetId,
+                modelId: props.modelId,
                 pageId: props.pageId,
                 headers: props.headers,
                 cells: props.cells,
@@ -386,15 +390,15 @@ const enhance = compose(
                     }
                 },
                 onSetSelection: (models) => {
-                    props.dispatch(setModel(PREFIXES.multi, props.widgetId, models))
+                    props.dispatch(setModel(PREFIXES.multi, props.modelId, models))
                 },
                 setSelectionType: (type) => {
                     props.dispatch(
-                        setModel(PREFIXES.selectionType, props.widgetId, type),
+                        setModel(PREFIXES.selectionType, props.modelId, type),
                     )
                 },
                 onSetFilter: (filters) => {
-                    props.dispatch(setModel(PREFIXES.filter, props.widgetId, filters))
+                    props.dispatch(setModel(PREFIXES.filter, props.modelId, filters))
                 },
                 onFocus: props.onFocus,
                 size: props.size,

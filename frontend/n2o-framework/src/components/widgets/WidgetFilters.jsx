@@ -215,14 +215,14 @@ const mapStateToProps = createStructuredSelector({
     reduxFormFilter: (state, props) => getFormValues(generateFormName(props))(state) || {},
 })
 
-const mapDispatchToProps = (dispatch, { widgetId }) => ({
+const mapDispatchToProps = (dispatch, { modelId }) => ({
     dispatch,
-    setFilterModel: (widgetId, data) => dispatch(setModel(PREFIXES.filter, widgetId, data)),
-    fetchWidget: (widgetId, options) => dispatch(dataRequestWidget(widgetId, options)),
-    clearFilterModel: () => dispatch(removeModel(PREFIXES.filter, widgetId)),
+    setFilterModel: (widgetId, data) => dispatch(setModel(PREFIXES.filter, modelId, data)),
+    fetchWidget: (widgetId, options) => dispatch(dataRequestWidget(widgetId, modelId, options)),
+    clearFilterModel: () => dispatch(removeModel(PREFIXES.filter, modelId)),
     resetFilterModel: formName => dispatch(reset(formName)),
     resetFilter: formName => dispatch(
-        batchActions([removeModel(PREFIXES.filter, widgetId), reset(formName)]),
+        batchActions([removeModel(PREFIXES.filter, modelId), reset(formName)]),
     ),
 })
 

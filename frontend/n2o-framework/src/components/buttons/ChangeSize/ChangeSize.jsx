@@ -9,7 +9,7 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
-import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
+import { makeModelIdSelector, makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { changeSizeWidget, dataRequestWidget } from '../../../ducks/widgets/store'
 
 const SIZES = [5, 10, 20, 50]
@@ -37,14 +37,15 @@ ChangeSizeComponent.propTypes = {
 
 const mapStateToProps = (state, props) => ({
     size: makeWidgetSizeSelector(props.entityKey)(state),
+    modelId: makeModelIdSelector(props.entityKey)(state),
 })
 
 const enhance = compose(
     connect(mapStateToProps),
     withHandlers({
-        resize: ({ dispatch, entityKey }) => size => batchActions([
+        resize: ({ dispatch, entityKey, modelId }) => size => batchActions([
             dispatch(changeSizeWidget(entityKey, size)),
-            dispatch(dataRequestWidget(entityKey, { size, page: 1 })),
+            dispatch(dataRequestWidget(entityKey, modelId, { size, page: 1 })),
         ]),
     }),
     withHandlers({

@@ -89,10 +89,9 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
                         options,
                     )
                 } else if ($val !== null && $val !== undefined) {
-                    $Res[Key ? [Key, key].join(delimiter) : key] =
-            !needLinked($val) && isString($val) && !withoutEncode
-                ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
-                : val.join(`&${key}=`)
+                    $Res[Key ? [Key, key].join(delimiter) : key] = !needLinked($val) && isString($val) && !withoutEncode
+                        ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
+                        : val.join(`&${key}=`)
                 }
             })
 
@@ -109,10 +108,9 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
                 options,
             )
         } else if ((val !== null || ignoreNull) && val !== undefined) {
-            $Res[Key ? Key + delimiter + key : key] =
-        !needLinked(val) && isString(val) && !withoutEncode
-            ? encodeURIComponent(val)
-            : val
+            $Res[Key ? Key + delimiter + key : key] = !needLinked(val) && isString(val) && !withoutEncode
+                ? encodeURIComponent(val)
+                : val
         }
     })
 
@@ -152,8 +150,8 @@ export function getWidgetId(pageId, cntId) {
 export function isPromise(obj) {
     return (
         !!obj &&
-    (typeof obj === 'object' || typeof obj === 'function') &&
-    typeof obj.then === 'function'
+        (typeof obj === 'object' || typeof obj === 'function') &&
+        typeof obj.then === 'function'
     )
 }
 
@@ -166,10 +164,9 @@ export function isPromise(obj) {
 export function difference(object, base) {
     const changes = (object, base) => transform(object, (result, value, key) => {
         if (!isEqual(value, base[key])) {
-            result[key] =
-          isObject(value) && isObject(base[key])
-              ? changes(value, base[key])
-              : value
+            result[key] = isObject(value) && isObject(base[key])
+                ? changes(value, base[key])
+                : value
         }
     })
 
