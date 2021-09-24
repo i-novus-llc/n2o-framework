@@ -6,13 +6,10 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
-import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.pack.MetadataPack;
-import net.n2oapp.framework.api.pack.PersistersBuilder;
-import net.n2oapp.framework.api.pack.ReadersBuilder;
+import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.MetaType;
@@ -39,10 +36,7 @@ import java.util.stream.Stream;
 /**
  * Конструктор окружения {@link N2oEnvironment} и конвеера сборки метаданных {@link ReadPipeline}
  */
-public class N2oApplicationBuilder implements
-        ReadersBuilder<N2oApplicationBuilder>,
-        PersistersBuilder<N2oApplicationBuilder>,
-        PipelineSupport {
+public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder>, PipelineSupport {
     private static final Logger logger = LoggerFactory.getLogger(N2oApplicationBuilder.class);
 
     private MetadataEnvironment environment;
@@ -72,16 +66,6 @@ public class N2oApplicationBuilder implements
     }
 
     /**
-     * Добавить ридеры метаданных
-     */
-    @Override
-    @SafeVarargs
-    public final N2oApplicationBuilder readers(NamespaceReader<? extends NamespaceUriAware>... readers) {
-        Stream.of(readers).forEach(environment.getNamespaceReaderFactory()::add);
-        return this;
-    }
-
-    /**
      * Добавить i/o ридеры/персистеры метаданных
      */
     @Override
@@ -89,14 +73,6 @@ public class N2oApplicationBuilder implements
     public final N2oApplicationBuilder ios(NamespaceIO<? extends NamespaceUriAware>... ios) {
         Stream.of(ios).forEach(io -> environment.getNamespaceReaderFactory().add(new ProxyNamespaceIO<>(io)));
         Stream.of(ios).forEach(io -> environment.getNamespacePersisterFactory().add(new ProxyNamespaceIO<>(io)));
-        return this;
-    }
-
-    /**
-     * Добавить персистеры метаданных
-     */
-    public N2oApplicationBuilder persisters(NamespacePersister<? extends NamespaceUriAware>... persisters) {
-        Stream.of(persisters).forEach(environment.getNamespacePersisterFactory()::add);
         return this;
     }
 

@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-3.0">
-    <name>Line Chart</name>
-    <query-id>chartValidation</query-id>
-    <display>pie</display>
-    <label-field-id>name</label-field-id>
-</chart>

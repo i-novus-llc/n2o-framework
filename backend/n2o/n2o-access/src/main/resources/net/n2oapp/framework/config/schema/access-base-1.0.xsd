@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/base/access-base-1.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:query="http://n2oapp.net/framework/config/schema/query-3.0">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <!--список стандартных действий + все действия-->
     <xs:simpleType name="actionGroupEnum">
