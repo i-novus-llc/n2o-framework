@@ -9,7 +9,7 @@
     <parent>
         <groupId>net.n2oapp.criteria</groupId>
         <artifactId>criteria</artifactId>
-        <version>7.13.16-SNAPSHOT</version>
+        <version>7.13.16</version>
         <relativePath>..</relativePath>
     </parent>
 
