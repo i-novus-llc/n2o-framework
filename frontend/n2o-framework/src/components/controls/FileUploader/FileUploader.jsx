@@ -18,6 +18,7 @@ class FileUploader extends React.Component {
             disabled,
             children,
             onDrop,
+            onDropRejected,
             onDragEnter,
             onDragLeave,
             multiple,
@@ -51,6 +52,7 @@ class FileUploader extends React.Component {
                                 onDrop={onDrop}
                                 onDragEnter={onDragEnter}
                                 onDragLeave={onDragLeave}
+                                onDropRejected={onDropRejected}
                             >
                                 {children}
                             </Dropzone>
