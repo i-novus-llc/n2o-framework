@@ -269,7 +269,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
                              Map<String, ? extends BindLink> queryMappings) {
         String resultUrl = url;
         Map<String, Object> resultParamsMap = new HashMap<>();
-        params.forEach((k, v) -> resultParamsMap.put(k, params.get(k)));
+        if (params != null)
+            params.forEach((k, v) -> resultParamsMap.put(k, params.get(k)));
         if (pathMappings != null) {
             removeCommonParams(pathMappings, resultParamsMap);
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
@@ -490,7 +491,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     private void removeCommonParams(Map<String, ? extends BindLink> mapping, Map<String, Object> resultParams) {
-        mapping.keySet().stream().filter(key -> params.get(key) != null).forEach(resultParams::remove);
+        if (params != null)
+            mapping.keySet().stream().filter(key -> params.get(key) != null).forEach(resultParams::remove);
     }
 
 
