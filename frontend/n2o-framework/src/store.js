@@ -13,11 +13,14 @@ const sagaMiddleware = createSagaMiddleware()
 export default function configureStore(initialState, history, config = {}) {
     const [squasherMiddleware, squasherStorePatcher] = createSquasher([
         '@@redux-form/CHANGE',
+        '@@redux-form/INITIALIZE',
         'n2o/models/SET',
         'n2o/widgets/CHANGE_PAGE',
         'n2o/widgets/DATA_SUCCESS',
         'n2o/widgets/RESOLVE',
-        'n2o/overlays/DESTROY', // Странный баг, что дровер рендерится, когда его уже быть не должно. Нужно синхронно обрабатывать этот экшен
+        // Странный баг, что дровер рендерится, когда его уже быть не должно. Нужно синхронно обрабатывать этот экшен
+        'n2o/overlays/DESTROY',
+        'n2o/overlays/DESTROY_OVERLAYS',
     ])
 
     const middlewares = [
