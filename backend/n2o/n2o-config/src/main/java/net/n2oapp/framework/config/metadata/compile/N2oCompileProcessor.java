@@ -28,6 +28,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
+import org.apache.commons.collections.map.HashedMap;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -271,7 +272,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
         if (queryMappings != null)
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
-        resultUrl = URL_RESOLVER.resolve(resultUrl, params);
+        resultUrl = URL_RESOLVER.resolve(resultUrl, k -> ((pathMappings != null && pathMappings.containsKey(k))
+                || (queryMappings != null && queryMappings.containsKey(k)) || params == null) ?
+                null : params.get(k));
         return resultUrl;
     }
 
