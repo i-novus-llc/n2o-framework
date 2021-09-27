@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.reader;
 
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.aware.ReaderFactoryAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -45,8 +44,6 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
         NamespaceReader reader = elementReaders.get(elementName);
         if (reader == null)
             throw new EngineNotFoundException(elementName);
-        if (reader instanceof ReaderFactoryAware)
-            ((ReaderFactoryAware) reader).setReaderFactory(this);
         if (reader instanceof IOProcessorAware)
             ((IOProcessorAware) reader).setIOProcessor(this.processor);
         return reader;

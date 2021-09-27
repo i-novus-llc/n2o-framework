@@ -1,14 +1,14 @@
-<access xmlns="http://n2oapp.net/framework/config/schema/access-schema-1.0">
-    <user id="user">
-        <page-access pages="testHeaderAccessTransformer"/>
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
+    <user username="user">
+        <page-access page-id="testHeaderAccessTransformer"/>
         <object-access object-id="testObjectAccessTransformer"/>
         <url-access pattern="/otherTest"/>
     </user>
     <role id="role">
-        <page-access pages="testHeaderAccessTransformer"/>
+        <page-access page-id="testHeaderAccessTransformer"/>
     </role>
     <role id="admin">
-        <page-access pages="testHeaderAccessTransformer"/>
+        <page-access page-id="testHeaderAccessTransformer"/>
     </role>
     <permission id="permission">
         <url-access pattern="/test/*"/>

@@ -1,7 +1,0 @@
-<ctrl:checkbox-grid xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0" id="checkboxGrid" label="Множественный выбор из таблицы" cache="off">
-    <ctrl:query query-id="gender" label-field-id="name" value-field-id="id"/>
-    <ctrl:columns>
-        <ctrl:column column-field-id="id" name="Ид."/>
-        <ctrl:column column-field-id="name"/>
-    </ctrl:columns>
-</ctrl:checkbox-grid>

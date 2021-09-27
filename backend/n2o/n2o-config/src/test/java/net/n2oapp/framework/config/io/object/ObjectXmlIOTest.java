@@ -3,9 +3,8 @@ package net.n2oapp.framework.config.io.object;
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
+import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import net.n2oapp.framework.config.selective.persister.SelectiveStandardPersister;
-import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
 /**
@@ -13,8 +12,7 @@ import org.junit.Test;
  */
 public class ObjectXmlIOTest {
     ION2oMetadataTester tester = new ION2oMetadataTester()
-            .addReader(new SelectiveStandardReader().addObjectReader().addInvocationsReader2().addDataProviders())
-            .addPersister(new SelectiveStandardPersister().addObjectPersister().addInvocationObjectPersister().addDataProviders());
+            .addPack(new N2oDataProvidersIOPack());
 
     @Test
     public void testObjectV4XmlIO() {
@@ -24,6 +22,7 @@ public class ObjectXmlIOTest {
 
     @Test
     public void testObjectV3XmlIO() {
+        tester.ios(new ObjectElementIOv3());
         assert tester.check("net/n2oapp/framework/config/io/object/testObjectIOv3.object.xml");
     }
 }

@@ -1,10 +1,10 @@
-<access xmlns="http://n2oapp.net/framework/config/schema/access-schema-1.0">
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
     <role id="role">
         <object-access object-id="testObjectAccessTransformer"/>
     </role>
     <permission id="permission">
     </permission>
-    <user id="user">
-        <object-access object-id="testObjectAccessTransformer" actions="*"/>
+    <user username="user">
+        <object-access object-id="testObjectAccessTransformer" operations="*"/>
     </user>
 </access>
