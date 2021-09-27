@@ -55,4 +55,37 @@ public class PageValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("Атрибут depends-on ссылается на несуществующий виджет main");
         validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml");
     }
+
+    @Test
+    public void testWidgetDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetSameDatasource.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceNotSameQueryId() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id или object-id");
+        validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasourceNotSameQueryId.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceNotSameObjectId() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id или object-id");
+        validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasourceNotSameObjectId.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceQueryIdIsNull() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id или object-id");
+        validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasourceQueryIdIsNull.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceObjectIdIsNull() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id или object-id");
+        validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasourceObjectIdIsNull.page.xml");
+    }
 }
