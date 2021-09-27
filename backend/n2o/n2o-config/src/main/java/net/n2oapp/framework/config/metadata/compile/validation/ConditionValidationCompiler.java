@@ -26,7 +26,7 @@ public class ConditionValidationCompiler extends BaseValidationCompiler<Conditio
     public ConditionValidation compile(N2oValidationCondition source, CompileContext<?, ?> context, CompileProcessor p) {
         ConditionValidation validation = new ConditionValidation();
         compileValidation(validation, source);
-        validation.setSeverity(source.getSeverity() != null ? source.getSeverity() : SeverityType.danger);
+        validation.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));
         validation.setExpression(ScriptProcessor.resolveFunction(p.cast(source.getExpression(), getContentByUri(source.getSrc()))));
         validation.setExpressionOn(source.getExpressionOn());
         return validation;
