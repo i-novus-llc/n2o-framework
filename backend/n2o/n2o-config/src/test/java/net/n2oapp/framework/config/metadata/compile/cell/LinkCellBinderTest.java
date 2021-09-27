@@ -43,7 +43,7 @@ public class LinkCellBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testLinkCellBinder", "/p/w/:id/modal");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2").add("name", "test").add("age", 21));
         N2oLinkCell linkCell = (N2oLinkCell) ((Table) page.getWidget()).getComponent().getCells().get(0);
-        assertThat(linkCell.getUrl(), is("/p/w/2/modal/test/open"));
+        assertThat(linkCell.getUrl(), is("/p/w/2/modal/:name/open"));
         assertThat(linkCell.getPathMapping().get("name").getBindLink(), is("models.resolve['p_w_modal_main']"));
         assertThat(linkCell.getPathMapping().get("name").getValue(), is("`name`"));
         assertThat(linkCell.getQueryMapping().get("age").getBindLink(), is("models.resolve['p_w_modal_main']"));
