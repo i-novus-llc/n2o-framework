@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { compose } from 'recompose'
 import isFunction from 'lodash/isFunction'
 
@@ -35,129 +35,129 @@ class InputText extends React.Component {
         this.inputRef = React.createRef()
     }
 
-  onChange = (e) => {
-      const { onChange } = this.props
+    onChange = (e) => {
+        const { onChange } = this.props
 
-      if (isFunction(onChange)) {
-          onChange(e.target.value)
-      }
-  };
+        if (isFunction(onChange)) {
+            onChange(e.target.value)
+        }
+    };
 
-  onBlur = (e) => {
-      const { onBlur } = this.props
+    onBlur = (e) => {
+        const { onBlur } = this.props
 
-      this.setState(() => ({
-          focused: false,
-      }))
-      if (isFunction(onBlur)) {
-          onBlur(e)
-      }
-  };
+        this.setState(() => ({
+            focused: false,
+        }))
+        if (isFunction(onBlur)) {
+            onBlur(e)
+        }
+    };
 
-  onFocus = (e) => {
-      const { onFocus } = this.props
+    onFocus = (e) => {
+        const { onFocus } = this.props
 
-      this.setState(() => ({
-          focused: true,
-      }))
-      if (isFunction(onFocus)) {
-          onFocus(e)
-      }
-  };
+        this.setState(() => ({
+            focused: true,
+        }))
+        if (isFunction(onFocus)) {
+            onFocus(e)
+        }
+    };
 
-  handleClickAffix = () => {
-      this.inputRef.current.focus()
-  };
+    handleClickAffix = () => {
+        this.inputRef.current.focus()
+    };
 
-  render() {
-      const {
-          value,
-          placeholder,
-          length,
-          disabled,
-          inputRef,
-          onPaste,
-          onFocus,
-          onBlur,
-          onKeyDown,
-          onClick,
-          autoFocus,
-          className,
-          style,
-          prefix,
-          suffix,
-          readOnly,
-      } = this.props
-      const { focused } = this.state
+    render() {
+        const {
+            value,
+            placeholder,
+            length,
+            disabled,
+            inputRef,
+            onPaste,
+            onFocus,
+            onBlur,
+            onKeyDown,
+            onClick,
+            autoFocus,
+            className,
+            style,
+            prefix,
+            suffix,
+            readOnly,
+        } = this.props
+        const { focused } = this.state
 
-      const hasAffix = !!prefix || !!suffix
+        const hasAffix = !!prefix || !!suffix
 
-      const inputProps = {
-          type: 'text',
-          autoFocus,
-          maxLength: length,
-          value: value === null ? '' : value,
-          placeholder,
-          disabled,
-          readOnly,
-          onPaste,
-          onKeyDown,
-          onClick,
-          onChange: this.onChange,
-      }
+        const inputProps = {
+            type: 'text',
+            autoFocus,
+            maxLength: length,
+            value: value === null ? '' : value,
+            placeholder,
+            disabled,
+            readOnly,
+            onPaste,
+            onKeyDown,
+            onClick,
+            onChange: this.onChange,
+        }
 
-      if (hasAffix) {
-          return (
-              <div
-                  ref={inputRef}
-                  className={cn(
-                      'form-control n2o-input-text__affix-wrapper',
-                      className,
-                      {
-                          focused,
-                          disabled,
-                      },
-                  )}
-                  style={style}
-              >
-                  {prefix ? (
-                      <span
-                          className={cn('n2o-input-text__prefix')}
-                          onClick={this.handleClickAffix}
-                      >
-                          {prefix}
-                      </span>
-                  ) : null}
-                  <Input
-                      {...inputProps}
-                      inputRef={this.inputRef}
-                      className="n2o-input-text"
-                      onFocus={this.onFocus}
-                      onBlur={this.onBlur}
-                  />
-                  {suffix ? (
-                      <span
-                          className={cn('n2o-input-text__suffix')}
-                          onClick={this.handleClickAffix}
-                      >
-                          {suffix}
-                      </span>
-                  ) : null}
-              </div>
-          )
-      }
+        if (hasAffix) {
+            return (
+                <div
+                    ref={inputRef}
+                    className={classNames(
+                        'form-control n2o-input-text__affix-wrapper',
+                        className,
+                        {
+                            focused,
+                            disabled,
+                        },
+                    )}
+                    style={style}
+                >
+                    {prefix ? (
+                        <span
+                            className={classNames('n2o-input-text__prefix')}
+                            onClick={this.handleClickAffix}
+                        >
+                            {prefix}
+                        </span>
+                    ) : null}
+                    <Input
+                        {...inputProps}
+                        inputRef={this.inputRef}
+                        className="n2o-input-text"
+                        onFocus={this.onFocus}
+                        onBlur={this.onBlur}
+                    />
+                    {suffix ? (
+                        <span
+                            className={classNames('n2o-input-text__suffix')}
+                            onClick={this.handleClickAffix}
+                        >
+                            {suffix}
+                        </span>
+                    ) : null}
+                </div>
+            )
+        }
 
-      return (
-          <Input
-              {...inputProps}
-              className={cn('form-control n2o-input-text', className)}
-              style={style}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              inputRef={inputRef}
-          />
-      )
-  }
+        return (
+            <Input
+                {...inputProps}
+                className={classNames('form-control n2o-input-text', className)}
+                style={style}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                inputRef={inputRef}
+            />
+        )
+    }
 }
 
 InputText.propTypes = {

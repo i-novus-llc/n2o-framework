@@ -42,18 +42,18 @@ const withColumn = (WrappedComponent) => {
                 conditions,
             } = this.props
 
-            // eslint-disable-next-line no-unused-expressions
-            !columnIsInit &&
-        dispatch(
-            registerColumn(
-                widgetId,
-                columnId,
-                label,
-                columnVisible,
-                columnDisabled,
-                conditions,
-            ),
-        )
+            if (!columnIsInit) {
+                dispatch(
+                    registerColumn(
+                        widgetId,
+                        columnId,
+                        label,
+                        columnVisible,
+                        columnDisabled,
+                        conditions,
+                    ),
+                )
+            }
         }
 
         getPassProps() {
@@ -65,9 +65,6 @@ const withColumn = (WrappedComponent) => {
             ])
         }
 
-        /**
-     *Базовый рендер
-     */
         render() {
             const { columnVisible, columnDisabled, security, model } = this.props
             const resolvedProps = propsResolver(this.getPassProps(), model, ['toolbar'])

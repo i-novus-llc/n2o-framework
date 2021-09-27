@@ -7,7 +7,7 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 import { connect } from 'react-redux'
 
 import { changeSizeWidget, dataRequestWidget } from '../../../ducks/widgets/store'
-import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
+import { makeModelIdSelector, makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 
 /**
  * Дропдаун для выбора размера(size) виджета
@@ -28,10 +28,10 @@ class ChangeSize extends React.Component {
      * @param size
      */
     resize(size) {
-        const { dispatch, entityKey } = this.props
+        const { dispatch, entityKey, modelId } = this.props
 
         dispatch(changeSizeWidget(entityKey, size))
-        dispatch(dataRequestWidget(entityKey, { size, page: 1 }))
+        dispatch(dataRequestWidget(entityKey, modelId, { size, page: 1 }))
     }
 
     /**
@@ -71,11 +71,13 @@ class ChangeSize extends React.Component {
 ChangeSize.propTypes = {
     size: PropTypes.number,
     entityKey: PropTypes.string,
+    modelId: PropTypes.string,
     dispatch: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({
     size: makeWidgetSizeSelector(props.entityKey)(state),
+    modelId: makeModelIdSelector(props.entityKey)(state),
 })
 
 export { ChangeSize }

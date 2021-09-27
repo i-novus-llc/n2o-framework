@@ -23,6 +23,7 @@ export const withWidgetContainer = widgetContainer(
     {
         mapProps: props => ({
             widgetId: props.widgetId,
+            modelId: props.modelId,
             pageId: props.pageId,
             headers: props.headers,
             cells: props.cells,
@@ -66,11 +67,11 @@ export const withContainerLiveCycle = lifecycle({
 
         if (
             hasSelect &&
-      !isEmpty(datasource) &&
-      !isEqual(prevDatasource, datasource) &&
-      (!selectedId ||
-        !isEqual(prevSelectedId, selectedId) ||
-        !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
+            !isEmpty(datasource) &&
+            !isEqual(prevDatasource, datasource) &&
+            (!selectedId ||
+                !isEqual(prevSelectedId, selectedId) ||
+                !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
         ) {
             // eslint-disable-next-line eqeqeq
             const selectedModel = find(datasource, model => model.id == selectedId)

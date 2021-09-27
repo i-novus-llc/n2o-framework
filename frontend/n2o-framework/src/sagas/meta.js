@@ -83,12 +83,12 @@ function* fetchFlow(options, action) {
         yield take([LOCATION_CHANGE])
 
         if (has(meta, 'alert')) {
-            return yield put(dataRequestWidget(options.widgetId, options.options))
+            return yield put(dataRequestWidget(options.widgetId, options.modelId || options.widgetId, options.options))
         }
 
         return yield all([
             put(metadataRequest(rootPageId, rootPageId, redirectPath)),
-            put(dataRequestWidget(options.widgetId, options.options)),
+            put(dataRequestWidget(options.widgetId, options.modelId || options.widgetId, options.options)),
         ])
     }
 }
@@ -112,7 +112,7 @@ export function* refreshEffect(action) {
                     lastTask = yield fork(fetchFlow, options, action)
                 } else {
                     yield put(
-                        dataRequestWidget(options.widgetId, {
+                        dataRequestWidget(options.widgetId, options.modelId || options.widgetId, {
                             ...options.options,
                             withoutSelectedId: action.meta.withoutSelectedId,
                         }),

@@ -49,6 +49,7 @@ const widgetSlice = createSlice({
                     ...currentState,
                     ...initProps,
                     ...smartState,
+                    modelId: initProps.modelId || widgetId,
                     isInit: !preInit,
                     type: initProps.type,
                 }
@@ -58,12 +59,13 @@ const widgetSlice = createSlice({
         DATA_REQUEST: {
             /**
              * @param {string} widgetId
+             * @param {string} modelId
              * @param {object} options
              * @return {{payload: WidgetsStore.dataRequestWidgetPayload}}
              */
-            prepare(widgetId, options = {}) {
+            prepare(widgetId, modelId, options = {}) {
                 return ({
-                    payload: { widgetId, options },
+                    payload: { widgetId, options, modelId },
                 })
             },
 
@@ -153,11 +155,12 @@ const widgetSlice = createSlice({
             /**
              * @param {string} widgetId
              * @param {object} resolveModel
+             * @param {string} modelId
              * @return {{payload: WidgetsStore.resolveWidgetPayload}}
              */
-            prepare(widgetId, resolveModel) {
+            prepare(widgetId, resolveModel, modelId) {
                 return ({
-                    payload: { widgetId, model: resolveModel },
+                    payload: { widgetId, model: resolveModel, modelId },
                 })
             },
 

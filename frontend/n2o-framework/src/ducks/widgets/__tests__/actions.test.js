@@ -29,6 +29,7 @@ import {
 } from '../store'
 
 const widgetId = ' widgetId'
+const modelId = 'modelId'
 const initProps = {
     disabled: false,
     visible: true,
@@ -74,8 +75,9 @@ describe('Тесты экшенов widgets', () => {
 
     describe('Проверка экшена dataRequestWidget', () => {
         it('Возвращает правильный payload', () => {
-            const action = dataRequestWidget(widgetId)
+            const action = dataRequestWidget(widgetId, modelId)
             expect(action.payload.widgetId).toEqual(widgetId)
+            expect(action.payload.modelId).toEqual(modelId)
         })
     })
 

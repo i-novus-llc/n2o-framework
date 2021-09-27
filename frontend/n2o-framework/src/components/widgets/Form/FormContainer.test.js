@@ -74,6 +74,7 @@ describe('FormContainer', () => {
         it('Проверка прокидывания props', () => {
             const testPropsData = {
                 widgetId: 'widgetId',
+                modelId: 'widgetId',
                 pageId: 'pageId',
                 autoFocus: true,
                 fieldsets: [{ id: 1, fieldset: 'any' }],

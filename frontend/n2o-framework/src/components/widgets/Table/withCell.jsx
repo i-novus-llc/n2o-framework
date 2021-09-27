@@ -14,12 +14,11 @@ import { updateModel, setModel } from '../../../ducks/models/store'
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
         onActionImpl: ({ src, component, options }) => callActionImpl(src || component, { ...options, dispatch }),
-        onInvoke:
-                (widgetId, dataProvider, data, modelLink, meta) => startInvoke(
-                    widgetId, dataProvider, data, modelLink, meta,
-                ),
+        onInvoke: (widgetId, dataProvider, data, modelLink, meta, modelId) => startInvoke(
+            widgetId, dataProvider, data, modelLink, meta, modelId,
+        ),
         onUpdateModel: (prefix, key, field, values) => updateModel(prefix, key, field, values),
-        onResolveWidget: (widgetId, model) => setModel(PREFIXES.resolve, widgetId, model),
+        onResolveWidget: (modelId, model) => setModel(PREFIXES.resolve, modelId, model),
     },
     dispatch,
 )
@@ -41,15 +40,16 @@ export default function (WrappedComponent) {
         action: defaultAction,
         model: defaultModel,
         widgetId,
+        modelId,
         index,
         fieldKey,
         dataProvider,
         dispatch,
         ...rest
     }) {
-    /**
-     * @deprecated
-     */
+        /**
+         * @deprecated
+         */
         const callActionImpl = (e, { action, model }) => {
             const currentModel = model || defaultModel
             const currentAction = action || defaultAction
@@ -61,17 +61,17 @@ export default function (WrappedComponent) {
         }
 
         /**
-     * @deprecated
-     */
+         * @deprecated
+         */
         const callInvoke = (data, customProvider = null, meta) => {
-            onInvoke(widgetId, customProvider || dataProvider, data, null, meta)
+            onInvoke(widgetId, customProvider || dataProvider, data, null, meta, modelId)
         }
 
         const updateFieldInModel = (value, prefix = 'datasource') => {
-            onUpdateModel(prefix, widgetId, `[${index}].${fieldKey}`, value)
+            onUpdateModel(prefix, modelId, `[${index}].${fieldKey}`, value)
         }
 
-        const resolveWidget = data => onResolveWidget(widgetId, data)
+        const resolveWidget = data => onResolveWidget(modelId, data)
 
         const callAction = (data) => {
             const resolvedAction = resolveWidget(data)
@@ -95,6 +95,7 @@ export default function (WrappedComponent) {
                 model={defaultModel}
                 fieldKey={fieldKey}
                 widgetId={widgetId}
+                modelId={modelId}
                 {...rest}
             />
         )
@@ -108,6 +109,7 @@ export default function (WrappedComponent) {
         action: PropTypes.object,
         model: PropTypes.object,
         widgetId: PropTypes.string,
+        modelId: PropTypes.string,
         index: PropTypes.number,
         fieldKey: PropTypes.string,
         dataProvider: PropTypes.object,

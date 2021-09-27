@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import isEmpty from 'lodash/isEmpty'
 
-import { widgetsSelector } from '../../ducks/widgets/selectors'
+import { makeModelIdSelector, widgetsSelector } from '../../ducks/widgets/selectors'
 import {
     makeModelsByPrefixSelector,
     modelsSelector,
@@ -19,7 +19,7 @@ import {
     showWidget,
     disableWidget,
     enableWidget,
-    dataRequestWidget,
+    // dataRequestWidget,
 } from '../../ducks/widgets/store'
 import { PREFIXES } from '../../ducks/models/constants'
 import { reduceFunction } from '../../sagas/widgetDependency/resolve'
@@ -105,11 +105,12 @@ function withGetWidget(WrappedComponent) {
         store: PropTypes.object,
     }
 
-    const mapStateToProps = state => ({
+    const mapStateToProps = (state, props) => ({
         pages: pagesSelector(state),
         widgets: widgetsSelector(state),
         widgetsDatasource: makeModelsByPrefixSelector(PREFIXES.datasource)(state),
         models: modelsSelector(state),
+        modelId: makeModelIdSelector(props.widgetId)(state),
     })
 
     const mapDispatchToProps = dispatch => bindActionCreators(
@@ -118,7 +119,7 @@ function withGetWidget(WrappedComponent) {
             showWidget: widgetId => showWidget(widgetId),
             disableWidget: widgetId => disableWidget(widgetId),
             enableWidget: widgetId => enableWidget(widgetId),
-            fetchWidget: (widgetId, options) => dataRequestWidget(widgetId, options),
+            // fetchWidget: (widgetId, options) => dataRequestWidget(widgetId, options),
         },
         dispatch,
     )
