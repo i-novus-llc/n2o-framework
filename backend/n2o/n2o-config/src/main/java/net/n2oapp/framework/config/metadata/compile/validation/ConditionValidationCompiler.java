@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.validation;
 
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -25,7 +26,7 @@ public class ConditionValidationCompiler extends BaseValidationCompiler<Conditio
     public ConditionValidation compile(N2oValidationCondition source, CompileContext<?, ?> context, CompileProcessor p) {
         ConditionValidation validation = new ConditionValidation();
         compileValidation(validation, source);
-        validation.setSeverity(source.getSeverity());
+        validation.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));
         validation.setExpression(ScriptProcessor.resolveFunction(p.cast(source.getExpression(), getContentByUri(source.getSrc()))));
         validation.setExpressionOn(source.getExpressionOn());
         return validation;
