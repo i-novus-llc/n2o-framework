@@ -28,6 +28,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
+import org.apache.commons.collections.map.HashedMap;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -267,11 +268,22 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
                              Map<String, ? extends BindLink> pathMappings,
                              Map<String, ? extends BindLink> queryMappings) {
         String resultUrl = url;
-        if (pathMappings != null)
+        Map<String, Object> resultParamsMap = new HashMap<>();
+        params.forEach((k, v) -> resultParamsMap.put(k, params.get(k)));
+        if (pathMappings != null) {
+            removeCommonParams(pathMappings, resultParamsMap);
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
-        if (queryMappings != null)
+        }
+        if (queryMappings != null) {
+            removeCommonParams(queryMappings, resultParamsMap);
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
-        resultUrl = URL_RESOLVER.resolve(resultUrl, params);
+        }
+        if (resultParamsMap.size() != 0) {
+            DataSet resultParamsDataSet = new DataSet(resultParamsMap);
+            resultUrl = URL_RESOLVER.resolve(resultUrl, resultParamsDataSet);
+        } else {
+            resultUrl = URL_RESOLVER.resolve(resultUrl, params);
+        }
         return resultUrl;
     }
 
@@ -476,6 +488,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         } else
             return placeholder;
     }
+
+    private void removeCommonParams(Map<String, ? extends BindLink> mapping, Map<String, Object> resultParams) {
+        mapping.keySet().stream().filter(key -> params.get(key) != null).forEach(resultParams::remove);
+    }
+
 
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
         if (linkMap != null) {
