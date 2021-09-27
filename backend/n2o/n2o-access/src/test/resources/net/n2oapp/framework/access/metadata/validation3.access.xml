@@ -1,23 +1,23 @@
-<access xmlns="http://n2oapp.net/framework/config/schema/access-schema-1.0">
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
 
-    <guest-access>
-        <object-access object-id="atBlank" actions="create,wrong"/>
-    </guest-access>
+    <permit-all>
+        <object-access object-id="atBlank" operations="create,wrong"/>
+    </permit-all>
 
     <role id="test">
-        <object-access object-id="atBlank" actions="create,wrong"/>
+        <object-access object-id="atBlank" operations="create,wrong"/>
     </role>
 
     <permission id="test">
-        <object-access object-id="atBlank" actions="create,wrong"/>
+        <object-access object-id="atBlank" operations="create,wrong"/>
     </permission>
 
-    <user id="test">
-        <object-access object-id="atBlank" actions="create,wrong"/>
+    <user username="test">
+        <object-access object-id="atBlank" operations="create,wrong"/>
     </user>
 
     <authenticated>
-        <object-access object-id="atBlank" actions="create,wrong"/>
+        <object-access object-id="atBlank" operations="create,wrong"/>
     </authenticated>
 
 </access>

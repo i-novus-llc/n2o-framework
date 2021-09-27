@@ -2,14 +2,8 @@ package net.n2oapp.framework.config.selective;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
-import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.pack.MetadataPack;
-import net.n2oapp.framework.api.pack.PersistersBuilder;
-import net.n2oapp.framework.api.pack.ReadersBuilder;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.persister.SelectivePersister;
-import net.n2oapp.framework.config.selective.reader.SelectiveReader;
+import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.springframework.core.io.ClassPathResource;
 
@@ -20,43 +14,19 @@ import java.util.stream.Stream;
  * @author operehod
  * @since 23.04.2015
  */
-public class ION2oMetadataTester implements ReadersBuilder<ION2oMetadataTester>, PersistersBuilder<ION2oMetadataTester> {
+public class ION2oMetadataTester implements XmlIOBuilder<ION2oMetadataTester> {
 
-    private SelectiveReader selectiveReader = new SelectiveReader();
-    private SelectivePersister selectivePersister = new SelectivePersister();
+    private XmlIOReader xmlIOReader = new XmlIOReader();
 
     public ION2oMetadataTester() {
     }
 
-    public ION2oMetadataTester(SelectiveReader selectiveReader, SelectivePersister selectivePersister) {
-        this.selectiveReader = selectiveReader;
-        this.selectivePersister = selectivePersister;
+    public ION2oMetadataTester(XmlIOReader xmlIOReader) {
+        this.xmlIOReader = xmlIOReader;
     }
 
-    public ION2oMetadataTester addReader(NamespaceReader reader) {
-        selectiveReader.addReader(reader);
-        return this;
-    }
-
-
-    public ION2oMetadataTester addPersister(NamespacePersister persister) {
-        selectivePersister.addPersister(persister);
-        return this;
-    }
-
-    public ION2oMetadataTester addReader(SelectiveReader reader){
-        this.selectiveReader = reader;
-        return this;
-    }
-
-    public ION2oMetadataTester addPersister(SelectivePersister persister){
-        this.selectivePersister = persister;
-        return this;
-    }
-
-    public ION2oMetadataTester addIO(NamespaceIO io){
-        this.selectivePersister.addPersister(io);
-        this.selectiveReader.addReader(io);
+    public ION2oMetadataTester addIO(NamespaceIO io) {
+        this.xmlIOReader.addIO(io);
         return this;
     }
 
@@ -65,12 +35,12 @@ public class ION2oMetadataTester implements ReadersBuilder<ION2oMetadataTester>,
         return this;
     }
 
-    public <T extends NamespaceUriAware> boolean isCheck(String path, Consumer<T> checker){
+    public <T extends NamespaceUriAware> boolean isCheck(String path, Consumer<T> checker) {
         String source = FileSystemUtil.getContentFromResource(new ClassPathResource(path));
-        T t = selectiveReader.read(source);
+        T t = xmlIOReader.read(source);
         if (checker != null)
             checker.accept(t);
-        return selectivePersister.persistAndCompareWithSample(t, source);
+        return xmlIOReader.persistAndCompareWithSample(t, source);
     }
 
     public <T extends NamespaceUriAware> boolean check(String path, Consumer<T> checker) {
@@ -82,20 +52,6 @@ public class ION2oMetadataTester implements ReadersBuilder<ION2oMetadataTester>,
     public boolean check(String path) {
         assert isCheck(path, null);
         return true;
-    }
-
-    @Override
-    @SafeVarargs
-    public final ION2oMetadataTester persisters(NamespacePersister<? extends NamespaceUriAware>... persisters) {
-        Stream.of(persisters).forEach(this::addPersister);
-        return this;
-    }
-
-    @Override
-    @SafeVarargs
-    public final ION2oMetadataTester readers(NamespaceReader<? extends NamespaceUriAware>... readers) {
-        Stream.of(readers).forEach(this::addReader);
-        return this;
     }
 
     @Override

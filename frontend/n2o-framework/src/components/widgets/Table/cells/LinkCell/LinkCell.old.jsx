@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import get from 'lodash/get'
 import Button from 'reactstrap/lib/Button'
 import { compose, setDisplayName } from 'recompose'
@@ -25,7 +25,6 @@ import { LinkCellType } from './linkCellTypes'
  * параметра target будет создана ссылка с соответствующим таргетом,
  * при отсутствии, компонент будет вызывать приходящий экшен
  * @param target - тип ссылки
- * @param rest
  * @param visible - флаг видимости
  * @returns {*}
  * @constructor
@@ -42,12 +41,10 @@ function LinkCell({
     url,
     target,
     visible,
-    // eslint-disable-next-line no-unused-vars
-    ...rest
 }) {
     const props = {
         style,
-        className: cn('n2o-link-cell', 'p-0', { [className]: className }),
+        className: classNames('n2o-link-cell', 'p-0', { [className]: className }),
     }
 
     const handleClick = (e) => {
@@ -94,38 +91,38 @@ function LinkCell({
 
 LinkCell.propTypes = {
     /**
-   * Иконка
-   */
+     * Иконка
+     */
     icon: PropTypes.string,
     /**
-   * Тип ячейки
-   */
+     * Тип ячейки
+     */
     type: PropTypes.string,
     /**
-   * ID ячейки
-   */
+     * ID ячейки
+     */
     id: PropTypes.string,
     /**
-   * Ключ значения из модели
-   */
+     * Ключ значения из модели
+     */
     fieldKey: PropTypes.string,
     /**
-   * Модель данных
-   */
+     * Модель данных
+     */
     model: PropTypes.object,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     /**
-   * При наличии этого параметра, в зависимости от
-   * параметра target будет создана ссылка с соответствующим таргетом,
-   * при отсутствии, компонент будет вызывать приходящий экшен
-   */
+     * При наличии этого параметра, в зависимости от
+     * параметра target будет создана ссылка с соответствующим таргетом,
+     * при отсутствии, компонент будет вызывать приходящий экшен
+     */
     url: PropTypes.string,
     /**
-   * Тип ссылки
-   */
+     * Тип ссылки
+     */
     target: PropTypes.string,
 }
 

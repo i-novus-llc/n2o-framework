@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-3.0"
-      xmlns:cl="http://n2oapp.net/framework/config/schema/n2o-cell-1.0">
-    <rows label-field-id="test">
-        <cl:badge text="test"/>
-    </rows>
-</list>

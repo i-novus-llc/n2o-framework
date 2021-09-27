@@ -8,7 +8,6 @@ import net.n2oapp.framework.config.metadata.compile.cell.CheckboxCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.LinkCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.ToolbarCellBinder;
 import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
-import net.n2oapp.framework.config.reader.event.*;
 
 public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -26,11 +25,6 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ClearActionElementIOV1(),
                 new PrintActionElementIOV1(),
                 new RefreshActionElementIOV1());
-        b.readers(new InvokeActionReaderV1(),
-                new ShowModalFormReaderV1(),
-                new ShowModalWithActionReaderV1(),
-                new OpenPageReaderV1(),
-                new AnchorReaderV1());
         b.compilers(new PerformCompiler(),
                 new ShowModalCompiler(),
                 new OpenDrawerCompiler(),

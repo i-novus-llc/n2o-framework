@@ -5,9 +5,8 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.MetadataRegister;
-import net.n2oapp.framework.config.register.XmlInfo;
-import net.n2oapp.framework.config.register.audit.util.N2oConfigConflictParser;
 import net.n2oapp.framework.config.io.MetadataParamHolder;
+import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
@@ -48,12 +47,6 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
                 throw new MetadataReaderException("read class [" + source.getClass() + "], but expected [" + sourceClass + "]");
             return source;
         } catch (N2oException e) {
-            if (e.getCause() instanceof JDOMException) {
-                String infoContent = FileSystemUtil.getContentByUri(info.getURI());
-                if (infoContent.contains(N2oConfigConflictParser.START_LINE_CONFLICT)){
-                    throw new N2oConfigConflictException("n2o.fileHasConflicts");
-                }
-            }
             throw e;
         } catch (Exception e) {
             throw new N2oMetadataReaderException(e, info.getId(), info.getURI(), info.getConfigId().getType());
