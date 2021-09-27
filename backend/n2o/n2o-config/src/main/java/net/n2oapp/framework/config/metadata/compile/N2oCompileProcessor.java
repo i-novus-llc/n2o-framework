@@ -268,23 +268,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
                              Map<String, ? extends BindLink> pathMappings,
                              Map<String, ? extends BindLink> queryMappings) {
         String resultUrl = url;
-        Map<String, Object> resultParamsMap = new HashMap<>();
-        if (params != null)
-            params.forEach((k, v) -> resultParamsMap.put(k, params.get(k)));
-        if (pathMappings != null) {
-            removeCommonParams(pathMappings, resultParamsMap);
+        if (pathMappings != null)
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
-        }
-        if (queryMappings != null) {
-            removeCommonParams(queryMappings, resultParamsMap);
+        if (queryMappings != null)
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
-        }
-        if (resultParamsMap.size() != 0) {
-            DataSet resultParamsDataSet = new DataSet(resultParamsMap);
-            resultUrl = URL_RESOLVER.resolve(resultUrl, resultParamsDataSet);
-        } else {
-            resultUrl = URL_RESOLVER.resolve(resultUrl, params);
-        }
+        resultUrl = URL_RESOLVER.resolve(resultUrl, k -> ((pathMappings != null && pathMappings.containsKey(k))
+                || (queryMappings != null && queryMappings.containsKey(k)) || params == null) ?
+                null : params.get(k));
         return resultUrl;
     }
 
@@ -489,12 +479,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         } else
             return placeholder;
     }
-
-    private void removeCommonParams(Map<String, ? extends BindLink> mapping, Map<String, Object> resultParams) {
-        if (params != null)
-            mapping.keySet().stream().filter(key -> params.get(key) != null).forEach(resultParams::remove);
-    }
-
 
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
         if (linkMap != null) {
