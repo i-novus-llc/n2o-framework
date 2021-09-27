@@ -7,7 +7,6 @@
     <xs:element name="open-drawer" type="openDrawerDefinition"/>
     <xs:element name="a" type="aDefinition"/>
     <xs:element name="invoke" type="invokeActionDefinition"/>
-    <xs:element name="perform-validation" type="performValidationDefinition"/>
     <xs:element name="close" type="closeDefinition"/>
     <xs:element name="copy" type="copyDefinition"/>
     <xs:element name="clear" type="clearDefinition"/>
@@ -24,7 +23,6 @@
             <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="a" type="aDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="invoke" type="invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform-validation" type="performValidationDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="close" type="closeDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="copy" type="copyDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="clear" type="clearDefinition" maxOccurs="1" minOccurs="0"/>
@@ -670,16 +668,6 @@
             <xs:enumeration value="application"/>
         </xs:restriction>
     </xs:simpleType>
-
-    <xs:complexType name="performValidationDefinition">
-        <xs:complexContent>
-            <xs:extension base="actionDefinition">
-                <xs:annotation>
-                    <xs:documentation>Провалидировать виджет.</xs:documentation>
-                </xs:annotation>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
 
     <xs:complexType name="closeDefinition">
         <xs:complexContent>
