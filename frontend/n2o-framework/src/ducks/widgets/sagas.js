@@ -115,8 +115,10 @@ const requestMap = Object.create(null)
  * @param {{ basePath: string, baseQuery: string , headersParams: object }} provider
  */
 export function* doFetch(modelId, provider) {
-    if (isEqual(provider, requestMap[modelId]?.provider)) {
-        return yield call(() => requestMap[modelId])
+    const cached = requestMap[modelId]
+
+    if (cached && isEqual(provider, cached.provider)) {
+        return yield call(() => cached.request)
     }
 
     const { basePath, baseQuery, headersParams } = provider
