@@ -1,5 +1,8 @@
 package net.n2oapp.framework.config.metadata.validation.standard.page;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
@@ -75,20 +78,35 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
      */
     private void checkWidgetDatasources(N2oPage page) {
         if (page.getWidgets() == null || page.getWidgets().isEmpty()) return;
-        Map<String, Pair<String>> datasourceMap = new HashMap<>();
+        Map<String, DatasourceValue> datasourceMap = new HashMap<>();
         page.getWidgets().forEach(w -> {
             if (w.getDatasource() != null) {
                 if (datasourceMap.containsKey(w.getDatasource())){
-                    Pair<String> actual = datasourceMap.get(w.getDatasource());
-                    if (!actual.getLeft().equals(w.getQueryId()) || !actual.getRight().equals(w.getObjectId())) {
+                    DatasourceValue actual = datasourceMap.get(w.getDatasource());
+                    if (!(actual.getQueryId() == null && w.getQueryId() == null ||
+                            actual.getQueryId().equals(w.getQueryId()))) {
                         throw new N2oMetadataValidationException(
-                                String.format("2 виджета с одинаковым datasource %s имеют разные query-id или object-id",
+                                String.format("2 виджета с одинаковым datasource %s имеют разные query-id",
+                                        w.getDatasource()));
+                    }
+                    if (!(actual.getObjectId() == null && w.getObjectId() == null ||
+                            actual.getObjectId().equals(w.getObjectId()))) {
+                        throw new N2oMetadataValidationException(
+                                String.format("2 виджета с одинаковым datasource %s имеют разные object-id",
                                         w.getDatasource()));
                     }
                 } else {
-                    datasourceMap.put(w.getDatasource(), new Pair<>(w.getQueryId(), w.getObjectId()));
+                    datasourceMap.put(w.getDatasource(), new DatasourceValue(w.getQueryId(), w.getObjectId()));
                 }
             }
         });
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    static class  DatasourceValue {
+        private String queryId;
+        private String objectId;
     }
 }
