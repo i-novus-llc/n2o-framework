@@ -7,5 +7,6 @@
         </condition>
         <condition id="con2" severity="info" src="net/n2oapp/framework/config/metadata/compile/object/validation/testConditionValidation.js"/>
         <condition id="con3" severity="warning"/>
+        <condition id="con4"/>
     </validations>
 </object>
