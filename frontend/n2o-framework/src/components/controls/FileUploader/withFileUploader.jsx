@@ -28,6 +28,7 @@ const FileUploaderControl = (WrappedComponent) => {
             this.requests = {}
 
             this.handleDrop = this.handleDrop.bind(this)
+            this.onDropRejected = this.onDropRejected.bind(this)
             this.handleImagesDrop = this.handleImagesDrop.bind(this)
             this.handleRemove = this.handleRemove.bind(this)
             this.handleChange = this.handleChange.bind(this)
@@ -111,9 +112,9 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Получение Url из expression
-     * @returns {*}
-     */
+         * Получение Url из expression
+         * @returns {*}
+         */
         resolveUrl(url) {
             const expression = parseExpression(url)
 
@@ -140,6 +141,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 onFocus: () => {},
                 onBlur: () => {},
                 onDrop: this.handleDrop,
+                onDropRejected: this.onDropRejected,
                 onImagesDrop: this.handleImagesDrop,
                 onDragLeave: this.onDragLeave,
                 onDragEnter: this.onDragEnter,
@@ -150,9 +152,9 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Загрузка файлов в state
-     * @param files
-     */
+         * Загрузка файлов в state
+         * @param files
+         */
 
         handleDrop(files) {
             const { onChange, autoUpload, onBlur } = this.props
@@ -182,9 +184,28 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Загрузка изображений в state
-     * @param files
-     */
+         * @param {Array<File>} files
+         */
+        onDropRejected(files) {
+            const { accept } = this.props
+            const { files: stateFiles } = this.state
+            const errorText = `Ошибка формата файла. Ожидаемый тип: ${accept}`
+
+            this.setState({
+                files: [...stateFiles, ...files.map((file) => {
+                    file.error = errorText
+                    file.id = id()
+                    file.percentage = 0
+
+                    return file
+                })],
+            })
+        }
+
+        /**
+         * Загрузка изображений в state
+         * @param files
+         */
         handleImagesDrop(files) {
             const { accept, t } = this.props
             let errorText = `${t('imageUploadAvailableImageTypes')} JPG/PNG/SVG`
@@ -213,10 +234,10 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Удаление из стейта
-     * @param index
-     * @param id
-     */
+         * Удаление из стейта
+         * @param index
+         * @param id
+         */
         handleRemove(index, id) {
             const {
                 value = [],
@@ -263,8 +284,8 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Изменение компонента
-     */
+         * Изменение компонента
+         */
         handleChange(newFile) {
             const { value, multi, onChange } = this.props
 
@@ -272,9 +293,9 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Start upload files
-     * @param files
-     */
+         * Start upload files
+         * @param files
+         */
         startUpload(files) {
             const {
                 labelFieldId,
@@ -287,10 +308,15 @@ const FileUploaderControl = (WrappedComponent) => {
             const url = this.resolveUrl(uploadUrl)
 
             this.setState({
-                uploading: reduce(files, (acc, { id }) => ({ ...acc, [id]: true }), {}),
+                uploading: reduce(files, (acc, { id, error }) => ({ ...acc, [id]: !error }), {}),
             })
 
-            files.map((file) => {
+            files.forEach((file) => {
+                if (file.error) {
+                    // Не загружаем файлы, которые не прошли префильтры
+
+                    return
+                }
                 if (!this.requests[file.id]) {
                     const onProgress = this.onProgress.bind(this, file.id)
                     const onUpload = this.onUpload.bind(this, file.id)
@@ -324,10 +350,10 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Change upload progress
-     * @param id
-     * @param event
-     */
+         * Change upload progress
+         * @param id
+         * @param event
+         */
         onProgress(id, event) {
             if (event.lengthComputable) {
                 this.onLoading(event.loaded / event.total, id)
@@ -335,10 +361,10 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Loading event
-     * @param percentage
-     * @param id
-     */
+         * Loading event
+         * @param percentage
+         * @param id
+         */
         onLoading(percentage, id) {
             const { files } = this.state
 
@@ -356,17 +382,17 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
-     * Call upload function
-     */
+         * Call upload function
+         */
         onStartUpload() {
             this.startUpload(this.state.files)
         }
 
         /**
-     * Upload event
-     * @param id
-     * @param response
-     */
+         * Upload event
+         * @param id
+         * @param response
+         */
         onUpload(id, response) {
             const { onSuccess } = this.props
 
@@ -469,134 +495,134 @@ const FileUploaderControl = (WrappedComponent) => {
     }
 
     ReturnedComponent.propTypes = {
-    /**
-     * Ключ ID из даныых
-     */
+        /**
+         * Ключ ID из даныых
+         */
         valueFieldId: PropTypes.string,
         /**
-     * Ключ label из данных
-     */
+         * Ключ label из данных
+         */
         labelFieldId: PropTypes.string,
         /**
-     * Ключ status из данных
-     */
+         * Ключ status из данных
+         */
         statusFieldId: PropTypes.string,
         /**
-     * Ключ size из данных
-     */
+         * Ключ size из данных
+         */
         sizeFieldId: PropTypes.string,
         /**
-     * Ключ response из даннах
-     */
+         * Ключ response из даннах
+         */
         responseFieldId: PropTypes.string,
         /**
-     * Ключ url из данных
-     */
+         * Ключ url из данных
+         */
         urlFieldId: PropTypes.string,
         /**
-     * Url для загрузки файла
-     */
+         * Url для загрузки файла
+         */
         uploadUrl: PropTypes.string,
         /**
-     * Url для удаления файла
-     */
+         * Url для удаления файла
+         */
         deleteUrl: PropTypes.string,
         /**
-     * Флаг мульти выбора файлов
-     */
+         * Флаг мульти выбора файлов
+         */
         multi: PropTypes.bool,
         /**
-     * Массив разрешенных расширеней файлов
-     */
+         * Массив разрешенных расширеней файлов
+         */
         accept: PropTypes.arrayOf(PropTypes.string),
         /**
-     * Массив файлов
-     */
+         * Массив файлов
+         */
         files: PropTypes.arrayOf(PropTypes.object),
         /**
-     * Значение
-     */
+         * Значение
+         */
         value: PropTypes.arrayOf(PropTypes.object),
         /**
-     * Флаг автоматической загрузки файлов после выбора
-     */
+         * Флаг автоматической загрузки файлов после выбора
+         */
         autoUpload: PropTypes.bool,
         /**
-     * Максимальный размер файла
-     */
+         * Максимальный размер файла
+         */
         maxSize: PropTypes.number,
         /**
-     * Минимальный размер файла
-     */
+         * Минимальный размер файла
+         */
         minSize: PropTypes.number,
         /**
-     * Label контрола
-     */
+         * Label контрола
+         */
         label: PropTypes.string,
         /**
-     * Название отправлякмого параметра
-     */
+         * Название отправлякмого параметра
+         */
         requestParam: PropTypes.string,
         /**
-     * Флаг видимости
-     */
+         * Флаг видимости
+         */
         visible: PropTypes.bool,
         /**
-     * Флаг активности
-     */
+         * Флаг активности
+         */
         disabled: PropTypes.bool,
         /**
-     * Иконка рядом с label
-     */
+         * Иконка рядом с label
+         */
         icon: PropTypes.string,
         /**
-     * Цвет статус бара
-     */
+         * Цвет статус бара
+         */
         statusBarColor: PropTypes.string,
         /**
-     * Объект стилей кнопки 'Сохранить'
-     */
+         * Объект стилей кнопки 'Сохранить'
+         */
         saveBtnStyle: PropTypes.object,
         /**
-     * Флаг показа размера файла
-     */
+         * Флаг показа размера файла
+         */
         showSize: PropTypes.bool,
         /**
-     * Callback на изменение
-     */
+         * Callback на изменение
+         */
         onChange: PropTypes.func,
         /**
-     * Класс контрола
-     */
+         * Класс контрола
+         */
         className: PropTypes.string,
         /**
-     * Mapper значения
-     */
+         * Mapper значения
+         */
         mapper: PropTypes.func,
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
         /**
-     * Callback на старт загрузки файла
-     */
+         * Callback на старт загрузки файла
+         */
         onStart: PropTypes.func,
         /**
-     * Callback на успешное завершение загрузки файла
-     */
+         * Callback на успешное завершение загрузки файла
+         */
         onSuccess: PropTypes.func,
         /**
-     * Callback на ошибку при загрузке
-     */
+         * Callback на ошибку при загрузке
+         */
         onError: PropTypes.func,
         /**
-     * Callback на удаление файла
-     */
+         * Callback на удаление файла
+         */
         onDelete: PropTypes.func,
         /**
-     * Кастомный запрос отправки файла
-     */
+         * Кастомный запрос отправки файла
+         */
         uploadRequest: PropTypes.func,
         /**
-     * Кастомный запрос удаления файла
-     */
+         * Кастомный запрос удаления файла
+         */
         deleteRequest: PropTypes.func,
         t: PropTypes.func,
     }
