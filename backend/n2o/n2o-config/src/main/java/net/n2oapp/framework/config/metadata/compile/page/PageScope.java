@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class PageScope implements Serializable {
     private Map<String, String> widgetIdDatasourceMap;
     //необходим только для валидации
     //todo убрать как только перейдем к отдельным datasource
-    private Map<String, DatasourceValue> datasourceValueMap;
+    private Map<String, DatasourceValue> datasourceValueMap = new HashMap<>();
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);

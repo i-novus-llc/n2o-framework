@@ -17,7 +17,10 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Валидатор виджета
@@ -155,8 +158,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
     private void checkDatasourceValue(N2oWidget n2oWidget, ValidateProcessor p) {
         if (n2oWidget.getDatasource() != null) {
             PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope.getDatasourceValueMap() != null &&
-                    pageScope.getDatasourceValueMap().containsKey(n2oWidget.getDatasource())) {
+            if (pageScope.getDatasourceValueMap().containsKey(n2oWidget.getDatasource())) {
                 PageScope.DatasourceValue actual = pageScope.getDatasourceValueMap().get(n2oWidget.getDatasource());
                 if (!Objects.equals(actual.getQueryId(), n2oWidget.getQueryId())) {
                     throw new N2oMetadataValidationException(
@@ -169,8 +171,6 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                                     n2oWidget.getDatasource()));
                 }
             } else {
-                if (pageScope.getDatasourceValueMap() == null)
-                    pageScope.setDatasourceValueMap(new HashMap<>());
                 pageScope.getDatasourceValueMap().put(n2oWidget.getDatasource(),
                         new PageScope.DatasourceValue(n2oWidget.getQueryId(), n2oWidget.getObjectId()));
             }
