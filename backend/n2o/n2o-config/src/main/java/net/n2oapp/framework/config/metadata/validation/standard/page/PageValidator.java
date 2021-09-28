@@ -1,9 +1,5 @@
 package net.n2oapp.framework.config.metadata.validation.standard.page;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
@@ -15,8 +11,6 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +33,6 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
         scope.setWidgetIds(p.safeStreamOf(page.getWidgets()).map(N2oMetadata::getId).collect(Collectors.toSet()));
         p.safeStreamOf(page.getWidgets()).forEach(widget -> p.validate(widget, scope));
         checkForExistsDependsOnWidget(page, scope, p);
-        checkWidgetDatasources(page);
     }
 
     /**
@@ -71,42 +64,4 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
                 });
     }
 
-    /**
-     * Проверка идентичности query-id и object-id при одинаковом datasource
-     *
-     * @param page  Страница
-     */
-    private void checkWidgetDatasources(N2oPage page) {
-        if (page.getWidgets() == null || page.getWidgets().isEmpty()) return;
-        Map<String, DatasourceValue> datasourceMap = new HashMap<>();
-        page.getWidgets().forEach(w -> {
-            if (w.getDatasource() != null) {
-                if (datasourceMap.containsKey(w.getDatasource())){
-                    DatasourceValue actual = datasourceMap.get(w.getDatasource());
-                    if (!(actual.getQueryId() == null && w.getQueryId() == null ||
-                            actual.getQueryId().equals(w.getQueryId()))) {
-                        throw new N2oMetadataValidationException(
-                                String.format("2 виджета с одинаковым datasource %s имеют разные query-id",
-                                        w.getDatasource()));
-                    }
-                    if (!(actual.getObjectId() == null && w.getObjectId() == null ||
-                            actual.getObjectId().equals(w.getObjectId()))) {
-                        throw new N2oMetadataValidationException(
-                                String.format("2 виджета с одинаковым datasource %s имеют разные object-id",
-                                        w.getDatasource()));
-                    }
-                } else {
-                    datasourceMap.put(w.getDatasource(), new DatasourceValue(w.getQueryId(), w.getObjectId()));
-                }
-            }
-        });
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    static class  DatasourceValue {
-        private String queryId;
-        private String objectId;
-    }
 }

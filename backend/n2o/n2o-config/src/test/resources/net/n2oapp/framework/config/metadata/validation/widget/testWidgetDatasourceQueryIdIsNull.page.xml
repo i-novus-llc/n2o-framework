@@ -2,8 +2,8 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <regions>
         <region>
-            <form id="first" datasource="ds1" query-id="testStandardPageDependency" />
-            <form id="second" datasource="ds1" query-id="testStandardPageDependency"/>
+            <form id="first" datasource="ds1" query-id="utBlank" object-id="utBlank"/>
+            <form id="second" datasource="ds1" object-id="utBlank"/>
         </region>
     </regions>
 </page>
