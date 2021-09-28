@@ -39,6 +39,7 @@ DropZone.propTypes = {
     files: PropTypes.arrayOf(PropTypes.object),
     className: PropTypes.string,
     onDrop: PropTypes.func,
+    onDropRejected: PropTypes.func,
     autoUpload: PropTypes.bool,
     onRemove: PropTypes.func,
     onStartUpload: PropTypes.func,
