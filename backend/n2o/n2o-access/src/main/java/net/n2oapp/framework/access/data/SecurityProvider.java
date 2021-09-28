@@ -119,7 +119,7 @@ public class SecurityProvider {
         for (Restriction securityRestriction : restrictions) {
             Object realValue = data.get(securityRestriction.getFieldId());
             if (realValue != null || strictFiltering) {
-                if (FilterType.isNotNull.equals(securityRestriction.getType()) || FilterType.isNull.equals(securityRestriction.getType())) {
+                if (FilterType.Arity.nullary.equals(securityRestriction.getType().arity)) {
                     Filter securityFilter = new Filter(securityRestriction.getType());
                     if (!securityFilter.check(realValue))
                         throw new AccessDeniedException("Access denied by field " + securityRestriction.getFieldId());
