@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Пустой объект для unit тестов">
+    <operations>
+        <operation id="create">
+            <invocation/>
+        </operation>
+        <operation id="update">
+            <invocation/>
+        </operation>
+        <operation id="update2">
+            <invocation/>
+        </operation>
+        <operation id="delete">
+            <invocation/>
+        </operation>
+    </operations>
+</object>
