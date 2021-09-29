@@ -73,7 +73,7 @@
     pointer-events: none;
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: $mobile-max-width) {
     .n2o-page__left-right-layout {
         flex-wrap: wrap;
 

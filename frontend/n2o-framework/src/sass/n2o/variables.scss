@@ -298,6 +298,10 @@ $cards-hover-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 
 $cards-cell-margin: 5px 0 !default;
 $cards-item-padding: 5px !default;
 
+// Breakpoints
+$mobile-max-width: 767px;
+$tablet-max-width: 1023px;
+
 // Custom
 // TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
 // Эти переменные появились тут в 7.16. В 7.15 были объявлены в sass/n2o/controls/InputTreeSelect.old.scss
