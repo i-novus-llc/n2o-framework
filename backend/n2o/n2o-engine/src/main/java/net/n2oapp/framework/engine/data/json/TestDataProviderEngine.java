@@ -300,6 +300,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 case "eq":
                     data = eqFilterData(field, pattern, data);
                     break;
+                case "notEq":
+                    data = notEqFilterData(field, pattern, data);
+                    break;
                 case "like":
                     data = likeFilterData(field, pattern, data);
                     break;
@@ -338,6 +341,22 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (m.get(field) instanceof Number && pattern instanceof Number)
                             return ((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
                         return m.get(field).toString().equals(pattern.toString());
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> notEqFilterData(String field, Object pattern, List<DataSet> data) {
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(field) || m.get(field) == null)
+                            return false;
+                        if (m.get(field) instanceof Number && pattern instanceof Number)
+                            return !((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
+                        return !m.get(field).toString().equals(pattern.toString());
                     })
                     .collect(Collectors.toList());
         }
