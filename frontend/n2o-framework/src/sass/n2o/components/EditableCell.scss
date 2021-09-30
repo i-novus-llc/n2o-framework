@@ -1,6 +1,8 @@
 .editable-cell-empty {
     width: 100%;
-    min-width: 182px;
+    min-width: 100px;
+    background-color: $white;
+    border: $input-select-border;
 }
 
 .editable-cell-empty:hover {
@@ -32,7 +34,7 @@
         padding: 1px 0 2px 2px;
     }
 
-    min-width: 80px;
+    min-width: 100px;
     width: 100%;
     max-width: max-content;
     text-align: left;
@@ -48,7 +50,7 @@
     }
 
     .n2o-input-select .n2o-input-container {
-        min-height: auto;
+        min-height: $input-select-editable-cell-min-height;
 
         input {
             padding: 0;
