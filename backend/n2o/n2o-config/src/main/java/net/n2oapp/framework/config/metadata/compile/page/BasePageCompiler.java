@@ -120,7 +120,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 String refId = ((N2oWidget) item).getRefId();
                 if (refId != null && !DynamicUtil.isDynamic(refId))
                     widget = (N2oWidget) p.merge(p.getSource(refId, N2oWidget.class), item);
-                if (widget.getId() == null)
+                if (((N2oWidget) item).getId() == null)
                     widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
             } else if (item instanceof N2oTabsRegion) {
