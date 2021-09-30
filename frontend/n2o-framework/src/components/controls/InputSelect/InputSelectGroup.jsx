@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -44,6 +44,11 @@ function InputSelectGroup({
     setSelectedItemsRef,
     withoutButtons,
 }) {
+    const clearClickHandler = useCallback((evt) => {
+        evt.stopPropagation()
+        onClearClick(evt)
+    }, [onClearClick])
+
     const displayAddon = !multiSelect && !!selected.length && (iconFieldId || imageFieldId)
 
     const renderButton = loading => (
@@ -83,7 +88,7 @@ function InputSelectGroup({
                             className={classNames('n2o-input-clear', {
                                 'input-in-focus': isInputInFocus,
                             })}
-                            onClick={onClearClick}
+                            onClick={clearClickHandler}
                         >
                             <i className="fa fa-times" aria-hidden="true" />
                         </div>
