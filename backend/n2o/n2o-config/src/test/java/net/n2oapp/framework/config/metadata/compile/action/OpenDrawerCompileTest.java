@@ -161,9 +161,9 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
         OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getActions().get("menuItem0");
         assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/menuItem0"));
-        assertThat(drawerPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/update"));
+        assertThat(drawerPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/update/main"));
 
-        QueryContext queryContext = (QueryContext) route("/p/123/update", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/p/123/update/main", CompiledQuery.class);
         assertThat(queryContext.getValidations().size(), is(1));
     }
 
@@ -303,7 +303,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
-        assertThat(drawerPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters"));
+        assertThat(drawerPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/main"));
         submit = (InvokeAction) drawerPage.getWidget().getActions().get("submit");
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("id")));
     }
