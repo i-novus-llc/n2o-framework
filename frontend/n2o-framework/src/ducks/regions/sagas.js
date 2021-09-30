@@ -9,7 +9,6 @@ import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
-import includes from 'lodash/includes'
 
 import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
 import { makePageRoutesByIdSelector } from '../pages/selectors'
@@ -130,7 +129,7 @@ function* lazyFetch(id) {
                 each(targetTab.content, (item) => {
                     if (
                         (alwaysRefresh && targetTab.id === id) ||
-                        (!includes(Object.keys(models.datasource), item.id))
+                        !Object.keys(models.datasource).includes(item.datasource || item.id)
                     ) {
                         idsToFetch.push(item.id)
                     }
