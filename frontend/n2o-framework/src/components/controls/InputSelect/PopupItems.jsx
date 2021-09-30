@@ -280,6 +280,7 @@ PopupItems.propTypes = {
 
 PopupItems.defaultProps = {
     renderIfEmpty: true,
+    setActiveValueId: () => {},
 }
 
 export default PopupItems
