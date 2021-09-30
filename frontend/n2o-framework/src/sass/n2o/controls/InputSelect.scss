@@ -208,7 +208,7 @@
         line-height: $input-line-height;
         color: $input-select-font-color;
         border-radius: $input-select-border-radius;
-        height: calc(2rem + 4px);
+        height: $input-min-height;
         min-width: 10px;
         border: none;
         outline: none;
@@ -296,7 +296,8 @@
         position: absolute;
         right: 0;
         top: 0;
-        height: calc(2rem + 4px);
+        bottom: 0;
+        height: auto;
         display: flex;
         align-items: center;
         margin-left: auto;
