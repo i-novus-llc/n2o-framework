@@ -167,14 +167,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
 
-    private String getDatasourceRoute(S source, CompileProcessor p) {
+    private String getDatasourceRoute(D compiled, S source, CompileProcessor p) {
         String datasource = source.getDatasource() == null ? source.getId() : source.getDatasource();
         String route = normalize(datasource);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
                 source.getDetailFieldId() != null) {
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-            String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
+            String selectedId = normalizeParam(p.cast(compiled.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             route = normalize(colon(selectedId)) + normalize(datasource);
         }
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
@@ -473,7 +473,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (widget.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
-        String url = getDatasourceRoute(source, p);
+        String url = getDatasourceRoute(widget, source, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         initDataProviderMappings(widget, dataProvider, p);
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
