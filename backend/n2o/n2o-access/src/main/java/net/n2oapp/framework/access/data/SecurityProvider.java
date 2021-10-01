@@ -2,6 +2,7 @@ package net.n2oapp.framework.access.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
@@ -118,14 +119,29 @@ public class SecurityProvider {
         for (Restriction securityRestriction : restrictions) {
             Object realValue = data.get(securityRestriction.getFieldId());
             if (realValue != null || strictFiltering) {
-                Object filterValue = contextProcessor.resolve(securityRestriction.getValue());
-                if (filterValue != null) {
-                    Filter securityFilter = new Filter(filterValue, securityRestriction.getType());
-                    if (!securityFilter.check(realValue))
-                        throw new AccessDeniedException("Access denied by field " + securityRestriction.getFieldId());
+                if (FilterType.Arity.nullary.equals(securityRestriction.getType().arity)) {
+                    Filter securityFilter = new Filter(securityRestriction.getType());
+                    checkByField(securityRestriction.getFieldId(), realValue, securityFilter);
+                } else {
+                    Object filterValue = contextProcessor.resolve(securityRestriction.getValue());
+                    if (filterValue != null) {
+                        Filter securityFilter = new Filter(filterValue, securityRestriction.getType());
+                        checkByField(securityRestriction.getFieldId(), realValue, securityFilter);
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Проверка фильтра по полю
+     * @param fieldId   идентификатор поля
+     * @param realValue     значение
+     * @param securityFilter    фильтр поля
+     */
+    private void checkByField(String fieldId, Object realValue, Filter securityFilter) {
+        if (!securityFilter.check(realValue))
+            throw new AccessDeniedException("Access denied by field " + fieldId);
     }
 
     /**
