@@ -121,18 +121,27 @@ public class SecurityProvider {
             if (realValue != null || strictFiltering) {
                 if (FilterType.Arity.nullary.equals(securityRestriction.getType().arity)) {
                     Filter securityFilter = new Filter(securityRestriction.getType());
-                    if (!securityFilter.check(realValue))
-                        throw new AccessDeniedException("Access denied by field " + securityRestriction.getFieldId());
+                    checkByField(securityRestriction.getFieldId(), realValue, securityFilter);
                 } else {
                     Object filterValue = contextProcessor.resolve(securityRestriction.getValue());
                     if (filterValue != null) {
                         Filter securityFilter = new Filter(filterValue, securityRestriction.getType());
-                        if (!securityFilter.check(realValue))
-                            throw new AccessDeniedException("Access denied by field " + securityRestriction.getFieldId());
+                        checkByField(securityRestriction.getFieldId(), realValue, securityFilter);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Проверка фильтра по полю
+     * @param fieldId   идентификатор поля
+     * @param realValue     значение
+     * @param securityFilter    фильтр поля
+     */
+    private void checkByField(String fieldId, Object realValue, Filter securityFilter) {
+        if (!securityFilter.check(realValue))
+            throw new AccessDeniedException("Access denied by field " + fieldId);
     }
 
     /**
