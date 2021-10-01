@@ -46,9 +46,7 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         BasePageUtil.resolveRegionItems(items,
                 item -> content.add(p.compile(item, context, p, index)),
                 item -> pageWidgetsScope.getWidgets().keySet().stream()
-                        .filter(k -> ((item.getId() != null && k.endsWith((item).getId()))
-                                || (item.getRefId() != null && item.getRefId().equals(pageWidgetsScope.getWidgets().get(k).getRefId())))).findFirst()
-                        .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
+                        .filter(k -> k.endsWith((item).getId())).findFirst().ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
         return content;
     }
 }

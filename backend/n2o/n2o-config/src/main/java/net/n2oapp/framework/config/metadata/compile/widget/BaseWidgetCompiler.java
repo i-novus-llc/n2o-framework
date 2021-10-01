@@ -68,7 +68,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
-        compiled.setRefId(source.getRefId());
         if (p.getScope(WidgetObjectScope.class) != null)
             p.getScope(WidgetObjectScope.class).put(source.getId(), object);
         compileWidgetQueryId(source, compiled);
@@ -84,7 +83,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setProperties(p.mapAttributes(source));
         compileDependencies(compiled, source, p);
         initFilters(compiled, source, p);
-
     }
 
     /**
