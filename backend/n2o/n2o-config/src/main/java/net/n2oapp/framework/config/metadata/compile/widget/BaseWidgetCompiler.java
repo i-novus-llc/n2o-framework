@@ -168,7 +168,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
 
     private String getDatasourceRoute(D compiled, S source, CompileProcessor p) {
-        String datasource = source.getDatasource() == null ? source.getId() : source.getDatasource();
+        String datasource = p.cast(source.getDatasource(), source.getId());
         String route = normalize(datasource);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
