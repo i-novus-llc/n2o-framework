@@ -53,10 +53,10 @@ class PanelRegion extends React.Component {
         this.getPanelsWithAccess()
     }
 
-    getContent = (meta) => {
+    getContent = (meta, pageId) => {
         const content = isArray(meta) ? meta : [meta]
 
-        return <RegionContent content={content} />
+        return <RegionContent content={content} pageId={pageId} />
     }
 
     getTab(panel) {
@@ -64,7 +64,7 @@ class PanelRegion extends React.Component {
 
         return {
             id: panel.widgetId,
-            content: this.getContent(panel),
+            content: this.getContent(panel, pageId),
             header: panel.label,
             ...panel,
             ...getWidget(pageId, panel.widgetId),
@@ -113,6 +113,7 @@ class PanelRegion extends React.Component {
             changeActiveEntity,
             className,
             style,
+            pageId,
         } = this.props
         const { tabs } = this.state
         const isInvisible = every(
@@ -129,7 +130,7 @@ class PanelRegion extends React.Component {
                 onVisibilityChange={changeActiveEntity}
                 className={className}
             >
-                {map(content, meta => this.getContent(meta))}
+                {map(content, meta => this.getContent(meta, pageId))}
             </PanelShortHand>
         )
     }
