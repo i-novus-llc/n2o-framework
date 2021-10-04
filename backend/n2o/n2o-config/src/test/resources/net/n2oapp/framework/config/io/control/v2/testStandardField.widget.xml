@@ -37,7 +37,8 @@
             </toolbar>
 
             <validations white-list="test1,test2,test3">
-                <constraint id="id" severity="danger" message="test message" side="client">
+                <constraint id="id" severity="danger" message="test message" side="client"
+                    result="#this == null">
                     <invocation>
                         <sql>
                             select * from table
