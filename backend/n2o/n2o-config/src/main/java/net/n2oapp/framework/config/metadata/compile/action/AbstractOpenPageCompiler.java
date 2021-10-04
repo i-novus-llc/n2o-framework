@@ -170,7 +170,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setTargetWidgetId(source.getTargetWidgetId());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
-        pageContext.setResultWidgetId(source.getResultContainerId());
         pageContext.setUpload(source.getUpload());
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
