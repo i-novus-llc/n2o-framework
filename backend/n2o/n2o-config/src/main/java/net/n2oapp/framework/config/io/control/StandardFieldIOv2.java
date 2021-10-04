@@ -47,7 +47,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
 
     private void constraint(Element e, N2oConstraint t, IOProcessor p) {
         validation(e, t, p);
-        p.childrenText(e, "result", t::getResult, t::setResult);
+        p.attribute(e, "result", t::getResult, t::setResult);
         p.childAttributeEnum(e, "result", "mapper", t::getMapper, t::setMapper, MapperType.class);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add("field", ObjectSimpleField.class, this::param));
