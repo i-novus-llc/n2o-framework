@@ -73,14 +73,18 @@ function InputContent({
      */
     const handleKeyDown = (e) => {
         if (
-            multiSelect &&
             e.key === 'Backspace' &&
             selected.length &&
             !e.target.value
         ) {
-            const endElementOfSelect = selected[selected.length - 1]
+            if (!multiSelect) {
+                onRemoveItem(selected[0])
+                setActiveValueId(null)
+            } else {
+                const endElementOfSelect = selected[selected.length - 1]
 
-            onRemoveItem(endElementOfSelect)
+                onRemoveItem(endElementOfSelect)
+            }
         } else if (e.key === 'ArrowDown') {
             e.preventDefault()
             if (!isExpanded) {
@@ -126,17 +130,15 @@ function InputContent({
             )
         } else if (e.key === 'Enter') {
             e.preventDefault()
+            let findEquals = find(options, (item) => {
+                if (activeValueId) {
+                    return item.id === activeValueId
+                }
 
-            let findEquals
+                return item[labelFieldId] === value
+            })
 
-            if (activeValueId) {
-                findEquals = activeValueId
-            } else {
-                findEquals = find(options, item => (
-                    String(item[labelFieldId]) === value &&
-                        !selected.find(entity => isEqual(entity, item))
-                ))
-            }
+            if (findEquals && selected.find(entity => isEqual(entity, findEquals))) { findEquals = null }
 
             if (mode === 'autocomplete') {
                 const newSelected = findEquals || value
