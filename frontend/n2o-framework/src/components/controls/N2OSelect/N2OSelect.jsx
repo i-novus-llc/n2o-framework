@@ -395,8 +395,13 @@ class N2OSelect extends React.Component {
      * вызывается библиотекой react-onclickoutside
      */
     handleClickOutside() {
-        this.hideOptionsList()
-        this.handleResetOnBlur()
+        const { onBlur } = this.props
+        const { isExpanded, selected } = this.state
+
+        if (isExpanded) {
+            this.hideOptionsList()
+            onBlur(selected)
+        }
     }
 
     handleOnBlur(e) {
