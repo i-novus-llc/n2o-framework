@@ -36,6 +36,7 @@ import {
     makeWidgetByIdSelector,
     makeWidgetDataProviderSelector,
     makeWidgetPageIdSelector,
+    widgetsSelector,
 } from '../selectors/widgets'
 import { makePageRoutesByIdSelector } from '../selectors/pages'
 import { getLocation, rootPageSelector } from '../selectors/global'
@@ -219,11 +220,11 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
 
             if (
                 withoutSelectedId ||
-        !isQueryEqual(
-            widgetId,
-            resolvedProvider.basePath,
-            resolvedProvider.baseQuery,
-        )
+                !isQueryEqual(
+                    widgetId,
+                    resolvedProvider.basePath,
+                    resolvedProvider.baseQuery,
+                )
             ) {
                 // yield put(setTableSelectedId(widgetId, null));
             } else if (!withoutSelectedId && widgetState.selectedId) {
@@ -248,7 +249,8 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
                 )
             } else if (
                 !Object.keys(tabsWidgetIds).includes(widgetId) ||
-        !tabsWidgetIds[widgetId]
+                !tabsWidgetIds[widgetId]
+                // eslint-disable-next-line sonarjs/no-duplicated-branches
             ) {
                 yield call(
                     setWidgetDataSuccess,
@@ -262,6 +264,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
             yield put(dataFailWidget(widgetId))
         }
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`)
         yield put(
             dataFailWidget(
@@ -287,6 +290,7 @@ export function* runResolve(action) {
 
     try {
         yield put(setModel(PREFIXES.resolve, widgetId, model))
+        // eslint-disable-next-line no-empty
     } catch (err) {}
 }
 
@@ -306,21 +310,25 @@ const pagesHash = []
 function* clearFilters(action) {
     const { widgetId } = action.payload
 
-    if (last(pagesHash) === widgetId) {
+    const { pageId } = yield select(makeWidgetByIdSelector(widgetId))
+
+    if (last(pagesHash) === pageId) {
         return
     }
 
-    if (pagesHash.includes(widgetId)) {
-        const currentPageIndex = pagesHash.indexOf(widgetId)
+    if (pagesHash.includes(pageId)) {
+        const currentPageIndex = pagesHash.indexOf(pageId)
         const filterResetIds = pagesHash.splice(currentPageIndex + 1)
 
-        for (let index = 0; index < filterResetIds.length; index += 1) {
-            const filterResetId = filterResetIds[index]
+        const widgets = Object.values(yield select(widgetsSelector))
+            .filter(widget => filterResetIds.includes(widget.pageId))
 
-            yield put(removeModel(PREFIXES.filter, filterResetId))
+        // eslint-disable-next-line no-restricted-syntax
+        for (const { widgetId } of widgets) {
+            yield put(removeModel(PREFIXES.filter, widgetId))
         }
     } else {
-        pagesHash.push(widgetId)
+        pagesHash.push(pageId)
     }
 }
 
