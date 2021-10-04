@@ -83,7 +83,7 @@ public class N2oClientDataProviderUtil {
      */
     public static N2oClientDataProvider initFromSubmit(Submit submit, String id, CompiledObject compiledObject, CompileProcessor p) {
         if (compiledObject == null)
-            throw new N2oException("For compilation submit for field [{0}] is necessary object!").addData(id);
+            throw new N2oException(String.format("For compilation submit for field [%s] is necessary object!", id)).addData(id);
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethod.POST);

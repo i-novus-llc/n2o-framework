@@ -141,8 +141,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
                 dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
             } else if (searchFilterId != null && listControl.getHasSearch()) {
-                throw new N2oException("For search field id [" + searchFilterId + "] is necessary this filter-id in query [" + query.getId() + "]")
-                        .addData(searchFilterId, query.getId());
+                throw new N2oException(
+                        String.format("For search field id [%s] is necessary this filter-id in query [%s]", searchFilterId, query.getId()));
             }
         }
         listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));

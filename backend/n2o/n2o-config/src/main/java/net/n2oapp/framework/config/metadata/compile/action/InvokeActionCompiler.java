@@ -155,7 +155,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         CompiledObject compiledObject = source.getObjectId() == null ? p.getScope(CompiledObject.class) :
                 p.getCompiled(new ObjectContext(source.getObjectId()));
         if (compiledObject == null)
-            throw new N2oException("For compilation action [{0}] is necessary object!").addData(source.getId());
+            throw new N2oException(String.format("For compilation action [%s] is necessary object!", source.getId())).addData(source.getId());
         invokeAction.setObjectId(compiledObject.getId());
 
         AsyncMetaSaga metaSaga = invokeAction.getMeta();

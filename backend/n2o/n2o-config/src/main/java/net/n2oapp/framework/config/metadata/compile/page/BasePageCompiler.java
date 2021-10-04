@@ -269,7 +269,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (item.getAction() == null && item.getActionId() != null) {
             ActionsBar actionsBar = actionMap.get(item.getActionId());
             if (actionsBar == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!")
+                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", item.getActionId()))
                         .addData(item.getActionId());
             }
             item.setAction(actionsBar.getAction());
