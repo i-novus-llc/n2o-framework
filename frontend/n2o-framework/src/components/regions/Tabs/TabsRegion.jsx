@@ -89,6 +89,7 @@ class TabRegion extends React.Component {
             scrollbar,
             title,
             style,
+            pageId,
         } = this.props
 
         const { permissionsVisibleTabs } = this.state
@@ -128,6 +129,7 @@ class TabRegion extends React.Component {
                             <Tab {...tabProps}>
                                 <RegionContent
                                     content={content}
+                                    pageId={pageId}
                                     tabSubContentClass="tab-sub-content"
                                 />
                             </Tab>
