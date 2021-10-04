@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 
-export function RegionContent({ content, tabSubContentClass }) {
+export function RegionContent({ content, tabSubContentClass, pageId }) {
     const mapClassNames = {
         TabsRegion: tabSubContentClass,
     }
@@ -31,6 +31,7 @@ export function RegionContent({ content, tabSubContentClass }) {
                     <Factory
                         level={WIDGETS}
                         key={index}
+                        pageId={pageId}
                         {...meta}
                         className={className}
                     />
@@ -42,6 +43,7 @@ export function RegionContent({ content, tabSubContentClass }) {
 
 RegionContent.propTypes = {
     content: PropTypes.any,
+    pageId: PropTypes.string,
     tabSubContentClass: PropTypes.any,
 }
 
