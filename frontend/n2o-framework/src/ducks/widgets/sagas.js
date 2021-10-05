@@ -34,6 +34,7 @@ import {
     dataRequestWidget,
     disableWidget,
     resolveWidget,
+    unloadingWidget,
 } from './store'
 import { isActive } from './sagas/isActive'
 
@@ -191,6 +192,8 @@ export function getWithoutSelectedId(
  */
 export function* handleFetch(modelId, widgetId, options, isQueryEqual, prevSelectedId) {
     if (!(yield isActive(widgetId))) {
+        yield put(unloadingWidget(widgetId))
+
         return
     }
     try {
