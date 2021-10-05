@@ -25,7 +25,8 @@
     <validations>
         <dialog id="nameCheck" server-moment="after-fail-operation"
                 result="!(#this[errorMessage].contains('Empty name'))"
-                message="Вы не заполнили имя. Заполнить его значением по умолчанию?">
+                title="Вы не заполнили имя."
+                message="Заполнить его значением по умолчанию?">
             <toolbar>
                 <button label="Yes">
                     <invoke operation-id="create">
@@ -39,7 +40,8 @@
         </dialog>
         <dialog id="ageCheck" server-moment="after-fail-operation"
                 result="!(#this[errorMessage].contains('Empty age'))"
-                message="Вы не заполнили возраст. Заполнить его значением по умолчанию?">
+                title="Вы не заполнили возраст."
+                message="Заполнить его значением по умолчанию?">
             <toolbar>
                 <button label="Yes">
                     <invoke operation-id="create">

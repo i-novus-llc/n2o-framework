@@ -81,7 +81,8 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldExists();
         age.val("25");
         modalSaveBtn.click();
-        Page.Dialog dialog = page.dialog("Вы не заполнили имя. Заполнить его значением по умолчанию?");
+        Page.Dialog dialog = page.dialog("Вы не заполнили имя.");
+        //todo добавить проверку на тело диалога
         dialog.click("Close");
         modalSaveBtn.click();
         dialog.click("Yes");
@@ -97,7 +98,8 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldExists();
         name.val("Ann");
         modalSaveBtn.click();
-        dialog = page.dialog("Вы не заполнили возраст. Заполнить его значением по умолчанию?");
+        dialog = page.dialog("Вы не заполнили возраст.");
+        //todo добавить проверку на тело диалога
         dialog.click("Close");
         modalSaveBtn.click();
         dialog.click("Yes");
