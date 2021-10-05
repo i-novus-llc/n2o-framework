@@ -57,7 +57,10 @@ class TablePagination extends Component {
             prevText,
             nextText,
             filters,
+            datasource,
         } = this.props
+
+        const currentShowCount = typeof showCountRecords === 'boolean' ? showCountRecords : !isEmpty(datasource)
 
         return (
             count > 0 && (
@@ -75,7 +78,7 @@ class TablePagination extends Component {
                     first={first}
                     last={last}
                     lazy={lazy}
-                    showCountRecords={showCountRecords}
+                    showCountRecords={currentShowCount}
                     hideSinglePage={hideSinglePage}
                     withoutBody={withoutBody}
                 />

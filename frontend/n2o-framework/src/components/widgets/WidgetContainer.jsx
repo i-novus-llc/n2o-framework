@@ -24,7 +24,7 @@ import {
     setTableSelectedId,
     sortByWidget,
 } from '../../actions/widgets'
-import { setModel, removeAllModel } from '../../actions/models'
+import { setModel, removeAllModel, removeModel } from '../../actions/models'
 import {
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
@@ -105,8 +105,17 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                     visible,
                     dataProviderFromState,
                     dataProvider,
+                    dispatch,
+                    widgetId,
                 } = this.props
+
                 const hasVisibleDeps = has(this.context, 'metadata.dependency.visible')
+
+                const hasFetchDeps = has(this.context, 'metadata.dependency.fetch')
+
+                if (hasFetchDeps && !fetchOnInit) {
+                    dispatch(removeModel('datasource', widgetId))
+                }
 
                 if (
                     (hasVisibleDeps || fetchOnInit) &&
