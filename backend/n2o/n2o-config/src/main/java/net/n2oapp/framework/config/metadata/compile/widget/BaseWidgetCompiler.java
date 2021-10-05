@@ -296,7 +296,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (mi.getAction() == null && mi.getActionId() != null) {
             ActionsBar action = actionMap.get(mi.getActionId());
             if (action == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(mi.getActionId());
+                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", mi.getAction()));
             }
             mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
