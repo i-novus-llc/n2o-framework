@@ -417,7 +417,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
 
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
-        if (searchBarScope != null) {
+        if (searchBarScope != null && searchBarScope.getWidgetId().equals(source.getId())) {
             PageScope pageScope = p.getScope(PageScope.class);
             String searchWidgetId = pageScope != null ?
                     CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :
