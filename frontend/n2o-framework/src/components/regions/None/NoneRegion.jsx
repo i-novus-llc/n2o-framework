@@ -13,23 +13,23 @@ import RegionContent from '../RegionContent'
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-const NoneRegion = ({ content }) => (
+const NoneRegion = ({ content, pageId }) => (
     <div className="n2o-none-region">
         {map(content, item => (
-            <RegionContent content={[item]} />
+            <RegionContent content={[item]} pageId={pageId} />
         ))}
     </div>
 )
 
 NoneRegion.propTypes = {
     /**
-   * Список элементов
-   */
+     * Список элементов
+     */
     items: PropTypes.array.isRequired,
     getWidget: PropTypes.func.isRequired,
     /**
-   * ID страницы
-   */
+     * ID страницы
+     */
     pageId: PropTypes.string.isRequired,
 }
 
