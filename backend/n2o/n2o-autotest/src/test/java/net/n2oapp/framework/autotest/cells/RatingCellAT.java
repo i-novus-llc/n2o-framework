@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.cells;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -47,31 +48,28 @@ public class RatingCellAT extends AutoTestBase {
         simplePage.shouldExists();
 
         TableWidget.Rows rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(2);
+        rows.shouldHaveSize(1);
 
         //проверка не редактируемых ячеек
         rows.row(0).cell(0, RatingCell.class).maxShouldBe(10);
-        rows.row(0).cell(0, RatingCell.class).valueShouldBe("10");
+        rows.row(0).cell(0, RatingCell.class).valueShouldBe("8");
         rows.row(0).cell(0, RatingCell.class).value("5");
-        rows.row(0).cell(0, RatingCell.class).valueShouldBe("10");
-
-        rows.row(1).cell(0, RatingCell.class).valueShouldBe("3");
-        rows.row(1).cell(0, RatingCell.class).value("2");
-        rows.row(1).cell(0, RatingCell.class).valueShouldBe("3");
+        rows.row(0).cell(0, RatingCell.class).valueShouldBe("8");
 
         //проверка редактируемых ячеек
         rows.row(0).cell(1, RatingCell.class).maxShouldBe(10);
+        Alerts alerts = simplePage.alerts();
+
         rows.row(0).cell(1, RatingCell.class).value("5");
-        simplePage.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
+        rows.row(0).cell(1, RatingCell.class).shouldExists();
         rows.row(0).cell(1, RatingCell.class).valueShouldBe("5");
-        rows.row(1).cell(1, RatingCell.class).value("8");
-        simplePage.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
-        rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
+        alerts.shouldHaveSize(1);
+        alerts.alert(0).shouldHaveColor(Colors.SUCCESS);
+
         //проверка что значение сохранилось на бэке
         Selenide.refresh();
         simplePage.shouldExists();
         rows.row(0).cell(1, RatingCell.class).valueShouldBe("5");
-        rows.row(1).cell(1, RatingCell.class).valueShouldBe("8");
     }
 
 }
