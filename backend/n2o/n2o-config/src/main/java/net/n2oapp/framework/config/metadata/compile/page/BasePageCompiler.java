@@ -123,11 +123,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         for (SourceComponent item : items) {
             if (item instanceof N2oWidget) {
                 N2oWidget widget = ((N2oWidget) item);
+                if (widget.getId() == null)
+                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 String refId = ((N2oWidget) item).getRefId();
                 if (refId != null && !DynamicUtil.isDynamic(refId))
                     widget = (N2oWidget) p.merge(p.getSource(refId, N2oWidget.class), item);
-                if (widget.getId() == null)
-                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
             } else if (item instanceof N2oTabsRegion) {
                 if (((N2oTabsRegion) item).getTabs() != null)
@@ -275,8 +275,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (item.getAction() == null && item.getActionId() != null) {
             ActionsBar actionsBar = actionMap.get(item.getActionId());
             if (actionsBar == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!")
-                        .addData(item.getActionId());
+                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", item.getActionId()));
             }
             item.setAction(actionsBar.getAction());
             if (item.getModel() == null)

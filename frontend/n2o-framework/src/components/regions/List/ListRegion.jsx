@@ -22,7 +22,7 @@ import { RegionContent } from '../RegionContent'
 
 class ListRegion extends React.Component {
     renderList = (props) => {
-        const { label, content, isVisible, hasSeparator } = this.props
+        const { label, content, isVisible, hasSeparator, pageId } = this.props
 
         const key = props.expand ? 'open' : 'close'
 
@@ -34,7 +34,7 @@ class ListRegion extends React.Component {
                 style={{ display: isVisible === false ? 'none' : '' }}
                 className={classNames({ line: hasSeparator })}
             >
-                <RegionContent content={content} />
+                <RegionContent content={content} pageId={pageId} />
             </Panel>
         )
     };

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table object-id="test">
+        <actions>
+            <action id="actionTest">
+                <invoke operation-id="test"/>
+            </action>
+        </actions>
+        <columns>
+            <column text-field-id="test">
+                <edit format="formatTest" action-id="actionTest">
+                    <input-text id="test"/>
+                </edit>
+            </column>
+        </columns>
+    </table>
+</simple-page>

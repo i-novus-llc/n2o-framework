@@ -23,6 +23,7 @@ import {
     makeWidgetByIdSelector,
     makeWidgetDataProviderSelector,
     makeWidgetPageIdSelector,
+    widgetsSelector,
 } from './selectors'
 import {
     changeCountWidget,
@@ -306,21 +307,25 @@ const pagesHash = []
 function* clearFilters(action) {
     const { widgetId } = action.payload
 
-    if (last(pagesHash) === widgetId) {
+    const { pageId } = yield select(makeWidgetByIdSelector(widgetId))
+
+    if (last(pagesHash) === pageId) {
         return
     }
 
-    if (pagesHash.includes(widgetId)) {
-        const currentPageIndex = pagesHash.indexOf(widgetId)
+    if (pagesHash.includes(pageId)) {
+        const currentPageIndex = pagesHash.indexOf(pageId)
         const filterResetIds = pagesHash.splice(currentPageIndex + 1)
 
-        for (let index = 0; index < filterResetIds.length; index += 1) {
-            const filterResetId = filterResetIds[index]
+        const widgets = Object.values(yield select(widgetsSelector))
+            .filter(widget => filterResetIds.includes(widget.pageId))
 
-            yield put(removeModel(PREFIXES.filter, filterResetId))
+        // eslint-disable-next-line no-restricted-syntax
+        for (const { widgetId } of widgets) {
+            yield put(removeModel(PREFIXES.filter, widgetId))
         }
     } else {
-        pagesHash.push(widgetId)
+        pagesHash.push(pageId)
     }
 }
 

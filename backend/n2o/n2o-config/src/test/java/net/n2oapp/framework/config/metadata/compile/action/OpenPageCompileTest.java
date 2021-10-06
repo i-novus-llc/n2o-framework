@@ -227,7 +227,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&secondName=test"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?name=:name&surname=:surname&secondName=test"));
 
         // проверка breadcrumb при открытии open-page не из таблицы, а другого виджета
         // при этом в parentId не должны сохраняться id выбранных записей

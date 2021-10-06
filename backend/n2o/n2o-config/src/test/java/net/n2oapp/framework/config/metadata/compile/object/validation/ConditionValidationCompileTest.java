@@ -39,7 +39,7 @@ public class ConditionValidationCompileTest extends SourceCompileTestBase {
                 .get(new ObjectContext("testConditionValidation"));
 
         List<Validation> validations = object.getValidations();
-        assertThat(validations.size(), is(3));
+        assertThat(validations.size(), is(4));
 
         assertThat(validations.get(0).getId(), is("con1"));
         assertThat(validations.get(0).getSeverity(), is(SeverityType.danger));
@@ -59,5 +59,7 @@ public class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(2).getId(), is("con3"));
         assertThat(validations.get(2).getSeverity(), is(SeverityType.warning));
         assertThat(validations.get(2).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+
+        assertThat(validations.get(3).getSeverity(), is(SeverityType.danger));
     }
 }

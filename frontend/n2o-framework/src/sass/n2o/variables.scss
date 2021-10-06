@@ -85,6 +85,7 @@ $selected-item-width: 150px !default;
 $multiselect-item-color: #fafafa !default;
 $shadow-box: 0 0 0 3px rgba(197, 205, 211, 1) !default;
 $input-select-control-dropdown-header-padding: 0.5rem 1rem !default;
+$input-select-editable-cell-min-height: $input-min-height !default;
 
 //InputTreeSelect
 $image-tree-height: 20px !default;
@@ -297,6 +298,10 @@ $cards-hover-border: 1px solid transparent !default;
 $cards-hover-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09) !default;
 $cards-cell-margin: 5px 0 !default;
 $cards-item-padding: 5px !default;
+
+// Breakpoints
+$mobile-max-width: 767px;
+$tablet-max-width: 1023px;
 
 // Custom
 // TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
