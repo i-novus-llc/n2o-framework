@@ -60,4 +60,138 @@ public class FieldEnabledAT extends AutoTestBase {
         field.shouldBeDisabled();
         field.shouldHaveValue("test");
     }
+
+    @Test
+    public void testFormFieldsEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/form_fields/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fields();
+        InputText field = fields.field("without enable").control(InputText.class);
+        field.shouldBeEnabled();
+
+        field = fields.field("enable=true").control(InputText.class);
+        field.shouldBeEnabled();
+
+        field = fields.field("enable=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=true").control(InputText.class);
+        field.shouldBeEnabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=undefined").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=null").control(InputText.class);
+        field.shouldBeDisabled();
+    }
+
+    @Test
+    public void testDynamicEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/dynamic/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fields();
+        RadioGroup fieldsetEnabled = fields.field("fieldset_enabled").control(RadioGroup.class);
+        InputText field = fields.field("without enable").control(InputText.class);
+
+        fieldsetEnabled.shouldHaveValue("enabled");
+        field.shouldBeEnabled();
+
+        field = fields.field("enable=true").control(InputText.class);
+        field.shouldBeEnabled();
+
+        field = fields.field("enable=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=true").control(InputText.class);
+        field.shouldBeEnabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=undefined").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=null").control(InputText.class);
+        field.shouldBeDisabled();
+
+        fieldsetEnabled.check("disabled");
+
+        field = fields.field("without enable").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("enable=true").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("enable=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=true").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=undefined").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies[apply-on-init].enabling=null").control(InputText.class);
+        field.shouldBeDisabled();
+    }
+
+    @Test
+    public void testStaticEnabled() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/static/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fields();
+        RadioGroup fieldsetEnabled = fields.field("fields_enabled").control(RadioGroup.class);
+        InputText field = fields.field("enable=true").control(InputText.class);
+
+        fieldsetEnabled.shouldHaveValue("enabled");
+        field.shouldBeDisabled();
+
+        field = fields.field("enable=fields_enabled").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]=true").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]=undefined").control(InputText.class);
+        field.shouldBeDisabled();
+
+        fieldsetEnabled.check("disabled");
+
+        field = fields.field("enable=true").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("enable=fields_enabled").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]=true").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]=false").control(InputText.class);
+        field.shouldBeDisabled();
+
+        field = fields.field("dependencies.enabling[on=fields_enabled]=undefined").control(InputText.class);
+        field.shouldBeDisabled();
+    }
 }
