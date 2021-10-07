@@ -383,8 +383,10 @@ class AdvancedTable extends Component {
         }
 
         if (needToReturn) { return }
-
-        if (rowSelection === rowSelectionType.RADIO) { this.handleChangeRadioChecked(model) }
+        if (
+            rowSelection === rowSelectionType.RADIO ||
+            (!rowSelection && hasSelect)
+        ) { this.selectModel(model) }
 
         if (!noResolve && hasSelect && hasFocus) {
             this.setSelectAndFocus(id, id)
@@ -423,7 +425,10 @@ class AdvancedTable extends Component {
             onRowClickAction(model)
         }
 
-        if (rowSelection === rowSelectionType.RADIO) { this.handleChangeRadioChecked(model) }
+        if (
+            rowSelection === rowSelectionType.RADIO ||
+            (!rowSelection && hasSelect)
+        ) { this.selectModel(model) }
 
         if (needToReturn) { return }
 
@@ -522,10 +527,8 @@ class AdvancedTable extends Component {
         }))
     }
 
-    handleChangeRadioChecked(model) {
-        const { rowSelection, onSetSelection } = this.props
-
-        if (rowSelection !== rowSelectionType.RADIO) { return }
+    selectModel(model) {
+        const { onSetSelection } = this.props
 
         onSetSelection([model])
         this.setState(() => ({
@@ -567,13 +570,21 @@ class AdvancedTable extends Component {
             rowClass,
             rowSelection,
             autoCheckboxOnSelect,
+            multi,
+            hasSelect,
             resolveModel,
         } = this.props
+        const isRowActive = () => {
+            if (!hasSelect) { return false }
+            if (multi?.length === 1) { return multi[0].id === model.id }
+
+            return model.id === get(resolveModel, 'id')
+        }
 
         return {
             index,
             rowClick,
-            isRowActive: model.id === get(resolveModel, 'id'),
+            isRowActive: isRowActive(),
             rowClass: rowClass && propsResolver(rowClass, model),
             model,
             setRef: this.setRowRef,
@@ -630,7 +641,7 @@ class AdvancedTable extends Component {
                             inline
                             checked={!!checked[model.id]}
                             value={model.id}
-                            onChange={() => this.handleChangeRadioChecked(model)}
+                            onChange={() => this.selectModel(model)}
                         />
                     )
                 }
