@@ -5,6 +5,7 @@ import { HotKeys } from 'react-hotkeys/cjs'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import set from 'lodash/set'
 
@@ -77,7 +78,7 @@ export class EditableCell extends React.Component {
 
     onChange(value) {
         const { model: stateModel } = this.state
-        const newModel = { ...stateModel }
+        const newModel = cloneDeep(stateModel)
         const { editFieldId } = this.props
 
         set(newModel, editFieldId, value)
