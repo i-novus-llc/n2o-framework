@@ -10,7 +10,7 @@
                 </columns>
                 <toolbar>
                     <button id="openPage" label="Открыть" widget-id="main">
-                        <open-page page-id="testOpenPageTwoPathParamModal" route="/:rec_id/:rec_name/open" upload="query">
+                        <open-page page-id="testOpenPageTwoPathParamModal" route="/:rec_id/:rec_name/open" upload="defaults">
                             <path-param name="rec_id" value="{id}"/>
                             <path-param name="rec_name" value="{name}"/>
                         </open-page>

@@ -73,7 +73,7 @@ public class PageRoutes implements Compiled {
      */
     public void addPathMapping(String pathParam, ReduxAction action) {
         if (pathMapping.containsKey(pathParam) && !pathMapping.get(pathParam).equals(action)) {
-            throw new N2oException("Page already contains path mapping {0}!").addData(pathParam);
+            throw new N2oException(String.format("Page already contains path mapping %s!", pathParam));
         }
         pathMapping.put(pathParam, action);
     }
@@ -100,7 +100,7 @@ public class PageRoutes implements Compiled {
         query.setOnGet(onGet);
         query.setOnSet(onSet);
         if (queryMapping.containsKey(queryParam) && !queryMapping.get(queryParam).equals(query)) {
-            throw new N2oException("Page already contains query mapping {0}!").addData(queryParam);
+            throw new N2oException(String.format("Page already contains query mapping %s!", queryParam));
         }
         queryMapping.put(queryParam, query);
     }

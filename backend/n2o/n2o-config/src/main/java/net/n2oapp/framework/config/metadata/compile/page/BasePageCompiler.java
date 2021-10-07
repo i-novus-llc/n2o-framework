@@ -74,7 +74,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //init base route
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
-        if (resultWidget != null) initDefaults(context, resultWidget);
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationList validationList = new ValidationList(new HashMap<>());
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
@@ -124,11 +123,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         for (SourceComponent item : items) {
             if (item instanceof N2oWidget) {
                 N2oWidget widget = ((N2oWidget) item);
+                if (widget.getId() == null)
+                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 String refId = ((N2oWidget) item).getRefId();
                 if (refId != null && !DynamicUtil.isDynamic(refId))
                     widget = (N2oWidget) p.merge(p.getSource(refId, N2oWidget.class), item);
-                if (widget.getId() == null)
-                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
             } else if (item instanceof N2oTabsRegion) {
                 if (((N2oTabsRegion) item).getTabs() != null)
@@ -211,10 +210,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
     }
 
-    private void initDefaults(PageContext context, N2oWidget resultWidget) {
-        if (resultWidget != null && ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null))) {
-            resultWidget.addPreFilters(context.getPreFilters());
-            resultWidget.setUpload(context.getUpload());
+    private void initDefaults(PageContext context, N2oWidget n2oWidget) {
+        if (n2oWidget != null && ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null))) {
+            n2oWidget.addPreFilters(context.getPreFilters());
+            n2oWidget.setUpload(context.getUpload());
         }
     }
 
@@ -276,8 +275,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (item.getAction() == null && item.getActionId() != null) {
             ActionsBar actionsBar = actionMap.get(item.getActionId());
             if (actionsBar == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!")
-                        .addData(item.getActionId());
+                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", item.getActionId()));
             }
             item.setAction(actionsBar.getAction());
             if (item.getModel() == null)
@@ -316,9 +314,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (searchBarScope != null && searchBarScope.getWidgetId() == null) {
             searchBarScope.setWidgetId(independents.get(0).getId());
         }
-        independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
-                compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
-                searchBarScope, pageScope, pageRoutesScope, widgetObjectScope));
+        independents.forEach(w -> {
+            initDefaults(context, w);
+            compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
+                    compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
+                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope);});
         return compiledWidgets;
     }
 

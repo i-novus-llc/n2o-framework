@@ -88,5 +88,8 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(bindLink.getBindLink(), is("models.filter['testSearchablePage2_table']"));
         assertThat(page.getClassName(), is("testClass"));
         assertThat(page.getStyle().size(), is(2));
+
+        assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(1)).getDataProvider().getQueryMapping().size(),
+                is(0));
     }
 }

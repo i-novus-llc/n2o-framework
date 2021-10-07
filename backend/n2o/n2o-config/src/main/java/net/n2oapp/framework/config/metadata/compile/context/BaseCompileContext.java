@@ -126,8 +126,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
 
     public void setQueryRouteMapping(Map<String, ModelLink> queryRouteMapping) {
         if (queryRouteMapping != null) {
-            this.queryRouteMapping = new HashMap<>();
-            queryRouteMapping.forEach((k, v) -> this.queryRouteMapping.put(k, new ModelLink(v)));
+            this.queryRouteMapping = Collections.unmodifiableMap(new HashMap<>(queryRouteMapping));
         } else {
             this.queryRouteMapping = null;
         }
@@ -140,7 +139,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
 
     public void setPathRouteMapping(Map<String, ModelLink> pathRouteMapping) {
         if (pathRouteMapping != null)
-            this.pathRouteMapping = Collections.unmodifiableMap(pathRouteMapping);
+            this.pathRouteMapping = Collections.unmodifiableMap(new HashMap<>(pathRouteMapping));
         else
             this.pathRouteMapping = null;
     }

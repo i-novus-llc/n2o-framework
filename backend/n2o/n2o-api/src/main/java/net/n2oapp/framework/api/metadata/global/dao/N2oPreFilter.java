@@ -78,6 +78,11 @@ public class N2oPreFilter implements Source {
     public N2oPreFilter() {
     }
 
+    public N2oPreFilter(String fieldId, FilterType type) {
+        this.fieldId = fieldId;
+        this.type = type;
+    }
+
     public N2oPreFilter(String fieldId, String value, FilterType type) {
         this.fieldId = fieldId;
         this.type = type;

@@ -3,6 +3,7 @@ import isArray from 'lodash/isArray'
 import isBoolean from 'lodash/isBoolean'
 import isFunction from 'lodash/isFunction'
 import each from 'lodash/each'
+import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import pickBy from 'lodash/pickBy'
@@ -174,20 +175,25 @@ export function validate(
 
                 const validationFunction = presets[options.type]
 
-                if (options.multi) {
-                    const multiFields = getMultiFields(registeredFields, fieldId)
+                const callValidationFunction = (fieldId) => {
+                    const isVisibleField = get(registeredFields, [`${fieldId}`, 'visible'], true)
 
-                    map(multiFields, (fieldId) => {
+                    if (isVisibleField) {
                         const isValid = isFunction(validationFunction) &&
-                            validationFunction(fieldId, values, options, dispatch)
-
-                        resolveValidationResult(isValid, fieldId)
-                    })
-                } else {
-                    const isValid = isFunction(validationFunction) &&
                         validationFunction(fieldId, values, options, dispatch)
 
-                    resolveValidationResult(isValid, fieldId)
+                        resolveValidationResult(isValid, fieldId)
+                    } else {
+                        resolveValidationResult(true, fieldId)
+                    }
+                }
+
+                if (options.multi) {
+                    const multiFields = getMultiFields(registeredFields, fieldId) || []
+
+                    forEach(multiFields, fieldId => callValidationFunction(fieldId))
+                } else {
+                    callValidationFunction(fieldId)
                 }
             })
         }

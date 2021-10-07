@@ -17,6 +17,7 @@ function FileUploader({
     disabled,
     children,
     onDrop,
+    onDropRejected,
     onDragEnter,
     onDragLeave,
     multiple,
@@ -51,6 +52,7 @@ function FileUploader({
                             onDrop={onDrop}
                             onDragEnter={onDragEnter}
                             onDragLeave={onDragLeave}
+                            onDropRejected={onDropRejected}
                         >
                             {children}
                         </Dropzone>
@@ -96,6 +98,7 @@ FileUploader.propTypes = {
     showSize: PropTypes.any,
     t: PropTypes.func,
     onDrop: PropTypes.func,
+    onDropRejected: PropTypes.func,
     onDragLeave: PropTypes.func,
     onStartUpload: PropTypes.func,
     onDragEnter: PropTypes.func,

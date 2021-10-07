@@ -62,9 +62,13 @@ public class FileUploadCellAT extends AutoTestBase {
 
         // загрузка файла с неразрешенным расширением
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml");
+        // Есть вывод ошибки
+        fileUpload.uploadFilesShouldBe(1);
         // загрузка не произошла
-        fileUpload.uploadFilesShouldBe(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
+
+        fileUpload.deleteFile(0);
+        fileUpload.uploadFilesShouldBe(0);
 
         // загрузка нормального файла
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");

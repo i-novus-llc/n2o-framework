@@ -366,7 +366,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (mi.getAction() == null && mi.getActionId() != null) {
             ActionsBar action = actionMap.get(mi.getActionId());
             if (action == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(mi.getActionId());
+                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", mi.getAction()));
             }
             mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
@@ -477,7 +477,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         initDataProviderMappings(widget, dataProvider, p);
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
-        if (searchBarScope != null) {
+        if (searchBarScope != null && searchBarScope.getWidgetId().equals(source.getId())) {
             PageScope pageScope = p.getScope(PageScope.class);
             String searchWidgetId = pageScope != null ?
                     CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :

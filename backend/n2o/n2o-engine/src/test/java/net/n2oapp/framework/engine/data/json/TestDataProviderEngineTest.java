@@ -623,6 +623,21 @@ public class TestDataProviderEngineTest {
         assertThat(result.size(), is(2));
         assertThat(result.get(0).get("id"), is(5607655L));
         assertThat(result.get(1).get("id"), is(5607771L));
+
+        //Фильтр по "notEq" age
+        inParams.put("filters", Arrays.asList("age :notEq :age"));
+        inParams.put("age", 77);
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0).get("id"), is(999L));
+        assertThat(result.get(1).get("id"), is(5607627L));
+        //Фильтр по "notEq" surname
+        inParams.put("filters", Arrays.asList("surname :notEq :surname"));
+        inParams.put("surname", "Test20121026");
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(1).get("id"), is(5607627L));
     }
 
     @Test

@@ -154,7 +154,11 @@ function PopupItems({
         }
     }, [setActiveValueId, valueFieldId])
 
-    const onMouseLeave = useCallback(() => setActiveValueId(''), [setActiveValueId])
+    const onMouseLeave = useCallback(() => {
+        if (setActiveValueId) {
+            setActiveValueId('')
+        }
+    }, [setActiveValueId])
 
     const renderSingleItem = (item, index) => {
         const disabled = getDisabled(item)
@@ -280,6 +284,7 @@ PopupItems.propTypes = {
 
 PopupItems.defaultProps = {
     renderIfEmpty: true,
+    setActiveValueId: () => {},
 }
 
 export default PopupItems

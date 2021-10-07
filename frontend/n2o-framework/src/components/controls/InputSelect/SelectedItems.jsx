@@ -1,9 +1,72 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
 import split from 'lodash/split'
 import { useTranslation } from 'react-i18next'
+
+const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }) => {
+    const callbackWrapper = useCallback((event) => {
+        event.stopPropagation()
+        callback(event)
+    }, [callback])
+    const truncatedTitle = `${split(title, '', maxTagTextLength).join('')}...`
+    const tagTitle = maxTagTextLength && title.length > maxTagTextLength
+        ? truncatedTitle
+        : title
+
+    return (
+        <span
+            key={id}
+            className={classNames('selected-item n2o-multiselect', {
+                'max-text-length': maxTagTextLength,
+            })}
+            title={title}
+        >
+            <span className="n2o-eclipse-content">{tagTitle}</span>
+            <button
+                type="button"
+                className="close"
+                onClick={callbackWrapper}
+                disabled={disabled}
+            >
+                <i className="fa fa-times fa-1" />
+            </button>
+        </span>
+    )
+}
+
+SelectedItem.propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    callback: PropTypes.func,
+    maxTagTextLength: PropTypes.number,
+    disabled: PropTypes.bool,
+}
+
+const ItemWrapper = ({ onRemoveItem, item, index, ...props }) => {
+    const onRemove = useMemo(
+        () => (...args) => onRemoveItem.call(null, item, index, ...args),
+        [item, index, onRemoveItem],
+    )
+
+    return (
+        <SelectedItem
+            {...props}
+            callback={onRemove}
+        />
+    )
+}
+
+ItemWrapper.propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    onRemoveItem: PropTypes.func,
+    maxTagTextLength: PropTypes.number,
+    disabled: PropTypes.bool,
+    item: PropTypes.any,
+    index: PropTypes.number,
+}
 
 /**
  * Компонент выбранных элементов для {@Link InputSelectGroup}
@@ -27,51 +90,35 @@ function InputElements({
     maxTagTextLength,
 }) {
     const { t } = useTranslation()
-    const selectedItem = (id, title, callback) => {
-        const truncatedTitle = `${split(title, '', maxTagTextLength).join('')}...`
 
-        const tagTitle =
-      maxTagTextLength && title.length > maxTagTextLength
-          ? truncatedTitle
-          : title
+    if (collapseSelected && selected.length > lengthToGroup) {
+        const id = selected.length
+        const title = `${t('selected')} ${selected.length}`
 
         return (
-            <span
-                key={id}
-                className={classNames('selected-item n2o-multiselect', {
-                    'max-text-length': maxTagTextLength,
-                })}
+            <SelectedItem
+                id={id}
                 title={title}
-            >
-                <span className="n2o-eclipse-content">{tagTitle}</span>
-                <button
-                    type="button"
-                    className="close"
-                    onClick={callback}
-                    disabled={disabled}
-                >
-                    <i className="fa fa-times fa-1" />
-                </button>
-            </span>
+                callback={onDeleteAll}
+                maxTagTextLength={maxTagTextLength}
+                disabled={disabled}
+            />
         )
     }
 
-    const selectedList = () => {
-        if (collapseSelected && selected.length > lengthToGroup) {
-            const id = selected.length
-            const title = `${t('selected')} ${selected.length}`
+    const list = map(selected, (item, index) => (
+        <ItemWrapper
+            id={item.id || index}
+            title={item[labelFieldId] || item}
+            maxTagTextLength={maxTagTextLength}
+            disabled={disabled}
+            item={item}
+            index={index}
+            onRemoveItem={onRemoveItem}
+        />
+    ))
 
-            return selectedItem(id, title, onDeleteAll)
-        }
-
-        return map(selected, (item, index) => selectedItem(
-            item.id || index,
-            item[labelFieldId] || item,
-            onRemoveItem.bind(null, item, index),
-        ))
-    }
-
-    return <>{selectedList()}</>
+    return <>{list}</>
 }
 
 InputElements.propTypes = {
