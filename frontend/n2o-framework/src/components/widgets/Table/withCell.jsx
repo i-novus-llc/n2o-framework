@@ -65,7 +65,7 @@ export default function (WrappedComponent) {
         dispatch,
         ...rest
     }) {
-        const resolveWidget = useCallback(data => onResolveWidget(widgetId, data), [onResolveWidget, widgetId])
+        const resolveWidget = useCallback(data => onResolveWidget(modelId, data), [onResolveWidget, modelId])
         /**
          * @deprecated
          */
@@ -91,14 +91,14 @@ export default function (WrappedComponent) {
         }, [onUpdateModel, modelId, index, fieldKey])
 
         const callAction = useCallback((data) => {
-            resolveWidget(modelId, data)
+            resolveWidget(data)
 
             if (isEmpty(defaultAction)) {
-                updateDatasource(widgetId, datasourceModel, defaultModel, data)
+                updateDatasource(modelId, datasourceModel, defaultModel, data)
             } else {
                 dispatch(defaultAction)
             }
-        }, [defaultAction, dispatch, resolveWidget, updateDatasource, datasourceModel, defaultModel])
+        }, [defaultAction, dispatch, resolveWidget, updateDatasource, datasourceModel, defaultModel, modelId])
 
         return (
             <WrappedComponent
