@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testShowModal" route="/"
+       name="first">
+    <toolbar>
+        <button id="id1" model="filter">
+            <open-page page-id="testOpenPageSimplePageAction1"
+                       route="/action1"
+                       page-name="second"
+                       submit-operation-id="create"/>
+        </button>
+        <button id="id2" model="resolve">
+            <open-page page-id="testOpenPageSimplePageAction2"
+                       route="/:page_test_id/action2"
+                       page-name="second"
+                       submit-operation-id="update" detail-field-id="id">
+                <path-param name="page_test_id" value="{id}"/>
+            </open-page>
+        </button>
+        <button id="masterDetail" model="resolve">
+            <open-page page-id="testOpenPageMasterDetail"
+                       route="/:page_test_id/masterDetail"
+                       master-field-id="masterId"
+                       detail-field-id="detailId"
+                       master-param="detailId">
+                <path-param name="page_test_id" value="{id}"/>
+                <query-param name="name" value="{name}" ref-model="filter"/>
+                <query-param name="secondName" value="test"/>
+                <query-param name="surname" value="{surname}" ref-model="filter"/>
+            </open-page>
+        </button>
+        <button id="testDefaultValue">
+            <open-page page-id="testDefaultValue" route="/defaultValue" upload="defaults">
+                <query-param name="name" value="{name}"/>
+                <query-param name="start" value="2022-02-14T00:00:00"/>
+                <query-param name="end" value="2022-03-20T00:00:00"/>
+                <query-param name="gender_id" value="1"/>
+            </open-page>
+        </button>
+        <button id="testDefaultValueQuery">
+            <open-page page-id="testDefaultValue" route="/defaultValueQuery">
+                <query-param name="name" value="{name}"/>
+                <query-param name="gender_id" value="1"/>
+            </open-page>
+        </button>
+        <button id="testPreFilter">
+            <open-page page-id="testPreFilter" route="/testPreFilter" upload="defaults">
+                <query-param name="gender_id" value="1"/>
+            </open-page>
+        </button>
+    </toolbar>
+</table>
+
