@@ -19,6 +19,8 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgument
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
+import net.n2oapp.framework.engine.util.InvocationParametersMapping;
+import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -133,7 +135,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             return selection;
         selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException(String.format("В %s.query.xml не найден <unique> запрос", query.getId()));
+            throw new N2oUniqueRequestNotFoundException(query.getId());
         return selection;
     }
 
