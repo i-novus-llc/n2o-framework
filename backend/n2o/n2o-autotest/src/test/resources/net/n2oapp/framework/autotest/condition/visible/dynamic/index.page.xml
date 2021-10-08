@@ -10,46 +10,27 @@
                     </options>
                     <default-value id="1" name="visible"/>
                 </radio-group>
-                <radio-group id="fieldset_enabled">
-                    <options>
-                        <option id="1" name="enabled"/>
-                        <option id="2" name="disabled"/>
-                    </options>
-                    <default-value id="1" name="enabled"/>
-                </radio-group>
             </row>
 
             <hidden id="fieldset_hidden_visible" label="hidden_field" default-value="Ошибка, если поле видно"/>
-            <set enabled="{fieldset_enabled.id === 1}" visible="{fieldset_visible.id === 1}" label="fieldset">
+            <set visible="{fieldset_visible.id === 1}" label="fieldset">
                 <row>
                     <input-text id="fieldset_field_visible_0" label="without visible"
                                 default-value="Поле видно, если видно fieldset"/>
-                    <input-text id="fieldset_field_enable_0" label="without enable"
-                                default-value="Поле доступно, если доступен fieldset"/>
                 </row>
                 <row>
                     <input-text id="fieldset_field_visible_1" label="visible=true" visible="true"
                                 default-value="Поле видно, если видно fieldset"/>
-                    <input-text id="fieldset_field_enable_1" label="enable=true" enabled="true"
-                                default-value="Поле доступно, если доступен fieldset"/>
                 </row>
                 <row>
                     <input-text id="fieldset_field_visible_2" label="visible=false" visible="false"
                                 default-value="Ошибка, если поле видно" label-class="text-danger"/>
-                    <input-text id="fieldset_field_enable_2" label="enable=false" enabled="false"
-                                default-value="Ошибка, если поле доступно"/>
                 </row>
                 <row>
                     <input-text id="fieldset_field_visible_3" label="dependencies[apply-on-init].visibility=true"
                                 default-value="Поле видно, если видно fieldset">
                         <dependencies>
                             <visibility>true</visibility>
-                        </dependencies>
-                    </input-text>
-                    <input-text id="fieldset_field_enable_3" label="dependencies[apply-on-init].enabling=true"
-                                default-value="Поле доступно, если доступен fieldset">
-                        <dependencies>
-                            <enabling>true</enabling>
                         </dependencies>
                     </input-text>
                 </row>
@@ -60,12 +41,6 @@
                             <visibility>false</visibility>
                         </dependencies>
                     </input-text>
-                    <input-text id="fieldset_field_enable_4" label="dependencies[apply-on-init].enabling=false"
-                                default-value="Ошибка, если поле доступно">
-                        <dependencies>
-                            <enabling>false</enabling>
-                        </dependencies>
-                    </input-text>
                 </row>
                 <row>
                     <input-text id="fieldset_field_visible_5" label="dependencies[apply-on-init].visibility=undefined"
@@ -74,24 +49,12 @@
                             <visibility>return undefined</visibility>
                         </dependencies>
                     </input-text>
-                    <input-text id="fieldset_field_enable_5" label="dependencies[apply-on-init].enabling=undefined"
-                                default-value="Ошибка, если поле доступно">
-                        <dependencies>
-                            <enabling>return undefined</enabling>
-                        </dependencies>
-                    </input-text>
                 </row>
                 <row>
                     <input-text id="fieldset_field_visible_6" label="dependencies[apply-on-init].visibility=null"
                                 default-value="Ошибка, если поле видно" label-class="text-danger">
                         <dependencies>
                             <visibility>return null</visibility>
-                        </dependencies>
-                    </input-text>
-                    <input-text id="fieldset_field_enable_6" label="dependencies[apply-on-init].enabling=null"
-                                default-value="Ошибка, если поле доступно">
-                        <dependencies>
-                            <enabling>return null</enabling>
                         </dependencies>
                     </input-text>
                 </row>

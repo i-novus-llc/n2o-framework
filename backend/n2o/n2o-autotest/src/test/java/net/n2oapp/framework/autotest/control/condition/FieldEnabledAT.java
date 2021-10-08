@@ -63,7 +63,7 @@ public class FieldEnabledAT extends AutoTestBase {
 
     @Test
     public void testFormFieldsEnabled() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/form_fields/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/enabled/form_fields/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -92,7 +92,7 @@ public class FieldEnabledAT extends AutoTestBase {
 
     @Test
     public void testDynamicEnabled() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/dynamic/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/enabled/dynamic/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -148,7 +148,7 @@ public class FieldEnabledAT extends AutoTestBase {
     @Test
     public void testStaticEnabled() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/static/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/condition/enabled/static/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

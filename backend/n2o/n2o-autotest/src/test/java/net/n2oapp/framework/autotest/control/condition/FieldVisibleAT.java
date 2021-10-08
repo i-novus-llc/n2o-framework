@@ -29,7 +29,6 @@ public class FieldVisibleAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        //headless = false;
     }
 
     @Override
@@ -66,7 +65,7 @@ public class FieldVisibleAT extends AutoTestBase {
 
     @Test
     public void testFormFieldsVisible() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/form_fields/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/visible/form_fields/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -98,7 +97,7 @@ public class FieldVisibleAT extends AutoTestBase {
 
     @Test
     public void testDynamicVisible() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/visible_enabled/dynamic/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/visible/dynamic/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
