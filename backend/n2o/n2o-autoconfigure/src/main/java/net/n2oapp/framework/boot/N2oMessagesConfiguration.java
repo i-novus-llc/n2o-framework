@@ -42,7 +42,7 @@ public class N2oMessagesConfiguration {
     private Charset encoding;
     @Value("${spring.messages.cacheSeconds:-1}")
     private int cacheSeconds;
-    @Value("${spring.messages.basename:n2o_api_messages,n2o_config_messages,n2o_rest_messages,messages}")
+    @Value("${spring.messages.basename:messages}")
     private String basename;
     @Value("${n2o.i18n.default-locale:ru}")
     private String defaultLocale;
@@ -55,7 +55,9 @@ public class N2oMessagesConfiguration {
         messageSource.setDefaultEncoding(encoding.name());
         messageSource.setCacheSeconds(cacheSeconds);
         messageSource.setFallbackToSystemLocale(false);
-        messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(basename)));
+        messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
+                StringUtils.trimAllWhitespace(basename)));
+        messageSource.addBasenames("n2o_api_messages", "n2o_config_messages", "n2o_rest_messages");
         return messageSource;
     }
 
