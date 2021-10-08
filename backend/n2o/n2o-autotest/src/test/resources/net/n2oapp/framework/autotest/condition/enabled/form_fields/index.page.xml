@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <row>
+                <input-text id="field_enable_0" label="without enable"
+                            default-value="Поле всегда доступно"/>
+            </row>
+            <row>
+                <input-text id="field_enable_1" label="enable=true" enabled="true"
+                            default-value="Поле всегда доступно"/>
+            </row>
+            <row>
+                <input-text id="field_enable_2" label="enable=false" enabled="false"
+                            default-value="Ошибка, если поле доступно"/>
+            </row>
+            <row>
+                <input-text id="field_enable_3" label="dependencies[apply-on-init].enabling=true"
+                            default-value="Поле всегда доступно">
+                    <dependencies>
+                        <enabling>true</enabling>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_enable_4" label="dependencies[apply-on-init].enabling=false"
+                            default-value="Ошибка, если поле доступно">
+                    <dependencies>
+                        <enabling>false</enabling>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_enable_5" label="dependencies[apply-on-init].enabling=undefined"
+                            default-value="Ошибка, если поле доступно">
+                    <dependencies>
+                        <enabling>return undefined</enabling>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_enable_6" label="dependencies[apply-on-init].enabling=null"
+                            default-value="Ошибка, если поле доступно">
+                    <dependencies>
+                        <enabling>return null</enabling>
+                    </dependencies>
+                </input-text>
+            </row>
+        </fields>
+    </form>
+</simple-page>
