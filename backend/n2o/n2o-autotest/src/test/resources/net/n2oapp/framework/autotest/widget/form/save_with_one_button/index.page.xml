@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Сохранение одной кнопкой">
+    <regions>
+        <table query-id="test">
+            <toolbar>
+                <button id="create" label="Создать" model="filter">
+                    <open-page page-id="saveForm" upload="defaults"/>
+                </button>
+                <button id="update" label="Изменить">
+                    <open-page page-id="saveForm" upload="query" route="/:id/update">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="name" label="Имя"/>
+                <column text-field-id="surname" label="Фамилия"/>
+                <column text-field-id="address" label="Адрес"/>
+                <column text-field-id="org" label="Организация"/>
+            </columns>
+        </table>
+    </regions>
+</page>
