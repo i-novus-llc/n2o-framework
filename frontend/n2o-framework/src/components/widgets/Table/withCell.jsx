@@ -14,14 +14,13 @@ import { makeGetModelByPrefixSelector } from '../../../ducks/models/selectors'
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
         onActionImpl: ({ src, component, options }) => callActionImpl(src || component, { ...options, dispatch }),
-        onInvoke:
-                (widgetId, dataProvider, data, modelLink, meta) => startInvoke(
-                    widgetId, dataProvider, data, modelLink, meta,
-                ),
+        onInvoke: (widgetId, dataProvider, data, modelLink, meta, modelId) => startInvoke(
+            widgetId, dataProvider, data, modelLink, meta, modelId,
+        ),
         onUpdateModel: (prefix, key, field, values) => updateModel(prefix, key, field, values),
-        onResolveWidget: (widgetId, model) => setModel(PREFIXES.resolve, widgetId, model),
+        onResolveWidget: (modelId, model) => setModel(PREFIXES.resolve, modelId, model),
         // TODO костыль для быстрого решения, по хорошему вынести в таблицу и ячейка ничего не должна знать о моделях
-        updateDatasource: (widgetId, datasource, currentModel, newModel) => {
+        updateDatasource: (modelId, datasource, currentModel, newModel) => {
             const newDatasource = datasource.map((model) => {
                 if (model.id === currentModel.id) {
                     return newModel
@@ -30,7 +29,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
                 return model
             })
 
-            return setModel(PREFIXES.datasource, widgetId, newDatasource)
+            return setModel(PREFIXES.datasource, modelId, newDatasource)
         },
     },
     dispatch,
@@ -59,13 +58,14 @@ export default function (WrappedComponent) {
         action: defaultAction,
         model: defaultModel,
         widgetId,
+        modelId,
         index,
         fieldKey,
         dataProvider,
         dispatch,
         ...rest
     }) {
-        const resolveWidget = useCallback(data => onResolveWidget(widgetId, data), [onResolveWidget, widgetId])
+        const resolveWidget = useCallback(data => onResolveWidget(modelId, data), [onResolveWidget, modelId])
         /**
          * @deprecated
          */
@@ -83,22 +83,22 @@ export default function (WrappedComponent) {
          * @deprecated
          */
         const callInvoke = useCallback((data, customProvider = null, meta) => {
-            onInvoke(widgetId, customProvider || dataProvider, data, null, meta)
-        }, [onInvoke, widgetId, dataProvider])
+            onInvoke(widgetId, customProvider || dataProvider, data, null, meta, modelId)
+        }, [onInvoke, widgetId, dataProvider, modelId])
 
         const updateFieldInModel = useCallback((value, prefix = 'datasource') => {
-            onUpdateModel(prefix, widgetId, `[${index}].${fieldKey}`, value)
-        }, [onUpdateModel, widgetId, index, fieldKey])
+            onUpdateModel(prefix, modelId, `[${index}].${fieldKey}`, value)
+        }, [onUpdateModel, modelId, index, fieldKey])
 
         const callAction = useCallback((data) => {
             resolveWidget(data)
 
             if (isEmpty(defaultAction)) {
-                updateDatasource(widgetId, datasourceModel, defaultModel, data)
+                updateDatasource(modelId, datasourceModel, defaultModel, data)
             } else {
                 dispatch(defaultAction)
             }
-        }, [defaultAction, dispatch, resolveWidget, updateDatasource, datasourceModel, defaultModel])
+        }, [defaultAction, dispatch, resolveWidget, updateDatasource, datasourceModel, defaultModel, modelId])
 
         return (
             <WrappedComponent
@@ -111,6 +111,7 @@ export default function (WrappedComponent) {
                 model={defaultModel}
                 fieldKey={fieldKey}
                 widgetId={widgetId}
+                modelId={modelId}
                 {...rest}
             />
         )
@@ -124,6 +125,7 @@ export default function (WrappedComponent) {
         action: PropTypes.object,
         model: PropTypes.object,
         widgetId: PropTypes.string,
+        modelId: PropTypes.string,
         index: PropTypes.number,
         fieldKey: PropTypes.string,
         dataProvider: PropTypes.object,

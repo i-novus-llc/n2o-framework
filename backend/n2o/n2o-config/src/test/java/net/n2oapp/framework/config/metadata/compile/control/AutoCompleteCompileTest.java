@@ -62,7 +62,7 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(queryMapping.get("id").getValue(), is("`org_id`"));
         assertThat(queryMapping.get("id").getValue(), is("`org_id`"));
         assertThat(queryMapping.get("id").getBindLink(), is("models.resolve['testAutoComplete_test']"));
-        assertThat(queryMapping.get("id").getWidgetId(), is("testAutoComplete_test"));
+        assertThat(queryMapping.get("id").getDatasource(), is("testAutoComplete_test"));
         assertThat(queryMapping.get("name").getParam(), is("org_name"));
 
         List<ControlDependency> dependencies = field.getDependencies();

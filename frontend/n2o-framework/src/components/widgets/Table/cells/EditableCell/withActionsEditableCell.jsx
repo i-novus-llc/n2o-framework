@@ -16,11 +16,11 @@ export default (EditableCell) => {
     }
 
     const mapStateToProps = createStructuredSelector({
-        prevResolveModel: (state, props) => makeGetResolveModelSelector(props.widgetId)(state) || {},
+        prevResolveModel: (state, props) => makeGetResolveModelSelector(props.modelId)(state) || {},
     })
 
     const mapDispatchToProps = (dispatch, ownProps) => ({
-        onResolve: () => dispatch(setModel(PREFIXES.resolve, ownProps.widgetId, ownProps.model)),
+        onResolve: () => dispatch(setModel(PREFIXES.resolve, ownProps.modelId, ownProps.model)),
         onSetSelectedId: () => dispatch(
             setTableSelectedId(ownProps.widgetId, get(ownProps, 'model.id', null)),
         ),

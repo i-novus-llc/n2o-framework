@@ -14,6 +14,7 @@
       ]
     },
     "development": {
+      "sourceMaps": false,
       "plugins": [],
       "presets": [
         ["@babel/preset-react", { "development": true }],

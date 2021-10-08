@@ -505,13 +505,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @return Модель для дефолтного значения поля
      */
     private ModelLink getDefaultValueModelLink(S source, String fieldId, ModelsScope defaultModelScope, CompileContext<?, ?> context, CompileProcessor p) {
-        String widgetId = getDefaultValueLinkWidgetId(source, fieldId, defaultModelScope.getWidgetId(), context, p);
-
+        String datasource = getDefaultValueLinkDatasourceId(source, fieldId, defaultModelScope.getWidgetId(), context, p);
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), widgetId, source.getRefFieldId());
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), datasource, source.getRefFieldId());
         } else {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), widgetId);
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), datasource);
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
@@ -521,21 +520,23 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return defaultValue;
     }
 
+
     /**
-     * Получение идентификатора виджета, на который будет ссылаться модель для дефолтного значения поля
+     * Получение идентификатора источника данных, на который будет ссылаться модель для дефолтного значения поля
      *
      * @param source          Исходная модель поля
      * @param fieldId         Идентификатор поля
      * @param defaultWidgetId Идентификатор виджета по умолчанию
      * @param context         Контекст сборки метаданных
      * @param p               Процессор сборки метаданных
-     * @return Идентификатор виджета
+     * @return                Идентификатор источника данных
      */
-    private String getDefaultValueLinkWidgetId(S source, String fieldId, String defaultWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
-        String widgetId;
+    private String getDefaultValueLinkDatasourceId(S source, String fieldId, String defaultWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
+        String datasourceId;
         if (N2oField.Page.PARENT.equals(source.getRefPage())) {
+            //todo избавиться при переходе к отдельному datasource
             if (context instanceof PageContext) {
-                widgetId = source.getRefWidgetId() == null ?
+                datasourceId = source.getRefWidgetId() == null ?
                         ((PageContext) context).getParentClientWidgetId() :
                         CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
                                 source.getRefWidgetId());
@@ -543,9 +544,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", fieldId));
             }
         } else {
-            widgetId = source.getRefWidgetId() == null ? defaultWidgetId
-                    : CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), source.getRefWidgetId());
+            PageScope scope = p.getScope(PageScope.class);
+            datasourceId = source.getRefWidgetId() == null ?
+                    scope.getWidgetIdDatasourceMap().get(defaultWidgetId) :
+                    scope.getWidgetIdDatasourceMap().get(scope.getGlobalWidgetId(source.getRefWidgetId()));
         }
-        return widgetId;
+        return datasourceId;
     }
 }

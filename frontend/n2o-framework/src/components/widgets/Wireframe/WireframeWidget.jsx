@@ -33,6 +33,7 @@ class WireframeWidget extends React.Component {
         const {
             fetchOnInit,
             id: widgetId,
+            datasource: modelId = widgetId,
             toolbar,
             actions,
             className,
@@ -42,6 +43,7 @@ class WireframeWidget extends React.Component {
         return (
             <StandardWidget
                 widgetId={widgetId}
+                modelId={modelId}
                 toolbar={toolbar}
                 actions={actions}
                 className={className}
@@ -49,6 +51,7 @@ class WireframeWidget extends React.Component {
             >
                 <WireframeContainer
                     widgetId={widgetId}
+                    modelId={modelId}
                     fetchOnInit={fetchOnInit}
                     {...this.getWidgetProps()}
                 />
@@ -69,6 +72,7 @@ WireframeWidget.propTypes = {
     toolbar: PropTypes.object,
     actions: PropTypes.object,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.string,
     wireframe: PropTypes.object,

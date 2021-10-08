@@ -61,7 +61,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Alerts alerts() {
-        return N2oSelenide.collection(element().$$(".n2o-alerts .n2o-alert"), Alerts.class);
+        return N2oSelenide.collection(element().$$(".n2o-alerts-container .n2o-alert"), Alerts.class);
     }
 
     @Override

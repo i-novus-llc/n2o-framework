@@ -76,6 +76,7 @@ class TableWidget extends React.Component {
     render() {
         const {
             id: widgetId,
+            datasource: modelId = widgetId,
             toolbar,
             disabled,
             actions,
@@ -92,15 +93,17 @@ class TableWidget extends React.Component {
             <StandardWidget
                 disabled={disabled}
                 widgetId={widgetId}
+                modelId={modelId}
                 toolbar={toolbar}
                 actions={actions}
                 filter={this.prepareFilters()}
-                {...getN2OPagination(paging, place, widgetId)}
+                {...getN2OPagination(paging, place, widgetId, modelId)}
                 className={className}
                 style={style}
             >
                 <TableContainer
                     widgetId={widgetId}
+                    modelId={modelId}
                     pageId={pageId}
                     size={size}
                     page={1}
@@ -122,7 +125,6 @@ TableWidget.propTypes = {
     style: PropTypes.object,
     containerId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    widgetId: PropTypes.string,
     actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,
@@ -142,6 +144,7 @@ TableWidget.propTypes = {
     paging: pagingType,
     filter: PropTypes.object,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     disabled: PropTypes.bool,
 }
 

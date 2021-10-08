@@ -154,7 +154,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         onChangePage: (page, filters) => {
             dispatch(
-                dataRequestWidget(ownProps.widgetId, {
+                dataRequestWidget(ownProps.widgetId, ownProps.modelId, {
                     page,
                     ...filters,
                 }),
@@ -168,7 +168,7 @@ const N2OPaginationComponent = connect(
     mapDispatchToProps,
 )(N2OPagination)
 
-export const getN2OPagination = (paging, place, widgetId) => (
-    paging ? { [place]: <N2OPaginationComponent widgetId={widgetId} {...paging} /> } : {})
+export const getN2OPagination = (paging, place, widgetId, modelId) => (
+    paging ? { [place]: <N2OPaginationComponent widgetId={widgetId} modelId={modelId} {...paging} /> } : {})
 
 export default N2OPaginationComponent

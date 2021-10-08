@@ -120,8 +120,6 @@
                     <xs:element name="a" type="acn:aDefinition"/>
                     <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="perform-validation" type="acn:performValidationDefinition" minOccurs="0"
-                                maxOccurs="1"/>
                     <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="execute-query" type="acn:executeQueryDefinition" minOccurs="0" maxOccurs="1"/>
@@ -238,8 +236,6 @@
                     <xs:element name="a" type="acn:aDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="perform-validation" type="acn:performValidationDefinition" minOccurs="0"
-                                maxOccurs="1"/>
                     <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="execute-query" type="acn:executeQueryDefinition" minOccurs="0" maxOccurs="1"/>
@@ -701,8 +697,6 @@
                     <xs:element name="a" type="acn:aDefinition" maxOccurs="unbounded" minOccurs="0"/>
                     <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="invoke" type="acn:invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="perform-validation" type="acn:performValidationDefinition" maxOccurs="1"
-                                minOccurs="0"/>
                     <xs:element name="close" type="acn:closeDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="set-value" type="acn:setValueDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="execute-query" type="acn:executeQueryDefinition" maxOccurs="1" minOccurs="0"/>

@@ -280,6 +280,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
           "isLoading": true,
           "isResolved": false,
           "isVisible": true,
+          "modelId": undefined,
           "modelPrefix": undefined,
           "page": undefined,
           "pageId": undefined,
@@ -441,6 +442,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
             "isLoading": true,
             "isResolved": false,
             "isVisible": true,
+            "modelId": undefined,
             "modelPrefix": undefined,
             "page": undefined,
             "pageId": undefined,
@@ -606,6 +608,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
               "isLoading": true,
               "isResolved": false,
               "isVisible": true,
+              "modelId": undefined,
               "modelPrefix": undefined,
               "page": undefined,
               "pageId": undefined,
@@ -618,12 +621,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
           }
         >
           <div
-            className=""
-            style={
-              Object {
-                "position": "relative",
-              }
-            }
+            className="position-relative"
           >
             <Placeholder
               loading={false}
@@ -801,6 +799,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
                         "isLoading": true,
                         "isResolved": false,
                         "isVisible": true,
+                        "modelId": undefined,
                         "modelPrefix": undefined,
                         "page": undefined,
                         "pageId": undefined,
@@ -972,6 +971,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
                           "isLoading": true,
                           "isResolved": false,
                           "isVisible": true,
+                          "modelId": undefined,
                           "modelPrefix": undefined,
                           "page": undefined,
                           "pageId": undefined,
@@ -1152,6 +1152,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
                             "isLoading": true,
                             "isResolved": false,
                             "isVisible": true,
+                            "modelId": undefined,
                             "modelPrefix": undefined,
                             "page": undefined,
                             "pageId": undefined,
@@ -1333,6 +1334,7 @@ exports[`<CardsContainer /> отрисовка 1`] = `
                               "isLoading": true,
                               "isResolved": false,
                               "isVisible": true,
+                              "modelId": undefined,
                               "modelPrefix": undefined,
                               "page": undefined,
                               "pageId": undefined,

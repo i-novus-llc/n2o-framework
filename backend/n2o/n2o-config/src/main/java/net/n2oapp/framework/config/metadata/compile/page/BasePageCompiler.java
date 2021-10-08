@@ -30,6 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
@@ -73,7 +74,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //init base route
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
-        if (resultWidget != null) initDefaults(context, resultWidget);
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationList validationList = new ValidationList(new HashMap<>());
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
@@ -82,6 +82,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (!CollectionUtils.isEmpty(sourceWidgets))
             pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
                     .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
+        pageScope.setWidgetIdDatasourceMap(new HashMap<>());
+        pageScope.getWidgetIdDatasourceMap().putAll(sourceWidgets.stream()
+                .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
+                        w -> pageScope.getGlobalWidgetId(w.getDatasource() == null ? w.getId() : w.getDatasource()))));
+        if (context.getParentWidgetIdDatasourceMap() != null)
+            pageScope.getWidgetIdDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope,
                 breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
         registerRoutes(pageRoutes, context, p);
@@ -204,10 +210,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
     }
 
-    private void initDefaults(PageContext context, N2oWidget resultWidget) {
-        if (resultWidget != null && ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null))) {
-            resultWidget.addPreFilters(context.getPreFilters());
-            resultWidget.setUpload(context.getUpload());
+    private void initDefaults(PageContext context, N2oWidget n2oWidget) {
+        if (n2oWidget != null && ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null))) {
+            n2oWidget.addPreFilters(context.getPreFilters());
+            n2oWidget.setUpload(context.getUpload());
         }
     }
 
@@ -308,9 +314,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (searchBarScope != null && searchBarScope.getWidgetId() == null) {
             searchBarScope.setWidgetId(independents.get(0).getId());
         }
-        independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
-                compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
-                searchBarScope, pageScope, pageRoutesScope, widgetObjectScope));
+        independents.forEach(w -> {
+            initDefaults(context, w);
+            compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
+                    compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
+                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope);});
         return compiledWidgets;
     }
 
