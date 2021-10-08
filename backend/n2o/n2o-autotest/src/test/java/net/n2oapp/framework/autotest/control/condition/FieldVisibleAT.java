@@ -62,4 +62,94 @@ public class FieldVisibleAT extends AutoTestBase {
         type.check("visible");
         field.shouldHaveValue("test");
     }
+
+    @Test
+    public void testFormFieldsVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/visible/form_fields/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fields();
+        InputText field = fields.field("hidden").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("without visible").control(InputText.class);
+        field.shouldExists();
+
+        field = fields.field("visible=true").control(InputText.class);
+        field.shouldExists();
+
+        field = fields.field("visible=false").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=true").control(InputText.class);
+        field.shouldExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=false").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=undefined").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=null").control(InputText.class);
+        field.shouldNotExists();
+    }
+
+    @Test
+    public void testDynamicVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/visible/dynamic/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fields();
+        RadioGroup fieldsetVisible = fields.field("fieldset_visible").control(RadioGroup.class);
+        InputText field = fields.field("hidden_field").control(InputText.class);
+
+        fieldsetVisible.shouldHaveValue("visible");
+        field.shouldNotExists();
+
+        field = fields.field("without visible").control(InputText.class);
+        field.shouldExists();
+
+        field = fields.field("visible=true").control(InputText.class);
+        field.shouldExists();
+
+        field = fields.field("visible=false").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=true").control(InputText.class);
+        field.shouldExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=false").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=undefined").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=null").control(InputText.class);
+        field.shouldNotExists();
+
+        fieldsetVisible.check("hidden");
+
+        field = fields.field("without visible").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("visible=true").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("visible=false").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=true").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=false").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=undefined").control(InputText.class);
+        field.shouldNotExists();
+
+        field = fields.field("dependencies[apply-on-init].visibility=null").control(InputText.class);
+        field.shouldNotExists();
+    }
 }

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <row>
+                <radio-group id="fieldset_enabled">
+                    <options>
+                        <option id="1" name="enabled"/>
+                        <option id="2" name="disabled"/>
+                    </options>
+                    <default-value id="1" name="enabled"/>
+                </radio-group>
+            </row>
+
+            <hidden id="fieldset_hidden_visible" label="hidden_field" default-value="Ошибка, если поле видно"/>
+            <set enabled="{fieldset_enabled.id === 1}" label="fieldset">
+                <row>
+                    <input-text id="fieldset_field_enable_0" label="without enable"
+                                default-value="Поле доступно, если доступен fieldset"/>
+                </row>
+                <row>
+                    <input-text id="fieldset_field_enable_1" label="enable=true" enabled="true"
+                                default-value="Поле доступно, если доступен fieldset"/>
+                </row>
+                <row>
+                    <input-text id="fieldset_field_enable_2" label="enable=false" enabled="false"
+                                default-value="Ошибка, если поле доступно"/>
+                </row>
+                <row>
+                    <input-text id="fieldset_field_enable_3" label="dependencies[apply-on-init].enabling=true"
+                                default-value="Поле доступно, если доступен fieldset">
+                        <dependencies>
+                            <enabling>true</enabling>
+                        </dependencies>
+                    </input-text>
+                </row>
+                <row>
+                    <input-text id="fieldset_field_enable_4" label="dependencies[apply-on-init].enabling=false"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling>false</enabling>
+                        </dependencies>
+                    </input-text>
+                </row>
+                <row>
+                    <input-text id="fieldset_field_enable_5" label="dependencies[apply-on-init].enabling=undefined"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling>return undefined</enabling>
+                        </dependencies>
+                    </input-text>
+                </row>
+                <row>
+                    <input-text id="fieldset_field_enable_6" label="dependencies[apply-on-init].enabling=null"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling>return null</enabling>
+                        </dependencies>
+                    </input-text>
+                </row>
+            </set>
+        </fields>
+    </form>
+</simple-page>
