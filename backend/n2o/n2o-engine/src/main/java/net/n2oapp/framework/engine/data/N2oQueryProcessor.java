@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.api.CollectionPage;
+import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
@@ -19,6 +20,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
+import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -132,7 +134,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             return selection;
         selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException(String.format("В %s.query.xml не найден <unique> запрос", query.getId()));
+            throw new N2oUniqueRequestNotFoundException(query.getId());
         return selection;
     }
 
@@ -236,6 +238,51 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 }
             }
         }
+    }
+
+    public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
+        map.put("select", query.getSelectExpressions());
+        Set<String> joins = new LinkedHashSet<>(query.getJoinExpressions());
+
+        List<String> where = new ArrayList<>();
+        for (Restriction r : criteria.getRestrictions()) {
+            N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
+            if (filter.getText() != null)
+                where.add(filter.getText());
+            inMap(map, filter.getMapping(), r.getValue());
+            N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
+            if (!field.getNoJoin())
+                joins.add(field.getJoinBody());
+        }
+        map.put("filters", where);
+
+        List<String> sortingExp = new ArrayList<>();
+        if (criteria.getSorting() != null)
+            for (Sorting sorting : criteria.getSortings()) {
+                N2oQuery.Field field = query.getFieldsMap().get(sorting.getField());
+                if (field.getNoSorting())
+                    continue;
+                sortingExp.add(field.getSortingBody());
+                inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
+                if (!field.getNoJoin())
+                    joins.add(field.getJoinBody());
+            }
+        map.put("sorting", sortingExp);
+
+        if (criteria.getAdditionalFields() != null) {
+            criteria.getAdditionalFields().entrySet().stream().filter(es -> es.getValue() != null)
+                    .forEach(es -> map.put(es.getKey(), es.getValue()));
+        }
+
+        map.put("join", new ArrayList<>(joins));
+    }
+
+    public static void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
+        map.put("limit", criteria.getSize());
+        map.put("offset", criteria.getFirst());
+        if (criteria.getCount() != null)
+            map.put("count", criteria.getCount());
+        map.put("page", pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
     }
 
     private Object prepareValue(Object value, N2oQuery.Filter filter) {

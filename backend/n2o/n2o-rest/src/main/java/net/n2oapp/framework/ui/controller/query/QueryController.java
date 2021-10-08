@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
+import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,10 +94,11 @@ public class QueryController extends GetController {
         CollectionPage<DataSet> selectedRowPage;
         getDataProcessingStack().processQuery(selectedRowReqInfo, responseInfo);
         try {
-            selectedRowPage = getQueryProcessor().execute(selectedRowReqInfo.getQuery(), selectedRowReqInfo.getCriteria());
+            selectedRowPage = getQueryProcessor().executeOneSizeQuery(selectedRowReqInfo.getQuery(), selectedRowReqInfo.getCriteria());
             getDataProcessingStack().processQueryResult(selectedRowReqInfo, responseInfo, selectedRowPage);
+        } catch (N2oUniqueRequestNotFoundException e) {
+            return null;
         } catch (N2oRecordNotFoundException e) {
-            logger.warn("selected-row return empty collection for query [" + selectedRowReqInfo.getQuery().getId() + "]", e);
             return null;
         } catch (N2oException e) {
             logger.error("selected-row throw exception for query [" + selectedRowReqInfo.getQuery().getId() + "]", e);
