@@ -575,8 +575,13 @@ class AdvancedTable extends Component {
             resolveModel,
         } = this.props
         const isRowActive = () => {
-            if (!hasSelect) { return false }
-            if (multi?.length === 1) { return multi[0].id === model.id }
+            if (!hasSelect) {
+                return false
+            }
+
+            if (multi?.length === 1 && rowSelection === rowSelectionType.RADIO) {
+                return multi[0].id === model.id
+            }
 
             return model.id === get(resolveModel, 'id')
         }
