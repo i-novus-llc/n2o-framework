@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <hidden id="hidden_visible" label="hidden" default-value="Ошибка, если поле видно"/>
+            <row>
+                <input-text id="field_visible_0" label="without visible"
+                            default-value="Поле всегда видимое"/>
+            </row>
+            <row>
+                <input-text id="field_visible_1" label="visible=true" visible="true"
+                            default-value="Поле всегда видимое"/>
+            </row>
+            <row>
+                <input-text id="field_visible_2" label="visible=false" visible="false"
+                            default-value="Ошибка, если поле видно" label-class="text-danger"/>
+            </row>
+            <row>
+                <input-text id="field_visible_3" label="dependencies[apply-on-init].visibility=true"
+                            default-value="Поле всегда видимое">
+                    <dependencies>
+                        <visibility>true</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_visible_4" label="dependencies[apply-on-init].visibility=false"
+                            default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <dependencies>
+                        <visibility>false</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_visible_5" label="dependencies[apply-on-init].visibility=undefined"
+                            default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <dependencies>
+                        <visibility>return undefined</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_visible_6" label="dependencies[apply-on-init].visibility=null"
+                            default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <dependencies>
+                        <visibility>return null</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+        </fields>
+    </form>
+</simple-page>
