@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { updateModel } from '../../../ducks/models/store'
 import { dataRequestWidget } from '../../../ducks/widgets/store'
 import { makeGetModelByPrefixSelector } from '../../../ducks/models/selectors'
+import { makeModelIdSelector } from '../../../ducks/widgets/selectors'
 import Alert from '../../snippets/Alerts/Alert'
 import DocumentTitle from '../../core/DocumentTitle'
 import PageTitle from '../../core/PageTitle'
@@ -117,6 +118,7 @@ const mapStateToProps = createStructuredSelector({
         state,
         { searchModelPrefix, searchWidgetId },
     ) => makeGetModelByPrefixSelector(searchModelPrefix, searchWidgetId)(state),
+    modelId: (state, { searchWidgetId }) => makeModelIdSelector(searchWidgetId)(state),
 })
 
 const enhance = compose(
@@ -133,11 +135,12 @@ const enhance = compose(
             searchWidgetId,
             searchModelPrefix,
             searchModelKey,
+            modelId,
         }) => (value) => {
             dispatch(
                 batchActions([
                     updateModel(searchModelPrefix, searchWidgetId, searchModelKey, value),
-                    dataRequestWidget(searchWidgetId, { page: 1 }),
+                    dataRequestWidget(searchWidgetId, modelId, { page: 1 }),
                 ]),
             )
         },

@@ -47,6 +47,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     @Override
     public InvokeAction compile(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
         InvokeAction invokeAction = new InvokeAction();
         compileAction(invokeAction, source, p);
         invokeAction.setOperationId(source.getOperationId());
@@ -56,14 +57,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();
-        String modalLink = Redux.createBindLink(targetWidgetId, targetWidgetModel).getBindLink();
+        String datasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
+                ? targetWidgetId : pageScope.getWidgetIdDatasourceMap().get(targetWidgetId);
+        String modalLink = Redux.createBindLink(datasource, targetWidgetModel).getBindLink();
         invokeAction.getPayload().setModelLink(modalLink);
         invokeAction.getMeta()
                 .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId, routeScope));
         invokeAction.getMeta().setFail(initFailMeta(invokeAction, source, context, p, currentWidgetId));
         invokeAction.getPayload().setWidgetId(targetWidgetId);
+        invokeAction.getPayload().setModelId(datasource);
         if (widgetScope == null) {
-            PageScope pageScope = p.getScope(PageScope.class);
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
         initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
@@ -155,7 +158,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         CompiledObject compiledObject = source.getObjectId() == null ? p.getScope(CompiledObject.class) :
                 p.getCompiled(new ObjectContext(source.getObjectId()));
         if (compiledObject == null)
-            throw new N2oException("For compilation action [{0}] is necessary object!").addData(source.getId());
+            throw new N2oException(String.format("For compilation action [%s] is necessary object!", source.getId()));
         invokeAction.setObjectId(compiledObject.getId());
 
         AsyncMetaSaga metaSaga = invokeAction.getMeta();

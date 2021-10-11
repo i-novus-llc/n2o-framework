@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.*;
 import net.n2oapp.framework.config.metadata.compile.action.*;
-import net.n2oapp.framework.config.metadata.compile.cell.CheckboxCellBinder;
+import net.n2oapp.framework.config.metadata.compile.cell.ActionCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.LinkCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.ToolbarCellBinder;
 import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
@@ -19,7 +19,6 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new AnchorElementIOV1(),
                 new CloseActionElementIOV1(),
                 new SetValueElementIOV1(),
-                new N2oValidateActionElementIOV1(),
                 new PerformElementIOv1(),
                 new CopyActionElementIOV1(),
                 new ClearActionElementIOV1(),
@@ -46,7 +45,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ButtonFieldBinder(),
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
-                new CheckboxCellBinder(),
+                new ActionCellBinder(),
                 new LinkCellBinder(),
                 new SubMenuBinder(),
                 new PrintActionBinder());

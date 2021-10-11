@@ -23,18 +23,20 @@ function HtmlWidget(props) {
     const {
         fetchOnInit,
         id: widgetId,
+        datasource: modelId = widgetId,
         toolbar,
         actions,
         className,
         style,
         pageId,
-        datasource,
+        // datasource,
         ...rest
     } = props
 
     return (
         <StandardWidget
             widgetId={widgetId}
+            modelId={modelId}
             toolbar={toolbar}
             actions={actions}
             className={className}
@@ -44,8 +46,9 @@ function HtmlWidget(props) {
             <HtmlContainer
                 pageId={pageId}
                 widgetId={widgetId}
+                modelId={modelId}
                 fetchOnInit={fetchOnInit}
-                datasource={datasource}
+                // datasource={datasource}
                 {...rest}
             />
         </StandardWidget>
@@ -60,7 +63,6 @@ HtmlWidget.propTypes = {
     pageId: PropTypes.string,
     fetchOnInit: PropTypes.bool,
     url: PropTypes.bool,
-    widgetId: PropTypes.string,
     toolbar: PropTypes.object,
     actions: PropTypes.object,
     html: PropTypes.string,

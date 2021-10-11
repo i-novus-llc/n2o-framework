@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipelin
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -37,7 +38,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
                 .ios(new QueryElementIOv4())
-                .packs(new N2oObjectsPack(), new N2oDataProvidersPack(), new N2oWidgetsPack(),
+                .packs(new N2oPagesPack(), new N2oObjectsPack(), new N2oDataProvidersPack(), new N2oWidgetsPack(),
                         new N2oFieldSetsPack(), new N2oControlsPack())
                 .compilers(new N2oQueryCompiler());
     }
@@ -119,11 +120,11 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testSubModels() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.query.xml",
-                "net/n2oapp/framework/config/metadata/compile/query/testSubModel.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/query/testSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
 
-        pipeline.get(new WidgetContext("testSubModel"));
-        CompileContext compile = builder.route("/w", CompiledQuery.class, null);
+        pipeline.get(new PageContext("testSubModel"));
+        CompileContext compile = builder.route("/testSubModel/main", CompiledQuery.class, null);
         CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));

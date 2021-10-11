@@ -130,7 +130,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(context.getParentModelLink().getFieldId(), is("id"));
-        assertThat(context.getParentModelLink().getWidgetId(), is("page_test"));
+        assertThat(context.getParentModelLink().getDatasource(), is("page_test"));
         assertThat(context.getParentModelLink().getSubModelQuery(), nullValue());
 
         SimplePage openPage = (SimplePage) read().compile().get(context);
@@ -227,7 +227,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&secondName=test"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?name=:name&surname=:surname&secondName=test"));
 
         // проверка breadcrumb при открытии open-page не из таблицы, а другого виджета
         // при этом в parentId не должны сохраняться id выбранных записей
@@ -506,7 +506,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("name", "test");
         SimplePage openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/page/show"));
+        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/page/show/main"));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().size(), is(1));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().get("name").isConst(), is(true));
 
@@ -515,7 +515,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testBindOpenPageShow", "/testBind"));
         context = (PageContext) route("/testBind", Page.class);
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/testBind"));
+        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/testBind/main"));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().size(), is(1));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().get("name").getValue(), is("test"));
     }

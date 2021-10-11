@@ -3,7 +3,7 @@
       name="Моя таблица" query-id="stub" src="testSrc"
       object-id="stub" icon="testIcon" class="testClass" default-values-query-id="test"
       mode="two-models" master-param="uid" fetch-on-init="false" unsaved-data-prompt="true"
-      style="margin-left:10px;width:300px" upload="query">
+      style="margin-left:10px;width:300px" upload="query" datasource="ds1">
     <toolbar>
         <button style="margin-left:10px;width:300px"/>
     </toolbar>

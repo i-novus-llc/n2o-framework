@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -272,6 +273,20 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w1/a1"));
         InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getActions().get("a2");
         assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/a2"));
+    }
+
+    @Test
+    public void datasource() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionDatasource.page.xml")
+                .get(new PageContext("testInvokeActionDatasource"));
+        Form table = (Form) page.getWidget();
+        InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("create").getAction();
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.filter['testInvokeActionDatasource_ds1']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("testInvokeActionDatasource_main"));
+        assertThat(testAction.getPayload().getModelId(), is("testInvokeActionDatasource_ds1"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/create"));
     }
 
 }

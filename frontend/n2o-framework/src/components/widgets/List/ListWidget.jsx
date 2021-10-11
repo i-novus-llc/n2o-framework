@@ -13,7 +13,7 @@ import ListContainer from './ListContainer'
 
 /**
  * Виджет ListWidget
- * @param {string} widgetId - id виджета
+ * @param {string} id - id виджета
  * @param {object} toolbar - конфиг тулбара
  * @param {boolean} disabled - флаг активности
  * @param {object} actions - объект экшенов
@@ -41,6 +41,7 @@ import ListContainer from './ListContainer'
 function ListWidget(
     {
         id: widgetId,
+        datasource: modelId = widgetId,
         toolbar,
         disabled,
         actions,
@@ -73,10 +74,11 @@ function ListWidget(
         <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
+            modelId={modelId}
             toolbar={toolbar}
             actions={actions}
             filter={prepareFilters()}
-            {...getN2OPagination(paging, place, widgetId)}
+            {...getN2OPagination(paging, place, widgetId, modelId)}
             className={className}
             style={style}
         >
@@ -90,6 +92,7 @@ function ListWidget(
                 disabled={disabled}
                 dataProvider={dataProvider}
                 widgetId={widgetId}
+                modelId={modelId}
                 fetchOnInit={fetchOnInit}
                 actions={actions}
                 rowClick={rowClick}
@@ -106,7 +109,7 @@ function ListWidget(
 
 ListWidget.propTypes = {
     id: PropTypes.string,
-    widgetId: PropTypes.string,
+    datasource: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
     actions: PropTypes.object,

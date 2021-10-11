@@ -9,7 +9,7 @@ import { visibilityHOC } from './visibilityHOC'
 import { CodeWrapper } from './CodeWrapper'
 import style from './sandbox.module.scss'
 
-function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter }) {
+function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter, isLightEditor = false }) {
     const [loadError, setLoadError] = useState(null)
     const [projectData, setProjectData] = useState(null)
 
@@ -72,7 +72,7 @@ function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter
                 onLoad={onIframeLoadHandler}
                 style={{ height }}
                 className={style.iframe}
-                src={`${CONFIG.sandboxUrl}/view/${projectData.id}/`}
+                src={isLightEditor ? `${CONFIG.sandboxUrl}/editorLight/${projectData.id}/` : `${CONFIG.sandboxUrl}/view/${projectData.id}/`}
             />
 
             <CodeWrapper projectId={projectId} filesMap={filesMap} />

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Проброс значений обратно из модального окна">
+    <form>
+        <toolbar place="bottomLeft">
+            <button label="Выборки на странице перехода нет" disable-on-empty-model="false">
+                <open-page page-id="page1" route="/open" upload="defaults"/>
+            </button>
+            <button label="Выборка на странице перехода есть" disable-on-empty-model="false">
+                <open-page page-id="page1" route="/:id/open">
+                    <path-param name="id" value="1"/>
+                </open-page>
+            </button>
+        </toolbar>
+        <fields>
+            <alert id="message" color="info">
+                При возвращении модели обратно на страницу из модального окна, значения в полях должны меняться
+            </alert>
+        </fields>
+    </form>
+</simple-page>

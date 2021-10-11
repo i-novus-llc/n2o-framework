@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <region>
+            <form id="first" datasource="ds1" query-id="utBlank" />
+            <form id="second" datasource="ds1" query-id="utBlank"/>
+        </region>
+    </regions>
+</page>

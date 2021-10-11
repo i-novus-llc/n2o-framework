@@ -23,7 +23,7 @@ export const widgetsSelector = (state = {}) => state.widgets || {}
  */
 export const makeWidgetByIdSelector = widgetId => createSelector(
     widgetsSelector,
-    widgetsState => widgetsState[widgetId] || {},
+    widgets => widgets[widgetId] || {},
 )
 
 /**
@@ -126,6 +126,11 @@ export const getWidgetFieldValidation = (state, widgetId, fieldId) => get(state,
 export const makeSelectedIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.selectedId,
+)
+
+export const makeModelIdSelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.modelId,
 )
 
 export const makeIsActiveSelector = widgetId => createSelector(

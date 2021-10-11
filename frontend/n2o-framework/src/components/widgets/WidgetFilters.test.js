@@ -53,6 +53,7 @@ describe('<WidgetFilters />', () => {
             {
                 fieldsets: [],
                 widgetId: 'test',
+                modelId: 'test',
                 searchOnChange: true,
             },
         )
@@ -82,7 +83,7 @@ describe('<WidgetFilters />', () => {
         expect(store.getActions()[1]).toEqual(setModel('filter', 'test', 'test'))
         await delay(2000)
         expect(store.getActions()[4]).toEqual(
-            dataRequestWidget('test', { page: 1 }),
+            dataRequestWidget('test', 'test', { page: 1 }),
         )
     })
 })

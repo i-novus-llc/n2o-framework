@@ -24,7 +24,6 @@ import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
 import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
-import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -141,7 +140,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(new PageContext("testFormPreFilterValidation"));
-        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation/form", CompiledQuery.class);
         List<Validation> validations = queryContext.getValidations();
         assertThat(validations.size(), is(1));
         MandatoryValidation validation = (MandatoryValidation) validations.get(0);
@@ -192,26 +191,26 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         ModelLink link = dataProvider.getPathMapping().get("name1");
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
-        assertThat(link.getWidgetId(), nullValue());
+        assertThat(link.getDatasource(), nullValue());
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getWidgetId(), is("testFormSubmit_id2"));
+        assertThat(link.getDatasource(), is("testFormSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
         assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getWidgetId(), is("testFormSubmit_id3"));
+        assertThat(link.getDatasource(), is("testFormSubmit_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getWidgetId(), is("testFormSubmit_form"));
+        assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
     }
 

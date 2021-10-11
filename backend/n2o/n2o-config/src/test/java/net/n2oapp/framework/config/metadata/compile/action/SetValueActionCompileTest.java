@@ -2,9 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.event.action.MergeMode;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.SetValueElementIOV1;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -40,14 +44,15 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void simple() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testSetValueAction.widget.xml")
-                .get(new WidgetContext("testSetValueAction", "/w"));
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testSetValueAction.page.xml")
+                .get(new PageContext("testSetValueAction", "/w"));
 
+        Form table = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         SetValueAction testAction = (SetValueAction) table.getActions().get("test");
         assertThat(testAction.getType(), is("n2o/models/COPY"));
-        assertThat(testAction.getPayload().getSource().getKey(), is("list"));
+        assertThat(testAction.getPayload().getSource().getKey(), is("w_list"));
         assertThat(testAction.getPayload().getSource().getPrefix(), is("edit"));
-        assertThat(testAction.getPayload().getTarget().getKey(), is("form2"));
+        assertThat(testAction.getPayload().getTarget().getKey(), is("w_form2"));
         assertThat(testAction.getPayload().getTarget().getPrefix(), is("filter"));
         assertThat(testAction.getPayload().getTarget().getField(), is("filedId"));
         assertThat(testAction.getPayload().getMode(), is(MergeMode.add));
@@ -55,9 +60,9 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
 
         SetValueAction menuItem0action = (SetValueAction) table.getActions().get("menuItem0");
         assertThat(menuItem0action.getType(), is("n2o/models/COPY"));
-        assertThat(menuItem0action.getPayload().getSource().getKey(), is("w"));
+        assertThat(menuItem0action.getPayload().getSource().getKey(), is("w_ds1"));
         assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("resolve"));
-        assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w"));
+        assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w_ds1"));
         assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(menuItem0action.getPayload().getMode(), is(MergeMode.replace));
     }

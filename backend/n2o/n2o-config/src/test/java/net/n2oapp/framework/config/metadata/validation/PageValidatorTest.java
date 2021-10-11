@@ -55,4 +55,5 @@ public class PageValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("Атрибут depends-on ссылается на несуществующий виджет main");
         validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml");
     }
+
 }

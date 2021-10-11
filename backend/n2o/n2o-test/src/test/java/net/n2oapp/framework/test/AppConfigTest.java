@@ -8,8 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +20,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Locale;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -28,6 +31,10 @@ public class AppConfigTest {
 
     @Autowired
     ContextEngine contextEngine;
+
+    @Autowired
+    @Qualifier("n2oMessageSource")
+    private MessageSource messageSource;
 
     @BeforeEach
     void setUp() {
@@ -51,5 +58,11 @@ public class AppConfigTest {
         String data = objectMapper.writeValueAsString(dataNode);
 
         JSONAssert.assertEquals(expected, data, false);
+    }
+
+    @Test
+    public void testMessageSourceConfig() {
+        assert "серверный".equals(messageSource.getMessage("n2o.server", null, Locale.forLanguageTag("ru")));
+        assert "несистемный".equals(messageSource.getMessage("n2o.system", null, Locale.forLanguageTag("ru")));
     }
 }
