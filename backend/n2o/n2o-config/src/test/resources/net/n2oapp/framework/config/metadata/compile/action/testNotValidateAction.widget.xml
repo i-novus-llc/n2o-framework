@@ -1,0 +1,18 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+      query-id="testActionContext">
+    <fields>
+        <input-text id="id" required="true"/>
+        <input-text id="name">
+            <validations white-list="conditionName"/>
+        </input-text>
+        <input-text id="surname">
+            <validations white-list="constraintSurname"/>
+        </input-text>
+        <date-time id="birthdate"/>
+    </fields>
+    <toolbar>
+        <button id="save" validate="none">
+            <invoke operation-id="create" route="/create"/>
+        </button>
+    </toolbar>
+</form>
