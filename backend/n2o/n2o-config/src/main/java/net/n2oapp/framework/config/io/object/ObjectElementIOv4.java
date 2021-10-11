@@ -158,6 +158,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         invocationValidation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
         p.attribute(e, "size", t::getSize, t::setSize);
+        p.attribute(e, "title", t::getTitle, t::setTitle);
         p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIO());
     }
 

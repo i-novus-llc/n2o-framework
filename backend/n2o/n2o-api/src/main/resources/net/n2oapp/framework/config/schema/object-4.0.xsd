@@ -519,6 +519,11 @@
                 <xs:documentation>Момент срабатывания валидации на сервере.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок окна диалога</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="message" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Сообщение, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
