@@ -17,7 +17,9 @@ public class CardsBinder extends BaseListWidgetBinder<Cards> {
 
     @Override
     public Cards bind(Cards compiled, BindProcessor p) {
-        compiled.getCards().stream().flatMap(x -> x.getContent().stream()).forEach(p::bind);
+        if (compiled.getCards() != null)
+            compiled.getCards().stream()
+                    .flatMap(x -> x.getContent().stream()).forEach(p::bind);
         return compiled;
     }
 }
