@@ -57,6 +57,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
+        if (context.getParentTabIds() != null) {
+            pageScope.setTabIds(context.getParentTabIds());
+        }
         N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
             pageScope.setObjectId(source.getObjectId());
