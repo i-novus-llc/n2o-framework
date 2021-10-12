@@ -69,6 +69,7 @@ describe('Проверка саги actionsImpl', () => {
             },
             payload: {
                 widgetId: '__patients',
+                modelId: '__patients',
                 modelLink: null,
                 dataProvider: {
                     url: '/test',

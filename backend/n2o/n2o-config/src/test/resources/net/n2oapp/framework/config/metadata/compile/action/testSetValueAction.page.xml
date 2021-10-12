@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form id="table" query-id="testActionContext" datasource="ds1">
+            <actions>
+                <action id="test">
+                    <set-value
+                            source-widget="list"
+                            source-model="edit"
+                            to="filedId"
+                            target-widget="form2"
+                            target-model="filter"
+                            merge-mode="add">
+                        return false;
+                    </set-value>
+                </action>
+            </actions>
+            <toolbar>
+                <button>
+                    <set-value/>
+                </button>
+            </toolbar>
+        </form>
+        <form id="list"/>
+        <form id="form2"/>
+    </regions>
+</page>

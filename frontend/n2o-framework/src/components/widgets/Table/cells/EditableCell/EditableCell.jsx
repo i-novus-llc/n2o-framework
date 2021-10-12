@@ -5,6 +5,7 @@ import { HotKeys } from 'react-hotkeys/cjs'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import set from 'lodash/set'
 
@@ -44,8 +45,8 @@ export class EditableCell extends React.Component {
 
         if (
             prevProps.editable !== editable &&
-      !isEqual(prevProps.model, propsModel) &&
-      !isEqual(stateModel, prevResolveModel)
+            !isEqual(prevProps.model, propsModel) &&
+            !isEqual(stateModel, prevResolveModel)
         ) {
             this.setState({ model: propsModel })
         } else if (!isEqual(prevProps.model, propsModel)) {
@@ -57,7 +58,7 @@ export class EditableCell extends React.Component {
             })
         } else if (
             !isEqual(prevProps.prevResolveModel, prevResolveModel) &&
-      prevResolveModel.id === stateModel.id
+            prevResolveModel.id === stateModel.id
         ) {
             this.setState({
                 prevModel: stateModel,
@@ -67,9 +68,9 @@ export class EditableCell extends React.Component {
 
         if (
             !editing &&
-      isEqual(prevState.prevModel, prevState.model) &&
-      !isEqual(prevModel, stateModel) &&
-      !isEqual(stateModel, prevResolveModel)
+            isEqual(prevState.prevModel, prevState.model) &&
+            !isEqual(prevModel, stateModel) &&
+            !isEqual(stateModel, prevResolveModel)
         ) {
             this.callAction(stateModel)
         }
@@ -77,7 +78,7 @@ export class EditableCell extends React.Component {
 
     onChange(value) {
         const { model: stateModel } = this.state
-        const newModel = { ...stateModel }
+        const newModel = cloneDeep(stateModel)
         const { editFieldId } = this.props
 
         set(newModel, editFieldId, value)
@@ -109,9 +110,9 @@ export class EditableCell extends React.Component {
     }
 
     callAction(model) {
-        const { callAction, onResolve, widgetId } = this.props
+        const { callAction, onResolve, modelId } = this.props
 
-        onResolve(widgetId, model)
+        onResolve(modelId, model)
         callAction(model)
     }
 
@@ -187,7 +188,9 @@ EditableCell.propTypes = {
     onSetSelectedId: PropTypes.func,
     callAction: PropTypes.func,
     onResolve: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
     widgetId: PropTypes.string,
+    modelId: PropTypes.string,
     format: PropTypes.string,
     fieldKey: PropTypes.string,
 }

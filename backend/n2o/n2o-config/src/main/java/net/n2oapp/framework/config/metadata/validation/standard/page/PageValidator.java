@@ -63,4 +63,5 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
                                 "Атрибут depends-on ссылается на несуществующий виджет " + w.getDependsOn());
                 });
     }
+
 }

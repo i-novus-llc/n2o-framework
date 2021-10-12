@@ -26,6 +26,7 @@ import ChartContainer from './ChartWidgetContainer'
 function ChartWidget(
     {
         id: widgetId,
+        datasource: modelId = widgetId,
         toolbar,
         disabled,
         actions,
@@ -55,6 +56,7 @@ function ChartWidget(
         <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
+            modelId={modelId}
             toolbar={toolbar}
             actions={actions}
             filter={prepareFilters()}
@@ -63,6 +65,7 @@ function ChartWidget(
         >
             <ChartContainer
                 widgetId={widgetId}
+                modelId={modelId}
                 pageId={pageId}
                 fetchOnInit={fetchOnInit}
                 {...getWidgetProps()}
@@ -74,6 +77,7 @@ function ChartWidget(
 ChartWidget.propTypes = {
     disabled: PropTypes.bool,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
     filter: PropTypes.object,

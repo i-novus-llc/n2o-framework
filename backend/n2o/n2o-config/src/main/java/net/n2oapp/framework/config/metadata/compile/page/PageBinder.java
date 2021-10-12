@@ -40,7 +40,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
                         .forEach(param -> {
                             ModelLink modelLink = (ModelLink) page.getRoutes().getQueryMapping().get(param).getOnSet();
-                            page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(), modelLink);
+                            page.getModels().add(modelLink.getModel(), modelLink.getDatasource(), modelLink.getFieldId(), modelLink);
                         });
             }
         }
@@ -112,7 +112,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         if (value != null && !p.canResolveParam(f.getParam())) {
             ModelLink link = new ModelLink(f.getLink());
             link.setValue(value);
-            link.setParam(link.getWidgetId() + "_" + f.getFilterId());
+            link.setParam(link.getDatasource() + "_" + f.getFilterId());
             f.setLink(link);
             models.add(ReduxModel.FILTER, widgetId, f.getFilterId(), f.getLink());
         }

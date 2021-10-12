@@ -6,3 +6,42 @@ description: ""
 
 - Упразднены устаревшие схемы: `access-schema-1.0`, `access-point-1.0`, `fieldset-2.0`,
 `fieldset-3.0`, `n2o-control-1.0`, `page-1.0`, `query-3.0`, `n2o-widget-3.0`.
+
+- Добавлен атрибут `title` в валидацию диалог.
+
+- Упразднено действие `perform-validation`
+
+- Добавлен атрибут `datasource` в виджет форму, указывающий на название источника данных для формы. Это позволяет 2 формам
+работать с одним источником данных и сохранять данные одной кнопкой.
+
+```xml {2-4} title="Пример сохранения 2х форм одной кнопкой"
+<page>
+    <toolbar>
+        <button id="create" widget-id="first" label="Сохранить" validate="page">
+            <invoke operation-id="create" object-id="test"/>
+        </button>
+    </toolbar>
+    <regions>
+        <region>
+            <form id="first" datasource="ds1">
+                <fields>
+                    <input-text id="name" label="Имя" required="true"/>
+                    <input-text id="surname" label="Фамилия"/>
+                </fields>
+            </form>
+            <form id="second" datasource="ds1">
+                <fields>
+                    <input-text id="address" label="Адрес"/>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>
+```
+
+!Замечание: выборка(`query-id`) и объект(`object-id`) форм с одинаковым `datasource` должны быть одинаковые.
+
+### Изменения в сборке {#changes-build}
+
+- При переопределении настройки `spring.messages.basename` теперь не нужно указывать
+стандартные basename'ы N2O, они будут добавлены автоконфигурацией.

@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.redux;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -10,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.LinkedHashMap;
@@ -25,38 +27,38 @@ public abstract class Redux {
     /**
      * Создать ссылку на поле в Redux модели виджета
      *
-     * @param widgetId Идентификатор виджета
-     * @param model    Модель
-     * @param field    Поле
+     * @param datasource Идентификатор источника данных
+     * @param model      Модель
+     * @param field      Поле
      * @return Redux действие
      */
     @Deprecated
-    public static BindLink createBindLink(String widgetId, ReduxModel model, String field) {
+    public static BindLink createBindLink(String datasource, ReduxModel model, String field) {
         //todo если поле genders*.id то нужно его превращать через js в массив и сетить в value
-        return new ModelLink(model, widgetId, field);
+        return new ModelLink(model, datasource, field);
     }
 
     /**
      * Создать ссылку на Redux модель виджета
      *
-     * @param widgetId Идентификатор виджета
-     * @param model    Модель
+     * @param datasource Идентификатор источника данных
+     * @param model      Модель
      * @return Redux действие
      */
     @Deprecated
-    public static BindLink createBindLink(String widgetId, ReduxModel model) {
-        return new ModelLink(model, widgetId);
+    public static BindLink createBindLink(String datasource, ReduxModel model) {
+        return new ModelLink(model, datasource);
     }
 
     /**
      * Создать ссылку на сортировку в состоянии виджета
      *
-     * @param widgetId Идентификатор виджета
-     * @param fieldId  Поле сортировки
+     * @param datasource Идентификатор источника данных
+     * @param fieldId    Поле сортировки
      * @return Ссылка на состояние виджета
      */
-    public static BindLink createSortLink(String widgetId, String fieldId) {
-        return new BindLink(String.format("widgets['%s'].sorting.%s", widgetId, fieldId));
+    public static BindLink createSortLink(String datasource, String fieldId) {
+        return new BindLink(String.format("widgets['%s'].sorting.%s", datasource, fieldId));
     }
 
     /**
@@ -159,10 +161,11 @@ public abstract class Redux {
 
     /**
      * Создание modelLink для префильтра
+     *
      * @param preFilter
      * @return
      */
-    public static ModelLink linkParam(N2oPreFilter preFilter) {
+    public static ModelLink linkParam(N2oPreFilter preFilter, CompileProcessor p) {
         Object value;
         if (preFilter.getValues() == null) {
             value = ScriptProcessor.resolveExpression(preFilter.getValue());
@@ -170,8 +173,10 @@ public abstract class Redux {
             value = ScriptProcessor.resolveArrayExpression(preFilter.getValues());
         }
         if (StringUtils.isJs(value)) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            String widgetId = CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
             ModelLink link = new ModelLink(preFilter.getRefModel(),
-                    CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()));
+                    getDatasourceId(pageScope, widgetId));
             link.setValue(value);
             return link;
         } else {
@@ -179,11 +184,13 @@ public abstract class Redux {
         }
     }
 
-    public static ModelLink linkParam(N2oParam param) {
+    public static ModelLink linkParam(N2oParam param, CompileProcessor p) {
         Object value = ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            String widgetId = CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId());
             ModelLink link = new ModelLink(param.getRefModel(),
-                    CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId()));
+                    getDatasourceId(pageScope, widgetId));
             link.setValue(value);
             return link;
         } else {
@@ -196,5 +203,16 @@ public abstract class Redux {
         if (PK.equals(fieldId) && queryId != null)
             link.setSubModelQuery(new SubModelQuery(queryId));
         return link;
+    }
+
+    /**
+     * Получение идентификатора источника данных
+     * @param pageScope     информация о странице
+     * @param widgetId      иденитификатор виджета
+     * @return      идентификатор источника данных
+     */
+    private static String getDatasourceId(PageScope pageScope, String widgetId) {
+        return pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
+                widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId);
     }
 }

@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.validation;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -29,8 +30,10 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new WidgetValidator());
+        builder.validators(new PageValidator(), new WidgetValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.query.xml"));
     }
 
@@ -132,5 +135,38 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     @Test
     public void testQueryParams() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters8.widget.xml");
+    }
+
+    @Test
+    public void testWidgetDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetSameDatasource.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceNotSameQueryId() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceNotSameQueryId.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceNotSameObjectId() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные object-id");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceNotSameObjectId.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceQueryIdIsNull() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceQueryIdIsNull.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceObjectIdIsNull() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные object-id");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceObjectIdIsNull.page.xml");
     }
 }

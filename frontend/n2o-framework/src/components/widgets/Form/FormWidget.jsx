@@ -12,7 +12,7 @@ import Fieldsets from './fieldsets'
 /**
  * Виджет формы
  * @reactProps {string} pageId - id страницы
- * @reactProps {string} widgetId - id виджета
+ * @reactProps {string} id - id виджета
  * @reactProps {object} actions
  * @reactProps {object} toolbar
  * @reactProps {boolean} disabled
@@ -25,8 +25,8 @@ import Fieldsets from './fieldsets'
  */
 class FormWidget extends React.Component {
     /**
-   * Замена src на компонент с помощью resolveProps
-   */
+     * Замена src на компонент с помощью resolveProps
+     */
     getWidgetProps() {
         const { resolveProps } = this.context
         const { form, toolbar, placeholder, actions, dataProvider, autoSubmit } = this.props
@@ -48,13 +48,10 @@ class FormWidget extends React.Component {
         }
     }
 
-    /**
-   * Базовый рендер
-   * @return {JSX.Element}
-   */
     render() {
         const {
             id: widgetId,
+            datasource: modelId = widgetId,
             disabled,
             toolbar,
             actions,
@@ -71,10 +68,12 @@ class FormWidget extends React.Component {
                 actions={actions}
                 className={className}
                 style={style}
+                modelId={modelId}
             >
                 <FormContainer
                     widgetId={widgetId}
                     pageId={pageId}
+                    modelId={modelId}
                     {...this.getWidgetProps()}
                 />
             </StandardWidget>
@@ -91,7 +90,6 @@ FormWidget.propTypes = {
     style: PropTypes.object,
     containerId: PropTypes.string,
     pageId: PropTypes.string,
-    widgetId: PropTypes.string,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
     toolbar: PropTypes.object,
@@ -105,13 +103,12 @@ FormWidget.propTypes = {
     placeholder: PropTypes.string,
     dataProvider: PropTypes.object,
     autoSubmit: PropTypes.bool,
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    datasource: PropTypes.string,
 }
 
 FormWidget.contextTypes = {
     resolveProps: PropTypes.func,
 }
 
-// eslint-disable-next-line no-class-assign
-FormWidget = dependency(FormWidget)
-export default FormWidget
+export default dependency(FormWidget)

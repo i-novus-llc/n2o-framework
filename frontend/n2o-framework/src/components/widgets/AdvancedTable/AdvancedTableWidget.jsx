@@ -111,6 +111,7 @@ class AdvancedTableWidget extends Component {
     render() {
         const {
             id: widgetId,
+            datasource: modelId = widgetId,
             toolbar,
             disabled,
             actions,
@@ -128,15 +129,17 @@ class AdvancedTableWidget extends Component {
             <StandardWidget
                 disabled={disabled}
                 widgetId={widgetId}
+                modelId={modelId}
                 toolbar={toolbar}
                 actions={actions}
                 filter={this.prepareFilters()}
-                {...getN2OPagination(paging, place, widgetId)}
+                {...getN2OPagination(paging, place, widgetId, modelId)}
                 className={className}
                 style={style}
             >
                 <AdvancedTableContainer
                     widgetId={widgetId}
+                    modelId={modelId}
                     pageId={pageId}
                     size={size}
                     page={1}
@@ -166,12 +169,12 @@ AdvancedTableWidget.propTypes = {
     placeholder: PropTypes.string,
     className: PropTypes.string,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     disabled: PropTypes.bool,
     style: PropTypes.any,
     filter: PropTypes.any,
     children: PropTypes.any,
     pageId: PropTypes.string.isRequired,
-    widgetId: PropTypes.string,
     actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,

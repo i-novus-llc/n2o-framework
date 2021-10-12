@@ -23,6 +23,7 @@ export const withWidgetContainer = widgetContainer(
     {
         mapProps: props => ({
             widgetId: props.widgetId,
+            modelId: props.modelId,
             isEnabled: props.isEnabled,
             pageId: props.pageId,
             autoFocus: props.autoFocus,
@@ -153,7 +154,7 @@ class Container extends React.Component {
 Container.propTypes = {
     form: PropTypes.string,
     modelPrefix: PropTypes.string,
-    widgetId: PropTypes.string,
+    widgetId: PropTypes.string.isRequired,
     setActive: PropTypes.func,
     onResolve: PropTypes.func,
     onSetModel: PropTypes.func,

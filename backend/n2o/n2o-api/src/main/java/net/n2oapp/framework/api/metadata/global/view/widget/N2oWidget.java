@@ -33,6 +33,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String queryId;
     private String defaultValuesQueryId;
     private String objectId;
+    private String datasource;
     private Integer size;
     private String cssClass;
     private String style;

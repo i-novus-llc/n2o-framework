@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import toNumber from 'lodash/toNumber'
 import toString from 'lodash/toString'
 import isNil from 'lodash/isNil'
@@ -46,7 +46,6 @@ export class InputNumber extends React.Component {
         const { value } = props
 
         this.stepPrecition = getPrecision(props.step)
-        this.pasted = false
         this.state = {
             value: this.resolveValue(
                 !isNil(value) && !isNaN(toNumber(value)) && value !== ''
@@ -55,7 +54,6 @@ export class InputNumber extends React.Component {
             ),
         }
         this.onChange = this.onChange.bind(this)
-        this.onPaste = this.onPaste.bind(this)
         this.onKeyDown = this.onKeyDown.bind(this)
         this.onBlur = this.onBlur.bind(this)
         this.resolveValue = this.resolveValue.bind(this)
@@ -72,15 +70,6 @@ export class InputNumber extends React.Component {
         ) {
             this.setState({ value: null })
         }
-    }
-
-    /**
-     * Обработчик вставки
-     * @param {Event} evt - событие
-     */
-    onPaste(evt) {
-        this.pasted = true
-        this.setState({ value: this.resolveValue(evt.target.value) })
     }
 
     resolveValue(value) {
@@ -109,6 +98,9 @@ export class InputNumber extends React.Component {
     onChange(value) {
         let num
 
+        if (typeof value === 'string') {
+            value = value.replace(',', '.')
+        }
         if (value === '') {
             num = null
         } else if (value === '-') {
@@ -124,7 +116,7 @@ export class InputNumber extends React.Component {
             this.setState({ value: null }, () => onChange(null))
         }
 
-        if (matchesWhiteList(parsedValue) || this.pasted) {
+        if (matchesWhiteList(parsedValue)) {
             this.setState({ value: this.resolveValue(value) }, () => {
                 if (!isNaN(toNumber(value)) || mode === inputMode.PICKER) {
                     onChange(this.resolveValue(value))
@@ -176,8 +168,6 @@ export class InputNumber extends React.Component {
         }
 
         const value = this.resolveValue(formatToFloat(stateValue))
-
-        this.pasted = false
 
         if (!isNil(value) && isValid(value, min, max)) {
             this.setState({ value }, () => onBlur(value))
@@ -242,11 +232,10 @@ export class InputNumber extends React.Component {
                         step={step}
                         min={min}
                         max={max}
-                        className={cn(['form-control', { [className]: className }])}
+                        className={classNames(['form-control', { [className]: className }])}
                         onBlur={this.onBlur}
                         onFocus={onFocus}
                         onChange={({ target }) => this.onChange(target.value)}
-                        onPaste={this.onPaste}
                         disabled={disabled}
                         autoFocus={autoFocus}
                         placeholder={placeholder}
