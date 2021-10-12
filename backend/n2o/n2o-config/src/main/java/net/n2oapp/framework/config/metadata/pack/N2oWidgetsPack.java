@@ -47,7 +47,8 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.binders(new WidgetBinder(),
                 new TableBinder(),
                 new ListWidgetBinder(),
-                new FormBinder());
-
+                new FormBinder(),
+                new TilesBinder(),
+                new CardsBinder());
     }
 }
