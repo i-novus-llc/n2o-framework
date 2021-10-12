@@ -15,9 +15,11 @@ export default function* fetchSaga(
     options,
     apiProvider = defaultApiProvider,
 ) {
+    const abortController = new AbortController()
+
     try {
         yield put(fetchStart(fetchType, options))
-        const response = yield call(apiProvider, fetchType, options)
+        const response = yield call(apiProvider, fetchType, options, abortController.signal)
 
         yield put(fetchEnd(fetchType, options, response))
 
@@ -28,6 +30,7 @@ export default function* fetchSaga(
         throw error
     } finally {
         if (yield cancelled()) {
+            abortController.abort()
             yield put(fetchCancel(fetchType, options))
         }
     }
