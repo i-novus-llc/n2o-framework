@@ -219,8 +219,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             compileDependencies(source.getDependencies(), button, widgetId, source.getModel(), p);
 
         if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
-            button.setVisible(p.resolveJS(source.getVisible()));
-            button.setEnabled(p.resolveJS(source.getEnabled()));
+            button.setVisible(isLink(source.getVisible()) ?
+                    p.resolveJS(source.getVisible()) : p.resolveJS(source.getVisible(), Boolean.class));
+            button.setEnabled(isLink(source.getEnabled()) ?
+                    p.resolveJS(source.getEnabled()) : p.resolveJS(source.getEnabled(), Boolean.class));
         } else {
             if (isLink(source.getVisible()))
                 compileLinkCondition(button, datasource, ValidationType.visible, source.getVisible(), source.getModel());
