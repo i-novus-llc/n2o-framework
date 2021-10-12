@@ -327,7 +327,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                                          CompiledObject object,
                                          Set<String> visibilityConditions) {
         if (object == null) {
-            throw new N2oException("Field {0} have validation reference, but haven't object!").addData(fieldId);
+            throw new N2oException(String.format("Field %s have validation reference, but haven't object!", fieldId));
         }
         Validation objectValidation = null;
         if (object.getValidationsMap() != null && object.getValidationsMap().containsKey(refId)) {
@@ -344,7 +344,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         }
         if (objectValidation == null) {
-            throw new N2oException("Field {0} contains validation reference for nonexistent validation!").addData(fieldId);
+            throw new N2oException(String.format("Field %s contains validation reference for nonexistent validation!", fieldId));
         }
         Validation validation = null;
         if (objectValidation instanceof ConstraintValidation) {
