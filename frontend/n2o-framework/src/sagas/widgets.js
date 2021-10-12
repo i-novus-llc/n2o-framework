@@ -1,4 +1,4 @@
-import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
+import { call, fork, put, select, take, takeEvery, cancel } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
@@ -137,6 +137,8 @@ export function* routesQueryMapping(state, routes, location) {
     }
 }
 
+const requestMap = Object.create(null)
+
 export function* setWidgetDataSuccess(
     widgetId,
     widgetState,
@@ -144,12 +146,19 @@ export function* setWidgetDataSuccess(
     currentDatasource,
 ) {
     const { basePath, baseQuery, headersParams } = resolvedProvider
+    let task = requestMap[widgetId]
 
-    const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
+    if (task?.isRunning()) {
+        yield cancel(task)
+    }
+
+    task = yield fork(fetchSaga, FETCH_WIDGET_DATA, {
         basePath,
         baseQuery,
         headers: headersParams,
     })
+    requestMap[widgetId] = task
+    const data = yield call(() => task.toPromise())
 
     yield put(changeCountWidget(widgetId, data.count))
     if (isEqual(data.list, currentDatasource) && !isEmpty(currentDatasource)) {
