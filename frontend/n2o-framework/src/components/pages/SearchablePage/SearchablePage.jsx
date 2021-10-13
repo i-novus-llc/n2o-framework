@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import { batchActions } from 'redux-batched-actions'
 import { compose, withHandlers, withProps, mapProps } from 'recompose'
@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
+import debounce from 'lodash/debounce'
 
 import { updateModel } from '../../../ducks/models/store'
 import { dataRequestWidget } from '../../../ducks/widgets/store'
@@ -20,6 +21,7 @@ import Toolbar from '../../buttons/Toolbar'
 import PageRegions from '../PageRegions'
 // eslint-disable-next-line import/no-named-as-default
 import SearchBar from '../../snippets/SearchBar/SearchBar'
+import { FILTER_DELAY } from '../../../constants/time'
 
 function SearchablePage({
     id,
@@ -36,6 +38,7 @@ function SearchablePage({
     initSearchValue,
 }) {
     const { style, className } = metadata
+    const searchHandler = useMemo(() => debounce(onSearch, FILTER_DELAY), [onSearch])
 
     return (
         <div
@@ -67,7 +70,7 @@ function SearchablePage({
                     {...searchBar}
                     initialValue={filterValue}
                     className={classNames('ml-auto', searchBar.className)}
-                    onSearch={onSearch}
+                    onSearch={searchHandler}
                     initSearchValue={initSearchValue}
                 />
             </div>

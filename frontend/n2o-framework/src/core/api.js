@@ -1,12 +1,10 @@
 import isMap from 'lodash/isMap'
 import isPlainObject from 'lodash/isPlainObject'
 import isFunction from 'lodash/isFunction'
-import omitBy from 'lodash/omitBy'
 import pickBy from 'lodash/pickBy'
 import isObject from 'lodash/isObject'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
-import assign from 'lodash/assign'
 import defaultTo from 'lodash/defaultTo'
 import flatten from 'flat'
 import invariant from 'invariant'
@@ -30,23 +28,18 @@ export const FETCH_VALIDATE = 'FETCH_VALIDATE'
 export const FETCH_VALUE = 'FETCH_VALUE'
 export const CHANGE_LOCALE = 'CHANGE_LOCALE'
 
-const identity = value => !isNil(value)
-
 /**
  * Удаляет все пустые значения в параметрах запроса
  * @param obj
  * @returns {*}
  */
 function clearEmptyParams(obj) {
-    let firstPart = pickBy(obj, identity)
+    return pickBy(obj, (value) => {
+        if (isNil(value)) { return false }
+        if (isObject(value)) { return !isEmpty(value) }
 
-    firstPart = pickBy(firstPart, isObject)
-    firstPart = omitBy(firstPart, isEmpty)
-    let secondPart = pickBy(obj, identity)
-
-    secondPart = omitBy(secondPart, isObject)
-
-    return assign(firstPart, secondPart)
+        return true
+    })
 }
 
 /**
@@ -62,7 +55,7 @@ export function handleApi(api) {
         'Api Provider: Обработчик api должен быть простым объектов.',
     )
 
-    return (type, options) => {
+    return (type, options, abortSignal) => {
         const apiFn = api[type]
 
         invariant(
@@ -70,7 +63,7 @@ export function handleApi(api) {
             'Api Provider: Не найден обработчик для заданого типа.',
         )
 
-        return apiFn.call(undefined, options)
+        return apiFn.call(undefined, options, abortSignal)
     }
 }
 
@@ -78,7 +71,7 @@ export function handleApi(api) {
  * Стандартный api provider
  */
 export const defaultApiProvider = {
-    [FETCH_APP_CONFIG]: options => request(
+    [FETCH_APP_CONFIG]: (options, abortSignal) => request(
         [
             API_PREFIX,
             BASE_PATH_CONFIG,
@@ -87,11 +80,13 @@ export const defaultApiProvider = {
                 flatten(clearEmptyParams(options), { safe: true }),
             ),
         ].join(''),
+        { signal: abortSignal },
     ),
-    [FETCH_PAGE_METADATA]: options => request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join(''), {
+    [FETCH_PAGE_METADATA]: (options, abortSignal) => request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join(''), {
         headers: options.headers,
+        signal: abortSignal,
     }),
-    [FETCH_WIDGET_DATA]: options => request(
+    [FETCH_WIDGET_DATA]: (options, abortSignal) => request(
         [
             options.basePath,
             '?',
@@ -101,9 +96,10 @@ export const defaultApiProvider = {
         ].join(''),
         {
             headers: defaultTo(options.headers, {}),
+            signal: abortSignal,
         },
     ),
-    [FETCH_INVOKE_DATA]: options => request(
+    [FETCH_INVOKE_DATA]: (options, abortSignal) => request(
         [
             options.basePath,
             '?',
@@ -118,9 +114,10 @@ export const defaultApiProvider = {
                 ...defaultTo(options.headers, {}),
             },
             body: JSON.stringify(options.model || {}),
+            signal: abortSignal,
         },
     ),
-    [FETCH_VALIDATE]: options => request(
+    [FETCH_VALIDATE]: (options, abortSignal) => request(
         [
             API_PREFIX,
             BASE_PATH_VALIDATION,
@@ -129,14 +126,16 @@ export const defaultApiProvider = {
                 flatten(clearEmptyParams(options), { safe: true }),
             ),
         ].join(''),
+        { signal: abortSignal },
     ).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)
     }),
-    [FETCH_VALUE]: ({ url, headers }) => request(url, { headers }),
-    [CHANGE_LOCALE]: locale => request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
+    [FETCH_VALUE]: ({ url, headers }, abortSignal) => request(url, { headers, signal: abortSignal }),
+    [CHANGE_LOCALE]: (locale, abortSignal) => request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
         method: 'POST',
         body: JSON.stringify({ locale }),
+        signal: abortSignal,
     }),
 }
 
@@ -171,7 +170,7 @@ export function fetchInputSelectData(
     )
 }
 
-export function saveFieldData(url, options) {
+export function saveFieldData(url, options, abortSignal) {
     return request(
         [
             url,
@@ -186,6 +185,7 @@ export function saveFieldData(url, options) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(options.body),
+            signal: abortSignal,
         },
     )
 }
