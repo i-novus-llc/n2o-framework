@@ -42,7 +42,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getId(), is("test"));
         assertThat(toolbar.getFieldKey(), is("test"));
         assertThat(toolbar.getSrc(), is("ButtonsCell"));
-        assertThat(toolbar.getToolbar().get(0).getButtons().size(), is(2));
+        assertThat(toolbar.getToolbar().get(0).getButtons().size(), is(3));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getId(), is("menuItem0"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getLabel(), is("label"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("icon"));
@@ -58,6 +58,9 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("linkAction"));
         assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getConfirm().getMode(), is(ConfirmType.modal));
         assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getVisible(), is("`test==1`"));
+
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getVisible(), is(false));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getEnabled(), is(false));
 
         toolbar = (ToolbarCell) ((TableWidgetComponent) page.getWidget().getComponent()).getCells().get(1);
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getId(), is("update"));

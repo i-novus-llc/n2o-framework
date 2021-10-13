@@ -13,6 +13,7 @@
                     <sub-menu icon="icon" label="label" class="class">
                         <menu-item action-id="linkAction" visible="{test==1}" confirm="true"/>
                     </sub-menu>
+                    <button label="label3" visible="false" enabled="false"/>
                 </toolbar>
             </column>
             <column text-field-id="test2">
