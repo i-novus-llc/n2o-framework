@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
+import classNames from 'classnames'
 
 import { Factory } from '../../../core/factory/Factory'
 import { CELLS } from '../../../core/factory/factoryLevels'
@@ -14,8 +15,7 @@ import propsResolver from '../../../utils/propsResolver'
  */
 function TilesCell(props) {
     const { component, model, style } = props
-
-    const getPassProps = () => omit(props, ['component', 'model'])
+    const resolvedProps = propsResolver(omit(component, ['src']), model)
 
     return (
         <div style={style}>
@@ -23,8 +23,9 @@ function TilesCell(props) {
                 src={get(component, 'src')}
                 level={CELLS}
                 model={model}
-                {...propsResolver(omit(component, ['src']), model)}
-                {...getPassProps()}
+                {...resolvedProps}
+                {...omit(props, ['component', 'model'])}
+                className={classNames('n2o-cards__cell', resolvedProps.className)}
             />
         </div>
     )
