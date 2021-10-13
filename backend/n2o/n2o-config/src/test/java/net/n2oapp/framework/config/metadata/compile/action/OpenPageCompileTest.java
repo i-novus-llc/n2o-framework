@@ -75,6 +75,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterDetail.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValue.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testPreFilter.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithRefWidget.widget.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml"));
     }
 
@@ -228,6 +229,79 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?name=:name&surname=:surname&secondName=test"));
+
+        // проверка breadcrumb при открытии open-page не из таблицы, а другого виджета
+        // при этом в parentId не должны сохраняться id выбранных записей
+        context = new PageContext("testOpenPageSimplePage2", "/page/:parent_id/view2");
+        context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("parent", "/page/:parent_id")));
+        Page page2 = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage2.page.xml")
+                .bind().get(context, data);
+
+        assertThat(page2.getRoutes().findRouteByUrl("/page/123/view2"), notNullValue());
+
+        updatePage = routeAndGet("/page/123/view2/widget/456/action2", Page.class);
+        assertThat(updatePage.getRoutes().findRouteByUrl("/page/123/view2/widget/456/action2"), notNullValue());
+        assertThat(updatePage.getBreadcrumb().size(), is(3));
+        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
+        // не содержит :page_test_id
+        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view2/widget"));
+        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
+    }
+
+    @Test
+    public void breadcrumbWithRefWidget() {
+        // проверка breadcrumb при открытии open-page из таблицы
+        DataSet data = new DataSet().add("parent_id", 123);
+        PageContext context = new PageContext("testOpenPageWithRefWidget", "/page/:parent_id/view");
+        context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("parent", "/page/:parent_id")));
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithRefWidget.page.xml")
+                .bind().get(context, data);
+        assertThat(page.getRoutes().findRouteByUrl("/page/123/view"), notNullValue());
+
+        Page createPage = routeAndGet("/page/123/view/action1", Page.class);
+        assertThat(createPage.getRoutes().findRouteByUrl("/page/123/view/action1"), notNullValue());
+        assertThat(createPage.getBreadcrumb().size(), is(3));
+        assertThat(createPage.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(createPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(createPage.getBreadcrumb().get(1).getLabel(), is("first"));
+        assertThat(createPage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
+        assertThat(createPage.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(createPage.getBreadcrumb().get(2).getPath(), nullValue());
+
+        Page updatePage = routeAndGet("/page/123/view/456/action2", Page.class);
+        assertThat(updatePage.getRoutes().findRouteByUrl("/page/123/view/456/action2"), notNullValue());
+        assertThat(updatePage.getBreadcrumb().size(), is(3));
+        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
+        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view/456"));
+        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
+
+        HashMap<String, String[]> params = new HashMap<>();
+        data.put("name", "ivan");
+        data.put("secondName", "ivanov");
+        Page masterDetailPage = routeAndGet("/page/123/view/456/masterDetail", Page.class, params);
+        assertThat(masterDetailPage.getRoutes().findRouteByUrl("/page/123/view/456/masterDetail"), notNullValue());
+        assertThat(masterDetailPage.getBreadcrumb().size(), is(3));
+        assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(masterDetailPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(masterDetailPage.getBreadcrumb().get(1).getLabel(), is("first"));
+        assertThat(masterDetailPage.getBreadcrumb().get(1).getPath(), is("/page/123/view/456"));
+        assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
+
+        Page level3Page = routeAndGet("/page/123/view/456/masterDetail/level3", Page.class, params);
+        assertThat(level3Page.getBreadcrumb().size(), is(4));
+        assertThat(level3Page.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(level3Page.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
+        assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/456"));
+        assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/456/masterDetail?name=:name&surname=:surname&secondName=test"));
 
         // проверка breadcrumb при открытии open-page не из таблицы, а другого виджета
         // при этом в parentId не должны сохраняться id выбранных записей

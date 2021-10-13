@@ -701,6 +701,11 @@
                     <xs:element name="set-value" type="acn:setValueDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="execute-query" type="acn:executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="open-drawer" type="acn:openDrawerDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="copy" type="acn:copyDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="clear" type="acn:clearDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="print" type="acn:printDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="refresh" type="acn:refreshDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:any namespace="##other" processContents="strict" maxOccurs="1" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>

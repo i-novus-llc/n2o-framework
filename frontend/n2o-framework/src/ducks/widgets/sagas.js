@@ -1,4 +1,11 @@
-import { call, fork, put, select, takeEvery } from 'redux-saga/effects'
+import {
+    call,
+    fork,
+    put,
+    select,
+    takeEvery,
+    cancel,
+} from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
@@ -15,6 +22,7 @@ import { FETCH_WIDGET_DATA } from '../../core/api'
 import { generateErrorMeta } from '../../utils/generateErrorMeta'
 import { id } from '../../utils/id'
 import fetchSaga from '../../sagas/fetch'
+import { REQUEST_CACHE_TIMEOUT } from '../../constants/time'
 
 import { routesQueryMapping } from './sagas/routesQueryMapping'
 import {
@@ -106,7 +114,14 @@ export function* prepareFetch(widgetId, modelId) {
     }
 }
 
-const REQUEST_CACHE_TIMEOUT = 300
+/**
+ * @typedef {Object} CachedRequest
+ * @property {Promise} request
+ * @property {Object} provider
+ * @property {Object} worker
+ * @property {Number} timer
+ */
+
 const requestMap = Object.create(null)
 
 /**
@@ -117,25 +132,40 @@ const requestMap = Object.create(null)
  * @param {{ basePath: string, baseQuery: string , headersParams: object }} provider
  */
 export function* doFetch(modelId, provider) {
+    /** @type {CachedRequest} */
     const cached = requestMap[modelId]
 
-    if (cached && isEqual(provider, cached.provider)) {
-        return yield call(() => cached.request)
+    if (cached) {
+        // Если новый запрос идентичен текущему, возвращаем результат текущего
+        if (isEqual(provider, cached.provider)) {
+            return yield call(() => cached.request)
+        }
+
+        // Если новые фильтры, то текущий запрос уже не актуален - отменяем его
+        clearTimeout(cached.timer)
+        yield cancel(cached.worker)
     }
 
     const { basePath, baseQuery, headersParams } = provider
-    const request = (yield fork(fetchSaga, FETCH_WIDGET_DATA, {
+    const worker = (yield fork(fetchSaga, FETCH_WIDGET_DATA, {
         basePath,
         baseQuery,
         headers: headersParams,
-    })).toPromise()
+    }))
+    const request = worker.toPromise()
+    let timer
 
-    requestMap[modelId] = { request, provider }
     request.then(() => {
-        setTimeout(() => {
+        if (worker.isCancelled()) {
+            return /* Promise.reject(new Error('Abort')) */
+        }
+        timer = setTimeout(() => {
             delete requestMap[modelId]
         }, REQUEST_CACHE_TIMEOUT)
+    }, () => {
+        delete requestMap[modelId]
     })
+    requestMap[modelId] = { request, provider, worker, timer }
 
     return yield call(() => request)
 }

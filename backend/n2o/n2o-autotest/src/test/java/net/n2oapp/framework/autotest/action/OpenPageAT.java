@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,9 +42,9 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testFilterState() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/open.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/open.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -86,5 +87,45 @@ public class OpenPageAT extends AutoTestBase {
         open.breadcrumb().titleShouldHaveText("Вторая страница");
         openPageTypeFilter.shouldBeEmpty();
         openPageTableRows.shouldHaveSize(4);
+    }
+
+    @Test
+    public void testResolveBreadcrumb() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/page.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        page.breadcrumb().titleShouldHaveText("Первая страница");
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().row(0).click();
+        table.toolbar().topLeft().button("Открыть").click();
+
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.widget(FormWidget.class).shouldExists();
+        open.breadcrumb().titleShouldHaveText("test1");
+    }
+
+    @Test
+    public void testResolveBreadcrumbOnStandardPage() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/page.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        page.breadcrumb().titleShouldHaveText("Первая страница");
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().row(0).click();
+        table.toolbar().topLeft().button("Открыть").click();
+
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.widget(FormWidget.class).shouldExists();
+        open.breadcrumb().titleShouldHaveText("test1");
     }
 }

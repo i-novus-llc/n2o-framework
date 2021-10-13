@@ -2,10 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, pure, withProps } from 'recompose'
-import keys from 'lodash/keys'
-import filter from 'lodash/filter'
-import map from 'lodash/map'
-import includes from 'lodash/includes'
 import pick from 'lodash/pick'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
@@ -153,15 +149,11 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
             isEqualRegisteredWidgetWithProps = () => {
                 const { widget } = this.props
-                const propsParamsNames = keys(this.props)
-                const widgetParamsNames = filter(keys(widget), key => key !== 'error')
-                const commonParamsNames = []
-
-                map(widgetParamsNames, (widgetParamName) => {
-                    if (includes(propsParamsNames, widgetParamName)) {
-                        commonParamsNames.push(widgetParamName)
-                    }
-                })
+                const propsParamsNames = Object.keys(this.props)
+                const widgetParamsNames = Object.keys(widget).filter(key => key !== 'error')
+                const commonParamsNames = widgetParamsNames.filter(
+                    widgetParamName => (widgetParamName !== 'page') && propsParamsNames.includes(widgetParamName),
+                )
 
                 const widgetStateParams = pick(widget, commonParamsNames)
                 const widgetPropsParams = pick(this.props, commonParamsNames)

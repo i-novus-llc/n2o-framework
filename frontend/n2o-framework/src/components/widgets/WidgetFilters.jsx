@@ -19,6 +19,7 @@ import { makeGetFilterModelSelector } from '../../ducks/models/selectors'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
+import { FILTER_DELAY } from '../../constants/time'
 
 import { flatFields } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -51,7 +52,7 @@ class WidgetFilters extends React.Component {
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.validateAndFetch = this.validateAndFetch.bind(this)
-        this.debouncedHandleFilter = debounce(this.handleFilter, 1000)
+        this.debouncedHandleFilter = debounce(this.handleFilter, FILTER_DELAY)
     }
 
     getChildContext() {
