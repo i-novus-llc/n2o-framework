@@ -82,7 +82,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         // TABS1
         assertThat(regions.get(0), instanceOf(TabsRegion.class));
-        assertThat(regions.get(0).getId(), is("tabs_0"));
+        assertThat(regions.get(0).getId(), is("testTabsRegionNesting_tabs_0"));
         assertThat(regions.get(0).getSrc(), is("TabsRegion"));
         List<TabsRegion.Tab> items = ((TabsRegion) regions.get(0)).getItems();
         assertThat(items.size(), is(1));
@@ -110,7 +110,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         // TABS2
         TabsRegion region = (TabsRegion) regions.get(1);
-        assertThat(region.getId(), is("tabs_4"));
+        assertThat(region.getId(), is("testTabsRegionNesting_tabs_4"));
         assertThat(region.getItems().size(), is(1));
         assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab_5"));
         content = region.getItems().get(0).getContent();
@@ -124,7 +124,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         // TABS3
         region = (TabsRegion) regions.get(2);
-        assertThat(region.getId(), is("tabs_6"));
+        assertThat(region.getId(), is("testTabsRegionNesting_tabs_6"));
         assertThat(region.getItems().size(), is(1));
         assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab_7"));
         assertThat(region.getItems().get(0).getContent().size(), is(0));
@@ -162,14 +162,14 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTabsRegion"));
 
         Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
-        assertThat(queryMapping.containsKey("tabs_0"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("tabs_0").getOnGet().getPayload()).getRegionId(), is("tabs_0"));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("tabs_0").getOnGet().getPayload()).getActiveEntity(), is(":tabs_0"));
-        assertThat(queryMapping.get("tabs_0").getOnSet().getBindLink(), is("regions.tabs_0.activeEntity"));
+        assertThat(queryMapping.containsKey("testTabsRegion_tabs_0"), is(true));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs_0").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs_0"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs_0").getOnGet().getPayload()).getActiveEntity(), is(":testTabsRegion_tabs_0"));
+        assertThat(queryMapping.get("testTabsRegion_tabs_0").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs_0.activeEntity"));
         assertThat(queryMapping.containsKey("param1"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("tabs_4"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs_4"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getActiveEntity(), is(":param1"));
-        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.tabs_4.activeEntity"));
+        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs_4.activeEntity"));
         assertThat(queryMapping.containsKey("param2"), is(true));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getRegionId(), is("tabId"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getActiveEntity(), is(":param2"));
