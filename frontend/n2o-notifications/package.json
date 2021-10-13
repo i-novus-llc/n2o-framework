@@ -2,9 +2,8 @@
   "name": "n2o-notifications",
   "version": "7.17.0",
   "description": "n2o-notifications React component",
-  "author": "",
+  "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0",
-  "private": true,
   "homepage": "https://n2oapp.net/",
   "repository": {
     "type": "git",
