@@ -9,13 +9,6 @@
 		"directory": "frontend/n2o-auth"
 	},
 	"main": "lib/index.js",
-    "homepage": "https://n2oapp.net/",
-    "repository": {
-      "type": "git",
-      "url": "git@github.com:i-novus-llc/n2o-framework.git",
-      "directory": "frontend/n2o-auth"
-    },
-    "main": "lib/index.js",
 	"files": [
 		"lib"
 	],
