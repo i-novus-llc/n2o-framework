@@ -70,7 +70,9 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
 
     @Override
     protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "tabs", p);
+        PageScope pageScope = p.getScope(PageScope.class);
+        String regionName = pageScope == null ? "tabs" : pageScope.getPageId() + "_tabs";
+        return createId(regionPlace, regionName, p);
     }
 
 
@@ -80,7 +82,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         if (source.getTabs() != null)
             for (N2oTabsRegion.Tab t : source.getTabs()) {
                 TabsRegion.Tab tab = new TabsRegion.Tab();
-                tab.setId(createTabId(t, source.getAlias(), p));
+                tab.setId(createTabId(t.getId(), source.getAlias(), p));
                 tab.setLabel(t.getName());
                 tab.setProperties(p.mapAttributes(t));
                 List<Compiled> content = new ArrayList<>();
@@ -98,10 +100,10 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         return items;
     }
 
-    private String createTabId(N2oTabsRegion.Tab tab, String alias, CompileProcessor p) {
+    private String createTabId(String regionId, String alias, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String regionName = pageScope == null ? alias : pageScope.getPageId() + "_" + alias;
-        String id = p.cast(tab.getId(), createId(null, regionName, p));
+        String id = p.cast(regionId, createId(null, regionName, p));
         //проверяем id на уникальность
         if (pageScope != null) {
             if (pageScope.getTabIds() == null) {
