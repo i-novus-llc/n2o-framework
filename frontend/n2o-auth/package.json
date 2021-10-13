@@ -2,7 +2,6 @@
 	"name": "n2o-auth",
 	"version": "7.18.1",
 	"description": "Пакеты для работы с N2O Security",
-	"private": true,
 	"homepage": "https://n2oapp.net/",
 	"repository": {
 		"type": "git",
