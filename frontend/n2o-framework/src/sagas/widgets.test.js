@@ -167,7 +167,7 @@ describe('Проверка саги widgets', () => {
             count: 14,
         }
         api.default = jest.fn(() => Promise.resolve(response))
-        await runSaga(
+        const task = await runSaga(
             fakeStore,
             setWidgetDataSuccess,
             widgetId,
@@ -175,6 +175,10 @@ describe('Проверка саги widgets', () => {
             basePath,
             baseQuery,
         )
+        if (task && task['@@redux-saga/TASK']) {
+            // хак для комбинирования fork и call в тестах
+            await task.toPromise()
+        }
         expect(dispatched[0]).toEqual(
             put(changeCountWidget(widgetId, response.count)).payload.action,
         )
