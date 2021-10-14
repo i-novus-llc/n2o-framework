@@ -147,14 +147,14 @@ export default handleApi(defaultApiProvider)
 /**
  * todo: нужно переделать на другую реализацию, эту нельзя кастомить
  * @param options
- * @param model
  * @param settings
+ * @param abortSignal
  * @returns {Promise<any | never>}
  */
 export function fetchInputSelectData(
     options,
-    model,
     settings = { apiPrefix: API_PREFIX, basePath: BASE_PATH_DATA },
+    abortSignal,
 ) {
     const { query, headers } = options
 
@@ -166,6 +166,7 @@ export function fetchInputSelectData(
         ].join(''),
         {
             headers,
+            signal: abortSignal,
         },
     )
 }
