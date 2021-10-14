@@ -22,6 +22,10 @@ public class PageScope implements Serializable {
     private Set<String> widgetIds;
     private Map<String, String> widgetIdQueryIdMap;
     private Map<String, String> widgetIdDatasourceMap;
+    /**
+     * Список идентификаторов таб регионов
+     */
+    private Set<String> tabIds;
     //необходим только для валидации
     //todo убрать как только перейдем к отдельным datasource
     private Map<String, DatasourceValue> datasourceValueMap = new HashMap<>();

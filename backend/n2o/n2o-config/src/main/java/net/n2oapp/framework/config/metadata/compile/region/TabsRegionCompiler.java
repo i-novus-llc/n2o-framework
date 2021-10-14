@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
@@ -8,11 +9,13 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -67,7 +70,9 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
 
     @Override
     protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "tabs", p);
+        PageScope pageScope = p.getScope(PageScope.class);
+        String regionName = pageScope == null ? "tabs" : pageScope.getPageId() + "_tabs";
+        return createId(regionPlace, regionName, p);
     }
 
 
@@ -77,7 +82,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         if (source.getTabs() != null)
             for (N2oTabsRegion.Tab t : source.getTabs()) {
                 TabsRegion.Tab tab = new TabsRegion.Tab();
-                tab.setId(p.cast(t.getId(), createId(null, source.getAlias(), p)));
+                tab.setId(createTabId(t.getId(), source.getAlias(), p));
                 tab.setLabel(t.getName());
                 tab.setProperties(p.mapAttributes(t));
                 List<Compiled> content = new ArrayList<>();
@@ -93,5 +98,23 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 items.add(tab);
             }
         return items;
+    }
+
+    private String createTabId(String regionId, String alias, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        String regionName = pageScope == null ? alias : pageScope.getPageId() + "_" + alias;
+        String id = p.cast(regionId, createId(null, regionName, p));
+        //проверяем id на уникальность
+        if (pageScope != null) {
+            if (pageScope.getTabIds() == null) {
+                pageScope.setTabIds(new HashSet<>());
+            } else {
+                if (pageScope.getTabIds().contains(id)) {
+                    throw new N2oException(String.format("%s tab is already exist", id));
+                }
+            }
+            pageScope.getTabIds().add(id);
+        }
+        return id;
     }
 }
