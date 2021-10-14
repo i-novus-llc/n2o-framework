@@ -52,11 +52,11 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         }
 
         /**
-     * Поиск в кеше запроса
-     * @param params
-     * @returns {*}
-     * @private
-     */
+         * Поиск в кеше запроса
+         * @param params
+         * @returns {*}
+         * @private
+         */
         findResponseInCache(params) {
             const { caching } = this.props
 
@@ -68,10 +68,10 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         }
 
         /**
-     * Вывод сообщения
-     * @param messages
-     * @private
-     */
+         * Вывод сообщения
+         * @param messages
+         * @private
+         */
         addAlertMessage(messages) {
             const { hasError } = this.state
             const { addAlert, removeAlerts } = this.props
@@ -111,50 +111,63 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         }
 
         /**
-     * Взять данные с сервера с помощью dataProvider
-     * @param dataProvider
-     * @param extraParams
-     * @returns {Promise<void>}
-     * @private
-     */
+         * Взять данные с сервера с помощью dataProvider
+         * @param dataProvider
+         * @param extraParams
+         * @returns {Promise<void>}
+         * @private
+         */
         async fetchDataProvider(dataProvider, extraParams = {}) {
             const { store } = this.context
+            const { abortController } = this.state
+
+            if (abortController) {
+                abortController.abort()
+            }
+
             const {
                 basePath,
                 baseQuery: queryParams,
                 headersParams,
             } = dataProviderResolver(store.getState(), dataProvider)
 
-            let response = this.findResponseInCache({
+            const cached = this.findResponseInCache({
                 basePath,
                 queryParams,
                 extraParams,
             })
 
-            if (!response) {
-                response = await apiCaller(
-                    { headers: headersParams, query: { ...queryParams, ...extraParams } },
-                    null,
-                    {
-                        basePath,
-                    },
-                )
-
-                cachingStore.add({ basePath, queryParams, extraParams }, response)
+            if (cached) {
+                return cached
             }
 
-            return response
+            const controller = new AbortController()
+
+            this.setState({ abortController: controller })
+
+            return apiCaller(
+                { headers: headersParams, query: { ...queryParams, ...extraParams } },
+                {
+                    basePath,
+                },
+                controller.signal,
+            ).then((response) => {
+                cachingStore.add({ basePath, queryParams, extraParams }, response)
+                this.setState({ abortController: null })
+
+                return response
+            })
         }
 
         /**
-     *  Обновить данные если запрос успешен
-     * @param list
-     * @param count
-     * @param size
-     * @param page
-     * @param merge
-     * @private
-     */
+         *  Обновить данные если запрос успешен
+         * @param list
+         * @param count
+         * @param size
+         * @param page
+         * @param merge
+         * @private
+         */
         setResponseToData({ list, count, size, page }, merge = false) {
             const { valueFieldId } = this.props
             const { data } = this.state
@@ -171,13 +184,12 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         }
 
         /**
-     * Получает данные с сервера
-     * @param extraParams - параметры запроса
-     * @param concat - флаг объединения данных
-     * @returns {Promise<void>}
-     * @private
-     */
-
+         * Получает данные с сервера
+         * @param extraParams - параметры запроса
+         * @param concat - флаг объединения данных
+         * @returns {Promise<void>}
+         * @private
+         */
         async fetchData(extraParams = {}, merge = false) {
             const { dataProvider, removeAlerts } = this.props
             const { hasError, data } = this.state
@@ -204,10 +216,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 this.setState({ loading: false })
             }
         }
-
-        /**
-     * Рендер
-     */
 
         render() {
             const { setRef } = this.props
