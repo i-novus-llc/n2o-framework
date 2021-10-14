@@ -8,5 +8,10 @@
                 <column text-field-id="name"/>
             </columns>
         </table>
+        <form id="second" query-id="testStandardPageDependency">
+            <fields>
+                <input-text id="name"/>
+            </fields>
+        </form>
     </regions>
 </searchable-page>
