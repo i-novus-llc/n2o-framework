@@ -47,9 +47,9 @@ export const tabsValues = [
 ]
 
 export const projectIds = {
-    first: '3K5pJ',
-    second: 'df5BQ',
-    third: 'hfsZK'
+    first: 'examples_greeting',
+    second: 'examples_crud_sql',
+    third: 'examples_fields'
 }
 
 const { items } = config.themeConfig.navbar
