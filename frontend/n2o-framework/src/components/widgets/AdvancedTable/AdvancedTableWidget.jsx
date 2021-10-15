@@ -15,7 +15,6 @@ import AdvancedTableContainer from './AdvancedTableContainer'
  * Компонент AdvancedTableWidget
  * @param pageId - id страницы
  * @param widgetId - id виджета
- * @param actions - экшены
  * @param toolbar - тулбар таблицы
  * @param dataProvider
  * @param bordered - флаг таблицы с боредарми
@@ -33,7 +32,6 @@ class AdvancedTableWidget extends Component {
     getWidgetProps() {
         const {
             toolbar,
-            actions,
             dataProvider,
             placeholder,
             children,
@@ -71,7 +69,6 @@ class AdvancedTableWidget extends Component {
             cells: values(resolveProps(cells)),
             sorting,
             toolbar,
-            actions,
             hasFocus,
             hasSelect,
             autoFocus,
@@ -114,7 +111,6 @@ class AdvancedTableWidget extends Component {
             datasource: modelId = widgetId,
             toolbar,
             disabled,
-            actions,
             table: { fetchOnInit, size },
             pageId,
             paging,
@@ -131,7 +127,6 @@ class AdvancedTableWidget extends Component {
                 widgetId={widgetId}
                 modelId={modelId}
                 toolbar={toolbar}
-                actions={actions}
                 filter={this.prepareFilters()}
                 {...getN2OPagination(paging, place, widgetId, modelId)}
                 className={className}
@@ -175,7 +170,6 @@ AdvancedTableWidget.propTypes = {
     filter: PropTypes.any,
     children: PropTypes.any,
     pageId: PropTypes.string.isRequired,
-    actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,
     table: PropTypes.shape({

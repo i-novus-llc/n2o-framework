@@ -16,7 +16,6 @@ import ListContainer from './ListContainer'
  * @param {string} id - id виджета
  * @param {object} toolbar - конфиг тулбара
  * @param {boolean} disabled - флаг активности
- * @param {object} actions - объект экшенов
  * @param {string} pageId - id страницы
  * @param {object} paging - конфиг пагинации
  * @param {string} className - класс
@@ -44,7 +43,6 @@ function ListWidget(
         datasource: modelId = widgetId,
         toolbar,
         disabled,
-        actions,
         pageId,
         paging,
         className,
@@ -76,7 +74,6 @@ function ListWidget(
             widgetId={widgetId}
             modelId={modelId}
             toolbar={toolbar}
-            actions={actions}
             filter={prepareFilters()}
             {...getN2OPagination(paging, place, widgetId, modelId)}
             className={className}
@@ -94,7 +91,6 @@ function ListWidget(
                 widgetId={widgetId}
                 modelId={modelId}
                 fetchOnInit={fetchOnInit}
-                actions={actions}
                 rowClick={rowClick}
                 fetchOnScroll={fetchOnScroll}
                 deferredSpinnerStart={0}
@@ -112,7 +108,6 @@ ListWidget.propTypes = {
     datasource: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
-    actions: PropTypes.object,
     pageId: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -137,7 +132,6 @@ ListWidget.defaultProps = {
     hasMoreButton: false,
     toolbar: {},
     disabled: false,
-    actions: {},
     className: '',
     style: {},
     filter: {},

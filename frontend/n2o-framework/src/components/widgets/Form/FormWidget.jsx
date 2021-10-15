@@ -13,7 +13,6 @@ import Fieldsets from './fieldsets'
  * Виджет формы
  * @reactProps {string} pageId - id страницы
  * @reactProps {string} id - id виджета
- * @reactProps {object} actions
  * @reactProps {object} toolbar
  * @reactProps {boolean} disabled
  * @reactProps {object} form
@@ -29,7 +28,7 @@ class FormWidget extends React.Component {
      */
     getWidgetProps() {
         const { resolveProps } = this.context
-        const { form, toolbar, placeholder, actions, dataProvider, autoSubmit } = this.props
+        const { form, toolbar, placeholder, dataProvider, autoSubmit } = this.props
 
         return {
             fieldsets: values(
@@ -37,7 +36,6 @@ class FormWidget extends React.Component {
             ),
             toolbar,
             placeholder,
-            actions,
             validation: form.validation,
             fetchOnInit: form.fetchOnInit,
             modelPrefix: form.modelPrefix,
@@ -54,7 +52,6 @@ class FormWidget extends React.Component {
             datasource: modelId = widgetId,
             disabled,
             toolbar,
-            actions,
             pageId,
             className,
             style,
@@ -65,7 +62,6 @@ class FormWidget extends React.Component {
                 disabled={disabled}
                 widgetId={widgetId}
                 toolbar={toolbar}
-                actions={actions}
                 className={className}
                 style={style}
                 modelId={modelId}
@@ -93,7 +89,6 @@ FormWidget.propTypes = {
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
     toolbar: PropTypes.object,
-    actions: PropTypes.object,
     form: PropTypes.shape({
         fetchOnInit: PropTypes.bool,
         fieldsets: PropTypes.array,

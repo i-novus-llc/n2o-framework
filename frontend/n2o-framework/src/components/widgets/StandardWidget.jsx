@@ -13,7 +13,6 @@ import WidgetFilters from './WidgetFilters'
  * Виджет таблица
  * @reactProps {string} widgetId - id виджета
  * @reactProps {Object} toolbar
- * @reactProps {Object} actions
  * @reactProps {Object} filter
  * @reactProps {boolean} disabled - флаг активности
  * @reactProps {node} children - элемент потомок компонента StandardWidget
@@ -123,7 +122,6 @@ StandardWidget.propTypes = {
     widgetId: PropTypes.string,
     modelId: PropTypes.string,
     toolbar: PropTypes.object,
-    actions: PropTypes.object,
     filter: PropTypes.object,
     disabled: PropTypes.bool,
     left: PropTypes.element,

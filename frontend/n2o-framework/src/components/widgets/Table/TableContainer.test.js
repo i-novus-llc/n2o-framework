@@ -63,7 +63,6 @@ describe('TableContainer', () => {
                 autoFocus: true,
                 rowColor: 'red',
                 size: 10,
-                actions: { anyActions: {} },
                 redux: true,
                 rowClick: { src: 'dummy' },
             }
