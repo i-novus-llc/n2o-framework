@@ -85,27 +85,6 @@ export const makePageRoutesByIdSelector = pageId => createSelector(
  */
 
 /**
- * Селектр виджета по id
- * @param {string} pageId
- * @param {string} widgetId
- * @return {Object.<string, any> | undefined}
- */
-export const makeWidgetMetadataSelector = (pageId, widgetId) => createSelector(
-    makePageMetadataByIdSelector(pageId),
-    pageState => pageState && pageState.widget[widgetId],
-)
-
-/**
- * Селектр actions из metadata по id
- * @param {string} pageId
- * @return {{type: string, payload: Object.<string, any>} | undefined}
- */
-export const makePageActionsByIdSelector = pageId => createSelector(
-    makePageMetadataByIdSelector(pageId),
-    pageState => pageState && pageState.actions,
-)
-
-/**
  * Селектро toolbar из metadata по id
  * @param {string} pageId
  * @return {Object.<string, any> | undefined}

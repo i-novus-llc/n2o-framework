@@ -4,8 +4,6 @@ import {
     makePageMetadataByIdSelector,
     makePageLoadingByIdSelector,
     makePageRoutesByIdSelector,
-    makeWidgetMetadataSelector,
-    makePageActionsByIdSelector,
     makePageToolbarByIdSelector,
     makePageErrorByIdSelector,
     makePageTitleByIdSelector,
@@ -40,11 +38,6 @@ const state = {
                     route: 'route',
                 },
             ],
-            actions: [
-                {
-                    action: 'action',
-                },
-            ],
             toolbar: 'toolbar object',
         },
     },
@@ -70,16 +63,6 @@ describe('Проверка селекторов pages', () => {
     it('makePageRoutesByIdSelector должен вернуть routes по id', () => {
         expect(makePageRoutesByIdSelector('_')(state)).toEqual(
             state.pages._.metadata.routes,
-        )
-    })
-    it('makeWidgetMetadataSelector должен вернуть metadata виджета по id', () => {
-        expect(makeWidgetMetadataSelector('_', 'widgetId')(state)).toEqual(
-            state.pages._.metadata.widget.widgetId,
-        )
-    })
-    it('makePageActionsByIdSelector должен вернуть actions по id', () => {
-        expect(makePageActionsByIdSelector('_')(state)).toEqual(
-            state.pages._.metadata.actions,
         )
     })
     it('makePageToolbarByIdSelector должен вернуть toolbar по id', () => {
