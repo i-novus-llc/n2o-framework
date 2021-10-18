@@ -11,6 +11,8 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -161,9 +163,13 @@ public class ClientDataProviderUtil {
             }
             actionContext.setPathRouteMapping(routePathMapping);
             actionContext.setQueryRouteMapping(routeQueryMapping);
-            ValidationList validationList = p.getScope(ValidationList.class);
-            actionContext.setValidations(validationList == null ? null : validationList.get(actionContextData.getFailAlertWidgetId(),
-                    initTargetWidgetModel(p, source.getTargetModel())));
+            ComponentScope componentScope = p.getScope(ComponentScope.class);
+            if (componentScope == null || componentScope.unwrap(N2oButton.class) == null
+                    || !ValidateType.NONE.equals(componentScope.unwrap(N2oButton.class).getValidate())) {
+                ValidationList validationList = p.getScope(ValidationList.class);
+                actionContext.setValidations(validationList == null ? null : validationList.get(actionContextData.getFailAlertWidgetId(),
+                        initTargetWidgetModel(p, source.getTargetModel())));
+            }
             actionContext.setRedirect(actionContextData.getRedirect());
             actionContext.setRefresh(actionContextData.getRefresh());
             PageScope pageScope = p.getScope(PageScope.class);
