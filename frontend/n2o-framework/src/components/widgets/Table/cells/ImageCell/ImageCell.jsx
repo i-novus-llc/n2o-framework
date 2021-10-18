@@ -131,55 +131,62 @@ function ImageCell(props) {
                     />
                 )}
             </Wrapper>
-            {hasInfo && <ImageInfo title={title} description={description} />}
+            {hasInfo && (
+                <Wrapper {...wrapperProps}>
+                    <ImageInfo
+                        title={title}
+                        description={description}
+                    />
+                </Wrapper>
+            )}
         </span>
     )
 }
 
 ImageCell.propTypes = {
     /**
-   * ID ячейки
-   */
+     * ID ячейки
+     */
     id: PropTypes.string.isRequired,
     /**
-   * Модель данных
-   */
+     * Модель данных
+     */
     model: PropTypes.object.isRequired,
     /**
-   * Тип формы изображенич
-   */
+     * Тип формы изображенич
+     */
     shape: PropTypes.oneOf(Object.values(imageShapes)),
     /**
-   * Стили
-   */
+     * Стили
+     */
     style: PropTypes.object,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Заголовок
-   */
+     * Заголовок
+     */
     title: PropTypes.string,
     /**
-   * Описание
-   */
+     * Описание
+     */
     description: PropTypes.string,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     /**
-   * Позиция текста
-   */
+     * Позиция текста
+     */
     textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
     /**
-   * Ширина
-   */
+     * Ширина
+     */
     width: PropTypes.string,
     /**
-   * Статусы, отображающиеся над img
-   */
+     * Статусы, отображающиеся над img
+     */
     statuses: PropTypes.array,
     fieldKey: PropTypes.string,
     onClick: PropTypes.func,
