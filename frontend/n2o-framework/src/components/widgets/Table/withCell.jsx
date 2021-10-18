@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 
@@ -90,11 +90,13 @@ export default function (WrappedComponent) {
             onUpdateModel(prefix, modelId, `[${index}].${fieldKey}`, value)
         }, [onUpdateModel, modelId, index, fieldKey])
 
-        const callAction = useCallback((data) => {
-            resolveWidget(data)
+        const callAction = useCallback((newModel) => {
+            resolveWidget(newModel)
 
             if (isEmpty(defaultAction)) {
-                updateDatasource(modelId, datasourceModel, defaultModel, data)
+                if (!isEqual(defaultModel, newModel)) {
+                    updateDatasource(widgetId, datasourceModel, defaultModel, newModel)
+                }
             } else {
                 dispatch(defaultAction)
             }
