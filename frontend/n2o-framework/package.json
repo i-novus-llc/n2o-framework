@@ -73,7 +73,7 @@
     "@storybook/addon-info": "5.0.6",
     "@storybook/addon-knobs": "5.0.6",
     "@storybook/addon-links": "5.0.6",
-    "@storybook/addon-storyshots": "5.0.6",
+    "@storybook/addon-storyshots": "5.1.1",
     "@storybook/addons": "5.0.6",
     "@storybook/react": "5.0.6",
     "assets-webpack-plugin": "3.5.1",
