@@ -42,6 +42,38 @@ export const sidebarView = {
     maxi: 'maxi',
 }
 
+const toggleIconClassNames = (visible, side) => {
+    const isLeftIcon = (visible && side === 'left') || (!visible && (side === 'right'))
+
+    return isLeftIcon ? 'fa fa-angle-double-right' : 'fa fa-angle-double-left'
+}
+
+const sideBarClasses = (isStaticView, defaultState, toggledState, currentVisible, side, className) => {
+    const viewMode = isStaticView || !currentVisible ? sidebarView[defaultState] : sidebarView[toggledState]
+
+    return classNames(
+        'n2o-sidebar',
+        side,
+        className,
+        viewMode,
+
+    )
+}
+
+const LogoSection = ({ isMiniView, logo, showContent }) => (
+    <div className={classNames(
+        'n2o-sidebar__nav-brand n2o-nav-brand',
+        {
+            'justify-content-center': isMiniView,
+        },
+    )}
+    >
+        <div className="d-flex align-items-center">
+            {logo && <Logo {...logo} showContent={showContent} isMiniView={isMiniView} />}
+        </div>
+    </div>
+)
+
 export function SideBar({
     activeId,
     visible,
@@ -57,65 +89,61 @@ export function SideBar({
     onMouseEnter,
     onMouseLeave,
     side = 'left',
+    isStaticView,
 }) {
     const sidebarRef = useRef()
+
     const currentVisible = controlled ? sidebarOpen : visible
+
     const { items = [] } = menu
 
-    const showContent = (toggledState === 'mini' && currentVisible) ||
-            (toggledState === 'maxi' && (currentVisible || defaultState === 'mini'))
+    const needShowContent = () => {
+        if (isStaticView && defaultState !== 'micro') {
+            return true
+        }
 
-    const isMiniView = (defaultState === 'mini' && !currentVisible) ||
-            (toggledState === 'mini' && currentVisible)
+        if (currentVisible) {
+            return (toggledState === 'mini') || (toggledState === 'maxi')
+        }
 
-    const toggleIconClassNames = classNames(
-        {
-            'fa fa-angle-double-left': (visible && side === 'left') || (!visible && side) === 'right',
-            'fa fa-angle-double-right': (!visible && side === 'left') || (visible && side) === 'right',
-        },
-    )
+        return defaultState !== 'micro'
+    }
 
-    const renderItems = items => map(items, (item, i) => (
+    const showContent = needShowContent()
+
+    const isMiniView = (defaultState === 'mini' && !currentVisible) || (toggledState === 'mini' && currentVisible)
+
+    const renderItems = items => map(items, (item, key) => (
         <SidebarItemContainer
-            key={i}
+            key={key}
             item={item}
             activeId={activeId}
-            sidebarOpen={currentVisible}
+            sidebarOpen={isStaticView || currentVisible}
             defaultState={defaultState}
             toggledState={toggledState}
             showContent={showContent}
             isMiniView={isMiniView}
+            isStaticView={isStaticView}
         />
     ))
 
-    const sideBarClasses = classNames(
-        'n2o-sidebar',
-        side,
-        className,
-        {
-            [sidebarView[defaultState]]: !currentVisible,
-            [sidebarView[toggledState]]: currentVisible,
-        },
-    )
-
     return (
         <aside
-            className={sideBarClasses}
+            className={
+                sideBarClasses(
+                    isStaticView,
+                    defaultState,
+                    toggledState,
+                    currentVisible,
+                    side,
+                    className,
+                )
+            }
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             ref={sidebarRef}
         >
-            <div className={classNames(
-                'n2o-sidebar__nav-brand n2o-nav-brand',
-                {
-                    'justify-content-center': isMiniView,
-                },
-            )}
-            >
-                <div className="d-flex align-items-center">
-                    {logo && <Logo {...logo} showContent={showContent} isMiniView={isMiniView} />}
-                </div>
-            </div>
+            <LogoSection isMiniView={isMiniView} logo={logo} showContent={showContent} />
             <nav className={classNames('n2o-sidebar__nav', { visible: showContent })}>
                 <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
             </nav>
@@ -125,7 +153,7 @@ export function SideBar({
                         <ul className="n2o-sidebar__nav-list">{renderItems(extraMenu.items)}</ul>
                     </div>
                 )}
-                {!controlled && (
+                {!controlled && !isStaticView && (
                     <div onClick={onToggle} className="n2o-sidebar__toggler">
                         <span className="n2o-sidebar__nav-item">
                             <span
@@ -133,7 +161,7 @@ export function SideBar({
                                     'mr-1': visible,
                                 })}
                             >
-                                <i className={toggleIconClassNames} />
+                                <i className={toggleIconClassNames(visible, side)} />
                             </span>
                         </span>
                     </div>
@@ -149,17 +177,9 @@ SideBar.propTypes = {
      */
     activeId: PropTypes.string,
     /**
-     * Блок пользователя
-     */
-    userBox: PropTypes.object,
-    /**
      * Настройки лого и брэнда
      */
     logo: PropTypes.object,
-    /**
-     * Элементы сайдбара
-     */
-    items: PropTypes.array,
     /**
      * Флаг сжатия
      */
@@ -169,10 +189,6 @@ SideBar.propTypes = {
      */
     sidebarOpen: PropTypes.bool,
     /**
-     * Длина
-     */
-    width: PropTypes.number,
-    /**
      * Флаг включения режима controlled
      */
     controlled: PropTypes.bool,
@@ -180,10 +196,6 @@ SideBar.propTypes = {
      * Callback на переключение сжатия
      */
     onToggle: PropTypes.func,
-    /**
-     * Extra элементы
-     */
-    extra: PropTypes.array,
     /**
      * Адрес ссылка бренда
      */
@@ -195,12 +207,18 @@ SideBar.propTypes = {
     toggledState: PropTypes.string,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-    overlay: PropTypes.bool,
+    isStaticView: PropTypes.bool,
 }
 
 SideBar.defaultProps = {
     controlled: false,
     menu: {},
+}
+
+LogoSection.propTypes = {
+    isMiniView: PropTypes.bool,
+    logo: PropTypes.object,
+    showContent: PropTypes.bool,
 }
 
 export default compose(
