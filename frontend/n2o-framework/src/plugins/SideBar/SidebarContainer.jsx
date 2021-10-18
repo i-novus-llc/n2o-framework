@@ -75,10 +75,42 @@ class SidebarContainer extends React.Component {
         makeSecure(items)
     }
 
+    onMouseEnter = () => {
+        const { defaultState, toggledState, onMouseEnter, controlled } = this.props
+        const isStaticView = defaultState === toggledState
+
+        if (isStaticView || !controlled) {
+            return
+        }
+
+        onMouseEnter()
+    }
+
+    onMouseLeave = () => {
+        const { defaultState, toggledState, onMouseLeave, controlled } = this.props
+        const isStaticView = defaultState === toggledState
+
+        if (isStaticView || !controlled) {
+            return
+        }
+
+        onMouseLeave()
+    }
+
     render() {
         const { items } = this.state
+        const { defaultState, toggledState } = this.props
+        const isStaticView = defaultState === toggledState
 
-        return <SideBar {...this.props} items={items} />
+        return (
+            <SideBar
+                {...this.props}
+                items={items}
+                isStaticView={isStaticView}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
+            />
+        )
     }
 }
 
@@ -86,6 +118,12 @@ SidebarContainer.propTypes = {
     items: PropTypes.array,
     user: PropTypes.any,
     authProvider: PropTypes.any,
+    defaultState: PropTypes.string,
+    toggledState: PropTypes.string,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    controlled: PropTypes.bool,
+
 }
 
 export const SimpleSidebar = compose(withSecurity)(SidebarContainer)
