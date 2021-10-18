@@ -46,6 +46,7 @@ export const renderIcon = (icon, title, type, sidebarOpen, subItems) => {
  * @param sidebarOpen - флаг сжатия сайдбара
  * @param showContent
  * @param isMiniView
+ * @param isStaticView
  * @param level - уровень вложенности
  * @returns {*}
  * @constructor
@@ -57,6 +58,7 @@ export function SidebarItemContainer({
     sidebarOpen,
     showContent,
     isMiniView,
+    isStaticView,
     level = 1,
 }) {
     const { type, linkType, items = [] } = item
@@ -78,7 +80,7 @@ export function SidebarItemContainer({
         return (
             <a id={id} className="n2o-sidebar__item" href={href}>
                 {icon && renderIcon(icon, title, type, sidebarOpen)}
-                {!isMiniView && title}
+                {isMiniView && !icon ? title.substring(0, 1) : title }
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
             </a>
         )
@@ -97,14 +99,15 @@ export function SidebarItemContainer({
                     id={id}
                 >
                     {icon && renderIcon(icon, title, type, sidebarOpen)}
-                    <span className={classNames(
-                        'n2o-sidebar__item-title',
-                        {
-                            visible: sidebarOpen && showContent,
-                        },
-                    )}
+                    <span
+                        className={classNames(
+                            'n2o-sidebar__item-title',
+                            {
+                                visible: isStaticView ? true : showContent,
+                            },
+                        )}
                     >
-                        {title}
+                        {isMiniView && !icon ? title.substring(0, 1) : title}
                     </span>
                 </NavLink>
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
@@ -166,6 +169,7 @@ SidebarItemContainer.propTypes = {
     sidebarOpen: PropTypes.bool,
     showContent: PropTypes.bool,
     isMiniView: PropTypes.bool,
+    isStaticView: PropTypes.bool,
 }
 
 export default SidebarItemContainer
