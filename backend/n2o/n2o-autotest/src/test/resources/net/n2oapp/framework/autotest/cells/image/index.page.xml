@@ -3,7 +3,7 @@
     <table query-id="testTable">
         <columns>
             <column text-field-id="image">
-                <image shape="circle" class="{genderId==1?'bg-danger':'bg-success'}" width="15"/>
+                <image shape="circle" class="{genderId==1?'bg-danger':'bg-success'}" width="15px"/>
             </column>
         </columns>
     </table>
