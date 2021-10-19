@@ -16,7 +16,6 @@
     "build:n2o": "lerna run --scope n2o-framework build",
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --scope n2o-ecp-plugin --parallel build",
     "build:projects": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
-    "build:storybook": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-framework build-storybook",
     "version:patch": "lerna version patch --no-git-tag-version --no-push --yes",
     "version:minor": "lerna version minor --no-git-tag-version --no-push --yes",
     "version:major": "lerna version major --no-git-tag-version --no-push --yes",
@@ -24,7 +23,6 @@
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
     "compile:lib:watch": "lerna run --stream --scope n2o-framework compile:lib:watch",
     "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
-    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-framework storybook",
     "docs": "lerna run --scope n2o-framework esdoc",
     "esdoc:n2o": "lerna run --scope n2o-framework esdoc",
     "prepare": "lerna bootstrap",
@@ -62,8 +60,5 @@
     "react-addons-test-utils": "15.4.2",
     "react-test-renderer": "^16.0.0",
     "rimraf": "^2.6.1"
-  },
-  "peerDependencies": {
-    "N2oStorybook": "*"
   }
 }

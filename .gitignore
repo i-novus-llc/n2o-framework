@@ -44,7 +44,6 @@ dist/
 lib/
 es/
 esdoc/
-storybook/
 
 #Test results
 allure-results

@@ -1,8 +1,0 @@
-{
-  "src": "HtmlWidget",
-  "id": "AuthWidget",
-  "html": "<h3>Security Widget</h3><h5>Roles: 'admin'</h5>",
-  "security": {
-    "roles": ["admin"]
-  }
-}

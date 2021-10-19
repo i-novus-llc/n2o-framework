@@ -1,9 +1,0 @@
-{
-  "visible": true,
-  "disabled": false,
-  "step": "0.01",
-  "min": 0,
-  "max": 555,
-  "name": "InputNumber",
-  "showButtons": true
-}

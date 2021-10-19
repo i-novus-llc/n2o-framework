@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { makeStore } from '../../../../.storybook/decorators/utils'
+import { makeStore } from './__test__/utils'
 
 import SimpleHeader from './SimpleHeader'
 import headerJSON from './simpleHeaderData'

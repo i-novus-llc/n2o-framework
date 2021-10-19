@@ -4443,22 +4443,6 @@
     react-lifecycles-compat "^3.0.4"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-jest@5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-jest/-/addon-jest-5.0.6.tgz#df27efecc145eebace163221100682bfafbcb839"
-  integrity sha512-cahJ6Za1Os56qQ/OoKC/cYSUCphz4VSUnguJgwtLkbFTwsIxhKY6Z5D4bXtReAYv+V8ijOhNsobjzl1pWLxLSw==
-  dependencies:
-    "@storybook/addons" "5.0.6"
-    "@storybook/components" "5.0.6"
-    "@storybook/core-events" "5.0.6"
-    "@storybook/theming" "5.0.6"
-    core-js "^2.6.5"
-    global "^4.3.2"
-    prop-types "^15.6.2"
-    react "^16.8.1"
-    upath "^1.1.0"
-    util-deprecate "^1.0.2"
-
 "@storybook/addon-knobs@5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@storybook/addon-knobs/-/addon-knobs-5.0.6.tgz#f291d7e18d30ef65284dc424d1b7527f114183b6"
@@ -4493,15 +4477,6 @@
     global "^4.3.2"
     prop-types "^15.6.2"
     qs "^6.5.2"
-
-"@storybook/addon-options@5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-options/-/addon-options-5.0.6.tgz#87cae5a44762620c786129bbb55ef86797e9f84c"
-  integrity sha512-aJcdO8zyGZCxdonMUnk+UbTLrNglBHTndQrWlJW4nW1A87pq1psfY2frytnsZYlR7/h39KrM0bxrXVrwdP8ZzQ==
-  dependencies:
-    "@storybook/addons" "5.0.6"
-    core-js "^2.6.5"
-    util-deprecate "^1.0.2"
 
 "@storybook/addon-storyshots@5.0.6":
   version "5.0.6"
@@ -17320,6 +17295,107 @@ mz@^2.5.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
+n2o-auth@7.16.0:
+  version "7.16.0"
+  resolved "https://registry.yarnpkg.com/n2o-auth/-/n2o-auth-7.16.0.tgz#ea7de2f6176e3c099d09d1d78b14e13f1dbd527b"
+  integrity sha512-q8Q24amn/SST8aJuuzA3/5lyoR6ASJXTjyOJdeAdGMndBdbftLFAu8Rm7f/9Ui0szNUUe4cQFd0aVVMW1RVa3A==
+  dependencies:
+    n2o-framework "^7.16.0"
+
+n2o-framework@7.16.0:
+  version "7.16.0"
+  resolved "https://registry.yarnpkg.com/n2o-framework/-/n2o-framework-7.16.0.tgz#d098ec4161725e7b5b2c38b1b32ccfd24f6e528d"
+  integrity sha512-USgutL2h4k5jTFUZxTZJVvwHnc2j0KeKSayAvbv7gffIhIvS8D/KnxkBKnMHVGdOQn3jl5eie5REkKvbffN/bQ==
+  dependencies:
+    "@babel/polyfill" "^7.0.0"
+    "@babel/runtime-corejs2" "^7.0.0"
+    "@fontsource/exo-2" "^4.3.0"
+    "@popperjs/core" "^2.2.1"
+    "@sambego/storybook-state" "^1.3.6"
+    "@storybook/addon-actions" "5.0.6"
+    "@storybook/addon-info" "5.0.6"
+    "@storybook/addon-knobs" "5.0.6"
+    "@storybook/addon-links" "5.0.6"
+    "@storybook/addon-storyshots" "5.0.6"
+    "@storybook/addons" "5.0.6"
+    "@storybook/react" "5.0.6"
+    assets-webpack-plugin "3.5.1"
+    axios "^0.19.0"
+    bootstrap "~4.3.1"
+    brace "0.11.0"
+    classnames "2.2.5"
+    connect-history-api-fallback "1.3.0"
+    connected-react-router "5.0.1"
+    copy-to-clipboard "^3.2.0"
+    cpy-cli "1.0.1"
+    deepmerge "1.5.2"
+    draft-js "0.11.7"
+    draftjs-to-html "0.8.4"
+    flat "4.1.0"
+    font-awesome "4.7.0"
+    global "4.3.2"
+    history "4.6.1"
+    html-to-draftjs "1.4.0"
+    i18next "19.7.0"
+    i18next-intervalplural-postprocessor "2.0.2"
+    immer "^8.0.1"
+    invariant "^2.2.4"
+    lodash "^4.17.15"
+    moment "2.20.1"
+    n2o-auth "^7.16.0"
+    numeral "2.0.6"
+    path-to-regexp "2.2.1"
+    print-js "1.5.0"
+    prop-types "15.6.1"
+    query-string "5.1.1"
+    rc-collapse "~1.10.0"
+    rc-drawer "^3.0.2"
+    rc-slider "^8.6.11"
+    rc-switch "~1.8.0"
+    rc-table "6.4.3"
+    rc-tree-select "2.3.1"
+    react "16.14.0"
+    react-ace "5.9.0"
+    react-big-calendar "0.24.6"
+    react-copy-to-clipboard "^5.0.1"
+    react-dom "16.14.0"
+    react-draft-wysiwyg "1.13.1"
+    react-dropzone "7.0.1"
+    react-helmet "5.2.0"
+    react-hotkeys "1.0.3"
+    react-i18next "11.7.3"
+    react-onclickoutside "6.7.1"
+    react-popper "^2.2.4"
+    react-popper-tooltip "3.1.1"
+    react-redux "5.0.6"
+    react-resizable "1.7.5"
+    react-resize-detector "^5.2.0"
+    react-router-dom "4.3.1"
+    react-rte "0.16.0"
+    react-syntax-highlighter "^11.0.2"
+    react-text-mask "5.4.3"
+    react-textarea-autosize "7.0.4"
+    react-virtualized "^9.21.0"
+    reactstrap "^8.0.0"
+    recharts "^1.6.2"
+    recompose "0.30.0"
+    redux "3.6.0"
+    redux-actions "2.3.2"
+    redux-batched-actions "0.3.0"
+    redux-devtools-extension "2.13.2"
+    redux-form "7.4.2"
+    redux-logger "3.0.6"
+    redux-mock-store "1.5.1"
+    redux-saga "^1.0.5"
+    redux-thunk "2.2.0"
+    reselect "3.0.1"
+    scroll-into-view-if-needed "^2.2.26"
+    text-mask-addons "3.7.1"
+    url-parse "^1.4.7"
+    whatwg-fetch "2.0.3"
+    why-did-you-update "0.1.1"
+    xhr-mock "2.4.1"
+
 nan@^2.12.1, nan@^2.13.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
@@ -20812,16 +20888,7 @@ react-docgen@^3.0.0:
     node-dir "^0.1.10"
     recast "^0.16.0"
 
-react-dom@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    scheduler "^0.20.2"
-
-react-dom@^16.8.1:
+react-dom@16.14.0, react-dom@^16.8.1:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
   integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
@@ -20830,6 +20897,15 @@ react-dom@^16.8.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
+
+react-dom@17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
+  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    scheduler "^0.20.2"
 
 react-draft-wysiwyg@1.13.1:
   version "1.13.1"
@@ -21279,7 +21355,7 @@ react-test-renderer@^16.0.0:
     react-is "^16.8.6"
     scheduler "^0.19.1"
 
-react-test-renderer@^17.0.0:
+react-test-renderer@^17.0.0, react-test-renderer@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-17.0.2.tgz#4cd4ae5ef1ad5670fc0ef776e8cc7e1231d9866c"
   integrity sha512-yaQ9cB89c17PUb0x6UfWRs7kQCorVdHlutU1boVPEsB8IDZH6n9tHxMacc3y0JoXOJUsZb/t/Mb8FUWMKaM7iQ==
@@ -21361,15 +21437,7 @@ react-widgets@^4.2.2:
     uncontrollable "^7.1.1"
     warning "^3.0.0"
 
-react@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
-react@^16.8.1:
+react@16.14.0, react@^16.8.1:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
@@ -21377,6 +21445,14 @@ react@^16.8.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
+
+react@17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 reactcss@^1.2.0:
   version "1.2.3"
@@ -25204,7 +25280,7 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-upath@^1.1.0, upath@^1.1.1:
+upath@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/upath/-/upath-1.2.0.tgz#8f66dbcd55a883acdae4408af8b035a5044c1894"
   integrity sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==
