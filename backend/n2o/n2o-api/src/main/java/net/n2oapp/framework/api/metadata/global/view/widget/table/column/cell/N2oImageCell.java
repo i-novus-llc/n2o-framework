@@ -17,7 +17,7 @@ import java.util.Map;
 @Setter
 public class N2oImageCell extends N2oActionCell implements UrlAware {
     @JsonProperty
-    private Integer width;
+    private String width;
     @JsonProperty
     private String url;
     @JsonProperty

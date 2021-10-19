@@ -1,8 +1,13 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <actions>
+        <action id="test">
+            <a href="http://i-novus.ru"/>
+        </action>
+    </actions>
     <fields>
         <image id="testId" src="testSrc" depends-on="name,type" label="testLabel"
                url="{Url}" data="data:image/jpeg;base64{image}" title="{title}" description="{Description}"
-               shape="circle"
+               shape="circle" action-id="test"
                text-position="top" width="500px">
             <statuses>
                 <status

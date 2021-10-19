@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 @Getter
 @Setter
 public class N2oImageField extends N2oField {
+    private String actionId;
     private String url;
     private String data;
     private String title;

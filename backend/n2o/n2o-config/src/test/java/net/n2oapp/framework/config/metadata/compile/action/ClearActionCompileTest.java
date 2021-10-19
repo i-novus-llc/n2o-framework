@@ -35,7 +35,7 @@ public class ClearActionCompileTest extends SourceCompileTestBase {
     public void clearActionTest() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testClearAction.page.xml")
                 .get(new ModalPageContext("testClearAction", "/p/w/a"));
-        ClearAction testAction = (ClearAction) page.getWidget().getActions().get("test");
+        ClearAction testAction = (ClearAction) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getType(), is("n2o/models/CLEAR"));
         assertThat(testAction.getPayload().getKey(), is("p_w_a_ds1"));
         assertThat(testAction.getPayload().getPrefixes()[0], is("edit"));

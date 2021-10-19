@@ -85,6 +85,16 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         initFilters(compiled, source, p);
     }
 
+    protected MetaActions initMetaActions(S source) {
+        MetaActions metaActions = new MetaActions();
+        if (source.getActions() != null) {
+            for (ActionsBar actionsBar : source.getActions()) {
+                metaActions.addAction(actionsBar.getId(), actionsBar);
+            }
+        }
+        return metaActions;
+    }
+
     /**
      * Компиляция идентификатора выборки виджета, учитывая источник данных
      */
@@ -293,9 +303,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, widgetRouteScope, object, validationList);
         compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, widgetRouteScope, validationList);
-        compiled.setActions(widgetActions);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {

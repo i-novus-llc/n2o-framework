@@ -10,12 +10,10 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,9 +50,6 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private String datasource;
     @JsonProperty
     private Toolbar toolbar;
-    @JsonProperty
-    @Deprecated
-    private Map<String, Action> actions;
     @JsonProperty
     private WidgetDependency dependency;
     @JsonProperty

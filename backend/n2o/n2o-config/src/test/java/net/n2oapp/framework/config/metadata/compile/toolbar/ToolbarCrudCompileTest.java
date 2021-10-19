@@ -107,7 +107,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         context.setParentRoute("/test");
 
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
-        CloseAction close = (CloseAction) page.getWidget().getActions().get("close");
+        CloseAction close = (CloseAction) page.getToolbar().getButton("close").getAction();
 
         assertThat(close.getType(), Matchers.is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), Matchers.is(true));

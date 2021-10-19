@@ -81,7 +81,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
-        MetaActions widgetActions = new MetaActions();
+        MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
                 uploadScope, subModelsScope, filtersScope);

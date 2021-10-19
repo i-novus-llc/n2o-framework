@@ -103,10 +103,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setProperties(p.mapAttributes(source));
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))
             initToolbarGenerate(source, resultWidget == null ? null : resultWidget.getId());
-        MetaActions metaActions = new MetaActions();
-        compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb,
+        compileToolbarAndAction(page, source, context, p, pageScope, routeScope, pageRoutes, object, breadcrumb,
                 validationList, compiledWidgets, widgetObjectScope);
-        page.setActions(metaActions);
         return page;
     }
 
@@ -238,14 +236,24 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p,
-                                         MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,
+                                         PageScope pageScope, ParentRouteScope routeScope,
                                          PageRoutes pageRoutes, CompiledObject object, BreadcrumbList breadcrumbs,
                                          ValidationList validationList, Map<String, Widget> widgets,
                                          WidgetObjectScope widgetObjectScope) {
         actionsToToolbar(source);
+        MetaActions metaActions = initMetaActions(source);
         compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageRoutes, object, breadcrumbs, validationList,
                 pageScope, routeScope, widgetObjectScope));
-        compileActions(source, context, p, metaActions, pageScope, routeScope, pageRoutes, breadcrumbs, object, validationList, widgets);
+    }
+
+    private MetaActions initMetaActions(S source) {
+        MetaActions metaActions = new MetaActions();
+        if (source.getActions() != null) {
+            for (ActionsBar actionsBar : source.getActions()) {
+                metaActions.addAction(actionsBar.getId(), actionsBar);
+            }
+        }
+        return metaActions;
     }
 
     private void actionsToToolbar(S source) {
@@ -381,25 +389,5 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 details.add(widget);
         }
         return details;
-    }
-
-    private void compileActions(S source, PageContext context, CompileProcessor p,
-                                MetaActions actions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
-                                BreadcrumbList breadcrumbs, CompiledObject object, ValidationList validationList, Map<String, Widget> widgets) {
-        if (source.getActions() != null) {
-            Stream.of(source.getActions()).forEach(a -> {
-                a.getAction().setId(a.getId());
-                Widget widget = null;
-                CompiledObject compiledObject = object;
-                if (widgets.containsKey(a.getWidgetId()))
-                    widget = widgets.get(a.getWidgetId());
-                if (widget != null) {
-                    compiledObject = new CompiledObject();
-                    compiledObject.setId(widget.getObjectId());
-                }
-                Action action = p.compile(a.getAction(), context, pageScope, routeScope, pageRoutes, compiledObject, breadcrumbs, validationList, new ComponentScope(a));
-                actions.addAction(a.getId(), action);
-            });
-        }
     }
 }

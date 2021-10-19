@@ -84,7 +84,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
         assertThat(page.getToolbar().get("TopLeft"), notNullValue());
         assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getActions().containsKey("close"), is(true));
+        assertThat(page.getToolbar().getButton("close"), notNullValue());
 
     }
 
@@ -174,7 +174,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail.getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
         //проверим что у кнопки delete родительский pathmapping скопировался
-        assertThat(((InvokeAction) panel.getActions().get("delete")).getPayload().getDataProvider().getPathMapping()
+        assertThat(((InvokeAction) panel.getToolbar().getButton("delete").getAction()).getPayload().getDataProvider().getPathMapping()
                         .get("testStandardPageDependency_master_id").getBindLink(),
                 is("models.resolve['testStandardPageDependency_master'].id"));
 
