@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
@@ -70,16 +71,19 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
             N2oRowClick rowClick = source.getRows().getRowClick();
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
             if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
-                Action action = null;
-                if (rowClick.getActionId() != null) {
-                    action = widgetActions.get(rowClick.getActionId());
+                N2oAction action = null;
+                if (rowClick.getActionId() != null && widgetActions.get(rowClick.getActionId()) != null) {
+                    action = widgetActions.get(rowClick.getActionId()).getAction();
                 } else if (rowClick.getAction() != null) {
-                    action = p.compile(rowClick.getAction(), context, widgetScope,
-                            widgetRouteScope, new ComponentScope(rowClick), object);
+                    action = rowClick.getAction();
                 }
-                rc = new RowClick(action);
-                if (action != null && StringUtils.isJs(enabledCondition)) {
-                    rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
+                if (action != null) {
+                    Action compiledAction = p.compile(action, context, widgetScope,
+                            widgetRouteScope, new ComponentScope(rowClick), object);
+                    rc = new RowClick(compiledAction);
+                    if (compiledAction != null && StringUtils.isJs(enabledCondition)) {
+                        rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
+                    }
                 }
             }
         }

@@ -151,17 +151,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private Action compileAction(N2oButton source, PerformButton button,
                                  CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getAction() != null) {
-            N2oAction butAction = source.getAction();
-            CompiledObject compiledObject = getCompiledObject(p, butAction.getObjectId(), source.getWidgetId());
-            butAction.setId(p.cast(butAction.getId(), button.getId()));
-            return p.compile(butAction, context, compiledObject, new ComponentScope(source));
-        }
-        if (source.getActionId() != null) {
+        N2oAction butAction = source.getAction();
+        if (source.getAction() == null && source.getActionId() != null) {
             MetaActions metaActions = p.getScope(MetaActions.class);
-            return metaActions.get(source.getActionId());
+            butAction = metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
         }
-        return null;
+        if (butAction == null) return null;
+        CompiledObject compiledObject = getCompiledObject(p, butAction.getObjectId(), source.getWidgetId());
+        butAction.setId(p.cast(butAction.getId(), button.getId()));
+        return p.compile(butAction, context, compiledObject, new ComponentScope(source));
     }
 
     private String initWidgetId(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {

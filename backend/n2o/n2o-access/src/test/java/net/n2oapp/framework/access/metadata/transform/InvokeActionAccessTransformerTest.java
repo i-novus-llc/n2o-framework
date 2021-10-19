@@ -55,7 +55,7 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getUsernames(), nullValue());
 
-        securityObject = ((Security) page.getActions().get("update")
+        securityObject = ((Security) page.getToolbar().getButton("update")
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObject.getRoles().size(), is(1));
         assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
@@ -79,7 +79,7 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getUsernames(), nullValue());
         assertTrue(securityObject.getAnonymous());
 
-        securityObject = ((Security) page.getActions().get("update")
+        securityObject = ((Security) page.getToolbar().getButton("update")
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObject.getRoles().size(), is(1));
         assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));

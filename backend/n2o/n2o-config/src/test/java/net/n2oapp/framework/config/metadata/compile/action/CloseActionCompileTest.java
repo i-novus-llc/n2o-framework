@@ -57,7 +57,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         context.setParentRoute("/p/w");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
-        LinkActionImpl testAction = (LinkActionImpl) page.getWidget().getActions().get("test");
+        LinkActionImpl testAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getUrl(), is("/p/w"));
 
         PageContext openPageContext = (PageContext) route("/p/w/a/b/c", Page.class);

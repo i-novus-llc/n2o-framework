@@ -10,9 +10,7 @@
                 </actions>
                 <toolbar>
                     <sub-menu>
-                        <menu-item id="item">
-                            <copy/>
-                        </menu-item>
+                        <menu-item id="item" action-id="test"/>
                     </sub-menu>
                     <button id="btn">
                         <copy source-model="edit" source-widget-id="table1" source-field-id="id" mode="replace"

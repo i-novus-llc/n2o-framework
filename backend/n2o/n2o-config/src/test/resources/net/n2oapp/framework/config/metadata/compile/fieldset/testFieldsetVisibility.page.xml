@@ -40,5 +40,8 @@
                 <invoke operation-id="test" />
             </action>
         </actions>
+        <toolbar>
+            <button action-id="action"/>
+        </toolbar>
     </form>
 </simple-page>

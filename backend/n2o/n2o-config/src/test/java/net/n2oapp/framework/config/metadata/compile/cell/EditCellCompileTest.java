@@ -65,7 +65,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getEditFieldId(), is("itIdTest"));
 
         assertThat(cell.getCompiledAction(), notNullValue());
-        assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/actionTest"));
+        assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
         assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
 
         cell = (EditCell) table.getComponent().getCells().get(1);

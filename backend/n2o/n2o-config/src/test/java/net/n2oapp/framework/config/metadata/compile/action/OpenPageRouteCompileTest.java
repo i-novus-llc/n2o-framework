@@ -60,7 +60,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getActions().get("withParam");
+                .getToolbar().getButton("withParam").getAction();
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open1"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -76,7 +76,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getActions().get("withoutParam");
+                .getToolbar().getButton("withoutParam").getAction();
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/open2"));
         assertThat(action.getQueryMapping().isEmpty(), is(true));
     }
@@ -91,7 +91,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getActions().get("withParamWithoutMasterDetail");
+                .getToolbar().getButton("withParamWithoutMasterDetail").getAction();
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open3"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -181,7 +181,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPageToolbarWithParams.page.xml")
                 .get(new PageContext("testPageToolbarWithParams", "/test"));
 
-        OpenDrawer action = (OpenDrawer) page.getActions().get("menuItem0");
+        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("menuItem0").getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
