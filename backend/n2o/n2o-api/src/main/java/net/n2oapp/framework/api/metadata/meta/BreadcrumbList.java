@@ -10,7 +10,7 @@ public class BreadcrumbList extends ArrayList<Breadcrumb> {
 
     public BreadcrumbList(List<? extends Breadcrumb> objects) {
         if (objects != null) {
-            addAll(objects);
+            objects.forEach(b -> this.add(new Breadcrumb(b)));
         }
     }
 }

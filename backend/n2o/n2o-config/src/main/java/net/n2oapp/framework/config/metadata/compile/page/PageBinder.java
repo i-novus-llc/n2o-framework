@@ -45,12 +45,14 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             }
         }
 
-        if (page.getBreadcrumb() != null)
+        if (page.getBreadcrumb() != null) {
+            page.setBreadcrumb(new BreadcrumbList(page.getBreadcrumb()));
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
                     .forEach(b -> {
                         b.setPath(p.resolveUrl(b.getPath()));
                         b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
                     });
+        }
 
         collectFiltersToModels(page.getModels(), widgets, p);
 

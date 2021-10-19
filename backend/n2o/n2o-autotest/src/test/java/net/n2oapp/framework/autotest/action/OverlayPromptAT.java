@@ -128,7 +128,7 @@ public class OverlayPromptAT extends AutoTestBase {
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
-        breadcrumb.parentTitleShouldHaveText("Тест overlay окон");
+        breadcrumb.firstTitleShouldHaveText("Тест overlay окон");
         breadcrumb.clickLink("Тест overlay окон");
         breadcrumb.titleShouldHaveText("Тест overlay окон");
 
@@ -138,7 +138,7 @@ public class OverlayPromptAT extends AutoTestBase {
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
-        breadcrumb.parentTitleShouldHaveText("Тест overlay окон");
+        breadcrumb.firstTitleShouldHaveText("Тест overlay окон");
         breadcrumb.clickLink("Тест overlay окон");
         Selenide.dismiss();
         breadcrumb.titleShouldHaveText("Overlay окно");
