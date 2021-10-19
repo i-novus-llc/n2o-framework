@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock'
 import pick from 'lodash/pick'
 
-import formValidJson from '../../../.storybook/json/FormValidations.json'
+import formValidJson from './__test__/FormValidations.json'
 
 import { validateField } from './createValidator'
 import {

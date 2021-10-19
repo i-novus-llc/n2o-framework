@@ -2,7 +2,7 @@
   "source": "./src",
   "destination": "./docs/esdoc",
   "includes": ["\\.(js|jsx)$"],
-  "excludes": ["keycodes\\.js", "constants/*", "\\.test\\.(js|jsx)$", "\\.story\\.(js|jsx)$"],
+  "excludes": ["keycodes\\.js", "constants/*", "\\.test\\.(js|jsx)$"],
   "plugins": [
     {
       "name": "esdoc-standard-plugin",

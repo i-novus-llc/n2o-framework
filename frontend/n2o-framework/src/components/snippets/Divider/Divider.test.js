@@ -29,10 +29,4 @@ describe('<Divider />', () => {
         const wrapper = setup()
         expect(wrapper.text()).toBe('title')
     })
-    it('renders correctly', () => {
-        const tree = renderer
-            .create(<Divider style={undefined}>title</Divider>)
-            .toJSON()
-        expect(tree).toMatchSnapshot()
-    })
 })

@@ -1,9 +1,0 @@
-{
-  "src" : "BadgeCell",
-  "fieldKey": "name",
-  "placement": "right",
-  "text": "`my.date`",
-  "format": "date dddd",
-  "badgeFormat": "password",
-  "color": "`status == 1 ? 'success' : status == 2 ? 'danger' : 'primary'`"
-}
