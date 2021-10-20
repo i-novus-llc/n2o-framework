@@ -56,7 +56,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testSearchablePage_table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
-        assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("testSearchablePage_table"));
+        assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
 
         BindLink bindLink = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getDataProvider().getQueryMapping().get("name");
@@ -80,7 +80,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testSearchablePage2_table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
-        assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("testSearchablePage2_table"));
+        assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));
 
         BindLink bindLink = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getDataProvider().getQueryMapping().get("name");
@@ -88,5 +88,8 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(bindLink.getBindLink(), is("models.filter['testSearchablePage2_table']"));
         assertThat(page.getClassName(), is("testClass"));
         assertThat(page.getStyle().size(), is(2));
+
+        assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(1)).getDataProvider().getQueryMapping().size(),
+                is(0));
     }
 }

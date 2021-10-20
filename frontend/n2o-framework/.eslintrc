@@ -8,7 +8,7 @@
     "optimize-regex",
     "sonarjs"
   ],
-  "ignorePatterns": ["*.test.js", "*.test.jsx", "*.story.js", "*.story.jsx"],
+  "ignorePatterns": ["*.test.js", "*.test.jsx"],
   "rules": {
     // without ";"
     "semi": ["error", "never"],

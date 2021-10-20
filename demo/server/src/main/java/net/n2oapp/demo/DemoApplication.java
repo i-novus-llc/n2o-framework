@@ -62,8 +62,6 @@ public class DemoApplication extends SpringBootServletInitializer {
                         "forward:/docs/manual/index.html");
                 registry.addViewController("/docs/xml/").setViewName(
                         "forward:/docs/xml/index.html");
-                registry.addViewController("/docs/storybook/").setViewName(
-                        "forward:/docs/storybook/index.html");
                 registry.addViewController("/docs/esdoc/").setViewName(
                         "forward:/docs/esdoc/index.html");
 

@@ -16,12 +16,13 @@ public class SubModelQuery implements Compiled {
 
     private String subModel;
     private String queryId;
+    @Deprecated //"id" always
     private String valueFieldId;
     private String labelFieldId;
-    private Boolean multi;
+    private boolean multi = false;
     private List<Map<String, Object>> options;
 
-    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, Boolean multi, List<Map<String, Object>> options) {
+    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, boolean multi, List<Map<String, Object>> options) {
         this.subModel = subModel;
         this.queryId = queryId;
         this.valueFieldId = valueFieldId;

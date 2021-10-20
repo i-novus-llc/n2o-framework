@@ -46,10 +46,9 @@ class Input extends React.Component {
         if (props.disabled) {
             return
         }
-        const value =
-      isObject(props.value) || isArray(props.value)
-          ? props.value
-          : e.target.value
+        const value = isObject(props.value) || isArray(props.value)
+            ? props.value
+            : e.target.value
 
         props.onChange({
             target: {

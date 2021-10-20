@@ -22,63 +22,6 @@ const toolbar = [
     },
 ]
 
-it.skip('StandardField рендерится корректно', () => {
-    const tree = TestRenderer.create(
-        <StandardField
-            id="myField"
-            value="test"
-            visible
-            label="Мое поле"
-            control="InputText"
-            description="Введите значение"
-            measure="км"
-            required
-            className="test"
-            style={{ display: 'block' }}
-            validationState="error"
-            loading={false}
-            disabled={false}
-            enabled
-            labelStyle={{ display: 'block' }}
-            controlStyle={{ display: 'block' }}
-            labelClass="myLabelClass"
-            controlClass="myControlClass"
-            placeholder="TEST"
-            component={() => null}
-        />,
-    ).toJSON()
-    expect(tree).toMatchSnapshot()
-})
-
-it.skip('StandardField рендерится корректно c toolbar', () => {
-    const tree = TestRenderer.create(
-        <StandardField
-            id="myField"
-            value="test"
-            visible
-            label="Мое поле"
-            control="InputText"
-            description="Введите значение"
-            measure="км"
-            required
-            className="test"
-            style={{ display: 'block' }}
-            validationState="error"
-            loading={false}
-            disabled={false}
-            enabled
-            labelStyle={{ display: 'block' }}
-            controlStyle={{ display: 'block' }}
-            labelClass="myLabelClass"
-            controlClass="myControlClass"
-            placeholder="TEST"
-            component={() => null}
-            toolbar={toolbar[0]}
-        />,
-    ).toJSON()
-    expect(tree).toMatchSnapshot()
-})
-
 it('StandardField верно приходит props toolbar', () => {
     const tree = TestRenderer.create(
         <StandardField

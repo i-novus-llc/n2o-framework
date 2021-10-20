@@ -1,5 +1,6 @@
 ---
 title: Настройки и локализация
+description: ""
 ---
 
 Настройки N2O делятся на настройки клиента, настройки сервера и сообщения локализации.
@@ -59,9 +60,8 @@ my.path=#{envProperties['HOME']}
 Использовать сообщения локализации можно в любом месте XML файлов конфигураций,
 точно так же, как и N2O настройки.
 
-Message bundle N2O лежат в `n2o_api_messages`, `n2o_config_messages`, `n2o_rest_messages`.
-Для добавления дополнительных — необходимо переопределить настройку `spring.messages.basename`,
-не забыв указать message bundle N2O
+Стандартные message bundle N2O лежат в `n2o_api_messages`, `n2o_config_messages`, `n2o_rest_messages`.
+Для добавления дополнительных или переопределения стандартных необходимо переопределить настройку `spring.messages.basename`.
 
 ### Настройки локализации
 

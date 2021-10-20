@@ -25,5 +25,5 @@ public interface SubModelsProcessor {
      * @param queryId Идентификатор выборки
      * @return Результат выборки
      */
-    CollectionPage<DataSet> getQueryResult(String queryId);
+    CollectionPage<DataSet> getQueryResult(String queryId, DataSet params);
 }

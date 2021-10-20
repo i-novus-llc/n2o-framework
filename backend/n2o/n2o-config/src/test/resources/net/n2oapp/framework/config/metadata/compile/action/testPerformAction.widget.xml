@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" datasource="ds1">
     <actions>
         <action id="test">
             <perform src="mySrc"/>
         </action>
     </actions>
     <toolbar>
+        <button action-id="test"/>
         <button >
             <perform src="mySrc"/>
         </button>
     </toolbar>
-</table>
+</form>

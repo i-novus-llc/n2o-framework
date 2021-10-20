@@ -21,7 +21,7 @@ public class ImageCellElementIOv2 extends AbstractCellElementIOv2<N2oImageCell> 
     public void io(Element e, N2oImageCell c, IOProcessor p) {
         super.io(e, c, p);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
-        p.attributeInteger(e, "width", c::getWidth, c::setWidth);
+        p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeEnum(e, "shape", c::getShape, c::setShape, ImageShape.class);
         p.children(e, "statuses", "status", c::getStatuses, c::setStatuses, ImageStatusElement::new, this::statuses);
         p.anyChild(e, "action", c::getAction, c::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);

@@ -5,27 +5,37 @@ import Modal from 'reactstrap/lib/Modal'
 import ModalHeader from 'reactstrap/lib/ModalHeader'
 import ModalBody from 'reactstrap/lib/ModalBody'
 import ModalFooter from 'reactstrap/lib/ModalFooter'
+import classNames from 'classnames'
 
 import Toolbar from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'
 
 function PageDialog({ visible, props }) {
-    const { title, description, size, scrollable } = props
+    const { title, text, size, scrollable } = props
 
     return (
         <div className="modal-page-overlay">
-            <Modal isOpen={visible} size={size} scrollable={scrollable}>
-                <ModalHeader
-                    className={{ 'modal-page-overlay--border-bottom-none': !description }}
-                >
-                    {title}
-                </ModalHeader>
-                {description && (
-                    <ModalBody className="white-space-pre-line">{description}</ModalBody>
+            <Modal
+                isOpen={visible}
+                size={size}
+                scrollable={scrollable}
+                modalClassName={classNames({
+                    'simple-modal-dialog': !title && !text,
+                })}
+            >
+                {title && (
+                    <ModalHeader
+                        className={{ 'modal-page-overlay--border-bottom-none': !text }}
+                    >
+                        {title}
+                    </ModalHeader>
+                )}
+                {text && (
+                    <ModalBody className="white-space-pre-line">{text}</ModalBody>
                 )}
                 <ModalFooter
-                    className={{ 'modal-page-overlay--border-top-none': !description }}
+                    className={{ 'modal-page-overlay--border-top-none': !text }}
                 >
                     <Toolbar
                         className="mr-auto"
@@ -52,7 +62,7 @@ PageDialog.propTypes = {
     visible: PropTypes.bool,
     props: PropTypes.object,
     title: PropTypes.string,
-    description: PropTypes.string,
+    text: PropTypes.string,
     size: PropTypes.string,
     scrollable: PropTypes.bool,
 }

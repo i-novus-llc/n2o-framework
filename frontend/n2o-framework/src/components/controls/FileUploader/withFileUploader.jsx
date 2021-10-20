@@ -28,6 +28,7 @@ const FileUploaderControl = (WrappedComponent) => {
             this.requests = {}
 
             this.handleDrop = this.handleDrop.bind(this)
+            this.onDropRejected = this.onDropRejected.bind(this)
             this.handleImagesDrop = this.handleImagesDrop.bind(this)
             this.handleRemove = this.handleRemove.bind(this)
             this.handleChange = this.handleChange.bind(this)
@@ -159,6 +160,7 @@ const FileUploaderControl = (WrappedComponent) => {
                 onFocus: () => {},
                 onBlur: () => {},
                 onDrop: this.handleDrop,
+                onDropRejected: this.onDropRejected,
                 onImagesDrop: this.handleImagesDrop,
                 onDragLeave: this.onDragLeave,
                 onDragEnter: this.onDragEnter,
@@ -202,11 +204,37 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         /**
+         * @param {Array<File>} files
+         */
+        onDropRejected(files) {
+            const { accept } = this.props
+            const { files: stateFiles } = this.state
+            const errorText = `Ошибка формата файла. Ожидаемый тип: ${accept}`
+
+            this.setState({
+                files: [...stateFiles, ...files.map((file) => {
+                    file.error = errorText
+                    file.id = id()
+                    file.percentage = 0
+
+                    return file
+                })],
+            })
+        }
+
+        /**
          * Загрузка изображений в state
          * @param files
          */
         handleImagesDrop(files) {
-            if (everyIsValid(files)) {
+            const { accept, t } = this.props
+            let errorText = `${t('imageUploadAvailableImageTypes')} JPG/PNG/SVG`
+
+            if (accept) {
+                errorText = `${t('imageUploadAvailableImageTypes')} ${accept}`
+            }
+
+            if (everyIsValid(files) && files.length !== 0) {
                 this.setState({
                     imgError: {},
                 })
@@ -221,7 +249,7 @@ const FileUploaderControl = (WrappedComponent) => {
             } else {
                 this.setState({
                     imgError: {
-                        message: 'You can only upload JPG/PNG/SVG file!',
+                        message: errorText,
                     },
                 })
             }
@@ -302,10 +330,15 @@ const FileUploaderControl = (WrappedComponent) => {
             const url = this.resolveUrl(uploadUrl)
 
             this.setState({
-                uploading: reduce(files, (acc, { id }) => ({ ...acc, [id]: true }), {}),
+                uploading: reduce(files, (acc, { id, error }) => ({ ...acc, [id]: !error }), {}),
             })
 
             files.forEach((file) => {
+                if (file.error) {
+                    // Не загружаем файлы, которые не прошли префильтры
+
+                    return
+                }
                 if (!this.requests[file.id]) {
                     const onProgress = this.onProgress.bind(this, file.id)
                     const onUpload = this.onUpload.bind(this, file.id)
@@ -469,6 +502,7 @@ const FileUploaderControl = (WrappedComponent) => {
     }
 
     ReturnedComponent.defaultProps = {
+        t: () => {},
         requestParam: 'file',
         visible: true,
         icon: 'fa fa-upload',
@@ -619,6 +653,7 @@ const FileUploaderControl = (WrappedComponent) => {
         onBlur: PropTypes.func,
         model: PropTypes.object,
         fieldKey: PropTypes.string,
+        t: PropTypes.func,
     }
 
     return ReturnedComponent

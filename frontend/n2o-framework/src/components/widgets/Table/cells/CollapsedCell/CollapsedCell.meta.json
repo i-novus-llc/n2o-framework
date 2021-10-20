@@ -1,7 +1,0 @@
-{
-  "src" : "CollapsedCell",
-  "fieldKey": "data",
-  "color": "secondary",
-  "amountToGroup": 3,
-  "labelFieldId": "name"
-}

@@ -6,10 +6,26 @@
  */
 
 .heroBanner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 4rem 0;
     text-align: center;
     position: relative;
     overflow: hidden;
+}
+
+.heroBanner > div {
+    max-width: 733px;
+}
+
+.mainTitle {
+    margin-bottom: 30px;
+}
+
+.mainSubTitle {
+    margin-bottom: 30px;
+    font-weight: 400;
 }
 
 @media screen and (max-width: 966px) {
@@ -31,7 +47,182 @@
     width: 100%;
 }
 
+.feature {
+    margin-bottom: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 100%;
+}
+
+.featureReverse {
+    flex-direction: row-reverse;
+}
+
+.featureDescriptionBlock {
+    max-width: 650px;
+}
+
 .featureImage {
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
+}
+
+.featureTitle {
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.featureDescription {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.getStarted {
+    width: 172px;
+    height: 48px;
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 4px;
+    background-color: #ff8700;
+    color: white !important;
+}
+
+.getStarted:hover {
+    text-decoration: none;
+    background-color: #d37204;
+}
+
+.examplesTabsWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.tabsSection {
+    width: 1520px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.tabsSection > .tabs-container {
+    width: 1520px;
+}
+
+.examplesTabs {
+    font-weight: 500;
+    color: #525252;
+}
+
+.examplesTabs > li[aria-selected=true] {
+    font-weight: 500;
+    border-bottom: 2px solid #d37204;
+    color: black;
+}
+
+.examplesTabsDark {
+    color: #b0b0b0;
+}
+
+.examplesTabsDark > li[aria-selected=true] {
+    color: white;
+    border-bottom: 2px solid #d37204;
+}
+
+.sandboxWrapper {
+    width: 1520px;
+    border: 1px solid #c3ced2;
+}
+
+.sandboxLightEditor {
+    width: 1520px;
+}
+
+.getStartedCards {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.getStartedCards > div {
+    width: 1520px;
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+}
+
+.getStartedCard {
+    width: 350px;
+    height: 325px;
+    margin: 120px 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 700;
+    background: #fff;
+    color: #1c1e21;
+    box-shadow: 0 2px 4px rgba(14, 86, 124, 0.16);
+    border-radius: 4px;
+    transition: 0.1s ease;
+}
+
+.getStartedCard:hover {
+    border: 2px solid #0491cd;
+    transition: 0.1s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1550px) {
+    .tabsSection,
+    .tabsSection > .tabs-container,
+    .sandboxWrapper,
+    .sandboxLightEditor,
+    .getStartedCards > div {
+        width: 1220px;
+    }
+
+    .getStartedCard {
+        width: 280px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .tabsSection,
+    .tabsSection > .tabs-container,
+    .sandboxWrapper,
+    .sandboxLightEditor,
+    .getStartedCards > div {
+        width: 1000px;
+    }
+
+    .getStartedCard {
+        width: 240px;
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .feature {
+        flex-flow: column;
+    }
+
+    .tabsSection,
+    .tabsSection > .tabs-container,
+    .sandboxWrapper,
+    .sandboxLightEditor,
+    .getStartedCards > div {
+        width: 800px;
+    }
+
+    .getStartedCard {
+        font-size: 18px;
+        transform: scale(0.9);
+    }
 }

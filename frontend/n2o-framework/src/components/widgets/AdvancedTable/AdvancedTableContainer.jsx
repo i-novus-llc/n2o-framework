@@ -13,7 +13,7 @@ import map from 'lodash/map'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
-import { replace } from 'connected-react-router'
+import { push } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
 import widgetContainer from '../WidgetContainer'
@@ -110,10 +110,10 @@ class AdvancedTableContainer extends React.Component {
     }
 
     renderCell(props) {
-        const { actions } = this.props
+        const { modelId } = this.props
         const propStyles = pick(props, ['width'])
 
-        return <ReduxCell {...propStyles} {...props} actions={actions} />
+        return <ReduxCell {...propStyles} {...props} modelId={modelId} />
     }
 
     handleSetFilter(filter) {
@@ -152,6 +152,7 @@ class AdvancedTableContainer extends React.Component {
           cells,
           headers,
           widgetId,
+          modelId,
           sorting,
           onSort,
           registredColumns,
@@ -194,6 +195,7 @@ class AdvancedTableContainer extends React.Component {
                           index,
                           key: cell.id,
                           widgetId,
+                          modelId,
                           columnId: cell.id,
                           model: record,
                           as: 'div',
@@ -256,7 +258,6 @@ class AdvancedTableContainer extends React.Component {
 
   getTableProps() {
       const props = omit(this.props, [
-          'actions',
           'cells',
           'headers',
           'datasource',
@@ -290,11 +291,11 @@ AdvancedTableContainer.propTypes = {
     selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onResolve: PropTypes.func,
     hasSelect: PropTypes.bool,
-    actions: PropTypes.any,
     cells: PropTypes.any,
     datasource: PropTypes.any,
     headers: PropTypes.any,
     widgetId: PropTypes.string,
+    modelId: PropTypes.string,
     sorting: PropTypes.any,
     onSort: PropTypes.func,
     onFetch: PropTypes.func,
@@ -347,7 +348,7 @@ export const withWidgetHandlers = compose(
                 dispatch(action)
             } else if (url) {
                 if (target === 'application') {
-                    dispatch(replace(compiledUrl))
+                    dispatch(push(compiledUrl))
                 } else if (target === '_blank') {
                     window.open(compiledUrl)
                 } else {
@@ -364,6 +365,7 @@ const enhance = compose(
         {
             mapProps: props => ({
                 widgetId: props.widgetId,
+                modelId: props.modelId,
                 pageId: props.pageId,
                 headers: props.headers,
                 cells: props.cells,
@@ -386,19 +388,18 @@ const enhance = compose(
                     }
                 },
                 onSetSelection: (models) => {
-                    props.dispatch(setModel(PREFIXES.multi, props.widgetId, models))
+                    props.dispatch(setModel(PREFIXES.multi, props.modelId, models))
                 },
                 setSelectionType: (type) => {
                     props.dispatch(
-                        setModel(PREFIXES.selectionType, props.widgetId, type),
+                        setModel(PREFIXES.selectionType, props.modelId, type),
                     )
                 },
                 onSetFilter: (filters) => {
-                    props.dispatch(setModel(PREFIXES.filter, props.widgetId, filters))
+                    props.dispatch(setModel(PREFIXES.filter, props.modelId, filters))
                 },
                 onFocus: props.onFocus,
                 size: props.size,
-                actions: props.actions,
                 redux: true,
                 rowSelection: props.rowSelection,
                 autoCheckboxOnSelect: props.autoCheckboxOnSelect,

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" >
+    <list>
+        <test file="net/n2oapp/framework/autotest/action/data_back_from_modal/test.json"/>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+        </field>
+    </fields>
+</query>

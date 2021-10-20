@@ -14,4 +14,9 @@
             <invoke operation-id="delete" method="DELETE"/>
         </action>
     </actions>
+    <toolbar>
+        <button action-id="testDefault"/>
+        <button action-id="testPut"/>
+        <button action-id="testDelete"/>
+    </toolbar>
 </table>

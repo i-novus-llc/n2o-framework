@@ -11,6 +11,7 @@ import CalendarContainer from './CalendarContainer'
 function CalendarWidget(props, context) {
     const {
         id: widgetId,
+        datasource: modelId = widgetId,
         toolbar,
         disabled,
         pageId,
@@ -29,6 +30,7 @@ function CalendarWidget(props, context) {
         <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
+            modelId={modelId}
             toolbar={toolbar}
             filter={resolveProps(filter, StandardFieldset)}
             className={className}
@@ -41,6 +43,7 @@ function CalendarWidget(props, context) {
                 disabled={disabled}
                 dataProvider={dataProvider}
                 widgetId={widgetId}
+                modelId={modelId}
                 fetchOnInit={fetchOnInit}
                 {...calendar}
             />
@@ -49,7 +52,7 @@ function CalendarWidget(props, context) {
 }
 
 CalendarWidget.propTypes = {
-    widgetId: PropTypes.string,
+    datasource: PropTypes.string,
     id: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,

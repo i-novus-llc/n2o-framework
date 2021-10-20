@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
@@ -50,11 +51,20 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setPageProperty(initPageName(source, pageName, context, p));
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
+        String refId = source.getWidget().getRefId();
+        if (refId != null && !DynamicUtil.isDynamic(refId)) {
+            source.setWidget(p.merge(p.getSource(refId, N2oWidget.class), source.getWidget()));
+        }
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         if (widget.getQueryId() != null)
             pageScope.setWidgetIdQueryIdMap(Map.of(widget.getId(), widget.getQueryId()));
+        pageScope.setWidgetIdDatasourceMap(new HashMap<>());
+        pageScope.getWidgetIdDatasourceMap().putAll(Map.of(pageScope.getGlobalWidgetId(widget.getId()),
+                pageScope.getGlobalWidgetId(widget.getDatasource() == null ? widget.getId() : widget.getDatasource())));
+        if (context.getParentWidgetIdDatasourceMap() != null)
+            pageScope.getWidgetIdDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();
@@ -78,9 +88,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             page.setObject(object);
         }
         if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
-            MetaActions metaActions = new MetaActions();
-            page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
-            compiledWidget.getActions().putAll(metaActions);
+            page.setToolbar(compileToolbar(context, p, new MetaActions(), pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
         }
         return page;
     }

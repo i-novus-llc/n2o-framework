@@ -53,6 +53,7 @@ describe('TableContainer', () => {
         it('Проверка прокидывания props', () => {
             const testPropsData = {
                 widgetId: 'widgetId',
+                modelId: 'widgetId',
                 pageId: 'pageId',
                 headers: [{ id: 'headers' }],
                 cells: [{ id: 'cells' }],
@@ -62,7 +63,6 @@ describe('TableContainer', () => {
                 autoFocus: true,
                 rowColor: 'red',
                 size: 10,
-                actions: { anyActions: {} },
                 redux: true,
                 rowClick: { src: 'dummy' },
             }

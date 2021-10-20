@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 /**
  * Автотест для проверки значений по умолчанию фильтров таблицы
  */
@@ -25,6 +27,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        headless = false;
     }
 
     @BeforeEach

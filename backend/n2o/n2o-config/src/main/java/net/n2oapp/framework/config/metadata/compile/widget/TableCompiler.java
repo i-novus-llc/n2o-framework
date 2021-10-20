@@ -20,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -66,9 +67,11 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(UploadType.defaults);
         FiltersScope filtersScope = new FiltersScope(table.getFilters());
+//        WidgetParamScope paramScope = new WidgetParamScope();
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.FILTER, table.getId(), models), filtersScope, subModelsScope, uploadScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery)));
+//        addParamRoutes(paramScope, context, p);
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new EnumMap<>(ReduxModel.class)) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
@@ -78,7 +81,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
-        MetaActions widgetActions = new MetaActions();
+        MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
                 uploadScope, subModelsScope, filtersScope);
@@ -182,10 +185,9 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
 
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                               WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
-                                              ModelsScope modelsScope, FiltersScope filtersScope,
-                                              SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
+                                              Object... scopes) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
-                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
+                widgetQuery, object, scopes);
 
         if (fieldSets.isEmpty())
             return null;

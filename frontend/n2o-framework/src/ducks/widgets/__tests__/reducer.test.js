@@ -35,6 +35,7 @@ describe('Тесты widget reducer', () => {
                     payload: {
                         widgetId: 'Page.Widget',
                         initProps: {
+                            modelId: 'Page.Widget',
                             containerId: 'containerId',
                             count: 1,
                             dataProvider: {
@@ -61,6 +62,7 @@ describe('Тесты widget reducer', () => {
             ),
         ).toEqual({
             'Page.Widget': {
+                modelId: 'Page.Widget',
                 containerId: 'containerId',
                 count: 1,
                 dataProvider: {

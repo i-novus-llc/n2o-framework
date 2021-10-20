@@ -72,17 +72,14 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     @Override
     protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, CompileProcessor p) {
-        if (source.getParam() != null) {
-            String id = control.getId() + ".id";
-            ModelsScope modelsScope = p.getScope(ModelsScope.class);
-            if (modelsScope != null) {
-                ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
-                ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
-                        colon(source.getParam()));
-                paramScope.addQueryMapping(source.getParam(), onGet, onSet);
-                if (modelsScope.hasModels())
-                    modelsScope.add(control.getId(), onSet);
-            }
+        if (source.getParam() == null) return;
+        String id = control.getId() + ".id";
+        ModelsScope modelsScope = p.getScope(ModelsScope.class);
+        if (modelsScope != null) {
+            ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
+            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
+                    colon(source.getParam()));
+            paramScope.addQueryMapping(source.getParam(), onGet, onSet);
         }
     }
 
@@ -144,7 +141,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
                 dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
             } else if (searchFilterId != null && listControl.getHasSearch()) {
-                throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
+                throw new N2oException(
+                        String.format("For search field id [%s] is necessary this filter-id in query [%s]", searchFilterId, query.getId()));
             }
         }
         listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));

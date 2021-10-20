@@ -1,20 +1,18 @@
-import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
+import {
+    call,
+    fork,
+    put,
+    select,
+    takeEvery,
+    cancel,
+} from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import isNil from 'lodash/isNil'
-import pick from 'lodash/pick'
-import mapValues from 'lodash/mapValues'
-import omit from 'lodash/omit'
-import keys from 'lodash/keys'
-import pickBy from 'lodash/pickBy'
-import identity from 'lodash/identity'
 import get from 'lodash/get'
 import last from 'lodash/last'
 import { reset } from 'redux-form'
-import { replace } from 'connected-react-router'
-import queryString from 'query-string'
 
-import { dataProviderResolver, getParams } from '../../core/dataProviderResolver'
+import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { PREFIXES } from '../models/constants'
 import { removeModel, setModel, clearModel } from '../models/store'
 import { makePageRoutesByIdSelector } from '../pages/selectors'
@@ -23,15 +21,17 @@ import { makeGetModelByPrefixSelector } from '../models/selectors'
 import { FETCH_WIDGET_DATA } from '../../core/api'
 import { generateErrorMeta } from '../../utils/generateErrorMeta'
 import { id } from '../../utils/id'
-// eslint-disable-next-line import/no-cycle
-import { checkIdBeforeLazyFetch } from '../regions/sagas'
 import fetchSaga from '../../sagas/fetch'
+import { REQUEST_CACHE_TIMEOUT } from '../../constants/time'
 
+import { routesQueryMapping } from './sagas/routesQueryMapping'
 import {
+    makeModelIdSelector,
     makeSelectedIdSelector,
     makeWidgetByIdSelector,
     makeWidgetDataProviderSelector,
     makeWidgetPageIdSelector,
+    widgetsSelector,
 } from './selectors'
 import {
     changeCountWidget,
@@ -43,57 +43,65 @@ import {
     dataRequestWidget,
     disableWidget,
     resolveWidget,
+    unloadingWidget,
 } from './store'
+import { isActive } from './sagas/isActive'
+
+// region fetch
+
+const isQueryEqual = (() => {
+    const lastQuery = {}
+
+    return (id, newPath, newQuery) => {
+        let equal = true
+        const query = lastQuery[id]
+
+        if (query) {
+            equal = isEqual(query.path, newPath) && isEqual(query.query, newQuery)
+        }
+        lastQuery[id] = { path: newPath, query: { ...newQuery } }
+
+        return equal
+    }
+})()
+
+let prevSelectedId = null
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST
  */
-function* getData() {
-    const lastQuery = {}
-    const isQueryEqual = (id, newPath, newQuery) => {
-        let res = true
-        const lq = lastQuery[id]
+function* dataRequest(action) {
+    const {
+        payload: { widgetId, options, modelId },
+    } = action
+    const selectedId = yield select(makeSelectedIdSelector(widgetId))
+    // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
+    const model = modelId || (yield select(makeModelIdSelector(widgetId)))
 
-        if (lq) {
-            res = isEqual(lq.path, newPath) && isEqual(lq.query, newQuery)
-        }
-        lastQuery[id] = { path: newPath, query: { ...newQuery } }
+    yield fork(handleFetch, model, widgetId, options, isQueryEqual, prevSelectedId)
 
-        return res
-    }
-    let prevSelectedId = null
-
-    while (true) {
-        const {
-            payload: { widgetId, options },
-        } = yield take(dataRequestWidget.type)
-        const selectedId = yield select(makeSelectedIdSelector(widgetId))
-
-        yield fork(handleFetch, widgetId, options, isQueryEqual, prevSelectedId)
-
-        if (prevSelectedId !== selectedId) {
-            prevSelectedId = selectedId
-        }
+    if (prevSelectedId !== selectedId) {
+        prevSelectedId = selectedId
     }
 }
 
 /**
  * Подготовка данных
- * @param widgetId
+ * @param {string} widgetId
+ * @param {string} modelId
  * @returns {IterableIterator<*>}
  */
-export function* prepareFetch(widgetId) {
+export function* prepareFetch(widgetId, modelId) {
     const state = yield select()
     const location = yield select(getLocation)
     // selectors options: size, page, filters, sorting
     const widgetState = yield select(makeWidgetByIdSelector(widgetId))
-    const currentPageId =
-    (yield select(makeWidgetPageIdSelector(widgetId))) ||
-    (yield select(rootPageSelector))
+    const currentPageId = (yield select(makeWidgetPageIdSelector(widgetId))) ||
+        (yield select(rootPageSelector))
     const routes = yield select(makePageRoutesByIdSelector(currentPageId))
     const dataProvider = yield select(makeWidgetDataProviderSelector(widgetId))
     const currentDatasource = yield select(
-        makeGetModelByPrefixSelector(PREFIXES.datasource, widgetId),
+        makeGetModelByPrefixSelector(PREFIXES.datasource, modelId),
     )
 
     return {
@@ -106,58 +114,80 @@ export function* prepareFetch(widgetId) {
     }
 }
 
-export function* routesQueryMapping(state, routes, location) {
-    const queryObject = yield call(
-        getParams,
-        mapValues(routes.queryMapping, 'set'),
-        state,
-    )
-    const currentQueryObject = queryString.parse(location.search)
-    const pageQueryObject = pick(
-        queryString.parse(location.search),
-        keys(queryObject),
-    )
+/**
+ * @typedef {Object} CachedRequest
+ * @property {Promise} request
+ * @property {Object} provider
+ * @property {Object} worker
+ * @property {Number} timer
+ */
 
-    if (!isEqual(pickBy(queryObject, identity), pageQueryObject)) {
-        const newQuery = queryString.stringify(queryObject)
-        const tailQuery = queryString.stringify(
-            omit(currentQueryObject, keys(queryObject)),
-        )
+const requestMap = Object.create(null)
 
-        yield put(
-            replace({
-                search: newQuery + (tailQuery ? `&${tailQuery}` : ''),
-                state: { silent: true },
-            }),
-        )
+/**
+ * Обёртка над запросом за данными.
+ * Нужен для предотвращения параллельных (плюс небольшая задержка = REQUEST_CACHE_TIMEOUT) запросов с одинаковыми
+ * параметрами от нескольких виджетов, использующих одну и ту же модель (modelId)
+ * @param {string} modelId
+ * @param {{ basePath: string, baseQuery: string , headersParams: object }} provider
+ */
+export function* doFetch(modelId, provider) {
+    /** @type {CachedRequest} */
+    const cached = requestMap[modelId]
+
+    if (cached) {
+        // Если новый запрос идентичен текущему, возвращаем результат текущего
+        if (isEqual(provider, cached.provider)) {
+            return yield call(() => cached.request)
+        }
+
+        // Если новые фильтры, то текущий запрос уже не актуален - отменяем его
+        clearTimeout(cached.timer)
+        yield cancel(cached.worker)
     }
-}
 
-export function* setWidgetDataSuccess(
-    widgetId,
-    widgetState,
-    resolvedProvider,
-    currentDatasource,
-) {
-    const { basePath, baseQuery, headersParams } = resolvedProvider
-
-    const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
+    const { basePath, baseQuery, headersParams } = provider
+    const worker = (yield fork(fetchSaga, FETCH_WIDGET_DATA, {
         basePath,
         baseQuery,
         headers: headersParams,
-    })
+    }))
+    const request = worker.toPromise()
+    let timer
 
-    if (isEqual(data.list, currentDatasource) && !isEmpty(currentDatasource)) {
-        yield put(setModel(PREFIXES.datasource, widgetId, null))
-        yield put(setModel(PREFIXES.datasource, widgetId, data.list))
-    } else {
-        yield put(setModel(PREFIXES.datasource, widgetId, data.list))
-    }
-    if (isNil(data.list) || isEmpty(data.list)) {
-        yield put(setModel(PREFIXES.resolve, widgetId, null))
-    }
+    request.then(() => {
+        if (worker.isCancelled()) {
+            return /* Promise.reject(new Error('Abort')) */
+        }
+        timer = setTimeout(() => {
+            delete requestMap[modelId]
+        }, REQUEST_CACHE_TIMEOUT)
+    }, () => {
+        delete requestMap[modelId]
+    })
+    requestMap[modelId] = { request, provider, worker, timer }
+
+    return yield call(() => request)
+}
+
+export function* afterFetch(
+    data,
+    modelId,
+    widgetId,
+    widgetState,
+    currentDatasource,
+) {
     yield put(changeCountWidget(widgetId, data.count))
-    yield data.page && put(changePageWidget(widgetId, data.page))
+    if (isEqual(data.list, currentDatasource) && !isEmpty(currentDatasource)) {
+        yield put(setModel(PREFIXES.datasource, modelId, null))
+    }
+    yield put(setModel(PREFIXES.datasource, modelId, data.list))
+    if (isEmpty(data.list)) {
+        yield put(setModel(PREFIXES.resolve, modelId, null))
+    }
+    if (data.page) {
+        yield put(changePageWidget(widgetId, data.page))
+    }
     if (data.metadata) {
         yield put(setWidgetMetadata(widgetState.pageId, widgetId, data.metadata))
         yield put(resetWidgetState(widgetId))
@@ -173,7 +203,8 @@ export function getWithoutSelectedId(
 ) {
     if (!options || isEmpty(options)) {
         return null
-    } if (
+    }
+    if (
         !location.pathname.includes(selectedId) ||
         prevSelectedId === selectedId
     ) {
@@ -183,7 +214,19 @@ export function getWithoutSelectedId(
     return options.withoutSelectedId
 }
 
-export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
+/**
+ * @param {string} modelId
+ * @param {string} widgetId
+ * @param options
+ * @param {Function} isQueryEqual
+ * @param {string} prevSelectedId
+ */
+export function* handleFetch(modelId, widgetId, options, isQueryEqual, prevSelectedId) {
+    if (!(yield isActive(widgetId))) {
+        yield put(unloadingWidget(widgetId))
+
+        return
+    }
     try {
         const {
             state,
@@ -192,74 +235,60 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
             routes,
             dataProvider,
             currentDatasource,
-        } = yield call(prepareFetch, widgetId)
+        } = yield call(prepareFetch, widgetId, modelId)
 
-        if (!isEmpty(dataProvider) && dataProvider.url) {
-            const query = {
-                page: get(options, 'page', widgetState.page),
-                size: widgetState.size,
-                sorting: widgetState.sorting,
-            }
-            const resolvedProvider = yield call(
-                dataProviderResolver,
-                state,
-                dataProvider,
-                query,
-                options,
-            )
-
-            const withoutSelectedId = getWithoutSelectedId(
-                options,
-                location,
-                widgetState.selectedId,
-                prevSelectedId,
-            )
-
-            if (
-                withoutSelectedId ||
-                !isQueryEqual(
-                    widgetId,
-                    resolvedProvider.basePath,
-                    resolvedProvider.baseQuery,
-                )
-            ) {
-                // yield put(setTableSelectedId(widgetId, null));
-            } else if (!withoutSelectedId && widgetState.selectedId) {
-                resolvedProvider.baseQuery.selectedId = widgetState.selectedId
-            }
-
-            if (routes && routes.queryMapping) {
-                yield* routesQueryMapping(state, routes, location)
-            }
-
-            const { activeWidgetIds, tabsWidgetIds } = yield call(
-                checkIdBeforeLazyFetch,
-            )
-
-            if (tabsWidgetIds[widgetId] && activeWidgetIds.includes(widgetId)) {
-                yield call(
-                    setWidgetDataSuccess,
-                    widgetId,
-                    widgetState,
-                    resolvedProvider,
-                    currentDatasource,
-                )
-            } else if (
-                !Object.keys(tabsWidgetIds).includes(widgetId) ||
-                !tabsWidgetIds[widgetId]
-                // eslint-disable-next-line sonarjs/no-duplicated-branches
-            ) {
-                yield call(
-                    setWidgetDataSuccess,
-                    widgetId,
-                    widgetState,
-                    resolvedProvider,
-                    currentDatasource,
-                )
-            }
-        } else {
+        if (!dataProvider?.url) {
             yield put(dataFailWidget(widgetId))
+
+            return
         }
+
+        const query = {
+            page: get(options, 'page', widgetState.page),
+            size: widgetState.size,
+            sorting: widgetState.sorting,
+        }
+        const resolvedProvider = yield call(
+            dataProviderResolver,
+            state,
+            dataProvider,
+            query,
+            options,
+        )
+
+        const withoutSelectedId = getWithoutSelectedId(
+            options,
+            location,
+            widgetState.selectedId,
+            prevSelectedId,
+        )
+
+        if (
+            isQueryEqual(
+                widgetId,
+                resolvedProvider.basePath,
+                resolvedProvider.baseQuery,
+            ) &&
+            !withoutSelectedId &&
+            widgetState.selectedId
+        ) {
+            resolvedProvider.baseQuery.selectedId = widgetState.selectedId
+        }
+
+        if (routes && routes.queryMapping) {
+            yield* routesQueryMapping(state, routes, location)
+        }
+
+        const response = yield doFetch(modelId, resolvedProvider)
+
+        yield call(
+            afterFetch,
+            response,
+            modelId,
+            widgetId,
+            widgetState,
+            currentDatasource,
+        )
     } catch (err) {
         // eslint-disable-next-line no-console
         console.warn(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`)
@@ -267,9 +296,8 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
             dataFailWidget(
                 widgetId,
                 err,
-                err.json && err.json.meta
-                    ? err.json.meta
-                    : {
+                err.json?.meta ||
+                    {
                         meta: generateErrorMeta({
                             id: id(),
                             text: 'Произошла внутренняя ошибка',
@@ -282,11 +310,13 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
     }
 }
 
+// endregion fetch
+
 export function* runResolve(action) {
-    const { widgetId, model } = action.payload
+    const { modelId, model } = action.payload
 
     try {
-        yield put(setModel(PREFIXES.resolve, widgetId, model))
+        yield put(setModel(PREFIXES.resolve, modelId, model))
         // eslint-disable-next-line no-empty
     } catch (err) {}
 }
@@ -296,9 +326,9 @@ export function* clearForm(action) {
 }
 
 export function* clearOnDisable(action) {
-    const { widgetId } = action.payload
+    const { widgetId, modelId } = action.payload
 
-    yield put(setModel(PREFIXES.datasource, widgetId, null))
+    yield put(setModel(PREFIXES.datasource, modelId, null))
     yield put(changeCountWidget(widgetId, 0))
 }
 
@@ -307,21 +337,25 @@ const pagesHash = []
 function* clearFilters(action) {
     const { widgetId } = action.payload
 
-    if (last(pagesHash) === widgetId) {
+    const { pageId } = yield select(makeWidgetByIdSelector(widgetId))
+
+    if (last(pagesHash) === pageId) {
         return
     }
 
-    if (pagesHash.includes(widgetId)) {
-        const currentPageIndex = pagesHash.indexOf(widgetId)
+    if (pagesHash.includes(pageId)) {
+        const currentPageIndex = pagesHash.indexOf(pageId)
         const filterResetIds = pagesHash.splice(currentPageIndex + 1)
 
-        for (let index = 0; index < filterResetIds.length; index += 1) {
-            const filterResetId = filterResetIds[index]
+        const widgets = Object.values(yield select(widgetsSelector))
+            .filter(widget => filterResetIds.includes(widget.pageId))
 
-            yield put(removeModel(PREFIXES.filter, filterResetId))
+        // eslint-disable-next-line no-restricted-syntax
+        for (const { widgetId } of widgets) {
+            yield put(removeModel(PREFIXES.filter, widgetId))
         }
     } else {
-        pagesHash.push(widgetId)
+        pagesHash.push(pageId)
     }
 }
 
@@ -329,8 +363,8 @@ function* clearFilters(action) {
  * Сайд-эффекты для виджет редюсера
  * @ignore
  */
-export default apiProvider => [
-    fork(getData, apiProvider),
+export default () => [
+    takeEvery(dataRequestWidget, dataRequest),
     takeEvery(clearModel, clearForm),
     takeEvery(resolveWidget, runResolve),
     takeEvery(disableWidget, clearOnDisable),

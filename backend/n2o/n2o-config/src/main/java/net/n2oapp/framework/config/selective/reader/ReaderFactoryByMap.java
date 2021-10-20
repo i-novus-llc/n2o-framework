@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.selective.reader;
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.api.metadata.aware.ReaderFactoryAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -52,8 +51,6 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
         reader = innerEngines.get(elementName);
         if (reader == null)
             throw new EngineNotFoundException(elementName);
-        if (reader instanceof ReaderFactoryAware)
-            ((ReaderFactoryAware) reader).setReaderFactory(this);
         if (reader instanceof IOProcessorAware)
             ((IOProcessorAware) reader).setIOProcessor(this.ioProcessor);
         return reader;

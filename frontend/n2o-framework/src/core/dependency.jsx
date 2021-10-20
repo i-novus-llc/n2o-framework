@@ -94,11 +94,11 @@ export const dependency = (WrappedComponent) => {
     })
 
     const mapDispatchToProps = (dispatch, ownProps) => {
-        const { id: widgetId } = ownProps
+        const { id: widgetId, datasource: modelId } = ownProps
 
         return {
             registerDependency: dependency => dispatch(registerDependency(widgetId, dependency)),
-            preInitWidget: options => dispatch(registerWidget(widgetId, options, true)),
+            preInitWidget: options => dispatch(registerWidget(widgetId, { ...options, modelId }, true)),
         }
     }
 

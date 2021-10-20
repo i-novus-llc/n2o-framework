@@ -17,9 +17,6 @@ import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.ge
 public class StandardPageBinder extends PageBinder<StandardPage> {
     @Override
     public StandardPage bind(StandardPage page, BindProcessor p) {
-        if (page.getActions() != null)
-            page.getActions().values().forEach(p::bind);
-
         if (page.getToolbar() != null) {
             for (List<Group> grp : page.getToolbar().values()) {
                 grp.forEach(g -> {

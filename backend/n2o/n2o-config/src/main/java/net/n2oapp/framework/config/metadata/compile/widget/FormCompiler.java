@@ -56,7 +56,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(form.getId());
-        MetaActions widgetActions = new MetaActions();
+        MetaActions widgetActions = initMetaActions(source);
         ParentRouteScope widgetRoute = initWidgetRouteScope(form, context, p);
         PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
         if (pageRoutesScope != null) {
@@ -67,7 +67,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         uploadScope.setUpload(form.getUpload());
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
-        WidgetParamScope paramScope = form.getUpload().equals(UploadType.defaults) ? new WidgetParamScope() : null;
+        WidgetParamScope paramScope = form.getUpload().equals(UploadType.defaults) ? new WidgetParamScope() : null;//todo why upload=default? maybe upload != query ?
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope, widgetRoute,
@@ -106,19 +106,6 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         Map<String, List<Validation>> clientValidations = new HashMap<>();
         form.getComponent().getFieldsets().forEach(fs -> collectValidation(fs, clientValidations, validationScope));
         form.getComponent().setValidation(clientValidations);
-    }
-
-    private void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
-        if (paramScope != null && !paramScope.getQueryMapping().isEmpty()) {
-            PageRoutes routes = p.getScope(PageRoutes.class);
-            if (routes == null)
-                return;
-            paramScope.getQueryMapping().forEach((k, v) -> {
-                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)) {
-                    routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
-                }
-            });
-        }
     }
 
 }

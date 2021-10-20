@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form id="main" query-id="testRefModel">
+            <pre-filters>
+                <eq field-id="id" param="id"/>
+            </pre-filters>
+            <fields>
+                <input-text id="id" enabled="false"/>
+            </fields>
+        </form>
+
+        <form id="dependent" depends-on="main" query-id="testRefModel"
+              detail-field-id="id">
+            <fields>
+                <input-text id="mainId" enabled="false"
+                            default-value="{id}"
+                            label="Чтение из виджета текущей страницы"
+                            ref-widget-id="main"
+                            ref-page="this"/>
+
+                <input-text id="mainId2" enabled="false"
+                            default-value="{id}"
+                            label="Чтение из виджета родительской страницы"
+                            ref-widget-id="table"
+                            ref-page="parent"/>
+            </fields>
+        </form>
+    </regions>
+</page>

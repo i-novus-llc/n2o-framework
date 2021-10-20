@@ -28,9 +28,9 @@ public class BasePageUtil {
      * @param page Клиентская модель стандартной страницы
      * @return Список виджетов
      */
-    public static List<Widget> getCompiledWidgets(StandardPage page) {
+    public static List<Widget<?>> getCompiledWidgets(StandardPage page) {
         List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-        return new ArrayList<>(getRegionWidgets(regions));
+        return new ArrayList<Widget<?>>(getRegionWidgets(regions));
     }
 
     /**
@@ -40,8 +40,8 @@ public class BasePageUtil {
      * @param items Список элементов региона (вложенные регионы и виджеты)
      * @return Список виджетов скомпилированного региона
      */
-    private static List<Widget> getRegionWidgets(List<? extends Compiled> items) {
-        List<Widget> widgets = new ArrayList<>();
+    private static List<Widget<?>> getRegionWidgets(List<? extends Compiled> items) {
+        List<Widget<?>> widgets = new ArrayList<>();
         for (Compiled i : items)
             if (i instanceof Widget)
                 widgets.add((Widget) i);

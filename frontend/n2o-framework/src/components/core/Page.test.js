@@ -90,39 +90,6 @@ describe.skip('Тесты Page', () => {
         const { wrapper } = setup()
         expect(wrapper).toBeTruthy()
     })
-    it('Отрисовка Page', () => {
-    // Закидываем store
-        const mockStore = configureMockStore()
-        const store = mockStore({})
-
-        // Закидываем context для breadcrumb
-        const Page = withContext(
-            {
-                defaultBreadcrumb: PropTypes.node,
-            },
-            () => ({
-                defaultBreadcrumb: DefaultBreadcrumb,
-            }),
-        )(PageContainer)
-
-        // И еще закидываем роуты для линков
-        const page = renderer
-            .create(
-                <Provider store={store}>
-                    <FactoryProvider>
-                        <BrowserRouter>
-                            <Page
-                                metadata={testMetadata}
-                                pageId="pageId"
-                                getMetadata={() => null}
-                            />
-                        </BrowserRouter>
-                    </FactoryProvider>
-                </Provider>,
-            )
-            .toJSON()
-        expect(page).toMatchSnapshot()
-    })
 
     it('Проверка вызова getMetadata при установке компонента', () => {
         const getMetadata = sinon.spy()

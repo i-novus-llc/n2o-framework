@@ -1,9 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
@@ -14,6 +16,7 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -25,13 +28,16 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
+import org.apache.commons.collections.map.HashedMap;
 
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 
 /**
@@ -266,7 +272,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
         if (queryMappings != null)
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
-        resultUrl = URL_RESOLVER.resolve(resultUrl, params);
+        resultUrl = URL_RESOLVER.resolve(resultUrl, k -> ((pathMappings != null && pathMappings.containsKey(k))
+                || (queryMappings != null && queryMappings.containsKey(k)) || params == null) ?
+                null : params.get(k));
         return resultUrl;
     }
 
@@ -287,31 +295,32 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public BindLink resolveLink(BindLink link) {
-        if (link == null || context == null)
-            return link;
+    public BindLink resolveLink(BindLink link, boolean observable) {
+        if (link == null)
+            return null;
         Optional<String> res = Optional.empty();
-        if (context.getQueryRouteMapping() != null) {
-            res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
+        if (context != null) {
+            if (context.getQueryRouteMapping() != null) {
+                res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
+            }
+            if (res.isEmpty() && context.getPathRouteMapping() != null) {
+                res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
+            }
         }
-        if (!res.isPresent() && context.getPathRouteMapping() != null) {
-            res = context.getPathRouteMapping().keySet().stream().filter(ri -> context.getPathRouteMapping().get(ri).equals(link)).findAny();
-        }
+        Object value = null;
         if (res.isPresent()) {
-            Object value = params.get(res.get());
-            BindLink resultLink = createLink(link, value);
-            if (resultLink != null) return resultLink;
+            value = params.get(res.get());
+        } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
+            if (observable || !((ModelLink) link).isObserve())
+                value = params.get(((ModelLink) link).getParam());
         }
-        if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
-            Object value = params.get(((ModelLink) link).getParam());
-            BindLink resultLink = createLink(link, value);
-            if (resultLink != null) return resultLink;
-        }
-        return link;
+        if (value == null)
+            return link;
+        return createLink(link, value);
     }
 
     @Override
-    public Object getLinkValue(ModelLink link) {
+    public Object resolveLinkValue(ModelLink link) {
         return link.getParam() != null ? params.get(link.getParam()) : null;
     }
 
@@ -319,7 +328,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (value instanceof String)
             value = resolveText((String) value);
         if (value != null) {
-            BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+            BindLink resultLink;
+            if (link instanceof ModelLink) {
+                resultLink = new ModelLink((ModelLink)link);
+                ((ModelLink)resultLink).setObserve(false);
+            } else
+                resultLink = new BindLink(link.getBindLink());
             resultLink.setValue(value);
             return resultLink;
         }
@@ -327,27 +341,66 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public void resolveSubModels(ModelLink link) {
-        if (link.getSubModelQuery() == null) return;
-        resolveDefaultValues(link);
-        executeSubModels(link);
+    public ModelLink resolveSubModels(ModelLink link) {
+        if (link == null) return null;
+        if (link.getSubModelQuery() == null) return link;
+        if (link.getValue() == null) return link;
+        if (link.getValue() instanceof Collection) {
+            if (!link.getSubModelQuery().isMulti())
+                throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must be multi for value " + link.getValue());
+            List<DataSet> dataList = new ArrayList<>();
+            for (Object o : (List<?>)link.getValue()) {
+                if (o instanceof DefaultValues) {
+                    dataList.add(new DataSet(((DefaultValues) o).getValues()));
+                } else {
+                    dataList.add(new DataSet("id", o));
+                }
+            }
+            DataSet dataSet = new DataSet(link.getSubModelQuery().getSubModel(), dataList);
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ModelLink resolvedLink = link.getSubModelLink();
+            List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
+            resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
+            return resolvedLink;
+        } else if (link.getValue() instanceof DefaultValues) {
+            if (link.getSubModelQuery().isMulti())
+                throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must not be multi for value " + link.getValue());
+            DataSet dataSet = new DataSet();
+            dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ModelLink resolvedLink = link.getSubModelLink();
+            resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
+            return resolvedLink;
+        } else {
+            DataSet dataSet = new DataSet();
+            if (link.getSubModelQuery().isMulti()) {
+                ArrayList<DataSet> list = new ArrayList<>();
+                list.add(new DataSet("id", link.getValue()));
+                dataSet.put(link.getSubModelQuery().getSubModel(), list);
+            } else {
+                dataSet.put(link.getSubModelQuery().getSubModel() + ".id", link.getValue());
+            }
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ModelLink resolvedLink = link.getSubModelLink();
+            if (link.getSubModelQuery().isMulti()) {
+                List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
+                resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
+            } else {
+                resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
+            }
+            return resolvedLink;
+        }
     }
 
     @Override
-    public void resolveFiltersModels(String filtersDefaultValuesQueryId, List<Filter> filters) {
-        if (subModelsProcessor == null) return;
+    public DataSet executeQuery(String queryId) {
+        if (subModelsProcessor == null) return null;
 
-        DataSet queryResult = ((List<DataSet>) subModelsProcessor.getQueryResult(filtersDefaultValuesQueryId)
+        return ((List<DataSet>) subModelsProcessor.getQueryResult(queryId, params)
                 .getCollection()).get(0);
-
-        for (Filter filter : filters) {
-            Object value = queryResult.get(filter.getFilterId());
-            if (value != null) {
-                ModelLink link = new ModelLink(filter.getLink());
-                link.setValue(value);
-                filter.setLink(link);
-            }
-        }
     }
 
     @Override
@@ -437,51 +490,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
                     resultMap.put(v.getFieldId(), k);
                 }
             });
-        }
-    }
-
-    private void executeSubModels(ModelLink link) {
-        if (link.getValue() == null || link.getSubModelQuery().getSubModel() == null)
-            return;
-        if (link.getValue() instanceof List) {
-            for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
-                DataSet dataSet = new DataSet();
-                dataSet.put(link.getSubModelQuery().getSubModel(), defaultValues.getValues());
-                if (subModelsProcessor != null)
-                    subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-                defaultValues.setValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel()));
-            }
-        } else if (link.getValue() instanceof DefaultValues) {
-            DataSet dataSet = new DataSet();
-            dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
-            if (subModelsProcessor != null)
-                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-            ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel()));
-        }
-    }
-
-    private void resolveDefaultValues(ModelLink link) {
-        if (link.getSubModelQuery().getValueFieldId() == null) return;
-
-        if (link.getParam() != null && params.containsKey(link.getParam())) {
-            if (params.get(link.getParam()) instanceof List) {
-                List<DefaultValues> values = new ArrayList<>();
-                for (Object value : (List) params.get(link.getParam())) {
-                    DefaultValues defaultValues = new DefaultValues();
-                    defaultValues.setValues(new HashMap<>());
-                    defaultValues.getValues().put(link.getSubModelQuery().getValueFieldId(), value);
-                    values.add(defaultValues);
-                }
-                if (!values.isEmpty())
-                    link.setValue(values);
-            } else {
-                DefaultValues defaultValues = new DefaultValues();
-                defaultValues.setValues(new HashMap<>());
-                defaultValues.getValues().put(link.getSubModelQuery().getValueFieldId(), params.get(link.getParam()));
-                link.setValue(link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()
-                        ? Collections.singletonList(defaultValues)
-                        : defaultValues);
-            }
         }
     }
 

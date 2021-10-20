@@ -11,7 +11,6 @@ import TreeContainer from './container/TreeContainer'
  * @reactProps {string} containerId - id контейнера
  * @reactProps {string} pageId - id страницы
  * @reactProps {string} widgetId - id виджета
- * @reactProps {object} actions
  * @reactProps {object} tools
  * @reactProps {object} dataProvider
  * @reactProps {object} table
@@ -52,11 +51,10 @@ class TreeWidget extends React.Component {
             draggable,
             childrenFieldId,
         } = this.props
-        const { toolbar, actions, dataProvider, placeholder } = this.props
+        const { toolbar, dataProvider, placeholder } = this.props
 
         return {
             toolbar,
-            actions,
             hasFocus,
             hasSelect,
             autoFocus,
@@ -85,9 +83,9 @@ class TreeWidget extends React.Component {
     render() {
         const {
             id: widgetId,
+            datasource: modelId = widgetId,
             toolbar,
             disabled,
-            actions,
             fetchOnInit,
             pageId,
             className,
@@ -98,13 +96,14 @@ class TreeWidget extends React.Component {
             <StandardWidget
                 disabled={disabled}
                 widgetId={widgetId}
+                modelId={modelId}
                 toolbar={toolbar}
-                actions={actions}
                 className={className}
                 style={style}
             >
                 <TreeContainer
                     widgetId={widgetId}
+                    modelId={modelId}
                     pageId={pageId}
                     fetchOnInit={fetchOnInit}
                     {...this.getWidgetProps()}
@@ -124,8 +123,6 @@ TreeWidget.propTypes = {
     style: PropTypes.object,
     containerId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    widgetId: PropTypes.string,
-    actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,
     hasFocus: PropTypes.bool,
@@ -150,6 +147,7 @@ TreeWidget.propTypes = {
     childrenFieldId: PropTypes.string,
     placeholder: PropTypes.string,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     disabled: PropTypes.bool,
     fetchOnInit: PropTypes.bool,
 }

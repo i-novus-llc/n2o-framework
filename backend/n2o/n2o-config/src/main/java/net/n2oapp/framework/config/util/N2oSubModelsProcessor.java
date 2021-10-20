@@ -52,10 +52,10 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
     }
 
     @Override
-    public CollectionPage<DataSet> getQueryResult(String queryId) {
+    public CollectionPage<DataSet> getQueryResult(String queryId, DataSet params) {
         CompiledQuery query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
-                .get(new QueryContext(queryId), new DataSet());
+                .get(new QueryContext(queryId), params);
         return queryProcessor.executeOneSizeQuery(query, new N2oPreparedCriteria());
     }
 
@@ -103,11 +103,12 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
             if (StringUtils.isDynamicValue(subModel.get(valueFieldId)))
                 continue;
             Object value = domainProcessor.deserialize(subModel.get(valueFieldId));
-            subModelQuery.getOptions().forEach(option -> {
-                if (value.equals(option.get(valueFieldId)) && option.get(labelFieldId) != null) {
-                    subModel.put(labelFieldId, option.get(labelFieldId));
-                }
-            });
+            if (value != null)
+                subModelQuery.getOptions().forEach(option -> {
+                    if (value.equals(option.get(valueFieldId)) && option.get(labelFieldId) != null) {
+                        subModel.putAll(option);
+                    }
+                });
         }
     }
 

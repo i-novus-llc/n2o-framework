@@ -84,7 +84,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
         assertThat(page.getToolbar().get("TopLeft"), notNullValue());
         assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getActions().containsKey("close"), is(true));
+        assertThat(page.getToolbar().getButton("close"), notNullValue());
 
     }
 
@@ -174,7 +174,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail.getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
         //проверим что у кнопки delete родительский pathmapping скопировался
-        assertThat(((InvokeAction) panel.getActions().get("delete")).getPayload().getDataProvider().getPathMapping()
+        assertThat(((InvokeAction) panel.getToolbar().getButton("delete").getAction()).getPayload().getDataProvider().getPathMapping()
                         .get("testStandardPageDependency_master_id").getBindLink(),
                 is("models.resolve['testStandardPageDependency_master'].id"));
 
@@ -185,7 +185,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
-        assertThat(page.getRoutes().getQueryMapping().size(), is(13));
 
         Table detail = (Table) page.getRegions().get("left").get(0).getContent().get(1);
         ClientDataProvider dataProvider = detail.getDataProvider();

@@ -23,7 +23,6 @@ describe('<TimePicker />', () => {
         expect(wrapper.find('.n2o-pop-up')).toHaveLength(0)
         wrapper.setState({ open: true })
         expect(wrapper.find('.n2o-pop-up')).toHaveLength(1)
-        expect(wrapper).toMatchSnapshot()
     })
 
     it('проверка установки значения', () => {

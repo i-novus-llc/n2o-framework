@@ -29,6 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -84,6 +85,16 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         initFilters(compiled, source, p);
     }
 
+    protected MetaActions initMetaActions(S source) {
+        MetaActions metaActions = new MetaActions();
+        if (source.getActions() != null) {
+            for (ActionsBar actionsBar : source.getActions()) {
+                metaActions.addAction(actionsBar.getId(), actionsBar);
+            }
+        }
+        return metaActions;
+    }
+
     /**
      * Компиляция идентификатора выборки виджета, учитывая источник данных
      */
@@ -135,6 +146,55 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
         return normalize(source.getId());
     }
+
+    private void initDataProviderMappings(D compiled, ClientDataProvider dataProvider, CompileProcessor p) {
+        dataProvider.setPathMapping(new StrictMap<>());
+        dataProvider.setQueryMapping(new StrictMap<>());
+        if (compiled.getMasterLink() != null) {
+            dataProvider.getPathMapping().put(compiled.getMasterParam(), compiled.getMasterLink());
+        }
+        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        if (parentRouteScope != null) {
+            dataProvider.getPathMapping().putAll(parentRouteScope.getPathMapping());
+            dataProvider.getQueryMapping().putAll(parentRouteScope.getQueryMapping());
+        }
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (compiled.getDependency() != null && compiled.getDependency().getFetch() != null) {
+            for (DependencyCondition fetch : compiled.getDependency().getFetch()) {
+                if (fetch.getGlobalMasterWidgetId() != null) {
+                    ParentRouteScope masterRouteScope = pageRoutesScope.get(fetch.getGlobalMasterWidgetId());
+                    if (masterRouteScope != null) {
+                        masterRouteScope.getPathMapping().forEach(parentRouteScope.getPathMapping()::putIfAbsent);
+                        masterRouteScope.getQueryMapping().forEach(parentRouteScope.getQueryMapping()::putIfAbsent);
+                    }
+                }
+            }
+        }
+        if (compiled.getFilters() != null) {
+            ((List<Filter>) compiled.getFilters()).stream().filter(f -> !dataProvider.getPathMapping().containsKey(f.getParam()))
+                    .forEach(f -> dataProvider.getQueryMapping().put(f.getParam(), f.getLink()));
+        }
+    }
+
+
+    private String getDatasourceRoute(D compiled, S source, CompileProcessor p) {
+        String datasource = p.cast(source.getDatasource(), source.getId());
+        String route = normalize(datasource);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
+                source.getDetailFieldId() != null) {
+            //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
+            String selectedId = normalizeParam(p.cast(compiled.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
+            route = normalize(colon(selectedId)) + normalize(datasource);
+        }
+        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        if (parentRouteScope != null) {
+            return RouteUtil.normalize(parentRouteScope.getUrl() + route);
+        } else {
+            return route;
+        }
+    }
+
 
     /**
      * Инициализация текущего маршрута виджета при сборке
@@ -199,11 +259,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
                                                 SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
                                                 CompiledObject object) {
-        String widgetRoute = widgetRouteScope.getUrl();
-        compiled.setDataProvider(initDataProvider(compiled, source, context, widgetRoute, p, validationList,
-                widgetRouteScope, subModelsScope, copiedFieldScope, object));
+        compiled.setDataProvider(initDataProvider(compiled, source, context, p, validationList,
+                subModelsScope, copiedFieldScope, object));
         compileRouteWidget(compiled, source, getDataProviderQuery(compiled.getQueryId(), p), p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
+        PageScope pageScope = p.getScope(PageScope.class);
+        compiled.setDatasource(pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
+                ? compiled.getId() : pageScope.getWidgetIdDatasourceMap().get(compiled.getId()));
     }
 
     protected void collectValidation(FieldSet fs, Map<String, List<Validation>> clientValidations, ValidationScope validationScope) {
@@ -241,9 +303,25 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, widgetRouteScope, object, validationList);
         compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, widgetRouteScope, validationList);
-        compiled.setActions(widgetActions);
+    }
+
+    protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
+        if (paramScope != null && !paramScope.getQueryMapping().isEmpty()) {
+            PageRoutes routes = p.getScope(PageRoutes.class);
+            Models models = p.getScope(Models.class);
+            paramScope.getQueryMapping().forEach((k, v) -> {
+                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)) {
+                    if (routes != null)
+                        routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
+                } else {
+                    if (models != null && v.getOnSet() instanceof ModelLink) {
+                        ModelLink link = (ModelLink) v.getOnSet();
+                        models.add(link, link);
+                    }
+                }
+            });
+        }
     }
 
     private void compileFetchOnInit(S source, D compiled) {
@@ -296,7 +374,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (mi.getAction() == null && mi.getActionId() != null) {
             ActionsBar action = actionMap.get(mi.getActionId());
             if (action == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(mi.getActionId());
+                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", mi.getAction()));
             }
             mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
@@ -334,7 +412,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addRoute(widgetRouteScope.getUrl());
         if (compiled.getMasterLink() != null)
             routes.addPathMapping(compiled.getMasterParam(),
-                    Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
+                    Redux.dispatchSelectedWidget(compiled.getMasterLink().getDatasource(), colon(compiled.getMasterParam())));
 
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
         //todo для формы не существует selected!
@@ -346,7 +424,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addPathMapping(selectedId, widgetIdMapping);
 
         if (query != null) {
-            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getRoutable)
+            ((List<Filter>) compiled.getFilters()).stream()
+                    .filter(Filter::getRoutable)
+                    .filter(f -> !f.getLink().isConst())
                     .forEach(filter -> {
                         ReduxAction onGet;
                         String filterId = filter.getFilterId();
@@ -394,35 +474,25 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute,
+    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context,
                                                 CompileProcessor p, ValidationList validationList,
-                                                ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
-                                                CopiedFieldScope copiedFieldScope, CompiledObject object) {
+                                                SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
+                                                CompiledObject object) {
         if (widget.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
-        //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
-        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
-        //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
-        Map<String, ModelLink> pathMap = new StrictMap<>();
-        if (parentRouteScope != null && parentRouteScope.getPathMapping() != null) {
-            pathMap.putAll(parentRouteScope.getPathMapping());
-        }
-        dataProvider.setPathMapping(pathMap);
-        if (widget.getFilters() != null) {
-            Map<String, ModelLink> queryMap = new StrictMap<>();
-            ((List<Filter>) widget.getFilters()).stream().filter(f -> !pathMap.containsKey(f.getParam()))
-                    .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
-            dataProvider.setQueryMapping(queryMap);
-        }
-
+        String url = getDatasourceRoute(widget, source, p);
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
+        initDataProviderMappings(widget, dataProvider, p);
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
-        if (searchBarScope != null) {
+        if (searchBarScope != null && searchBarScope.getWidgetId().equals(source.getId())) {
             PageScope pageScope = p.getScope(PageScope.class);
             String searchWidgetId = pageScope != null ?
                     CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :
                     searchBarScope.getWidgetId();
-            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchWidgetId);
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
+                    pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
+                            searchWidgetId : pageScope.getWidgetIdDatasourceMap().get(searchWidgetId));
             modelLink.setFieldValue(searchBarScope.getModelKey());
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
 
@@ -436,7 +506,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
         }
 
-        p.addRoute(getQueryContext(widget, source, context, widgetRoute, validationList, subModelsScope, copiedFieldScope, object));
+        p.addRoute(getQueryContext(widget, source, context, url, validationList, subModelsScope, copiedFieldScope, object));
         return dataProvider;
     }
 
@@ -504,7 +574,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
                 masterWidgetId = widgetScope.getDependsOnWidgetId();
-                ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
+                PageScope pageScope = p.getScope(PageScope.class);
+                String datasource = pageScope == null ? masterWidgetId :
+                        pageScope.getWidgetIdDatasourceMap().get(masterWidgetId);
+                ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, datasource);
                 DependencyCondition condition = new DependencyCondition();
                 condition.setGlobalMasterWidgetId(masterWidgetId);
                 condition.setOn(bindLink.getBindLink());
@@ -518,7 +591,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 DependencyCondition visibilityCondition = new DependencyCondition();
                 List<DependencyCondition> visible = new ArrayList<>();
                 if (masterWidgetId != null) {
-                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
+                    PageScope pageScope = p.getScope(PageScope.class);
+                    String datasource = pageScope == null ? masterWidgetId
+                            : pageScope.getWidgetIdDatasourceMap().get(pageScope.getGlobalWidgetId(source.getDependsOn()));
+                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, datasource).getBindLink());
                 }
                 visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
                 visible.add(visibilityCondition);
@@ -630,6 +706,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             filter.setRoutable(false);
             String masterFieldId = p.cast(source.getMasterFieldId(), N2oQuery.Field.PK);
             ModelLink link = Redux.linkQuery(masterWidgetId, masterFieldId, source.getQueryId());
+            link.setParam(filter.getParam());
             filter.setLink(link);
             filters.add(filter);
         }
@@ -664,20 +741,25 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
+                        //фильтр из родительского маршрута
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
-                        String widgetId = masterWidgetId;
+                        String refWidgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
-                            widgetId = preFilter.getRefPageId() == null ?
+                            refWidgetId = preFilter.getRefPageId() == null ?
                                     pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
                                     : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
                         }
+                        String datasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
+                                ? refWidgetId : pageScope.getWidgetIdDatasourceMap().get(refWidgetId);
+
                         ReduxModel model = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
-                        ModelLink link = new ModelLink(model, widgetId);
+                        ModelLink link = new ModelLink(model, datasource);
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);
                     } else {
+                        //фильтр с константным значением или значением из параметра в url
                         ModelLink link = new ModelLink(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);

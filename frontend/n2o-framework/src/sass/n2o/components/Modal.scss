@@ -10,3 +10,14 @@
         margin-right: 0;
     }
 }
+
+.simple-modal-dialog {
+    .modal-dialog {
+        display: flex;
+        justify-content: center;
+    }
+
+    .modal-content {
+        width: max-content;
+    }
+}

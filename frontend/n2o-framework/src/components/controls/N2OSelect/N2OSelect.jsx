@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
 import onClickOutside from 'react-onclickoutside'
@@ -65,6 +65,7 @@ class N2OSelect extends React.Component {
         }
 
         this.control = null
+        this.n2oSelectRef = createRef()
 
         this.handleButtonClick = this.handleButtonClick.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
@@ -395,8 +396,13 @@ class N2OSelect extends React.Component {
      * вызывается библиотекой react-onclickoutside
      */
     handleClickOutside() {
-        this.hideOptionsList()
-        this.handleResetOnBlur()
+        const { onBlur } = this.props
+        const { isExpanded, selected } = this.state
+
+        if (isExpanded) {
+            this.hideOptionsList()
+            onBlur(selected)
+        }
     }
 
     handleOnBlur(e) {
@@ -476,6 +482,7 @@ class N2OSelect extends React.Component {
                 title={title}
                 style={inputSelectStyle}
                 onBlur={this.handleOnBlur}
+                ref={this.n2oSelectRef}
             >
                 <Button innerRef={this.setControlRef} onClick={this.handleButtonClick}>
                     <InputSelectGroup
@@ -498,7 +505,7 @@ class N2OSelect extends React.Component {
                         </span>
                     </InputSelectGroup>
                 </Button>
-                <Popup isExpanded={isExpanded}>
+                <Popup isExpanded={isExpanded} inputSelect={this.n2oSelectRef.current}>
                     <>
                         {hasSearch && (
                             <N2OSelectInput

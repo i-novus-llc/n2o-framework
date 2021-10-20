@@ -4,11 +4,11 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.*;
 import net.n2oapp.framework.config.metadata.compile.action.*;
-import net.n2oapp.framework.config.metadata.compile.cell.CheckboxCellBinder;
+import net.n2oapp.framework.config.metadata.compile.cell.ActionCellBinder;
+import net.n2oapp.framework.config.metadata.compile.cell.ImageCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.LinkCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.ToolbarCellBinder;
 import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
-import net.n2oapp.framework.config.reader.event.*;
 
 public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -20,17 +20,11 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new AnchorElementIOV1(),
                 new CloseActionElementIOV1(),
                 new SetValueElementIOV1(),
-                new N2oValidateActionElementIOV1(),
                 new PerformElementIOv1(),
                 new CopyActionElementIOV1(),
                 new ClearActionElementIOV1(),
                 new PrintActionElementIOV1(),
                 new RefreshActionElementIOV1());
-        b.readers(new InvokeActionReaderV1(),
-                new ShowModalFormReaderV1(),
-                new ShowModalWithActionReaderV1(),
-                new OpenPageReaderV1(),
-                new AnchorReaderV1());
         b.compilers(new PerformCompiler(),
                 new ShowModalCompiler(),
                 new OpenDrawerCompiler(),
@@ -52,8 +46,9 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ButtonFieldBinder(),
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
-                new CheckboxCellBinder(),
+                new ActionCellBinder(),
                 new LinkCellBinder(),
+                new ImageCellBinder(),
                 new SubMenuBinder(),
                 new PrintActionBinder());
     }

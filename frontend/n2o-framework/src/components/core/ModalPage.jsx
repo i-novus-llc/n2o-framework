@@ -22,14 +22,12 @@ import withOverlayMethods from './withOverlayMethods'
  * @reactProps {string | bool} backdrop -  наличие фона модального окна  false/true/'static'
  * @reactProps {string} modalHeaderTitle - заголовок в хэдере
  * @reactProps {boolean} closeButton - Есть кнопка закрытия или нет
- * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
  * @reactProps {boolean}  disabled - блокировка модалки
  * @reactProps {function}  hidePrompt - скрытие окна подтверждения
  * @example
  *  <ModalPage props={props}
- *             actions={actions}
  *             name={name}
  *             pageId={pageId}
  *  />
@@ -47,8 +45,6 @@ function ModalPage(props) {
         pathMapping,
         queryMapping,
         size,
-        actions,
-        close,
         disabled,
         scrollable,
         prompt,
@@ -56,7 +52,8 @@ function ModalPage(props) {
         backdrop,
         style,
         hasHeader,
-        ...rest
+        renderFromSrc,
+        closeOverlay,
     } = props
 
     const pageMapping = {
@@ -71,7 +68,7 @@ function ModalPage(props) {
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
             <Modal
                 isOpen={visible}
-                toggle={() => rest.closeOverlay(prompt)}
+                toggle={() => closeOverlay(prompt)}
                 size={size}
                 style={style}
                 scrollable={scrollable}
@@ -81,7 +78,7 @@ function ModalPage(props) {
                 {hasHeader && (
                     <ModalHeader
                         className={classes}
-                        toggle={() => rest.closeOverlay(prompt)}
+                        toggle={() => closeOverlay(prompt)}
                     >
                         {modalHeaderTitle}
                     </ModalHeader>
@@ -98,7 +95,7 @@ function ModalPage(props) {
                             needMetadata
                         />
                     ) : src ? (
-                        rest.renderFromSrc(src)
+                        renderFromSrc(src)
                     ) : null}
                 </ModalBody>
 
@@ -124,61 +121,41 @@ export const ModalWindow = ModalPage
 
 ModalPage.propTypes = {
     /**
-   * ID страницы
-   */
+     * ID страницы
+     */
     pageId: PropTypes.string,
     /**
-   * Видимость модального окна
-   */
+     * Видимость модального окна
+     */
     visible: PropTypes.bool,
     /**
-   * Размер окна
-   */
+     * Размер окна
+     */
     size: PropTypes.oneOf(['lg', 'sm']),
     /**
-   * Заголовок
-   */
+     * Заголовок
+     */
     modalHeaderTitle: PropTypes.string,
     /**
-   * Включение кнопки закрытия
-   */
-    closeButton: PropTypes.bool,
-    /**
-   * Настройка кнопок
-   */
+     * Настройка кнопок
+     */
     toolbar: PropTypes.array,
-    /**
-   * Название модалки
-   */
-    name: PropTypes.string,
-    /**
-   * Объект экшенов
-   */
-    actions: PropTypes.object,
-    props: PropTypes.object,
-    /**
-   * Функция закрытия
-   */
-    close: PropTypes.func.isRequired,
-    /**
-   * Флаг активности
-   */
     disabled: PropTypes.bool,
     /**
-   * Класс модального окна
-   */
+     * Класс модального окна
+     */
     className: PropTypes.string,
     /**
-   * Объект стилей
-   */
+     * Объект стилей
+     */
     style: PropTypes.object,
     /**
-   * Значение для отоборажения хедера
-   */
+     * Значение для отоборажения хедера
+     */
     hasHeader: PropTypes.bool,
     /**
-   * Фон модального окна
-   */
+     * Фон модального окна
+     */
     backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['static'])]),
     entityKey: PropTypes.string,
     loading: PropTypes.bool,
@@ -188,6 +165,8 @@ ModalPage.propTypes = {
     queryMapping: PropTypes.any,
     scrollable: PropTypes.bool,
     prompt: PropTypes.func,
+    renderFromSrc: PropTypes.func,
+    closeOverlay: PropTypes.func,
 }
 
 ModalPage.defaultProps = {

@@ -1,0 +1,19 @@
+.footer {
+    height: 80px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #006794;
+    color: white;
+}
+
+.footerLogoSection {
+    display: flex;
+    align-items: center;
+}
+
+.footerBrand {
+    margin-left: 20px;
+}

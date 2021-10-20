@@ -14,6 +14,8 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -129,6 +131,16 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Клиентский идентификатор страницы
      */
     private String clientPageId;
+
+    /**
+     * Сооответствия идентификаторов виджета с источником данных в родительском виджете
+     */
+    private Map<String, String> parentWidgetIdDatasourceMap;
+
+    /**
+     * Список идентификаторов таб регионов
+     */
+    private Set<String> parentTabIds;
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);

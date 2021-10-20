@@ -42,6 +42,7 @@ class N2OPagination extends Component {
     render() {
         const {
             count,
+            datasource,
             size,
             activePage,
             onChangePage,
@@ -67,6 +68,7 @@ class N2OPagination extends Component {
         } = this.props
 
         const onSelect = page => onChangePage(page, { ...filters })
+        const currentShowCount = typeof showCount === 'boolean' ? showCount : !isEmpty(datasource)
 
         return (
             count > 0 && (
@@ -89,7 +91,7 @@ class N2OPagination extends Component {
                     last={last}
                     lastLabel={lastLabel}
                     lastIcon={lastIcon}
-                    showCount={showCount}
+                    showCount={currentShowCount}
                     showSinglePage={showSinglePage}
                     className={className}
                     style={style}
@@ -152,7 +154,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         onChangePage: (page, filters) => {
             dispatch(
-                dataRequestWidget(ownProps.widgetId, {
+                dataRequestWidget(ownProps.widgetId, ownProps.modelId, {
                     page,
                     ...filters,
                 }),
@@ -166,7 +168,7 @@ const N2OPaginationComponent = connect(
     mapDispatchToProps,
 )(N2OPagination)
 
-export const getN2OPagination = (paging, place, widgetId) => (
-    paging ? { [place]: <N2OPaginationComponent widgetId={widgetId} {...paging} /> } : {})
+export const getN2OPagination = (paging, place, widgetId, modelId) => (
+    paging ? { [place]: <N2OPaginationComponent widgetId={widgetId} modelId={modelId} {...paging} /> } : {})
 
 export default N2OPaginationComponent

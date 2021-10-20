@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
-import FormWithPrompt from '../../../../.storybook/json/FormWithPrompt'
+import FormWithPrompt from './tests/FormWithPrompt.json'
 import Factory from '../../../core/factory/Factory'
 import { WIDGETS } from '../../../core/factory/factoryLevels'
 import FactoryProvider from '../../../core/factory/FactoryProvider'
@@ -74,6 +74,7 @@ describe('FormContainer', () => {
         it('Проверка прокидывания props', () => {
             const testPropsData = {
                 widgetId: 'widgetId',
+                modelId: 'widgetId',
                 pageId: 'pageId',
                 autoFocus: true,
                 fieldsets: [{ id: 1, fieldset: 'any' }],

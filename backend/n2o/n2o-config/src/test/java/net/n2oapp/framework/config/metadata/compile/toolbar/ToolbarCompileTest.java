@@ -98,7 +98,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         AbstractButton b3 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(1);
         assertThat(b3.getId(), is("testId3"));
-        assertThat(f.getActions().containsKey("testId3"), is(true));
+        assertThat(f.getToolbar().getButton("testId3"), notNullValue());
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));

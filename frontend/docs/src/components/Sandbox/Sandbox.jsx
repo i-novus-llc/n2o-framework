@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 import CONFIG from '../../ci-config.json'
 import { Spinner } from '../Spinner/Spinner'
@@ -9,7 +10,16 @@ import { visibilityHOC } from './visibilityHOC'
 import { CodeWrapper } from './CodeWrapper'
 import style from './sandbox.module.scss'
 
-function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter }) {
+function SandboxBody({
+    projectId,
+    height,
+    customStyle,
+    showHeader,
+    showBreadcrumb,
+    showFooter,
+    className,
+    isLightEditor = false
+                     }) {
     const [loadError, setLoadError] = useState(null)
     const [projectData, setProjectData] = useState(null)
 
@@ -27,21 +37,21 @@ function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter
 
     useEffect(() => {
         fetch(`${CONFIG.sandboxUrl}/api/project/${projectId}/`)
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    setLoadError('Невозможно загрузить sandbox-проект')
-                }
-            })
-            .then(
-                (data) => {
-                    setProjectData(data)
-                },
-                () => {
-                    setLoadError('Невозможно загрузить sandbox-проект')
-                },
-            )
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json()
+                    } else {
+                        setLoadError('Невозможно загрузить sandbox-проект')
+                    }
+                })
+                .then(
+                        (data) => {
+                            setProjectData(data)
+                        },
+                        () => {
+                            setLoadError('Невозможно загрузить sandbox-проект')
+                        },
+                )
     }, [])
 
     if (loadError) {
@@ -65,18 +75,21 @@ function SandboxBody({ projectId, height, showHeader, showBreadcrumb, showFooter
 
         event.target.contentWindow.postMessage(message, '*')
     }
+    const src = isLightEditor ?
+            `${CONFIG.sandboxUrl}/editor/${projectData.id}/?light` :
+            `${CONFIG.sandboxUrl}/view/${projectData.id}/`
 
     return (
-        <>
-            <iframe
-                onLoad={onIframeLoadHandler}
-                style={{ height }}
-                className={style.iframe}
-                src={`${CONFIG.sandboxUrl}/view/${projectData.id}/`}
-            />
+            <>
+                <iframe
+                        onLoad={onIframeLoadHandler}
+                        style={{ height, ...customStyle }}
+                        className={clsx(style.iframe, className)}
+                        src={src}
+                />
 
-            <CodeWrapper projectId={projectId} filesMap={filesMap} />
-        </>
+                {!isLightEditor && <CodeWrapper projectId={projectId} filesMap={filesMap} />}
+            </>
     )
 }
 

@@ -9,16 +9,14 @@ import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
-import includes from 'lodash/includes'
 
 import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
 import { makePageRoutesByIdSelector } from '../pages/selectors'
 import { getLocation, rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
-// eslint-disable-next-line import/no-cycle
-import { routesQueryMapping } from '../widgets/sagas'
-import { makeWidgetVisibleSelector } from '../widgets/selectors'
+import { routesQueryMapping } from '../widgets/sagas/routesQueryMapping'
+import { makeModelIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
 import { dataRequestWidget } from '../widgets/store'
 
 import { setActiveRegion, regionsSelector } from './store'
@@ -131,7 +129,7 @@ function* lazyFetch(id) {
                 each(targetTab.content, (item) => {
                     if (
                         (alwaysRefresh && targetTab.id === id) ||
-                        (!includes(Object.keys(models.datasource), item.id))
+                        !Object.keys(models.datasource).includes(item.datasource || item.id)
                     ) {
                         idsToFetch.push(item.id)
                     }
@@ -139,8 +137,11 @@ function* lazyFetch(id) {
             }
         })
 
-        for (let i = 0; i < idsToFetch.length; i++) {
-            yield put(dataRequestWidget(idsToFetch[i]))
+        // eslint-disable-next-line no-restricted-syntax
+        for (const widgetId of idsToFetch) {
+            const modelId = yield select(makeModelIdSelector(widgetId))
+
+            yield put(dataRequestWidget(widgetId, modelId))
         }
 
         idsToFetch.length = 0

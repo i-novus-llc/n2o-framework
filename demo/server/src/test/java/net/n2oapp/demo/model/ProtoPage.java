@@ -234,12 +234,12 @@ public class ProtoPage {
         return getModalProtoContacts();
     }
 
-    public void tableAlertTextShouldBe(String text) {
-        getTable().alerts().alert(0).shouldHaveText(text);
+    public void alertTextShouldBe(String text) {
+        leftRightPage.alerts().alert(0).shouldHaveText(text);
     }
 
-    public void tableAlertColorShouldBe(Colors colors) {
-        getTable().alerts().alert(0).shouldHaveColor(colors);
+    public void alertColorShouldBe(Colors colors) {
+        leftRightPage.alerts().alert(0).shouldHaveColor(colors);
     }
 
     public void contactsAlertTextShouldBe(String text) {

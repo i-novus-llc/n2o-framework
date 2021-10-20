@@ -29,6 +29,7 @@ import {
 } from '../store'
 
 const widgetId = ' widgetId'
+const modelId = 'modelId'
 const initProps = {
     disabled: false,
     visible: true,
@@ -60,7 +61,6 @@ const pageId = 'Page_id'
 const selectedId = 'selectedId'
 const metadata = {
     toolbar: {},
-    actions: {},
 }
 
 describe('Тесты экшенов widgets', () => {
@@ -74,8 +74,9 @@ describe('Тесты экшенов widgets', () => {
 
     describe('Проверка экшена dataRequestWidget', () => {
         it('Возвращает правильный payload', () => {
-            const action = dataRequestWidget(widgetId)
+            const action = dataRequestWidget(widgetId, modelId)
             expect(action.payload.widgetId).toEqual(widgetId)
+            expect(action.payload.modelId).toEqual(modelId)
         })
     })
 

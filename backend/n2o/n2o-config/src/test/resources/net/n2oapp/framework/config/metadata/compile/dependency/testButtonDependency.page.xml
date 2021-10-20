@@ -6,7 +6,8 @@
             <table id="table" src="test" object-id="testJsonForm">
                 <toolbar>
                     <sub-menu>
-                        <menu-item id="filter" label="Видимость" context="true" visibility-condition="name !== 'Афанасий'">
+                        <menu-item id="filter" label="Видимость" context="true"
+                                   visibility-condition="name !== 'Афанасий'">
 <!--                                Скроется, если имя в выбранной записи Афанасий-->
                             <invoke operation-id="testId"/>
                         </menu-item>
@@ -33,19 +34,20 @@
                             <enabling message="Не указана дата">c==d</enabling>
                         </dependencies>
                     </button>
-                    <sub-menu>
-                        <menu-item visible="false" enabled="false"/>
-                        <menu-item visible="{property1}" enabled="{property2}"/>
-                        <menu-item>
-                            <close/>
-                            <dependencies>
-                                <visibility on="field1,field2" ref-widget-id="test" ref-model="filter">a==b</visibility>
-                                <enabling message="Не указана дата">c==d</enabling>
-                            </dependencies>
-                        </menu-item>
-                    </sub-menu>
+                        <sub-menu>
+                            <menu-item visible="false" enabled="false"/>
+                            <menu-item visible="{property1}" enabled="{property2}"/>
+                            <menu-item>
+                                <close/>
+                                <dependencies>
+                                    <visibility on="field1,field2" ref-widget-id="test" ref-model="filter">a==b</visibility>
+                                    <enabling message="Не указана дата">c==d</enabling>
+                                </dependencies>
+                            </menu-item>
+                        </sub-menu>
                 </toolbar>
             </table>
+            <table id="test"/>
         </tabs>
     </regions>
 </page>

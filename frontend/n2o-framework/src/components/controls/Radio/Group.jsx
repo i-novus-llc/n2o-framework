@@ -60,7 +60,7 @@ Group.propTypes = {
     options: PropTypes.arrayOf(PropTypes.shape({
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         disabled: PropTypes.bool,
-        label: PropTypes.string,
+        label: PropTypes.node,
         className: PropTypes.string,
     })),
     type: PropTypes.oneOf([RadioTypes.input, RadioTypes.button, RadioTypes.tabs]),

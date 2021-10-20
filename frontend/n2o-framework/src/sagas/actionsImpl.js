@@ -22,6 +22,7 @@ import some from 'lodash/some'
 import { START_INVOKE } from '../constants/actionImpls'
 import {
     makeFormModelPrefixSelector,
+    makeModelIdSelector,
     makeWidgetValidationSelector,
 } from '../ducks/widgets/selectors'
 import { getModelSelector, selectionTypeSelector } from '../ducks/models/selectors'
@@ -106,10 +107,11 @@ export function* handleAction(factories, action) {
 export function* fetchInvoke(dataProvider, model, apiProvider, action) {
     const state = yield select()
     const selectionType = yield select(selectionTypeSelector)
-
     const { widgetId } = action.payload
+    // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
+    const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
     const multi = get(state, 'models.multi')
-    const multiModel = multi?.[widgetId] || []
+    const multiModel = multi?.[modelId] || []
     const widget = get(state, `widgets.${widgetId}`)
     const hasMultiModel = some(values(multi), model => !isEmpty(model))
 
@@ -183,8 +185,7 @@ export function* handleInvoke(apiProvider, action) {
 
     const state = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
-    const buttonIds =
-    !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
+    const buttonIds = !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
 
     try {
         if (!dataProvider) {
@@ -218,8 +219,11 @@ export function* handleInvoke(apiProvider, action) {
             (needResolve && (optimistic || !needRedirectOrCloseModal)) ||
             (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm)
         ) {
+            // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
+            const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
+
             yield put(
-                setModel(modelPrefix, widgetId, optimistic ? model : response.data),
+                setModel(modelPrefix, modelId, optimistic ? model : response.data),
             )
         }
         yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }))

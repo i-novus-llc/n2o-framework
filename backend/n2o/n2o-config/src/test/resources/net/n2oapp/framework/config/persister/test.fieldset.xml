@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<fs:field-set xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-2.0" xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0">
-    <fs:row css-class="test_css" style="test_style">
-        <ctrl:input-text id="testId" label="testLabel" required="true" />
-        <ctrl:input-text id="testId" label="testLabel" required="true" />
-    </fs:row>
-    <ctrl:input-text id="testId" label="testLabel" required="true" />
-    <ctrl:input-text id="testId" label="testLabel" required="true" />
-</fs:field-set>

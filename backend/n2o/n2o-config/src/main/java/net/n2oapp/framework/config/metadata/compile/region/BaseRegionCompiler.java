@@ -45,10 +45,8 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         List<Compiled> content = new ArrayList<>();
         BasePageUtil.resolveRegionItems(items,
                 item -> content.add(p.compile(item, context, p, index)),
-                // TODO - необходимо учесть случай, когда виджет вне страницы (PageScope == null)
                 item -> pageWidgetsScope.getWidgets().keySet().stream()
-                        .filter(k -> k.endsWith((item).getId())).findFirst()
-                        .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
+                        .filter(k -> k.endsWith((item).getId())).findFirst().ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
         return content;
     }
 }

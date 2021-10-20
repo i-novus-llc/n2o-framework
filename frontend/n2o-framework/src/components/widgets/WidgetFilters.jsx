@@ -19,6 +19,7 @@ import { makeGetFilterModelSelector } from '../../ducks/models/selectors'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
+import { FILTER_DELAY } from '../../constants/time'
 
 import { flatFields } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -51,7 +52,7 @@ class WidgetFilters extends React.Component {
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.validateAndFetch = this.validateAndFetch.bind(this)
-        this.debouncedHandleFilter = debounce(this.handleFilter, 1000)
+        this.debouncedHandleFilter = debounce(this.handleFilter, FILTER_DELAY)
     }
 
     getChildContext() {
@@ -215,14 +216,14 @@ const mapStateToProps = createStructuredSelector({
     reduxFormFilter: (state, props) => getFormValues(generateFormName(props))(state) || {},
 })
 
-const mapDispatchToProps = (dispatch, { widgetId }) => ({
+const mapDispatchToProps = (dispatch, { modelId }) => ({
     dispatch,
-    setFilterModel: (widgetId, data) => dispatch(setModel(PREFIXES.filter, widgetId, data)),
-    fetchWidget: (widgetId, options) => dispatch(dataRequestWidget(widgetId, options)),
-    clearFilterModel: () => dispatch(removeModel(PREFIXES.filter, widgetId)),
+    setFilterModel: (widgetId, data) => dispatch(setModel(PREFIXES.filter, modelId, data)),
+    fetchWidget: (widgetId, options) => dispatch(dataRequestWidget(widgetId, modelId, options)),
+    clearFilterModel: () => dispatch(removeModel(PREFIXES.filter, modelId)),
     resetFilterModel: formName => dispatch(reset(formName)),
     resetFilter: formName => dispatch(
-        batchActions([removeModel(PREFIXES.filter, widgetId), reset(formName)]),
+        batchActions([removeModel(PREFIXES.filter, modelId), reset(formName)]),
     ),
 })
 

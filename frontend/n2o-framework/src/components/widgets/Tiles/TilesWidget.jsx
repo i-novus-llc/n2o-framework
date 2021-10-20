@@ -13,6 +13,7 @@ import TilesContainer from './TilesContainer'
 function TilesWidget(
     {
         id: widgetId,
+        datasource: modelId = widgetId,
         toolbar,
         disabled,
         pageId,
@@ -38,9 +39,10 @@ function TilesWidget(
         <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
+            modelId={modelId}
             toolbar={toolbar}
             filter={prepareFilters()}
-            {...getN2OPagination(paging, place, widgetId)}
+            {...getN2OPagination(paging, place, widgetId, modelId)}
             className={className}
             style={style}
         >
@@ -51,6 +53,7 @@ function TilesWidget(
                 disabled={disabled}
                 dataProvider={dataProvider}
                 widgetId={widgetId}
+                modelId={modelId}
                 fetchOnInit={fetchOnInit}
                 tile={tile}
                 colsSm={colsSm}
@@ -64,7 +67,6 @@ function TilesWidget(
 }
 
 TilesWidget.propTypes = {
-    widgetId: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
     pageId: PropTypes.string,
@@ -74,6 +76,7 @@ TilesWidget.propTypes = {
     dataProvider: PropTypes.object,
     fetchOnInit: PropTypes.bool,
     id: PropTypes.string,
+    datasource: PropTypes.string,
     tile: PropTypes.node,
     paging: pagingType,
     colsSm: PropTypes.number,

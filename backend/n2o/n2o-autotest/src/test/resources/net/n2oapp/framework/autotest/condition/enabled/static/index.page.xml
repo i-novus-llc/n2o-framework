@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <row>
+                <radio-group id="fields_enabled" inline="true">
+                    <options>
+                        <option id="1" name="enabled"/>
+                        <option id="2" name="disabled"/>
+                    </options>
+                    <default-value id="1" name="enabled"/>
+                </radio-group>
+            </row>
+            <set enabled="false" label="fieldset[enabled=false]">
+                <row>
+                    <input-text id="disabled_1" label="enable=true" enabled="true"
+                                default-value="Ошибка, если поле доступно"/>
+                    <input-text id="disabled_2" label="enable=fields_enabled" enabled="{fields_enabled.id == 1}"
+                                default-value="Ошибка, если поле доступно"/>
+                </row>
+                <row>
+                    <input-text id="disabled_3" label="dependencies.enabling[on=fields_enabled]"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling on="fields_enabled">return fields_enabled.id == 1</enabling>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="disabled_4" label="dependencies.enabling[on=fields_enabled]=true"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling on="fields_enabled">return true</enabling>
+                        </dependencies>
+                    </input-text>
+                </row>
+                <row>
+                    <input-text id="disabled_5" label="dependencies.enabling[on=fields_enabled]=false"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling on="fields_enabled">return false</enabling>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="disabled_6" label="dependencies.enabling[on=fields_enabled]=undefined"
+                                default-value="Ошибка, если поле доступно">
+                        <dependencies>
+                            <enabling on="fields_enabled">return undefined</enabling>
+                        </dependencies>
+                    </input-text>
+                </row>
+            </set>
+        </fields>
+    </form>
+</simple-page>

@@ -2,16 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, pure, withProps } from 'recompose'
-import keys from 'lodash/keys'
-import filter from 'lodash/filter'
-import map from 'lodash/map'
-import includes from 'lodash/includes'
 import pick from 'lodash/pick'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
 import has from 'lodash/has'
-import cx from 'classnames'
 import { batchActions } from 'redux-batched-actions'
 
 import { callActionImpl } from '../../ducks/toolbar/store'
@@ -24,7 +19,7 @@ import {
     setTableSelectedId,
     sortByWidget,
 } from '../../ducks/widgets/store'
-import { setModel, removeAllModel } from '../../ducks/models/store'
+import { setModel, removeAllModel, removeModel } from '../../ducks/models/store'
 import {
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
@@ -37,8 +32,6 @@ import { Spinner } from '../snippets/Spinner/Spinner'
 import { InitMetadataContext } from '../../core/dependency'
 import { removeAllAlerts } from '../../ducks/alerts/store'
 
-const s = {}
-
 /**
  * HOC, оборачивает в виджет контейнер, Выполняет запрос за данными и связь с redux
  * @param initialConfig
@@ -50,9 +43,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
     }
 
     /**
-   * мэппинг пропосов
-   * @param props
-   */
+     * мэппинг пропосов
+     * @param props
+     */
     function mapProps(props) {
         if (isFunction(config.mapProps)) {
             return config.mapProps(props)
@@ -65,26 +58,26 @@ const createWidgetContainer = (initialConfig, widgetType) => {
     }
 
     /**
-   * @reactProps {string} widgetId - идентификатор виджета
-   * @reactProps {string} pageId - идентификатор страницы
-   * @reactProps {boolean} fetchOnInit
-   * @reactProps {number} size
-   * @reactProps {object} filterDefaultValues
-   * @reactProps {object} defaultSorting
-   * @reactProps {object} dataProvider
-   * @reactProps {object} validation
-   * @reactProps {function} onSetFilter
-   * @reactProps {boolean} visible
-   * @reactProps {boolean} isLoading
-   * @reactProps {object|array} datasource
-   * @reactProps {object} resolveModel
-   * @reactProps {object} sorting
-   * @reactProps {function} onResolve
-   * @reactProps {function} onFetch
-   * @reactProps {function} dispatch
-   * @reactProps {function} isInit
-   * @reactProps {function} isActive
-   */
+     * @reactProps {string} widgetId - идентификатор виджета
+     * @reactProps {string} pageId - идентификатор страницы
+     * @reactProps {boolean} fetchOnInit
+     * @reactProps {number} size
+     * @reactProps {object} filterDefaultValues
+     * @reactProps {object} defaultSorting
+     * @reactProps {object} dataProvider
+     * @reactProps {object} validation
+     * @reactProps {function} onSetFilter
+     * @reactProps {boolean} visible
+     * @reactProps {boolean} isLoading
+     * @reactProps {object|array} datasource
+     * @reactProps {object} resolveModel
+     * @reactProps {object} sorting
+     * @reactProps {function} onResolve
+     * @reactProps {function} onFetch
+     * @reactProps {function} dispatch
+     * @reactProps {function} isInit
+     * @reactProps {function} isActive
+     */
     return (WrappedComponent) => {
         class WidgetContainer extends React.Component {
             constructor(props, context) {
@@ -105,8 +98,16 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                     visible,
                     dataProviderFromState,
                     dataProvider,
+                    dispatch,
+                    modelId,
                 } = this.props
+
                 const hasVisibleDeps = has(this.context, 'metadata.dependency.visible')
+                const hasFetchDeps = has(this.context, 'metadata.dependency.fetch')
+
+                if (hasFetchDeps && !fetchOnInit) {
+                    dispatch(removeModel('datasource', modelId))
+                }
 
                 if (
                     (hasVisibleDeps || fetchOnInit) &&
@@ -136,10 +137,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
              * Диспатч экшена удаления виджета
              */
             componentWillUnmount() {
-                const { widgetId, dispatch } = this.props
+                const { widgetId, dispatch, modelId } = this.props
                 const actions = [
                     removeAllAlerts(widgetId),
-                    removeAllModel(widgetId),
+                    removeAllModel(modelId),
                     setTableSelectedId(widgetId, null),
                 ]
 
@@ -148,15 +149,11 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
             isEqualRegisteredWidgetWithProps = () => {
                 const { widget } = this.props
-                const propsParamsNames = keys(this.props)
-                const widgetParamsNames = filter(keys(widget), key => key !== 'error')
-                const commonParamsNames = []
-
-                map(widgetParamsNames, (widgetParamName) => {
-                    if (includes(propsParamsNames, widgetParamName)) {
-                        commonParamsNames.push(widgetParamName)
-                    }
-                })
+                const propsParamsNames = Object.keys(this.props)
+                const widgetParamsNames = Object.keys(widget).filter(key => key !== 'error')
+                const commonParamsNames = widgetParamsNames.filter(
+                    widgetParamName => (widgetParamName !== 'page') && propsParamsNames.includes(widgetParamName),
+                )
 
                 const widgetStateParams = pick(widget, commonParamsNames)
                 const widgetPropsParams = pick(this.props, commonParamsNames)
@@ -165,24 +162,24 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             };
 
             onSetModel(prefix, widgetId, model) {
-                const { dispatch } = this.props
+                const { dispatch, modelId } = this.props
 
-                dispatch(setModel(prefix, widgetId, model))
+                dispatch(setModel(prefix, modelId, model))
             }
 
             onResolve(newModel, oldModel) {
-                const { widgetId, dispatch } = this.props
+                const { dispatch, widgetId, modelId } = this.props
 
                 if (!isEqual(newModel, oldModel)) {
-                    dispatch(resolveWidget(widgetId, newModel))
+                    dispatch(resolveWidget(widgetId, newModel, modelId))
                 }
             }
 
             onSort(id, direction) {
-                const { widgetId, isActive, dispatch } = this.props
+                const { widgetId, isActive, dispatch, modelId } = this.props
 
                 dispatch(sortByWidget(widgetId, id, direction))
-                dispatch(dataRequestWidget(widgetId))
+                dispatch(dataRequestWidget(widgetId, modelId))
                 if (!isActive) {
                     dispatch(setActive(widgetId))
                 }
@@ -195,9 +192,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             }
 
             onFetch(options) {
-                const { widgetId, dispatch } = this.props
+                const { widgetId, dispatch, modelId } = this.props
 
-                dispatch(dataRequestWidget(widgetId, options))
+                dispatch(dataRequestWidget(widgetId, modelId, options))
             }
 
             /**
@@ -217,6 +214,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                     dispatch,
                     isInit,
                     widgetId,
+                    modelId,
                     pageId,
                     size,
                     page,
@@ -231,6 +229,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                 if (!isInit || !this.isEqualRegisteredWidgetWithProps()) {
                     dispatch(
                         registerWidget(widgetId, {
+                            modelId,
                             pageId,
                             size,
                             type: widgetType,
@@ -249,7 +248,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
              * Базовый рендер
              */
             render() {
-                const { visible, isLoading, placeholder } = this.props
+                const { isLoading, placeholder } = this.props
                 const propsToPass = mapProps({
                     ...this.props,
                     onSetModel: this.onSetModel,
@@ -259,18 +258,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                     onSort: this.onSort,
                     onActionImpl: this.onActionImpl,
                 })
-                const style = {
-                    position: 'relative',
-                }
 
                 return (
-                    <div
-                        className={cx(
-                            visible ? s.visible : s.hidden,
-                            isLoading ? s.loading : '',
-                        )}
-                        style={style}
-                    >
+                    <div className="position-relative">
                         <Placeholder
                             once
                             loading={placeholder && isLoading}
@@ -287,6 +277,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
         WidgetContainer.propTypes = {
             /* manual */
+            modelId: PropTypes.string,
             widgetId: PropTypes.string,
             pageId: PropTypes.string,
             fetchOnInit: PropTypes.bool,
@@ -328,14 +319,14 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         const mapStateToProps = (state, props) => ({
             widget: makeWidgetByIdSelector(props.widgetId)(state, props),
             isAnyTableFocused: isAnyTableFocusedSelector(state, props),
-            datasource: makeGetModelByPrefixSelector('datasource', props.widgetId)(
+            datasource: makeGetModelByPrefixSelector('datasource', props.modelId)(
                 state,
                 props,
             ),
-            resolveModel: makeGetResolveModelSelector(props.widgetId)(state, props),
+            resolveModel: makeGetResolveModelSelector(props.modelId)(state, props),
             activeModel: makeGetModelByPrefixSelector(
                 props.modelPrefix,
-                props.widgetId,
+                props.modelId,
             )(state, props),
             defaultSorting: props.sorting,
         })

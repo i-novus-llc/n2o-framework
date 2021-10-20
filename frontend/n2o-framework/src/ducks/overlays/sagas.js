@@ -103,7 +103,7 @@ export const overlaysSagas = [
       !action.payload.prompt &&
       action.meta.modalsToClose &&
       action.type !== CLOSE) ||
-      action.type === LOCATION_CHANGE,
+      (action.type === LOCATION_CHANGE && action.payload.action !== 'REPLACE'),
         closeOverlays,
     ),
     fork(onCloseEffects),

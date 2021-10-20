@@ -11,17 +11,18 @@ import {
     dataSuccessWidget,
     dataFailWidget } from '../store'
 
-import * as api from '../../../sagas/fetch'
 import {
     prepareFetch,
     runResolve,
     clearOnDisable,
-    setWidgetDataSuccess,
+    afterFetch,
     handleFetch,
-    routesQueryMapping,
     getWithoutSelectedId,
     clearForm,
 } from '../sagas'
+import {
+    routesQueryMapping,
+} from '../sagas/routesQueryMapping'
 
 describe('Проверка саги widgets', () => {
     describe('тесты routesQueryMapping', () => {
@@ -130,11 +131,13 @@ describe('Проверка саги widgets', () => {
             dispatch: action => dispatched.push(action),
         }
         const widgetId = 'testId'
+        const modelId = 'testId'
         const options = {}
         const withoutSelectedId = true
         await runSaga(
             fakeStore,
             handleFetch,
+            modelId,
             widgetId,
             options,
             () => {},
@@ -143,9 +146,10 @@ describe('Проверка саги widgets', () => {
         expect(dispatched[0]).toEqual(put(dataFailWidget(widgetId)).payload.action)
     })
 
-    it('Проверка генератора setWidgetDataSuccess', async () => {
+    it('Проверка генератора afterFetch', async () => {
         const dispatched = []
         const widgetId = 'testId'
+        const modelId = 'testId'
         const widgetState = {
             pageId: 'pageId',
         }
@@ -166,23 +170,25 @@ describe('Проверка саги widgets', () => {
             list: [],
             count: 14,
         }
-        api.default = jest.fn(() => Promise.resolve(response))
+
         await runSaga(
             fakeStore,
-            setWidgetDataSuccess,
+            afterFetch,
+            response,
+            modelId,
             widgetId,
             widgetState,
             basePath,
             baseQuery,
         )
         expect(dispatched[0]).toEqual(
-            put(setModel(PREFIXES.datasource, widgetId, [])).payload.action,
+            put(changeCountWidget(widgetId, response.count)).payload.action,
         )
         expect(dispatched[1]).toEqual(
-            put(setModel(PREFIXES.resolve, widgetId, null)).payload.action,
+            put(setModel(PREFIXES.datasource, widgetId, [])).payload.action,
         )
         expect(dispatched[2]).toEqual(
-            put(changeCountWidget(widgetId, response.count)).payload.action,
+            put(setModel(PREFIXES.resolve, widgetId, null)).payload.action,
         )
         expect(dispatched[3]).toEqual(
             put(changePageWidget(widgetId, response.page)).payload.action,
@@ -203,6 +209,7 @@ describe('Проверка саги widgets', () => {
         const action = {
             payload: {
                 widgetId: 'testId',
+                modelId: 'testId',
             },
         }
         const gen = clearOnDisable(action)
@@ -217,7 +224,7 @@ describe('Проверка саги widgets', () => {
     it('Должен произойти runResolve', () => {
         const action = {
             payload: {
-                widgetId: 'testId',
+                modelId: 'testId',
                 model: {
                     some: 'value',
                 },
@@ -228,7 +235,7 @@ describe('Проверка саги widgets', () => {
             put(
                 setModel(
                     PREFIXES.resolve,
-                    action.payload.widgetId,
+                    action.payload.modelId,
                     action.payload.model,
                 ),
             ).payload,

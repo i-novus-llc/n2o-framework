@@ -7,6 +7,7 @@
                text-position="left"
                shape="circle"
                width="400px"
+               action-id="test"
         >
             <statuses>
                 <status

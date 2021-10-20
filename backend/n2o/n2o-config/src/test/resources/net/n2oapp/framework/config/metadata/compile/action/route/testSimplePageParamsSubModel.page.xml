@@ -4,8 +4,8 @@
         <toolbar>
             <button id="currentWidgetId">
                 <open-page page-id="testOpenPageRoutePage" route="/:param7/open">
-                    <path-param name="param7" value="{field}"/>
-                    <query-param name="param8" value="{field}"/>
+                    <path-param name="param7" value="{id}"/>
+                    <query-param name="param8" value="{id}"/>
                 </open-page>
             </button>
         </toolbar>
