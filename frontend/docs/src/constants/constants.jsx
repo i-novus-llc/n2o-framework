@@ -75,7 +75,7 @@ const cardsParams = {
 export const cardItems = items.filter(item => cardsParams[item.label]).map(item => {
     const { label, href, docId } = item
     let currentHref = ''
-    console.log('Yo!!!', item)
+
     if (href) {
         currentHref = href
     } else if (docId === 'introduction' || label === 'Блог') {
