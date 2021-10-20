@@ -1053,6 +1053,11 @@
                         <xs:documentation>Ширина картинки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действие, которое выполнится при клике по изображению.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

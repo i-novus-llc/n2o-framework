@@ -9,7 +9,7 @@
                        data="{data}"
                        title="{title}"
                        description="{desc}"
-                       width="40"
+                       width="40px"
                        text-position="left"
                 />
             </column>

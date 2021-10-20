@@ -32,7 +32,6 @@ export const withWidgetContainer = widgetContainer(
             },
             onFocus: props.onFocus,
             size: props.size,
-            actions: props.actions,
             redux: true,
             dispatch: props.dispatch,
             rowClick: props.rowClick,

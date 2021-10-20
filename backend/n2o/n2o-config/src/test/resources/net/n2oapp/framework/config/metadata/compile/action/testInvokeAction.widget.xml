@@ -9,5 +9,6 @@
         <button>
             <invoke operation-id="create" optimistic="true"/>
         </button>
+        <button action-id="test"/>
     </toolbar>
 </table>

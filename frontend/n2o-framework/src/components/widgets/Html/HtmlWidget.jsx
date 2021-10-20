@@ -25,7 +25,6 @@ function HtmlWidget(props) {
         id: widgetId,
         datasource: modelId = widgetId,
         toolbar,
-        actions,
         className,
         style,
         pageId,
@@ -38,7 +37,6 @@ function HtmlWidget(props) {
             widgetId={widgetId}
             modelId={modelId}
             toolbar={toolbar}
-            actions={actions}
             className={className}
             fetchOnInit={fetchOnInit}
             style={style}
@@ -64,7 +62,6 @@ HtmlWidget.propTypes = {
     fetchOnInit: PropTypes.bool,
     url: PropTypes.bool,
     toolbar: PropTypes.object,
-    actions: PropTypes.object,
     html: PropTypes.string,
     dataProvider: PropTypes.object,
     id: PropTypes.string,

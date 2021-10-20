@@ -61,7 +61,6 @@ const pageId = 'Page_id'
 const selectedId = 'selectedId'
 const metadata = {
     toolbar: {},
-    actions: {},
 }
 
 describe('Тесты экшенов widgets', () => {

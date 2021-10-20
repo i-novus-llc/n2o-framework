@@ -2,10 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { compose, withProps, pure } from 'recompose'
 
-import {
-    makePageActionsByIdSelector,
-    makePageToolbarByIdSelector,
-} from '../../ducks/pages/selectors'
+import { makePageToolbarByIdSelector } from '../../ducks/pages/selectors'
 
 const withActions = (Component) => {
     class ComponentWithActions extends PureComponent {
@@ -16,7 +13,6 @@ const withActions = (Component) => {
 
     const mapStateToProps = (state, props) => ({
         entityKey: props.pageId,
-        actions: makePageActionsByIdSelector(props.pageId)(state),
         toolbar: makePageToolbarByIdSelector(props.pageId)(state),
     })
 

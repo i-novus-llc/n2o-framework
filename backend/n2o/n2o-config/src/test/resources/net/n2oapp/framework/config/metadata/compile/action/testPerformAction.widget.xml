@@ -6,6 +6,7 @@
         </action>
     </actions>
     <toolbar>
+        <button action-id="test"/>
         <button >
             <perform src="mySrc"/>
         </button>

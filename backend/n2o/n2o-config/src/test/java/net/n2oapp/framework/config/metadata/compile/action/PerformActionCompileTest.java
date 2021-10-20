@@ -40,9 +40,9 @@ public class PerformActionCompileTest extends SourceCompileTestBase {
     public void testCompileActions() {
         Form table = (Form) compile("net/n2oapp/framework/config/metadata/compile/action/testPerformAction.widget.xml")
                 .get(new WidgetContext("testPerformAction"));
-        assertThat(table.getActions().get("test"), notNullValue());
-        assertThat(table.getActions().get("menuItem0"), notNullValue());
-        assertThat(table.getActions().get("test") instanceof Perform, is(true));
-        assertThat(table.getActions().get("menuItem0") instanceof Perform, is(true));
+        assertThat(table.getToolbar().getButton("test").getAction(), notNullValue());
+        assertThat(table.getToolbar().getButton("menuItem1").getAction(), notNullValue());
+        assertThat(table.getToolbar().getButton("test").getAction() instanceof Perform, is(true));
+        assertThat(table.getToolbar().getButton("menuItem1").getAction() instanceof Perform, is(true));
     }
 }

@@ -88,9 +88,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             page.setObject(object);
         }
         if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
-            MetaActions metaActions = new MetaActions();
-            page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
-            compiledWidget.getActions().putAll(metaActions);
+            page.setToolbar(compileToolbar(context, p, new MetaActions(), pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
         }
         return page;
     }

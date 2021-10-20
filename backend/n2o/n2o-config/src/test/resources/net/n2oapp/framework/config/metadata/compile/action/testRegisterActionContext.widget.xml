@@ -17,4 +17,7 @@
             </invoke>
         </action>
     </actions>
+    <toolbar>
+        <button action-id="save"/>
+    </toolbar>
 </form>

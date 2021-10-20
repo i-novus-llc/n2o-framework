@@ -54,7 +54,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
                 .getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        Security.SecurityObject securityObjectAction = ((Security) page.getToolbar().getButton("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
         assertThat(securityObjectToolbar.getPermissions().contains("permission"), is(true));
@@ -66,8 +66,8 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         Widget widget = (Widget) page.getRegions().get("topLeft").get(0).getContent().get(0);
         securityObjectToolbar = ((Security) widget.getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        securityObjectAction = ((Security) ((Action) widget.getActions()
-                .get("update")).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        securityObjectAction = ((Security) ((Action) widget.getToolbar()
+                .getButton("update").getAction()).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
         assertThat(securityObjectToolbar.getPermissions().contains("permission"), is(true));
@@ -85,7 +85,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
                 .getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        Security.SecurityObject securityObjectAction = ((Security) page.getToolbar().getButton("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectAction.getAnonymous(), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
@@ -99,8 +99,8 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         Widget widget = (Widget) page.getRegions().get("topLeft").get(0).getContent().get(0);
         securityObjectToolbar = ((Security) widget.getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        securityObjectAction = ((Security) ((Action) widget.getActions()
-                .get("update")).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        securityObjectAction = ((Security) ((Action) widget.getToolbar()
+                .getButton("update").getAction()).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectAction.getAnonymous(), nullValue());
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));

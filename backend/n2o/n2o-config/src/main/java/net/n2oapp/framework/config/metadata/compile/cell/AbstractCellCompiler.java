@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
@@ -43,15 +45,18 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
 
     protected void compileAction(N2oActionCell compiled, N2oActionCell source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getActionId() != null || source.getAction() != null) {
-            Action action;
+            N2oAction n2oAction = source.getAction();
             if (source.getActionId() != null) {
                 MetaActions actions = p.getScope(MetaActions.class);
-                action = actions.get(source.getActionId());
-                compiled.setActionId(source.getActionId());
-            } else {
-                action = p.compile(source.getAction(), context, new ComponentScope(source));
-                compiled.setActionId(source.getAction().getId());
+                ActionsBar actionsBar = actions.get(source.getActionId());
+                if (actionsBar != null && actionsBar.getAction() != null)
+                    n2oAction = actionsBar.getAction();
             }
+            Action action = null;
+            if (n2oAction != null) {
+                action = p.compile(n2oAction, context, new ComponentScope(source));
+            }
+            compiled.setActionId(source.getActionId());
             compiled.setCompiledAction(action);
         }
     }

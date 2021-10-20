@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -46,10 +45,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                     }
                 }
             }
-        }
-        MetaActions widgetActions = p.getScope(MetaActions.class);
-        if (widgetActions != null && source.getId() != null) {
-            widgetActions.addAction(source.getId(), compiled);
         }
     }
 

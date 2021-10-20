@@ -110,10 +110,10 @@ class AdvancedTableContainer extends React.Component {
     }
 
     renderCell(props) {
-        const { actions, modelId } = this.props
+        const { modelId } = this.props
         const propStyles = pick(props, ['width'])
 
-        return <ReduxCell {...propStyles} {...props} actions={actions} modelId={modelId} />
+        return <ReduxCell {...propStyles} {...props} modelId={modelId} />
     }
 
     handleSetFilter(filter) {
@@ -258,7 +258,6 @@ class AdvancedTableContainer extends React.Component {
 
   getTableProps() {
       const props = omit(this.props, [
-          'actions',
           'cells',
           'headers',
           'datasource',
@@ -292,7 +291,6 @@ AdvancedTableContainer.propTypes = {
     selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onResolve: PropTypes.func,
     hasSelect: PropTypes.bool,
-    actions: PropTypes.any,
     cells: PropTypes.any,
     datasource: PropTypes.any,
     headers: PropTypes.any,
@@ -402,7 +400,6 @@ const enhance = compose(
                 },
                 onFocus: props.onFocus,
                 size: props.size,
-                actions: props.actions,
                 redux: true,
                 rowSelection: props.rowSelection,
                 autoCheckboxOnSelect: props.autoCheckboxOnSelect,

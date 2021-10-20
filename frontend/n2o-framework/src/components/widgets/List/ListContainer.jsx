@@ -28,7 +28,6 @@ const ReduxCell = withColumn(TableCell)
  * @reactProps {string} widgetId - id виджета
  * @reactProps {object} toolbar - конфиг тулбара
  * @reactProps {boolean} disabled - флаг активности
- * @reactProps {object} actions - объект экшенов
  * @reactProps {string} pageId - id страницы
  * @reactProps {object} paging - конфиг пагинации
  * @reactProps {string} className - класс
@@ -183,7 +182,6 @@ ListContainer.propTypes = {
     widgetId: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
-    actions: PropTypes.object,
     pageId: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -214,7 +212,6 @@ ListContainer.defaultProps = {
     hasMoreButton: false,
     toolbar: {},
     disabled: false,
-    actions: {},
     className: '',
     style: {},
     filter: {},

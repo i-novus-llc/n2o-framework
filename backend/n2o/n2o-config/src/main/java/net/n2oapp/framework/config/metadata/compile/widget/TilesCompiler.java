@@ -50,7 +50,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(tiles.getId());
-        MetaActions widgetActions = new MetaActions();
+        MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
         tiles.setColsSm(p.cast(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));

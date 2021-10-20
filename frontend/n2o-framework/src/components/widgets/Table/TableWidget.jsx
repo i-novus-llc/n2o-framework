@@ -16,7 +16,6 @@ import TableContainer from './TableContainer'
  * @reactProps {string} containerId - id контейнера
  * @reactProps {string} pageId - id страницы
  * @reactProps {string} widgetId - id виджета
- * @reactProps {object} actions
  * @reactProps {object} tools
  * @reactProps {object} dataProvider
  * @reactProps {object} table
@@ -35,7 +34,7 @@ class TableWidget extends React.Component {
    * Замена src на компонент
    */
     getWidgetProps() {
-        const { toolbar, actions, dataProvider, table } = this.props
+        const { toolbar, dataProvider, table } = this.props
         const { resolveProps } = this.context
         const {
             headers,
@@ -54,7 +53,6 @@ class TableWidget extends React.Component {
             sorting,
             toolbar,
             rowColor,
-            actions,
             hasFocus,
             hasSelect,
             autoFocus,
@@ -79,7 +77,6 @@ class TableWidget extends React.Component {
             datasource: modelId = widgetId,
             toolbar,
             disabled,
-            actions,
             table: { fetchOnInit, size },
             pageId,
             paging,
@@ -95,7 +92,6 @@ class TableWidget extends React.Component {
                 widgetId={widgetId}
                 modelId={modelId}
                 toolbar={toolbar}
-                actions={actions}
                 filter={this.prepareFilters()}
                 {...getN2OPagination(paging, place, widgetId, modelId)}
                 className={className}
@@ -125,7 +121,6 @@ TableWidget.propTypes = {
     style: PropTypes.object,
     containerId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    actions: PropTypes.object,
     toolbar: PropTypes.object,
     dataProvider: PropTypes.object,
     table: PropTypes.arrayOf(

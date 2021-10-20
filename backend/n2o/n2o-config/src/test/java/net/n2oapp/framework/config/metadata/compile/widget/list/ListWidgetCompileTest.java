@@ -5,8 +5,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
+import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -18,8 +21,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -66,9 +68,10 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));
 
         assertThat(listWidget.getList().get("extra").getSrc(), is("ButtonsCell"));
-        assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getOperationId(), is("create"));
-        assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getObjectId(), is("utBlank"));
-        assertThat(listWidget.getActions().containsKey("rightTopId"), is(true));
+        AbstractButton extra = ((ToolbarCell) listWidget.getList().get("extra")).getToolbar().get(0).getButtons().get(0);
+        assertThat(((InvokeAction) extra.getAction()).getOperationId(), is("create"));
+        assertThat(((InvokeAction) extra.getAction()).getObjectId(), is("utBlank"));
+        assertThat(listWidget.getList().get("rightTop"), notNullValue());
 
         assertThat(listWidget.getPaging().getFirst(), is(true));
         assertThat(listWidget.getPaging().getShowSinglePage(), is(false));
