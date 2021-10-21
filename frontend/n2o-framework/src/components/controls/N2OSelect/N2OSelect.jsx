@@ -162,7 +162,7 @@ class N2OSelect extends React.Component {
         if (Array.isArray(value)) {
             return value
         }
-        if (value) {
+        if (!isEmpty(value)) {
             return [value]
         }
 
