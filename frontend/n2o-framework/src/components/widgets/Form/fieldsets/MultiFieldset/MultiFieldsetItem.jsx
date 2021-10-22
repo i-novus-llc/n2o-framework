@@ -4,32 +4,10 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import Button from 'reactstrap/lib/Button'
 
-const renderLabel = (firstChildrenLabel, childrenLabel, resolvePlaceholder, index) => {
-    if (childrenLabel) {
-        if (firstChildrenLabel && index === 0) {
-            return (
-                <div className="n2o-multi-fieldset__label">
-                    {firstChildrenLabel}
-                </div>
-            )
-        }
-
-        return (
-            <div className="n2o-multi-fieldset__label">
-                {resolvePlaceholder(index)}
-            </div>
-        )
-    }
-
-    return null
-}
-
 function MultiFieldsetItem({
     fields,
     render,
     rows,
-    firstChildrenLabel,
-    childrenLabel,
     parentName,
     addButtonLabel,
     removeAllButtonLabel,
@@ -50,7 +28,9 @@ function MultiFieldsetItem({
             {map(fields, (field, index) => (
                 <div className="n2o-multi-fieldset__container">
                     <div className="n2o-multi-fieldset__item">
-                        {renderLabel(firstChildrenLabel, childrenLabel, resolvePlaceholder, index)}
+                        <div className="n2o-multi-fieldset__label">
+                            {resolvePlaceholder(index)}
+                        </div>
                         {render(rows, {
                             parentName: `${parentName}[${index}]`,
                             parentIndex: index,
@@ -112,8 +92,6 @@ MultiFieldsetItem.propTypes = {
     fields: PropTypes.object,
     render: PropTypes.func,
     rows: PropTypes.array,
-    firstChildrenLabel: PropTypes.string,
-    childrenLabel: PropTypes.string,
     addButtonLabel: PropTypes.string,
     removeAllButtonLabel: PropTypes.string,
     needAddButton: PropTypes.bool,
@@ -134,7 +112,6 @@ const defaultComponentProps = {
     render: () => {},
     rows: [],
     fields: [],
-    childrenLabel: null,
     addButtonLabel: 'Добавить',
     removeAllButtonLabel: 'Удалить все',
     needAddButton: true,
