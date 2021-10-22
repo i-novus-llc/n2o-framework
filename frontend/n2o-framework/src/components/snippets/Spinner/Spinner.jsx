@@ -30,7 +30,7 @@ export class Spinner extends Component {
                 const { loading } = this.props
 
                 this.setState({ showSpinner: loading })
-            }, 400)
+            }, 1000)
         }
     }
 
