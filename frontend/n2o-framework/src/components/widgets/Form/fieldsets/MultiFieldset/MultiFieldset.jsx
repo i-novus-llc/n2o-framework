@@ -14,6 +14,7 @@ import evalExpression, {
     parseExpression,
 } from '../../../../../utils/evalExpression'
 import { resolveExpression } from '../../utils'
+import propsResolver from '../../../../../utils/propsResolver'
 
 import MultiFieldsetItem from './MultiFieldsetItem'
 
@@ -97,9 +98,13 @@ export const enhance = compose(
 
             dispatch(change(form, name, newValue))
         },
-        resolvePlaceholder: ({ childrenLabel }) => (index) => {
+        resolvePlaceholder: ({ childrenLabel, firstChildrenLabel, activeModel }) => (index) => {
             const context = { index }
             const expression = parseExpression(childrenLabel)
+
+            if (firstChildrenLabel && index === 0) {
+                return propsResolver(firstChildrenLabel, activeModel)
+            }
 
             if (expression) {
                 return evalExpression(expression, context)
