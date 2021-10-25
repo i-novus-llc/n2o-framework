@@ -50,9 +50,10 @@ public class N2oOperationProcessor {
                     inParameters,
                     outParameters
             );
+        } catch (N2oException e) {
+            inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
+            throw e;
         } catch (Exception e) {
-            if (e instanceof N2oException)
-                throw  e;
             inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
             throw exceptionHandler.handle(operation, inDataSet, e);
         }
