@@ -111,5 +111,8 @@ module.exports = {
         },
     ],
 ],
-    plugins: ['docusaurus-plugin-sass'],
+    plugins: [
+        'docusaurus-plugin-sass',
+        ['docusaurus-lunr-search', { languages : ['ru', 'en'] }]
+    ],
 }
