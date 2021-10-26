@@ -137,7 +137,7 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
-        public void firstTitleShouldHaveText(String text) {
+        public void parentTitleShouldHaveText(String text) {
             element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 

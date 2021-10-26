@@ -59,7 +59,7 @@ public interface Page extends Component {
 
         void clickLink(String text);
 
-        void firstTitleShouldHaveText(String text);
+        void parentTitleShouldHaveText(String text);
 
         void titleShouldHaveText(String text);
 
