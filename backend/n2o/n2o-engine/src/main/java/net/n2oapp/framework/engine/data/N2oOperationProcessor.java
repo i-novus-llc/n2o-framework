@@ -5,6 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -49,6 +50,9 @@ public class N2oOperationProcessor {
                     inParameters,
                     outParameters
             );
+        } catch (N2oException e) {
+            inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
+            throw e;
         } catch (Exception e) {
             inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
             throw exceptionHandler.handle(operation, inDataSet, e);
