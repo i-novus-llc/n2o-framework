@@ -1,7 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
         <image id="photo"
-               url="{image}"
                data="data:image/jpeg;base64{image}"
                title="{label}"
                text-position="left"

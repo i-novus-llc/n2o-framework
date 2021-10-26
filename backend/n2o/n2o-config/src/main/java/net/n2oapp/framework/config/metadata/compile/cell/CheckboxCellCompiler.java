@@ -20,7 +20,7 @@ public class CheckboxCellCompiler extends AbstractCellCompiler<N2oCheckboxCell, 
         N2oCheckboxCell cell = new N2oCheckboxCell();
         if (source.getEnabled() != null) {
             cell.setEnabled(source.getEnabled());
-        } else if (source.getActionId() == null && source.getAction() == null) {
+        } else if (source.getActionId() == null && source.getN2oAction() == null) {
             cell.setEnabled("false");
         }
 

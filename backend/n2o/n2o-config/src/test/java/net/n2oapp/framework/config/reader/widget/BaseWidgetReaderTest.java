@@ -53,7 +53,7 @@ public abstract class BaseWidgetReaderTest {
 
         //проверяем чек-бокс
         N2oCheckboxCell checkBoxCell = (N2oCheckboxCell) ((N2oSimpleColumn) table.getColumns()[0]).getCell();
-        assert checkBoxCell.getAction() != null;
+        assert checkBoxCell.getN2oAction() != null;
 
         //проверяем цвет и иконку
         for (N2oSwitch object : Arrays.asList(((N2oColorCell) ((N2oSimpleColumn) table.getColumns()[1]).getCell()).getStyleSwitch(), ((N2oIconCell) ((N2oSimpleColumn) table.getColumns()[2]).getCell()).getIconSwitch())) {
@@ -64,11 +64,11 @@ public abstract class BaseWidgetReaderTest {
 
         //провеяем link
         N2oLinkCell linkCell = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[3]).getCell();
-        assert ((N2oAnchor) linkCell.getAction()).getTarget().name().equals("newWindow");
-        assert ((N2oAnchor) linkCell.getAction()).getHref().equals("https://www.google.ru/");
+        assert ((N2oAnchor) linkCell.getN2oAction()).getTarget().name().equals("newWindow");
+        assert ((N2oAnchor) linkCell.getN2oAction()).getHref().equals("https://www.google.ru/");
 
         N2oLinkCell linkCell2 = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[4]).getCell();
-        N2oAbstractPageAction openPage = (N2oOpenPage) linkCell2.getAction();
+        N2oAbstractPageAction openPage = (N2oOpenPage) linkCell2.getN2oAction();
         assert openPage.getPageId().equals("test");
         assert openPage.getOperationId().equals("create");
         assert openPage.getMasterFieldId().equals("id");
@@ -82,7 +82,7 @@ public abstract class BaseWidgetReaderTest {
         assert openPage.getPreFilters()[0].getValue().equals("{test}");
 
         N2oLinkCell linkCell3 = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[5]).getCell();
-        N2oAbstractPageAction showModal = (N2oShowModal) linkCell3.getAction();
+        N2oAbstractPageAction showModal = (N2oShowModal) linkCell3.getN2oAction();
 
         assert showModal.getPageId().equals("test");
         assert showModal.getOperationId().equals("create");

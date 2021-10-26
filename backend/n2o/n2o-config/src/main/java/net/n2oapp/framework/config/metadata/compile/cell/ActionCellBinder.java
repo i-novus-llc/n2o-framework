@@ -18,8 +18,8 @@ public class ActionCellBinder implements BaseMetadataBinder<N2oActionCell> {
 
     @Override
     public N2oActionCell bind(N2oActionCell compiled, BindProcessor p) {
-        if (compiled.getCompiledAction() != null)
-            p.bind(compiled.getCompiledAction());
+        if (compiled.getAction() != null)
+            p.bind(compiled.getAction());
         return compiled;
     }
 }

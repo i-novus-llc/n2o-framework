@@ -12,16 +12,14 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType
 
 @Getter
 @Setter
-public class N2oButtonField extends N2oField implements ModelAware, WidgetIdAware {
+public class N2oButtonField extends N2oActionField implements ModelAware, WidgetIdAware {
     private String title;
     private String titleFieldId;
     private String icon;
     private String iconFieldId;
     private LabelType type;
-    private N2oAction action;
     private String widgetId;
     private ReduxModel model;
-    private String actionId;
     private String color;
     private ValidateType validate;
     private String tooltipPosition;

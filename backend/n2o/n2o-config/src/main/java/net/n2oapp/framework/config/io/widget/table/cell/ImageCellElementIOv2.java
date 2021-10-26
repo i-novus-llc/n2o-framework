@@ -24,7 +24,7 @@ public class ImageCellElementIOv2 extends AbstractCellElementIOv2<N2oImageCell> 
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeEnum(e, "shape", c::getShape, c::setShape, ImageShape.class);
         p.children(e, "statuses", "status", c::getStatuses, c::setStatuses, ImageStatusElement::new, this::statuses);
-        p.anyChild(e, "action", c::getAction, c::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChild(e, "action", c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
         p.attribute(e, "title", c::getTitle, c::setTitle);
         p.attribute(e, "description", c::getDescription, c::setDescription);
         p.attribute(e, "data", c::getData, c::setData);

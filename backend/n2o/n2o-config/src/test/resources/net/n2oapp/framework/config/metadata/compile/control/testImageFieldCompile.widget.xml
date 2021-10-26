@@ -1,7 +1,7 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <actions>
         <action id="test">
-            <a href="http://i-novus.ru"/>
+            <a href="http://example.com"/>
         </action>
     </actions>
     <fields>

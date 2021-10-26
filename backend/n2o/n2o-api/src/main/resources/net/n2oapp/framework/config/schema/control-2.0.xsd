@@ -1013,14 +1013,9 @@
                 <xs:sequence>
                     <xs:element name="statuses" type="statusesType" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="url" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>URL адрес изображения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="data" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Данные изображения в формате Base64.</xs:documentation>
+                        <xs:documentation>URL адрес изображения или данные изображения в формате Base64.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="title" type="xs:string">
