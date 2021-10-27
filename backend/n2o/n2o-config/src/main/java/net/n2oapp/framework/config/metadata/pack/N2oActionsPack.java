@@ -5,8 +5,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.*;
 import net.n2oapp.framework.config.metadata.compile.action.*;
 import net.n2oapp.framework.config.metadata.compile.cell.ActionCellBinder;
-import net.n2oapp.framework.config.metadata.compile.cell.ImageCellBinder;
-import net.n2oapp.framework.config.metadata.compile.cell.LinkCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.ToolbarCellBinder;
 import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
 
@@ -43,12 +41,10 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ShowModalBinder(),
                 new OpenDrawerBinder(),
                 new PerformButtonBinder(),
-                new ButtonFieldBinder(),
+                new ActionFieldBinder(),
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
                 new ActionCellBinder(),
-                new LinkCellBinder(),
-                new ImageCellBinder(),
                 new SubMenuBinder(),
                 new PrintActionBinder());
     }

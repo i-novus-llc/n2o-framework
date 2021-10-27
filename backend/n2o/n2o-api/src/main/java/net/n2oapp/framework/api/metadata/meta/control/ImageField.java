@@ -32,14 +32,4 @@ public class ImageField extends ActionField {
     private String width;
     @JsonProperty
     private ImageStatusElement[] statuses;
-    @JsonProperty
-    private Action action;
-    @JsonProperty
-    private String url;
-    @JsonProperty
-    private Target target;
-    @JsonProperty
-    private Map<String, ModelLink> pathMapping;
-    @JsonProperty
-    private Map<String, ModelLink> queryMapping;
 }

@@ -31,7 +31,6 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
     public ImageField compile(N2oImageField source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageField imageField = new ImageField();
         compileField(imageField, source, context, p);
-        imageField.setUrl(p.resolveJS(source.getUrl()));
         imageField.setData(p.resolveJS(source.getData()));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));

@@ -17,7 +17,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 
 public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oField> extends FieldCompiler<D, S> {
 
-    protected Action compileAction(N2oActionField source, ActionField button, CompileContext<?, ?> context, CompileProcessor p) {
+    protected Action compileAction(N2oActionField source, ActionField field, CompileContext<?, ?> context, CompileProcessor p) {
         ComponentScope scope = null;
         N2oAction action = null;
         if (source.getAction() != null) {
@@ -30,14 +30,16 @@ public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oFi
         if (action != null) {
             String objectId = action.getObjectId();
             CompiledObject compiledObject = getCompiledObject(p, objectId);
-            action.setId(p.cast(action.getId(), button.getId()));
+            action.setId(p.cast(action.getId(), field.getId()));
             Action result = p.compile(action, context, compiledObject, scope);
             if (result instanceof LinkAction) {
                 LinkAction linkAction = ((LinkAction) result);
-                button.setUrl(linkAction.getUrl());
-                button.setTarget(linkAction.getTarget());
-                button.setPathMapping(linkAction.getPathMapping());
-                button.setQueryMapping(linkAction.getQueryMapping());
+                field.setUrl(linkAction.getUrl());
+                field.setTarget(linkAction.getTarget());
+                field.setPathMapping(linkAction.getPathMapping());
+                field.setQueryMapping(linkAction.getQueryMapping());
+            } else {
+                field.setAction(result);
             }
             return result;
         }
