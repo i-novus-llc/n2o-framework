@@ -23,7 +23,7 @@ public class LinkCellElementIOv2 extends AbstractCellElementIOv2<N2oLinkCell> {
         p.attributeEnum(e, "type", c::getType, c::setType, IconType.class);
         p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attributeEnum(e, "target", c::getTarget, c::setTarget, Target.class);
-        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
+        p.anyChild(e, null, c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 
     @Override

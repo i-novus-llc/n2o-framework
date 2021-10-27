@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.EditType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -64,9 +63,9 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getControl().getSrc(), is("InputText"));
         assertThat(cell.getEditFieldId(), is("itIdTest"));
 
-        assertThat(cell.getCompiledAction(), notNullValue());
-        assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
-        assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
+        assertThat(cell.getAction(), notNullValue());
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
 
         cell = (EditCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));
