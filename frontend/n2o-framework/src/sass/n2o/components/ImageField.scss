@@ -8,6 +8,12 @@
     }
 }
 
+.n2o-image-field {
+    .n2o-image-field__image-with-action {
+        cursor: pointer;
+    }
+}
+
 .n2o-image-field.with-statuses {
     position: relative;
     display: flex;
