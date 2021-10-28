@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
 import get from 'lodash/get'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import propsResolver from '../../../../../utils/propsResolver'
 import Toolbar from '../../../../buttons/Toolbar'
@@ -36,9 +36,9 @@ function ButtonsCell({
     }
 
     return (
-        <div className="d-inline-flex">
+        <div className={classNames('d-inline-flex', className)}>
             <Toolbar
-                className={cx('n2o-buttons-cell', className)}
+                className="n2o-buttons-cell"
                 entityKey={key}
                 toolbar={propsResolver(toolbar, model)}
                 onClick={onResolve}
@@ -49,16 +49,16 @@ function ButtonsCell({
 
 ButtonsCell.propTypes = {
     /**
-    * Класс
-    */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-    * ID ячейки
-    */
+     * ID ячейки
+     */
     id: PropTypes.string,
     /**
-    * Флаг видимости
-    */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     model: PropTypes.any,
     toolbar: PropTypes.any,
