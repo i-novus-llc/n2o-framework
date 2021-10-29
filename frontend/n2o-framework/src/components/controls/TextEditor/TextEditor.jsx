@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import cn from 'classnames'
 import isEqual from 'lodash/isEqual'
+import isString from 'lodash/isString'
 import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
@@ -43,7 +44,7 @@ class TextEditor extends Component {
     componentDidUpdate(prevProps) {
         const { value } = this.props
 
-        if (!isEqual(prevProps.value, value)) {
+        if (isString(value) && !isEqual(prevProps.value, value)) {
             this.setState({
                 editorState: EditorState.moveFocusToEnd(
                     this.convertToEditorState(value),
