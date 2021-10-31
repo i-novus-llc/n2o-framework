@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+     style="margin-left:10px;width:300px" description="description"
+     id="fieldset" src="test" class="test" label="label" ref-id="id"
+     field-label-align="left" field-label-location="top"
+     field-label-width="30" visible="true" enabled="true" depends-on="test">
+    <row class="test1">
+        <col class="test1">
+            <input-text id="test"/>
+        </col>
+        <col class="test2"/>
+        <col class="test3"/>
+        <col class="test4"/>
+    </row>
+    <row class="test2">
+        <input-text id="test"/>
+    </row>
+</set>

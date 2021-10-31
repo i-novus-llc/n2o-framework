@@ -10,8 +10,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
-import net.n2oapp.framework.config.io.control.ControlIOv2;
-import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
+import net.n2oapp.framework.config.io.control.v2.ControlIOv2;
+import net.n2oapp.framework.config.io.fieldset.v4.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -50,7 +50,7 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
@@ -59,7 +59,7 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
             p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
     }
 
     @Override

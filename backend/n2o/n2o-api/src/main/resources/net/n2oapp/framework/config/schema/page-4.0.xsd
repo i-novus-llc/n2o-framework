@@ -257,7 +257,7 @@
                 <xs:documentation>Подсказка для ввода.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="search-datasource" type="xs:string">
+        <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Источник данных, в котором производится поиск.</xs:documentation>
             </xs:annotation>
@@ -344,7 +344,7 @@
                         <xs:documentation>Доступность действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="context" type="ac:datasourceContext">
+                <xs:attribute name="model" type="ac:clientModel">
                     <xs:annotation>
                         <xs:documentation>
                             Контекст выполнения действия
@@ -376,8 +376,9 @@
             <xs:documentation>Источник данных.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="filters" type="preFiltersDefinition"/>
+            <xs:element name="filters" type="filtersDefinition" minOccurs="0"/>
             <xs:element name="submit" type="ac:submitDefinition" minOccurs="0"/>
+            <xs:element name="dependencies" type="dependenciesDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -394,52 +395,61 @@
                 <xs:documentation>Идентификатор объекта.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="default-values-query-id" type="xs:string">
+        <xs:attribute name="default-values-mode" type="ac:defaultValuesMode" default="query">
             <xs:annotation>
                 <xs:documentation>
-                    Выборка значений по умолчанию.
-                    Её результат сливается со значениями по умолчанию, заданными в полях.
+                    Подстановка значений по умолчанию, режим по умолчанию query
                 </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="upload" type="ac:uploadType">
-            <xs:annotation>
-                <xs:documentation>Тип источника данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="depends-on" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Ссылка на зависимый источник данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="fetch-on-init" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Настройка получения данных виджета при инициализации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="preFiltersDefinition">
+    <xs:complexType name="dependenciesDefinition">
+        <xs:annotation>
+            <xs:documentation>Зависимости источника данных.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="fetch" type="fetchDefinition" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="fetchDefinition">
+        <xs:annotation>
+            <xs:documentation>Обновление данных при изменении зависимых источников данных.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="on" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иденитификатор источника данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="ac:clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель источника данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="filtersDefinition">
         <xs:annotation>
             <xs:documentation>Предустановленная фильтрация.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="eq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="like" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFilterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notIn" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFilterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="eq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="in" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="like" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="likeStart" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="contains" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="overlaps" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="more" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="less" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notEq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notIn" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNotNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="preFilterDefSimple">
+    <xs:complexType name="filterDefSimple">
         <xs:annotation>
             <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
         </xs:annotation>
@@ -455,9 +465,9 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="preFilterDefValue">
+    <xs:complexType name="filterDefValue">
         <xs:complexContent>
-            <xs:extension base="preFilterDefBase">
+            <xs:extension base="filterDefBase">
                 <xs:annotation>
                     <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
                 </xs:annotation>
@@ -475,9 +485,9 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="preFilterDefValues">
+    <xs:complexType name="filterDefValues">
         <xs:complexContent>
-            <xs:extension base="preFilterDefBase">
+            <xs:extension base="filterDefBase">
                 <xs:annotation>
                     <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
                 </xs:annotation>
@@ -495,9 +505,9 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="preFilterDefValuesWithBody">
+    <xs:complexType name="filterDefValuesWithBody">
         <xs:complexContent>
-            <xs:extension base="preFilterDefBase">
+            <xs:extension base="filterDefBase">
                 <xs:annotation>
                     <xs:documentation>
                         Предустановленная фильтрация поля выборки. Со возможностью задания списка значений в теле.
@@ -515,7 +525,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="preFilterDefBase">
+    <xs:complexType name="filterDefBase">
         <xs:annotation>
             <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
         </xs:annotation>
@@ -534,14 +544,9 @@
                 <xs:documentation>Имя параметра для фильтрации (в случае, если фильтрация по параметру из url).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="context" type="ac:datasourceContext">
+        <xs:attribute name="model" type="ac:clientModel">
             <xs:annotation>
-                <xs:documentation>Контекст для получения значения фильтра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="reset-on-change" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
+                <xs:documentation>Модель для получения значения фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="routable" type="xs:boolean" default="false">

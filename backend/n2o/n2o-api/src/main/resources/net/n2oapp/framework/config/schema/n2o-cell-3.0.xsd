@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
+           xmlns:acn="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="text" type="textDefinition"/>
+    <xs:element name="link" type="linkDefinition"/>
+    <xs:element name="list" type="listDefinition"/>
+    <xs:element name="icon" type="iconDefinition"/>
+    <xs:element name="checkbox" type="checkboxDefinition"/>
+    <xs:element name="progress" type="progressDefinition"/>
+    <xs:element name="image" type="imageDefinition"/>
+    <xs:element name="edit" type="editDefinition"/>
+    <xs:element name="toolbar" type="toolbarDefinition"/>
+    <xs:element name="badge" type="badgeDefinition"/>
+    <xs:element name="rating" type="ratingDefinition"/>
+    <xs:element name="switch" type="switchCellDefinition"/>
+    <xs:element name="tooltip-list" type="tooltipListDefinition"/>
+    <xs:element name="file-upload" type="fileUploadDefinition"/>
+    <xs:element name="cell" type="customDefinition"/>
+
+    <xs:complexType name="cells">
+        <xs:sequence>
+            <xs:element name="text" type="textDefinition" minOccurs="0"/>
+            <xs:element name="link" type="linkDefinition" minOccurs="0"/>
+            <xs:element name="list" type="listDefinition" minOccurs="0"/>
+            <xs:element name="icon" type="iconDefinition" minOccurs="0"/>
+            <xs:element name="checkbox" type="checkboxDefinition" minOccurs="0"/>
+            <xs:element name="progress" type="progressDefinition" minOccurs="0"/>
+            <xs:element name="image" type="imageDefinition" minOccurs="0"/>
+            <xs:element name="edit" type="editDefinition" minOccurs="0"/>
+            <xs:element name="toolbar" type="toolbarDefinition" minOccurs="0"/>
+            <xs:element name="badge" type="badgeDefinition" minOccurs="0"/>
+            <xs:element name="rating" type="ratingDefinition" minOccurs="0"/>
+            <xs:element name="switch" type="switchCellDefinition" minOccurs="0"/>
+            <xs:element name="tooltip-list" type="tooltipListDefinition" minOccurs="0"/>
+            <xs:element name="file-upload" type="fileUploadDefinition" minOccurs="0"/>
+            <xs:element name="cell" type="customDefinition" minOccurs="0"/>
+            <xs:any namespace="##other" processContents="strict">
+                <xs:annotation>
+                    <xs:documentation>Подключаемая через библиотеку ячейка.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="cellDefinition">
+        <xs:annotation>
+            <xs:documentation>Содержимое ячейки таблицы или строки списка. Общие атрибуты</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация ячейки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>CSS класс текста.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Стиль колонки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Видимость ячейки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+
+    <xs:complexType name="textDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Текст со стилем или без.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="subtext-field-id">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля второго уровня текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="subtext-format">
+                    <xs:annotation>
+                        <xs:documentation>Формат второго уровня текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="linkDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ссылка.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:annotation>
+                        <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
+                    </xs:annotation>
+                    <xs:element name="open-page" type="acn:openPageDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="a" type="acn:aDefinition"/>
+                    <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="execute-query" type="acn:executeQueryDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:any namespace="##other" processContents="strict">
+                        <xs:annotation>
+                            <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
+                        </xs:annotation>
+                    </xs:any>
+                </xs:sequence>
+                <xs:attribute name="url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="acn:aType">
+                    <xs:annotation>
+                        <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при клике по ссылке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка ссылки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="linkIconType" default="text">
+                    <xs:annotation>
+                        <xs:documentation>Текст с иконкой или без.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="listDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка со списком.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="color" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Цвет элементов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Количество элементов для группировки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Отображаемое поле в объекте, если столбец - массив объектов.
+                            Если отсутствует, то столбец является массивом строк
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="iconDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Иконка.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="text" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Текст иконки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Класс иконки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="iconType" use="optional" default="icon">
+                    <xs:annotation>
+                        <xs:documentation>С текстом или без.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="position" type="positionType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Расположение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="checkboxDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Чекбокс.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:annotation>
+                        <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
+                    </xs:annotation>
+                    <xs:element name="open-page" type="acn:openPageDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="a" type="acn:aDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="execute-query" type="acn:executeQueryDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:any namespace="##other" processContents="strict">
+                        <xs:annotation>
+                            <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
+                        </xs:annotation>
+                    </xs:any>
+                </xs:sequence>
+                <xs:attribute name="enabled" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Доступность чекбокса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Действие, которое выполнится при клике по чекбоксу.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="progressDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Индикатор прогресса.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="color" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Цвет индикатора.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="active" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>С анимацией загрузки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="sizeType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Размер индикатора прогресса</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="striped" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>С полосками</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="imageDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Изображение.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
+                    <xs:element name="action" type="acn:actions" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина изображения (px).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действие, которое выполнится при клике по иконке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>Форма изображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подзаголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="data" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Данные изображения в формате base64.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-position" default="right">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="left"/>
+                            <xs:enumeration value="right"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="editDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Редактирование значения.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence maxOccurs="1" minOccurs="1" >
+                    <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="action-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое выполнится при завершении редактирования.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="format" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="editType" use="optional" default="inline">
+                    <xs:annotation>
+                        <xs:documentation>Расположение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Доступность для редактирования.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="toolbarDefinition">
+        <xs:complexContent>
+            <xs:extension base="tool:toolbarDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с кнопками.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="textType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="iconAndText"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="badgeDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка со значком.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="position" type="positionType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Расположение относительно текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Цвет значка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Текст вне значка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="format" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста внутри значка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-format" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста вне значка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ratingDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с рейтингом.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Обработчик изменения рейтинга.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="show-tooltip" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Показать подсказку.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="half" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Использование в качестве значений помимо целых чисел также и половинок целых чисел.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max" type="xs:integer" default="5">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="readonly" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Предназначен только для чтения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на обработчик изменения рейтинга.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tooltipListDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Ячейка с тултипом и раскрывающимся текстовым списком.
+                        Раскрывающийся список появляется при количестве элементов больше одного.
+                        Иначе ячейка будет пустой или отображать единственное значение.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Универсальный заголовок поля.
+                            Нужно использовать либо универсальный заголовок, либо 2 вида
+                            заголовков (label-few, label-many) при разном числе элементов.
+                            Если не задать ни один, то ячейка будет пустой.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-few" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при нескольких элементах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-many" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="dashed-label" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Подчеркивание заголовка пунктиром.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="trigger" type="triggerType" default="hover">
+                    <xs:annotation>
+                        <xs:documentation>Действие, при котором раскрывается список.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="switchCellDefinition">
+        <xs:annotation>
+            <xs:documentation>Переключатель ячеек.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Вариант переключения.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="cells">
+                            <xs:attribute name="value" type="xs:string" use="required">
+                                <xs:annotation>
+                                    <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="default" maxOccurs="1" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:annotation>
+                            <xs:documentation>Ячейка по умолчанию.</xs:documentation>
+                        </xs:annotation>
+                        <xs:extension base="cells"/>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Значение, в зависимости от которого будет выбираться тип ячейки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="switchDefinition">
+        <xs:annotation>
+            <xs:documentation>Переключатель.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вариант переключения.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="value" type="xs:string" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="default" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вариант по умолчанию.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="fileUploadDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка загрузки файлов.</xs:documentation>
+                </xs:annotation>
+
+                <xs:attribute name="multi" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Поддержка загрузки нескольких файлов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="ajax" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Поддержка загрузки через ajax запрос.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-size" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Отображение размера файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="upload-url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL загрузки файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="delete-url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL удаления файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="value-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее идентификатор файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="message-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="url-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее URL скачивания файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="request-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наименование поля в запросе miltipart form data.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="accept" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Доступные расширения файлов (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст в ячейке по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="upload-icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка загрузки файлов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="delete-icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка удаления файлов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="customDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Настраиваемая ячейка.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:annotation>
+                        <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
+                    </xs:annotation>
+                    <xs:element name="open-page" type="acn:openPageDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="a" type="acn:aDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                    <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="invoke" type="acn:invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="close" type="acn:closeDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="set-value" type="acn:setValueDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="execute-query" type="acn:executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="open-drawer" type="acn:openDrawerDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="copy" type="acn:copyDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="clear" type="acn:clearDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="print" type="acn:printDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="refresh" type="acn:refreshDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:any namespace="##other" processContents="strict" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
+                        </xs:annotation>
+                    </xs:any>
+                </xs:sequence>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:simpleType name="triggerType">
+        <xs:annotation>
+            <xs:documentation>Действие, после которого происходит событие.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="click"/>
+            <xs:enumeration value="hover"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="iconType">
+        <xs:annotation>
+            <xs:documentation>Иконка с текстом или без.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="iconAndText"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="linkIconType">
+        <xs:annotation>
+            <xs:documentation>Иконка с текстом или без.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="iconAndText"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sizeType">
+        <xs:annotation>
+            <xs:documentation>Тип размера индикатора прогресса.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="large"/>
+            <xs:enumeration value="normal"/>
+            <xs:enumeration value="small"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="editType">
+        <xs:annotation>
+            <xs:documentation>Тип расположения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="inline"/>
+            <xs:enumeration value="popup"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positionType">
+        <xs:annotation>
+            <xs:documentation>Тип расположения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="shapeType">
+        <xs:annotation>
+            <xs:documentation>Тип формы изображения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

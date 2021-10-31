@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+           xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="set" type="setDefinition"/>
+    <xs:element name="line" type="lineDefinition"/>
+    <xs:element name="multi-set" type="multiSetDefinition"/>
+
+    <xs:complexType name="fields">
+        <xs:complexContent>
+            <xs:extension base="fieldsetsAndControls">
+                <xs:sequence>
+                    <xs:element name="row" type="rowDefinition" minOccurs="0"/>
+                    <xs:element name="col" type="colDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fieldsetsAndControls">
+        <xs:complexContent>
+            <xs:extension base="ctr2:controls">
+                <xs:sequence>
+                    <xs:element name="set" type="setDefinition" minOccurs="0"/>
+                    <xs:element name="line" type="lineDefinition" minOccurs="0"/>
+                    <xs:element name="multi-set" type="multiSetDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fieldsetDefinition" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Филдсеты.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fieldsetsAndControls">
+                <xs:sequence>
+                    <xs:element name="row" type="rowDefinition" minOccurs="0"/>
+                    <xs:element name="col" type="colDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="ref-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на файл филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="src" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Реализация филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подзаголовок филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="field-label-location" type="locationType">
+                    <xs:annotation>
+                        <xs:documentation>Расположение лейблов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="field-label-align" type="alignType">
+                    <xs:annotation>
+                        <xs:documentation>Выравнивание лейблов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="field-label-width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина лейблов в пикселях.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="depends-on" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Список полей, от которых зависит филдсет.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="setDefinition">
+        <xs:complexContent>
+            <xs:extension base="fieldsetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Простой филдсет.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="lineDefinition">
+        <xs:complexContent>
+            <xs:extension base="fieldsetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Филдсет с горизонтальной линией.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="collapsible" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Возможность раскрытия и сворачивания филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="has-separator" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Отображение горизонтального делителя.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="expand" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Исходное раскрытие филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiSetDefinition">
+        <xs:complexContent>
+            <xs:extension base="fieldsetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Филдсет с динамическим числом полей.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="children-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок дочерних элементов.
+                            С помощью {index} можно управлять нумерацией.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="first-children-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок первого дочернего элемента.
+                            Для возможности отображать без нумерации.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="add-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок кнопки добавления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="remove-all-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок кнопки удаления всех добавленных филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove-first" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Возможность удаления первого элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-add" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Возможность добавления новых филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Возможность удаления новых филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove-all" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Возможность удаления всех добавленных филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-copy" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Возможность копирования филдсета в новый (вместе с данными).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="rowDefinition">
+        <xs:annotation>
+            <xs:documentation>Строка филдсета.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fieldsetsAndControls">
+                <xs:sequence>
+                    <xs:element name="col" type="colDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс строки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль строки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="colDefinition">
+        <xs:annotation>
+            <xs:documentation>Столбец филдсета.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fieldsetsAndControls">
+                <xs:sequence>
+                    <xs:element name="row" type="rowDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="size" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Css класс столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="locationType">
+        <xs:annotation>
+            <xs:documentation>Расположение лейблов.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="top"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="alignType">
+        <xs:annotation>
+            <xs:documentation>Выравнивание лейблов.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

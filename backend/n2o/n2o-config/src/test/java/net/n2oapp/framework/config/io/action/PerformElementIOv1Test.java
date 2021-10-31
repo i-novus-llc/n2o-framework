@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action;
 
-import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
+import net.n2oapp.framework.config.io.page.v2.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;

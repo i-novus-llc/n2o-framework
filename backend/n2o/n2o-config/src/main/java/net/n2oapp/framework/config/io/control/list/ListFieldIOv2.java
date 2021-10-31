@@ -4,7 +4,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.StandardFieldIOv2;
+import net.n2oapp.framework.config.io.control.v2.StandardFieldIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 

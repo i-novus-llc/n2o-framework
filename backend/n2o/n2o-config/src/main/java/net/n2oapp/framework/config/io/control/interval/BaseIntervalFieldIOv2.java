@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.control.interval;
 
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.StandardFieldIOv2;
+import net.n2oapp.framework.config.io.control.v2.StandardFieldIOv2;
 import org.jdom2.Element;
 
 public abstract class BaseIntervalFieldIOv2<T extends N2oSimpleIntervalField> extends StandardFieldIOv2<T> {

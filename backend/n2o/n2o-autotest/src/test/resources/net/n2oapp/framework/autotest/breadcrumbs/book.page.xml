@@ -1,8 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table query-id="readers">
+    <table query-id="readers" visible="true">
+
+
         <columns>
-            <column text-field-id="name"/>
+            <column text-field-id="name">
+                <dependencies>
+                    <visibility ref-widget-id="" ref-model="">kjhkhk</visibility>
+                </dependencies>
+            </column>
         </columns>
         <toolbar>
             <button label="Open">

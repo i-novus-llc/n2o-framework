@@ -2,8 +2,8 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
-           xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
-           xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-4.0"
+           xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
+           xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
            xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
@@ -58,6 +58,14 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
+            <xs:element name="dependencies" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="visibility" type="visibilityDependencyDefinition" maxOccurs="unbounded"/>
+                        <xs:element name="enabling" type="enablingDependencyDefinition" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -164,10 +172,10 @@
                         <xs:documentation>Доступность действий.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="context" type="act:datasourceContext">
+                <xs:attribute name="model" type="act:clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Контекст выполнения действия
+                            Модель выполнения действия
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -244,8 +252,10 @@
                         <xs:complexType>
                             <xs:sequence>
                                 <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"/>
-                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
-                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -298,7 +308,8 @@
                 </xs:attribute>
                 <xs:attribute name="check-on-select" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" default="collapse">
@@ -322,6 +333,13 @@
         <xs:annotation>
             <xs:documentation>Базовое определение столбца таблицы.</xs:documentation>
         </xs:annotation>
+        <xs:sequence>
+            <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Зависимости столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор столбца.</xs:documentation>
@@ -402,13 +420,6 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:sequence>
-            <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Зависимости столбца.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="columnDefinition">
@@ -449,6 +460,14 @@
             <xs:documentation>Многоуровневый столбец таблицы.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
+            <xs:sequence>
+                <xs:annotation>
+                    <xs:documentation>Внутренние столбцы.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
+            </xs:sequence>
             <xs:attribute name="label">
                 <xs:annotation>
                     <xs:documentation>Наименование заголовка столбца.</xs:documentation>
@@ -469,14 +488,6 @@
                     <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:sequence>
-                <xs:annotation>
-                    <xs:documentation>Внутренние столбцы.</xs:documentation>
-                </xs:annotation>
-                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
-                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
-                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
-            </xs:sequence>
         </xs:complexContent>
     </xs:complexType>
 
@@ -496,9 +507,22 @@
                 <xs:documentation>Источник данных вычисления условия видимости.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="context" type="act:datasourceContext">
+        <xs:attribute name="model" type="act:clientModel">
             <xs:annotation>
                 <xs:documentation>Контекст вычисления условия видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="enablingDependencyDefinition">
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Источник данных вычисления условия доступности.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>Контекст вычисления условия доступности.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -593,14 +617,14 @@
                                     на определенные сущности (бронирование переговорных комнат и т.д.).
                                 </xs:documentation>
                             </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="resource" type="calendarResourceDefinition"/>
+                            </xs:sequence>
                             <xs:attribute name="value-field-id" type="xs:string">
                                 <xs:annotation>
                                     <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
                                 </xs:annotation>
                             </xs:attribute>
-                            <xs:sequence>
-                                <xs:element name="resource" type="calendarResourceDefinition"/>
-                            </xs:sequence>
                         </xs:complexType>
                     </xs:element>
                     <xs:element name="action-on-select-slot" type="act:actions">
@@ -679,7 +703,8 @@
                 </xs:attribute>
                 <xs:attribute name="views" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).</xs:documentation>
+                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="min-time" type="xs:string">
@@ -739,7 +764,8 @@
                 </xs:attribute>
                 <xs:attribute name="disabled-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -781,6 +807,25 @@
                 <xs:annotation>
                     <xs:documentation>Виджет плитки.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="pagination" type="paginationDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Пагинация плиток.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="content">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Содержимое виджета: список блоков (карточек).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="block" type="tilesBlockDefinition"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
                 <xs:attribute name="cols-sm" type="xs:integer" default="1">
                     <xs:annotation>
                         <xs:documentation>
@@ -815,23 +860,6 @@
                         <xs:documentation>Ширина плитки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:element name="pagination" type="paginationDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Пагинация плиток.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="content">
-                    <xs:complexType>
-                        <xs:annotation>
-                            <xs:documentation>
-                                Содержимое виджета: список блоков (карточек).
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:sequence>
-                            <xs:element name="block" type="tilesBlockDefinition"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -840,6 +868,13 @@
         <xs:annotation>
             <xs:documentation>Блок.</xs:documentation>
         </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с содержимым блока.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор блока.</xs:documentation>
@@ -855,31 +890,26 @@
                 <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:complexContent>
-            <xs:extension base="cell:cells">
-                <xs:annotation>
-                    <xs:documentation>Ячейка с содержимым блока.</xs:documentation>
-                </xs:annotation>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="tilesBlockDefinition">
         <xs:annotation>
             <xs:documentation>Блок.</xs:documentation>
         </xs:annotation>
-        <xs:extension base="blockDefinition">
-            <xs:attribute name="class" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>CSS класс.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="style" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>Стиль блока.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-        </xs:extension>
+        <xs:complexContent>
+            <xs:extension base="blockDefinition">
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль блока.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="cardsReferenceDefinition">
@@ -888,12 +918,30 @@
                 <xs:annotation>
                     <xs:documentation>Виджет карточки.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="pagination" type="paginationDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Пагинация карточек.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="content">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Содержимое виджета: список колонок (карточек).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="col" type="cardsColDefinition"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
                 <xs:attribute name="vertical-align" default="top">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>
-                                Выравнивание по вертикали содержимого колонок.
-                                Возможные значения (center, top, bottom).
+                                Выравнивание по вертикали содержимого колонок. Возможные значения (center, top, bottom).
                             </xs:documentation>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
@@ -908,23 +956,6 @@
                         <xs:documentation>Высота карточек.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:element name="pagination" type="paginationDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Пагинация карточек.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="content">
-                    <xs:complexType>
-                        <xs:annotation>
-                            <xs:documentation>
-                                Содержимое виджета: список колонок (карточек).
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:sequence>
-                            <xs:element name="col" type="cardsColDefinition"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -933,14 +964,14 @@
         <xs:annotation>
             <xs:documentation>Колонка.</xs:documentation>
         </xs:annotation>
+        <xs:sequence>
+            <xs:element name="block" type="blockDefinition"/>
+        </xs:sequence>
         <xs:attribute name="size" type="xs:integer">
             <xs:annotation>
                 <xs:documentation>Ширина колонки по бутстрапу.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:sequence>
-            <xs:element name="block" type="blockDefinition"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="rowsTableDefinition">
@@ -1007,7 +1038,8 @@
             <xs:extension base="act:actions">
                 <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="enabled" type="xs:string">
@@ -1144,9 +1176,9 @@
                         <xs:documentation>Запускать фильтрацию по мере ввода.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="default-values-query-id" type="xs:string">
+                <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор запроса значений по умолчанию для фильтров.</xs:documentation>
+                        <xs:documentation>Идентификатор источника данных значений по умолчанию для фильтров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

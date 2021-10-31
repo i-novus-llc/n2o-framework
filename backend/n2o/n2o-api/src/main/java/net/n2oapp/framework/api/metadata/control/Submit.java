@@ -16,10 +16,15 @@ public class Submit implements Source {
     private Boolean messageOnFail;
     private MessagePosition messagePosition;
     private MessagePlacement messagePlacement;
+    private String messageWidgetId;
     private String route;
     private N2oParam[] pathParams;
     private N2oParam[] headerParams;
     private N2oFormParam[] formParams;
     private Boolean refreshOnSuccess;
+    @Deprecated
     private String refreshWidgetId;
+    private String refreshDatasources;
+    private SubmitOn submitOn;
+    private Boolean submitAll;
 }

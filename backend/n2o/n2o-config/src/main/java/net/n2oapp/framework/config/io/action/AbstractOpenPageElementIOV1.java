@@ -48,7 +48,7 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModel.class);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "ref-widget-id", param::getRefWidgetId, param::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", param::getRefModel, param::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", param::getModel, param::setModel, ReduxModel.class);
     }
 
 }

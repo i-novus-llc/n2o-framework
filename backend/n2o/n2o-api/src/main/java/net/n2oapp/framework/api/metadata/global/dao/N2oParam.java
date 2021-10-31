@@ -35,14 +35,20 @@ public class N2oParam implements Serializable {
     private Object valueList;
 
     /**
+     * Идентификатор источника данных на странице, на который ссылается параметр
+     */
+    private String datasource;
+
+    /**
      * Идентификатор виджета на странице, на который ссылается параметр
      */
+    @Deprecated
     private String refWidgetId;
 
     /**
      * Модель виджета, на который ссылается параметр
      */
-    private ReduxModel refModel;
+    private ReduxModel model;
 
     /**
      * Идентификатор страницы, на которую ссылается параметр
@@ -53,7 +59,7 @@ public class N2oParam implements Serializable {
         this.name = name;
         this.value = value;
         this.refWidgetId = refWidgetId;
-        this.refModel = refModel;
+        this.model = refModel;
         this.refPageId = refPageId;
     }
 }

@@ -60,7 +60,7 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "ref-widget-id", param::getRefWidgetId, param::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", param::getRefModel, param::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", param::getModel, param::setModel, ReduxModel.class);
     }
 
     private void formParam(Element e, N2oFormParam fp, IOProcessor p) {
@@ -69,6 +69,6 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
             p.attribute(e, "name", fp::getName, fp::setName);
         p.attribute(e, "value", fp::getValue, fp::setValue);
         p.attribute(e, "ref-widget-id", fp::getRefWidgetId, fp::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", fp::getRefModel, fp::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", fp::getModel, fp::setModel, ReduxModel.class);
     }
 }

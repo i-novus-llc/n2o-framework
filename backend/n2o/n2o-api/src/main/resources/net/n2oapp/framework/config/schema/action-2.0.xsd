@@ -64,39 +64,40 @@
                     <xs:documentation>Действие открытия страниц.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
+                    <xs:element name="datasources" type="datasourcesDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="page-name" type="xs:string" use="optional">
+                <xs:attribute name="page-name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Кастомное имя открываемой страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-operation-id" type="xs:string" use="optional">
+                <xs:attribute name="submit-operation-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
+                        <xs:documentation>
+                            На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
                             "Сохранить" будет выполнять заданную операцию объекта.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-context" type="datasourceContext" use="optional">
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Источник данных, на котором выполняется операция
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
                             "Сохранить" будет выполнять в заданном контексте.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-label" type="xs:string" use="optional">
+                <xs:attribute name="submit-label" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Название кнопки отправки формы на открываемой странице. По умолчанию
                             "Сохранить".
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="upload" type="uploadType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Тип источника данных при открытии страницы. По умолчанию query.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -131,6 +132,57 @@
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="paramsDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Параметры в url открытия нового окна или страницы.</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="datasourcesDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Переопределение источников данных в открываемой странице.</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:element name="datasource" type="datasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="datasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
+            </xs:annotation>
+            <xs:attribute name="id" type="xs:string" required="true">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="query-id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор запроса.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="object-id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор объекта.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="default-values-mode" type="defaultValuesMode">
+                <xs:annotation>
+                    <xs:documentation>Режим проставления значений по умолчанию.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexContent>
     </xs:complexType>
 
@@ -175,8 +227,8 @@
                 <xs:attribute name="refresh-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных, который необходимо обновить после успешного выполнения операции
-                            (по умолчанию datasource у button, а если нет, текущий datasource).
+                            Идентификатор источника данных, который необходимо обновить после успешного выполнения
+                            операции (по умолчанию datasource у button, а если нет, текущий datasource).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -199,10 +251,10 @@
                         <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-context" type="datasourceContext">
+                <xs:attribute name="copy-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Контекст данных открываемой страницы, который будет скопирован.
+                            Модель данных открываемой страницы, который будет скопирован.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -216,14 +268,15 @@
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по умолчанию вся модель).
+                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по
+                            умолчанию вся модель).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-context" type="datasourceContext">
+                <xs:attribute name="target-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Контекст источника данных текущей страницы, в который будут скопированы данные.
+                            Модель источника данных текущей страницы, в которую будут скопированы данные.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -237,7 +290,8 @@
                 <xs:attribute name="target-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по умолчанию вся модель).
+                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по
+                            умолчанию вся модель).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -309,11 +363,11 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="refresh-datasource" type="xs:string">
+                <xs:attribute name="refresh-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных, который необходимо обновить после успешного выполнения операции
-                            (по умолчанию datasource у button, а если нет, текущий datasource).
+                            Идентификаторы источников данных, которые необходимо обновить после успешного выполнения
+                            операции (по умолчанию datasource у button, а если нет, текущий datasource).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -376,10 +430,10 @@
                         <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-context" type="datasourceContext">
+                <xs:attribute name="copy-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Контекст данных открываемой страницы, который будет скопирован.
+                            Модель данных открываемой страницы, которая будет скопирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -393,14 +447,15 @@
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по умолчанию вся модель).
+                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по
+                            умолчанию вся модель).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-context" type="datasourceContext">
+                <xs:attribute name="target-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Контекст источника данных текущей страницы, в который будут скопированы данные.
+                            Модель источника данных текущей страницы, в которую будут скопированы данные.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -414,7 +469,8 @@
                 <xs:attribute name="target-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по умолчанию вся модель).
+                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по
+                            умолчанию вся модель).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -442,17 +498,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="uploadType">
-        <xs:annotation>
-            <xs:documentation>Источник данных виджета при открытии страницы.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="query"/>
-            <xs:enumeration value="defaults"/>
-            <xs:enumeration value="copy"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="modalSize">
         <xs:restriction base="xs:string">
             <xs:enumeration value="sm"/>
@@ -472,8 +517,7 @@
                 </xs:sequence>
                 <xs:attribute name="href" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Адрес URL. Возможно использование плейсхолдеров {placeholder}
-                        </xs:documentation>
+                        <xs:documentation>Адрес URL. Возможно использование плейсхолдеров {placeholder}</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target" type="aType" use="optional">
@@ -532,18 +576,19 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="refresh-datasource" type="xs:string">
+                <xs:attribute name="refresh-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных, который необходимо обновить после успешного выполнения
-                            операции (по умолчанию datasource у button, а если нет, datasource текущего виджета).
+                            Идентификаторы источников данных(перечисленные через запятую),
+                            которые необходимо обновить после успешного выполнения операции
+                            (по умолчанию datasource у button, а если нет, datasource текущего виджета).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Необходимо ли обновлять виджет (по умолчанию true)
+                            Необходимо ли обновлять данные (по умолчанию true)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -582,10 +627,10 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-form" type="xs:boolean" default="true">
+                <xs:attribute name="submit-all" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Утвердить форму
+                            Отправить всю форму или только те, которые прописаны в form-param
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -665,12 +710,16 @@
                 </xs:annotation>
                 <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Показать предупреждение о наличии несохраненных данных. По умолчанию true.</xs:documentation>
+                        <xs:documentation>
+                            Показать предупреждение о наличии несохраненных данных. По умолчанию true.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="refresh" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Обновлять родительский виджет при закрытии модального/дровер окна.</xs:documentation>
+                        <xs:documentation>
+                            Обновлять родительский виджет при закрытии модального/дровер окна.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -683,9 +732,9 @@
                 <xs:annotation>
                     <xs:documentation>Копирование данных.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="source-context" type="datasourceContext">
+                <xs:attribute name="source-model" type="clientModel">
                     <xs:annotation>
-                        <xs:documentation>Контекст копипрования данных.</xs:documentation>
+                        <xs:documentation>Модель копипрования данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="source-datasource" type="xs:string">
@@ -695,12 +744,13 @@
                 </xs:attribute>
                 <xs:attribute name="source-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор копируемого поля источника (по умолчанию вся модель).</xs:documentation>
+                        <xs:documentation>Идентификатор копируемого поля источника (по умолчанию вся модель).
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-context" type="datasourceContext">
+                <xs:attribute name="target-model" type="clientModel">
                     <xs:annotation>
-                        <xs:documentation>Контекст, в который будут скопированы данные.</xs:documentation>
+                        <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-page-id" type="xs:string">
@@ -710,13 +760,16 @@
                 </xs:attribute>
                 <xs:attribute name="target-datasource" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор целевого контекста данных (по умолчанию текущий).</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор целевого контекста данных (по умолчанию текущий).
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля целевого виджета, в которое будут скопированы данные (по умолчанию вся модель).
+                            Идентификатор поля целевого виджета, в которое будут скопированы данные (по умолчанию вся
+                            модель).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -767,9 +820,9 @@
                         <xs:documentation>Источник данных, по умолчанию текущий.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="source-context" type="datasourceContext">
+                <xs:attribute name="source-model" type="clientModel">
                     <xs:annotation>
-                        <xs:documentation>Контекст источника данных.</xs:documentation>
+                        <xs:documentation>Модель источника данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-datasource" type="xs:string">
@@ -777,9 +830,9 @@
                         <xs:documentation>Целевой источник данных, по умолчанию текущий.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-context" type="datasourceContext">
+                <xs:attribute name="target-model" type="clientModel">
                     <xs:annotation>
-                        <xs:documentation>Контекст целевого источника данных.</xs:documentation>
+                        <xs:documentation>Модель целевого источника данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="merge-mode" type="mergeType" default="replace"/>
@@ -890,8 +943,7 @@
             <xs:enumeration value="add">
                 <xs:annotation>
                     <xs:documentation>
-                        Используется для массивов. За основу берется массив target,
-                        к нему добавляются все записи из source массива.
+                        Используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива.
                     </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
@@ -959,6 +1011,27 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="message-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор виджета для отображения сообщения, если position = relative.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="submit-all" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Отправить все данные или только те, что прописаны в form-param
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="auto-submit-on" type="submitOn" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Отправить все данные или только те, что прописаны в form-param
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="route" type="xs:string">
             <xs:annotation>
                 <xs:documentation>URL запроса.</xs:documentation>
@@ -969,9 +1042,9 @@
                 <xs:documentation>Необходимо ли обновлять виджет (по умолчанию false)</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="refresh-datasource" type="xs:string">
+        <xs:attribute name="refresh-datasources" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ссылка на обновляемый источник данных.</xs:documentation>
+                <xs:documentation>Ссылка на обновляемые источники данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -990,9 +1063,9 @@
                 <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="context" type="datasourceContext">
+        <xs:attribute name="model" type="clientModel">
             <xs:annotation>
-                <xs:documentation>Контекст источника данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>Модель источника данных, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="value" type="xs:string">
@@ -1016,9 +1089,9 @@
                 <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="context" type="datasourceContext">
+        <xs:attribute name="model" type="clientModel">
             <xs:annotation>
-                <xs:documentation>Контекст источника данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>Модель источника данных, по полю которой будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="value" type="xs:string">
@@ -1045,31 +1118,50 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="datasourceContext">
+    <xs:simpleType name="clientModel">
         <xs:annotation>
-            <xs:documentation>Контекст получения данных из источника.</xs:documentation>
+            <xs:documentation>Модель, над которой выполняется действие на клиенте.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:enumeration value="active">
+            <xs:enumeration value="filter"/>
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="edit"/>
+            <xs:enumeration value="selected"/>
+            <xs:enumeration value="datasource"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="defaultValuesMode">
+        <xs:annotation>
+            <xs:documentation>Режим подстановки значений по умолчанию</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="defaults">
                 <xs:annotation>
-                    <xs:documentation>Выбранная строка в списковом виджете</xs:documentation>
+                    <xs:documentation>значения по умолчанию заполняются данными прописанными в полях</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="selected">
+            <xs:enumeration value="query">
                 <xs:annotation>
-                    <xs:documentation>Выбранные строки в списковом виджете (multi выбор)</xs:documentation>
+                    <xs:documentation>значения по умолчанию заполняются данными из запроса</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="datasource">
+            <xs:enumeration value="merge">
                 <xs:annotation>
-                    <xs:documentation>Сам источник данных (в случае формы - это одна запись, в случае спискового виджета список)</xs:documentation>
+                    <xs:documentation>значения по умолчанию заполняются путем мержа данных прописанных в полях и
+                        полученных из запроса(полученные из запроса в приоритете)</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="row">
-                <xs:annotation>
-                    <xs:documentation>Текущая строка в списковом виджете</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="submitOn">
+        <xs:annotation>
+            <xs:documentation>Отправка по событию.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="change"/>
+            <xs:enumeration value="blur"/>
         </xs:restriction>
     </xs:simpleType>
 

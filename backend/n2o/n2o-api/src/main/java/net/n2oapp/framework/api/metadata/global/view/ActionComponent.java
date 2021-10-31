@@ -23,5 +23,7 @@ public abstract class ActionComponent implements Serializable, IdAware, ModelAwa
     private String enabled;
     private N2oAction action;
     private ReduxModel model;
+    @Deprecated
     private String widgetId;
+    private String datasource;
 }

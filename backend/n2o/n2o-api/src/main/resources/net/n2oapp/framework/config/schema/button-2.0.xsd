@@ -145,10 +145,11 @@
                         <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="context" type="acn:datasourceContext">
+                <xs:attribute name="model" type="acn:clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Контекст источника данных, над которым выполнится действие. Если контекст пустой, то кнопка будет заблокирована.
+                            Модель источника данных, над которым выполнится действие. Если модель пустая,
+                            то кнопка будет заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -164,14 +165,12 @@
                 </xs:attribute>
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>
-                            Источник данных
-                        </xs:documentation>
+                        <xs:documentation>Источник данных</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="disable-on-empty-context">
+                <xs:attribute name="disable-on-empty-model">
                     <xs:annotation>
-                        <xs:documentation>Недоступность кнопки при пустом контексте.</xs:documentation>
+                        <xs:documentation>Недоступность кнопки при пустой модели.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -245,9 +244,9 @@
                 <xs:documentation>Источник данных вычисления условия.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="context" type="acn:datasourceContext">
+        <xs:attribute name="model" type="acn:clientModel">
             <xs:annotation>
-                <xs:documentation>Контекст источника данных вычисления условия.</xs:documentation>
+                <xs:documentation>Модель для вычисления условия.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

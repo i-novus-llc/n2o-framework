@@ -13,7 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnHea
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oWidgetsIOPack());
+        b.packs(new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack());
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),

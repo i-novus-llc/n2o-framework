@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+                 name="Моя страница"
+                 object-id="object"
+                 route="test"
+                 modal-size="lg" show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="test" object-id="test" default-values-mode="query">
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+            </dependencies>
+            <submit operation-id="create" route="/test" message-position="fixed" auto-submit-on="blur"
+                    message-placement="top" message-on-fail="true" message-on-success="true"
+                    message-widget-id="w1" refresh-on-success="true" refresh-datasources="ds2" submit-all="true"/>
+            <filters>
+                <eq field-id="test" datasource="ds1" model="datasource" value="{id}" param="param" required="true"
+                    routable="true"/>
+                <in field-id="test" datasource="ds2" routable="true" required="true" param="test" model="datasource"
+                    values="{ids}"/>
+             </filters>
+        </datasource>
+    </datasources>
+    <left width="70%">
+        <tabs>
+            <tab>
+                <form/>
+                <table/>
+                <line/>
+            </tab>
+            <tab>
+                <panel/>
+                <form/>
+                <table/>
+            </tab>
+        </tabs>
+
+        <table/>
+        <panel/>
+        <line/>
+        <form/>
+    </left>
+    <right width="30%">
+        <tabs>
+            <tab>
+                <form/>
+                <table/>
+                <line/>
+            </tab>
+            <tab>
+                <panel/>
+                <form/>
+                <table/>
+            </tab>
+        </tabs>
+
+        <table/>
+        <panel/>
+        <line/>
+        <form/>
+    </right>
+    <actions>
+        <action>
+            <close src="test"/>
+        </action>
+    </actions>
+    <toolbar place="bottomRight" generate="submit, close">
+        <button action-id="testId" model="filter"/>
+        <sub-menu>
+            <menu-item action-id="miTestId"/>
+        </sub-menu>
+        <group>
+            <button action-id="groupTestId"/>
+            <sub-menu>
+                <menu-item action-id="miTestId"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+</left-right-page>
+

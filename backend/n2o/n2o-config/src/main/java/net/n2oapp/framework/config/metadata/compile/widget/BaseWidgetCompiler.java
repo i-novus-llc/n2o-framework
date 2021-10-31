@@ -753,7 +753,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         String datasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
                                 ? refWidgetId : pageScope.getWidgetIdDatasourceMap().get(refWidgetId);
 
-                        ReduxModel model = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
+                        ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.RESOLVE);
                         ModelLink link = new ModelLink(model, datasource);
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
