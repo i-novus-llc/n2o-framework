@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.16.17",
+  "version": "7.16.18",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
@@ -97,7 +97,7 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "2.20.1",
-    "n2o-auth": "^7.16.17",
+    "n2o-auth": "^7.16.18",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
     "print-js": "1.5.0",
