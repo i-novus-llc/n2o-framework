@@ -154,8 +154,7 @@ function InputContent({
         }
     }
 
-    const handleClick = ({ target }) => {
-        target.select()
+    const handleClick = () => {
         if (onClick) {
             onClick()
         }
