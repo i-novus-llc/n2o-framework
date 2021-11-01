@@ -4,7 +4,7 @@
        height="400px">
     <content>
         <col size="6">
-            <block text-field-id="tfid" tooltip-field-id="testId" id="id">
+            <block text-field-id="tfid" tooltip-field-id="testId" id="id" class="test" style="color:red">
                 <text/>
             </block>
         </col>
