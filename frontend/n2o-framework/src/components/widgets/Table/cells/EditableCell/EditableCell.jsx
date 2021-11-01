@@ -132,8 +132,9 @@ export class EditableCell extends React.Component {
             format,
             fieldKey,
             editFieldId,
+            model,
         } = this.props
-        const { editing, model } = this.state
+        const { editing } = this.state
         const events = { events: 'enter' }
         const handlers = { events: this.handleKeyDown }
         const text = get(model, fieldKey)
