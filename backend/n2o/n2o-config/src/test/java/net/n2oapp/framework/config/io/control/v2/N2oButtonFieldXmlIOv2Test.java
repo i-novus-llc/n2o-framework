@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.control;
+package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
 import net.n2oapp.framework.config.io.control.v2.ButtonFieldIOv2;

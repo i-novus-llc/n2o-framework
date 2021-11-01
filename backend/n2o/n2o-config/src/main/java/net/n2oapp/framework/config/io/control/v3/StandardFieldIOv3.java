@@ -105,8 +105,8 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
     private void submitParam(Element e, N2oParam t, IOProcessor p) {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "ref-datasource", t::getDatasource, t::setDatasource);
-        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
+        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
@@ -114,8 +114,8 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         if (t.getId() == null)
             p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "ref-datasource", t::getDatasource, t::setDatasource);
-        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
+        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }
 
     private void param(Element e, ObjectSimpleField t, IOProcessor p) {

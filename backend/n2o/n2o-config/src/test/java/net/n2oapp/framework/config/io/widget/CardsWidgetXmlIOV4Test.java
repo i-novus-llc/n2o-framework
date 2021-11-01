@@ -15,6 +15,6 @@ public class CardsWidgetXmlIOV4Test {
         tester.ios(new CardsWidgetIOV4())
                 .addPack(new N2oCellsIOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/widget/CardsWidgetIOV4.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/widget/cards/CardsWidgetIOV4.widget.xml");
     }
 }

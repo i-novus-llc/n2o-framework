@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <fields>
+        <button id="id" description="desc" color="red" model="filter" label="btn" icon="icon"
+                tooltip-position="right" src="test" rounded="true" type="textAndIcon"
+                visible="true" enabled="false" class="class" style="color: red" widget-id="test" action-id="act"
+                confirm="true" confirm-cancel-label="cancel" confirm-ok-label="ok" confirm-text="text"
+                confirm-title="title" confirm-type="popover" validate="widget">
+            <a href="https://google.com?q={name}"/>
+        </button>
+    </fields>
+</form>

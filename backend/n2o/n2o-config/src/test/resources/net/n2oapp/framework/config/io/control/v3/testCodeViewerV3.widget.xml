@@ -1,0 +1,8 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <fields>
+        <code id="id" language="java" theme="dark" show-line-numbers="false" starting-line-number="5"
+              hide-buttons="true" hide-overflow="true">
+            if (a == b) return true;
+        </code>
+    </fields>
+</form>

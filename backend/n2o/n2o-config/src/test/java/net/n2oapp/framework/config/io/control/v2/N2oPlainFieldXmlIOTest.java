@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.control;
+package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;

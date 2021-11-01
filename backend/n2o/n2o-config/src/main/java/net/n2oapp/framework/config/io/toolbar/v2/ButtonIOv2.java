@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmp
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.toolbar.AbstractButtonIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +42,6 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
 
         p.attribute(e, "visible", b::getVisible, b::setVisible);
         p.attribute(e, "enabled", b::getEnabled, b::setEnabled);
-        p.attribute(e, "enabling-condition", b::getEnablingCondition, b::setEnablingCondition);
-        p.attribute(e, "visibility-condition", b::getVisibilityCondition, b::setVisibilityCondition);
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
         p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelType.class);
         p.anyChildren(e, "dependencies", b::getDependencies, b::setDependencies, p.oneOf(N2oButton.Dependency.class)
@@ -55,7 +52,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
     }
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {
-        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
         p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }

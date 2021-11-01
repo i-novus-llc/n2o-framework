@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.v2.ComponentIO;
-import net.n2oapp.framework.config.io.toolbar.FieldToolbarIO;
+import net.n2oapp.framework.config.io.toolbar.v2.FieldToolbarIOv2;
 import org.jdom2.Element;
 
 /**
@@ -30,7 +30,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "domain", m::getDomain, m::setDomain);
         p.attribute(e, "param", m::getParam, m::setParam);
         p.attribute(e, "help", m::getHelp, m::setHelp);
-        p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new FieldToolbarIO());
+        p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new FieldToolbarIOv2());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies, p.oneOf(N2oField.Dependency.class)
                 .add("enabling", N2oField.EnablingDependency.class, this::dependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)

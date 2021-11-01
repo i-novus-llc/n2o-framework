@@ -3,8 +3,6 @@ package net.n2oapp.framework.config.io.toolbar.v2;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.toolbar.AbstractButtonIO;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -33,7 +31,7 @@ public class SubmenuIOv2 extends AbstractButtonIOv2<N2oSubmenu> {
         p.attributeArray(e, "generate", ",", s::getGenerate, s::setGenerate);
         p.attributeBoolean(e, "show-toggle-icon", s::getShowToggleIcon, s::setShowToggleIcon);
         p.attributeBoolean(e, "visible", s::getVisible, s::setVisible);
-        p.children(e, null, "menu-item", s::getMenuItems, s::setMenuItems, N2oButton.class, new ButtonIO());
+        p.children(e, null, "menu-item", s::getMenuItems, s::setMenuItems, N2oButton.class, new ButtonIOv2());
     }
 
     @Override

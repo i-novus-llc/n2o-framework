@@ -1,0 +1,17 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <fields>
+        <image-upload id="test" multi="true" ajax="false"
+                      show-size="false" show-name="true"
+                      upload-url="/url" delete-url="/url"
+                      value-field-id="test" label-field-id="test"
+                      message-field-id="test" url-field-id="test"
+                      request-param="test"  accept=".img,.png"
+                      list-type="card" can-lightbox="true"
+                      can-delete="false" shape="circle"
+                      width="500" height="500"
+                      icon="fa fa-plus" icon-size="150"
+                      show-tooltip="false">
+            <default-value id="1" url="/1" filename="1.txt"/>
+        </image-upload>
+    </fields>
+</form>

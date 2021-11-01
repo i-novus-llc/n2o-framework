@@ -1,13 +1,13 @@
-package net.n2oapp.framework.config.io.control;
+package net.n2oapp.framework.config.io.control.v2;
 
-import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
+import net.n2oapp.framework.api.metadata.control.list.N2oInputSelect;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.control.interval.BaseIntervalFieldIOv2;
+import net.n2oapp.framework.config.io.control.list.ListFieldIOv2;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class N2OBaseIntervalFieldXmlIOTest extends XmlIOTestBase {
+public class N2oListFieldXmlIOTest extends XmlIOTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -16,23 +16,23 @@ public class N2OBaseIntervalFieldXmlIOTest extends XmlIOTestBase {
 
     @Override
     protected void configure(XmlIOBuilder<?> b) {
-        b.ios(new BaseIntervalFieldIOv2() {
+        b.ios(new ListFieldIOv2() {
 
             @Override
             public String getElementName() {
-                return "date-interval";
+                return "input-select";
             }
 
             @Override
             public Class getElementClass() {
-                return N2oDateInterval.class;
+                return N2oInputSelect.class;
             }
         });
     }
 
     @Test
     public void test() {
-        check("net/n2oapp/framework/config/io/control/v2/testBaseIntervalControl.xml");
+        check("net/n2oapp/framework/config/io/control/v2/testBaseListControl.xml");
     }
 }
 

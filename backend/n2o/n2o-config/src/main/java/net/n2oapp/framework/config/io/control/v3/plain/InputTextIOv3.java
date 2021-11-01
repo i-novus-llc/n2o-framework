@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение, запись компонента ввода текста версии 3.0
+ */
 @Component
 public class InputTextIOv3 extends PlainFieldIOv3<N2oInputText> {
 
