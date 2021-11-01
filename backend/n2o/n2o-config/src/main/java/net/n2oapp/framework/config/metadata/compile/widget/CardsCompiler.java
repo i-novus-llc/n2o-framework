@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -75,16 +76,21 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         return cards;
     }
 
-    private List<N2oCell> compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
+    private List<Cards.Block> compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
                                        Object... scopes) {
-        List<N2oCell> cells = new ArrayList<>(source.length);
+        List<Cards.Block> blocks = new ArrayList<>(source.length);
         for (N2oCards.Block block : source) {
+            Cards.Block clientBlock = new Cards.Block();
             block.setId(p.cast(block.getId(), block.getTextFieldId()));
+            clientBlock.setId(block.getId());
+            clientBlock.setClassName(block.getCssClass());
+            clientBlock.setStyle(StylesResolver.resolveStyles(block.getStyle()));
             N2oCell cell = block.getComponent();
             if (cell == null)
                 cell = new N2oTextCell();
-            cells.add(p.compile(cell, context, p, new IndexScope(), new ComponentScope(block), scopes));
+            clientBlock.setComponent(p.compile(cell, context, p, new IndexScope(), new ComponentScope(block), scopes));
+            blocks.add(clientBlock);
         }
-        return cells;
+        return blocks;
     }
 }
