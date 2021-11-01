@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.page.v3;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.widget.WidgetIOv4;
+import net.n2oapp.framework.config.io.widget.v4.WidgetIOv4;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 

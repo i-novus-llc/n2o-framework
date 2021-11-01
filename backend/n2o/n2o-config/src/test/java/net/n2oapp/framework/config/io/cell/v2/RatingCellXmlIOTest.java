@@ -1,8 +1,7 @@
 package net.n2oapp.framework.config.io.cell.v2;
 
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
-import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
+import net.n2oapp.framework.config.io.widget.v4.TableElementIOV4;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;

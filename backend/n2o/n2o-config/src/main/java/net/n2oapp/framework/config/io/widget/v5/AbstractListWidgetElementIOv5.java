@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.action.ActionIOv1;
+import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import org.jdom2.Element;
 
@@ -34,7 +34,6 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         p.attributeBoolean(e, "last", page::getLast, page::setLast);
         p.attributeBoolean(e, "first", page::getFirst, page::setFirst);
         p.attributeBoolean(e, "show-count", page::getShowCount, page::setShowCount);
-        p.attributeBoolean(e, "hide-single-page", page::getHideSinglePage, page::setHideSinglePage);
         p.attributeBoolean(e, "show-single-page", page::getShowSinglePage, page::setShowSinglePage);
         p.attributeEnum(e, "layout", page::getLayout, page::setLayout, Layout.class);
         p.attribute(e, "prev-label", page::getPrevLabel, page::setPrevLabel);
@@ -54,6 +53,6 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
         p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
+        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
     }
 }

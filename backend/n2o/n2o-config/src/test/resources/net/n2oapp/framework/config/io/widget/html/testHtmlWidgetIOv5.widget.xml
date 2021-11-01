@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0" src="test.html">
+    <![CDATA[
+        <div class='test'><p>Hello</p></div>
+    ]]>
+</html>

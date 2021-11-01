@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <toolbar>
+        <button id="btn" label="label" datasource="table" model="resolve" icon="icon" color="primary"
+                visible="true" enabled="true" validate="widget" action-id="test" class="test" style="test"
+                description="desc" tooltip-position="right"
+                confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
+                confirm-cancel-label="cancel" type="icon" src="testSrc" disable-on-empty-model="false" rounded="true">
+            <dependencies>
+                <enabling model="resolve" datasource="ref" message="Не указана дата"/>
+                <visibility model="resolve" datasource="ref"/>
+            </dependencies>
+            <copy source-model="resolve" source-datasource="table" source-field-id="id"
+                  target-model="resolve" target-datasource="form" target-field-id="dictionary.id"
+                  mode="replace"/>
+        </button>
+    </toolbar>
+</table>

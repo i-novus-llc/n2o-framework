@@ -2,6 +2,7 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
            xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
            xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
@@ -61,8 +62,8 @@
             <xs:element name="dependencies" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="visibility" type="visibilityDependencyDefinition" maxOccurs="unbounded"/>
-                        <xs:element name="enabling" type="enablingDependencyDefinition" maxOccurs="unbounded"/>
+                        <xs:element name="visibility" type="btn:baseDependencyDefinition" maxOccurs="unbounded"/>
+                        <xs:element name="enabling" type="btn:enablingDependencyDefinition" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -519,18 +520,6 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="enablingDependencyDefinition">
-        <xs:attribute name="datasource" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Источник данных вычисления условия доступности.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
-            <xs:annotation>
-                <xs:documentation>Контекст вычисления условия доступности.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
 
     <xs:complexType name="formReferenceDefinition">
         <xs:complexContent>

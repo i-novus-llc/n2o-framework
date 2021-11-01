@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <content>
+        <left-top text-field-id="test">
+            <image data="testUrl1"/>
+        </left-top>
+        <left-bottom text-field-id="test2">
+            <image data="testUrl2"/>
+        </left-bottom>
+        <header>
+            <list label-field-id="test" color="color"/>
+        </header>
+        <sub-header>
+            <checkbox/>
+        </sub-header>
+        <body>
+            <badge color="{1 == 2}"/>
+        </body>
+        <right-top>
+            <link>
+                <a href="test"/>
+            </link>
+        </right-top>
+        <right-bottom>
+            <icon class="test"/>
+        </right-bottom>
+        <extra>
+            <cell src="custom"/>
+        </extra>
+    </content>
+    <pagination next="true" prev="true" last="true" first="false"
+                show-single-page="true" show-count="false"/>
+    <rows>
+        <click enabled="true">
+            <a href="https://www.google.com/"/>
+        </click>
+    </rows>
+</list>

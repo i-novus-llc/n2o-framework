@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.config.io.page.v2.SimplePageElementIOv2;
-import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
+import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.io.MetadataParamHolder;
