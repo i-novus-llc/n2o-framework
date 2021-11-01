@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.widget;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;

@@ -11,6 +11,8 @@ public class N2oTable extends N2oAbstractTable {
     private FilterPosition filterPosition;
     private Boolean filterOpened;
     private SourceComponent[] filters;
+    private String filtersDatasource;
+    @Deprecated
     private String filtersDefaultValuesQueryId;
     private Boolean searchOnChange;
     private ChildrenToggle children;

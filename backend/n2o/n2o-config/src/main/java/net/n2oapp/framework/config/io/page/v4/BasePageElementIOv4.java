@@ -19,7 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.region.v3.RegionIOv3;
-import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
@@ -45,7 +45,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
         p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
-        p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
+        p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
         p.children(e, "datasources", "datasource", m::getDatasources, m::setDatasources, N2oDatasource::new, this::datasource);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
@@ -53,7 +53,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
     private void action(Element e, ActionsBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
         p.attribute(e, "name", a::getLabel, a::setLabel);
-        p.attribute(e, "widget-id", a::getWidgetId, a::setWidgetId);
+        p.attribute(e, "datasource", a::getDatasource, a::setDatasource);
         p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
         p.attribute(e, "icon", a::getIcon, a::setIcon);
         p.attribute(e, "visible", a::getVisible, a::setVisible);
@@ -101,7 +101,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
         p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
         p.attribute(e, "message-widget-id", t::getMessageWidgetId, t::setMessageWidgetId);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
-        p.attribute(e, "refresh-datasources", t::getRefreshDatasources, t::setRefreshDatasources);
+        p.attributeArray(e, "refresh-datasources", ",", t::getRefreshDatasources, t::setRefreshDatasources);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.attributeBoolean(e, "submit-all", t::getSubmitAll, t::setSubmitAll);
         p.attributeEnum(e, "auto-submit-on", t::getSubmitOn, t::setSubmitOn, SubmitOn.class);

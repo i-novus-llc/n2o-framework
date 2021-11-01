@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;

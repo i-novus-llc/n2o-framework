@@ -4,8 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
-import net.n2oapp.framework.config.io.widget.AbstractListWidgetElementIOv4;
-import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
+import net.n2oapp.framework.config.io.cell.v3.CellIOv3;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +41,7 @@ public class CardsWidgetIOV5 extends AbstractListWidgetElementIOv5<N2oCards> {
         p.attribute(e, "id", b::getId, b::setId);
         p.attribute(e, "text-field-id", b::getTextFieldId, b::setTextFieldId);
         p.attribute(e, "tooltip-field-id", b::getTooltipFieldId, b::setTooltipFieldId);
-        p.anyChild(e, null, b::getComponent, b::setComponent, p.anyOf(N2oCell.class), CellIOv2.NAMESPACE);
+        p.anyChild(e, null, b::getComponent, b::setComponent, p.anyOf(N2oCell.class), CellIOv3.NAMESPACE);
     }
 
 }

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action model="edit">
+            <invoke
+                    src="test"
+                    operation-id="update"
+                    datasource="testObject"
+                    route="/test"
+                    close-on-success="true"
+                    refresh-on-success="false"
+                    message-on-fail="false"
+                    message-on-success="false"
+                    message-position="fixed"
+                    message-placement="top"
+                    redirect-url="/testUrl"
+                    redirect-target="newWindow"
+                    refresh-datasources="testWidget,ds2"
+                    optimistic="true"
+            />
+        </action>
+        <action>
+            <invoke operation-id="test2" submit-form="false" method="POST">
+                <header-param name="c" value="3" datasource="1" model="filter"/>
+            </invoke>
+        </action>
+    </actions>
+</page>
+

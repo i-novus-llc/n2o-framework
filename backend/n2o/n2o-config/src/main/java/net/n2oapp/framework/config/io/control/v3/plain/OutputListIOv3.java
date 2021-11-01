@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oOutputList;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.OutputList;
-import net.n2oapp.framework.config.io.control.plain.PlainFieldIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 

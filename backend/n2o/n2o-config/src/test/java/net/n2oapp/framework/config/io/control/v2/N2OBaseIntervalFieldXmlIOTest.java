@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.control.interval.BaseIntervalFieldIOv2;
+import net.n2oapp.framework.config.io.control.v2.interval.BaseIntervalFieldIOv2;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
 import org.junit.Before;
 import org.junit.Test;

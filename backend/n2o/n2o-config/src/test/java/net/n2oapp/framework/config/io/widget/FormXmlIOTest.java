@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.widget;
 
 
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
 import net.n2oapp.framework.config.io.fieldset.v4.ColElementIO4;
 import net.n2oapp.framework.config.io.fieldset.v4.RowElementIO4;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;

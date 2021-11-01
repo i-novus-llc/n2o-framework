@@ -21,7 +21,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
     public void io(Element e, N2oInvokeAction ia, IOProcessor p) {
         super.io(e, ia, p);
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
-        p.attribute(e, "object-id", ia::getObjectId, ia::setObjectId);
+        p.attribute(e, "datasource", ia::getDatasource, ia::setDatasource);
         p.attribute(e, "route", ia::getRoute, ia::setRoute);
         p.read(e, ia, (el, md) -> {
             if (el.getAttribute("close-after-success") != null) {
@@ -29,7 +29,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
             }
         });
         p.attributeBoolean(e, "close-on-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
-        p.attribute(e, "refresh-widget-id", ia::getRefreshWidgetId, ia::setRefreshWidgetId);
+        p.attributeArray(e, "refresh-datasources", ",", ia::getRefreshDatasources, ia::setRefreshDatasources);
         p.attributeBoolean(e, "refresh-on-success", ia::getRefreshOnSuccess, ia::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", ia::getRedirectUrl, ia::setRedirectUrl);
         p.attributeEnum(e, "redirect-target", ia::getRedirectTarget, ia::setRedirectTarget, Target.class);
@@ -60,7 +60,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
-        p.attributeEnum(e, "ref-model", param::getModel, param::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
 
     private void formParam(Element e, N2oFormParam fp, IOProcessor p) {
@@ -69,6 +69,6 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
             p.attribute(e, "name", fp::getName, fp::setName);
         p.attribute(e, "value", fp::getValue, fp::setValue);
         p.attribute(e, "datasource", fp::getDatasource, fp::setDatasource);
-        p.attributeEnum(e, "ref-model", fp::getModel, fp::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", fp::getModel, fp::setModel, ReduxModel.class);
     }
 }

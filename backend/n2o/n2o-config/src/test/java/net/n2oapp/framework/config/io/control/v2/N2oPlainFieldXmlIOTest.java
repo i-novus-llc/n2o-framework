@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.control.v2;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.action.ShowModalElementIOV1;
-import net.n2oapp.framework.config.io.control.plain.PlainFieldIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.PlainFieldIOv2;
 import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.test.XmlIOTestBase;

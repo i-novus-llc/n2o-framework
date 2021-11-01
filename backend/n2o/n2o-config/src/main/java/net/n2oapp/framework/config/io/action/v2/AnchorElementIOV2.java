@@ -25,8 +25,8 @@ public class AnchorElementIOV2 extends AbstractActionElementIOV2<N2oAnchor> {
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
-        p.attribute(e, "ref-datasource", param::getDatasource, param::setDatasource);
-        p.attributeEnum(e, "ref-model", param::getModel, param::setModel, ReduxModel.class);
+        p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
+        p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
 
     @Override

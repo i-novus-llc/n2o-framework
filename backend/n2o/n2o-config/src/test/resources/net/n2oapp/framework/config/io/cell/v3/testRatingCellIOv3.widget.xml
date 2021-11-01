@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <columns>
+        <column text-field-id="test">
+            <rating src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
+                    max="10" half="true" show-tooltip="true" readonly="false" action-id="updateRating"/>
+        </column>
+        <column text-field-id="test2">
+            <rating>
+                <invoke operation-id="test"/>
+            </rating>
+        </column>
+        <column text-field-id="test3">
+            <rating action-id="testAction"/>
+        </column>
+    </columns>
+</table>

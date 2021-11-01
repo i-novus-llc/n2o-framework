@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action>
+            <close src="test" unsaved-data-prompt="false" refresh="true"/>
+        </action>
+    </actions>
+</page>

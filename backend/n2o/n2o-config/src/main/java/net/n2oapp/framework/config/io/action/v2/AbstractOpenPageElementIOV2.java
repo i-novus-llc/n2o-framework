@@ -31,10 +31,6 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
         p.attribute(e, "route", op::getRoute, op::setRoute);
         p.children(e, "datasources", "datasource", op::getDatasources,op::setDatasources, N2oDatasource::new, this::datasource);
-      /*  p.anyChildren(e, "params", op:, a::setDependencies,
-                p.oneOf(N2oDatasource.Dependency.class)
-                        .add("fetch", N2oDatasource.FetchDependency.class, this::fetch));*/
-
         p.children(e, "params", "query-param", op::getQueryParams, op::setQueryParams, N2oParam.class, this::param);
         p.children(e, "params", "path-param", op::getPathParams, op::setPathParams, N2oParam.class, this::param);
     }
@@ -43,7 +39,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
-        p.attributeEnum(e, "ref-model", param::getModel, param::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
 
     private void datasource(Element e, N2oDatasource a, IOProcessor p) {

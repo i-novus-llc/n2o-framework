@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidge
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
-import net.n2oapp.framework.config.io.widget.table.cell.SwitchIO;
+import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import org.jdom2.Element;
 
 /**

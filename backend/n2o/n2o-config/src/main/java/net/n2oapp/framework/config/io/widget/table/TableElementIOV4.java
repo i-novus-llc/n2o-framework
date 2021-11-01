@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.io.control.v2.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.v4.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.AbstractListWidgetElementIOv4;
-import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
+import net.n2oapp.framework.config.io.cell.v2.CellIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -77,7 +77,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
 
     private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }
 

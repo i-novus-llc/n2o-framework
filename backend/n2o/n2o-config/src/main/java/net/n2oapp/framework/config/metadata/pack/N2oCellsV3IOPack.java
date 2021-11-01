@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.*;
+import net.n2oapp.framework.config.io.cell.v3.*;
 
 /**
  * Набор считывателей ячеек версии 3.0
@@ -10,22 +10,22 @@ import net.n2oapp.framework.config.io.widget.table.cell.*;
 public class N2oCellsV3IOPack implements MetadataPack<XmlIOBuilder> {
     @Override
     public void build(XmlIOBuilder b) {
-        b.ios(new TextCellElementIOv2(),
-                new CheckboxCellElementIOv2(),
-                new LinkCellElementIOv2(),
-                new ProgressBarCellElementIOv2(),
-                new CheckboxCellElementIOv2(),
-                new ImageCellElementIOv2(),
-                new EditCellElementIOv2(),
-                new BadgeCellElementIOv2(),
-                new CustomCellElementIOv2(),
-                new ToolbarCellElementIOv2(),
-                new ListCellElementIOv2(),
-                new IconCellElementIOv2(),
-                new RatingCellElementIOv2(),
-                new SwitchCellElementIOv2(),
-                new RatingCellElementIOv2(),
-                new TooltipListCellElementIOv2(),
-                new FileUploadCellElementIOv2());
+        b.ios(new TextCellElementIOv3(),
+                new CheckboxCellElementIOv3(),
+                new LinkCellElementIOv3(),
+                new ProgressBarCellElementIOv3(),
+                new CheckboxCellElementIOv3(),
+                new ImageCellElementIOv3(),
+                new EditCellElementIOv3(),
+                new BadgeCellElementIOv3(),
+                new CustomCellElementIOv3(),
+                new ToolbarCellElementIOv3(),
+                new ListCellElementIOv3(),
+                new IconCellElementIOv3(),
+                new RatingCellElementIOv3(),
+                new SwitchCellElementIOv3(),
+                new RatingCellElementIOv3(),
+                new TooltipListCellElementIOv3(),
+                new FileUploadCellElementIOv3());
     }
 }

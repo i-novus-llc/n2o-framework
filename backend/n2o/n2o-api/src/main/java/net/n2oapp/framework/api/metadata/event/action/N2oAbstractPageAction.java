@@ -56,7 +56,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private Boolean refreshAfterSubmit;
     @Deprecated
     private String refreshWidgetId;
-    private String refreshDatasource;
+    private String[] refreshDatasources;
     //on resolve
     private String labelFieldId;
     private String targetFieldId;

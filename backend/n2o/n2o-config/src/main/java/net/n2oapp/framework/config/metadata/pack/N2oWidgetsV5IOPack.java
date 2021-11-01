@@ -8,8 +8,8 @@ import net.n2oapp.framework.config.io.widget.CardsWidgetIOV4;
 import net.n2oapp.framework.config.io.widget.TilesWidgetIOV4;
 import net.n2oapp.framework.config.io.widget.chart.v5.ChartWidgetIOv5;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV5;
-import net.n2oapp.framework.config.io.widget.table.v5.TableElementIOV5;
 import net.n2oapp.framework.config.io.widget.v5.*;
+import net.n2oapp.framework.config.io.widget.table.TableElementIOV5;
 
 public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder> {
     @Override

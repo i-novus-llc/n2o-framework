@@ -18,7 +18,7 @@ public class ShowModalElementIOV2 extends AbstractOpenPageElementIOV2<N2oShowMod
         super.io(e, sm, p);
         p.attribute(e, "modal-size", sm::getModalSize, sm::setModalSize);
         p.attributeBoolean(e, "scrollable", sm::getScrollable, sm::setScrollable);
-        p.attribute(e, "refresh-datasource", sm::getRefreshDatasource, sm::setRefreshDatasource);
+        p.attributeArray(e, "refresh-datasources", ",", sm::getRefreshDatasources, sm::setRefreshDatasources);
         p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModel.class);
         p.attribute(e, "copy-datasource", sm::getCopyDatasource, sm::setCopyDatasource);

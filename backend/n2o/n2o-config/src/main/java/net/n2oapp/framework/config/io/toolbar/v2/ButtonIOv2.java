@@ -42,7 +42,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
 
         p.attribute(e, "visible", b::getVisible, b::setVisible);
         p.attribute(e, "enabled", b::getEnabled, b::setEnabled);
-        p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
+        p.attribute(e, "datasource", b::getDatasource, b::setDatasource);
         p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelType.class);
         p.anyChildren(e, "dependencies", b::getDependencies, b::setDependencies, p.oneOf(N2oButton.Dependency.class)
                 .add("enabling", N2oButton.EnablingDependency.class, this::enablingDependency)
@@ -53,7 +53,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {
         p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
-        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }
 

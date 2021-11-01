@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.widget.v5;
 import net.n2oapp.framework.api.metadata.global.view.widget.list.N2oListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.widget.table.v5.cell.CellIOv3;
+import net.n2oapp.framework.config.io.cell.v3.CellIOv3;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;

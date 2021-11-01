@@ -95,7 +95,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePosition.class);
         p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
-        p.attribute(e, "refresh-datasource", t::getRefreshDatasources, t::setRefreshDatasources);
+        p.attributeArray(e, "refresh-datasource", ",", t::getRefreshDatasources, t::setRefreshDatasources);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);

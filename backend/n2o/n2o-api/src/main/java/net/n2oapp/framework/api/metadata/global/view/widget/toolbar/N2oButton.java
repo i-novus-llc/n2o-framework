@@ -31,7 +31,8 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdA
     private String confirmTitle;
     private String confirmOkLabel;
     private String confirmCancelLabel;
-
+    private String datasource;
+    @Deprecated
     private String widgetId;
     private DisableOnEmptyModelType disableOnEmptyModel;
 
@@ -59,7 +60,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdA
         private String datasource;
         @Deprecated
         private String refWidgetId;
-        private ReduxModel refModel;
+        private ReduxModel model;
     }
 
     @Getter

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
-import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
+import net.n2oapp.framework.config.io.cell.v2.CellIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
