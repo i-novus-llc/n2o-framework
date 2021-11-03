@@ -18,7 +18,7 @@ public class CustomCellElementIOv3 extends AbstractCellElementIOv3<N2oCustomCell
     @Override
     public void io(Element e, N2oCustomCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChild(e, null, c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 
     @Override
