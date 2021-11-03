@@ -15,6 +15,7 @@
                        focus-after-submit="true">
                 <params>
                     <path-param name="test2" model="filter" datasource="main" value="{id}"/>
+                    <query-param name="test3" value="{name}"/>
                 </params>
                 <datasources>
                     <datasource id="ds1" default-values-mode="query" object-id="o1" query-id="q1"/>

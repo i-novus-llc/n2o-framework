@@ -103,7 +103,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        validatePathAndRoute(source.getRoute(), source.getPathParams(), routeScope);
+        validatePathAndRoute(source.getRoute(), source.getParams(), routeScope);
         String pageId = source.getPageId();
         ReduxModel actionDataModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
         PageScope pageScope = p.getScope(PageScope.class);

@@ -19,7 +19,7 @@
                         icon="icon"
                         action-id="actionId"
                         model="filter">
-                    <!--<show-modal src="src"
+                    <show-modal src="src"
                                 page-id="pageId"
                                 datasource="objectId"
                                 page-name="pageName"
@@ -29,8 +29,7 @@
                                 focus-after-submit="false"
                                 redirect-target-after-submit="application"
                                 redirect-url-after-submit="testUrl"
-                                route="/route"
-                                upload="query"/>-->
+                                route="/route"/>
                 </button>
             </toolbar>
 

@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение, запись компоненета ввода пароля версии 3.0
+ * Чтение, запись компонента ввода пароля версии 3.0
  */
 @Component
 public class PasswordIOv3 extends PlainFieldIOv3<N2oPassword> {

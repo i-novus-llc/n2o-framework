@@ -9,7 +9,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись действия открытия старницы drawer
+ * Чтение/запись действия открытия страницы drawer
  */
 @Component
 public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDrawer> {

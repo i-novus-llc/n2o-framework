@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение, запись компонента выбора чекбосков версии 3.0
+ * Чтение, запись компонента выбора чекбоксов версии 3.0
  */
 @Component
 public class CheckboxGroupIOv3 extends ListFieldIOv3<N2oCheckboxGroup> {

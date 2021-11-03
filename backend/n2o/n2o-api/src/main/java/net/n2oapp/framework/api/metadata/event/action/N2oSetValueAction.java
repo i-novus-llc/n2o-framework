@@ -20,7 +20,7 @@ public class N2oSetValueAction extends N2oAbstractAction {
     private String sourceModel;
     @Deprecated
     private String targetWidget;
-    private String targetDatsource;
+    private String targetDatasource;
     private String targetModel;
     private MergeMode mergeMode;
 

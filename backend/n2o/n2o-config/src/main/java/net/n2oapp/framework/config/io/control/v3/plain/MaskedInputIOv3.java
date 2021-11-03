@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение, запись компоненета ввода текст с маской версии 3.0
+ * Чтение, запись компонента ввода текст с маской версии 3.0
  */
 @Component
 public class MaskedInputIOv3 extends PlainFieldIOv3<N2oMaskedInput> {

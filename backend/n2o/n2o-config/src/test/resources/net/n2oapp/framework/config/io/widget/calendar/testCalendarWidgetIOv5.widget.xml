@@ -2,7 +2,7 @@
           id="workCalendar" height="500px"
           default-date="2020-04-29T00:00:00" default-view="week" views="month,day,agenda"
           min-time="08:00:00" max-time="20:00:00" mark-days-off="false"
-          selectable="false" step="60" timeslot-count="1"  title-field-id="title"
+          selectable="false" step="60" timeslot-count="1" title-field-id="title"
           tooltip-field-id="tooltip" start-field-id="start" end-field-id="end"
           cell-color-field-id="color" disabled-field-id="disabled">
     <resources value-field-id="resourceId">
@@ -16,7 +16,7 @@
         <show-modal datasource="ds1" page-id="eventForm" submit-operation-id="update" route="/update">
             <params>
                 <path-param name="id" datasource="ds2" value="{id}"/>
-<!--                <query-param name="name" value="{name}"/>-->
+                <query-param name="name" value="{name}"/>
             </params>
             <datasources>
                 <datasource id="ds2" query-id="test" object-id="test" default-values-mode="query"/>

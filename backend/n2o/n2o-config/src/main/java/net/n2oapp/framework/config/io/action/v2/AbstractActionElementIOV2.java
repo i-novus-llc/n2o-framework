@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись абстрактного действия ерсии 2.0
+ * Чтение\запись абстрактного действия версии 2.0
  */
 @Component
 public abstract class AbstractActionElementIOV2<T extends N2oAbstractAction>  implements NamespaceIO<T>, ActionIOv2 {

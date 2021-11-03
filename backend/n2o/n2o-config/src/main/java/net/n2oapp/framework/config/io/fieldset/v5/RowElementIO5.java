@@ -10,7 +10,7 @@ import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * Чтение и запись компонента строки филдсета версии 5.0
  */
 @Component
 public class RowElementIO5 implements NamespaceIO<N2oFieldsetRow> {

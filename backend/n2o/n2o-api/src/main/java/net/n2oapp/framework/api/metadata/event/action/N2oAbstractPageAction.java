@@ -5,11 +5,16 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 /**
  * Абстрактное действие открытия страницы
@@ -66,8 +71,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String resultContainerId;
     @Deprecated
     private N2oPreFilter[] preFilters;
-    private N2oParam[] queryParams;
-    private N2oParam[] pathParams;
+    private N2oParam[] params;
     private N2oDatasource[] datasources;
 
     @Deprecated
@@ -88,5 +92,21 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Override
     public String getOperationId() {
         return submitOperationId;
+    }
+
+    public N2oParam[] getPathParams() {
+        return Arrays.stream(this.params).filter(p -> p instanceof N2oPathParam).toArray(N2oParam[]::new);
+    }
+
+    public N2oParam[] getQueryParams() {
+        return Arrays.stream(this.params).filter(p -> p instanceof N2oQueryParam).toArray(N2oParam[]::new);
+    }
+
+    public void setPathParams(N2oParam[] pathParams) {
+        ArrayUtils.addAll(this.params, pathParams);
+    }
+
+    public void setQueryParams(N2oParam[] pathParams) {
+        ArrayUtils.addAll(this.params, pathParams);
     }
 }

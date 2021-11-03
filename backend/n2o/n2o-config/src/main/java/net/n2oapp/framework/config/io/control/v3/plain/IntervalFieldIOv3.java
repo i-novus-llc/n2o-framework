@@ -10,7 +10,7 @@ import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение, запись комнтонента ввода интервала  версии 3.0
+ * Чтение, запись компонента ввода интервала  версии 3.0
  */
 @Component
 public class IntervalFieldIOv3 extends StandardFieldIOv3<N2oIntervalField> {

@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение, запись компонента вывода оповещения версии 3.0
+ */
 @Component
 public class AlertIOv3 extends PlainFieldIOv3<N2oAlert> {
 
