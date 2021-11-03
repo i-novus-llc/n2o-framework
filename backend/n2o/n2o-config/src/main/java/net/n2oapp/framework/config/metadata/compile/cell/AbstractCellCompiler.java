@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Abstrac
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oActionCell;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -44,8 +45,8 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
     }
 
     protected void compileAction(N2oActionCell compiled, N2oActionCell source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getActionId() != null || source.getAction() != null) {
-            N2oAction n2oAction = source.getAction();
+        if (source.getActionId() != null || source.getN2oAction() != null) {
+            N2oAction n2oAction = source.getN2oAction();
             if (source.getActionId() != null) {
                 MetaActions actions = p.getScope(MetaActions.class);
                 ActionsBar actionsBar = actions.get(source.getActionId());
@@ -57,7 +58,16 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
                 action = p.compile(n2oAction, context, new ComponentScope(source));
             }
             compiled.setActionId(source.getActionId());
-            compiled.setCompiledAction(action);
+            compiled.setAction(action);
+
+            if (compiled.getAction() != null && compiled.getAction() instanceof LinkAction) {
+                LinkAction linkAction = ((LinkAction) compiled.getAction());
+                compiled.setActionId(null);
+                compiled.setUrl(linkAction.getUrl());
+                compiled.setTarget(linkAction.getTarget());
+                compiled.setPathMapping(linkAction.getPathMapping());
+                compiled.setQueryMapping(linkAction.getQueryMapping());
+            }
         }
     }
 

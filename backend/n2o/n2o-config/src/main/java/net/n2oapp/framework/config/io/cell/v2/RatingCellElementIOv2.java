@@ -20,7 +20,7 @@ public class RatingCellElementIOv2 extends AbstractCellElementIOv2<N2oRatingCell
         p.attributeInteger(e, "max", c::getMax, c::setMax);
         p.attributeBoolean(e, "readonly", c::getReadonly, c::setReadonly);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
-        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
+        p.anyChild(e, null, c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 
     @Override

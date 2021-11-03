@@ -20,3 +20,8 @@
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
 }
+
+.navbar__search {
+    margin-left: 25px;
+}
+

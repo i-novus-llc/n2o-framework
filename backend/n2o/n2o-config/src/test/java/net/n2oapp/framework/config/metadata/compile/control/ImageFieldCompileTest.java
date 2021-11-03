@@ -46,7 +46,6 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("testSrc"));
         assertThat(field.getLabel(), is("testLabel"));
-        assertThat(field.getUrl(), is("`Url`"));
         assertThat(field.getData(), is("`'data:image/jpeg;base64'+image`"));
         assertThat(field.getTitle(), is("`title`"));
         assertThat(field.getDescription(), is("`Description`"));
@@ -62,8 +61,8 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getStatuses()[1].getFieldId(), Matchers.is("id"));
         assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
         assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElement.Place.topLeft));
-        assertThat(field.getAction(),  instanceOf(LinkAction.class));
-        assertThat(((LinkAction)field.getAction()).getUrl(),  is("http://i-novus.ru"));
+        assertThat(field.getAction(),  nullValue());
+        assertThat(field.getUrl(), is("http://example.com"));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationType.reRender));

@@ -18,7 +18,7 @@ public class CheckboxCellElementIOv2 extends AbstractCellElementIOv2<N2oCheckbox
         super.io(e, c, p);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
         p.attribute(e, "enabled", c::getEnabled, c::setEnabled);
-        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
+        p.anyChild(e, null, c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 
     @Override

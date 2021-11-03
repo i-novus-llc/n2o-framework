@@ -9,7 +9,7 @@ function isModifiedEvent(event) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 }
 
-export default compose(
+export const withLinkAction = compose(
     withActionButton({
         onClick: (e, props, state) => {
             e.preventDefault()
@@ -41,3 +41,5 @@ export default compose(
         tag: 'a',
     })),
 )
+
+export default withLinkAction
