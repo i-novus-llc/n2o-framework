@@ -5,7 +5,9 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -37,8 +39,8 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attribute(e, "route", op::getRoute, op::setRoute);
         p.childrenByEnum(e, "pre-filters", op::getPreFilters, op::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
-        p.children(e, null, "query-param", op::getQueryParams, op::setQueryParams, N2oParam.class, this::param);
-        p.children(e, null, "path-param", op::getPathParams, op::setPathParams, N2oParam.class, this::param);
+        p.children(e, null, "query-param", op::getQueryParams, op::setQueryParams, N2oQueryParam.class, this::param);
+        p.children(e, null, "path-param", op::getPathParams, op::setPathParams, N2oPathParam.class, this::param);
     }
 
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {

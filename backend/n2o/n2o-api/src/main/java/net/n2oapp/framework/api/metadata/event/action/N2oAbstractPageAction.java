@@ -94,19 +94,29 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
         return submitOperationId;
     }
 
-    public N2oParam[] getPathParams() {
-        return Arrays.stream(this.params).filter(p -> p instanceof N2oPathParam).toArray(N2oParam[]::new);
+    public N2oPathParam[] getPathParams() {
+        if (this.params == null) {
+            return null;
+        }
+        return Arrays.stream(this.params).filter(p -> p instanceof N2oPathParam).toArray(N2oPathParam[]::new);
     }
 
-    public N2oParam[] getQueryParams() {
-        return Arrays.stream(this.params).filter(p -> p instanceof N2oQueryParam).toArray(N2oParam[]::new);
+    public N2oQueryParam[] getQueryParams() {
+        if (this.params == null) {
+            return null;
+        }
+        return Arrays.stream(this.params).filter(p -> p instanceof N2oQueryParam).toArray(N2oQueryParam[]::new);
     }
 
-    public void setPathParams(N2oParam[] pathParams) {
-        ArrayUtils.addAll(this.params, pathParams);
+    public void setPathParams(N2oPathParam[] pathParams) {
+        if (this.params == null)
+            this.params = new N2oParam[0];
+        this.params = ArrayUtils.addAll(this.params, pathParams);
     }
 
-    public void setQueryParams(N2oParam[] pathParams) {
-        ArrayUtils.addAll(this.params, pathParams);
+    public void setQueryParams(N2oQueryParam[] queryParams) {
+        if (this.params == null)
+            this.params = new N2oParam[0];
+        this.params = ArrayUtils.addAll(this.params, queryParams);
     }
 }
