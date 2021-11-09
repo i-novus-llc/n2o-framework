@@ -173,7 +173,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
+        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
@@ -324,7 +324,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
+        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{id}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
 

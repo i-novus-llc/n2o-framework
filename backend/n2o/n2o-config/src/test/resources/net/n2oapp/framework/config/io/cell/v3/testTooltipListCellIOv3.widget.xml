@@ -1,0 +1,11 @@
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <columns>
+        <column text-field-id="test1">
+            <tooltip-list trigger="click" dashed-label="false"
+                          label-few="{size} объекта" label-many="{size} объектов"/>
+        </column>
+        <column text-field-id="test2">
+            <tooltip-list label="Объектов {size} шт"/>
+        </column>
+    </columns>
+</table>

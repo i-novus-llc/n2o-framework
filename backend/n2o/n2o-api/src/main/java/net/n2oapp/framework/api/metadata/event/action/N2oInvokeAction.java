@@ -18,6 +18,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 @Setter
 public class N2oInvokeAction extends N2oAbstractAction {
     private String operationId;
+    private String datasource;
+    @Deprecated
     private String objectId;
     private Boolean closeOnSuccess;
     private Boolean doubleCloseOnSuccess;
@@ -29,6 +31,8 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String route;
     private String redirectUrl;
     private Target redirectTarget;
+    private String[] refreshDatasources;
+    @Deprecated
     private String refreshWidgetId;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;

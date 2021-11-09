@@ -3,7 +3,7 @@ import { compose, mapProps } from 'recompose'
 import withActionButton from '../withActionButton'
 import mappingProps from '../Simple/mappingProps'
 
-export default compose(
+export const withPerformAction = compose(
     withActionButton({
         onClick: (e, props) => {
             const { action, onClick, dispatch } = props
@@ -19,3 +19,5 @@ export default compose(
     }),
     mapProps(props => mappingProps(props)),
 )
+
+export default withPerformAction

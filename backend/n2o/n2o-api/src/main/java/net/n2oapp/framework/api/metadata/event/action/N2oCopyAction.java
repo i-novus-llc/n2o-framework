@@ -12,9 +12,13 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 @Setter
 public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
     private ReduxModel sourceModel;
+    private String sourceDatasource;
+    @Deprecated
     private String sourceWidgetId;
     private String sourceFieldId;
     private ReduxModel targetModel;
+    private String targetDatasource;
+    @Deprecated
     private String targetWidgetId;
     private String targetFieldId;
     private String targetClientPageId;

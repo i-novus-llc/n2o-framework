@@ -306,7 +306,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
                 datasource = pageScope.getWidgetIdDatasourceMap().get(widgetId);
             }
         }
-        ReduxModel refModel = p.cast(dependency.getRefModel(), buttonModel, ReduxModel.RESOLVE);
+        ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.RESOLVE);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         condition.setModelLink(new ModelLink(refModel, datasource, null).getBindLink());

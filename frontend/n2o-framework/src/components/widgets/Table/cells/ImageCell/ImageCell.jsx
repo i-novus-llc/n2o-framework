@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName, withHandlers } from 'recompose'
 import get from 'lodash/get'
@@ -7,31 +7,14 @@ import omit from 'lodash/omit'
 import classNames from 'classnames'
 
 import propsResolver from '../../../../../utils/propsResolver'
-// eslint-disable-next-line import/no-named-as-default
-import Image from '../../../../snippets/Image/Image'
-// eslint-disable-next-line import/no-named-as-default
-import ImageInfo from '../../../../snippets/Image/ImageInfo'
+import { Image } from '../../../../snippets/Image/Image'
+import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
-import withLinkAction from '../../../../buttons/StandardButton/withLinkAction'
+import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
 
 import ImageStatuses from './ImageStatuses'
 import imageShapes from './imageShapes'
-
-/**
- * Обёртка для ХОКа withLinkAction
- * Необходим т.к. текущая реализация логики открытия завязана на последовательность событий:
- * 1) callAction из withCell, который кладёт данные модели в стор
- * 2) onClick самого withLinkAction, который берёт из стора и формирует по ним ссылку для перехода
- * и разделения параметров, необходимых для отображения картинки и открытия записи
- * @property {object} props
- * @property {string} props.url Шаблон адреса открываемой записи
- * @property {object} props.pathMapping Объект подстановки данных в адрес
- * @property {object} props.queryMapping Объект параметров запроса в адрес
- * @property {'application' | '_blank'} [props.target] Тип открытия записи
- * @property children
- */
-export const LinkActionWrapper = withLinkAction(props => React.createElement('div', props))
 
 /**
  * Ячейка таблицы с картинкой
@@ -71,8 +54,6 @@ function ImageCell(props) {
         statuses = [],
     } = props
 
-    const setCursor = action => (action ? { cursor: 'pointer' } : null)
-
     const src = get(model, fieldKey)
     const isEmptyModel = isEmpty(model)
 
@@ -90,18 +71,13 @@ function ImageCell(props) {
         ? defaultImageProps
         : propsResolver(defaultImageProps, model)
 
-    let Wrapper = Fragment
-    let wrapperProps = {}
-
-    if (url || target) {
-        Wrapper = LinkActionWrapper
-        wrapperProps = {
-            url,
-            pathMapping,
-            queryMapping,
-            target,
-            className: classNames('n2o-image-cell', { 'with-statuses': hasStatuses }),
-        }
+    const wrapperProps = {
+        url,
+        target,
+        queryMapping,
+        pathMapping,
+        action,
+        className: classNames('n2o-image-cell', { 'with-statuses': hasStatuses }),
     }
 
     return (
@@ -109,13 +85,18 @@ function ImageCell(props) {
             className="n2o-image-cell-container"
             onClick={onClick}
         >
-            <Wrapper {...wrapperProps}>
+            <ActionWrapper {...wrapperProps}>
                 <Image
                     id={id}
                     visible={visible}
                     shape={shape}
-                    style={{ ...style, ...setCursor(action) }}
-                    className={className}
+                    style={style}
+                    className={classNames(
+                        className,
+                        {
+                            'n2o-image-cell__image-with-action': action || url || target,
+                        },
+                    )}
                     textPosition={textPosition}
                     width={width}
                     height={height}
@@ -130,14 +111,14 @@ function ImageCell(props) {
                         onClick={onClick}
                     />
                 )}
-            </Wrapper>
+            </ActionWrapper>
             {hasInfo && (
-                <Wrapper {...wrapperProps}>
+                <ActionWrapper {...wrapperProps}>
                     <ImageInfo
                         title={title}
                         description={description}
                     />
-                </Wrapper>
+                </ActionWrapper>
             )}
         </span>
     )

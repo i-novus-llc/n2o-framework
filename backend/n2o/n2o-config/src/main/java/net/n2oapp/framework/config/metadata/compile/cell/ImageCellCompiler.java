@@ -30,14 +30,6 @@ public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oIma
         cell.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.cell.image.width"), String.class)));
 
         compileAction(cell, source, context, p);
-        if (cell.getCompiledAction() != null && cell.getCompiledAction() instanceof LinkAction) {
-            LinkAction linkAction = ((LinkAction) cell.getCompiledAction());
-            cell.setActionId(null);
-            cell.setUrl(linkAction.getUrl());
-            cell.setTarget(linkAction.getTarget());
-            cell.setPathMapping(linkAction.getPathMapping());
-            cell.setQueryMapping(linkAction.getQueryMapping());
-        }
 
         cell.setTitle(p.resolveJS(source.getTitle()));
         cell.setDescription(p.resolveJS(source.getDescription()));

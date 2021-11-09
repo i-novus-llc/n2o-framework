@@ -20,7 +20,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция компонента вывода изображения
  */
 @Component
-public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField> {
+public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImageField> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -31,7 +31,6 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
     public ImageField compile(N2oImageField source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageField imageField = new ImageField();
         compileField(imageField, source, context, p);
-        imageField.setUrl(p.resolveJS(source.getUrl()));
         imageField.setData(p.resolveJS(source.getData()));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
@@ -40,7 +39,7 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
         imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
         imageField.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.field.image_field.shape"), ImageShape.class)));
         imageField.setStatuses(compileStatuses(source.getStatuses(), p));
-        compileAction(imageField, source, context, p);
+        compileAction(source, imageField, context, p);
         return imageField;
     }
 
@@ -58,17 +57,6 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
             statusElements[i++] = statusElement;
         }
         return statusElements;
-    }
-
-    private void compileAction(ImageField compiled, N2oImageField source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getActionId() != null) {
-            MetaActions actions = p.getScope(MetaActions.class);
-            ActionsBar actionsBar = actions.get(source.getActionId());
-            if (actionsBar != null && actionsBar.getAction() != null) {
-                Action action = p.compile(actionsBar.getAction(), context, new ComponentScope(source));
-                compiled.setAction(action);
-            }
-        }
     }
 
     @Override

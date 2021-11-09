@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.EditType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -9,8 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.cell.EditCell;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
-import net.n2oapp.framework.config.io.widget.table.cell.EditCellElementIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
+import net.n2oapp.framework.config.io.cell.v2.EditCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.control.InputTextCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -64,9 +63,9 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getControl().getSrc(), is("InputText"));
         assertThat(cell.getEditFieldId(), is("itIdTest"));
 
-        assertThat(cell.getCompiledAction(), notNullValue());
-        assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
-        assertThat(((InvokeAction)cell.getCompiledAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
+        assertThat(cell.getAction(), notNullValue());
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
 
         cell = (EditCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Trigger
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.TooltipListCellElementIOv2;
+import net.n2oapp.framework.config.io.cell.v2.TooltipListCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;

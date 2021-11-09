@@ -23,7 +23,7 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
         p.safeStreamOf(source.getColumns()).filter(abstractColumn -> abstractColumn instanceof N2oSimpleColumn).
                 map(abstractColumn -> ((N2oSimpleColumn) abstractColumn).getCell()).collect(Collectors.toList()).
                 stream().filter(n2oCell -> n2oCell instanceof N2oActionCell).
-                map(actionCell -> ((N2oActionCell) actionCell).getAction()).
+                map(actionCell -> ((N2oActionCell) actionCell).getN2oAction()).
                 collect(Collectors.toList()).stream().forEach(p::validate);
     }
 

@@ -1,0 +1,17 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <fields>
+        <input-select id="testId" type="multi" reset-on-blur="false" badge-color-field-id="testColor"
+                      badge-field-id="testBadge" param="test"
+                      enabled-field-id="isEnabled"
+                      description-field-id="descFieldId"
+                      max-tag-text-length="5">
+            <dependencies>
+                <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5">
+                    <pre-filters>
+                        <eq field-id="testField" reset-on-change="true" param="test"/>
+                    </pre-filters>
+                </fetch-value>
+            </dependencies>
+        </input-select>
+    </fields>
+</form>

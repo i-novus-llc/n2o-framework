@@ -38,7 +38,9 @@ public abstract class AbstractColumn implements IdAware, Source {
     @Setter
     public static class ColumnVisibility implements Source {
         private String value;
+        private String datasource;
+        @Deprecated
         private String refWidgetId;
-        private ReduxModel refModel;
+        private ReduxModel model;
     }
 }

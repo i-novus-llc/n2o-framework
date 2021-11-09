@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
+import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 import java.util.ArrayList;
@@ -30,8 +31,11 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String customize;
     private String name;
     private String route;
+    @Deprecated
     private String queryId;
+    @Deprecated
     private String defaultValuesQueryId;
+    @Deprecated
     private String objectId;
     private String datasource;
     private Integer size;
@@ -45,14 +49,13 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
      * Автоматическая установка фокуса на виджете
      */
     private Boolean autoFocus;
-
-    /**
-     * Источник данных виджета
-     */
+    @Deprecated
     private UploadType upload;
     @Deprecated
     private String containerId;
+    @Deprecated
     private String dependsOn;
+    @Deprecated
     private String dependencyCondition;
     private String result;
     private String icon;
@@ -60,6 +63,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String detailFieldId;
     private String visible;
     private Boolean refreshDependentContainer;
+    @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oCounter counter;
     private RefreshPolity refreshPolity;
@@ -67,6 +71,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
+    private N2oDependency[] dependencies;
 
     public Class getWidgetClass() {
         return this.getClass();

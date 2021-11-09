@@ -1,0 +1,1356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
+           xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
+           xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+           xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+    <xs:element name="table" type="tableReferenceDefinition"/>
+    <xs:element name="list" type="listWidgetReferenceDefinition"/>
+    <xs:element name="form" type="formReferenceDefinition"/>
+    <xs:element name="tree" type="treeReferenceDefinition"/>
+    <xs:element name="chart" type="chartReferenceDefinition"/>
+    <xs:element name="calendar" type="calendarReferenceDefinition"/>
+    <xs:element name="widget" type="customReferenceDefinition"/>
+    <xs:element name="html" type="htmlReferenceDefinition"/>
+    <xs:element name="tiles" type="tilesReferenceDefinition"/>
+    <xs:element name="cards" type="cardsReferenceDefinition"/>
+
+    <xs:complexType name="widgets" abstract="true">
+        <xs:sequence>
+            <xs:element name="table" type="tableReferenceDefinition" minOccurs="0"/>
+            <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
+            <xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>
+            <xs:element name="list" type="listWidgetReferenceDefinition" minOccurs="0"/>
+            <xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>
+            <xs:element name="calendar" type="calendarReferenceDefinition" minOccurs="0"/>
+            <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
+            <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
+            <xs:element name="tiles" type="tilesReferenceDefinition" minOccurs="0"/>
+            <xs:element name="cards" type="cardsReferenceDefinition" minOccurs="0"/>
+
+            <xs:any namespace="##other">
+                <xs:annotation>
+                    <xs:documentation>Подключаемый через библиотеку виджет.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="widgetDefinition">
+        <xs:sequence>
+            <xs:element name="actions" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Действия над виджетом.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="action" type="actionDefinition" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute name="generate" type="generateDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Генерация стандартных действий.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
+            <xs:element name="dependencies" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="visibility" type="btn:baseDependencyDefinition" maxOccurs="unbounded"/>
+                        <xs:element name="enabling" type="btn:enablingDependencyDefinition" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор виджета внутри страницы. Генерируется по индексу wgt[idx].
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="auto-focus" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Автоматическая установка фокуса на виджете.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл виджета.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация виджета (React компонент).</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс, который будет добавлен к виджету.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль виджета.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Наименование виджета. По умолчанию равно элементу name выборки,
+                    на основе которой построен компонент.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    URL виджета. По умолчанию вычисляется на основании идентификаторов страницы и виджета.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка виджета.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="size" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Количество записей, которое отображает виджет.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>Видимость виджета.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="actionDefinition">
+        <xs:annotation>
+            <xs:documentation>Обработчик действия.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="name" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наименование.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Действие по умолчанию. Вызов по двойному клику или Enter.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Видимость действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Доступность действий.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="act:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель выполнения действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="listWidgetReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет список.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="content" type="contentDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Столбцы списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Пагинация списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="rows" type="rowsListDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Настройки строк списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="contentDefinition">
+        <xs:annotation>
+            <xs:documentation>Содержимое элемента списка.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="left-top" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="left-bottom" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="header" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="body" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="sub-header" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="right-top" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="right-bottom" type="contentElementDefinition" minOccurs="0"/>
+            <xs:element name="extra" type="contentElementDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="contentElementDefinition">
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:attribute name="text-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отображаемое в строке списка в виде текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tableReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет таблица.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="columns" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Столбцы таблицы.</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="rows" type="rowsTableDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Настройки цвета строк таблицы.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Пагинация таблицы.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="filters" type="filtersDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Фильтры таблицы.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="selection" type="rowSelectionEnum" default="active">
+                    <xs:annotation>
+                        <xs:documentation>Вариант выбора строки таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="table-size" type="sizeEnum">
+                    <xs:annotation>
+                        <xs:documentation>Размер строк таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная ширина таблицы.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная высота таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-wrap" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Перенос текста в ячейке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="check-on-select" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="children" default="collapse">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Отображение дочерних записей в закрытом или раскрытом виде.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="collapse"/>
+                            <xs:enumeration value="expand"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="baseColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовое определение столбца таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Зависимости столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="text-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое в ячейке в виде текста.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Скрытие ячейки при наведении на строку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="width" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ширина столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="resizable" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fixed" type="columnFixedPosition">
+            <xs:annotation>
+                <xs:documentation>Прилипание столбца к краю.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка заголовка столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="textType">
+            <xs:annotation>
+                <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-direction" type="sortingDirectionType">
+            <xs:annotation>
+                <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="columnDefinition">
+        <xs:annotation>
+            <xs:documentation>Столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseColumnDefinition">
+                <xs:extension base="cell:cells"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="filterColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Фильтруемый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseColumnDefinition">
+                <xs:sequence>
+                    <xs:element name="filter" type="fs:fields" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Фильтр столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="cell" type="cell:cells" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Ячейка столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Многоуровневый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:sequence>
+                <xs:annotation>
+                    <xs:documentation>Внутренние столбцы.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="label">
+                <xs:annotation>
+                    <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="src" type="xs:string" default="TextTableHeader">
+                <xs:annotation>
+                    <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="class" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="style" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="columnDependenciesDefinition" abstract="true">
+        <xs:sequence>
+            <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Видимость столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="visibilityDependencyDefinition">
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Источник данных вычисления условия видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>Контекст вычисления условия видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:complexType name="formReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет форма.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="fields" type="fieldsDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fieldsDefinition">
+        <xs:annotation>
+            <xs:documentation>Поля формы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fs:fields"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="treeReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет дерево.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="ajax" type="xs:boolean" default="false"/>
+                <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false"/>
+
+                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
+                <xs:attribute name="has-children-field-id" type="xs:string"/>
+                <xs:attribute name="value-field-id" type="xs:string"/>
+                <xs:attribute name="label-field-id" type="xs:string"/>
+                <xs:attribute name="image-field-id" type="xs:string"/>
+                <xs:attribute name="icon-field-id" type="xs:string"/>
+                <xs:attribute name="badge-field-id" type="xs:string"/>
+                <xs:attribute name="badge-color-field-id" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="chartReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет диаграмма.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="areas" type="chart:areaChartDefinition" minOccurs="0"/>
+                    <xs:element name="bars" type="chart:barChartDefinition" minOccurs="0"/>
+                    <xs:element name="lines" type="chart:lineChartDefinition" minOccurs="0"/>
+                    <xs:element name="pie" type="chart:pieChartDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина диаграммы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Высота диаграммы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="calendarReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет календарь.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="resources" minOccurs="0">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
+                                    на определенные сущности (бронирование переговорных комнат и т.д.).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="resource" type="calendarResourceDefinition"/>
+                            </xs:sequence>
+                            <xs:attribute name="value-field-id" type="xs:string">
+                                <xs:annotation>
+                                    <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="action-on-select-slot" type="act:actions">
+                        <xs:annotation>
+                            <xs:documentation>Действие на добавление события в календаре.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="action-on-select-event" type="act:actions">
+                        <xs:annotation>
+                            <xs:documentation>Действие на клик по событию.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="formats" minOccurs="0">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Форматы дат и времени. Список всех возможных форматов
+                                    (http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="format">
+                                    <xs:complexType>
+                                        <xs:annotation>
+                                            <xs:documentation>Формат даты и времени.</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:attribute name="id" use="required">
+                                            <xs:simpleType>
+                                                <xs:annotation>
+                                                    <xs:documentation>Тип формата.</xs:documentation>
+                                                </xs:annotation>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:enumeration value="dateFormat"/>
+                                                    <xs:enumeration value="dayFormat"/>
+                                                    <xs:enumeration value="weekdayFormat"/>
+                                                    <xs:enumeration value="timeGutterFormat"/>
+                                                    <xs:enumeration value="monthHeaderFormat"/>
+                                                    <xs:enumeration value="dayRangeHeaderFormat"/>
+                                                    <xs:enumeration value="dayHeaderFormat"/>
+                                                    <xs:enumeration value="agendaHeaderFormat"/>
+                                                    <xs:enumeration value="selectRangeFormat"/>
+                                                    <xs:enumeration value="agendaDateFormat"/>
+                                                    <xs:enumeration value="agendaTimeFormat"/>
+                                                    <xs:enumeration value="agendaTimeRangeFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeStartFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeEndFormat"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:attribute>
+                                        <xs:attribute name="value" use="required">
+                                            <xs:annotation>
+                                                <xs:documentation>Значение формата.</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:attribute>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота календаря.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-date" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стартовая дата календаря (по умолчанию текущая).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-view" type="calendarViewType" default="month">
+                    <xs:annotation>
+                        <xs:documentation>Вид отображения календаря по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="views" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="min-time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное отображаемое время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное отображаемое время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mark-days-off" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Подсветка выходных дней.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="selectable" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Включает возможность добавлять события в календарь.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="step" type="xs:integer" default="30">
+                    <xs:annotation>
+                        <xs:documentation>Шаг при создании события (в минутах).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="timeslot-count" type="xs:integer" default="2">
+                    <xs:annotation>
+                        <xs:documentation>Количество слотов на раздел.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за заголовок события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tooltip-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за данные тултипа события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="start-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за дату начала события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="end-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за дату завершения события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cell-color-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за цвет ячейки события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="disabled-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="customReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Кастомный виджет.</xs:documentation>
+                </xs:annotation>
+                <xs:anyAttribute namespace="##other"/>
+            </xs:extension>
+            <!--todo:реализовать-->
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="htmlReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Html виджет.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="src" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Путь к html файлу. Если не задан, необходимо задать содержимое в теле
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tilesReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет плитки.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="pagination" type="paginationDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Пагинация плиток.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="content">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Содержимое виджета: список блоков (карточек).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="block" type="tilesBlockDefinition"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="cols-sm" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Количество колонок в мобильной версии.
+                            Возможные значения (1, 2)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cols-md" type="xs:integer" default="2">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Количество колонок в планшетах.
+                            Возможные значения (1, 2, 3, 4, 6)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cols-lg" type="xs:integer" default="4">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Количество колонок в десктопной версии.
+                            Возможные значения (1, 2, 3, 4, 6, 12)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Минимальная высота плитки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина плитки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="blockDefinition">
+        <xs:annotation>
+            <xs:documentation>Блок.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с содержимым блока.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор блока.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="text-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое в блоке в виде текста.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="tilesBlockDefinition">
+        <xs:annotation>
+            <xs:documentation>Блок.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="blockDefinition">
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль блока.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="cardsReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет карточки.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="pagination" type="paginationDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Пагинация карточек.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="content">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Содержимое виджета: список колонок (карточек).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="col" type="cardsColDefinition"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="vertical-align" default="top">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Выравнивание по вертикали содержимого колонок. Возможные значения (center, top, bottom).
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="center"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота карточек.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="cardsColDefinition">
+        <xs:annotation>
+            <xs:documentation>Колонка.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="block" type="blockDefinition"/>
+        </xs:sequence>
+        <xs:attribute name="size" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Ширина колонки по бутстрапу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="rowsTableDefinition">
+        <xs:sequence>
+            <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
+            <xs:element name="click" type="clickDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="rowsListDefinition">
+        <xs:sequence>
+            <xs:element name="click" type="clickDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="switchDefinition">
+        <xs:annotation>
+            <xs:documentation>Переключатель.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вариант переключения.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="value" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="default" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вариант по умолчанию.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="clickDefinition">
+        <xs:annotation>
+            <xs:documentation>Клик по строке.</xs:documentation>
+        </xs:annotation>
+
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
+    <xs:complexType name="paginationDefinition">
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация пагинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="prev" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на предыдущую страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="next" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на следующую страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="last" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на последнюю страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="first" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на первую страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="show-count" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Показать общее количество записей.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="show-single-page" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Показать пагинацию на единственной странице.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="layout" type="layoutEnum" default="separated">
+            <xs:annotation>
+                <xs:documentation>Устанавливает представление компонента.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="prev-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Предыдущая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="prev-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Предыдущая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="next-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Следующая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="next-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Следующая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="first-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Первая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="first-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Первая страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="last-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Текст кнопки "Последняя страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="last-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки "Последняя страница".</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="max-pages" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Максимальное кол-во кнопок перехода между страницами.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс, который будет добавлен к пагинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль пагинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="place" type="placeEnum" default="bottomLeft">
+            <xs:annotation>
+                <xs:documentation>Место расположения пагинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="filtersDefinition">
+        <xs:annotation>
+            <xs:documentation>Фильтры таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fs:fields">
+                <xs:attribute name="place" type="filterPlaceEnum">
+                    <xs:annotation>
+                        <xs:documentation>Позиция фильтров.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-on-change" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Запускать фильтрацию по мере ввода.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных значений по умолчанию для фильтров.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!--положение панели фильтров-->
+    <xs:simpleType name="filterPlaceEnum">
+        <xs:restriction base="xs:string">
+            <!--не задано-->
+            <xs:enumeration value="top"/>
+            <!--по возрастанию-->
+            <xs:enumeration value="left"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="rowSelectionEnum">
+        <xs:restriction base="xs:string">
+            <!--нельзя выбрать-->
+            <xs:enumeration value="none"/>
+            <!--выбор кликом по строке-->
+            <xs:enumeration value="active"/>
+            <!--выбор с помощью radio кнопок в первом столбце-->
+            <xs:enumeration value="radio"/>
+            <!--выбор с помощью чекбоксов в первом столбце-->
+            <xs:enumeration value="checkbox"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sizeEnum">
+        <xs:restriction base="xs:string">
+            <!--не задано-->
+            <xs:enumeration value="sm"/>
+            <!--по возрастанию-->
+            <xs:enumeration value="lg"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="layoutEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="bordered"/>
+            <xs:enumeration value="flat"/>
+            <xs:enumeration value="separated"/>
+            <xs:enumeration value="bordered-rounded"/>
+            <xs:enumeration value="flat-rounded"/>
+            <xs:enumeration value="separated-rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="placeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="topLeft"/>
+            <xs:enumeration value="topRight"/>
+            <xs:enumeration value="bottomLeft"/>
+            <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="topCenter"/>
+            <xs:enumeration value="bottomCenter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="generateDefinition">
+        <xs:annotation>
+            <xs:documentation>Варианты генерации стандартных действий.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="crud"/>
+            <xs:enumeration value="saveAndClose"/>
+            <xs:enumeration value="close"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="textType">
+        <xs:annotation>
+            <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="iconAndText"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="placeType">
+        <xs:annotation>
+            <xs:documentation>Тип места расположения меню.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="topLeft"/>
+            <xs:enumeration value="topRight"/>
+            <xs:enumeration value="bottomLeft"/>
+            <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="topCenter"/>
+            <xs:enumeration value="bottomCenter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sortingDirectionType">
+        <xs:annotation>
+            <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="asc"/>
+            <xs:enumeration value="desc"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="calendarResourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Ресурс календаря.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор ресурса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Имя ресурса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="calendarFormatDefinition">
+        <xs:annotation>
+            <xs:documentation>Формат даты и времени календаря.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" use="required">
+            <xs:simpleType>
+                <xs:annotation>
+                    <xs:documentation>Тип формата.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="dateFormat"/>
+                    <xs:enumeration value="dayFormat"/>
+                    <xs:enumeration value="weekdayFormat"/>
+                    <xs:enumeration value="timeGutterFormat"/>
+                    <xs:enumeration value="monthHeaderFormat"/>
+                    <xs:enumeration value="dayRangeHeaderFormat"/>
+                    <xs:enumeration value="dayHeaderFormat"/>
+                    <xs:enumeration value="agendaHeaderFormat"/>
+                    <xs:enumeration value="selectRangeFormat"/>
+                    <xs:enumeration value="agendaDateFormat"/>
+                    <xs:enumeration value="agendaTimeFormat"/>
+                    <xs:enumeration value="agendaTimeRangeFormat"/>
+                    <xs:enumeration value="eventTimeRangeFormat"/>
+                    <xs:enumeration value="eventTimeRangeStartFormat"/>
+                    <xs:enumeration value="eventTimeRangeEndFormat"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="value" use="required">
+            <xs:annotation>
+                <xs:documentation>Значение формата.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="calendarViewType">
+        <xs:annotation>
+            <xs:documentation>Вид календаря.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="day"/>
+            <xs:enumeration value="week"/>
+            <xs:enumeration value="workWeek"/>
+            <xs:enumeration value="day"/>
+            <xs:enumeration value="agenda"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="columnFixedPosition">
+        <xs:annotation>
+            <xs:documentation>Тип прилипания колонки.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

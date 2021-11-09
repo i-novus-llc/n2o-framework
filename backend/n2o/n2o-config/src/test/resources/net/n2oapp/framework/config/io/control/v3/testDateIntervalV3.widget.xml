@@ -1,0 +1,9 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <fields>
+        <date-interval id="id" date-format="DD.MM.YYYY" time-format="HH:mm"
+                       min="2018-01-01T00:00:00" max="2019-01-01T00:00:00"
+                       begin-param="begin_date" end-param="end_date">
+            <default-value begin="1" end="2"/>
+        </date-interval>
+    </fields>
+</form>

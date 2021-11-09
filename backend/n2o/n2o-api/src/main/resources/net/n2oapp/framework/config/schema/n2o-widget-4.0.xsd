@@ -1564,17 +1564,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="treeWidgetFilterType">
-        <xs:annotation>
-            <xs:documentation>Тип фильтра.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="includes"/>
-            <xs:enumeration value="startsWith"/>
-            <xs:enumeration value="endsWith"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="columnFixedPosition">
         <xs:annotation>
             <xs:documentation>Тип прилипания колонки.</xs:documentation>

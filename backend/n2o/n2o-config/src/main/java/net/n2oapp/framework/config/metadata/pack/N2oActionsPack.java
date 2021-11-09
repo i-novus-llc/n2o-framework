@@ -3,10 +3,9 @@ package net.n2oapp.framework.config.metadata.pack;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.*;
+import net.n2oapp.framework.config.io.action.v2.*;
 import net.n2oapp.framework.config.metadata.compile.action.*;
 import net.n2oapp.framework.config.metadata.compile.cell.ActionCellBinder;
-import net.n2oapp.framework.config.metadata.compile.cell.ImageCellBinder;
-import net.n2oapp.framework.config.metadata.compile.cell.LinkCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.ToolbarCellBinder;
 import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
 
@@ -24,7 +23,19 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CopyActionElementIOV1(),
                 new ClearActionElementIOV1(),
                 new PrintActionElementIOV1(),
-                new RefreshActionElementIOV1());
+                new RefreshActionElementIOV1(),
+                new InvokeActionElementIOV2(),
+                new ShowModalElementIOV2(),
+                new OpenPageElementIOV2(),
+                new OpenDrawerElementIOV2(),
+                new AnchorElementIOV2(),
+                new CloseActionElementIOV2(),
+                new SetValueElementIOV2(),
+                new PerformElementIOV2(),
+                new CopyActionElementIOV2(),
+                new ClearActionElementIOV2(),
+                new PrintActionElementIOV2(),
+                new RefreshActionElementIOV2());
         b.compilers(new PerformCompiler(),
                 new ShowModalCompiler(),
                 new OpenDrawerCompiler(),
@@ -43,12 +54,10 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ShowModalBinder(),
                 new OpenDrawerBinder(),
                 new PerformButtonBinder(),
-                new ButtonFieldBinder(),
+                new ActionFieldBinder(),
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
                 new ActionCellBinder(),
-                new LinkCellBinder(),
-                new ImageCellBinder(),
                 new SubMenuBinder(),
                 new PrintActionBinder());
     }

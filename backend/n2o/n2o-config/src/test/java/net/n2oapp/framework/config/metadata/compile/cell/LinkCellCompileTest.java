@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.LinkCellElementIOv2;
+import net.n2oapp.framework.config.io.cell.v2.LinkCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
@@ -68,7 +68,7 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getId(), is("test5"));
         assertThat(cell.getUrl(), is("`'/test/'+uid`"));
         assertThat(cell.getTarget(), is(Target.newWindow));
-        assertThat(cell.getAction(), nullValue());
+        assertThat(cell.getN2oAction(), nullValue());
 
         cell = (N2oLinkCell) table.getComponent().getCells().get(5);
         assertThat(cell.getId(), is("test6"));
@@ -76,6 +76,6 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
 
         cell = (N2oLinkCell) table.getComponent().getCells().get(6);
         assertThat(cell.getId(), is("test7"));
-        assertThat(cell.getCompiledAction(), instanceOf(LinkActionImpl.class));
+        assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }
 }

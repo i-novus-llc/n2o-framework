@@ -14,19 +14,7 @@ import java.util.Map;
  * Связывание действия ссылки в PerformButton с данными
  */
 @Component
-public class PerformButtonBinder implements BaseMetadataBinder<PerformButton> {
-    @Override
-    public PerformButton bind(PerformButton button, BindProcessor p) {
-        String url = p.resolveUrl(button.getUrl(), button.getPathMapping(), button.getQueryMapping());
-        if (button.getQueryMapping() != null) {
-            Map<String, ModelLink> result = new HashMap<>();
-            button.getQueryMapping().forEach((k, v) -> result.put(k, (ModelLink) p.resolveLink(v)));
-            button.setQueryMapping(result);
-        }
-        button.setUrl(url);
-        p.bind(button.getAction());
-        return button;
-    }
+public class PerformButtonBinder extends ActionComponentBinder<PerformButton> {
 
     @Override
     public Class<? extends Compiled> getCompiledClass() {

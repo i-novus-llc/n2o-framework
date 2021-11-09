@@ -310,10 +310,15 @@ class AdvancedTable extends Component {
     }
 
     setTableRef = (el) => {
-        const { height } = this.props
+        const { height, width } = this.props
 
         if (height) {
             el.bodyTable.style.height = height
+            el.bodyTable.style.overflow = 'auto'
+        }
+
+        if (width) {
+            el.bodyTable.style.width = width
             el.bodyTable.style.overflow = 'auto'
         }
 

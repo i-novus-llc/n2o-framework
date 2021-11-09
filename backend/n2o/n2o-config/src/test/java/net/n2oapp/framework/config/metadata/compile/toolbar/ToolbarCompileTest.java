@@ -83,7 +83,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         AbstractButton b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
         assertThat(b1.getId(), is("testId1"));
-        assertThat(((PerformButton)b1).getRounded(), is(true));
+        assertThat(b1.getRounded(), is(true));
         assertThat(b1.getAction(), notNullValue());
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
@@ -91,7 +91,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
-        assertThat(((PerformButton)b2).getRounded(), is(false));
+        assertThat(b2.getRounded(), is(false));
         assertThat(b2.getAction(), notNullValue());
         assertThat(b2.getLabel(), is("Label1"));
         assertThat(b2.getConditions().get(ValidationType.enabled), nullValue());

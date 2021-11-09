@@ -35,7 +35,7 @@ import java.util.Set;
  * Сборка компонента ButtonField
  */
 @Component
-public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonField> {
+public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oButtonField> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -82,12 +82,6 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-            } else if (action instanceof LinkAction) {
-                LinkAction linkAction = ((LinkAction) button.getAction());
-                button.setUrl(linkAction.getUrl());
-                button.setTarget(linkAction.getTarget());
-                button.setPathMapping(linkAction.getPathMapping());
-                button.setQueryMapping(linkAction.getQueryMapping());
             }
         }
 
@@ -112,47 +106,6 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
             if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
                 button.setValidatedWidgetId(initWidgetId(source, context, p));
         }
-    }
-
-    private Action compileAction(N2oButtonField source, ButtonField button, CompileContext<?, ?> context, CompileProcessor p) {
-        ComponentScope scope = null;
-        N2oAction action = null;
-        if (source.getAction() != null) {
-            scope = new ComponentScope(source);
-            action = source.getAction();
-        } else if (source.getActionId() != null) {
-            scope = p.getScope(ComponentScope.class);
-            action = getAction(scope, source.getActionId());
-        }
-        if (action != null) {
-            String objectId = action.getObjectId() == null ? source.getWidgetId() : action.getObjectId();
-            CompiledObject compiledObject = getCompiledObject(p, objectId);
-            action.setId(p.cast(action.getId(), button.getId()));
-            return p.compile(action, context, compiledObject, scope);
-        }
-        return null;
-    }
-
-    private CompiledObject getCompiledObject(CompileProcessor p, String objectId) {
-        if (objectId != null) {
-            WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-            if (widgetObjectScope != null && widgetObjectScope.containsKey(objectId))
-                return widgetObjectScope.getObject(objectId);
-        }
-        return p.getScope(CompiledObject.class);
-    }
-
-    private N2oAction getAction(ComponentScope scope, String actionId) {
-        if (scope != null) {
-            N2oForm form = scope.unwrap(N2oForm.class);
-            if (form != null && form.getActions() != null) {
-                for (ActionsBar act : form.getActions()) {
-                    if (actionId.equals(act.getId()))
-                        return act.getAction();
-                }
-            }
-        }
-        return null;
     }
 
     private void initConfirm(ButtonField button, N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {

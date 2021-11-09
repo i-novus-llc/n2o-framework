@@ -30,14 +30,6 @@ public class LinkCellCompiler extends AbstractCellCompiler<N2oLinkCell, N2oLinkC
         build(cell, source, context, p, property("n2o.api.cell.link.src"));
         if (source.getUrl() == null) {
             compileAction(cell, source, context, p);
-            if (cell.getCompiledAction() != null && cell.getCompiledAction() instanceof LinkAction) {
-                LinkAction linkAction = ((LinkAction) cell.getCompiledAction());
-                cell.setActionId(null);
-                cell.setUrl(linkAction.getUrl());
-                cell.setTarget(linkAction.getTarget());
-                cell.setPathMapping(linkAction.getPathMapping());
-                cell.setQueryMapping(linkAction.getQueryMapping());
-            }
         } else {
             cell.setUrl(p.resolveJS(source.getUrl()));
             Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;

@@ -10,6 +10,7 @@ import propsResolver from '../../../../../utils/propsResolver'
 import { Image } from '../../../../snippets/Image/Image'
 import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses'
+import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
 
 /**
  * Компонент Image фомы
@@ -40,6 +41,10 @@ function ImageField(props) {
         model,
         className,
         statuses = [],
+        pathMapping,
+        queryMapping,
+        target,
+        action,
     } = props
 
     const isEmptyModel = isEmpty(model)
@@ -64,30 +69,44 @@ function ImageField(props) {
                 [textPosition]: textPosition,
             })}
         >
-            <div
-                className={classNames('n2o-image-field', {
-                    'with-statuses': hasStatuses,
-                })}
+            <ActionWrapper
+                url={url}
+                target={target}
+                pathMapping={pathMapping}
+                queryMapping={queryMapping}
+                action={action}
+                className="n2o-image-field__image"
             >
-                <Image
-                    id={id}
-                    visible={visible}
-                    shape={shape}
-                    className={className}
-                    textPosition={textPosition}
-                    width={width}
-                    height={height}
-                    {...omit(resolveProps, ['title', 'description'])}
-                    src={resolveProps.data || resolveProps.url}
-                />
-                {hasStatuses && (
-                    <ImageStatuses
-                        statuses={statuses}
-                        model={model}
-                        className="image-field-statuses"
+                <div
+                    className={classNames('n2o-image-field', {
+                        'with-statuses': hasStatuses,
+                    })}
+                >
+                    <Image
+                        id={id}
+                        visible={visible}
+                        shape={shape}
+                        className={classNames(
+                            className,
+                            {
+                                'n2o-image-field__image-with-action': action || url || target,
+                            },
+                        )}
+                        textPosition={textPosition}
+                        width={width}
+                        height={height}
+                        {...omit(resolveProps, ['title', 'description'])}
+                        src={resolveProps.data || resolveProps.url}
                     />
-                )}
-            </div>
+                    {hasStatuses && (
+                        <ImageStatuses
+                            statuses={statuses}
+                            model={model}
+                            className="image-field-statuses"
+                        />
+                    )}
+                </div>
+            </ActionWrapper>
             {hasInfo && <ImageInfo title={title} description={description} />}
         </div>
     )
@@ -121,4 +140,8 @@ ImageField.propTypes = {
     className: PropTypes.string,
     statuses: PropTypes.array,
     shape: PropTypes.string,
+    pathMapping: PropTypes.object,
+    queryMapping: PropTypes.object,
+    action: PropTypes.object,
+    target: PropTypes.string,
 }
