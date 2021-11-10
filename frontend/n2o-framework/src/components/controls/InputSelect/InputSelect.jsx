@@ -452,13 +452,17 @@ class InputSelect extends React.Component {
 
     onInputBlur() {
         const { onBlur } = this.props
-        const { isExpanded } = this.state
+        const { isExpanded, value } = this.state
 
         if (!isExpanded) {
             onBlur(this.getValue())
         }
         this.handleValueChangeOnBlur()
         this.setInputFocus(false)
+
+        if (isEmpty(value)) {
+            this.setNewInputValue('')
+        }
     }
 
     onFocus() {
