@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
@@ -9,6 +9,7 @@ import PageTitle from '../core/PageTitle'
 import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb'
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../buttons/Toolbar'
+import { register } from '../../ducks/datasource/store'
 
 /**
  * Стандартное наполнение страницы
@@ -28,8 +29,17 @@ function DefaultPage({
     error,
     children,
     disabled,
+    dispatch,
 }) {
-    const { style, className } = metadata
+    const { style, className, datasources } = metadata
+
+    useEffect(() => {
+        if (!datasources || isEmpty(datasources)) { return }
+
+        Object.entries(datasources).forEach(([id, config]) => {
+            dispatch(register(id, config))
+        })
+    }, [datasources, dispatch])
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>
@@ -77,6 +87,7 @@ DefaultPage.propTypes = {
         PropTypes.element,
     ]),
     disabled: PropTypes.bool,
+    dispatch: PropTypes.func,
 }
 
 DefaultPage.defaultProps = {
