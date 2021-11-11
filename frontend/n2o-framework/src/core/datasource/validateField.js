@@ -40,6 +40,7 @@ export function validateField(field, model, validationList) {
         return true
     })
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const validation of validationList) {
         const validationFunction = presets[validation.type]
 
