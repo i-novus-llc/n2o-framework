@@ -1,0 +1,16 @@
+span.n2o-counter {
+    position: relative;
+    display: inline-block;
+    border-radius: 1rem;
+    font-size: 0.75em;
+}
+
+span.n2o-badge-counter {
+    transform: translate(-50%, -50%);
+}
+
+span.n2o-badge-dot {
+    transform: translate(-75%, -50%);
+    height: 0.75rem;
+    width: 0.75rem;
+}
