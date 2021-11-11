@@ -6,6 +6,7 @@ import widgets from './ducks/widgets/store'
 import models from './ducks/models/store'
 import global from './ducks/global/store'
 import pages from './ducks/pages/store'
+import datasource from './ducks/datasource/store'
 import overlays from './ducks/overlays/store'
 import columns from './ducks/columns/store'
 import toolbar from './ducks/toolbar/store'
@@ -32,17 +33,18 @@ const formHack = (state, action) => {
 }
 
 export default (history, customReducers = {}) => combineReducers({
-    router: connectRouter(history),
-    form: formHack,
-    widgets,
-    models,
-    global,
-    pages,
     alerts,
-    overlays,
     columns,
+    datasource,
+    form: formHack,
+    global,
+    models,
+    overlays,
+    pages,
+    regions,
     toolbar,
     user,
-    regions,
+    router: connectRouter(history),
+    widgets,
     ...customReducers,
 })
