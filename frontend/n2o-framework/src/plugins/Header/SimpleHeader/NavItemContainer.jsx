@@ -3,19 +3,18 @@ import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import cx from 'classnames'
 import get from 'lodash/get'
-import Badge from 'reactstrap/lib/Badge'
 import NavItem from 'reactstrap/lib/NavItem'
 import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
+import colors from '../../../../const/colors'
+
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
- * @param {string} props.activeId  - id активного item'a
- * @param {string} props.  - id активного item'a
  */
 const NavItemContainer = ({
     item,
@@ -26,6 +25,33 @@ const NavItemContainer = ({
 }) => {
     // eslint-disable-next-line react/prop-types
     const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
+
+    const sideBarItemBadge = item => (
+        item.badge && (
+            <span
+                className={
+                    cx(
+                        `badge badge-${item.badgeColor}`,
+                    )}
+            >
+                {item.badge}
+            </span>
+        ))
+
+    const overlappingBadge = item => (
+        item.icon && item.badge && (
+            <span
+                className={
+                    cx(
+                        `n2o-counter badge badge-${item.badgeColor}`,
+                        item.badge !== ' ' ? 'n2o-badge-counter' : 'n2o-badge-dot',
+                    )}
+            >
+                {item.badge}
+            </span>
+        ))
+
+    const renderBadge = item => (item.title ? sideBarItemBadge(item) : overlappingBadge(item))
 
     const getInnerLink = (item, className) => (
         <NavLink
@@ -40,10 +66,6 @@ const NavItemContainer = ({
         </NavLink>
     )
 
-    const renderBadge = item => (
-        <Badge color={item.badgeColor}>{item.badge}</Badge>
-    )
-
     const handleLink = (item, className) => {
         if (item.linkType === 'outer') {
             return (
@@ -55,8 +77,8 @@ const NavItemContainer = ({
                     >
                         {item.icon && <i className={cx('mr-1', item.icon)} />}
                         {item.title}
+                        {renderBadge(item)}
                     </a>
-                    {renderBadge(item)}
                 </NavItem>
             )
         }
@@ -72,8 +94,8 @@ const NavItemContainer = ({
                 >
                     {item.icon && <NavItemIcon icon={item.icon} />}
                     {item.title}
+                    {renderBadge(item)}
                 </NavLink>
-                {renderBadge(item)}
             </NavItem>
         )
     }
@@ -98,8 +120,8 @@ const NavItemContainer = ({
         ))
         if (
             item.type === 'dropdown' &&
-            item.items.length > 1 &&
-            type === 'sidebar'
+                item.items.length > 1 &&
+                type === 'sidebar'
         ) {
             dropdownItems = [
                 <DropdownItem key={-1} onClick={e => e.preventDefault()}>
@@ -150,10 +172,15 @@ NavItemContainer.propTypes = {
         linkType: PropTypes.oneOf(['inner', 'outer']),
         withSubMenu: PropTypes.bool,
         items: PropTypes.array,
+        badge: PropTypes.string,
+        badgeColor: PropTypes.oneOf(colors),
+        type: PropTypes.oneOf(['dropdown', 'link', 'text']),
+        target: PropTypes.string,
     }),
     type: PropTypes.oneOf(['header', 'sidebar']),
-    open: PropTypes.bool,
+    sidebarOpen: PropTypes.bool,
     direction: PropTypes.string,
+    options: PropTypes.object,
 }
 
 NavItemContainer.defaultProps = {
