@@ -160,11 +160,9 @@ export const makeWidgetErrorSelector = widgetId => createSelector(
     widgetState => widgetState.error,
 )
 
-/*
-  Остальные селекторы
-*/
-
+// region others
 export const makeFormModelPrefixSelector = formName => createSelector(
     makeWidgetByIdSelector(formName),
     widgetState => widgetState.modelPrefix || 'resolve',
 )
+// endregion others

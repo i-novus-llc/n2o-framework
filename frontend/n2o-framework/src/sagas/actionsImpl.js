@@ -3,7 +3,6 @@ import {
     fork,
     put,
     select,
-    takeEvery,
     throttle,
 } from 'redux-saga/effects'
 import { getFormValues } from 'redux-form'
@@ -37,10 +36,6 @@ import { disableWidgetOnFetch, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 
 import fetchSaga from './fetch'
-
-/**
- * @deprecated
- */
 
 export function* validate(options) {
     const isTouched = true
@@ -249,14 +244,7 @@ export function* handleInvoke(apiProvider, action) {
     }
 }
 
-// eslint-disable-next-line require-yield
-export function* handleDummy() {
-    // eslint-disable-next-line no-alert
-    alert('AHOY!')
-}
-
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
-    takeEvery('n2o/button/Dummy', handleDummy),
 ]
