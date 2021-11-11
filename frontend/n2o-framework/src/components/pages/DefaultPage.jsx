@@ -39,7 +39,7 @@ function DefaultPage({
         Object.entries(datasources).forEach(([id, config]) => {
             dispatch(register(id, config))
         })
-    }, [datasources])
+    }, [datasources, dispatch])
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>
