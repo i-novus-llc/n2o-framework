@@ -14,6 +14,7 @@ import has from 'lodash/has'
 import flatten from 'lodash/flatten'
 import { batchActions } from 'redux-batched-actions'
 
+import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { isPromise } from '../../tools/helpers'
 import { addFieldMessage, removeFieldMessage } from '../../ducks/form/store'
 
@@ -210,7 +211,14 @@ export function validate(
                     (isTouched && !nowTouched) ||
                     !isEqual(message, get(registeredFields, [fieldId, 'message']))
                 ) {
-                    return addFieldMessage(formName, fieldId, message, isTouched)
+                    const finalMessage = { ...message }
+                    const expressionMessageText = parseExpression(finalMessage.text)
+
+                    if (expressionMessageText) {
+                        finalMessage.text = evalExpression(expressionMessageText, { [fieldId]: values[fieldId] })
+                    }
+
+                    return addFieldMessage(formName, fieldId, finalMessage, isTouched)
                 }
             }
         }).filter(Boolean)
