@@ -216,9 +216,8 @@ export function validate(
 
                     if (expressionMessageText) {
                         const fieldValue = get(state, `form.${formName}.values.${fieldId}`)
-                        const context = { [fieldId]: fieldValue }
 
-                        finalMessage.text = evalExpression(expressionMessageText, context)
+                        finalMessage.text = evalExpression(expressionMessageText, { [fieldId]: fieldValue })
                     }
 
                     return addFieldMessage(formName, fieldId, finalMessage, isTouched)
