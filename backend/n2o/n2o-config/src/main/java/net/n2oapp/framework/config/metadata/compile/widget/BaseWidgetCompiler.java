@@ -534,13 +534,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(widget));
         queryContext.setMessagesForm(getMessagesForm(widget));
         if (source instanceof N2oForm) {
-            queryContext.setSubModelQueries(subModelsScope);
+            queryContext.setSubModelQueries(subModelsScope.get(source.getDatasource()));
             queryContext.setQuerySize(1);
         } else {
             queryContext.setQuerySize(10);
         }
         if (copiedFieldScope != null) {
-            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields());
+            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getDatasource()));
         }
         return queryContext;
     }
@@ -573,11 +573,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             List<DependencyCondition> fetch = new ArrayList<>();
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
-                masterWidgetId = widgetScope.getDependsOnWidgetId();
+                masterWidgetId = widgetScope.getDependsOnWidgetId();//ds on
                 PageScope pageScope = p.getScope(PageScope.class);
                 String datasource = pageScope == null ? masterWidgetId :
                         pageScope.getWidgetIdDatasourceMap().get(masterWidgetId);
-                ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, datasource);
+                ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, datasource);//pageId + datasource
                 DependencyCondition condition = new DependencyCondition();
                 condition.setGlobalMasterWidgetId(masterWidgetId);
                 condition.setOn(bindLink.getBindLink());

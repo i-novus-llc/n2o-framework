@@ -38,7 +38,7 @@
         </group>
     </toolbar>
     <datasources>
-        <datasource id="ds1" query-id="test" object-id="test" default-values-mode="query">
+        <datasource id="ds1" query-id="test" object-id="test" default-values-mode="query" size="1">
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>

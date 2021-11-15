@@ -18,6 +18,7 @@ public class N2oDatasource implements Source {
     private String queryId;
     private String objectId;
     private String route;
+    private Integer size;
     private DefaultValuesMode defaultValuesMode;
     private Submit submit;
     private Dependency[] dependencies;
@@ -29,7 +30,7 @@ public class N2oDatasource implements Source {
     @Getter
     @Setter
     public static class Dependency implements Source {
-        private String[] on;
+        private String on;
         private ReduxModel model;
         private String value;
     }

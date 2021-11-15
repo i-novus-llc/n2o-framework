@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.metadata.compile.*;
@@ -65,8 +64,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         Models models = p.getScope(Models.class);
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(form.getUpload());
-        SubModelsScope subModelsScope = new SubModelsScope();
-        CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
+        SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
+        CopiedFieldScope copiedFieldScope = p.getScope(CopiedFieldScope.class);
         WidgetParamScope paramScope = form.getUpload().equals(UploadType.defaults) ? new WidgetParamScope() : null;//todo why upload=default? maybe upload != query ?
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,

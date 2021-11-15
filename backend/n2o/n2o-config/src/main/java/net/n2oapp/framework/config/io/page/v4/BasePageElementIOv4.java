@@ -67,6 +67,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
         p.attribute(e, "object-id", a::getObjectId, a::setObjectId);
         p.attributeEnum(e, "default-values-mode", a::getDefaultValuesMode, a::setDefaultValuesMode, DefaultValuesMode.class);
         p.attribute(e, "route", a::getRoute, a::setRoute);
+        p.attributeInteger(e, "size", a::getSize, a::setSize);
         p.child(e, null, "submit", a::getSubmit, a::setSubmit, Submit::new, this::submit);
         p.anyChildren(e, "dependencies", a::getDependencies, a::setDependencies,
                 p.oneOf(N2oDatasource.Dependency.class)

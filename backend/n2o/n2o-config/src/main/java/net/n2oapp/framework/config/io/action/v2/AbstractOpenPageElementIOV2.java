@@ -51,6 +51,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "query-id", a::getQueryId, a::setQueryId);
         p.attribute(e, "object-id", a::getObjectId, a::setObjectId);
         p.attributeEnum(e, "default-values-mode", a::getDefaultValuesMode, a::setDefaultValuesMode, DefaultValuesMode.class);
+        p.attributeInteger(e, "size", a::getSize, a::setSize);
     }
 
 }

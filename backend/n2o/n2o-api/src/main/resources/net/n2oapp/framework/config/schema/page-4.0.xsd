@@ -380,7 +380,7 @@
             <xs:element name="submit" type="ac:submitDefinition" minOccurs="0"/>
             <xs:element name="dependencies" type="dependenciesDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор источника данных.</xs:documentation>
             </xs:annotation>
@@ -400,6 +400,11 @@
                 <xs:documentation>
                     Подстановка значений по умолчанию, режим по умолчанию query
                 </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="size" type="xs:integer" default="10">
+            <xs:annotation>
+                <xs:documentation>Размер выборки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 
 import java.util.Map;
@@ -34,4 +35,6 @@ public class ClientDataProvider implements Compiled {
     private Boolean submitForm;
     @JsonProperty
     private Integer size;
+    @JsonProperty
+    private SubmitOn autoSubmitOn;
 }
