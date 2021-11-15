@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 
 import { id as generateId } from '../../utils/id'
 import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
+import { renderBadge } from '../../components/snippets/Badge/Badge'
 
 // eslint-disable-next-line import/no-cycle
 import SidebarDropdown from './SidebarDropdown'
@@ -82,6 +83,7 @@ export function SidebarItemContainer({
                 {icon && renderIcon(icon, title, type, sidebarOpen)}
                 {isMiniView && !icon ? title.substring(0, 1) : title }
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
+                {renderBadge(item)}
             </a>
         )
     }
@@ -109,6 +111,7 @@ export function SidebarItemContainer({
                     >
                         {isMiniView && !icon ? title.substring(0, 1) : title}
                     </span>
+                    {renderBadge(item)}
                 </NavLink>
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
             </>

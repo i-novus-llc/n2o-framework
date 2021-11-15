@@ -10,6 +10,7 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
 import colors from '../../../../const/colors'
+import { renderBadge } from '../../../components/snippets/Badge/Badge'
 
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
@@ -25,33 +26,6 @@ const NavItemContainer = ({
 }) => {
     // eslint-disable-next-line react/prop-types
     const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
-
-    const sideBarItemBadge = item => (
-        item.badge && (
-            <span
-                className={
-                    cx(
-                        `badge badge-${item.badgeColor}`,
-                    )}
-            >
-                {item.badge}
-            </span>
-        ))
-
-    const overlappingBadge = item => (
-        item.icon && item.badge && (
-            <span
-                className={
-                    cx(
-                        `n2o-counter badge badge-${item.badgeColor}`,
-                        item.badge !== ' ' ? 'n2o-badge-counter' : 'n2o-badge-dot',
-                    )}
-            >
-                {item.badge}
-            </span>
-        ))
-
-    const renderBadge = item => (item.title ? sideBarItemBadge(item) : overlappingBadge(item))
 
     const getInnerLink = (item, className) => (
         <NavLink
