@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Text;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -15,7 +15,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class VisibilityControlAT extends AutoTestBase {
+/**
+ * Тестирование видимости полей внутри столбцов
+ */
+public class RowColVisibleAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -33,22 +36,47 @@ public class VisibilityControlAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/visible/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/visible/index.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/condition/visible/col_row/index.page.xml"));
     }
 
     @Test
     public void visibilityControl() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Управление видимостью");
 
         Fields fields = page.widget(FormWidget.class).fields();
-        fields.field("Статус").control(OutputText.class).shouldHaveValue("1");
+        RadioGroup type = fields.field("type").control(RadioGroup.class);
+        type.shouldExists();
+        type.check("visible");
 
-        fields.field(1, Text.class).shouldNotExists();
-        fields.field(2, Text.class).shouldNotExists();
-        fields.field(3, Text.class).shouldNotExists();
-        fields.field(4, Text.class).shouldNotExists();
+        Text field = fields.field(1, Text.class);
+        field.shouldExists();
+        field.shouldHaveText("Текстовое поле 1");
+
+        field = fields.field(2, Text.class);
+        field.shouldExists();
+        field.shouldHaveText("Текстовое поле 2");
+
+        field = fields.field(3, Text.class);
+        field.shouldExists();
+        field.shouldHaveText("Текстовое поле 3");
+
+        field = fields.field(4, Text.class);
+        field.shouldExists();
+        field.shouldHaveText("Текстовое поле 4");
+
+        type.check("not visible");
+
+        field = fields.field(1, Text.class);
+        field.shouldNotExists();
+
+        field = fields.field(2, Text.class);
+        field.shouldNotExists();
+
+        field = fields.field(3, Text.class);
+        field.shouldNotExists();
+
+        field = fields.field(4, Text.class);
+        field.shouldNotExists();
     }
 }
