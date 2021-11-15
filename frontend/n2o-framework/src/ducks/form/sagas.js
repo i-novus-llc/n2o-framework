@@ -20,7 +20,6 @@ import * as validationPresets from '../../core/validation/presets'
 
 import { makeFormByName, messageSelector } from './selectors'
 import {
-    addFieldMessage,
     removeFieldMessage,
     setRequired,
     unsetRequired,
@@ -81,16 +80,6 @@ function* checkFieldValidation({ meta }) {
 
             if (!isValid) {
                 isValidResult = false
-
-                if (!formMessage) {
-                    // Add form message
-                    const message = {
-                        text: validationOption.text,
-                        severity: validationOption.severity,
-                    }
-
-                    yield put(addFieldMessage(formName, fieldName, message, false))
-                }
 
                 break
             }
