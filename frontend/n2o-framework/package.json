@@ -110,7 +110,7 @@
     "rc-table": "6.4.3",
     "rc-tree-select": "2.3.1",
     "react": "16.14.0",
-    "react-ace": "5.9.0",
+    "react-ace": "9.5.0",
     "react-big-calendar": "0.24.6",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.14.0",
