@@ -5,15 +5,12 @@ import {
 } from 'redux-saga/effects'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
-import includes from 'lodash/includes'
 import cloneDeep from 'lodash/cloneDeep'
-import some from 'lodash/some'
 import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
 
 import {
     REGISTER_DEPENDENCY,
-    UPDATE_WIDGET_DEPENDENCY,
 } from '../constants/dependency'
 import {
     clearModel,
@@ -61,36 +58,6 @@ export function* updateModel() {
     )
 }
 
-export function* updateDependency({ payload }) {
-    const { widgetId } = payload
-    const state = yield select()
-    const widgetDependenciesKeys = keys(widgetsDependencies)
-
-    for (let i = 0; i < widgetDependenciesKeys.length; i++) {
-        const widgetDependencyItem = widgetsDependencies[widgetDependenciesKeys[i]]
-        const dependencyItem = widgetDependencyItem.dependency
-        const dependencyItemKeys = keys(dependencyItem)
-
-        for (let j = 0; j < dependencyItemKeys.length; j++) {
-            const someDependency = dependencyItem[dependencyItemKeys[j]]
-
-            if (some(someDependency, ({ on }) => includes(on, widgetId))) {
-                const isVisible = makeWidgetVisibleSelector(widgetId)(state)
-                const dependencyType = dependencyItemKeys[j]
-                const model = getModelsByDependency(someDependency)(state)
-
-                yield call(
-                    resolveDependency,
-                    dependencyType,
-                    widgetDependencyItem.widgetId,
-                    model,
-                    isVisible,
-                )
-            }
-        }
-    }
-}
-
 /**
  * Резолв всех зависимостей виджета
  * @param prevState
@@ -136,7 +103,6 @@ export function* resolveWidgetDependency(
 
 export const widgetDependencySagas = [
     takeEvery(REGISTER_DEPENDENCY, registerDependency),
-    takeEvery(UPDATE_WIDGET_DEPENDENCY, updateDependency),
     takeEvery([
         setModel.type,
         removeModel.type,
@@ -152,7 +118,6 @@ export const widgetDependencySagas = [
             copyModel.type,
             clearModel.type,
             REGISTER_DEPENDENCY,
-            UPDATE_WIDGET_DEPENDENCY,
         ],
         function* noWidgetRecursion() {
             // Костыль, для сохранения предыдущего состояния, нужен чтобы не загнаться в рекурсивное обновление

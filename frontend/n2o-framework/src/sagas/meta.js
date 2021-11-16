@@ -21,7 +21,6 @@ import { batchActions } from 'redux-batched-actions'
 import { addFieldMessage } from '../ducks/form/store'
 import { metadataRequest } from '../ducks/pages/store'
 import { dataRequestWidget } from '../ducks/widgets/store'
-import { updateWidgetDependency } from '../actions/dependency'
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
@@ -158,12 +157,6 @@ export function* clearFormEffect(action) {
     yield put(reset(action.meta.clearForm))
 }
 
-export function* updateWidgetDependencyEffect({ meta }) {
-    const { widgetId } = meta
-
-    yield put(updateWidgetDependency(widgetId))
-}
-
 export function* userDialogEffect({ meta }) {
     const { title, description, toolbar, ...rest } = meta.dialog
 
@@ -186,9 +179,5 @@ export const metaSagas = [
     takeEvery(action => action.meta && action.meta.refresh, refreshEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.messages, messagesFormEffect),
-    takeEvery(
-        action => action.meta && action.meta.updateWidgetDependency,
-        updateWidgetDependencyEffect,
-    ),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
 ]
