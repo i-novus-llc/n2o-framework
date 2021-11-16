@@ -153,35 +153,71 @@ const datasource = createSlice({
             },
         },
 
-        startValidate(id, prefix = MODEL_PREFIX.active) {
-            return ({
-                payload: { id, prefix },
-            })
+        startValidate: {
+            prepare(id, prefix = MODEL_PREFIX.active) {
+                return ({
+                    payload: { id, prefix },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        failValidate(id, fields /* , prefix = MODEL_PREFIX.active*/) {
-            return ({
-                payload: { id, fields },
-            })
+        failValidate: {
+            prepare(id, fields /* , prefix = MODEL_PREFIX.active*/) {
+                return ({
+                    payload: { id, fields },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setActiveModel(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.active },
-            })
+        setActiveModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.active },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setFilter(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.filter },
-            })
+        setFilter: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.filter },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setSourceModel(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.source },
-            })
+        setSourceModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.source },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setMultiModel(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.selected },
-            })
+        setMultiModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.selected },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
     },
 })

@@ -11,7 +11,8 @@ import {
 import { failValidate } from '../store'
 import { validateField } from '../../../core/datasource/validateField'
 
-export function* validate({ id, fields }) {
+export function* validate({ payload }) {
+    const { id, fields } = { payload }
     const state = yield select(dataSourceByIdSelector(id))
     const model = state.models[MODEL_PREFIX.active]
     let entries = Object.entries(state.validation)

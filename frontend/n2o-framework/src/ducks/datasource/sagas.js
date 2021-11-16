@@ -20,7 +20,9 @@ import {
 } from './store'
 
 // Мапинг изменения моделей
-export function* resolveModelsSaga({ id, model, prefix }) {
+export function* resolveModelsSaga({ payload }) {
+    const { id, model, prefix } = payload
+
     yield put(setModel(prefix, id, model))
 
     if (prefix === MODEL_PREFIX.filter) {
@@ -29,7 +31,9 @@ export function* resolveModelsSaga({ id, model, prefix }) {
 }
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
-export function* runDataRequest({ id, page }) {
+export function* runDataRequest({ payload }) {
+    const { id, page } = payload
+
     yield put(dataRequest(id, { page: page || 1 }))
 }
 
