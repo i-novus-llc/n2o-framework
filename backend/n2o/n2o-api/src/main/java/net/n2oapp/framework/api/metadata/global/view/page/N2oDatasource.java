@@ -30,12 +30,13 @@ public class N2oDatasource implements Source {
     @Getter
     @Setter
     public static class Dependency implements Source {
-        private String on;
-        private ReduxModel model;
-        private String value;
     }
 
+    @Getter
+    @Setter
     public static class FetchDependency extends Dependency {
+        private String on;
+        private ReduxModel model;
     }
 
 }

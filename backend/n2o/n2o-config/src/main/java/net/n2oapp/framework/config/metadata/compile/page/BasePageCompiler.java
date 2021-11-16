@@ -106,6 +106,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageWidgetsScope widgetsScope = new PageWidgetsScope(compiledWidgets);
         Map<String, Datasource> compiledDatasources = initDatasources(source.getDatasources(), context, p, validationList,
                 subModelsScope, copiedFieldScope, widgetsScope);
+        page.setDatasources(compiledDatasources);
         //compile region
         initRegions(source, page, p, context, pageScope, pageRoutes, widgetsScope);
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;

@@ -89,9 +89,8 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
     }
 
     private void fetch(Element e, N2oDatasource.FetchDependency t, IOProcessor p) {
-        p.attributeArray(e, "on", ",", t::getOn, t::setOn);
+        p.attribute(e, "on", t::getOn, t::setOn);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
-        p.text(e, t::getValue, t::setValue);
     }
 
     private void submit(Element e, Submit t, IOProcessor p) {

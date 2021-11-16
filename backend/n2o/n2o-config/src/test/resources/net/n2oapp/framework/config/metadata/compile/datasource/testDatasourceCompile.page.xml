@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1" query-id="testDatasourceCompile" object-id="testDataSourceCompile"
+                    default-values-mode="defaults" size="5">
+            <submit operation-id="update" auto-submit-on="change" submit-all="true" message-widget-id="form1">
+                <form-param id="name" value="{name}"/>
+            </submit>
+            <dependencies>
+                <fetch on="ds1" model="datasource"/>
+            </dependencies>
+            <filters>
+                <eq field-id="name" param="name" datasource="ds2"/>
+            </filters>
+        </datasource>
+        <datasource id="ds2" query-id="testDatasourceCompile" object-id="testDataSourceCompile"/>
+        <datasource id="ds3"/>
+    </datasources>
+</page>
