@@ -1,26 +1,31 @@
 import React from 'react'
 import cx from 'classnames'
 
-export const renderBadge = item => (
-    item.title && item.badge
+export const renderBadge = ({
+    badge,
+    badgeColor,
+    icon,
+    title,
+}) => (
+    badge && (title
         ? (
             <span
                 className={
                     cx(
-                        `badge badge-${item.badgeColor}`,
+                        `badge badge-${badgeColor}`,
                     )}
             >
-                {item.badge}
+                {badge}
             </span>
         )
-        : item.icon && (
+        : icon && (
             <span
                 className={
                     cx(
-                        `n2o-counter badge badge-${item.badgeColor}`,
-                        item.badge !== ' ' ? 'n2o-badge-counter' : 'n2o-badge-dot',
+                        `n2o-counter badge badge-${badgeColor}`,
+                        badge !== ' ' ? 'n2o-badge-counter' : 'n2o-badge-dot',
                     )}
             >
-                {item.badge}
+                {badge}
             </span>
-        ))
+        )))
