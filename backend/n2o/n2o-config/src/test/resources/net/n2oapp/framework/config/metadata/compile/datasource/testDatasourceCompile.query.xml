@@ -6,6 +6,9 @@
     <fields>
         <field id="id">
             <select/>
+            <filters>
+                <eq/>
+            </filters>
         </field>
     </fields>
 </query>

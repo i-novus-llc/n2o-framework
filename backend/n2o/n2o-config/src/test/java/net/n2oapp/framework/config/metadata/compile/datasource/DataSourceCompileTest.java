@@ -1,7 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -14,6 +16,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasEntry;
 
 public class DataSourceCompileTest extends SourceCompileTestBase {
 
@@ -32,7 +35,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void simpleDS() {
+    public void simple() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimple.page.xml")
                         .get(new PageContext("testDSSimple"));
@@ -44,7 +47,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void queryDS() {
+    public void query() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQuery.page.xml")
                         .get(new PageContext("testDSQuery"));
@@ -54,5 +57,22 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(ds.getProvider(), notNullValue());
         assertThat(ds.getProvider().getUrl(), is("n2o/data/ds1"));
+    }
+
+    @Test
+    public void queryFilters() {
+        PageContext context = new PageContext("testDSQueryFilters", "p/w/a");
+        context.setParentRoute("p/w");
+        StandardPage page = (StandardPage)
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQueryFilters.page.xml")
+                        .get(context);
+
+        Datasource ds = page.getDatasources().get("ds1");
+        assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds1"));
+        assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(1)));
+
+        ds = page.getDatasources().get("ds2");
+        assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
+        assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id")));
     }
 }
