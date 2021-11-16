@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasEntry;
 
 public class DataSourceCompileTest extends SourceCompileTestBase {
@@ -74,5 +75,16 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         ds = page.getDatasources().get("ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id")));
+    }
+
+    @Test
+    public void fetch() {
+        StandardPage page = (StandardPage)
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSFetch.page.xml")
+                        .get(new PageContext("testDSFetch", "p/w/a"));
+
+        Datasource ds = page.getDatasources().get("detail");
+        assertThat(ds.getDependencies().size(), is(1));
+        assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve[\"p_w_a_master\"]"));
     }
 }

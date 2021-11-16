@@ -6,7 +6,7 @@
                 <eq field-id="id" value="1"/>
             </filters>
         </datasource>
-        <datasource id="ds2" query-id="testDatasourceCompile">
+        <datasource id="ds2" query-id="testDatasourceCompile" >
             <filters>
                 <eq field-id="id" datasource="ds3" model="resolve" value="{id}"/>
             </filters>
