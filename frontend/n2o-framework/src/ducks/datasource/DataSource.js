@@ -4,7 +4,7 @@ export class DataSource {
             provider: {},
             validation: {},
             widgets: [],
-            dependencies: {},
+            dependencies: [],
             size: 0,
             page: 1,
             loading: false,

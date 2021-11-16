@@ -1,9 +1,10 @@
 import {
     put,
     takeEvery,
+    select,
 } from 'redux-saga/effects'
 
-import { setModel } from '../models/store'
+import { clearModel, copyModel, removeAllModel, removeModel, setModel } from '../models/store'
 import { MODEL_PREFIX } from '../../core/datasource/const'
 
 import { dataRequest as dataRequestSaga } from './sagas/dataRequest'
@@ -18,6 +19,7 @@ import {
     setSourceModel,
     startValidate,
 } from './store'
+import { watchDependencies } from './sagas/dependencies'
 
 // Мапинг изменения моделей
 export function* resolveModelsSaga({ payload }) {
@@ -37,9 +39,16 @@ export function* runDataRequest({ payload }) {
     yield put(dataRequest(id, { page: page || 1 }))
 }
 
+// Кеш предыдущего состояния для наблюдения за изменениями зависимостей
+let prevState = {}
+
 export default () => [
     takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel], resolveModelsSaga),
     takeEvery([setFilter, setSorting, changePage], runDataRequest),
     takeEvery(dataRequest, dataRequestSaga),
     takeEvery(startValidate, validateSaga),
+    takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
+        yield watchDependencies(action, prevState)
+        prevState = yield select()
+    }),
 ]

@@ -47,3 +47,19 @@ export const VALIDATION_SEVERITY_PRIORITY = {
     [VALIDATION_SEVERITY.warning]: 1,
     [VALIDATION_SEVERITY.success]: 0,
 }
+
+/**
+ * @enum DEPENDENCY_TYPE Типы зависимостей
+ * @property {string} fetch
+ * @property {string} validate
+ */
+export const DEPENDENCY_TYPE = {
+    fetch: 'fetch',
+    validate: 'validate',
+}
+
+/**
+ * @typedef DataSourceDependency
+ * @property {DEPENDENCY_TYPE} type
+ * @property {string} on
+ */

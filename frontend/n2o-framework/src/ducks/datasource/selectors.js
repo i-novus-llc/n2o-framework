@@ -2,30 +2,27 @@ import { createSelector } from '@reduxjs/toolkit'
 
 import { modelsSelector } from '../models/selectors'
 
-export const dataSourceSelector = (state = {}) => state.datasource || {}
+export const dataSourcesSelector = (state = {}) => state.datasource || {}
 
 export const dataSourceByIdSelector = sourceId => createSelector(
-    dataSourceSelector,
+    dataSourcesSelector,
+    sources => (sources[sourceId] || {}),
+)
+
+//
+export const dataSourceModelsSelector = sourceId => createSelector(
     modelsSelector,
-    (sources, modelsList) => {
-        const datasource = sources[sourceId]
-
-        if (!datasource) { return { models: {} } }
-        // if (!datasource) { return undefined }
-
+    (modelsList) => {
         const models = {}
 
         Object.entries(modelsList).forEach(([key, value]) => {
             models[key] = value[sourceId]
         })
 
-        return {
-            ...datasource,
-            models,
-        }
+        return models
     },
 )
-//
+
 export const dataSourceLoadingSelector = sourceId => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.loading,
