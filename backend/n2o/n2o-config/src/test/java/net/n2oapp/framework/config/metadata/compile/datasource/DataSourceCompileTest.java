@@ -12,8 +12,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DataSourceCompileTest extends SourceCompileTestBase {
@@ -33,18 +32,27 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void compileTest() {
+    public void simpleDS() {
         StandardPage page = (StandardPage)
-                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDatasourceCompile.page.xml")
-                .get(new PageContext("testDatasourceCompile"));
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimple.page.xml")
+                        .get(new PageContext("testDSSimple"));
 
         Datasource ds = page.getDatasources().get("ds1");
-        assertThat(ds.getSize(), is(5));
+        assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
-
-        ds = page.getDatasources().get("ds3");
-        assertThat(ds.getSize(), is(10));
-        assertThat(ds.getDefaultValuesMode(), is(nullValue()));
+        assertThat(ds.getProvider(), nullValue());
     }
 
+    @Test
+    public void queryDS() {
+        StandardPage page = (StandardPage)
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQuery.page.xml")
+                        .get(new PageContext("testDSQuery"));
+
+        Datasource ds = page.getDatasources().get("ds1");
+        assertThat(ds, notNullValue());
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(ds.getProvider(), notNullValue());
+        assertThat(ds.getProvider().getUrl(), is("n2o/data/ds1"));
+    }
 }
