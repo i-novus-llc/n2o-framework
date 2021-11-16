@@ -11,6 +11,7 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 
 import colors from '../../../../const/colors'
 import { renderBadge } from '../../../components/snippets/Badge/Badge'
+import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
@@ -78,6 +79,7 @@ const NavItemContainer = ({
         <UncontrolledDropdown nav inNavbar direction={direction}>
             <DropdownToggle nav caret>
                 {item.icon && <NavItemIcon icon={item.icon} />}
+                {item.imageSrc && <NavItemImage imageSrc={item.imageSrc} title={item.title} />}
                 {item.title}
             </DropdownToggle>
             <DropdownMenu right={get(options, 'right', false)}>
@@ -127,14 +129,14 @@ const NavItemContainer = ({
 
     return (
         (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
-        (item.type === 'link' && handleLink(item)) ||
-        (item.type === 'text' && (
-            <NavItem>
-                {item.icon && <NavItemIcon icon={item.icon} />}
-                <span className="nav-link">{item.title}</span>
-            </NavItem>
-        )) ||
-        null
+            (item.type === 'link' && handleLink(item)) ||
+            (item.type === 'text' && (
+                <NavItem>
+                    {item.icon && <NavItemIcon icon={item.icon} />}
+                    <span className="nav-link">{item.title}</span>
+                </NavItem>
+            )) ||
+            null
     )
 }
 
@@ -150,6 +152,7 @@ NavItemContainer.propTypes = {
         badgeColor: PropTypes.oneOf(colors),
         type: PropTypes.oneOf(['dropdown', 'link', 'text']),
         target: PropTypes.string,
+        imageSrc: PropTypes.string,
     }),
     type: PropTypes.oneOf(['header', 'sidebar']),
     sidebarOpen: PropTypes.bool,

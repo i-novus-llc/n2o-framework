@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { compose, withState, withHandlers } from 'recompose'
 
+import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
+
 // eslint-disable-next-line import/no-cycle
 import { renderIcon } from './SidebarItemContainer'
 
@@ -30,12 +32,13 @@ function SidebarDropdown({
     showContent,
     isMiniView,
     id,
-
+    imageSrc,
 }) {
     const itemDropdownClass = classNames(
         'n2o-sidebar__item-dropdown-label',
         {
             'justify-content-center': isMiniView,
+            'pl-3': !isMiniView,
         },
     )
 
@@ -53,7 +56,8 @@ function SidebarDropdown({
                 className={itemDropdownClass}
                 id={id}
             >
-                {renderIcon(icon, title, type, sidebarOpen, true)}
+                {icon && renderIcon(icon, title, type, sidebarOpen, true)}
+                {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} />}
                 <span className={classNames('n2o-sidebar__item-title', { mini: isMiniView, visible: showContent })}>{title}</span>
             </div>
             {isOpen && (<div className={subItemsClass}>{children}</div>
@@ -73,6 +77,7 @@ SidebarDropdown.propTypes = {
     icon: PropTypes.string,
     type: PropTypes.string,
     id: PropTypes.string,
+    imageSrc: PropTypes.string,
 }
 
 export default compose(
