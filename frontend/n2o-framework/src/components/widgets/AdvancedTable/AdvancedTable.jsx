@@ -309,20 +309,23 @@ class AdvancedTable extends Component {
         return dataStorage
     }
 
-    setTableRef = (el) => {
+    updateTableSize = (tableElement) => {
         const { height, width } = this.props
+        const tableBody = tableElement?.bodyTable
+
+        if (!tableBody) {
+            return
+        }
 
         if (height) {
-            el.bodyTable.style.height = height
-            el.bodyTable.style.overflow = 'auto'
+            tableBody.style.height = height
+            tableBody.style.overflow = 'auto'
         }
 
         if (width) {
-            el.bodyTable.style.width = width
-            el.bodyTable.style.overflow = 'auto'
+            tableBody.style.width = width
+            tableBody.style.overflow = 'auto'
         }
-
-        this.table = el
     }
 
     setSelectionRef = (el) => {
@@ -760,7 +763,7 @@ class AdvancedTable extends Component {
                 <div onFocus={!isActive ? onFocus : undefined}>
                     <Table
                         style={style}
-                        ref={this.setTableRef}
+                        ref={this.updateTableSize}
                         prefixCls="n2o-advanced-table"
                         className={classNames('n2o-table table table-hover', className, {
                             'has-focus': hasFocus,
