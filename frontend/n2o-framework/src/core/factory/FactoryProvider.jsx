@@ -13,16 +13,15 @@ import SecurityCheck from '../auth/SecurityCheck'
 import factoryConfigShape from './factoryConfigShape'
 import { NotFoundFactory } from './NotFoundFactory'
 import { ComponentCache } from './ComponentCache'
+import { FactoryContext } from './context'
 
 const ignoreList = ['dataProvider', 'action', 'actions']
 
 export class FactoryProvider extends Component {
     getChildContext() {
-        return {
-            factories: this.factories,
-            getComponent: this.getComponent,
-            resolveProps: this.resolveProps,
-        }
+        const { contextMethods } = this.state
+
+        return contextMethods
     }
 
     constructor(props, context) {
@@ -32,6 +31,13 @@ export class FactoryProvider extends Component {
         this.resolveProps = this.resolveProps.bind(this)
         this.checkSecurityAndRender = this.checkSecurityAndRender.bind(this)
         this.componentCache = new ComponentCache()
+        this.state = {
+            contextMethods: {
+                factories: this.factories,
+                getComponent: this.getComponent,
+                resolveProps: this.resolveProps,
+            },
+        }
     }
 
     checkSecurityAndRender(component = null, config, level) {
@@ -107,8 +113,13 @@ export class FactoryProvider extends Component {
 
     render() {
         const { children } = this.props
+        const { contextMethods } = this.state
 
-        return Children.only(children)
+        return (
+            <FactoryContext.Provider value={contextMethods}>
+                {Children.only(children)}
+            </FactoryContext.Provider>
+        )
     }
 }
 
