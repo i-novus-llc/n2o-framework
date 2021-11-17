@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
+import net.n2oapp.framework.api.data.validation.ConditionValidation;
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
@@ -15,6 +17,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.validation.ConditionValidationCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -147,5 +150,22 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         opCtx = ((ActionContext)route("/p/w/a/123/update", CompiledObject.class));
         assertThat(opCtx, Matchers.notNullValue());
         assertThat(opCtx.getParams("/p/w/a/123/update", emptyMap()), hasEntry("_id", 123));
+    }
+
+    @Test
+    public void validation() {
+        StandardPage page = (StandardPage)
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSValidation.page.xml")
+                        .get(new PageContext("testDSValidation", "/p/w/a"));
+
+        Datasource ds = page.getDatasources().get("ds1");
+
+        assertThat(ds.getValidations().get("id"), notNullValue());
+        assertThat(ds.getValidations().get("id").size(), is(1));
+        assertThat(ds.getValidations().get("id").get(0), instanceOf(MandatoryValidation.class));
+
+        assertThat(ds.getValidations().get("name"), notNullValue());
+        assertThat(ds.getValidations().get("name").size(), is(1));
+        assertThat(ds.getValidations().get("name").get(0), instanceOf(ConditionValidation.class));
     }
 }
