@@ -3,12 +3,12 @@
     <datasources>
         <datasource id="ds1" query-id="testDatasourceCompile">
             <filters>
-                <eq field-id="id" value="1"/>
+                <eq field-id="id" value="1"/> <!-- константа -->
             </filters>
         </datasource>
         <datasource id="ds2" query-id="testDatasourceCompile" >
             <filters>
-                <eq field-id="id" datasource="ds3" model="resolve" value="{id}"/>
+                <eq field-id="id" datasource="ds3" model="resolve" value="{id}"/> <!-- ссылка на другой источник данных -->
             </filters>
         </datasource>
         <datasource id="ds3"/>

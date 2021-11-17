@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
@@ -13,6 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -20,6 +22,8 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.*;
@@ -65,11 +69,13 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(ds.getProvider(), notNullValue());
         assertThat(ds.getProvider().getUrl(), is("n2o/data/ds1"));
+        QueryContext queryCtx = ((QueryContext)route("/ds1", CompiledQuery.class));
+        assertThat(queryCtx, notNullValue());
     }
 
     @Test
     public void queryFilters() {
-        PageContext context = new PageContext("testDSQueryFilters", "p/w/a");
+        PageContext context = new PageContext("testDSQueryFilters", "/p/w/a");
         context.setParentRoute("p/w");
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQueryFilters.page.xml")
@@ -78,17 +84,21 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         Datasource ds = page.getDatasources().get("ds1");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(1)));
+        CompiledQuery query = routeAndGet("/p/w/a/ds1", CompiledQuery.class);
+        assertThat(query.getParamToFilterIdMap(), hasEntry("ds1_id", "id"));
 
         ds = page.getDatasources().get("ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id")));
+        query = routeAndGet("/p/w/a/ds2", CompiledQuery.class);
+        assertThat(query.getParamToFilterIdMap(), hasEntry("ds2_id", "id"));
     }
 
     @Test
     public void fetch() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSFetch.page.xml")
-                        .get(new PageContext("testDSFetch", "p/w/a"));
+                        .get(new PageContext("testDSFetch", "/p/w/a"));
 
         Datasource ds = page.getDatasources().get("detail");
         assertThat(ds.getDependencies().size(), is(1));
@@ -99,7 +109,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     public void submit() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSubmit.page.xml")
-                        .get(new PageContext("testDSSubmit", "p/w/a"));
+                        .get(new PageContext("testDSSubmit", "/p/w/a"));
 
         //        simple
         Datasource ds = page.getDatasources().get("ds1");
@@ -107,7 +117,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getSubmit().getSubmitForm(), is(true));
         assertThat(ds.getSubmit().getMethod(), is(RequestMethod.POST));
-        ActionContext opCtx = ((ActionContext)route("p/w/a/ds1", CompiledObject.class));
+        ActionContext opCtx = ((ActionContext)route("/p/w/a/ds1", CompiledObject.class));
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(false));
         assertThat(opCtx.isMessageOnFail(), is(true));
@@ -123,7 +133,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         //        with messages
         ds = page.getDatasources().get("ds3");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
-        opCtx = ((ActionContext)route("p/w/a/ds3", CompiledObject.class));
+        opCtx = ((ActionContext)route("/p/w/a/ds3", CompiledObject.class));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePosition.fixed));
@@ -134,8 +144,8 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/:_id/update"));
         assertThat(ds.getSubmit().getPathMapping(), hasEntry("_id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds4", "id")));
-        opCtx = ((ActionContext)route("p/w/a/123/update", CompiledObject.class));
+        opCtx = ((ActionContext)route("/p/w/a/123/update", CompiledObject.class));
         assertThat(opCtx, Matchers.notNullValue());
-        assertThat(opCtx.getParams("p/w/a/123/update", emptyMap()), hasEntry("_id", 123));
+        assertThat(opCtx.getParams("/p/w/a/123/update", emptyMap()), hasEntry("_id", 123));
     }
 }

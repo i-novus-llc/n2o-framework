@@ -7,7 +7,7 @@
         <field id="id">
             <select/>
             <filters>
-                <eq/>
+                <eq filter-id="id"/>
             </filters>
         </field>
     </fields>
