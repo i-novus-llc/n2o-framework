@@ -68,6 +68,16 @@ const getFocusIndex = ({ autoFocus, data, selectedId, hasFocus }) => {
     return 1
 }
 
+const mappingKeysIntoData = (data = []) => data.map(({ children, id, ...props }) => {
+    const newData = { id, key: id, ...props }
+
+    if (children) {
+        newData.children = mappingKeysIntoData(children)
+    }
+
+    return newData
+})
+
 /**
  * Компонент Таблица
  * @reactProps {boolean} hasFocus - флаг наличия фокуса
@@ -200,9 +210,10 @@ class AdvancedTable extends Component {
                 const checked = this.mapChecked(multi)
 
                 state = {
-                    data: isArray(data) ? data : [data],
+                    data: isArray(data) ? mappingKeysIntoData(data) : mappingKeysIntoData([data]),
                     checked,
                 }
+
                 this.dataStorage = this.getModelsFromData(data)
 
                 if (children === 'expand') {
