@@ -6,6 +6,8 @@ class WidgetResolver {
             isInit: false,
             isEnabled: true,
             isVisible: true,
+            visible: true,
+            fetch: 'always',
             isLoading: false,
             isResolved: false,
             selectedId: null,
@@ -25,6 +27,7 @@ class WidgetResolver {
             containerId: null,
             validation: {},
             error: null,
+            datasource: null,
         })
     }
 

@@ -1,5 +1,5 @@
 import { takeEvery, put, select } from 'redux-saga/effects'
-import { touch, change, actionTypes } from 'redux-form'
+import { touch, actionTypes } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
@@ -159,9 +159,6 @@ export function* copyAction({ payload }) {
             : sourceModel
     }
 
-    const value = get(newModel, target.field)
-
-    yield put(change(target.key, target.field, typeof value === 'undefined' ? null : value))
     yield put(setModel(target.prefix, target.key, newModel))
 }
 

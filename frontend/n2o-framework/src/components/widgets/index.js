@@ -1,5 +1,5 @@
 import HtmlWidget from './Html/HtmlWidget'
-import FormWidget from './Form/FormWidget'
+import { FormWidget } from './Form/FormWidget'
 import TableWidget from './Table/TableWidget'
 import AdvancedTableWidget from './AdvancedTable/AdvancedTableWidget'
 import TreeWidget from './Tree/TreeWidget'
