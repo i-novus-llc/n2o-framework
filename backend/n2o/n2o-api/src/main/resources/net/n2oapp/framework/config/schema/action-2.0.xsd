@@ -1021,7 +1021,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="auto-submit-on" type="submitOn" default="true">
+        <xs:attribute name="auto-submit-on" type="submitOn">
             <xs:annotation>
                 <xs:documentation>
                     Отправить все данные или только те, что прописаны в form-param

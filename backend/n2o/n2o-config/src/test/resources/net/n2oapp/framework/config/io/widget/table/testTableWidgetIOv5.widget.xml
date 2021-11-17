@@ -4,6 +4,14 @@
        icon="testIcon" class="testClass" route="testRoute" selection="radio" visible="true"
        fetch-on-init="true" table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
        checkboxes="true" check-on-select="false">
+    <datasource query-id="qtest" object-id="otest" default-values-mode="query" size="10">
+        <submit operation-id="update" refresh-datasources="ds1" auto-submit-on="blur" submit-all="true"
+                refresh-on-success="true" message-widget-id="w1" message-on-success="true" message-on-fail="true"
+                message-placement="top" message-position="fixed" route="route"/>
+        <filters>
+            <in field-id="test" datasource="ds1" model="datasource" values="12" required="true" param="test" routable="true"/>
+        </filters>
+    </datasource>
     <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true"
                 src="MyTableHeader" class="my-table-header" style="color: red">

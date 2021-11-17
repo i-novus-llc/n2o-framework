@@ -62,7 +62,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             pageScope.setWidgetIdQueryIdMap(Map.of(widget.getId(), widget.getQueryId()));
         pageScope.setWidgetIdDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdDatasourceMap().putAll(Map.of(pageScope.getGlobalWidgetId(widget.getId()),
-                pageScope.getGlobalWidgetId(widget.getDatasource() == null ? widget.getId() : widget.getDatasource())));
+                pageScope.getGlobalWidgetId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId())));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         PageRoutes routes = initRoute(pageRoute);

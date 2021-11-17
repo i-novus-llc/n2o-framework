@@ -178,7 +178,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
 
     private String getDatasourceRoute(D compiled, S source, CompileProcessor p) {
-        String datasource = p.cast(source.getDatasource(), source.getId());
+        String datasource = p.cast(source.getDatasourceId(), source.getId());
         String route = normalize(datasource);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
@@ -534,13 +534,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(widget));
         queryContext.setMessagesForm(getMessagesForm(widget));
         if (source instanceof N2oForm) {
-            queryContext.setSubModelQueries(subModelsScope.get(source.getDatasource()));
+            queryContext.setSubModelQueries(subModelsScope.get(source.getDatasourceId()));
             queryContext.setQuerySize(1);
         } else {
             queryContext.setQuerySize(10);
         }
         if (copiedFieldScope != null) {
-            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getDatasource()));
+            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getDatasourceId()));
         }
         return queryContext;
     }
