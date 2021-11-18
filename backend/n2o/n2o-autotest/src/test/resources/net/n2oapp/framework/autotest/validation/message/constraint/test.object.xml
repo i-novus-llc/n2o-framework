@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="net/n2oapp/framework/autotest/validation/message/constraint/test.json" operation="create"/>
+            </invocation>
+            <in-parameters>
+                <param id="name"/>
+                <param id="name2"/>
+            </in-parameters>
+            <out-parameters>
+                <param id="id"/>
+            </out-parameters>
+            <!--<validations white-list="uniqueName"/>-->
+        </operation>
+    </operations>
+
+    <!--  Валидации  -->
+    <validations>
+        <constraint id="uniqueName" severity="danger"
+                    message="Имя {name} уже существует"
+                    result="#this == null">
+            <invocation>
+                <test file="net/n2oapp/framework/autotest/validation/message/constraint/test.json" operation="findOne"/>
+            </invocation>
+            <in-parameters>
+                <param id="name"/>
+            </in-parameters>
+        </constraint>
+
+        <constraint id="uniqueName2" severity="danger"
+                    message="Имя {name2} уже существует"
+                    result="#this == null">
+            <invocation>
+                <test file="net/n2oapp/framework/autotest/validation/message/constraint/test.json" operation="findOne"/>
+            </invocation>
+            <in-parameters>
+                <param id="name2"/>
+            </in-parameters>
+
+        </constraint>
+    </validations>
+</object>
