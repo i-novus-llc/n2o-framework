@@ -45,8 +45,8 @@ export class EditableCell extends React.Component {
 
         if (
             prevProps.editable !== editable &&
-      !isEqual(prevProps.model, propsModel) &&
-      !isEqual(stateModel, prevResolveModel)
+            !isEqual(prevProps.model, propsModel) &&
+            !isEqual(stateModel, prevResolveModel)
         ) {
             this.setState({ model: propsModel })
         } else if (!isEqual(prevProps.model, propsModel)) {
@@ -58,7 +58,7 @@ export class EditableCell extends React.Component {
             })
         } else if (
             !isEqual(prevProps.prevResolveModel, prevResolveModel) &&
-      prevResolveModel.id === stateModel.id
+            prevResolveModel.id === stateModel.id
         ) {
             this.setState({
                 prevModel: stateModel,
@@ -68,9 +68,9 @@ export class EditableCell extends React.Component {
 
         if (
             !editing &&
-      isEqual(prevState.prevModel, prevState.model) &&
-      !isEqual(prevModel, stateModel) &&
-      !isEqual(stateModel, prevResolveModel)
+            isEqual(prevState.prevModel, prevState.model) &&
+            !isEqual(prevModel, stateModel) &&
+            !isEqual(stateModel, prevResolveModel)
         ) {
             this.callAction(stateModel)
         }
@@ -132,12 +132,12 @@ export class EditableCell extends React.Component {
             format,
             fieldKey,
             editFieldId,
-            model,
+            model: propsModel,
         } = this.props
-        const { editing } = this.state
+        const { editing, model: stateModel } = this.state
         const events = { events: 'enter' }
         const handlers = { events: this.handleKeyDown }
-        const text = get(model, fieldKey)
+        const text = get(propsModel, fieldKey)
 
         return (
             visible && (
@@ -164,7 +164,7 @@ export class EditableCell extends React.Component {
                                     onChange: this.onChange,
                                     onBlur: this.toggleEdit,
                                     autoFocus: true,
-                                    value: get(model, editFieldId),
+                                    value: get(stateModel, editFieldId),
                                     openOnFocus: true,
                                     showButtons: false,
                                     resetOnNotValid: false,
