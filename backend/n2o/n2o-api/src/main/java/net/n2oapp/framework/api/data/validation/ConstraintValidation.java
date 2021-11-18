@@ -42,7 +42,7 @@ public class ConstraintValidation extends InvocationValidation {
         dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParametersList());
         DataSet result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
         if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM))
-            callback.onFail(StringUtils.resolveLinks(getMessage(), result));
+            callback.onFail(StringUtils.resolveLinks(String.valueOf(getMessage()), result));
     }
 
     @Override
