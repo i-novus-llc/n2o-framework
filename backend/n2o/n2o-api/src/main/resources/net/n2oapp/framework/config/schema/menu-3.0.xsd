@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/menu-3.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="menu" type="menuDefinition"/>
+
+    <xs:complexType name="menuDefinition">
+        <xs:sequence>
+            <xs:element name="menu-item" type="menuItemDef" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Компонент меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="dropdown-menu" type="dropdownMenuDef" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Выпадающее меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="dropdownMenuDef">
+        <xs:sequence>
+            <xs:element name="menu-item" type="dropdownMenuItemDef" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Компонент выпадающего меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="devider" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Разделитель компонентов выпадающего меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор выпадающего меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Наименование выпадающего меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="image" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь к изображению</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="image-shape" type="shapeType" default="rounded">
+            <xs:annotation>
+                <xs:documentation>Форма изображения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="dropdownMenuItemDef">
+        <xs:complexContent>
+            <xs:extension base="menuItemDef">
+                <xs:sequence>
+                    <xs:element name="a" type="aDef" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Открыть страницу браузера</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="menuItemDef">
+        <xs:sequence>
+            <xs:element name="open-page" type="openPageDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Действие открытия страницы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор компонента меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Наименование компонента меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка компонента меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Бадж компонента меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Цвет баджа</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="openPageDefinition">
+        <xs:attribute name="page-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор открываемой страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="shapeType">
+        <xs:annotation>
+            <xs:documentation>Тип формы изображения</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="aDef">
+        <xs:attribute name="label" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название пункта в меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="href" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Адрес URL</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target" type="redirectTarget">
+            <xs:annotation>
+                <xs:documentation>Сценарий открытия страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:simpleType name="redirectTarget">
+        <xs:restriction>
+            <xs:enumeration value="self">
+                <xs:annotation>
+                    <xs:documentation>Открыть в текущей вкладке</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="newWindow">
+                <xs:annotation>
+                    <xs:documentation>Открыть в новой вкладке</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="application">
+                <xs:annotation>
+                    <xs:documentation>Открыть страницу приложения</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
