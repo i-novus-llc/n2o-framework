@@ -2,6 +2,7 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
            xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
@@ -59,7 +60,7 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
-            <xs:element name="datasource" type="datasourceDefinition" minOccurs="0"/>
+            <xs:element name="datasource" type="ds:datasourceDefinition" minOccurs="0"/>
             <xs:element name="dependencies" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>
@@ -188,196 +189,6 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="datasourceDefinition">
-        <xs:annotation>
-            <xs:documentation>Источник данных.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
-            <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
-            <xs:element name="dependencies" type="dependenciesDefinition" minOccurs="0"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор источника данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="query-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор выборки, на основе которой происходит получение данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="object-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор объекта.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-values-mode" type="act:defaultValuesMode" default="query">
-            <xs:annotation>
-                <xs:documentation>
-                    Подстановка значений по умолчанию, режим по умолчанию query
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="size" type="xs:integer" default="10">
-            <xs:annotation>
-                <xs:documentation>Размер выборки</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="dependenciesDefinition">
-        <xs:annotation>
-            <xs:documentation>Зависимости источника данных.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="fetch" type="fetchDefinition" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="fetchDefinition">
-        <xs:annotation>
-            <xs:documentation>Обновление данных при изменении зависимых источников данных.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="on" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Иденитификатор источника данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
-            <xs:annotation>
-                <xs:documentation>Модель источника данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="datasourceFiltersDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="like" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="likeStart" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notEq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notIn" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="filterDefSimple">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Поле в выборке, по которому будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="filterDefValue">
-        <xs:complexContent>
-            <xs:extension base="filterDefBase">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="value" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="required" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="filterDefValues">
-        <xs:complexContent>
-            <xs:extension base="filterDefBase">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="required" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="values" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значения фильтра (через запятую).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="filterDefValuesWithBody">
-        <xs:complexContent>
-            <xs:extension base="filterDefBase">
-                <xs:annotation>
-                    <xs:documentation>
-                        Предустановленная фильтрация поля выборки. Со возможностью задания списка значений в теле.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
-                </xs:sequence>
-                <xs:attribute name="values" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значения фильтра (через запятую).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="filterDefBase">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Поле, по которому будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="datasource" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="param" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Имя параметра для фильтрации (в случае, если фильтрация по параметру из url).</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
-            <xs:annotation>
-                <xs:documentation>Модель для получения значения фильтра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="routable" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="listWidgetReferenceDefinition">

@@ -2,6 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:ac="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:reg="http://n2oapp.net/framework/config/schema/region-3.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/page-4.0">
@@ -376,7 +377,7 @@
             <xs:documentation>Источник данных.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="wgt:datasourceDefinition">
+            <xs:extension base="ds:datasourceDefinition">
                 <xs:attribute name="id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор источника данных.</xs:documentation>
