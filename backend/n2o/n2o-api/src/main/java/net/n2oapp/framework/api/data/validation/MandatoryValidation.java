@@ -53,7 +53,7 @@ public class MandatoryValidation extends Validation {
         }
 
         if (!Boolean.TRUE.equals(success))
-            callback.onFail(getMessage());
+            callback.onFail(String.valueOf(getMessage()));
     }
 
     @Override

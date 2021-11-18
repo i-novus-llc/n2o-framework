@@ -24,7 +24,7 @@ public abstract class Validation implements Compiled {
     @JsonProperty("validationKey")
     private String id;
     @JsonProperty("text")
-    private String message;
+    private Object message;
     private Set<String> fields;
     private ValidationReference.Target target;
     @JsonProperty
