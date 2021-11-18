@@ -20,6 +20,7 @@ public class SubModelsScope {
             queries.add(query);
             subModelScope = new HashMap<>();
             subModelScope.put(datasource, queries);
+            return;
         }
         subModelScope.get(datasource).add(query);
     }
