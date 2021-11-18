@@ -44,7 +44,7 @@ public class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getId(), is("con1"));
         assertThat(validations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
-        assertThat(validations.get(0).getMessage(), is("message"));
+        assertThat(validations.get(0).getMessage(), is("`message`"));
         assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
         assertThat(validations.get(0).getFieldId(), is("field1"));
