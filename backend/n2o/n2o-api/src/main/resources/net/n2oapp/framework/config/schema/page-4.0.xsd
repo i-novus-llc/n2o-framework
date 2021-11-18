@@ -395,7 +395,7 @@
                 <xs:documentation>Идентификатор объекта.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="default-values-mode" type="ac:defaultValuesMode" default="query">
+        <xs:attribute name="default-values-mode" type="ac:defaultValuesMode">
             <xs:annotation>
                 <xs:documentation>
                     Подстановка значений по умолчанию, режим по умолчанию query

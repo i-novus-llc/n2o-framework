@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -14,10 +13,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.validation.ConditionValidationCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -25,8 +24,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
 
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.*;
@@ -44,7 +41,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack())
+        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack()).ios( new InputTextIOv3())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/datasource/testDatasourceCompile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/datasource/testDataSourceCompile.object.xml"));
     }
@@ -65,7 +62,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     public void query() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQuery.page.xml")
-                        .get(new PageContext("testDSQuery"));
+                        .get(new PageContext("testDSQuery", "/"));
 
         Datasource ds = page.getDatasources().get("ds1");
         assertThat(ds, notNullValue());
@@ -88,13 +85,15 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(1)));
         CompiledQuery query = routeAndGet("/p/w/a/ds1", CompiledQuery.class);
-        assertThat(query.getParamToFilterIdMap(), hasEntry("ds1_id", "id"));
+        assertThat(query.getParamToFilterIdMap(), hasEntry("id", "id"));
 
         ds = page.getDatasources().get("ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
-        assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id")));
+        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id");
+        link.setValue("`id`");
+        assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", link));
         query = routeAndGet("/p/w/a/ds2", CompiledQuery.class);
-        assertThat(query.getParamToFilterIdMap(), hasEntry("ds2_id", "id"));
+        assertThat(query.getParamToFilterIdMap(), hasEntry("id", "id"));
     }
 
     @Test
@@ -105,7 +104,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
 
         Datasource ds = page.getDatasources().get("detail");
         assertThat(ds.getDependencies().size(), is(1));
-        assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve[\"p_w_a_master\"]"));
+        assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve['p_w_a_master']"));
     }
 
     @Test
@@ -131,7 +130,9 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         ds = page.getDatasources().get("ds2");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getSubmitForm(), is(false));
-        assertThat(ds.getSubmit().getFormMapping(), hasEntry("id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds2", "id")));
+        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds2");
+        link.setValue("`id`");
+        assertThat(ds.getSubmit().getFormMapping(), hasEntry("id", link));
 
         //        with messages
         ds = page.getDatasources().get("ds3");
@@ -146,10 +147,12 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         ds = page.getDatasources().get("ds4");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/:_id/update"));
-        assertThat(ds.getSubmit().getPathMapping(), hasEntry("_id", new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds4", "id")));
+        link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds4");
+        link.setValue("`id`");
+        assertThat(ds.getSubmit().getPathMapping(), hasEntry("_id", link));
         opCtx = ((ActionContext)route("/p/w/a/123/update", CompiledObject.class));
         assertThat(opCtx, Matchers.notNullValue());
-        assertThat(opCtx.getParams("/p/w/a/123/update", emptyMap()), hasEntry("_id", 123));
+        assertThat(opCtx.getParams("/p/w/a/123/update", emptyMap()), hasEntry("_id", "123"));
     }
 
     @Test
