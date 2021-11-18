@@ -148,7 +148,7 @@ export class EditableCell extends React.Component {
                     {!editing && (
                         <div
                             className={classNames('n2o-editable-cell-text', {
-                                'editable-cell-empty': !text,
+                                'editable-cell-empty': !text && text !== 0,
                             })}
                             onClick={editable && this.toggleEdit}
                         >
