@@ -220,7 +220,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected SubModelQuery findSubModelQuery(String fieldId, String datasource, CompileProcessor p) {
         if (fieldId == null) return null;
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
-        if (subModelsScope != null) {
+        if (subModelsScope != null && subModelsScope.get(datasource) != null) {
             return subModelsScope.get(datasource).stream()
                     .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
                     .findAny()

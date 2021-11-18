@@ -358,7 +358,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             initDefaults(context, w);
             compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
                     compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
-                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope, subModelsScope, compiledWidgets);});
+                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope, subModelsScope, compiledWidgets, copiedFieldScope);});
         return compiledWidgets;
     }
 
