@@ -1,4 +1,4 @@
-import HtmlWidget from './Html/HtmlWidget'
+import { HtmlWidget } from './Html/HtmlWidget'
 import { FormWidget } from './Form/FormWidget'
 import { AdvancedTableWidget } from './AdvancedTable/AdvancedTableWidget'
 import TreeWidget from './Tree/TreeWidget'
