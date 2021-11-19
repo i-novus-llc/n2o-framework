@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
-import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
@@ -63,7 +62,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     @Override
     public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
-        compiled.setSize(p.cast(source.getSize(), 10));
+        compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         if (source.getQueryId() != null)
             compiled.setDefaultValuesMode(DefaultValuesMode.query);
         else
@@ -307,7 +306,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                                                 CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
-        N2oClientDataProvider dataProvider = initFromSubmit(source.getSubmit(), source.getId(), compiledObject, p);
+        N2oClientDataProvider dataProvider = initSubmit(source.getSubmit(), source.getId(), compiledObject, p);
 
         dataProvider.setSubmitForm(p.cast(source.getSubmit().getSubmitAll(), true));
         dataProvider.setDatasourceId(source.getId());
@@ -319,7 +318,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
 
-    private N2oClientDataProvider initFromSubmit(Submit submit, String datasourceId, CompiledObject object, CompileProcessor p) {
+    private N2oClientDataProvider initSubmit(Submit submit, String datasourceId, CompiledObject object, CompileProcessor p) {
         if (object == null)
             throw new N2oException(String.format("For compilation submit for datasource [%s] is necessary object!", datasourceId));
 
@@ -380,30 +379,6 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         dataProvider.setAutoSubmitOn(compiled.getAutoSubmitOn());
 
         return dataProvider;
-    }
-
-    private String initSubmitDatasource(CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = null;
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                targetWidgetId = pageScope == null ?
-                        widgetIdAware.getWidgetId() : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
-            }
-        }
-        if (targetWidgetId == null) {
-            if (widgetScope != null) {
-                targetWidgetId = widgetScope.getClientWidgetId();
-            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null && pageScope != null) {
-                targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
-            } else {
-                throw new N2oException("Unknown widgetId for invoke action!");
-            }
-        }
-        return targetWidgetId;
     }
 
     private ReduxModel initTargetWidgetModel(CompileProcessor p, ReduxModel defaultModel) {
