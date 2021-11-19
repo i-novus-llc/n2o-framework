@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, mapProps } from 'recompose'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/TableContainer'
+import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 import widgetContainer from '../WidgetContainer'
 
 import { Cards } from './Cards'

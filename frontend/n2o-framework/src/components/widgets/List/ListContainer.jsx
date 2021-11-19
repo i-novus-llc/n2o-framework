@@ -14,7 +14,7 @@ import widgetContainer from '../WidgetContainer'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/TableContainer'
+import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 import { setTableSelectedId } from '../../../ducks/widgets/store'
 import { makeWidgetPageSelector } from '../../../ducks/widgets/selectors'
 

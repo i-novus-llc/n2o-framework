@@ -6,7 +6,7 @@ import moment from 'moment'
 
 import widgetContainer from '../WidgetContainer'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/TableContainer'
+import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 
 import Calendar from './Calendar'
 import { CalendarEvent } from './CalendarEvent'

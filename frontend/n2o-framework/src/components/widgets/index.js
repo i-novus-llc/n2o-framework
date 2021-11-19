@@ -1,7 +1,6 @@
 import HtmlWidget from './Html/HtmlWidget'
 import { FormWidget } from './Form/FormWidget'
-import TableWidget from './Table/TableWidget'
-import AdvancedTableWidget from './AdvancedTable/AdvancedTableWidget'
+import { AdvancedTableWidget } from './AdvancedTable/AdvancedTableWidget'
 import TreeWidget from './Tree/TreeWidget'
 import ListWidget from './List/ListWidget'
 import ChartWidget from './Chart/ChartWidget'
@@ -13,7 +12,6 @@ export default {
     HtmlWidget,
     FormWidget,
     EditForm: FormWidget,
-    TableWidget,
     AdvancedTableWidget,
     ListWidget,
     TreeWidget,
