@@ -9,10 +9,6 @@
                 <param id="name"/>
                 <param id="name2"/>
             </in-parameters>
-            <out-parameters>
-                <param id="id"/>
-            </out-parameters>
-            <!--<validations white-list="uniqueName"/>-->
         </operation>
     </operations>
 

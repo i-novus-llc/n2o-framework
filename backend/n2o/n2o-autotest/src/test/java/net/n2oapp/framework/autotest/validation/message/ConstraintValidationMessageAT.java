@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -21,7 +20,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест сообщений об ограничениях
  */
-public class ConstraintValidationAT extends AutoTestBase {
+public class ConstraintValidationMessageAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -32,6 +31,7 @@ public class ConstraintValidationAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        Configuration.headless = false;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ConstraintValidationAT extends AutoTestBase {
         lastName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
 
         form.toolbar().bottomLeft().button("Create").click();
-        firstName.shouldHaveValidationMessage(Condition.text("Имя уже существует"));
+        firstName.shouldHaveValidationMessage(Condition.text("Имя  уже существует"));
         lastName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
 
         input.val("2");
@@ -82,5 +82,6 @@ public class ConstraintValidationAT extends AutoTestBase {
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.empty);
         lastName.shouldHaveValidationMessage(Condition.empty);
+        page.alerts().alert(0).shouldHaveText("Данные сохранены");
     }
 }
