@@ -5,7 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "npm run swizzle docusaurus-lunr-search SearchBar -- --danger && docusaurus build",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -19,7 +19,6 @@
     "@mdx-js/react": "^1.6.21",
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
-    "docusaurus-lunr-search": "^2.1.14",
     "docusaurus-plugin-sass": "^0.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
