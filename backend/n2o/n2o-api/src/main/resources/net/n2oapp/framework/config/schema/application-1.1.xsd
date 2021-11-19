@@ -52,7 +52,7 @@
                     <xs:documentation>Поиск в заголовке</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="menu" type="menu:menuDefinition" minOccurs="0">
+            <xs:element name="nav" type="menu:menuDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Основное меню</xs:documentation>
                 </xs:annotation>
@@ -112,7 +112,7 @@
 
     <xs:complexType name="sidebarDefinition">
         <xs:sequence>
-            <xs:element name="menu" type="menu:menuDefinition" minOccurs="0">
+            <xs:element name="nav" type="menu:menuDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Основное меню</xs:documentation>
                 </xs:annotation>
