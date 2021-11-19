@@ -31,7 +31,6 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless = false;
     }
 
     @Override
