@@ -101,5 +101,3 @@ Filter.defaultProps = {
     className: '',
     hideButtons: false,
 }
-
-export default Filter

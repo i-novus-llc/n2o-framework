@@ -74,6 +74,10 @@ export const WidgetHOC = (WidgetComponent) => {
 
     Widget.propTypes = widgetPropTypes
 
+    Widget.defaultProps = {
+        fetch: FETCH_TYPE.always,
+    }
+
     /**
      * Получение данных из DataSource, необходимых для виджета
      * @param {object} state
@@ -123,8 +127,8 @@ export const WidgetHOC = (WidgetComponent) => {
         setSelected(models) {
             dispatch(setMultiModel(datasource, models))
         },
-        setSorting(sorting) {
-            dispatch(setDataSourceSorting(datasource, sorting))
+        setSorting(field, sorting) {
+            dispatch(setDataSourceSorting(datasource, field, sorting))
         },
     })
 

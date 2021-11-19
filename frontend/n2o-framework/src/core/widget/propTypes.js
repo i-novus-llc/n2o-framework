@@ -18,7 +18,7 @@ export const widgetInitialTypes = {
     datasource: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
     visible: PropTypes.bool,
-    // enabled: PropTypes.bool,
+    fetchOnInit: PropTypes.bool,
     dependency: PropTypes.array,
     toolbar: PropTypes.any,
     fetch: PropTypes.oneOf([
@@ -26,6 +26,9 @@ export const widgetInitialTypes = {
         FETCH_TYPE.lazy,
         FETCH_TYPE.never,
     ]).isRequired,
+    className: PropTypes.string,
+    style: PropTypes.any,
+    autoFocus: PropTypes.bool,
 }
 
 /**

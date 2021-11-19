@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
 
 import { modelsSelector } from '../models/selectors'
+import { MODEL_PREFIX } from '../../core/datasource/const'
 
 export const dataSourcesSelector = (state = {}) => state.datasource || {}
 
@@ -12,15 +13,12 @@ export const dataSourceByIdSelector = sourceId => createSelector(
 //
 export const dataSourceModelsSelector = sourceId => createSelector(
     modelsSelector,
-    (modelsList) => {
-        const models = {}
-
-        Object.entries(modelsList).forEach(([key, value]) => {
-            models[key] = value[sourceId]
-        })
-
-        return models
-    },
+    modelsList => ({
+        [MODEL_PREFIX.active]: modelsList[MODEL_PREFIX.active][sourceId],
+        [MODEL_PREFIX.source]: modelsList[MODEL_PREFIX.source][sourceId] || [],
+        [MODEL_PREFIX.selected]: modelsList[MODEL_PREFIX.selected][sourceId] || [],
+        [MODEL_PREFIX.filter]: modelsList[MODEL_PREFIX.filter][sourceId] || {},
+    }),
 )
 
 export const dataSourceLoadingSelector = sourceId => createSelector(

@@ -2,12 +2,12 @@
  * @enum SORT_DIRECTION Направление сортировки
  * @property {string} NONE
  * @property {string} ASC
- * @property {string} DESK
+ * @property {string} DESC
  */
 export const SORT_DIRECTION = {
     NONE: 'NONE',
     ASC: 'ASC',
-    DESK: 'DESK',
+    DESC: 'DESC',
 }
 
 /**
