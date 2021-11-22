@@ -87,12 +87,12 @@
         </xs:attribute>
         <xs:attribute name="badge" type="xs:integer">
             <xs:annotation>
-                <xs:documentation>Бадж компонента меню</xs:documentation>
+                <xs:documentation>Значок компонента меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="badge-color" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Цвет баджа</xs:documentation>
+                <xs:documentation>Цвет значка</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
