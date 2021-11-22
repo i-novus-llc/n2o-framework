@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -97,15 +98,16 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                         w -> pageScope.getGlobalWidgetId(w.getDatasourceId() == null ? w.getId() : w.getDatasourceId()))));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
+        DatasourceScope datasourceScope = new DatasourceScope();
         Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope,
-                breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope, subModelsScope, copiedFieldScope);
+                breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope, subModelsScope,
+                copiedFieldScope, datasourceScope);
         registerRoutes(pageRoutes, context, p);
         page.setRoutes(pageRoutes);
         //compile datasources
-        //DatasourceScope datasourceScope = new DatasourceScope();
         PageWidgetsScope widgetsScope = new PageWidgetsScope(compiledWidgets);
         Map<String, Datasource> compiledDatasources = initDatasources(source.getDatasources(), context, p, validationList,
-                subModelsScope, copiedFieldScope, widgetsScope, pageRoutes, routeScope, pageScope);
+                subModelsScope, copiedFieldScope, widgetsScope, pageRoutes, routeScope, pageScope, datasourceScope);
         page.setDatasources(compiledDatasources);
         //compile region
         initRegions(source, page, p, context, pageScope, pageRoutes, widgetsScope);
@@ -124,16 +126,30 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                     CompileProcessor p, ValidationList validationList,
                                                     SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
                                                     PageWidgetsScope widgetsScope, PageRoutes routeScope,
-                                                    ParentRouteScope parentRouteScope, PageScope pageScope) {
+                                                    ParentRouteScope parentRouteScope, PageScope pageScope,
+                                                    DatasourceScope datasourceScope) {
         Map<String, Datasource> compiledDatasources = new HashMap<>();
+        if (!datasourceScope.isEmpty()) {
+            datasourceScope.values().forEach(ds -> compileDatasource(ds, compiledDatasources, context, p, validationList, subModelsScope,
+                    copiedFieldScope, widgetsScope, routeScope, parentRouteScope, pageScope));
+        }
         if (sourceDatasources != null) {
             for (N2oDatasource sourceDatasource: sourceDatasources) {
-                Datasource compiled = p.compile(sourceDatasource, context, validationList, subModelsScope,
-                        copiedFieldScope, widgetsScope, routeScope, parentRouteScope, pageScope);
-                compiledDatasources.put(sourceDatasource.getId(), compiled);
+                compileDatasource(sourceDatasource, compiledDatasources, context, p, validationList, subModelsScope, copiedFieldScope,
+                        widgetsScope, routeScope, parentRouteScope, pageScope);
             }
         }
         return compiledDatasources;
+    }
+
+    private void compileDatasource(N2oDatasource sourceDatasource, Map<String, Datasource> compiledDatasources,
+                                   PageContext context, CompileProcessor p,
+                                   ValidationList validationList, SubModelsScope subModelsScope,
+                                   CopiedFieldScope copiedFieldScope, PageWidgetsScope widgetsScope,
+                                   PageRoutes routeScope, ParentRouteScope parentRouteScope, PageScope pageScope) {
+        Datasource compiled = p.compile(sourceDatasource, context, validationList, subModelsScope,
+                copiedFieldScope, widgetsScope, routeScope, parentRouteScope, pageScope);
+        compiledDatasources.put(sourceDatasource.getId(), compiled);
     }
 
     protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
@@ -347,7 +363,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                             BreadcrumbList breadcrumbs, ValidationList validationList,
                                             Models models, PageRoutesScope pageRoutesScope,
                                             WidgetObjectScope widgetObjectScope, SearchBarScope searchBarScope,
-                                            SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope) {
+                                            SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
+                                            DatasourceScope datasourceScope) {
         Map<String, Widget> compiledWidgets = new StrictMap<>();
         IndexScope indexScope = new IndexScope();
         List<N2oWidget> independents = getSourceIndependents(sourceWidgets);
@@ -358,7 +375,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             initDefaults(context, w);
             compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
                     compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
-                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope, subModelsScope, compiledWidgets, copiedFieldScope);});
+                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope, subModelsScope, compiledWidgets,
+                    copiedFieldScope, datasourceScope);});
         return compiledWidgets;
     }
 

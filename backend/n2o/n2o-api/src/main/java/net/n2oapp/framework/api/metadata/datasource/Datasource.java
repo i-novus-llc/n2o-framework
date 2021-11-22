@@ -15,6 +15,8 @@ import java.util.Map;
 @Getter
 @Setter
 public class Datasource implements Compiled {
+
+    private String id;
     @JsonProperty
     private ClientDataProvider provider;
     @JsonProperty
