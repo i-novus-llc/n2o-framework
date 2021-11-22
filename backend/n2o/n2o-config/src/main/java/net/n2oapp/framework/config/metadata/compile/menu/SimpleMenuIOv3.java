@@ -56,33 +56,6 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 
-    private void anchor(Element e, N2oAnchor m, IOProcessor p) {
-        p.attribute(e, "href", m::getHref, m::setHref);
-        p.attribute(e, "src", m::getSrc, m::setSrc);
-        p.attributeEnum(e, "target", m::getTarget, m::setTarget, Target.class);
-        p.children(e, null, "query-param", m::getQueryParams, m::setQueryParams, N2oParam.class, this::param);
-        p.children(e, null, "path-param", m::getPathParams, m::setPathParams, N2oParam.class, this::param);
-    }
-
-    private void openPage(Element e, N2oOpenPage m, IOProcessor p) {
-        p.attribute(e, "page-id", m::getPageId, m::setPageId);
-        p.attribute(e, "route", m::getRoute, m::setRoute);
-        p.attribute(e, "src", m::getSrc, m::setSrc);
-        p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
-        p.attribute(e, "page-name", m::getPageName, m::setPageName);
-        p.attribute(e, "redirect-url-after-submit", m::getRedirectUrlAfterSubmit, m::setRedirectUrlAfterSubmit);
-        p.attribute(e, "submit-label", m::getSubmitLabel, m::setSubmitLabel);
-        p.attributeBoolean(e, "close-after-submit", m::getCloseAfterSubmit, m::setCloseAfterSubmit);
-        p.attributeBoolean(e, "focus-after-submit", m::getFocusAfterSubmit, m::setFocusAfterSubmit);
-        p.attribute(e, "submit-operation-id", m::getSubmitOperationId, m::setSubmitOperationId);
-        p.attributeEnum(e, "upload", m::getUpload, m::setUpload, UploadType.class);
-        p.attributeEnum(e, "submit-model", m::getSubmitModel, m::setSubmitModel, ReduxModel.class);
-        p.attributeEnum(e, "redirect-target-after-submit", m::getRedirectTargetAfterSubmit,
-                m::setRedirectTargetAfterSubmit, Target.class);
-        p.children(e, null, "query-param", m::getQueryParams, m::setQueryParams, N2oParam.class, this::param);
-        p.children(e, null, "path-param", m::getPathParams, m::setPathParams, N2oParam.class, this::param);
-    }
-
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
