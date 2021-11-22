@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.metadata.compile.application.ApplicationBinde
 import net.n2oapp.framework.config.metadata.compile.header.SearchBarCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
+import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
 
 /**
  * Набор для сборки приложения
@@ -15,7 +16,7 @@ import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
 public class N2oApplicationPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.ios(new ApplicationIO(), new SimpleMenuIOv2());
+        b.ios(new ApplicationIO(), new SimpleMenuIOv2(), new SimpleMenuIOv3());
         b.compilers(new ApplicationCompiler(), new SimpleMenuCompiler(), new SearchBarCompiler());
         b.binders(new ApplicationBinder());
     }
