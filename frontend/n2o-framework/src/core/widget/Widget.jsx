@@ -39,11 +39,12 @@ export const WidgetHOC = (WidgetComponent) => {
             dispatch,
             isInit,
 
-            form, table, list,
+            form, table, list, calendar,
         } = props
         const prevVisible = usePrevious(visible)
         // FIXME удалить после того как fetchOnInit начнёт приходить уровнем выше
-        const fOnInit = fetchOnInit || form?.fetchOnInit || table?.fetchOnInit || list?.fetchOnInit
+        const fOnInit = fetchOnInit || form?.fetchOnInit || table?.fetchOnInit || list?.fetchOnInit ||
+            calendar?.fetchOnInit
 
         useEffect(() => {
             // dispatch(registerDependency(id, dependency))
