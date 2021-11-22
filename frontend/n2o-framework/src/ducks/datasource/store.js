@@ -152,6 +152,18 @@ const datasource = createSlice({
                 state[id].count = count
             },
         },
+        changeSize: {
+            prepare(id, size) {
+                return ({
+                    payload: { id, size },
+                })
+            },
+            reducer(state, action) {
+                const { id, size } = action.payload
+
+                state[id].size = size
+            },
+        },
 
         startValidate: {
             prepare(id, prefix = MODEL_PREFIX.active) {
@@ -242,4 +254,5 @@ export const {
     failValidate,
     changePage,
     changeCount,
+    changeSize,
 } = datasource.actions

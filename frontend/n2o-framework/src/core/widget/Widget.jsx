@@ -89,6 +89,7 @@ export const WidgetHOC = (WidgetComponent) => {
             loading,
             sorting,
             page,
+            count,
         } = dataSourceByIdSelector(props.datasource)(state)
         const models = dataSourceModelsSelector((props.datasource))(state)
 
@@ -97,6 +98,7 @@ export const WidgetHOC = (WidgetComponent) => {
             loading,
             sorting,
             page,
+            count,
         }
     }
 

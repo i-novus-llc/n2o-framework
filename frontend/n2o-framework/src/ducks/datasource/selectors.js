@@ -36,9 +36,13 @@ export const dataSourcePageSelector = sourceId => createSelector(
     state => state.page,
 )
 
-export const dataSourceSortingSelector = widgetId => createSelector(
-    dataSourceByIdSelector(widgetId),
+export const dataSourceSortingSelector = sourceId => createSelector(
+    dataSourceByIdSelector(sourceId),
     state => state.sorting,
+)
+export const dataSourceCountSelector = sourceId => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.count,
 )
 
 export const dataSourceValidationSelector = sourceId => createSelector(

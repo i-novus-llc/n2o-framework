@@ -1,97 +1,74 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { dependency } from '../../../core/dependency'
-import StandardWidget from '../StandardWidget'
+import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
+import { WidgetHOC } from '../../../core/widget/Widget'
+import { FactoryContext } from '../../../core/factory/context'
+import { widgetPropTypes } from '../../../core/widget/propTypes'
 
-import ChartContainer from './ChartWidgetContainer'
+import ChartType from './ChartType'
+import LineChart from './LineChart'
+import AreaChart from './AreaChart'
+import BarChart from './BarChart'
+import PieChart from './PieChart'
+
+const Charts = {
+    [ChartType.LINE]: LineChart,
+    [ChartType.AREA]: AreaChart,
+    [ChartType.BAR]: BarChart,
+    [ChartType.PIE]: PieChart,
+}
 
 /**
  * Виджет графиков
- * @param widgetId
- * @param toolbar
- * @param disabled
- * @param chart
- * @param pageId
- * @param filter
- * @param className
- * @param style
- * @param rest
- * @param resolveProps
- * @return {*}
  * @constructor
  */
-function ChartWidget(
-    {
+function ChartWidget(props) {
+    const {
         id: widgetId,
-        datasource: modelId = widgetId,
+        datasource,
         toolbar,
         disabled,
         chart,
-        pageId,
+        models,
         filter,
         className,
         style,
-        ...rest
-    },
-    { resolveProps },
-) {
-    const prepareFilters = () => resolveProps(filter, StandardFieldset)
-    const getWidgetProps = () => ({
-        widgetId,
-        toolbar,
-        disabled,
-        pageId,
-        chart,
-        ...rest,
-    })
+    } = props
+    const { resolveProps } = useContext(FactoryContext)
+    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
 
-    const { fetchOnInit } = chart
+    const { type } = chart
+
+    const Component = Charts[type]
 
     return (
-        <StandardWidget
+        <WidgetLayout
             disabled={disabled}
             widgetId={widgetId}
-            modelId={modelId}
             toolbar={toolbar}
-            filter={prepareFilters()}
+            filter={resolvedFilter}
             className={className}
             style={style}
+            datasource={datasource}
         >
-            <ChartContainer
-                widgetId={widgetId}
-                modelId={modelId}
-                pageId={pageId}
-                fetchOnInit={fetchOnInit}
-                {...getWidgetProps()}
-            />
-        </StandardWidget>
+            <div className="n2o-chart-widget">
+                <Component {...chart} data={models.datasource} />
+            </div>
+        </WidgetLayout>
     )
 }
 
 ChartWidget.propTypes = {
-    disabled: PropTypes.bool,
-    id: PropTypes.string,
-    datasource: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    filter: PropTypes.object,
-    pageId: PropTypes.string.isRequired,
-    widgetId: PropTypes.string,
-    toolbar: PropTypes.object,
-    dataProvider: PropTypes.object,
+    ...widgetPropTypes,
     chart: PropTypes.arrayOf(PropTypes.shape({})),
 }
 
-ChartWidget.defaultProps = {
-    toolbar: {},
-    filter: {},
-    chart: {},
+const Widget = WidgetHOC(ChartWidget)
+
+Widget.defaultProps = {
+    fetchOnInit: true,
 }
 
-ChartWidget.contextTypes = {
-    resolveProps: PropTypes.func,
-}
-
-export default dependency(ChartWidget)
+export default Widget

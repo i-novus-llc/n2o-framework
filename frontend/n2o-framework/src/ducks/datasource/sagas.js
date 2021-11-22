@@ -11,6 +11,7 @@ import { dataRequest as dataRequestSaga } from './sagas/dataRequest'
 import { validate as validateSaga } from './sagas/validate'
 import {
     changePage,
+    changeSize,
     dataRequest,
     setActiveModel,
     setFilter,
@@ -44,7 +45,7 @@ let prevState = {}
 
 export default () => [
     takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel], resolveModelsSaga),
-    takeEvery([setFilter, setSorting, changePage], runDataRequest),
+    takeEvery([setFilter, setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestSaga),
     takeEvery(startValidate, validateSaga),
     takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
