@@ -105,7 +105,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //DatasourceScope datasourceScope = new DatasourceScope();
         PageWidgetsScope widgetsScope = new PageWidgetsScope(compiledWidgets);
         Map<String, Datasource> compiledDatasources = initDatasources(source.getDatasources(), context, p, validationList,
-                subModelsScope, copiedFieldScope, widgetsScope);
+                subModelsScope, copiedFieldScope, widgetsScope, pageRoutes, routeScope, pageScope);
         page.setDatasources(compiledDatasources);
         //compile region
         initRegions(source, page, p, context, pageScope, pageRoutes, widgetsScope);
@@ -123,12 +123,13 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private Map<String, Datasource> initDatasources(N2oDatasource[] sourceDatasources, PageContext context,
                                                     CompileProcessor p, ValidationList validationList,
                                                     SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
-                                                    PageWidgetsScope widgetsScope) {
+                                                    PageWidgetsScope widgetsScope, PageRoutes routeScope,
+                                                    ParentRouteScope parentRouteScope, PageScope pageScope) {
         Map<String, Datasource> compiledDatasources = new HashMap<>();
         if (sourceDatasources != null) {
             for (N2oDatasource sourceDatasource: sourceDatasources) {
                 Datasource compiled = p.compile(sourceDatasource, context, validationList, subModelsScope,
-                        copiedFieldScope, widgetsScope);
+                        copiedFieldScope, widgetsScope, routeScope, parentRouteScope, pageScope);
                 compiledDatasources.put(sourceDatasource.getId(), compiled);
             }
         }
@@ -357,7 +358,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             initDefaults(context, w);
             compileWidget(w, pageRoutes, routeScope, null, null, sourceWidgets,
                     compiledWidgets, context, p, breadcrumbs, validationList, models, indexScope,
-                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope, subModelsScope, compiledWidgets);});
+                    searchBarScope, pageScope, pageRoutesScope, widgetObjectScope, subModelsScope, compiledWidgets, copiedFieldScope);});
         return compiledWidgets;
     }
 

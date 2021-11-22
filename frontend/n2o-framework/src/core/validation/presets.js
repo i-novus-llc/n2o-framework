@@ -71,6 +71,7 @@ export function condition(fieldId, values, options = {}) {
  * @param options
  * @param dispatch
  * @returns {boolean|*}
+ * @deprecated
  */
 export async function constraint(fieldId, values, options, dispatch) {
     if (!isEmpty(values[fieldId])) {
@@ -128,6 +129,7 @@ export function maxLength(fieldId, values, options) {
  * @param values
  * @param options
  * @returns {boolean}
+ * @deprecated
  */
 export function match(fieldId, values, options) {
     return (

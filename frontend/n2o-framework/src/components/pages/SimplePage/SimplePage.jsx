@@ -47,8 +47,8 @@ SimplePage.propTypes = {
 SimplePage.defaultProps = {
     widget: {},
     /**
-   * slim флаг сжатия контента страницы к центру
-   */
+     * slim флаг сжатия контента страницы к центру
+     */
     slim: false,
 }
 

@@ -64,8 +64,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         Models models = p.getScope(Models.class);
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(form.getUpload());
-        SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
-        CopiedFieldScope copiedFieldScope = p.getScope(CopiedFieldScope.class);
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
+        CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), new CopiedFieldScope());
         WidgetParamScope paramScope = form.getUpload().equals(UploadType.defaults) ? new WidgetParamScope() : null;//todo why upload=default? maybe upload != query ?
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,
