@@ -9,6 +9,7 @@ import {
     setMultiModel,
     setFilter as setDataSourceFilter,
     setSorting as setDataSourceSorting,
+    changePage,
 } from '../../ducks/datasource/store'
 import { registerDependency } from '../../actions/dependency'
 
@@ -33,18 +34,19 @@ export const WidgetHOC = (WidgetComponent) => {
             setResolve,
             setSelected,
             setSorting,
+            setPage,
             fetchOnInit,
             id,
             dependency,
             dispatch,
             isInit,
 
-            form, table, list, calendar,
+            form, table, list, calendar, tile,
         } = props
         const prevVisible = usePrevious(visible)
         // FIXME удалить после того как fetchOnInit начнёт приходить уровнем выше
         const fOnInit = fetchOnInit || form?.fetchOnInit || table?.fetchOnInit || list?.fetchOnInit ||
-            calendar?.fetchOnInit
+            calendar?.fetchOnInit || tile?.fetchOnInit
 
         useEffect(() => {
             // dispatch(registerDependency(id, dependency))
@@ -62,7 +64,7 @@ export const WidgetHOC = (WidgetComponent) => {
             ) { fetchData() }
         }, [visible, prevVisible, fetchData, fOnInit, isInit])
 
-        const [methods] = useState(() => ({ fetchData, setFilter, setResolve, setSelected, setSorting }))
+        const [methods] = useState(() => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage }))
 
         return (
             <WidgetContext.Provider value={methods}>
@@ -132,6 +134,9 @@ export const WidgetHOC = (WidgetComponent) => {
         },
         setSorting(field, sorting) {
             dispatch(setDataSourceSorting(datasource, field, sorting))
+        },
+        setPage(page = 1) {
+            dispatch(changePage(datasource, page))
         },
     })
 

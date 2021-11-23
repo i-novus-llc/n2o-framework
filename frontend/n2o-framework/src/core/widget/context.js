@@ -7,6 +7,7 @@ const METHODS = {
     setResolve(model) {},
     setSelected(models) {},
     setSorting(sorting) {},
+    setPage(page) {},
 }
 
 export const WidgetContext = createContext(METHODS)

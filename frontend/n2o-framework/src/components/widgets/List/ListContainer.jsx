@@ -1,22 +1,18 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
-import { createStructuredSelector } from 'reselect'
 import map from 'lodash/map'
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 
-import widgetContainer from '../WidgetContainer'
+import { modelsType } from '../../../core/widget/propTypes'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
-import { setTableSelectedId } from '../../../ducks/widgets/store'
-import { makeWidgetPageSelector } from '../../../ducks/widgets/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import List from './List'
@@ -25,16 +21,6 @@ const ReduxCell = withColumn(TableCell)
 
 /**
  * Контейнер виджета ListWidget
- * @reactProps {string} widgetId - id виджета
- * @reactProps {object} toolbar - конфиг тулбара
- * @reactProps {boolean} disabled - флаг активности
- * @reactProps {string} pageId - id страницы
- * @reactProps {object} paging - конфиг пагинации
- * @reactProps {string} className - класс
- * @reactProps {object} style - объект стилей
- * @reactProps {object} filter - конфиг фильтра
- * @reactProps {object} dataProvider - конфиг dataProvider
- * @reactProps {boolean} fetchOnInit - флаг запроса при инициализации
  * @reactProps {object} list - объект конфиг секций в виджете
  * @reactProps {object|null} rowClick - кастомный клик
  * @reactProps {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
@@ -46,9 +32,12 @@ class ListContainer extends React.Component {
     constructor(props) {
         super(props)
 
+        const { models } = props
+        const { datasource } = models
+
         this.state = {
             needToCombine: false,
-            datasource: props.datasource,
+            datasource,
         }
 
         this.getWidgetProps = this.getWidgetProps.bind(this)
@@ -58,9 +47,11 @@ class ListContainer extends React.Component {
         this.handleFetchMore = this.handleFetchMore.bind(this)
     }
 
-    componentDidUpdate(prevProps) {
-        const { datasource: prevDatasource } = prevProps
-        const { datasource: currentDatasource, onResolve, selectedId } = this.props
+    componentDidUpdate({ models: prevModels }) {
+        const { datasource: prevDatasource } = prevModels
+        const { models, setResolve } = this.props
+        const { datasource: currentDatasource, resolve } = models
+        const selectedId = resolve?.id
         const { needToCombine } = this.state
 
         if (currentDatasource && !isEqual(prevDatasource, currentDatasource)) {
@@ -84,14 +75,14 @@ class ListContainer extends React.Component {
                         ? find(currentDatasource, item => item.id === selectedId)
                         : currentDatasource[0]
 
-                    if (model) { onResolve(model) }
+                    if (model) { setResolve(model) }
                 },
             )
         }
     }
 
     renderCell(section) {
-        const { widgetId } = this.props
+        const { id } = this.props
 
         if (!section) { return }
 
@@ -99,7 +90,7 @@ class ListContainer extends React.Component {
         return (
             <ReduxCell
                 {...section}
-                widgetId={widgetId}
+                widgetId={id}
                 positionFixed={false}
                 modifiers={{}}
             />
@@ -107,19 +98,21 @@ class ListContainer extends React.Component {
     }
 
     handleItemClick(index) {
-        const { onResolve, datasource, rowClick, onRowClickAction } = this.props
+        const { setResolve, models, rowClick, onRowClickAction } = this.props
+        const { datasource } = models
 
-        onResolve(datasource[index])
+        setResolve(datasource[index])
         if (rowClick) {
             onRowClickAction()
         }
     }
 
     handleFetchMore() {
-        const { page, datasource, onFetch } = this.props
+        const { page, models, setPage } = this.props
+        const { datasource } = models
 
         if (!isEmpty(datasource)) {
-            this.setState({ needToCombine: true }, () => onFetch({ page: page + 1 }))
+            this.setState({ needToCombine: true }, () => setPage(page + 1))
         }
     }
 
@@ -151,7 +144,7 @@ class ListContainer extends React.Component {
             fetchOnScroll,
             divider,
             hasSelect,
-            selectedId,
+            models,
             rows,
             t,
         } = this.props
@@ -167,7 +160,7 @@ class ListContainer extends React.Component {
             fetchOnScroll,
             divider,
             hasSelect,
-            selectedId,
+            selectedId: models.resolve?.id,
             rows,
             t,
         }
@@ -179,7 +172,7 @@ class ListContainer extends React.Component {
 }
 
 ListContainer.propTypes = {
-    widgetId: PropTypes.string,
+    id: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
     pageId: PropTypes.string,
@@ -193,13 +186,12 @@ ListContainer.propTypes = {
     rowClick: PropTypes.func,
     hasMoreButton: PropTypes.bool,
     maxHeight: PropTypes.number,
-    datasource: PropTypes.array,
+    models: PropTypes.shape(modelsType),
     hasSelect: PropTypes.bool,
-    onResolve: PropTypes.func,
-    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    setResolve: PropTypes.func,
     onRowClickAction: PropTypes.func,
     page: PropTypes.func,
-    onFetch: PropTypes.func,
+    setPage: PropTypes.func,
     placeholder: PropTypes.string,
     divider: PropTypes.bool,
     rows: PropTypes.object,
@@ -207,7 +199,6 @@ ListContainer.propTypes = {
 }
 
 ListContainer.defaultProps = {
-    datasource: [],
     rowClick: null,
     hasMoreButton: false,
     toolbar: {},
@@ -220,28 +211,8 @@ ListContainer.defaultProps = {
     hasSelect: false,
 }
 
-const mapStateToProps = createStructuredSelector({
-    page: (state, props) => makeWidgetPageSelector(props.widgetId)(state),
-})
-
 export default compose(
     withTranslation(),
-    widgetContainer(
-        {
-            mapProps: props => ({
-                ...props,
-                onResolve: (newModel) => {
-                    props.onResolve(newModel)
-                    // eslint-disable-next-line eqeqeq
-                    if (props.selectedId != newModel.id) {
-                        props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
-                    }
-                },
-            }),
-        },
-        'ListWidget',
-    ),
     withContainerLiveCycle,
     withWidgetHandlers,
-    connect(mapStateToProps),
 )(ListContainer)

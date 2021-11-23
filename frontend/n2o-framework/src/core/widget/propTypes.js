@@ -86,6 +86,7 @@ export const widgetMethodsProps = {
     setResolve: PropTypes.func,
     setSelected: PropTypes.func,
     setSorting: PropTypes.func,
+    setPage: PropTypes.func,
 }
 
 /**
