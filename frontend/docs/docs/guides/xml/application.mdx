@@ -13,7 +13,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 **Библиотека компонентов**
 
 ```
-http://n2oapp.net/framework/config/schema/application-1.0
+http://n2oapp.net/framework/config/schema/application-2.0
 ```
 
 **Атрибуты**
@@ -28,7 +28,7 @@ http://n2oapp.net/framework/config/schema/application-1.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
     navigation-layout="fullSizeSidebar" navigation-layout-fixed="true" welcome-page-id="index">
     <header>...</header>
     <sidebar>...</sidebar>
@@ -64,11 +64,11 @@ http://n2oapp.net/framework/config/schema/application-1.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <header title="N2O">
         <nav>...</nav>
         <extra-menu>...</extra-menu>
-        <search>...</search>
+        <search query-id="q1">...</search>
     </header>
 </application>
 ```
@@ -100,7 +100,7 @@ http://n2oapp.net/framework/config/schema/application-1.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <sidebar title="N2O">
         <nav>...</nav>
         <extra-menu>...</extra-menu>
@@ -127,7 +127,7 @@ http://n2oapp.net/framework/config/schema/application-1.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <footer left-text="N2O"/>
 </application>
 ```
