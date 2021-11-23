@@ -5,13 +5,16 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.BadgeCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
+import net.n2oapp.framework.config.metadata.compile.application.ApplicationIO;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv2;
 import net.n2oapp.framework.config.metadata.compile.cell.BadgeCellCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
@@ -42,7 +45,8 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
     @Test
     public void testMenuItem() {
         Application application = compile(
-                "net/n2oapp/framework/config/metadata/menu/testApplication.application.xml")
+                "net/n2oapp/framework/config/metadata/menu/testApplication.application.xml",
+                "net/n2oapp/framework/config/metadata/menu/testMenu.page.xml")
                 .get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
         HeaderItem menuItem = menu.getItems().get(0);
@@ -52,13 +56,14 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
         assertThat(menuItem.getBadge(), is(2));
         assertThat(menuItem.getBadgeColor(), is("warning"));
-        checkAction(menuItem.getAction());
+        assertThat(menuItem.getHref(), is("/login"));
     }
 
     @Test
     public void testDropdownMenu() {
         Application application = compile(
-                "net/n2oapp/framework/config/metadata/menu/testApplication.application.xml")
+                "net/n2oapp/framework/config/metadata/menu/testApplication.application.xml",
+                "net/n2oapp/framework/config/metadata/menu/testMenu.page.xml")
                 .get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
         HeaderItem dropdownMenu = menu.getItems().get(1);
@@ -68,12 +73,14 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
         assertThat(dropdownMenu.getImageShape(), is(ImageShape.circle));
 
+        HeaderItem subMenuItem = menu.getItems().get(1).getSubItems().get(0);
+        assertThat(subMenuItem.getId(), is("menuItem2"));
+        assertThat(subMenuItem.getTitle(), is("Профиль"));
+        assertThat(subMenuItem.getIcon(), is("fa fa-user"));
+        assertThat(subMenuItem.getHref(), is("/profile"));
+
         assertThat(dropdownMenu.getSubItems().size(), is(5));
         assertThat(dropdownMenu.getSubItems().get(1).getType(), is("divider"));
         assertThat(dropdownMenu.getSubItems().get(3).getType(), is("divider"));
-    }
-
-    private void checkAction(Action action) {
-
     }
 }

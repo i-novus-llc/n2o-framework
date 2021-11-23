@@ -53,8 +53,23 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
         p.attributeInteger(e, "badge", m::getBadge, m::setBadge);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChild(e, null, m::getAction, m::setAction, p.oneOf(N2oSimpleMenu.MenuItem.class)
+                .add("open-page", N2oSimpleMenu.PageItem.class, this::page)
+                .add("a", N2oSimpleMenu.AnchorItem.class, this::anchor));
     }
+
+    private void page(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
+        p.attribute(e, "page-id", m::getPageId, m::setPageId);
+        p.attribute(e, "route", m::getRoute, m::setRoute);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
+    }
+
+    private void anchor(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
+        p.attribute(e, "href", m::getHref, m::setHref);
+        p.attributeEnum(e, "target", m::getTarget, m::setTarget, Target.class);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
+    }
+
 
     private void dropDownMenu(Element e, N2oSimpleMenu.SubMenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);

@@ -21,8 +21,7 @@ public class SimpleMenuIOv3Test extends XmlIOTestBase {
 
     @Override
     protected void configure(XmlIOBuilder<?> b) {
-        b.ios(new SimpleMenuIOv3(), new OpenPageElementIOV1(),
-                new AnchorElementIOV1());
+        b.ios(new SimpleMenuIOv3());
     }
 
     @Test

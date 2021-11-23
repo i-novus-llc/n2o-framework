@@ -56,12 +56,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         item.setBadge(mi.getBadge());
         item.setBadgeColor(mi.getBadgeColor());
         item.setImageSrc(mi.getImage());
-        if (mi.getAction() != null)
-            item.setAction(p.compile(mi.getAction(), context, pageRoutes));
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
                 HeaderItem.LinkType.outer :
                 HeaderItem.LinkType.inner);
-        if (mi.getSubMenu() == null || mi.getSubMenu().length == 0)
+        if (mi.getSubMenu() == null || mi.getSubMenu().length == 0 || mi.getAction() != null)
             createLinkItem(mi, item, p);
         else {
             ArrayList<HeaderItem> subItems = new ArrayList<>();
@@ -74,6 +72,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         if (mi instanceof N2oSimpleMenu.SubMenuItem && ((N2oSimpleMenu.SubMenuItem) mi).getMenuItems() != null) {
             item.setTitle(((N2oSimpleMenu.SubMenuItem) mi).getName());
             item.setImageShape(((N2oSimpleMenu.SubMenuItem) mi).getImageShape());
+            item.setType("dropdown");
             ArrayList<HeaderItem> subItems = new ArrayList<>();
             for (N2oSimpleMenu.MenuItem subMenu : ((N2oSimpleMenu.SubMenuItem) mi).getMenuItems())
                 subItems.add(createMenuItem(subMenu, idx, context, p, pageRoutes));
@@ -85,17 +84,19 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void createLinkItem(N2oSimpleMenu.MenuItem mi, HeaderItem item, CompileProcessor p) {
-        if (mi.getPageId() == null)
-            item.setHref(mi.getHref());
+        if ((mi.getAction() == null && mi.getPageId() == null) || (mi.getAction() != null && mi.getAction().getPageId() == null))
+            item.setHref(mi.getAction() != null ? mi.getAction().getHref() : mi.getHref());
         else {
-            N2oPage page = p.getSource(mi.getPageId(), N2oPage.class);
+            String pageId = mi.getAction() != null ? mi.getAction().getPageId() : mi.getPageId();
+            String route = mi.getAction() != null ? mi.getAction().getRoute() : mi.getRoute();
+            N2oPage page = p.getSource(pageId, N2oPage.class);
             if (item.getTitle() == null)
-                item.setTitle(page.getName() == null ? page.getId() : page.getName());
-            if (mi.getRoute() == null)
-                item.setHref(page.getRoute() == null ? "/" + mi.getPageId() : page.getRoute());
+                item.setTitle(page.getName() == null ? pageId : page.getName());
+            if (route == null)
+                item.setHref(page.getRoute() == null ? "/" + pageId : route);
             else
-                item.setHref(mi.getRoute());
-            PageContext pageContext = new PageContext(mi.getPageId(), item.getHref());
+                item.setHref(route);
+            PageContext pageContext = new PageContext(pageId, item.getHref());
             p.addRoute(pageContext);
         }
         item.setType("link");

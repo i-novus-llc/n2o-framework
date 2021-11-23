@@ -38,8 +38,6 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private ImageShape imageShape;
     @JsonProperty
-    private Action action;
-    @JsonProperty
     private Target target;
     @JsonProperty("items")
     private ArrayList<HeaderItem> subItems;
