@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -37,7 +38,8 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String defaultValuesQueryId;
     @Deprecated
     private String objectId;
-    private String datasource;
+    private String datasourceId;
+    private N2oDatasource datasource;
     private Integer size;
     private String cssClass;
     private String style;

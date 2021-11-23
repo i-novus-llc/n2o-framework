@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -35,6 +36,7 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -178,7 +180,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
 
     private String getDatasourceRoute(D compiled, S source, CompileProcessor p) {
-        String datasource = p.cast(source.getDatasource(), source.getId());
+        String datasource = p.cast(source.getDatasourceId(), source.getId());
         String route = normalize(datasource);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
@@ -259,6 +261,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
                                                 SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
                                                 CompiledObject object) {
+        if (compiled.getDatasource() == null && source.getDatasource() != null) {
+            source.getDatasource().setId(compiled.getId());
+            compiled.setDatasource(compiled.getId());
+            DatasourceScope datasourceScope = p.getScope(DatasourceScope.class);
+            datasourceScope.put(source.getDatasource().getId(), source.getDatasource());
+        }
         compiled.setDataProvider(initDataProvider(compiled, source, context, p, validationList,
                 subModelsScope, copiedFieldScope, object));
         compileRouteWidget(compiled, source, getDataProviderQuery(compiled.getQueryId(), p), p, widgetRouteScope);
@@ -534,13 +542,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(widget));
         queryContext.setMessagesForm(getMessagesForm(widget));
         if (source instanceof N2oForm) {
-            queryContext.setSubModelQueries(subModelsScope.get(source.getDatasource()));
+            queryContext.setSubModelQueries(subModelsScope.get(source.getDatasourceId()));
             queryContext.setQuerySize(1);
         } else {
             queryContext.setQuerySize(10);
         }
         if (copiedFieldScope != null) {
-            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getDatasource()));
+            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getDatasourceId()));
         }
         return queryContext;
     }

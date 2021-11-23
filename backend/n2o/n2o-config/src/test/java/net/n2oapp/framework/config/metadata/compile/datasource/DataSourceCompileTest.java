@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
@@ -49,10 +50,20 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
     @Test
     public void simple() {
         StandardPage page = (StandardPage)
-                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimple.page.xml")
-                        .get(new PageContext("testDSSimple"));
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSStandardPage.page.xml")
+                        .get(new PageContext("testDSStandardPage"));
 
         Datasource ds = page.getDatasources().get("ds1");
+        assertThat(ds, notNullValue());
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(ds.getProvider(), nullValue());
+
+        //fixme проверка того, что датасурс копируется в страницу
+        SimplePage simplePage = (SimplePage)
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimplePage.page.xml")
+                        .get(new PageContext("testDSSimplePage"));
+
+        ds = simplePage.getDatasources().get("testDSSimplePage_main");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         assertThat(ds.getProvider(), nullValue());

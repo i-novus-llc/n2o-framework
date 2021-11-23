@@ -156,22 +156,22 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * @param p
      */
     private void checkDatasourceValue(N2oWidget n2oWidget, ValidateProcessor p) {
-        if (n2oWidget.getDatasource() != null) {
+        if (n2oWidget.getDatasourceId() != null) {
             PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope.getDatasourceValueMap().containsKey(n2oWidget.getDatasource())) {
-                PageScope.DatasourceValue actual = pageScope.getDatasourceValueMap().get(n2oWidget.getDatasource());
+            if (pageScope.getDatasourceValueMap().containsKey(n2oWidget.getDatasourceId())) {
+                PageScope.DatasourceValue actual = pageScope.getDatasourceValueMap().get(n2oWidget.getDatasourceId());
                 if (!Objects.equals(actual.getQueryId(), n2oWidget.getQueryId())) {
                     throw new N2oMetadataValidationException(
                             String.format("2 виджета с одинаковым datasource %s имеют разные query-id",
-                                    n2oWidget.getDatasource()));
+                                    n2oWidget.getDatasourceId()));
                 }
                 if (!Objects.equals(actual.getObjectId(), n2oWidget.getObjectId())) {
                     throw new N2oMetadataValidationException(
                             String.format("2 виджета с одинаковым datasource %s имеют разные object-id",
-                                    n2oWidget.getDatasource()));
+                                    n2oWidget.getDatasourceId()));
                 }
             } else {
-                pageScope.getDatasourceValueMap().put(n2oWidget.getDatasource(),
+                pageScope.getDatasourceValueMap().put(n2oWidget.getDatasourceId(),
                         new PageScope.DatasourceValue(n2oWidget.getQueryId(), n2oWidget.getObjectId()));
             }
         }

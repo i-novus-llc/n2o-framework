@@ -20,8 +20,6 @@ public class StandardPage extends Page {
     @JsonProperty
     private Map<String, List<Region>> regions;
     @JsonProperty
-    private Map<String, Datasource> datasources;
-    @JsonProperty
     private RegionWidth width;
 
     @Getter

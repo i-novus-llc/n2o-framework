@@ -2,6 +2,7 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
            xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
@@ -59,6 +60,7 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
+            <xs:element name="datasource" type="ds:datasourceDefinition" minOccurs="0"/>
             <xs:element name="dependencies" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>

@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibi
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
+import net.n2oapp.framework.config.io.datasource.DatasourceIO;
 import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -33,7 +34,7 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "visible", m::getVisible, m::setVisible);
-        p.attribute(e, "datasource", m::getDatasource, m::setDatasource);
+        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
@@ -41,6 +42,7 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
+        p.child(e, null, "datasource", m::getDatasource, m::setDatasource, new DatasourceIO());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies,
                 p.oneOf(N2oDependency.class)
                         .add("visibility", N2oVisibilityDependency.class, this::dependency)
