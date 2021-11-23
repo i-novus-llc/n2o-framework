@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformerFactory;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 import net.n2oapp.framework.config.factory.FactoryPredicates;
 
@@ -19,13 +20,13 @@ public class N2oSourceTransformerFactory extends BaseMetadataFactory<SourceTrans
 
     @SuppressWarnings("unchecked")
     @Override
-    public <S> S transform(S source) {
+    public <S> S transform(S source, ValidateProcessor p) {
         List<SourceTransformer<?>> transformers = produceList(FactoryPredicates::isSourceAssignableFrom, source);
         S result = source;
         for (SourceTransformer<?> transformer : transformers) {
             SourceTransformer<S> castedTransformer = (SourceTransformer<S>) transformer;
             if (castedTransformer.matches(result))
-                result = castedTransformer.transform(result);
+                result = castedTransformer.transform(result, p);
         }
         return result;
     }

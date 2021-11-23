@@ -35,7 +35,7 @@ public class SourceTransformOperation<S> implements PipelineOperation<S, S>, Pip
         S value = supplier.get();
         if (value == null)
             return null;
-        return factory.transform(value);
+        return factory.transform(value, validateProcessor);
     }
 
     @Override

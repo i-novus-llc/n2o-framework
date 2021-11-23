@@ -11,5 +11,6 @@ description: ""
 
 ### Изменения в Java API
 
+- Метод `SourceTransformer.transform(S source)` удален, вместо него используйте метод `SourceTransformer.transform(S source, ValidationProcessor p)`
 - Изменено api автотестов. Метод для проверки имени первой страницы в бредкрамбе переименован с `parentTitleShouldHaveText`
 на `firstTitleShouldHaveText`.

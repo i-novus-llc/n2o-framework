@@ -274,7 +274,7 @@ public class N2oPipelineTest {
     static class MockSourceTransformer extends MockMetadataFactory<SourceTransformer<?>> implements SourceTransformerFactory {
 
         @Override
-        public <S> S transform(S source) {
+        public <S> S transform(S source, ValidateProcessor p) {
             ((N2oSimplePage)source).setName("transformed " + ((N2oSimplePage)source).getName());
             return source;
         }

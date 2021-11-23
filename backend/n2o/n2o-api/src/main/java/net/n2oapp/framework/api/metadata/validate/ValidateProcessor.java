@@ -25,6 +25,26 @@ public interface ValidateProcessor {
     <T extends Source> void validate(T metadata, Object... scope);
 
     /**
+     * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
+     *
+     * @param source   Исходная метаданная
+     * @param override Перекрывающая метаданная
+     * @param <S>      Тип значения
+     * @return Исходная метаданная с перекрытыми свойствами
+     */
+    <S extends Source> S merge(S source, S override);
+
+    /**
+     * Получить исходный объект по идентификатору
+     *
+     * @param id          Идентификатор
+     * @param sourceClass Класс исходного объекта
+     * @param <S>         Тип исходного объекта
+     * @return Исходный объект
+     */
+    <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass);
+
+    /**
      * Получить исходную метаданную по идентификатору или вернуть null, если метаданная невалидна
      * @param id Идентификатор
      * @param metadataClass Класс метаданной
