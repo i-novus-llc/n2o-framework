@@ -12,6 +12,13 @@
   "menu": {
     "src": "string",
     "items": [{
+      "id": "menuItem4",
+      "href": "/menu4",
+      "icon": "fa fa-pencil",
+      "type": "link",
+      "badge": "12",
+      "badgeColor": "warning"
+    },{
       "id": "menuItem0",
       "type": "dropdown",
       "href": "/",
@@ -25,7 +32,7 @@
           "icon": "fa fa square",
           "security": {},
           "title": "subMenuItem0",
-          "badge": "badge",
+          "badge": "99+",
           "badgeColor": "warning"
         }
       ],

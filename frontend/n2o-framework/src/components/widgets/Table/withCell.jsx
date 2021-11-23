@@ -100,7 +100,7 @@ export default function (WrappedComponent) {
             } else {
                 dispatch(defaultAction)
             }
-        }, [defaultAction, dispatch, resolveWidget, updateDatasource, datasourceModel, defaultModel, modelId])
+        }, [resolveWidget, defaultAction, defaultModel, updateDatasource, widgetId, datasourceModel, dispatch])
 
         return (
             <WrappedComponent

@@ -3,19 +3,20 @@ import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import cx from 'classnames'
 import get from 'lodash/get'
-import Badge from 'reactstrap/lib/Badge'
 import NavItem from 'reactstrap/lib/NavItem'
 import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
+import colors from '../../../../const/colors'
+import { renderBadge } from '../../../components/snippets/Badge/Badge'
+import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
+
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
- * @param {string} props.activeId  - id активного item'a
- * @param {string} props.  - id активного item'a
  */
 const NavItemContainer = ({
     item,
@@ -40,10 +41,6 @@ const NavItemContainer = ({
         </NavLink>
     )
 
-    const renderBadge = item => (
-        <Badge color={item.badgeColor}>{item.badge}</Badge>
-    )
-
     const handleLink = (item, className) => {
         if (item.linkType === 'outer') {
             return (
@@ -55,8 +52,8 @@ const NavItemContainer = ({
                     >
                         {item.icon && <i className={cx('mr-1', item.icon)} />}
                         {item.title}
+                        {renderBadge(item)}
                     </a>
-                    {renderBadge(item)}
                 </NavItem>
             )
         }
@@ -72,8 +69,8 @@ const NavItemContainer = ({
                 >
                     {item.icon && <NavItemIcon icon={item.icon} />}
                     {item.title}
+                    {renderBadge(item)}
                 </NavLink>
-                {renderBadge(item)}
             </NavItem>
         )
     }
@@ -82,6 +79,7 @@ const NavItemContainer = ({
         <UncontrolledDropdown nav inNavbar direction={direction}>
             <DropdownToggle nav caret>
                 {item.icon && <NavItemIcon icon={item.icon} />}
+                {item.imageSrc && <NavItemImage imageSrc={item.imageSrc} title={item.title} />}
                 {item.title}
             </DropdownToggle>
             <DropdownMenu right={get(options, 'right', false)}>
@@ -98,8 +96,8 @@ const NavItemContainer = ({
         ))
         if (
             item.type === 'dropdown' &&
-            item.items.length > 1 &&
-            type === 'sidebar'
+                item.items.length > 1 &&
+                type === 'sidebar'
         ) {
             dropdownItems = [
                 <DropdownItem key={-1} onClick={e => e.preventDefault()}>
@@ -131,14 +129,14 @@ const NavItemContainer = ({
 
     return (
         (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
-        (item.type === 'link' && handleLink(item)) ||
-        (item.type === 'text' && (
-            <NavItem>
-                {item.icon && <NavItemIcon icon={item.icon} />}
-                <span className="nav-link">{item.title}</span>
-            </NavItem>
-        )) ||
-        null
+            (item.type === 'link' && handleLink(item)) ||
+            (item.type === 'text' && (
+                <NavItem>
+                    {item.icon && <NavItemIcon icon={item.icon} />}
+                    <span className="nav-link">{item.title}</span>
+                </NavItem>
+            )) ||
+            null
     )
 }
 
@@ -150,10 +148,16 @@ NavItemContainer.propTypes = {
         linkType: PropTypes.oneOf(['inner', 'outer']),
         withSubMenu: PropTypes.bool,
         items: PropTypes.array,
+        badge: PropTypes.string,
+        badgeColor: PropTypes.oneOf(colors),
+        type: PropTypes.oneOf(['dropdown', 'link', 'text']),
+        target: PropTypes.string,
+        imageSrc: PropTypes.string,
     }),
     type: PropTypes.oneOf(['header', 'sidebar']),
-    open: PropTypes.bool,
+    sidebarOpen: PropTypes.bool,
     direction: PropTypes.string,
+    options: PropTypes.object,
 }
 
 NavItemContainer.defaultProps = {
