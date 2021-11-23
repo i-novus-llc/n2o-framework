@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { WidgetHOC } from '../../../core/widget/Widget'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
-import StandardWidget from '../StandardWidget'
+import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { getN2OPagination } from '../Table/N2OPagination'
 import { FactoryContext } from '../../../core/factory/context'
@@ -29,7 +29,7 @@ function TilesWidget(props) {
     const { place = 'bottomLeft' } = paging
 
     return (
-        <StandardWidget
+        <WidgetLayout
             disabled={disabled}
             widgetId={widgetId}
             datasource={datasource}
@@ -45,7 +45,7 @@ function TilesWidget(props) {
                 tileWidth={width}
                 tileHeight={height}
             />
-        </StandardWidget>
+        </WidgetLayout>
     )
 }
 

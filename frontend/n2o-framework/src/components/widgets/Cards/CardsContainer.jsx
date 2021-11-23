@@ -3,36 +3,30 @@ import { compose, mapProps } from 'recompose'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
 import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
-import widgetContainer from '../WidgetContainer'
 
 import { Cards } from './Cards'
 
 const CardsContainer = props => <Cards {...props} />
 
 export default compose(
-    widgetContainer({
-        mapProps: props => ({
-            ...props,
-        }),
-    }),
     withContainerLiveCycle,
     withWidgetHandlers,
     mapProps(
         ({
-            datasource,
+            models,
             className,
-            widgetId,
+            id,
             cards,
-            onResolve,
+            setResolve,
             dispatch,
             align,
             height,
         }) => ({
             className,
-            id: widgetId,
+            id,
             cards,
-            data: datasource,
-            onResolve,
+            data: models.datasource,
+            onResolve: setResolve,
             dispatch,
             align,
             height,

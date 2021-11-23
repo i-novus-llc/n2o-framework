@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { WidgetHOC } from '../../../core/widget/Widget'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
-import StandardWidget from '../StandardWidget'
+import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 
 // eslint-disable-next-line import/no-named-as-default
@@ -25,7 +25,7 @@ function CalendarWidget(props) {
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
 
     return (
-        <StandardWidget
+        <WidgetLayout
             disabled={disabled}
             widgetId={widgetId}
             datasource={datasource}
@@ -38,7 +38,7 @@ function CalendarWidget(props) {
                 {...props}
                 {...calendar}
             />
-        </StandardWidget>
+        </WidgetLayout>
     )
 }
 
