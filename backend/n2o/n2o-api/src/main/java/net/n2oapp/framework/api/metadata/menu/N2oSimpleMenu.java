@@ -43,12 +43,11 @@ public class N2oSimpleMenu extends N2oMenu {
         private String icon;
         private Integer badge;
         private N2oAction action;
+        private String image;
         @Deprecated
         private String pageId;
         @Deprecated
         private String href;
-        @Deprecated
-        private String image;
         @Deprecated
         private String route;
         @Deprecated
@@ -63,12 +62,14 @@ public class N2oSimpleMenu extends N2oMenu {
     public static class SubMenuItem extends MenuItem {
         private String id;
         private String name;
-        private String image;
         private ImageShape imageShape;
         private MenuItem[] menuItems;
     }
 
     public static class DividerItem extends MenuItem {
+        public String getType() {
+            return "divider";
+        }
     }
 
     @Deprecated

@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -30,22 +31,33 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     public SimpleMenu compile(N2oSimpleMenu source, ApplicationContext context, CompileProcessor p) {
         SimpleMenu simpleMenu = new SimpleMenu();
         ArrayList<HeaderItem> items = new ArrayList<>();
+        PageRoutes pageRoutes = new PageRoutes();
         IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope();
         if (source != null && source.getMenuItems() != null)
             for (N2oSimpleMenu.MenuItem mi : source.getMenuItems())
-                items.add(createMenuItem(mi, idx, p));
+                items.add(createMenuItem(mi, idx, context, p, pageRoutes));
         simpleMenu.setItems(items);
         return simpleMenu;
     }
 
-    private HeaderItem createMenuItem(N2oSimpleMenu.MenuItem mi, IndexScope idx, CompileProcessor p) {
+    private HeaderItem createMenuItem(N2oSimpleMenu.MenuItem mi, IndexScope idx, ApplicationContext context,
+                                      CompileProcessor p, PageRoutes pageRoutes) {
         HeaderItem item = new HeaderItem();
+        if (mi instanceof N2oSimpleMenu.DividerItem) {
+            item.setType(((N2oSimpleMenu.DividerItem) mi).getType());
+            return item;
+        }
         item.setPageId(mi.getPageId());
-        item.setId("menuItem" + idx.get());
+        item.setId(p.cast(mi.getId(), "menuItem" + idx.get()));
         item.setTitle(mi.getLabel());
         item.setIcon(mi.getIcon());
         item.setImage(mi.getImage());
         item.setTarget(mi.getTarget());
+        item.setBadge(mi.getBadge());
+        item.setBadgeColor(mi.getBadgeColor());
+        item.setImageSrc(mi.getImage());
+        if (mi.getAction() != null)
+            item.setAction(p.compile(mi.getAction(), context, pageRoutes));
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
                 HeaderItem.LinkType.outer :
                 HeaderItem.LinkType.inner);
@@ -54,11 +66,20 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         else {
             ArrayList<HeaderItem> subItems = new ArrayList<>();
             for (N2oSimpleMenu.MenuItem subMenu : mi.getSubMenu())
-                subItems.add(createMenuItem(subMenu, idx, p));
+                subItems.add(createMenuItem(subMenu, idx, context, p, pageRoutes));
             item.setSubItems(subItems);
             item.setHref(item.getSubItems().get(0).getHref());
             item.setType("dropdown");
         }
+        if (mi instanceof N2oSimpleMenu.SubMenuItem && ((N2oSimpleMenu.SubMenuItem) mi).getMenuItems() != null) {
+            item.setTitle(((N2oSimpleMenu.SubMenuItem) mi).getName());
+            item.setImageShape(((N2oSimpleMenu.SubMenuItem) mi).getImageShape());
+            ArrayList<HeaderItem> subItems = new ArrayList<>();
+            for (N2oSimpleMenu.MenuItem subMenu : ((N2oSimpleMenu.SubMenuItem) mi).getMenuItems())
+                subItems.add(createMenuItem(subMenu, idx, context, p, pageRoutes));
+            item.setSubItems(subItems);
+        }
+
         item.setProperties(p.mapAttributes(mi));
         return item;
     }

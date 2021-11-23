@@ -56,13 +56,6 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 
-    private void param(Element e, N2oParam param, IOProcessor p) {
-        p.attribute(e, "name", param::getName, param::setName);
-        p.attribute(e, "value", param::getValue, param::setValue);
-        p.attribute(e, "ref-widget-id", param::getRefWidgetId, param::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", param::getRefModel, param::setRefModel, ReduxModel.class);
-    }
-
     private void dropDownMenu(Element e, N2oSimpleMenu.SubMenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);

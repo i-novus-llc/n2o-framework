@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -27,6 +29,16 @@ public class HeaderItem implements Compiled, PropertiesAware {
     private String icon;
     @JsonProperty
     private String image;
+    @JsonProperty
+    private String badgeColor;
+    @JsonProperty
+    private Integer badge;
+    @JsonProperty
+    private String imageSrc;
+    @JsonProperty
+    private ImageShape imageShape;
+    @JsonProperty
+    private Action action;
     @JsonProperty
     private Target target;
     @JsonProperty("items")
