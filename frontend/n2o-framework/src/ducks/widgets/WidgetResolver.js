@@ -14,12 +14,12 @@ class WidgetResolver {
             isFilterVisible: true,
             isActive: false,
             type: null,
-            // dataProvider: {},
+            dataProvider: {},
             sorting: {},
-            // filter: {
-            //     key: null,
-            //     type: null,
-            // },
+            filter: {
+                key: null,
+                type: null,
+            },
             /* Query props */
             count: 0,
             /* System props */
@@ -27,7 +27,7 @@ class WidgetResolver {
             containerId: null,
             validation: {},
             error: null,
-            // datasource: null,
+            datasource: null,
         })
     }
 
