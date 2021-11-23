@@ -13,3 +13,11 @@
         }
     }
 }
+
+.buttons-toolbar.single-button {
+    .btn-group {
+        .btn::before {
+            color: transparent;
+        }
+    }
+}
