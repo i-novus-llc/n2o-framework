@@ -56,9 +56,18 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         )
     }
 
+    const visibleButtons = toolbar.filter(({ buttons }) => buttons.some(({ visible }) => visible !== false))
+    const toolbarClass = classNames(
+        'buttons-toolbar',
+        className,
+        {
+            'single-button': visibleButtons.length === 1,
+        },
+    )
+
     return (
         <ButtonToolbar
-            className={classNames('buttons-toolbar', className)}
+            className={toolbarClass}
             onClick={handleClick}
         >
             {map(toolbar, renderBtnGroup)}
