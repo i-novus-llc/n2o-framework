@@ -4,17 +4,19 @@ import {
 } from 'redux-saga/effects'
 import { isEmpty } from 'lodash'
 
-import { dataSourceByIdSelector } from '../selectors'
+import { dataSourceModelsSelector, dataSourceValidationSelector } from '../selectors'
 import {
     MODEL_PREFIX,
 } from '../../../core/datasource/const'
 import { failValidate } from '../store'
 import { validateField } from '../../../core/datasource/validateField'
 
-export function* validate({ id, fields }) {
-    const state = yield select(dataSourceByIdSelector(id))
-    const model = state.models[MODEL_PREFIX.active]
-    let entries = Object.entries(state.validation)
+export function* validate({ payload }) {
+    const { id, fields } = { payload }
+    const validation = yield select(dataSourceValidationSelector(id))
+    const models = yield select(dataSourceModelsSelector(id))
+    const model = models[MODEL_PREFIX.active]
+    let entries = Object.entries(validation)
 
     if (fields?.length) {
         entries = entries.filter(([field]) => fields.includes(field))

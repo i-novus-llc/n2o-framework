@@ -16,24 +16,17 @@ import isUndefined from 'lodash/isUndefined'
 import { push } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
-import widgetContainer from '../WidgetContainer'
-import { setTableSelectedId } from '../../../ducks/widgets/store'
-import { TABLE } from '../widgetTypes'
 import columnHOC from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
-import { setModel } from '../../../ducks/models/store'
-import { PREFIXES } from '../../../ducks/models/constants'
-import {
-    makeGetFilterModelSelector,
-    makeGetModelByPrefixSelector,
-} from '../../../ducks/models/selectors'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
+import { widgetPropTypes } from '../../../core/widget/propTypes'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTable from './AdvancedTable'
+import { WidgetTableTypes } from './propTypes'
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
     const predicate = ({ id }) => id === selectedId
@@ -46,9 +39,11 @@ const ReduxCell = columnHOC(TableCell)
 class AdvancedTableContainer extends React.Component {
     constructor(props) {
         super(props)
+        const { models } = props
+        const { datasource } = models
 
         this.state = {
-            data: this.mapData(props.datasource),
+            data: this.mapData(datasource),
             columns: this.mapColumns(),
         }
 
@@ -64,12 +59,14 @@ class AdvancedTableContainer extends React.Component {
     componentDidUpdate(prevProps) {
         const {
             selectedId: prevSelectedId,
-            datasource: prevDatasource,
-            onResolve,
+            models: prevModels,
+            setResolve,
         } = prevProps
-        const { hasSelect, datasource, selectedId, autoFocus, registredColumns } = this.props
+        const { hasSelect, models, selectedId, autoFocus, registredColumns } = this.props
+        const { datasource } = models
+        const { datasource: prevDatasource } = prevModels
 
-        if (!isEqual(prevProps.datasource, datasource) || !isEqual(prevProps.registredColumns, registredColumns)) {
+        if (!isEqual(prevDatasource, datasource) || !isEqual(prevProps.registredColumns, registredColumns)) {
             this.setState({
                 data: this.mapData(datasource),
                 columns: this.mapColumns(),
@@ -93,13 +90,14 @@ class AdvancedTableContainer extends React.Component {
                 : selectedModel || {}
 
             if (!isEmpty(resolveModel)) {
-                onResolve(resolveModel)
+                setResolve(resolveModel)
             }
         }
     }
 
     componentDidMount() {
-        const { datasource } = this.props
+        const { models } = this.props
+        const { datasource } = models
 
         if (datasource) {
             this.setState({
@@ -110,14 +108,14 @@ class AdvancedTableContainer extends React.Component {
     }
 
     renderCell(props) {
-        const { modelId } = this.props
+        const { datasource } = this.props
         const propStyles = pick(props, ['width'])
 
-        return <ReduxCell {...propStyles} {...props} modelId={modelId} />
+        return <ReduxCell {...propStyles} {...props} datasource={datasource} />
     }
 
     handleSetFilter(filter) {
-        const { onSetFilter, onFetch } = this.props
+        const { setFilter } = this.props
 
         this.filterValue = {
             ...this.filterValue,
@@ -126,8 +124,7 @@ class AdvancedTableContainer extends React.Component {
         forOwn(this.filterValue, (v, k) => {
             if (!v || isEmpty(v)) { delete this.filterValue[k] }
         })
-        onSetFilter({ ...this.filterValue })
-        onFetch()
+        setFilter({ ...this.filterValue })
     }
 
   mapHeaders = (headers, isChild = false) => map(headers, (header) => {
@@ -151,10 +148,9 @@ class AdvancedTableContainer extends React.Component {
       const {
           cells,
           headers,
-          widgetId,
-          modelId,
+          id: widgetId,
           sorting,
-          onSort,
+          setSorting,
           registredColumns,
           filters,
       } = this.props
@@ -195,7 +191,6 @@ class AdvancedTableContainer extends React.Component {
                           index,
                           key: cell.id,
                           widgetId,
-                          modelId,
                           columnId: cell.id,
                           model: record,
                           as: 'div',
@@ -222,7 +217,7 @@ class AdvancedTableContainer extends React.Component {
                   as: 'div',
                   sorting: sorting && sorting[header.id],
                   needRender,
-                  onSort,
+                  setSorting,
               }),
               label: header.title,
               dataIndex: header.id,
@@ -246,15 +241,10 @@ class AdvancedTableContainer extends React.Component {
       })
   }
 
-  mapData = (datasource) => {
-      if (!datasource) { return }
-
-      // eslint-disable-next-line consistent-return
-      return map(datasource, item => ({
-          ...item,
-          key: item.id,
-      }))
-  }
+  mapData = datasource => datasource?.map(item => ({
+      ...item,
+      key: item.id,
+  }))
 
   getTableProps() {
       const props = omit(this.props, [
@@ -263,21 +253,24 @@ class AdvancedTableContainer extends React.Component {
           'datasource',
           'dispatch',
           'onActionImpl',
-          'onEdit',
           'onFetch',
           'pageId',
-          'redux',
           'sorting',
           'widgetId',
+          'models',
       ])
       const { columns, data } = this.state
+      const { models } = this.props
+      const { filter, multi } = models
 
       return {
           ...props,
-          onEdit: () => {},
           columns,
           data,
+          multi,
+          filters: filter,
           onFilter: this.handleSetFilter,
+          resolveModel: models.resolve,
       }
   }
 
@@ -287,39 +280,16 @@ class AdvancedTableContainer extends React.Component {
 }
 
 AdvancedTableContainer.propTypes = {
-    autoFocus: PropTypes.any,
-    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onResolve: PropTypes.func,
-    hasSelect: PropTypes.bool,
-    cells: PropTypes.any,
-    datasource: PropTypes.any,
-    headers: PropTypes.any,
-    widgetId: PropTypes.string,
-    modelId: PropTypes.string,
-    sorting: PropTypes.any,
-    onSort: PropTypes.func,
-    onFetch: PropTypes.func,
-    onSetFilter: PropTypes.func,
+    ...widgetPropTypes,
+    ...WidgetTableTypes,
+    cells: PropTypes.arrayOf(PropTypes.element),
+    headers: PropTypes.arrayOf(PropTypes.element),
     registredColumns: PropTypes.any,
-    filters: PropTypes.object,
-}
-
-AdvancedTableContainer.contextTypes = {
-    resolveProps: PropTypes.func,
-    expandedFieldId: PropTypes.string,
-}
-
-AdvancedTableContainer.defaultProps = {
-    filters: {},
+    onRowClickAction: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({
-    filters: makeGetFilterModelSelector(props.widgetId)(state, props),
-    registredColumns: getContainerColumns(props.widgetId)(state, props),
-    multi: makeGetModelByPrefixSelector(PREFIXES.multi, props.widgetId)(
-        state,
-        props,
-    ),
+    registredColumns: getContainerColumns(props.id)(state, props),
 })
 
 export const withWidgetHandlers = compose(
@@ -361,69 +331,6 @@ export const withWidgetHandlers = compose(
 
 const enhance = compose(
     withTranslation(),
-    widgetContainer(
-        {
-            mapProps: props => ({
-                widgetId: props.widgetId,
-                modelId: props.modelId,
-                pageId: props.pageId,
-                headers: props.headers,
-                cells: props.cells,
-                isAnyTableFocused: props.isAnyTableFocused,
-                isActive: props.isActive,
-                hasFocus: props.hasFocus,
-                hasSelect: props.hasSelect,
-                autoFocus: props.autoFocus,
-                datasource: props.datasource,
-                selectedId: props.selectedId,
-                sorting: props.sorting,
-                rowClass: props.rowClass,
-                onFetch: props.onFetch,
-                onSort: props.onSort,
-                children: props.children,
-                onResolve: (newModel) => {
-                    props.onResolve(newModel)
-                    if (props.selectedId !== newModel.id) {
-                        props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
-                    }
-                },
-                onSetSelection: (models) => {
-                    props.dispatch(setModel(PREFIXES.multi, props.modelId, models))
-                },
-                setSelectionType: (type) => {
-                    props.dispatch(
-                        setModel(PREFIXES.selectionType, props.modelId, type),
-                    )
-                },
-                onSetFilter: (filters) => {
-                    props.dispatch(setModel(PREFIXES.filter, props.modelId, filters))
-                },
-                onFocus: props.onFocus,
-                size: props.size,
-                redux: true,
-                rowSelection: props.rowSelection,
-                autoCheckboxOnSelect: props.autoCheckboxOnSelect,
-                tableSize: props.tableSize,
-                placeholder: props.placeholder,
-                useFixedHeader: props.useFixedHeader,
-                expandable: props.expandable,
-                scroll: props.scroll,
-                multiHeader: props.multiHeader,
-                bordered: props.bordered,
-                rowClick: props.rowClick,
-                expandedFieldId: props.expandedFieldId,
-                className: props.className,
-                rows: props.rows,
-                dispatch: props.dispatch,
-                width: props.width,
-                height: props.height,
-                textWrap: props.textWrap,
-                t: props.t,
-                resolveModel: props.resolveModel,
-            }),
-        },
-        TABLE,
-    ),
     withWidgetHandlers,
     connect(
         mapStateToProps,

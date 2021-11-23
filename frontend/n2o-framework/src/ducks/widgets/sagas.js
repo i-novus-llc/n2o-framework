@@ -23,6 +23,8 @@ import { generateErrorMeta } from '../../utils/generateErrorMeta'
 import { id } from '../../utils/id'
 import fetchSaga from '../../sagas/fetch'
 import { REQUEST_CACHE_TIMEOUT } from '../../constants/time'
+import { register } from '../datasource/store'
+import { DEPENDENCY_TYPE } from '../../core/datasource/const'
 
 import { routesQueryMapping } from './sagas/routesQueryMapping'
 import {
@@ -43,6 +45,7 @@ import {
     dataRequestWidget,
     disableWidget,
     resolveWidget,
+    registerWidget,
     unloadingWidget,
 } from './store'
 import { isActive } from './sagas/isActive'
@@ -364,6 +367,30 @@ function* clearFilters(action) {
  * @ignore
  */
 export default () => [
+    /**
+     * Хак для регистрации Datasource из данных виджета
+     * FIXME Удалить, после того как бек начнёт присылать данные сам (до закрытия стори)
+     */
+    takeEvery(registerWidget, function* RegisterWidget({ payload }) {
+        const { initProps } = payload
+        const { dataProvider, sorting, validation, size, datasource, modelId, dependency } = initProps
+        let dependencies = []
+
+        if (dependency && dependency.fetch) {
+            dependencies = dependency.fetch.map(dep => ({
+                ...dep,
+                type: DEPENDENCY_TYPE.fetch,
+            }))
+        }
+
+        yield put(register(datasource || modelId, {
+            provider: dataProvider,
+            sorting,
+            validation,
+            size,
+            dependencies,
+        }))
+    }),
     takeEvery(dataRequestWidget, dataRequest),
     takeEvery(clearModel, clearForm),
     takeEvery(resolveWidget, runResolve),

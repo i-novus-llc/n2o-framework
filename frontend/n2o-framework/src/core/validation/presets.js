@@ -71,7 +71,6 @@ export function condition(fieldId, values, options = {}) {
  * @param options
  * @param dispatch
  * @returns {boolean|*}
- * @deprecated
  */
 export async function constraint(fieldId, values, options, dispatch) {
     if (!isEmpty(values[fieldId])) {
@@ -94,6 +93,7 @@ export async function constraint(fieldId, values, options, dispatch) {
  * @param fieldId
  * @param values
  * @returns {boolean}
+ * @deprecated
  */
 export function integer(fieldId, values) {
     const v = values[fieldId]
@@ -121,18 +121,4 @@ export function minLength(fieldId, values, options) {
  */
 export function maxLength(fieldId, values, options) {
     return isString(values[fieldId]) && values[fieldId].length < options.max
-}
-
-/**
- * Соответствие поля значению из метаданных
- * @param fieldId
- * @param values
- * @param options
- * @returns {boolean}
- * @deprecated
- */
-export function match(fieldId, values, options) {
-    return (
-        values[fieldId] && toString(values[fieldId]) === toString(options.field)
-    )
 }

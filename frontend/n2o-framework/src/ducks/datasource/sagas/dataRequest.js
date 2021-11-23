@@ -21,7 +21,9 @@ import {
 
 import { fetch } from './fetch'
 
-export function* dataRequest({ id, options }) {
+export function* dataRequest({ payload }) {
+    const { id, options } = payload
+
     try {
         const state = yield select()
         const { provider, size, sorting, page } = yield select(dataSourceByIdSelector(id))

@@ -152,36 +152,84 @@ const datasource = createSlice({
                 state[id].count = count
             },
         },
+        changeSize: {
+            prepare(id, size) {
+                return ({
+                    payload: { id, size },
+                })
+            },
+            reducer(state, action) {
+                const { id, size } = action.payload
 
-        startValidate(id, prefix = MODEL_PREFIX.active) {
-            return ({
-                payload: { id, prefix },
-            })
+                state[id].size = size
+            },
         },
-        failValidate(id, fields /* , prefix = MODEL_PREFIX.active*/) {
-            return ({
-                payload: { id, fields },
-            })
+
+        startValidate: {
+            prepare(id, prefix = MODEL_PREFIX.active) {
+                return ({
+                    payload: { id, prefix },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setActiveModel(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.active },
-            })
+        failValidate: {
+            prepare(id, fields /* , prefix = MODEL_PREFIX.active*/) {
+                return ({
+                    payload: { id, fields },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setFilter(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.filter },
-            })
+        setActiveModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.active },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setSourceModel(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.source },
-            })
+        setFilter: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.filter },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
-        setMultiModel(id, model) {
-            return ({
-                payload: { id, model, prefix: MODEL_PREFIX.selected },
-            })
+        setSourceModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.source },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
+        },
+        setMultiModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.selected },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
         },
     },
 })
@@ -206,4 +254,5 @@ export const {
     failValidate,
     changePage,
     changeCount,
+    changeSize,
 } = datasource.actions

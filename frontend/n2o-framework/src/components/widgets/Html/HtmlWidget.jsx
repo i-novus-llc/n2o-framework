@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import StandardWidget from '../StandardWidget'
-// eslint-disable-next-line import/no-named-as-default
-import dependency from '../../../core/dependency'
+import { WidgetHOC } from '../../../core/widget/Widget'
+import { widgetPropTypes } from '../../../core/widget/propTypes'
 
-import HtmlContainer from './HtmlContainer'
+import Html from './Html'
+import 'whatwg-fetch'
 
 /**
  * HtmlWidget
@@ -19,55 +20,40 @@ import HtmlContainer from './HtmlContainer'
  * @reactProps {object} datasource
  */
 
-function HtmlWidget(props) {
+function Widget(props) {
     const {
         fetchOnInit,
-        id: widgetId,
-        datasource: modelId = widgetId,
+        id,
         toolbar,
         className,
         style,
-        pageId,
-        // datasource,
-        ...rest
+        url,
+        html,
+        models,
     } = props
 
     return (
         <StandardWidget
-            widgetId={widgetId}
-            modelId={modelId}
+            widgetId={id}
             toolbar={toolbar}
             className={className}
             fetchOnInit={fetchOnInit}
             style={style}
         >
-            <HtmlContainer
-                pageId={pageId}
-                widgetId={widgetId}
-                modelId={modelId}
-                fetchOnInit={fetchOnInit}
-                // datasource={datasource}
-                {...rest}
+            <Html
+                url={url}
+                id={id}
+                html={html}
+                data={models.datasource?.[0]}
             />
         </StandardWidget>
     )
 }
 
-HtmlWidget.defaultProps = {
-    toolbar: {},
-}
-
-HtmlWidget.propTypes = {
-    pageId: PropTypes.string,
-    fetchOnInit: PropTypes.bool,
+Widget.propTypes = {
+    ...widgetPropTypes,
     url: PropTypes.bool,
-    toolbar: PropTypes.object,
     html: PropTypes.string,
-    dataProvider: PropTypes.object,
-    id: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    datasource: PropTypes.string,
 }
 
-export default dependency(HtmlWidget)
+export const HtmlWidget = WidgetHOC(Widget)

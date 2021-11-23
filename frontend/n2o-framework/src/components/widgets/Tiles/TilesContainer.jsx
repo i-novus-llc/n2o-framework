@@ -2,8 +2,7 @@ import React from 'react'
 import { compose, mapProps } from 'recompose'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/TableContainer'
-import widgetContainer from '../WidgetContainer'
+import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 
 // eslint-disable-next-line import/no-named-as-default
 import Tiles from './Tiles'
@@ -13,19 +12,11 @@ function TilesContainer(props) {
 }
 
 export default compose(
-    widgetContainer(
-        {
-            mapProps: props => ({
-                ...props,
-            }),
-        },
-        'TilesWidget',
-    ),
     withContainerLiveCycle,
     withWidgetHandlers,
     mapProps(
         ({
-            datasource,
+            models,
             className,
             widgetId,
             tile,
@@ -34,19 +25,19 @@ export default compose(
             colsLg,
             tileWidth,
             tileHeight,
-            onResolve,
+            setResolve,
             dispatch,
         }) => ({
             className,
             id: widgetId,
             tile,
-            data: datasource,
+            data: models.datasource,
             colsSm,
             colsMd,
             colsLg,
             tileWidth,
             tileHeight,
-            onResolve,
+            onResolve: setResolve,
             dispatch,
         }),
     ),

@@ -1,31 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit'
 
 import { modelsSelector } from '../models/selectors'
+import { MODEL_PREFIX } from '../../core/datasource/const'
 
-export const dataSourceSelector = (state = {}) => state.datasource || {}
+export const dataSourcesSelector = (state = {}) => state.datasource || {}
 
 export const dataSourceByIdSelector = sourceId => createSelector(
-    dataSourceSelector,
-    modelsSelector,
-    (sources, modelsList) => {
-        const datasource = sources[sourceId]
-
-        if (!datasource) { return { models: {} } }
-        // if (!datasource) { return undefined }
-
-        const models = {}
-
-        Object.entries(modelsList).forEach(([key, value]) => {
-            models[key] = value[sourceId]
-        })
-
-        return {
-            ...datasource,
-            models,
-        }
-    },
+    dataSourcesSelector,
+    sources => (sources[sourceId] || {}),
 )
+
 //
+export const dataSourceModelsSelector = sourceId => createSelector(
+    modelsSelector,
+    modelsList => ({
+        [MODEL_PREFIX.active]: modelsList[MODEL_PREFIX.active][sourceId],
+        [MODEL_PREFIX.source]: modelsList[MODEL_PREFIX.source][sourceId] || [],
+        [MODEL_PREFIX.selected]: modelsList[MODEL_PREFIX.selected][sourceId] || [],
+        [MODEL_PREFIX.filter]: modelsList[MODEL_PREFIX.filter][sourceId] || {},
+    }),
+)
+
 export const dataSourceLoadingSelector = sourceId => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.loading,
@@ -41,9 +36,13 @@ export const dataSourcePageSelector = sourceId => createSelector(
     state => state.page,
 )
 
-export const dataSourceSortingSelector = widgetId => createSelector(
-    dataSourceByIdSelector(widgetId),
+export const dataSourceSortingSelector = sourceId => createSelector(
+    dataSourceByIdSelector(sourceId),
     state => state.sorting,
+)
+export const dataSourceCountSelector = sourceId => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.count,
 )
 
 export const dataSourceValidationSelector = sourceId => createSelector(

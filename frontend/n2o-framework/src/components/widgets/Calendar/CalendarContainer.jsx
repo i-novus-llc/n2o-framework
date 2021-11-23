@@ -4,9 +4,8 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import moment from 'moment'
 
-import widgetContainer from '../WidgetContainer'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/TableContainer'
+import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 
 import Calendar from './Calendar'
 import { CalendarEvent } from './CalendarEvent'
@@ -29,15 +28,6 @@ export default compose(
         endFieldId: 'end',
         height: '1200px',
     }),
-    widgetContainer(
-        {
-            mapProps: ({ calendar, ...props }) => ({
-                ...props,
-                ...calendar,
-            }),
-        },
-        'CalendarWidget',
-    ),
     withContainerLiveCycle,
     withWidgetHandlers,
     withHandlers({
@@ -51,7 +41,7 @@ export default compose(
             cell,
             cellColorFieldId,
             markDaysOff,
-            onResolve,
+            setResolve,
             onSelectEvent,
             dispatch,
         }) => () => ({
@@ -59,7 +49,7 @@ export default compose(
                 <CalendarEvent
                     {...eventProps}
                     {...cell}
-                    onResolve={onResolve}
+                    onResolve={setResolve}
                     onSelectEvent={onSelectEvent}
                     dispatch={dispatch}
                     cellColorAccessor={cellColorFieldId}
@@ -75,7 +65,7 @@ export default compose(
     }),
     mapProps(
         ({
-            datasource,
+            models,
             date = new Date(),
             startFieldId,
             endFieldId,
@@ -100,9 +90,9 @@ export default compose(
             resources,
             messages,
             dispatch,
-            onResolve,
+            setResolve,
         }) => ({
-            events: mapEvents(datasource),
+            events: mapEvents(models.datasource),
             startAccessor: startFieldId,
             endAccessor: endFieldId,
             titleAccessor: titleFieldId,
@@ -116,7 +106,7 @@ export default compose(
             style: { height },
             onSelectEvent: (e) => {
                 if (!e.disabled) {
-                    onResolve({ id: get(e, 'id') })
+                    setResolve({ id: get(e, 'id') })
                     dispatch(onSelectEvent)
                 }
             },
@@ -133,7 +123,7 @@ export default compose(
                         resourceId: get(e, 'resourceId'),
                     }
 
-                    onResolve(currentData)
+                    setResolve(currentData)
                     dispatch(onSelectSlot)
                 }
             },
