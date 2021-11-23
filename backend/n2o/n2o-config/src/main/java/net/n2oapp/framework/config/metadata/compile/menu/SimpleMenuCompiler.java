@@ -93,7 +93,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             if (item.getTitle() == null)
                 item.setTitle(page.getName() == null ? pageId : page.getName());
             if (route == null)
-                item.setHref(page.getRoute() == null ? "/" + pageId : route);
+                item.setHref(page.getRoute() == null ? "/" + pageId : page.getRoute());
             else
                 item.setHref(route);
             PageContext pageContext = new PageContext(pageId, item.getHref());
