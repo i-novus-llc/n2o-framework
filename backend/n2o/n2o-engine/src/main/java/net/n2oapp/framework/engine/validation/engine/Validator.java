@@ -2,21 +2,19 @@ package net.n2oapp.framework.engine.validation.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.data.validation.ConstraintValidation;
-import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.data.validation.ValidationDialog;
+import net.n2oapp.framework.api.data.validation.*;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
- * @author operehod
- * @since 02.04.2015
+ * Валидатор данных
  */
-public class Validator {
+public class Validator implements Iterable<Validation> {
 
     private InvocationProcessor serviceProvider;
     private DataSet dataSet;
@@ -32,7 +30,6 @@ public class Validator {
 
     public List<FailInfo> validate() {
         if (validationList == null) return Collections.emptyList();
-        ValidationUtil.sort(validationList);
         for (Validation v : validationList) {
             handleValidation(v, fails);
         }
@@ -129,6 +126,11 @@ public class Validator {
         return new Validator().new Builder();
     }
 
+    @Override
+    public Iterator<Validation> iterator() {
+        return validationList.iterator();
+    }
+
     public class Builder {
 
         private Builder() {
@@ -158,8 +160,47 @@ public class Validator {
             return this;
         }
 
+
         public Validator build() {
+            sort();
             return Validator.this;
+        }
+
+        /**
+         * Сортирует валидации по SeverityType.
+         * С одинаковым SeverityType располагает сначала валидации полей, потом валидации виджета.
+         * С одинаковым признаком "для поля/ для виджета" располагает по типу валидации:
+         * Mandatory -> Condition -> Constraint
+         * <p>
+         * Порядок сортировки:
+         * Danger - Field - Mandatory
+         * Danger - Field - Condition
+         * Danger - Field - Constraint
+         * Danger - Widget - Mandatory
+         * ...
+         * Success - Widget - Constraint
+         */
+        private void sort() {
+            if (validationList == null) return;
+            Comparator<Validation> comparator = Comparator
+                    .comparing(Validation::getSeverity)
+                    .reversed()
+                    .thenComparing(Validation::isForField)
+                    .reversed()
+                    .thenComparing((v1, v2) -> {
+                        if (v1.getClass() == v2.getClass())
+                            return 0;
+                        else if (v1.getClass() == MandatoryValidation.class)
+                            return -1;
+                        else if (v1.getClass() == ConditionValidation.class) {
+                            if (v2.getClass() == ConstraintValidation.class)
+                                return -1;
+                            else
+                                return 1;
+                        } else
+                            return 1;
+                    });
+            Collections.sort(validationList, comparator);
         }
     }
 }
