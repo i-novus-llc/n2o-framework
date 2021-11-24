@@ -4,23 +4,15 @@ import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.BadgeCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationIO;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv2;
-import net.n2oapp.framework.config.metadata.compile.cell.BadgeCellCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,14 +32,13 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oAllPagesPack());
         builder.ios(new SimpleMenuIOv3(), new ApplicationIOv2());
         builder.compilers(new SimpleMenuCompiler(), new ApplicationCompiler());
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/menu/testApplication.application.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/menu/testMenu.page.xml"));
     }
 
     @Test
     public void testMenuItem() {
-        Application application = compile(
-                "net/n2oapp/framework/config/metadata/menu/testApplication.application.xml",
-                "net/n2oapp/framework/config/metadata/menu/testMenu.page.xml")
-                .get(new ApplicationContext("testApplication"));
+        Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
         HeaderItem menuItem = menu.getItems().get(0);
 
@@ -61,10 +52,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testDropdownMenu() {
-        Application application = compile(
-                "net/n2oapp/framework/config/metadata/menu/testApplication.application.xml",
-                "net/n2oapp/framework/config/metadata/menu/testMenu.page.xml")
-                .get(new ApplicationContext("testApplication"));
+        Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
         HeaderItem dropdownMenu = menu.getItems().get(1);
 

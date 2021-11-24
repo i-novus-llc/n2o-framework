@@ -63,9 +63,6 @@ public class N2oSimpleMenu extends N2oMenu {
     }
 
     public static class DividerItem extends MenuItem {
-        public String getType() {
-            return "divider";
-        }
     }
 
     public static class PageItem extends MenuItem {

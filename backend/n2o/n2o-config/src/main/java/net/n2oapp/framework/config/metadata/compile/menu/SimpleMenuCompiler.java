@@ -44,7 +44,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                                       CompileProcessor p, PageRoutes pageRoutes) {
         HeaderItem item = new HeaderItem();
         if (mi instanceof N2oSimpleMenu.DividerItem) {
-            item.setType(((N2oSimpleMenu.DividerItem) mi).getType());
+            item.setType("divider");
             return item;
         }
         item.setPageId(mi.getPageId());
@@ -59,9 +59,9 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
                 HeaderItem.LinkType.outer :
                 HeaderItem.LinkType.inner);
-        if (mi.getSubMenu() == null || mi.getSubMenu().length == 0 || mi.getAction() != null)
+        if (!(mi instanceof N2oSimpleMenu.SubMenuItem))
             createLinkItem(mi, item, p);
-        else {
+        else if (mi.getSubMenu() != null) {
             ArrayList<HeaderItem> subItems = new ArrayList<>();
             for (N2oSimpleMenu.MenuItem subMenu : mi.getSubMenu())
                 subItems.add(createMenuItem(subMenu, idx, context, p, pageRoutes));
@@ -69,7 +69,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             item.setHref(item.getSubItems().get(0).getHref());
             item.setType("dropdown");
         }
-        if (mi instanceof N2oSimpleMenu.SubMenuItem && ((N2oSimpleMenu.SubMenuItem) mi).getMenuItems() != null) {
+        else if (((N2oSimpleMenu.SubMenuItem) mi).getMenuItems() != null) {
             item.setTitle(((N2oSimpleMenu.SubMenuItem) mi).getName());
             item.setImageShape(((N2oSimpleMenu.SubMenuItem) mi).getImageShape());
             item.setType("dropdown");
@@ -84,8 +84,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void createLinkItem(N2oSimpleMenu.MenuItem mi, HeaderItem item, CompileProcessor p) {
-        if ((mi.getAction() == null && mi.getPageId() == null) || (mi.getAction() != null && mi.getAction().getPageId() == null))
-            item.setHref(mi.getAction() != null ? mi.getAction().getHref() : mi.getHref());
+        if (mi.getAction() == null && mi.getPageId() == null)
+            item.setHref(mi.getHref());
+        else if (mi.getAction() != null && mi.getAction().getPageId() == null)
+            item.setHref(mi.getAction().getHref());
         else {
             String pageId = mi.getAction() != null ? mi.getAction().getPageId() : mi.getPageId();
             String route = mi.getAction() != null ? mi.getAction().getRoute() : mi.getRoute();
