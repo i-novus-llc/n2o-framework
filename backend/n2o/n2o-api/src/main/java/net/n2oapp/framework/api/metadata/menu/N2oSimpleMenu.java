@@ -42,16 +42,11 @@ public class N2oSimpleMenu extends N2oMenu {
         private String badgeColor;
         private String icon;
         private Integer badge;
-        private N2oAction action;
-        @Deprecated
-        private String pageId;
-        @Deprecated
-        private String href;
-        @Deprecated
+        private MenuItem action;
         private String image;
-        @Deprecated
+        private String pageId;
+        private String href;
         private String route;
-        @Deprecated
         private Target target;
         @Deprecated
         private MenuItem[] subMenu;
@@ -63,7 +58,6 @@ public class N2oSimpleMenu extends N2oMenu {
     public static class SubMenuItem extends MenuItem {
         private String id;
         private String name;
-        private String image;
         private ImageShape imageShape;
         private MenuItem[] menuItems;
     }
@@ -71,11 +65,9 @@ public class N2oSimpleMenu extends N2oMenu {
     public static class DividerItem extends MenuItem {
     }
 
-    @Deprecated
     public static class PageItem extends MenuItem {
     }
 
-    @Deprecated
     public static class AnchorItem extends MenuItem {
     }
 }
