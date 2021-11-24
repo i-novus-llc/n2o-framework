@@ -11,8 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceMergerFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
-import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
 import java.util.function.Supplier;
 
@@ -43,7 +42,7 @@ public class MergeOperation<S> implements PipelineOperation<S, S>, PipelineOpera
     @Override
     public S execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
                      BindProcessor bindProcessor,
-                     ValidateProcessor validateProcessor) {
+                     SourceProcessor sourceProcessor) {
         S override = supplier.get();
         if (override instanceof RefIdAware && ((RefIdAware) override).getRefId() != null) {
             String refId = ((RefIdAware) override).getRefId();

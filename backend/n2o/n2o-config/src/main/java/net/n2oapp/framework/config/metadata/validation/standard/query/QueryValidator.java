@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAware {
 
     @Override
-    public void validate(N2oQuery n2oQuery, ValidateProcessor p) {
+    public void validate(N2oQuery n2oQuery, SourceProcessor p) {
         if (n2oQuery.getObjectId() != null)
             checkForExistsObject(n2oQuery.getId(), n2oQuery.getObjectId(), p);
         if (n2oQuery.getFields() != null) {
@@ -38,9 +38,9 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      *
      * @param queryId  Идентификатор выборки
      * @param objectId Идентификатор объекта
-     * @param p        Процессор валидации метаданных
+     * @param p        Процессор исходных метаданных
      */
-    private void checkForExistsObject(String queryId, String objectId, ValidateProcessor p) {
+    private void checkForExistsObject(String queryId, String objectId, SourceProcessor p) {
         p.checkForExists(objectId, N2oObject.class,
                 String.format("Выборка '%s' ссылается на несуществующий объект %s", queryId, objectId));
     }
@@ -50,9 +50,9 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      *
      * @param fields  Поля выборки
      * @param queryId Идентификатор выборки
-     * @param p       Процессор валидации метаданных
+     * @param p       Процессор исходных метаданных
      */
-    private void checkForUniqueFields(N2oQuery.Field[] fields, String queryId, ValidateProcessor p) {
+    private void checkForUniqueFields(N2oQuery.Field[] fields, String queryId, SourceProcessor p) {
         p.checkIdsUnique(fields, "Поле {0} встречается более чем один раз в выборке " + queryId);
     }
 
@@ -108,9 +108,9 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * Проверка вызовов провайдеров данных
      *
      * @param query Выборка
-     * @param p     Процессор валидации метаданных
+     * @param p     Процессор исходных метаданных
      */
-    private void checkInvocations(N2oQuery query, ValidateProcessor p) {
+    private void checkInvocations(N2oQuery query, SourceProcessor p) {
         if (query.getLists() != null)
             validateInvocations(query.getLists(), p);
         if (query.getCounts() != null)
@@ -123,9 +123,9 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * Валидирование вызовов провайдеров данных
      *
      * @param selections Массив selection элементов в выборке
-     * @param p          Процессор валидации метаданных
+     * @param p          Процессор исходных метаданных
      */
-    private void validateInvocations(N2oQuery.Selection[] selections, ValidateProcessor p) {
+    private void validateInvocations(N2oQuery.Selection[] selections, SourceProcessor p) {
         Arrays.stream(selections)
                 .map(N2oQuery.Selection::getInvocation)
                 .filter(Objects::nonNull)

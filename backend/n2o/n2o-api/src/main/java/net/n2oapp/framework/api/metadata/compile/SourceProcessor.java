@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.validate;
+package net.n2oapp.framework.api.metadata.compile;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
@@ -12,9 +12,9 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Процессор валидации метаданных
+ * Процессор исходных метаданных
  */
-public interface ValidateProcessor {
+public interface SourceProcessor {
 
     /**
      * Провалидировать вложенную метаданную
@@ -25,13 +25,24 @@ public interface ValidateProcessor {
     <T extends Source> void validate(T metadata, Object... scope);
 
     /**
-     * Получить исходную метаданную по идентификатору или вернуть null, если метаданная невалидна
-     * @param id Идентификатор
-     * @param metadataClass Класс метаданной
-     * @param <T> Тип метаданной
-     * @return Метаданная или null
+     * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
+     *
+     * @param source   Исходная метаданная
+     * @param override Перекрывающая метаданная
+     * @param <S>      Тип значения
+     * @return Исходная метаданная с перекрытыми свойствами
      */
-    <T extends SourceMetadata> T getOrNull(String id, Class<T> metadataClass);
+    <S extends Source> S merge(S source, S override);
+
+    /**
+     * Получить исходный объект по идентификатору
+     *
+     * @param id          Идентификатор
+     * @param sourceClass Класс исходного объекта
+     * @param <S>         Тип исходного объекта
+     * @return Исходный объект
+     */
+    <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass);
 
     /**
      * Получить исходную метаданную по идентификатору или бросить исключение, если метаданная невалидна
@@ -50,6 +61,41 @@ public interface ValidateProcessor {
      * @return Метаданная, оказывающая влияние на валидацию, или null
      */
     <D> D getScope(Class<D> scopeClass);
+
+    /**
+     * Заменить плейсхолдер на значение и конвертировать в класс
+     *
+     * @param placeholder Плейсхолдер
+     * @param <T>         Тип значения
+     * @return Значение
+     */
+    <T> T resolve(String placeholder, Class<T> clazz);
+
+    /**
+     * Заменить плейсхолдер на значение конвертировать по домену
+     *
+     * @param placeholder значение для конвертации
+     * @param domain      Домен значения
+     * @return значение
+     */
+    Object resolve(String placeholder, String domain);
+
+    /**
+     * Заменить плейсхолдер на значение и конвертировать с автоподбором типа
+     *
+     * @param placeholder значение для конвертации
+     * @return значение
+     */
+    Object resolve(String placeholder);
+
+    /**
+     * Получить локализованное сообщение по коду и аргументам
+     *
+     * @param messageCode Код сообщения
+     * @param arguments   Аргументы сообщения
+     * @return Локализованное сообщение
+     */
+    String getMessage(String messageCode, Object... arguments);
 
     /**
      * Проверить, что объект не null
@@ -76,16 +122,6 @@ public interface ValidateProcessor {
      * @param errorMessage Сообщение о том, какой идентификатор не соответствует соглашениям об именовании
      */
     void checkId(IdAware metadata, String errorMessage);
-
-    /**
-     * Проверить идентификатор метаданной на уникальность
-     * @param metadata Метаданная
-     * @param errorMessage Сообщение о том, какой идентификатор не уникален
-     */
-    default void checkUniqueId(IdAware metadata, Set<String> exists, String errorMessage) {
-        if (exists != null && metadata != null && metadata.getId() != null && exists.contains(metadata.getId()))
-            throw new N2oMetadataValidationException(getMessage(errorMessage));
-    }
 
     /**
      * Получить поток значений из массива
@@ -137,39 +173,4 @@ public interface ValidateProcessor {
             }
         }
     }
-
-    /**
-     * Заменить плейсхолдер на значение и конвертировать в класс
-     *
-     * @param placeholder Плейсхолдер
-     * @param <T>         Тип значения
-     * @return Значение
-     */
-    <T> T resolve(String placeholder, Class<T> clazz);
-
-    /**
-     * Заменить плейсхолдер на значение конвертировать по домену
-     *
-     * @param placeholder значение для конвертации
-     * @param domain      Домен значения
-     * @return значение
-     */
-    Object resolve(String placeholder, String domain);
-
-    /**
-     * Заменить плейсхолдер на значение и конвертировать с автоподбором типа
-     *
-     * @param placeholder значение для конвертации
-     * @return значение
-     */
-    Object resolve(String placeholder);
-
-    /**
-     * Получить локализованное сообщение по коду и аргументам
-     *
-     * @param messageCode Код сообщения
-     * @param arguments   Аргументы сообщения
-     * @return Локализованное сообщение
-     */
-    String getMessage(String messageCode, Object... arguments);
 }

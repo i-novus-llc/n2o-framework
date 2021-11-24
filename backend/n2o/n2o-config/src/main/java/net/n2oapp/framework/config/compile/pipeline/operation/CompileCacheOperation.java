@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.NoOpCacheManager;
 
@@ -38,7 +38,7 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
     public S execute(CompileContext<?,?> context, DataSet data, Supplier<S> supplier,
                      CompileProcessor compileProcessor,
                      BindProcessor bindProcessor,
-                     ValidateProcessor validateProcessor) {
+                     SourceProcessor sourceProcessor) {
         String key = getKey(context, bindProcessor);
         S compiled = (S) cacheTemplate.execute(cacheRegion, key, () -> supplier.get());
         return compiled;

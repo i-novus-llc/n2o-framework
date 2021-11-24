@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ import java.util.Objects;
 public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassAware {
 
     @Override
-    public void validate(N2oWidget n2oWidget, ValidateProcessor p) {
+    public void validate(N2oWidget n2oWidget, SourceProcessor p) {
         N2oQuery query = checkQueryExists(n2oWidget, p);
         checkObjectExists(n2oWidget, p);
 
@@ -120,10 +120,10 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * Проверка существования выборки, используемой виджетом, и возврат идентификатора выборки
      *
      * @param n2oWidget Виджет
-     * @param p         Процессор валидации метаданных
+     * @param p         Процессор исходных метаданных
      * @return Идентификатор выборки или null, если виджет не использует выборку
      */
-    private N2oQuery checkQueryExists(N2oWidget n2oWidget, ValidateProcessor p) {
+    private N2oQuery checkQueryExists(N2oWidget n2oWidget, SourceProcessor p) {
         if (n2oWidget.getQueryId() != null) {
             p.checkForExists(n2oWidget.getQueryId(), N2oQuery.class,
                     String.format("Виджет '%s' ссылается на несуществующую выборку '%s'", n2oWidget.getId(), n2oWidget.getQueryId()));
@@ -141,9 +141,9 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * Проверка существования объекта, используемого виджетом
      *
      * @param n2oWidget Виджет
-     * @param p         Процессор валидации метаданных
+     * @param p         Процессор исходных метаданных
      */
-    private void checkObjectExists(N2oWidget n2oWidget, ValidateProcessor p) {
+    private void checkObjectExists(N2oWidget n2oWidget, SourceProcessor p) {
         if (n2oWidget.getObjectId() != null) {
             p.checkForExists(n2oWidget.getObjectId(), N2oObject.class,
                     String.format("Виджет '%s' ссылается на несуществующий объект '%s'", n2oWidget.getId(), n2oWidget.getObjectId()));
@@ -155,7 +155,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * @param n2oWidget
      * @param p
      */
-    private void checkDatasourceValue(N2oWidget n2oWidget, ValidateProcessor p) {
+    private void checkDatasourceValue(N2oWidget n2oWidget, SourceProcessor p) {
         if (n2oWidget.getDatasourceId() != null) {
             PageScope pageScope = p.getScope(PageScope.class);
             if (pageScope.getDatasourceValueMap().containsKey(n2oWidget.getDatasourceId())) {

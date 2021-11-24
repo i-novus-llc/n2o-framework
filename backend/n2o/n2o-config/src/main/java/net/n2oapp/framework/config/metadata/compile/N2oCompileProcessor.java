@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile;
 
-import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
@@ -16,19 +15,16 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
-import org.apache.commons.collections.map.HashedMap;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -43,7 +39,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 /**
  * Реализация процессора сборки метаданных
  */
-public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
+public class N2oCompileProcessor implements CompileProcessor, BindProcessor, SourceProcessor {
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
     private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
@@ -420,19 +416,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             return;
 
         env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));
-    }
-
-    @Override
-    public <T extends SourceMetadata> T getOrNull(String id, Class<T> metadataClass) {
-        if (id == null)
-            return null;
-        if (!env.getMetadataRegister().contains(id, metadataClass))
-            return null;
-        try {
-            return getSource(id, metadataClass);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     @Override
