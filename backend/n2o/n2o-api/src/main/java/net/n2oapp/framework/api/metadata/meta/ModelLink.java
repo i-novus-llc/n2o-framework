@@ -151,6 +151,8 @@ public class ModelLink extends BindLink {
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
             return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
         } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
+            if (thatFieldId != null)
+                return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thatFieldId.equals(thisFieldId);
             return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
         } else
             return thisSubModelQueryLink.equals(thatSubModelQueryLink);
