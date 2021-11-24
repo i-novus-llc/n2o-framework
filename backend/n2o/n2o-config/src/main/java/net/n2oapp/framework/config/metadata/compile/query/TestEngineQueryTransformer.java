@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 @Component
 public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, SourceClassAware {
     @Override
-    public N2oQuery transform(N2oQuery source, ValidateProcessor p) {
+    public N2oQuery transform(N2oQuery source, SourceProcessor p) {
         if (!isTest(source))
             return source;
         if (source.getFields() != null) {

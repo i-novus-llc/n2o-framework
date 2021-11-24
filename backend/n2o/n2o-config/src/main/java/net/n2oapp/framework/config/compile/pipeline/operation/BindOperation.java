@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
 import java.util.function.Supplier;
 
@@ -34,7 +34,7 @@ public class BindOperation<D extends Compiled> implements PipelineOperation<D, D
     public D execute(CompileContext<?,?> context, DataSet data, Supplier<D> supplier,
                      CompileProcessor compileProcessor,
                      BindProcessor bindProcessor,
-                     ValidateProcessor validateProcessor) {
+                     SourceProcessor sourceProcessor) {
         return binderFactory.bind(supplier.get(), bindProcessor);
     }
 

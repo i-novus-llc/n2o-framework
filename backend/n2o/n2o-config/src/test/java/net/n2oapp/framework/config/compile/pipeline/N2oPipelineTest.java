@@ -4,19 +4,17 @@ import net.n2oapp.cache.template.CacheCallback;
 import net.n2oapp.cache.template.CacheTemplate;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
-import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
@@ -274,7 +272,7 @@ public class N2oPipelineTest {
     static class MockSourceTransformer extends MockMetadataFactory<SourceTransformer<?>> implements SourceTransformerFactory {
 
         @Override
-        public <S> S transform(S source, ValidateProcessor p) {
+        public <S> S transform(S source, SourceProcessor p) {
             ((N2oSimplePage)source).setName("transformed " + ((N2oSimplePage)source).getName());
             return source;
         }
@@ -293,7 +291,7 @@ public class N2oPipelineTest {
     static class MockSourceValidatorFactory extends MockMetadataFactory<SourceValidator> implements SourceValidatorFactory {
 
         @Override
-        public <S> void validate(S source, ValidateProcessor p) throws N2oMetadataValidationException {
+        public <S> void validate(S source, SourceProcessor p) throws N2oMetadataValidationException {
             if ("test".equals(((N2oSimplePage)source).getSrc()))
                 throw new N2oMetadataValidationException("validated " + ((N2oSimplePage)source).getName());
         }

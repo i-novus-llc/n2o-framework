@@ -1,7 +1,5 @@
 package net.n2oapp.framework.api.metadata.compile;
 
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
-
 /**
  * Трансформатор исходных метаданных
  *
@@ -14,10 +12,10 @@ public interface SourceTransformer<S> {
      * Трансформировать исходные метаданные
      *
      * @param source Исходные метаданные
-     * @param p      Процессор валидации метаданных
+     * @param p      Процессор исходных метаданных
      * @return Трансформированные исходные метаданные
      */
-    S transform(S source, ValidateProcessor p);
+    S transform(S source, SourceProcessor p);
 
     /**
      * Подходит ли исходная метаданная для трансформации?

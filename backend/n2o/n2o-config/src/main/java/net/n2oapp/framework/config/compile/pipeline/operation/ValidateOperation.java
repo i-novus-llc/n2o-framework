@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
 import java.util.function.Supplier;
 
@@ -31,9 +31,9 @@ public class ValidateOperation<S> implements PipelineOperation<S, S>, PipelineOp
     @Override
     public S execute(CompileContext<?,?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
                      BindProcessor bindProcessor,
-                     ValidateProcessor validateProcessor) {
+                     SourceProcessor sourceProcessor) {
         S value = supplier.get();
-        sourceValidatorFactory.validate(value, validateProcessor);
+        sourceValidatorFactory.validate(value, sourceProcessor);
         return value;
     }
 

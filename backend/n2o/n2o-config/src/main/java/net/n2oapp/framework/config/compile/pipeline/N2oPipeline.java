@@ -2,15 +2,13 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -76,13 +74,13 @@ public abstract class N2oPipeline implements Pipeline {
                                DataSet data, I input,
                                CompileProcessor compileProcessor,
                                BindProcessor bindProcessor,
-                               ValidateProcessor validateProcessor) {
+                               SourceProcessor sourceProcessor) {
         PipelineOperation<O, I> operation = (PipelineOperation<O, I>) iterator.next();
         if (iterator.hasNext()) {
-            return operation.execute(context, data, () -> execute(iterator, context, data, input, compileProcessor, bindProcessor, validateProcessor),
-                    compileProcessor, bindProcessor, validateProcessor);
+            return operation.execute(context, data, () -> execute(iterator, context, data, input, compileProcessor, bindProcessor, sourceProcessor),
+                    compileProcessor, bindProcessor, sourceProcessor);
         } else {
-            return operation.execute(context, data, () -> input, compileProcessor, bindProcessor, validateProcessor);
+            return operation.execute(context, data, () -> input, compileProcessor, bindProcessor, sourceProcessor);
         }
     }
 }
