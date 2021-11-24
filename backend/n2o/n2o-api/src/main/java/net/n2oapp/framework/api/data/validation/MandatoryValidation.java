@@ -8,6 +8,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.control.ValidationReference.Target;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class MandatoryValidation extends Validation {
         }
 
         if (!Boolean.TRUE.equals(success))
-            callback.onFail(String.valueOf(getMessage()));
+            callback.onFail(getMessage());
     }
 
     @Override

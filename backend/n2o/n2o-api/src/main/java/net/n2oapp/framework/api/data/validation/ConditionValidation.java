@@ -60,7 +60,7 @@ public class ConditionValidation extends Validation {
                 }
             }
             if (!(boolean) ScriptProcessor.getInstance().eval(getExpression(), copiedDataSet))
-                callback.onFail(String.valueOf(getMessage()));
+                callback.onFail(getMessage());
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }

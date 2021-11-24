@@ -37,7 +37,7 @@ public class ValidationDialog extends InvocationValidation {
         }
 
         if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM))
-            callback.onFail(StringUtils.resolveLinks(String.valueOf(getMessage()), result));
+            callback.onFail(StringUtils.resolveLinks(getMessage(), result));
     }
 
     @Override
