@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.control.N2oFieldCondition;
 import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.*;
 
@@ -23,8 +24,9 @@ import java.util.*;
 public abstract class Validation implements Compiled {
     @JsonProperty("validationKey")
     private String id;
-    @JsonProperty("text")
     private String message;
+    @JsonProperty("text")
+    private String jsonMessage;
     private Set<String> fields;
     private ValidationReference.Target target;
     @JsonProperty
@@ -42,6 +44,7 @@ public abstract class Validation implements Compiled {
     public Validation(Validation validation) {
         this.id = validation.getId();
         this.message = validation.getMessage();
+        this.jsonMessage = validation.getJsonMessage();
         this.fields = validation.getFields();
         this.target = validation.getTarget();
         this.severity = validation.getSeverity();
