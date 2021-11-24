@@ -19,7 +19,6 @@ public class SimplePageAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-        headless = true;
     }
 
     @BeforeEach
