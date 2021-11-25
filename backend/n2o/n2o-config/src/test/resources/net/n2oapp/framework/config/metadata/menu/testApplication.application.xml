@@ -9,6 +9,10 @@
                        badge-color="warning">
                 <open-page  page-id="testMenu" route="/login"/>
             </menu-item>
+            <menu-item image="/static/users/ivan90.png"
+                       image-shape="square">
+                <open-page page-id="testMenu" route="/logout"/>
+            </menu-item>
             <dropdown-menu id="user"
                            name="Виктория"
                            image="/static/users/vika91.png"
@@ -19,7 +23,7 @@
                 </menu-item>
                 <divider/>
                 <menu-item>
-                    <open-page  page-id="testMenu" route="/test"/>
+
                 </menu-item>
                 <divider/>
                 <menu-item>

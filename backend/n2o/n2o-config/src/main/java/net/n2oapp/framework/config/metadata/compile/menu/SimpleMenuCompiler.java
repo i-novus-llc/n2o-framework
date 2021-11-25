@@ -56,6 +56,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         item.setBadge(mi.getBadge());
         item.setBadgeColor(mi.getBadgeColor());
         item.setImageSrc(mi.getImage());
+        item.setImageShape(mi.getImageShape());
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
                 HeaderItem.LinkType.outer :
                 HeaderItem.LinkType.inner);

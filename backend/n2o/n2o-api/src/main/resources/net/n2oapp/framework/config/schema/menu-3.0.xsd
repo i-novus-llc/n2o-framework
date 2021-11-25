@@ -93,6 +93,16 @@
                 <xs:documentation>Цвет значка</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="image" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь к изображению</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="image-shape" type="shapeType" default="rounded">
+            <xs:annotation>
+                <xs:documentation>Форма изображения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="pageDef">
