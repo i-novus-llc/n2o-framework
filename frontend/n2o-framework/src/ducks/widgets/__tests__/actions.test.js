@@ -16,7 +16,6 @@ import {
     sortByWidget,
     changePageWidget,
     changeCountWidget,
-    changeSizeWidget,
     showWidgetFilters,
     hideWidgetFilters,
     changeFiltersVisibility,
@@ -191,14 +190,6 @@ describe('Тесты экшенов widgets', () => {
             const action = changeCountWidget(widgetId, count)
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.count).toEqual(count)
-        })
-    })
-
-    describe('Проверка экшена changeSizeWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = changeSizeWidget(widgetId, size)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.size).toEqual(size)
         })
     })
 

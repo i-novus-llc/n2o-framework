@@ -430,37 +430,6 @@ const widgetSlice = createSlice({
             },
         },
 
-        CHANGE_SIZE: {
-            /**
-             * @param {string} widgetId
-             * @param {string} size
-             * @return {{payload: WidgetsStore.changeSizeWidgetPayload}}
-             */
-            prepare(widgetId, size) {
-                return ({
-                    payload: { widgetId, size },
-                })
-            },
-
-            /**
-             * Меняет размер выборки виджета
-             * Этот параметр используется при запросах на сервер
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.changeSizeWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, size } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].size = size
-            },
-        },
-
         CHANGE_PAGE: {
             /**
              * @param {string} widgetId
@@ -720,7 +689,6 @@ export const {
     LOADING: loadingWidget,
     UNLOADING: unloadingWidget,
     SORT_BY: sortByWidget,
-    CHANGE_SIZE: changeSizeWidget,
     CHANGE_PAGE: changePageWidget,
     CHANGE_COUNT: changeCountWidget,
     CHANGE_FILTER_VISIBILITY: changeFiltersVisibility,

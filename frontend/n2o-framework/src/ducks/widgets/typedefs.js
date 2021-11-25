@@ -53,13 +53,6 @@
  */
 
 /**
- * Payload для экшена CHANGE_SIZE
- * @typedef WidgetsStore.changeSizeWidgetPayload
- * @property {string} widgetId
- * @property {string} size
- */
-
-/**
  * Payload для экшена CHANGE_PAGE
  * @typedef WidgetsStore.changePageWidgetPayload
  * @property {string} widgetId

@@ -10,6 +10,7 @@ import {
     setFilter as setDataSourceFilter,
     setSorting as setDataSourceSorting,
     changePage,
+    changeSize,
 } from '../../ducks/datasource/store'
 import { registerDependency } from '../../actions/dependency'
 
@@ -35,6 +36,7 @@ export const WidgetHOC = (WidgetComponent) => {
             setSelected,
             setSorting,
             setPage,
+            setSize,
             fetchOnInit,
             id,
             dependency,
@@ -60,8 +62,8 @@ export const WidgetHOC = (WidgetComponent) => {
         }, [visible, prevVisible, fetchData, fetchOnInit, isInit])
 
         const methods = useMemo(
-            () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage }),
-            [fetchData, setFilter, setResolve, setSelected, setSorting, setPage],
+            () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize }),
+            [fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize],
         )
 
         return (
@@ -138,6 +140,9 @@ export const WidgetHOC = (WidgetComponent) => {
         },
         setPage(page = 1) {
             dispatch(changePage(datasource, page))
+        },
+        setSize(size) {
+            dispatch(changeSize(datasource, size))
         },
     })
 

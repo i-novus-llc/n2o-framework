@@ -89,6 +89,7 @@ export const widgetMethodsProps = {
     setSelected: PropTypes.func,
     setSorting: PropTypes.func,
     setPage: PropTypes.func,
+    setSize: PropTypes.func,
 }
 
 /**

@@ -12,7 +12,6 @@ import widgets, {
     loadingWidget,
     unloadingWidget,
     sortByWidget,
-    changeSizeWidget,
     setTableSelectedId,
     setActive,
     changeCountWidget,
@@ -335,29 +334,6 @@ describe('Тесты widget reducer', () => {
                 sorting: {
                     name: 'DESC',
                 },
-            },
-        })
-    })
-
-    it('Проверка CHANGE_SIZE', () => {
-        expect(
-            widgets(
-                {
-                    widget: {
-                        size: 20,
-                    },
-                },
-                {
-                    type: changeSizeWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                        size: 50,
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                size: 50,
             },
         })
     })
