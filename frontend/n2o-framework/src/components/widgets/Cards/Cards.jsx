@@ -1,21 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import map from 'lodash/map'
-import get from 'lodash/get'
 
-import CardsCell from './CardsCell'
-
-const getJustifyContent = (align) => {
-    if (align === 'top') {
-        return 'flex-start'
-    }
-    if (align === 'bottom') {
-        return 'flex-end'
-    }
-
-    return 'center'
-}
+import { Card } from './Card'
 
 /**
  * Cards
@@ -37,50 +24,38 @@ export function Cards(props) {
         height,
     } = props
 
-    const style = {
-        justifyContent: getJustifyContent(align),
+    if (!data?.length || !cards?.length) {
+        return null
     }
 
-    const renderCard = (dataItem, index) => (
-        <div className={classNames('n2o-cards col-12', className)} style={{ height }}>
-            {map(cards, card => renderCardsItem(card, dataItem, index))}
-        </div>
-    )
-
-    const renderCell = (cell, dataItem, index) => (
-        <CardsCell
-            index={index}
-            widgetId={id}
-            model={dataItem}
-            onResolve={onResolve}
-            dispatch={dispatch}
-            {...cell}
-        />
-    )
-
-    const renderCardsItem = (element, dataItem, index) => {
-        const { content = [], col } = element
-
-        return (
-            <div className={classNames('n2o-cards__item', `col-${col}`)} style={style}>
-                {map(content, (cell, { width }) => (get(cell, 'src') === 'ImageCell' ? (
-                    <div className="n2o-cards__image" style={width ? { width } : {}}>
-                        {renderCell(cell, dataItem, index)}
-                    </div>
-                ) : (
-                    renderCell(cell, dataItem, index)
-                )))}
-            </div>
-        )
+    const getJustifyContent = (align) => {
+        switch (align) {
+            case 'top':
+                return 'flex-start'
+            case 'bottom':
+                return 'flex-end'
+            default:
+                return 'center'
+        }
     }
 
     return (
         <div className={classNames('n2o-cards__container col-12', className)}>
-            {
-                data?.length
-                    ? map(data, (item, index) => renderCard(item, index))
-                    : ''
-            }
+            {data.map((model, index) => (
+                <div className="n2o-cards col-12" style={{ height }}>
+                    {cards.map(card => (
+                        <Card
+                            card={card}
+                            model={model}
+                            index={index}
+                            id={id}
+                            dispatch={dispatch}
+                            onResolve={onResolve}
+                            alignStyle={{ justifyContent: getJustifyContent(align) }}
+                        />
+                    ))}
+                </div>
+            ))}
         </div>
     )
 }
