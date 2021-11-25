@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 export const renderBadge = ({
     badge,
-    badgeColor,
+    badgeColor = 'light',
     icon,
     title,
 }) => (
@@ -12,7 +12,7 @@ export const renderBadge = ({
             <span
                 className={
                     cx(
-                        `badge badge-${badgeColor}`,
+                        `ml-1 rounded-pill badge badge-${badgeColor}`,
                     )}
             >
                 {badge}

@@ -33,6 +33,7 @@ function SidebarDropdown({
     isMiniView,
     id,
     imageSrc,
+    imageShape,
 }) {
     const itemDropdownClass = classNames(
         'n2o-sidebar__item-dropdown-label',
@@ -57,7 +58,7 @@ function SidebarDropdown({
                 id={id}
             >
                 {icon && renderIcon(icon, title, type, sidebarOpen, true)}
-                {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} />}
+                {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
                 <span className={classNames('n2o-sidebar__item-title', { mini: isMiniView, visible: showContent })}>{title}</span>
             </div>
             {isOpen && (<div className={subItemsClass}>{children}</div>
@@ -78,6 +79,7 @@ SidebarDropdown.propTypes = {
     type: PropTypes.string,
     id: PropTypes.string,
     imageSrc: PropTypes.string,
+    imageShape: PropTypes.string,
 }
 
 export default compose(
