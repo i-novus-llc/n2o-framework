@@ -72,6 +72,8 @@ export const dataSourceTypes = {
     sorting: PropTypes.object,
     models: PropTypes.shape(modelsType),
     page: PropTypes.number,
+    size: PropTypes.number,
+    count: PropTypes.number,
 }
 
 /**

@@ -387,7 +387,7 @@ export default () => [
             provider: dataProvider,
             sorting,
             validation,
-            size,
+            size: size || dataProvider.size,
             dependencies,
         }))
     }),

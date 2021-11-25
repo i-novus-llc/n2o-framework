@@ -6,7 +6,7 @@ import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
-import { getN2OPagination } from '../Table/N2OPagination'
+import { N2OPagination } from '../Table/N2OPagination'
 
 import CardsContainer from './CardsContainer'
 
@@ -14,19 +14,26 @@ function CardsWidget(props) {
     const {
         id: widgetId,
         datasource,
-        toolbar,
-        disabled,
-        className,
-        style,
-        filter,
-        paging,
-        cards,
-        verticalAlign,
-        height,
+        toolbar, disabled, className,
+        style, filter, paging,
+        cards, verticalAlign, height,
+        size, count, models, page, setPage,
     } = props
     const { place = 'bottomLeft' } = paging
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
+    const pagination = {
+        [place]: (
+            <N2OPagination
+                {...paging}
+                size={size}
+                count={count}
+                activePage={page}
+                datasource={models.datasource}
+                setPage={setPage}
+            />
+        ),
+    }
 
     return (
         <WidgetLayout
@@ -35,7 +42,7 @@ function CardsWidget(props) {
             datasource={datasource}
             toolbar={toolbar}
             filter={resolvedFilter}
-            {...getN2OPagination(paging, place, widgetId, datasource)}
+            {...pagination}
             className={className}
             style={style}
         >

@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import { omit } from 'lodash'
 
-import { getN2OPagination } from '../Table/N2OPagination'
+import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/Widget'
@@ -12,14 +12,24 @@ import AdvancedTableContainer from './AdvancedTableContainer'
 import { AdvancedTableWidgetTypes } from './propTypes'
 
 const AdvancedTable = (props) => {
-    const { id, disabled, toolbar, datasource, className, style, paging, filter, table, setFilter, models } = props
+    const {
+        id, disabled, toolbar, datasource, className, setPage,
+        style, paging, filter, table, setFilter, models, size, count, page,
+    } = props
     const { resolveProps } = useContext(FactoryContext)
-
-    const pagination = useMemo(() => {
-        const { place = 'bottomLeft' } = paging
-
-        return getN2OPagination(paging, place, id, datasource)
-    }, [id, datasource, paging])
+    const { place = 'bottomLeft' } = paging
+    const pagination = {
+        [place]: (
+            <N2OPagination
+                {...paging}
+                size={size}
+                count={count}
+                activePage={page}
+                datasource={models.datasource}
+                setPage={setPage}
+            />
+        ),
+    }
 
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
     const resolvedTable = useMemo(() => ({
