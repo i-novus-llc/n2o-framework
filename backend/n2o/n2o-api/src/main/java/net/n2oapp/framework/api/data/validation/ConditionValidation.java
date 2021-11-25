@@ -8,12 +8,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import javax.script.ScriptException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Клиентская модель валидации условия значений полей

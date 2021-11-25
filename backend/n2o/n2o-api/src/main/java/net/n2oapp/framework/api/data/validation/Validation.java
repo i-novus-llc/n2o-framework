@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.control.N2oFieldCondition;
 import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.*;
 
