@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class SimpleMenuCompileTest extends SourceCompileTestBase {
@@ -68,7 +69,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenuItem.getHref(), is("/profile"));
 
         subMenuItem = menu.getItems().get(1).getSubItems().get(2);
-        assertThat(subMenuItem.getTitle(), is(""));
+        assertThat(subMenuItem.getTitle(), nullValue());
 
         assertThat(dropdownMenu.getSubItems().size(), is(5));
         assertThat(dropdownMenu.getSubItems().get(1).getType(), is("divider"));

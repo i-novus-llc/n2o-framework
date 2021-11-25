@@ -49,7 +49,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         }
         item.setPageId(mi.getPageId());
         item.setId(p.cast(mi.getId(), "menuItem" + idx.get()));
-        item.setTitle(p.cast(mi.getLabel(), ""));
+        item.setTitle(mi.getLabel());
         item.setIcon(mi.getIcon());
         item.setImage(mi.getImage());
         item.setTarget(mi.getTarget());
@@ -94,7 +94,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             N2oPage page = p.getSource(pageId, N2oPage.class);
             if (item.getTitle() == null)
                 item.setTitle(page.getName() == null ? pageId : page.getName());
-            else if ("".equals(item.getTitle()) && page.getName() != null)
+            else if (item.getTitle() == null && page.getName() != null)
                 item.setTitle(page.getName());
             if (route == null)
                 item.setHref(page.getRoute() == null ? "/" + pageId : page.getRoute());
