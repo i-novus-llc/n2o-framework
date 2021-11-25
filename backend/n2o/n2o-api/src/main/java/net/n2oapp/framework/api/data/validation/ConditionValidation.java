@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import javax.script.ScriptException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Клиентская модель валидации условия значений полей
@@ -31,28 +32,21 @@ public class ConditionValidation extends Validation {
     }
 
     public void setExpression(String expression) {
-        if (expression == null)
-            return;
-        expression = expression.replaceAll("\n", "").replace("\r", "").trim();
-        this.expression = expression;
-    }
-
-    private Set<String> getExpressionsOn() {
-        Set<String> res = new HashSet<>();
-        if (expressionOn != null && expressionOn.length() > 0) {
-            Arrays.asList(expressionOn.split(",")).forEach(e -> res.add(e.trim()));
-        }
-        return res;
+        if (expression != null)
+            this.expression = expression.replaceAll("\n|\r", "").trim();
     }
 
     private DataSet getCopiedDataSet (DataSet dataSet) {
         DataSet copiedDataSet = new DataSet(dataSet);
-        for (String key : getExpressionsOn()) {
+        Set<String> expressionsOn = Arrays.stream(expressionOn.split(","))
+                .map(String::trim)
+                .collect(Collectors.toSet());
+
+        expressionsOn.forEach(key -> {
             Object value = dataSet.get(key);
-            if (value instanceof Date) {
-                copiedDataSet.put(key, DomainProcessor.getInstance().serialize(value));
-            }
-        }
+            copiedDataSet.put(key, (value instanceof Date) ?
+                    DomainProcessor.getInstance().serialize(value) : value);
+        });
         return copiedDataSet;
     }
 

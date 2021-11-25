@@ -27,6 +27,7 @@ public class MandatoryValidation extends Validation {
     public MandatoryValidation(String id, String message, String fieldId) {
         setId(id);
         setMessage(message);
+        setJsonMessage(message);
         setFieldId(fieldId);
         setTarget(Target.field);
     }
