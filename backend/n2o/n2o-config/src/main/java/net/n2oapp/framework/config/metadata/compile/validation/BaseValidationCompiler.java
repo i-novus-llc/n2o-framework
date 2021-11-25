@@ -19,7 +19,8 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
         compiled.setId(source.getId());
         compiled.setFieldId(source.getFieldId());
         compiled.setSide(source.getSide());
-        compiled.setMessage(ScriptProcessor.resolveExpression(source.getMessage()));
+        compiled.setMessage(source.getMessage());
+        compiled.setJsonMessage((String) ScriptProcessor.resolveExpression(source.getMessage()));
         resolveEnabled(compiled, source);
         if (danger.equals(source.getSeverity()) || warning.equals(source.getSeverity()))
             compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMoment.beforeOperation));
