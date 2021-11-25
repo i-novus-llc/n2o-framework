@@ -94,6 +94,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             N2oPage page = p.getSource(pageId, N2oPage.class);
             if (item.getTitle() == null)
                 item.setTitle(page.getName() == null ? pageId : page.getName());
+            else if ("".equals(item.getTitle()) && page.getName() != null)
+                item.setTitle(page.getName());
             if (route == null)
                 item.setHref(page.getRoute() == null ? "/" + pageId : page.getRoute());
             else
