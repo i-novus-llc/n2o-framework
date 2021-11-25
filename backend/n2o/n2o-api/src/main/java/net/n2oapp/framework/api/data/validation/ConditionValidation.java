@@ -36,16 +36,20 @@ public class ConditionValidation extends Validation {
             this.expression = expression.replaceAll("\n|\r", "").trim();
     }
 
-    private DataSet getCopiedDataSet (DataSet dataSet) {
-        DataSet copiedDataSet = new DataSet(dataSet);
-        Set<String> expressionsOn = Arrays.stream(expressionOn.split(","))
+    private Set<String> getExpressionsOn() {
+        if (expressionOn == null || expressionOn.length() <= 0)
+            return Collections.emptySet();
+        return Arrays.stream(expressionOn.split(","))
                 .map(String::trim)
                 .collect(Collectors.toSet());
+    }
 
-        expressionsOn.forEach(key -> {
+    private DataSet getCopiedDataSet (DataSet dataSet) {
+        DataSet copiedDataSet = new DataSet(dataSet);
+        getExpressionsOn().forEach(key -> {
             Object value = dataSet.get(key);
             copiedDataSet.put(key, (value instanceof Date) ?
-                    DomainProcessor.getInstance().serialize(value) : value);
+                DomainProcessor.getInstance().serialize(value) : value);
         });
         return copiedDataSet;
     }
