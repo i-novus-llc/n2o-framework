@@ -19,7 +19,7 @@
                 </menu-item>
                 <divider/>
                 <menu-item>
-
+                    <open-page  page-id="testMenu" route="/test"/>
                 </menu-item>
                 <divider/>
                 <menu-item>
