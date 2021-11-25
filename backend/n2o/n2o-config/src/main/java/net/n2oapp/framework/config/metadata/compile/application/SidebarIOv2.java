@@ -45,6 +45,6 @@ public class SidebarIOv2 extends ComponentIO<N2oSidebar> {
         p.attributeBoolean(e, "toggle-on-hover", m::getToggleOnHover, m::setToggleOnHover);
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv3());
-        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
+        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv3());
     }
 }
