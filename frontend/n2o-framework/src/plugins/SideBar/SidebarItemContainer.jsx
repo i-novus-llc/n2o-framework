@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom'
 import { id as generateId } from '../../utils/id'
 import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
 import { renderBadge } from '../../components/snippets/Badge/Badge'
+import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
 
 // eslint-disable-next-line import/no-cycle
 import SidebarDropdown from './SidebarDropdown'
@@ -74,13 +75,15 @@ export function SidebarItemContainer({
     const renderLink = item => (linkType === OUTER_LINK_TYPE
         ? renderOuterLink(item)
         : renderInnerLink(item))
+
     // eslint-disable-next-line react/prop-types
-    const renderOuterLink = ({ href, title, icon }) => {
+    const renderOuterLink = ({ href, title, icon, imageSrc, imageShape }) => {
         const id = generateId()
 
         return (
             <a id={id} className="n2o-sidebar__item" href={href}>
                 {icon && renderIcon(icon, title, type, sidebarOpen)}
+                {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
                 {isMiniView && !icon ? title.substring(0, 1) : title }
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
                 {renderBadge(item)}
@@ -88,7 +91,7 @@ export function SidebarItemContainer({
         )
     }
     // eslint-disable-next-line react/prop-types
-    const renderInnerLink = ({ href, title, icon }) => {
+    const renderInnerLink = ({ href, title, icon, imageSrc, imageShape }) => {
         const id = generateId()
 
         return (
@@ -101,6 +104,7 @@ export function SidebarItemContainer({
                     id={id}
                 >
                     {icon && renderIcon(icon, title, type, sidebarOpen)}
+                    {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
                     <span
                         className={classNames(
                             'n2o-sidebar__item-title',
