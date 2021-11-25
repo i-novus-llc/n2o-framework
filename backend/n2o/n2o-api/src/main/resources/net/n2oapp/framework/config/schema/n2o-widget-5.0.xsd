@@ -127,11 +127,6 @@
                 <xs:documentation>Иконка виджета.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="size" type="xs:integer">
-            <xs:annotation>
-                <xs:documentation>Количество записей, которое отображает виджет.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation>Видимость виджета.</xs:documentation>

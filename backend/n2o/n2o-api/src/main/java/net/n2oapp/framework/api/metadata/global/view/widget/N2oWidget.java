@@ -40,6 +40,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String objectId;
     private String datasourceId;
     private N2oDatasource datasource;
+    @Deprecated
     private Integer size;
     private String cssClass;
     private String style;
@@ -53,8 +54,6 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private Boolean autoFocus;
     @Deprecated
     private UploadType upload;
-    @Deprecated
-    private String containerId;
     @Deprecated
     private String dependsOn;
     @Deprecated
