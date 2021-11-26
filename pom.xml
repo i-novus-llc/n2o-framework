@@ -11,7 +11,7 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.17.19-SNAPSHOT</version>
+    <version>7.17.19</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
@@ -29,7 +29,7 @@
         <connection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</connection>
         <url>https://git.i-novus.ru/open/n2o-framework</url>
         <developerConnection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>7.17.19</tag>
     </scm>
 
     <properties>
