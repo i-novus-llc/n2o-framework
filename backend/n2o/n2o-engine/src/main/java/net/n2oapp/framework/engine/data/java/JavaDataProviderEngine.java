@@ -85,7 +85,7 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
             return methodInvoker.invoke();
         } catch (InvocationTargetException e) {
             if (e.getTargetException() instanceof N2oException)
-                throw (N2oUserException)e.getTargetException();
+                throw (N2oException)e.getTargetException();
             throw new N2oException(e.getTargetException());
         }
         catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
