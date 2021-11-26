@@ -36,7 +36,7 @@ public class ApplicationIOv2 implements NamespaceIO<N2oApplication> {
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv2());
-        p.child(e, null, "sidebar", m::getSidebar, m::setSidebar, new SidebarIO());
+        p.child(e, null, "sidebar", m::getSidebar, m::setSidebar, new SidebarIOv2());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
     }
 }

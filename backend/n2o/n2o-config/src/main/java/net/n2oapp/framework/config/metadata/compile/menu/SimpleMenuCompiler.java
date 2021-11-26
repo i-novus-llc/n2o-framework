@@ -56,6 +56,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         item.setBadge(mi.getBadge());
         item.setBadgeColor(mi.getBadgeColor());
         item.setImageSrc(mi.getImage());
+        item.setImageShape(mi.getImageShape());
         item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
                 HeaderItem.LinkType.outer :
                 HeaderItem.LinkType.inner);
@@ -92,8 +93,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             String pageId = mi.getAction() != null ? mi.getAction().getPageId() : mi.getPageId();
             String route = mi.getAction() != null ? mi.getAction().getRoute() : mi.getRoute();
             N2oPage page = p.getSource(pageId, N2oPage.class);
-            if (item.getTitle() == null)
-                item.setTitle(page.getName() == null ? pageId : page.getName());
+            if (item.getTitle() == null && mi.getPageId() != null)
+                item.setTitle(page.getName() == null ? page.getId() : page.getName());
             if (route == null)
                 item.setHref(page.getRoute() == null ? "/" + pageId : page.getRoute());
             else

@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class SimpleMenuCompileTest extends SourceCompileTestBase {
@@ -48,21 +49,27 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getBadge(), is(2));
         assertThat(menuItem.getBadgeColor(), is("warning"));
         assertThat(menuItem.getHref(), is("/login"));
+
+        menuItem = menu.getItems().get(1);
+        assertThat(menuItem.getTitle(), nullValue());
+        assertThat(menuItem.getImageSrc(), is("/static/users/ivan90.png"));
+        assertThat(menuItem.getImageShape(), is(ImageShape.square));
+        assertThat(menuItem.getHref(), is("/logout"));
     }
 
     @Test
     public void testDropdownMenu() {
         Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
-        HeaderItem dropdownMenu = menu.getItems().get(1);
+        HeaderItem dropdownMenu = menu.getItems().get(2);
 
         assertThat(dropdownMenu.getId(), is("user"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
         assertThat(dropdownMenu.getImageShape(), is(ImageShape.circle));
 
-        HeaderItem subMenuItem = menu.getItems().get(1).getSubItems().get(0);
-        assertThat(subMenuItem.getId(), is("menuItem2"));
+        HeaderItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
+        assertThat(subMenuItem.getId(), is("menuItem3"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
         assertThat(subMenuItem.getHref(), is("/profile"));

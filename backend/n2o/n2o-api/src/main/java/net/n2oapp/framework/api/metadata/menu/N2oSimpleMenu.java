@@ -44,6 +44,7 @@ public class N2oSimpleMenu extends N2oMenu {
         private Integer badge;
         private MenuItem action;
         private String image;
+        private ImageShape imageShape;
         private String pageId;
         private String href;
         private String route;

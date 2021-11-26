@@ -51,6 +51,8 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "name", m::getLabel, m::setLabel);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
+        p.attribute(e, "image", m::getImage, m::setImage);
+        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
         p.attributeInteger(e, "badge", m::getBadge, m::setBadge);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e, null, m::getAction, m::setAction, p.oneOf(N2oSimpleMenu.MenuItem.class)

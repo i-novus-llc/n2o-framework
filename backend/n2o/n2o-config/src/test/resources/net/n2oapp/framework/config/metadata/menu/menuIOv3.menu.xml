@@ -7,6 +7,12 @@
                badge-color="warning">
         <open-page page-id="index" route="/login"/>
     </menu-item>
+    <menu-item image="/static/users/ivan90.png"
+               image-shape="square"
+               badge="12"
+               badge-color="danger">
+        <open-page page-id="index" route="/login"/>
+    </menu-item>
     <dropdown-menu id="user"
                    name="Виктория"
                    image="/static/users/vika91.png"
@@ -17,7 +23,8 @@
         </menu-item>
         <divider/>
         <menu-item name="Сообщения"
-                   icon="fa fa-discussion"
+                   image="/static/users/ivan90.png"
+                   image-shape="square"
                    badge="58"
                    badge-color="primary">
             <open-page page-id="page" route="/route"/>
