@@ -56,6 +56,9 @@ const setup = (propsOverride) => {
     const props = {
         columns,
         data,
+        setResolve: () => {},
+        onFilter: () => {},
+        setSelected: () => {},
     }
 
     return mount(<AdvancedTable {...props} {...propsOverride} />)
@@ -96,12 +99,12 @@ describe('<AdvancedTable/>', () => {
 
     describe('тесты rowClick', () => {
         it('срабатывает rowClick', () => {
-            const onResolve = sinon.spy()
+            const setResolve = sinon.spy()
             const onRowClickAction = sinon.spy()
 
             const wrapper = setup({
                 rowClick: true,
-                onResolve,
+                setResolve,
                 onRowClickAction,
             })
             wrapper
@@ -109,7 +112,7 @@ describe('<AdvancedTable/>', () => {
                 .first()
                 .simulate('click')
 
-            expect(onResolve.calledOnce).toBe(true)
+            expect(setResolve.calledOnce).toBe(true)
             expect(onRowClickAction.calledOnce).toBe(true)
         })
         it('не применяется класс row-click при условии deleted==false', () => {
@@ -130,12 +133,12 @@ describe('<AdvancedTable/>', () => {
         })
 
         it('срабатывает rowClick 2 и более раз по одной и той же строке', () => {
-            const onResolve = sinon.spy()
+            const setResolve = sinon.spy()
             const onRowClickAction = sinon.spy()
 
             const wrapper = setup({
                 rowClick: true,
-                onResolve,
+                setResolve,
                 onRowClickAction,
             })
 
@@ -143,27 +146,27 @@ describe('<AdvancedTable/>', () => {
 
             tableRow.simulate('click')
 
-            expect(onResolve.calledOnce).toBe(true)
+            expect(setResolve.calledOnce).toBe(true)
             expect(onRowClickAction.calledOnce).toBe(true)
 
             tableRow.simulate('click')
 
-            expect(onResolve.calledTwice).toBe(true)
+            expect(setResolve.calledTwice).toBe(true)
             expect(onRowClickAction.calledTwice).toBe(true)
 
             tableRow.simulate('click')
 
-            expect(onResolve.calledThrice).toBe(true)
+            expect(setResolve.calledThrice).toBe(true)
             expect(onRowClickAction.calledThrice).toBe(true)
         })
 
         it('срабатывает rowClick по разным строкам', () => {
-            const onResolve = sinon.spy()
+            const setResolve = sinon.spy()
             const onRowClickAction = sinon.spy()
 
             const wrapper = setup({
                 rowClick: true,
-                onResolve,
+                setResolve,
                 onRowClickAction,
             })
 
@@ -180,12 +183,12 @@ describe('<AdvancedTable/>', () => {
         })
 
         it('корректно работает rowClick после фокуса', () => {
-            const onResolve = sinon.spy()
+            const setResolve = sinon.spy()
             const onRowClickAction = sinon.spy()
 
             const wrapper = setup({
                 rowClick: true,
-                onResolve,
+                setResolve,
                 onRowClickAction,
             })
 
@@ -193,32 +196,32 @@ describe('<AdvancedTable/>', () => {
 
             rows.at(1).simulate('focus')
 
-            expect(onResolve.calledOnce).toBe(false)
+            expect(setResolve.calledOnce).toBe(false)
             expect(onRowClickAction.calledOnce).toBe(false)
 
             rows.at(1).simulate('click')
 
-            expect(onResolve.calledOnce).toBe(true)
+            expect(setResolve.calledOnce).toBe(true)
             expect(onRowClickAction.calledOnce).toBe(true)
 
             rows.at(1).simulate('focus')
 
-            expect(onResolve.calledTwice).toBe(false)
+            expect(setResolve.calledTwice).toBe(false)
             expect(onRowClickAction.calledTwice).toBe(false)
 
             rows.at(1).simulate('click')
 
-            expect(onResolve.calledTwice).toBe(true)
+            expect(setResolve.calledTwice).toBe(true)
             expect(onRowClickAction.calledTwice).toBe(true)
         })
 
         it('корректно работает rowClick после потери фокуса', () => {
-            const onResolve = sinon.spy()
+            const setResolve = sinon.spy()
             const onRowClickAction = sinon.spy()
 
             const wrapper = setup({
                 rowClick: true,
-                onResolve,
+                setResolve,
                 onRowClickAction,
             })
 
@@ -226,22 +229,22 @@ describe('<AdvancedTable/>', () => {
 
             rows.at(1).simulate('click')
 
-            expect(onResolve.calledOnce).toBe(true)
+            expect(setResolve.calledOnce).toBe(true)
             expect(onRowClickAction.calledOnce).toBe(true)
 
             rows.at(1).simulate('blur')
 
             rows.at(1).simulate('click')
 
-            expect(onResolve.calledTwice).toBe(true)
+            expect(setResolve.calledTwice).toBe(true)
             expect(onRowClickAction.calledTwice).toBe(true)
         })
 
-        it('в onResolve приходит правильная строка', () => {
-            const onResolve = sinon.spy()
+        it('в setResolve приходит правильная строка', () => {
+            const setResolve = sinon.spy()
 
             const wrapper = setup({
-                onResolve,
+                setResolve,
                 isActive: true,
                 hasSelect: true,
                 rowClick: false,
@@ -251,18 +254,18 @@ describe('<AdvancedTable/>', () => {
 
             rows.at(1).simulate('click')
 
-            expect(onResolve.calledOnce).toBe(true)
-            expect(onResolve.getCall(0).args[0]).toEqual(wrapper.props().data[1])
+            expect(setResolve.calledOnce).toBe(true)
+            expect(setResolve.getCall(0).args[0]).toEqual(wrapper.props().data[1])
 
             rows.first().simulate('click')
 
-            expect(onResolve.calledTwice).toBe(true)
-            expect(onResolve.getCall(1).args[0]).toEqual(wrapper.props().data[0])
+            expect(setResolve.calledTwice).toBe(true)
+            expect(setResolve.getCall(1).args[0]).toEqual(wrapper.props().data[0])
 
             rows.at(2).simulate('click')
 
-            expect(onResolve.calledThrice).toBe(true)
-            expect(onResolve.getCall(2).args[0]).toEqual(wrapper.props().data[2])
+            expect(setResolve.calledThrice).toBe(true)
+            expect(setResolve.getCall(2).args[0]).toEqual(wrapper.props().data[2])
         })
     })
 

@@ -1,6 +1,5 @@
 import { runSaga } from 'redux-saga'
 import isEmpty from 'lodash/isEmpty'
-import toString from 'lodash/toString'
 import isNumber from 'lodash/isNumber'
 import isUndefined from 'lodash/isUndefined'
 import isNull from 'lodash/isNull'
@@ -22,7 +21,7 @@ import { FETCH_VALIDATE } from '../api'
 export function email(fieldId, values) {
     return (
         isString(values[fieldId]) &&
-    /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,4}$/i.test(values[fieldId])
+        /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,4}$/i.test(values[fieldId])
     )
 }
 
