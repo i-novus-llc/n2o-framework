@@ -9,4 +9,8 @@ public interface BadgeCell extends Cell {
     void colorShouldBe(Colors color);
 
     void textShouldHave(String text);
+
+    void shouldHaveStyle(String style);
+
+    void shouldHaveCssClass(String cssClass);
 }

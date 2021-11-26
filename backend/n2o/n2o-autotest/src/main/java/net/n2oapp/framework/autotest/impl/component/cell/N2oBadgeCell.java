@@ -17,4 +17,14 @@ public class N2oBadgeCell extends N2oCell implements BadgeCell {
     public void textShouldHave(String text) {
         element().shouldHave(Condition.text(text));
     }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+        element().shouldHave(Condition.attribute("style", style));
+    }
+
+    @Override
+    public void shouldHaveCssClass(String cssClass) {
+        element().shouldHave(Condition.cssClass(cssClass));
+    }
 }

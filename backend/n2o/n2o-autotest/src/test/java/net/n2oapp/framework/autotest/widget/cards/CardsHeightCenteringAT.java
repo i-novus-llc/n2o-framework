@@ -1,11 +1,9 @@
 package net.n2oapp.framework.autotest.widget.cards;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
+import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
+import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -32,7 +30,6 @@ public class CardsHeightCenteringAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-//        Configuration.headless = false;
     }
 
     @Override
@@ -57,12 +54,16 @@ public class CardsHeightCenteringAT extends AutoTestBase {
 
         Card card = cardsWidget.card(0);
         card.shouldExists();
-//        card.columns().column(0).blocks().shouldHaveStyle("height: 100%");
-        card.columns().column(0).blocks().cell(0, TextCell.class).shouldHave; .element().should(Condition.attribute("style", "height: 100%"));
-//                .shouldHaveCssClass("align-items-center");
-//        card.columns().column(0).blocks().shouldBeEmpty();
-//        card.columns().column(0).blocks().cell(0, TextCell.class);
 
+        RatingCell ratingCell = card.columns().column(0).blocks().cell(2, RatingCell.class);
+        ratingCell.shouldHaveCssClass("align-self-center");
+
+        TextCell textCell = card.columns().column(1).blocks().cell(0, TextCell.class);
+        textCell.shouldHaveCssClass("align-self-center");
+        textCell.shouldHaveStyle("height: 100%;");
+
+        BadgeCell buttonCell = card.columns().column(2).blocks().cell(3, BadgeCell.class);
+        buttonCell.shouldHaveCssClass("align-self-end");
     }
 
 }
