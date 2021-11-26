@@ -12,31 +12,31 @@ function setup(props, hocName) {
 
 describe('Тесты TreeContainer', () => {
     it('Проверка withWidgetHandlers props', () => {
-        const wrapper = setup(
-            {
+        const initial = {
+            models: {
                 datasource: [
                     { id: 1, label: 'datasource' },
                     { id: 2, label: 'datasource' },
                 ],
-                valueFieldId: 1,
-                multiselect: false,
-                dispatch: sinon.spy(),
             },
+            valueFieldId: 1,
+            multiselect: false,
+            dispatch: sinon.spy(),
+        }
+        const wrapper = setup(
+            initial,
             'withWidgetHandlers',
         )
         const props = wrapper.find(NullComponent).props()
-        expect(props.datasource).toEqual([
-            { id: 1, label: 'datasource' },
-            { id: 2, label: 'datasource' },
-        ])
+        expect(props.models.datasource).toEqual(initial.models.datasource)
         expect(props.valueFieldId).toEqual(1)
         expect(props.multiselect).toEqual(false)
     })
     it('Проверка withWidgetHandlers -> onResolve', () => {
-        const onResolve = sinon.spy()
+        const setResolve = sinon.spy()
         const wrapper = setup(
             {
-                onResolve,
+                setResolve,
             },
             'withWidgetHandlers',
         )
@@ -44,7 +44,7 @@ describe('Тесты TreeContainer', () => {
             .find(NullComponent)
             .props()
             .onResolve()
-        expect(onResolve.calledOnce).toBe(true)
+        expect(setResolve.calledOnce).toBe(true)
     })
     it('Проверка withWidgetHandlers -> onRowClickAction', () => {
         const dispatch = sinon.spy()

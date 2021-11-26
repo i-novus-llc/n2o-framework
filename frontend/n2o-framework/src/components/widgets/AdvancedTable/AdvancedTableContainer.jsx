@@ -6,7 +6,6 @@ import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import pick from 'lodash/pick'
-import forOwn from 'lodash/forOwn'
 import omit from 'lodash/omit'
 import findIndex from 'lodash/findIndex'
 import map from 'lodash/map'
@@ -46,8 +45,6 @@ class AdvancedTableContainer extends React.Component {
             data: this.mapData(datasource),
             columns: this.mapColumns(),
         }
-
-        this.filterValue = props.filters
 
         this.getTableProps = this.getTableProps.bind(this)
         this.mapColumns = this.mapColumns.bind(this)
@@ -114,17 +111,20 @@ class AdvancedTableContainer extends React.Component {
         return <ReduxCell {...propStyles} {...props} datasource={datasource} />
     }
 
-    handleSetFilter(filter) {
-        const { setFilter } = this.props
+    handleSetFilter(filterData) {
+        const { setFilter, models } = this.props
+        const { filter } = models
 
-        this.filterValue = {
-            ...this.filterValue,
-            [filter.id]: filter.value,
+        const newFilter = {
+            ...filter,
+            [filterData.id]: filterData.value,
         }
-        forOwn(this.filterValue, (v, k) => {
-            if (!v || isEmpty(v)) { delete this.filterValue[k] }
-        })
-        setFilter({ ...this.filterValue })
+
+        if (!isEmpty(filterData.value)) {
+            newFilter[filterData.id] = filterData.value
+        }
+
+        setFilter(newFilter)
     }
 
   mapHeaders = (headers, isChild = false) => map(headers, (header) => {
