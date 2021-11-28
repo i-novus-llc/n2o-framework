@@ -700,6 +700,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (widgetScope != null) {
             masterWidgetId = widgetScope.getDependsOnWidgetId();
         }
+        //fixme убрать эту генерацию, так как добавлено в префильтры
         if (masterWidgetId != null && source.getDetailFieldId() != null) {
             Filter filter = new Filter();
             filter.setFilterId(query.getFilterFieldId(source.getDetailFieldId(), FilterType.eq));

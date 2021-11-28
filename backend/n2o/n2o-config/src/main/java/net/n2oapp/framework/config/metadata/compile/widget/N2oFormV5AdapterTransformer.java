@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * Перенос старых(widget-4.0) атрибутов в новые(widget-5.0)
  */
 @Component
-public class N2oFormTransformer implements SourceTransformer<N2oForm>, SourceClassAware {
+public class N2oFormV5AdapterTransformer implements SourceTransformer<N2oForm>, SourceClassAware {
 
     @Override
     public N2oForm transform(N2oForm source, SourceProcessor p) {

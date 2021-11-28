@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-       query-id="test" object-id="test" size="10" upload="query" route="/test" depends-on="f1">
+       query-id="test" object-id="test" size="10" upload="query" route="/test" depends-on="f1" visible="false">
     <filters>
         <input-select id="gender" query-id="utBlank"/>
     </filters>

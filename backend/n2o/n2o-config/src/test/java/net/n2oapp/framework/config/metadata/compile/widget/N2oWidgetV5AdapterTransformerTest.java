@@ -13,7 +13,7 @@ import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMo
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class N2oWidgetTransformerTest extends SourceCompileTestBase {
+public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -28,7 +28,7 @@ public class N2oWidgetTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTableTransformer() {
+    public void testWidgetV5adapterTransformer() {
         N2oTable table = read("net/n2oapp/framework/config/metadata/transformer/testWidgetTransformer.widget.xml")
                 .merge().transform().get("testWidgetTransformer", N2oTable.class);
         assertThat(table.getDatasource().getQueryId(), is("test"));
@@ -40,7 +40,7 @@ public class N2oWidgetTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFormTransformer() {
+    public void testFormV5adapterTransformer() {
         N2oForm form = read("net/n2oapp/framework/config/metadata/transformer/testFormTransformer.widget.xml")
                 .merge().transform().get("testFormTransformer", N2oForm.class);
         assertThat(form.getDatasource().getQueryId(), is("test"));

@@ -60,7 +60,9 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String dependencyCondition;
     private String result;
     private String icon;
+    @Deprecated
     private String masterFieldId;
+    @Deprecated
     private String detailFieldId;
     private String visible;
     private Boolean refreshDependentContainer;
