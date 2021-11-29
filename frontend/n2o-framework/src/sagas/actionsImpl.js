@@ -24,7 +24,7 @@ import {
     makeModelIdSelector,
     makeWidgetValidationSelector,
 } from '../ducks/widgets/selectors'
-import { getModelSelector, selectionTypeSelector } from '../ducks/models/selectors'
+import { getModelSelector } from '../ducks/models/selectors'
 import { validateField } from '../core/validation/createValidator'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -101,13 +101,13 @@ export function* handleAction(factories, action) {
  */
 export function* fetchInvoke(dataProvider, model, apiProvider, action) {
     const state = yield select()
-    const selectionType = yield select(selectionTypeSelector)
     const { widgetId } = action.payload
     // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
     const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
     const multi = get(state, 'models.multi')
     const multiModel = multi?.[modelId] || []
     const widget = get(state, `widgets.${widgetId}`)
+    const selectionType = widget.table?.rowSelection || widget.list?.rowSelection // fixme
     const hasMultiModel = some(values(multi), model => !isEmpty(model))
 
     const needResolve = get(widget, 'modelPrefix') === 'resolve'

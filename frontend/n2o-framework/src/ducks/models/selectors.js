@@ -6,10 +6,6 @@ import get from 'lodash/get'
 
 import { PREFIXES } from './constants'
 
-/*
-  Базовые селекторы
-*/
-
 /**
  * Базовый селектор всех моделей
  * @param state
@@ -21,19 +17,6 @@ const modelsSelector = state => state.models || {}
  * @param state
  */
 const resolveSelector = state => state.models[PREFIXES.resolve] || {}
-
-/**
- * Селектор получения filter моделей
- * @param state
- */
-const filterSelector = state => state.models[PREFIXES.filter] || {}
-
-/**
- * Селектор получения selectionTypes моделей
- * @param state
- */
-
-const selectionTypeSelector = state => state.models[PREFIXES.selectionType] || {}
 
 /**
  * Селектор получения модели по линку
@@ -80,15 +63,6 @@ const makeGetResolveModelSelector = key => createSelector(
     modelsState => modelsState[key],
 )
 
-/**
- * Селектор-генератор для получения filter модели
- * @param key
- */
-const makeGetFilterModelSelector = key => createSelector(
-    filterSelector,
-    modelsState => modelsState[key],
-)
-
 /*
   Остальные селекторы
 */
@@ -99,8 +73,6 @@ export {
     makeModelsByPrefixSelector,
     makeGetModelByPrefixSelector,
     makeGetResolveModelSelector,
-    makeGetFilterModelSelector,
     getModelSelector,
     getModelsByDependency,
-    selectionTypeSelector,
 }
