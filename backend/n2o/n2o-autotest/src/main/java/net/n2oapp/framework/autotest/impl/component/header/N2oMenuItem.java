@@ -24,13 +24,13 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     public void imageShouldHaveShape(ImageShape shape) {
         switch (shape) {
             case square:
-                element().$("img").shouldHave(Condition.attribute("class", "mr-2 "));
+                checkShape("mr-2 ");
                 break;
             case rounded:
-                element().$("img").shouldHave(Condition.attribute("class", "mr-2 " + shape));
+                checkShape("mr-2 " + shape);
                 break;
             case circle:
-                element().$("img").shouldHave(Condition.attribute("class", "mr-2 rounded-" + shape));
+                checkShape("mr-2 rounded-" + shape);
                 break;
         }
     }
@@ -43,5 +43,9 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     @Override
     public void click() {
         element().shouldBe(Condition.exist).click();
+    }
+
+    private void checkShape(String shape) {
+        element().$("img").shouldHave(Condition.attribute("class", shape));
     }
 }

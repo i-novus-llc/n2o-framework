@@ -7,7 +7,7 @@ public interface AnchorMenuItem extends MenuItem {
 
     void shouldHaveIcon();
 
-    void iconShouldHaveClass(String clazz);
+    void iconShouldHaveCssClass(String clazz);
 
     void shouldHaveBadge();
 
