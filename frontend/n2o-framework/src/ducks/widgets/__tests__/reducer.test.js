@@ -35,8 +35,9 @@ describe('Тесты widget reducer', () => {
                     payload: {
                         widgetId: 'Page.Widget',
                         initProps: {
-                            modelId: 'Page.Widget',
+                            datasource: 'Page.Widget',
                             containerId: 'containerId',
+                            fetch: "always",
                             count: 1,
                             dataProvider: {
                                 url: 'n2o/data',
@@ -62,8 +63,9 @@ describe('Тесты widget reducer', () => {
             ),
         ).toEqual({
             'Page.Widget': {
-                modelId: 'Page.Widget',
+                datasource: 'Page.Widget',
                 containerId: 'containerId',
+                fetch: "always",
                 count: 1,
                 dataProvider: {
                     url: 'n2o/data',
@@ -89,6 +91,7 @@ describe('Тесты widget reducer', () => {
                 type: 'table',
                 validation: {},
                 error: null,
+                visible: true,
             },
         })
     })

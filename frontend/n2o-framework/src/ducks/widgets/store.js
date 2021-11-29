@@ -49,7 +49,6 @@ const widgetSlice = createSlice({
                     ...currentState,
                     ...initProps,
                     ...smartState,
-                    modelId: initProps.modelId || widgetId,
                     isInit: !preInit,
                     type: initProps.type,
                 }

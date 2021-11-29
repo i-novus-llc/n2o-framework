@@ -29,6 +29,11 @@ const setup = propsOverride => mount(
         <ListContainer
             dataProvider={ListWidgetMeta.List.dataProvider}
             list={ListWidgetMeta.List.list}
+            models= {{
+                "datasource": [],
+                "multi": [],
+                "filter": {}
+            }}
             {...propsOverride}
         >
             <NullComponent />

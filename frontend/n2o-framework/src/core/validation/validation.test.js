@@ -131,14 +131,6 @@ describe('Проверка пресетов', () => {
             expect(maxLength('test', { test: '12345' }, { max: 3 })).toBe(false)
         })
     })
-    describe('Проверка match пресета', () => {
-        it('валидное значение', () => {
-            expect(match('test', { test: 'test' }, { field: 'test' })).toBe(true)
-        })
-        it('не валидное значение', () => {
-            expect(match('test', { test: 'test1' }, { field: 'test' })).toBe(false)
-        })
-    })
 })
 
 describe('Проверка валидатора', () => {
