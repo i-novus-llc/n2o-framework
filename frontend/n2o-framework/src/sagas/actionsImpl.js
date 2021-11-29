@@ -20,8 +20,8 @@ import some from 'lodash/some'
 
 import { START_INVOKE } from '../constants/actionImpls'
 import {
+    makeDatasourceIdSelector,
     makeFormModelPrefixSelector,
-    makeModelIdSelector,
     makeWidgetValidationSelector,
 } from '../ducks/widgets/selectors'
 import { getModelSelector } from '../ducks/models/selectors'
@@ -103,7 +103,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
     const state = yield select()
     const { widgetId } = action.payload
     // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
-    const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
+    const modelId = action.payload.modelId || (yield select(makeDatasourceIdSelector(widgetId)))
     const multi = get(state, 'models.multi')
     const multiModel = multi?.[modelId] || []
     const widget = get(state, `widgets.${widgetId}`)
@@ -119,7 +119,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
         headersParams,
     } = yield dataProviderResolver(state, dataProvider)
 
-    const isSelectionTypeCheckbox = selectionType[widgetId] === 'checkbox'
+    const isSelectionTypeCheckbox = selectionType === 'checkbox'
 
     const createModelRequest = () => {
         if (isSelectionTypeCheckbox && hasMultiModel) {
@@ -215,7 +215,7 @@ export function* handleInvoke(apiProvider, action) {
             (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm)
         ) {
             // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
-            const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
+            const modelId = action.payload.modelId || (yield select(makeDatasourceIdSelector(widgetId)))
 
             yield put(
                 setModel(modelPrefix, modelId, optimistic ? model : response.data),

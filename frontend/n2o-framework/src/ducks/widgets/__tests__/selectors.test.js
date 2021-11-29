@@ -20,31 +20,36 @@ import {
 } from '../selectors'
 
 const state = {
-    widgets: {
-        widget1: {
-            isInit: true,
-            isVisible: true,
-            isEnabled: true,
-            isLoading: true,
+    datasorce: {
+        ds1: {
+            loading: true,
             size: 10,
             count: 100,
             page: 1,
-            pageId: '_',
             sorting: {
                 name: 'DESC',
             },
-            isFilterVisible: true,
             validation: {
                 some: 'value',
             },
-            selectedId: 2,
-            isActive: true,
-            type: 'table',
-            dataProvider: {
+            provider: {
                 url: 'test',
                 pathMapping: {},
                 queryMapping: {},
             },
+        }
+    },
+    widgets: {
+        widget1: {
+            datasorce: 'ds1',
+            isInit: true,
+            isVisible: true,
+            isEnabled: true,
+            pageId: '_',
+            isFilterVisible: true,
+            selectedId: 2,
+            isActive: true,
+            type: 'table',
         },
         widget2: {},
     },
