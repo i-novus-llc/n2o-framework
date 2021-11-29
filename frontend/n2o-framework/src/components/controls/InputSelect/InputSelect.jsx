@@ -141,6 +141,7 @@ class InputSelect extends React.Component {
             labelFieldId,
             options,
         } = this.props
+
         const findValue = find(value, [labelFieldId, input])
         const conditionForAddingAnObject = (resetOnBlur, input, options, value) => (
             !resetOnBlur &&
@@ -158,14 +159,9 @@ class InputSelect extends React.Component {
                 () => onChange(this.getValue()),
             )
         }
+
         if (!input && value.length) {
-            this.setState(
-                {
-                    input: '',
-                    value: multiSelect ? value : [],
-                },
-                () => onChange(this.getValue()),
-            )
+            onChange(this.getValue())
         }
         if (conditionForAddingAnObject(resetOnBlur, input, options, value)) {
             this.addObjectToValue()
@@ -248,9 +244,12 @@ class InputSelect extends React.Component {
      */
 
     clearSelected() {
-        const { onChange } = this.props
+        const { onChange, onBlur } = this.props
 
-        this.setState({ value: [], input: '' }, () => onChange(this.getValue()))
+        this.setState({ value: [], input: '' }, () => {
+            onChange(this.getValue())
+            onBlur(this.getValue())
+        })
     }
 
     /**
@@ -457,6 +456,7 @@ class InputSelect extends React.Component {
         if (!isExpanded) {
             onBlur(this.getValue())
         }
+
         this.handleValueChangeOnBlur()
         this.setInputFocus(false)
 
