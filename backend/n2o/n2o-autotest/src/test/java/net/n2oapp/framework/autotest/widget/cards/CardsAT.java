@@ -64,17 +64,17 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(0).shouldHaveWidth(5);
         card.columns().column(0).blocks().shouldHaveSize(4);
 
-        TextCell textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
+        TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
         textCell.textShouldHave("Hamburg");
 
-        ImageCell imageCell = card.columns().column(0).blocks().cell(1, ImageCell.class);
+        ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
         imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
-        BadgeCell badgeCell = card.columns().column(0).blocks().cell(2, BadgeCell.class);
+        BadgeCell badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
         badgeCell.textShouldHave("Germany");
 
-        ToolbarCell toolbarCell = card.columns().column(0).blocks().cell(3, ToolbarCell.class);
+        ToolbarCell toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
         toolbarCell.toolbar().button("Info").click();
 
@@ -91,17 +91,17 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(0).shouldHaveWidth(5);
         card.columns().column(0).blocks().shouldHaveSize(4);
 
-        textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
+        textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
         textCell.textShouldHave("Paris");
 
-        imageCell = card.columns().column(0).blocks().cell(1, ImageCell.class);
+        imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
         imageCell.imageShouldBe(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
-        badgeCell = card.columns().column(0).blocks().cell(2, BadgeCell.class);
+        badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
         badgeCell.textShouldHave("France");
 
-        toolbarCell = card.columns().column(0).blocks().cell(3, ToolbarCell.class);
+        toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
     }
 
@@ -126,26 +126,26 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(1).shouldHaveWidth(2);
         card.columns().column(1).blocks().shouldHaveSize(5);
 
-        TextCell textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
+        TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
         textCell.textShouldHave("Hamburg");
 
-        ImageCell imageCell = card.columns().column(0).blocks().cell(1, ImageCell.class);
+        ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
         imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
-        IconCell iconCell = card.columns().column(1).blocks().cell(0, IconCell.class);
+        IconCell iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
         iconCell.textShouldHave("ship");
 
-        BadgeCell badgeCell = card.columns().column(1).blocks().cell(1, BadgeCell.class);
+        BadgeCell badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
         badgeCell.textShouldHave("Germany");
 
-        ProgressBarCell progressBarCell = card.columns().column(1).blocks().cell(2, ProgressBarCell.class);
+        ProgressBarCell progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
         progressBarCell.valueShouldBe("50");
 
-        RatingCell ratingCell = card.columns().column(1).blocks().cell(3, RatingCell.class);
+        RatingCell ratingCell = card.columns().column(1).blocks().block(3).cell(RatingCell.class);
         ratingCell.valueShouldBe("4");
 
-        CheckboxCell checkboxCell = card.columns().column(1).blocks().cell(4, CheckboxCell.class);
+        CheckboxCell checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeChecked();
 
         card = cardsWidget.card(1);
@@ -157,26 +157,26 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(1).shouldHaveWidth(2);
         card.columns().column(1).blocks().shouldHaveSize(5);
 
-        textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
+        textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
         textCell.textShouldHave("Paris");
 
-        imageCell = card.columns().column(0).blocks().cell(1, ImageCell.class);
+        imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
         imageCell.imageShouldBe(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
-        iconCell = card.columns().column(1).blocks().cell(0, IconCell.class);
+        iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
         iconCell.textShouldHave("bicycle");
 
-        badgeCell = card.columns().column(1).blocks().cell(1, BadgeCell.class);
+        badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
         badgeCell.textShouldHave("France");
 
-        progressBarCell = card.columns().column(1).blocks().cell(2, ProgressBarCell.class);
+        progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
         progressBarCell.valueShouldBe("70");
 
-        ratingCell = card.columns().column(1).blocks().cell(3, RatingCell.class);
+        ratingCell = card.columns().column(1).blocks().block(3).cell(RatingCell.class);
         ratingCell.valueShouldBe("4.5");
 
-        checkboxCell = card.columns().column(1).blocks().cell(4, CheckboxCell.class);
+        checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeUnchecked();
     }
 
@@ -199,15 +199,15 @@ public class CardsAT extends AutoTestBase {
         paging.lastShouldNotExist();
 
         paging.activePageShouldBe("1");
-        cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
         cards.shouldHaveItems(3);
         paging.selectPage("3");
         paging.activePageShouldBe("3");
         cards.shouldHaveItems(2);
-        cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
+        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
         paging.selectFirst();
         paging.activePageShouldBe("1");
-        cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
 
 
         CardsWidget cards2 = page.regions().region(0, SimpleRegion.class).content().widget(1, CardsWidget.class);
@@ -228,15 +228,15 @@ public class CardsAT extends AutoTestBase {
         paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.activePageShouldBe("1");
-        cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
         paging.selectNext();
         paging.activePageShouldBe("2");
-        cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test4");
+        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test4");
         paging.selectPrev();
         paging.activePageShouldBe("1");
         paging.selectLast();
         cards2.shouldHaveItems(2);
-        cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
+        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
     }
 
 }

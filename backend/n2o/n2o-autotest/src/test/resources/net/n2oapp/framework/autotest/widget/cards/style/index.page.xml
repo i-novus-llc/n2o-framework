@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Стили блоков плиток">
+    <cards query-id="test" height="250px" vertical-align="center">
+        <content>
+            <col size="2">
+                <block text-field-id="image">
+                    <image/>
+                </block>
+                <block text-field-id="name" class="align-self-center">
+                    <badge color="info"/>
+                </block>
+                <block text-field-id="rating" class="align-self-center">
+                    <rating half="true"/>
+                </block>
+            </col>
+
+            <col size="5">
+                <block text-field-id="text" class="align-self-center align-items-center" style="color: green">
+                    <text/>
+                </block>
+            </col>
+
+            <col size="3">
+                <block text-field-id="progress">
+                    <progress/>
+                </block>
+                <block text-field-id="action" class="align-self-end">
+                    <toolbar>
+                        <button label="Info" color="success"/>
+                    </toolbar>
+                </block>
+            </col>
+        </content>
+    </cards>
+</simple-page>
