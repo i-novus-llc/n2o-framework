@@ -159,11 +159,6 @@ export const isAnyTableFocusedSelector = createSelector(
     ),
 )
 
-export const makeWidgetErrorSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.error,
-)
-
 // region others
 export const makeFormModelPrefixSelector = formName => createSelector(
     makeWidgetByIdSelector(formName),
