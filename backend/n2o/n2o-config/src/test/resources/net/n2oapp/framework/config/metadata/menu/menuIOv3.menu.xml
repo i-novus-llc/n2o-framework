@@ -5,19 +5,13 @@
                icon="fa fa-bell"
                badge="2"
                badge-color="warning">
-        <open-page page-id="index"
-                   src="src"
-                   close-after-submit="true"
-                   focus-after-submit="true"
-                   object-id="blankObject"
-                   page-name="page"
-                   redirect-target-after-submit="application"
-                   redirect-url-after-submit="/url"
-                   submit-label="submitLabel"
-                   submit-model="edit"
-                   submit-operation-id="operationId"
-                   upload="query"
-                   route="/login"/>
+        <open-page page-id="index" route="/login"/>
+    </menu-item>
+    <menu-item image="/static/users/ivan90.png"
+               image-shape="square"
+               badge="12"
+               badge-color="danger">
+        <open-page page-id="index" route="/login"/>
     </menu-item>
     <dropdown-menu id="user"
                    name="Виктория"
@@ -25,25 +19,20 @@
                    image-shape="circle">
         <menu-item name="Профиль"
                    icon="fa fa-user">
-            <a href="/profile" target="application" src="src"/>
+            <a href="/profile" target="application"/>
         </menu-item>
         <divider/>
         <menu-item name="Сообщения"
-                   icon="fa fa-discussion"
+                   image="/static/users/ivan90.png"
+                   image-shape="square"
                    badge="58"
                    badge-color="primary">
-            <open-page page-id="index" route="/:id/route">
-                <path-param name="id" value="{id}" ref-model="edit" ref-widget-id="widget"/>
-                <query-param name="name" value="{name}"/>
-            </open-page>
+            <open-page page-id="page" route="/route"/>
         </menu-item>
         <divider/>
         <menu-item name="Выход"
                    icon="fa fa-door">
-            <a href="/logout" target="self">
-                <path-param name="id" value="{id}" ref-model="edit" ref-widget-id="widget"/>
-                <query-param name="name" value="{name}"/>
-            </a>
+            <a href="/logout" target="self"/>
         </menu-item>
     </dropdown-menu>
 </menu>
