@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.validation.message;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -64,7 +63,7 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
 
         input.clear();
         firstName.shouldHaveValidationMessage(Condition.empty);
-        lastName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
+        lastName.shouldHaveValidationMessage(Condition.empty);
 
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.text("Имя  уже существует"));
