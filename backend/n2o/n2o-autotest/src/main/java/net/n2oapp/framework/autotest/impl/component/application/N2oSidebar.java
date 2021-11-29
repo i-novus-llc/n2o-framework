@@ -50,9 +50,13 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
+    public void toggle() {
+        element().$(".n2o-sidebar__toggler").click();
+    }
+
+    @Override
     public Menu nav() {
-        return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(0).$$("ul > li")
-                , N2oMenu.class);
+        return N2oSelenide.collection(element().$$("nav"), N2oMenu.class);
     }
 
     @Override
