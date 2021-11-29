@@ -77,10 +77,30 @@ export function SidebarItemContainer({
     const renderOuterLink = ({ href, title, icon }) => {
         const id = generateId()
 
+        const renderCurrentTitle = (isMiniView, icon, title) => {
+            if (isMiniView) {
+                if (icon) {
+                    return null
+                }
+
+                return title.substring(0, 1)
+            }
+
+            return title
+        }
+
         return (
             <a id={id} className="n2o-sidebar__item" href={href}>
                 {icon && renderIcon(icon, title, type, sidebarOpen)}
-                {isMiniView && !icon ? title.substring(0, 1) : title }
+                <span className={classNames(
+                    'n2o-sidebar__item__title',
+                    {
+                        none: isMiniView && icon,
+                    },
+                )}
+                >
+                    {renderCurrentTitle(isMiniView, icon, title)}
+                </span>
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
             </a>
         )
