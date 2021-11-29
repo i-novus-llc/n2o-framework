@@ -37,7 +37,8 @@ module.exports = {
         // docker run -it --env-file=.env -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" algolia/docsearch-scraper
         algolia: {
             appId: 'TQNZ4TMMUC',
-            apiKey: '49a82d70852f446903496f5855492571',
+            //key for search only
+            apiKey: '7e57dabdf56e2346c4dd73f77f69882b',
             indexName: 'n2oapp',
             searchParameters: {
                 highlightPostTag: highLightElement,
