@@ -127,8 +127,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                     CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :
                     searchBarScope.getWidgetId();
             ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
-                    pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                            searchWidgetId : pageScope.getWidgetIdDatasourceMap().get(searchWidgetId));
+                    pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
+                            searchWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(searchWidgetId));
             modelLink.setFieldValue(searchBarScope.getModelKey());
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
 //            if (!datasource.containsFilter(searchBarScope.getModelKey())) { fixme
