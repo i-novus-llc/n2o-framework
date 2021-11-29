@@ -18,4 +18,8 @@ public interface Cell extends Component {
     void shouldHaveIcon(String icon);
 
     void shouldNotHaveIcon();
+
+    void shouldHaveStyle(String style);
+
+    void shouldHaveCssClass(String cssClass);
 }

@@ -48,4 +48,14 @@ public class N2oCell extends N2oComponent implements Cell {
     public void shouldNotHaveIcon() {
         element().$(".n2o-icon").shouldNotBe(Condition.exist);
     }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+        element().shouldHave(Condition.attribute("style", style));
+    }
+
+    @Override
+    public void shouldHaveCssClass(String cssClass) {
+        element().shouldHave(Condition.cssClass(cssClass));
+    }
 }
