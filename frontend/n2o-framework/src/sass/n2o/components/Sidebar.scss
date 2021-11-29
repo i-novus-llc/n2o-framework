@@ -79,6 +79,15 @@
     &.n2o-sidebar__item--dropdown:hover {
         background: transparent;
     }
+
+    .n2o-sidebar__item__title {
+        transition: 0.1s ease-out;
+    }
+
+    .n2o-sidebar__item__title.none {
+        width: 0;
+        opacity: 0;
+    }
 }
 
 .n2o-sidebar__nav-brand {
@@ -212,6 +221,7 @@
 
     .n2o-sidebar__item-content-icon {
         margin-right: 10px;
+        transition: 0.1s ease-out;
     }
 
     .n2o-sidebar__item-dropdown-label,
