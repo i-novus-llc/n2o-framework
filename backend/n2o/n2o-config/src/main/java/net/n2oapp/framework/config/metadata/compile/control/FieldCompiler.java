@@ -546,8 +546,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         } else {
             PageScope scope = p.getScope(PageScope.class);
             datasourceId = source.getRefWidgetId() == null ?
-                    scope.getWidgetIdDatasourceMap().get(defaultWidgetId) :
-                    scope.getWidgetIdDatasourceMap().get(scope.getGlobalWidgetId(source.getRefWidgetId()));
+                    scope.getWidgetIdClientDatasourceMap().get(defaultWidgetId) :
+                    scope.getWidgetIdClientDatasourceMap().get(scope.getGlobalWidgetId(source.getRefWidgetId()));
         }
         return datasourceId;
     }

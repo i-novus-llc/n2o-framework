@@ -46,6 +46,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String style;
     private Boolean border;
     private String refId;
+    @Deprecated
     private String masterParam;
     private Boolean fetchOnInit;
     /**

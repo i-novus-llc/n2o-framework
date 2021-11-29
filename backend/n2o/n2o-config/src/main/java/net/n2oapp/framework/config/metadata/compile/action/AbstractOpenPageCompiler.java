@@ -154,8 +154,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         PageContext pageContext = constructContext(pageId, route);
         if (pageScope != null) {
-            if (pageScope.getWidgetIdDatasourceMap() != null)
-                pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdDatasourceMap());
+            if (pageScope.getWidgetIdClientDatasourceMap() != null)
+                pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
             if (pageScope.getTabIds() != null)
                 pageContext.setParentTabIds(pageScope.getTabIds());
         }
@@ -233,9 +233,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 actionDataModelClientWidgetId = clientWidgetId;
 
             if (actionDataModel != null && actionDataModelClientWidgetId != null) {
-                String datasource = (pageScope == null || pageScope.getWidgetIdDatasourceMap() == null)
+                String datasource = (pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null)
                         ? actionDataModelClientWidgetId
-                        : pageScope.getWidgetIdDatasourceMap().get(actionDataModelClientWidgetId);
+                        : pageScope.getWidgetIdClientDatasourceMap().get(actionDataModelClientWidgetId);
                 return new ModelLink(actionDataModel, datasource, N2oQuery.Field.PK);
             }
         }

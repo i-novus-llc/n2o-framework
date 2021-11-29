@@ -14,7 +14,6 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.message;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -35,16 +34,16 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
 
         String sourceWidgetId = getSourceWidgetId(source, context, p);
         PageScope pageScope = p.getScope(PageScope.class);
-        String sourceDatasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                sourceWidgetId : pageScope.getWidgetIdDatasourceMap().get(sourceWidgetId);
+        String sourceDatasource = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
+                sourceWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(sourceWidgetId);
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
                 sourceDatasource, p.cast(source.getSourceModel(), ReduxModel.RESOLVE).getId());
         if (source.getSourceFieldId() != null)
             sourceModel.setField(source.getSourceFieldId());
 
         String targetWidgetId = getTargetWidgetId(source, context, p);
-        String targetDatasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                    targetWidgetId : pageScope.getWidgetIdDatasourceMap().get(targetWidgetId);
+        String targetDatasource = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
+                    targetWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(targetWidgetId);
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
                 targetDatasource, p.cast(source.getTargetModel(), ReduxModel.RESOLVE).getId());
         if (source.getTargetFieldId() != null)

@@ -28,6 +28,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     /**
      * Наименование path параметра идентификатора родительского виджета
      */
+    @Deprecated
     private String masterParam;
     /**
      * Ссылка на идентификатор родительского виджета

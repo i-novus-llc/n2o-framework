@@ -24,9 +24,9 @@ public class N2oFormV5AdapterTransformer implements SourceTransformer<N2oForm>, 
             source.getDatasource().setSubmit(source.getSubmit());
             PageScope pageScope = p.getScope(PageScope.class);
             if (source.getDatasource().getSubmit().getRefreshWidgetId() != null && pageScope != null &&
-                    pageScope.getWidgetIdDatasourceMap() != null)
+                    pageScope.getWidgetIdSourceDatasourceMap() != null)
                 source.getDatasource().getSubmit().setRefreshDatasources(
-                        new String[]{pageScope.getWidgetIdDatasourceMap()
+                        new String[]{pageScope.getWidgetIdSourceDatasourceMap()
                                 .get(source.getDatasource().getSubmit().getRefreshWidgetId())});
         }
         return source;

@@ -63,11 +63,13 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         if (widget.getQueryId() != null)
             pageScope.setWidgetIdQueryIdMap(Map.of(widget.getId(), widget.getQueryId()));
-        pageScope.setWidgetIdDatasourceMap(new HashMap<>());
-        pageScope.getWidgetIdDatasourceMap().putAll(Map.of(pageScope.getGlobalWidgetId(widget.getId()),
+        pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
+        pageScope.getWidgetIdSourceDatasourceMap().putAll(Map.of(widget.getId(),
+                widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId()));
+        pageScope.getWidgetIdClientDatasourceMap().putAll(Map.of(pageScope.getGlobalWidgetId(widget.getId()),
                 pageScope.getGlobalWidgetId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId())));
         if (context.getParentWidgetIdDatasourceMap() != null)
-            pageScope.getWidgetIdDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
+            pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();
@@ -113,7 +115,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             datasourceScope.values().forEach(ds -> {
                 Datasource compiled = p.compile(ds, context, validationList, widgetsScope, routeScope,
                         parentRouteScope, pageScope);
-                compiledDatasources.put(ds.getId(), compiled);
+                compiledDatasources.put(compiled.getId(), compiled);
             });
         }
         return compiledDatasources;

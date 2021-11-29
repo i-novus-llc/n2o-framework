@@ -1,12 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -51,21 +53,25 @@ public class N2oWidgetV5AdapterTransformer implements SourceTransformer<N2oWidge
                         source.getDatasource().setDefaultValuesMode(DefaultValuesMode.query);
                 }
             }
-            if (source.getDependsOn() != null && pageScope != null && pageScope.getWidgetIdDatasourceMap() != null) {
+            if (source.getDependsOn() != null) {
+                if (pageScope == null || pageScope.getWidgetIdSourceDatasourceMap() == null)
+                    throw new N2oException(String.format("There is a link to %s, but the context is not defined ", source.getDependsOn()));
                 N2oDatasource.FetchDependency fetchDependency = new N2oDatasource.FetchDependency();
-                String datasourceId = pageScope.getWidgetIdDatasourceMap().get(source.getDependsOn());
+                String datasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(source.getDependsOn());
                 fetchDependency.setOn(datasourceId);
                 fetchDependency.setModel(ReduxModel.RESOLVE);
                 source.getDatasource().setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (source.getDetailFieldId() != null) {
-                    List<N2oPreFilter> preFilters = Arrays.asList(source.getDatasource().getFilters());
-                    N2oPreFilter masterFilter = new N2oPreFilter(source.getDetailFieldId(), "{id}", FilterType.eq);
-                    masterFilter.setParam(source.getMasterParam());
+                    List<N2oPreFilter> preFilters = new ArrayList<>(Arrays.asList(source.getDatasource().getFilters()));
+                    N2oPreFilter masterFilter = new N2oPreFilter(source.getDetailFieldId(), FilterType.eq);
+                    String masterFieldId = source.getMasterFieldId() == null ? N2oQuery.Field.PK : source.getMasterFieldId();
+                    masterFilter.setParam(source.getMasterParam() == null ?
+                            datasourceId + "_" + masterFieldId : source.getMasterParam());
                     masterFilter.setModel(ReduxModel.RESOLVE);
                     masterFilter.setDatasource(datasourceId);
                     preFilters.add(masterFilter);
-                    source.getDatasource().setFilters((N2oPreFilter[]) preFilters.toArray());
+                    source.getDatasource().setFilters(preFilters.toArray(new N2oPreFilter[preFilters.size()]));
                 }
             }
             source.getDatasource().setRoute(source.getRoute());
@@ -73,8 +79,11 @@ public class N2oWidgetV5AdapterTransformer implements SourceTransformer<N2oWidge
             if (source.getDependencyCondition() != null) {
                 N2oVisibilityDependency visibilityDependency = new N2oVisibilityDependency();
                 visibilityDependency.setValue(source.getDependencyCondition());
-                if (source.getDependsOn() != null && pageScope != null && pageScope.getWidgetIdDatasourceMap() != null)
-                    visibilityDependency.setDatasource(pageScope != null ? pageScope.getWidgetIdDatasourceMap().get(source.getDependsOn()) : null);
+                if (source.getDependsOn() != null) {
+                    if (pageScope == null || pageScope.getWidgetIdSourceDatasourceMap() == null)
+                        throw new N2oException(String.format("There is a link to %s, but the context is not defined ", source.getDependsOn()));
+                    visibilityDependency.setDatasource(pageScope.getWidgetIdSourceDatasourceMap().get(source.getDependsOn()));
+                }
                 visibilityDependency.setModel(ReduxModel.RESOLVE);
                 source.setDependencies(new N2oDependency[]{visibilityDependency});
             }
