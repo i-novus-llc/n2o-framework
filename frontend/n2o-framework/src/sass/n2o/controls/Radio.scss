@@ -59,7 +59,7 @@
         &:hover:not(.checked):not(.disabled),
         &:focus:not(.checked):not(.disabled) {
             border-color: $n2o-radio-input-hover-border-color;
-            color: $pink;
+            color: black;
         }
     }
 
@@ -68,6 +68,14 @@
     &.n2o-radio-input-btn {
         @extend .btn;
         @extend .btn-secondary;
+    }
+}
+
+.n2o-radio-input.invalid,
+.n2o-radio-input.invalid:hover,
+.n2o-radio-input.active.invalid {
+    span {
+        color: $danger;
     }
 }
 

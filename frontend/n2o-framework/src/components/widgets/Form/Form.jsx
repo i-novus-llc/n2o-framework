@@ -1,10 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { pure } from 'recompose'
+
+import { makeFormByName } from '../../../ducks/form/selectors'
 
 import { getAutoFocusId, flatFields } from './utils'
 import Fieldset from './Fieldset'
 import Field from './Field'
+
 /**
  * Простая форма
  * @reactProps {string} class - css-класс
@@ -31,6 +35,7 @@ class Form extends React.Component {
     /**
    * Рендер филдсетов
    */
+
     renderFieldsets() {
         const {
             fieldsets,
@@ -39,6 +44,7 @@ class Form extends React.Component {
             modelPrefix,
             autoSubmit,
             activeModel,
+            activeField,
         } = this.props
 
         const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []))
@@ -51,6 +57,7 @@ class Form extends React.Component {
                 form={form}
                 modelPrefix={modelPrefix}
                 autoSubmit={autoSubmit}
+                activeField={activeField}
                 {...fieldset}
             />
         ))
@@ -105,6 +112,12 @@ Form.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,
     ]),
+    activeField: PropTypes.string,
 }
 
-export default pure(Form)
+const mapStateToProps = (state, props) => (
+    {
+        activeField: props.form ? makeFormByName(props.form)(state).active : null,
+    })
+
+export default connect(mapStateToProps)(pure(Form))

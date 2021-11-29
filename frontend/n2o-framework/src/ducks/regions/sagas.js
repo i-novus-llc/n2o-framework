@@ -1,4 +1,5 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { actionTypes } from 'redux-form'
 import values from 'lodash/values'
 import filter from 'lodash/filter'
 import get from 'lodash/get'
@@ -18,8 +19,9 @@ import { authSelector } from '../user/selectors'
 import { routesQueryMapping } from '../widgets/sagas/routesQueryMapping'
 import { makeModelIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
 import { dataRequestWidget } from '../widgets/store'
+import { addMessage, removeMessage } from '../form/constants'
 
-import { setActiveRegion, regionsSelector } from './store'
+import { setActiveRegion, regionsSelector, setTabInvalid } from './store'
 import { MAP_URL } from './constants'
 
 function* mapUrl(value) {
@@ -34,16 +36,47 @@ function* mapUrl(value) {
     }
 }
 
-function* switchTab() {
+export function* tabTraversal(action, tabs, regionId, form, param = null) {
+    let isTargetFormInTabs = false
+
+    for (const { content, id: tabId } of tabs) {
+        for (const { id, tabs } of content) {
+            if (tabs) {
+                return tabTraversal(action, tabs, regionId, form, param)
+            }
+
+            if (id === form) {
+                isTargetFormInTabs = true
+
+                if (action) {
+                    yield put(action(regionId, tabId, param))
+                }
+            }
+        }
+    }
+
+    return isTargetFormInTabs
+}
+
+function* switchTab(action) {
     const state = yield select()
+    const regions = regionsSelector(state)
+    const tabsRegions = filter(values(regions), region => region.tabs)
+
+    const { type, meta } = action
+
+    if (type === actionTypes.FOCUS) {
+        const { form } = meta
+
+        for (const { tabs, regionId } of tabsRegions) {
+            yield tabTraversal(setActiveRegion, tabs, regionId, form)
+            yield mapUrl(regionId)
+        }
+    }
 
     const auth = authSelector(state)
     const userPermissions = get(auth, 'permissions')
     const userRoles = get(auth, 'roles')
-
-    const regions = regionsSelector(state)
-
-    const tabsRegions = filter(values(regions), region => region.tabs)
 
     const hasActiveEntity = some(tabsRegions, region => region.activeEntity)
 
@@ -203,7 +236,26 @@ export function* checkIdBeforeLazyFetch() {
     }
 }
 
+function* validateTabs({ payload, type }) {
+    const { form } = payload
+    const { regions = {} } = yield select()
+
+    if (!form || isEmpty(regions)) {
+        return
+    }
+
+    const invalid = type === addMessage
+
+    const tabsRegions = Object.values(regions)
+        .filter(region => region.tabs)
+
+    for (const { tabs, regionId } of tabsRegions) {
+        yield tabTraversal(setTabInvalid, tabs, regionId, form, invalid)
+    }
+}
+
 export default [
     takeEvery(MAP_URL, mapUrl),
-    takeEvery(METADATA_SUCCESS, switchTab),
+    takeEvery([METADATA_SUCCESS, actionTypes.FOCUS], switchTab),
+    takeEvery([addMessage, removeMessage], validateTabs),
 ]

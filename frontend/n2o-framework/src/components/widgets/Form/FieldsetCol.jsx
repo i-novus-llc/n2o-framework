@@ -26,6 +26,7 @@ function FieldsetColComponent({
     colVisible,
     disabled,
     autoSubmit,
+    activeField,
 }) {
     return colVisible ? (
         <Col xs={col.size || defaultCol} key={colId} className={col.className}>
@@ -49,6 +50,7 @@ function FieldsetColComponent({
                     parentIndex={parentIndex}
                     disabled={disabled}
                     autoSubmit={autoSubmit}
+                    active={activeField === field.id}
                     {...field}
                 />
             )
@@ -89,11 +91,9 @@ const enhance = compose(
                 return evalExpression(expression, props.activeModel)
             } if (visible === true) {
                 return true
-            } if (visible === false) {
-                return false
             }
 
-            return true
+            return visible !== false
         },
     }),
 
@@ -119,6 +119,7 @@ FieldsetColComponent.propTypes = {
     colVisible: PropTypes.bool,
     disabled: PropTypes.bool,
     autoSubmit: PropTypes.bool,
+    activeField: PropTypes.string,
 }
 
 const FieldsetCol = enhance(FieldsetColComponent)

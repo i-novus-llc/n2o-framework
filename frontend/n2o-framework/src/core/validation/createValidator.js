@@ -148,6 +148,7 @@ export function validate(
     const validation = pickBy(validationConfig, (value, key) => get(registeredFields, `${key}.visible`, true))
     const errors = {}
     const promiseList = [Promise.resolve()]
+    const asyncValidating = get(state, `form.${formName}.asyncValidating`, '')
 
     each(validation, (validationList, fieldId) => {
         if (isArray(validationList)) {
@@ -218,7 +219,7 @@ export function validate(
                         finalMessage.text = evalExpression(expressionMessageText, { [fieldId]: values[fieldId] })
                     }
 
-                    return addFieldMessage(formName, fieldId, finalMessage, isTouched)
+                    return addFieldMessage(formName, fieldId, finalMessage, isTouched, asyncValidating)
                 }
             }
         }).filter(Boolean)

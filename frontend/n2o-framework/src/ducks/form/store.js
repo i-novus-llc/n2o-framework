@@ -197,11 +197,12 @@ const formSlice = createSlice({
              * @param {string} name
              * @param {Object.<string, any>} message
              * @param {boolean} isTouched
+             * @param asyncValidating
              * @return {{payload: FormPluginStore.addFieldMessagePayload, meta: {form: string, isTouched: boolean}}}
              */
-            prepare(form, name, message, isTouched) {
+            prepare(form, name, message, isTouched, asyncValidating) {
                 return ({
-                    payload: { form, name, message },
+                    payload: { form, name, message, asyncValidating },
                     meta: { form, isTouched },
                 })
             },

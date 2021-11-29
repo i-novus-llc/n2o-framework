@@ -1,6 +1,3 @@
-/**
- * Created by emamoshin on 01.06.2017.
- */
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -104,7 +101,7 @@ class Tabs extends React.Component {
         const tabContentStyle = maxHeight ? { maxHeight } : {}
 
         const tabNavItems = React.Children.map(children, (child) => {
-            const { id, title, icon, disabled, visible } = child.props
+            const { id, title, icon, disabled, visible, invalid } = child.props
 
             const hasSingleVisibleTab = children.filter(child => child.props.visible).length === 1
 
@@ -120,6 +117,8 @@ class Tabs extends React.Component {
                 className: 'n2o-tabs-nav-item',
                 value: id,
                 disabled,
+                invalid,
+                tooltip: invalid && 'Содержит невалидные поля',
                 label: (
                     <>
                         {icon && <span className={icon} />}

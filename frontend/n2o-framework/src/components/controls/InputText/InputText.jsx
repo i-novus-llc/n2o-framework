@@ -35,6 +35,14 @@ class InputText extends React.Component {
         this.inputRef = React.createRef()
     }
 
+    componentDidUpdate(prevProps) {
+        const { active } = this.props
+
+        if (active && active !== prevProps.active) {
+            this.inputRef.current.focus()
+        }
+    }
+
     onChange = (e) => {
         const { onChange } = this.props
 
@@ -78,7 +86,6 @@ class InputText extends React.Component {
             inputRef,
             onPaste,
             onFocus,
-            onBlur,
             onKeyDown,
             onClick,
             autoFocus,
@@ -153,8 +160,8 @@ class InputText extends React.Component {
                 className={classNames('form-control n2o-input-text', className)}
                 style={style}
                 onFocus={onFocus}
-                onBlur={onBlur}
-                inputRef={inputRef}
+                onBlur={this.onBlur}
+                inputRef={this.inputRef}
             />
         )
     }
@@ -229,6 +236,7 @@ InputText.propTypes = {
      * readOnly
      */
     readOnly: PropTypes.bool,
+    active: PropTypes.bool,
 }
 
 InputText.defaultProps = {
