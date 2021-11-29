@@ -53,4 +53,6 @@ public class ColumnHeader implements IdAware, Compiled {
     private List<ColumnHeader> children;
     @JsonProperty
     private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
+    @JsonProperty
+    private Map<String, Object> properties;
 }

@@ -73,6 +73,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
                 .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
         p.attributeBoolean(e, "hide-on-blur", c::getHideOnBlur, c::setHideOnBlur);
+        p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
     }
 
     private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
