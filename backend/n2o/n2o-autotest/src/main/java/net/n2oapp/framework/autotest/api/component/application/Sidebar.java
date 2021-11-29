@@ -21,6 +21,8 @@ public interface Sidebar extends Component {
 
     void shouldHaveState(SidebarState state);
 
+    void toggle();
+
     Menu nav();
 
     Menu extra();

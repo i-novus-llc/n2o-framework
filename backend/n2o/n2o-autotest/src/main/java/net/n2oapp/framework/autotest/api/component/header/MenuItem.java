@@ -12,6 +12,8 @@ public interface MenuItem extends Component {
 
     void imageShouldHaveShape(ImageShape shape);
 
+    void imageSrcShouldBe(String src);
+
     void labelShouldHave(String text);
 
     void click();

@@ -14,7 +14,7 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
 
     @Override
     public void iconShouldHaveClass(String clazz) {
-        element().$("i").shouldHave(Condition.attribute("class", "mr-1 " + clazz));//fixme
+        element().$("i").shouldHave(Condition.attributeMatching("class", ".*" + clazz));
     }
 
     @Override

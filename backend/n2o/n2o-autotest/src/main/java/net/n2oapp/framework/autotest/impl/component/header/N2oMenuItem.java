@@ -16,8 +16,23 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
+    public void imageSrcShouldBe(String src) {
+        element().$("img").shouldHave(Condition.attribute("src", src));
+    }
+
+    @Override
     public void imageShouldHaveShape(ImageShape shape) {
-        element().$("img").shouldHave(Condition.attribute("class", "mr-2 " + shape));//fixme
+        switch (shape) {
+            case square:
+                element().$("img").shouldHave(Condition.attribute("class", "mr-2 "));
+                break;
+            case rounded:
+                element().$("img").shouldHave(Condition.attribute("class", "mr-2 " + shape));
+                break;
+            case circle:
+                element().$("img").shouldHave(Condition.attribute("class", "mr-2 rounded-" + shape));
+                break;
+        }
     }
 
     @Override
