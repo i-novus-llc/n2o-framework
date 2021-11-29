@@ -1,8 +1,5 @@
 package net.n2oapp.framework.autotest.widget.cards;
 
-import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
-import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
-import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
@@ -17,9 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для высоты блоков и центрирование текста
+ * Автотест для стилей блоков карточек
  */
-public class CardsHeightCenteringAT extends AutoTestBase {
+public class CardsBlockStyleAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -37,16 +34,14 @@ public class CardsHeightCenteringAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/block_height_and_text_centering/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/block_height_and_text_centering/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/style/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/style/test.query.xml"));
     }
 
     @Test
-    public void testCardsHeightCentering() {
+    public void testCardBlockStyles() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-
-        page.breadcrumb().titleShouldHaveText("Высота блоков и центрирование текста");
 
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
@@ -55,15 +50,14 @@ public class CardsHeightCenteringAT extends AutoTestBase {
         Card card = cardsWidget.card(0);
         card.shouldExists();
 
-        RatingCell ratingCell = card.columns().column(0).blocks().cell(2, RatingCell.class);
-        ratingCell.shouldHaveCssClass("align-self-center");
+        Card.Block ratingCellBlock = card.columns().column(0).blocks().block(2);
+        ratingCellBlock.shouldHaveCssClass("align-self-center");
 
-        TextCell textCell = card.columns().column(1).blocks().cell(0, TextCell.class);
-        textCell.shouldHaveCssClass("align-self-center");
-        textCell.shouldHaveStyle("height: 100%;");
+        Card.Block textCellBlock = card.columns().column(1).blocks().block(0);
+        textCellBlock.shouldHaveCssClass("align-self-center");
+        textCellBlock.shouldHaveStyle("color: green");
 
-        BadgeCell buttonCell = card.columns().column(2).blocks().cell(3, BadgeCell.class);
-        buttonCell.shouldHaveCssClass("align-self-end");
+        Card.Block buttonCellBlock = card.columns().column(2).blocks().block(1);
+        buttonCellBlock.shouldHaveCssClass("align-self-end");
     }
-
 }

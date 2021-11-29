@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Высота блоков и центрирование текста">
+             name="Стили блоков плиток">
     <cards query-id="test" height="250px" vertical-align="center">
         <content>
             <col size="2">
@@ -16,25 +16,14 @@
             </col>
 
             <col size="5">
-                <block text-field-id="text" class="align-self-center align-items-center" style="height: 100%;">
+                <block text-field-id="text" class="align-self-center align-items-center" style="color: green">
                     <text/>
                 </block>
             </col>
 
             <col size="3">
-                <block text-field-id="icon" tooltip-field-id="icon" class="align-self-end">
-                    <icon type="iconAndText">
-                        <switch value-field-id="icon">
-                            <case value="ship">fa fa-ship</case>
-                            <case value="bicycle">fa fa-bicycle</case>
-                        </switch>
-                    </icon>
-                </block>
                 <block text-field-id="progress">
                     <progress/>
-                </block>
-                <block text-field-id="checkbox" class="align-self-end">
-                    <checkbox/>
                 </block>
                 <block text-field-id="action" class="align-self-end">
                     <toolbar>
