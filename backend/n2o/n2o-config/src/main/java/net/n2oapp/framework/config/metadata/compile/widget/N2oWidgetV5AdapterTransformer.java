@@ -63,7 +63,9 @@ public class N2oWidgetV5AdapterTransformer implements SourceTransformer<N2oWidge
                 source.getDatasource().setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (source.getDetailFieldId() != null) {
-                    List<N2oPreFilter> preFilters = new ArrayList<>(Arrays.asList(source.getDatasource().getFilters()));
+                    List<N2oPreFilter> preFilters = source.getDatasource().getFilters() == null ?
+                            new ArrayList<>() :
+                            new ArrayList<>(Arrays.asList(source.getDatasource().getFilters()));
                     N2oPreFilter masterFilter = new N2oPreFilter(source.getDetailFieldId(), FilterType.eq);
                     String masterFieldId = source.getMasterFieldId() == null ? N2oQuery.Field.PK : source.getMasterFieldId();
                     masterFilter.setParam(source.getMasterParam() == null ?

@@ -73,8 +73,12 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CopiedFieldScope copiedFieldScope = p.getScope(CopiedFieldScope.class);
         PageWidgetsScope widgetsScope = p.getScope(PageWidgetsScope.class);
         CompiledObject object = null;
-        if (source.getObjectId() != null)
+        if (source.getObjectId() != null) {
             object = p.getCompiled(new ObjectContext(source.getObjectId()));
+        } else if(source.getQueryId() != null) {
+            CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
+            object = query.getObject();
+        }
         compiled.setProvider(initDataProvider(compiled, source, context, p, validationList, subModelsScope,
                 copiedFieldScope, widgetsScope, object));
         compiled.setValidations(initValidation(source, widgetsScope));
@@ -142,7 +146,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         }
         if (source.getQueryId() != null)
             p.addRoute(getQueryContext(compiled, source, context, url, validationList, subModelsScope, copiedFieldScope,
-                widgetsScope, object));
+                    widgetsScope, object));
         return dataProvider;
     }
 
@@ -266,8 +270,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private QueryContext getQueryContext(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context, String route,
-                                           ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, PageWidgetsScope widgetsScope, CompiledObject object) {
+                                         ValidationList validationList, SubModelsScope subModelsScope,
+                                         CopiedFieldScope copiedFieldScope, PageWidgetsScope widgetsScope, CompiledObject object) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
         List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
@@ -295,16 +299,18 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
 //        queryContext.setFailAlertWidgetId(getFailAlertWidget(compiled));fixme
 //        queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(compiled));
 //        queryContext.setMessagesForm(getMessagesForm(compiled));
-        queryContext.setSubModelQueries(subModelsScope.get(source.getId()));
+        if (subModelsScope != null) {
+            queryContext.setSubModelQueries(subModelsScope.get(source.getId()));
+            queryContext.setSubModelQueries(subModelsScope.get(source.getId()));
+        }
         queryContext.setQuerySize(source.getSize());
-        queryContext.setSubModelQueries(subModelsScope.get(source.getId()));
         if (copiedFieldScope != null)
             queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getId()));
         return queryContext;
     }
 
     private ClientDataProvider initSubmit(N2oDatasource source, CompiledObject compiledObject,
-                                                CompileContext<?, ?> context, CompileProcessor p) {
+                                          CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
         N2oClientDataProvider dataProvider = initSubmit(source.getSubmit(), source.getId(), compiledObject, p);
@@ -394,7 +400,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        CompileProcessor p, ReduxModel model, String datasourceId) {
+                                                 CompileProcessor p, ReduxModel model, String datasourceId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
@@ -443,7 +449,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
-                                          String url, CompileProcessor p) {
+                                   String url, CompileProcessor p) {
         if (source.getActionContextData() != null) {
             N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
             ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);

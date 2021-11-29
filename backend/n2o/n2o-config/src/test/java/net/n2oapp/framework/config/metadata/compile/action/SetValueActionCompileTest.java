@@ -60,9 +60,9 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
 
         SetValueAction menuItem0action = (SetValueAction) table.getToolbar().getButton("menuItem1").getAction();
         assertThat(menuItem0action.getType(), is("n2o/models/COPY"));
-        assertThat(menuItem0action.getPayload().getSource().getKey(), is("w_ds1"));
+        assertThat(menuItem0action.getPayload().getSource().getKey(), is("w_table"));
         assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("resolve"));
-        assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w_ds1"));
+        assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w_table"));
         assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(menuItem0action.getPayload().getMode(), is(MergeMode.replace));
     }
