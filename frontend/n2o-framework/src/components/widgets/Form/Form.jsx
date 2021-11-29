@@ -96,7 +96,6 @@ Form.propTypes = {
     /* Logic props */
     datasource: PropTypes.object,
     resolveModel: PropTypes.object,
-    onResolve: PropTypes.func,
     form: PropTypes.string,
     modelPrefix: PropTypes.string,
     autoSubmit: PropTypes.bool,

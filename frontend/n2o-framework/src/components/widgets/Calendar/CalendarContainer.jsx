@@ -49,7 +49,7 @@ export default compose(
                 <CalendarEvent
                     {...eventProps}
                     {...cell}
-                    onResolve={setResolve}
+                    setResolve={setResolve}
                     onSelectEvent={onSelectEvent}
                     dispatch={dispatch}
                     cellColorAccessor={cellColorFieldId}
