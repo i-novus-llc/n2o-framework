@@ -217,7 +217,6 @@ class AdvancedTable extends Component {
             }
             if (!isEqual(prevProps.selectedId, selectedId) && autoFocus) {
                 this.setNewSelectIndex(selectedId)
-                this.setNewFocusIndex(selectedId)
             }
             this.setState({ ...state })
         }
