@@ -21,7 +21,7 @@ public interface Sidebar extends Component {
 
     void shouldHaveState(SidebarState state);
 
-    void toggle();
+    void clickToggleBtn();
 
     Menu nav();
 

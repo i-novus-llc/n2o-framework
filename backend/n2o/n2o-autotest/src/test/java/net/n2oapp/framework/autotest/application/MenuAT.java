@@ -14,11 +14,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.TestPropertySource;
 
-import static com.codeborne.selenide.Configuration.headless;
-
-@TestPropertySource("classpath:net/n2oapp/framework/autotest/application/menu/application.properties")
+/**
+ * Автотест меню
+ */
 public class MenuAT extends AutoTestBase {
 
     @BeforeAll
@@ -30,7 +29,6 @@ public class MenuAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        headless = false;
     }
 
     @Override
@@ -54,7 +52,7 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveClass("fa fa-bell");
+        menuItem.iconShouldHaveCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("2");
         menuItem.urlShouldHave(getBaseUrl() + "/#/test");
@@ -76,7 +74,7 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveClass("fa fa-user");
+        menuItem.iconShouldHaveCssClass("fa fa-user");
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
@@ -154,7 +152,7 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = dropdown.item(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveClass("fa fa-bell");
+        menuItem.iconShouldHaveCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("2");
         menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
@@ -177,14 +175,14 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveClass("fa fa-user");
+        menuItem.iconShouldHaveCssClass("fa fa-user");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
-        sidebar.toggle();
+        sidebar.clickToggleBtn();
 
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveClass("fa fa-user");
+        menuItem.iconShouldHaveCssClass("fa fa-user");
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
@@ -212,7 +210,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.imageShouldHaveShape(ImageShape.rounded);
         menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
 
-        sidebar.toggle();
+        sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
         menuItem.imageShouldHaveShape(ImageShape.rounded);
@@ -242,7 +240,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
-        sidebar.toggle();
+        sidebar.clickToggleBtn();
 
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");

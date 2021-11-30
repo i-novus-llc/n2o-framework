@@ -50,7 +50,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void toggle() {
+    public void clickToggleBtn() {
         element().$(".n2o-sidebar__toggler").click();
     }
 
