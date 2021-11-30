@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta.widget.table;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +54,10 @@ public class ColumnHeader implements IdAware, Compiled {
     private List<ColumnHeader> children;
     @JsonProperty
     private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
-    @JsonProperty
     private Map<String, Object> properties;
+
+    @JsonAnyGetter
+    public Map<String, Object> getJsonProperties() {
+        return properties;
+    }
 }
