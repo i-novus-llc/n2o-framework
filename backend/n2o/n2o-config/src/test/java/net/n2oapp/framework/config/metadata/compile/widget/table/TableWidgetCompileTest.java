@@ -59,9 +59,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/test/object1.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/test/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
     }
 
     @Test
@@ -495,14 +493,5 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
-    }
-
-    @Test
-    public void testSecurityColumn() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testColumnSecurity.widget.xml")
-                .get(new WidgetContext("testColumnSecurity"));
-        Page page = (Page) compile("net/n2oapp/framework/config/metadata/compile/widgets/test/index.page.xml")
-                .get(new PageContext("index"));
-        //assertThat(table.getComponent().getHeaders().get(0).getProperties().get("security"));
     }
 }
