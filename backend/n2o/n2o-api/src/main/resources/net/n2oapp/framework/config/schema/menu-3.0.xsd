@@ -6,12 +6,12 @@
 
     <xs:complexType name="menuDefinition">
         <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDef" maxOccurs="unbounded">
+            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Компонент меню</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="dropdown-menu" type="dropdownMenuDef" maxOccurs="unbounded">
+            <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Выпадающее меню</xs:documentation>
                 </xs:annotation>
@@ -21,7 +21,7 @@
 
     <xs:complexType name="dropdownMenuDef">
         <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDef" maxOccurs="unbounded">
+            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Компонент меню</xs:documentation>
                 </xs:annotation>

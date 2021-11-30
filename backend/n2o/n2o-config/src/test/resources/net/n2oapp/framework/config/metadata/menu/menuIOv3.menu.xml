@@ -9,7 +9,7 @@
     </menu-item>
     <menu-item image="/static/users/ivan90.png"
                image-shape="square"
-               badge="12"
+               badge="new"
                badge-color="danger">
         <open-page page-id="index" route="/login"/>
     </menu-item>

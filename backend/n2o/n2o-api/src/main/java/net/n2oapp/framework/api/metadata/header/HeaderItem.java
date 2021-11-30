@@ -28,11 +28,9 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private String image;
-    @JsonProperty
     private String badgeColor;
     @JsonProperty
-    private Integer badge;
+    private Object badge;
     @JsonProperty
     private String imageSrc;
     @JsonProperty

@@ -41,7 +41,7 @@ public class N2oSimpleMenu extends N2oMenu {
         private String label;
         private String badgeColor;
         private String icon;
-        private Integer badge;
+        private String badge;
         private MenuItem action;
         private String image;
         private ImageShape imageShape;

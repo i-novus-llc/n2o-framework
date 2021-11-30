@@ -107,7 +107,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         HeaderItem extraItem = header.getExtraMenu().getItems().get(0);
         // sub-menu
         assertThat(extraItem.getTitle(), is("#{username}"));
-        assertThat(extraItem.getImage(), is("#{image}"));
+        assertThat(extraItem.getImageSrc(), is("#{image}"));
         assertThat(extraItem.getHref(), is("https://ya.ru/"));
         assertThat(extraItem.getLinkType(), is(HeaderItem.LinkType.inner));
         assertThat(extraItem.getSubItems().size(), is(2));
