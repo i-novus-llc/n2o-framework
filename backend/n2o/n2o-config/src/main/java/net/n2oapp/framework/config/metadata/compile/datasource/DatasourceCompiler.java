@@ -75,7 +75,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CompiledObject object = null;
         if (source.getObjectId() != null) {
             object = p.getCompiled(new ObjectContext(source.getObjectId()));
-        } else if(source.getQueryId() != null) {
+        } else if (source.getQueryId() != null) {
             CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
             object = query.getObject();
         }
@@ -317,10 +317,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
 
         dataProvider.setSubmitForm(p.cast(source.getSubmit().getSubmitAll(), true));
         dataProvider.setDatasourceId(source.getId());
-
-//        dataProvider.getActionContextData().setSuccessAlertWidgetId(source.getId());fixme
-//        dataProvider.getActionContextData().setFailAlertWidgetId(source.getId());
-
+        dataProvider.getActionContextData().setSuccessAlertWidgetId(source.getSubmit().getMessageWidgetId());
+        dataProvider.getActionContextData().setFailAlertWidgetId(source.getSubmit().getMessageWidgetId());
         return compileSubmit(dataProvider, context, p);
     }
 
@@ -350,7 +348,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
             actionContextData.getRefresh().setType(RefreshSaga.Type.datasource);
-            actionContextData.getRefresh().getOptions().setDatasourcesId(Arrays.asList(submit.getRefreshDatasources()));
+            if (submit.getRefreshDatasources() != null)
+                actionContextData.getRefresh().getOptions().setDatasourcesId(Arrays.asList(submit.getRefreshDatasources()));
         }
         dataProvider.setActionContextData(actionContextData);
 

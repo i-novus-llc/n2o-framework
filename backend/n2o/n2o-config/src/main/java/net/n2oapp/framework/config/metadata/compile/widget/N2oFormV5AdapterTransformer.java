@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -23,11 +24,18 @@ public class N2oFormV5AdapterTransformer implements SourceTransformer<N2oForm>, 
                 source.setDatasource(new N2oDatasource());
             source.getDatasource().setSubmit(source.getSubmit());
             PageScope pageScope = p.getScope(PageScope.class);
-            if (source.getDatasource().getSubmit().getRefreshWidgetId() != null && pageScope != null &&
-                    pageScope.getWidgetIdSourceDatasourceMap() != null)
+            if (pageScope == null || pageScope.getWidgetIdSourceDatasourceMap() == null)
+                throw new N2oException(String.format("There is a link to %s, but the context is not defined ", source.getDependsOn()));
+            if (source.getDatasource().getSubmit().getRefreshWidgetId() != null) {
                 source.getDatasource().getSubmit().setRefreshDatasources(
                         new String[]{pageScope.getWidgetIdSourceDatasourceMap()
                                 .get(source.getDatasource().getSubmit().getRefreshWidgetId())});
+            } else {
+                source.getDatasource().getSubmit().setRefreshDatasources(
+                        new String[]{pageScope.getWidgetIdSourceDatasourceMap()
+                                .get(source.getId())});
+            }
+            source.getDatasource().getSubmit().setMessageWidgetId(source.getId());
         }
         return source;
     }

@@ -65,8 +65,14 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
     @Test
     public void testFormV5adapterTransformer() {
+        N2oCompileProcessor p = mock(N2oCompileProcessor.class);
+        PageScope pageScope = new PageScope();
+        HashMap<String, String> widgetIdSourceDatasourceMap = new HashMap<>();
+        widgetIdSourceDatasourceMap.put("f1", "ds1");
+        pageScope.setWidgetIdSourceDatasourceMap(widgetIdSourceDatasourceMap);
+        when(p.getScope(PageScope.class)).thenReturn(pageScope);
         N2oForm form = read("net/n2oapp/framework/config/metadata/transformer/testFormTransformer.widget.xml")
-                .merge().transform().get("testFormTransformer", N2oForm.class);
+                .merge().transform().get("testFormTransformer", N2oForm.class, p);
         assertThat(form.getDatasource().getQueryId(), is("test"));
         assertThat(form.getDatasource().getSubmit().getOperationId(), is("save"));
         assertThat(form.getDatasource().getSubmit().getRoute(), is("/test"));

@@ -31,6 +31,7 @@ public class N2oWidgetV5AdapterTransformer implements SourceTransformer<N2oWidge
     public N2oWidget transform(N2oWidget source, SourceProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getQueryId() != null || source.getFetchOnInit() != null || source.getPreFilters() != null ||
+                source.getObjectId() != null ||
                 source.getUpload() != null || source.getDependsOn() != null || source.getDependencyCondition() != null) {
             if (source.getDatasource() == null)
                 source.setDatasource(new N2oDatasource());
