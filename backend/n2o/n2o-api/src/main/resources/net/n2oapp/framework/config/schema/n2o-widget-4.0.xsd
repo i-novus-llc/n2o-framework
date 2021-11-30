@@ -446,6 +446,11 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
         <xs:sequence>
             <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
                 <xs:annotation>
