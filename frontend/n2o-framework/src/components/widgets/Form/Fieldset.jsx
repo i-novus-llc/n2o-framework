@@ -212,6 +212,7 @@ class Fieldset extends React.Component {
             modelPrefix,
             autoSubmit,
             activeModel,
+            activeField,
         } = this.props
 
         const { enabled } = this.state
@@ -231,6 +232,7 @@ class Fieldset extends React.Component {
                 modelPrefix={modelPrefix}
                 disabled={!enabled}
                 autoSubmit={autoSubmit}
+                activeField={activeField}
                 {...props}
             />
         )
@@ -342,6 +344,7 @@ Fieldset.propTypes = {
     activeModel: PropTypes.object,
     style: PropTypes.object,
     autoSubmit: PropTypes.bool,
+    activeField: PropTypes.string,
 }
 
 Fieldset.defaultProps = {

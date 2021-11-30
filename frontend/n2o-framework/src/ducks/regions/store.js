@@ -1,7 +1,7 @@
 // eslint-disable-next-line spaced-comment
 /// <reference path="./typedefs.js"
 // TODO: дописать @return в jsDoc для функций prepare()
-import { createSlice, createSelector } from '@reduxjs/toolkit'
+import { createSlice, createSelector, current } from '@reduxjs/toolkit'
 
 import createActionHelper from '../../actions/createActionHelper'
 
@@ -74,6 +74,28 @@ const regionsSlice = createSlice({
                 state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
             },
         },
+        SET_TAB_INVALID: {
+            prepare(regionId, tabId, invalid) {
+                return ({
+                    payload: { regionId, tabId, invalid },
+                })
+            },
+
+            reducer(state, action) {
+                const { regionId, tabId, invalid } = action.payload
+
+                const { tabs } = current(state)[regionId]
+                const tabIndex = tabs.findIndex(tab => tab.id === tabId)
+
+                if (tabIndex !== -1) {
+                    if (invalid) {
+                        state[regionId].tabs[tabIndex].invalid = invalid
+                    } else {
+                        delete state[regionId].tabs[tabIndex].invalid
+                    }
+                }
+            },
+        },
     },
 })
 
@@ -83,6 +105,7 @@ export default regionsSlice.reducer
 export const {
     REGISTER_REGION: registerRegion,
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
+    SET_TAB_INVALID: setTabInvalid,
 } = regionsSlice.actions
 export const mapUrl = value => createActionHelper(MAP_URL)(value)
 
@@ -122,4 +145,15 @@ export const makeRegionIsInitSelector = regionId => createSelector(
 export const makeRegionActiveEntitySelector = regionId => createSelector(
     makeRegionByIdSelector(regionId),
     regionState => regionState.activeEntity,
+)
+
+/**
+ * Селектор получения tabs по regionId
+ * @param {string} regionId
+ * @return {array}
+ */
+
+export const makeRegionTabsSelector = regionId => createSelector(
+    makeRegionByIdSelector(regionId),
+    regionState => regionState.tabs,
 )

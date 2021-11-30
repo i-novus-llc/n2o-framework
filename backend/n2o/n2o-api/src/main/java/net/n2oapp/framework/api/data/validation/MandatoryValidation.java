@@ -27,6 +27,7 @@ public class MandatoryValidation extends Validation {
     public MandatoryValidation(String id, String message, String fieldId) {
         setId(id);
         setMessage(message);
+        setJsonMessage(message);
         setFieldId(fieldId);
         setTarget(Target.field);
     }
@@ -53,7 +54,7 @@ public class MandatoryValidation extends Validation {
         }
 
         if (!Boolean.TRUE.equals(success))
-            callback.onFail(String.valueOf(getMessage()));
+            callback.onFail(getMessage());
     }
 
     @Override

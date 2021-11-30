@@ -38,7 +38,6 @@ function SidebarDropdown({
     const itemDropdownClass = classNames(
         'n2o-sidebar__item-dropdown-label',
         {
-            'justify-content-center': isMiniView,
             'pl-3': !isMiniView,
         },
     )
