@@ -149,10 +149,12 @@ public class ModelLink extends BindLink {
         thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
 
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
+            if (that.getValue() == null && this.getValue() == null)
+                return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".") && thatFieldId != null;
             return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
         } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
-            if (thatFieldId != null)
-                return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thatFieldId.equals(thisFieldId);
+            if (that.getValue() == null && this.getValue() == null)
+                return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thisFieldId != null;
             return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
         } else
             return thisSubModelQueryLink.equals(thatSubModelQueryLink);
