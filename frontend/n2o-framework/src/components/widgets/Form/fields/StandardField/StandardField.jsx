@@ -76,7 +76,6 @@ class StandardField extends React.Component {
             onFocus,
             onBlur,
             placeholder,
-            touched,
             message,
             colLength,
             help,
@@ -163,7 +162,7 @@ class StandardField extends React.Component {
                                 {...props}
                                 {...control}
                                 className={cx(control.className, {
-                                    [validationClass]: validationClass && touched,
+                                    [validationClass]: validationClass,
                                     'form-control__with-toolbar': toolbar,
                                 })}
                             />
@@ -191,7 +190,7 @@ class StandardField extends React.Component {
                                 validationMap[validationClass],
                             )}
                         >
-                            {touched && message && message.text}
+                            {message && message.text}
                         </div>
                     </div>
                 </div>
@@ -220,7 +219,6 @@ StandardField.propTypes = {
     fieldActions: FieldActionsPropTypes,
     valiastionClass: PropTypes.string,
     loading: PropTypes.bool,
-    touched: PropTypes.bool,
     labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     labelAlignment: PropTypes.oneOf(['left', 'right']),
     labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),

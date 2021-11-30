@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="Проверка условия видимости полей столбцов">
+    <form>
+        <fields>
+            <radio-group id="type">
+                <options>
+                    <option id="1" name="visible"/>
+                    <option id="2" name="not visible"/>
+                </options>
+            </radio-group>
+            <row>
+                <col size="3" visible="{type.id == 1}">
+                    <text id="1">Текстовое поле 1</text>
+                </col>
+                <col size="3">
+                    <text id="2" visible="{type.id == 1}">Текстовое поле 2</text>
+                </col>
+                <col size="3" >
+                    <text id="3">
+                        Текстовое поле 3
+                        <dependencies>
+                            <visibility on="type">type.id == 1</visibility>
+                        </dependencies>
+                    </text>
+                </col>
+            </row>
+            <line id="invisibleBlock" visible="{type.id == 1}">
+                <row>
+                    <col size="3">
+                        <text id="4">Текстовое поле 4</text>
+                    </col>
+                </row>
+            </line>
+        </fields>
+    </form>
+</simple-page>

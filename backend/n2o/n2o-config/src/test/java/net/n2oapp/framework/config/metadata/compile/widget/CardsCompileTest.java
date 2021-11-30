@@ -45,15 +45,17 @@ public class CardsCompileTest extends SourceCompileTestBase {
         Cards.Card card = cards.getCards().get(0);
         assertThat(card.getSize(), is(6));
         assertThat(card.getContent().size(), is(2));
+        assertThat(card.getContent().get(0).getClassName(), is("font-weight-bold"));
+        assertThat(card.getContent().get(0).getStyle().get("color"), is("red"));
 
-        N2oCell cell = card.getContent().get(0);
+        N2oCell cell = card.getContent().get(0).getComponent();
         assertThat(cell, instanceOf(N2oTextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getId(), is("11"));
         assertThat(((N2oTextCell) cell).getFieldKey(), is("test1"));
         assertThat(((N2oTextCell) cell).getTooltipFieldId(), is("tooltip"));
 
-        cell = card.getContent().get(1);
+        cell = card.getContent().get(1).getComponent();
         assertThat(cell, instanceOf(N2oImageCell.class));
         assertThat(cell.getSrc(), is("cell12"));
         assertThat(cell.getId(), is("12"));
@@ -62,7 +64,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(card.getSize(), is(nullValue()));
         assertThat(card.getContent().size(), is(1));
 
-        cell = card.getContent().get(0);
+        cell = card.getContent().get(0).getComponent();
         assertThat(cell, instanceOf(N2oTextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
 
@@ -85,7 +87,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(card.getSize(), is(nullValue()));
         assertThat(card.getContent().size(), is(1));
 
-        cell = card.getContent().get(0);
+        cell = card.getContent().get(0).getComponent();
         assertThat(cell, instanceOf(N2oImageCell.class));
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getId(), is("31"));

@@ -1,6 +1,7 @@
 .n2o-cards {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     border: 1px solid black;
     border: $cards-border;
     margin: $cards-item-margin;

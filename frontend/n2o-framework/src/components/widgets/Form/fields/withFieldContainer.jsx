@@ -273,6 +273,7 @@ export default (Field) => {
         props.required !== nextProps.required ||
         props.loading !== nextProps.loading ||
         props.meta.touched !== nextProps.meta.touched ||
+        props.active !== nextProps.active ||
         get(props, 'input.value', null) !== get(nextProps, 'input.value', null),
         ),
         withProps(props => ({
