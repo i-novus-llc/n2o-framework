@@ -36,7 +36,7 @@ const NavItemContainer = ({
             activeClassName="active"
             target={item.target}
         >
-            {item.icon && <NavItemIcon icon={item.icon} />}
+            {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
             {item.imageSrc && (
                 <NavItemImage
                     imageSrc={item.imageSrc}
@@ -57,7 +57,7 @@ const NavItemContainer = ({
                         href={item.href}
                         target={item.target}
                     >
-                        {item.icon && <i className={cx('mr-1', item.icon)} />}
+                        {!item.imageSrc && item.icon && <i className={cx('mr-1', item.icon)} />}
                         {item.imageSrc && (
                             <NavItemImage
                                 imageSrc={item.imageSrc}
@@ -81,7 +81,7 @@ const NavItemContainer = ({
                     activeClassName="active"
                     target={item.target}
                 >
-                    {item.icon && <NavItemIcon icon={item.icon} />}
+                    {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                     {item.imageSrc && (
                         <NavItemImage
                             imageSrc={item.imageSrc}
@@ -99,7 +99,7 @@ const NavItemContainer = ({
     const handleLinkDropdown = (item, dropdownItems) => (
         <UncontrolledDropdown nav inNavbar direction={direction}>
             <DropdownToggle nav caret>
-                {item.icon && <NavItemIcon icon={item.icon} />}
+                {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                 {item.imageSrc && (
                     <NavItemImage
                         imageSrc={item.imageSrc}
@@ -137,7 +137,7 @@ const NavItemContainer = ({
     } else if (type === 'sidebar' && item.type === 'dropdown' && sidebarOpen) {
         const defaultLink = item => (
             <Link className="dropdown-item" to={item.href} target={item.target}>
-                {item.icon && <NavItemIcon icon={item.icon} />}
+                {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                 {item.imageSrc && (
                     <NavItemImage
                         imageSrc={item.imageSrc}
@@ -167,7 +167,7 @@ const NavItemContainer = ({
             (item.type === 'text' && (
                 <NavItem>
                     {item.icon && <NavItemIcon icon={item.icon} />}
-                    {item.imageSrc && (
+                    {!item.imageSrc && item.imageSrc && (
                         <NavItemImage
                             imageSrc={item.imageSrc}
                             title={item.title}

@@ -8,7 +8,7 @@ const props = {
     imageShape: 'circle'
 }
 
-const imgWidth = '24'
+const imgWidth = '18'
 
 describe('NavItemImage', () => {
     it('gets correct classes for circle', () => {
