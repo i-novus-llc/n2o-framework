@@ -82,9 +82,9 @@ export function SidebarItemContainer({
 
         return (
             <a id={id} className="n2o-sidebar__item" href={href}>
-                {icon && renderIcon(icon, title, type, sidebarOpen)}
+                {!imageSrc && icon && renderIcon(icon, title, type, sidebarOpen)}
                 {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                {isMiniView && !icon ? title.substring(0, 1) : title }
+                {!isMiniView && title }
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
                 {renderBadge(item)}
             </a>

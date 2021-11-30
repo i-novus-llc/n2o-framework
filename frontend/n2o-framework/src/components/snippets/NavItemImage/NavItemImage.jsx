@@ -14,7 +14,7 @@ export const NavItemImage = ({
         }[imageShape] || ''}`)}
         src={imageSrc}
         alt={title}
-        width="24"
+        width="18"
     />
 )
 
