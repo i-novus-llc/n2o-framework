@@ -108,7 +108,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     private Map<String, List<Validation>> initValidation(N2oDatasource source, PageWidgetsScope widgetsScope) {
         Map<String, List<Validation>> validations = new HashMap<>();
         for (Widget<?> w : widgetsScope.getWidgets().values()) {
-            if (source.getId().equals(getLocalDsId(w.getDatasource())) && w instanceof Form)//todo remove instanceof someday
+            if (source.getId().equals(getLocalDsId(w.getDatasource())) && w instanceof Form
+                    && ((Form) w).getComponent().getValidation() != null)//todo remove instanceof someday
                 validations.putAll(((Form) w).getComponent().getValidation());
         }
         return validations;
