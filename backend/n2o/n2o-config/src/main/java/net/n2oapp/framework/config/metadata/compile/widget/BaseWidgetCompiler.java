@@ -262,7 +262,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                                 SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
                                                 CompiledObject object) {
         if (compiled.getDatasource() == null && source.getDatasource() != null) {
-            source.getDatasource().setId(compiled.getId());
+            source.getDatasource().setId(source.getId());
             compiled.setDatasource(compiled.getId());
             DatasourceScope datasourceScope = p.getScope(DatasourceScope.class);
             datasourceScope.put(source.getDatasource().getId(), source.getDatasource());

@@ -186,7 +186,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.datasource));
       //fixme  assertThat(context.getRefresh().getOptions().getDatasourcesId(), is("form"));
 
-        ClientDataProvider dataProvider =page.getDatasources().get("form").getSubmit();
+        ClientDataProvider dataProvider =page.getDatasources().get(form.getId()).getSubmit();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(true));
         assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/a/b/c"));
@@ -200,15 +200,15 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getDatasource(), is("testFormSubmit_id2"));
-        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_id2']"));
+        assertThat(link.getDatasource(), is("testFormSubmit_form"));
+        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
         assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getDatasource(), is("testFormSubmit_id3"));
-        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_id3']"));
+        assertThat(link.getDatasource(), is("testFormSubmit_form"));
+        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");

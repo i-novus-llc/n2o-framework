@@ -62,7 +62,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     @Override
     public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
-        compiled.setId(source.getId());
+        PageScope pageScope = p.getScope(PageScope.class);
+        compiled.setId(pageScope.getGlobalDatasourceId(source.getId()));
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         if (source.getQueryId() != null)
             compiled.setDefaultValuesMode(DefaultValuesMode.query);
@@ -82,7 +83,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         compiled.setProvider(initDataProvider(compiled, source, context, p, validationList, subModelsScope,
                 copiedFieldScope, widgetsScope, object));
         compiled.setValidations(initValidation(source, widgetsScope));
-        compiled.setSubmit(initSubmit(source, object, context, p));
+        compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
     }
@@ -310,14 +311,14 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         return queryContext;
     }
 
-    private ClientDataProvider initSubmit(N2oDatasource source, CompiledObject compiledObject,
+    private ClientDataProvider initSubmit(N2oDatasource source, Datasource compiled, CompiledObject compiledObject,
                                           CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
         N2oClientDataProvider dataProvider = initSubmit(source.getSubmit(), source.getId(), compiledObject, p);
 
         dataProvider.setSubmitForm(p.cast(source.getSubmit().getSubmitAll(), true));
-        dataProvider.setDatasourceId(source.getId());
+        dataProvider.setDatasourceId(compiled.getId());
         dataProvider.getActionContextData().setSuccessAlertWidgetId(source.getSubmit().getMessageWidgetId());
         dataProvider.getActionContextData().setFailAlertWidgetId(source.getSubmit().getMessageWidgetId());
         return compileSubmit(dataProvider, context, p);
@@ -422,10 +423,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         Object value = param.getValueList() != null ? param.getValueList() :
                 ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            String pageId = pageScope.getPageId();
-            String globalDsId = CompileUtil.generateWidgetId(pageId, datasourceId);
-            link = new ModelLink(p.cast(param.getModel(), model), p.cast(globalDsId, datasourceId));
+            link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);

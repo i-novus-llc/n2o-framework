@@ -36,6 +36,10 @@ public class PageScope implements Serializable {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);
     }
 
+    public String getGlobalDatasourceId(String localDatasourceId) {
+        return  CompileUtil.generateWidgetId(pageId, localDatasourceId);
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor

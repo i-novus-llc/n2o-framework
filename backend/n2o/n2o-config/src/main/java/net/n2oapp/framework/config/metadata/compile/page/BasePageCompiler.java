@@ -153,7 +153,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                    PageRoutes routeScope, ParentRouteScope parentRouteScope, PageScope pageScope) {
         Datasource compiled = p.compile(sourceDatasource, context, validationList, subModelsScope,
                 copiedFieldScope, widgetsScope, routeScope, parentRouteScope, pageScope);
-        compiledDatasources.put(sourceDatasource.getId(), compiled);
+        compiledDatasources.put(compiled.getId(), compiled);
     }
 
     protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {

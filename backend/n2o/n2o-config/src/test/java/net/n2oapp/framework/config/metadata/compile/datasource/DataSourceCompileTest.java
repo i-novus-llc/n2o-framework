@@ -53,12 +53,11 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSStandardPage.page.xml")
                         .get(new PageContext("testDSStandardPage"));
 
-        Datasource ds = page.getDatasources().get("ds1");
+        Datasource ds = page.getDatasources().get("testDSStandardPage_ds1");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         assertThat(ds.getProvider(), nullValue());
 
-        //fixme проверка того, что датасурс копируется в страницу
         SimplePage simplePage = (SimplePage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimplePage.page.xml")
                         .get(new PageContext("testDSSimplePage"));
@@ -92,13 +91,13 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQueryFilters.page.xml")
                         .get(context);
 
-        Datasource ds = page.getDatasources().get("ds1");
+        Datasource ds = page.getDatasources().get("p_w_a_ds1");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(1)));
         CompiledQuery query = routeAndGet("/p/w/a/ds1", CompiledQuery.class);
         assertThat(query.getParamToFilterIdMap(), hasEntry("id", "id"));
 
-        ds = page.getDatasources().get("ds2");
+        ds = page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
         ModelLink link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id");
         link.setValue("`id`");
@@ -113,7 +112,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSFetch.page.xml")
                         .get(new PageContext("testDSFetch", "/p/w/a"));
 
-        Datasource ds = page.getDatasources().get("detail");
+        Datasource ds = page.getDatasources().get("p_w_a_detail");
         assertThat(ds.getDependencies().size(), is(1));
         assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve['p_w_a_master']"));
     }
@@ -125,12 +124,12 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                         .get(new PageContext("testDSSubmit", "/p/w/a"));
 
         //        simple
-        Datasource ds = page.getDatasources().get("ds1");
+        Datasource ds = page.getDatasources().get("p_w_a_ds1");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
-        assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/ds1"));
+        assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/p_w_a_ds1"));
         assertThat(ds.getSubmit().getSubmitForm(), is(true));
         assertThat(ds.getSubmit().getMethod(), is(RequestMethod.POST));
-        ActionContext opCtx = ((ActionContext)route("/p/w/a/ds1", CompiledObject.class));
+        ActionContext opCtx = ((ActionContext)route("/p/w/a/p_w_a_ds1", CompiledObject.class));
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(false));
         assertThat(opCtx.isMessageOnFail(), is(true));
@@ -138,7 +137,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.getMessagePlacement(), is(MessagePlacement.top));
 
         //        with form-param
-        ds = page.getDatasources().get("ds2");
+        ds = page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getSubmitForm(), is(false));
         ModelLink link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds2");
@@ -146,16 +145,16 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getSubmit().getFormMapping(), hasEntry("id", link));
 
         //        with messages
-        ds = page.getDatasources().get("ds3");
+        ds = page.getDatasources().get("p_w_a_ds3");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
-        opCtx = ((ActionContext)route("/p/w/a/ds3", CompiledObject.class));
+        opCtx = ((ActionContext)route("/p/w/a/p_w_a_ds3", CompiledObject.class));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePosition.fixed));
         assertThat(opCtx.getMessagePlacement(), is(MessagePlacement.bottom));
 
         //        with path-param
-        ds = page.getDatasources().get("ds4");
+        ds = page.getDatasources().get("p_w_a_ds4");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/:_id/update"));
         link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds4");
@@ -172,7 +171,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSValidation.page.xml")
                         .get(new PageContext("testDSValidation", "/p/w/a"));
 
-        Datasource ds = page.getDatasources().get("ds1");
+        Datasource ds = page.getDatasources().get("p_w_a_ds1");
 
         assertThat(ds.getValidations().get("id"), notNullValue());
         assertThat(ds.getValidations().get("id").size(), is(1));
