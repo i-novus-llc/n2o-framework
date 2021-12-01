@@ -104,6 +104,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
         }
 
+        header.setProperties(p.mapAttributes(source));
+
         return header;
     }
 }
