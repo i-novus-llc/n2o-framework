@@ -60,7 +60,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(headerItems.get(0).getType(), is("dropdown"));
         // page
         assertThat(headerItems.get(1).getTitle(), is("headerLabel"));
-        assertThat(headerItems.get(1).getHref(), is("/mi3"));
+        assertThat(headerItems.get(1).getHref(), is("/mi4"));
         assertThat(headerItems.get(1).getPageId(), is("pageWithoutLabel"));
         assertThat(headerItems.get(1).getLinkType(), is(HeaderItem.LinkType.inner));
         assertThat(headerItems.get(1).getSubItems(), nullValue());
