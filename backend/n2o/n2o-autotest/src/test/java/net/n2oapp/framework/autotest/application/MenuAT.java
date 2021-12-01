@@ -35,7 +35,7 @@ public class MenuAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack());
+                new N2oControlsPack(), new N2oActionsPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/testMenu.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/menu/index.page.xml"));
     }
@@ -78,7 +78,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -126,7 +126,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("2");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -178,7 +178,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.iconShouldHaveCssClass("fa fa-user");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveIcon();
@@ -186,7 +186,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -208,13 +208,13 @@ public class MenuAT extends AutoTestBase {
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
         menuItem.imageShouldHaveShape(ImageShape.rounded);
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
         menuItem.imageShouldHaveShape(ImageShape.rounded);
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
         menuItem.labelShouldHave("Профиль");
 
         menuItem.click();
@@ -239,7 +239,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.imageShouldHaveShape(ImageShape.circle);
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveImage();
@@ -248,7 +248,7 @@ public class MenuAT extends AutoTestBase {
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/testMenu");
+        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
 
         menuItem.click();
         page.shouldExists();

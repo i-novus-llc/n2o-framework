@@ -8,7 +8,7 @@
                        name="Профиль"
                        badge="3"
                        badge-color="danger">
-                    <open-page  page-id="testMenu"/>
+                    <open-page page-id="testMenu"/>
                 </menu-item>
             </nav>
         </sidebar>

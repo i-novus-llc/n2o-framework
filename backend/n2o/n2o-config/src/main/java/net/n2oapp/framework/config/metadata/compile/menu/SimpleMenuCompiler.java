@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
@@ -14,12 +13,10 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -79,7 +76,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             if (action instanceof LinkAction) {
                 LinkAction linkAction = (LinkAction) action;
                 compiled.setHref(linkAction.getUrl());
-                compiled.setTarget(linkAction.getTarget());
+//                compiled.setTarget(linkAction.getTarget());
                 if (linkAction.getTarget().equals(Target.application))
                     compiled.setLinkType(HeaderItem.LinkType.inner);
                 else
