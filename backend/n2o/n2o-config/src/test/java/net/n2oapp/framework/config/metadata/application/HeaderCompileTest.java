@@ -100,7 +100,6 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(0).getHref(), is("https://ya.ru/"));
         assertThat(subItems.get(0).getLinkType(), is(HeaderItem.LinkType.outer));
         assertThat(subItems.get(0).getIcon(), is("test-icon"));
-        assertThat(subItems.get(0).getTarget(), is(Target.newWindow));
         assertThat(subItems.get(0).getSubItems(), nullValue());
         assertThat(subItems.get(0).getType(), is("link"));
     }
