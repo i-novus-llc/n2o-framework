@@ -74,7 +74,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getImageShape(), is(ImageShape.circle));
 
         HeaderItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
-        assertThat(subMenuItem.getId(), is("mi3"));
+        assertThat(subMenuItem.getId(), is("mi4"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
         assertThat(subMenuItem.getHref(), is("/profile"));
