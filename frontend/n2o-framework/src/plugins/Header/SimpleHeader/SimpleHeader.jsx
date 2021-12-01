@@ -58,7 +58,7 @@ class SimpleHeader extends React.Component {
         const {
             color,
             fixed,
-            activeId,
+            location,
             logo,
             menu,
             extraMenu,
@@ -77,18 +77,25 @@ class SimpleHeader extends React.Component {
         const isInversed = color === 'inverse'
         const navColor = isInversed ? 'primary' : 'light'
 
+        const pathname = get(location, 'pathname', '')
+
         const trigger = !isUndefined(get(search, 'dataProvider'))
             ? 'CHANGE'
             : 'ENTER'
 
-        const mapItems = (items, options) => map(items, (item, i) => (
-            <NavItemContainer
-                key={i}
-                item={item}
-                activeId={activeId}
-                options={options}
-            />
-        ))
+        const mapItems = (items, options) => map(items, (item, i) => {
+            const { href } = item
+            const active = pathname.includes(href)
+
+            return (
+                <NavItemContainer
+                    key={i}
+                    item={item}
+                    active={active}
+                    options={options}
+                />
+            )
+        })
 
         const { N2O_ELEMENT_VISIBILITY } = window
 
@@ -174,9 +181,9 @@ const menuType = PropTypes.shape(
 
 SimpleHeader.propTypes = {
     /**
-     * ID активного элемента
+     * location object
      */
-    activeId: PropTypes.string,
+    location: PropTypes.object,
     /**
      * Строка поиска
      */
