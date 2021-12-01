@@ -1,6 +1,6 @@
 {
   "name": "n2o-notifications",
-  "version": "7.19.0",
+  "version": "7.20.0",
   "description": "n2o-notifications React component",
   "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0",
@@ -29,26 +29,26 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "n2o-framework": "7.19.0",
+    "n2o-framework": "^7.20.0",
     "net": "^1.0.2",
     "sockjs-client": "^1.3.0",
     "stompjs": "^2.3.3"
   },
   "devDependencies": {
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "chai": "^4.2.0",
     "enzyme": "^3.9.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "mocha": "^6.2.2",
     "nwb": "0.25.0"
   },
   "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
     "react-redux": "*",
     "reactstrap": "*",
     "redux": "*",
     "redux-actions": "*",
     "redux-saga": "*",
-    "reselect": "*",
-    "react": "*",
-    "react-dom": "*"
+    "reselect": "*"
   }
 }

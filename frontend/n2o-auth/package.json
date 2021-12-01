@@ -1,14 +1,14 @@
 {
 	"name": "n2o-auth",
-	"version": "7.19.0",
+	"version": "7.20.0",
 	"description": "Пакеты для работы с N2O Security",
-    "homepage": "https://n2oapp.net/",
-    "repository": {
-      "type": "git",
-      "url": "git@github.com:i-novus-llc/n2o-framework.git",
-      "directory": "frontend/n2o-auth"
-    },
-    "main": "lib/index.js",
+	"homepage": "https://n2oapp.net/",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:i-novus-llc/n2o-framework.git",
+		"directory": "frontend/n2o-auth"
+	},
+	"main": "lib/index.js",
 	"files": [
 		"lib"
 	],
@@ -21,7 +21,7 @@
 		"test:watch": "nwb test --server"
 	},
 	"dependencies": {
-		"n2o-framework": "7.19.0"
+		"n2o-framework": "^7.20.0"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
