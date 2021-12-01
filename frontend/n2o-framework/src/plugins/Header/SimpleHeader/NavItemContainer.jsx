@@ -17,6 +17,7 @@ import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemI
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
+ * @param {boolean} props.active  - active (применять || нет active class)
  */
 const NavItemContainer = ({
     item,
@@ -24,6 +25,7 @@ const NavItemContainer = ({
     sidebarOpen,
     options,
     direction,
+    active,
 }) => {
     // eslint-disable-next-line react/prop-types
     const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
@@ -31,7 +33,7 @@ const NavItemContainer = ({
     const getInnerLink = (item, className) => (
         <NavLink
             exact
-            className={cx('nav-link', className)}
+            className={cx('nav-link', className, { active })}
             to={item.href}
             activeClassName="active"
             target={item.target}
@@ -76,7 +78,7 @@ const NavItemContainer = ({
             <NavItem>
                 <NavLink
                     exact
-                    className={cx('nav-link', className)}
+                    className={cx('nav-link', className, { active })}
                     to={item.href}
                     activeClassName="active"
                     target={item.target}
@@ -165,9 +167,9 @@ const NavItemContainer = ({
         (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
             (item.type === 'link' && handleLink(item)) ||
             (item.type === 'text' && (
-                <NavItem>
-                    {item.icon && <NavItemIcon icon={item.icon} />}
-                    {!item.imageSrc && item.imageSrc && (
+                <NavItem active={active}>
+                    {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
+                    { item.imageSrc && (
                         <NavItemImage
                             imageSrc={item.imageSrc}
                             title={item.title}
