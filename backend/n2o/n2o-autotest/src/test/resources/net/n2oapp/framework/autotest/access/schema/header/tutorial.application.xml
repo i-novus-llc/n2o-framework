@@ -2,10 +2,10 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
     <header title="Шапка">
         <nav>
-            <page page-id="menu1" label="Доступно всем"/>
-            <page page-id="menu2" label="Требуется роль admin"/>
-            <page page-id="menu3" label="Требуется право edit"/>
-            <page page-id="menu4" label="Только анонимам"/>
+            <page page-id="menu1" label="Доступно всем" route="/menu1"/>
+            <page page-id="menu2" label="Требуется роль admin" route="/menu2"/>
+            <page page-id="menu3" label="Требуется право edit" route="/menu3"/>
+            <page page-id="menu4" label="Только анонимам" route="/menu4"/>
         </nav>
         <extra-menu>
             <a href="#" label="#{username}"/>

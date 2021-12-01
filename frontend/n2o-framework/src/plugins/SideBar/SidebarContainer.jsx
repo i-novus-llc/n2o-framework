@@ -83,7 +83,7 @@ class SidebarContainer extends React.Component {
             return
         }
 
-        onMouseEnter()
+        if (typeof onMouseEnter === 'function') { onMouseEnter() }
     }
 
     onMouseLeave = () => {
@@ -94,7 +94,7 @@ class SidebarContainer extends React.Component {
             return
         }
 
-        onMouseLeave()
+        if (typeof onMouseLeave === 'function') { onMouseLeave() }
     }
 
     render() {

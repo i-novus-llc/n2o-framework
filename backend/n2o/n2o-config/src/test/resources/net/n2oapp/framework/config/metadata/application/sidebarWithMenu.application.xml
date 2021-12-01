@@ -10,9 +10,6 @@
             <sub-menu label="test">
                 <page test:testAttr="testAttribute" page-id="pageWithoutLabel" route="/page1"/>
                 <a label="hrefLabel" href="http://test.com"/>
-                <sub-menu label="sub1">
-                    <page page-id="pageWithoutLabel"/>
-                </sub-menu>
             </sub-menu>
             <page page-id="pageWithoutLabel" label="headerLabel"/>
             <a label="hrefLabel" href="http://test.com"/>
@@ -21,9 +18,6 @@
         <extra-menu>
             <sub-menu label="#{username}" image="#{image}">
                 <a label="Test" href="https://ya.ru/" icon="test-icon" target="newWindow"/>
-                <sub-menu label="sub2">
-                    <page page-id="pageWithoutLabel"/>
-                </sub-menu>
             </sub-menu>
         </extra-menu>
     </sidebar>

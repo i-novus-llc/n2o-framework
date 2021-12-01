@@ -71,6 +71,23 @@ public interface BindProcessor {
     Object resolve(String value);
 
     /**
+     * Заменить в тексте плейсхолдеры на значения и конвертировать в объект
+     *
+     * @param value значение для конвертации
+     * @return значение
+     */
+    Object resolve(Object value);
+
+    /**
+     * Заменить в тексте плейсхолдеры на значения и конвертировать в объект
+     *
+     * @param value значение для конвертации
+     * @param <T>         Тип значения
+     * @return значение
+     */
+    <T> T resolve(Object value, Class<T> clazz);
+
+    /**
      * Заменить в тексте плейсхолдеры на значения
      *
      * @param text Текст с плейсхолдерами
