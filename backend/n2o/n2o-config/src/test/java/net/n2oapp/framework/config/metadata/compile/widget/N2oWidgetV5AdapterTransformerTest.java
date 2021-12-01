@@ -76,5 +76,8 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(form.getDatasource().getQueryId(), is("test"));
         assertThat(form.getDatasource().getSubmit().getOperationId(), is("save"));
         assertThat(form.getDatasource().getSubmit().getRoute(), is("/test"));
+        assertThat(form.getDatasource().getSubmit().getRefreshDatasources().length, is(1));
+        assertThat(form.getDatasource().getSubmit().getRefreshDatasources()[0], is("ds1"));
+        assertThat(form.getDatasource().getSubmit().getMessageWidgetId(), is("testFormTransformer"));
     }
 }
