@@ -26,7 +26,6 @@ public class ApplicationBinderTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.getEnvironment().getContextProcessor().set("test", "Test");
-        builder.getEnvironment().getContextProcessor().set("shape", "circle");
         builder.packs(new N2oApplicationPack());
     }
 

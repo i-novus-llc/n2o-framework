@@ -21,7 +21,7 @@
                    icon="fa fa-user">
             <a href="/profile" target="application"/>
         </menu-item>
-        <divider/>
+<!--        <divider/>-->
         <menu-item name="Сообщения"
                    image="/static/users/ivan90.png"
                    image-shape="square"
@@ -29,7 +29,7 @@
                    badge-color="primary">
             <open-page page-id="page" route="/route"/>
         </menu-item>
-        <divider/>
+<!--        <divider/>-->
         <menu-item name="Выход"
                    icon="fa fa-door">
             <a href="/logout" target="self"/>

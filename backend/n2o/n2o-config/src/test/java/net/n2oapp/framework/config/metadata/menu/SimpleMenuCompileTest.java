@@ -1,23 +1,26 @@
 package net.n2oapp.framework.config.metadata.menu;
 
 import net.n2oapp.framework.api.metadata.application.Application;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
+import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class SimpleMenuCompileTest extends SourceCompileTestBase {
@@ -49,6 +52,8 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getBadge(), is(2));
         assertThat(menuItem.getBadgeColor(), is("warning"));
         assertThat(menuItem.getHref(), is("/login"));
+        Page page = routeAndGet("/login", Page.class);
+        assertThat(page, notNullValue());
 
         menuItem = menu.getItems().get(1);
         assertThat(menuItem.getTitle(), nullValue());
@@ -69,13 +74,13 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getImageShape(), is(ImageShape.circle));
 
         HeaderItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
-        assertThat(subMenuItem.getId(), is("menuItem3"));
+        assertThat(subMenuItem.getId(), is("mi3"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
         assertThat(subMenuItem.getHref(), is("/profile"));
 
-        assertThat(dropdownMenu.getSubItems().size(), is(5));
-        assertThat(dropdownMenu.getSubItems().get(1).getType(), is("divider"));
-        assertThat(dropdownMenu.getSubItems().get(3).getType(), is("divider"));
+        assertThat(dropdownMenu.getSubItems().size(), is(1));
+//        assertThat(dropdownMenu.getSubItems().get(1).getType(), is("divider"));
+//        assertThat(dropdownMenu.getSubItems().get(3).getType(), is("divider"));
     }
 }

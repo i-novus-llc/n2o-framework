@@ -34,10 +34,7 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
         openPage.setOperationId(source.getOperationId());
         openPage.setPageId(source.getPageId());
         compileAction(openPage, source, p);
-        if (!Application.class.equals(context.getCompiledClass()))
-            initPageContext(openPage, source, context, p);
-        else
-            openPage.setUrl(source.getRoute());
+        initPageContext(openPage, source, context, p);
         return openPage;
     }
 

@@ -7,7 +7,7 @@
                        icon="fa fa-bell"
                        badge="2"
                        badge-color="warning">
-                <open-page  page-id="testMenu" route="/login"/>
+                <open-page page-id="testMenu" route="/login"/>
             </menu-item>
             <menu-item image="/static/users/ivan90.png"
                        image-shape="square">
@@ -21,14 +21,7 @@
                            icon="fa fa-user">
                     <a href="/profile" target="application"/>
                 </menu-item>
-                <divider/>
-                <menu-item>
-
-                </menu-item>
-                <divider/>
-                <menu-item>
-
-                </menu-item>
+<!--                <divider/>-->
             </dropdown-menu>
         </nav>
     </header>

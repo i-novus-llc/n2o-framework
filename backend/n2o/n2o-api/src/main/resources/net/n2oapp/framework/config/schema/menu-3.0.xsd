@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/menu-3.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0">
 
     <xs:element name="menu" type="menuDefinition"/>
 
@@ -26,12 +27,12 @@
                     <xs:documentation>Компонент меню</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="divider" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Разделитель компонентов выпадающего меню</xs:documentation>
-                </xs:annotation>
-                <xs:complexType/>
-            </xs:element>
+            <!--            <xs:element name="divider" minOccurs="0" maxOccurs="unbounded">-->
+            <!--                <xs:annotation>-->
+            <!--                    <xs:documentation>Разделитель компонентов выпадающего меню</xs:documentation>-->
+            <!--                </xs:annotation>-->
+            <!--                <xs:complexType/>-->
+            <!--            </xs:element>-->
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -57,14 +58,14 @@
 
     <xs:complexType name="menuItemDef">
         <xs:sequence>
-            <xs:element name="open-page" type="pageDef" minOccurs="0">
+            <xs:element name="open-page" type="act:openPageDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Действие открытия страницы</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="a" type="aDef" minOccurs="0">
+            <xs:element name="a" type="act:aDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Открыть страницу браузера</xs:documentation>
+                    <xs:documentation>Открыть ссылку</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
