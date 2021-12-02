@@ -287,8 +287,6 @@ const FileUploaderControl = (WrappedComponent) => {
             const fileDeletionExecutor = () => {
                 if (isUploading) {
                     fileToBeDeleted.cancelSource.cancel()
-
-                    return
                 }
 
                 if (!deleteUrl) {
