@@ -1,22 +1,14 @@
 import widgets, {
     registerWidget,
     dataRequestWidget,
-    dataSuccessWidget,
-    dataFailWidget,
     resolveWidget,
     showWidget,
     hideWidget,
     enableWidget,
     disableWidget,
     disableWidgetOnFetch,
-    loadingWidget,
-    unloadingWidget,
-    sortByWidget,
-    changeSizeWidget,
     setTableSelectedId,
     setActive,
-    changeCountWidget,
-    changePageWidget,
     changeFiltersVisibility,
     toggleWidgetFilters,
     resetWidgetState,
@@ -112,48 +104,6 @@ describe('Тесты widget reducer', () => {
         ).toEqual({
             widget: {
                 isLoading: true,
-            },
-        })
-    })
-
-    it('Проверка DATA_SUCCESS', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: dataSuccessWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isLoading: false,
-            },
-        })
-    })
-
-    it('Проверка DATA_FAIL', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: dataFailWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                        err: 'someError',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isLoading: false,
-                error: 'someError',
             },
         })
     })
@@ -274,139 +224,6 @@ describe('Тесты widget reducer', () => {
         ).toEqual({
             widget: {
                 isEnabled: false,
-            },
-        })
-    })
-
-    it('Проверка LOADING', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: loadingWidget.type,
-                    payload: {
-                        widgetId: 'widget'
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isLoading: true,
-            },
-        })
-    })
-
-    it('Проверка UNLOADING', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: unloadingWidget.type,
-                    payload: {
-                        widgetId: 'widget'
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isLoading: false,
-            },
-        })
-    })
-
-    it('Проверка SORT_BY', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: sortByWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                        sortDirection: 'DESC',
-                        fieldKey: 'name',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                sorting: {
-                    name: 'DESC',
-                },
-            },
-        })
-    })
-
-    it('Проверка CHANGE_SIZE', () => {
-        expect(
-            widgets(
-                {
-                    widget: {
-                        size: 20,
-                    },
-                },
-                {
-                    type: changeSizeWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                        size: 50,
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                size: 50,
-            },
-        })
-    })
-
-    it('Проверка CHANGE_PAGE', () => {
-        expect(
-            widgets(
-                {
-                    widget: {
-                        page: 1,
-                    },
-                },
-                {
-                    type: changePageWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                        page: 5,
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                page: 5,
-            },
-        })
-    })
-
-    it('Проверка CHANGE_COUNT', () => {
-        expect(
-            widgets(
-                {
-                    widget: {
-                        count: 1,
-                    },
-                },
-                {
-                    type: changeCountWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                        count: 3,
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                count: 3,
             },
         })
     })

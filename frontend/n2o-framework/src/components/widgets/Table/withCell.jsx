@@ -5,38 +5,30 @@ import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 
-import { PREFIXES } from '../../../ducks/models/constants'
-import { callActionImpl } from '../../../ducks/toolbar/store'
-import { startInvoke } from '../../../actions/actionImpl'
-import { updateModel, setModel } from '../../../ducks/models/store'
-import { makeGetModelByPrefixSelector } from '../../../ducks/models/selectors'
+import { setActiveModel, setSourceModel } from '../../../ducks/datasource/store'
+import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch, { datasource, allModels }) => bindActionCreators(
     {
-        onActionImpl: ({ src, component, options }) => callActionImpl(src || component, { ...options, dispatch }),
-        onInvoke: (widgetId, dataProvider, data, modelLink, meta, modelId) => startInvoke(
-            widgetId, dataProvider, data, modelLink, meta, modelId,
-        ),
-        onUpdateModel: (prefix, key, field, values) => updateModel(prefix, key, field, values),
-        onResolveWidget: (modelId, model) => setModel(PREFIXES.resolve, modelId, model),
         // TODO костыль для быстрого решения, по хорошему вынести в таблицу и ячейка ничего не должна знать о моделях
-        updateDatasource: (modelId, datasource, currentModel, newModel) => {
-            const newDatasource = datasource.map((model) => {
-                if (model.id === currentModel.id) {
+        updateDatasource: (newModel) => {
+            const list = allModels.map((model) => {
+                if (model.id === newModel.id) {
                     return newModel
                 }
 
                 return model
             })
 
-            return setModel(PREFIXES.datasource, modelId, newDatasource)
+            return setSourceModel(datasource, list)
         },
+        setResolve: model => dispatch(setActiveModel(datasource, model)),
     },
     dispatch,
 )
 
 const mapStateToProps = createStructuredSelector({
-    datasourceModel: (state, { widgetId }) => makeGetModelByPrefixSelector(PREFIXES.datasource, widgetId)(state) || {},
+    allModels: (state, { datasource }) => dataSourceModelsSelector(datasource)(state).datasource,
 })
 
 /**
@@ -49,90 +41,43 @@ const mapStateToProps = createStructuredSelector({
 // eslint-disable-next-line func-names
 export default function (WrappedComponent) {
     function WithCellComponent({
-        onActionImpl,
-        onInvoke,
-        onUpdateModel,
-        onResolveWidget,
+        setResolve,
         updateDatasource,
-        datasourceModel,
         action: defaultAction,
-        model: defaultModel,
-        widgetId,
-        modelId,
-        index,
-        fieldKey,
-        dataProvider,
+        model,
+        datasource,
         dispatch,
         ...rest
     }) {
-        const resolveWidget = useCallback(data => onResolveWidget(modelId, data), [onResolveWidget, modelId])
-        /**
-         * @deprecated
-         */
-        const callActionImpl = useCallback((e, { action, model }) => {
-            const currentModel = model || defaultModel
-            const currentAction = action || defaultAction
-
-            // eslint-disable-next-line no-unused-expressions
-            currentModel && resolveWidget(currentModel)
-            // eslint-disable-next-line no-unused-expressions
-            currentAction && onActionImpl(currentAction)
-        }, [defaultModel, defaultAction, resolveWidget, onActionImpl])
-
-        /**
-         * @deprecated
-         */
-        const callInvoke = useCallback((data, customProvider = null, meta) => {
-            onInvoke(widgetId, customProvider || dataProvider, data, null, meta, modelId)
-        }, [onInvoke, widgetId, dataProvider, modelId])
-
-        const updateFieldInModel = useCallback((value, prefix = 'datasource') => {
-            onUpdateModel(prefix, modelId, `[${index}].${fieldKey}`, value)
-        }, [onUpdateModel, modelId, index, fieldKey])
-
         const callAction = useCallback((newModel) => {
-            resolveWidget(newModel)
+            setResolve(newModel)
 
             if (isEmpty(defaultAction)) {
-                if (!isEqual(defaultModel, newModel)) {
-                    updateDatasource(widgetId, datasourceModel, defaultModel, newModel)
+                if (!isEqual(model, newModel)) {
+                    updateDatasource(newModel)
                 }
             } else {
                 dispatch(defaultAction)
             }
-        }, [defaultAction, dispatch, resolveWidget, updateDatasource, datasourceModel, defaultModel, modelId])
+        }, [setResolve, defaultAction, model, updateDatasource, dispatch])
 
         return (
             <WrappedComponent
-                updateFieldInModel={updateFieldInModel}
-                resolveWidget={resolveWidget}
-                callActionImpl={callActionImpl}
-                callInvoke={callInvoke}
+                resolveWidget={setResolve}
                 callAction={callAction}
                 action={defaultAction}
-                model={defaultModel}
-                fieldKey={fieldKey}
-                widgetId={widgetId}
-                modelId={modelId}
+                model={model}
                 {...rest}
             />
         )
     }
 
     WithCellComponent.propTypes = {
-        onActionImpl: PropTypes.func,
-        onInvoke: PropTypes.func,
-        onUpdateModel: PropTypes.func,
-        onResolveWidget: PropTypes.func,
+        setResolve: PropTypes.func,
         action: PropTypes.object,
         model: PropTypes.object,
-        widgetId: PropTypes.string,
-        modelId: PropTypes.string,
-        index: PropTypes.number,
-        fieldKey: PropTypes.string,
-        dataProvider: PropTypes.object,
+        datasource: PropTypes.string,
         dispatch: PropTypes.func,
-        datasourceModel: PropTypes.any,
         updateDatasource: PropTypes.func,
     }
 

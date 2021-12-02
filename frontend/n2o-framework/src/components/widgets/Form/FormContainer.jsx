@@ -89,7 +89,4 @@ Container.propTypes = {
     reduxFormValues: PropTypes.object,
 }
 
-/**
- * Обертка в widgetContainer, мэппинг пропсов
- */
 export default connect(mapStateToProps)(Container)

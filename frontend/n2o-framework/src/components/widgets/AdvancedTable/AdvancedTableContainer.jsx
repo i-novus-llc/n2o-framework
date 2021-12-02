@@ -252,7 +252,6 @@ class AdvancedTableContainer extends React.Component {
           'headers',
           'datasource',
           'dispatch',
-          'onActionImpl',
           'onFetch',
           'pageId',
           'sorting',

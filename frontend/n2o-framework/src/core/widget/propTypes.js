@@ -72,6 +72,8 @@ export const dataSourceTypes = {
     sorting: PropTypes.object,
     models: PropTypes.shape(modelsType),
     page: PropTypes.number,
+    size: PropTypes.number,
+    count: PropTypes.number,
 }
 
 /**
@@ -87,6 +89,7 @@ export const widgetMethodsProps = {
     setSelected: PropTypes.func,
     setSorting: PropTypes.func,
     setPage: PropTypes.func,
+    setSize: PropTypes.func,
 }
 
 /**

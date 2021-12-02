@@ -24,53 +24,11 @@
  */
 
 /**
- * Payload для экшена DATA_SUCCESS
- * @typedef WidgetsStore.dataSuccessWidgetPayload
- * @property {string} widgetId
- */
-
-/**
- * Payload для экшена DATA_FAIL
- * @typedef WidgetsStore.dataFailWidgetPayload
- * @property {string} widgetId
- * @property {object} err
- */
-
-/**
  * Payload для экшена RESOLVE
  * @typedef WidgetsStore.resolveWidgetPayload
  * @property {string} widgetId
  * @property {string} modelId
  * @property {object} model
- */
-
-/**
- * Payload для экшена RESOLVE
- * @typedef WidgetsStore.sortByWidgetPayload
- * @property {string} widgetId
- * @property {string} fieldKey
- * @property {string} sortDirection
- */
-
-/**
- * Payload для экшена CHANGE_SIZE
- * @typedef WidgetsStore.changeSizeWidgetPayload
- * @property {string} widgetId
- * @property {string} size
- */
-
-/**
- * Payload для экшена CHANGE_PAGE
- * @typedef WidgetsStore.changePageWidgetPayload
- * @property {string} widgetId
- * @property {string} page
- */
-
-/**
- * Payload для экшена CHANGE_COUNT
- * @typedef WidgetsStore.changeCountWidgetPayload
- * @property {string} widgetId
- * @property {number} count
  */
 
 /**

@@ -116,7 +116,6 @@ describe('FormContainer', () => {
     //             resolveModel: {},
     //             placeholder: false,
     //             onSetModel: expect.any(Function),
-    //             onResolve: expect.any(Function),
     //             setActive: expect.any(Function),
     //         })
     //     })

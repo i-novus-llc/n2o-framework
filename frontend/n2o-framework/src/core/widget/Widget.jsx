@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { connect } from 'react-redux'
 
 import { usePrevious } from '../../utils/usePrevious'
@@ -10,6 +10,7 @@ import {
     setFilter as setDataSourceFilter,
     setSorting as setDataSourceSorting,
     changePage,
+    changeSize,
 } from '../../ducks/datasource/store'
 import { registerDependency } from '../../actions/dependency'
 
@@ -35,18 +36,14 @@ export const WidgetHOC = (WidgetComponent) => {
             setSelected,
             setSorting,
             setPage,
+            setSize,
             fetchOnInit,
             id,
             dependency,
             dispatch,
             isInit,
-
-            form, table, list, calendar, tile,
         } = props
         const prevVisible = usePrevious(visible)
-        // FIXME удалить после того как fetchOnInit начнёт приходить уровнем выше
-        const fOnInit = fetchOnInit || form?.fetchOnInit || table?.fetchOnInit || list?.fetchOnInit ||
-            calendar?.fetchOnInit || tile?.fetchOnInit
 
         useEffect(() => {
             // dispatch(registerDependency(id, dependency))
@@ -60,11 +57,14 @@ export const WidgetHOC = (WidgetComponent) => {
         useEffect(() => {
             if (
                 visible &&
-                (typeof prevVisible === 'undefined' ? fOnInit : !prevVisible)
+                (typeof prevVisible === 'undefined' ? fetchOnInit : !prevVisible)
             ) { fetchData() }
-        }, [visible, prevVisible, fetchData, fOnInit, isInit])
+        }, [visible, prevVisible, fetchData, fetchOnInit, isInit])
 
-        const [methods] = useState(() => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage }))
+        const methods = useMemo(
+            () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize }),
+            [fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize],
+        )
 
         return (
             <WidgetContext.Provider value={methods}>
@@ -79,6 +79,7 @@ export const WidgetHOC = (WidgetComponent) => {
 
     Widget.defaultProps = {
         fetch: FETCH_TYPE.always,
+        fetchOnInit: true,
     }
 
     /**
@@ -93,10 +94,12 @@ export const WidgetHOC = (WidgetComponent) => {
             sorting,
             page,
             count,
+            size,
         } = dataSourceByIdSelector(props.datasource)(state)
         const models = dataSourceModelsSelector((props.datasource))(state)
 
         return {
+            size,
             models,
             loading,
             sorting,
@@ -137,6 +140,9 @@ export const WidgetHOC = (WidgetComponent) => {
         },
         setPage(page = 1) {
             dispatch(changePage(datasource, page))
+        },
+        setSize(size) {
+            dispatch(changeSize(datasource, size))
         },
     })
 

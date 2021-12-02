@@ -2,6 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
 import { FORM, TABLE } from '../../components/widgets/widgetTypes'
+import { dataSourceCountSelector, dataSourceLoadingSelector, dataSourcePageSelector, dataSourceSizeSelector } from '../datasource/selectors'
 
 /*
   Базовые селекторы
@@ -35,6 +36,11 @@ export const makeWidgetIsInitSelector = widgetId => createSelector(
     widgetState => widgetState.isInit,
 )
 
+export const makeDatasourceIdSelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.datasource,
+)
+
 /**
  * Селектор-генератор для получения свойства виджета - isVisible
  * @param widgetId
@@ -53,41 +59,39 @@ export const makeWidgetEnabledSelector = widgetId => createSelector(
     widgetState => widgetState.isEnabled,
 )
 
+// region from datasource
+
+const makeDatasourceSelector = (widgetId, makeSelector) => (state) => {
+    const soueceId = makeDatasourceIdSelector(widgetId)(state)
+
+    return makeSelector(soueceId)(state)
+}
+
 /**
  * Селектор-генератор для получения свойства виджета - isLoading
  * @param widgetId
  */
-export const makeWidgetLoadingSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isLoading,
-)
+export const makeWidgetLoadingSelector = widgetId => makeDatasourceSelector(widgetId, dataSourceLoadingSelector)
 
 /**
  * Селектор-генератор для получения свойства виджета - size
  * @param widgetId
  */
-export const makeWidgetSizeSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.size,
-)
+export const makeWidgetSizeSelector = widgetId => makeDatasourceSelector(widgetId, dataSourceSizeSelector)
 
 /**
  * Селектор-генератор для получения свойства виджета - count
  * @param widgetId
  */
-export const makeWidgetCountSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.count,
-)
+export const makeWidgetCountSelector = widgetId => makeDatasourceSelector(widgetId, dataSourceCountSelector)
 
 /**
  * Селектор-генератор для получения свойства виджета - page
  * @param widgetId
  */
-export const makeWidgetPageSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.page,
-)
+export const makeWidgetPageSelector = widgetId => makeDatasourceSelector(widgetId, dataSourcePageSelector)
+
+// endregion from datasource
 
 export const makeWidgetPageIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
@@ -153,11 +157,6 @@ export const isAnyTableFocusedSelector = createSelector(
     widgetsState => Object.values(widgetsState).some(
         widget => (widget.type === TABLE || widget.type === FORM) && widget.isActive,
     ),
-)
-
-export const makeWidgetErrorSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.error,
 )
 
 // region others

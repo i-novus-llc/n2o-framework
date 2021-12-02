@@ -5,6 +5,7 @@ import { batchActions } from 'redux-batched-actions'
 import {
     registerWidget,
     setTableSelectedId,
+    setActive,
 } from '../../ducks/widgets/store'
 import {
     makeWidgetByIdSelector,
@@ -40,9 +41,12 @@ export const withRedux = (WidgetComponent) => {
         }
 
         render() {
+            const { setActive, ...props } = this.props
+
             return (
                 <WidgetComponent
-                    {...this.props}
+                    {...props}
+                    onFocus={setActive}
                 />
             )
         }
@@ -60,6 +64,11 @@ export const withRedux = (WidgetComponent) => {
             ...props,
             ...makeWidgetByIdSelector(props.id)(state),
         }),
-        dispatch => ({ dispatch }),
+        (dispatch, props) => ({
+            dispatch,
+            setActive() {
+                dispatch(setActive(props.id))
+            },
+        }),
     )(ConnectedWidget)
 }

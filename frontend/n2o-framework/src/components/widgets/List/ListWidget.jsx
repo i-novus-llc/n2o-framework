@@ -7,7 +7,7 @@ import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import { getN2OPagination } from '../Table/N2OPagination'
+import { N2OPagination } from '../Table/N2OPagination'
 
 import ListContainer from './ListContainer'
 
@@ -34,8 +34,25 @@ function ListWidget(props) {
         divider,
         hasSelect,
         rows,
+        size,
+        count,
+        models,
+        page,
+        setPage,
     } = props
     const { place = 'bottomLeft' } = paging
+    const pagination = {
+        [place]: (
+            <N2OPagination
+                {...paging}
+                size={size}
+                count={count}
+                activePage={page}
+                datasource={models.datasource}
+                setPage={setPage}
+            />
+        ),
+    }
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
     const resolvedList = useMemo(() => resolveProps(list), [list, resolveProps])
@@ -47,7 +64,7 @@ function ListWidget(props) {
             datasource={datasource}
             toolbar={toolbar}
             filter={resolvedFilter}
-            {...getN2OPagination(paging, place, widgetId, datasource)}
+            {...pagination}
             className={className}
             style={style}
         >

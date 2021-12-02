@@ -13,7 +13,6 @@ import {
     enableMultiFields,
     disableMultiFields,
 } from '../../../ducks/form/store'
-import { makeGetResolveModelSelector } from '../../../ducks/models/selectors'
 import propsResolver from '../../../utils/propsResolver'
 
 import Label from './fields/StandardField/Label'
@@ -98,7 +97,6 @@ class Fieldset extends React.Component {
 
         this.setVisible = this.setVisible.bind(this)
         this.setEnabled = this.setEnabled.bind(this)
-        this.getFormValues = this.getFormValues.bind(this)
         this.renderRow = this.renderRow.bind(this)
 
         this.state = {
@@ -172,13 +170,6 @@ class Fieldset extends React.Component {
         this.setState({
             enabled: nextEnabledField,
         })
-    }
-
-    getFormValues(store) {
-        const { form } = this.props
-        const state = store.getState()
-
-        return makeGetResolveModelSelector(form)(state)
     }
 
     calculateAllFields(rows) {

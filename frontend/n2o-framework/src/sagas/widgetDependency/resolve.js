@@ -1,10 +1,9 @@
 import reduce from 'lodash/reduce'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 
-import { dataRequestWidget, disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks/widgets/store'
+import { disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks/widgets/store'
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
-import { makeModelIdSelector } from '../../ducks/widgets/selectors'
 
 export const reduceFunction = (isTrue, { model, config }) => isTrue && propsResolver(`\`${config.condition}\``, model)
 
@@ -41,44 +40,18 @@ export function* resolveEnabled(widgetId, model) {
 }
 
 /**
- * Резолв запросов
- * @param widgetId
- * @returns {IterableIterator<*>}
- */
-export function* resolveFetch(widgetId) {
-    const modelId = yield select(makeModelIdSelector(widgetId))
-
-    yield put(dataRequestWidget(widgetId, modelId))
-}
-
-/**
  * Резолв конкретной зависимости по типу
  * @param dependencyType
  * @param widgetId
  * @param model
- * @param isVisible
- * @param dependentWidgetId
  * @returns {IterableIterator<*|CallEffect>}
  */
 export function* resolveDependency(
     dependencyType,
     widgetId,
     model,
-    isVisible,
-    dependentWidgetId,
 ) {
     switch (dependencyType) {
-        case DEPENDENCY_TYPES.fetch: {
-            if (dependentWidgetId) {
-                if (widgetId === dependentWidgetId && isVisible) {
-                    yield call(resolveFetch, widgetId)
-                }
-            } else if (isVisible) {
-                yield call(resolveFetch, widgetId)
-            }
-
-            break
-        }
         case DEPENDENCY_TYPES.visible: {
             yield call(resolveVisible, widgetId, model)
 

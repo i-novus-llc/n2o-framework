@@ -16,7 +16,6 @@ const initialState = {
     filter: {},
     multi: {}, // selected
     resolve: {},
-    selectionType: {}, // FIXME remove
 }
 
 const modelsSlice = createSlice({
