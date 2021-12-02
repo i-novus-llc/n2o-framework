@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -8,11 +9,13 @@ import every from 'lodash/every'
 import some from 'lodash/some'
 import get from 'lodash/get'
 import isFunction from 'lodash/isFunction'
+import has from 'lodash/has'
+import find from 'lodash/find'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 import { id } from '../../../utils/id'
 
-import { post, deleteFile, everyIsValid } from './utils'
+import { deleteFile, everyIsValid, post } from './utils'
 
 const FileUploaderControl = (WrappedComponent) => {
     class ReturnedComponent extends Component {
@@ -272,19 +275,38 @@ const FileUploaderControl = (WrappedComponent) => {
                 deleteRequest,
             } = this.props
 
+            const { files, imgFiles } = this.state
+
             this.setState({
                 imgError: {},
             })
 
-            if (deleteUrl) {
+            const fileToBeDeleted = find(files, ({ id: idFromState }) => idFromState === id)
+            const isUploading = !has(fileToBeDeleted, 'response')
+
+            const fileDeletionExecutor = () => {
+                if (isUploading) {
+                    fileToBeDeleted.cancelSource.cancel()
+
+                    return
+                }
+
+                if (!deleteUrl) {
+                    return
+                }
+
                 if (isFunction(deleteRequest)) {
                     deleteRequest(id)
-                } else {
-                    deleteFile(this.resolveUrl(deleteUrl), id)
-                    onDelete(index, id)
+
+                    return
                 }
+
+                deleteFile(this.resolveUrl(deleteUrl), id)
+                onDelete(index, id)
             }
-            const { files, imgFiles } = this.state
+
+            fileDeletionExecutor()
+
             const newFiles = files.slice()
             const newImgFiles = imgFiles.slice()
 
@@ -344,6 +366,8 @@ const FileUploaderControl = (WrappedComponent) => {
                     const onUpload = this.onUpload.bind(this, file.id)
                     const onError = this.onError.bind(this, file.id)
 
+                    file.cancelSource = axios.CancelToken.source()
+
                     if (labelFieldId !== 'name') {
                         file[labelFieldId] = file.name
                     }
@@ -365,6 +389,7 @@ const FileUploaderControl = (WrappedComponent) => {
                             onProgress,
                             onUpload,
                             onError,
+                            file.cancelSource,
                         )
                     }
                 }
