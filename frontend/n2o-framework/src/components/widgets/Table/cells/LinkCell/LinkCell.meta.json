@@ -7,5 +7,6 @@
   "icon": "icon",
   "type": "text",
   "url": "/page/widget/test",
-  "target": "application"
+  "target": "application",
+  "datasource": "test"
 }
