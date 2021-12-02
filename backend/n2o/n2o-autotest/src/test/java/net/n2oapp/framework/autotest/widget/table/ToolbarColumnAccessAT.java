@@ -20,6 +20,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Автотест для доступа к заголовкам и тулбарам в ячейках таблицы по sec атрибутам
+ */
 public class ToolbarColumnAccessAT extends AutoTestBase {
 
     @BeforeAll
