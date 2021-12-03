@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <header>
+        <nav>
+            <menu-item name="Test #{test}"
+                       badge="#{test}"
+                       badge-color="#{test}"
+                       image="#{test}"/>
+            <dropdown-menu>
+                <menu-item name="Test #{test}"
+                           badge="#{test}"
+                           badge-color="#{test}"
+                           image="#{test}"/>
+            </dropdown-menu>
+        </nav>
+        <extra-menu>
+            <menu-item name="Test #{test}"
+                       badge="#{test}"
+                       badge-color="#{test}"
+                       image="#{test}"/>
+            <dropdown-menu>
+                <menu-item name="Test #{test}"
+                           badge="#{test}"
+                           badge-color="#{test}"
+                           image="#{test}"/>
+            </dropdown-menu>
+        </extra-menu>
+    </header>
+    <sidebar>
+        <nav>
+            <menu-item name="Test #{test}"
+                       badge="#{test}"
+                       badge-color="#{test}"
+                       image="#{test}"/>
+            <dropdown-menu>
+                <menu-item name="Test #{test}"
+                           badge="#{test}"
+                           badge-color="#{test}"
+                           image="#{test}"/>
+            </dropdown-menu>
+        </nav>
+        <extra-menu>
+            <menu-item name="Test #{test}"
+                       badge="#{test}"
+                       badge-color="#{test}"
+                       image="#{test}"/>
+            <dropdown-menu>
+                <menu-item name="Test #{test}"
+                           badge="#{test}"
+                           badge-color="#{test}"
+                           image="#{test}"/>
+            </dropdown-menu>
+        </extra-menu>
+    </sidebar>
+</application>

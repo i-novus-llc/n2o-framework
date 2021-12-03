@@ -7,7 +7,7 @@ insert_final_newline = true
 max_line_length = 120
 tab_width = 4
 trim_trailing_whitespace = true
-ij_continuation_indent_size = 8
+ij_continuation_indent_size = 4
 ij_formatter_off_tag = @formatter:off
 ij_formatter_on_tag = @formatter:on
 ij_formatter_tags_enabled = false
@@ -34,19 +34,7 @@ ij_css_space_before_opening_brace = true
 ij_css_use_double_quotes = true
 ij_css_value_alignment = do_not_align
 
-[*.dart]
-max_line_length = 80
-
-[*.feature]
-indent_size = 2
-ij_gherkin_keep_indents_on_empty_lines = false
-
-[*.haml]
-indent_size = 2
-ij_haml_keep_indents_on_empty_lines = false
-
 [*.less]
-indent_size = 4
 ij_less_align_closing_brace_with_properties = false
 ij_less_blank_lines_around_nested_selector = 1
 ij_less_blank_lines_between_blocks = 1
@@ -66,7 +54,6 @@ ij_less_use_double_quotes = true
 ij_less_value_alignment = 0
 
 [*.sass]
-indent_size = 4
 ij_sass_align_closing_brace_with_properties = false
 ij_sass_blank_lines_around_nested_selector = 1
 ij_sass_blank_lines_between_blocks = 1
@@ -86,7 +73,6 @@ ij_sass_use_double_quotes = true
 ij_sass_value_alignment = 0
 
 [*.scss]
-indent_size = 4
 ij_scss_align_closing_brace_with_properties = false
 ij_scss_blank_lines_around_nested_selector = 1
 ij_scss_blank_lines_between_blocks = 1
@@ -125,18 +111,6 @@ ij_stylus_space_before_opening_brace = true
 ij_stylus_use_double_quotes = true
 ij_stylus_value_alignment = 0
 
-[*.vue]
-indent_size = 2
-tab_width = 2
-ij_continuation_indent_size = 4
-ij_vue_indent_children_of_top_level = template
-ij_vue_interpolation_new_line_after_start_delimiter = true
-ij_vue_interpolation_new_line_before_end_delimiter = true
-ij_vue_interpolation_wrap = off
-ij_vue_keep_indents_on_empty_lines = false
-ij_vue_spaces_within_interpolation_expressions = true
-ij_vue_uniform_indent = true
-
 [.editorconfig]
 ij_editorconfig_align_group_field_declarations = false
 ij_editorconfig_space_after_colon = false
@@ -158,13 +132,12 @@ ij_xml_keep_whitespaces = false
 ij_xml_keep_whitespaces_around_cdata = preserve
 ij_xml_keep_whitespaces_inside_cdata = false
 ij_xml_line_comment_at_first_column = true
-ij_xml_space_after_tag_name = false
+ij_xml_space_after_tag_name = true
 ij_xml_space_around_equals_in_attribute = false
-ij_xml_space_inside_empty_tag = false
+ij_xml_space_inside_empty_tag = true
 ij_xml_text_wrap = normal
 
 [{*.ats,*.ts}]
-ij_continuation_indent_size = 4
 ij_typescript_align_imports = false
 ij_typescript_align_multiline_array_initializer_expression = false
 ij_typescript_align_multiline_binary_operation = false
@@ -322,7 +295,6 @@ ij_typescript_ternary_operation_wrap = off
 ij_typescript_union_types_wrap = on_every_item
 ij_typescript_use_chained_calls_group_indents = false
 ij_typescript_use_double_quotes = true
-ij_typescript_use_explicit_js_extension = global
 ij_typescript_use_path_mapping = always
 ij_typescript_use_public_modifier = false
 ij_typescript_use_semicolon_after_statement = true
@@ -342,7 +314,6 @@ ij_shell_switch_cases_indented = false
 ij_shell_use_unix_line_separator = true
 
 [{*.cjs,*.js}]
-ij_continuation_indent_size = 4
 ij_javascript_align_imports = false
 ij_javascript_align_multiline_array_initializer_expression = false
 ij_javascript_align_multiline_binary_operation = false
@@ -497,7 +468,6 @@ ij_javascript_ternary_operation_wrap = off
 ij_javascript_union_types_wrap = on_every_item
 ij_javascript_use_chained_calls_group_indents = false
 ij_javascript_use_double_quotes = false
-ij_javascript_use_explicit_js_extension = global
 ij_javascript_use_path_mapping = always
 ij_javascript_use_public_modifier = false
 ij_javascript_use_semicolon_after_statement = false
@@ -597,7 +567,6 @@ ij_coffeescript_spaces_within_union_types = true
 ij_coffeescript_union_types_wrap = on_every_item
 ij_coffeescript_use_chained_calls_group_indents = false
 ij_coffeescript_use_double_quotes = true
-ij_coffeescript_use_explicit_js_extension = global
 ij_coffeescript_use_path_mapping = always
 ij_coffeescript_use_public_modifier = false
 ij_coffeescript_use_semicolon_after_statement = false
@@ -642,7 +611,6 @@ ij_html_space_after_tag_name = false
 ij_html_space_around_equality_in_attribute = false
 ij_html_space_inside_empty_tag = false
 ij_html_text_wrap = normal
-ij_html_uniform_ident = false
 
 [{*.markdown,*.md}]
 ij_markdown_force_one_space_after_blockquote_symbol = true

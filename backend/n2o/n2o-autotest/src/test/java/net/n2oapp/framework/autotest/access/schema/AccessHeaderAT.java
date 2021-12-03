@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HeaderAT extends AutoTestBase {
+public class AccessHeaderAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

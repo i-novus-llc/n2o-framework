@@ -50,11 +50,6 @@
                 <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="image" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Путь к картинке, может быть взят из контекста</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -132,29 +127,6 @@
             <xs:enumeration value="newWindow">
                 <xs:annotation>
                     <xs:documentation>Открыть в новой вкладке</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="imageShape">
-        <xs:annotation>
-            <xs:documentation>Форма картинки</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="square">
-                <xs:annotation>
-                    <xs:documentation>квадратная</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="circle">
-                <xs:annotation>
-                    <xs:documentation>круглая</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="rounded">
-                <xs:annotation>
-                    <xs:documentation>со скругленными краямя</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
         </xs:restriction>

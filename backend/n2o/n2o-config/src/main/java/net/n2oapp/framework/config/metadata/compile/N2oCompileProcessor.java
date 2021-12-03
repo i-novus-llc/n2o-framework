@@ -73,6 +73,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      */
     private DataModel model;
 
+    private CompileMode mode = CompileMode.READ;
+
     private BindTerminalPipeline bindPipeline;
     private CompileTerminalPipeline<?> compilePipeline;
     private ReadCompileTerminalPipeline<?> readCompilePipeline;
@@ -107,6 +109,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params) {
         this(env);
+        this.mode = CompileMode.COMPILE;
         this.context = context;
         this.params = params;
         model = new DataModel();
@@ -125,6 +128,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
                                SubModelsProcessor subModelsProcessor) {
         this(env);
+        this.mode = CompileMode.BIND;
         this.context = context;
         this.params = params;
         this.subModelsProcessor = subModelsProcessor;
@@ -141,6 +145,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      */
     private N2oCompileProcessor(N2oCompileProcessor parent, Object... scopes) {
         this.env = parent.env;
+        this.mode = parent.mode;
         this.scope = new HashMap<>(parent.scope);
         Stream.of(Optional.ofNullable(scopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
                 .forEach(s -> this.scope.put(s.getClass(), s));
@@ -211,20 +216,38 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
-        Object value = resolveRequiredPlaceholder(placeholder);
+        Object value = resolveProperty(placeholder, true);
+        value = resolveContext(value);
         return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
     public Object resolve(String placeholder, String domain) {
-        Object value = resolveRequiredPlaceholder(placeholder);
+        Object value = resolveProperty(placeholder, true);
+        value = resolveContext(value);
         return env.getDomainProcessor().deserialize(value, domain);
     }
 
     @Override
     public Object resolve(String placeholder) {
-        Object value = resolvePlaceholder(placeholder);
+        Object value = resolveProperty(placeholder, false);
+        value = resolveContext(value);
         return env.getDomainProcessor().deserialize(value);
+    }
+
+    @Override
+    public Object resolve(Object value) {
+        if (value instanceof String)
+            return resolve((String)value);
+        return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T resolve(Object value, Class<T> clazz) {
+        if (value instanceof String)
+            return resolve((String)value, clazz);
+        return (T) value;
     }
 
     @Override
@@ -330,8 +353,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (value != null) {
             BindLink resultLink;
             if (link instanceof ModelLink) {
-                resultLink = new ModelLink((ModelLink)link);
-                ((ModelLink)resultLink).setObserve(false);
+                resultLink = new ModelLink((ModelLink) link);
+                ((ModelLink) resultLink).setObserve(false);
             } else
                 resultLink = new BindLink(link.getBindLink());
             resultLink.setValue(value);
@@ -349,7 +372,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             if (!link.getSubModelQuery().isMulti())
                 throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must be multi for value " + link.getValue());
             List<DataSet> dataList = new ArrayList<>();
-            for (Object o : (List<?>)link.getValue()) {
+            for (Object o : (List<?>) link.getValue()) {
                 if (o instanceof DefaultValues) {
                     dataList.add(new DataSet(((DefaultValues) o).getValues()));
                 } else {
@@ -465,19 +488,27 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
     }
 
-    private Object resolvePlaceholder(String placeholder) {
+    private Object resolveProperty(Object placeholder, boolean strong) {
+        if (!(placeholder instanceof String))
+            return placeholder;
         Object value = placeholder;
-        if (StringUtils.isProperty(placeholder)) {
-            value = env.getSystemProperties().resolvePlaceholders(placeholder);
+        if (StringUtils.isProperty((String) placeholder)) {
+            if (strong)
+                value = env.getSystemProperties().resolveRequiredPlaceholders((String) placeholder);
+            else
+                value = env.getSystemProperties().resolvePlaceholders((String) placeholder);
         }
         return value;
     }
 
-    private Object resolveRequiredPlaceholder(String placeholder) {
-        if (StringUtils.isProperty(placeholder)) {
-            return env.getSystemProperties().resolveRequiredPlaceholders(placeholder);
-        } else
+    private Object resolveContext(Object placeholder) {
+        if (!(placeholder instanceof String))
             return placeholder;
+        Object value = placeholder;
+        if (isBinding() && StringUtils.isContext((String) placeholder)) {
+            value = env.getContextProcessor().resolve(placeholder);
+        }
+        return value;
     }
 
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
@@ -511,5 +542,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             return value;
         } else
             return null;
+    }
+
+    private boolean isBinding() {
+        return mode.equals(CompileMode.BIND);
+    }
+
+    enum CompileMode {
+        READ, COMPILE, BIND
     }
 }

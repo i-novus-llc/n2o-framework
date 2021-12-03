@@ -47,8 +47,8 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  */
 class StandardField extends React.Component {
     /**
-   * Базовый рендер компонента
-   */
+     * Базовый рендер компонента
+     */
     render() {
         const {
             id,
@@ -76,6 +76,7 @@ class StandardField extends React.Component {
             onFocus,
             onBlur,
             placeholder,
+            touched,
             message,
             colLength,
             help,
@@ -162,7 +163,7 @@ class StandardField extends React.Component {
                                 {...props}
                                 {...control}
                                 className={cx(control.className, {
-                                    [validationClass]: validationClass,
+                                    [validationClass]: validationClass && touched,
                                     'form-control__with-toolbar': toolbar,
                                 })}
                             />
@@ -190,7 +191,7 @@ class StandardField extends React.Component {
                                 validationMap[validationClass],
                             )}
                         >
-                            {message && message.text}
+                            {touched && message && message.text}
                         </div>
                     </div>
                 </div>
@@ -219,6 +220,7 @@ StandardField.propTypes = {
     fieldActions: FieldActionsPropTypes,
     valiastionClass: PropTypes.string,
     loading: PropTypes.bool,
+    touched: PropTypes.bool,
     labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     labelAlignment: PropTypes.oneOf(['left', 'right']),
     labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
