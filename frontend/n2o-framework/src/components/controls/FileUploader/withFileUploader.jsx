@@ -282,7 +282,7 @@ const FileUploaderControl = (WrappedComponent) => {
             })
 
             const fileToBeDeleted = find(files, ({ id: idFromState }) => idFromState === id)
-            const isUploading = !has(fileToBeDeleted, 'response')
+            const isUploading = !has(fileToBeDeleted, 'response') && !has(fileToBeDeleted, 'error')
 
             const fileDeletionExecutor = () => {
                 if (isUploading) {
