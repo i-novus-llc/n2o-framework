@@ -12,8 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 @Getter
 @Setter
 public class Form extends Widget<FormWidgetComponent> {
-    @JsonProperty("autoSubmit")
-    private ClientDataProvider formDataProvider;
 
     public Form() {
         super(new FormWidgetComponent());

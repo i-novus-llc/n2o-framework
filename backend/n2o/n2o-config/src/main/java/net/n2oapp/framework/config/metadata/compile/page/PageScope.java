@@ -21,7 +21,9 @@ public class PageScope implements Serializable {
     private String resultWidgetId;
     private Set<String> widgetIds;
     private Map<String, String> widgetIdQueryIdMap;
-    private Map<String, String> widgetIdDatasourceMap;
+    private Map<String, String> widgetIdSourceDatasourceMap;
+    //fixme избавиться со временем возможно, сейчас нужна потому что много где есть ссылки на widgetId , которые превратились в datasource
+    private Map<String, String> widgetIdClientDatasourceMap;
     /**
      * Список идентификаторов таб регионов
      */
@@ -32,6 +34,10 @@ public class PageScope implements Serializable {
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);
+    }
+
+    public String getGlobalDatasourceId(String localDatasourceId) {
+        return  CompileUtil.generateWidgetId(pageId, localDatasourceId);
     }
 
     @Getter

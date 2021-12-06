@@ -137,7 +137,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), param.getRefWidgetId()) :
                 defaultClientWidgetId;
         PageScope pageScope = p.getScope(PageScope.class);
-        String datasource = pageScope == null ? widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId);
+        String datasource = pageScope == null ? widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
         ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), datasource);
         link.setValue(p.resolveJS(param.getValue()));
         return link;

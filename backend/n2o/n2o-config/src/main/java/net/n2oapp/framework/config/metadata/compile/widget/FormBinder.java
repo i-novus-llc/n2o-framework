@@ -20,9 +20,9 @@ public class FormBinder implements BaseMetadataBinder<Form> {
 
     @Override
     public Form bind(Form form, BindProcessor p) {
-        if (form.getFormDataProvider() != null) {
+       /* if (form.getFormDataProvider() != null) {
             BindUtil.bindDataProvider(form.getFormDataProvider(), p);
-        }
+        }*/
         if (form.getComponent().getFieldsets() != null)
             form.getComponent().getFieldsets().forEach(p::bind);
         return form;

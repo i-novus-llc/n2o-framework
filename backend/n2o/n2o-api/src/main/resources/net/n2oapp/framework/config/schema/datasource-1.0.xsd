@@ -37,6 +37,11 @@
                 <xs:documentation>Размер выборки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="route" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL получения данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="dependenciesDefinition">

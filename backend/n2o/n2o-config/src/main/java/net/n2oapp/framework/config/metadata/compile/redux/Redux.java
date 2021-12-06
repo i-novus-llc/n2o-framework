@@ -209,7 +209,7 @@ public abstract class Redux {
      * @return      идентификатор источника данных
      */
     private static String getDatasourceId(PageScope pageScope, String widgetId) {
-        return pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId);
+        return pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
+                widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
     }
 }

@@ -58,10 +58,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getSubMenu().get(0).getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
-        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), nullValue());
         assertThat(action.getPayload().getSource().getPrefix(), is("edit"));
-        assertThat(action.getPayload().getTarget().getKey(), is("modal_ds1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getTarget().getPrefix(), is("filter"));
         assertThat(action.getPayload().getMode(), is(CopyMode.merge));
@@ -70,7 +70,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         action = (CopyAction) table.getToolbar().getButton("btn").getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.EDIT.getId()));
-        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), is("id"));
         assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
         assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
@@ -79,7 +79,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getMeta().getModalsToClose(), is(1));
 
         action = (CopyAction) page.getToolbar().getButton("menuItem0").getAction();
-        assertThat(action.getPayload().getSource().getKey(), is("modal_ds1"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getTarget().getKey(), is("page_form_ds"));
     }
 

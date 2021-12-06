@@ -576,13 +576,6 @@
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Имя источника данных
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

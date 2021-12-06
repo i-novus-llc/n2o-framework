@@ -40,11 +40,13 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String objectId;
     private String datasourceId;
     private N2oDatasource datasource;
+    @Deprecated
     private Integer size;
     private String cssClass;
     private String style;
     private Boolean border;
     private String refId;
+    @Deprecated
     private String masterParam;
     private Boolean fetchOnInit;
     /**
@@ -54,14 +56,14 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     @Deprecated
     private UploadType upload;
     @Deprecated
-    private String containerId;
-    @Deprecated
     private String dependsOn;
     @Deprecated
     private String dependencyCondition;
     private String result;
     private String icon;
+    @Deprecated
     private String masterFieldId;
+    @Deprecated
     private String detailFieldId;
     private String visible;
     private Boolean refreshDependentContainer;

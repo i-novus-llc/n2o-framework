@@ -179,8 +179,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private String initDatasource(String widgetId, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        return pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId);
+        return pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
+                widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
     }
 
     /**
@@ -299,11 +299,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         String datasource = widgetId;
         PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && pageScope.getWidgetIdDatasourceMap() != null) {
+        if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null) {
             if (dependency.getRefWidgetId() != null) {
-                datasource = pageScope.getWidgetIdDatasourceMap().get(pageScope.getGlobalWidgetId(dependency.getRefWidgetId()));
+                datasource = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(dependency.getRefWidgetId()));
             } else {
-                datasource = pageScope.getWidgetIdDatasourceMap().get(widgetId);
+                datasource = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
             }
         }
         ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.RESOLVE);

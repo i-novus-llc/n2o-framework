@@ -57,8 +57,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();
-        String datasource = pageScope == null || pageScope.getWidgetIdDatasourceMap() == null
-                ? targetWidgetId : pageScope.getWidgetIdDatasourceMap().get(targetWidgetId);
+        String datasource = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
+                ? targetWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(targetWidgetId);
         String modalLink = Redux.createBindLink(datasource, targetWidgetModel).getBindLink();
         invokeAction.getPayload().setModelLink(modalLink);
         invokeAction.getMeta()
