@@ -1,19 +1,16 @@
 package net.n2oapp.framework.config.metadata.menu;
 
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
-import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -82,5 +79,9 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getSubItems().size(), is(1));
 //        assertThat(dropdownMenu.getSubItems().get(1).getType(), is("divider"));
 //        assertThat(dropdownMenu.getSubItems().get(3).getType(), is("divider"));
+
+        dropdownMenu = menu.getItems().get(3);
+        assertThat(dropdownMenu.getTitle(), is("Сообщения"));
+        assertThat(dropdownMenu.getIcon(), is("fa fa-bell"));
     }
 }

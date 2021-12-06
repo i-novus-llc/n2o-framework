@@ -23,6 +23,9 @@
                 </menu-item>
 <!--                <divider/>-->
             </dropdown-menu>
+            <dropdown-menu id="messages"
+                           name="Сообщения"
+                           icon="fa fa-bell"/>
         </nav>
     </header>
 
