@@ -30,8 +30,9 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         layout.setFullSizeHeader(source.getNavigationLayout() == null || source.getNavigationLayout().equals(NavigationLayout.fullSizeHeader));
         application.setLayout(layout);
 
-        application.setHeader(initHeader(source.getHeader(), context, p));
-        application.setSidebar(initSidebar(source.getSidebar(), context, p));
+        Header header = initHeader(source.getHeader(), context, p);
+        application.setHeader(header);
+        application.setSidebar(initSidebar(source.getSidebar(), header, context, p));
         application.setFooter(initFooter(source.getFooter(), p));
 
         return application;
@@ -60,7 +61,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         return header;
     }
 
-    private Sidebar initSidebar(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
+    private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Sidebar sidebar = new Sidebar();
         sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
@@ -75,10 +76,16 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
         sidebar.setSide(p.cast(source.getSide(), p.resolve(property("n2o.api.sidebar.side"), Side.class)));
-        sidebar.setDefaultState(p.cast(source.getDefaultState(), p.resolve(property("n2o.api.sidebar.default_state"), SidebarState.class)));
+        if (header != null && header.getSidebarSwitcher() != null) {
+            sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));
+            sidebar.setToggledState(p.cast(source.getToggledState(), SidebarState.maxi));
+        }
+        else {
+            sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.maxi));
+            sidebar.setToggledState(p.cast(source.getToggledState(),
+                    SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi, SidebarState.class));
+        }
         sidebar.setOverlay(p.cast(source.getOverlay(), p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
-        sidebar.setToggledState(p.cast(source.getToggledState(),
-                SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi, SidebarState.class));
         sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
         return sidebar;
     }
