@@ -77,7 +77,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         sidebar.setSide(p.cast(source.getSide(), p.resolve(property("n2o.api.sidebar.side"), Side.class)));
         sidebar.setDefaultState(p.cast(source.getDefaultState(), p.resolve(property("n2o.api.sidebar.default_state"), SidebarState.class)));
         sidebar.setOverlay(p.cast(source.getOverlay(), p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
-        sidebar.setToggledState(p.cast(source.getToggledState(), p.resolve(property("n2o.api.sidebar.toggled_state"), SidebarState.class)));
+        sidebar.setToggledState(p.cast(source.getToggledState(),
+                SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi, SidebarState.class));
         sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
         return sidebar;
     }
