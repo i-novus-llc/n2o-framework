@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.menu;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -56,6 +55,7 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
     private void dropDownMenu(Element e, N2oSimpleMenu.DropdownMenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "image", m::getImage, m::setImage);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
