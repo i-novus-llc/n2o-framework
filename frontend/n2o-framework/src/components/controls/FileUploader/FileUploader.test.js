@@ -384,7 +384,7 @@ describe('FileUploader Тесты', () => {
             ],
             onBlur,
         })
-        button.instance().handleRemove(0)
+        button.instance().handleRemove(0, 1)
         expect(button.state().files).toEqual([])
         expect(onBlur.calledOnce).toBeTruthy()
     })
