@@ -50,14 +50,14 @@ function FileUploaderItem(props) {
                     placement="bottom"
                 />
                 <span className={classNames('n2o-file-uploader-item-size', { showSize })}>
-                    {showSize && <span>{convertSize(file.size)}</span>}
-                    {!disabled && !loading && (
+                    {showSize && <span className="ml-2 n2o-file-uploader__size">{convertSize(file.size)}</span>}
+                    {!disabled && (
                         <i
                             onClick={() => onRemove(index, file.id)}
                             className={classNames('n2o-file-uploader-remove ml-2', deleteIcon || 'fa fa-times')}
                         />
                     )}
-                    {loading && <Spinner className="ml-2" type="inline" size="sm" />}
+                    {loading && <Spinner type="inline" size="sm" />}
                 </span>
             </span>
             {loading ||
