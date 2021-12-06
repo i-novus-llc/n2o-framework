@@ -35,4 +35,7 @@
             <a href="/logout" target="self"/>
         </menu-item>
     </dropdown-menu>
+    <dropdown-menu id="messages"
+                   name="Сообщения"
+                   icon="fa fa-bell"/>
 </menu>
