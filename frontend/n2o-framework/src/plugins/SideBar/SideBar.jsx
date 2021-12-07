@@ -45,7 +45,7 @@ export const sidebarView = {
 const toggleIconClassNames = (visible, side) => {
     const isLeftIcon = (visible && side === 'left') || (!visible && (side === 'right'))
 
-    return isLeftIcon ? 'fa fa-angle-double-right' : 'fa fa-angle-double-left'
+    return isLeftIcon ? 'fa fa-angle-double-left' : 'fa fa-angle-double-right'
 }
 
 const sideBarClasses = (isStaticView, defaultState, toggledState, currentVisible, side, className) => {
