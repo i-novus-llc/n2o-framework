@@ -9,7 +9,7 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
-import colors from '../../../../const/colors'
+import colors from '../../../constants/colors'
 import { renderBadge } from '../../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 
