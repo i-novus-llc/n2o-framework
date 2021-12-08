@@ -66,13 +66,19 @@ public class ModelLinkEquivalenceTest {
         SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", false, null);
         withSubModelQuery2.setSubModelQuery(subModelQuery2);
 
+        ModelLink withSubModelQuery3 = new ModelLink(ReduxModel.RESOLVE, "widget", "id");
+        SubModelQuery subModelQuery3 = new SubModelQuery(null, "queryId", null, null, false, null);
+        withSubModelQuery3.setSubModelQuery(subModelQuery3);
+
         ModelLink modelLink1 = new ModelLink(ReduxModel.RESOLVE, "widget1");
         modelLink1.setValue("`field.name`");
         ModelLink modelLink2 = new ModelLink(ReduxModel.RESOLVE, "widget", "field1");
         modelLink2.setValue("`name`");
+        ModelLink modelLink3 = new ModelLink(ReduxModel.RESOLVE, "widget", "field");
 
         assertFalse(withSubModelQuery1.equalsLink(modelLink1));
         assertFalse(withSubModelQuery1.equalsLink(modelLink2));
+        assertFalse(withSubModelQuery3.equalsLink(modelLink3));
 
         assertFalse(modelLink1.equalsLink(modelLink2));
 
