@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -59,9 +60,17 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
         TableHeaders headers = table.columns().headers();
         headers.shouldHaveSize(3);
 
-        headers.header(0).shouldHaveTitle("Имя");
-        headers.header(1).shouldHaveTitle("Доступно с ролью admin");
-        headers.header(2).shouldHaveTitle("Доступно с правом edit");
+        TableSimpleHeader header = headers.header(0);
+        header.shouldExists();
+        header.shouldHaveTitle("Имя");
+
+        header = headers.header(1);
+        header.shouldExists();
+        header.shouldHaveTitle("Доступно с ролью admin");
+
+        header = headers.header(2);
+        header.shouldExists();
+        header.shouldHaveTitle("Доступно с правом edit");
 
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
@@ -87,11 +96,11 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         TableHeaders headers = table.columns().headers();
-        headers.shouldHaveSize(3);
+        headers.shouldHaveSize(1);
 
-        headers.header(0).shouldHaveTitle("Имя");
-        headers.header(1).shouldNotHaveTitle();
-        headers.header(2).shouldNotHaveTitle();
+        TableSimpleHeader header = headers.header(0);
+        header.shouldExists();
+        header.shouldHaveTitle("Имя");
 
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
