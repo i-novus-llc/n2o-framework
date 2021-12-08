@@ -1,0 +1,60 @@
+.n2o-file-uploader-control.file-upload-cell {
+    width: max-content;
+}
+
+.file-upload-cell-wrapper {
+    .n2o-file-uploader-container.file-upload-cell-container {
+        min-width: 220px;
+        max-width: 220px;
+
+        .n2o-file-uploader-file-name {
+            width: 100%;
+        }
+
+        .n2o-file-uploader-link {
+            align-items: baseline;
+            min-width: 185px;
+            width: 185px;
+        }
+
+        .n2o-file-uploader-item-size {
+            margin-left: 5px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
+
+    .file-upload-cell-container {
+        .n2o-file-uploader-control.file-upload-cell {
+            .file-upload-cell__button.btn {
+                width: 220px;
+            }
+        }
+
+        .n2o-file-uploader-files-item-info {
+            height: 38px;
+            max-width: 220px;
+            width: 220px;
+        }
+    }
+}
+
+.file-upload-cell-wrapper.showSize {
+    .n2o-file-uploader-container.file-upload-cell-container {
+        .n2o-file-uploader-link {
+            align-items: baseline;
+            min-width: 140px;
+            width: 140px;
+        }
+    }
+
+    .n2o-file-uploader-item-size.showSize {
+        width: auto;
+
+        span {
+            width: 50px;
+        }
+    }
+}

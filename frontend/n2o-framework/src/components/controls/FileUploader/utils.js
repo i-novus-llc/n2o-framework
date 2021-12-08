@@ -7,9 +7,10 @@ const Size = {
     2: 'MB',
 }
 
-export function post(url, file, onProgress, onUpload, onError) {
+export function post(url, file, onProgress, onUpload, onError, cancelSource) {
     axios
         .post(url, file, {
+            cancelToken: cancelSource.token,
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
