@@ -11,6 +11,8 @@ import {
     setSorting as setDataSourceSorting,
     changePage,
     changeSize,
+    addWidget,
+    removeWidget,
 } from '../../ducks/datasource/store'
 import { registerDependency } from '../../actions/dependency'
 
@@ -37,11 +39,10 @@ export const WidgetHOC = (WidgetComponent) => {
             setSorting,
             setPage,
             setSize,
-            fetchOnInit,
             id,
             dependency,
             dispatch,
-            isInit,
+            datasource,
         } = props
         const prevVisible = usePrevious(visible)
 
@@ -55,11 +56,11 @@ export const WidgetHOC = (WidgetComponent) => {
 
         // fetch on change visible
         useEffect(() => {
-            if (
-                visible &&
-                (typeof prevVisible === 'undefined' ? fetchOnInit : !prevVisible)
-            ) { fetchData() }
-        }, [visible, prevVisible, fetchData, fetchOnInit, isInit])
+            if (visible !== prevVisible) {
+                dispatch(visible ? addWidget(datasource, id) : removeWidget(datasource, id))
+                fetchData()
+            }
+        }, [id, datasource, visible, prevVisible, fetchData, dispatch])
 
         const methods = useMemo(
             () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize }),

@@ -18,7 +18,6 @@ export const widgetInitialTypes = {
     datasource: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
     visible: PropTypes.bool,
-    fetchOnInit: PropTypes.bool,
     dependency: PropTypes.array,
     toolbar: PropTypes.any,
     fetch: PropTypes.oneOf([
