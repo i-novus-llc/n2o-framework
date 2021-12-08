@@ -16,6 +16,7 @@ import isUndefined from 'lodash/isUndefined'
 import { push } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
+import { withSecurityList } from '../../../core/auth/withSecurity'
 import widgetContainer from '../WidgetContainer'
 import { setTableSelectedId } from '../../../ducks/widgets/store'
 import { TABLE } from '../widgetTypes'
@@ -78,13 +79,13 @@ class AdvancedTableContainer extends React.Component {
 
         if (
             hasSelect &&
-            !isEmpty(datasource) &&
-            !isEqual(prevDatasource, datasource) &&
-            (
-                !selectedId ||
-                !isEqual(prevSelectedId, selectedId) ||
-                !isEqualCollectionItemsById(prevDatasource, datasource, selectedId)
-            )
+                !isEmpty(datasource) &&
+                !isEqual(prevDatasource, datasource) &&
+                (
+                    !selectedId ||
+                        !isEqual(prevSelectedId, selectedId) ||
+                        !isEqualCollectionItemsById(prevDatasource, datasource, selectedId)
+                )
         ) {
             const selectedModel = find(datasource, model => model.id === selectedId)
 
@@ -130,160 +131,160 @@ class AdvancedTableContainer extends React.Component {
         onFetch()
     }
 
-  mapHeaders = (headers, isChild = false) => map(headers, (header) => {
-      let mappedChildren = null
+    mapHeaders = (headers, isChild = false) => map(headers, (header) => {
+        let mappedChildren = null
 
-      if (header.children || isChild) {
-          mappedChildren = this.mapHeaders(header.children || [], true)
+        if (header.children || isChild) {
+            mappedChildren = this.mapHeaders(header.children || [], true)
 
-          return {
-              ...header,
-              dataIndex: header.id,
-              title: header.label,
-              children: header.children ? mappedChildren : undefined,
-          }
-      }
+            return {
+                ...header,
+                dataIndex: header.id,
+                title: header.label,
+                children: header.children ? mappedChildren : undefined,
+            }
+        }
 
-      return header
-  });
+        return header
+    });
 
-  mapColumns() {
-      const {
-          cells,
-          headers,
-          widgetId,
-          modelId,
-          sorting,
-          onSort,
-          registredColumns,
-          filters,
-      } = this.props
+    mapColumns() {
+        const {
+            cells,
+            headers,
+            widgetId,
+            modelId,
+            sorting,
+            onSort,
+            registredColumns,
+            filters,
+        } = this.props
 
-      map(registredColumns, ({ frozen, visible }, key) => {
-          if (frozen && !visible) {
-              const headerIndex = findIndex(headers, ({ id }) => id === key)
+        map(registredColumns, ({ frozen, visible }, key) => {
+            if (frozen && !visible) {
+                const headerIndex = findIndex(headers, ({ id }) => id === key)
 
-              set(headers, `[${headerIndex}].needRender`, false)
-          }
-      })
+                set(headers, `[${headerIndex}].needRender`, false)
+            }
+        })
 
-      return this.mapHeaders(headers).map((header) => {
-          const cell = find(cells, c => c.id === header.id) || {}
-          const children = get(header, 'children', null)
-          const needRender = get(registredColumns, `${header.id}.visible`, true)
+        return this.mapHeaders(headers).map((header) => {
+            const cell = find(cells, c => c.id === header.id) || {}
+            const children = get(header, 'children', null)
+            const needRender = get(registredColumns, `${header.id}.visible`, true)
 
-          const mapChildren = children => map(children, (child) => {
-              if (!isEmpty(child.children)) {
-                  child.children = mapChildren(child.children)
-              }
+            const mapChildren = children => map(children, (child) => {
+                if (!isEmpty(child.children)) {
+                    child.children = mapChildren(child.children)
+                }
 
-              const cell = find(cells, c => c.id === child.id) || {}
+                const cell = find(cells, c => c.id === child.id) || {}
 
-              return {
-                  ...child,
-                  title: (
-                      <AdvancedTableHeaderCell
-                          as="div"
-                          {...child}
-                          onFilter={this.handleSetFilter}
-                          filters={filters}
-                          filterControl={child.filterControl}
-                      />
-                  ),
-                  render: (value, record, index) => ({
-                      children: this.renderCell({
-                          index,
-                          key: cell.id,
-                          widgetId,
-                          modelId,
-                          columnId: cell.id,
-                          model: record,
-                          as: 'div',
-                          needRender,
-                          ...cell,
-                      }),
-                  }),
-              }
-          })
+                return {
+                    ...child,
+                    title: (
+                        <AdvancedTableHeaderCell
+                            as="div"
+                            {...child}
+                            onFilter={this.handleSetFilter}
+                            filters={filters}
+                            filterControl={child.filterControl}
+                        />
+                    ),
+                    render: (value, record, index) => ({
+                        children: this.renderCell({
+                            index,
+                            key: cell.id,
+                            widgetId,
+                            modelId,
+                            columnId: cell.id,
+                            model: record,
+                            as: 'div',
+                            needRender,
+                            ...cell,
+                        }),
+                    }),
+                }
+            })
 
-          if (children) {
-              header = { ...header }
-              header.children = mapChildren(children)
-          }
+            if (children) {
+                header = { ...header }
+                header.children = mapChildren(children)
+            }
 
-          return {
-              ...header,
-              needRender,
-              title: this.renderCell({
-                  ...header,
-                  key: header.id,
-                  columnId: header.id,
-                  widgetId,
-                  as: 'div',
-                  sorting: sorting && sorting[header.id],
-                  needRender,
-                  onSort,
-              }),
-              label: header.title,
-              dataIndex: header.id,
-              columnId: header.id,
-              key: header.id,
-              hasSpan: get(cell, 'hasSpan', false),
-              render: (value, record, index) => ({
-                  needRender: header.needRender,
-                  children: this.renderCell({
-                      index,
-                      key: cell.id,
-                      widgetId,
-                      columnId: cell.id,
-                      model: record,
-                      as: 'div',
-                      needRender,
-                      ...cell,
-                  }),
-              }),
-          }
-      })
-  }
+            return {
+                ...header,
+                needRender,
+                title: this.renderCell({
+                    ...header,
+                    key: header.id,
+                    columnId: header.id,
+                    widgetId,
+                    as: 'div',
+                    sorting: sorting && sorting[header.id],
+                    needRender,
+                    onSort,
+                }),
+                label: header.title,
+                dataIndex: header.id,
+                columnId: header.id,
+                key: header.id,
+                hasSpan: get(cell, 'hasSpan', false),
+                render: (value, record, index) => ({
+                    needRender: header.needRender,
+                    children: this.renderCell({
+                        index,
+                        key: cell.id,
+                        widgetId,
+                        columnId: cell.id,
+                        model: record,
+                        as: 'div',
+                        needRender,
+                        ...cell,
+                    }),
+                }),
+            }
+        })
+    }
 
-  mapData = (datasource) => {
-      if (!datasource) { return }
+    mapData = (datasource) => {
+        if (!datasource) { return }
 
-      // eslint-disable-next-line consistent-return
-      return map(datasource, item => ({
-          ...item,
-          key: item.id,
-      }))
-  }
+        // eslint-disable-next-line consistent-return
+        return map(datasource, item => ({
+            ...item,
+            key: item.id,
+        }))
+    }
 
-  getTableProps() {
-      const props = omit(this.props, [
-          'cells',
-          'headers',
-          'datasource',
-          'dispatch',
-          'onActionImpl',
-          'onEdit',
-          'onFetch',
-          'pageId',
-          'redux',
-          'sorting',
-          'widgetId',
-      ])
-      const { columns, data } = this.state
+    getTableProps() {
+        const props = omit(this.props, [
+            'cells',
+            'headers',
+            'datasource',
+            'dispatch',
+            'onActionImpl',
+            'onEdit',
+            'onFetch',
+            'pageId',
+            'redux',
+            'sorting',
+            'widgetId',
+        ])
+        const { columns, data } = this.state
 
-      return {
-          ...props,
-          onEdit: () => {},
-          columns,
-          data,
-          onFilter: this.handleSetFilter,
-      }
-  }
+        return {
+            ...props,
+            onEdit: () => {},
+            columns,
+            data,
+            onFilter: this.handleSetFilter,
+        }
+    }
 
-  render() {
-      return <AdvancedTable {...this.getTableProps()} />
-  }
+    render() {
+        return <AdvancedTable {...this.getTableProps()} />
+    }
 }
 
 AdvancedTableContainer.propTypes = {
@@ -432,4 +433,6 @@ const enhance = compose(
 )
 
 export { AdvancedTableContainer }
-export default enhance(AdvancedTableContainer)
+const enhanced = enhance(AdvancedTableContainer)
+
+export default withSecurityList(enhanced, 'headers')
