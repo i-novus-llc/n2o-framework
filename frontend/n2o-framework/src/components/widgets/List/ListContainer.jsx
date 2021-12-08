@@ -12,7 +12,6 @@ import { modelsType } from '../../../core/widget/propTypes'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 
 // eslint-disable-next-line import/no-named-as-default
 import List from './List'
@@ -213,6 +212,5 @@ ListContainer.defaultProps = {
 
 export default compose(
     withTranslation(),
-    withContainerLiveCycle,
     withWidgetHandlers,
 )(ListContainer)

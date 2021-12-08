@@ -2,7 +2,6 @@ import React from 'react'
 import { compose, mapProps } from 'recompose'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 
 // eslint-disable-next-line import/no-named-as-default
 import Tiles from './Tiles'
@@ -12,7 +11,6 @@ function TilesContainer(props) {
 }
 
 export default compose(
-    withContainerLiveCycle,
     withWidgetHandlers,
     mapProps(
         ({

@@ -7,7 +7,6 @@ import widgets, {
     enableWidget,
     disableWidget,
     disableWidgetOnFetch,
-    setTableSelectedId,
     setActive,
     changeFiltersVisibility,
     toggleWidgetFilters,
@@ -43,7 +42,6 @@ describe('Тесты widget reducer', () => {
                             isFilterVisible: false,
                             page: 2,
                             pageId: 'page-id-2',
-                            selectedId: 'selected-3',
                             size: 20,
                             sorting: {
                                 name: 'ASC',
@@ -75,7 +73,6 @@ describe('Тесты widget reducer', () => {
                 isVisible: true,
                 page: 2,
                 pageId: 'page-id-2',
-                selectedId: 'selected-3',
                 size: 20,
                 sorting: {
                     name: 'ASC',
@@ -289,48 +286,6 @@ describe('Тесты widget reducer', () => {
         ).toEqual({
             widget: {
                 isInit: false,
-            },
-        })
-    })
-
-    it('Проверка SET_TABLE_SELECTED_ID', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: setTableSelectedId.type,
-                    payload: {
-                        widgetId: 'widget',
-                        value: 'testId',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                selectedId: 'testId',
-            },
-        })
-    })
-
-    it('Проверка SET_TABLE_SELECTED_ID', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: setTableSelectedId.type,
-                    payload: {
-                        widgetId: 'widget',
-                        value: 613241,
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                selectedId: 613241,
             },
         })
     })

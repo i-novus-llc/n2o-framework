@@ -39,13 +39,6 @@
  */
 
 /**
- * Payload для экшена SET_TABLE_SELECTED_ID
- * @typedef WidgetsStore.setTableSelectedIdPayload
- * @property {string} widgetId
- * @property {string} value
- */
-
-/**
  * Payload для экшена ALERT_ADD
  * @typedef WidgetsStore.alertAddWidgetPayload
  * @property {string} widgetId

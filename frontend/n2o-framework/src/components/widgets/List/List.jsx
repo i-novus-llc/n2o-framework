@@ -23,7 +23,6 @@ const SCROLL_OFFSET = 100
 
 /**
  * Компонент List
- * @reactProps {number|string} selectedId - id выбранной записи
  * @reactProps {boolean} autoFocus - фокус при инициализации на перой или на selectedId строке
  * @reactProps {function} onItemClick - callback при клике на строку
  * @reactProps {object} rowClick - кастомное действие клика

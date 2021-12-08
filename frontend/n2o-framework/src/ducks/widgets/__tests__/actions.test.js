@@ -15,7 +15,6 @@ import {
     toggleWidgetFilters,
     resetWidgetState,
     setWidgetMetadata,
-    setTableSelectedId,
     setActive,
     disableWidgetOnFetch,
 } from '../store'
@@ -50,7 +49,6 @@ const page = 'Page_Table'
 const count = 5
 const size = 'lg'
 const pageId = 'Page_id'
-const selectedId = 'selectedId'
 const metadata = {
     toolbar: {},
 }
@@ -175,14 +173,6 @@ describe('Тесты экшенов widgets', () => {
             expect(action.payload.pageId).toEqual(pageId)
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.metadata).toEqual(metadata)
-        })
-    })
-
-    describe('Проверка экшена setTableSelectedId', () => {
-        it('Возвращает правильный payload', () => {
-            const action = setTableSelectedId(widgetId, selectedId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.value).toEqual(selectedId)
         })
     })
 

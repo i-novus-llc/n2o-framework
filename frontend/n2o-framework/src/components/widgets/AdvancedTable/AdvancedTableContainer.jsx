@@ -27,12 +27,6 @@ import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
 import AdvancedTable from './AdvancedTable'
 import { WidgetTableTypes } from './propTypes'
 
-const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
-    const predicate = ({ id }) => id === selectedId
-
-    return isEqual(find(data1, predicate), find(data2, predicate))
-}
-
 const ReduxCell = columnHOC(TableCell)
 
 class AdvancedTableContainer extends React.Component {
@@ -55,11 +49,9 @@ class AdvancedTableContainer extends React.Component {
 
     componentDidUpdate(prevProps) {
         const {
-            selectedId: prevSelectedId,
             models: prevModels,
-            setResolve,
         } = prevProps
-        const { hasSelect, models, selectedId, autoFocus, registredColumns } = this.props
+        const { models, registredColumns } = this.props
         const { datasource } = models
         const { datasource: prevDatasource } = prevModels
 
@@ -68,27 +60,6 @@ class AdvancedTableContainer extends React.Component {
                 data: this.mapData(datasource),
                 columns: this.mapColumns(),
             })
-        }
-
-        if (
-            hasSelect &&
-            !isEmpty(datasource) &&
-            !isEqual(prevDatasource, datasource) &&
-            (
-                !selectedId ||
-                !isEqual(prevSelectedId, selectedId) ||
-                !isEqualCollectionItemsById(prevDatasource, datasource, selectedId)
-            )
-        ) {
-            const selectedModel = find(datasource, model => model.id === selectedId)
-
-            const resolveModel = autoFocus
-                ? selectedModel || datasource[0]
-                : selectedModel || {}
-
-            if (!isEmpty(resolveModel)) {
-                setResolve(resolveModel)
-            }
         }
     }
 

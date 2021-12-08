@@ -1,5 +1,4 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
-import isEmpty from 'lodash/isEmpty'
 
 import WidgetResolver from './WidgetResolver'
 import { ALERT_ADD, ALERT_REMOVE, SET_WIDGET_METADATA } from './constants'
@@ -31,24 +30,12 @@ const widgetSlice = createSlice({
              */
             reducer(state, action) {
                 const { widgetId, initProps, preInit } = action.payload
-                let smartState = {}
                 const currentState = state[widgetId] || {}
-
-                if (!isEmpty(currentState)) {
-                    smartState = {
-                        selectedId: currentState.selectedId ? currentState.selectedId : null,
-                    }
-
-                    if (!isEmpty(currentState.sorting)) {
-                        smartState.sorting = currentState.sorting
-                    }
-                }
 
                 state[widgetId] = {
                     ...WidgetResolver.defaultState,
                     ...currentState,
                     ...initProps,
-                    ...smartState,
                     isInit: !preInit,
                     type: initProps.type,
                 }
@@ -358,36 +345,6 @@ const widgetSlice = createSlice({
             },
         },
 
-        CHANGE_SELECTED_ID: {
-            /**
-             * @param {string} widgetId
-             * @param {string} selectedId
-             * @return {{payload: WidgetsStore.setTableSelectedIdPayload}}
-             */
-            prepare(widgetId, selectedId) {
-                return ({
-                    payload: { widgetId, value: selectedId },
-                })
-            },
-
-            /**
-             * Изменить выбранную запись в виджете
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.setTableSelectedIdPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, value } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].selectedId = WidgetResolver.resolveSelectedId(value)
-            },
-        },
-
         SET_ACTIVE: {
             /**
              * @param {string} widgetId
@@ -461,7 +418,6 @@ export const {
     DISABLE: disableWidget,
     DISABLE_ON_FETCH: disableWidgetOnFetch,
     CHANGE_FILTER_VISIBILITY: changeFiltersVisibility,
-    CHANGE_SELECTED_ID: setTableSelectedId,
     RESET_STATE: resetWidgetState,
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,
     REMOVE: removeWidget,

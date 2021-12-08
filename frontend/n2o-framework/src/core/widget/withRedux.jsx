@@ -4,7 +4,6 @@ import { batchActions } from 'redux-batched-actions'
 
 import {
     registerWidget,
-    setTableSelectedId,
     setActive,
 } from '../../ducks/widgets/store'
 import {
@@ -36,7 +35,6 @@ export const withRedux = (WidgetComponent) => {
 
             dispatch(batchActions([
                 removeAllAlerts(id),
-                setTableSelectedId(id, null),
             ]))
         }
 

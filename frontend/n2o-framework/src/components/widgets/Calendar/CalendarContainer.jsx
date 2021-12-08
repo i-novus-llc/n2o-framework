@@ -5,7 +5,6 @@ import get from 'lodash/get'
 import moment from 'moment'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
-import { withContainerLiveCycle } from '../Table/withContainerLiveCycle'
 
 import Calendar from './Calendar'
 import { CalendarEvent } from './CalendarEvent'
@@ -28,7 +27,6 @@ export default compose(
         endFieldId: 'end',
         height: '1200px',
     }),
-    withContainerLiveCycle,
     withWidgetHandlers,
     withHandlers({
         mapEvents: ({ startFieldId, endFieldId, step }) => events => map(events, event => ({

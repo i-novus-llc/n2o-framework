@@ -10,7 +10,6 @@ import {
     makeWidgetSortingSelector,
     makeWidgetFilterVisibilitySelector,
     makeWidgetValidationSelector,
-    makeSelectedIdSelector,
     makeIsActiveSelector,
     makeWidgetPageSelector,
     makeWidgetPageIdSelector,
@@ -47,7 +46,6 @@ const state = {
             isEnabled: true,
             pageId: '_',
             isFilterVisible: true,
-            selectedId: 2,
             isActive: true,
             type: 'table',
         },
@@ -107,11 +105,6 @@ describe('Проверка селекторов widgets', () => {
     it('makeWidgetValidationSelector должен вернуть validation по id', () => {
         expect(makeWidgetValidationSelector('widget1')(state)).toEqual(
             state.widgets.widget1.validation,
-        )
-    })
-    it('makeSelectedIdSelector должен вернуть selectedId по id', () => {
-        expect(makeSelectedIdSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.selectedId,
         )
     })
     it('makeIsActiveSelector должен вернуть isActive по id', () => {
