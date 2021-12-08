@@ -304,7 +304,6 @@
             }
           ],
         "modelPrefix": "resolve",
-        "fetchOnInit": false,
         "autoFocus": true
       }
     }

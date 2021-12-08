@@ -77,7 +77,6 @@ class Container extends React.Component {
 
 Container.propTypes = {
     form: PropTypes.shape({
-        fetchOnInit: PropTypes.bool,
         fieldsets: PropTypes.array,
         prompt: PropTypes.bool,
     }),

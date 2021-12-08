@@ -75,10 +75,5 @@ TilesWidget.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
 }
-const Widget = WidgetHOC(TilesWidget)
 
-Widget.defaultProps = {
-    fetchOnInit: true,
-}
-
-export default Widget
+export default WidgetHOC(TilesWidget)

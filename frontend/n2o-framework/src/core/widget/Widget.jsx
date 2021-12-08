@@ -80,7 +80,6 @@ export const WidgetHOC = (WidgetComponent) => {
 
     Widget.defaultProps = {
         fetch: FETCH_TYPE.always,
-        fetchOnInit: true,
     }
 
     /**

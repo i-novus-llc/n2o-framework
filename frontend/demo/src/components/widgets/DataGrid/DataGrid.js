@@ -45,7 +45,6 @@ class DataGridWidget extends React.Component {
       toolbar,
       disabled,
       actions,
-      table: { fetchOnInit }
     } = this.props;
     return (
       <StandardWidget
@@ -59,7 +58,6 @@ class DataGridWidget extends React.Component {
           <DataGridContainer
             widgetId={widgetId}
             size={1000}
-            fetchOnInit={fetchOnInit}
             {...this.getWidgetProps()}
           />
         </div>

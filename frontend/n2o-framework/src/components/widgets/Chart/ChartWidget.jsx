@@ -65,10 +65,4 @@ ChartWidget.propTypes = {
     chart: PropTypes.arrayOf(PropTypes.shape({})),
 }
 
-const Widget = WidgetHOC(ChartWidget)
-
-Widget.defaultProps = {
-    fetchOnInit: true,
-}
-
-export default Widget
+export default WidgetHOC(ChartWidget)

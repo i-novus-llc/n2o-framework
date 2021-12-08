@@ -57,10 +57,4 @@ TreeWidget.propTypes = {
     placeholder: PropTypes.string,
 }
 
-const Widget = WidgetHOC(TreeWidget)
-
-Widget.defaultProps = {
-    fetchOnInit: true,
-}
-
-export default Widget
+export default WidgetHOC(TreeWidget)

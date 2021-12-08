@@ -179,7 +179,6 @@ ListContainer.propTypes = {
     style: PropTypes.object,
     filter: PropTypes.object,
     dataProvider: PropTypes.object,
-    fetchOnInit: PropTypes.bool,
     list: PropTypes.object,
     fetchOnScroll: PropTypes.bool,
     rowClick: PropTypes.func,

@@ -29,7 +29,7 @@ import { TabContent } from './TabContent'
  *     <Tab id={cnt.id}
  *          title={cnt.name || cnt.id}
  *          active={cnt.opened}>
- *       <WidgetFactory containerId={cnt.id} pageId={cnt.pageId} fetchOnInit={cnt.fetchOnInit} {...cnt.widget} />
+ *       <WidgetFactory containerId={cnt.id} pageId={cnt.pageId} {...cnt.widget} />
  *     </Tab>
  *   )
  * }

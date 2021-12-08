@@ -65,8 +65,7 @@
             ]
           }
         ],
-        "validation": {},
-        "fetchOnInit": false
+        "validation": {}
       }
     }
   },

@@ -43,7 +43,6 @@ Form.propTypes = {
     style: PropTypes.object,
     disabled: PropTypes.bool,
     form: PropTypes.shape({
-        fetchOnInit: PropTypes.bool,
         fieldsets: PropTypes.array,
         validation: PropTypes.object,
         prompt: PropTypes.bool,

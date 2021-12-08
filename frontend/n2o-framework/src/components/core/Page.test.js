@@ -65,7 +65,6 @@ const testMetadata = {
                 className: '',
                 title: 'Виджет первой страницы',
                 height: 300,
-                fetchOnInit: false,
             },
         },
     },

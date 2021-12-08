@@ -12,7 +12,6 @@ import 'whatwg-fetch'
  * HtmlWidget
  * @reactProps {string} containerId - id конейтенера
  * @reactProps {string} pageId - id страницы
- * @reactProps {boolean} fetchOnInit - фетчить / не фетчить данные при инициализации
  * @reactProps {boolean} url - url для фетчинга
  * @reactProps {string} widgetId - id виджета
  * @reactProps {string} html - html код
@@ -22,7 +21,6 @@ import 'whatwg-fetch'
 
 function Widget(props) {
     const {
-        fetchOnInit,
         id,
         toolbar,
         className,
@@ -37,7 +35,6 @@ function Widget(props) {
             widgetId={id}
             toolbar={toolbar}
             className={className}
-            fetchOnInit={fetchOnInit}
             style={style}
         >
             <Html
