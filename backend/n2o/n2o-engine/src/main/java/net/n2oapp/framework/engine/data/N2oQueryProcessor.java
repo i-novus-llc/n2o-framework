@@ -248,6 +248,8 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         List<String> where = new ArrayList<>();
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
+            if (filter == null)
+                throw new N2oUniqueRequestNotFoundException(query.getId());
             if (filter.getText() != null)
                 where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
