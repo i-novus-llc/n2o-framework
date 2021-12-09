@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Автотест для доступа к заголовкам и тулбарам в ячейках таблицы по sec атрибутам
+ * Автотест для доступа к столбцам таблицы по sec атрибутам
  */
 public class ToolbarColumnAccessAT extends AutoTestBase {
 
@@ -41,7 +41,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.extensions(new SecurityExtensionAttributeMapper());;
+        builder.extensions(new SecurityExtensionAttributeMapper());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/access/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/access/test.query.xml"));
