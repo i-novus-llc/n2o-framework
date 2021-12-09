@@ -4,17 +4,12 @@ import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Side;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -42,6 +37,19 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     public void defaultSidebar() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/defaultSidebar.application.xml")
                 .get(new ApplicationContext("defaultSidebar"));
+        Sidebar sidebar = application.getSidebar();
+        assertThat(sidebar.getSrc(), is("Sidebar"));
+        assertThat(sidebar.getDefaultState(), is(SidebarState.maxi));
+        assertThat(sidebar.getToggledState(), is(SidebarState.mini));
+        assertThat(sidebar.getToggleOnHover(), is(false));
+        assertThat(sidebar.getOverlay(), is(false));
+        assertThat(sidebar.getSide(), is(Side.left));
+    }
+
+    @Test
+    public void defaultSidebarSwitchedInHeader() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/defaultSidebarSwitchedInHeader.application.xml")
+                .get(new ApplicationContext("defaultSidebarSwitchedInHeader"));
         Sidebar sidebar = application.getSidebar();
         assertThat(sidebar.getSrc(), is("Sidebar"));
         assertThat(sidebar.getDefaultState(), is(SidebarState.none));
