@@ -82,6 +82,11 @@
                 <xs:documentation>Автоматическая установка фокуса на виджете.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="fetch-on-init" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>Настройка получения данных виджета при инициализации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор источника данных</xs:documentation>

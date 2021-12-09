@@ -21,6 +21,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
     @Override
     public HtmlWidget compile(N2oHtmlWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlWidget widget = new HtmlWidget();
+        copyInlineDatasource(widget, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(widget, context, p);
@@ -31,6 +32,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         compileDataProviderAndRoutes(widget, source, context, p, null, widgetRoute, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setClientWidgetId(widget.getId());
+        widgetScope.setOldRoute(source.getRoute());
         widgetScope.setWidgetId(source.getId());
         MetaActions widgetActions = initMetaActions(source);
         if (source.getSrc() != null)

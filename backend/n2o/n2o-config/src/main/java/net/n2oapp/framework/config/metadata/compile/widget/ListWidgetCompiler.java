@@ -35,6 +35,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
     @Override
     public ListWidget compile(N2oListWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         ListWidget listWidget = new ListWidget();
+        copyInlineDatasource(listWidget, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(listWidget, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(listWidget, context, p);
@@ -46,6 +47,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
+        widgetScope.setOldRoute(source.getRoute());
         widgetScope.setClientWidgetId(listWidget.getId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);

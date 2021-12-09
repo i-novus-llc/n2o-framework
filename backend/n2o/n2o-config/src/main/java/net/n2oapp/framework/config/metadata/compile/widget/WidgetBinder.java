@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
-import net.n2oapp.framework.config.util.BindUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class WidgetBinder implements BaseMetadataBinder<Widget<?>> {
                 });
             }
         }
-        BindUtil.bindDataProvider(widget.getDataProvider(), p);
         return widget;
     }
 

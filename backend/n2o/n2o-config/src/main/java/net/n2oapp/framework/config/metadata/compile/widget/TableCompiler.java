@@ -13,17 +13,16 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEn
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
-import net.n2oapp.framework.api.metadata.meta.widget.table.*;
+import net.n2oapp.framework.api.metadata.meta.widget.table.AbstractTable;
+import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.config.metadata.compile.*;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -52,8 +51,10 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     @Override
     public Table compile(N2oTable source, CompileContext<?, ?> context, CompileProcessor p) {
         Table table = new Table();
+        //fixme delete
         table.setFiltersDefaultValuesQueryId(source.getFiltersDefaultValuesQueryId());
         TableWidgetComponent component = table.getComponent();
+        copyInlineDatasource(table, source, p);
         CompiledQuery query = getQuery(source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(table, source, context, p, object);
@@ -61,6 +62,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         widgetScope.setClientWidgetId(table.getId());
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
+        widgetScope.setOldRoute(source.getRoute());
         widgetScope.setHasIdInParentRoute(true);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = new SubModelsScope();
@@ -115,28 +117,6 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (Boolean.TRUE.equals(source.getCheckboxes()))
             component.setRowSelection(RowSelectionEnum.checkbox);
         return table;
-    }
-
-    @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route,
-                                           ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompiledObject object) {
-        QueryContext queryContext = super.getQueryContext(widget, source, context, route, validationList,
-                subModelsScope, copiedFieldScope, object);
-        queryContext.setSortingMap(new StrictMap<>());
-        if (source.getColumns() != null) {
-            for (AbstractColumn column : source.getColumns()) {
-                String id = column.getId() != null ? column.getId() : column.getTextFieldId();
-                String sortingFieldId = column.getSortingFieldId() != null ? column.getSortingFieldId() : column.getTextFieldId();
-                queryContext.getSortingMap().put(id, sortingFieldId);
-            }
-        }
-        return queryContext;
-    }
-
-    @Override
-    protected String getMessagesForm(Widget widget) {
-        return widget.getId() + "_filter";
     }
 
     private void compileValidation(Table table, N2oTable source, ValidationScope validationScope) {

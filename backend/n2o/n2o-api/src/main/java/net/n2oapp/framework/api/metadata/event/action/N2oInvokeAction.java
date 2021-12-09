@@ -27,7 +27,8 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private Boolean refreshOnSuccess;
     private String confirmationText;
     private String bulkConfirmationText;
-    @Deprecated private RefreshPolity refreshPolity;
+    @Deprecated
+    private RefreshPolity refreshPolity;
     private String route;
     private String redirectUrl;
     private Target redirectTarget;

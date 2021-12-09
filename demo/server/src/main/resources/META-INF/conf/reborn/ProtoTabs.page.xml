@@ -12,7 +12,7 @@
                 <toolbar place="topRight">
                     <button id="create" label="${create}" icon="fa fa-plus">
                         <show-modal page-id="ProtoClient" submit-operation-id="create" model="filter"
-                                    focus-after-submit="true" redirect-url-after-submit="../:id/update2"/>
+                                    redirect-url-after-submit="../:id/update2"/>
                     </button>
                 </toolbar>
                 <columns>

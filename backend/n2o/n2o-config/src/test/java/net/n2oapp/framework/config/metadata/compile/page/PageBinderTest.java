@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -20,6 +22,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -255,5 +258,19 @@ public class PageBinderTest extends SourceCompileTestBase {
         //Разрешится значение из запроса, т.к. оно самое приоритетное
         name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test3"));
+    }
+
+    /**
+     * Проверка резолва ссылок в datasource
+     */
+    @Test
+    public void autoSubmit() {
+        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testDatasourceRouteBinder.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml");
+        PageContext context = new PageContext("testDatasourceRouteBinder", "/p/w/:param0/form");
+        SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
+        assertThat(page.getDatasources().get("p_w_form_main_ds").getSubmit().getUrl(), containsString("/p/w/1/form"));
+        assertThat(page.getDatasources().get("p_w_form_main_ds").getProvider().getUrl(), containsString("/p/w/1/form"));
     }
 }

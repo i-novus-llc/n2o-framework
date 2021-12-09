@@ -21,6 +21,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
     @Override
     public Chart compile(N2oChart source, CompileContext<?, ?> context, CompileProcessor p) {
         Chart chart = new Chart();
+        copyInlineDatasource(chart, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(chart, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(chart, context, p);
@@ -33,6 +34,8 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(chart.getId());
+        widgetScope.setOldRoute(source.getRoute());
+
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(chart, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 

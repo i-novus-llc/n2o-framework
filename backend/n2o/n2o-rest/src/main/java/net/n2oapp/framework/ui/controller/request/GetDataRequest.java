@@ -7,11 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
-* User: operhod
-* Date: 03.06.14
-* Time: 16:22
-*/
 @Deprecated
 public class GetDataRequest  extends DataRequest {
     private String queryId;
@@ -22,7 +17,6 @@ public class GetDataRequest  extends DataRequest {
     private Integer size = 15;
     private Integer count;
     private String model;
-    private String selectedId;
     private String querySource;
     private List<String> columns;
 
@@ -84,14 +78,6 @@ public class GetDataRequest  extends DataRequest {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public String getSelectedId() {
-        return selectedId;
-    }
-
-    public void setSelectedId(String selectedId) {
-        this.selectedId = selectedId;
     }
 
     public Integer getCount() {

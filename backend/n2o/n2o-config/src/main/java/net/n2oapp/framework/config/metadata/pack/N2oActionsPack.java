@@ -60,5 +60,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ActionCellBinder(),
                 new SubMenuBinder(),
                 new PrintActionBinder());
+        b.transformers(new N2oPageActionV5AdapterTransformer(),
+                new N2oInvokeActionV5AdapterTransformer());
     }
 }

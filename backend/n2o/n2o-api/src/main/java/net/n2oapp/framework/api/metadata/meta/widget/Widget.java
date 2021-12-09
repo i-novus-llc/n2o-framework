@@ -30,10 +30,6 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
      */
     @Deprecated
     private String masterParam;
-    /**
-     * Ссылка на идентификатор родительского виджета
-     */
-    private ModelLink masterLink;
     private String name;
     @JsonProperty
     private String icon;

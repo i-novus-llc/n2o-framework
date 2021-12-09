@@ -46,6 +46,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         Form form = new Form();
         form.getComponent().setPrompt(p.cast(source.getPrompt(),
                 p.resolve(Placeholders.property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class)));
+        copyInlineDatasource(form, source, p);
         CompiledQuery query = getQuery(source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(form, source, context, p, object);
@@ -55,6 +56,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(form.getId());
+        widgetScope.setOldRoute(source.getRoute());
         MetaActions widgetActions = initMetaActions(source);
         ParentRouteScope widgetRoute = initWidgetRouteScope(form, context, p);
         PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);

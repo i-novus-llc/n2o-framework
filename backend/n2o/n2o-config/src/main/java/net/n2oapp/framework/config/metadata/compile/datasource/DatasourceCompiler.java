@@ -1,8 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
@@ -17,6 +19,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -125,7 +128,9 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
-        initDataProviderMappings(source, dataProvider, p);
+        dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
+        List<Filter> filters = initFilters(compiled, source, p);
+        initDataProviderMappings(compiled, source, dataProvider, filters, p);
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
         if (searchBarScope != null && searchBarScope.getWidgetId().equals(source.getId())) {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -148,20 +153,13 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         }
         if (source.getQueryId() != null)
             p.addRoute(getQueryContext(compiled, source, context, url, validationList, subModelsScope, copiedFieldScope,
-                    widgetsScope, object));
+                    widgetsScope, object, filters));
         return dataProvider;
     }
 
     private String getDatasourceRoute(N2oDatasource source, CompileProcessor p) {
         String datasource = source.getId();
-        String route = normalize(datasource);
-//        WidgetScope widgetScope = p.getScope(WidgetScope.class);fixme
-//        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
-//                source.getDetailFieldId() != null) {
-//            //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-//            String selectedId = normalizeParam(p.cast(compiled.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
-//            route = normalize(colon(selectedId)) + normalize(datasource);
-//        }
+        String route = p.cast(source.getRoute(), normalize(datasource));
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         if (parentRouteScope != null) {
             return RouteUtil.normalize(parentRouteScope.getUrl() + route);
@@ -170,37 +168,25 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         }
     }
 
-    private void initDataProviderMappings(N2oDatasource source, ClientDataProvider dataProvider, CompileProcessor p) {
+    private void initDataProviderMappings(Datasource compiled, N2oDatasource source, ClientDataProvider dataProvider,
+                                          List<Filter> filters, CompileProcessor p) {
         dataProvider.setPathMapping(new StrictMap<>());
         dataProvider.setQueryMapping(new StrictMap<>());
-//        if (compiled.getMasterLink() != null) { fixme
-//            dataProvider.getPathMapping().put(compiled.getMasterParam(), compiled.getMasterLink());
-//        }
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         if (parentRouteScope != null) {
             dataProvider.getPathMapping().putAll(parentRouteScope.getPathMapping());
             dataProvider.getQueryMapping().putAll(parentRouteScope.getQueryMapping());
         }
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-//        if (compiled.getDependencies() != null && compiled.getDependencies() != null) {fixme
-//            for (DependencyCondition fetch : compiled.getDependencies()) {
-//                if (fetch.getGlobalMasterWidgetId() != null) {
-//                    ParentRouteScope masterRouteScope = pageRoutesScope.get(fetch.getGlobalMasterWidgetId());
-//                    if (masterRouteScope != null) {
-//                        masterRouteScope.getPathMapping().forEach(parentRouteScope.getPathMapping()::putIfAbsent);
-//                        masterRouteScope.getQueryMapping().forEach(parentRouteScope.getQueryMapping()::putIfAbsent);
-//                    }
-//                }
-//            }
-//        }
-        List<Filter> filters = initFilters(source, p);
         if (filters != null) {
+            List<String> params = RouteUtil.getParams(dataProvider.getUrl());
+            filters.stream().filter(f -> params.contains(f.getParam()))
+                    .forEach(f -> dataProvider.getPathMapping().put(f.getParam(), f.getLink()));
             filters.stream().filter(f -> !dataProvider.getPathMapping().containsKey(f.getParam()))
-                    .forEach(f -> dataProvider.getQueryMapping().put(f.getFilterId(), f.getLink()));
+                    .forEach(f -> dataProvider.getQueryMapping().put(f.getParam(), f.getLink()));
         }
     }
 
-    private List<Filter> initFilters(N2oDatasource source, CompileProcessor p) {
+    private List<Filter> initFilters(Datasource compiled, N2oDatasource source, CompileProcessor p) {
         CompiledQuery query = source.getQueryId() == null ? null : p.getCompiled(new QueryContext(source.getQueryId()));
         PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
@@ -211,26 +197,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                 N2oQuery.Filter queryFilter = query.getFilterByPreFilter(preFilter);
                 if (queryFilter != null) {
                     Filter filter = new Filter();
-//                    if (preFilter.getRequired() != null && preFilter.getRequired()) {fixme
-//                        if (p.getScope(ValidationList.class) != null) {
-//                            MandatoryValidation v = new MandatoryValidation(
-//                                    queryFilter.getFilterField(),
-//                                    p.getMessage("n2o.required.filter"),
-//                                    queryFilter.getFilterField()
-//                            );
-//                            v.setMoment(N2oValidation.ServerMoment.beforeQuery);
-//                            v.setSeverity(SeverityType.danger);
-//
-//                            if (p.getScope(ValidationList.class).get(compiled.getId(), ReduxModel.FILTER) == null) {
-//                                Map<String, List<Validation>> map = new HashMap<>();
-//                                map.put(compiled.getId(), new ArrayList<>());
-//                                p.getScope(ValidationList.class).getValidations().put(ReduxModel.FILTER, map);
-//                            }
-//                            List<Validation> validationList = p.getScope(ValidationList.class)
-//                                    .get(compiled.getId(), ReduxModel.FILTER);
-//                            validationList.add(v);
-//                        }
-//                    }
+                    initMandatoryValidation(compiled, p, preFilter, queryFilter);
                     filter.setParam(p.cast(preFilter.getParam(), source.getId() + "_" + queryFilter.getParam()));
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
@@ -242,7 +209,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String globalDsId = CompileUtil.generateWidgetId(pageScope.getPageId(), preFilter.getDatasource());
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.RESOLVE);
-                        ModelLink link = new ModelLink(model, globalDsId, preFilter.getFieldId());
+                        ModelLink link = new ModelLink(model, globalDsId);
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);
@@ -263,6 +230,29 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         return filters;
     }
 
+    private void initMandatoryValidation(Datasource compiled, CompileProcessor p, N2oPreFilter preFilter, N2oQuery.Filter queryFilter) {
+        if (preFilter.getRequired() != null && preFilter.getRequired()) {
+            if (p.getScope(ValidationList.class) != null) {
+                MandatoryValidation v = new MandatoryValidation(
+                        queryFilter.getFilterField(),
+                        p.getMessage("n2o.required.filter"),
+                        queryFilter.getFilterField()
+                );
+                v.setMoment(N2oValidation.ServerMoment.beforeQuery);
+                v.setSeverity(SeverityType.danger);
+
+                if (p.getScope(ValidationList.class).get(compiled.getId(), ReduxModel.FILTER) == null) {
+                    Map<String, List<Validation>> map = new HashMap<>();
+                    map.put(compiled.getId(), new ArrayList<>());
+                    p.getScope(ValidationList.class).getValidations().put(ReduxModel.FILTER, map);
+                }
+                List<Validation> validationList = p.getScope(ValidationList.class)
+                        .get(compiled.getId(), ReduxModel.FILTER);
+                validationList.add(v);
+            }
+        }
+    }
+
     private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
         if (n2oPreFilter.getValues() == null) {
             return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
@@ -273,9 +263,10 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
 
     private QueryContext getQueryContext(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context, String route,
                                          ValidationList validationList, SubModelsScope subModelsScope,
-                                         CopiedFieldScope copiedFieldScope, PageWidgetsScope widgetsScope, CompiledObject object) {
+                                         CopiedFieldScope copiedFieldScope, PageWidgetsScope widgetsScope, CompiledObject object,
+                                         List<Filter> filters) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
-        List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.FILTER);
+        List<Validation> validations = validationList == null ? null : validationList.get(compiled.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
             if (object == null)
                 throw new N2oException("submit-operation is defined, but object-id isn't set in widget or query");
@@ -286,12 +277,6 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                 } else {
                     validations.addAll(operation.getValidationList());
                 }
-            }
-        }
-        List<Filter> filters = new ArrayList<>();
-        for (Widget<?> w : widgetsScope.getWidgets().values()) {
-            if (source.getId().equals(w.getDatasource())) {
-                filters.addAll(w.getFilters());
             }
         }
         queryContext.setValidations(validations);

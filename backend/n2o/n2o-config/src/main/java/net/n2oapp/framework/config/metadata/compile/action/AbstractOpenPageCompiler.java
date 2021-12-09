@@ -118,8 +118,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         String currentClientWidgetId = null;
         String currentWidgetId = null;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);        if (widgetScope != null) {
             currentClientWidgetId = widgetScope.getClientWidgetId();
             currentWidgetId = widgetScope.getWidgetId();
         }
@@ -186,12 +185,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
-        if (source.getSubmitOperationId() != null
-                && source.getRedirectUrlAfterSubmit() == null
-                && Boolean.TRUE.equals(source.getFocusAfterSubmit())) {
-            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? normalize(routeScope.getUrl() + normalize(colon("id"))) : null);
-            pageContext.setRedirectTargetOnSuccessSubmit(Target.application);
-        } else if (source.getRedirectUrlAfterSubmit() != null) {
+        if (source.getRedirectUrlAfterSubmit() != null) {
             pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
             pageContext.setRedirectTargetOnSuccessSubmit(p.cast(source.getRedirectTargetAfterSubmit(),
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));

@@ -29,7 +29,6 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attribute(e, "master-field-id", op::getMasterFieldId, op::setMasterFieldId);
         p.attribute(e, "detail-field-id", op::getDetailFieldId, op::setDetailFieldId);
         p.attribute(e, "master-param", op::getMasterParam, op::setMasterParam);
-        p.attributeBoolean(e, "focus-after-submit", op::getFocusAfterSubmit, op::setFocusAfterSubmit);
         p.attributeBoolean(e, "close-after-submit", op::getCloseAfterSubmit, op::setCloseAfterSubmit);
         p.attribute(e, "redirect-url-after-submit", op::getRedirectUrlAfterSubmit, op::setRedirectUrlAfterSubmit);
         p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, Target.class);

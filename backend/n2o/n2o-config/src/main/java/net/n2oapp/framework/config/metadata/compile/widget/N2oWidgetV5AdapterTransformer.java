@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -15,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class N2oWidgetV5AdapterTransformer implements SourceTransformer<N2oWidge
             source.getDatasource().setQueryId(source.getQueryId());
             source.getDatasource().setObjectId(source.getObjectId());
             source.getDatasource().setFilters(source.getPreFilters());
+            source.getDatasource().setRoute(source.getRoute());
             if (source.getUpload() != null) {
                 switch (source.getUpload()) {
                     case query:
@@ -67,17 +70,26 @@ public class N2oWidgetV5AdapterTransformer implements SourceTransformer<N2oWidge
                     List<N2oPreFilter> preFilters = source.getDatasource().getFilters() == null ?
                             new ArrayList<>() :
                             new ArrayList<>(Arrays.asList(source.getDatasource().getFilters()));
-                    N2oPreFilter masterFilter = new N2oPreFilter(source.getDetailFieldId(), FilterType.eq);
-                    String masterFieldId = source.getMasterFieldId() == null ? N2oQuery.Field.PK : source.getMasterFieldId();
-                    masterFilter.setParam(source.getMasterParam() == null ?
-                            datasourceId + "_" + masterFieldId : source.getMasterParam());
+                    String value = "{" + (source.getMasterFieldId() == null ? N2oQuery.Field.PK : source.getMasterFieldId()) + "}";
+                    N2oPreFilter masterFilter = new N2oPreFilter(source.getDetailFieldId(), value, FilterType.eq);
+                    String param = source.getMasterParam();
+                    if (param == null && source.getRoute() != null) {
+                        List<String> params = RouteUtil.getParams(source.getRoute());
+                        if (!params.isEmpty()) {
+                            if (params.size() > 1) {
+                                throw new N2oException("Widget route can not contain more then one param: " + source.getRoute());
+                            }
+                            param = params.get(0);
+                        }
+                    }
+                    masterFilter.setParam(param);
                     masterFilter.setModel(ReduxModel.RESOLVE);
                     masterFilter.setDatasource(datasourceId);
+                    masterFilter.setRequired(true);
                     preFilters.add(masterFilter);
                     source.getDatasource().setFilters(preFilters.toArray(new N2oPreFilter[preFilters.size()]));
                 }
             }
-            source.getDatasource().setRoute(source.getRoute());
             source.getDatasource().setSize(source.getSize());
             if (source.getDependencyCondition() != null) {
                 N2oVisibilityDependency visibilityDependency = new N2oVisibilityDependency();

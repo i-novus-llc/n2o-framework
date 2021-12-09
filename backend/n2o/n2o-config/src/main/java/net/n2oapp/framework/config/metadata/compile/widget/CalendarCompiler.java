@@ -36,7 +36,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
     @Override
     public Calendar compile(N2oCalendar source, CompileContext<?, ?> context, CompileProcessor p) {
         Calendar calendar = new Calendar();
-
+        copyInlineDatasource(calendar, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(calendar, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(calendar, context, p);
@@ -49,6 +49,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(calendar.getId());
+        widgetScope.setOldRoute(source.getRoute());
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));

@@ -87,7 +87,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b1.getAction(), notNullValue());
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
-        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_main']"));
+        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_main_ds']"));
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
@@ -101,7 +101,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(f.getToolbar().getButton("testId3"), notNullValue());
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
-        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
+        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main_ds']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
         assertThat(((PerformButton)b3).getUrl(), is("http://example.com"));
@@ -143,15 +143,15 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
         assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));
-        assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
+        assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_main_ds']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }
 
     @Test
     public void testGenerate() {
-        Table t = (Table) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.widget.xml")
-                .get(new WidgetContext("testToolbarGenerate"));
-
+         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.page.xml")
+                .get(new PageContext("testToolbarGenerate"));
+        Table t = (Table) page.getWidget();
         assertThat(t.getToolbar().size(), is(4));
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().size(), is(3));
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(0).getId(), is("create"));

@@ -30,6 +30,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     @Override
     public Tree compile(N2oTree source, CompileContext<?, ?> context, CompileProcessor p) {
         Tree tree = new Tree();
+        copyInlineDatasource(tree, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(tree, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(tree, context, p);
@@ -41,6 +42,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
+        widgetScope.setOldRoute(source.getRoute());
         widgetScope.setClientWidgetId(tree.getId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
@@ -58,14 +60,5 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
         return tree;
-    }
-
-    @Override
-    protected QueryContext getQueryContext(Tree widget, N2oTree source, CompileContext<?, ?> context, String route,
-                                           ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompiledObject object) {
-        QueryContext queryContext = super.getQueryContext(widget, source, context, route, validationList, subModelsScope, copiedFieldScope, object);
-        queryContext.setQuerySize(source.getSize() != null ? source.getSize() : 200);
-        return queryContext;
     }
 }

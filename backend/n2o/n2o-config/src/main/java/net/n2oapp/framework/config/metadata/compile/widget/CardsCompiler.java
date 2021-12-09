@@ -37,6 +37,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     @Override
     public Cards compile(N2oCards source, CompileContext<?, ?> context, CompileProcessor p) {
         Cards cards = new Cards();
+        copyInlineDatasource(cards, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(cards, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(cards, context, p);
@@ -48,6 +49,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
+        widgetScope.setOldRoute(source.getRoute());
         widgetScope.setClientWidgetId(cards.getId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);

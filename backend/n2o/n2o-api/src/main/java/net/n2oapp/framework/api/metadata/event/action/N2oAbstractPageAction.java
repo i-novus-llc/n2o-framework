@@ -54,7 +54,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String targetDatasource;
     private CopyMode copyMode;
     private Boolean createMore;
-    private Boolean focusAfterSubmit;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;

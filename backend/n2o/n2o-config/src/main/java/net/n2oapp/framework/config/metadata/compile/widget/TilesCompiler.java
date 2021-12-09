@@ -38,6 +38,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
     @Override
     public Tiles compile(N2oTiles source, CompileContext<?, ?> context, CompileProcessor p) {
         Tiles tiles = new Tiles();
+        copyInlineDatasource(tiles, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(tiles, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(tiles, context, p);
@@ -49,6 +50,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
+        widgetScope.setOldRoute(source.getRoute());
         widgetScope.setClientWidgetId(tiles.getId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);

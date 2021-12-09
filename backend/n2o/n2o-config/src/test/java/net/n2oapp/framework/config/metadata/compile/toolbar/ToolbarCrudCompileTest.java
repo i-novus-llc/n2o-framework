@@ -49,9 +49,9 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
     @Test
     public void testGeneratedCrudButtons() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
-                "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.widget.xml");
-        Form form = (Form) pipeline.get(new WidgetContext("testToolbarCrudCompile"));
-
+                "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.page.xml");
+        SimplePage page = (SimplePage) pipeline.get(new PageContext("testToolbarCrudCompile"));
+        Form form = (Form) page.getWidget();
         assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/create", Page.class, null))
                 .getPageName(), is("Пустой объект для unit тестов - Создание"));
         assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/1/update", Page.class, null))

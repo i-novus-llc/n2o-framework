@@ -24,7 +24,6 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "submit-label", op::getSubmitLabel, op::setSubmitLabel);
         p.attributeEnum(e, "submit-model", op::getSubmitModel, op::setSubmitModel, ReduxModel.class);
         p.attribute(e, "datasource", op::getDatasource, op::setDatasource);
-        p.attributeBoolean(e, "focus-after-submit", op::getFocusAfterSubmit, op::setFocusAfterSubmit);
         p.attributeBoolean(e, "close-after-submit", op::getCloseAfterSubmit, op::setCloseAfterSubmit);
         p.attribute(e, "redirect-url-after-submit", op::getRedirectUrlAfterSubmit, op::setRedirectUrlAfterSubmit);
         p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, Target.class);
