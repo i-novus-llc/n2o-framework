@@ -51,17 +51,20 @@ export default function withActionButton(options = {}) {
 
     return (WrappedComponent) => {
         class ButtonContainer extends React.Component {
-            state = { confirmVisible: false }
-
-            isConfirm = false
-
-            lastEvent = null
-
             constructor(props) {
                 super(props)
                 this.generatedTooltipId = getID()
                 this.generatedButtonId = props.uid || getID()
+
+                this.state = {
+                    confirmVisible: false,
+                    permittedUrl: props.url,
+                }
             }
+
+            isConfirm = false
+
+            lastEvent = null
 
             componentWillUnmount() {
                 const { removeButton, entityKey, id } = this.props
@@ -127,14 +130,25 @@ export default function withActionButton(options = {}) {
 
             handleClick = async (e) => {
                 e.persist()
+
                 const failValidate = await this.validationFields()
-                const { confirm } = this.props
+
+                const { confirm, url } = this.props
                 const { store } = this.context
                 const state = store.getState()
 
                 if (!onClick || failValidate) {
+                    this.setState({
+                        permittedUrl: null,
+                    })
+
                     return
                 }
+
+                this.setState({
+                    permittedUrl: url,
+                })
+
                 if (confirm && !this.isConfirm && shouldConfirm) {
                     this.lastEvent = e
                     this.lastEvent.preventDefault()
@@ -189,7 +203,9 @@ export default function withActionButton(options = {}) {
                     disabled,
                     disabledFromState,
                 } = this.props
-                const { confirmVisible } = this.state
+
+                const { confirmVisible, permittedUrl } = this.state
+
                 const confirmMode = get(confirm, 'mode')
 
                 const currentVisible = !isNil(visible)
@@ -218,6 +234,7 @@ export default function withActionButton(options = {}) {
                                 'validationConfig',
                                 'formValues',
                             ])}
+                            url={permittedUrl}
                             disabled={currentDisabled}
                             visible={currentVisible}
                             onClick={this.handleClick}
@@ -303,6 +320,7 @@ export default function withActionButton(options = {}) {
             toolbar: PropTypes.object,
             visibleFromState: PropTypes.bool,
             disabledFromState: PropTypes.bool,
+            url: PropTypes.string,
         }
 
         ButtonContainer.contextTypes = {
