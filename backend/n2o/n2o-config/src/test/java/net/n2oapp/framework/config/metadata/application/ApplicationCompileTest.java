@@ -5,10 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
-import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +29,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         builder.getEnvironment().getContextProcessor().set("username", "test");
         builder.properties("n2o.homepage.id=index");
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oQueriesPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oQueriesPack(), new N2oActionsPack());
     }
 
     @Test

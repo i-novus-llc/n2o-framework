@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +14,6 @@ public class SimpleMenu implements Compiled {
     @JsonProperty
     private String src;
     @JsonProperty
-    private ArrayList<HeaderItem> items;
+    private List<HeaderItem> items;
 
 }

@@ -45,7 +45,7 @@ export const sidebarView = {
 const toggleIconClassNames = (visible, side) => {
     const isLeftIcon = (visible && side === 'left') || (!visible && (side === 'right'))
 
-    return isLeftIcon ? 'fa fa-angle-double-right' : 'fa fa-angle-double-left'
+    return isLeftIcon ? 'fa fa-angle-double-left' : 'fa fa-angle-double-right'
 }
 
 const sideBarClasses = (isStaticView, defaultState, toggledState, currentVisible, side, className) => {
@@ -56,11 +56,14 @@ const sideBarClasses = (isStaticView, defaultState, toggledState, currentVisible
         side,
         className,
         viewMode,
-
     )
 }
 
-const LogoSection = ({ isMiniView, logo, showContent }) => (
+const LogoSection = ({
+    isMiniView,
+    logo,
+    showContent,
+}) => (
     <div className={classNames(
         'n2o-sidebar__nav-brand n2o-nav-brand',
         {
@@ -84,8 +87,8 @@ export function SideBar({
     logo,
     menu,
     extraMenu = {},
-    defaultState = 'mini',
-    toggledState = 'maxi',
+    defaultState = sidebarView.mini,
+    toggledState = sidebarView.maxi,
     onMouseEnter,
     onMouseLeave,
     side = 'left',
@@ -103,7 +106,7 @@ export function SideBar({
         }
 
         if (currentVisible) {
-            return (toggledState === 'mini') || (toggledState === 'maxi')
+            return (toggledState === sidebarView.mini) || (toggledState === sidebarView.maxi)
         }
 
         return defaultState !== 'micro'
@@ -111,7 +114,8 @@ export function SideBar({
 
     const showContent = needShowContent()
 
-    const isMiniView = (defaultState === 'mini' && !currentVisible) || (toggledState === 'mini' && currentVisible)
+    const isMiniView = (defaultState === sidebarView.mini && !currentVisible) ||
+        (toggledState === sidebarView.mini && currentVisible)
 
     const renderItems = items => map(items, (item, key) => (
         <SidebarItemContainer
@@ -226,7 +230,10 @@ export default compose(
     setDisplayName('Sidebar'),
     withState('visible', 'setVisible', ({ visible }) => visible),
     withHandlers({
-        onToggle: ({ visible, setVisible }) => () => setVisible(!visible),
+        onToggle: ({
+            visible,
+            setVisible,
+        }) => () => setVisible(!visible),
     }),
     lifecycle({
         componentDidUpdate(prevProps) {

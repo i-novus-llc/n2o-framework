@@ -5,7 +5,7 @@
         <nav>
             <a label="ссылка" href="/" target="self"/>
             <sub-menu label="список">
-                <page page-id="index"/>
+                <page page-id="index" route="/pageRoute"/>
                 <page page-id="testPage1" label="элемент списка №2" route="/pageRoute1"/>
             </sub-menu>
         </nav>

@@ -63,10 +63,9 @@
 }
 
 .n2o-sidebar__item {
-    padding: 5px;
+    padding: 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
     min-height: 34px;
     color: $sidebar-color;
     cursor: pointer;
@@ -102,7 +101,7 @@
 }
 
 .n2o-sidebar__item-dropdown-label {
-    padding: 5px;
+    padding: 16px;
     display: flex;
     width: 100%;
     min-height: 34px;
@@ -270,7 +269,7 @@
     user-select: auto;
 
     .n2o-sidebar__item-dropdown-label {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .n2o-sidebar__item-dropdown-label,
