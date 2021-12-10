@@ -32,6 +32,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.engine.util.InvocationParametersMapping.normalizeValue;
+import static net.n2oapp.framework.engine.util.MappingProcessor.inMap;
 import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
 
 /**
