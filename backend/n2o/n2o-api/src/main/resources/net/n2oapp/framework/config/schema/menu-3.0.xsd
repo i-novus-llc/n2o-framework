@@ -84,6 +84,11 @@
                 <xs:documentation>Наименование компонента меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка компонента меню</xs:documentation>
