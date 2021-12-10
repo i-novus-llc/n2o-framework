@@ -12,6 +12,7 @@ import { Drawer } from './Drawer/Drawer'
 import { StatusText } from './StatusText/StatusText'
 import { Image } from './Image/Image'
 import { Status } from './Status/Status'
+import { renderBadge } from './Badge/Badge'
 
 export default {
     Alert,
@@ -28,4 +29,5 @@ export default {
     StatusText,
     Image,
     Status,
+    Badge: renderBadge,
 }

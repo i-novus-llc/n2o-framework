@@ -7,15 +7,13 @@ import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
-import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
-import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -35,7 +33,8 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         builder.getEnvironment().getContextProcessor().set("username", "test");
         builder.properties("n2o.homepage.id=index");
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oQueriesPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(), new N2oQueriesPack(),
+                new N2oActionsPack());
     }
 
     @Test
@@ -54,16 +53,14 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(header.getStyle().get("marginLeft"),is("10px"));
 
         assertThat(header.getMenu().getItems().size(), is(3));
-        ArrayList<HeaderItem> headerItems = header.getMenu().getItems();
+        List<HeaderItem> headerItems = header.getMenu().getItems();
         // sub-menu
         assertThat(headerItems.get(0).getTitle(), is("test"));
-        assertThat(headerItems.get(0).getHref(), is("/page1"));
-        assertThat(headerItems.get(0).getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(headerItems.get(0).getSubItems().size(), is(3));
+        assertThat(headerItems.get(0).getSubItems().size(), is(2));
         assertThat(headerItems.get(0).getType(), is("dropdown"));
         // page
         assertThat(headerItems.get(1).getTitle(), is("headerLabel"));
-        assertThat(headerItems.get(1).getHref(), is("/pageWithoutLabel"));
+        assertThat(headerItems.get(1).getHref(), is("/mi4"));
         assertThat(headerItems.get(1).getPageId(), is("pageWithoutLabel"));
         assertThat(headerItems.get(1).getLinkType(), is(HeaderItem.LinkType.inner));
         assertThat(headerItems.get(1).getSubItems(), nullValue());
@@ -91,26 +88,11 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(1).getLinkType(), is(HeaderItem.LinkType.outer));
         assertThat(subItems.get(1).getSubItems(), nullValue());
         assertThat(subItems.get(1).getType(), is("link"));
-        // sub-menu sub-menu
-        assertThat(subItems.get(2).getTitle(), is("sub1"));
-        assertThat(subItems.get(2).getHref(), is("/pageWithoutLabel"));
-        assertThat(subItems.get(2).getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(subItems.get(2).getSubItems().size(), is(1));
-        assertThat(subItems.get(2).getType(), is("dropdown"));
-        // sub-menu sub-menu page
-        assertThat(subItems.get(2).getSubItems().get(0).getTitle(), is("test2"));
-        assertThat(subItems.get(2).getSubItems().get(0).getPageId(), is("pageWithoutLabel"));
-        assertThat(subItems.get(2).getSubItems().get(0).getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(subItems.get(2).getSubItems().get(0).getType(), is("link"));
-
         assertThat(header.getExtraMenu().getItems().size(), is(1));
         HeaderItem extraItem = header.getExtraMenu().getItems().get(0);
         // sub-menu
         assertThat(extraItem.getTitle(), is("#{username}"));
-        assertThat(extraItem.getImage(), is("#{image}"));
-        assertThat(extraItem.getHref(), is("https://ya.ru/"));
-        assertThat(extraItem.getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(extraItem.getSubItems().size(), is(2));
+        assertThat(extraItem.getSubItems().size(), is(1));
         assertThat(extraItem.getType(), is("dropdown"));
         subItems = extraItem.getSubItems();
         // sub-menu a
@@ -118,20 +100,8 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(0).getHref(), is("https://ya.ru/"));
         assertThat(subItems.get(0).getLinkType(), is(HeaderItem.LinkType.outer));
         assertThat(subItems.get(0).getIcon(), is("test-icon"));
-        assertThat(subItems.get(0).getTarget(), is(Target.newWindow));
         assertThat(subItems.get(0).getSubItems(), nullValue());
         assertThat(subItems.get(0).getType(), is("link"));
-        // sub-menu sub-menu
-        assertThat(subItems.get(1).getTitle(), is("sub2"));
-        assertThat(subItems.get(1).getHref(), is("/pageWithoutLabel"));
-        assertThat(subItems.get(1).getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(subItems.get(1).getSubItems().size(), is(1));
-        assertThat(subItems.get(1).getType(), is("dropdown"));
-        // sub-menu sub-menu page
-        assertThat(subItems.get(1).getSubItems().get(0).getTitle(), is("test2"));
-        assertThat(subItems.get(1).getSubItems().get(0).getPageId(), is("pageWithoutLabel"));
-        assertThat(subItems.get(1).getSubItems().get(0).getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(subItems.get(1).getSubItems().get(0).getType(), is("link"));
     }
 
     @Test
@@ -150,16 +120,6 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
         assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
         assertThat(header.getMenu().getItems().get(1).getTitle(), is("headerLabel"));
-    }
-
-    @Test
-    public void testBind() {
-        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
-                .bind().get(new ApplicationContext("headerWithMenu"), null);
-
-        assertThat(application.getHeader().getExtraMenu().getItems().get(0).getTitle(), is("test"));
     }
 
     @Test

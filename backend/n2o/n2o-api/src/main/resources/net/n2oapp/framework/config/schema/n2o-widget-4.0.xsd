@@ -446,6 +446,11 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
         <xs:sequence>
             <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
                 <xs:annotation>
@@ -915,6 +920,16 @@
         <xs:attribute name="tooltip-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Css класс блока.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль блока.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:complexContent>

@@ -20,19 +20,26 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String title;
     @JsonProperty
-    private String href;
-    @JsonProperty
-    private LinkType linkType;
-    @JsonProperty
     private String icon;
     @JsonProperty
-    private String image;
+    private String badgeColor;
     @JsonProperty
-    private Target target;
+    private Object badge;
+    @JsonProperty
+    private String imageSrc;
+    @JsonProperty
+    private ImageShape imageShape;
     @JsonProperty("items")
     private ArrayList<HeaderItem> subItems;
     @JsonProperty("type")
     private String type;
+    @JsonProperty
+    private String href;
+    @JsonProperty
+    private LinkType linkType;
+    @JsonProperty
+    private Target target;
+    @Deprecated
     private String pageId;
     private Map<String, Object> properties;
 

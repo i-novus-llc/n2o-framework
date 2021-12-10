@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<menu xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
+    <menu-item id="notif"
+               name="Уведомления"
+               icon="fa fa-bell"
+               badge="2"
+               badge-color="warning">
+        <open-page page-id="index" route="/login"/>
+    </menu-item>
+    <menu-item image="/static/users/ivan90.png"
+               image-shape="square"
+               badge="new"
+               badge-color="danger">
+        <open-page page-id="index" route="/login"/>
+    </menu-item>
+    <dropdown-menu id="user"
+                   name="Виктория"
+                   image="/static/users/vika91.png"
+                   image-shape="circle">
+        <menu-item name="Профиль"
+                   icon="fa fa-user">
+            <a href="/profile" target="application"/>
+        </menu-item>
+<!--        <divider/>-->
+        <menu-item name="Сообщения"
+                   image="/static/users/ivan90.png"
+                   image-shape="square"
+                   badge="58"
+                   badge-color="primary">
+            <open-page page-id="page" route="/route"/>
+        </menu-item>
+<!--        <divider/>-->
+        <menu-item name="Выход"
+                   icon="fa fa-door">
+            <a href="/logout" target="self"/>
+        </menu-item>
+    </dropdown-menu>
+    <dropdown-menu id="messages"
+                   name="Сообщения"
+                   icon="fa fa-bell"/>
+</menu>

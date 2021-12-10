@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Создание записи">
+    <toolbar>
+        <button id="create" widget-id="main" label="Сохранить" validate="page">
+            <invoke operation-id="create" object-id="test" close-on-success="true" disable-on-empty="false">
+                <form-param id="name" ref-widget-id="main" value="{name}"/>
+                <form-param id="address" ref-widget-id="address" value="{address}"/>
+                <form-param id="org" ref-widget-id="org" value="{org}"/>
+            </invoke>
+        </button>
+    </toolbar>
+    <regions>
+        <form id="main" name="Клиент" object-id="test">
+            <fields>
+                <input-text id="name" label="Имя" required="true" description="Введите 'test' для проверки валидации">
+                    <validations white-list="uniqueName"/>
+                </input-text>
+            </fields>
+        </form>
+        <tabs lazy="false">
+            <tab name="Адрес">
+                <form id="address" object-id="test">
+                    <fields>
+                        <input-text id="address" label="Адрес"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Организация">
+                <form id="org" object-id="test">
+                    <fields>
+                        <input-text id="org" label="Название организации" required="true" description="Введите 'test' для проверки валидации">
+                            <validations white-list="uniqueOrg"/>
+                        </input-text>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
 import classNames from 'classnames'
+import { UncontrolledTooltip } from 'reactstrap'
 
 import Input from '../Input/Input'
 
@@ -19,15 +20,29 @@ export const RadioTypes = {
     input: 'default',
 }
 
-export function InputRadio({ label, checked, disabled, onChange, type, name, value, className }) {
+export function InputRadio({
+    label,
+    checked,
+    disabled,
+    onChange,
+    type,
+    name,
+    value,
+    className,
+    invalid,
+    tooltip,
+}) {
     const [elementId] = useState(uniqueId('n2o-radio-'))
+    const [target] = useState(uniqueId('n2o-radio-'))
 
     return (
         <label
+            id={target}
             className={classNames('n2o-radio-input', `n2o-radio-input-${type}`, className, {
                 checked,
                 active: checked,
                 disabled,
+                invalid,
             })}
             htmlFor={elementId}
         >
@@ -42,6 +57,7 @@ export function InputRadio({ label, checked, disabled, onChange, type, name, val
                 value={value}
             />
             <span>{label}</span>
+            {tooltip && <UncontrolledTooltip target={target}>{tooltip}</UncontrolledTooltip>}
         </label>
     )
 }
@@ -49,8 +65,10 @@ export function InputRadio({ label, checked, disabled, onChange, type, name, val
 InputRadio.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     checked: PropTypes.bool,
+    invalid: PropTypes.bool,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
+    tooltip: PropTypes.string,
     label: PropTypes.node,
     name: PropTypes.string,
     className: PropTypes.string,

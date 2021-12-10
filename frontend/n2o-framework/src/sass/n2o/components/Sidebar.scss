@@ -63,10 +63,9 @@
 }
 
 .n2o-sidebar__item {
-    padding: 5px;
+    padding: 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
     min-height: 34px;
     color: $sidebar-color;
     cursor: pointer;
@@ -78,6 +77,15 @@
 
     &.n2o-sidebar__item--dropdown:hover {
         background: transparent;
+    }
+
+    .n2o-sidebar__item__title {
+        transition: 0.1s ease-out;
+    }
+
+    .n2o-sidebar__item__title.none {
+        width: 0;
+        opacity: 0;
     }
 }
 
@@ -93,7 +101,7 @@
 }
 
 .n2o-sidebar__item-dropdown-label {
-    padding: 5px;
+    padding: 16px;
     display: flex;
     width: 100%;
     min-height: 34px;
@@ -212,6 +220,7 @@
 
     .n2o-sidebar__item-content-icon {
         margin-right: 10px;
+        transition: 0.1s ease-out;
     }
 
     .n2o-sidebar__item-dropdown-label,
@@ -260,7 +269,7 @@
     user-select: auto;
 
     .n2o-sidebar__item-dropdown-label {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .n2o-sidebar__item-dropdown-label,

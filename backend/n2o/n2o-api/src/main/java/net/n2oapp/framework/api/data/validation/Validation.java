@@ -23,8 +23,9 @@ import java.util.*;
 public abstract class Validation implements Compiled {
     @JsonProperty("validationKey")
     private String id;
-    @JsonProperty("text")
     private String message;
+    @JsonProperty("text")
+    private String jsonMessage;
     private Set<String> fields;
     private ValidationReference.Target target;
     @JsonProperty
@@ -42,6 +43,7 @@ public abstract class Validation implements Compiled {
     public Validation(Validation validation) {
         this.id = validation.getId();
         this.message = validation.getMessage();
+        this.jsonMessage = validation.getJsonMessage();
         this.fields = validation.getFields();
         this.target = validation.getTarget();
         this.severity = validation.getSeverity();

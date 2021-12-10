@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -166,6 +167,25 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());
         resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name"));
         assertThat(resultText, is("Hello, {name}"));
+    }
+
+    @Test
+    public void resolveContext() {
+        builder.getEnvironment().getContextProcessor().set("name", "Joe");
+        builder.getEnvironment().getContextProcessor().set("count", 2);
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(),
+                new PageContext("test"),
+                new DataSet(),
+                mock(N2oSubModelsProcessor.class));
+
+        Object result = processor.resolveText("Hello, #{name}");
+        assertThat(result, is("Hello, Joe"));
+
+        result = processor.resolve("#{count}", Integer.class);
+        assertThat(result, is(2));
+
+        result = processor.resolve("#{count}");
+        assertThat(result, is(2));
     }
 
     @Test

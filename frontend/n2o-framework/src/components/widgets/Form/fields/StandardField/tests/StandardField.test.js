@@ -3,27 +3,8 @@ import TestRenderer from 'react-test-renderer'
 
 import StandardField from '../StandardField'
 
-const toolbar = [
-    {
-        buttons: [
-            {
-                src: 'StandardButton',
-                id: 'update',
-                label: 'button 1',
-                icon: 'fa fa-trash',
-                actionId: 'update',
-                validate: true,
-                validatedWidgetId: 'create2_main',
-                color: 'primary',
-                hint: 'some hint',
-                size: 'sm',
-            },
-        ],
-    },
-]
-
-it('StandardField верно приходит props toolbar', () => {
-    const tree = TestRenderer.create(
+it('StandardField отрисовывается', () => {
+    const testRender = TestRenderer.create(
         <StandardField
             id="myField"
             value="test"
@@ -45,8 +26,9 @@ it('StandardField верно приходит props toolbar', () => {
             controlClass="myControlClass"
             placeholder="TEST"
             component={() => null}
-            toolbar={toolbar[0]}
+            toolbar={[{buttons: []}]}
         />,
     ).root
-    expect(tree.props.toolbar).toEqual(toolbar[0])
+
+    expect(testRender).toBeTruthy()
 })
