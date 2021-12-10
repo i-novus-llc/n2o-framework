@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
@@ -99,6 +100,8 @@ public class InvocationParametersMapping {
         List<String> where = new ArrayList<>();
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
+            if (filter == null)
+                throw new N2oUniqueRequestNotFoundException(query.getId());
             if (filter.getText() != null)
                 where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
