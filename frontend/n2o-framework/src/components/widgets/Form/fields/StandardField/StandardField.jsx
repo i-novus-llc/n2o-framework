@@ -47,8 +47,8 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  */
 class StandardField extends React.Component {
     /**
-   * Базовый рендер компонента
-   */
+     * Базовый рендер компонента
+     */
     render() {
         const {
             id,

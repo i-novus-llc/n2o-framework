@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
@@ -7,6 +8,7 @@ import some from 'lodash/some'
 import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 
+import { makeRegionTabsSelector } from '../../../ducks/regions/store'
 import SecurityCheck from '../../../core/auth/SecurityCheck'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
@@ -123,6 +125,7 @@ class TabRegion extends React.Component {
                             title: tab.label || tab.widgetId,
                             icon: tab.icon,
                             active: tab.opened,
+                            invalid: tab.invalid,
                             visible,
                         }
                         const tabElement = (
@@ -201,9 +204,14 @@ TabRegion.defaultProps = {
     hideSingleTab: false,
 }
 
+const mapStateToProps = (state, props) => ({
+    tabs: makeRegionTabsSelector(props.id)(state),
+})
+
 export { TabRegion }
 export default compose(
     setDisplayName('TabsRegion'),
     withRegionContainer({ listKey: 'tabs' }),
+    connect(mapStateToProps),
     withWidgetProps,
 )(TabRegion)

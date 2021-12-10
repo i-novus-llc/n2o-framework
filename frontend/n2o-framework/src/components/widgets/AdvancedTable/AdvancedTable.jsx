@@ -57,6 +57,16 @@ const getFocusIndex = ({ autoFocus, data, selectedId, hasFocus }) => {
     return 1
 }
 
+const mappingKeysIntoData = (data = []) => data.map(({ children, id, ...props }) => {
+    const newData = { id, key: id, ...props }
+
+    if (children) {
+        newData.children = mappingKeysIntoData(children)
+    }
+
+    return newData
+})
+
 /**
  * Компонент Таблица
  */
@@ -173,9 +183,10 @@ class AdvancedTable extends Component {
                 const checked = this.mapChecked(multi)
 
                 state = {
-                    data: isArray(data) ? data : [data],
+                    data: isArray(data) ? mappingKeysIntoData(data) : mappingKeysIntoData([data]),
                     checked,
                 }
+
                 this.dataStorage = this.getModelsFromData(data)
 
                 if (children === 'expand') {
@@ -190,7 +201,6 @@ class AdvancedTable extends Component {
             }
             if (!isEqual(prevProps.selectedId, selectedId) && autoFocus) {
                 this.setNewSelectIndex(selectedId)
-                this.setNewFocusIndex(selectedId)
             }
             this.setState({ ...state })
         }
@@ -282,20 +292,23 @@ class AdvancedTable extends Component {
         return dataStorage
     }
 
-    setTableRef = (el) => {
+    updateTableSize = (tableElement) => {
         const { height, width } = this.props
+        const tableBody = tableElement?.bodyTable
+
+        if (!tableBody) {
+            return
+        }
 
         if (height) {
-            el.bodyTable.style.height = height
-            el.bodyTable.style.overflow = 'auto'
+            tableBody.style.height = height
+            tableBody.style.overflow = 'auto'
         }
 
         if (width) {
-            el.bodyTable.style.width = width
-            el.bodyTable.style.overflow = 'auto'
+            tableBody.style.width = width
+            tableBody.style.overflow = 'auto'
         }
-
-        this.table = el
     }
 
     setSelectionRef = (el) => {
@@ -718,7 +731,7 @@ class AdvancedTable extends Component {
                 <div onFocus={!isActive ? onFocus : undefined}>
                     <Table
                         style={style}
-                        ref={this.setTableRef}
+                        ref={this.updateTableSize}
                         prefixCls="n2o-advanced-table"
                         className={classNames('n2o-table table table-hover', className, {
                             'has-focus': hasFocus,

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.integration.metadata.transform.action;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -18,7 +19,7 @@ public class OpenPageAccessTransformer extends AbstractActionTransformer<LinkAct
     }
 
     @Override
-    public LinkActionImpl transform(LinkActionImpl compiled, PageContext context, CompileProcessor p) {
+    public LinkActionImpl transform(LinkActionImpl compiled, CompileContext<?, ?> context, CompileProcessor p) {
         mapSecurity(compiled, compiled.getPageId(), compiled.getObjectId(), compiled.getOperationId(), compiled.getUrl(), p);
         return compiled;
     }

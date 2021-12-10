@@ -7,6 +7,7 @@ if (contextPath[contextPath.length - 1] !== '/') {
 }
 
 const description = 'N2O Framework - библиотека с открытым исходным кодом, написанная на Java и ReactJS. Позволяет создавать веб приложения со сложными пользовательскими интерфейсами без глубоких знаний веб технологий и фронтенд фреймворков.'
+const highLightElement = '<span style="width: 5px; height: 5px; background-color: #c6c6c6 ">'
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -32,6 +33,17 @@ module.exports = {
     organizationName: CONFIG.organizationName || 'Ай-Новус',
     projectName: 'N2O Framework',
     themeConfig: {
+        // для индексирования файлов в algolia требуется
+        // docker run -it --env-file=.env -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" algolia/docsearch-scraper
+        algolia: {
+            appId: 'TQNZ4TMMUC',
+            //key for search only
+            apiKey: '7e57dabdf56e2346c4dd73f77f69882b',
+            indexName: 'n2oapp',
+            searchParameters: {
+                highlightPostTag: highLightElement,
+            }
+        },
         prism: {
             theme: require('prism-react-renderer/themes/oceanicNext'),
         },
@@ -113,6 +125,5 @@ module.exports = {
 ],
     plugins: [
         'docusaurus-plugin-sass',
-        ['docusaurus-lunr-search', { languages : ['ru', 'en'] }]
     ],
 }

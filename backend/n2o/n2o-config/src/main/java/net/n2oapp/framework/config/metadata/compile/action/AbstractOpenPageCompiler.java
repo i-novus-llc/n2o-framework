@@ -125,8 +125,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope, componentScope);
-        if (actionModelLink == null)
-            throw new N2oException("widget-id for action " + source.getId() + " not specified");
 
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
 

@@ -14,6 +14,7 @@ import has from 'lodash/has'
 import flatten from 'lodash/flatten'
 import { batchActions } from 'redux-batched-actions'
 
+import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { isPromise } from '../../tools/helpers'
 import { addFieldMessage, removeFieldMessage } from '../../ducks/form/store'
 
@@ -147,6 +148,7 @@ export function validate(
     const validation = pickBy(validationConfig, (value, key) => get(registeredFields, `${key}.visible`, true))
     const errors = {}
     const promiseList = [Promise.resolve()]
+    const asyncValidating = get(state, `form.${formName}.asyncValidating`, '')
 
     each(validation, (validationList, fieldId) => {
         if (isArray(validationList)) {
@@ -210,7 +212,14 @@ export function validate(
                     (isTouched && !nowTouched) ||
                     !isEqual(message, get(registeredFields, [fieldId, 'message']))
                 ) {
-                    return addFieldMessage(formName, fieldId, message, isTouched)
+                    const finalMessage = { ...message }
+                    const expressionMessageText = parseExpression(finalMessage.text)
+
+                    if (expressionMessageText) {
+                        finalMessage.text = evalExpression(expressionMessageText, { [fieldId]: values[fieldId] })
+                    }
+
+                    return addFieldMessage(formName, fieldId, finalMessage, isTouched, asyncValidating)
                 }
             }
         }).filter(Boolean)
@@ -219,7 +228,11 @@ export function validate(
             const currentError = has(errors, key)
             const errorInStore = field.message
 
-            if (!currentError && errorInStore) {
+            const asyncValidating = get(state, `form.${formName}.asyncValidating`) === key
+            const active = get(state, `form.${formName}.active`) === key
+
+            if (!currentError && errorInStore &&
+                (asyncValidating || active || field.disabled)) {
                 dispatch(removeFieldMessage(formName, key))
             }
         })
