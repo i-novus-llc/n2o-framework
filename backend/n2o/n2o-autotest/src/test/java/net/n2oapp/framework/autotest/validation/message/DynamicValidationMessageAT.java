@@ -52,8 +52,9 @@ public class DynamicValidationMessageAT extends AutoTestBase {
         form.shouldExists();
         StandardField field = form.fields().field("Имя");
         field.shouldExists();
-
         field.control(InputText.class).val("test");
+
+        form.fields().field("Следующее поле").control(InputText.class).val("next");
 
         field.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
     }
