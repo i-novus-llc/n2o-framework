@@ -17,7 +17,9 @@ import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
-import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import org.springframework.stereotype.Component;
@@ -56,13 +58,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(form.getId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         MetaActions widgetActions = initMetaActions(source);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(form, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(form.getId(), widgetRoute);
-        }
         Models models = p.getScope(Models.class);
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(form.getUpload());
@@ -71,14 +68,13 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         WidgetParamScope paramScope = form.getUpload().equals(UploadType.defaults) ? new WidgetParamScope() : null;//todo why upload=default? maybe upload != query ?
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope, widgetRoute,
-                paramScope, new ComponentScope(source)));
+                new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope, paramScope, new ComponentScope(source)));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
         compileValidation(form, source, validationScope);
-        compileDataProviderAndRoutes(form, source, context, p, validationList, widgetRoute, subModelsScope, copiedFieldScope, object);
+        compileDataProviderAndRoutes(form, source, context, p, validationList, subModelsScope, copiedFieldScope, object);
         addParamRoutes(paramScope, context, p);
-        compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
+        compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationList);
         form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
 //        form.setFormDataProvider(initDataProvider(source, object, context, p));
         return form;

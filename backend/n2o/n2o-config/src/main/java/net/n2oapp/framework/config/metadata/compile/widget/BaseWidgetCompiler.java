@@ -21,7 +21,10 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
+import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -35,16 +38,13 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
 import java.util.stream.Stream;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -136,27 +136,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return normalize(source.getId());
     }
 
-    /**
-     * Инициализация текущего маршрута виджета при сборке
-     *
-     * @param context Контекст
-     * @param p       Процессор сборки
-     * @return Маршрут виджета соединенный с родительским маршрутом
-     */
-    protected ParentRouteScope initWidgetRouteScope(D compiled, CompileContext<?, ?> context, CompileProcessor p) {
-        String route = compiled.getRoute();
-        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
-        ParentRouteScope widgetRouteScope;
-        if (parentRouteScope != null) {
-            widgetRouteScope = new ParentRouteScope(route, parentRouteScope);
-        } else if (context.getRoute((N2oCompileProcessor) p) != null) {
-            widgetRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p));
-        } else {
-            widgetRouteScope = new ParentRouteScope(route);
-        }
-        return widgetRouteScope;
-    }
-
     protected void copyInlineDatasource(D compiled, S source, CompileProcessor p) {
         if (source.getDatasourceId() == null && source.getDatasource() != null) {
             String datasourceId = CompileUtil.generateSourceDatasourceId(source.getId());
@@ -174,10 +153,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     //fixme удалить неиспользуемые параметры
     protected void compileDataProviderAndRoutes(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                                ValidationList validationList, ParentRouteScope widgetRouteScope,
-                                                SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
-                                                CompiledObject object) {
-        compileRouteWidget(compiled, source, getDataProviderQuery(compiled.getQueryId(), p), p, widgetRouteScope);
+                                                ValidationList validationList, SubModelsScope subModelsScope,
+                                                CopiedFieldScope copiedFieldScope, CompiledObject object) {
         compileFetchOnInit(source, compiled);
         PageScope pageScope = p.getScope(PageScope.class);
         compiled.setDatasource(pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
@@ -216,10 +193,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                           WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions,
+                                           WidgetScope widgetScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
-        compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, widgetRouteScope, validationList);
+        compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, validationList);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
@@ -303,7 +280,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileToolbar(D compiled, S source, CompiledObject object, CompileContext<?, ?> context, CompileProcessor p
-            , MetaActions compiledActions, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, ValidationList validations) {
+            , MetaActions compiledActions, WidgetScope widgetScope, ValidationList validations) {
         if (source.getToolbars() == null)
             return;
 
@@ -311,41 +288,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         IndexScope index = new IndexScope();
         ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
         for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object,
+            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, compiledActions, object,
                     index, validations, toolbarPlaceScope));
         }
         compiled.setToolbar(compiledToolbar);
-    }
-
-    private void compileRouteWidget(D compiled, S source, CompiledQuery query, CompileProcessor p, ParentRouteScope widgetRouteScope) {
-        PageRoutes routes = p.getScope(PageRoutes.class);
-        if (routes == null)
-            return;
-        //Регистрация основного маршрута виджета для страницы
-        routes.addRoute(widgetRouteScope.getUrl());
-        if (query != null) {
-            ((List<Filter>) compiled.getFilters()).stream()
-                    .filter(Filter::getRoutable)
-                    .filter(f -> !f.getLink().isConst())
-                    .forEach(filter -> {
-                        ReduxAction onGet;
-                        String filterId = filter.getFilterId();
-                        if (filterId.contains(SPREAD_OPERATOR)) {
-                            onGet = Redux.dispatchUpdateMapModel(compiled.getId(), ReduxModel.FILTER,
-                                    filterId.substring(0, filterId.indexOf(SPREAD_OPERATOR)),
-                                    filterId.substring(filterId.indexOf(SPREAD_OPERATOR) + 2), colon(filter.getParam()));
-                        } else {
-                            onGet = Redux.dispatchUpdateModel(compiled.getId(), ReduxModel.FILTER, filterId, colon(filter.getParam()));
-                        }
-                        routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
-                    });
-            for (N2oQuery.Field field : query.getSortingFields()) {
-                String sortParam = RouteUtil.normalizeParam("sorting." + source.getId() + "_" + field.getId());
-                BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
-                ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
-                routes.addQueryMapping(sortParam, onGet, onSet);
-            }
-        }
     }
 
     protected CompiledObject getObject(S source, CompileProcessor p) {

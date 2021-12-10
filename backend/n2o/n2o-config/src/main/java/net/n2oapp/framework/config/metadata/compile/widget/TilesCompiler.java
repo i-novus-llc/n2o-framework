@@ -10,8 +10,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -41,19 +39,14 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         copyInlineDatasource(tiles, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(tiles, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(tiles, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(tiles.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(tiles, source, context, p, null, widgetRoute, null, null, object);
+        compileDataProviderAndRoutes(tiles, source, context, p, null, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setClientWidgetId(tiles.getId());
         MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
+        compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetActions, object, null);
 
         tiles.setColsSm(p.cast(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));
         tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));

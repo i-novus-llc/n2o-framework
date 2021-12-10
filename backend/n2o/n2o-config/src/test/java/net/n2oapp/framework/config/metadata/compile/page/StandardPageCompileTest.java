@@ -97,32 +97,9 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
                 .get(context);
         assertThat(page.getId(), is("page"));
-        assertThat(page.getRoutes().getList().size(), is(6));
+        assertThat(page.getRoutes().getList().size(), is(1));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/page"));
-        assertThat(page.getRoutes().getList().get(1).getPath(), is("/page/master"));
-        assertThat(page.getRoutes().getList().get(2).getPath(), is("/page/master/:master_id/detail"));
-        assertThat(page.getRoutes().getList().get(3).getPath(), is("/page/master/:master_id/detail/detail4"));
-        assertThat(page.getRoutes().getList().get(4).getPath(), is("/page/master/:master_id/detail/form"));
-        assertThat(page.getRoutes().getList().get(5).getPath(), is("/page/master/detail2"));
-        assertThat(page.getRoutes().getPathMapping().size(), is(6));
-        assertThat(page.getRoutes().getPathMapping().get("page_master_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_master_id").getPayload()).getWidgetId(), is("page_master"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_master_id").getPayload()).getValue(), is(":page_master_id"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_detail_id").getPayload()).getWidgetId(), is("page_detail"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_detail_id").getPayload()).getValue(), is(":page_detail_id"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail2_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_detail2_id").getPayload()).getWidgetId(), is("page_detail2"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_detail2_id").getPayload()).getValue(), is(":page_detail2_id"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_detail4_id").getPayload()).getWidgetId(), is("page_detail4"));
-        assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_detail4_id").getPayload()).getValue(), is(":page_detail4_id"));
-        assertThat(((Widget) page.getRegions().get("test").get(0).getContent().get(1)).getFilter("parent.id").getParam(), is("master_id"));
-
-        assertThat(((PageContext) route("/page/master/1", Page.class)).getClientPageId(), is(context.getClientPageId()));
-        assertThat(((PageContext) route("/page/master/1/detail/2", Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
-        assertThat(((PageContext) route("/page/master/1/detail/2/detail4", Page.class)).getClientPageId(), is(context.getClientPageId()));
-        assertThat(((PageContext) route("/page/master/1/detail/2/detail4/3", Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
+        assertThat(((PageContext) route("/page", Page.class)).getClientPageId(), is(context.getClientPageId()));
     }
 
     @Test

@@ -114,16 +114,17 @@ public class ClientDataProviderUtil {
                 ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
             String widgetId = null;
+            PageScope pageScope = p.getScope(PageScope.class);
             if (param.getRefWidgetId() != null) {
                 String pageId = param.getRefPageId();
-                if (param.getRefPageId() == null) {
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    if (pageScope != null)
+                if (param.getRefPageId() == null && pageScope != null)
                         pageId = pageScope.getPageId();
-                }
                 widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
             }
-            link = new ModelLink(p.cast(param.getModel(), model), p.cast(widgetId, targetWidgetId));
+            String resultWidgetId = p.cast(widgetId, targetWidgetId);
+            String datasourceId = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
+                    ? resultWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(resultWidgetId);
+            link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);

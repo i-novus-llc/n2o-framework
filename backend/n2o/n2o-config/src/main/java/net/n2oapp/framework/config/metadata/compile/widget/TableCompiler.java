@@ -22,7 +22,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.AbstractTable;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
-import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -62,7 +65,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         widgetScope.setClientWidgetId(table.getId());
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setHasIdInParentRoute(true);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = new SubModelsScope();
@@ -78,16 +81,11 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
-        ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(table.getId(), widgetRouteScope);
-        }
         MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
-        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
+        compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
+        compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 uploadScope, subModelsScope, filtersScope);
-        compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
+        compileDataProviderAndRoutes(table, source, context, p, validationList, null, null, object);
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         component.setWidth(source.getWidth());
@@ -107,7 +105,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                     component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
-            component.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRouteScope, object, widgetActions));
+            component.setRowClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
         }
         table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(p.cast(source.getChildren(),

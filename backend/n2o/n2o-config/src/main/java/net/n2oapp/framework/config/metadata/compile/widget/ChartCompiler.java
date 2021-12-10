@@ -6,8 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oChart;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -24,20 +22,15 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         copyInlineDatasource(chart, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(chart, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(chart, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(chart.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(chart, source, context, p, null, widgetRoute, null, null, object);
+        compileDataProviderAndRoutes(chart, source, context, p, null, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(chart.getId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
 
         MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(chart, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
+        compileToolbarAndAction(chart, source, context, p, widgetScope, widgetActions, object, null);
 
         chart.setComponent(p.compile(source.getComponent(), context, p));
         chart.getComponent().setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));

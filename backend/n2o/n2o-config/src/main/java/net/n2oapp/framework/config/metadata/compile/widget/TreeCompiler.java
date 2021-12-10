@@ -6,10 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,19 +29,14 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         copyInlineDatasource(tree, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(tree, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(tree, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(tree.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(tree, source, context, p, null, widgetRoute, null, null, object);
+        compileDataProviderAndRoutes(tree, source, context, p, null, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setClientWidgetId(tree.getId());
         MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(tree, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
+        compileToolbarAndAction(tree, source, context, p, widgetScope, widgetActions, object, null);
 
         tree.setFetchOnInit(source.getFetchOnInit());
         tree.setParentFieldId(p.resolveJS(source.getParentFieldId()));

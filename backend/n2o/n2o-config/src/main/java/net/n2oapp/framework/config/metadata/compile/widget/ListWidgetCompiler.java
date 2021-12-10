@@ -38,23 +38,18 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         copyInlineDatasource(listWidget, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(listWidget, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(listWidget, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(listWidget.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(listWidget, source, context, p, null, widgetRoute, null, null, object);
+        compileDataProviderAndRoutes(listWidget, source, context, p, null, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setClientWidgetId(listWidget.getId());
         MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
-        compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetRoute, widgetActions, object);
+        compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetActions, object, null);
+        compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetActions, object);
         if (source.getRows() != null) {
             listWidget.setRows(new Rows());
-            listWidget.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRoute, object, widgetActions));
+            listWidget.setRowClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
         }
         listWidget.setPaging(compilePaging(listWidget, source, p.resolve(property("n2o.api.widget.list.size"), Integer.class), p));
         return listWidget;
@@ -62,16 +57,14 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
 
     private void compileList(N2oListWidget source, ListWidget compiled, CompileContext<?, ?> context,
                              MetaActions actions, CompileProcessor p, WidgetScope widgetScope,
-                             ParentRouteScope widgetRoute, MetaActions widgetActions, CompiledObject object) {
+                             MetaActions widgetActions, CompiledObject object) {
         if (source.getContent() == null) return;
 
         Map<String, N2oAbstractCell> list = new HashMap<>();
         for (N2oListWidget.ContentElement element : source.getContent()) {
             element.setId(element.getTextFieldId());
-            list.put(element.getPlace(), p.compile(p.cast(element.getCell(), new N2oTextCell()), context, new ComponentScope(element), actions, widgetScope,
-                    widgetRoute,
-                    widgetActions,
-                    object, new IndexScope()));
+            list.put(element.getPlace(), p.compile(p.cast(element.getCell(), new N2oTextCell()), context,
+                    new ComponentScope(element), actions, widgetScope, widgetActions, object, new IndexScope()));
 
         }
         compiled.setList(list);

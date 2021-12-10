@@ -28,6 +28,7 @@ public class N2oClientDataProvider implements Serializable {
     private N2oParam[] headerParams;
     private N2oParam[] queryParams;
     private ReduxModel targetModel;
+    @Deprecated
     private String targetWidgetId;
     private RequestMethod method;
     private String quickSearchParam;

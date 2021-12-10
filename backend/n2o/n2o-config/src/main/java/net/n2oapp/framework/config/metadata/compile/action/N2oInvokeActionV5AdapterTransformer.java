@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.config.io.page.v4.PageIOv4;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +32,10 @@ public class N2oInvokeActionV5AdapterTransformer implements SourceTransformer<N2
             }
         }
         return source;
+    }
+
+    @Override
+    public boolean matches(N2oInvokeAction source) {
+        return !source.getNamespaceUri().equals(PageIOv4.NAMESPACE);
     }
 }

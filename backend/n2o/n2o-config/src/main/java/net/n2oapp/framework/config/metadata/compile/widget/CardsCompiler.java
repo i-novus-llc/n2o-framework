@@ -10,8 +10,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -40,19 +38,14 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         copyInlineDatasource(cards, source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(cards, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(cards, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(cards.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(cards, source, context, p, null, widgetRoute, null, null, object);
+        compileDataProviderAndRoutes(cards, source, context, p, null, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(source.getRoute());
+        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setClientWidgetId(cards.getId());
         MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(cards, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
+        compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);
 
         if (source.getContent() != null)
             cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
