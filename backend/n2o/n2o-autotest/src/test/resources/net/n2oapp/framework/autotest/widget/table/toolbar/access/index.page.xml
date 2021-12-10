@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+                 xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+                 name="Доступ к колонкам по sec атрибутам">
+    <table id="list"  query-id="test">
+        <columns>
+            <column text-field-id="Имя"/>
+
+            <column label="Доступно с ролью admin" sec:roles="admin">
+                <toolbar>
+                    <button sec:roles="admin" label="Удалить" icon="fa fa-trash"/>
+                </toolbar>
+            </column>
+                
+            <column text-field-id="id" label="Доступно с правом edit" sec:permissions="edit">
+                <toolbar>
+                    <button id="archive" label="Редактировать" icon="fa fa-edit" sec:permissions="edit"/>
+                </toolbar>
+            </column>
+                    
+        </columns>
+    </table>
+</simple-page>
