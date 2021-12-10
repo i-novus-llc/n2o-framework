@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgument
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
-import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
