@@ -42,7 +42,7 @@ const datasource = createSlice({
             },
             reducer(state, action) {
                 const { widgetId, id } = action.payload
-                const datasource = state[id]
+                const datasource = state[id] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
 
                 if (datasource.widgets.includes(widgetId)) {
                     return

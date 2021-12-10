@@ -81,7 +81,7 @@ export default () => [
      */
     takeEvery(registerWidget, function* RegisterWidget({ payload }) {
         const { initProps } = payload
-        const { dataProvider, sorting, validation, size, datasource, modelId, dependency } = initProps
+        const { dataProvider, sorting, validation, size, datasource, dependency, form } = initProps
         let dependencies = []
 
         if (dependency && dependency.fetch) {
@@ -91,11 +91,11 @@ export default () => [
             }))
         }
 
-        yield put(register(datasource || modelId, {
+        yield put(register(datasource, {
             provider: dataProvider,
             sorting,
-            validation,
-            size: size || dataProvider.size,
+            validation: validation || form?.validation,
+            size: size || dataProvider?.size,
             dependencies,
         }))
     }),
