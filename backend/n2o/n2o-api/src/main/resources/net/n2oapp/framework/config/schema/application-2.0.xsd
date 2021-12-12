@@ -8,6 +8,11 @@
 
     <xs:complexType name="applicationDefinition">
         <xs:sequence>
+            <xs:element name="datasources" type="datasourcesDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Источники данных</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="header" type="headerDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Шапка(header)</xs:documentation>
@@ -43,6 +48,21 @@
                 <xs:documentation>Ссылка на страницу, которая открывается по / </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="datasourcesDefinition">
+        <xs:sequence>
+            <xs:element name="datasource" type="datasourceDefinition" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Стандартный источник данных</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="stomp-datasource" type="stompDatasourceDefinition" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>STOMP-источник данных</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="headerDefinition">
@@ -286,5 +306,50 @@
             </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:complexType name="datasourceDefinition">
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    
+    <xs:complexType name="stompDatasourceDefinition">
+        <xs:complexContent>
+            <xs:extension base="datasourceDefinition">
+                <xs:sequence>
+                    <xs:element name="values" type="valuesDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Значения на момент инициализации</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="destination" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Место назначения</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="valuesDefinition">
+        <xs:sequence>
+            <xs:element name="value" type="valueDefinition" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Инициализирующее значение</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="valueDefinition">
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Любой атрибут</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
 
 </xs:schema>

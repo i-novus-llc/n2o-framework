@@ -38,7 +38,100 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 **Тело**
 
-Шапка(header), боковая панель, подвал(footer)
+[Источник данных](../xml/application#datasource), [Шапка(header)](../xml/application#header), [Боковая панель](../xml/application#sidebar), [Подвал(footer)](../xml/application#footer)
+
+### Источники данных (&lt;datasources&gt;)
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        ...
+    </datasources>
+</application>
+```
+
+**Тело**
+
+[Стандартный источник данных](../xml/application#datasource), [STOMP-источник данных](../xml/application#stomp-datasource)
+
+### Стандартный источник данных (&lt;datasource&gt;)
+
+**Атрибуты**
+
+|Наименование |Тип            |Описание                                                 |Значение по умолчанию|
+|-------------|---------------|---------------------------------------------------------|---------------------|
+|id           |Строка         |Идентификатор источника данных                           |                     |
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+</application>
+```
+
+### STOMP-источник данных (&lt;stomp-datasource&gt;)
+
+**Атрибуты**
+
+|Наименование |Тип            |Описание                                                 |Значение по умолчанию|
+|-------------|---------------|---------------------------------------------------------|---------------------|
+|id           |Строка         |Идентификатор источника данных                           |                     |
+|destination  |Строка         |Место назначения                                         |                     |
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                ...
+            </values>
+        </stomp-datasource>
+    </datasources>
+</application>
+
+```
+
+**Тело**
+
+[Значения на момент инициализации](../xml/application#values)
+
+### Значения на момент инициализации (&lt;values&gt;)
+
+**Пример**
+
+```xml
+<stomp-datasource id="notifCount" destination="/notif/count">
+    <values>
+        ...
+    </values>
+</stomp-datasource>
+```
+
+**Тело**
+
+[Инициализирующее значение](../xml/application#value)
+
+### Инициализирующее значение (&lt;value&gt;)
+
+**Пример**
+
+```xml
+<stomp-datasource id="notifCount" destination="/notif/count">
+    <values>
+        <value count="0"/>
+    </values>
+</stomp-datasource>
+```
 
 ### Шапка (&lt;header&gt;)
 

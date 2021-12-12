@@ -43,6 +43,11 @@ public class N2oApplication extends N2oMetadata {
      */
     private N2oFooter footer;
 
+    /**
+     * Источники данных
+     */
+    private N2oDatasource[] datasources;
+
     @Override
     public String getPostfix() {
         return "application";
