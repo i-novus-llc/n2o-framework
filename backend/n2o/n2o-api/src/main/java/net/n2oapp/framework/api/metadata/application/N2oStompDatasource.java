@@ -18,6 +18,6 @@ public class N2oStompDatasource extends N2oDatasource {
     @Getter
     @Setter
     public static class Value {
-        private Map<String, Object> attribute;
+        private Map<String, String> attribute;
     }
 }

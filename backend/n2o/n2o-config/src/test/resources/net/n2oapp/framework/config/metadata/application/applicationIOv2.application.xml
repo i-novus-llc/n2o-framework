@@ -5,7 +5,8 @@
         <stomp-datasource id="taskCount" destination="/task/count"/>
         <stomp-datasource id="notifCount" destination="/notif/count">
             <values>
-                <value count="0"/>
+                <value notifCount="2"/>
+                <value messageCount="0"/>
             </values>
         </stomp-datasource>
     </datasources>
