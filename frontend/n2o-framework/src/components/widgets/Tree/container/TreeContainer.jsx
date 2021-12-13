@@ -6,56 +6,8 @@ import isArray from 'lodash/isArray'
 import toString from 'lodash/toString'
 
 import Tree from '../component/Tree'
-import widgetContainer from '../../WidgetContainer'
-import { setTableSelectedId } from '../../../../ducks/widgets/store'
-import { TREE } from '../../widgetTypes'
 
 import { propTypes, defaultProps } from './allProps'
-
-export const withWidgetContainer = widgetContainer(
-    {
-        mapProps: props => ({
-            widgetId: props.widgetId,
-            pageId: props.pageId,
-            isActive: props.isActive,
-            hasFocus: props.hasFocus,
-            hasSelect: props.hasSelect,
-            autoFocus: props.autoFocus,
-            datasource: props.datasource,
-            resolveModel: props.resolveModel,
-            onResolve: (newModel) => {
-                props.onResolve(newModel)
-                // eslint-disable-next-line eqeqeq
-                if (props.selectedId != newModel.id) {
-                    props.dispatch(setTableSelectedId(props.widgetId, newModel.id))
-                }
-            },
-            onFocus: props.onFocus,
-            size: props.size,
-            redux: true,
-            dispatch: props.dispatch,
-            rowClick: props.rowClick,
-
-            childIcon: props.childIcon,
-            multiselect: props.multiselect,
-            showLine: props.showLine,
-            filter: props.filter,
-            expandBtn: props.expandBtn,
-            bulkData: props.bulkData,
-            parentFieldId: props.parentFieldId,
-            valueFieldId: props.valueFieldId,
-            labelFieldId: props.labelFieldId,
-            iconFieldId: props.iconFieldId,
-            imageFieldId: props.imageFieldId,
-            badgeFieldId: props.badgeFieldId,
-            badgeColorFieldId: props.badgeColorFieldId,
-            hasCheckboxes: props.hasCheckboxes,
-            draggable: props.draggable,
-            childrenFieldId: props.childrenFieldId,
-        }),
-    },
-    TREE,
-)
 
 const toStringData = ({ valueFieldId, parentFieldId }) => dt => ({
     ...dt,
@@ -72,7 +24,7 @@ export const withWidgetHandlers = withHandlers({
 
     onResolve: props => (keys) => {
         const {
-            onResolve,
+            setResolve,
             datasource,
             valueFieldId,
             multiselect,
@@ -84,9 +36,9 @@ export const withWidgetHandlers = withHandlers({
         const value = filter(datasource, data => some(keys, key => key == data[valueFieldId]))
 
         if (multiselect) {
-            onResolve(value)
+            setResolve(value)
         } else {
-            onResolve(value ? value[0] : null)
+            setResolve(value ? value[0] : null)
         }
 
         if (rowClick) { dispatch(rowClick.action) }
@@ -94,12 +46,16 @@ export const withWidgetHandlers = withHandlers({
 })
 
 const TreeContainer = compose(
-    withWidgetContainer,
+    withProps(({ models, ...rest }) => {
+        const { datasource, resolve } = models
+
+        return {
+            datasource: mapToString(datasource, rest),
+            resolveModel: mapToString(resolve || {}, rest),
+            selectedId: resolve?.id,
+        }
+    }),
     withWidgetHandlers,
-    withProps(({ datasource, resolveModel, ...rest }) => ({
-        datasource: mapToString(datasource || [], rest),
-        resolveModel: mapToString(resolveModel, rest),
-    })),
 )(Tree)
 
 TreeContainer.propTypes = propTypes

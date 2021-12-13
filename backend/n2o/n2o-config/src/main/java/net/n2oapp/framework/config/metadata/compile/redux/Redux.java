@@ -14,9 +14,6 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 
 /**
@@ -175,7 +172,7 @@ public abstract class Redux {
         if (StringUtils.isJs(value)) {
             PageScope pageScope = p.getScope(PageScope.class);
             String widgetId = CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
-            ModelLink link = new ModelLink(preFilter.getRefModel(),
+            ModelLink link = new ModelLink(preFilter.getModel(),
                     getDatasourceId(pageScope, widgetId));
             link.setValue(value);
             return link;
@@ -189,7 +186,7 @@ public abstract class Redux {
         if (value == null || StringUtils.isJs(value)) {
             PageScope pageScope = p.getScope(PageScope.class);
             String widgetId = CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId());
-            ModelLink link = new ModelLink(param.getRefModel(),
+            ModelLink link = new ModelLink(param.getModel(),
                     getDatasourceId(pageScope, widgetId));
             link.setValue(value);
             return link;
@@ -212,7 +209,7 @@ public abstract class Redux {
      * @return      идентификатор источника данных
      */
     private static String getDatasourceId(PageScope pageScope, String widgetId) {
-        return pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ?
-                widgetId : pageScope.getWidgetIdDatasourceMap().get(widgetId);
+        return pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
+                widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
     }
 }

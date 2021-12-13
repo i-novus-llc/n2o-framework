@@ -10,7 +10,6 @@
             "pageId": "ProtoPage",
             "icon" : "fa fa-plus",
             "opened": true,
-            "fetchOnInit": true,
             "widget": {
               "id": "ProtoPage.patients",
               "toolbar": {
@@ -195,7 +194,6 @@
             "id": "contacts",
             "pageId": "ProtoPage",
             "opened": false,
-            "fetchOnInit": false,
             "widget": {
               "id": "ProtoPage.contacts",
               "toolbar": {},
@@ -249,7 +247,6 @@
             "id": "form",
             "pageId": "ProtoPage",
             "opened": true,
-            "fetchOnInit": false,
             "widget": {
               "id": "ProtoPage.form",
               "toolbar": {

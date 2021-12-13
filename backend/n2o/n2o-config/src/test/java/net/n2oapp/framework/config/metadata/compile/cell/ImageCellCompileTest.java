@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Im
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.ImageCellElementIOv2;
+import net.n2oapp.framework.config.io.cell.v2.ImageCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;

@@ -137,7 +137,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(drawerContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
+        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(drawerContext.getUpload(), is(UploadType.query));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
@@ -251,7 +251,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(drawerContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
+        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
         assertThat(drawerContext.getUpload(), is(UploadType.query));
 

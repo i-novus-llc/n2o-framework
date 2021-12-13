@@ -55,12 +55,12 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
 
         assertThat(print2.getPayload().getUrl(), is("/page/widget/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
-        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.filter['page_ds2']"));
+        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(print2.getPayload().getQueryMapping().size(), is(1));
-        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.filter['page_ds2']"));
+        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
         PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/widget/test2/:param1/:param2?param3=:param3");
         assertThat(anchor.getIsOtherPage(), is(true));
@@ -96,7 +96,7 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
 
         assertThat(linkSecond.getPayload().getUrl(), is("/page/second/test/:minPrice"));
         assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
     }
 }

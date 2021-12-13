@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.region.v2;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.ComponentIO;
+import net.n2oapp.framework.config.io.control.v2.ComponentIO;
 import org.jdom2.Element;
 
 /**

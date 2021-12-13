@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.widget;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
@@ -12,15 +13,12 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Валидатор виджета
@@ -29,7 +27,7 @@ import java.util.Objects;
 public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassAware {
 
     @Override
-    public void validate(N2oWidget n2oWidget, ValidateProcessor p) {
+    public void validate(N2oWidget n2oWidget, SourceProcessor p) {
         N2oQuery query = checkQueryExists(n2oWidget, p);
         checkObjectExists(n2oWidget, p);
 
@@ -52,7 +50,6 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
         checkPrefiltersValidation(n2oWidget, query);
         p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
-        checkDatasourceValue(n2oWidget, p);
     }
 
     /**
@@ -120,10 +117,10 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * Проверка существования выборки, используемой виджетом, и возврат идентификатора выборки
      *
      * @param n2oWidget Виджет
-     * @param p         Процессор валидации метаданных
+     * @param p         Процессор исходных метаданных
      * @return Идентификатор выборки или null, если виджет не использует выборку
      */
-    private N2oQuery checkQueryExists(N2oWidget n2oWidget, ValidateProcessor p) {
+    private N2oQuery checkQueryExists(N2oWidget n2oWidget, SourceProcessor p) {
         if (n2oWidget.getQueryId() != null) {
             p.checkForExists(n2oWidget.getQueryId(), N2oQuery.class,
                     String.format("Виджет '%s' ссылается на несуществующую выборку '%s'", n2oWidget.getId(), n2oWidget.getQueryId()));
@@ -136,44 +133,16 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         return null;
     }
 
-
     /**
      * Проверка существования объекта, используемого виджетом
      *
      * @param n2oWidget Виджет
-     * @param p         Процессор валидации метаданных
+     * @param p         Процессор исходных метаданных
      */
-    private void checkObjectExists(N2oWidget n2oWidget, ValidateProcessor p) {
+    private void checkObjectExists(N2oWidget n2oWidget, SourceProcessor p) {
         if (n2oWidget.getObjectId() != null) {
             p.checkForExists(n2oWidget.getObjectId(), N2oObject.class,
                     String.format("Виджет '%s' ссылается на несуществующий объект '%s'", n2oWidget.getId(), n2oWidget.getObjectId()));
-        }
-    }
-
-    /**
-     * Проверка идентичности queryId и objectId при одинаковом datasource
-     * @param n2oWidget
-     * @param p
-     */
-    private void checkDatasourceValue(N2oWidget n2oWidget, ValidateProcessor p) {
-        if (n2oWidget.getDatasource() != null) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope.getDatasourceValueMap().containsKey(n2oWidget.getDatasource())) {
-                PageScope.DatasourceValue actual = pageScope.getDatasourceValueMap().get(n2oWidget.getDatasource());
-                if (!Objects.equals(actual.getQueryId(), n2oWidget.getQueryId())) {
-                    throw new N2oMetadataValidationException(
-                            String.format("2 виджета с одинаковым datasource %s имеют разные query-id",
-                                    n2oWidget.getDatasource()));
-                }
-                if (!Objects.equals(actual.getObjectId(), n2oWidget.getObjectId())) {
-                    throw new N2oMetadataValidationException(
-                            String.format("2 виджета с одинаковым datasource %s имеют разные object-id",
-                                    n2oWidget.getDatasource()));
-                }
-            } else {
-                pageScope.getDatasourceValueMap().put(n2oWidget.getDatasource(),
-                        new PageScope.DatasourceValue(n2oWidget.getQueryId(), n2oWidget.getObjectId()));
-            }
         }
     }
 

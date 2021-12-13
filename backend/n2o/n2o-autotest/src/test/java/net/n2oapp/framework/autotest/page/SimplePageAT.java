@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 public class SimplePageAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
@@ -23,6 +25,7 @@ public class SimplePageAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
     }
 
     @Override
@@ -41,7 +44,7 @@ public class SimplePageAT extends AutoTestBase {
         page.shouldHaveCssClass("page_class");
         page.shouldHaveStyle("background: blue;");
         StandardButton button = page.widget(StandardWidget.class).toolbar().topLeft().button("Вперед");
-        button.shouldBeDisabled();
+        button.shouldBeVisible();
 
         button = page.widget(StandardWidget.class).toolbar().topLeft().button("Кнопка с иконкой");
         button.shouldHaveIcon("fa-plus");

@@ -88,15 +88,11 @@ export class EditableCell extends React.Component {
     }
 
     toggleEdit() {
-        const { model: propsModel, prevResolveModel, onSetSelectedId } = this.props
         const { editing, prevModel, model: stateModel } = this.state
         let newState = {
             editing: !editing,
         }
 
-        if (!isEqual(get(prevResolveModel, 'id'), get(propsModel, 'id'))) {
-            onSetSelectedId()
-        }
         if (!newState.editing && !isEqual(prevModel, stateModel)) {
             this.callAction(stateModel)
         }
@@ -186,7 +182,6 @@ EditableCell.propTypes = {
     editFieldId: PropTypes.string,
     model: PropTypes.object,
     prevResolveModel: PropTypes.object,
-    onSetSelectedId: PropTypes.func,
     callAction: PropTypes.func,
     onResolve: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types

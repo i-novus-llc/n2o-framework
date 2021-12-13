@@ -123,7 +123,7 @@ public class ClientDataProviderUtil {
                 }
                 widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
             }
-            link = new ModelLink(p.cast(param.getRefModel(), model), p.cast(widgetId, targetWidgetId));
+            link = new ModelLink(p.cast(param.getModel(), model), p.cast(widgetId, targetWidgetId));
             link.setValue(value);
         } else {
             link = new ModelLink(value);

@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import java.util.Set;
 public class FieldValidator implements SourceValidator<N2oField>, SourceClassAware {
 
     @Override
-    public void validate(N2oField source, ValidateProcessor p) {
+    public void validate(N2oField source, SourceProcessor p) {
         if (p.getScope(FieldsScope.class) != null) {
             FieldsScope scope = p.getScope(FieldsScope.class);
             Boolean sameFieldIdHasDependency = scope.get(source.getId());

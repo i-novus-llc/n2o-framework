@@ -1,16 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { compose, withHandlers } from 'recompose'
-import { batchActions } from 'redux-batched-actions'
-import map from 'lodash/map'
 import UncontrolledButtonDropdown from 'reactstrap/lib/UncontrolledButtonDropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import DropdownItem from 'reactstrap/lib/DropdownItem'
 
-import { makeModelIdSelector, makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
-import { changeSizeWidget, dataRequestWidget } from '../../../ducks/widgets/store'
+import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
+import { WidgetContext } from '../../../core/widget/context'
 
 const SIZES = [5, 10, 20, 50]
 
@@ -21,45 +18,36 @@ const SIZES = [5, 10, 20, 50]
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-function ChangeSizeComponent({ renderSizeDropdown }) {
+function ChangeSizeComponent({ size: currentSize }) {
+    const { setSize } = useContext(WidgetContext)
+
+    const items = SIZES.map((size, i) => (
+        <DropdownItem toggle={false} onClick={() => setSize(size)}>
+            <span className="n2o-dropdown-check-container">
+                {currentSize === size && <i className="fa fa-check" aria-hidden="true" />}
+            </span>
+            <span>{size}</span>
+        </DropdownItem>
+    ))
+
     return (
         <UncontrolledButtonDropdown>
             <DropdownToggle caret>
                 <i className="fa fa-list" />
             </DropdownToggle>
-            <DropdownMenu>{renderSizeDropdown(SIZES)}</DropdownMenu>
+            <DropdownMenu>{items}</DropdownMenu>
         </UncontrolledButtonDropdown>
     )
 }
 ChangeSizeComponent.propTypes = {
-    renderSizeDropdown: PropTypes.func,
+    size: PropTypes.number,
 }
 
 const mapStateToProps = (state, props) => ({
     size: makeWidgetSizeSelector(props.entityKey)(state),
-    modelId: makeModelIdSelector(props.entityKey)(state),
 })
 
-const enhance = compose(
-    connect(mapStateToProps),
-    withHandlers({
-        resize: ({ dispatch, entityKey, modelId }) => size => batchActions([
-            dispatch(changeSizeWidget(entityKey, size)),
-            dispatch(dataRequestWidget(entityKey, modelId, { size, page: 1 })),
-        ]),
-    }),
-    withHandlers({
-        renderSizeDropdown: ({ size, resize }) => sizes => map(sizes, (s, i) => (
-            <DropdownItem key={i} toggle={false} onClick={() => resize(s)}>
-                <span className="n2o-dropdown-check-container">
-                    {size === s && <i className="fa fa-check" aria-hidden="true" />}
-                </span>
-                <span>{s}</span>
-            </DropdownItem>
-        )),
-    }),
-)
-const ChangeSize = enhance(ChangeSizeComponent)
+const ChangeSize = connect(mapStateToProps)(ChangeSizeComponent)
 
 export { ChangeSize }
 export { ChangeSizeComponent }

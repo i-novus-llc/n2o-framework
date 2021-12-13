@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
-import net.n2oapp.framework.config.io.control.ComponentIO;
+import net.n2oapp.framework.config.io.control.v2.ComponentIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 

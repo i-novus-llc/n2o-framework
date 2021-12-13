@@ -136,37 +136,4 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     public void testQueryParams() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters8.widget.xml");
     }
-
-    @Test
-    public void testWidgetDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetSameDatasource.page.xml");
-    }
-
-    @Test
-    public void testWidgetDatasourceNotSameQueryId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceNotSameQueryId.page.xml");
-    }
-
-    @Test
-    public void testWidgetDatasourceNotSameObjectId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные object-id");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceNotSameObjectId.page.xml");
-    }
-
-    @Test
-    public void testWidgetDatasourceQueryIdIsNull() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные query-id");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceQueryIdIsNull.page.xml");
-    }
-
-    @Test
-    public void testWidgetDatasourceObjectIdIsNull() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("2 виджета с одинаковым datasource ds1 имеют разные object-id");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetDatasourceObjectIdIsNull.page.xml");
-    }
 }

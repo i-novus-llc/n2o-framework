@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.menu;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 
@@ -17,7 +17,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
     }
 
     @Override
-    public void validate(N2oSimpleMenu simpleMenu, ValidateProcessor p) {
+    public void validate(N2oSimpleMenu simpleMenu, SourceProcessor p) {
         if (simpleMenu.getMenuItems() == null) {
             return;
         }

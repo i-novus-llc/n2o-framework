@@ -4,7 +4,6 @@ import ToDoWidget from "../ToDoWidget";
 
 const defaultMeta = {
   id: "todoWidget",
-  fetchOnInit: true,
   size: 10,
   dataProvider: {
     url: "n2o/data/todoWidget",

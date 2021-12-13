@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.control.InputTextCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;

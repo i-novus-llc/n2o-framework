@@ -3,17 +3,12 @@ import { runSaga } from 'redux-saga'
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes'
 
 import {
-    dataRequestWidget,
     disableWidget,
     enableWidget,
     hideWidget,
     showWidget
 } from '../ducks/widgets/store'
 
-import {
-    resolveWidgetDependency,
-    forceUpdateDependency,
-} from './widgetDependency'
 import { sortDependency } from './widgetDependency/sortDependency'
 import { reduceFunction, resolveDependency } from './widgetDependency/resolve'
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
@@ -23,106 +18,7 @@ const getConfig = (model, config) => ({
     config,
 })
 
-const widgetsDependencies = getWidgetDependency({}, 'test1', {
-    fetch: [
-        {
-            on: 'models.resolve[\'testWidget\']',
-        },
-    ],
-})
-
-const prevState = {
-    widgets: {
-        test1: {
-            isVisible: true,
-        },
-    },
-    models: {
-        resolve: {
-            testWidget: {
-                name: 'Ivan',
-            },
-        },
-    },
-}
-const state = {
-    widgets: {
-        testWidget: {
-            isVisible: true,
-        },
-    },
-    models: {
-        resolve: {
-            testWidget: {
-                name: 'Sergey',
-            },
-        },
-    },
-}
-
 describe('Проверка саги widgetDependency', () => {
-    /*describe('тесты forceUpdateDependency', () => {
-        it('должен вызвать разрешение зависимости', async () => {
-            const dispatched = []
-            const fakeStore = {
-                getState: () => ({
-                    widgets: {
-                        test1: {
-                            isVisible: true,
-                        },
-                    },
-                    models: {
-                        resolve: {
-                            testWidget: {
-                                name: 'Sergey',
-                            },
-                        },
-                    },
-                }),
-                dispatch: action => dispatched.push(action),
-            }
-            await runSaga(
-                fakeStore,
-                forceUpdateDependency,
-                state,
-                widgetsDependencies,
-                'testWidget',
-            )
-
-            expect(dispatched[0].type).toEqual(dataRequestWidget.type)
-        })
-    })*/
-    describe('тесты resolveWidgetDependency', () => {
-        it('должен вызвать разрешение зависимости', async () => {
-            const dispatched = []
-            const fakeStore = {
-                getState: () => ({
-                    widgets: {
-                        test1: {
-                            isVisible: true,
-                        },
-                    },
-                    models: {
-                        resolve: {
-                            testWidget: {
-                                name: 'Sergey',
-                            },
-                        },
-                    },
-                }),
-                dispatch: action => dispatched.push(action),
-            }
-            await runSaga(
-                fakeStore,
-                resolveWidgetDependency,
-                prevState,
-                state,
-                widgetsDependencies,
-            )
-
-            expect(dispatched[0].type).toBe(dataRequestWidget.type)
-        })
-    })
     describe('reduceFunction', () => {
         it('вернет false', () => {
             const model = {
@@ -176,26 +72,6 @@ describe('Проверка саги widgetDependency', () => {
     })
 
     describe('resolveDependency', () => {
-        it('вызовет resolveFetchDependency', async () => {
-            const dispatched = []
-            const fakeStore = {
-                getState: () => ({}),
-                dispatch: action => dispatched.push(action),
-            }
-            await runSaga(
-                fakeStore,
-                resolveDependency,
-                DEPENDENCY_TYPES.fetch,
-                'test1',
-                {},
-                true,
-            )
-            expect(dispatched[0].type).toEqual(dataRequestWidget.type)
-            expect(dispatched[0].payload).toEqual({
-                widgetId: 'test1',
-                options: {},
-            })
-        })
 
         describe('resolveVisibleDependency', () => {
             it('покажет виджет', async () => {

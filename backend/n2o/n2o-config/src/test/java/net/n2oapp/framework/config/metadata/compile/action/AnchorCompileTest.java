@@ -57,7 +57,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link2.getPathMapping().size(), is(2));
         assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
         assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(link2.getQueryMapping().size(), is(1));
         assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
@@ -101,7 +101,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getUrl(), is("/page/second/test/:minPrice"));
         assertThat(linkSecond.getTarget(), is(Target.newWindow));
         assertThat(linkSecond.getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
     }
 }

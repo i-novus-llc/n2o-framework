@@ -28,6 +28,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     /**
      * Наименование path параметра идентификатора родительского виджета
      */
+    @Deprecated
     private String masterParam;
     /**
      * Ссылка на идентификатор родительского виджета
@@ -36,15 +37,21 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private String name;
     @JsonProperty
     private String icon;
+    @Deprecated
     private UploadType upload;
+    @Deprecated
     private String objectId;
+    @Deprecated
     private String queryId;
+    @Deprecated
     private String filtersDefaultValuesQueryId;
     private List<Filter> filters;
     protected T component;
     private Set<String> notCopiedFields;
+    @Deprecated
     private List<Validation> validations = new ArrayList<>();
     @JsonProperty
+    @Deprecated
     private ClientDataProvider dataProvider;
     @JsonProperty
     private String datasource;

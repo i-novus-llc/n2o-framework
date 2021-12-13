@@ -1,0 +1,12 @@
+<line xmlns="http://n2oapp.net/framework/config/schema/region-3.0"
+      id="tabs" class="test" src="test" style="test"
+      collapsible="false" label="Line1" has-separator="false" expand="false">
+    <form/>
+    <line>
+        <table/>
+        <line/>
+        <form/>
+    </line>
+    <table/>
+    <panel/>
+</line>

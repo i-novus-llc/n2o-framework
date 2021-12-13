@@ -1,0 +1,20 @@
+<tabs xmlns="http://n2oapp.net/framework/config/schema/region-3.0"
+      id="tabs" class="test" src="test" style="test" hide-single-tab="true"
+      always-refresh="true" lazy="false" active-param="param" routable="false"
+      max-height="300px" scrollbar="true">
+    <tab id="tab1" name="Tab1">
+        <form/>
+        <tabs>
+            <tab>
+                <form/>
+            </tab>
+        </tabs>
+        <table/>
+        <line/>
+    </tab>
+    <tab id="tab2" name="Tab2">
+        <panel/>
+        <form/>
+        <table/>
+    </tab>
+</tabs>

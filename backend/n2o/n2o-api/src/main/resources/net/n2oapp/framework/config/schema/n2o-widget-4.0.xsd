@@ -446,6 +446,11 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
         <xs:sequence>
             <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
                 <xs:annotation>
@@ -574,13 +579,6 @@
                 <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Имя источника данных
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1571,17 +1569,6 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="one-model"/>
             <xs:enumeration value="two-models"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="treeWidgetFilterType">
-        <xs:annotation>
-            <xs:documentation>Тип фильтра.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="includes"/>
-            <xs:enumeration value="startsWith"/>
-            <xs:enumeration value="endsWith"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <columns>
+        <column text-field-id="test">
+            <text src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
+                  format="0,0.00" subtext-field-id="test" subtext-format="0,0.00">
+                <switch value-field-id="field">
+                    <case value="1">a</case>
+                    <case value="2">b</case>
+                    <case value="3">c</case>
+                </switch>
+            </text>
+        </column>
+        <column text-field-id="test2">
+            <text/>
+        </column>
+    </columns>
+</table>

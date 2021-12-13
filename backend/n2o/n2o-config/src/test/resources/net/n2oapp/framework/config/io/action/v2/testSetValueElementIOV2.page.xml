@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action model="edit">
+            <set-value target-field-id="fullname" src="test">
+                return firstName + lastName;
+            </set-value>
+        </action>
+        <action model="filter">
+            <set-value to="fieldId"
+                    source-datasource="list"
+                    source-model="resolve"
+                    target-datasource="form2"
+                    target-model="resolve"
+                    merge-mode="add">
+                return false;
+            </set-value>
+        </action>
+    </actions>
+</page>

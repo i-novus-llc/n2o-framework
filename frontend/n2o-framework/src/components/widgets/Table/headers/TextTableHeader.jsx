@@ -20,12 +20,12 @@ import {
  */
 class TextTableHeader extends React.PureComponent {
     render() {
-        const { id, sortable, sorting, label, onSort, style } = this.props
+        const { id, sortable, sorting, label, setSorting, style } = this.props
 
         return (
             <span className="n2o-advanced-table-header-title" style={style}>
                 {sortable ? (
-                    <Sorter sorting={sorting} columnKey={id} onSort={onSort}>
+                    <Sorter sorting={sorting} columnKey={id} onSort={setSorting}>
                         {label}
                     </Sorter>
                 ) : (
@@ -41,7 +41,7 @@ TextTableHeader.propTypes = {
     sortable: PropTypes.bool,
     sorting: PropTypes.string,
     label: PropTypes.string,
-    onSort: PropTypes.func,
+    setSorting: PropTypes.func,
     style: PropTypes.object,
 }
 

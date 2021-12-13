@@ -115,7 +115,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         if (scope == null)
             return;
         if (source.getQueryId() != null || data != null)
-            scope.add(createSubModel(source, data));
+            scope.add(createSubModel(source, data), source.getDatasource());
     }
 
     protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data) {

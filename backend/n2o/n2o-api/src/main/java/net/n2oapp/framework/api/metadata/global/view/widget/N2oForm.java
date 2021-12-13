@@ -16,5 +16,6 @@ public class N2oForm extends N2oWidget {
     private SourceComponent[] items;
     private FormMode mode;
     private Boolean prompt;
+    @Deprecated
     private Submit submit;
 }

@@ -83,7 +83,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String refWidgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(),
                         p.cast(visibility.getRefWidgetId(), tableId));
-                ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
+                ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.FILTER);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
@@ -103,6 +103,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (query != null && query.getFieldsMap().containsKey(header.getId())) {
             header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
         }
+
+        header.setProperties(p.mapAttributes(source));
 
         return header;
     }

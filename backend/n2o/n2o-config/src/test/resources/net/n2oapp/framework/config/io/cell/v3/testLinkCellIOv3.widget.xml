@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <columns>
+        <column text-field-id="test">
+            <link src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
+                  action-id="update" icon="icon" type="iconAndText" url="/test/" target="newWindow">
+                <close/>
+            </link>
+        </column>
+        <column text-field-id="test2">
+            <link/>
+        </column>
+    </columns>
+</table>

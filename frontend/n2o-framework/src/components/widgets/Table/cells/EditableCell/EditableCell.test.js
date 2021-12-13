@@ -124,7 +124,6 @@ describe('Тесты EditableCell', () => {
     })
     it('правильно работает логика изменения значения', () => {
         const onResolve = sinon.spy()
-        const onSetSelectedId = sinon.spy()
         const dispatch = sinon.spy()
         const callAction = sinon.spy()
 
@@ -142,7 +141,6 @@ describe('Тесты EditableCell', () => {
             action,
             callAction,
             onResolve,
-            onSetSelectedId,
             dispatch,
         })
 
@@ -160,7 +158,6 @@ describe('Тесты EditableCell', () => {
             .simulate('blur')
 
         expect(onResolve.called).toEqual(true)
-        expect(onSetSelectedId.called).toEqual(true)
         expect(callAction.calledOnce).toBeTruthy()
     })
 })

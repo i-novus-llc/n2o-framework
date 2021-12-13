@@ -1,95 +1,67 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { dependency } from '../../../core/dependency'
-import StandardWidget from '../StandardWidget'
+import { WidgetHOC } from '../../../core/widget/Widget'
+import { widgetPropTypes } from '../../../core/widget/propTypes'
+import { FactoryContext } from '../../../core/factory/context'
+import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
-import { getN2OPagination } from '../Table/N2OPagination'
-import { pagingType } from '../../snippets/Pagination/types'
+import { N2OPagination } from '../Table/N2OPagination'
 
 import CardsContainer from './CardsContainer'
 
-function CardsWidget(
-    {
+function CardsWidget(props) {
+    const {
         id: widgetId,
-        datasource: modelId = widgetId,
-        toolbar,
-        disabled,
-        pageId,
-        className,
-        style,
-        filter,
-        dataProvider,
-        fetchOnInit,
-        paging,
-        cards,
-        verticalAlign,
-        height,
-    },
-    context,
-) {
-    const { size, place = 'bottomLeft' } = paging
-    const prepareFilters = () => context.resolveProps(filter, StandardFieldset)
+        datasource,
+        toolbar, disabled, className,
+        style, filter, paging,
+        cards, verticalAlign, height,
+        size, count, models, page, setPage,
+    } = props
+    const { place = 'bottomLeft' } = paging
+    const { resolveProps } = useContext(FactoryContext)
+    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
+    const pagination = {
+        [place]: (
+            <N2OPagination
+                {...paging}
+                size={size}
+                count={count}
+                activePage={page}
+                datasource={models.datasource}
+                setPage={setPage}
+            />
+        ),
+    }
 
     return (
-        <StandardWidget
+        <WidgetLayout
             disabled={disabled}
             widgetId={widgetId}
-            modelId={modelId}
+            datasource={datasource}
             toolbar={toolbar}
-            filter={prepareFilters()}
-            {...getN2OPagination(paging, place, widgetId, modelId)}
+            filter={resolvedFilter}
+            {...pagination}
             className={className}
             style={style}
         >
             <CardsContainer
-                page={1}
-                size={size}
-                pageId={pageId}
-                disabled={disabled}
-                dataProvider={dataProvider}
-                widgetId={widgetId}
-                modelId={modelId}
-                fetchOnInit={fetchOnInit}
+                {...props}
                 cards={cards}
                 align={verticalAlign}
                 height={height}
             />
-        </StandardWidget>
+        </WidgetLayout>
     )
 }
 
 CardsWidget.propTypes = {
-    id: PropTypes.string,
-    datasource: PropTypes.string,
-    toolbar: PropTypes.object,
-    disabled: PropTypes.bool,
-    pageId: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    filter: PropTypes.object,
-    dataProvider: PropTypes.object,
-    fetchOnInit: PropTypes.bool,
+    ...widgetPropTypes,
     cards: PropTypes.array,
     align: PropTypes.string,
     height: PropTypes.string,
-    paging: pagingType,
     verticalAlign: PropTypes.string,
 }
 
-CardsWidget.defaultProps = {
-    toolbar: {},
-    disabled: false,
-    filter: {},
-    paging: {
-        size: 10,
-        prev: true,
-        next: true,
-    },
-}
-
-CardsWidget.contextTypes = {
-    resolveProps: PropTypes.func,
-}
-
-export default dependency(CardsWidget)
+export default WidgetHOC(CardsWidget)

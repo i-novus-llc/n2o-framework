@@ -55,7 +55,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }
 

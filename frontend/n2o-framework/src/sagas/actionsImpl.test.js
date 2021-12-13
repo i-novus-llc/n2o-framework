@@ -33,6 +33,11 @@ const dataProvider = {
 }
 
 const state = {
+    widgets: {
+        __patients: {
+            datasource: '__patients',
+        },
+    },
     models: {
         resolve: {
             __patients: {
@@ -51,6 +56,11 @@ describe('Проверка саги actionsImpl', () => {
         const fakeStore = {
             dispatch: action => dispatched.push(action),
             getState: () => ({
+                widgets: {
+                    __patients: {
+                        datasource: '__patients',
+                    },
+                },
                 models: {
                     resolve: {
                         __patients: {
@@ -69,7 +79,6 @@ describe('Проверка саги actionsImpl', () => {
             },
             payload: {
                 widgetId: '__patients',
-                modelId: '__patients',
                 modelLink: null,
                 dataProvider: {
                     url: '/test',
@@ -149,7 +158,7 @@ describe('Проверка саги actionsImpl', () => {
                 id: 12345,
             },
             {},
-            { payload: 1 },
+            { payload: { widgetId: '__patients' } },
         ).toPromise()
         const result = await Promise.resolve(promise)
         expect(result).toEqual({

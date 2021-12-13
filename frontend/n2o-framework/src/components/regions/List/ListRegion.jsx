@@ -13,7 +13,7 @@ import { RegionContent } from '../RegionContent'
 
 /**
  * Регион Лист
- * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, widget}
  * @reactProps {bool} expand - флаг открыт ли при загрузке (default = true)
  * @reactProps {bool} hasSeparator - есть ли разделительная линия (default = true)
  * @reactProps {string} pageId - идентификатор страницы

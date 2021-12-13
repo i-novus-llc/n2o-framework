@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import org.springframework.cache.Cache;
@@ -48,7 +48,7 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
     @Override
     public S execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
                      BindProcessor bindProcessor,
-                     ValidateProcessor validateProcessor) {
+                     SourceProcessor sourceProcessor) {
         String sourceId = context.getSourceId(bindProcessor);
         SourceInfo info = metadataRegister.get(sourceId, (Class<? extends SourceMetadata>) context.getSourceClass());
         String key = getKey(sourceId, info.getBaseSourceClass());

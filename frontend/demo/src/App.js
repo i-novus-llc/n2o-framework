@@ -9,7 +9,6 @@ import { EcpButton } from "n2o-ecp-plugin";
 
 import DashboardV2 from "./pages/DashboardV2";
 import Select from "./pages/Select";
-import DataGrid from "./components/widgets/DataGrid/DataGrid";
 import AvatarCell from "./components/cells/Avatar/AvatarCell";
 import CollapsedCardFieldset from "./components/fieldset/CollapsedCard/CollapsedCardFieldset";
 
@@ -18,7 +17,6 @@ const config = {
     EcpButton
   },
   widgets: {
-    DataGrid: DataGrid
   },
   cells: {
     AvatarCell: AvatarCell

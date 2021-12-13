@@ -9,7 +9,7 @@ import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
     }
 
     @Override
-    public void validate(N2oSimpleAccessSchema metadata, ValidateProcessor p) {
+    public void validate(N2oSimpleAccessSchema metadata, SourceProcessor p) {
         StreamUtil.safeStreamOf(metadata.getN2oPermissions()).flatMap(ap -> p.safeStreamOf(ap.getAccessPoints())).forEach(ap -> validate(ap, p));
         StreamUtil.safeStreamOf(metadata.getN2oRoles()).flatMap(ap -> StreamUtil.safeStreamOf(ap.getAccessPoints())).forEach(ap -> validate(ap, p));
         StreamUtil.safeStreamOf(metadata.getN2oUserAccesses()).flatMap(ap -> p.safeStreamOf(ap.getAccessPoints())).forEach(ap -> validate(ap, p));
@@ -30,7 +30,7 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
         StreamUtil.safeStreamOf(metadata.getAuthenticatedPoints()).forEach(ap -> validate(ap, p));
     }
 
-    private void validate(AccessPoint accessPoint, ValidateProcessor processor) {
+    private void validate(AccessPoint accessPoint, SourceProcessor processor) {
         if (accessPoint instanceof N2oObjectAccessPoint) {
             checkObjectAccess(((N2oObjectAccessPoint) accessPoint), processor);
         }
@@ -53,12 +53,12 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
         }
     }
 
-    private void checkObjectAccess(N2oObjectAccessPoint accessPoint, ValidateProcessor p) {
+    private void checkObjectAccess(N2oObjectAccessPoint accessPoint, SourceProcessor p) {
         p.checkNotNull(accessPoint.getObjectId(), "Не задан object-id в object-access");
         p.checkForExists(accessPoint.getObjectId(), N2oObject.class, "Объект {0} заданный в object-access не существует");
     }
 
-    private void checkPageAccess(N2oPageAccessPoint pageAccessPoint, ValidateProcessor p) {
+    private void checkPageAccess(N2oPageAccessPoint pageAccessPoint, SourceProcessor p) {
         p.checkNotNull(pageAccessPoint.getPage(), "Не задан page-id в page-access");
         p.checkForExists(pageAccessPoint.getPage(), N2oPage.class, "Страница {0} заданая в page-access не существует");
     }

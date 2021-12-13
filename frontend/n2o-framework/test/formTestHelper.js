@@ -12,7 +12,6 @@ import history from '../src/history';
 const setValueToForm = (override = {}) => ({
   src: 'FormWidget',
   form: {
-    fetchOnInit: false,
     fieldsets: [
       {
         src: 'StandardFieldset',

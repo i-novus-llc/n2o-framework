@@ -70,7 +70,8 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     }
 
     public String getFilterFieldId(String fieldId, FilterType type) {
-        return filtersMap.get(fieldId) == null ? null : filtersMap.get(fieldId).get(type).getFilterField();
+        return filtersMap.get(fieldId) == null || filtersMap.get(fieldId).get(type) == null
+                ? null : filtersMap.get(fieldId).get(type).getFilterField();
     }
 
     public Map<String, Object> getFieldsDefaultValues() {

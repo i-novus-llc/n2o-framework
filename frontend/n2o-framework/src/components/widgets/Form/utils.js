@@ -125,19 +125,19 @@ export const setWatchDependency = (state, props, dependencyType) => {
 
 /**
  * @param {string|boolean} [value]
- * @param {object} activeModel
+ * @param {object} model
  * @return {boolean}
  */
-export const resolveExpression = (value, activeModel) => {
+export const resolveExpression = (value, model) => {
     if (isNil(value)) {
         return true
     }
     if (isBoolean(value)) {
         return value
     }
-    if (isEmpty(activeModel)) {
+    if (isEmpty(model)) {
         return false
     }
 
-    return evalExpression(parseExpression(value), activeModel)
+    return evalExpression(parseExpression(value), model)
 }

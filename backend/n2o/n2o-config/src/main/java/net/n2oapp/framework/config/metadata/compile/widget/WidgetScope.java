@@ -16,6 +16,7 @@ public class WidgetScope implements Serializable {
     private String clientWidgetId;
     private String widgetId;
     private String queryId;
+    private String datasourceId;
     /**
      * Сохранение в родительском пути идентификатора выбранной записи после возврата из open-page
      */

@@ -2,10 +2,27 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const SORT_TYPE = {
-    ASC: 'ASC',
-    DESC: 'DESC',
-    NONE: 'NONE',
+import { SORT_DIRECTION } from '../../../core/datasource/const'
+
+/**
+ * @param {SORT_DIRECTION} direction
+ * @return {SORT_DIRECTION}
+ */
+function getNextDirection(direction) {
+    switch (direction) {
+        case SORT_DIRECTION.ASC: {
+            return SORT_DIRECTION.DESC
+        }
+        case SORT_DIRECTION.DESC: {
+            return SORT_DIRECTION.NONE
+        }
+        case SORT_DIRECTION.NONE: {
+            return SORT_DIRECTION.ASC
+        }
+        default: {
+            return SORT_DIRECTION.NONE
+        }
+    }
 }
 
 /**
@@ -35,32 +52,16 @@ export class Sorter extends React.Component {
     handleClick(e) {
         e.preventDefault()
         const { sorting, columnKey, onSort } = this.props
-        let direction
+        const direction = getNextDirection(sorting)
 
-        switch (sorting) {
-            case SORT_TYPE.ASC:
-                direction = SORT_TYPE.DESC
-
-                break
-            case SORT_TYPE.DESC:
-                direction = SORT_TYPE.NONE
-
-                break
-            case SORT_TYPE.NONE:
-                direction = SORT_TYPE.ASC
-
-                break
-            default:
-                direction = SORT_TYPE.NONE
-        }
         onSort(columnKey, direction)
     }
 
     render() {
         const { title, children, sorting } = this.props
         const iconClass = classNames({
-            'fa fa-sort-amount-asc': sorting === SORT_TYPE.ASC,
-            'fa fa-sort-amount-desc': sorting === SORT_TYPE.DESC,
+            'fa fa-sort-amount-asc': sorting === SORT_DIRECTION.ASC,
+            'fa fa-sort-amount-desc': sorting === SORT_DIRECTION.DESC,
         })
 
         return (
@@ -79,13 +80,13 @@ export class Sorter extends React.Component {
 Sorter.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
-    sorting: PropTypes.oneOf(Object.keys(SORT_TYPE)),
+    sorting: PropTypes.oneOf(Object.values(SORT_DIRECTION)),
     columnKey: PropTypes.string,
     onSort: PropTypes.func,
 }
 
 Sorter.defaultProps = {
-    sorting: 'NONE',
+    sorting: SORT_DIRECTION.NONE,
 }
 
 export default Sorter

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
+           xmlns:ac="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:reg="http://n2oapp.net/framework/config/schema/region-3.0"
+           targetNamespace="http://n2oapp.net/framework/config/schema/page-4.0">
+
+    <xs:element name="page" type="standardPageDefinition"/>
+    <xs:element name="simple-page" type="simplePageDefinition"/>
+    <xs:element name="left-right-page" type="leftRightPageDefinition"/>
+    <xs:element name="top-left-right-page" type="topLeftRightPageDefinition"/>
+    <xs:element name="searchable-page" type="searchablePageDefinition"/>
+
+    <xs:complexType name="basePageDefinition" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Базовое определение страницы.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="actions" type="actionsDefinition" minOccurs="0"/>
+            <xs:element name="datasources" type="datasourcesDefinition" minOccurs="0"/>
+            <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="html-title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок вкладки браузера.
+                    Если не задано, то будет использоваться наименование страницы.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="modal-size" type="ac:modalSize">
+            <xs:annotation>
+                <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="show-title" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="standardPageDefinition">
+        <xs:complexContent>
+            <xs:extension base="basePageDefinition">
+                <xs:annotation>
+                    <xs:documentation>Страница с регионами.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="regions" type="regionsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="simplePageDefinition">
+        <xs:complexContent>
+            <xs:extension base="wgt:widgets">
+                <xs:annotation>
+                    <xs:documentation>Страница с единственным виджетом.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="src" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Реализация страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="name" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наименование страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="html-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок вкладки браузера.
+                            Если не задано, то будет использоваться наименование страницы.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="route" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="modal-size" type="ac:modalSize">
+                    <xs:annotation>
+                        <xs:documentation>Размер модального окна, если страница открыта в модальном окне.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-title" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="leftRightPageDefinition">
+        <xs:complexContent>
+            <xs:extension base="basePageDefinition">
+                <xs:annotation>
+                    <xs:documentation>Страница c двумя регионами.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="left" type="leftRightRegionsDefinition"/>
+                    <xs:element name="right" type="leftRightRegionsDefinition"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="leftRightRegionsDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionsDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регионы для left-right-page.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина региона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="topLeftRightPageDefinition">
+        <xs:complexContent>
+            <xs:extension base="basePageDefinition">
+                <xs:annotation>
+                    <xs:documentation>Страница с тремя регионами.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="top" type="topLeftRightRegionsDefinition"/>
+                    <xs:element name="left" type="topLeftRightRegionsDefinition"/>
+                    <xs:element name="right" type="topLeftRightRegionsDefinition"/>
+                </xs:sequence>
+                <xs:attribute name="scroll-top-button" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Показывается ли кнопка скролла в начало страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="topLeftRightRegionsDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionsDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регионы для top-left-right-page.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина региона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fixed" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Зафиксирован ли регион.
+                            Фиксироваться может максимум 2 региона из 3-х.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="offset" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Отступ от верхней границы при фиксировании.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="searchablePageDefinition">
+        <xs:complexContent>
+            <xs:extension base="standardPageDefinition">
+                <xs:annotation>
+                    <xs:documentation>Страница c поисковой строкой.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="search-bar" type="searchBarDefinition"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="searchBarDefinition">
+        <xs:annotation>
+            <xs:documentation>Поисковая строка.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс стилей.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="placeholder" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Подсказка для ввода.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Источник данных, в котором производится поиск.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-filter-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Параметр поиска.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="regionsDefinition">
+        <xs:annotation>
+            <xs:documentation>Регион страницы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="reg:regionsAndWidgets">
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="actionsDefinition">
+        <xs:annotation>
+            <xs:documentation>Список действий над объектом.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="action" type="actionDefinition" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="generate" type="wgt:generateDefinition">
+            <xs:annotation>
+                <xs:documentation>Генерация стандартных действий.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="actionDefinition">
+        <xs:annotation>
+            <xs:documentation>Действие над страницей.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ac:actions">
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="name" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наименование.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="route" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hotkey" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Видимость действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Доступность действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="ac:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Контекст выполнения действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Источник данных для выполнения операции
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="datasourcesDefinition">
+        <xs:annotation>
+            <xs:documentation>Источники данных.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="datasource" type="datasourceDefinition" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="datasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Источник данных.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ds:datasourceDefinition">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

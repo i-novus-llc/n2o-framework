@@ -94,8 +94,7 @@
             ]
           }
         ],
-        "validation": {},
-        "fetchOnInit": false
+        "validation": {}
       }
     }
   },
