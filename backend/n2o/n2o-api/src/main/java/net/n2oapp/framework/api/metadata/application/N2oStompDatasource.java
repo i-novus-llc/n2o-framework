@@ -13,11 +13,5 @@ import java.util.Map;
 public class N2oStompDatasource extends N2oDatasource {
 
     private String destination;
-    private Value[] values;
-
-    @Getter
-    @Setter
-    public static class Value {
-        private Map<String, String> attribute;
-    }
+    private Map<String, Object> values;
 }

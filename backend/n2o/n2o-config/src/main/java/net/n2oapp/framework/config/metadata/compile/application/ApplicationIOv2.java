@@ -51,6 +51,6 @@ public class ApplicationIOv2 implements NamespaceIO<N2oApplication> {
     private  void stompDatasource(Element e, N2oStompDatasource d, IOProcessor p) {
         datasource(e, d, p);
         p.attribute(e, "destination", d::getDestination, d::setDestination);
-        //p.children(e, "values", );
+        p.childrenToMap(e, "values", "value", d::getValues, d::setValues);
     }
 }
