@@ -53,8 +53,7 @@
             ]
           }
         ],
-        "validation": {},
-        "fetchOnInit": false
+        "validation": {}
       }
     }
   },

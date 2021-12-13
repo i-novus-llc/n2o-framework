@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action model="filter">
+            <open-drawer src="test" page-id="test" fixed-footer="true"
+                         submit-operation-id="create" submit-label="Отправить"
+                         refresh-datasources="testWidget" refresh-on-close="true"
+                         submit-model="resolve"
+                         closable="false" backdrop="false" width="10pt"
+                         height="20pt" placement="left"
+                         level="all" close-on-backdrop="true"
+                         copy-model="edit" copy-datasource="table" copy-field-id="test"
+                         submit-action-type="copy" target-model="resolve" target-datasource="table"
+                         target-field-id="test" copy-mode="replace" close-on-escape="false">
+            </open-drawer>
+        </action>
+    </actions>
+</page>

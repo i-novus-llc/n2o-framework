@@ -20,7 +20,7 @@ const setupLinkCell = (propsOverride) => {
         },
     }
     return mount(
-        <Provider store={configureMockStore()({ toolbar: {} })}>
+        <Provider store={configureMockStore()({ toolbar: {}, models: { datasource: {}, resolve: {}, multi: {}, filter: {} } })}>
             <FactoryProvider config={createFactoryConfig()}>
                 <HashRouter>
                     <LinkCell {...props} {...propsOverride} />

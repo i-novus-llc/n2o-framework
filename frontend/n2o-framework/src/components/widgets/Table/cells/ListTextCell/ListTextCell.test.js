@@ -17,7 +17,7 @@ const setupImageCell = (propsOverride) => {
     const props = { ...defaultProps, ...propsOverride }
 
     const wrapper = mount(
-        <Provider store={configureMockStore()({})}>
+        <Provider store={configureMockStore()({models: { datasource: {}, resolve: {}, multi: {}, filter: {} }})}>
             <ListTextCell {...props} />
         </Provider>,
     )

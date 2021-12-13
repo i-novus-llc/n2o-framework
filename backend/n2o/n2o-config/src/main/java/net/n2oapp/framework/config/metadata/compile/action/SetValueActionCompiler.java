@@ -35,14 +35,14 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         String sourceWidgetId = source.getSourceWidget() == null ? defaultWidgetId :
                 pageScope.getGlobalWidgetId(source.getSourceWidget());
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(
-                pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ? sourceWidgetId
-                        : pageScope.getWidgetIdDatasourceMap().get(sourceWidgetId),
+                pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ? sourceWidgetId
+                        : pageScope.getWidgetIdClientDatasourceMap().get(sourceWidgetId),
                 p.cast(source.getSourceModel(), model.getId()));
         String targetWidgetId = source.getTargetWidget() == null ? defaultWidgetId :
                 pageScope.getGlobalWidgetId(source.getTargetWidget());
         SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(
-                pageScope == null || pageScope.getWidgetIdDatasourceMap() == null ? targetWidgetId
-                        : pageScope.getWidgetIdDatasourceMap().get(targetWidgetId),
+                pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ? targetWidgetId
+                        : pageScope.getWidgetIdClientDatasourceMap().get(targetWidgetId),
                 p.cast(source.getTargetModel(), model.getId()));
         targetModel.setField(source.getTo());
         setValueAction.getPayload().setSource(sourceModel);

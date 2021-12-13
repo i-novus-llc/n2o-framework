@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+    <columns>
+        <column text-field-id="test">
+            <switch value-field-id="type.id">
+                <case value="type1">
+                    <badge/>
+                </case>
+                <case value="type2">
+                    <icon/>
+                </case>
+                <default>
+                    <text/>
+                </default>
+            </switch>
+        </column>
+    </columns>
+</table>

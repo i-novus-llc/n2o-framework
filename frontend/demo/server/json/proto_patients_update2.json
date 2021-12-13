@@ -375,7 +375,6 @@
         ]
       },
       "modelPrefix": "resolve",
-      "fetchOnInit": true,
       "autoFocus": true
     }
   },

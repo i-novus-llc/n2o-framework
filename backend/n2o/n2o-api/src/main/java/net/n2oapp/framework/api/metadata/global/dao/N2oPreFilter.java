@@ -54,11 +54,16 @@ public class N2oPreFilter implements Source {
     /**
      * Идентификатор виджета на странице, на который ссылается фильтр
      */
+    @Deprecated
     private String refWidgetId;
+    /**
+     * Идентификатор источника данных на странице, на который ссылается фильтр
+     */
+    private String datasource;
     /**
      * Модель виджета, на который ссылается фильтр
      */
-    private ReduxModel refModel;
+    private ReduxModel model;
 
     /**
      * Список значений фильтра
@@ -114,7 +119,7 @@ public class N2oPreFilter implements Source {
         N2oPreFilter that = (N2oPreFilter) o;
         return Objects.equals(fieldId, that.fieldId) &&
                 Objects.equals(refWidgetId, that.refWidgetId) &&
-                refModel == that.refModel &&
+                model == that.model &&
                 type == that.type;
     }
 
@@ -129,7 +134,7 @@ public class N2oPreFilter implements Source {
 
     @Override
     public int hashCode() {
-        return Objects.hash(fieldId, refWidgetId, refModel, type);
+        return Objects.hash(fieldId, refWidgetId, model, type);
     }
 
     public String[] getValues() {

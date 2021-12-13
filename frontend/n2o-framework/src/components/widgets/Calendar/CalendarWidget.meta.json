@@ -3,6 +3,12 @@
     "id": "$testTableJson",
     "src": "CalendarWidget",
     "calendar": {
+      "id": "$testTableJson",
+      "models": {
+        "datasource": [],
+        "filter": {},
+        "multi": []
+      },
       "height": "500px",
       "date": "2020-06-10",
       "defaultView": "day",

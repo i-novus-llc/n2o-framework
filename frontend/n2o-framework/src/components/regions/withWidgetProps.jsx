@@ -19,7 +19,6 @@ import {
     showWidget,
     disableWidget,
     enableWidget,
-    // dataRequestWidget,
 } from '../../ducks/widgets/store'
 import { PREFIXES } from '../../ducks/models/constants'
 import { reduceFunction } from '../../sagas/widgetDependency/resolve'
@@ -119,7 +118,6 @@ function withGetWidget(WrappedComponent) {
             showWidget: widgetId => showWidget(widgetId),
             disableWidget: widgetId => disableWidget(widgetId),
             enableWidget: widgetId => enableWidget(widgetId),
-            // fetchWidget: (widgetId, options) => dataRequestWidget(widgetId, options),
         },
         dispatch,
     )

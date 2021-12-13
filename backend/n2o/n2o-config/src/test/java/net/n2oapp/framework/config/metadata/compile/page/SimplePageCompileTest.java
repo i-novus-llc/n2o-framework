@@ -8,7 +8,7 @@ import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
 import net.n2oapp.framework.config.io.region.v2.CustomRegionIOv2;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
-import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
+import net.n2oapp.framework.config.io.widget.v4.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.region.CustomRegionCompiler;

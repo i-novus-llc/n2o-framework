@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Простая страница" route="/"
              class="page_class" style="background:blue">
-    <widget src="WireframeWidget">
+    <form>
         <toolbar place="topLeft">
             <button id="redirect" action-id="redirect" label="Вперед"/>
             <button label="Кнопка с иконкой" icon="fa fa-plus"/>
@@ -12,5 +12,5 @@
                 <a href="https://i-novus.ru/"/>
             </action>
         </actions>
-    </widget>
+    </form>
 </simple-page>

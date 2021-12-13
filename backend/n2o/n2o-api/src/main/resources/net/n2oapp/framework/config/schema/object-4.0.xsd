@@ -467,7 +467,7 @@
                 <xs:documentation>Идентификатор валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="severity" type="severityDefinition" use="required">
+        <xs:attribute name="severity" type="severityDefinition" use="optional" default="danger">
             <xs:annotation>
                 <xs:documentation>Уровень важности валидации.</xs:documentation>
             </xs:annotation>

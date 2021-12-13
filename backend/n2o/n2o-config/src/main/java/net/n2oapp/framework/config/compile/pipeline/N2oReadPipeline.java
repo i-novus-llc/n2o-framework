@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
@@ -38,6 +39,11 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
             @Override
             public <S extends SourceMetadata> S get(String id, Class<S> sourceClass) {
                 return execute(new DummyCompileContext<>(id, sourceClass), null, null);
+            }
+
+            @Override
+            public <S extends SourceMetadata> S get(String id, Class<S> sourceClass, SourceProcessor p) {
+                return execute(ops(), new DummyCompileContext<>(id, sourceClass), null, null, null, null, p);
             }
 
             @Override

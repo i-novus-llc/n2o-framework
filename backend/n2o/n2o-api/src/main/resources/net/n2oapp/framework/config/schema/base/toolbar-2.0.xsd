@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="toolbarDefinition">
+        <xs:annotation>
+            <xs:documentation>Меню управляющих кнопок виджета.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="groupDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="place" type="placeType">
+            <xs:annotation>
+                <xs:documentation>Место расположения меню.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="generate" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Генерация стандартных действий.
+                    Возможные значения: crud,tableSettings,refresh,resize,columns,filters.
+                    Можно писать несколько идентификаторов через запятую.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="groupDefinition">
+        <xs:annotation>
+            <xs:documentation>Группа кнопок.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="generate" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="placeType">
+        <xs:annotation>
+            <xs:documentation>Тип места расположения меню.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="topLeft"/>
+            <xs:enumeration value="topRight"/>
+            <xs:enumeration value="bottomLeft"/>
+            <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="topCenter"/>
+            <xs:enumeration value="bottomCenter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

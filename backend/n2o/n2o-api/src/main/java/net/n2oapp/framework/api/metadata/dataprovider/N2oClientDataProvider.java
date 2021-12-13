@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.dataprovider;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -34,6 +35,8 @@ public class N2oClientDataProvider implements Serializable {
     private Boolean submitForm;
     private ActionContextData actionContextData;
     private Integer size;
+    private SubmitOn autoSubmitOn;
+    private String datasourceId;
 
     @Getter
     @Setter

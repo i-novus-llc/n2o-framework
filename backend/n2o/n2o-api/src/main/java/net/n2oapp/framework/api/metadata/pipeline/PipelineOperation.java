@@ -4,7 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
 import java.util.function.Supplier;
 
@@ -25,6 +25,6 @@ public interface PipelineOperation<O, I> {
     O execute(CompileContext<?, ?> context, DataSet data, Supplier<I> supplier,
               CompileProcessor compileProcessor,
               BindProcessor bindProcessor,
-              ValidateProcessor validateProcessor);
+              SourceProcessor sourceProcessor);
 
 }

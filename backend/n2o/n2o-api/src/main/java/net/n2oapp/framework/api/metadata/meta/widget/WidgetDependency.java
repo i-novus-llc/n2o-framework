@@ -19,6 +19,7 @@ public class WidgetDependency implements Compiled {
      * Ссылки на модели, при изменении которых будет срабатывать зависимость master/detail
      */
     @JsonProperty
+    @Deprecated
     private List<DependencyCondition> fetch;
     @JsonProperty
     private List<DependencyCondition> visible;

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.html;
 
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
+import net.n2oapp.framework.config.io.widget.v4.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
 import net.n2oapp.framework.config.metadata.compile.toolbar.SubmenuCompiler;

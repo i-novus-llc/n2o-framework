@@ -1,33 +1,29 @@
-import React from 'react'
-import get from 'lodash/get'
+import React, { useCallback, useContext } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { setModel } from '../../../../../ducks/models/store'
-import { setTableSelectedId } from '../../../../../ducks/widgets/store'
-import { PREFIXES } from '../../../../../ducks/models/constants'
 import { makeGetResolveModelSelector } from '../../../../../ducks/models/selectors'
+import { WidgetContext } from '../../../../../core/widget/context'
 
 export default (EditableCell) => {
-    class EditableCellWithActions extends React.PureComponent {
-        render() {
-            return <EditableCell {...this.props} />
-        }
+    function EditableCellWithActions(props) {
+        const { model } = props
+        const { setResolve } = useContext(WidgetContext)
+        const resolveWrappet = useCallback(() => setResolve(model), [setResolve, model])
+
+        return <EditableCell {...props} onResolve={resolveWrappet} />
+    }
+
+    EditableCellWithActions.propTypes = {
+        model: PropTypes.object,
     }
 
     const mapStateToProps = createStructuredSelector({
         prevResolveModel: (state, props) => makeGetResolveModelSelector(props.modelId)(state) || {},
     })
 
-    const mapDispatchToProps = (dispatch, ownProps) => ({
-        onResolve: () => dispatch(setModel(PREFIXES.resolve, ownProps.modelId, ownProps.model)),
-        onSetSelectedId: () => dispatch(
-            setTableSelectedId(ownProps.widgetId, get(ownProps, 'model.id', null)),
-        ),
-    })
-
     return connect(
         mapStateToProps,
-        mapDispatchToProps,
     )(EditableCellWithActions)
 }

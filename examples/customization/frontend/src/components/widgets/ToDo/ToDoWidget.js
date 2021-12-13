@@ -44,7 +44,6 @@ class ToDoWidget extends React.Component {
           widgetId={widgetId}
           size={10}
           page={1}
-          fetchOnInit={true}
           {...this.getWidgetProps()}
         />
       </StandardWidget>
@@ -59,7 +58,6 @@ ToDoWidget.defaultProps = {
 ToDoWidget.propTypes = {
   containerId: PropTypes.string.isRequired,
   pageId: PropTypes.string.isRequired,
-  fetchOnInit: PropTypes.bool,
   url: PropTypes.bool,
   widgetId: PropTypes.string,
   toolbar: PropTypes.object,

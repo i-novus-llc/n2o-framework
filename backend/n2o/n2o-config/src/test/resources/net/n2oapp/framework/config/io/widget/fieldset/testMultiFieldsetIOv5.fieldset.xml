@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<multi-set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+           id="fieldset" src="test" class="test" ref-id="test" style="margin-left:10px;width:300px"
+           field-label-align="left" field-label-location="top"
+           field-label-width="30" visible="true" enabled="true" depends-on="test"
+           label="Заголовок" children-label="Участник {index}" first-children-label="Участник" description="description"
+           add-label="Добавить участника" remove-all-label="Удалить всех участников"
+           can-remove-first="true" can-add="false" can-remove="false" can-remove-all="true" can-copy="true">
+    <row class="test1" style="margin-left:10px;width:300px">
+        <col class="test1" style="margin-left:10px;width:300px" visible="{a==b}">
+            <input-text id="test"/>
+        </col>
+        <col class="test2"/>
+        <col class="test3"/>
+        <col class="test4"/>
+    </row>
+    <row class="test2">
+        <input-text id="test"/>
+    </row>
+</multi-set>

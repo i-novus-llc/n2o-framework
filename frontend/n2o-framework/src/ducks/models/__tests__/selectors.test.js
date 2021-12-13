@@ -2,8 +2,6 @@ import {
     modelsSelector,
     resolveSelector,
     makeGetModelByPrefixSelector,
-    makeGetResolveModelSelector,
-    makeGetFilterModelSelector,
     getModelSelector,
     getModelsByDependency,
     makeModelsByPrefixSelector,
@@ -44,16 +42,6 @@ describe('Проверка селекторов models', () => {
     it('makeGetModelByPrefixSelector должен вернуть модель по префиксу и ключу', () => {
         expect(makeGetModelByPrefixSelector('edit', 'testWidgetId')(state)).toEqual(
             state.models.edit.testWidgetId,
-        )
-    })
-    it('makeGetResolveModelSelector должен вернуть модель resolve по ключу', () => {
-        expect(makeGetResolveModelSelector('widgetId')(state)).toEqual(
-            state.models.resolve.widgetId,
-        )
-    })
-    it('makeGetFilterModelSelector должен вернуть модель filter по ключу', () => {
-        expect(makeGetFilterModelSelector('widgetId')(state)).toEqual(
-            state.models.filter.widgetId,
         )
     })
     it('getModelSelector должен вернуть модель по ссылке', () => {

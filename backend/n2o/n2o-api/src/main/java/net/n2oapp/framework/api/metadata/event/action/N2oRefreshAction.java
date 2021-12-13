@@ -9,5 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oRefreshAction extends N2oAbstractAction implements N2oAction {
+    @Deprecated
     private String widgetId;
+    private String datasource;
 }

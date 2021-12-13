@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+       query-id="test" object-id="test" size="10" upload="query" route="/test" depends-on="f1" visible="false"
+       detail-field-id="id" master-field-id="master" visibility-condition="test==1">
+    <filters>
+        <input-select id="gender" query-id="utBlank"/>
+    </filters>
+    <pre-filters>
+        <eq field-id="id"/>
+        <in field-id="gender.id" value="1" required="true" ref-model="filter" ref-widget-id="f1"/>
+    </pre-filters>
+</table>

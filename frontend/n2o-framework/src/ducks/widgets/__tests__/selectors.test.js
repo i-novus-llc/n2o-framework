@@ -10,7 +10,6 @@ import {
     makeWidgetSortingSelector,
     makeWidgetFilterVisibilitySelector,
     makeWidgetValidationSelector,
-    makeSelectedIdSelector,
     makeIsActiveSelector,
     makeWidgetPageSelector,
     makeWidgetPageIdSelector,
@@ -20,31 +19,35 @@ import {
 } from '../selectors'
 
 const state = {
-    widgets: {
-        widget1: {
-            isInit: true,
-            isVisible: true,
-            isEnabled: true,
-            isLoading: true,
+    datasorce: {
+        ds1: {
+            loading: true,
             size: 10,
             count: 100,
             page: 1,
-            pageId: '_',
             sorting: {
                 name: 'DESC',
             },
-            isFilterVisible: true,
             validation: {
                 some: 'value',
             },
-            selectedId: 2,
-            isActive: true,
-            type: 'table',
-            dataProvider: {
+            provider: {
                 url: 'test',
                 pathMapping: {},
                 queryMapping: {},
             },
+        }
+    },
+    widgets: {
+        widget1: {
+            datasorce: 'ds1',
+            isInit: true,
+            isVisible: true,
+            isEnabled: true,
+            pageId: '_',
+            isFilterVisible: true,
+            isActive: true,
+            type: 'table',
         },
         widget2: {},
     },
@@ -102,11 +105,6 @@ describe('Проверка селекторов widgets', () => {
     it('makeWidgetValidationSelector должен вернуть validation по id', () => {
         expect(makeWidgetValidationSelector('widget1')(state)).toEqual(
             state.widgets.widget1.validation,
-        )
-    })
-    it('makeSelectedIdSelector должен вернуть selectedId по id', () => {
-        expect(makeSelectedIdSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.selectedId,
         )
     })
     it('makeIsActiveSelector должен вернуть isActive по id', () => {

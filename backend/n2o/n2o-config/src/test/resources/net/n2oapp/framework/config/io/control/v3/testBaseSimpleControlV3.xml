@@ -1,0 +1,63 @@
+<input-text xmlns="http://n2oapp.net/framework/config/schema/control-3.0"
+            id="testId"
+            class="testClass"
+            src="testSrc"
+            required="true"
+            copied="true"
+            description="testDescription"
+            enabled="false"
+            label="testLabel"
+            visible="false"
+            placeholder="test"
+            default-value="testDefValue">
+
+    <dependencies>
+        <enabling on="type">type.id == 1</enabling>
+        <enabling on="type2">type.id == 2</enabling>
+        <visibility on="type" reset="false">type.id == 1</visibility>
+        <set-value on="type">if (type.id == 1) return "Test";</set-value>
+        <requiring on="type">type.id == 1</requiring>
+        <reset on="type">type.id == 1</reset>
+    </dependencies>
+
+    <toolbar>
+        <button id="testId"
+                type="textAndIcon"
+                label="label"
+                class="class"
+                icon="icon"
+                action-id="actionId"
+                model="filter">
+            <show-modal src="src"
+                        page-id="pageId"
+                        datasource="ds1"
+                        page-name="pageName"
+                        submit-operation-id="operationId"
+                        modal-size="lg"
+                        close-after-submit="true"
+                        focus-after-submit="false"
+                        redirect-target-after-submit="application"
+                        redirect-url-after-submit="testUrl"
+                        route="/route"/>
+        </button>
+    </toolbar>
+
+    <validations white-list="test1,test2,test3">
+        <constraint id="id" severity="danger" message="test message" side="client">
+            <invocation>
+                <sql>
+                    select * from table
+                </sql>
+            </invocation>
+            <in>
+                <field id="dasdf" required="true" default-value="fdsf" domain="boolean"
+                       mapping="fsd" enabled="fsd" normalize="fsd"/>
+            </in>
+        </constraint>
+        <condition id="testId2" field-id="fieldId" server-moment="after-success-query"
+                   severity="info" message="test message" side="client,server"/>
+        <mandatory id="testId25" severity="success" enabled="false" server-moment="before-query"
+                   field-id="testFieldId" message="test message" side="server"/>
+    </validations>
+
+</input-text>

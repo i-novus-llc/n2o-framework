@@ -176,7 +176,6 @@
       },
       "table": {
         "size": 10,
-        "fetchOnInit": true,
         "hasSelect": true,
         "className": "n2o",
         "colorFieldId": "",
@@ -256,7 +255,6 @@
         }
       },
       "form": {
-        "fetchOnInit": false,
         "filterDefaultValues": {
           "id": {
             "bindLink": "models.resolve['Page.Table']",

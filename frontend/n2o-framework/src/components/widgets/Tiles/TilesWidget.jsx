@@ -1,84 +1,74 @@
-import React from 'react'
-import { compose } from 'recompose'
+import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { dependency } from '../../../core/dependency'
-import StandardWidget from '../StandardWidget'
+import { WidgetHOC } from '../../../core/widget/Widget'
+import { widgetPropTypes } from '../../../core/widget/propTypes'
+import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
-import { getN2OPagination } from '../Table/N2OPagination'
-import { pagingType } from '../../snippets/Pagination/types'
+import { N2OPagination } from '../Table/N2OPagination'
+import { FactoryContext } from '../../../core/factory/context'
 
 import TilesContainer from './TilesContainer'
 
-function TilesWidget(
-    {
+function TilesWidget(props) {
+    const {
         id: widgetId,
-        datasource: modelId = widgetId,
+        datasource,
         toolbar,
         disabled,
-        pageId,
         className,
         style,
         filter,
-        dataProvider,
-        fetchOnInit,
         tile,
         paging,
-        colsSm,
-        colsMd,
-        colsLg,
         width,
         height,
-    },
-    context,
-) {
-    const { size, place = 'bottomLeft' } = paging
-    const prepareFilters = () => context.resolveProps(filter, Fieldsets.StandardFieldset)
+        size,
+        count,
+        models,
+        setPage,
+        page,
+    } = props
+    const { resolveProps } = useContext(FactoryContext)
+    const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
+    const { place = 'bottomLeft' } = paging
+    const pagination = {
+        [place]: (
+            <N2OPagination
+                {...paging}
+                size={size}
+                count={count}
+                activePage={page}
+                datasource={models.datasource}
+                setPage={setPage}
+            />
+        ),
+    }
 
     return (
-        <StandardWidget
+        <WidgetLayout
             disabled={disabled}
             widgetId={widgetId}
-            modelId={modelId}
+            datasource={datasource}
             toolbar={toolbar}
-            filter={prepareFilters()}
-            {...getN2OPagination(paging, place, widgetId, modelId)}
+            filter={resolvedFilter}
+            {...pagination}
             className={className}
             style={style}
         >
             <TilesContainer
-                page={1}
-                size={size}
-                pageId={pageId}
-                disabled={disabled}
-                dataProvider={dataProvider}
-                widgetId={widgetId}
-                modelId={modelId}
-                fetchOnInit={fetchOnInit}
+                {...props}
                 tile={tile}
-                colsSm={colsSm}
-                colsMd={colsMd}
-                colsLg={colsLg}
                 tileWidth={width}
                 tileHeight={height}
             />
-        </StandardWidget>
+        </WidgetLayout>
     )
 }
 
 TilesWidget.propTypes = {
-    toolbar: PropTypes.object,
-    disabled: PropTypes.bool,
-    pageId: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    filter: PropTypes.object,
-    dataProvider: PropTypes.object,
-    fetchOnInit: PropTypes.bool,
-    id: PropTypes.string,
-    datasource: PropTypes.string,
+    ...widgetPropTypes,
     tile: PropTypes.node,
-    paging: pagingType,
     colsSm: PropTypes.number,
     colsMd: PropTypes.number,
     colsLg: PropTypes.number,
@@ -86,19 +76,4 @@ TilesWidget.propTypes = {
     height: PropTypes.number,
 }
 
-TilesWidget.defaultProps = {
-    toolbar: {},
-    disabled: false,
-    filter: {},
-    paging: {
-        size: 10,
-        prev: true,
-        next: true,
-    },
-}
-
-TilesWidget.contextTypes = {
-    resolveProps: PropTypes.func,
-}
-
-export default compose(dependency)(TilesWidget)
+export default WidgetHOC(TilesWidget)

@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +21,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
     }
 
     @Override
-    public void validate(N2oObject object, ValidateProcessor p) {
+    public void validate(N2oObject object, SourceProcessor p) {
         p.checkIdsUnique(object.getObjectFields(), "Поле {0} встречается более чем один раз в объекте " + object.getId());
         p.checkIdsUnique(object.getOperations(), "Действие {0} встречается более чем один раз в объекте " + object.getId());
         p.checkIdsUnique(object.getN2oValidations(), "Валидация {0} встречается более чем один раз в объекте " + object.getId());
@@ -43,9 +43,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
      *
      * @param objectId Идентификатор текущего объекта
      * @param fields   Список полей, проверяемых на наличие ссылки
-     * @param p        Процессор валидации метаданных
+     * @param p        Процессор исходных метаданных
      */
-    private void checkForExistsReferenceObject(String objectId, AbstractParameter[] fields, ValidateProcessor p) {
+    private void checkForExistsReferenceObject(String objectId, AbstractParameter[] fields, SourceProcessor p) {
         for (AbstractParameter field : fields) {
             if (field instanceof ObjectReferenceField) {
                 ObjectReferenceField refField = (ObjectReferenceField) field;

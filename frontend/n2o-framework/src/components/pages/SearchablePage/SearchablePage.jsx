@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
-import { batchActions } from 'redux-batched-actions'
 import { compose, withHandlers, withProps, mapProps } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import isEmpty from 'lodash/isEmpty'
@@ -8,11 +7,8 @@ import classNames from 'classnames'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
+import { set } from 'lodash'
 
-import { updateModel } from '../../../ducks/models/store'
-import { dataRequestWidget } from '../../../ducks/widgets/store'
-import { makeGetModelByPrefixSelector } from '../../../ducks/models/selectors'
-import { makeModelIdSelector } from '../../../ducks/widgets/selectors'
 import Alert from '../../snippets/Alerts/Alert'
 import DocumentTitle from '../../core/DocumentTitle'
 import PageTitle from '../../core/PageTitle'
@@ -23,6 +19,8 @@ import PageRegions from '../PageRegions'
 // eslint-disable-next-line import/no-named-as-default
 import SearchBar from '../../snippets/SearchBar/SearchBar'
 import { FILTER_DELAY } from '../../../constants/time'
+import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
+import { setFilter } from '../../../ducks/datasource/store'
 
 function SearchablePage({
     id,
@@ -117,41 +115,34 @@ function SearchablePage({
 }
 
 const mapStateToProps = createStructuredSelector({
-    filterModel: (
-        state,
-        { searchModelPrefix, searchWidgetId },
-    ) => makeGetModelByPrefixSelector(searchModelPrefix, searchWidgetId)(state),
-    modelId: (state, { searchWidgetId }) => makeModelIdSelector(searchWidgetId)(state),
+    filterModel: (state, { datasource }) => dataSourceModelsSelector(datasource)(state),
 })
 
 const enhance = compose(
     withProps(props => ({
-        searchWidgetId: get(props, 'metadata.searchWidgetId'),
-        searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
-        searchModelKey: get(props, 'metadata.searchModelKey'),
         searchBar: get(props, 'metadata.searchBar', {}),
+        // fixme убрать || после того как бек поменяет формат данных на новый
+        fieldId: get(props, 'metadata.searchBar.fieldId') || get(props, 'metadata.searchModelKey'),
+        datasource: get(props, 'metadata.searchBar.datasource') || get(props, 'metadata.searchWidgetId'),
         toolbar: get(props, 'metadata.toolbar', {}),
     })),
     withHandlers({
         onSearch: ({
             dispatch,
-            searchWidgetId,
-            searchModelPrefix,
-            searchModelKey,
-            modelId,
+            datasource,
+            filterModel,
+            fieldId,
         }) => (value) => {
-            dispatch(
-                batchActions([
-                    updateModel(searchModelPrefix, searchWidgetId, searchModelKey, value),
-                    dataRequestWidget(searchWidgetId, modelId, { page: 1 }),
-                ]),
-            )
+            const newModel = { ...filterModel }
+
+            set(newModel, fieldId, value)
+            dispatch(setFilter(datasource, newModel))
         },
     }),
     connect(mapStateToProps),
-    mapProps(({ filterModel, searchModelKey, ...rest }) => ({
+    mapProps(({ filterModel, fieldId, ...rest }) => ({
         ...rest,
-        filterValue: get(filterModel, searchModelKey),
+        filterValue: get(filterModel, fieldId),
     })),
 )
 

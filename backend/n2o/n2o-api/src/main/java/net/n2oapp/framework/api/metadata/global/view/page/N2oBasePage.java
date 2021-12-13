@@ -14,4 +14,5 @@ public abstract class N2oBasePage extends N2oPage {
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
+    private N2oDatasource[] datasources;
 }

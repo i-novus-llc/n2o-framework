@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
     }
 
     @Override
-    public void validate(N2oBasePage page, ValidateProcessor p) {
+    public void validate(N2oBasePage page, SourceProcessor p) {
         PageScope scope = new PageScope();
         scope.setWidgetIds(p.safeStreamOf(page.getWidgets()).map(N2oMetadata::getId).collect(Collectors.toSet()));
 

@@ -12,15 +12,10 @@ import { setIn } from '../../tools/helpers'
 import { COPY, PREFIXES } from './constants'
 
 const initialState = {
-    /* Модели от сервера */
     datasource: {},
-    /* Модели для клиента */
-    select: {},
     filter: {},
-    multi: {},
+    multi: {}, // selected
     resolve: {},
-    edit: {},
-    selectionType: {},
 }
 
 const modelsSlice = createSlice({
