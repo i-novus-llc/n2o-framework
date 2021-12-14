@@ -140,7 +140,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(new PageContext("testFormPreFilterValidation"));
-        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation/form", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation", CompiledQuery.class);
         List<Validation> validations = queryContext.getValidations();
         assertThat(validations.size(), is(1));
         MandatoryValidation validation = (MandatoryValidation) validations.get(0);
