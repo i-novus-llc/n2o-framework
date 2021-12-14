@@ -21,6 +21,7 @@ class SidebarContainer extends React.Component {
         }
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps() {
         this.getItemsWithAccess()
     }

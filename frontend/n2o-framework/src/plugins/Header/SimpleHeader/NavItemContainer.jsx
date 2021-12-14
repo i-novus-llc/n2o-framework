@@ -14,7 +14,7 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, label, href,type, link, linkType}
- * @param {string} props.activeId  - id активного item'a
+ * @param {boolean} props.active  - active (применять || нет active class)
  * @param {string} props.  - id активного item'a
  */
 const NavItemContainer = ({
@@ -23,6 +23,7 @@ const NavItemContainer = ({
     sidebarOpen,
     options,
     direction,
+    active,
 }) => {
     // eslint-disable-next-line react/prop-types
     const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
@@ -30,7 +31,7 @@ const NavItemContainer = ({
     const getInnerLink = (item, className) => (
         <NavLink
             exact
-            className={cx('nav-link', className)}
+            className={cx('nav-link', className, { active })}
             to={item.href}
             activeClassName="active"
             target={item.target}
@@ -65,7 +66,7 @@ const NavItemContainer = ({
             <NavItem>
                 <NavLink
                     exact
-                    className={cx('nav-link', className)}
+                    className={cx('nav-link', className, { active })}
                     to={item.href}
                     activeClassName="active"
                     target={item.target}
@@ -133,7 +134,7 @@ const NavItemContainer = ({
         (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
         (item.type === 'link' && handleLink(item)) ||
         (item.type === 'text' && (
-            <NavItem>
+            <NavItem active={active}>
                 {item.icon && <NavItemIcon icon={item.icon} />}
                 <span className="nav-link">{item.label}</span>
             </NavItem>

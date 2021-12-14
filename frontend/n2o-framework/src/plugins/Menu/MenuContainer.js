@@ -154,7 +154,8 @@ MenuContainer.propTypes = {
 }
 
 MenuContainer.defaultProps = {
-    render: () => {},
+    render: () => {
+    },
 }
 
 export default compose(
