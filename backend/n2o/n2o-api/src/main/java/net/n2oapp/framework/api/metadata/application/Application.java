@@ -30,6 +30,9 @@ public class Application implements Compiled {
     @JsonProperty
     private Map<String, AbstractDatasource> datasources;
 
+    @JsonProperty
+    private String wsId;
+
     @Getter
     @Setter
     public static class Layout implements Compiled {
