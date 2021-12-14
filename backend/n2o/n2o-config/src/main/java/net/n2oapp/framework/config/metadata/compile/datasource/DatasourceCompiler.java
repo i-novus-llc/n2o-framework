@@ -51,8 +51,11 @@ import java.util.*;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
+/**
+ * Компиляция источника данных
+ */
 @Component
-public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
+public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Datasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -62,8 +65,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     @Override
     public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
-        PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setId(pageScope.getGlobalDatasourceId(source.getId()));
+        initDatasource(compiled, source, context, p);
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         if (source.getQueryId() != null)
             compiled.setDefaultValuesMode(DefaultValuesMode.query);
