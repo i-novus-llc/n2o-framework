@@ -91,8 +91,10 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
     }
 
     private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
-        List<DependencyCondition> fetch = new ArrayList<>();
         PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope == null)
+            return null;
+        List<DependencyCondition> fetch = new ArrayList<>();
         String pageId = pageScope.getPageId();
         if (source.getDependencies() != null) {
             for (N2oDatasource.Dependency d : source.getDependencies()) {
@@ -109,6 +111,8 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
     }
 
     private Map<String, List<Validation>> initValidation(N2oDatasource source, PageWidgetsScope widgetsScope) {
+        if (widgetsScope == null)
+            return null;
         Map<String, List<Validation>> validations = new HashMap<>();
         for (Widget<?> w : widgetsScope.getWidgets().values()) {
             if (source.getId().equals(getLocalDsId(w.getDatasource())) && w instanceof Form

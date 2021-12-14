@@ -308,7 +308,7 @@
     </xs:simpleType>
 
     <xs:complexType name="datasourceDefinition">
-        <xs:attribute name="id" type="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор источника данных</xs:documentation>
             </xs:annotation>

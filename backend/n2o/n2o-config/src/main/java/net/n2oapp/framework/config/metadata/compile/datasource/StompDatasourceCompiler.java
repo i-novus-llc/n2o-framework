@@ -7,6 +7,11 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Компиляция  STOMP-источника данных
  */
@@ -22,15 +27,33 @@ public class StompDatasourceCompiler extends BaseDatasourceCompiler<N2oStompData
     public StompDatasource compile(N2oStompDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StompDatasource compiled = new StompDatasource();
         initDatasource(compiled, source, context, p);
-        initProvider(compiled, source);
-        compiled.setValues(source.getValues());
+        compiled.setNotifCount(initNotifCount(source));
         return compiled;
     }
 
-    private void initProvider(StompDatasource compiled, N2oStompDatasource source) {
+    private StompDatasource.NotificationCounter initNotifCount(N2oStompDatasource source) {
+        StompDatasource.NotificationCounter notifCount = new StompDatasource.NotificationCounter();
+        notifCount.setProvider(initProvider(source));
+        notifCount.setValues(initValues(source));
+        return notifCount;
+    }
+
+    private StompDatasource.Provider initProvider(N2oStompDatasource source) {
         StompDatasource.Provider provider = new StompDatasource.Provider();
-        provider.setType("stomp");
         provider.setDestination(source.getDestination());
-        compiled.setProvider(provider);
+        provider.setType("stomp");
+        return provider;
+    }
+
+    private List<Map<String, Object>> initValues(N2oStompDatasource source) {
+        if (source.getValues() == null)
+            return null;
+        List<Map<String, Object>> values = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : source.getValues().entrySet()) {
+            Map<String, Object> value = new HashMap<>();
+            value.put(entry.getKey(), entry.getValue());
+            values.add(value);
+        }
+        return values;
     }
 }

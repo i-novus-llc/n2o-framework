@@ -16,6 +16,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oAbstractDatasource, D 
     protected void initDatasource(AbstractDatasource datasource, N2oAbstractDatasource source, CompileContext<?, ?> context,
                                   CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        datasource.setId(pageScope.getGlobalDatasourceId(source.getId()));
+        String id = pageScope == null ? source.getId() : pageScope.getGlobalDatasourceId(source.getId());
+        datasource.setId(id);
     }
 }

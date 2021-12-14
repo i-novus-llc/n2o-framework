@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,9 +16,16 @@ import java.util.Map;
 public class StompDatasource extends AbstractDatasource {
 
     @JsonProperty
-    private Provider provider;
-    @JsonProperty
-    private Map<String, Object> values;
+    private NotificationCounter notifCount;
+
+    @Getter
+    @Setter
+    public static class NotificationCounter {
+        @JsonProperty
+        private Provider provider;
+        @JsonProperty
+        private List<Map<String, Object>> values;
+    }
 
     @Getter
     @Setter
