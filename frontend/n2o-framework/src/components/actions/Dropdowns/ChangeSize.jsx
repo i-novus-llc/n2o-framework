@@ -7,7 +7,7 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 import { connect } from 'react-redux'
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
-import { WidgetContext } from '../../../core/widget/context'
+import { DataSourceContext } from '../../../core/widget/context'
 
 const SIZES = [5, 10, 20, 50]
 
@@ -19,7 +19,7 @@ const SIZES = [5, 10, 20, 50]
  * <ChangeSize entityKey='TestEntityKey'/>
  */
 function ChangeSize({ size: currentSize }) {
-    const { setSize } = useContext(WidgetContext)
+    const { setSize } = useContext(DataSourceContext)
 
     const items = SIZES.map((size, i) => (
         <DropdownItem toggle={false} onClick={() => setSize(size)}>
