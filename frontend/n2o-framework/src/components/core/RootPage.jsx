@@ -10,8 +10,7 @@ import { rootPageSelector } from '../../ducks/global/store'
 import Page from './Page'
 // eslint-disable-next-line import/no-named-as-default
 import OverlayPages from './OverlayPages'
-// eslint-disable-next-line import/no-named-as-default
-import GlobalAlerts from './GlobalAlerts'
+import { GlobalAlertsConnected } from './GlobalAlerts'
 import { SimpleTemplate } from './templates'
 
 function RootPage({ rootPageId, defaultTemplate, match: { params } }) {
@@ -20,7 +19,7 @@ function RootPage({ rootPageId, defaultTemplate, match: { params } }) {
 
     return (
         <Template>
-            <GlobalAlerts />
+            <GlobalAlertsConnected />
             <Page rootPage pageId={rootPageId} pageUrl={rootPageUrl} />
             <OverlayPages />
         </Template>
