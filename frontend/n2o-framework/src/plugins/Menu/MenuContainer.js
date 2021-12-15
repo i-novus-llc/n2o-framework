@@ -154,6 +154,9 @@ export class MenuContainer extends React.Component {
                 extraMenu: {
                     items: filter(extraItems, i => !i.items || !isEmpty(i.items)),
                 },
+                //* * FIXME mock to header
+                datasource: 'main',
+                id: 'SimpleHeader',
             },
         }
 
@@ -192,6 +195,7 @@ export const ConfigContainer = compose(
         ...rest,
         ...(getFromConfig && {
             ...getFromConfig('menu'),
+            datasource: getFromConfig('datasource'),
         }),
     })),
 )(MenuContainer)
