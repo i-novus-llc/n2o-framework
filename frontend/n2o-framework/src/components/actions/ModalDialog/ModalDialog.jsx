@@ -7,6 +7,7 @@ import Modal from 'reactstrap/lib/Modal'
 import ModalHeader from 'reactstrap/lib/ModalHeader'
 import ModalBody from 'reactstrap/lib/ModalBody'
 import ModalFooter from 'reactstrap/lib/ModalFooter'
+import classNames from 'classnames'
 
 /**
  * Диалог подтверждения действие
@@ -44,11 +45,20 @@ function ModalDialog({
     const { t } = useTranslation()
 
     return (
-        <Modal isOpen={visible} size={size} toggle={close}>
-            <ModalHeader toggle={closeButton ? close : null}>
-                {title || t('dialogTitle')}
-            </ModalHeader>
-            <ModalBody>{text || t('dialogText')}</ModalBody>
+        <Modal
+            isOpen={visible}
+            size={size}
+            toggle={close}
+            modalClassName={classNames({
+                'simple-modal-dialog': !title && !text,
+            })}
+        >
+            {title && (
+                <ModalHeader toggle={closeButton ? close : null}>
+                    {title}
+                </ModalHeader>
+            )}
+            {text && <ModalBody>{text}</ModalBody>}
             <ModalFooter>
                 <ButtonGroup>
                     <Button onClick={onConfirm} color="primary">
