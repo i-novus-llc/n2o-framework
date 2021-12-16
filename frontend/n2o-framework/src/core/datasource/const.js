@@ -43,9 +43,9 @@ export const VALIDATION_SEVERITY = {
  * @property {number} success
  */
 export const VALIDATION_SEVERITY_PRIORITY = {
-    [VALIDATION_SEVERITY.danger]: 2,
+    [VALIDATION_SEVERITY.danger]: 0,
     [VALIDATION_SEVERITY.warning]: 1,
-    [VALIDATION_SEVERITY.success]: 0,
+    [VALIDATION_SEVERITY.success]: 2,
 }
 
 /**

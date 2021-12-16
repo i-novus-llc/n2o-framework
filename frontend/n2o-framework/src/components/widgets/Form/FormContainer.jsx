@@ -33,16 +33,19 @@ class Container extends React.Component {
         const { resolve, datasource } = models
 
         if (!isEqual(datasource, prevModels.datasource)) {
+            // Поменялись данные с сервера, обновляем активную модель
             setResolve(cloneDeep(datasource?.[0]))
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
             !isEqual(reduxFormValues, resolve)
         ) {
+            // Поменялись данные в форме (onChange) - актуализируем активную модель
             setResolve({
                 ...(resolve || {}),
                 ...reduxFormValues,
             })
-        } else if (!isEqual(resolve, prevModels.resolve)) {
+        } else if (!isEqual(resolve, prevModels.resolve) && !isEqual(resolve, reduxFormValues)) {
+            // поменялась активная модель и она отличается от того что в форме (copyActyon / setValue-dependency) - обновляем данные в форме
             this.setState({ initialValues: cloneDeep(resolve) })
         }
     }

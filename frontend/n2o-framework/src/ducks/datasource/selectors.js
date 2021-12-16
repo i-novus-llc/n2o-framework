@@ -59,3 +59,13 @@ export const dataSourceProviderSelector = sourceId => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.provider,
 )
+
+export const dataSourceErrors = sourceId => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.errors,
+)
+
+export const dataSourceFieldError = (sourceId, field) => createSelector(
+    dataSourceErrors(sourceId),
+    errors => errors[field],
+)

@@ -1,98 +1,28 @@
 import { takeEvery, put, select, debounce } from 'redux-saga/effects'
-import { touch, actionTypes, focus } from 'redux-form'
+import { touch, actionTypes, focus, reset } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
-import isEmpty from 'lodash/isEmpty'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
-import isArray from 'lodash/isArray'
-import isFunction from 'lodash/isFunction'
 
 import { tabTraversal } from '../regions/sagas'
-import { setModel, copyModel } from '../models/store'
+import { setModel, copyModel, clearModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { getWidgetFieldValidation } from '../widgets/selectors'
+import { makeDatasourceIdSelector } from '../widgets/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
-import * as validationPresets from '../../core/validation/presets'
 import { regionsSelector } from '../regions/store'
+import { startValidate } from '../datasource/store'
 
-import { formsSelector, makeFormByName, messageSelector } from './selectors'
+import { formsSelector } from './selectors'
 import { addMessage } from './constants'
 import {
-    removeFieldMessage,
     setRequired,
     unsetRequired,
 } from './store'
-
-export function* removeMessage(action) {
-    const state = yield select()
-
-    const formName = get(action, 'meta.form')
-    const fieldName = get(action, 'meta.field')
-
-    if (formName && fieldName) {
-        const message = yield select(messageSelector(formName, fieldName))
-
-        const fieldValidation = getWidgetFieldValidation(
-            state,
-            formName,
-            fieldName,
-        )
-
-        if (message && (!fieldValidation || isEmpty(fieldValidation))) {
-            yield put(removeFieldMessage(formName, fieldName))
-        }
-    }
-}
-
-function* checkFieldValidation({ meta }) {
-    const formName = meta.form
-    const fieldName = meta.field
-    const state = yield select()
-    const formMessage = messageSelector(formName, fieldName)(state)
-    const widgetValidation = getWidgetFieldValidation(state, formName, fieldName)
-
-    if (!isArray(widgetValidation)) {
-        return
-    }
-
-    let isValidResult = true
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const validationOption of widgetValidation) {
-        if (validationOption.multi) {
-            // ToDo: Делаю пока только для формы
-            // eslint-disable-next-line no-continue
-            continue
-        }
-
-        const validationFunction = validationPresets[validationOption.type]
-
-        if (isFunction(validationFunction)) {
-            const { values } = makeFormByName(formName)(state)
-            const isValid = validationFunction(
-                fieldName,
-                values,
-                validationOption,
-                () => {},
-            )
-
-            if (!isValid) {
-                isValidResult = false
-
-                break
-            }
-        }
-    }
-
-    if (isValidResult && formMessage) {
-        yield put(removeFieldMessage(formName, fieldName))
-    }
-}
 
 export function* addTouched({ payload: { form, name } }) {
     yield put(touch(form, name))
@@ -208,13 +138,26 @@ function* setFocus({ payload }) {
     yield put(focus(form, fieldName))
 }
 
+export function* clearForm(action) {
+    yield put(reset(action.payload.key))
+}
+
 export const formPluginSagas = [
-    takeEvery(
-        [actionTypes.START_ASYNC_VALIDATION, actionTypes.CHANGE],
-        removeMessage,
-    ),
-    takeEvery([setRequired.type, unsetRequired.type], checkFieldValidation),
+    takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
     takeEvery(copyModel.type, copyAction),
+    debounce(100, [
+        actionTypes.CHANGE,
+        actionTypes.BLUR,
+        setRequired.type,
+        unsetRequired.type,
+    ], function* validateSage({ meta }) {
+        const { form, field } = meta
+        const datasource = yield select(makeDatasourceIdSelector(form))
+
+        if (datasource) {
+            yield put(startValidate(datasource, [field]))
+        }
+    }),
     debounce(100, addMessage, setFocus),
 ]

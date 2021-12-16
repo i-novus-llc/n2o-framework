@@ -1,6 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
+import { dataSourceFieldError } from '../datasource/selectors'
+import { makeDatasourceIdSelector } from '../widgets/selectors'
+
 /**
  * селектор для редакс-форм
  * @param state
@@ -58,8 +61,15 @@ export const isInitSelector = (formName, fieldName) => createSelector(
 )
 
 export const messageSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
-    field => field.message,
+    makeDatasourceIdSelector(formName),
+    state => state,
+    (datasourceId, state) => {
+        if (!datasourceId) {
+            return undefined
+        }
+
+        return dataSourceFieldError(datasourceId, fieldName)(state)?.[0]
+    },
 )
 
 export const dependencySelector = (formName, fieldName) => createSelector(

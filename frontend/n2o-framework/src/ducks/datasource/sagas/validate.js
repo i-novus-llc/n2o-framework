@@ -12,7 +12,7 @@ import { failValidate } from '../store'
 import { validateField } from '../../../core/datasource/validateField'
 
 export function* validate({ payload }) {
-    const { id, fields } = { payload }
+    const { id, fields } = payload
     const validation = yield select(dataSourceValidationSelector(id))
     const models = yield select(dataSourceModelsSelector(id))
     const model = models[MODEL_PREFIX.active]
@@ -25,7 +25,11 @@ export function* validate({ payload }) {
     const errors = {}
 
     entries.forEach(([field, validationList]) => {
-        errors[field] = validateField(field, model, validationList || [])
+        const messages = validateField(field, model, validationList || [])
+
+        if (messages?.length) {
+            errors[field] = messages
+        }
     })
 
     if (!isEmpty(errors)) {

@@ -10,6 +10,7 @@ export class DataSource {
             loading: false,
             sorting: {},
             submit: {},
+            errors: {},
         })
     }
 }
