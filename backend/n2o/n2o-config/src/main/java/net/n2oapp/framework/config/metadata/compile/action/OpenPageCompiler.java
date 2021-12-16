@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
@@ -32,6 +31,7 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
         LinkActionImpl openPage = new LinkActionImpl();
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.link.src"), String.class)));
         openPage.setObjectId(source.getObjectId());
+        openPage.setTarget(p.cast(source.getTarget(), Target.application));
         openPage.setOperationId(source.getOperationId());
         openPage.setPageId(source.getPageId());
         compileAction(openPage, source, p);
@@ -49,7 +49,6 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
                                  Map<String, ModelLink> pathMapping,
                                  Map<String, ModelLink> queryMapping) {
         compiled.setUrl(route);
-        compiled.setTarget(Target.application);
         compiled.setPathMapping(pathMapping);
         compiled.setQueryMapping(queryMapping);
     }
