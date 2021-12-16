@@ -30,7 +30,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
     protected Pagination compilePaging(Widget compiled, N2oAbstractListWidget source, Integer size, CompileProcessor p) {
         Pagination pagination = new Pagination();
         pagination.setSize(source.getSize() != null ? source.getSize() : size);
-        if (compiled.getDataProvider() != null) compiled.getDataProvider().setSize(pagination.getSize());
+//        if (compiled.getDataProvider() != null) compiled.getDataProvider().setSize(pagination.getSize());
         if (source.getPagination() != null) {
             pagination.setPrev(p.cast(source.getPagination().getPrev(), p.resolve(property("n2o.api.widget.list.paging.prev"), Boolean.class)));
             pagination.setNext(p.cast(source.getPagination().getNext(), p.resolve(property("n2o.api.widget.list.paging.next"), Boolean.class)));
