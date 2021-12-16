@@ -24,9 +24,9 @@ public class Dialog implements Compiled {
     private String title;
 
     /**
-     * Описание диалога
+     * Текст внутри диалога
      */
-    @JsonProperty
+    @JsonProperty("text")
     private String description;
 
     /**
