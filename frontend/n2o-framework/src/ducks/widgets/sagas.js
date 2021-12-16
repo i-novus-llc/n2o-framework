@@ -27,7 +27,6 @@ import { REQUEST_CACHE_TIMEOUT } from '../../constants/time'
 import { routesQueryMapping } from './sagas/routesQueryMapping'
 import {
     makeModelIdSelector,
-    makeSelectedIdSelector,
     makeWidgetByIdSelector,
     makeWidgetDataProviderSelector,
     makeWidgetPageIdSelector,
@@ -65,8 +64,6 @@ const isQueryEqual = (() => {
     }
 })()
 
-let prevSelectedId = null
-
 /**
  * сайд-эффекты на экшен DATA_REQUEST
  */
@@ -74,15 +71,10 @@ function* dataRequest(action) {
     const {
         payload: { widgetId, options, modelId },
     } = action
-    const selectedId = yield select(makeSelectedIdSelector(widgetId))
     // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
     const model = modelId || (yield select(makeModelIdSelector(widgetId)))
 
-    yield fork(handleFetch, model, widgetId, options, isQueryEqual, prevSelectedId)
-
-    if (prevSelectedId !== selectedId) {
-        prevSelectedId = selectedId
-    }
+    yield fork(handleFetch, model, widgetId, options, isQueryEqual)
 }
 
 /**
@@ -195,33 +187,13 @@ export function* afterFetch(
     yield put(dataSuccessWidget(widgetId, data))
 }
 
-export function getWithoutSelectedId(
-    options,
-    location,
-    selectedId,
-    prevSelectedId,
-) {
-    if (!options || isEmpty(options)) {
-        return null
-    }
-    if (
-        !location.pathname.includes(selectedId) ||
-        prevSelectedId === selectedId
-    ) {
-        return true
-    }
-
-    return options.withoutSelectedId
-}
-
 /**
  * @param {string} modelId
  * @param {string} widgetId
  * @param options
  * @param {Function} isQueryEqual
- * @param {string} prevSelectedId
  */
-export function* handleFetch(modelId, widgetId, options, isQueryEqual, prevSelectedId) {
+export function* handleFetch(modelId, widgetId, options, isQueryEqual) {
     if (!(yield isActive(widgetId))) {
         yield put(unloadingWidget(widgetId))
 
@@ -256,21 +228,14 @@ export function* handleFetch(modelId, widgetId, options, isQueryEqual, prevSelec
             options,
         )
 
-        const withoutSelectedId = getWithoutSelectedId(
-            options,
-            location,
-            widgetState.selectedId,
-            prevSelectedId,
-        )
-
         if (
             isQueryEqual(
                 widgetId,
                 resolvedProvider.basePath,
                 resolvedProvider.baseQuery,
             ) &&
-            !withoutSelectedId &&
-            widgetState.selectedId
+            widgetState.selectedId &&
+            location.pathname.includes(widgetState.selectedId)
         ) {
             resolvedProvider.baseQuery.selectedId = widgetState.selectedId
         }
