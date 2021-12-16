@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Значения по умолчанию виджета, которые берутся из url
+ * Значения по умолчанию полей виджета, которые берутся из url
  */
 @Getter
 @Setter

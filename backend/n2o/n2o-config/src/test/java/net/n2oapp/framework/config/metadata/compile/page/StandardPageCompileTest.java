@@ -116,30 +116,30 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail, notNullValue());
         assertThat(panel, notNullValue());
         ClientDataProvider masterProvider = page.getDatasources().get(master.getDatasource()).getProvider();
-        assertThat(masterProvider.getUrl(), is("n2o/data/testStandardPageDependency/master_ds"));
+        assertThat(masterProvider.getUrl(), is("n2o/data/testStandardPageDependency/master"));
         ClientDataProvider detailProvider = page.getDatasources().get(detail.getDatasource()).getProvider();
-        assertThat(detailProvider.getUrl(), is("n2o/data/testStandardPageDependency/detail_ds"));
+        assertThat(detailProvider.getUrl(), is("n2o/data/testStandardPageDependency/detail"));
         Map<String, ModelLink> detailQueryMapping = page.getDatasources().get(detail.getDatasource()).getProvider().getQueryMapping();
-        assertThat(detailQueryMapping.get("detail_ds_parent_id").getParam(), is("detail_ds_parent_id"));
-        assertThat(detailQueryMapping.get("detail_ds_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_master_ds']"));
-        assertThat(detailQueryMapping.get("detail_ds_parent_id").getValue(), is("`id`"));
+        assertThat(detailQueryMapping.get("detail_parent_id").getParam(), is("detail_parent_id"));
+        assertThat(detailQueryMapping.get("detail_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_master']"));
+        assertThat(detailQueryMapping.get("detail_parent_id").getValue(), is("`id`"));
         ClientDataProvider panelProvider = page.getDatasources().get(panel.getDatasource()).getProvider();
-        assertThat(panelProvider.getUrl(), is("n2o/data/testStandardPageDependency/panel1_ds"));
+        assertThat(panelProvider.getUrl(), is("n2o/data/testStandardPageDependency/panel1"));
         Map<String, ModelLink> panelQueryMapping = page.getDatasources().get(panel.getDatasource()).getProvider().getQueryMapping();
-        assertThat(panelQueryMapping.get("panel1_ds_parent_id").getParam(), is("panel1_ds_parent_id"));
-        assertThat(panelQueryMapping.get("panel1_ds_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail_ds']"));
-        assertThat(panelQueryMapping.get("panel1_ds_parent_id").getValue(), is("`parent.id`"));
+        assertThat(panelQueryMapping.get("panel1_parent_id").getParam(), is("panel1_parent_id"));
+        assertThat(panelQueryMapping.get("panel1_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail']"));
+        assertThat(panelQueryMapping.get("panel1_parent_id").getValue(), is("`parent.id`"));
 
-        assertThat(((QueryContext) route("/testStandardPageDependency/detail_ds", CompiledQuery.class))
+        assertThat(((QueryContext) route("/testStandardPageDependency/detail", CompiledQuery.class))
                 .getFilters().size(), is(1));
-        assertThat(((QueryContext) route("/testStandardPageDependency/panel1_ds", CompiledQuery.class))
+        assertThat(((QueryContext) route("/testStandardPageDependency/panel1", CompiledQuery.class))
                 .getFilters().size(), is(1));
 
         //Условия видимости виджетов
        /*
        fixme
        assertThat(panel.getVisible(), is(true));
-        assertThat(detail.getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master_ds']"));
+        assertThat(detail.getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(detail.getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
         //проверим что у кнопки delete родительский pathmapping скопировался
@@ -156,7 +156,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testWidgetPrefilters"));
 
         Table detail = (Table) page.getRegions().get("left").get(0).getContent().get(1);
-        ClientDataProvider dataProvider = detail.getDataProvider();
+        ClientDataProvider dataProvider = page.getDatasources().get("testWidgetPrefilters_detail1").getProvider();
         List<Filter> preFilters = detail.getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_master1_id"));
@@ -227,17 +227,17 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         Form form2 = (Form) page.getRegions().get("right").get(1).getContent().get(0);
         Form form3 = (Form) page.getRegions().get("right").get(2).getContent().get(0);
 
-        assertThat(page.getDatasources().get("form_ds").getProvider().getPathMapping().size(), is(1));
-        assertThat(page.getDatasources().get("form_ds").getProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getDatasources().get("form").getProvider().getPathMapping().size(), is(1));
+        assertThat(page.getDatasources().get("form").getProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
 
-        assertThat(page.getDatasources().get("form2_ds").getProvider().getPathMapping().size(), is(2));
-        assertThat(page.getDatasources().get("form2_ds").getProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
-        assertThat(page.getDatasources().get("form2_ds").getProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
+        assertThat(page.getDatasources().get("form2").getProvider().getPathMapping().size(), is(2));
+        assertThat(page.getDatasources().get("form2").getProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getDatasources().get("form2").getProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
 
-        assertThat(page.getDatasources().get("form3_ds").getProvider().getPathMapping().size(), is(3));
-        assertThat(page.getDatasources().get("form3_ds").getProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
-        assertThat(page.getDatasources().get("form3_ds").getProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
-        assertThat(page.getDatasources().get("form3_ds").getProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['form2'].id"));
+        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().size(), is(3));
+        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
+        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['form2'].id"));
     }
 
     @Test(expected = IllegalArgumentException.class)

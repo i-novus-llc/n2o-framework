@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
@@ -21,7 +22,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
@@ -79,21 +80,21 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         WidgetScope widgetScope = new WidgetScope();
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
-        ValidationList validationList = new ValidationList(new HashMap<>());
+        ValidationList validationList = new ValidationList();
         if (context.getUpload() != null)
             widget.setUpload(context.getUpload());
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
-        DatasourceScope datasourceScope = new DatasourceScope();
-        Widget compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs,
-                validationList, models, pageRoutesScope, datasourceScope);
+        DataSourcesScope dataSourcesScope = new DataSourcesScope();
+        Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs,
+                validationList, models, pageRoutesScope, dataSourcesScope);
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
         page.setRoutes(routes);
         compileComponent(page, source, context, p);
-        Map<String, Widget> compiledWidgets = new HashMap<>();
+        Map<String, Widget<?>> compiledWidgets = new HashMap<>();
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         PageWidgetsScope widgetsScope = new PageWidgetsScope(compiledWidgets);
-        page.setDatasources(initDatasources(datasourceScope, context, p, validationList, widgetsScope, routes,
+        page.setDatasources(initDatasources(dataSourcesScope, context, p, validationList, widgetsScope, routes,
                 pageRouteScope, pageScope));
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
@@ -107,14 +108,14 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         return page;
     }
 
-    private Map<String, Datasource> initDatasources(DatasourceScope datasourceScope, PageContext context,
+    private Map<String, Datasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
                                                     CompileProcessor p, ValidationList validationList,
                                                     PageWidgetsScope widgetsScope,
                                                     PageRoutes routeScope, ParentRouteScope parentRouteScope,
                                                     PageScope pageScope) {
-        Map<String, Datasource> compiledDatasources = new HashMap<>();
-        if (!datasourceScope.isEmpty()) {
-            datasourceScope.values().forEach(ds -> {
+        Map<String, Datasource> compiledDatasources = new StrictMap<>();
+        if (!dataSourcesScope.isEmpty()) {
+            dataSourcesScope.values().forEach(ds -> {
                 Datasource compiled = p.compile(ds, context, validationList, widgetsScope, routeScope,
                         parentRouteScope, pageScope);
                 compiledDatasources.put(compiled.getId(), compiled);

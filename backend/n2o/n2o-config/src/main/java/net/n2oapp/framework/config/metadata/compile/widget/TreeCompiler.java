@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
@@ -26,14 +27,11 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     @Override
     public Tree compile(N2oTree source, CompileContext<?, ?> context, CompileProcessor p) {
         Tree tree = new Tree();
-        copyInlineDatasource(tree, source, p);
-        CompiledObject object = getObject(source, p);
-        compileWidget(tree, source, context, p, object);
-        compileDataProviderAndRoutes(tree, source, context, p, null, null, null, object);
+        N2oDatasource datasource = initInlineDatasource(tree, source, p);
+        CompiledObject object = getObject(source, datasource, p);
+        compileBaseWidget(tree, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
-        widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setClientWidgetId(tree.getId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetActions, object, null);

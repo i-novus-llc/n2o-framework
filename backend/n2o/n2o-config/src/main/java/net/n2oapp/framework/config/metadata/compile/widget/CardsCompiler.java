@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -36,14 +37,11 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     @Override
     public Cards compile(N2oCards source, CompileContext<?, ?> context, CompileProcessor p) {
         Cards cards = new Cards();
-        copyInlineDatasource(cards, source, p);
-        CompiledObject object = getObject(source, p);
-        compileWidget(cards, source, context, p, object);
-        compileDataProviderAndRoutes(cards, source, context, p, null, null, null, object);
+        N2oDatasource datasource = initInlineDatasource(cards, source, p);
+        CompiledObject object = getObject(source, datasource, p);
+        compileBaseWidget(cards, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
-        widgetScope.setQueryId(source.getQueryId());
-        widgetScope.setOldRoute(p.cast(source.getRoute(), source.getId()));
         widgetScope.setClientWidgetId(cards.getId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);

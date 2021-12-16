@@ -33,8 +33,6 @@ import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.N2oFormV5AdapterTransformer;
-import net.n2oapp.framework.config.metadata.compile.widget.N2oWidgetV5AdapterTransformer;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -65,20 +63,21 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 new N2oWidgetsPack(), new N2oRegionsPack())
                 .ios(new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv2(), new StandardPageElementIOv2())
                 .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new DatasourceCompiler())
-                .transformers(new N2oFormV5AdapterTransformer(), new N2oWidgetV5AdapterTransformer())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
 
     @Test
     public void uploadDefaults() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.widget.xml")
-                .get(new WidgetContext("testFormCompile"));
-        assertThat(form.getId(), is("$testFormCompile"));
-        assertThat(form.getUpload(), is(UploadType.defaults));
-        assertThat(form.getDataProvider(), nullValue());
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.page.xml")
+                .get(new PageContext("testFormCompile"));
+        assertThat(page.getWidget().getId(), is("testFormCompile_main"));
+        Form form = (Form) page.getWidget();
         assertThat(form.getComponent().getFetchOnInit(), is(false));
         assertThat(form.getComponent().getPrompt(), is(true));
+        Datasource datasource = page.getDatasources().get("testFormCompile_main");
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(datasource.getProvider(), nullValue());
     }
 
     @Test
@@ -89,41 +88,53 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidget().getDatasource(), notNullValue());
         assertThat(page.getDatasources().get(page.getWidget().getDatasource()).getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(page.getWidget().getComponent().getFetchOnInit(), is(true));
-        QueryContext queryContext = (QueryContext) route("/testFormCompile2", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormCompile2/main", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
     }
 
     @Test
     public void testFormClientValidations() {
+        PageContext pageContext = new PageContext("testFormValidations");
+        pageContext.setSubmitOperationId("test");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
-                .get(new PageContext("testFormValidations"));
-   /*fixme
+                .get(pageContext);
 
-        List<Validation> validations = page.getDatasources().get(page.getWidget().getDatasource()).getValidations().get("testField");
 
-        assertThat(validations.size(), is(11));
+        List<Validation> validations = page.getDatasources().get("testFormValidations_main").getValidations().get("testField");
+
+//        assertThat(validations.size(), is(11));
         assertThat(validations.get(0).getId(), is("Mandatory1"));
         assertThat(validations.get(0).getSide().contains("client"), is(true));
+
         assertThat(validations.get(1).getId(), is("Mandatory2"));
         assertThat(validations.get(1).getSide().contains("client"), is(true));
+
         assertThat(validations.get(2).getId(), is("Mandatory3"));
         assertThat(validations.get(2).getSide().contains("client"), is(true));
+
         assertThat(validations.get(3).getId(), is("Mandatory4"));
         assertThat(validations.get(3).getSide().contains("client"), is(true));
+
         assertThat(validations.get(4).getId(), is("test1"));
         assertThat(validations.get(4).getSide().contains("client"), is(true));
+
         assertThat(validations.get(5).getId(), is("test2"));
         assertThat(validations.get(5).getSide().contains("client"), is(true));
+
         assertThat(validations.get(6).getId(), is("test4"));
         assertThat(validations.get(6).getSide().contains("client"), is(true));
+
         assertThat(validations.get(7).getId(), is("test5"));
         assertThat(validations.get(7).getSide().contains("client"), is(true));
+
         assertThat(validations.get(8).getId(), is("Condition1"));
         assertThat(validations.get(8).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(validations.get(8).getSide().contains("client"), is(true));
+
         assertThat(validations.get(9).getId(), is("Condition2"));
         assertThat(validations.get(9).getSide().contains("client"), is(true));
+
         assertThat(validations.get(10).getId(), is("Condition3"));
         assertThat(validations.get(10).getSide(), is(nullValue()));
 
@@ -137,7 +148,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
 
         validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval");
         assertThat(validations.size(), is(2));
-        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));*/
+        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
     }
 
     @Test
@@ -146,7 +157,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(new PageContext("testFormPreFilterValidation"));
-        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation/form", CompiledQuery.class);
         List<Validation> validations = queryContext.getValidations();
         assertThat(validations.size(), is(1));
         MandatoryValidation validation = (MandatoryValidation) validations.get(0);
@@ -202,22 +213,22 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getDatasource(), is("testFormSubmit_form_ds"));
-        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form_ds']"));
+        assertThat(link.getDatasource(), is("testFormSubmit_form"));
+        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
         assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getDatasource(), is("testFormSubmit_form_ds"));
-        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form_ds']"));
+        assertThat(link.getDatasource(), is("testFormSubmit_form"));
+        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
         assertThat(link.getModel(), is(ReduxModel.FILTER));
-        assertThat(link.getDatasource(), is("testFormSubmit_form_ds"));
-        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form_ds']"));
+        assertThat(link.getDatasource(), is("testFormSubmit_form"));
+        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
     }
 
     @Test
@@ -232,7 +243,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
         Form form = (Form) detailPage.getWidget();
         assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getPathMapping().size(), is(1));
-        assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/testSubmitInModalIndex_open_main_ds"));
+        assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/testSubmitInModalIndex_open_main"));
     }
 
     @Test

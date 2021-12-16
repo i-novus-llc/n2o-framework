@@ -95,8 +95,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getHideOnBlur(), is(true));
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getRowClass(), is("red"));
-        QueryContext queryContext = (QueryContext) route("/testTable4Compile/main_ds", CompiledQuery.class);
-        /*fixme
+        QueryContext queryContext = (QueryContext) route("/testTable4Compile/main", CompiledQuery.class);
+
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
@@ -104,7 +104,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getFailAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("$testTable4Compile_filter"));
-         */
+
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
@@ -191,7 +191,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Filter filter = table.getFilter("name");
         assertThat(filter.getFilterId(), is("name"));
         assertThat(filter.getRoutable(), is(true));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main_ds']"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`name`"));
 
         filter = table.getFilter("birthday.end");
@@ -199,25 +199,25 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(filter.getRoutable(), is(true));
        /*
        fixme
-       assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main_ds']"));
+       assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`birthday.end`"));
 
         filter = table.getFilter("birthday.begin");
         assertThat(filter.getFilterId(), is("birthday.begin"));
         assertThat(filter.getRoutable(), is(true));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main_ds']"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`birthday.begin`"));
 
         filter = table.getFilter("gender*.name");
         assertThat(filter.getFilterId(), is("gender*.name"));
         assertThat(filter.getRoutable(), is(true));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main_ds']"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`gender.map(function(t){return t.name})`"));
 
         filter = table.getFilter("gender*.id");
         assertThat(filter.getFilterId(), is("gender*.id"));
         assertThat(filter.getRoutable(), is(true));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main_ds']"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`gender.map(function(t){return t.id})`"));
 
 
@@ -343,7 +343,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
                 .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/main_ds", CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/main", CompiledQuery.class));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));
@@ -389,7 +389,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-        BindLink link = page.getDatasources().get("testFilterColumns_main_ds").getProvider().getQueryMapping().get("main_name");
+        BindLink link = page.getDatasources().get("testFilterColumns_main").getProvider().getQueryMapping().get("main_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
 
@@ -440,7 +440,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
        /*
         fixme
-        BindLink link = page.getDatasources().get("testMultiColumn_main_ds").getProvider().getQueryMapping().get("table_name");
+        BindLink link = page.getDatasources().get("testMultiColumn_main").getProvider().getQueryMapping().get("table_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
 

@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -133,12 +134,13 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testValidations() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+        PageContext pageContext = new PageContext("testStandardField");
+        pageContext.setSubmitOperationId("update");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
-                .get(new WidgetContext("testStandardField"));
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(2).getFields().get(0);
+                .get(pageContext);
 
-        List<Validation> clientValidations = field.getClientValidations();
+        List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations().get("test3");
         assertThat(clientValidations.size(), is(2));
 
         ConstraintValidation validation = (ConstraintValidation) clientValidations.get(0);
@@ -164,8 +166,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation2.getSeverity(), is(SeverityType.warning));
         assertThat(validation2.getSide(), is("client,server"));
 
-
-        List<Validation> serverValidations = field.getServerValidations();
+        ActionContext actionContext = (ActionContext)route("/testStandardField/submit", CompiledObject.class);
+        List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(3));
 
         assertThat(serverValidations.get(0), is(validation));
@@ -180,18 +182,20 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInlineValidations() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.widget.xml")
-                .get(new WidgetContext("testStandardFieldInlineValidations"));
-        List<Field> fields = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields();
-
-        List<Validation> clientValidations = fields.get(0).getClientValidations();
+        PageContext pageContext = new PageContext("testStandardFieldInlineValidations");
+        SimplePage form = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
+                .get(pageContext);
+        pageContext.setSubmitOperationId("update");
+        List<Validation> clientValidations = form.getDatasources().get("testStandardFieldInlineValidations_main").getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(clientValidations.get(0).getMessage(), is("Только Казань"));
         assertThat(clientValidations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(((ConditionValidation) clientValidations.get(0)).getExpression(), is("city=='Казань'"));
 
-        List<Validation> serverValidations = fields.get(0).getServerValidations();
+        ActionContext actionContext = (ActionContext)route("/testStandardField", CompiledObject.class);
+        List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(1));
         assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(serverValidations.get(0).getMessage(), is("Только Казань"));

@@ -30,9 +30,7 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
     public LineRegion compile(N2oLineRegion source, PageContext context, CompileProcessor p) {
         LineRegion region = new LineRegion();
         build(region, source, p);
-        IndexScope indexScope = p.getScope(IndexScope.class);
-        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
-        region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));
+        region.setContent(initContent(source.getContent(), context, p, source));
         region.setLabel(source.getLabel());
         region.setCollapsible(p.cast(source.getCollapsible(),
                 p.resolve(property("n2o.api.region.line.collapsible"), Boolean.class)));

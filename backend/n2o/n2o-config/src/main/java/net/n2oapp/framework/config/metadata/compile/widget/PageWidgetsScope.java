@@ -13,9 +13,9 @@ import java.util.Map;
 @Getter
 @Setter
 public class PageWidgetsScope {
-    private Map<String, Widget> widgets;
+    private Map<String, Widget<?>> widgets;
 
-    public PageWidgetsScope(Map<String, Widget> widgets) {
+    public PageWidgetsScope(Map<String, Widget<?>> widgets) {
         this.widgets = widgets;
     }
 }

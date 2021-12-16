@@ -47,11 +47,11 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected void initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
-                               PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope) {
+    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
+                               PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
-        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, pageWidgetsScope, new IndexScope());
-        page.setRegions(regions);
+        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, new IndexScope());
+        return regions;
     }
 
     protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, CompileProcessor p) {

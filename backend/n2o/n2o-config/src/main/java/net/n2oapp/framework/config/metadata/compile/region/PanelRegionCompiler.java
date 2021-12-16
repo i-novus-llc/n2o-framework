@@ -33,9 +33,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
         build(region, source, p);
-        IndexScope indexScope = p.getScope(IndexScope.class);
-        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
-        region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));
+        region.setContent(initContent(source.getContent(), context, p, source));
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
         region.setHeader(p.cast(source.getHeader(), true));

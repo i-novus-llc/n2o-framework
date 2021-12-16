@@ -31,9 +31,7 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
     public NoneRegion compile(N2oNoneRegion source, PageContext context, CompileProcessor p) {
         NoneRegion region = new NoneRegion();
         build(region, source, p);
-        IndexScope indexScope = p.getScope(IndexScope.class);
-        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
-        region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));
+        region.setContent(initContent(source.getContent(), context, p, source));
         return region;
     }
 

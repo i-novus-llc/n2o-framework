@@ -28,9 +28,7 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
     public CustomRegion compile(N2oCustomRegion source, PageContext context, CompileProcessor p) {
         CustomRegion region = new CustomRegion();
         build(region, source, p);
-        IndexScope indexScope = p.getScope(IndexScope.class);
-        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
-        region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));
+        region.setContent(initContent(source.getContent(), context, p, source));
         return region;
     }
 

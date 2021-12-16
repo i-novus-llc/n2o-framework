@@ -1,28 +1,22 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -31,11 +25,10 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
@@ -46,39 +39,44 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
  * Компиляция абстрактного виджета
  */
 public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    private static final String SPREAD_OPERATOR = "*.";
-
     protected abstract String getPropertyWidgetSrc();
 
-    protected void compileWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                 CompiledObject object) {
-        compiled.setMasterParam(source.getMasterParam());
+    /**
+     * Базовая сборка виджета
+     */
+    protected void compileBaseWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
+                                     CompiledObject object) {
         compiled.setId(initGlobalWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
-        compiled.setObjectId(object != null ? object.getId() : null);
-        if (p.getScope(WidgetObjectScope.class) != null)
-            p.getScope(WidgetObjectScope.class).put(source.getId(), object);
-        compileWidgetQueryId(source, compiled);
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
-        compiled.setRoute(initWidgetRoute(source, p));
+        compiled.setSrc(initSrc(source, p));
+        compiled.setIcon(source.getIcon());
+        compileAutoFocus(source, compiled, p);
+        if (compiled.getComponent() != null) {
+            compiled.getComponent().setAutoFocus(initAutoFocus(source, p));
+            compiled.getComponent().setFetchOnInit(initFetchOnInit(source, compiled));
+        }
+        compileDependencies(compiled, source, p);
+    }
+
+    private Boolean initAutoFocus(S source, CompileProcessor p) {
+        return p.cast(source.getAutoFocus(), p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), true);
+    }
+
+    private String initSrc(S source, CompileProcessor p) {
         String defaultWidgetSrc = null;
         if (getPropertyWidgetSrc() != null)
             defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
-        compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
-        compiled.setIcon(source.getIcon());
-        compileAutoFocus(source, compiled, p);
-        compiled.setProperties(p.mapAttributes(source));
-        compileDependencies(compiled, source, p);
-        initFilters(compiled, source, p);
+        String src = p.cast(source.getSrc(), defaultWidgetSrc);
+        return src;
     }
 
     protected MetaActions initMetaActions(S source) {
@@ -91,96 +89,69 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return metaActions;
     }
 
+//    /**
+//     * Компиляция идентификатора выборки виджета, учитывая источник данных
+//     */
+//    private void compileWidgetQueryId(S source, D compiled) {
+//        if (source.getUpload() == null) {
+//            if (source.getQueryId() != null) {
+//                compiled.setQueryId(source.getQueryId());
+//                compiled.setUpload(UploadType.query);
+//            } else {
+//                compiled.setQueryId(source.getDefaultValuesQueryId());
+//                compiled.setUpload(UploadType.defaults);
+//            }
+//        } else {
+//            String queryId = null;
+//            switch (source.getUpload()) {
+//                case query:
+//                    if (source.getQueryId() == null)
+//                        throw new N2oException("Upload is 'query', but queryId isn't set in widget");
+//                    queryId = source.getQueryId();
+//                    break;
+//                case copy:
+//                    queryId = source.getQueryId();
+//                    break;
+//                case defaults:
+//                    queryId = source.getDefaultValuesQueryId();
+//            }
+//            compiled.setUpload(source.getUpload());
+//            compiled.setQueryId(queryId);
+//        }
+//    }
+
+
     /**
-     * Компиляция идентификатора выборки виджета, учитывая источник данных
+     * Инициализация встроенного источника данных
      */
-    private void compileWidgetQueryId(S source, D compiled) {
-        if (source.getUpload() == null) {
-            if (source.getQueryId() != null) {
-                compiled.setQueryId(source.getQueryId());
-                compiled.setUpload(UploadType.query);
+    protected N2oDatasource initInlineDatasource(D compiled, S source, CompileProcessor p) {
+        String datasourceId = source.getDatasourceId();
+        N2oDatasource datasource;
+        if (source.getDatasourceId() == null) {
+            datasourceId = CompileUtil.generateSourceDatasourceId(source.getId());
+            if (source.getDatasource() == null) {
+                datasource = new N2oDatasource();
+                datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
             } else {
-                compiled.setQueryId(source.getDefaultValuesQueryId());
-                compiled.setUpload(UploadType.defaults);
+                datasource = source.getDatasource();
+                source.setDatasource(null);
+            }
+            datasource.setId(datasourceId);
+            source.setDatasourceId(datasourceId);
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            if (dataSourcesScope != null) {
+                dataSourcesScope.put(datasourceId, datasource);
             }
         } else {
-            String queryId = null;
-            switch (source.getUpload()) {
-                case query:
-                    if (source.getQueryId() == null)
-                        throw new N2oException("Upload is 'query', but queryId isn't set in widget");
-                    queryId = source.getQueryId();
-                    break;
-                case copy:
-                    queryId = source.getQueryId();
-                    break;
-                case defaults:
-                    queryId = source.getDefaultValuesQueryId();
-            }
-            compiled.setUpload(source.getUpload());
-            compiled.setQueryId(queryId);
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            datasource = dataSourcesScope.get(datasourceId);
         }
-    }
-
-    /**
-     * Инициализация части маршрута виджета
-     *
-     * @param source Исходный виджет
-     * @param p      Процессор сборки
-     * @return Часть маршрута виджета
-     */
-    private String initWidgetRoute(S source, CompileProcessor p) {
-        if (source.getRoute() != null) {
-            return source.getRoute();
-        }
-        return normalize(source.getId());
-    }
-
-    protected void copyInlineDatasource(D compiled, S source, CompileProcessor p) {
-        if (source.getDatasourceId() == null && source.getDatasource() != null) {
-            String datasourceId = CompileUtil.generateSourceDatasourceId(source.getId());
-            source.getDatasource().setId(datasourceId);
-            source.setDatasourceId(datasourceId);
-            DatasourceScope datasourceScope = p.getScope(DatasourceScope.class);
-            datasourceScope.put(datasourceId, source.getDatasource());
-            PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope != null) {
-                pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
-                pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
-            }
-        }
-    }
-
-    //fixme удалить неиспользуемые параметры
-    protected void compileDataProviderAndRoutes(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                                ValidationList validationList, SubModelsScope subModelsScope,
-                                                CopiedFieldScope copiedFieldScope, CompiledObject object) {
-        compileFetchOnInit(source, compiled);
         PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setDatasource(pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
-                ? compiled.getId() : pageScope.getWidgetIdClientDatasourceMap().get(compiled.getId()));
-    }
-
-    protected void collectValidation(FieldSet fs, Map<String, List<Validation>> clientValidations, ValidationScope validationScope) {
-        if (fs.getRows() == null)
-            return;
-        fs.getRows().stream().filter(row -> row.getCols() != null).forEach(row -> {
-            row.getCols().stream().forEach(col -> {
-                if (col.getFields() != null) {
-                    col.getFields().forEach(f -> {
-                        if (f.getServerValidations() != null) {
-                            validationScope.addAll(f.getServerValidations());
-                        }
-                        if (f.getClientValidations() != null) {
-                            clientValidations.put(f.getId(), f.getClientValidations());
-                        }
-                    });
-                }
-                if (col.getFieldsets() != null) {
-                    col.getFieldsets().forEach(fieldset -> collectValidation(fieldset, clientValidations, validationScope));
-                }
-            });
-        });
+        if (pageScope != null) {
+            pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
+            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
+        }
+        return datasource;
     }
 
     private String initGlobalWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
@@ -196,7 +167,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
-        compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, validationList);
+        compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationList);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
@@ -217,15 +188,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    private void compileFetchOnInit(S source, D compiled) {
-        if (compiled.getComponent() == null)
-            return;
+    private boolean initFetchOnInit(S source, D compiled) {
         boolean fetchOnInit;
         if (source.getFetchOnInit() != null)
             fetchOnInit = source.getFetchOnInit();
         else
             fetchOnInit = compiled.getDatasource() != null;
-        compiled.getComponent().setFetchOnInit(fetchOnInit);
+        return fetchOnInit;
     }
 
     private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
@@ -279,8 +248,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    private void compileToolbar(D compiled, S source, CompiledObject object, CompileContext<?, ?> context, CompileProcessor p
-            , MetaActions compiledActions, WidgetScope widgetScope, ValidationList validations) {
+    private void compileToolbar(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
         if (source.getToolbars() == null)
             return;
 
@@ -288,25 +256,26 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         IndexScope index = new IndexScope();
         ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
         for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, compiledActions, object,
-                    index, validations, toolbarPlaceScope));
+            compiledToolbar.putAll(p.compile(toolbar, context,
+                    index, toolbarPlaceScope, scopes));
         }
         compiled.setToolbar(compiledToolbar);
     }
 
-    protected CompiledObject getObject(S source, CompileProcessor p) {
-        DatasourceScope datasourceScope = p.getScope(DatasourceScope.class);
-        if (datasourceScope != null && datasourceScope.get(source.getDatasourceId()) != null) {
-            N2oDatasource ds = datasourceScope.get(source.getDatasourceId());
+    /**
+     * Получить собранный объект виджета
+     */
+    protected CompiledObject getObject(S source, N2oDatasource datasource, CompileProcessor p) {
+        if (datasource != null) {
             PageScope pageScope = p.getScope(PageScope.class);
-            if (ds.getObjectId() == null) {
-                if (ds.getQueryId() == null) {
+            if (datasource.getObjectId() == null) {
+                if (datasource.getQueryId() == null) {
                     if (pageScope != null && pageScope.getResultWidgetId() != null &&
                             source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null) {
                         return p.getCompiled(new ObjectContext(pageScope.getObjectId()));
                     }
                 } else {
-                    CompiledQuery query = p.getCompiled(new QueryContext(ds.getQueryId()));
+                    CompiledQuery query = p.getCompiled(new QueryContext(datasource.getQueryId()));
                     if (pageScope != null && pageScope.getResultWidgetId() != null &&
                             source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null &&
                             !query.getObject().getId().equals(pageScope.getObjectId()))
@@ -316,9 +285,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             } else {
                 if (pageScope != null && pageScope.getResultWidgetId() != null &&
                         source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null &&
-                        !ds.getObjectId().equals(pageScope.getObjectId()))
+                        !datasource.getObjectId().equals(pageScope.getObjectId()))
                     throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
-                return p.getCompiled(new ObjectContext(ds.getObjectId()));
+                return p.getCompiled(new ObjectContext(datasource.getObjectId()));
             }
         }
         return null;
@@ -326,18 +295,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
-        String masterWidgetId = null;
         if (source.getVisible() != null) {
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
                 DependencyCondition visibilityCondition = new DependencyCondition();
                 List<DependencyCondition> visible = new ArrayList<>();
-                if (masterWidgetId != null) {
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    String datasource = pageScope == null ? masterWidgetId
-                            : pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(source.getDependsOn()));
-                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, datasource).getBindLink());
-                }
                 visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
                 visible.add(visibilityCondition);
                 dependency.setVisible(visible);
@@ -350,21 +312,19 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    /**
-     * Инициализация выборки виджета по id
-     */
-    private CompiledQuery getDataProviderQuery(String queryId, CompileProcessor p) {
-        return queryId == null ? null : p.getCompiled(new QueryContext(queryId));
-    }
+//    /**
+//     * Инициализация выборки виджета по id
+//     */
+//    private CompiledQuery getDataProviderQuery(String queryId, CompileProcessor p) {
+//        return queryId == null ? null : p.getCompiled(new QueryContext(queryId));
+//    }
 
     /**
-     * Получить скомпилированную выборку
+     * Получить собранную выборку виджета
      */
-    protected CompiledQuery getQuery(S source, CompileProcessor p) {
-        DatasourceScope datasourceScope = p.getScope(DatasourceScope.class);
-        if (datasourceScope != null && datasourceScope.get(source.getDatasourceId()) != null) {
-            N2oDatasource ds = datasourceScope.get(source.getDatasourceId());
-            return ds.getQueryId() != null ? p.getCompiled(new QueryContext(ds.getQueryId())) : null;
+    protected CompiledQuery getQuery(S source, N2oDatasource datasource, CompileProcessor p) {
+        if (datasource != null) {
+            return datasource.getQueryId() != null ? p.getCompiled(new QueryContext(datasource.getQueryId())) : null;
         }
         return null;
     }
@@ -394,7 +354,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected List<FieldSet> initFieldSets(SourceComponent[] fields, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope,
                                            CompiledQuery widgetQuery,
-                                           CompiledObject widgetObject,
                                            Object... scopes) {
         if (fields == null)
             return Collections.emptyList();
@@ -419,90 +378,90 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 fieldSet = newFieldset;
             }
             fieldSets.add(p.compile(fieldSet, context,
-                    scopes, widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
+                    widgetQuery, widgetScope, fieldSetScope, indexScope, scopes));
         }
         return fieldSets;
     }
 
-    private void initFilters(D compiled, S source, CompileProcessor p) {
-        CompiledQuery query = getDataProviderQuery(compiled.getQueryId(), p);
-        if (query == null)
-            return;
-        List<Filter> filters = new ArrayList<>();
-        String masterWidgetId = null;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (widgetScope != null) {
-            masterWidgetId = widgetScope.getDependsOnWidgetId();
-        }
-        if (source.getPreFilters() != null) {
-            for (N2oPreFilter preFilter : source.getPreFilters()) {
-                N2oQuery.Filter queryFilter = query.getFilterByPreFilter(preFilter);
-                if (queryFilter != null) {
-                    Filter filter = new Filter();
-                    if (preFilter.getRequired() != null && preFilter.getRequired()) {
-                        if (p.getScope(ValidationList.class) != null) {
-                            MandatoryValidation v = new MandatoryValidation(
-                                    queryFilter.getFilterField(),
-                                    p.getMessage("n2o.required.filter"),
-                                    queryFilter.getFilterField()
-                            );
-                            v.setMoment(N2oValidation.ServerMoment.beforeQuery);
-                            v.setSeverity(SeverityType.danger);
+//    private void initFilters(D compiled, S source, CompileProcessor p) {
+//        CompiledQuery query = getDataProviderQuery(compiled.getQueryId(), p);
+//        if (query == null)
+//            return;
+//        List<Filter> filters = new ArrayList<>();
+//        String masterWidgetId = null;
+//        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+//        PageScope pageScope = p.getScope(PageScope.class);
+//        if (widgetScope != null) {
+//            masterWidgetId = widgetScope.getDependsOnWidgetId();
+//        }
+//        if (source.getPreFilters() != null) {
+//            for (N2oPreFilter preFilter : source.getPreFilters()) {
+//                N2oQuery.Filter queryFilter = query.getFilterByPreFilter(preFilter);
+//                if (queryFilter != null) {
+//                    Filter filter = new Filter();
+//                    if (preFilter.getRequired() != null && preFilter.getRequired()) {
+//                        if (p.getScope(ValidationList.class) != null) {
+//                            MandatoryValidation v = new MandatoryValidation(
+//                                    queryFilter.getFilterField(),
+//                                    p.getMessage("n2o.required.filter"),
+//                                    queryFilter.getFilterField()
+//                            );
+//                            v.setMoment(N2oValidation.ServerMoment.beforeQuery);
+//                            v.setSeverity(SeverityType.danger);
+//
+//                            if (p.getScope(ValidationList.class).get(compiled.getId(), ReduxModel.FILTER) == null) {
+//                                Map<String, List<Validation>> map = new HashMap<>();
+//                                map.put(compiled.getId(), new ArrayList<>());
+//                                p.getScope(ValidationList.class).getValidations().put(ReduxModel.FILTER, map);
+//                            }
+//                            List<Validation> validationList = p.getScope(ValidationList.class)
+//                                    .get(compiled.getId(), ReduxModel.FILTER);
+//                            validationList.add(v);
+//                        }
+//                    }
+//                    filter.setParam(p.cast(preFilter.getParam(), compiled.getId() + "_" + queryFilter.getParam()));
+//                    filter.setRoutable(p.cast(preFilter.getRoutable(), false));
+//                    filter.setFilterId(queryFilter.getFilterField());
+//                    Object prefilterValue = getPrefilterValue(preFilter);
+//                    ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+//                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
+//                        //фильтр из родительского маршрута
+//                        filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
+//                    } else if (StringUtils.isJs(prefilterValue)) {
+//                        String refWidgetId = masterWidgetId;
+//                        if (preFilter.getRefWidgetId() != null) {
+//                            refWidgetId = preFilter.getRefPageId() == null ?
+//                                    pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
+//                                    : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
+//                        }
+//                        String datasource = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
+//                                ? refWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(refWidgetId);
+//
+//                        ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.RESOLVE);
+//                        ModelLink link = new ModelLink(model, datasource);
+//                        link.setValue(prefilterValue);
+//                        link.setParam(filter.getParam());
+//                        filter.setLink(link);
+//                    } else {
+//                        //фильтр с константным значением или значением из параметра в url
+//                        ModelLink link = new ModelLink(prefilterValue);
+//                        link.setParam(filter.getParam());
+//                        filter.setLink(link);
+//                    }
+//                    filters.add(filter);
+//                } else {
+//                    throw new N2oException("Pre-filter " + preFilter + " not found in query " + query.getId());
+//                }
+//            }
+//        }
+//        compiled.setFilters(filters);
+//    }
 
-                            if (p.getScope(ValidationList.class).get(compiled.getId(), ReduxModel.FILTER) == null) {
-                                Map<String, List<Validation>> map = new HashMap<>();
-                                map.put(compiled.getId(), new ArrayList<>());
-                                p.getScope(ValidationList.class).getValidations().put(ReduxModel.FILTER, map);
-                            }
-                            List<Validation> validationList = p.getScope(ValidationList.class)
-                                    .get(compiled.getId(), ReduxModel.FILTER);
-                            validationList.add(v);
-                        }
-                    }
-                    filter.setParam(p.cast(preFilter.getParam(), compiled.getId() + "_" + queryFilter.getParam()));
-                    filter.setRoutable(p.cast(preFilter.getRoutable(), false));
-                    filter.setFilterId(queryFilter.getFilterField());
-                    Object prefilterValue = getPrefilterValue(preFilter);
-                    ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
-                        //фильтр из родительского маршрута
-                        filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
-                    } else if (StringUtils.isJs(prefilterValue)) {
-                        String refWidgetId = masterWidgetId;
-                        if (preFilter.getRefWidgetId() != null) {
-                            refWidgetId = preFilter.getRefPageId() == null ?
-                                    pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
-                                    : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
-                        }
-                        String datasource = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
-                                ? refWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(refWidgetId);
-
-                        ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.RESOLVE);
-                        ModelLink link = new ModelLink(model, datasource);
-                        link.setValue(prefilterValue);
-                        link.setParam(filter.getParam());
-                        filter.setLink(link);
-                    } else {
-                        //фильтр с константным значением или значением из параметра в url
-                        ModelLink link = new ModelLink(prefilterValue);
-                        link.setParam(filter.getParam());
-                        filter.setLink(link);
-                    }
-                    filters.add(filter);
-                } else {
-                    throw new N2oException("Pre-filter " + preFilter + " not found in query " + query.getId());
-                }
-            }
-        }
-        compiled.setFilters(filters);
-    }
-
-    private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
-        if (n2oPreFilter.getValues() == null) {
-            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
-        } else {
-            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
-        }
-    }
+//    private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
+//        if (n2oPreFilter.getValues() == null) {
+//            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
+//        } else {
+//            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
+//        }
+//    }
 }
