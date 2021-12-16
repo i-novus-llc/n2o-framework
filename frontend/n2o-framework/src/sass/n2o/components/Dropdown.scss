@@ -1,9 +1,10 @@
 .n2o-dropdown {
-    display: none;
+    opacity: 0;
 
     &.visible {
-        display: block;
         height: 100%;
+        display: block;
+        opacity: 1;
     }
 }
 
