@@ -8,6 +8,8 @@ import net.n2oapp.framework.config.io.control.v3.list.*;
 import net.n2oapp.framework.config.io.control.v3.plain.*;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
+import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 
 public class N2oControlsV3IOPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -47,8 +49,8 @@ public class N2oControlsV3IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new AutoCompleteIOv3(),
                 new ProgressIOv3(),
                 new StatusFieldIOv3(),
-                new ButtonIO(),
-                new SubmenuIO(),
+                new ButtonIOv2(),
+                new SubmenuIOv2(),
                 new ButtonFieldIOv3(),
                 new RatingIOv3(),
                 new IntervalFieldIOv3(),

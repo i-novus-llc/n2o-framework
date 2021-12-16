@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.v2.ComponentIO;
+import net.n2oapp.framework.config.io.control.ComponentIO;
 import net.n2oapp.framework.config.io.toolbar.v2.FieldToolbarIOv2;
 import org.jdom2.Element;
 
