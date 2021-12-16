@@ -12,19 +12,12 @@ import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import merge from 'deepmerge'
-import values from 'lodash/values'
-import map from 'lodash/map'
-import assign from 'lodash/assign'
-import isEmpty from 'lodash/isEmpty'
-import some from 'lodash/some'
 
 import { START_INVOKE } from '../constants/actionImpls'
 import {
-    makeDatasourceIdSelector,
-    makeFormModelPrefixSelector,
     makeWidgetValidationSelector,
 } from '../ducks/widgets/selectors'
-import { getModelSelector } from '../ducks/models/selectors'
+import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
 import { validateField } from '../core/validation/createValidator'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -96,21 +89,10 @@ export function* handleAction(factories, action) {
  * @param dataProvider
  * @param model
  * @param apiProvider
- * @param action
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider, action) {
+export function* fetchInvoke(dataProvider, model, apiProvider) {
     const state = yield select()
-    const { widgetId } = action.payload
-    // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
-    const modelId = action.payload.modelId || (yield select(makeDatasourceIdSelector(widgetId)))
-    const multi = get(state, 'models.multi')
-    const multiModel = multi?.[modelId] || []
-    const widget = get(state, `widgets.${widgetId}`)
-    const selectionType = widget.table?.rowSelection || widget.list?.rowSelection // fixme
-    const hasMultiModel = some(values(multi), model => !isEmpty(model))
-
-    const needResolve = get(widget, 'modelPrefix') === 'resolve'
 
     const submitForm = get(dataProvider, 'submitForm', true)
     const {
@@ -119,28 +101,23 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
         headersParams,
     } = yield dataProviderResolver(state, dataProvider)
 
-    const isSelectionTypeCheckbox = selectionType === 'checkbox'
-
-    const createModelRequest = () => {
-        if (isSelectionTypeCheckbox && hasMultiModel) {
-            const ids = multiModel.map(i => i.id)
-
-            if (needResolve) {
-                return { ...model, ids }
-            }
-
-            return map(multiModel, modelElement => ({ ...modelElement, ...formParams }))
+    const createModelRequest = ({ id, ...data }) => {
+        const modelRequest = {
+            id,
+            ...formParams,
         }
-        const ids = get(model, 'ids')
-        const requestIds = Array.isArray(ids) ? ids : [ids]
 
-        return ids
-            ? assign({}, model, { ids: requestIds }, formParams)
-            : assign({}, model, formParams)
+        if (submitForm) {
+            return {
+                ...data,
+                ...modelRequest,
+            }
+        }
+
+        return modelRequest
     }
 
-    const modelRequest = createModelRequest()
-    const formParamsRequest = isSelectionTypeCheckbox ? [formParams] : formParams
+    const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model)
 
     return yield call(
         fetchSaga,
@@ -150,11 +127,9 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
             baseQuery: {},
             baseMethod: dataProvider.method,
             headers: headersParams,
-            model: submitForm ? modelRequest : formParamsRequest,
+            model: modelRequest,
         },
         apiProvider,
-        action,
-        state,
     )
 }
 
@@ -170,17 +145,17 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
 // eslint-disable-next-line complexity
 export function* handleInvoke(apiProvider, action) {
     const {
-        modelLink,
+        datasource,
+        model: modelPrefix,
+        dataProvider,
         widgetId,
         pageId,
-        dataProvider,
-        data,
-        needResolve = true,
     } = action.payload
 
     const state = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
+    const model = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
 
     try {
         if (!dataProvider) {
@@ -196,32 +171,20 @@ export function* handleInvoke(apiProvider, action) {
                 yield put(changeButtonDisabled(pageId, buttonIds[index], true))
             }
         }
-        let model = data || {}
-
-        if (modelLink) {
-            model = yield select(getModelSelector(modelLink))
-        }
         const response = optimistic
-            ? yield fork(fetchInvoke, dataProvider, model, apiProvider, action)
-            : yield call(fetchInvoke, dataProvider, model, apiProvider, action)
+            ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
+            : yield call(fetchInvoke, dataProvider, model, apiProvider)
 
         const meta = merge(action.meta.success || {}, response.meta || {})
-        const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId))
         const { submitForm } = dataProvider
         const needRedirectOrCloseModal = meta.redirect || meta.modalsToClose
 
-        if (
-            (needResolve && (optimistic || !needRedirectOrCloseModal)) ||
-            (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm)
-        ) {
-            // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
-            const modelId = action.payload.modelId || (yield select(makeDatasourceIdSelector(widgetId)))
-
+        if (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm) {
             yield put(
-                setModel(modelPrefix, modelId, optimistic ? model : response.data),
+                setModel(modelPrefix, datasource, optimistic ? model : response.data),
             )
         }
-        yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }))
+        yield put(successInvoke(widgetId, meta))
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
