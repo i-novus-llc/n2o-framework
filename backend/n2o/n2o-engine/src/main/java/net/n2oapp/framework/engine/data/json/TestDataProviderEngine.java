@@ -13,6 +13,7 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -62,6 +63,81 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     @Override
     public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
         return execute(invocation, inParams, getData(invocation));
+    }
+
+    public void deleteSessionDataSets(HttpSession session) {
+        for (Map.Entry<String, List<DataSet>> entry : repository.entrySet()) {
+            if (session.getId().equals(entry.getKey().split("/")[0]))
+                repository.remove(entry.getKey());
+        }
+    }
+
+    protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
+        if (invocation.getFile() == null)
+            return new ArrayList<>();
+        if (getRepositoryData(invocation.getFile()) == null ||
+                fileExistsOnDisk(invocation.getFile())) {
+            initRepository(invocation);
+        }
+
+        return repository.get(richKey(invocation.getFile()));
+    }
+
+    protected List<DataSet> getRepositoryData(String key) {
+        return repository.get(richKey(key));
+    }
+
+    /**
+     * Заполняет хранилище данных из файла
+     */
+    protected void initRepository(N2oTestDataProvider invocation) {
+        try {
+            InputStream inputStream = getResourceInputStream(invocation);
+            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
+            repository.put(richKey(invocation.getFile()), data);
+            if (integer.equals(invocation.getPrimaryKeyType())) {
+                long maxId = data
+                        .stream()
+                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
+                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
+                        .max().orElse(0);
+                sequences.put(richKey(invocation.getFile()), new AtomicLong(maxId));
+            }
+        } catch (IOException e) {
+            throw new N2oException(e);
+        }
+    }
+
+    protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
+        String path = getFullResourcePath(invocation.getFile());
+
+        if (fileExistsOnDisk(invocation.getFile())) {
+            path = "file:" + getFullPathOnDisk(invocation.getFile());
+        }
+
+        return resourceLoader.getResource(path).getInputStream();
+    }
+
+    protected String richKey(String key) {
+        if (pathOnDisk != null) return pathOnDisk + "/" + key;
+        if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
+        return key;
+    }
+
+    /**
+     * Обновляет содержимое файла на диске
+     *
+     * @param filename Имя файла
+     */
+    protected void updateFile(String filename) {
+        if (fileExistsOnDisk(filename)) {
+            try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
+                String mapAsJson = objectMapper.writeValueAsString(getRepositoryData(filename));
+                fileWriter.write(mapAsJson);
+            } catch (IOException e) {
+                throw new N2oException(e);
+            }
+        }
     }
 
     private Object execute(N2oTestDataProvider invocation,
@@ -504,50 +580,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         data.sort(comparator);
     }
 
-    private synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
-        if (invocation.getFile() == null)
-            return new ArrayList<>();
-        if (getRepositoryData(invocation.getFile()) == null ||
-                fileExistsOnDisk(invocation.getFile())) {
-            initRepository(invocation);
-        }
-
-        return repository.get(richKey(invocation.getFile()));
-    }
-
     private void updateRepository(String key, List<DataSet> newData) {
         repository.put(richKey(key), newData);
-    }
-
-    private List<DataSet> getRepositoryData(String key) {
-        return repository.get(richKey(key));
-    }
-
-    /**
-     * Заполняет хранилище данных из файла
-     */
-    private void initRepository(N2oTestDataProvider invocation) {
-        String path = getFullResourcePath(invocation.getFile());
-
-        if (fileExistsOnDisk(invocation.getFile())) {
-            path = "file:" + getFullPathOnDisk(invocation.getFile());
-        }
-
-        try (InputStream inputStream = resourceLoader.getResource(path).getInputStream()) {
-            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
-            repository.put(richKey(invocation.getFile()), data);
-            if (integer.equals(invocation.getPrimaryKeyType())) {
-                long maxId = data
-                        .stream()
-                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
-                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
-                        .max().orElse(0);
-                sequences.put(richKey(invocation.getFile()), new AtomicLong(maxId));
-            }
-
-        } catch (IOException e) {
-            throw new N2oException(e);
-        }
     }
 
     private List<DataSet> loadJson(InputStream is, PrimaryKeyType primaryKeyType, String primaryKeyFieldId) throws IOException {
@@ -637,27 +671,5 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private boolean fileExistsOnDisk(String filename) {
         return pathOnDisk != null &&
                 new File(getFullPathOnDisk(filename)).isFile();
-    }
-
-    /**
-     * Обновляет содержимое файла на диске
-     *
-     * @param filename Имя файла
-     */
-    private void updateFile(String filename) {
-        if (fileExistsOnDisk(filename)) {
-            try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
-                String mapAsJson = objectMapper.writeValueAsString(getRepositoryData(filename));
-                fileWriter.write(mapAsJson);
-            } catch (IOException e) {
-                throw new N2oException(e);
-            }
-        }
-    }
-
-    private String richKey(String key) {
-        if (pathOnDisk != null) return pathOnDisk + "/" + key;
-        if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
-        return key;
     }
 }
