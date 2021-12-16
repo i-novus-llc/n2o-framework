@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class CompileUtil {
 
     public static String generateSourceDatasourceId(String widgetId) {
-        return widgetId + "_ds";
+        return widgetId;
     }
 
     public static String generateWidgetId(String pageId, String localWidgetId) {

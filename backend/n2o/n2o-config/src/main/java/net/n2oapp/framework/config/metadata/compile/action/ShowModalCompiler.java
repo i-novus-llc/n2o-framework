@@ -26,6 +26,7 @@ public class ShowModalCompiler extends AbstractModalCompiler<ShowModal, N2oShowM
 
     @Override
     public ShowModal compile(N2oShowModal source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         ShowModal showModal = new ShowModal();
         compileModal(source, showModal, context, p);
         showModal.setType(p.resolve(property("n2o.api.action.show_modal.type"), String.class));

@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 public class N2oInvokeAction extends N2oAbstractAction {
     private String operationId;
     private String datasource;
-    @Deprecated
     private String objectId;
     private Boolean closeOnSuccess;
     private Boolean doubleCloseOnSuccess;
@@ -33,8 +32,6 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String redirectUrl;
     private Target redirectTarget;
     private String[] refreshDatasources;
-    @Deprecated
-    private String refreshWidgetId;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
     private MessagePosition messagePosition;
@@ -54,4 +51,13 @@ public class N2oInvokeAction extends N2oAbstractAction {
         this.operationId = actionId;
     }
 
+    @Deprecated
+    public String getRefreshWidgetId() {
+        return refreshDatasources != null && refreshDatasources.length > 0 ? refreshDatasources[0] : null;
+    }
+
+    @Deprecated
+    public void setRefreshWidgetId(String refreshWidgetId) {
+        this.refreshDatasources = new String[] {refreshWidgetId};
+    }
 }

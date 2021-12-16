@@ -32,6 +32,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         if (context instanceof ModalPageContext || context instanceof DialogContext) {
+            initDefaults(source, context, p);
             CloseAction closeAction = new CloseAction();
             compileAction(closeAction, source, p);
             closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));

@@ -101,7 +101,12 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор виджета, который необходимо обновить после успешной отправки формы
      */
+    @Deprecated
     private String refreshClientWidgetId;
+    /**
+     * Идентификаторы источников данных, которые необходимо обновить после успешной отправки формы
+     */
+    private List<String> refreshClientDataSources;
     /**
      * Обновить данные родительского виджета после закрытия страницы
      */

@@ -95,7 +95,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/widget/action1/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getModelLink(), is("models.resolve['page_widget_action1_main']"));
-        assertThat(submitPayload.getWidgetId(), is("page_widget_action1_main"));
+        assertThat(submitPayload.getDatasource(), is("page_widget_action1_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("page_test"));
@@ -155,7 +155,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/widget/:page_test_id/action2/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getModelLink(), is("models.resolve['page_widget_action2_main']"));
-        assertThat(submitPayload.getWidgetId(), is("page_widget_action2_main"));
+        assertThat(submitPayload.getDatasource(), is("page_widget_action2_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getModalsToClose(), nullValue());

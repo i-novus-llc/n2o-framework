@@ -23,6 +23,7 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import java.util.List;
 import java.util.Map;
 
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getLocalWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 
 /**
@@ -32,26 +33,35 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     public void compileAction(D compiled, S source, CompileProcessor p) {
+
+    }
+
+    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        source.setId(initId(source, p));
+    }
+
+    protected String initId(S source, CompileProcessor p) {
         if (source.getId() == null) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             if (componentScope != null) {
                 IdAware component = componentScope.unwrap(IdAware.class);
                 if (component != null) {
-                    source.setId(component.getId());
+                    return component.getId();
                 } else {
                     WidgetScope widgetScope = p.getScope(WidgetScope.class);
                     if (widgetScope != null) {
-                        source.setId(widgetScope.getClientWidgetId() + "_row");
+                        return widgetScope.getClientWidgetId() + "_row";
                     }
                 }
             }
         }
+        return source.getId();
     }
 
     /**
      * Инициализация целевого виджета действия
      */
-    protected String initTargetWidget(CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initGlobalWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String targetWidgetId = getWidgetIdByComponentScope(p);
@@ -67,7 +77,25 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         return targetWidgetId;
     }
 
-    protected ReduxModel getTargetWidgetModel(CompileProcessor p, ReduxModel defaultModel) {
+    /**
+     * Инициализация целевого виджета действия
+     */
+    protected String initLocalWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String targetWidgetId = getLocalWidgetIdByComponentScope(p);
+        if (targetWidgetId == null) {
+            if (widgetScope != null) {
+                targetWidgetId = widgetScope.getWidgetId();
+            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
+                targetWidgetId = ((PageContext) context).getResultWidgetId();
+            } else {
+                throw new N2oException("Unknown widgetId for invoke action!");
+            }
+        }
+        return targetWidgetId;
+    }
+
+    protected ReduxModel getModelFromComponentScope(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
@@ -75,7 +103,15 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 return modelAware.getModel();
             }
         }
-        return defaultModel;
+        return ReduxModel.RESOLVE;
+    }
+
+    /**
+     * Получение текущей страницы
+     */
+    protected String getPageId(CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        return pageScope.getPageId();
     }
 
     /**
@@ -113,7 +149,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         WidgetScope scope = p.getScope(WidgetScope.class);
         if (scope != null) {
             String defaultClientWidgetId = getDefaultClientWidgetId(scope, p);
-            ReduxModel defaultModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
+            ReduxModel defaultModel = getModelFromComponentScope(p);
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
                     pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, defaultClientWidgetId, defaultModel, p));

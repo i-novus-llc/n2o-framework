@@ -49,7 +49,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
     public void testCopyAction() {
         ModalPageContext modalPageContext = new ModalPageContext("testCopyAction", "/modal");
         HashMap<String, String> parentWidgetIdDatasourceMap = new HashMap<>();
-        parentWidgetIdDatasourceMap.put("page_form", "page_form_ds");
+        parentWidgetIdDatasourceMap.put("page_form", "page_form");
         modalPageContext.setParentWidgetIdDatasourceMap(parentWidgetIdDatasourceMap);
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.page.xml")
                 .get(modalPageContext);
@@ -80,7 +80,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         action = (CopyAction) page.getToolbar().getButton("menuItem0").getAction();
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-        assertThat(action.getPayload().getTarget().getKey(), is("page_form_ds"));
+        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
     }
 
     @Test

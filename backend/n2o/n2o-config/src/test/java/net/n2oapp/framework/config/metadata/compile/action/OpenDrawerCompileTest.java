@@ -103,7 +103,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getModelLink(), is("models.edit['p_create_main']"));
-        assertThat(submitPayload.getWidgetId(), is("p_create_main"));
+        assertThat(submitPayload.getDatasource(), is("p_create_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
         assertThat(meta.getSuccess().getModalsToClose(), notNullValue());

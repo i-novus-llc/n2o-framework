@@ -28,6 +28,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
 
     @Override
     public CopyAction compile(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         CopyAction copyAction = new CopyAction();
         compileAction(copyAction, source, p);
         copyAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
@@ -67,7 +68,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         if (source.getSourceWidgetId() != null)
             return pageScope != null ? pageScope.getGlobalWidgetId(source.getSourceWidgetId()) : source.getSourceWidgetId();
         else
-            return widgetScope == null ? initTargetWidget(context, p) : widgetScope.getClientWidgetId();
+            return widgetScope == null ? initGlobalWidgetId(context, p) : widgetScope.getClientWidgetId();
     }
 
     private String getTargetWidgetId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
@@ -80,6 +81,6 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
                         source.getTargetWidgetId();
             }
         } else
-            return initTargetWidget(context, p);
+            return initGlobalWidgetId(context, p);
     }
 }
