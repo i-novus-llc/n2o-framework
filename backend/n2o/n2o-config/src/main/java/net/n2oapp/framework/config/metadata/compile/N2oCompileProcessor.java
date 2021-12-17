@@ -527,8 +527,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
 
     private Object[] flatScopes(Object[] scopes) {
-        if (Stream.of(scopes).anyMatch(o -> o.getClass().isArray()))
-            return flatScopes(Stream.of(scopes).filter(Objects::nonNull)
+        if (Stream.of(scopes).filter(Objects::nonNull).anyMatch(o -> o.getClass().isArray()))
+            return flatScopes(Stream.of(scopes)
                     .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o))
                     .filter(Objects::nonNull).toArray());
         else
