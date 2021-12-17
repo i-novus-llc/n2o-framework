@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "region": {
+      "id": 1,
+      "name": "region1"
+    }
+  },
+  {
+    "id": 2,
+    "region": {
+      "id": 2,
+      "name": "region2"
+    }
+  }
+]
