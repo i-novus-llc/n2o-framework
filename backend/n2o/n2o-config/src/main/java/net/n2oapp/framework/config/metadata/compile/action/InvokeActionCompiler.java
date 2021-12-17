@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
@@ -28,7 +27,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +35,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getLocalWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 
 /**
@@ -59,8 +57,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(initGlobalDatasource(source.getDatasource(), p));
-        invokeAction.getPayload().setWidgetId(getLocalWidgetIdByComponentScope(p));
+        invokeAction.getPayload().setDatasource(initClientDatasource(source.getDatasource(), p));
+        invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
         invokeAction.getMeta().setSuccess(initSuccessMeta(invokeAction, source, context, p));
@@ -80,6 +78,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setDatasource(initLocalDatasource(source, context, p));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
+        source.setRefreshDatasources(initRefreshDatasources(source, p));
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
         source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
@@ -90,7 +89,15 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
     }
 
-    private String initGlobalDatasource(String datasourceId, CompileProcessor p) {
+    private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
+        if (source.getRefreshDatasources() != null)
+            return source.getRefreshDatasources();
+        if (source.getDatasource() != null)
+            return new String[] {source.getDatasource()};
+        return null;
+    }
+
+    private String initClientDatasource(String datasourceId, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null && datasourceId != null)
             return pageScope.getGlobalDatasourceId(datasourceId);
@@ -100,7 +107,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private String initLocalDatasource(N2oInvokeAction source, CompileContext<?,?> context, CompileProcessor p) {
         if (source.getDatasource() != null)
             return source.getDatasource();
-        String widgetId = initLocalWidgetId(context, p);
+        String widgetId = initWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null && widgetId != null)
             return pageScope.getWidgetIdSourceDatasourceMap().get(widgetId);
@@ -148,11 +155,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private void initRefreshOnClose(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean closeOnSuccess) {
         if (source.getRefreshOnSuccess()) {
             meta.setRefresh(new RefreshSaga());
-            if (source.getRefreshDatasources() != null) {
+            if (!closeOnSuccess && source.getRefreshDatasources() != null) {
                 PageScope pageScope = p.getScope(PageScope.class);
                 meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
                         .map(pageScope::getGlobalDatasourceId).collect(Collectors.toList()));
-            } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientWidgetId() != null)
+            } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientDataSources() != null)
                 meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
         }
     }
@@ -194,7 +201,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
         dataProvider.setDatasourceId(source.getDatasource());
-        dataProvider.setGlobalDatasourceId(initGlobalDatasource(source.getDatasource(), p));
+        dataProvider.setGlobalDatasourceId(initClientDatasource(source.getDatasource(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());

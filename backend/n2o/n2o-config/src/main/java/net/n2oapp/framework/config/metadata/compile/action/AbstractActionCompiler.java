@@ -23,8 +23,8 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getLocalWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
 
 /**
  * Абстрактная реализация компиляции действия
@@ -61,10 +61,10 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация целевого виджета действия
      */
-    protected String initGlobalWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initClientWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = getWidgetIdByComponentScope(p);
+        String targetWidgetId = getClientWidgetIdByComponentScope(p);
         if (targetWidgetId == null) {
             if (widgetScope != null) {
                 targetWidgetId = widgetScope.getClientWidgetId();
@@ -80,9 +80,9 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация целевого виджета действия
      */
-    protected String initLocalWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = getLocalWidgetIdByComponentScope(p);
+        String targetWidgetId = getWidgetIdByComponentScope(p);
         if (targetWidgetId == null) {
             if (widgetScope != null) {
                 targetWidgetId = widgetScope.getWidgetId();
@@ -187,7 +187,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @return Идентификатор клиентского виджета по умолчанию
      */
     private String getDefaultClientWidgetId(WidgetScope widgetScope, CompileProcessor p) {
-        String widgetIdByComponentScope = getWidgetIdByComponentScope(p);
+        String widgetIdByComponentScope = getClientWidgetIdByComponentScope(p);
         return widgetIdByComponentScope != null ? widgetIdByComponentScope : widgetScope.getClientWidgetId();
     }
 }

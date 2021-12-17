@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -123,7 +124,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void validations() {
-        compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(new PageContext("testRegisterActionContext", "/"));
         ActionContext context = (ActionContext) route("/:test", CompiledObject.class);
         assertThat(context, notNullValue());
@@ -132,7 +133,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(context.getValidations().get(0), instanceOf(MandatoryValidation.class));
         assertThat(context.getValidations().get(1), instanceOf(ConditionValidation.class));
         assertThat(context.getValidations().get(2), instanceOf(ConstraintValidation.class));
-        compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
+        page = compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
                 .get(new PageContext("testRegisterActionContextForPageAction", "/route"));
         context = (ActionContext) route("/route/test", CompiledObject.class);
         assertThat(context, notNullValue());

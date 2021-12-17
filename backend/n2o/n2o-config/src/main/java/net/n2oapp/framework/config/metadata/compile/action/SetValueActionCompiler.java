@@ -30,7 +30,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         compileAction(setValueAction, source, p);
         setValueAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
-        String defaultWidgetId = initGlobalWidgetId(context, p);
+        String defaultWidgetId = initClientWidgetId(context, p);
         ReduxModel model = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
         String sourceWidgetId = source.getSourceWidget() == null ? defaultWidgetId :
