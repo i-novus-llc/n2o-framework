@@ -99,9 +99,10 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             source.setModel(ReduxModel.RESOLVE);
 
         if (source.getValidate() != null) {
-            button.setValidate(source.getValidate().getValue());
-            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
-                button.setValidatedWidgetId(initWidgetId(source, context, p));
+//            fixme
+//            button.setValidate(source.getValidate().getValue());
+//            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
+//                button.setValidatedWidgetId(initWidgetId(source, context, p));
         }
     }
 

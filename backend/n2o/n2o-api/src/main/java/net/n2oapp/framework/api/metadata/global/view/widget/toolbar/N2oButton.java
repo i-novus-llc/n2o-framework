@@ -18,12 +18,13 @@ import java.util.List;
 @Setter
 public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdAware, ModelAware {
     private String actionId;
-    private ValidateType validate;
     private Boolean rounded;
-    private N2oAction action;
-    private ReduxModel model;
-    private String visible;
     private String enabled;
+    private Boolean validate;
+    private String datasource;
+    private ReduxModel model;
+    private String[] validateDatasources;
+    private N2oAction action;
 
     private Boolean confirm;
     private ConfirmType confirmType;
@@ -31,9 +32,6 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdA
     private String confirmTitle;
     private String confirmOkLabel;
     private String confirmCancelLabel;
-    private String datasource;
-    @Deprecated
-    private String widgetId;
     private DisableOnEmptyModelType disableOnEmptyModel;
 
     private Dependency[] dependencies;
@@ -43,6 +41,38 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdA
     @Deprecated
     private N2oButtonCondition[] visibilityConditions;
 
+    @Deprecated
+    public String getWidgetId() {
+        return datasource;
+    }
+
+    @Deprecated
+    public void setWidgetId(String widgetId) {
+        this.datasource = widgetId;
+    }
+
+    @Deprecated
+    public String getValidateString() {
+        if (validate == null)
+            return null;
+        return validate.toString();
+    }
+
+    @Deprecated
+    public void setValidateString(String validate) {
+        switch (validate) {
+            case "widget":
+            case "true":
+            case "page":
+                this.validate = true;
+                break;
+            case "none":
+            case "false":
+                this.validate = false;
+                break;
+            default: throw new UnsupportedOperationException(String.format("validate is [%s] unsupported", validate));
+        }
+    }
 
     @Override
     public List<N2oAction> getActions() {

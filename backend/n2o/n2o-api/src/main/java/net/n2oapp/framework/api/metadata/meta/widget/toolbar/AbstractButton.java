@@ -45,12 +45,11 @@ public abstract class AbstractButton extends Component implements IdAware, Seria
     private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Confirm confirm;
+    /**
+     * Список источников данных, которые нужно валидировать
+     */
     @JsonProperty
-    private String validate;
-    @JsonProperty
-    private String validateWidgetId;
-    @JsonProperty
-    private String validatePageId;
+    private List<String> validate;
 
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {

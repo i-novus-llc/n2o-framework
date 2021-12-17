@@ -92,21 +92,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getClassName(), is("n2o-custom-modal-dialog"));
         assertThat(payload.getStyle().get("background"), is("red"));
 
-//        assertThat(payload.getActions().size(), is(2));
-//        assertThat(payload.getActions().containsKey("submit"), is(true));
-//        assertThat(payload.getActions().containsKey("close"), is(true));
-
-//        List<Button> buttons = payload.getToolbar().get(0).getButtons();
-//        assertThat(buttons.get(0).getId(), is("submit"));
-//        assertThat(buttons.get(0).getActionId(), is("submit"));
-//        assertThat(buttons.get(1).getId(), is("close"));
-//        assertThat(buttons.get(1).getActionId(), is("close"));
-
-//        InvokeAction submit = (InvokeAction) payload.getActions().get("submit");
-//        InvokeActionPayload submitPayload = submit.getOptions().getPayload();
-//        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/main/create/submit"));
-//        assertThat(submitPayload.getModelLink(), is("models.resolve['p_main_create_main']"));
-
         PageContext modalContext = (PageContext) route("/p/create", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
         assertThat(modalContext.getUpload(), is(UploadType.defaults));
