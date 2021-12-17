@@ -155,9 +155,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
-        Object[] flattedScopes = Arrays.stream(scopes)
-                .filter(Objects::nonNull)
-                .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o)).toArray();
+        Object[] flattedScopes = flatStream(Arrays.stream(scopes).filter(Objects::nonNull)).toArray();
         return compilePipeline.get(source, context, new N2oCompileProcessor(this, flattedScopes));
     }
 
@@ -234,7 +232,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     @Override
     public Object resolve(Object value) {
         if (value instanceof String)
-            return resolve((String)value);
+            return resolve((String) value);
         return value;
     }
 
@@ -242,7 +240,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     @Override
     public <T> T resolve(Object value, Class<T> clazz) {
         if (value instanceof String)
-            return resolve((String)value, clazz);
+            return resolve((String) value, clazz);
         return (T) value;
     }
 
@@ -525,6 +523,16 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             return value;
         } else
             return null;
+    }
+
+
+    private Stream<Object> flatStream(Stream<Object> stream) {
+        if (stream.anyMatch(o -> o.getClass().isArray()))
+            return flatStream(stream.flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o))
+                    .filter(Objects::nonNull));
+        else
+            return stream;
+
     }
 
     private boolean isBinding() {
