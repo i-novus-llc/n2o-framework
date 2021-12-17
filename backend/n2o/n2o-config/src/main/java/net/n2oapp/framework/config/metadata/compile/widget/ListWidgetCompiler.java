@@ -40,6 +40,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(listWidget.getId());
+        widgetScope.setDatasourceId(source.getDatasourceId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetActions, object, null);
         compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetActions, object);

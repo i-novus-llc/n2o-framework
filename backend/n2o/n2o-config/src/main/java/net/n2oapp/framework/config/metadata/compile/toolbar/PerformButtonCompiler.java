@@ -81,6 +81,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
+        source.setId(p.cast(source.getId(), source.getActionId()));
         super.initDefaults(source, context, p);
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(), false));
@@ -105,7 +106,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private List<String> compileValidate(N2oButton source, CompileProcessor p) {
-        if (source.getValidate() == null)
+        if (!source.getValidate())
             return null;
         PageScope pageScope = p.getScope(PageScope.class);
         return Stream.of(source.getValidateDatasources())

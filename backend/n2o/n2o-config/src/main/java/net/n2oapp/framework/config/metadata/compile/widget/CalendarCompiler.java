@@ -41,6 +41,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(calendar.getId());
+        widgetScope.setDatasourceId(source.getDatasourceId());
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));

@@ -30,6 +30,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(widget.getId());
+        widgetScope.setDatasourceId(source.getDatasourceId());
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetActions, object, null);
         return widget;

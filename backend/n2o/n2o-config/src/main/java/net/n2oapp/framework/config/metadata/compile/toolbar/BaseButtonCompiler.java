@@ -104,6 +104,6 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
             return LabelType.icon;
         if (source.getLabel() != null)
             return LabelType.text;
-        return null;
+        return LabelType.text;
     }
 }
