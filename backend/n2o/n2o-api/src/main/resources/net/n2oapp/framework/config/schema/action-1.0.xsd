@@ -148,6 +148,11 @@
                         <xs:documentation>Идентификатор объекта</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="target" type="aType" default="application">
+                    <xs:annotation>
+                        <xs:documentation>Сценарий открытия окна</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
