@@ -318,9 +318,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         actionContextData.setOperation(object.getOperations().get(submit.getOperationId()));
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
-            actionContextData.getRefresh().setType(RefreshSaga.Type.datasource);
             if (submit.getRefreshDatasources() != null)
-                actionContextData.getRefresh().getOptions().setDatasourcesId(Arrays.asList(submit.getRefreshDatasources()));
+                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasources()));
         }
         dataProvider.setActionContextData(actionContextData);
 

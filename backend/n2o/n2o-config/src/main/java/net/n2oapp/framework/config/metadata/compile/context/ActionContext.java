@@ -60,12 +60,6 @@ public class ActionContext extends ObjectContext {
     public void setRefresh(RefreshSaga refresh) {
         if (refresh == null)
             return;
-        this.refresh = new RefreshSaga();
-        if (refresh.getOptions() != null && refresh.getOptions().getWidgetId() != null) {
-            RefreshSaga.Options options = new RefreshSaga.Options();
-            options.setWidgetId(refresh.getOptions().getWidgetId());
-            this.refresh.setOptions(options);
-        }
-        this.refresh.setType(refresh.getType());
+        this.refresh = refresh;
     }
 }

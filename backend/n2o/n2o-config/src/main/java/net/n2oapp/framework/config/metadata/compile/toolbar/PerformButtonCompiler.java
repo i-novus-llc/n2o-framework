@@ -25,7 +25,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -63,10 +62,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setProperties(p.mapAttributes(source));
 
         CompiledObject.Operation operation = null;
-        WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-
-        if (source.getWidgetId() == null && widgetObjectScope != null && widgetObjectScope.size() == 1)
-            source.setWidgetId(widgetObjectScope.keySet().iterator().next());
 
         Action action = compileAction(source, button, context, p);
         if (action != null) {
@@ -94,10 +89,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     private CompiledObject getCompiledObject(CompileProcessor p, String objectId, String widgetId) {
         if (objectId != null) {
             return p.getCompiled(new ObjectContext(objectId));
-        } else if (widgetId != null) {
-            WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-            if (widgetObjectScope != null && widgetObjectScope.containsKey(widgetId))
-                return widgetObjectScope.getObject(widgetId);
         }
         return p.getScope(CompiledObject.class);
     }

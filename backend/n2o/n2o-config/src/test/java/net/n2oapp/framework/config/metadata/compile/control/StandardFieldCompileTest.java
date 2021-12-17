@@ -30,14 +30,14 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -129,7 +129,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(button.getAction(), instanceOf(InvokeAction.class));
         InvokeAction action = (InvokeAction) button.getAction();
         assertThat(action.getOperationId(), is("update"));
-        assertThat(action.getPayload().getModelLink(), is("models.filter['$testStandardField']"));
+        assertThat(action.getPayload().getDatasource(), is("$testStandardField"));
     }
 
     @Test
@@ -219,8 +219,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.getParentWidgetId(), is("testStandardFieldSubmit_form"));
         assertThat(context.getSuccessAlertWidgetId(), is("testStandardFieldSubmit_form"));
         assertThat(context.getFailAlertWidgetId(), is("testStandardFieldSubmit_form"));
-        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
-        assertThat(context.getRefresh().getOptions().getWidgetId(), is("form"));
+        assertThat(context.getRefresh().getDatasources(), hasItem("form"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
@@ -282,8 +281,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getSuccessAlertWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
         assertThat(context.getFailAlertWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
-        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
-        assertThat(context.getRefresh().getOptions().getWidgetId(), is("test"));
+        assertThat(context.getRefresh().getDatasources(), Matchers.hasItem("test"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));

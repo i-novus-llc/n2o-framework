@@ -126,6 +126,38 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         boolean doubleCloseOnSuccess = source.getDoubleCloseOnSuccess();
         boolean closeOnSuccess = source.getCloseOnSuccess() || doubleCloseOnSuccess;
         meta.setMessageWidgetId(getMessageWidgetId(compiled, context, closeOnSuccess));
+        initCloseOnSuccess(context, meta, redirect, doubleCloseOnSuccess, closeOnSuccess);
+        initRefreshOnClose(source, context, p, meta, closeOnSuccess);
+        initRedirect(source, context, p, meta, redirect, doubleCloseOnSuccess);
+        return meta;
+    }
+
+    private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
+        if (redirect) {
+            if (context instanceof ModalPageContext || context instanceof DialogContext)
+                meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
+            meta.setRedirect(new RedirectSaga());
+
+            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+            meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
+            meta.getRedirect().setTarget(source.getRedirectTarget());
+            meta.getRedirect().setServer(true);
+        }
+    }
+
+    private void initRefreshOnClose(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean closeOnSuccess) {
+        if (source.getRefreshOnSuccess()) {
+            meta.setRefresh(new RefreshSaga());
+            if (source.getRefreshDatasources() != null) {
+                PageScope pageScope = p.getScope(PageScope.class);
+                meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
+                        .map(pageScope::getGlobalDatasourceId).collect(Collectors.toList()));
+            } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientWidgetId() != null)
+                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
+        }
+    }
+
+    private void initCloseOnSuccess(CompileContext<?, ?> context, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess, boolean closeOnSuccess) {
         if (closeOnSuccess) {
             if (context instanceof ModalPageContext || context instanceof DialogContext)
                 meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
@@ -141,26 +173,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 meta.getRedirect().setTarget(Target.application);
             }
         }
-        if (source.getRefreshOnSuccess()) {
-            meta.setRefresh(new RefreshSaga());
-            if (source.getRefreshDatasources() != null) {
-                PageScope pageScope = p.getScope(PageScope.class);
-                meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
-                        .map(pageScope::getGlobalDatasourceId).collect(Collectors.toList()));
-            } else if ((closeOnSuccess) && (context instanceof PageContext) && ((PageContext) context).getRefreshClientWidgetId() != null)
-                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
-        }
-        if (redirect) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
-                meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
-            meta.setRedirect(new RedirectSaga());
-
-            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-            meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
-            meta.getRedirect().setTarget(source.getRedirectTarget());
-            meta.getRedirect().setServer(true);
-        }
-        return meta;
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {

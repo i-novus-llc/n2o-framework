@@ -81,6 +81,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Родительский виджет (клиентский), в котором находилось действие
      */
+    @Deprecated
     private String parentClientWidgetId;
     /**
      * Родительская страница (клиентский), в которой находилось действие

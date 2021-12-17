@@ -41,8 +41,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -196,8 +195,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getSuccessAlertWidgetId(), is("form"));
         assertThat(context.getFailAlertWidgetId(), is("form"));
-        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.datasource));
-      //fixme  assertThat(context.getRefresh().getOptions().getDatasourcesId(), is("form"));
+        assertThat(context.getRefresh().getDatasources(), hasItem("form"));
 
         ClientDataProvider dataProvider = page.getDatasources().get(form.getDatasource()).getSubmit();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));

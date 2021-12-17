@@ -102,10 +102,10 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(submitPayload.getModelLink(), is("models.edit['p_create_main']"));
+        assertThat(submitPayload.getModel(), is(ReduxModel.EDIT));
         assertThat(submitPayload.getDatasource(), is("p_create_main"));
         AsyncMetaSaga meta = submit.getMeta();
-        assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
+        assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("p_second"));
         assertThat(meta.getSuccess().getModalsToClose(), notNullValue());
         assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
@@ -175,7 +175,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) openDrawer.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -191,7 +191,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) openDrawer.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -211,7 +211,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
         //Есть уведомление, потому что по умолчанию true. Уведомление будет на родительском виджете, потому что close-after-submit=true
 
         CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
@@ -291,7 +291,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(1).getAction(), notNullValue());
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
         InvokeAction submit = (InvokeAction) drawerPage.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/submit"));
         ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/submit", CompiledObject.class);

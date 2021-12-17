@@ -28,6 +28,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
@@ -230,8 +231,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
-        List<Validation> serverValidations = new ArrayList<>();
-        List<Validation> clientValidations = new ArrayList<>();
+        List<Validation> validations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
         MomentScope momentScope = p.getScope(MomentScope.class);
         String REQUIRED_MESSAGE = momentScope != null
@@ -243,8 +243,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
             mandatory.addEnablingConditions(visibilityConditions);
-            serverValidations.add(mandatory);
-            clientValidations.add(mandatory);
+            validations.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
@@ -261,21 +260,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             mandatory.setEnablingExpression(ScriptProcessor.resolveFunction(
                     ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class))));
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
-                serverValidations.add(mandatory);
-                clientValidations.add(mandatory);
+                validations.add(mandatory);
             }
         }
-        CompiledObject object = p.getScope(CompiledObject.class);
-        initInlineValidations(field, source, serverValidations, clientValidations, object, context, visibilityConditions, p);
-        field.setServerValidations(serverValidations.isEmpty() ? null : serverValidations);
-        field.setClientValidations(clientValidations.isEmpty() ? null : clientValidations);
+        initInlineValidations(field, source, context, visibilityConditions, p);
+        ValidationScope validationScope = p.getScope(ValidationScope.class);
+        if (validationScope != null)
+            validationScope.addAll(validations);
     }
 
     private void initInlineValidations(Field field,
                                        S source,
-                                       List<Validation> serverValidations,
-                                       List<Validation> clientValidations,
-                                       CompiledObject object,
                                        CompileContext<?, ?> context,
                                        Set<String> visibilityConditions,
                                        CompileProcessor p) {
@@ -286,8 +281,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             for (String validation : validations.getWhiteList()) {
                 initWhiteListValidation(field.getId(),
                         validation,
-                        source,
-                        serverValidations, clientValidations, object, visibilityConditions);
+                        source, p,
+                        visibilityConditions);
             }
         }
         if (validations.getInlineValidations() != null) {
@@ -298,7 +293,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                         enablingConditions.add(dependency.getValue());
                 }
             }
-            ArrayList<Validation> objectValidations = new ArrayList<>();
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);
@@ -311,26 +305,21 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     compiledValidation.addEnablingConditions(enablingConditions);
                 }
                 compiledValidation.addEnablingConditions(visibilityConditions);
-                objectValidations.add(compiledValidation);
-                serverValidations.add(compiledValidation);
-                if (compiledValidation.getSide() == null || compiledValidation.getSide().contains("client"))
-                    clientValidations.add(compiledValidation);
+                ValidationScope validationScope = p.getScope(ValidationScope.class);
+                if (validationScope != null)
+                    validationScope.add(compiledValidation);
             }
-            if (object != null)
-                object.getValidations().addAll(objectValidations);
         }
     }
 
     private void initWhiteListValidation(String fieldId,
                                          String refId,
                                          S source,
-                                         List<Validation> serverValidations,
-                                         List<Validation> clientValidations,
-                                         CompiledObject object,
+                                         CompileProcessor p,
                                          Set<String> visibilityConditions) {
-        if (object == null) {
-            throw new N2oException(String.format("Field %s have validation reference, but haven't object!", fieldId));
-        }
+        CompiledObject object = p.getScope(CompiledObject.class);
+        if (object == null)
+            return;
         Validation objectValidation = null;
         if (object.getValidationsMap() != null && object.getValidationsMap().containsKey(refId)) {
             objectValidation = object.getValidationsMap().get(refId);
@@ -369,14 +358,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         validation.setFieldId(fieldId);
         validation.addEnablingConditions(enablingConditions);
         validation.addEnablingConditions(visibilityConditions);
-        if (validation.getSide() == null || validation.getSide().equals("client,server")) {
-            serverValidations.add(validation);
-            clientValidations.add(validation);
-        } else if (validation.getSide().equals("client")) {
-            clientValidations.add(validation);
-        } else if (validation.getSide().equals("server")) {
-            serverValidations.add(validation);
-        }
+        ValidationScope validationScope = p.getScope(ValidationScope.class);
+        if (validationScope != null)
+            validationScope.add(validation);
     }
 
     private List<String> collectConditions(S source, Class... types) {
@@ -529,7 +513,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param defaultWidgetId Идентификатор виджета по умолчанию
      * @param context         Контекст сборки метаданных
      * @param p               Процессор сборки метаданных
-     * @return                Идентификатор источника данных
+     * @return Идентификатор источника данных
      */
     private String getDefaultValueLinkDatasourceId(S source, String fieldId, String defaultWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
         String datasourceId;

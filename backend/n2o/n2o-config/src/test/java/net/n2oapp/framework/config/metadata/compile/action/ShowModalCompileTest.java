@@ -132,10 +132,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(submitPayload.getModelLink(), is("models.edit['p_create_main']"));
         assertThat(submitPayload.getDatasource(), is("p_create_main"));
+        assertThat(submitPayload.getModel(), is(ReduxModel.EDIT));
         AsyncMetaSaga meta = submit.getMeta();
-        assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
+        assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("p_second"));
         assertThat(meta.getSuccess().getModalsToClose(), is(1));
         assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
@@ -229,7 +229,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) showModal.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) showModal.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -245,7 +245,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) showModal.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) showModal.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -264,7 +264,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) showModal.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) showModal.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -284,7 +284,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
         //Есть уведомление, потому что по умолчанию true. Уведомление будет на родительском виджете, потому что close-after-submit=true
 
         CloseAction close = (CloseAction) showModal.getToolbar().getButton("close").getAction();
@@ -364,7 +364,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(1).getAction(), notNullValue());
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
         InvokeAction submit = (InvokeAction) modalPage.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/submit"));
         ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/submit", CompiledObject.class);
@@ -475,14 +475,11 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         MetaSaga meta = ((ShowModal) ((Form) rootPage.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("modal1").getAction()).getMeta();
         assertThat(meta.getOnClose(), notNullValue());
-        assertThat(meta.getOnClose().getRefresh().getType(), is(RefreshSaga.Type.widget));
-        assertThat(meta.getOnClose().getRefresh().getOptions().getWidgetId(), is("p_form"));
+        assertThat(meta.getOnClose().getRefresh().getDatasources(), hasItem("p_form"));
 
         meta = ((ShowModal) ((Form) rootPage.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("modal2").getAction()).getMeta();
         assertThat(meta.getOnClose(), notNullValue());
-        assertThat(meta.getOnClose().getRefresh().getType(), is(RefreshSaga.Type.widget));
-        // defined by refresh-widget-id
-        assertThat(meta.getOnClose().getRefresh().getOptions().getWidgetId(), is("p_form"));
+        assertThat(meta.getOnClose().getRefresh().getDatasources(), hasItem("p_form"));
     }
 }

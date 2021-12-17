@@ -16,6 +16,8 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 
+import java.util.Arrays;
+
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -104,8 +106,8 @@ public class N2oClientDataProviderUtil {
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
-            actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
-            actionContextData.getRefresh().getOptions().setWidgetId(submit.getRefreshWidgetId() != null ? submit.getRefreshWidgetId() : id);
+            if (submit.getRefreshDatasources() != null)
+                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasources()));
         }
         dataProvider.setActionContextData(actionContextData);
 

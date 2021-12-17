@@ -72,11 +72,8 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             meta.setModalsToClose(1);
         if (refresh) {
             meta.setRefresh(new RefreshSaga());
-            meta.getRefresh().setType(RefreshSaga.Type.widget);
-            String refreshWidgetId = null;
             if (context instanceof PageContext)
-                refreshWidgetId = p.cast(((PageContext) context).getRefreshClientWidgetId(), ((PageContext) context).getParentClientWidgetId());
-            meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
+                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
         }
         if (redirect) {
             meta.setRedirect(new RedirectSaga());
