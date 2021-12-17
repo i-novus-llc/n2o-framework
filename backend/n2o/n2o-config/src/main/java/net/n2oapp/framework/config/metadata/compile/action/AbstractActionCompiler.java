@@ -146,9 +146,9 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     protected void initMappings(N2oParam[] pathParams, N2oParam[] queryParams,
                                 Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                 CompileProcessor p) {
-        WidgetScope scope = p.getScope(WidgetScope.class);
-        if (scope != null) {
-            String defaultClientWidgetId = getDefaultClientWidgetId(scope, p);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            String defaultClientWidgetId = getDefaultClientWidgetId(widgetScope, p);
             ReduxModel defaultModel = getModelFromComponentScope(p);
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
