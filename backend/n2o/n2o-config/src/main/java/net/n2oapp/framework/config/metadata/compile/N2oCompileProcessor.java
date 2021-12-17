@@ -155,7 +155,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
-        Object[] flattedScopes = flatStream(Arrays.stream(scopes).filter(Objects::nonNull)).toArray();
+        Object[] flattedScopes = flatScopes(scopes);
         return compilePipeline.get(source, context, new N2oCompileProcessor(this, flattedScopes));
     }
 
@@ -526,12 +526,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
 
-    private Stream<Object> flatStream(Stream<Object> stream) {
-        if (stream.anyMatch(o -> o.getClass().isArray()))
-            return flatStream(stream.flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o))
-                    .filter(Objects::nonNull));
+    private Object[] flatScopes(Object[] scopes) {
+        if (Stream.of(scopes).anyMatch(o -> o.getClass().isArray()))
+            return flatScopes(Stream.of(scopes).filter(Objects::nonNull)
+                    .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o))
+                    .filter(Objects::nonNull).toArray());
         else
-            return stream;
+            return scopes;
 
     }
 
