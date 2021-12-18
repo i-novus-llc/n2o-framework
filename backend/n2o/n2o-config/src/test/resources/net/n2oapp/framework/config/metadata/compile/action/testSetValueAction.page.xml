@@ -17,7 +17,7 @@
             </actions>
             <toolbar>
                 <button action-id="test"/>
-                <button>
+                <button id="test2">
                     <set-value/>
                 </button>
             </toolbar>
