@@ -13,7 +13,7 @@
         </actions>
         <toolbar>
             <button action-id="test"/>
-            <button>
+            <button id="test2">
                 <invoke operation-id="update" optimistic="true" submit-form="false" route="/:ppName2/update">
                     <header-param name="hpName2" value="hpValue2"/>
                     <path-param name="ppName2" value="ppValue2"/>

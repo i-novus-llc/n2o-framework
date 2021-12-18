@@ -185,8 +185,7 @@ public class ClientDataProviderUtil {
             actionContext.setPathRouteMapping(routePathMapping);
             actionContext.setQueryRouteMapping(routeQueryMapping);
             ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope == null || componentScope.unwrap(N2oButton.class) == null
-                    || !ValidateType.NONE.equals(componentScope.unwrap(N2oButton.class).getValidate())) {
+            if (componentScope == null || componentScope.unwrap(N2oButton.class) == null) {
                 ValidationList validationList = p.getScope(ValidationList.class);
                 if (validationList != null)
                     actionContext.setValidations(validationList.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));

@@ -59,19 +59,19 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testInvokeAction", "/w"));
         Table table = (Table) page.getWidget();
         //filter model
-        InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("test").getAction();
+        InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("test2").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModel.FILTER));
         assertThat(testAction.getPayload().getDatasource(), is("w_main"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test2"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_testW"));
         assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
 
         //resolve model
-        InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("menuItem0").getAction();
+        InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("test1").getAction();
         assertThat(menuItem0action.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(menuItem0action.getPayload().getModel(), is(ReduxModel.RESOLVE));
         assertThat(menuItem0action.getPayload().getDatasource(), is("w_main"));
@@ -79,10 +79,10 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
 //        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getModalsToClose(), is(1));
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
-        assertThat(dataProvider.getUrl(), is("n2o/data/w/menuItem0"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/w/test1"));
         assertThat(dataProvider.getQueryMapping().size(), is(0));
         assertThat(dataProvider.getOptimistic(), is(true));
-        assertThat(route("/w/menuItem0", CompiledObject.class), notNullValue());
+        assertThat(route("/w/test1", CompiledObject.class), notNullValue());
     }
 
     @Test
@@ -150,7 +150,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         context = (ActionContext) route("/p/create", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
-        assertThat(context.getValidations(), nullValue());
+        assertThat(context.getValidations(), nullValue());//validate none
     }
 
     @Test
@@ -211,7 +211,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(provider1.getHeadersMapping().get("hpName1").getValue(), is("hpValue1"));
 
         //resolve model
-        InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("menuItem1").getAction();
+        InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("test2").getAction();
         ClientDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
         assertThat(provider2.getSubmitForm(), is(false));
         assertThat(provider2.getFormMapping().size(), is(1));

@@ -8,10 +8,10 @@
             </action>
         </actions>
         <toolbar>
-            <button>
+            <button id="test1">
                 <invoke operation-id="create" optimistic="true"/>
             </button>
-            <button action-id="test"/>
+            <button id="test2" action-id="test"/>
         </toolbar>
     </table>
 </simple-page>
