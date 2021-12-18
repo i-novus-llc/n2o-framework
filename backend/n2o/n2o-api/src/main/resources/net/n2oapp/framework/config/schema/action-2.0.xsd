@@ -45,7 +45,7 @@
         <xs:annotation>
             <xs:documentation>Действия</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="src" type="xs:string" use="optional">
+        <xs:attribute name="type" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Реализация действия.</xs:documentation>
             </xs:annotation>
@@ -867,7 +867,7 @@
                 <xs:annotation>
                     <xs:documentation>Кастомное действие.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="xs:string" use="optional">
+                <xs:attribute name="type" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Тип действия.
                         </xs:documentation>
