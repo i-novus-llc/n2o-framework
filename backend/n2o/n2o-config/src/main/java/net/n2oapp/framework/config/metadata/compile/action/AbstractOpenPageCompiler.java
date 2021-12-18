@@ -160,9 +160,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyWidgetId(source.getCopyWidgetId());
+        pageContext.setCopyDatasource(source.getCopyDatasource());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetWidgetId(source.getTargetWidgetId());
+        pageContext.setTargetDatasource(source.getTargetDatasource());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
         pageContext.setUpload(source.getUpload());
@@ -179,7 +181,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
         if (source.getRefreshDatasources() != null) {
             pageContext.setRefreshClientDataSources(Arrays.stream(source.getRefreshDatasources())
-                    .map(pageScope::getGlobalDatasourceId).collect(Collectors.toList()));
+                    .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));

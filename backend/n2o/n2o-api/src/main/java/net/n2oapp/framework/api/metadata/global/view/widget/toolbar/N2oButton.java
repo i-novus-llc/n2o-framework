@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdAware, ModelAware {
+public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware, ModelAware {
     private String actionId;
     private Boolean rounded;
     private String enabled;

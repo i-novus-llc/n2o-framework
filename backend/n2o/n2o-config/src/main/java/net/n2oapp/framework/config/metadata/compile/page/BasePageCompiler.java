@@ -107,9 +107,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
-//        compileWidgets(sourceWidgets, context, p, pageScope, routeScope, pageRoutes,
-//                breadcrumb, validationList, models, pageRoutesScope, searchBarScope, subModelsScope,
-//                copiedFieldScope, dataSourcesScope);
+        if (source.getDatasources() != null)
+            Stream.of(source.getDatasources()).forEach(ds -> dataSourcesScope.put(ds.getId(), ds));
 
         //regions
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
@@ -139,11 +138,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private Map<String, Datasource> compileDataSources(N2oDatasource[] sourceDatasources, PageContext context,
                                                        CompileProcessor p, DataSourcesScope dataSourcesScope, Object... scopes) {
         Map<String, Datasource> compiledDataSources = new HashMap<>();
-        if (sourceDatasources != null) {
-            for (N2oDatasource ds : sourceDatasources) {
-                dataSourcesScope.put(ds.getId(), ds);
-            }
-        }
         for (N2oDatasource ds : dataSourcesScope.values()) {
             Datasource compiled = p.compile(ds, context, scopes);
             compiledDataSources.put(compiled.getId(), compiled);

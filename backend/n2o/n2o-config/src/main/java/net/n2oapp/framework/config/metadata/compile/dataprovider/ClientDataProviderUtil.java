@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.dataprovider;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -76,6 +77,17 @@ public class ClientDataProviderUtil {
         dataProvider.setSize(compiled.getSize());
 
         return dataProvider;
+    }
+
+    public static String getDatasourceByComponentScope(CompileProcessor p) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
+                return datasourceIdAware.getDatasource();
+            }
+        }
+        return null;
     }
 
     public static String getWidgetIdByComponentScope(CompileProcessor p) {
@@ -250,5 +262,12 @@ public class ClientDataProviderUtil {
             }
         }
         return defaultModel;
+    }
+
+    public static String initClientDatasource(String datasourceId, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope != null && datasourceId != null)
+            return pageScope.getClientDatasourceId(datasourceId);
+        return null;
     }
 }

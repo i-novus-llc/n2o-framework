@@ -45,7 +45,12 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор виджета источника
      */
+    @Deprecated
     private String copyWidgetId;
+    /**
+     * Идентификатор источника данных из которого будут копироваться данные
+     */
+    private String copyDatasource;
     /**
      * Идентификатор копируемого поля источника
      */
@@ -57,7 +62,12 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор целевого виджета
      */
+    @Deprecated
     private String targetWidgetId;
+    /**
+     * Идентификатор источника данных, в который будут скопированы данные
+     */
+    private String targetDatasource;
     /**
      * Идентификатор поля целевого виджета, в которое будут скопированы данные
      */

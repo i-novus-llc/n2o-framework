@@ -85,10 +85,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         super.initDefaults(source, context, p);
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(), false));
-        boolean validate = p.cast(source.getValidate(), true);
-        source.setValidate(validate);
         String datasource = initDatasource(source, p);
         source.setDatasource(datasource);
+        boolean validate = initValidate(source, p, datasource);
+        source.setValidate(validate);
         source.setModel(p.cast(source.getModel(), ReduxModel.RESOLVE));
         source.setValidateDatasources(initValidateDatasources(source, p, validate, datasource));
         source.setAction(initAction(source, p));
@@ -96,6 +96,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setConfirmType(p.cast(source.getConfirmType(), ConfirmType.modal));
         source.setConfirmOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
         source.setConfirmCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+    }
+
+    private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
+        return p.cast(source.getValidate(), datasource != null || source.getValidateDatasources() != null);
     }
 
     private N2oAction initAction(N2oButton source, CompileProcessor p) {
@@ -108,9 +112,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     private List<String> compileValidate(N2oButton source, CompileProcessor p) {
         if (!source.getValidate())
             return null;
+        if (source.getValidateDatasources() == null || source.getValidateDatasources().length == 0)
+            throw new N2oException(String.format("validate-datasources is not defined in button [%s]", source.getId()));
         PageScope pageScope = p.getScope(PageScope.class);
         return Stream.of(source.getValidateDatasources())
-                .map(ds -> pageScope != null ? pageScope.getGlobalDatasourceId(ds) : ds)
+                .map(ds -> pageScope != null ? pageScope.getClientDatasourceId(ds) : ds)
                 .collect(Collectors.toList());
     }
 
@@ -166,7 +172,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             confirm.setText(text);
         }
         if (StringUtils.isJs(confirm.getText())) {
-            String clientDatasource = p.getScope(PageScope.class).getGlobalDatasourceId(source.getDatasource());
+            String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, clientDatasource).getBindLink());
         }
@@ -219,7 +225,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      */
     protected void compileDependencies(N2oButton source, PerformButton button,
                                        CompileContext<?, ?> context, CompileProcessor p) {
-        String clientDatasource = p.getScope(PageScope.class).getGlobalDatasourceId(source.getDatasource());
+        String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
         List<Condition> enabledConditions = new ArrayList<>();
 
         if (source.getVisibilityConditions() != null)

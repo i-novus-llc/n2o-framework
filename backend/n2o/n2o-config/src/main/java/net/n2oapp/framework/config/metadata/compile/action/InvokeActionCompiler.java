@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.initClientDatasource;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 
 /**
@@ -97,13 +98,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return null;
     }
 
-    private String initClientDatasource(String datasourceId, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && datasourceId != null)
-            return pageScope.getGlobalDatasourceId(datasourceId);
-        return null;
-    }
-
     private String initLocalDatasource(N2oInvokeAction source, CompileContext<?,?> context, CompileProcessor p) {
         if (source.getDatasource() != null)
             return source.getDatasource();
@@ -158,7 +152,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             if (!closeOnSuccess && source.getRefreshDatasources() != null) {
                 PageScope pageScope = p.getScope(PageScope.class);
                 meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
-                        .map(pageScope::getGlobalDatasourceId).collect(Collectors.toList()));
+                        .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
             } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientDataSources() != null)
                 meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
         }

@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -33,7 +34,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     public void compileAction(D compiled, S source, CompileProcessor p) {
-
+        compiled.setProperties(p.mapAttributes(source));
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {

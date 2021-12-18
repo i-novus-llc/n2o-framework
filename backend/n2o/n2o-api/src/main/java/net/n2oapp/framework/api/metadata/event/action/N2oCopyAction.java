@@ -16,6 +16,7 @@ public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
     @Deprecated
     private String sourceWidgetId;
     private String sourceFieldId;
+
     private ReduxModel targetModel;
     private String targetDatasource;
     @Deprecated
