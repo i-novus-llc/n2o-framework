@@ -8,4 +8,8 @@ import lombok.Setter;
 public class Message {
 
     private Integer count;
+
+    public void generateCount() {
+        count = (int) (Math.random() * 10);
+    }
 }
