@@ -12,6 +12,7 @@ import NavbarToggler from 'reactstrap/lib/NavbarToggler'
 import Collapse from 'reactstrap/lib/Collapse'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
+import { WithDataSource } from '../../../core/datasource/WithDataSource'
 
 import NavItemContainer from './NavItemContainer'
 import { Logo } from './Logo'
@@ -233,7 +234,7 @@ SimpleHeader.defaultProps = {
     localeSelect: false,
 }
 
-export default withResizeDetector(SimpleHeader, {
+export default withResizeDetector(WithDataSource(SimpleHeader), {
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 100,
