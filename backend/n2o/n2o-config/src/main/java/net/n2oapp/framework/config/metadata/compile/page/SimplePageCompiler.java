@@ -4,11 +4,13 @@ import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -22,6 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -81,8 +84,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
         ValidationList validationList = new ValidationList();
-        if (context.getUpload() != null)
-            widget.setUpload(context.getUpload());
+        if (context.getUpload() != null && widget.getDatasource() != null) {
+            widget.getDatasource().setDefaultValuesMode(DefaultValuesMode.values()[context.getUpload().ordinal()]);
+        }
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs,
@@ -101,6 +105,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         if (objectId != null) {
             object = p.getCompiled(new ObjectContext(objectId));
             page.setObject(object);
+        } else if (dataSourcesScope.get(widget.getId()) != null && dataSourcesScope.get(widget.getId()).getQueryId() != null) {
+            CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(widget.getId()).getQueryId()));
+            object = query.getObject();
         }
         if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
             page.setToolbar(compileToolbar(context, p, new MetaActions(), pageScope, pageRouteScope, object, breadcrumbs, validationList));

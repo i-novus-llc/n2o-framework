@@ -5,6 +5,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -88,8 +89,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getToolbar().getButton("submit"), notNullValue());
         assertThat(drawerPage.getToolbar().getButton("close"), notNullValue());
 
-        Widget drawerWidget = drawerPage.getWidget();
-        assertThat(drawerWidget.getUpload(), is(UploadType.defaults));
+        assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
 
         List<AbstractButton> buttons = drawerPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));

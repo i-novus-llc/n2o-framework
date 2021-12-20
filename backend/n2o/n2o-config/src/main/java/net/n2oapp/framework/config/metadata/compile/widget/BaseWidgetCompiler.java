@@ -147,11 +147,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             datasource = dataSourcesScope.get(datasourceId);
         }
         PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null) {
-            pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
-            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
-        }
-        compiled.setDatasource(pageScope == null ? datasourceId : pageScope.getClientDatasourceId(datasourceId));
+        pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
+        pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
+        compiled.setDatasource(pageScope.getClientDatasourceId(datasourceId));
         return datasource;
     }
 
