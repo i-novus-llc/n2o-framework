@@ -6,7 +6,8 @@
                        name="Уведомления"
                        icon="fa fa-bell"
                        badge="2"
-                       badge-color="warning">
+                       badge-color="warning"
+                       datasource="ds1">
                 <open-page page-id="testMenu" route="/login"/>
             </menu-item>
             <menu-item image="/static/users/ivan90.png"

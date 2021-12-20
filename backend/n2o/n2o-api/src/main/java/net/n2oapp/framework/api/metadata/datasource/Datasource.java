@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Клиентская модель источника данных
+ */
 @Getter
 @Setter
-public class Datasource implements Compiled {
+public class Datasource extends AbstractDatasource {
 
-    private String id;
     @JsonProperty
     private ClientDataProvider provider;
     @JsonProperty
@@ -27,5 +27,4 @@ public class Datasource implements Compiled {
     private ClientDataProvider submit;
     @JsonProperty
     private List<DependencyCondition> dependencies;
-    private DefaultValuesMode defaultValuesMode;
 }

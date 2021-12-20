@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.header.Header;
+
+import java.util.Map;
 
 /**
  * Клиентская модель приложения
@@ -23,6 +26,12 @@ public class Application implements Compiled {
 
     @JsonProperty
     private Footer footer;
+
+    @JsonProperty
+    private Map<String, AbstractDatasource> datasources;
+
+    @JsonProperty
+    private String wsId;
 
     @Getter
     @Setter

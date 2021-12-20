@@ -51,8 +51,11 @@ import java.util.*;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
+/**
+ * Компиляция источника данных
+ */
 @Component
-public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
+public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Datasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -62,8 +65,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     @Override
     public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
-        PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setId(pageScope.getGlobalDatasourceId(source.getId()));
+        initDatasource(compiled, source, context, p);
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         if (source.getQueryId() != null)
             compiled.setDefaultValuesMode(DefaultValuesMode.query);
@@ -89,8 +91,10 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
-        List<DependencyCondition> fetch = new ArrayList<>();
         PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope == null)
+            return null;
+        List<DependencyCondition> fetch = new ArrayList<>();
         String pageId = pageScope.getPageId();
         if (source.getDependencies() != null) {
             for (N2oDatasource.Dependency d : source.getDependencies()) {
@@ -107,6 +111,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private Map<String, List<Validation>> initValidation(N2oDatasource source, PageWidgetsScope widgetsScope) {
+        if (widgetsScope == null)
+            return null;
         Map<String, List<Validation>> validations = new HashMap<>();
         for (Widget<?> w : widgetsScope.getWidgets().values()) {
             if (source.getId().equals(getLocalDsId(w.getDatasource())) && w instanceof Form
