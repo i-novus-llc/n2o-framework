@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../../ducks/datasource/selectors'
 import { failValidate } from '../../ducks/datasource/store'
 
-import { MODEL_PREFIX } from './const'
+import { MODEL_PREFIX, VALIDATION_SEVERITY } from './const'
 import { validateField } from './validateField'
 
 /**
@@ -27,21 +27,23 @@ export const validate = (
     const model = models[MODEL_PREFIX.active]
     const entries = Object.entries(validation)
 
-    const errors = {}
+    const allMessages = {}
 
     entries.forEach(([field, validationList]) => {
         const messages = validateField(field, model, validationList || [])
 
         if (messages?.length) {
-            errors[field] = messages
+            allMessages[field] = messages
         }
     })
 
-    if (isEmpty(errors)) {
-        return true
+    const invalid = Object.values(allMessages).some(messages => messages.some(message => (
+        message.severity === VALIDATION_SEVERITY.danger || message.severity === VALIDATION_SEVERITY.warning
+    )))
+
+    if (isEmpty(allMessages)) {
+        dispatch(failValidate(datasourceId, allMessages, { touched }))
     }
 
-    dispatch(failValidate(datasourceId, errors, { touched }))
-
-    return false
+    return invalid
 }
