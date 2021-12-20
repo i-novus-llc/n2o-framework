@@ -226,7 +226,7 @@ export function* handleInvoke(apiProvider, action) {
                 setModel(modelPrefix, modelId, optimistic ? model : response.data),
             )
         }
-        yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }))
+        yield put(successInvoke(widgetId, { ...meta }))
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
