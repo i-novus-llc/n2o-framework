@@ -127,7 +127,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(region.getId(), is("testTabsRegionNesting_tabs_6"));
         assertThat(region.getItems().size(), is(1));
         assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab_7"));
-        assertThat(region.getItems().get(0).getContent().size(), is(0));
+        assertThat(region.getItems().get(0).getContent(), nullValue());
     }
 
     @Test

@@ -277,7 +277,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             }
             throw new N2oException("Widget " + resultWidgetId + " not found!");
         } else {
-            return sourceWidgets.get(0);
+            return !sourceWidgets.isEmpty() ? sourceWidgets.get(0) : null;
         }
     }
 
