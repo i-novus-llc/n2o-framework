@@ -158,7 +158,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                     }
                     masterFilter.setParam(param);
                     masterFilter.setModel(ReduxModel.RESOLVE);
-                    masterFilter.setDatasource(datasourceId);
+                    masterFilter.setDatasource(getDependsOn());
                     masterFilter.setRequired(true);
                     preFilters.add(masterFilter);
                     datasource.setFilters(preFilters.toArray(new N2oPreFilter[0]));

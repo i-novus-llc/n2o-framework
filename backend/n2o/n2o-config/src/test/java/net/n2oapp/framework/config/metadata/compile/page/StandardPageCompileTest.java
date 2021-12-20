@@ -52,44 +52,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
     }
 
-
-    @Test
-    public void layout() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
-                .get(new PageContext("testStandardPage"));
-
-        assertThat(page.getId(), is("testRoute"));
-        assertThat(page.getObject().getId(), is("utBlank"));
-
-        assertThat(page.getSrc(), is("StandardPage"));
-        assertThat(page.getRegions().get("single").size(), is(3));
-        assertThat(page.getRegions().get("left").size(), is(1));
-        assertThat(page.getRegions().size(), is(2));
-        assertThat(page.getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
-        assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
-        assertThat(page.getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion) page.getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
-        assertThat(((PanelRegion) page.getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
-        assertThat(page.getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
-        assertThat(page.getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
-        assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
-        assertThat(page.getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
-        assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getProperties().get("attr1"), is("htmlTestAttribute"));
-
-        List<Compiled> widgets = page.getRegions().get("single").get(0).getContent();
-        assertThat(widgets.size(), is(2));
-        assertThat(((Widget) widgets.get(0)).getProperties().get("attr1"), is("htmlTestAttribute"));
-        assertThat(((Widget) widgets.get(0)).getName(), is("test1"));
-        assertThat(((Widget) widgets.get(1)).getName(), is("test2"));
-
-        assertThat(page.getToolbar().get("TopLeft"), notNullValue());
-        assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getToolbar().getButton("close"), notNullValue());
-
-    }
-
     @Test
     public void routes() {
         PageContext context = new PageContext("testRoutes", "/page");
