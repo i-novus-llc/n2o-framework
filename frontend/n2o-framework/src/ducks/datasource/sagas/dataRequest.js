@@ -26,9 +26,9 @@ export function* dataRequest({ payload }) {
 
     try {
         const state = yield select()
-        const { provider, size, sorting, page, widgets } = yield select(dataSourceByIdSelector(id))
+        const { provider, size, sorting, page, components } = yield select(dataSourceByIdSelector(id))
 
-        if (!widgets.length) {
+        if (!components.length) {
             return
         }
 

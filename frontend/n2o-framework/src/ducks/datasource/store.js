@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
+import get from 'lodash/get'
 
 import { MODEL_PREFIX, SORT_DIRECTION } from '../../core/datasource/const'
 
@@ -17,9 +18,24 @@ const datasource = createSlice({
             reducer(state, action) {
                 const { id, initProps } = action.payload
 
-                state[id] = {
+                /* FIXME for debugging, remove and return
+                 *   state[id] = {
                     ...DataSource.defaultState,
-                    ...initProps,
+                    ...initProps,}
+                 */
+                const components = get(current(state), `${id}.components`, [])
+
+                if (components.length) {
+                    state[id] = {
+                        ...state[id],
+                        ...initProps,
+                        components,
+                    }
+                } else {
+                    state[id] = {
+                        ...DataSource.defaultState,
+                        ...initProps,
+                    }
                 }
             },
         },
@@ -34,40 +50,42 @@ const datasource = createSlice({
             },
         },
 
-        addWidget: {
-            prepare(id, widgetId) {
+        addComponent: {
+            prepare(dataSourceId, componentId) {
                 return ({
-                    payload: { widgetId, id },
+                    payload: { dataSourceId, componentId },
                 })
             },
+
             reducer(state, action) {
-                const { widgetId, id } = action.payload
-                const datasource = state[id] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
+                const { dataSourceId, componentId } = action.payload
 
-                if (datasource.widgets.includes(widgetId)) {
-                    return
-                }
+                const datasource = state[dataSourceId] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
 
-                state[id] = {
+                if (datasource.components.includes(componentId)) { return }
+
+                state[dataSourceId] = {
                     ...datasource,
-                    widgets: [...datasource.widgets, widgetId],
+                    components: [...datasource.components, componentId],
                 }
             },
         },
-        removeWidget: {
+        removeComponent: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(id, widgetId) {
+            prepare(dataSourceId, componentId) {
                 return ({
-                    payload: { widgetId, id },
+                    payload: { dataSourceId, componentId },
                 })
             },
-            reducer(state, action) {
-                const { widgetId, id } = action.payload
-                const datasource = state[id]
 
-                state[id] = {
+            reducer(state, action) {
+                const { dataSourceId, componentId } = action.payload
+
+                const datasource = state[dataSourceId]
+
+                state[dataSourceId] = {
                     ...datasource,
-                    widgets: datasource.widgets.filter(widget => widget !== widgetId),
+                    components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
                 }
             },
         },
@@ -240,8 +258,8 @@ export default datasource.reducer
 export const {
     register,
     remove,
-    addWidget,
-    removeWidget,
+    addComponent,
+    removeComponent,
     dataRequest,
     resolveRequest,
     rejectRequest,
