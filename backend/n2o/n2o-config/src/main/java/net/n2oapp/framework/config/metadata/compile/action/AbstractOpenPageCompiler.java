@@ -176,12 +176,16 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
-        if (source.getRefreshWidgetId() != null) {
-            pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
-        }
         if (source.getRefreshDatasources() != null) {
             pageContext.setRefreshClientDataSources(Arrays.stream(source.getRefreshDatasources())
                     .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+        } else if(source.getRefreshWidgetId() != null) {
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
+            pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
+        }
+        if(pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null) {
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(parentWidgetId));
+            pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
