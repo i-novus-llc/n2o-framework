@@ -57,58 +57,35 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                              PageScope pageScope, PageRoutes pageRoutes, Object... scopes);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
-        List<N2oWidget> sourceWidgets = collectWidgets(items, p);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
-        PageScope pageScope = new PageScope();
-        pageScope.setPageId(page.getId());
-        if (context.getParentTabIds() != null) {
-            pageScope.setTabIds(context.getParentTabIds());
-        }
+
+        List<N2oWidget> sourceWidgets = collectWidgets(items, p);
         N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
-        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
-            pageScope.setObjectId(source.getObjectId());
-            pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
-        }
+
         String pageName = p.cast(context.getPageName(), source.getName());
         page.setPageProperty(initPageName(source, pageName, context, p));
-        page.setProperties(p.mapAttributes(source));
-        CompiledObject object = initObject(source, p);
-        page.setObject(object);
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
+
+        CompiledObject object = initObject(source, p);
+        page.setObject(object);
         page.setClassName(source.getCssClass());
         page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileComponent(page, source, context, p);
-        page.setProperties(p.mapAttributes(source));
 
         Models models = new Models();
         page.setModels(models);
+
+        PageScope pageScope = initPageScope(source, page, context, sourceWidgets, resultWidget);
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationList validationList = new ValidationList();
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
-
-        //widgets
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
-        if (!CollectionUtils.isEmpty(sourceWidgets))
-            pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
-                    .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
-        pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
-        pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
-        pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
-                .collect(Collectors.toMap(N2oMetadata::getId,
-                        w -> w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId())));
-        pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
-                .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
-                        w -> pageScope.getGlobalWidgetId(w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId()))));
-        if (context.getParentWidgetIdDatasourceMap() != null)
-            pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
-        DataSourcesScope dataSourcesScope = new DataSourcesScope();
-        if (source.getDatasources() != null)
-            Stream.of(source.getDatasources()).forEach(ds -> dataSourcesScope.put(ds.getId(), ds));
+        DataSourcesScope dataSourcesScope = initDataSourcesScope(source);
 
         //regions
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
@@ -129,6 +106,39 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         compileToolbarAndAction(page, source, context, p,
                 pageScope, routeScope, pageRoutes, object, breadcrumb, validationList);
         return page;
+    }
+
+    private DataSourcesScope initDataSourcesScope(S source) {
+        DataSourcesScope dataSourcesScope = new DataSourcesScope();
+        if (source.getDatasources() != null)
+            Stream.of(source.getDatasources()).forEach(ds -> dataSourcesScope.put(ds.getId(), ds));
+        return dataSourcesScope;
+    }
+
+    private PageScope initPageScope(S source, D page, PageContext context, List<N2oWidget> sourceWidgets, N2oWidget resultWidget) {
+        PageScope pageScope = new PageScope();
+        pageScope.setPageId(page.getId());
+        if (context.getParentTabIds() != null) {
+            pageScope.setTabIds(context.getParentTabIds());
+        }
+        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
+            pageScope.setObjectId(source.getObjectId());
+            pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
+        }
+        if (!CollectionUtils.isEmpty(sourceWidgets))
+            pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
+                    .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
+        pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
+        pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
+        pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
+                .collect(Collectors.toMap(N2oMetadata::getId,
+                        w -> w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId())));
+        pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
+                .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
+                        w -> pageScope.getGlobalWidgetId(w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId()))));
+        if (context.getParentWidgetIdDatasourceMap() != null)
+            pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
+        return pageScope;
     }
 
     private CompiledObject initObject(S source, CompileProcessor p) {
