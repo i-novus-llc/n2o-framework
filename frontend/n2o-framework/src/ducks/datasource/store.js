@@ -182,9 +182,10 @@ const datasource = createSlice({
             },
         },
         failValidate: {
-            prepare(id, fields /* , prefix = MODEL_PREFIX.active*/) {
+            prepare(id, fields, meta /* , prefix = MODEL_PREFIX.active*/) {
                 return ({
                     payload: { id, fields },
+                    meta,
                 })
             },
             // eslint-disable-next-line no-unused-vars

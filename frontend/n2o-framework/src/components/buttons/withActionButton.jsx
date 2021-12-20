@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { compose, withPropsOnChange } from 'recompose'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
 
 import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
@@ -17,7 +16,7 @@ import {
     isVisibleSelector,
     countSelector,
 } from '../../ducks/toolbar/selectors'
-import { validate as validateForm } from '../../core/validation/createValidator'
+import { validate as validateDatasource } from '../../core/datasource/validate'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
@@ -26,38 +25,6 @@ import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 const ConfirmMode = {
     POPOVER: 'popover',
     MODAL: 'modal',
-}
-
-const validatePage = (
-    pageId,
-    store,
-    isTouched,
-    dispatch,
-) => {
-    const state = store.getState()
-    const page = pageId === '_' ? '' : pageId
-
-    const promises = Object.keys(state.form || {})
-        .filter(formName => formName.startsWith(page))
-        .map((formId) => {
-            const validation = get(state, ['widgets', formId, 'validation'])
-            const form = state.form[formId]
-            const { registeredFields, values } = form
-
-            if (
-                // Если для формы нету registeredFields или он пустой, то форма была на закрытой модалке - валидировать уже нечего
-                !registeredFields || isEmpty(registeredFields) ||
-                isEmpty(validation)
-            ) { return Promise.resolve(false) }
-
-            return validateForm(validation, formId, state, isTouched, values, dispatch)
-        })
-
-    if (!promises.length) {
-        return Promise.resolve(false)
-    }
-
-    return Promise.all(promises).then(results => results.some(hasError => hasError))
 }
 
 /*
@@ -133,36 +100,19 @@ export default function withActionButton(options = {}) {
             * @param isTouched - отображение ошибок филдов
             * @returns {Promise<*>}
             */
-            validationFields = async (isTouched = true) => {
+            validationFields = async () => {
                 const { store } = this.context
                 const {
                     validate,
                     dispatch,
                 } = this.props
 
-                switch (validate) {
-                    case 'widget': {
-                        const { validateWidgetId } = this.props
-                        const state = store.getState()
-
-                        return validateForm(
-                            get(state, ['widgets', validateWidgetId, 'validation']),
-                            validateWidgetId,
-                            store.getState(),
-                            isTouched,
-                            get(state, ['form', validateWidgetId, 'values']),
-                            dispatch,
-                        )
-                    }
-                    case 'page': {
-                        const { validatePageId } = this.props
-
-                        return validatePage(validatePageId, store, isTouched, dispatch)
-                    }
-                    default: {
-                        return false
-                    }
-                }
+                return validate.map(datasourceId => validateDatasource(
+                    store.getState(),
+                    datasourceId,
+                    dispatch,
+                    true,
+                )).reduce((current, prev) => current && prev)
             };
 
             handleClick = async (e) => {
@@ -338,7 +288,7 @@ export default function withActionButton(options = {}) {
             id: PropTypes.string,
             validateWidgetId: PropTypes.string,
             validatePageId: PropTypes.string,
-            validate: PropTypes.oneOf(['page', 'widget', 'none']),
+            validate: PropTypes.arrayOf(PropTypes.string),
             confirm: PropTypes.object,
             registerButton: PropTypes.func,
             removeButton: PropTypes.func,

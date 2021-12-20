@@ -12,10 +12,10 @@ import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { makeDatasourceIdSelector } from '../widgets/selectors'
+import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../widgets/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { regionsSelector } from '../regions/store'
-import { startValidate } from '../datasource/store'
+import { failValidate, startValidate } from '../datasource/store'
 
 import { formsSelector } from './selectors'
 import { addMessage } from './constants'
@@ -146,6 +146,21 @@ export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
     takeEvery(copyModel.type, copyAction),
+    takeEvery(failValidate, function* touchOnFailValidate({ payload, meta }) {
+        if (!meta?.touched) { return }
+
+        const { id: datasource, fields } = payload
+        const keys = Object.keys(fields)
+        const forms = yield select(formsSelector)
+
+        for (const formName of Object.keys(forms)) {
+            const widget = yield select(makeWidgetByIdSelector(formName))
+
+            if (datasource === widget?.datasource) {
+                yield put(touch(formName, ...keys))
+            }
+        }
+    }),
     debounce(100, [
         actionTypes.CHANGE,
         actionTypes.BLUR,
