@@ -146,6 +146,18 @@ public interface IOProcessor {
                        Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter);
 
     /**
+     * Считывание списка дочерних элементов в <Map<String, Object>
+     *
+     * @param element      элемент
+     * @param sequences    название списка
+     * @param childrenName название элемента в списке
+     * @param getter       получение списка дочерних элементов
+     * @param setter       запись списка дочерних элементов
+     */
+    void childrenToMap(Element element, String sequences, String childrenName,
+                       Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter);
+
+    /**
      * Считывание\запись списка дочерних элементов в <Map<String, String>
      *
      * @param element      элемент

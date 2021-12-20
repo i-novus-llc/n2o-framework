@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <datasource id="ds1" query-id="test" size="5" route="/:id/data">
+            <dependencies>
+                <fetch on="ds1"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id" value="3"/>
+            </filters>
+        </datasource>
+        <stomp-datasource id="taskCount" destination="/task/count"/>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                <value count="0"/>
+                <value notifCount="1"/>
+            </values>
+        </stomp-datasource>
+    </datasources>
+</application>

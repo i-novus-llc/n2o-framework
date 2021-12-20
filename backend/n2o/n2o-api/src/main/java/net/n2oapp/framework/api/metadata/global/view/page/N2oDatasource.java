@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.control.Submit;
@@ -12,9 +13,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
  */
 @Getter
 @Setter
-public class N2oDatasource implements Source {
+public class N2oDatasource extends N2oAbstractDatasource {
 
-    private String id;
     private String queryId;
     private String objectId;
     private String route;
