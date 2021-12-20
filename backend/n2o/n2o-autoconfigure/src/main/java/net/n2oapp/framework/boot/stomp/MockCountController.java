@@ -5,7 +5,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class MockCountController {
+public class MockCountController { //fixme удалить после дебага на фронте
 
     @MessageMapping("/ws")
     @SendTo("/topic/notif/count")

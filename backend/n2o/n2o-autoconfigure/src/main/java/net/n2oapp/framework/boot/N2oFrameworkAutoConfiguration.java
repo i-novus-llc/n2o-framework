@@ -23,7 +23,7 @@ import org.springframework.core.Ordered;
         N2oEngineConfiguration.class,
         N2oRestConfiguration.class,
         N2oServletConfiguration.class,
-        N2oWebSocketConfiguration.class})
+        N2oWebSocketConfiguration.class})//fixme сделать конфигурацию веб сокетов опциональной
 @ServletComponentScan("net.n2oapp.framework")
 @ComponentScan(basePackages = "net.n2oapp.framework.api", lazyInit = true)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
