@@ -4,6 +4,10 @@ import merge from 'lodash/merge'
 import fetchMock from 'fetch-mock'
 
 import {
+    FETCH_START,
+    FETCH_END,
+} from '../constants/fetch'
+import {
     FAIL_INVOKE,
     START_INVOKE,
     SUCCESS_INVOKE,
@@ -56,6 +60,9 @@ describe('Проверка саги actionsImpl', () => {
         const fakeStore = {
             dispatch: action => dispatched.push(action),
             getState: () => ({
+                datasource: {
+                    __patients: {}
+                },
                 widgets: {
                     __patients: {
                         datasource: '__patients',
@@ -79,7 +86,8 @@ describe('Проверка саги actionsImpl', () => {
             },
             payload: {
                 widgetId: '__patients',
-                modelLink: null,
+                datasource: '__patients',
+                model: 'resolve',
                 dataProvider: {
                     url: '/test',
                     optimistic: true,
@@ -98,15 +106,9 @@ describe('Проверка саги actionsImpl', () => {
         })
 
         await runSaga(fakeStore, handleInvoke, apiProvider, action)
-        expect(dispatched[1].payload).toEqual({
-            prefix: 'resolve',
-            key: '__patients',
-            model: {
-                id: 1,
-                vip: false,
-            },
-        })
-        expect(dispatched[3].type).toBe(SUCCESS_INVOKE)
+        expect(dispatched[0].type).toBe(FETCH_START)
+        expect(dispatched[1].type).toBe(SUCCESS_INVOKE)
+        expect(dispatched[2].type).toBe(FETCH_END)
     })
 
     it('Проверка генератора handleFetchInvoke', () => {
