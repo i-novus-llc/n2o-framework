@@ -5,7 +5,12 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.v2.ComponentIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
+import org.springframework.stereotype.Component;
 
+/**
+ * Чтение\запись базовых свойств источников данных
+ */
+@Component
 public abstract class AbstractDatasourceIO<T extends N2oAbstractDatasource> extends ComponentIO<T> {
 
     static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/datasource-1.0");

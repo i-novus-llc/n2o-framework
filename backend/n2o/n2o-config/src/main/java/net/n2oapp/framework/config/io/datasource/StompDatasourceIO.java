@@ -3,7 +3,12 @@ package net.n2oapp.framework.config.io.datasource;
 import net.n2oapp.framework.api.metadata.application.N2oStompDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
+import org.springframework.stereotype.Component;
 
+/**
+ * Чтение\запись STOMP-источника данных
+ */
+@Component
 public class StompDatasourceIO extends AbstractDatasourceIO<N2oStompDatasource> {
 
     @Override
