@@ -28,7 +28,6 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -97,8 +96,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         compileComponent(page, source, context, p);
         Map<String, Widget<?>> compiledWidgets = new HashMap<>();
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
-        PageWidgetsScope widgetsScope = new PageWidgetsScope(compiledWidgets);
-        page.setDatasources(initDatasources(dataSourcesScope, context, p, validationList, widgetsScope, routes,
+        page.setDatasources(initDatasources(dataSourcesScope, context, p, validationList, routes,
                 pageRouteScope, pageScope));
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
@@ -117,13 +115,12 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
 
     private Map<String, Datasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
                                                     CompileProcessor p, ValidationList validationList,
-                                                    PageWidgetsScope widgetsScope,
                                                     PageRoutes routeScope, ParentRouteScope parentRouteScope,
                                                     PageScope pageScope) {
         Map<String, Datasource> compiledDatasources = new StrictMap<>();
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
-                Datasource compiled = p.compile(ds, context, validationList, widgetsScope, routeScope,
+                Datasource compiled = p.compile(ds, context, validationList, routeScope,
                         parentRouteScope, pageScope);
                 compiledDatasources.put(compiled.getId(), compiled);
             });

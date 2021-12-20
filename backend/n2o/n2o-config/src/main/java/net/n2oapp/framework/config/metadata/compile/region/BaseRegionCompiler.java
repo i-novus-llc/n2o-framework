@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
@@ -10,7 +11,6 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
     protected List<Compiled> initContent(SourceComponent[] items,
                                          PageContext context,
                                          CompileProcessor p,
-                                         N2oRegion source) {
+                                         Source source) {
         if (items == null || items.length == 0)
             return null;
 

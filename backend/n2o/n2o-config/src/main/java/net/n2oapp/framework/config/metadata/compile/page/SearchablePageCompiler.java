@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;

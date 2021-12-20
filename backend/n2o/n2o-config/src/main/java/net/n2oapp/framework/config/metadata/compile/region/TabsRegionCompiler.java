@@ -11,7 +11,6 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -41,8 +40,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         TabsRegion region = new TabsRegion();
         build(region, source, p);
         IndexScope indexScope = p.getScope(IndexScope.class);
-        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
-        region.setItems(initItems(source, indexScope, pageWidgetsScope, context, p));
+        region.setItems(initItems(source, indexScope, context, p));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         region.setScrollbar(p.cast(source.getScrollbar(), p.resolve(property("n2o.api.region.tabs.scrollbar"), Boolean.class)));
@@ -76,7 +74,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     }
 
 
-    protected List<TabsRegion.Tab> initItems(N2oTabsRegion source, IndexScope index, PageWidgetsScope pageWidgetsScope,
+    protected List<TabsRegion.Tab> initItems(N2oTabsRegion source, IndexScope index,
                                              PageContext context, CompileProcessor p) {
         List<TabsRegion.Tab> items = new ArrayList<>();
         if (source.getTabs() != null)
@@ -85,14 +83,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setId(createTabId(t.getId(), source.getAlias(), p));
                 tab.setLabel(t.getName());
                 tab.setProperties(p.mapAttributes(t));
-                List<Compiled> content = new ArrayList<>();
-                if (t.getContent() != null)
-                    BasePageUtil.resolveRegionItems(t.getContent(),
-                            item -> content.add(p.compile(item, context, p, index)),
-                            item -> pageWidgetsScope.getWidgets().keySet().stream()
-                                    .filter(k -> k.endsWith(item.getId())).findFirst()
-                                    .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
-                tab.setContent(content);
+                tab.setContent(initContent(t.getContent(), context, p, t));
                 // opened only first tab
                 tab.setOpened(items.isEmpty());
                 items.add(tab);

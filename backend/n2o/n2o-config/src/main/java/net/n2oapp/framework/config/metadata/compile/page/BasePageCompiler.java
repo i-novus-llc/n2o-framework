@@ -145,7 +145,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return compiledDataSources;
     }
 
-
+    @Deprecated
+    //todo в целевой модели не должно требоваться собирать исходные ввиджеты в список, т.к. виджеты независимы друг от друга
     protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
         List<N2oWidget> result = new ArrayList<>();
         if (items != null) {
@@ -266,11 +267,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             }
             throw new N2oException("Widget " + resultWidgetId + " not found!");
         } else {
-            List<N2oWidget> sourceIndependents = getSourceIndependents(sourceWidgets);
-            if (!sourceIndependents.isEmpty())
-                return sourceIndependents.get(0);
-            else
-                return null;
+            return sourceWidgets.get(0);
         }
     }
 

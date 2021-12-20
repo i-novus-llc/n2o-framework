@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
