@@ -135,7 +135,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
 
         Map<String, String> widgetIdQueryIdMap = null;
-        if (!CollectionUtils.isEmpty(pageScope.getWidgetIdQueryIdMap()))
+        if (pageScope != null && !CollectionUtils.isEmpty(pageScope.getWidgetIdQueryIdMap()))
             widgetIdQueryIdMap = pageScope.getWidgetIdQueryIdMap();
         initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, widgetIdQueryIdMap, p);
 
@@ -148,9 +148,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         route = normalize(route + actionRoute);
 
         PageContext pageContext = constructContext(pageId, route);
-        if (pageScope.getWidgetIdClientDatasourceMap() != null)
+        if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
-        if (pageScope.getTabIds() != null)
+        if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
@@ -171,7 +171,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
-        pageContext.setParentClientPageId(pageScope.getPageId());
+        pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
