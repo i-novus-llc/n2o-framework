@@ -603,7 +603,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(link.getTarget(), is(Target.application));
 
         link = (LinkAction) toolbar.getButton("id2").getAction();
-        assertThat(link.getUrl(), is("/testSimpleOpenPage/view"));
+        assertThat(link.getUrl(), is("#/testSimpleOpenPage/view"));
         assertThat(link.getTarget(), is(Target.newWindow));
     }
 }
