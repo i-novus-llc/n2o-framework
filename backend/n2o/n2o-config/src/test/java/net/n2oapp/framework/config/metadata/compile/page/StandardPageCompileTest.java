@@ -28,6 +28,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -117,61 +118,26 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
 
-        Table detail = (Table) page.getRegions().get("left").get(0).getContent().get(1);
-        ClientDataProvider dataProvider = page.getDatasources().get("testWidgetPrefilters_detail1").getProvider();
-        List<Filter> preFilters = detail.getFilters();
-        assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
-        assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_master1_id"));
-        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testWidgetPrefilters_master1'].id"));
-        assertThat(preFilters.get(0).getLink().getFieldId(), is("id"));
-        assertThat(preFilters.get(1).getFilterId(), is("name"));
-        assertThat(preFilters.get(1).getParam(), is("nameParam"));
-        assertThat(preFilters.get(1).getLink().getBindLink(), nullValue());
-        assertThat(preFilters.get(1).getLink().getValue(), is("test"));
-        assertThat(preFilters.get(2).getFilterId(), is("genders*.id"));
-        assertThat(preFilters.get(2).getParam(), is("testWidgetPrefilters_detail1_genders_id"));
-        assertThat(preFilters.get(2).getLink().getValue(), is(Arrays.asList(1, 2)));
-        assertThat(dataProvider.getPathMapping().get("testWidgetPrefilters_master1_id").getBindLink(),
-                is("models.resolve['testWidgetPrefilters_master1'].id"));
-        assertThat(dataProvider.getQueryMapping().get("nameParam").getBindLink(), nullValue());
-        assertThat(dataProvider.getQueryMapping().get("nameParam").getValue(), is("test"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_genders_id").getBindLink(), nullValue());
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_genders_id").getValue(), is(Arrays.asList(1, 2)));
-        QueryContext queryCompileContext = (QueryContext) route("/testWidgetPrefilters/master1/:testWidgetPrefilters_master1_id/detail1", CompiledQuery.class);
-        assertThat(queryCompileContext.getFilters().size(), is(3));
-        assertThat(queryCompileContext.getFilters().get(0).getParam(), is("testWidgetPrefilters_master1_id"));
-        assertThat(queryCompileContext.getFilters().get(1).getParam(), is("nameParam"));
-        assertThat(queryCompileContext.getFilters().get(2).getParam(), is("testWidgetPrefilters_detail1_genders_id"));
+        ClientDataProvider detail1Ds = page.getDatasources().get("testWidgetPrefilters_detail1").getProvider();
+        assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getBindLink(), is("models.resolve['testWidgetPrefilters_master1']"));
+        assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getValue(), is("`id`"));
+        assertThat(detail1Ds.getQueryMapping().get("detail1_genders_id").getValue(), is(Arrays.asList(1, 2)));
+        assertThat(detail1Ds.getQueryMapping().get("nameParam").getBindLink(), nullValue());
+        assertThat(detail1Ds.getQueryMapping().get("nameParam").getValue(), is("test"));
 
-        Table detail2 = (Table) page.getRegions().get("right").get(0).getContent().get(1);
-        dataProvider = detail2.getDataProvider();
-        preFilters = detail2.getFilters();
-        assertThat(preFilters.get(0).getFilterId(), is("name"));
-        assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_detail2_name"));
-        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
-        assertThat(preFilters.get(0).getLink().getValue(), is("`name`"));
-        assertThat(preFilters.get(1).getFilterId(), is("genders*.id"));
-        assertThat(preFilters.get(1).getParam(), is("testWidgetPrefilters_detail2_genders_id"));
-        assertThat(preFilters.get(1).getLink().getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
-        assertThat(preFilters.get(1).getLink().getValue(), is("`gender.id`"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail2_name").getBindLink(),
-                is("models.filter['testWidgetPrefilters_master2']"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail2_name").getValue(),
-                is("`name`"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail2_genders_id").getBindLink(),
-                is("models.filter['testWidgetPrefilters_master2']"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail2_genders_id").getValue(),
-                is("`gender.id`"));
-        queryCompileContext = (QueryContext) route("/testWidgetPrefilters/detail2", CompiledQuery.class);
-        assertThat(queryCompileContext.getFilters().size(), is(2));
-        assertThat(queryCompileContext.getFilters().get(0).getParam(), is("testWidgetPrefilters_detail2_name"));
-        assertThat(queryCompileContext.getFilters().get(1).getParam(), is("testWidgetPrefilters_detail2_genders_id"));
+        QueryContext detail1QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail1", CompiledQuery.class);
+        assertThat(detail1QueryCtx.getFilters().size(), is(3));
+        assertThat(detail1QueryCtx.getFilters().stream().map(Filter::getParam).collect(Collectors.toList()), hasItems("nameParam", "detail1_parent_id", "detail1_genders_id"));
 
-        preFilters = ((Table) page.getRegions().get("right").get(0).getContent().get(2)).getFilters();
-        assertThat(preFilters.get(0).getFilterId(), is("genders*.id"));
-        assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_detail3_genders_id"));
-        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
-        assertThat(preFilters.get(0).getLink().getValue(), is("`gender.map(function(t){return t.id})`"));
+        ClientDataProvider detail2Ds = page.getDatasources().get("testWidgetPrefilters_detail2").getProvider();
+        assertThat(detail2Ds.getQueryMapping().get("detail2_name").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
+        assertThat(detail2Ds.getQueryMapping().get("detail2_name").getValue(), is("`name`"));
+        assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
+        assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getValue(), is("`genders.map(function(t){return t.id})`"));
+
+        QueryContext detail2QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail2", CompiledQuery.class);
+        assertThat(detail2QueryCtx.getFilters().size(), is(2));
+        assertThat(detail2QueryCtx.getFilters().stream().map(Filter::getParam).collect(Collectors.toList()), hasItems("detail2_name", "detail2_genders_id"));
     }
 
 
