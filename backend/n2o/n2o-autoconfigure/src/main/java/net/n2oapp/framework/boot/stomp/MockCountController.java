@@ -10,6 +10,8 @@ public class MockCountController { //fixme удалить после дебаг�
     @MessageMapping("/ws")
     @SendTo("/topic/notif/count")
     public Message message() {
-        return new Message();
+        Message message = new Message();
+        message.setCount((int) (Math.random() * 10));
+        return message;
     }
 }
