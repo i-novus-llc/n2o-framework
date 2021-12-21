@@ -106,7 +106,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (source.getAction() != null)
             return source.getAction();
         MetaActions metaActions = p.getScope(MetaActions.class);
-        return metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
+        return source.getActionId() == null ? null :
+                (metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction());
     }
 
     private List<String> compileValidate(N2oButton source, CompileProcessor p) {

@@ -63,9 +63,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         widgetScope.setClientWidgetId(table.getId());
         widgetScope.setWidgetId(source.getId());
         widgetScope.setDatasourceId(source.getDatasourceId());
-        widgetScope.setDatasourceId(source.getDatasourceId());
         SubModelsScope subModelsScope = new SubModelsScope();
-        FiltersScope filtersScope = new FiltersScope(table.getFilters());
+        FiltersScope filtersScope = new FiltersScope(table.getFilters() == null ? new ArrayList<>() : table.getFilters());
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.FILTER, table.getId(), p.getScope(Models.class)), filtersScope, subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery)));

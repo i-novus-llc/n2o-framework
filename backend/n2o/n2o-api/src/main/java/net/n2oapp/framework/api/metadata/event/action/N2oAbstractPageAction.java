@@ -118,7 +118,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     }
 
     public String getRefreshWidgetId() {
-        return refreshDatasources[0];
+        return refreshDatasources == null ? null : refreshDatasources[0];
     }
 
     public void setRefreshWidgetId(String refreshWidgetId) {
