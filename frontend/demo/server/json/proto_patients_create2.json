@@ -58,8 +58,7 @@
                   }
                 ]
               },
-              "validate": true,
-              "validatedWidgetId": "proto_create2_main",
+              "validate": ["proto_create2_main"],
               "color": "primary",
               "title": "Сохранить"
             },
@@ -355,8 +354,7 @@
                 }
               ]
             },
-            "validate": true,
-            "validatedWidgetId": "proto_create2_main",
+            "validate": ["proto_create2_main"],
             "color": "primary"
           },
           {

@@ -5,7 +5,6 @@ import {
     select,
     throttle,
 } from 'redux-saga/effects'
-import { getFormValues } from 'redux-form'
 import isFunction from 'lodash/isFunction'
 import get from 'lodash/get'
 import has from 'lodash/has'
@@ -15,10 +14,10 @@ import merge from 'deepmerge'
 
 import { START_INVOKE } from '../constants/actionImpls'
 import {
-    makeWidgetValidationSelector,
+    makeDatasourceIdSelector,
 } from '../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
-import { validateField } from '../core/validation/createValidator'
+import { validate as validateDatasource } from '../core/datasource/validate'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
@@ -30,25 +29,27 @@ import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 
 import fetchSaga from './fetch'
 
-export function* validate(options) {
-    const isTouched = true
-    const state = yield select()
-    const validationConfig = yield select(
-        makeWidgetValidationSelector(options.validatedWidgetId),
-    )
-    const values = (yield select(getFormValues(options.validatedWidgetId))) || {}
+export function* validate({ dispatch, validate }) {
+    if (!validate?.length) { return true }
 
-    return options.validate &&
-    (yield call(
-        validateField(
-            validationConfig,
-            options.validatedWidgetId,
+    const state = yield select()
+    let valid = true
+
+    for (const datasourceId of validate) {
+        const datasource = yield select(
+            makeDatasourceIdSelector(datasourceId),
+        )
+
+        valid = valid && (yield call(
+            validateDatasource,
             state,
-            isTouched,
-        ),
-        values,
-        options.dispatch,
-    ))
+            datasource,
+            dispatch,
+            true,
+        ))
+    }
+
+    return valid
 }
 
 /**
@@ -66,17 +67,16 @@ export function* handleAction(factories, action) {
             actionFunc = actionResolver(actionSrc, factories)
         }
         const state = yield select()
-        const notValid = yield validate(options)
+        const valid = yield validate(options)
 
-        if (notValid) {
+        if (!valid) {
             // eslint-disable-next-line no-console
-            console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`)
-        } else {
-            yield actionFunc &&
-        call(actionFunc, {
-            ...options,
-            state,
-        })
+            console.log(`DataSources "${options.valid}" is not valid.`)
+        } else if (actionFunc) {
+            yield call(actionFunc, {
+                ...options,
+                state,
+            })
         }
     } catch (err) {
         // eslint-disable-next-line no-console
