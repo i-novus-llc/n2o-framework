@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot;
 
+import net.n2oapp.framework.boot.stomp.N2oWebSocketConfiguration;
 import net.n2oapp.framework.config.ConfigStarter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -21,7 +22,8 @@ import org.springframework.core.Ordered;
         N2oMetadataConfiguration.class,
         N2oEngineConfiguration.class,
         N2oRestConfiguration.class,
-        N2oServletConfiguration.class})
+        N2oServletConfiguration.class,
+        N2oWebSocketConfiguration.class})//fixme сделать конфигурацию веб сокетов опциональной
 @ServletComponentScan("net.n2oapp.framework")
 @ComponentScan(basePackages = "net.n2oapp.framework.api", lazyInit = true)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
