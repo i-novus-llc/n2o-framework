@@ -170,7 +170,6 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         SimplePage openDrawer = (SimplePage) routeAndGet("/p/createFocus", Page.class);
         InvokeAction submit = (InvokeAction) openDrawer.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
-        assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
@@ -186,15 +185,14 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         StandardPage openDrawer = (StandardPage) routeAndGet("/p/123/updateFocus", Page.class);
         InvokeAction submit = (InvokeAction) openDrawer.getToolbar().getButton("submit").getAction();
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
-        assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
 
         CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
         Widget modalWidget = (Widget) openDrawer.getRegions().get("left").get(0).getContent().get(0);
-        assertThat(modalWidget.getDataProvider().getPathMapping().size(), is(0));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(openDrawer.getDatasources().get(modalWidget.getDatasource()).getProvider().getPathMapping().size(), is(0));
+        assertThat(openDrawer.getDatasources().get(modalWidget.getDatasource()).getProvider().getQueryMapping().size(), is(0));
     }
 
     @Test
@@ -219,18 +217,18 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     public void dynamicPage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerDynamicPage.page.xml")
                 .get(new PageContext("testOpenDrawerDynamicPage", "/page"));
-        PageContext context = (PageContext) route("/page/widget/testOpenPageSimplePageAction1/id1", Page.class);
+        PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1", Page.class);
         DataSet data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction1");
         SimplePage openDrawer = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openDrawer.getId(), is("page_widget_id1"));
+        assertThat(openDrawer.getId(), is("page_id1"));
         assertThat(openDrawer.getWidget(), instanceOf(Form.class));
 
-        context = (PageContext) route("/page/widget/testOpenPageSimplePageAction2/id1", Page.class);
+        context = (PageContext) route("/page/testOpenPageSimplePageAction2/id1", Page.class);
         data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction2");
         openDrawer = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openDrawer.getId(), is("page_widget_id1"));
+        assertThat(openDrawer.getId(), is("page_id1"));
         assertThat(openDrawer.getWidget(), instanceOf(Form.class));
     }
 

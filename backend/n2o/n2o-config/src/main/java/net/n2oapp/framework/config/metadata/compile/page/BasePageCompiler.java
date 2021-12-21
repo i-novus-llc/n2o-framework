@@ -367,20 +367,21 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
 
     private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {
-        if (context.getSubmitActionType() == null)
-            return;
-        N2oToolbar n2oToolbar = new N2oToolbar();
-        String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};
-        n2oToolbar.setGenerate(generate);
-        n2oToolbar.setTargetWidgetId(resultWidget != null ? resultWidget.getId() : null);
-        if (source.getToolbars() == null) {
-            source.setToolbars(new N2oToolbar[0]);
+        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
+            N2oToolbar n2oToolbar = new N2oToolbar();
+            String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};
+            n2oToolbar.setGenerate(generate);
+            n2oToolbar.setTargetWidgetId(resultWidget != null ? resultWidget.getId() : null);
+            n2oToolbar.setDatasource(resultWidget.getDatasourceId());
+            if (source.getToolbars() == null) {
+                source.setToolbars(new N2oToolbar[0]);
+            }
+            int length = source.getToolbars().length;
+            N2oToolbar[] n2oToolbars = new N2oToolbar[length + 1];
+            System.arraycopy(source.getToolbars(), 0, n2oToolbars, 0, length);
+            n2oToolbars[length] = n2oToolbar;
+            source.setToolbars(n2oToolbars);
         }
-        int length = source.getToolbars().length;
-        N2oToolbar[] n2oToolbars = new N2oToolbar[length + 1];
-        System.arraycopy(source.getToolbars(), 0, n2oToolbars, 0, length);
-        n2oToolbars[length] = n2oToolbar;
-        source.setToolbars(n2oToolbars);
     }
 
     private List<N2oWidget> getSourceIndependents(List<N2oWidget> sourceWidgets) {

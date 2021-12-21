@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -179,9 +181,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (source.getRefreshDatasources() != null) {
             pageContext.setRefreshClientDataSources(Arrays.stream(source.getRefreshDatasources())
                     .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
-        } else if(source.getRefreshWidgetId() != null) {
-            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
-            pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
         }
         if(pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null) {
             String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(parentWidgetId));
