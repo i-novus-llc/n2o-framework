@@ -107,6 +107,10 @@ export default function withActionButton(options = {}) {
                     dispatch,
                 } = this.props
 
+                if (!validate?.length) {
+                    return true
+                }
+
                 return validate.map(datasourceId => validateDatasource(
                     store.getState(),
                     datasourceId,
@@ -118,13 +122,13 @@ export default function withActionButton(options = {}) {
             handleClick = async (e) => {
                 e.persist()
 
-                const failValidate = await this.validationFields()
+                const valid = await this.validationFields()
 
                 const { confirm, url } = this.props
                 const { store } = this.context
                 const state = store.getState()
 
-                if (!onClick || failValidate) {
+                if (!onClick || !valid) {
                     this.setState({
                         permittedUrl: null,
                     })

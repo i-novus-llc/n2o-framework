@@ -2,7 +2,7 @@ import { runSaga } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 import { touch } from 'redux-form'
 
-import { addTouched, copyAction } from '../sagas'
+import { addTouched, copyAction, clearForm } from '../sagas'
 
 const state = {
     models: {
@@ -49,6 +49,17 @@ describe('Проверка саги formPlugin', () => {
             put(touch(testData.payload.form, testData.payload.name)),
         )
         expect(genAddMessage.next().done).toEqual(true)
+    })
+
+    it('clearForm должен вызвать сброс формы', () => {
+        const gen = clearForm({
+            payload: {
+                key: 'testForm',
+            },
+        })
+        const value = gen.next()
+
+        expect(value.value.type).toBe('PUT')
     })
 
     describe('копирование mode = merge', () => {

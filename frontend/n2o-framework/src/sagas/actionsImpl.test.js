@@ -136,13 +136,13 @@ describe('Проверка саги actionsImpl', () => {
             getState: () => ({}),
         }
         const options = {
-            validate: true,
+            validate: [],
             dispatch: () => {},
         }
 
         const promise = await runSaga(fakeStore, validate, options).toPromise()
         const result = await Promise.resolve(promise)
-        expect(result).toEqual(false)
+        expect(result).toEqual(true)
     })
 
     it('Проверка генератора fetchInvoke', async () => {
