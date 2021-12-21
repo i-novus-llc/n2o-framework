@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.dataprovider;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -16,6 +17,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -46,7 +49,7 @@ public class ClientDataProviderUtil {
         ClientDataProvider dataProvider = new ClientDataProvider();
         String path = null;
         String targetWidget = compiled.getTargetWidgetId() == null ? initTargetWidget(context, p) : compiled.getTargetWidgetId();
-        ReduxModel targetModel = initTargetWidgetModel(p, compiled.getTargetModel());
+        ReduxModel targetModel = getTargetActionModel(p, compiled.getTargetModel());
 
         if (RequestMethod.POST == compiled.getMethod() ||
                 RequestMethod.PUT == compiled.getMethod() ||
@@ -76,18 +79,35 @@ public class ClientDataProviderUtil {
         return dataProvider;
     }
 
-    public static String getWidgetIdByComponentScope(CompileProcessor p) {
-        String widgetId = null;
+    public static String getDatasourceByComponentScope(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                widgetId = pageScope == null ? widgetIdAware.getWidgetId()
-                        : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
+                return datasourceIdAware.getDatasource();
             }
         }
-        return widgetId;
+        return null;
+    }
+
+    public static String getWidgetIdByComponentScope(CompileProcessor p) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                return widgetIdAware.getWidgetId();
+            }
+        }
+        return null;
+    }
+
+    public static String getClientWidgetIdByComponentScope(CompileProcessor p) {
+        String widgetId = getWidgetIdByComponentScope(p);
+        PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null && widgetId != null) {
+                return pageScope.getGlobalWidgetId(widgetId);
+            }
+        return null;
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
@@ -114,16 +134,17 @@ public class ClientDataProviderUtil {
                 ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
             String widgetId = null;
+            PageScope pageScope = p.getScope(PageScope.class);
             if (param.getRefWidgetId() != null) {
                 String pageId = param.getRefPageId();
-                if (param.getRefPageId() == null) {
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    if (pageScope != null)
+                if (param.getRefPageId() == null && pageScope != null)
                         pageId = pageScope.getPageId();
-                }
                 widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
             }
-            link = new ModelLink(p.cast(param.getModel(), model), p.cast(widgetId, targetWidgetId));
+            String resultWidgetId = p.cast(widgetId, targetWidgetId);
+            String datasourceId = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
+                    ? resultWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(resultWidgetId);
+            link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);
@@ -146,7 +167,7 @@ public class ClientDataProviderUtil {
         return link;
     }
 
-    private static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
+    public static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
                                           String url, CompileProcessor p) {
         if (source.getActionContextData() != null) {
             N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
@@ -164,11 +185,12 @@ public class ClientDataProviderUtil {
             actionContext.setPathRouteMapping(routePathMapping);
             actionContext.setQueryRouteMapping(routeQueryMapping);
             ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope == null || componentScope.unwrap(N2oButton.class) == null
-                    || !ValidateType.NONE.equals(componentScope.unwrap(N2oButton.class).getValidate())) {
+            if (componentScope == null
+                    || componentScope.unwrap(N2oButton.class) == null
+                    || componentScope.unwrap(N2oButton.class).getValidate() )  {
                 ValidationList validationList = p.getScope(ValidationList.class);
-                actionContext.setValidations(validationList == null ? null : validationList.get(actionContextData.getFailAlertWidgetId(),
-                        initTargetWidgetModel(p, source.getTargetModel())));
+                if (validationList != null)
+                    actionContext.setValidations(validationList.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
             }
             actionContext.setRedirect(actionContextData.getRedirect());
             actionContext.setRefresh(actionContextData.getRefresh());
@@ -180,9 +202,9 @@ public class ClientDataProviderUtil {
             actionContext.setMessagesForm(actionContextData.getMessagesForm());
             actionContext.setSuccessAlertWidgetId(actionContextData.getSuccessAlertWidgetId());
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
-            actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
-            actionContext.setMessagePosition(actionContextData.getMessagePosition());
-            actionContext.setMessagePlacement(actionContextData.getMessagePlacement());
+            actionContext.setMessageOnFail(p.cast(actionContextData.isMessageOnFail(), true));
+            actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(), MessagePosition.fixed));//todo initDefaults
+            actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(), MessagePlacement.top));//todo initDefaults
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)
@@ -232,7 +254,7 @@ public class ClientDataProviderUtil {
     /**
      * Инициализация модели целевого виджета
      */
-    private static ReduxModel initTargetWidgetModel(CompileProcessor p, ReduxModel defaultModel) {
+    private static ReduxModel getTargetActionModel(CompileProcessor p, ReduxModel defaultModel) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
@@ -241,5 +263,12 @@ public class ClientDataProviderUtil {
             }
         }
         return defaultModel;
+    }
+
+    public static String initClientDatasource(String datasourceId, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope != null && datasourceId != null)
+            return pageScope.getClientDatasourceId(datasourceId);
+        return null;
     }
 }

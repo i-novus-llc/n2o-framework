@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -31,7 +30,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
     protected Pagination compilePaging(Widget compiled, N2oAbstractListWidget source, Integer size, CompileProcessor p) {
         Pagination pagination = new Pagination();
         pagination.setSize(source.getSize() != null ? source.getSize() : size);
-        if (compiled.getDataProvider() != null) compiled.getDataProvider().setSize(pagination.getSize());
+//        if (compiled.getDataProvider() != null) compiled.getDataProvider().setSize(pagination.getSize());
         if (source.getPagination() != null) {
             pagination.setPrev(p.cast(source.getPagination().getPrev(), p.resolve(property("n2o.api.widget.list.paging.prev"), Boolean.class)));
             pagination.setNext(p.cast(source.getPagination().getNext(), p.resolve(property("n2o.api.widget.list.paging.next"), Boolean.class)));
@@ -65,7 +64,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
      */
     protected RowClick compileRowClick(N2oAbstractListWidget source, CompileContext<?, ?> context,
                                        CompileProcessor p, WidgetScope widgetScope,
-                                       ParentRouteScope widgetRouteScope, CompiledObject object, MetaActions widgetActions) {
+                                       CompiledObject object, MetaActions widgetActions) {
         RowClick rc = null;
         if (source.getRows() != null && source.getRows().getRowClick() != null) {
             N2oRowClick rowClick = source.getRows().getRowClick();
@@ -78,8 +77,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
                     action = rowClick.getAction();
                 }
                 if (action != null) {
-                    Action compiledAction = p.compile(action, context, widgetScope,
-                            widgetRouteScope, new ComponentScope(rowClick), object);
+                    Action compiledAction = p.compile(action, context, widgetScope, new ComponentScope(rowClick), object);
                     rc = new RowClick(compiledAction);
                     if (compiledAction != null && StringUtils.isJs(enabledCondition)) {
                         rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));

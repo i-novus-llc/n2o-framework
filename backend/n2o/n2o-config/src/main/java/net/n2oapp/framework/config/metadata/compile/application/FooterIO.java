@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.application;
 
 import net.n2oapp.framework.api.metadata.application.N2oFooter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.v2.ComponentIO;
+import net.n2oapp.framework.config.io.control.ComponentIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 

@@ -82,11 +82,11 @@
                 <toolbar place="topLeft">
                     <button id="create" label="${create}" description="${create}" icon="fa fa-plus" model="filter">
                         <show-modal page-id="ProtoClient" submit-operation-id="create"
-                                    upload="defaults" focus-after-submit="true"
+                                    upload="defaults"
                                     redirect-url-after-submit="../:id/update2"/>
                     </button>
                     <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
-                        <show-modal page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
+                        <show-modal page-id="ProtoClient" submit-operation-id="update"
                                     page-name="${clients.card}: {id}" route="/:id/update_client">
                             <path-param name="id" value="{id}"/>
                         </show-modal>
@@ -99,7 +99,7 @@
                     <button id="update2" type="icon" color="light" label="${update}" icon="fa fa-edit"
                             visible="{name != 'Мария'}"
                             description="${button.update2.description}">
-                        <open-page page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
+                        <open-page page-id="ProtoClient" submit-operation-id="update"
                                    page-name="${clients.card}: {id}" route="/:id/update2">
                             <path-param name="id" value="{id}"/>
                         </open-page>

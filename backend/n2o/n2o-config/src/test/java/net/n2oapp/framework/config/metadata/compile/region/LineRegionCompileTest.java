@@ -93,7 +93,6 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(line1Content.get(0), instanceOf(Form.class));
         assertThat(((Form) line1Content.get(0)).getId(), is("testLineRegionNesting_line2"));
         assertThat(((Form) line1Content.get(0)).getName(), is("form2"));
-        assertThat(((Form) line1Content.get(0)).getRoute(), is("/form2"));
         // line line line
         assertThat(line1Content.get(1), instanceOf(LineRegion.class));
         assertThat(((LineRegion) line1Content.get(1)).getId(), is("line_2"));
@@ -103,7 +102,6 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(line2Content.get(0), instanceOf(Form.class));
         assertThat(((Form) line2Content.get(0)).getId(), is("testLineRegionNesting_line3"));
         assertThat(((Form) line2Content.get(0)).getName(), is("form3"));
-        assertThat(((Form) line2Content.get(0)).getRoute(), is("/line3"));
         // line form4
         assertThat(content.get(2), instanceOf(Form.class));
         assertThat(((Form) content.get(2)).getId(), is("testLineRegionNesting_line4"));
@@ -118,12 +116,10 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(content.get(0), instanceOf(Table.class));
         assertThat(((Table) content.get(0)).getId(), is("testLineRegionNesting_line5"));
         assertThat(((Table) content.get(0)).getName(), is("table1"));
-        assertThat(((Table) content.get(0)).getRoute(), is("/line5"));
         // line table2
         assertThat(content.get(1), instanceOf(Table.class));
         assertThat(((Table) content.get(1)).getId(), is("testLineRegionNesting_line6"));
         assertThat(((Table) content.get(1)).getName(), is("table2"));
-        assertThat(((Table) content.get(1)).getRoute(), is("/line6"));
 
         // LINE 3
         assertThat(regions.get(2), instanceOf(LineRegion.class));

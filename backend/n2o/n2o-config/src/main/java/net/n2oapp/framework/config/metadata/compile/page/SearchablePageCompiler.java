@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
@@ -47,11 +46,11 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected void initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
-                               PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope) {
+    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
+                               PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
-        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, pageWidgetsScope, new IndexScope());
-        page.setRegions(regions);
+        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, new IndexScope());
+        return regions;
     }
 
     protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, CompileProcessor p) {

@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -31,11 +30,11 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
     }
 
     @Override
-    protected void initRegions(N2oStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
-                               PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope) {
+    protected Map<String, List<Region>> initRegions(N2oStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
+                               PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
-        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, pageWidgetsScope, new IndexScope());
-        page.setRegions(regions);
+        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, new IndexScope(), scopes);
+        return regions;
     }
 
     @Override

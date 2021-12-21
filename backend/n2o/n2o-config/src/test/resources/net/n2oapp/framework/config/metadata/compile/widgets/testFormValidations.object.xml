@@ -20,8 +20,8 @@
         <mandatory id="Mandatory4" severity="danger" side="client" server-moment="before-operation"/>
         <mandatory id="test4" severity="danger" side="client" server-moment="before-operation"/>
         <mandatory id="test5" severity="danger" side="client,server" server-moment="before-operation"/>
-        <!--не уйдет на клиент-->
         <mandatory id="test6" severity="danger" side="client,server" server-moment="before-operation"/>
+        <!--не уйдет на клиент-->
         <mandatory id="test7" severity="danger" side="server" server-moment="before-operation"/>
     </validations>
 </object>

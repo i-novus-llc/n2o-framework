@@ -25,12 +25,13 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
 
     @Override
     public SetValueAction compile(N2oSetValueAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         SetValueAction setValueAction = new SetValueAction();
         compileAction(setValueAction, source, p);
         setValueAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
-        String defaultWidgetId = initTargetWidget(context, p);
-        ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
+        String defaultWidgetId = initClientWidgetId(context, p);
+        ReduxModel model = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
         String sourceWidgetId = source.getSourceWidget() == null ? defaultWidgetId :
                 pageScope.getGlobalWidgetId(source.getSourceWidget());

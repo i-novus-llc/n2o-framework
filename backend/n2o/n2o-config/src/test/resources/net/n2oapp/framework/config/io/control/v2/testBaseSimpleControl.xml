@@ -37,7 +37,6 @@
                         submit-operation-id="operationId"
                         modal-size="lg"
                         close-after-submit="true"
-                        focus-after-submit="false"
                         redirect-target-after-submit="application"
                         redirect-url-after-submit="testUrl"
                         route="/route"

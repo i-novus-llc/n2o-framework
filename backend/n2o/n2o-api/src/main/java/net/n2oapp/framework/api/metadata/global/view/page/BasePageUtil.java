@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.RegionItem;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +31,7 @@ public class BasePageUtil {
      */
     public static List<Widget<?>> getCompiledWidgets(StandardPage page) {
         List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-        return new ArrayList<Widget<?>>(getRegionWidgets(regions));
+        return new ArrayList<>(getRegionWidgets(regions));
     }
 
     /**

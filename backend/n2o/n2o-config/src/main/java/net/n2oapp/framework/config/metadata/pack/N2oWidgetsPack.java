@@ -18,7 +18,6 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
-                new DatasourceCompiler(),
                 new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(), new MultiColumnHeaderCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
@@ -28,8 +27,6 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TilesCompiler(),
                 new CardsCompiler());
         b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger());
-        b.transformers(new N2oFormV5AdapterTransformer(),
-                new N2oWidgetV5AdapterTransformer());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();

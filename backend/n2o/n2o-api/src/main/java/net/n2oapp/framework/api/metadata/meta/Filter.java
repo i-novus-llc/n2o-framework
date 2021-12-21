@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import net.n2oapp.framework.api.metadata.Compiled;
 
 /**
@@ -9,7 +8,17 @@ import net.n2oapp.framework.api.metadata.Compiled;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class Filter implements Compiled {
+
+    public Filter(String filterId, String param, ModelLink link) {
+        this.filterId = filterId;
+        this.param = param;
+        this.link = link;
+    }
+
     /**
      * Параметр запроса фильтра
      */

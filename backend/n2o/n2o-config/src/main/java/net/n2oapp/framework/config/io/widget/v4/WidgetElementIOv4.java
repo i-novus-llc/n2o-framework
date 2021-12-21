@@ -50,6 +50,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        m.adapterV4();
     }
 
     private void action(Element e, ActionsBar a, IOProcessor p) {

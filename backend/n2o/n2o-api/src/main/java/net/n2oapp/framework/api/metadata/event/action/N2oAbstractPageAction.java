@@ -54,13 +54,10 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String targetDatasource;
     private CopyMode copyMode;
     private Boolean createMore;
-    private Boolean focusAfterSubmit;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
-    @Deprecated
-    private String refreshWidgetId;
     private String[] refreshDatasources;
     //on resolve
     private String labelFieldId;
@@ -118,5 +115,13 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
         if (this.params == null)
             this.params = new N2oParam[0];
         this.params = ArrayUtils.addAll(this.params, queryParams);
+    }
+
+    public String getRefreshWidgetId() {
+        return refreshDatasources == null ? null : refreshDatasources[0];
+    }
+
+    public void setRefreshWidgetId(String refreshWidgetId) {
+        this.refreshDatasources = new String[]{refreshWidgetId};
     }
 }

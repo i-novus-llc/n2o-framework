@@ -136,15 +136,6 @@ public abstract class AbstractController {
         return new DataSet((Map<? extends String, ?>) body);
     }
 
-    private void prepareSelectedId(QueryRequestInfo requestInfo) {
-        String selectedId = requestInfo.getData().getString("selectedId");
-        if (requestInfo.getQuery() == null) return;
-        if (selectedId == null) return;
-        N2oQuery.Field fieldPK = requestInfo.getQuery().getFieldsMap().get(N2oQuery.Field.PK);
-        String domain = fieldPK != null ? fieldPK.getDomain() : null;
-        requestInfo.setSelectedId(environment.getDomainProcessor().doDomainConversion(domain, selectedId));
-    }
-
     private N2oPreparedCriteria prepareCriteria(CompiledQuery query, DataSet data, QueryContext queryCtx) {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         Integer page = data.getInteger("page");
@@ -218,7 +209,6 @@ public abstract class AbstractController {
         requestInfo.setFailAlertWidgetId(queryCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
         requestInfo.setSize(requestInfo.getCriteria().getSize());
-        prepareSelectedId(requestInfo);
         return requestInfo;
     }
 

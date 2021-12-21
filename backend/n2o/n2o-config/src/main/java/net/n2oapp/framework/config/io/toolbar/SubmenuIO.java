@@ -30,7 +30,7 @@ public class SubmenuIO extends AbstractButtonIO<N2oSubmenu> {
         super.io(e, s, p);
         p.attributeArray(e, "generate", ",", s::getGenerate, s::setGenerate);
         p.attributeBoolean(e, "show-toggle-icon", s::getShowToggleIcon, s::setShowToggleIcon);
-        p.attributeBoolean(e, "visible", s::getVisible, s::setVisible);
+        p.attribute(e, "visible", s::getVisible, s::setVisible);
         p.children(e, null, "menu-item", s::getMenuItems, s::setMenuItems, N2oButton.class, new ButtonIO());
     }
 

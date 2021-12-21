@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.widget.tree;
 
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v4.TreeElementIOv4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.compile.widget.TreeCompiler;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -24,18 +24,17 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack())
-                .ios(new TreeElementIOv4())
-                .compilers(new TreeCompiler())
+        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
 
     @Test
     public void testTree() {
-        Tree tree = (Tree) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTreeCompile.widget.xml")
-                .get(new WidgetContext("testTreeCompile"));
-        assertThat(tree.getId(), is("$testTreeCompile"));
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTreeCompile.page.xml")
+                .get(new PageContext("testTreeCompile"));
+        Tree tree = (Tree) page.getWidget();
+        assertThat(tree.getId(), is("testTreeCompile_main"));
         assertThat(tree.getParentFieldId(), is("test"));
         assertThat(tree.getChildrenFieldId(), is("test"));
         assertThat(tree.getValueFieldId(), is("test"));
@@ -47,6 +46,6 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getAjax(), is(true));
         assertThat(tree.getHasCheckboxes(), is(true));
         assertThat(tree.getMultiselect(), is(false));
-        assertThat(tree.getDataProvider().getUrl(), is("n2o/data/testTreeCompile"));
+        assertThat(page.getDatasources().get(tree.getDatasource()).getProvider().getUrl(), is("n2o/data/testTreeCompile/main"));
     }
 }

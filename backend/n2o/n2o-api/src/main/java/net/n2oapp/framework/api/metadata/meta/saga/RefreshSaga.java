@@ -15,31 +15,5 @@ import java.util.List;
 @Setter
 public class RefreshSaga implements Compiled {
     @JsonProperty
-    private Type type;
-    @JsonProperty
-    private Options options;
-
-    public RefreshSaga() {
-        this.options = new Options();
-    }
-
-    /**
-     * Тип компонента
-     */
-    public enum Type {
-        widget,
-        datasource
-    }
-
-    /**
-     * Настройки обновления
-     */
-    @Getter
-    @Setter
-    public static class Options implements Serializable {
-        @JsonProperty
-        private String widgetId;
-        @JsonProperty
-        private List<String> datasourcesId;
-    }
+    private List<String> datasources;
 }

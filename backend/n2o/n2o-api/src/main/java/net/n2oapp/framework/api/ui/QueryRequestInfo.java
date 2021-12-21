@@ -15,7 +15,6 @@ public class QueryRequestInfo extends RequestInfo {
     private DataSet data;
     private UploadType upload;
     private int size;
-    private Object selectedId;
 
     public CompiledQuery getQuery() {
         return query;
@@ -58,21 +57,12 @@ public class QueryRequestInfo extends RequestInfo {
         this.upload = upload;
     }
 
-    public Object getSelectedId() {
-        return selectedId;
-    }
-
-    public void setSelectedId(Object selectedId) {
-        this.selectedId = selectedId;
-    }
-
     public QueryRequestInfo copy() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
         queryRequestInfo.setUser(getUser());
         if (getData() != null)
             queryRequestInfo.setData(new DataSet(getData()));
         queryRequestInfo.setUpload(getUpload());
-        queryRequestInfo.setSelectedId(getSelectedId());
         queryRequestInfo.setSize(getSize());
         queryRequestInfo.setQuery(getQuery());
         queryRequestInfo.setCriteria(getCriteria());

@@ -24,16 +24,11 @@ import java.util.Set;
 public abstract class Widget<T extends WidgetComponent> extends Component {
     @JsonProperty
     private String id;
-    private String route;
     /**
      * Наименование path параметра идентификатора родительского виджета
      */
     @Deprecated
     private String masterParam;
-    /**
-     * Ссылка на идентификатор родительского виджета
-     */
-    private ModelLink masterLink;
     private String name;
     @JsonProperty
     private String icon;

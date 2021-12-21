@@ -14,7 +14,6 @@ import merge from 'deepmerge'
 
 import { START_INVOKE } from '../constants/actionImpls'
 import {
-    makeDatasourceIdSelector,
 } from '../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
 import { validate as validateDatasource } from '../core/datasource/validate'

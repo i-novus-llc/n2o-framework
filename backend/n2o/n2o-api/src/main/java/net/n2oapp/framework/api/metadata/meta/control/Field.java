@@ -38,8 +38,6 @@ public class Field extends Component {
     private Group[] toolbar;
     @JsonProperty("dependency")
     private List<ControlDependency> dependencies = new ArrayList<>();
-    private List<Validation> serverValidations;
-    private List<Validation> clientValidations;
 
     public void addDependency(ControlDependency dependency) {
         dependencies.add(dependency);

@@ -133,13 +133,13 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="route" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    URL виджета. По умолчанию вычисляется на основании идентификаторов страницы и виджета.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+<!--        <xs:attribute name="route" type="xs:string">-->
+<!--            <xs:annotation>-->
+<!--                <xs:documentation>-->
+<!--                    Deprecated. URL виджета. По умолчанию вычисляется на основании идентификаторов страницы и виджета.-->
+<!--                </xs:documentation>-->
+<!--            </xs:annotation>-->
+<!--        </xs:attribute>-->
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка виджета.</xs:documentation>

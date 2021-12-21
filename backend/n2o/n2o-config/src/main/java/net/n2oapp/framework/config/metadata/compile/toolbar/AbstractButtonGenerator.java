@@ -44,7 +44,6 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
                 modal.setSubmitOperationId(action.name());
                 modal.setUpload(action.getUpload());
-                modal.setFocusAfterSubmit(true);
                 modal.setCloseAfterSubmit(true);
                 button.setAction(modal);
             }
@@ -65,7 +64,6 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPathParams(new N2oPathParam[]{pathParam});
                 modal.setSubmitOperationId(action.name());
                 modal.setUpload(action.getUpload());
-                modal.setFocusAfterSubmit(true);
                 modal.setCloseAfterSubmit(true);
                 button.setAction(modal);
             }

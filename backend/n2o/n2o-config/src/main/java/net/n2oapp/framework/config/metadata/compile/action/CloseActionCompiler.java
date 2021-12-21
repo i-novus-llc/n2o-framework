@@ -32,6 +32,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         if (context instanceof ModalPageContext || context instanceof DialogContext) {
+            initDefaults(source, context, p);
             CloseAction closeAction = new CloseAction();
             compileAction(closeAction, source, p);
             closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
@@ -71,11 +72,8 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             meta.setModalsToClose(1);
         if (refresh) {
             meta.setRefresh(new RefreshSaga());
-            meta.getRefresh().setType(RefreshSaga.Type.widget);
-            String refreshWidgetId = null;
             if (context instanceof PageContext)
-                refreshWidgetId = p.cast(((PageContext) context).getRefreshClientWidgetId(), ((PageContext) context).getParentClientWidgetId());
-            meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
+                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
         }
         if (redirect) {
             meta.setRedirect(new RedirectSaga());

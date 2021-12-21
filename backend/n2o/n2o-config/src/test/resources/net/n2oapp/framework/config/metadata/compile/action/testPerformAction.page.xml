@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" >
+    <form>
+        <actions>
+            <action id="test">
+                <perform type="mySrc"/>
+            </action>
+        </actions>
+        <toolbar>
+            <button id="test1" action-id="test"/>
+            <button id="test2">
+                <perform type="mySrc"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

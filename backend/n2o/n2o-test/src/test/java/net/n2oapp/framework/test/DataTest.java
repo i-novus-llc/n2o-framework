@@ -252,18 +252,6 @@ public class DataTest {
     }
 
     @Test
-    public void selectedId() {
-        RestTemplate restTemplate = new RestTemplate();
-        String queryPath = "/n2o/data/test/select";
-        String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc&selectedId=2";
-        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        GetDataResponse result = response.getBody();
-        assertThat(result.getList().size(), is(10));
-        assertThat(result.getList().get(0).get("id"), is(2));
-    }
-
-    @Test
     public void testResolveSubModels() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/subModels";

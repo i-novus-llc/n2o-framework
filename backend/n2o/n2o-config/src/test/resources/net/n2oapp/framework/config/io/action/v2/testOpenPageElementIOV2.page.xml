@@ -11,8 +11,7 @@
                        redirect-url-after-submit="/test"
                        route="/test"
                        close-after-submit="true"
-                       redirect-target-after-submit="application"
-                       focus-after-submit="true">
+                       redirect-target-after-submit="application">
                 <params>
                     <path-param name="test2" model="filter" datasource="main" value="{id}"/>
                     <query-param name="test3" value="{name}"/>

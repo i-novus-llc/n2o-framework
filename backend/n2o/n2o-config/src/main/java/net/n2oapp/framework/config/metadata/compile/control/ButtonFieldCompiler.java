@@ -18,13 +18,10 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -102,9 +99,10 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             source.setModel(ReduxModel.RESOLVE);
 
         if (source.getValidate() != null) {
-            button.setValidate(source.getValidate().getValue());
-            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
-                button.setValidatedWidgetId(initWidgetId(source, context, p));
+//            fixme
+//            button.setValidate(source.getValidate().getValue());
+//            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
+//                button.setValidatedWidgetId(initWidgetId(source, context, p));
         }
     }
 

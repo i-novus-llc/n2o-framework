@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -30,15 +31,13 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -50,7 +49,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     protected List<N2oPreFilter> initPreFilters(N2oAbstractPageAction source, String actionRoute, String parentWidgetId, CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
-        ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
+        ReduxModel model = getModelFromComponentScope(p);
         String widgetId = parentWidgetId;
         PageScope pageScope = p.getScope(PageScope.class);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
@@ -105,7 +104,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         validatePathAndRoute(source.getRoute(), source.getPathParams(), routeScope);
         String pageId = source.getPageId();
-        ReduxModel actionDataModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
+        ReduxModel actionDataModel = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
 
@@ -143,7 +142,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, widgetIdQueryIdMap, p);
 
         String parentRoute = normalize(route);
-        if (widgetScope != null && Boolean.TRUE.equals(widgetScope.getHasIdInParentRoute())) {
+        if (widgetScope != null) {
             List<String> pathParams = RouteUtil.getPathParams(actionRoute);
             if (!pathParams.isEmpty())
                 parentRoute = normalize(parentRoute + "/:" + pathParams.get(0));
@@ -151,12 +150,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         route = normalize(route + actionRoute);
 
         PageContext pageContext = constructContext(pageId, route);
-        if (pageScope != null) {
-            if (pageScope.getWidgetIdClientDatasourceMap() != null)
-                pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
-            if (pageScope.getTabIds() != null)
-                pageContext.setParentTabIds(pageScope.getTabIds());
-        }
+        if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
+            pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
+        if (pageScope != null && pageScope.getTabIds() != null)
+            pageContext.setParentTabIds(pageScope.getTabIds());
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
@@ -165,31 +162,34 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyWidgetId(source.getCopyWidgetId());
+        pageContext.setCopyDatasource(source.getCopyDatasource());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetWidgetId(source.getTargetWidgetId());
+        pageContext.setTargetDatasource(source.getTargetDatasource());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
         pageContext.setUpload(source.getUpload());
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
-        pageContext.setParentClientPageId(pageScope != null ? pageScope.getPageId() : null);
+        pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
-        if (source.getRefreshWidgetId() != null && pageScope != null) {
-            pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
+        if (source.getRefreshDatasources() != null) {
+            pageContext.setRefreshClientDataSources(Arrays.stream(source.getRefreshDatasources())
+                    .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+        }
+        if(pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(parentWidgetId));
+            if (datasourceId != null)
+                pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
-        if (source.getSubmitOperationId() != null
-                && source.getRedirectUrlAfterSubmit() == null
-                && Boolean.TRUE.equals(source.getFocusAfterSubmit())) {
-            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? normalize(routeScope.getUrl() + normalize(colon("id"))) : null);
-            pageContext.setRedirectTargetOnSuccessSubmit(Target.application);
-        } else if (source.getRedirectUrlAfterSubmit() != null) {
+        if (source.getRedirectUrlAfterSubmit() != null) {
             pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
             pageContext.setRedirectTargetOnSuccessSubmit(p.cast(source.getRedirectTargetAfterSubmit(),
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.api.metadata.control.N2oCustomControl;
+import net.n2oapp.framework.config.io.control.ComponentIO;
 import org.springframework.stereotype.Component;
 
 /**

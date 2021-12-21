@@ -18,12 +18,7 @@
             <table id="detail2" query-id="testStandardPageDependency">
                 <pre-filters>
                     <eq field-id="name" value="{name}" ref-model="filter" ref-widget-id="master2"/>
-                    <in field-id="gender.id" values="{gender.id}" ref-model="filter" ref-widget-id="master2"/>
-                </pre-filters>
-            </table>
-            <table id="detail3" query-id="testStandardPageDependency">
-                <pre-filters>
-                    <in field-id="gender.id" values="{gender*.id}" ref-model="filter" ref-widget-id="master2"/>
+                    <in field-id="gender.id" values="{genders*.id}" ref-model="filter" ref-widget-id="master2"/>
                 </pre-filters>
             </table>
         </panel>
