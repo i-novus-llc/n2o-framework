@@ -11,7 +11,7 @@ public class MockCountController { //fixme удалить после дебаг�
     @SendTo("/topic/notif/count")
     public Message message() {
         Message message = new Message();
-        message.generateCount();
+        message.setCount();
         return message;
     }
 }
