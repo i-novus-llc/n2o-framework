@@ -24,7 +24,8 @@ public class BindLink implements Compiled {
     @JsonProperty
     private Object value;
 
-    public BindLink() {}
+    public BindLink() {
+    }
 
     public BindLink(String bindLink) {
         this.bindLink = bindLink;
@@ -37,6 +38,12 @@ public class BindLink implements Compiled {
 
     public String getBindLink() {
         return bindLink;
+    }
+
+    public String normalizeLink() {
+        if (isLink())
+            return getBindLink() + "." + StringUtils.unwrapJs(value.toString());
+        return getBindLink();
     }
 
     public Object getValue() {
@@ -61,6 +68,7 @@ public class BindLink implements Compiled {
 
     /**
      * Установить значение как ссылку на поле модели
+     *
      * @param field Поле модели
      */
     public void setFieldValue(String field) {
@@ -70,6 +78,7 @@ public class BindLink implements Compiled {
 
     /**
      * Эквивалентны ли ссылки на модели без учёта значений и полей.
+     *
      * @param o Ссылка
      * @return true - эквивалентны, false - нет
      */

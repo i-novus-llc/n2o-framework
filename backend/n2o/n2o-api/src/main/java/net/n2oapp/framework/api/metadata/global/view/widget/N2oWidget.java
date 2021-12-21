@@ -154,7 +154,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                     N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterType.eq);
                     String param = getMasterParam();
                     if (param == null && getRoute() != null && getRoute().contains(":")) {
-                        param = getRoute().substring(getRoute().indexOf(":"), getRoute().lastIndexOf("/"));
+                        param = getRoute().substring(getRoute().indexOf(":") + 1, getRoute().lastIndexOf("/"));
                     }
                     masterFilter.setParam(param);
                     masterFilter.setModel(ReduxModel.RESOLVE);
