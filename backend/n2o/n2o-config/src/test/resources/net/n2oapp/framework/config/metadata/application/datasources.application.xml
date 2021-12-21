@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <stomp-datasource id="taskCount" destination="/task/count"/>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                <value count="0"/>
+                <value notifCount="99+"/>
+            </values>
+        </stomp-datasource>
+    </datasources>
+</application>

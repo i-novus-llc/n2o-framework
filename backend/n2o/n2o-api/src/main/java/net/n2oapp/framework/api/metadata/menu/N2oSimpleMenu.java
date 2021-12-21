@@ -39,6 +39,7 @@ public class N2oSimpleMenu extends N2oMenu {
     public static abstract class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware {
         private String id;
         private String name;
+        private String datasource;
         private String icon;
         private String image;
         private ImageShape imageShape;

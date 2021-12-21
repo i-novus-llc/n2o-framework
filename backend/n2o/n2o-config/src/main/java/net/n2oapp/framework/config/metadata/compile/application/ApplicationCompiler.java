@@ -1,8 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.application;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
@@ -11,6 +13,9 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -34,6 +39,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setHeader(header);
         application.setSidebar(initSidebar(source.getSidebar(), header, context, p));
         application.setFooter(initFooter(source.getFooter(), p));
+        application.setDatasources(initDatasources(source.getDatasources(), context, p));
 
         return application;
     }
@@ -109,6 +115,18 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
             welcomePageId = p.resolve(property("n2o.homepage.id"), String.class);
         PageContext context = new PageContext(welcomePageId, "/");
         p.addRoute(context);
+    }
+
+    private Map<String, AbstractDatasource> initDatasources(N2oAbstractDatasource[] datasources, ApplicationContext context,
+                                                            CompileProcessor p) {
+        if (datasources == null)
+            return null;
+        Map<String, AbstractDatasource> result = new HashMap<>();
+        for (N2oAbstractDatasource source : datasources) {
+            AbstractDatasource datasource = p.compile(source, context);
+            result.put(datasource.getId(), datasource);
+        }
+        return result;
     }
 
     @Override
