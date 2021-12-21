@@ -41,7 +41,7 @@ export const validate = (
         message.severity === VALIDATION_SEVERITY.danger || message.severity === VALIDATION_SEVERITY.warning
     )))
 
-    if (isEmpty(allMessages)) {
+    if (!isEmpty(allMessages)) {
         dispatch(failValidate(datasourceId, allMessages, { touched }))
     }
 
