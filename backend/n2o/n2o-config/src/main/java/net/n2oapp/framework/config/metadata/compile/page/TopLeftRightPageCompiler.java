@@ -62,9 +62,9 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
                                PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
         IndexScope index = new IndexScope();
-        initRegions(source.getTop(), regions, "top", context, p, pageScope, pageRoutes, index);
-        initRegions(source.getLeft(), regions, "left", context, p, pageScope, pageRoutes, index);
-        initRegions(source.getRight(), regions, "right", context, p, pageScope, pageRoutes, index);
+        initRegions(source.getTop(), regions, "top", context, p, pageScope, pageRoutes, index, scopes);
+        initRegions(source.getLeft(), regions, "left", context, p, pageScope, pageRoutes, index, scopes);
+        initRegions(source.getRight(), regions, "right", context, p, pageScope, pageRoutes, index, scopes);
         return regions;
     }
 

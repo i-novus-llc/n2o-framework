@@ -41,7 +41,7 @@ public class BindLink implements Compiled {
     }
 
     public String normalizeLink() {
-        if (isLink())
+        if (StringUtils.isJs(getValue()))
             return getBindLink() + "." + StringUtils.unwrapJs(value.toString());
         return getBindLink();
     }

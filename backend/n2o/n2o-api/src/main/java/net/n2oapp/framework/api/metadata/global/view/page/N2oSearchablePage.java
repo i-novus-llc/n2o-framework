@@ -18,9 +18,17 @@ public class N2oSearchablePage extends N2oStandardPage {
         private String className;
         private String placeholder;
         private String datasource;
-        @Deprecated
-        private String searchWidgetId;
         private String searchFilterId;
         private String searchParam;
+
+        @Deprecated
+        public String getSearchWidgetId() {
+            return datasource;
+        }
+
+        @Deprecated
+        public void setSearchWidgetId(String searchWidgetId) {
+            this.datasource = searchWidgetId;
+        }
     }
 }

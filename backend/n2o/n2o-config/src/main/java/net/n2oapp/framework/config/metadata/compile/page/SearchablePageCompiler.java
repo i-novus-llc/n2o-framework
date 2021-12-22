@@ -31,29 +31,38 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     @Override
     public SearchablePage compile(N2oSearchablePage source, PageContext context, CompileProcessor p) {
         SearchablePage page = new SearchablePage();
-        page.setSearchModelKey(source.getSearchBar().getSearchFilterId());
-        page.setSearchModelPrefix(ReduxModel.FILTER.getId());
-        page.setSearchBar(compileSearchBar(source, p));
+        initDefaults(source, context, p);
+        SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasource(), source.getSearchBar().getSearchFilterId());
+        searchBarScope.setParam(source.getSearchBar().getSearchParam());
+        page = compilePage(source, page, context, p, source.getItems(), searchBarScope);
 
-        SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getSearchWidgetId(), page.getSearchModelKey());
-        compilePage(source, page, context, p, source.getItems(), searchBarScope);
-
-        page.setSearchWidgetId(CompileUtil.generateWidgetId(page.getId(),
-                p.cast(source.getSearchBar().getSearchWidgetId(), searchBarScope.getWidgetId())));
+        page.setSearchBar(compileSearchBar(source, page, p));
 
         compileSearchBarRoute(page, source.getSearchBar().getSearchParam());
         return page;
+    }
+
+    private void initDefaults(N2oSearchablePage source, PageContext context, CompileProcessor p) {
+        source.setSearchBar(initSearchBar(source.getSearchBar(), p));
+    }
+
+    private N2oSearchablePage.N2oSearchBar initSearchBar(N2oSearchablePage.N2oSearchBar source, CompileProcessor p) {
+        N2oSearchablePage.N2oSearchBar result = source;
+        if (result == null)
+            result = new N2oSearchablePage.N2oSearchBar();
+        result.setSearchParam(p.cast(result.getSearchParam(), result.getDatasource() + "_" + result.getSearchFilterId()));
+        return result;
     }
 
     @Override
     protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
                                PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
-        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, new IndexScope());
+        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, new IndexScope(), scopes);
         return regions;
     }
 
-    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, CompileProcessor p) {
+    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, SearchablePage page, CompileProcessor p) {
         SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
         searchBar.setClassName(source.getSearchBar().getClassName());
         searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
@@ -63,16 +72,16 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         } else if (SearchablePage.SearchBar.TriggerType.CHANGE.equals(searchBar.getTrigger())) {
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
+        searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
+        searchBar.setDatasource(CompileUtil.generateWidgetId(page.getId(), source.getSearchBar().getDatasource()));
         return searchBar;
     }
 
     private void compileSearchBarRoute(SearchablePage page, String param) {
-        ReduxModel model = ReduxModel.valueOf(page.getSearchModelPrefix().toUpperCase());
-        if (param == null)
-            param = page.getSearchWidgetId() + "_" + page.getSearchModelKey();
-        ModelLink modelLink = new ModelLink(model, page.getSearchWidgetId());
-        modelLink.setFieldValue(page.getSearchModelKey());
-        page.getRoutes().addQueryMapping(param, Redux.dispatchUpdateModel(page.getSearchWidgetId(), model, page.getSearchModelKey(), colon(param)), modelLink);
+        ReduxModel model = ReduxModel.FILTER;
+        ModelLink modelLink = new ModelLink(model, page.getSearchBar().getDatasource());
+        modelLink.setFieldValue(page.getSearchBar().getFieldId());
+        page.getRoutes().addQueryMapping(param, Redux.dispatchUpdateModel(page.getSearchBar().getDatasource(), model, page.getSearchBar().getFieldId(), colon(param)), modelLink);
     }
 
     @Override

@@ -97,8 +97,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setRoutes(pageRoutes);
 
         //datasources
-        Map<String, Datasource> compiledDataSources = compileDataSources(source.getDatasources(), context, p, dataSourcesScope,
-                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope, pageScope);
+        Map<String, Datasource> compiledDataSources = compileDataSources(context, p, dataSourcesScope,
+                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope, pageScope, searchBarScope);
         page.setDatasources(compiledDataSources);
 
         //toolbars
@@ -145,7 +145,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
     }
 
-    private Map<String, Datasource> compileDataSources(N2oDatasource[] sourceDatasources, PageContext context,
+    private Map<String, Datasource> compileDataSources(PageContext context,
                                                        CompileProcessor p, DataSourcesScope dataSourcesScope, Object... scopes) {
         Map<String, Datasource> compiledDataSources = new HashMap<>();
         for (N2oDatasource ds : dataSourcesScope.values()) {
@@ -260,14 +260,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
     }
 
-    @Deprecated
-    private void initDefaults(PageContext context, N2oWidget n2oWidget) {
-        if (n2oWidget != null && ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null))) {
-            n2oWidget.addPreFilters(context.getPreFilters());
-            n2oWidget.setUpload(context.getUpload());
-        }
-    }
-
     private N2oWidget initResultWidget(PageContext context, List<N2oWidget> sourceWidgets) {
         String resultWidgetId = context.getResultWidgetId();
         if (resultWidgetId != null) {
@@ -352,19 +344,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
         return toolbar;
     }
-
-    private void compileWidgets(List<N2oWidget> sourceWidgets, PageContext context, CompileProcessor p, Object... scopes) {
-        IndexScope indexScope = new IndexScope();
-        for (N2oWidget w : sourceWidgets) {
-            initDefaults(context, w);
-            compileWidget(w, context, p, indexScope, scopes);
-        }
-    }
-
-    private Widget<?> compileWidget(N2oWidget w, PageContext context, CompileProcessor p, Object... scopes) {
-        return p.compile(w, context, scopes);
-    }
-
 
     private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {

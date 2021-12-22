@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
@@ -57,23 +58,32 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     @Override
     public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
+        initDefaults(source, context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         compiled.setId(pageScope.getClientDatasourceId(source.getId()));
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
-        CompiledObject object = null;
-        if (source.getObjectId() != null) {
-            object = p.getCompiled(new ObjectContext(source.getObjectId()));
-        } else if (source.getQueryId() != null) {
-            CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
-            object = query.getObject();
-        }
+        CompiledObject object = initObject(source, p);
         compiled.setProvider(initDataProvider(compiled, source, context, p));
         compiled.setValidations(initValidations(source, p));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
+    }
+
+    private CompiledObject initObject(N2oDatasource source, CompileProcessor p) {
+        if (source.getObjectId() != null) {
+            return p.getCompiled(new ObjectContext(source.getObjectId()));
+        } else if (source.getQueryId() != null) {
+            CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
+            return query.getObject();
+        }
+        return null;
+    }
+
+    private void initDefaults(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
+
     }
 
     private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
@@ -114,29 +124,29 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
         List<Filter> filters = initFilters(compiled, source, p);
+        initSearchBar(source, filters, p);
         initDataProviderMappings(compiled, source, dataProvider, filters, p);
-        SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
-        if (searchBarScope != null && searchBarScope.getWidgetId().equals(source.getId())) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            String searchWidgetId = pageScope != null ?
-                    CompileUtil.generateWidgetId(pageScope.getPageId(), searchBarScope.getWidgetId()) :
-                    searchBarScope.getWidgetId();
-            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
-                    pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
-                            searchWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(searchWidgetId));
-            modelLink.setFieldValue(searchBarScope.getModelKey());
-            dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
-//            if (!datasource.containsFilter(searchBarScope.getModelKey())) { fixme
-//                if (datasource.getFilters() == null) datasource.setFilters(new ArrayList<>());
-//                Filter filter = new Filter();
-//                filter.setFilterId(searchBarScope.getModelKey());
-//                filter.setLink(modelLink);
-//                filter.setRoutable(false);
-//                datasource.getFilters().add(filter);
-//            }
-        }
         p.addRoute(getQueryContext(compiled, source, context, p, url, filters));
         return dataProvider;
+    }
+
+    private void initSearchBar(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
+        SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
+        if (searchBarScope != null && searchBarScope.getDatasource().equals(source.getId())) {
+            if (filters.stream().noneMatch(f -> f.getFilterId().equals(searchBarScope.getFilterId())
+                    || f.getParam().equals(searchBarScope.getParam()))) {
+                Filter searchBarFilter = new Filter();
+                searchBarFilter.setFilterId(searchBarScope.getFilterId());
+                searchBarFilter.setParam(searchBarScope.getParam());
+                searchBarFilter.setRoutable(true);
+                PageScope pageScope = p.getScope(PageScope.class);
+                ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
+                        pageScope != null ? pageScope.getClientDatasourceId(source.getId()) : source.getId(),
+                        searchBarScope.getFilterId());
+                searchBarFilter.setLink(modelLink);
+                filters.add(searchBarFilter);
+            }
+        }
     }
 
     private String getDatasourceRoute(N2oDatasource source, CompileProcessor p) {
@@ -206,7 +216,6 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                     throw new N2oException("Pre-filter " + preFilter + " not found in query " + query.getId());
                 }
             }
-
         }
 
         return filters;
