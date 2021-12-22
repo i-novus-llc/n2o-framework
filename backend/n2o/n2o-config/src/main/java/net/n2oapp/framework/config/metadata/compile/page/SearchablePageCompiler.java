@@ -35,10 +35,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasource(), source.getSearchBar().getSearchFilterId());
         searchBarScope.setParam(source.getSearchBar().getSearchParam());
         page = compilePage(source, page, context, p, source.getItems(), searchBarScope);
-
         page.setSearchBar(compileSearchBar(source, page, p));
-
-        compileSearchBarRoute(page, source.getSearchBar().getSearchParam());
         return page;
     }
 
@@ -75,13 +72,6 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
         searchBar.setDatasource(CompileUtil.generateWidgetId(page.getId(), source.getSearchBar().getDatasource()));
         return searchBar;
-    }
-
-    private void compileSearchBarRoute(SearchablePage page, String param) {
-        ReduxModel model = ReduxModel.FILTER;
-        ModelLink modelLink = new ModelLink(model, page.getSearchBar().getDatasource());
-        modelLink.setFieldValue(page.getSearchBar().getFieldId());
-        page.getRoutes().addQueryMapping(param, Redux.dispatchUpdateModel(page.getSearchBar().getDatasource(), model, page.getSearchBar().getFieldId(), colon(param)), modelLink);
     }
 
     @Override

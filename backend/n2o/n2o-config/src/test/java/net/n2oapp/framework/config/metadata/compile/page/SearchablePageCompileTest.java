@@ -52,8 +52,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testSearchablePage_table"));
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":table_name"));
-        assertThat(query.getOnSet().getValue(), is("`name`"));
-        assertThat(query.getOnSet().getBindLink(), is("models.filter['testSearchablePage_table']"));
+        assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage_table'].name"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
 
@@ -74,8 +73,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testSearchablePage2_table"));
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":name"));
-        assertThat(query.getOnSet().getValue(), is("`name`"));
-        assertThat(query.getOnSet().getBindLink(), is("models.filter['testSearchablePage2_table']"));
+        assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage2_table'].name"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));
 

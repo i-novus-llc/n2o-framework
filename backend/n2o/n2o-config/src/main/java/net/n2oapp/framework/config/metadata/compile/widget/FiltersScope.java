@@ -13,13 +13,15 @@ import java.util.Optional;
  * Информация по фильтрам
  */
 @Getter
-@AllArgsConstructor
 @Deprecated
 public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
      */
-    List<Filter> filters;
+    private List<Filter> filters = new ArrayList<>();
+
+    public FiltersScope() {
+    }
 
     /**
      * Добавить фильтр
@@ -27,8 +29,6 @@ public class FiltersScope {
      * @param filter Фильтр
      */
     public void addFilter(Filter filter) {
-        if (filters == null)
-            filters = new ArrayList<>();
         Optional<Filter> sameFilter = filters.stream()
                 .filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink()))
                 .findAny();
