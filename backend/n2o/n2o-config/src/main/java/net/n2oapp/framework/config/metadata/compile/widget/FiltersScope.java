@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,8 @@ public class FiltersScope {
      * @param filter Фильтр
      */
     public void addFilter(Filter filter) {
+        if (filters == null)
+            filters = new ArrayList<>();
         Optional<Filter> sameFilter = filters.stream()
                 .filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink()))
                 .findAny();
