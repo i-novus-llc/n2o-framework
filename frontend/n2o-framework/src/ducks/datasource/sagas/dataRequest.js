@@ -22,7 +22,7 @@ import {
 import { fetch } from './fetch'
 
 export function* dataRequest({ payload }) {
-    const { id, options } = payload
+    const { datasource: id, options } = payload
 
     try {
         const state = yield select()
