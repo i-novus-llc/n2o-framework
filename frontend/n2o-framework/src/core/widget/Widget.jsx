@@ -47,11 +47,7 @@ export const WidgetHOC = (WidgetComponent) => {
         const prevVisible = usePrevious(visible)
 
         useEffect(() => {
-            // dispatch(registerDependency(id, dependency))
-            // FIXME удалить нижнее, раскомментить верхнее, после того как бек перестанет присылать fetch зависимость
-            const { fetch, ...deps } = (dependency || {})
-
-            dispatch(registerDependency(id, deps))
+            dispatch(registerDependency(id, dependency))
         }, [id, dispatch, dependency])
 
         // fetch on change visible

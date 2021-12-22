@@ -7,8 +7,7 @@ import last from 'lodash/last'
 
 import { PREFIXES } from '../models/constants'
 import { removeModel, setModel } from '../models/store'
-import { register, dataRequest } from '../datasource/store'
-import { DEPENDENCY_TYPE } from '../../core/datasource/const'
+import { dataRequest } from '../datasource/store'
 
 import {
     makeDatasourceIdSelector,
@@ -19,7 +18,6 @@ import {
     dataRequestWidget,
     disableWidget,
     resolveWidget,
-    registerWidget,
 } from './store'
 
 export function* runResolve(action) {
@@ -70,30 +68,6 @@ function* clearFilters(action) {
  * @ignore
  */
 export default () => [
-    /**
-     * Хак для регистрации Datasource из данных виджета
-     * FIXME Удалить, после того как бек начнёт присылать данные сам (до закрытия стори)
-     */
-    takeEvery(registerWidget, function* RegisterWidget({ payload }) {
-        const { initProps } = payload
-        const { dataProvider, sorting, validation, size, datasource, dependency, form } = initProps
-        let dependencies = []
-
-        if (dependency && dependency.fetch) {
-            dependencies = dependency.fetch.map(dep => ({
-                ...dep,
-                type: DEPENDENCY_TYPE.fetch,
-            }))
-        }
-
-        yield put(register(datasource, {
-            provider: dataProvider,
-            sorting,
-            validation: validation || form?.validation,
-            size: size || dataProvider?.size,
-            dependencies,
-        }))
-    }),
     takeEvery(dataRequestWidget, function* redirectRequest({ payload }) {
         const { widgetId } = payload
         const sourceId = yield select(makeDatasourceIdSelector(widgetId))
