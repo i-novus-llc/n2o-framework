@@ -24,10 +24,8 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
-import net.n2oapp.framework.api.metadata.meta.Filter;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -36,6 +34,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -44,11 +43,14 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeParam;
 
 @Component
 public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
+    private static final String SPREAD_OPERATOR = "*.";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -64,12 +66,20 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
+        CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
-        compiled.setProvider(initDataProvider(compiled, source, context, p));
+        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setValidations(initValidations(source, p));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
+    }
+
+    private CompiledQuery initQuery(N2oDatasource source, CompileProcessor p) {
+        if (source.getQueryId() != null) {
+            return p.getCompiled(new QueryContext(source.getQueryId()));
+        }
+        return null;
     }
 
     private CompiledObject initObject(N2oDatasource source, CompileProcessor p) {
@@ -116,15 +126,15 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private ClientDataProvider initDataProvider(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context,
-                                                CompileProcessor p) {
+                                                CompileProcessor p, CompiledQuery query) {
         if (source.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
-        List<Filter> filters = initFilters(compiled, source, p);
-        initSearchBar(source, filters, p);
+        List<Filter> filters = initFilters(compiled, source, p, query);
+        compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(compiled, source, dataProvider, filters, p);
         p.addRoute(getQueryContext(compiled, source, context, p, url, filters));
         return dataProvider;
@@ -178,8 +188,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         }
     }
 
-    private List<Filter> initFilters(Datasource compiled, N2oDatasource source, CompileProcessor p) {
-        CompiledQuery query = source.getQueryId() == null ? null : p.getCompiled(new QueryContext(source.getQueryId()));
+    private List<Filter> initFilters(Datasource compiled, N2oDatasource source, CompileProcessor p, CompiledQuery query) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
             return null;
@@ -217,7 +226,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                 }
             }
         }
-
+        initSearchBar(source, filters, p);
         return filters;
     }
 
@@ -421,15 +430,33 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         return link;
     }
 
-//    protected String getFailAlertWidget(Widget widget) {fixme
-//        return widget.getId();
-//    }
-//
-//    protected String getSuccessAlertWidget(Widget widget) {
-//        return widget.getId();
-//    }
-//
-//    protected String getMessagesForm(Widget widget) {
-//        return widget.getId();
-//    }
+    private void compileRoutes(Datasource compiled, N2oDatasource source, List<Filter> filters, CompileProcessor p, CompiledQuery query) {
+        PageRoutes routes = p.getScope(PageRoutes.class);
+        if (routes == null)
+            return;
+        if (query != null) {
+            filters.stream()
+                    .filter(Filter::getRoutable)
+                    .filter(f -> !f.getLink().isConst())
+                    .forEach(filter -> {
+                        ReduxAction onGet;
+                        String filterId = filter.getFilterId();
+                        if (filterId.contains(SPREAD_OPERATOR)) {
+                            onGet = Redux.dispatchUpdateMapModel(compiled.getId(), ReduxModel.FILTER,
+                                    filterId.substring(0, filterId.indexOf(SPREAD_OPERATOR)),
+                                    filterId.substring(filterId.indexOf(SPREAD_OPERATOR) + 2), colon(filter.getParam()));
+                        } else {
+                            onGet = Redux.dispatchUpdateModel(compiled.getId(), ReduxModel.FILTER, filterId, colon(filter.getParam()));
+                        }
+                        routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
+                    });
+            for (N2oQuery.Field field : query.getSortingFields()) {
+                String sortParam = RouteUtil.normalizeParam("sorting." + source.getId() + "_" + field.getId());
+                BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
+                ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
+                routes.addQueryMapping(sortParam, onGet, onSet);
+            }
+        }
+    }
+
 }

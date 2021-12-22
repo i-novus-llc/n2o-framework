@@ -64,13 +64,12 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setDatasourceId(source.getDatasourceId());
         SubModelsScope subModelsScope = new SubModelsScope();
-        FiltersScope filtersScope = new FiltersScope(table.getFilters() == null ? new ArrayList<>() : table.getFilters());
-        table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.FILTER, table.getId(), p.getScope(Models.class)), filtersScope, subModelsScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeQuery)));
-        table.setFilters(filtersScope.filters);
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.FILTER, validationList);
+        FiltersScope filtersScope = new FiltersScope(table.getFilters());
+        table.setFilter(createFilter(source, context, p, widgetScope, query, object,
+                new ModelsScope(ReduxModel.FILTER, table.getId(), p.getScope(Models.class)), filtersScope, subModelsScope,
+                new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope));
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,

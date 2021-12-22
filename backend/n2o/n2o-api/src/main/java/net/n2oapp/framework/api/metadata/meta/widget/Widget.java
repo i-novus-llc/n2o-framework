@@ -40,6 +40,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private String queryId;
     @Deprecated
     private String filtersDefaultValuesQueryId;
+    @Deprecated
     private List<Filter> filters;
     protected T component;
     private Set<String> notCopiedFields;

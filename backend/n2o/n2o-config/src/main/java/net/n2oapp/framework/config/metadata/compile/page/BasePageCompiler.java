@@ -92,14 +92,14 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 breadcrumb, validationList, models, pageRoutesScope, searchBarScope, subModelsScope,
                 copiedFieldScope, dataSourcesScope));
 
-        //routes
-        registerRoutes(pageRoutes, context, p);
-        page.setRoutes(pageRoutes);
-
         //datasources
         Map<String, Datasource> compiledDataSources = compileDataSources(context, p, dataSourcesScope,
                 validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope, pageScope, searchBarScope);
         page.setDatasources(compiledDataSources);
+
+        //routes
+        registerRoutes(pageRoutes, context, p);
+        page.setRoutes(pageRoutes);
 
         //toolbars
         initToolbarGenerate(source, context, resultWidget);

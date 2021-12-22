@@ -13,6 +13,7 @@ import java.util.Optional;
  */
 @Getter
 @AllArgsConstructor
+@Deprecated
 public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
