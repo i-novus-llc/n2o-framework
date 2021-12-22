@@ -186,7 +186,9 @@ const modelsSlice = createSlice({
             const { prefixes, key, exclude } = action.payload
 
             prefixes.forEach((prefix) => {
-                state[prefix][key] = pick(state[prefix][key], [exclude])
+                if (state[prefix]?.[key]) {
+                    state[prefix][key] = pick(state[prefix][key], [exclude])
+                }
             })
         },
         MERGE: {

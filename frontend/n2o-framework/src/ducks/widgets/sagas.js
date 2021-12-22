@@ -4,10 +4,9 @@ import {
     takeEvery,
 } from 'redux-saga/effects'
 import last from 'lodash/last'
-import { reset } from 'redux-form'
 
 import { PREFIXES } from '../models/constants'
-import { removeModel, setModel, clearModel } from '../models/store'
+import { removeModel, setModel } from '../models/store'
 import { register, dataRequest } from '../datasource/store'
 import { DEPENDENCY_TYPE } from '../../core/datasource/const'
 
@@ -30,10 +29,6 @@ export function* runResolve(action) {
         yield put(setModel(PREFIXES.resolve, modelId, model))
         // eslint-disable-next-line no-empty
     } catch (err) {}
-}
-
-export function* clearForm(action) {
-    yield put(reset(action.payload.key))
 }
 
 export function* clearOnDisable(action) {
@@ -105,7 +100,6 @@ export default () => [
 
         yield put(dataRequest(sourceId))
     }),
-    takeEvery(clearModel, clearForm),
     takeEvery(resolveWidget, runResolve),
     takeEvery(disableWidget, clearOnDisable),
 ]

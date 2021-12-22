@@ -31,7 +31,6 @@ import {
 import { registerFieldExtra } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
 
-import withFieldValidate from './withFieldValidate'
 import withAutoSave from './withAutoSave'
 
 const INDEX_PLACEHOLDER = 'index'
@@ -259,7 +258,6 @@ export default (Field) => {
                 }
                 : model,
         })),
-        branch(({ validation }) => !!validation, withFieldValidate),
         branch(
             ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
             withAutoSave,
