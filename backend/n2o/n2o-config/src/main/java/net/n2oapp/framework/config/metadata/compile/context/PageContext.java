@@ -60,14 +60,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private ReduxModel targetModel;
     /**
-     * Идентификатор целевого виджета
-     */
-    @Deprecated
-    private String targetWidgetId;
-    /**
      * Идентификатор источника данных, в который будут скопированы данные
      */
-    private String targetDatasource;
+    private String targetDatasourceId;
     /**
      * Идентификатор поля целевого виджета, в которое будут скопированы данные
      */

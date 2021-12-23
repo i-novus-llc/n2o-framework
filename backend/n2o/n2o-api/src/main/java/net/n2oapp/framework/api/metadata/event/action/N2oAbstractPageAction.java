@@ -44,13 +44,9 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
     private ReduxModel copyModel;
-    @Deprecated
-    private String copyWidgetId;
     private String copyDatasource;
     private String copyFieldId;
     private ReduxModel targetModel;
-    @Deprecated
-    private String targetWidgetId;
     private String targetDatasource;
     private CopyMode copyMode;
     private Boolean createMore;
@@ -123,5 +119,25 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     public void setRefreshWidgetId(String refreshWidgetId) {
         this.refreshDatasources = new String[]{refreshWidgetId};
+    }
+
+    @Deprecated
+    public String getTargetWidgetId() {
+        return targetDatasource;
+    }
+
+    @Deprecated
+    public void setTargetWidgetId(String targetWidgetId) {
+        this.targetDatasource = targetWidgetId;
+    }
+
+    @Deprecated
+    public String getCopyWidgetId() {
+        return copyDatasource;
+    }
+
+    @Deprecated
+    public void setCopyWidgetId(String copyWidgetId) {
+        this.copyDatasource = copyWidgetId;
     }
 }
