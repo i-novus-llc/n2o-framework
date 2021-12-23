@@ -148,9 +148,9 @@
                         <xs:documentation>Идентификатор объекта</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="aType" default="application">
+                <xs:attribute name="target" type="openPageType" default="application">
                     <xs:annotation>
-                        <xs:documentation>Сценарий открытия окна</xs:documentation>
+                        <xs:documentation>Сценарий действия открытия страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1236,4 +1236,13 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="openPageType">
+        <xs:annotation>
+            <xs:documentation>Тип сценария действия открытия страницы</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="newWindow"/>
+            <xs:enumeration value="application"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
