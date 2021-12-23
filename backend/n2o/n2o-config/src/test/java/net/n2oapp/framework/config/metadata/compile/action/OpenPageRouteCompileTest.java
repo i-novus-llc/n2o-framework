@@ -77,7 +77,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("withoutParam").getAction();
-        assertThat(action.getUrl(), is("/test/:masterId/detail/open2"));
+        assertThat(action.getUrl(), is("/test/open2"));
         assertThat(action.getQueryMapping().isEmpty(), is(true));
     }
 
@@ -92,11 +92,11 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("withParamWithoutMasterDetail").getAction();
-        assertThat(action.getUrl(), is("/test/:masterId/detail/:detailId/open3"));
+        assertThat(action.getUrl(), is("/test/:detailId/open3"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
-        routeAndGet("/test/1/detail/2/open3", Page.class);
-        QueryContext queryContext = (QueryContext) route("/test/1/detail/2/open3/main", CompiledQuery.class);
+        routeAndGet("/test/2/open3", Page.class);
+        QueryContext queryContext = (QueryContext) route("/test/2/open3/main", CompiledQuery.class);
         assertThat(queryContext.getFilters().isEmpty(), is(true));
         assertThat(queryContext.getSourceId(null), is("testOpenPageRoute?file=test2"));
     }
@@ -145,8 +145,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("version").getValue(), is("`version`"));
         // master widget route params
-        assertThat(pathMapping.get("test_main_id").getBindLink(), is("models.resolve['test_main'].id"));
-        assertThat(pathMapping.get("test_main_id").getValue(), nullValue());
+        assertThat(pathMapping.get("test_main_id").getBindLink(), is("models.resolve['test_main']"));
+        assertThat(pathMapping.get("test_main_id").getValue(), is("`id`"));
     }
 
     /**
@@ -168,7 +168,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(2));
-        assertThat(pathMapping.get("test_main_id").getBindLink(), is("models.resolve['test_main'].id"));
+        assertThat(pathMapping.get("main_id").normalizeLink(), is("models.resolve['test_main'].id"));
         assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("version").getValue(), is("`version`"));
     }
@@ -181,18 +181,16 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPageToolbarWithParams.page.xml")
                 .get(new PageContext("testPageToolbarWithParams", "/test"));
 
-        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("menuItem0").getAction();
+        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("mi0").getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
         ModelLink queryMappingModelLink = queryMapping.get("number");
-        assertThat(queryMappingModelLink.getBindLink(), is("models.resolve['test_main']"));
-        assertThat(queryMappingModelLink.getValue(), is("`number`"));
+        assertThat(queryMappingModelLink.normalizeLink(), is("models.resolve['test_main'].number"));
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
-        assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
-        assertThat(pathMapping.get("version").getValue(), is("`version`"));
+        assertThat(pathMapping.get("version").normalizeLink(), is("models.resolve['test_main'].version"));
     }
 
     /**
