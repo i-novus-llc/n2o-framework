@@ -39,6 +39,7 @@ const datasource = createSlice({
                 }
             },
         },
+
         remove: {
             prepare(id) {
                 return ({
@@ -70,6 +71,7 @@ const datasource = createSlice({
                 }
             },
         },
+
         removeComponent: {
             // eslint-disable-next-line sonarjs/no-identical-functions
             prepare(dataSourceId, componentId) {
@@ -102,6 +104,7 @@ const datasource = createSlice({
                 state[id].loading = true
             },
         },
+
         resolveRequest: {
             prepare(id, json) {
                 return ({
@@ -115,6 +118,7 @@ const datasource = createSlice({
                 state[id].loading = false
             },
         },
+
         rejectRequest: {
             prepare(id, err, meta) {
                 return ({
@@ -146,6 +150,7 @@ const datasource = createSlice({
                 }
             },
         },
+
         changePage: {
             prepare(id, page) {
                 return ({
@@ -158,6 +163,7 @@ const datasource = createSlice({
                 state[id].page = page
             },
         },
+
         changeCount: {
             prepare(id, count) {
                 return ({
@@ -170,6 +176,7 @@ const datasource = createSlice({
                 state[id].count = count
             },
         },
+
         changeSize: {
             prepare(id, size) {
                 return ({
@@ -194,6 +201,7 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
         failValidate: {
             prepare(id, fields /* , prefix = MODEL_PREFIX.active*/) {
                 return ({
@@ -205,6 +213,7 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
         setActiveModel: {
             prepare(id, model) {
                 return ({
@@ -216,6 +225,7 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
         setFilter: {
             prepare(id, model) {
                 return ({
@@ -227,6 +237,7 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
         setSourceModel: {
             prepare(id, model) {
                 return ({
@@ -238,6 +249,7 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
         setMultiModel: {
             prepare(id, model) {
                 return ({
