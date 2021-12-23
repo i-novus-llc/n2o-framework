@@ -142,13 +142,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, widgetIdQueryIdMap, p);
 
         String parentRoute = normalize(route);
-        if (widgetScope != null) {
-            List<String> pathParams = RouteUtil.getPathParams(actionRoute);
-            if (!pathParams.isEmpty())
-                parentRoute = normalize(parentRoute + "/:" + pathParams.get(0));
-        }
         route = normalize(route + actionRoute);
-
         PageContext pageContext = constructContext(pageId, route);
         if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
