@@ -68,8 +68,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
-        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setValidations(initValidations(source, p));
+        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
@@ -265,18 +265,6 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
         ValidationList validationList = p.getScope(ValidationList.class);
         List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.FILTER);
-//        if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
-//            if (object == null)
-//                throw new N2oException("submit-operation is defined, but object-id isn't set in widget or query");
-//            CompiledObject.Operation operation = object.getOperations().get(((PageContext) context).getSubmitOperationId());
-//            if (operation.getValidationList() != null) {
-//                if (validations == null) {
-//                    validations = operation.getValidationList();
-//                } else {
-//                    validations.addAll(operation.getValidationList());
-//                }
-//            }
-//        }
         queryContext.setValidations(validations);
         queryContext.setFilters(filters);
         if (source.getDefaultValuesMode() != null)

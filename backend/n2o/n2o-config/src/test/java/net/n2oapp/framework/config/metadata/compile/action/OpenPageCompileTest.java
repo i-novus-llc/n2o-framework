@@ -7,8 +7,10 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.*;
-import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -42,7 +44,6 @@ import org.junit.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -405,10 +406,11 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(p1.getRoutes().findRouteByUrl("/page"), notNullValue());
 
         StandardPage p2 = (StandardPage) pipeline.get(new PageContext("testOpenPageMasterParam"));
-        assertThat(((Form) p2.getRegions().get("right").get(0).getContent().get(0))
-                .getFilters().get(0).getParam(), is("sid"));
-        assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/:testOpenPageMasterParam_form_id"), notNullValue());
-        assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"), notNullValue());
+        assertThat(p2.getDatasources().get("testOpenPageMasterParam_form").getProvider().getQueryMapping().size(), is(0));
+        assertThat(p2.getDatasources().get("testOpenPageMasterParam_form").getProvider().getUrl(), is("n2o/data/testOpenPageMasterParam"));
+        assertThat(p2.getDatasources().get("testOpenPageMasterParam_modalDetail").getProvider().getQueryMapping().size(), is(1));
+        assertThat(p2.getDatasources().get("testOpenPageMasterParam_modalDetail").getProvider().getUrl(), is("n2o/data/testOpenPageMasterParam/detail2"));
+        assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam"), notNullValue());
 
         ShowModal showModal = (ShowModal) ((Form) p2.getRegions().get("left").get(0).getContent().get(0)).getToolbar().getButton("byName").getAction();
         assertThat(showModal.getPayload().getPageUrl(), is("/testOpenPageMasterParam/byName"));

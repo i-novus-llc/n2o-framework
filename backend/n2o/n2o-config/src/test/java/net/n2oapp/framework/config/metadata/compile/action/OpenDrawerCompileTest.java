@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -157,9 +156,6 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getToolbar().getButton("mi0").getAction();
         assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/mi0"));
         assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
-
-        QueryContext queryContext = (QueryContext) route("/p/123/update/main", CompiledQuery.class);
-        assertThat(queryContext.getValidations().size(), is(1));
     }
 
     @Test

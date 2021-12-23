@@ -61,7 +61,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("withParam").getAction();
-        assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open1"));
+        assertThat(action.getUrl(), is("/test/:masterId/detail/:detailId/open1"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
     }
@@ -77,7 +77,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("withoutParam").getAction();
-        assertThat(action.getUrl(), is("/test/master/:masterId/detail/open2"));
+        assertThat(action.getUrl(), is("/test/:masterId/detail/open2"));
         assertThat(action.getQueryMapping().isEmpty(), is(true));
     }
 
@@ -92,11 +92,11 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("withParamWithoutMasterDetail").getAction();
-        assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open3"));
+        assertThat(action.getUrl(), is("/test/:masterId/detail/:detailId/open3"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
-        routeAndGet("/test/master/1/detail/2/open3", Page.class);
-        QueryContext queryContext = (QueryContext) route("/test/master/1/detail/2/open3/main", CompiledQuery.class);
+        routeAndGet("/test/1/detail/2/open3", Page.class);
+        QueryContext queryContext = (QueryContext) route("/test/1/detail/2/open3/main", CompiledQuery.class);
         assertThat(queryContext.getFilters().isEmpty(), is(true));
         assertThat(queryContext.getSourceId(null), is("testOpenPageRoute?file=test2"));
     }
@@ -394,11 +394,11 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
-        assertThat(action.getUrl(), is("/test/main/:rec_id/:rec_name/open"));
+        assertThat(action.getUrl(), is("/test/:rec_id/:rec_name/open"));
         assertThat(action.getPathMapping().get("rec_id"), notNullValue());
         assertThat(action.getPathMapping().get("rec_name"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
-        Page newPage = routeAndGet("/test/main/1/test/open", Page.class);
+        Page newPage = routeAndGet("/test/1/test/open", Page.class);
         assertThat(newPage.getRoutes().getQueryMapping().size(), is(0));
         assertThat(newPage.getModels().size(), is(2));
     }
