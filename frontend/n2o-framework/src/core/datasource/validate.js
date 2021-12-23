@@ -45,5 +45,5 @@ export const validate = (
         dispatch(failValidate(datasourceId, allMessages, { touched }))
     }
 
-    return invalid
+    return !invalid
 }

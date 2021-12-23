@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { batchActions } from 'redux-batched-actions'
 
 import {
     registerWidget,
@@ -23,19 +22,14 @@ export const withRedux = (WidgetComponent) => {
             const { isInit, id } = props
 
             if (!isInit) {
-                dispatch(batchActions([
-                    registerWidget(id, props),
-                    // addWidget(datasource, id), // FIXME раскомментировать после того как бек начнёт присылать datasource отдельной сущностью
-                ]))
+                dispatch(registerWidget(id, props))
             }
         }
 
         componentWillUnmount() {
             const { id, dispatch } = this.props
 
-            dispatch(batchActions([
-                removeAllAlerts(id),
-            ]))
+            dispatch(removeAllAlerts(id))
         }
 
         render() {

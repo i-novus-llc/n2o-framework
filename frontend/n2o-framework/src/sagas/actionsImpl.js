@@ -155,7 +155,8 @@ export function* handleInvoke(apiProvider, action) {
     const state = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
-    const model = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
+    // fixme убрать ".toLowerCase()", когда бекенд начнёт присылать нормально
+    const model = yield select(makeGetModelByPrefixSelector(modelPrefix.toLowerCase(), datasource))
 
     try {
         if (!dataProvider) {

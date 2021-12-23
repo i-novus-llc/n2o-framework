@@ -40,5 +40,5 @@ export function* validate({ payload }) {
         yield put(failValidate(id, allMessages))
     }
 
-    return invalid
+    return !invalid
 }

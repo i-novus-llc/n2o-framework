@@ -2,7 +2,7 @@ export class DataSource {
     static get defaultState() {
         return ({
             provider: {},
-            validation: {},
+            validations: {},
             widgets: [],
             dependencies: [],
             size: 0,

@@ -72,16 +72,16 @@ const datasource = createSlice({
             },
         },
 
-        dataRequest: {
-            prepare(id, options = {}) {
+        DATA_REQUEST: {
+            prepare(datasource, options = {}) {
                 return ({
-                    payload: { id, options },
+                    payload: { datasource, options },
                 })
             },
             reducer(state, action) {
-                const { id } = action.payload
+                const { datasource } = action.payload
 
-                state[id].loading = true
+                state[datasource].loading = true
             },
         },
         resolveRequest: {
@@ -254,7 +254,7 @@ export const {
     remove,
     addWidget,
     removeWidget,
-    dataRequest,
+    DATA_REQUEST: dataRequest,
     resolveRequest,
     rejectRequest,
     setActiveModel,
