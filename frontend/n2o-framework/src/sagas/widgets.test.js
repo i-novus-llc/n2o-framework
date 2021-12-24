@@ -79,40 +79,6 @@ describe('Проверка саги widgets', () => {
             expect(dispatched[0].payload.args[0].search).toBe('q=qqq&name=Sergey')
         })
     })
-    describe('тесты getWithoutSelectedId', () => {
-        it('должен вернуть null', () => {
-            expect(getWithoutSelectedId()).toBeNull()
-        })
-        it('должен вернуть true', () => {
-            expect(
-                getWithoutSelectedId(
-                    { option: 1 },
-                    { pathname: '/test' },
-                    'widgetSelectedId',
-                    'prevWidgetSelectedId',
-                ),
-            ).toBeTruthy()
-            expect(
-                getWithoutSelectedId(
-                    { option: 1 },
-                    { pathname: '/widgetSelectedId' },
-                    'widgetSelectedId',
-                    'widgetSelectedId',
-                ),
-            ).toBeTruthy()
-        })
-
-        it('должен вернуть withoutSelectedId из options', () => {
-            expect(
-                getWithoutSelectedId(
-                    { withoutSelectedId: false },
-                    { pathname: '/widgetSelectedId' },
-                    'widgetSelectedId',
-                    'prevWidgetSelectedId',
-                ),
-            ).toBeFalsy()
-        })
-    })
     it('clearForm должен вызвать сброс формы', () => {
         const gen = clearForm({
             payload: {
