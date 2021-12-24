@@ -32,7 +32,6 @@ import {
 } from '../actions/widgets'
 import { removeModel, setModel } from '../actions/models'
 import {
-    makeSelectedIdSelector,
     makeWidgetByIdSelector,
     makeWidgetDataProviderSelector,
     makeWidgetPageIdSelector,
@@ -65,19 +64,13 @@ function* getData() {
 
         return res
     }
-    let prevSelectedId = null
 
     while (true) {
         const {
             payload: { widgetId, options },
         } = yield take(DATA_REQUEST)
-        const selectedId = yield select(makeSelectedIdSelector(widgetId))
 
-        yield fork(handleFetch, widgetId, options, isQueryEqual, prevSelectedId)
-
-        if (prevSelectedId !== selectedId) {
-            prevSelectedId = selectedId
-        }
+        yield fork(handleFetch, widgetId, options, isQueryEqual)
     }
 }
 
@@ -180,25 +173,7 @@ export function* setWidgetDataSuccess(
     yield put(dataSuccessWidget(widgetId, data))
 }
 
-export function getWithoutSelectedId(
-    options,
-    location,
-    selectedId,
-    prevSelectedId,
-) {
-    if (!options || isEmpty(options)) {
-        return null
-    } if (
-        !location.pathname.includes(selectedId) ||
-        prevSelectedId === selectedId
-    ) {
-        return true
-    }
-
-    return options.withoutSelectedId
-}
-
-export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
+export function* handleFetch(widgetId, options, isQueryEqual) {
     try {
         const {
             state,
@@ -223,23 +198,15 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
                 options,
             )
 
-            const withoutSelectedId = getWithoutSelectedId(
-                options,
-                location,
-                widgetState.selectedId,
-                prevSelectedId,
-            )
-
             if (
-                withoutSelectedId ||
-                !isQueryEqual(
+                isQueryEqual(
                     widgetId,
                     resolvedProvider.basePath,
                     resolvedProvider.baseQuery,
-                )
+                ) && (
+                    widgetState.selectedId &&
+                location.pathname.includes(widgetState.selectedId))
             ) {
-                // yield put(setTableSelectedId(widgetId, null));
-            } else if (!withoutSelectedId && widgetState.selectedId) {
                 resolvedProvider.baseQuery.selectedId = widgetState.selectedId
             }
 

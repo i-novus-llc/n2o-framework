@@ -114,7 +114,6 @@ export function* refreshEffect(action) {
                     yield put(
                         dataRequestWidget(options.widgetId, {
                             ...options.options,
-                            withoutSelectedId: action.meta.withoutSelectedId,
                         }),
                     )
                 }
