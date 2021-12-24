@@ -603,7 +603,7 @@ class InputSelect extends React.Component {
                     </DropdownToggle>
 
                     <DropdownMenu
-                        key={stateValue + options.length}
+                        key={stateValue}
                         className={classNames('n2o-input-select__menu', {
                             'n2o-input-select__menu--autosize': popupAutoSize,
                         })}
