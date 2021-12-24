@@ -22,7 +22,7 @@
         </region>
     </regions>
     <toolbar>
-        <button widget-id="table1">
+        <button id="pageBtn" widget-id="table1">
             <copy target-page-id="page" target-widget-id="form"/>
         </button>
     </toolbar>
