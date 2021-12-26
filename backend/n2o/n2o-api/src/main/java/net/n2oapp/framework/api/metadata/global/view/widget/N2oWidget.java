@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -143,7 +142,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
             if (getDependsOn() != null) {
                 N2oDatasource.FetchDependency fetchDependency = new N2oDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
-                fetchDependency.setModel(ReduxModel.RESOLVE);
+                fetchDependency.setModel(ReduxModel.resolve);
                 datasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
@@ -157,7 +156,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                         param = getRoute().substring(getRoute().indexOf(":") + 1, getRoute().lastIndexOf("/"));
                     }
                     masterFilter.setParam(param);
-                    masterFilter.setModel(ReduxModel.RESOLVE);
+                    masterFilter.setModel(ReduxModel.resolve);
                     masterFilter.setDatasource(getDependsOn());
                     masterFilter.setRequired(true);
                     preFilters.add(masterFilter);
@@ -171,7 +170,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                 if (getDependsOn() != null) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
-                visibilityDependency.setModel(ReduxModel.RESOLVE);
+                visibilityDependency.setModel(ReduxModel.resolve);
                 setDependencies(new N2oDependency[]{visibilityDependency});
             }
         }

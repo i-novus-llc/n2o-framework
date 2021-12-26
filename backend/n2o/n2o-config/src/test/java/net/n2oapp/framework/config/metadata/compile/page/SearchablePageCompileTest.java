@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -53,7 +52,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":table_name"));
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage_table'].name"));
-        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
 
         BindLink bindLink = page.getDatasources().get("testSearchablePage_table").getProvider().getQueryMapping().get("table_name");
@@ -74,7 +73,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
         assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":name"));
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage2_table'].name"));
-        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));
 
         BindLink bindLink = page.getDatasources().get("testSearchablePage2_table").getProvider().getQueryMapping().get("name");

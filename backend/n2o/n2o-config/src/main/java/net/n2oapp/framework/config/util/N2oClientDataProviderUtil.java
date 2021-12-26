@@ -90,7 +90,7 @@ public class N2oClientDataProviderUtil {
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethod.POST);
         dataProvider.setUrl(submit.getRoute());
-        dataProvider.setTargetModel(ReduxModel.RESOLVE);
+        dataProvider.setTargetModel(ReduxModel.resolve);
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());

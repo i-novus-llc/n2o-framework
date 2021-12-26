@@ -52,11 +52,11 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(table.getDatasource().getFilters()[2].getDatasource(), is("ds1"));
         assertThat(table.getDatasource().getFilters()[2].getFieldId(), is("id"));
         assertThat(table.getDatasource().getFilters()[2].getParam(), is("ds1_master"));
-        assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModel.RESOLVE));
+        assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModel.resolve));
         assertThat(table.getDatasource().getRoute(), is("/test"));
         assertThat(table.getDatasource().getSize(), is(10));
         assertThat(table.getDatasource().getDependencies().length, is(1));
-        assertThat(((N2oDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(((N2oDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModel.resolve));
         assertThat(((N2oDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getOn(), is("ds1"));
         assertThat(table.getDependencies().length, is(1));
         assertThat(table.getDependencies()[0].getDatasource(), is("ds1"));

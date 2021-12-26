@@ -89,7 +89,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setDatasource(datasource);
         boolean validate = initValidate(source, p, datasource);
         source.setValidate(validate);
-        source.setModel(p.cast(source.getModel(), ReduxModel.RESOLVE));
+        source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
         source.setValidateDatasources(initValidateDatasources(source, p, validate, datasource));
         source.setAction(initAction(source, p));
 
@@ -175,7 +175,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (StringUtils.isJs(confirm.getText())) {
             String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
             ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, clientDatasource).getBindLink());
+            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
         }
         return confirm;
     }
@@ -280,7 +280,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelType.AUTO.equals(disableOnEmptyModel) &&
-                (ReduxModel.RESOLVE.equals(source.getModel()) || ReduxModel.MULTI.equals(source.getModel())) &&
+                (ReduxModel.resolve.equals(source.getModel()) || ReduxModel.multi.equals(source.getModel())) &&
                 parentIsNotCell;
 
         if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
@@ -328,7 +328,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private void compileCondition(N2oButton.Dependency dependency, PerformButton button, ValidationType validationType,
                                   String clientDatasource, ReduxModel buttonModel, CompileProcessor p) {
-        ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.RESOLVE);
+        ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.resolve);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         condition.setModelLink(new ModelLink(refModel, clientDatasource, null).getBindLink());

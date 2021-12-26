@@ -45,9 +45,9 @@ public class EditCellCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileEditCell() {
         WidgetContext context = new WidgetContext("testEditCell", "main/:id/open");
-        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "main"));
+        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "main"));
         Map<String, ModelLink> mapping = new HashMap<>();
-        mapping.put("id", new ModelLink(ReduxModel.RESOLVE, "main", "id"));
+        mapping.put("id", new ModelLink(ReduxModel.resolve, "main", "id"));
         context.setPathRouteMapping(mapping);
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testEditCell.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/cell/testEditCell.object.xml")
@@ -65,7 +65,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
 
         assertThat(cell.getAction(), notNullValue());
         assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
-        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.resolve, "main", "id")));
 
         cell = (EditCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));

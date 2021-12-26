@@ -32,7 +32,7 @@ public class TestOperationExceptionHandler implements OperationExceptionHandler 
         buttons[1].setLabel("No");
         N2oCloseAction action1 = new N2oCloseAction();
         buttons[1].setAction(action1);
-        buttons[1].setModel(ReduxModel.FILTER);
+        buttons[1].setModel(ReduxModel.filter);
         dialog.setToolbar(new N2oToolbar(buttons));
         exception.setDialog(dialog);
         return exception;

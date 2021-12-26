@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 @Setter
 @NoArgsConstructor
 public class SearchBarScope {
-    private ReduxModel modelPrefix = ReduxModel.FILTER;
+    private ReduxModel modelPrefix = ReduxModel.filter;
     private String datasource;
     private String filterId;
     private String param;

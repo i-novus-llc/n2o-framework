@@ -76,7 +76,7 @@ public abstract class Redux {
      */
     public static BindLink createBindLink(ReduxAction reduxAction) {
         if (reduxAction.getType().equals("n2o/widgets/CHANGE_SELECTED_ID")) {
-            ReduxModel reduxModel = ReduxModel.RESOLVE;
+            ReduxModel reduxModel = ReduxModel.resolve;
             //todo нужна типизация по widgetId и field
             String widgetId = ((SelectedWidgetPayload) reduxAction.getPayload()).getWidgetId();
             return createBindLink(widgetId, reduxModel, "id");
@@ -196,7 +196,7 @@ public abstract class Redux {
     }
 
     public static ModelLink linkQuery(String clientWidgetId, String fieldId, String queryId) {
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, clientWidgetId, fieldId);
+        ModelLink link = new ModelLink(ReduxModel.resolve, clientWidgetId, fieldId);
         if (PK.equals(fieldId) && queryId != null)
             link.setSubModelQuery(new SubModelQuery(queryId));
         return link;

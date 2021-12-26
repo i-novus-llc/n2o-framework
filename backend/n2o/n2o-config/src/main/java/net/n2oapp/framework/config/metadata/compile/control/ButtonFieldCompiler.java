@@ -8,13 +8,9 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -96,7 +92,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
 
         if (source.getModel() == null)
-            source.setModel(ReduxModel.RESOLVE);
+            source.setModel(ReduxModel.resolve);
 
         if (source.getValidate() != null) {
 //            fixme
@@ -127,7 +123,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         if (StringUtils.isJs(confirm.getText())) {
             String widgetId = initWidgetId(source, context, p);
             ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, widgetId).getBindLink());
+            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, widgetId).getBindLink());
         }
         button.setConfirm(confirm);
     }

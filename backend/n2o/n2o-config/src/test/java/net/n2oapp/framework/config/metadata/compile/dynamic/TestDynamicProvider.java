@@ -66,14 +66,14 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         create.setId("create");
         N2oShowModal showModal = new N2oShowModal();
         showModal.setPageId("testDynamic?Dummy");
-        create.setModel(ReduxModel.FILTER);
+        create.setModel(ReduxModel.filter);
         create.setAction(showModal);
 
         N2oButton update = new N2oButton();
         update.setId("update");
         N2oShowModal updShowModal = new N2oShowModal();
         updShowModal.setPageId("testDynamic?Dummy");
-        update.setModel(ReduxModel.RESOLVE);
+        update.setModel(ReduxModel.resolve);
         update.setAction(updShowModal);
 
 

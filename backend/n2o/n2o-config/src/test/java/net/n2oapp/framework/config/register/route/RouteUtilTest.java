@@ -182,10 +182,10 @@ public class RouteUtilTest {
     @Test
     public void addQueryParams() {
         Map<String, ModelLink> queryMapping = new StrictMap<>();
-        ModelLink nameLink = new ModelLink(ReduxModel.RESOLVE, "main", "name");
+        ModelLink nameLink = new ModelLink(ReduxModel.resolve, "main", "name");
         nameLink.setParam("nameParam");
         queryMapping.put("name", nameLink);
-        ModelLink surnameLink = new ModelLink(ReduxModel.RESOLVE, "main", "surname");
+        ModelLink surnameLink = new ModelLink(ReduxModel.resolve, "main", "surname");
         queryMapping.put("surname", surnameLink);
         ModelLink vipLink = new ModelLink(true);
         vipLink.setParam("vipParam");

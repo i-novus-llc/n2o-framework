@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,9 +25,9 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
         button.setLabel(p.getMessage(action.getLabel()));
         button.setIcon(action.getIcon());
         if (action.isContext()) {
-            button.setModel(ReduxModel.RESOLVE);
+            button.setModel(ReduxModel.resolve);
         } else {
-            button.setModel(ReduxModel.FILTER);
+            button.setModel(ReduxModel.filter);
         }
         switch (action) {
             case delete: {
@@ -54,9 +55,10 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageId(object.getId());
                 modal.setObjectId(object.getId());
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
-                modal.setMasterFieldId(N2oQuery.Field.PK);
-                modal.setDetailFieldId(N2oQuery.Field.PK);
-                String paramName = button.getWidgetId() + "_" + N2oQuery.Field.PK;
+                WidgetScope widgetScope = p.getScope(WidgetScope.class);
+                String paramName = (widgetScope != null && widgetScope.getWidgetId() != null) ?
+                        widgetScope.getWidgetId() + "_" + N2oQuery.Field.PK :
+                        N2oQuery.Field.PK;
                 modal.setRoute("/:" + paramName + "/update");
                 N2oPathParam pathParam = new N2oPathParam();
                 pathParam.setName(paramName);

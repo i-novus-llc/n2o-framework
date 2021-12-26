@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -104,7 +103,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 return modelAware.getModel();
             }
         }
-        return ReduxModel.RESOLVE;
+        return ReduxModel.resolve;
     }
 
     /**

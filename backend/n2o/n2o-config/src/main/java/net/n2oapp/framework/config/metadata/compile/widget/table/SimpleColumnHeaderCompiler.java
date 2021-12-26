@@ -71,7 +71,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
             String widgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), tableId);
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+            condition.setModelLink(new ModelLink(ReduxModel.filter, widgetId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());
             }
@@ -83,7 +83,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String refWidgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(),
                         p.cast(visibility.getRefWidgetId(), tableId));
-                ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.FILTER);
+                ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());

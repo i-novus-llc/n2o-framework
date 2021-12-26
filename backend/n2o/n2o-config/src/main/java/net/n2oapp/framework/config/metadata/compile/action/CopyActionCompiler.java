@@ -56,9 +56,9 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     protected void initDefaults(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
         source.setMode(p.cast(source.getMode(), CopyMode.merge));
-        source.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.RESOLVE));
+        source.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
         source.setSourceDatasource(initSourceDatasource(source, p));
-        source.setTargetModel(p.cast(source.getTargetModel(), ReduxModel.RESOLVE));
+        source.setTargetModel(p.cast(source.getTargetModel(), ReduxModel.resolve));
         source.setTargetDatasource(initTargetDatasource(source, p));
     }
 

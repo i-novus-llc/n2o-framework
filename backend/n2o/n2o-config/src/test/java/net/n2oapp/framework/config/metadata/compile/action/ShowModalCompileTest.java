@@ -115,7 +115,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getDatasource(), is("p_create_main"));
-        assertThat(submitPayload.getModel(), is(ReduxModel.EDIT));
+        assertThat(submitPayload.getModel(), is(ReduxModel.edit));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("p_second"));
         assertThat(meta.getSuccess().getModalsToClose(), is(1));
@@ -151,7 +151,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
@@ -272,7 +272,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{id}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
 
@@ -332,10 +332,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.resolve.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_main"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
@@ -356,10 +356,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.MULTI.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.multi.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
         assertThat(submit.getPayload().getSource().getField(), is("id"));
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.MULTI.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.multi.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
@@ -380,10 +380,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.resolve.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_master"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_ignore_table"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));

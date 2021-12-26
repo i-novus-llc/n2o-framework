@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -26,7 +25,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -102,7 +100,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(submitPayload.getModel(), is(ReduxModel.EDIT));
+        assertThat(submitPayload.getModel(), is(ReduxModel.edit));
         assertThat(submitPayload.getDatasource(), is("p_create_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("p_second"));
@@ -137,7 +135,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(drawerContext.getUpload(), is(UploadType.query));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
@@ -241,7 +239,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
         assertThat(drawerContext.getUpload(), is(UploadType.query));
 

@@ -118,7 +118,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             link.setValue(value);
             link.setParam(link.getDatasource() + "_" + f.getFilterId());
             f.setLink(link);
-            models.add(ReduxModel.FILTER, widgetId, f.getFilterId(), f.getLink());
+            models.add(ReduxModel.filter, widgetId, f.getFilterId(), f.getLink());
         }
     }
 

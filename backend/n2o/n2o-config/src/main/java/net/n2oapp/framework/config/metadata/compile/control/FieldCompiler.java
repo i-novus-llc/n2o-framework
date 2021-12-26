@@ -201,7 +201,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), source.getDatasource(), p);
-                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 link.setParam(filter.getParam());
@@ -492,9 +492,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         String datasource = getDefaultValueLinkDatasourceId(source, fieldId, defaultModelScope.getWidgetId(), context, p);
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), datasource, source.getRefFieldId());
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.resolve), datasource, source.getRefFieldId());
         } else {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), datasource);
+            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.resolve), datasource);
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 

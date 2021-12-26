@@ -64,14 +64,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             filter.setType(FilterType.eq);
             filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
-            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
+            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.resolve.equals(model)) {
                 List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
                 String masterIdParam = actionRouteParams.isEmpty() ? null : actionRouteParams.get(0);
                 filter.setParam(p.cast(source.getMasterParam(), masterIdParam, createGlobalParam(filter.getFieldId(), p)));
             } else {
                 filter.setParam(p.cast(source.getMasterParam(), createGlobalParam(filter.getFieldId(), p)));
             }
-            filter.setModel(ReduxModel.RESOLVE);
+            filter.setModel(ReduxModel.resolve);
             if (pageScope != null) {
                 filter.setRefPageId(pageScope.getPageId());
             }
@@ -194,7 +194,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
         // при наличии route или при filter модели не добавляем queryMapping
-        if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
+        if (source.getRoute() == null && !ReduxModel.filter.equals(actionDataModel))
             queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, p));
         initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope,
                 actionModelWidgetId, widgetIdQueryIdMap, p);
@@ -320,7 +320,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         .collect(Collectors.toMap(N2oParam::getName, param -> {
                             String widgetId = param.getRefWidgetId();
                             ModelLink link = Redux.linkParam(param, p);
-                            if (ReduxModel.RESOLVE.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
+                            if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
                                     && widgetIdQueryIdMap != null
                                     && widgetIdQueryIdMap.get(widgetId) != null)
                                 link.setSubModelQuery(new SubModelQuery(widgetIdQueryIdMap.get(widgetId)));
@@ -342,7 +342,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             actionRoute = normalize(source.getId());
             // генерация маршрута для динамической страницы с моделью resolve
             boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
-            if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+            if (isDynamicPage && actionModelLink != null && ReduxModel.resolve.equals(actionModelLink.getModel())) {
                 String masterIdParam = actionModelLink.getDatasource() + "_id";
                 String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
                 pathMapping.put(masterIdParam, actionModelLink);

@@ -93,7 +93,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/action1/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(submitPayload.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(submitPayload.getModel(), is(ReduxModel.resolve));
         assertThat(submitPayload.getDatasource(), is("page_action1_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("page_test"));
@@ -125,7 +125,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getDatasource(), is("test"));
-        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(context.getParentModelLink().getFieldId(), is("id"));
@@ -146,7 +146,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/:page_test_id/action2/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(submitPayload.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(submitPayload.getModel(), is(ReduxModel.resolve));
         assertThat(submitPayload.getDatasource(), is("page_action2_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("page_test"));
@@ -321,7 +321,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getDatasource(), is("test"));
-        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.RESOLVE));
+        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(context.getPreFilters().get(0).getValue(), is("{masterId}"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
 

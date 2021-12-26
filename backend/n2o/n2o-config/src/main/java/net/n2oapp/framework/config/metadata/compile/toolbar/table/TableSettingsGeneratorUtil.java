@@ -26,7 +26,7 @@ public class TableSettingsGeneratorUtil {
         columnsButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.columns.description"));
         columnsButton.setIcon("fa fa-table");
         columnsButton.setSrc(p.resolve(property("n2o.api.action.columns.src"), String.class));
-        columnsButton.setModel(ReduxModel.FILTER);
+        columnsButton.setModel(ReduxModel.filter);
         return columnsButton;
     }
 
@@ -46,7 +46,7 @@ public class TableSettingsGeneratorUtil {
         props.put(new N2oNamespace(Namespace.NO_NAMESPACE), Collections.singletonMap("widgetId", widgetId));
         filterAction.setExtAttributes(props);
         filterButton.setAction(filterAction);
-        filterButton.setModel(ReduxModel.FILTER);
+        filterButton.setModel(ReduxModel.filter);
         return filterButton;
     }
 
@@ -56,7 +56,7 @@ public class TableSettingsGeneratorUtil {
         refreshButton.setIcon("fa fa-refresh");
         N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setAction(refreshAction);
-        refreshButton.setModel(ReduxModel.FILTER);
+        refreshButton.setModel(ReduxModel.filter);
         return refreshButton;
     }
 
@@ -65,7 +65,7 @@ public class TableSettingsGeneratorUtil {
         resizeButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.resize.description"));
         resizeButton.setIcon("fa fa-bars");
         resizeButton.setSrc(p.resolve(property("n2o.api.action.resize.src"), String.class));
-        resizeButton.setModel(ReduxModel.FILTER);
+        resizeButton.setModel(ReduxModel.filter);
         return resizeButton;
     }
 

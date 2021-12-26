@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -25,10 +24,6 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Компиляция виджета форма
@@ -69,11 +64,11 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         ValidationScope validationScope = null;
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
         if (datasource != null) {
-            validationScope = new ValidationScope(datasource, ReduxModel.RESOLVE, validationList);
+            validationScope = new ValidationScope(datasource, ReduxModel.resolve, validationList);
         }
          form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                  widgetScope, query, object, widgetActions,
-                new ModelsScope(ReduxModel.RESOLVE, form.getId(), models),
+                new ModelsScope(ReduxModel.resolve, form.getId(), models),
                  subModelsScope,
                  new MomentScope(N2oValidation.ServerMoment.beforeOperation),
                  copiedFieldScope,

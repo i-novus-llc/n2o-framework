@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -19,7 +18,6 @@ import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -234,21 +232,21 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getModel(), is(ReduxModel.resolve));
         assertThat(link.getDatasource(), is("testStandardFieldSubmit_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmit_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_form']"));
     }
@@ -296,21 +294,21 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getModel(), is(ReduxModel.resolve));
         assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmitWithoutRoute_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_form']"));
     }

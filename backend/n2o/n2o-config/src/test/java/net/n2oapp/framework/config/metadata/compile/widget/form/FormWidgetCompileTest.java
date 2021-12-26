@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -18,7 +17,6 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -210,21 +208,21 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getModel(), is(ReduxModel.resolve));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
     }

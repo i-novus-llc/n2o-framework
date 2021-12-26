@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.DependencyConditionType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -99,7 +100,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
 
         ds = page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds3", "id");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds3", "id");
         link.setValue("`id`");
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", link));
         query = routeAndGet("/p/w/a/ds2", CompiledQuery.class);
@@ -115,6 +116,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         Datasource ds = page.getDatasources().get("p_w_a_detail");
         assertThat(ds.getDependencies().size(), is(1));
         assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve['p_w_a_master']"));
+        assertThat(ds.getDependencies().get(0).getType(), is(DependencyConditionType.fetch));
     }
 
     @Test
@@ -140,7 +142,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         ds = page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getSubmitForm(), is(false));
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds2");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds2");
         link.setValue("`id`");
         assertThat(ds.getSubmit().getFormMapping(), hasEntry("id", link));
 
@@ -157,7 +159,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         ds = page.getDatasources().get("p_w_a_ds4");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/:_id/update"));
-        link = new ModelLink(ReduxModel.RESOLVE, "p_w_a_ds4");
+        link = new ModelLink(ReduxModel.resolve, "p_w_a_ds4");
         link.setValue("`id`");
         assertThat(ds.getSubmit().getPathMapping(), hasEntry("_id", link));
         opCtx = ((ActionContext)route("/p/w/a/123/update", CompiledObject.class));

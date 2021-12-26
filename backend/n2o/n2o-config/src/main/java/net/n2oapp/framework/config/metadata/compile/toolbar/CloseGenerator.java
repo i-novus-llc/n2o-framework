@@ -39,7 +39,7 @@ public class CloseGenerator implements ButtonGenerator {
         N2oCloseAction cancelAction = new N2oCloseAction();
         cancelAction.setId(GenerateType.close.name());
         closeButton.setWidgetId(widgetId);
-        closeButton.setModel(ReduxModel.FILTER);
+        closeButton.setModel(ReduxModel.filter);
         if (context instanceof PageContext) {
             cancelAction.setRefreshOnClose(((PageContext) context).getRefreshOnClose());
         }

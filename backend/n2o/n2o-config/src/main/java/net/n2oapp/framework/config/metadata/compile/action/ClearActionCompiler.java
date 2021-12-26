@@ -28,7 +28,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         ClearAction clearAction = new ClearAction();
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
-        clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{ReduxModel.EDIT.getId()}));
+        clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{ReduxModel.edit.getId()}));
         String widgetId = initClientWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         clearAction.getPayload().setKey(pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null

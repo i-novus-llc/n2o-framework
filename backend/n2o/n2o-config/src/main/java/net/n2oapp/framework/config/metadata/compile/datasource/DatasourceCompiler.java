@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
-import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
@@ -46,7 +45,6 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeParam;
 
 @Component
 public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
@@ -102,11 +100,12 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         String pageId = pageScope.getPageId();
         if (source.getDependencies() != null) {
             for (N2oDatasource.Dependency d : source.getDependencies()) {
-                if (d instanceof N2oDatasource.FetchDependency) { //fixme учесть model из xml
-                    ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE,
+                if (d instanceof N2oDatasource.FetchDependency) {
+                    ModelLink bindLink = new ModelLink(p.cast(((N2oDatasource.FetchDependency) d).getModel(), ReduxModel.resolve),
                             CompileUtil.generateWidgetId(pageId, ((N2oDatasource.FetchDependency) d).getOn()));
                     DependencyCondition condition = new DependencyCondition();
                     condition.setOn(bindLink.getBindLink());
+                    condition.setType(DependencyConditionType.fetch);
                     fetch.add(condition);
                 }
             }
@@ -118,7 +117,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         ValidationList validationList = p.getScope(ValidationList.class);
         if (validationList != null) {
             //todo why RESOLVE ?
-            return validationList.get(source.getId(), ReduxModel.RESOLVE).stream()
+            return validationList.get(source.getId(), ReduxModel.resolve).stream()
                     .filter(v -> v.getSide() == null || v.getSide().contains("client"))
                     .collect(Collectors.groupingBy(Validation::getFieldId));
         } else
@@ -209,7 +208,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String globalDsId = CompileUtil.generateWidgetId(pageScope.getPageId(), preFilter.getDatasource());
-                        ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.RESOLVE);
+                        ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
                         ModelLink link = new ModelLink(model, globalDsId);
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
@@ -243,7 +242,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                 v.setSeverity(SeverityType.danger);
 
                 ValidationList validationList = p.getScope(ValidationList.class);
-                validationList.add(source.getId(), ReduxModel.FILTER, v);
+                validationList.add(source.getId(), ReduxModel.filter, v);
             }
         }
     }
@@ -264,7 +263,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                                          List<Filter> filters) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
         ValidationList validationList = p.getScope(ValidationList.class);
-        List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.FILTER);
+        List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.filter);
         queryContext.setValidations(validations);
         queryContext.setFilters(filters);
         if (source.getDefaultValuesMode() != null)
@@ -305,7 +304,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethod.POST);
         dataProvider.setUrl(submit.getRoute());
-        dataProvider.setTargetModel(ReduxModel.RESOLVE);
+        dataProvider.setTargetModel(ReduxModel.resolve);
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());
@@ -430,11 +429,11 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                         ReduxAction onGet;
                         String filterId = filter.getFilterId();
                         if (filterId.contains(SPREAD_OPERATOR)) {
-                            onGet = Redux.dispatchUpdateMapModel(compiled.getId(), ReduxModel.FILTER,
+                            onGet = Redux.dispatchUpdateMapModel(compiled.getId(), ReduxModel.filter,
                                     filterId.substring(0, filterId.indexOf(SPREAD_OPERATOR)),
                                     filterId.substring(filterId.indexOf(SPREAD_OPERATOR) + 2), colon(filter.getParam()));
                         } else {
-                            onGet = Redux.dispatchUpdateModel(compiled.getId(), ReduxModel.FILTER, filterId, colon(filter.getParam()));
+                            onGet = Redux.dispatchUpdateModel(compiled.getId(), ReduxModel.filter, filterId, colon(filter.getParam()));
                         }
                         routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
                     });

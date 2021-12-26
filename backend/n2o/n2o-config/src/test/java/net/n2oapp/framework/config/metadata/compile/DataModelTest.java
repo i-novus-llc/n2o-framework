@@ -28,12 +28,12 @@ public class DataModelTest {
     @Test
     public void add() {
         DataModel model = new DataModel();
-        assertThat(model.add(new ModelLink(ReduxModel.RESOLVE, "w1", "f1"), 1), nullValue());
-        assertThat(model.getValue(new ModelLink(ReduxModel.RESOLVE, "w1", "f1")), is(1));
-        assertThat(model.getValue(new ModelLink(ReduxModel.RESOLVE, "w1"), "f1"), is(1));
-        assertThat(model.getData(new ModelLink(ReduxModel.RESOLVE, "w1")), hasEntry("f1", 1));
+        assertThat(model.add(new ModelLink(ReduxModel.resolve, "w1", "f1"), 1), nullValue());
+        assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1", "f1")), is(1));
+        assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1"), "f1"), is(1));
+        assertThat(model.getData(new ModelLink(ReduxModel.resolve, "w1")), hasEntry("f1", 1));
 
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "w1");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "w1");
         link.setValue("`f1`");
         assertThat(model.add(link, 2), is(1));
         assertThat(model.getValue(link), is(2));
@@ -44,15 +44,15 @@ public class DataModelTest {
     public void addAll() {
         DataModel model = new DataModel();
         Map<String, ModelLink> pathMappings = new HashMap<>();
-        pathMappings.put("master_id", new ModelLink(ReduxModel.RESOLVE, "master", "id"));
-        pathMappings.put("detail_id", new ModelLink(ReduxModel.RESOLVE, "detail", "id"));
+        pathMappings.put("master_id", new ModelLink(ReduxModel.resolve, "master", "id"));
+        pathMappings.put("detail_id", new ModelLink(ReduxModel.resolve, "detail", "id"));
         DataSet params = new DataSet();
         params.put("master_id", 1);
         params.put("detail_id", 2);
 
         model.addAll(pathMappings, params);
-        assertThat(model.getData(new ModelLink(ReduxModel.RESOLVE, "master")), hasEntry("id", 1));
-        assertThat(model.getData(new ModelLink(ReduxModel.RESOLVE, "detail")), hasEntry("id", 2));
+        assertThat(model.getData(new ModelLink(ReduxModel.resolve, "master")), hasEntry("id", 1));
+        assertThat(model.getData(new ModelLink(ReduxModel.resolve, "detail")), hasEntry("id", 2));
     }
 
     @Test
@@ -66,10 +66,10 @@ public class DataModelTest {
         }).when(p).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
 
         DataModel model = new DataModel();
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "widget", "id");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "widget", "id");
         link.setSubModelQuery(new SubModelQuery("query"));
         model.add(link, 123);
-        Function<String, Object> dataFunc = model.getDataIfAbsent(new ModelLink(ReduxModel.RESOLVE, "widget"), p);
+        Function<String, Object> dataFunc = model.getDataIfAbsent(new ModelLink(ReduxModel.resolve, "widget"), p);
         assertThat(dataFunc.apply("name"), is("Joe"));
     }
 }

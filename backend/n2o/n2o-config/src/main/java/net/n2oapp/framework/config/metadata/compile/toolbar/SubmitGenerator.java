@@ -89,7 +89,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setWidgetId(widgetId);
         saveButton.setAction(action);
         saveButton.setDatasource(toolbar.getDatasource());
-        saveButton.setModel(p.cast(saveButtonModel, ReduxModel.RESOLVE));
+        saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));
         saveButton.setValidate(true);
         return Collections.singletonList(saveButton);
     }

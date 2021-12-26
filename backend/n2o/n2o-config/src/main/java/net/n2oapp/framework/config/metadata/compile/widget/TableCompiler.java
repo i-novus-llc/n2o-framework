@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -65,10 +64,10 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         widgetScope.setDatasourceId(source.getDatasourceId());
         SubModelsScope subModelsScope = new SubModelsScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
-        ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.FILTER, validationList);
+        ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.filter, validationList);
         FiltersScope filtersScope = new FiltersScope();
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.FILTER, table.getId(), p.getScope(Models.class)), filtersScope, subModelsScope,
+                new ModelsScope(ReduxModel.filter, table.getId(), p.getScope(Models.class)), filtersScope, subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope));
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);

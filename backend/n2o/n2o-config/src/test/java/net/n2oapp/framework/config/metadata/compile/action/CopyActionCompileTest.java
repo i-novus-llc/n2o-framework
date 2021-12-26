@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -70,10 +69,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         action = (CopyAction) table.getToolbar().getButton("btn").getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
-        assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), is("id"));
-        assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
         assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(action.getPayload().getMode(), is(CopyMode.replace));
