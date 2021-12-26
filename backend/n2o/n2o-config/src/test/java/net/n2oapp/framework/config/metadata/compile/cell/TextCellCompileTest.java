@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.cell.v2.TextCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
@@ -35,9 +36,9 @@ public class TextCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testTextCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testTextCell.widget.xml")
-                .get(new WidgetContext("testTextCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testTextCell.page.xml")
+                .get(new PageContext("testTextCell"));
+        Table table = (Table) page.getWidget();
         N2oTextCell cell = (N2oTextCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getFieldKey(), is("text"));

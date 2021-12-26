@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table>
+        <columns>
+            <column text-field-id="test">
+                <icon icon="icon"/>
+            </column>
+            <column text-field-id="test2" tooltip-field-id="tooltipId">
+                <icon text="text" position="right" type="iconAndText">
+                    <switch value-field-id="type.id">
+                        <case value="1">icon1</case>
+                        <case value="2">icon2</case>
+                        <default>icon3</default>
+                    </switch>
+                </icon>
+            </column>
+        </columns>
+    </table>
+</simple-page>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table>
+        <columns>
+            <column text-field-id="text" tooltip-field-id="tooltipId">
+                <text format="0,0.00" subtext-field-id="subtext" subtext-format="date DD.MM.YYYY"/>
+            </column>
+            <column text-field-id="text2">
+                <text format="0,0.00" subtext-field-id="subtext2" subtext-format="date DD.MM.YYYY">
+                    <switch value-field-id="test2">
+                        <case value="1">a</case>
+                        <case value="2">b</case>
+                        <case value="3">c</case>
+                    </switch>
+                </text>
+            </column>
+        </columns>
+    </table>
+</simple-page>
