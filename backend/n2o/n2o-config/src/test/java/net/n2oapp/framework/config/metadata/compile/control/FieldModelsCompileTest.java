@@ -40,7 +40,7 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/control/fieldModelsCompileTest/index.page.xml")
                 .get(pageContext);
 
-        PageContext modalContext = (PageContext) route("/form/modalPage", Page.class);
+        PageContext modalContext = (PageContext) route("/modalPage", Page.class);
         assertThat(modalContext.getParentClientPageId(), is("_"));
         assertThat(modalContext.getParentClientWidgetId(), is("form"));
 

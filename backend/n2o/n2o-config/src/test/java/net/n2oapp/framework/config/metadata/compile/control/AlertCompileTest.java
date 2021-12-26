@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.Alert;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -32,8 +33,9 @@ public class AlertCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testAlertField(){
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testAlertFieldCompile.widget.xml")
-                .get(new WidgetContext("testAlertFieldCompile"));
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testAlertFieldCompile.page.xml")
+                .get(new PageContext("testAlertFieldCompile"));
+        Form form = (Form) page.getWidget();
         Alert field = (Alert)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         assertThat(field.getSrc(), is("AlertField"));

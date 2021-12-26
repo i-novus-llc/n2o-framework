@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <select id="select1" type="checkboxes" cleanable="false"
+                    description-field-id="descFieldId" select-format-one="{size} объект"
+                    select-format-few="{size} объекта" select-format-many="{size} объектов"/>
+            <select id="select2" type="checkboxes" select-format="Логичных примеров {size} шт"/>
+            <select id="select3">
+                <options>
+                    <option id="type1" name="A"/>
+                    <option id="type2" name="B"/>
+                </options>
+            </select>
+        </fields>
+    </form>
+</simple-page>

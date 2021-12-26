@@ -3,9 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -35,8 +36,9 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testTextField(){
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testTextFieldCompile.widget.xml")
-                .get(new WidgetContext("testTextFieldCompile"));
+        SimplePage page =(SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testTextFieldCompile.page.xml")
+                .get(new PageContext("testTextFieldCompile"));
+        Form form = (Form) page.getWidget();
         Text field = (Text)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         assertThat(field.getSrc(), is("TextField"));
