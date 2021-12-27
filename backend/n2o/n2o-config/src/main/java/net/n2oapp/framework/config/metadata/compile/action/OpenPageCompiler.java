@@ -47,7 +47,10 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
     protected void initPageRoute(LinkAction compiled, String route,
                                  Map<String, ModelLink> pathMapping,
                                  Map<String, ModelLink> queryMapping) {
-        compiled.setUrl(route);
+        if (Target.application.equals(compiled.getTarget()))
+            compiled.setUrl(route);
+        else
+            compiled.setUrl("#" + route);
         compiled.setPathMapping(pathMapping);
         compiled.setQueryMapping(queryMapping);
     }
