@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form style="margin-left:10px;width:300px">
+        <fields>
+            <line style="margin-left:10px;width:300px">
+                <row style="margin-left:10px;width:300px">
+                    <col style="margin-left:10px;width:300px">
+                        <input-text id="name"/>
+                    </col>
+                </row>
+            </line>
+        </fields>
+    </form>
+</simple-page>

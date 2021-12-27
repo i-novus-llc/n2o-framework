@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <set ref-id="testSetFieldsetCompileWithFields"/>
+            <set visible="true" enabled="true" ref-id="testSetFieldsetCompileWithFields" description="description"/>
+            <set visible="false" enabled="false" ref-id="testSetFieldsetCompileWithFields"/>
+            <set label="Label {master}" visible="{x &gt; 1}" enabled="{x &lt; 5}" depends-on="a.b.c, z.x.c"
+                 ref-id="testSetFieldsetCompileWithFields"/>
+        </fields>
+    </form>
+</simple-page>

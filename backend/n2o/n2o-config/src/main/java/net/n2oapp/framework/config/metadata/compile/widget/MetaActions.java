@@ -3,8 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 
-import java.util.HashMap;
-
 /**
  * Карта собранных действий страницы или виджета
  */

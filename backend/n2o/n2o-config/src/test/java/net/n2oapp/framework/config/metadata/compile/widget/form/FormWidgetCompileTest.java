@@ -165,8 +165,9 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testFormStyles() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormRowColCompile.widget.xml")
-                .get(new WidgetContext("testFormRowColCompile"));
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormRowColCompile.page.xml")
+                .get(new PageContext("testFormRowColCompile"));
+        Form form = (Form) page.getWidget();
         assertThat(form.getStyle().get("width"), is("300px"));
         assertThat(form.getStyle().get("marginLeft"), is("10px"));
 

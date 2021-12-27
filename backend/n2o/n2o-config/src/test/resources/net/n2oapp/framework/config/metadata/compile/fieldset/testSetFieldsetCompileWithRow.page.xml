@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <row>
+                <input-text id="id1"/>
+                <input-text id="id2"/>
+            </row>
+            <row>
+                <input-text id="id3"/>
+                <input-text id="id4"/>
+                <col>
+                    <row>
+                        <input-text id="id5"/>
+                        <input-text id="id6"/>
+                    </row>
+                </col>
+                <line>
+                    <input-text id="id7"/>
+                </line>
+            </row>
+        </fields>
+    </form>
+</simple-page>

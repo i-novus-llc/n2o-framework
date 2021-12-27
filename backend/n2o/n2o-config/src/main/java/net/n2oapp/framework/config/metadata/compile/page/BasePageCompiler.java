@@ -86,11 +86,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         DataSourcesScope dataSourcesScope = initDataSourcesScope(source);
+        MetaActions metaActions = initMetaActions(source);
 
         //regions
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationList, models, pageRoutesScope, searchBarScope, subModelsScope,
-                copiedFieldScope, dataSourcesScope));
+                copiedFieldScope, dataSourcesScope, metaActions));
 
         //datasources
         Map<String, Datasource> compiledDataSources = compileDataSources(context, p, dataSourcesScope,
@@ -104,7 +105,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //toolbars
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p,
-                pageScope, routeScope, pageRoutes, object, breadcrumb, validationList);
+                pageScope, routeScope, pageRoutes, object, breadcrumb, metaActions, validationList);
         return page;
     }
 
@@ -273,10 +274,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
     }
 
-    private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p, Object... scopes) {
+    private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p,
+                                        Object... scopes) {
         actionsToToolbar(source);
-        MetaActions metaActions = initMetaActions(source);
-        compiled.setToolbar(compileToolbar(source, context, p, metaActions, scopes));
+        compiled.setToolbar(compileToolbar(source, context, p, scopes));
     }
 
     private MetaActions initMetaActions(S source) {
