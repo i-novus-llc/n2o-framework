@@ -55,7 +55,7 @@
     "lerna": "3.18.3",
     "mocha": "^6.2.3",
     "node-sass": "^4.9.2",
-    "npm-cli-login": "^0.1.1",
+    "npm-cli-login": "^1.0.0",
     "npm-registry-client": "^8.6.0",
     "react-addons-test-utils": "15.4.2",
     "react-test-renderer": "^16.0.0",
