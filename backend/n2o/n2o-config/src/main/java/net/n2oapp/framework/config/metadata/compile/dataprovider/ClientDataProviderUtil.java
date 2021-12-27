@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -133,23 +132,37 @@ public class ClientDataProviderUtil {
         Object value = param.getValueList() != null ? param.getValueList() :
                 ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            String widgetId = null;
             PageScope pageScope = p.getScope(PageScope.class);
-            if (param.getRefWidgetId() != null) {
+            String datasourceId;
+            if (param.getDatasource() == null) {
+                datasourceId = getDatasourceIdByWidget(p, targetWidgetId, param, pageScope);
+            } else {
                 String pageId = param.getRefPageId();
                 if (param.getRefPageId() == null && pageScope != null)
-                        pageId = pageScope.getPageId();
-                widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
+                    pageId = pageScope.getPageId();
+                datasourceId = CompileUtil.generateDatasourceId(pageId, param.getDatasource());
             }
-            String resultWidgetId = p.cast(widgetId, targetWidgetId);
-            String datasourceId = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
-                    ? resultWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(resultWidgetId);
             link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);
         }
         return link;
+    }
+
+    private static String getDatasourceIdByWidget(CompileProcessor p, String targetWidgetId, N2oParam param, PageScope pageScope) {
+        String datasourceId;
+        String widgetId = null;
+        if (param.getRefWidgetId() != null) {
+            String pageId = param.getRefPageId();
+            if (param.getRefPageId() == null && pageScope != null)
+                pageId = pageScope.getPageId();
+            widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
+        }
+        String resultWidgetId = p.cast(widgetId, targetWidgetId);
+        datasourceId = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
+                ? resultWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(resultWidgetId);
+        return datasourceId;
     }
 
     private static ModelLink getModelLinkByParam(CompileContext<?, ?> context, N2oParam param) {

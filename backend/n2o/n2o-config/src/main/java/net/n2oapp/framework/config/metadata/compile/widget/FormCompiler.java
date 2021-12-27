@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
@@ -13,16 +12,12 @@ import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
-import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import org.springframework.stereotype.Component;
 
 /**
@@ -78,35 +73,12 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         addParamRoutes(paramScope, context, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationList);
         form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
-//        form.setFormDataProvider(initDataProvider(source, object, context, p));
         return form;
-    }
-
-    private N2oDatasource getDatasource(N2oForm source, CompileProcessor p) {
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        return dataSourcesScope != null ? dataSourcesScope.get(source.getDatasourceId()) : null;
     }
 
     private Boolean initPrompt(N2oForm source, CompileProcessor p) {
         return p.cast(source.getPrompt(),
                 p.resolve(Placeholders.property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
-    }
-
-    private ClientDataProvider initDataProvider(N2oForm source, CompiledObject compiledObject,
-                                                CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getSubmit() == null)
-            return null;
-        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), source.getId(), compiledObject, p);
-
-        dataProvider.setSubmitForm(true);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            dataProvider.setTargetWidgetId(widgetScope.getClientWidgetId());
-
-        dataProvider.getActionContextData().setSuccessAlertWidgetId(source.getId());
-        dataProvider.getActionContextData().setFailAlertWidgetId(source.getId());
-
-        return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 
 }

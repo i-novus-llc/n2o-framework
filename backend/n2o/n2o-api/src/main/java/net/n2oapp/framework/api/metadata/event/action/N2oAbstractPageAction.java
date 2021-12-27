@@ -113,10 +113,12 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
         this.params = ArrayUtils.addAll(this.params, queryParams);
     }
 
+    @Deprecated
     public String getRefreshWidgetId() {
         return refreshDatasources == null ? null : refreshDatasources[0];
     }
 
+    @Deprecated
     public void setRefreshWidgetId(String refreshWidgetId) {
         this.refreshDatasources = new String[]{refreshWidgetId};
     }
