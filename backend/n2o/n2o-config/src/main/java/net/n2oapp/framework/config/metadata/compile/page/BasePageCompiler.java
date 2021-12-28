@@ -32,10 +32,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
-import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
@@ -89,15 +86,17 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         DataSourcesScope dataSourcesScope = initDataSourcesScope(source);
         MetaActions metaActions = initMetaActions(source);
+        FiltersScope filtersScope = new FiltersScope();
 
         //regions
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationList, models, pageRoutesScope, searchBarScope, subModelsScope,
-                copiedFieldScope, dataSourcesScope, metaActions));
+                copiedFieldScope, dataSourcesScope, metaActions, filtersScope));
 
         //datasources
         Map<String, Datasource> compiledDataSources = compileDataSources(context, p, dataSourcesScope,
-                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope, pageScope, searchBarScope);
+                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope, pageScope,
+                searchBarScope, filtersScope);
         page.setDatasources(compiledDataSources);
 
         //routes

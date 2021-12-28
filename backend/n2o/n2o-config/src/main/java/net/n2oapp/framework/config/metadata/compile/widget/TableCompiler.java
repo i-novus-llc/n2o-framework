@@ -65,14 +65,13 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         SubModelsScope subModelsScope = new SubModelsScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.filter, validationList);
-        FiltersScope filtersScope = new FiltersScope();
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.filter, table.getId(), p.getScope(Models.class)), filtersScope, subModelsScope,
+                new ModelsScope(ReduxModel.filter, table.getId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope));
         MetaActions widgetActions = initMetaActions(source);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
-                subModelsScope, filtersScope);
+                subModelsScope);
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         component.setWidth(source.getWidth());

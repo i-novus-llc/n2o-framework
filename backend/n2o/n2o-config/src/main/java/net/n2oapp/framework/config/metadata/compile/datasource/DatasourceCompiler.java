@@ -226,7 +226,15 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
             }
         }
         initSearchBar(source, filters, p);
+        initFiltersScope(source, filters, p);
         return filters;
+    }
+
+    private void initFiltersScope(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
+        FiltersScope filtersScope = p.getScope(FiltersScope.class);
+        if (filtersScope == null) return;
+        Map<String, Filter> filterMap = filters.stream().collect(Collectors.toMap(Filter::getFilterId, f -> f));
+        filtersScope.getFilters(source.getId()).stream().filter(f -> !filterMap.containsKey(f.getFilterId())).forEach(filters::add);
     }
 
     private void initMandatoryValidation(N2oDatasource source, CompileProcessor p,
