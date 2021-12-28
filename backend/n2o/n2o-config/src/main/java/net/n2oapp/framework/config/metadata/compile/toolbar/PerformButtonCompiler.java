@@ -226,7 +226,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      */
     protected void compileDependencies(N2oButton source, PerformButton button,
                                        CompileContext<?, ?> context, CompileProcessor p) {
-        String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
+        PageScope pageScope = p.getScope(PageScope.class);
+        String clientDatasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
         List<Condition> enabledConditions = new ArrayList<>();
 
         if (source.getVisibilityConditions() != null)

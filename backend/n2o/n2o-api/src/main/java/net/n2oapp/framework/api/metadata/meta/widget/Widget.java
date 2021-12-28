@@ -65,6 +65,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
         this.component = component;
     }
 
+    @Deprecated
     public Filter getFilter(String filterId) {
         if (filters == null)
             return null;
@@ -72,6 +73,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
                 .orElseThrow(() -> new N2oException("Filter " + filterId + " not found"));
     }
 
+    @Deprecated
     public boolean containsFilter(String filterId) {
         return filters != null && filters.stream().anyMatch(f -> f.getFilterId().equals(filterId));
     }
