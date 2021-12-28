@@ -9,7 +9,7 @@
                 </columns>
                 <toolbar>
                     <button id="update">
-                        <open-page page-id="testDynamic?{id}"/>
+                        <open-page page-id="testDynamic?{id}" route="/update2"/>
                     </button>
                 </toolbar>
             </table>
