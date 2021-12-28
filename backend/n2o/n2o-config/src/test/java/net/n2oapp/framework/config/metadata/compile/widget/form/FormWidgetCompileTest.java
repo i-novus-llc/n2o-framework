@@ -27,7 +27,6 @@ import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
@@ -141,9 +140,12 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(function(){return typeof testField != 'undefined' && testField != null && testField == 2})()"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
-        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval");
-        assertThat(validations.size(), is(2));
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.begin");
+        assertThat(validations.size(), is(1));
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.end");
+        assertThat(validations.size(), is(1));
+        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalEnd == 'undefined'"));
     }
 
     @Test
