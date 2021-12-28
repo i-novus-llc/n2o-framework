@@ -207,7 +207,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 link.setParam(filter.getParam());
                 link.setObserve(true);
                 filter.setLink(link);
-                filtersScope.addFilter(filter);
+                filtersScope.addFilter(widgetScope.getDatasourceId(), filter);
             });
         }
     }

@@ -3,10 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -18,9 +20,13 @@ public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
      */
-    private List<Filter> filters = new ArrayList<>();
+    private Map<String, List<Filter>> datasourceFilters = new StrictMap<>();
 
     public FiltersScope() {
+    }
+
+    public List<Filter> getFilters(String sourceDatasource) {
+        return datasourceFilters.get(sourceDatasource);
     }
 
     /**
@@ -28,7 +34,8 @@ public class FiltersScope {
      *
      * @param filter Фильтр
      */
-    public void addFilter(Filter filter) {
+    public void addFilter(String sourceDatasource, Filter filter) {
+        List<Filter> filters = datasourceFilters.compute(sourceDatasource, (k, v) -> v == null ? new ArrayList<>() : v);
         Optional<Filter> sameFilter = filters.stream()
                 .filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink()))
                 .findAny();
