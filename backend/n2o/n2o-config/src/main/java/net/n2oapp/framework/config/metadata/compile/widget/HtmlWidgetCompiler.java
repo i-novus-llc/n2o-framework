@@ -27,7 +27,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         widgetScope.setClientWidgetId(widget.getId());
         widgetScope.setWidgetId(source.getId());
         widgetScope.setDatasourceId(source.getDatasourceId());
-        MetaActions widgetActions = initMetaActions(source);
+        MetaActions widgetActions = initMetaActions(source, p);
         if (source.getSrc() != null)
             widget.setHtml(getContentByUri(source.getSrc()));
         else if (source.getHtml() != null)

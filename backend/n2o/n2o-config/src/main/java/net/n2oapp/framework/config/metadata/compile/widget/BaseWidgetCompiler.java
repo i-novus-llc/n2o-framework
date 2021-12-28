@@ -79,8 +79,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return src;
     }
 
-    protected MetaActions initMetaActions(S source) {
-        MetaActions metaActions = new MetaActions();
+    protected MetaActions initMetaActions(S source, CompileProcessor p) {
+        MetaActions metaActions = p.getScope(MetaActions.class);
+        if (metaActions == null)
+            metaActions = new MetaActions();
         if (source.getActions() != null) {
             for (ActionsBar actionsBar : source.getActions()) {
                 metaActions.addAction(actionsBar.getId(), actionsBar);

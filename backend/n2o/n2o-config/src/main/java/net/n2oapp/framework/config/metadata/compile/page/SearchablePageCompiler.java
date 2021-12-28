@@ -1,16 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSearchablePage;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
@@ -19,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -52,10 +46,10 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
-                               PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
+    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
+                                                     PageContext context, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
-        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, new IndexScope(), scopes);
+        initRegions(source.getItems(), regions, "single", context, p, scopes);
         return regions;
     }
 

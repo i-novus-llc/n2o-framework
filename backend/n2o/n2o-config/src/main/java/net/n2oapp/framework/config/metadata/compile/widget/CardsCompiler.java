@@ -44,7 +44,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(cards.getId());
         widgetScope.setDatasourceId(source.getDatasourceId());
-        MetaActions widgetActions = initMetaActions(source);
+        MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);
 
         if (source.getContent() != null)

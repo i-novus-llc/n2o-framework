@@ -1,13 +1,18 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table object-id="utBlank">
-        <toolbar place="topRight" generate="crud"/>
-        <toolbar place="topLeft" generate="tableSettings"/>
-        <toolbar place="bottomRight" generate="filters,columns,refresh,resize"/>
-        <toolbar place="bottomLeft">
-            <group generate="crud"/>
-            <sub-menu generate="crud">
-                <menu-item action-id="testAction"/>
-            </sub-menu>
-        </toolbar>
-    </table>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <actions>
+        <action id="testAction"></action>
+    </actions>
+    <regions>
+        <table object-id="utBlank">
+            <toolbar place="topRight" generate="crud"/>
+            <toolbar place="topLeft" generate="tableSettings"/>
+            <toolbar place="bottomRight" generate="filters,columns,refresh,resize"/>
+            <toolbar place="bottomLeft">
+                <group generate="crud"/>
+                <sub-menu generate="crud">
+                    <menu-item action-id="testAction"/>
+                </sub-menu>
+            </toolbar>
+        </table>
+    </regions>
+</page>

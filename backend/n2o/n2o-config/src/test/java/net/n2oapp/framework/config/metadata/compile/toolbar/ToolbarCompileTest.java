@@ -6,13 +6,13 @@ import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -146,9 +146,9 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testGenerate() {
-         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.page.xml")
+         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.page.xml")
                 .get(new PageContext("testToolbarGenerate"));
-        Table t = (Table) page.getWidget();
+        Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(t.getToolbar().size(), is(4));
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().size(), is(3));
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(0).getId(), is("create"));

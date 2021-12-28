@@ -68,7 +68,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.filter, table.getId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope));
-        MetaActions widgetActions = initMetaActions(source);
+        MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 subModelsScope);

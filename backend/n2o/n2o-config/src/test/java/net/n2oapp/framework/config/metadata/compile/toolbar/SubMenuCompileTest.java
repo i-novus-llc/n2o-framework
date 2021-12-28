@@ -40,10 +40,10 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testSubMenu.page.xml")
                 .get(new PageContext("testSubMenu"));
 
-        Submenu subMenu = (Submenu) page.getToolbar().getButton("subMenu0");
+        Submenu subMenu = (Submenu) page.getToolbar().getButton("mi0");
         assertThat(subMenu.getSrc(), is("DropdownButton"));
         assertThat(subMenu.getShowToggleIcon(), is(false));
-        assertThat(subMenu.getVisible(), is(false));
+        assertThat(subMenu.getVisible().toString(), is("false"));
 
         List<PerformButton> items = subMenu.getSubMenu();
         assertThat(items.size(), is(2));
@@ -58,7 +58,7 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(updateBtn.getConditions().get(ValidationType.enabled).size(), is(1));
 
 
-        subMenu = (Submenu) page.getToolbar().getButton("subMenu3");
+        subMenu = (Submenu) page.getToolbar().getButton("mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getSubMenu(), nullValue());
     }

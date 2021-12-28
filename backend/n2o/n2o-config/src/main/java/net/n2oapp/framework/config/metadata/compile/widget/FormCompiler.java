@@ -49,7 +49,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(form.getId());
         widgetScope.setDatasourceId(source.getDatasourceId());
-        MetaActions widgetActions = initMetaActions(source);
+        MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
         CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), new CopiedFieldScope());

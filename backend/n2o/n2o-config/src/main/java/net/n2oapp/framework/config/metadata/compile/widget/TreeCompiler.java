@@ -33,7 +33,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(tree.getId());
-        MetaActions widgetActions = initMetaActions(source);
+        MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetActions, object, null);
 
         tree.setFetchOnInit(source.getFetchOnInit());

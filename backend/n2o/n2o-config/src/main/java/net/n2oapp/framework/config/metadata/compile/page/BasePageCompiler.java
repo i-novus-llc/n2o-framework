@@ -53,7 +53,7 @@ import static net.n2oapp.framework.config.util.CompileUtil.generateSourceDatasou
 public abstract class BasePageCompiler<S extends N2oBasePage, D extends StandardPage> extends PageCompiler<S, D> {
 
     protected abstract Map<String, List<Region>> initRegions(S source, D page, CompileProcessor p, PageContext context,
-                                                             PageScope pageScope, PageRoutes pageRoutes, Object... scopes);
+                                                             Object... scopes);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
         String pageRoute = initPageRoute(source, context, p);
@@ -89,9 +89,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         FiltersScope filtersScope = new FiltersScope();
 
         //regions
+        IndexScope index = new IndexScope();
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationList, models, pageRoutesScope, searchBarScope, subModelsScope,
-                copiedFieldScope, dataSourcesScope, metaActions, filtersScope));
+                copiedFieldScope, dataSourcesScope, metaActions, filtersScope, index));
 
         //datasources
         Map<String, Datasource> compiledDataSources = compileDataSources(context, p, dataSourcesScope,

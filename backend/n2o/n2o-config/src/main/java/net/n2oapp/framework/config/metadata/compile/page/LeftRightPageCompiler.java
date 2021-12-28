@@ -4,10 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
@@ -34,12 +32,10 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
 
     @Override
     protected Map<String, List<Region>> initRegions(N2oLeftRightPage source, StandardPage page,
-                                                    CompileProcessor p, PageContext context,
-                               PageScope pageScope, PageRoutes pageRoutes, Object... scopes) {
+                                                    CompileProcessor p, PageContext context, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
-        IndexScope index = new IndexScope();
-        initRegions(source.getLeft(), regions, "left", context, p, pageScope, pageRoutes, index, scopes);
-        initRegions(source.getRight(), regions, "right", context, p, pageScope, pageRoutes, index, scopes);
+        initRegions(source.getLeft(), regions, "left", context, p, scopes);
+        initRegions(source.getRight(), regions, "right", context, p, scopes);
         return regions;
     }
 

@@ -28,7 +28,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         widgetScope.setClientWidgetId(chart.getId());
         widgetScope.setDatasourceId(source.getDatasourceId());
 
-        MetaActions widgetActions = initMetaActions(source);
+        MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(chart, source, context, p, widgetScope, widgetActions, object, null);
 
         chart.setComponent(p.compile(source.getComponent(), context, p));
