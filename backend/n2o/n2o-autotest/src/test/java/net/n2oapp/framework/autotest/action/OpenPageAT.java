@@ -154,5 +154,6 @@ public class OpenPageAT extends AutoTestBase {
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        Selenide.closeWindow();
     }
 }
