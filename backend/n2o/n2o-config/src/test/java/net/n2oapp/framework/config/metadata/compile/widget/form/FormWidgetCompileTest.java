@@ -70,7 +70,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormCompile"));
         assertThat(page.getWidget().getId(), is("testFormCompile_main"));
         Form form = (Form) page.getWidget();
-        assertThat(form.getComponent().getFetchOnInit(), is(false));
         assertThat(form.getComponent().getPrompt(), is(true));
         Datasource datasource = page.getDatasources().get("testFormCompile_main");
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
@@ -84,7 +83,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidget().getId(), is("testFormCompile2_main"));
         assertThat(page.getWidget().getDatasource(), notNullValue());
         assertThat(page.getDatasources().get(page.getWidget().getDatasource()).getDefaultValuesMode(), is(DefaultValuesMode.query));
-        assertThat(page.getWidget().getComponent().getFetchOnInit(), is(true));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2/main", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
     }
@@ -240,7 +238,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
         Form form = (Form) detailPage.getWidget();
         assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getPathMapping().size(), is(1));
-        assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/testSubmitInModalIndex_open_main"));
+        assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/main"));
     }
 
     @Test

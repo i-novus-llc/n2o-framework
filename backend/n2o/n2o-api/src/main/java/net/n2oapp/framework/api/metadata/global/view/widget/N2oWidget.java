@@ -54,7 +54,6 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String refId;
     @Deprecated
     private String masterParam;
-    private Boolean fetchOnInit;
     /**
      * Автоматическая установка фокуса на виджете
      */
@@ -112,7 +111,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
 
     @Deprecated
     public void adapterV4() {
-        if (getQueryId() != null || getFetchOnInit() != null || getPreFilters() != null ||
+        if (getQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
                 getUpload() != null || getDependsOn() != null || getDependencyCondition() != null) {
             N2oDatasource datasource = new N2oDatasource();

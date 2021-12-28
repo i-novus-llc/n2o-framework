@@ -62,7 +62,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compileAutoFocus(source, compiled, p);
         if (compiled.getComponent() != null) {
             compiled.getComponent().setAutoFocus(initAutoFocus(source, p));
-            compiled.getComponent().setFetchOnInit(initFetchOnInit(source, compiled));
         }
         compileDependencies(compiled, source, p);
     }
@@ -189,15 +188,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 }
             });
         }
-    }
-
-    private boolean initFetchOnInit(S source, D compiled) {
-        boolean fetchOnInit;
-        if (source.getFetchOnInit() != null)
-            fetchOnInit = source.getFetchOnInit();
-        else
-            fetchOnInit = compiled.getDatasource() != null;
-        return fetchOnInit;
     }
 
     private void compileAutoFocus(S source, D compiled, CompileProcessor p) {

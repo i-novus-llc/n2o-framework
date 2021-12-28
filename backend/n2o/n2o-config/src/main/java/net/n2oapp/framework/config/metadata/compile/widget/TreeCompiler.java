@@ -36,7 +36,6 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetActions, object, null);
 
-        tree.setFetchOnInit(source.getFetchOnInit());
         tree.setParentFieldId(p.resolveJS(source.getParentFieldId()));
         tree.setValueFieldId(p.resolveJS(source.getValueFieldId()));
         tree.setChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
