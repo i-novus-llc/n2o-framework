@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
@@ -56,7 +55,7 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
         assertThat(endControl.getId(), is("endTest"));
         assertThat(endControl.getMax(), is(10));
 
-        ActionContext actionContext = (ActionContext)route("/testIntervalField/main", CompiledObject.class);
+        ActionContext actionContext = (ActionContext)route("/testIntervalField/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(serverValidations.get(0).getFieldId(), is("range"));

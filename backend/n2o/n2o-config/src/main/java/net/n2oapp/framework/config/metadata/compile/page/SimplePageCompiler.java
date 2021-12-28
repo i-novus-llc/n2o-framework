@@ -108,7 +108,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             object = query.getObject();
         }
         if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
-            page.setToolbar(compileToolbar(context, p, new MetaActions(), pageScope, pageRouteScope, object, breadcrumbs, validationList));
+            page.setToolbar(compileToolbar(context, p, new MetaActions(), pageScope, pageRouteScope, object,
+                    breadcrumbs, validationList, widget.getDatasourceId()));
         }
         return page;
     }
@@ -142,10 +143,11 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
 
     private Toolbar compileToolbar(PageContext context, CompileProcessor p,
                                    MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,
-                                   CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
+                                   CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList,
+                                   String datasourceId) {
         N2oToolbar n2oToolbar = new N2oToolbar();
         n2oToolbar.setGenerate(new String[]{GenerateType.submit.name(), GenerateType.close.name()});
-        n2oToolbar.setDatasource(MAIN_WIDGET_ID);
+        n2oToolbar.setDatasource(datasourceId);
         ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.page.toolbar.place"), String.class));
         return p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, object,
                 new IndexScope(), breadcrumbs, validationList, toolbarPlaceScope);

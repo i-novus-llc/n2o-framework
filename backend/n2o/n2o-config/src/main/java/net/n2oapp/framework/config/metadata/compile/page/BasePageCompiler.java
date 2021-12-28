@@ -24,7 +24,6 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
@@ -33,7 +32,10 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
+import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
@@ -362,23 +364,5 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             n2oToolbars[length] = n2oToolbar;
             source.setToolbars(n2oToolbars);
         }
-    }
-
-    private List<N2oWidget> getSourceIndependents(List<N2oWidget> sourceWidgets) {
-        List<N2oWidget> independents = new ArrayList<>();
-        for (N2oWidget widget : sourceWidgets) {
-            if (widget.getDependsOn() == null)
-                independents.add(widget);
-        }
-        return independents;
-    }
-
-    private List<N2oWidget> getDetails(String widgetId, List<N2oWidget> widgets) {
-        List<N2oWidget> details = new ArrayList<>();
-        for (N2oWidget widget : widgets) {
-            if (widget.getDependsOn() != null && widget.getDependsOn().equals(widgetId))
-                details.add(widget);
-        }
-        return details;
     }
 }

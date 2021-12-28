@@ -26,7 +26,7 @@
                 </input-text>
                 <input-text id="test3">
                     <validations>
-                        <constraint id="val1" severity="danger" message="Message" side="client">
+                        <constraint id="val1" severity="danger" message="Message">
                             <invocation>
                                 <sql>select * from table</sql>
                             </invocation>

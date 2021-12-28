@@ -144,7 +144,6 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation.getId(), is("val1"));
         assertThat(validation.getMessage(), is("Message"));
         assertThat(validation.getSeverity(), is(SeverityType.danger));
-        assertThat(validation.getSide(), is("client"));
         assertThat(validation.getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(validation.getRequiredFields().size(), is(1));
         assertThat(validation.getRequiredFields().contains("param"), is(true));
@@ -165,11 +164,11 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
         ActionContext actionContext = (ActionContext)route("/testStandardField/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
-        assertThat(serverValidations.size(), is(3));
-
-        assertThat(serverValidations.get(0), is(validation));
-        assertThat(serverValidations.get(1), is(validation2));
-        MandatoryValidation validation3 = (MandatoryValidation) serverValidations.get(2);
+        assertThat(serverValidations.size(), is(4));
+        assertThat(serverValidations.get(0).getFieldId(), is("test1"));
+        assertThat(serverValidations.get(1), is(validation));
+        assertThat(serverValidations.get(2), is(validation2));
+        MandatoryValidation validation3 = (MandatoryValidation) serverValidations.get(3);
         assertThat(validation3.getId(), is("val3"));
         assertThat(validation3.getMessage(), is("Message"));
         assertThat(validation3.getSeverity(), is(SeverityType.danger));
@@ -180,6 +179,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     @Test
     public void testInlineValidations() {
         PageContext pageContext = new PageContext("testStandardFieldInlineValidations");
+        pageContext.setSubmitOperationId("update");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
@@ -191,7 +191,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(clientValidations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(((ConditionValidation) clientValidations.get(0)).getExpression(), is("city=='Казань'"));
 
-        ActionContext actionContext = (ActionContext)route("/testStandardField", CompiledObject.class);
+        ActionContext actionContext = (ActionContext)route("/testStandardFieldInlineValidations/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(1));
         assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
