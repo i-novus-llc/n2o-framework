@@ -18,6 +18,16 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ref-id">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src">
+            <xs:annotation>
+                <xs:documentation>Реализация меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="dropdownMenuDef">
