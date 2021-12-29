@@ -55,6 +55,8 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageId(object.getId());
                 modal.setObjectId(object.getId());
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
+                modal.setMasterFieldId(N2oQuery.Field.PK);
+                modal.setDetailFieldId(N2oQuery.Field.PK);
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String paramName = (widgetScope != null && widgetScope.getWidgetId() != null) ?
                         widgetScope.getWidgetId() + "_" + N2oQuery.Field.PK :
