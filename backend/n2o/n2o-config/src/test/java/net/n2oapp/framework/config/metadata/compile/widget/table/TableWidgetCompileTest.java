@@ -2,26 +2,18 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.UpdateMapModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -31,7 +23,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -149,18 +140,18 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSortableColumns() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
+        Table table = (Table) ((SimplePage)compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
-                .get(new WidgetContext("testTable4SortableCompile"));
-        assertThat(table.getId(), is("$testTable4SortableCompile"));
+                .get(new PageContext("testTable4SortableCompile"))).getWidget();
+        assertThat(table.getId(), is("testTable4SortableCompile_main"));
         assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getId(), is("id"));
-      /*
-      fixme
-      assertThat(headers.get(0).getLabel(), is("id_name"));
+
+        assertThat(headers.get(0).getLabel(), is("id_name"));
         assertThat(headers.get(0).getSortable(), is(true));
+        assertThat(headers.get(0).getSortingParam(), is("sorting.id"));
 
         assertThat(headers.get(1).getId(), is("col"));
         assertThat(headers.get(1).getLabel(), is("col_label"));
@@ -169,6 +160,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(2).getId(), is("name"));
         assertThat(headers.get(2).getLabel(), is("name"));
         assertThat(headers.get(2).getSortable(), is(true));
+        assertThat(headers.get(2).getSortingParam(), is("sorting.id"));
 
         assertThat(headers.get(3).getId(), is("comments"));
         assertThat(headers.get(3).getLabel(), is("comments"));
@@ -177,14 +169,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
 
-        QueryContext context = (QueryContext) route("/testTable4SortableCompile", CompiledQuery.class);
-        assertThat(context.getSortingMap().get("id"), is("id"));
-        assertThat(context.getSortingMap().get("col"), is("col_id"));
-        assertThat(context.getSortingMap().get("name"), is("id"));
-        assertThat(context.getSortingMap().get("comments"), is("comments"));
+        QueryContext context = (QueryContext) route("/testTable4SortableCompile/main", CompiledQuery.class);
+        assertThat(context.getSortingMap().get("sorting.id"), is("id"));
+        assertThat(context.getSortingMap().get("sorting.name"), is("name"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.radio));
-        assertThat(table.getComponent().getTextWrap(), is(true));*/
+        assertThat(table.getComponent().getTextWrap(), is(true));
     }
 
     @Test

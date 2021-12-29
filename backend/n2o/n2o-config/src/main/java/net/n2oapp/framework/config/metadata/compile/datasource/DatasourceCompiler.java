@@ -49,6 +49,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 @Component
 public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
     private static final String SPREAD_OPERATOR = "*.";
+    public static final String SORTING = "sorting.";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -135,7 +136,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         List<Filter> filters = initFilters(compiled, source, p, query);
         compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(compiled, source, dataProvider, filters, p);
-        p.addRoute(getQueryContext(compiled, source, context, p, url, filters));
+        p.addRoute(getQueryContext(compiled, source, context, p, url, filters, query));
         return dataProvider;
     }
 
@@ -268,7 +269,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                                          CompileContext<?, ?> context,
                                          CompileProcessor p,
                                          String route,
-                                         List<Filter> filters) {
+                                         List<Filter> filters,
+                                         CompiledQuery query) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
         ValidationList validationList = p.getScope(ValidationList.class);
         List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.filter);
@@ -287,7 +289,16 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CopiedFieldScope copiedFieldScope = p.getScope(CopiedFieldScope.class);
         if (copiedFieldScope != null)
             queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getId()));
+        queryContext.setSortingMap(initSortingMap(query, p));
         return queryContext;
+    }
+
+    private Map<String, String> initSortingMap(CompiledQuery query, CompileProcessor p) {
+        Map<String, String> sortingMap = new HashMap<>();
+        for (N2oQuery.Field sortingField : query.getSortingFields()) {
+            sortingMap.put(SORTING + RouteUtil.normalizeParam(sortingField.getId()), sortingField.getId());
+        }
+        return sortingMap;
     }
 
     private ClientDataProvider initSubmit(N2oDatasource source, Datasource compiled, CompiledObject compiledObject,
@@ -446,7 +457,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                         routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
                     });
             for (N2oQuery.Field field : query.getSortingFields()) {
-                String sortParam = RouteUtil.normalizeParam("sorting." + source.getId() + "_" + field.getId());
+                String sortParam = RouteUtil.normalizeParam(SORTING + source.getId() + "_" + field.getId());
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
                 ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
                 routes.addQueryMapping(sortParam, onGet, onSet);

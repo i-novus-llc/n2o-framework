@@ -156,12 +156,11 @@ public abstract class AbstractController {
 
     private List<Sorting> getSortings(DataSet data, Map<String, String> sortingMap) {
         List<Sorting> sortings = new ArrayList<>();
-        DataSet sortingsData = data.getDataSet("sorting");
-        if (sortingsData == null)
+        if (sortingMap == null)
             return sortings;
-        for (String key : sortingsData.flatKeySet()) {
-            String fieldId = sortingMap == null || !sortingMap.containsKey(key) ? key : sortingMap.get(key);
-            String value = sortingsData.getString(key);
+        for (String key : sortingMap.keySet()) {
+            String fieldId = sortingMap.get(key);
+            String value = data.getString(key);
             Direction direction = value != null ? Direction.valueOf(value.toUpperCase()) : Direction.ASC;
             sortings.add(new Sorting(fieldId, direction));
         }

@@ -15,9 +15,11 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -100,8 +102,12 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         } else {
             header.setLabel(source.getLabelName());
         }
-        if (query != null && query.getFieldsMap().containsKey(header.getId())) {
-            header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
+        if (query != null && query.getFieldsMap().containsKey(source.getSortingFieldId())) {
+            boolean sortable = !query.getFieldsMap().get(source.getSortingFieldId()).getNoSorting();
+            header.setSortable(sortable);
+            if (sortable) {
+                header.setSortingParam(DatasourceCompiler.SORTING + RouteUtil.normalizeParam(source.getSortingFieldId()));
+            }
         }
 
         header.setProperties(p.mapAttributes(source));
