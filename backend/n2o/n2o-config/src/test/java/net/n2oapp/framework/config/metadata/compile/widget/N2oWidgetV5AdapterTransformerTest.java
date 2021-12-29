@@ -49,17 +49,16 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(table.getDatasource().getObjectId(), is("test"));
         assertThat(table.getDatasource().getDefaultValuesMode(), is(query));
         assertThat(table.getDatasource().getFilters().length, is(3));
-        assertThat(table.getDatasource().getFilters()[2].getDatasource(), is("ds1"));
+        assertThat(table.getDatasource().getFilters()[2].getDatasource(), is("f1"));
         assertThat(table.getDatasource().getFilters()[2].getFieldId(), is("id"));
-        assertThat(table.getDatasource().getFilters()[2].getParam(), is("ds1_master"));
         assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModel.resolve));
         assertThat(table.getDatasource().getRoute(), is("/test"));
         assertThat(table.getDatasource().getSize(), is(10));
         assertThat(table.getDatasource().getDependencies().length, is(1));
         assertThat(((N2oDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModel.resolve));
-        assertThat(((N2oDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getOn(), is("ds1"));
+        assertThat(((N2oDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getOn(), is("f1"));
         assertThat(table.getDependencies().length, is(1));
-        assertThat(table.getDependencies()[0].getDatasource(), is("ds1"));
+        assertThat(table.getDependencies()[0].getDatasource(), is("f1"));
         assertThat(table.getDependencies()[0].getValue(), is("test==1"));
     }
 
@@ -77,7 +76,6 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(form.getDatasource().getSubmit().getOperationId(), is("save"));
         assertThat(form.getDatasource().getSubmit().getRoute(), is("/test"));
         assertThat(form.getDatasource().getSubmit().getRefreshDatasources().length, is(1));
-        assertThat(form.getDatasource().getSubmit().getRefreshDatasources()[0], is("ds1"));
-        assertThat(form.getDatasource().getSubmit().getMessageWidgetId(), is("testFormTransformer"));
+        assertThat(form.getDatasource().getSubmit().getRefreshDatasources()[0], is("f1"));
     }
 }
