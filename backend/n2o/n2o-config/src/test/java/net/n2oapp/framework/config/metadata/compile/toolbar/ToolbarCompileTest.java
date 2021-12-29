@@ -107,19 +107,8 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(((PerformButton)b3).getUrl(), is("http://example.com"));
         assertThat(((PerformButton)b3).getTarget(), is(Target.self));
 
-        AbstractButton b4 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
-        assertThat(b4.getId(), is("testId4"));
-        assertThat(b4.getValidate(), is("testToolbar_testWidgetId"));
-
-        AbstractButton b5 = f.getToolbar().get("topLeft").get(0).getButtons().get(2);
-        assertThat(b5.getId(), is("testToolbar_main"));
-
-        AbstractButton b6 = f.getToolbar().get("topLeft").get(0).getButtons().get(3);
-        assertThat(b6.getId(), is("testId6"));
-        assertThat(b6.getValidate(), is("testToolbar"));
-
-        AbstractButton b7 = f.getToolbar().get("topLeft").get(0).getButtons().get(4);
-        assertThat(b7.getId(), is("testId7"));
+        AbstractButton b7 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
+        assertThat(b7.getId(), is("testId4"));
         assertThat(b7.getSrc(), is("MyCustomButton"));
         assertThat(b7.getAction(), notNullValue());
         Perform performAction = (Perform)b7.getAction();

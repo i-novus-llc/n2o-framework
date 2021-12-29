@@ -4,7 +4,10 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -78,7 +81,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property1"));
         condition = buttons.get(6).getConditions().get(ValidationType.visible).get(0);
-        assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_test']"));
+        assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("a==b"));
         condition = buttons.get(6).getConditions().get(ValidationType.enabled).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
@@ -103,7 +106,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property2"));
         condition = submenu.get(2).getConditions().get(ValidationType.visible).get(0);
-        assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_test']"));
+        assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("a==b"));
         assertThat(submenu.get(2).getConditions().get(ValidationType.visible).size(), is (1));
         condition = submenu.get(2).getConditions().get(ValidationType.enabled).get(0);
@@ -156,7 +159,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getModelLink(), is("models.filter['testButtonDependencyWithDatasource_table']"));
         assertThat(condition.getExpression(), is("property1"));
         condition = buttons.get(6).getConditions().get(ValidationType.visible).get(0);
-        assertThat(condition.getModelLink(), is("models.filter['testButtonDependencyWithDatasource_test']"));
+        assertThat(condition.getModelLink(), is("models.filter['testButtonDependencyWithDatasource_table']"));
         assertThat(condition.getExpression(), is("a==b"));
         condition = buttons.get(6).getConditions().get(ValidationType.enabled).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependencyWithDatasource_table']"));
@@ -181,7 +184,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependencyWithDatasource_table']"));
         assertThat(condition.getExpression(), is("property2"));
         condition = submenu.get(2).getConditions().get(ValidationType.visible).get(0);
-        assertThat(condition.getModelLink(), is("models.filter['testButtonDependencyWithDatasource_test']"));
+        assertThat(condition.getModelLink(), is("models.filter['testButtonDependencyWithDatasource_table']"));
         assertThat(condition.getExpression(), is("a==b"));
         assertThat(submenu.get(2).getConditions().get(ValidationType.visible).size(), is (1));
         condition = submenu.get(2).getConditions().get(ValidationType.enabled).get(0);

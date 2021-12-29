@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;
-import net.n2oapp.framework.config.io.toolbar.AbstractButtonIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 

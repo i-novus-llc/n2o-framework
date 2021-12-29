@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
-
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.io.fieldset.v5.ColElementIO5;
 import net.n2oapp.framework.config.io.fieldset.v5.RowElementIO5;

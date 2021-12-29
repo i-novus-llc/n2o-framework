@@ -94,17 +94,17 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
 
         Datasource ds = page.getDatasources().get("p_w_a_ds1");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds1"));
-        assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", new ModelLink(1)));
+        assertThat(ds.getProvider().getQueryMapping(), hasEntry("ds1_id", new ModelLink(1)));
         CompiledQuery query = routeAndGet("/p/w/a/ds1", CompiledQuery.class);
-        assertThat(query.getParamToFilterIdMap(), hasEntry("id", "id"));
+        assertThat(query.getParamToFilterIdMap(), hasEntry("ds1_id", "id"));
 
         ds = page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
-        ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds3", "id");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds3");
         link.setValue("`id`");
-        assertThat(ds.getProvider().getQueryMapping(), hasEntry("id", link));
+        assertThat(ds.getProvider().getQueryMapping(), hasEntry("ds2_id", link));
         query = routeAndGet("/p/w/a/ds2", CompiledQuery.class);
-        assertThat(query.getParamToFilterIdMap(), hasEntry("id", "id"));
+        assertThat(query.getParamToFilterIdMap(), hasEntry("ds2_id", "id"));
     }
 
     @Test
@@ -128,10 +128,10 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         //        simple
         Datasource ds = page.getDatasources().get("p_w_a_ds1");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
-        assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/p_w_a_ds1"));
+        assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getSubmit().getSubmitForm(), is(true));
         assertThat(ds.getSubmit().getMethod(), is(RequestMethod.POST));
-        ActionContext opCtx = ((ActionContext)route("/p/w/a/p_w_a_ds1", CompiledObject.class));
+        ActionContext opCtx = ((ActionContext)route("/p/w/a/ds1", CompiledObject.class));
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(false));
         assertThat(opCtx.isMessageOnFail(), is(true));
@@ -149,7 +149,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         //        with messages
         ds = page.getDatasources().get("p_w_a_ds3");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
-        opCtx = ((ActionContext)route("/p/w/a/p_w_a_ds3", CompiledObject.class));
+        opCtx = ((ActionContext)route("/p/w/a/ds3", CompiledObject.class));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePosition.fixed));
