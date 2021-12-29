@@ -50,6 +50,7 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void dropDownMenu(Element e, N2oSimpleMenu.DropdownMenuItem m, IOProcessor p) {
@@ -61,5 +62,6 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("menu-item", N2oSimpleMenu.MenuItem.class, this::menuItem));
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 }
