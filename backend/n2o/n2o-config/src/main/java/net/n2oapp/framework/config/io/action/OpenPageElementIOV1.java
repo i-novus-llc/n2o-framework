@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись лействия открытия старницы поверх текущей
+ * Чтение/запись действия открытия старницы поверх текущей
  */
 @Component
 public class OpenPageElementIOV1 extends AbstractOpenPageElementIOV1<N2oOpenPage> {

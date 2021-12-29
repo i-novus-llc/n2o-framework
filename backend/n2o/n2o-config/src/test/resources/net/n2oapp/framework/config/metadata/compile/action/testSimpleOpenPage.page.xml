@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <toolbar>
+            <button id="id1">
+                <open-page page-id="emptyPage"/>
+            </button>
+            <button id="id2">
+                <open-page page-id="emptyPage" target="newWindow" route="/view"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

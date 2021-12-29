@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.action;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -127,5 +128,32 @@ public class OpenPageAT extends AutoTestBase {
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.widget(FormWidget.class).shouldExists();
         open.breadcrumb().titleShouldHaveText("test1");
+    }
+
+    @Test
+    public void testTargetNewWindow() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Первая страница");
+
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+
+        table.columns().rows().row(0).click();
+        table.toolbar().topLeft().button("Открыть").click();
+
+        Selenide.switchTo().window(1);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.urlShouldMatches(getBaseUrl() + "/#/main/1/open");
+
+        page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
+        page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        Selenide.closeWindow();
     }
 }
