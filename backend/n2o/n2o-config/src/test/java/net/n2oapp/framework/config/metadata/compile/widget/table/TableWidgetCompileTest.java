@@ -105,7 +105,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
         assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
-//        fixme
+//        fixme NNO-7304
 //        assertThat(queryContext.getFailAlertWidgetId(), is("$testTable4Compile"));
 //        assertThat(queryContext.getSuccessAlertWidgetId(), is("$testTable4Compile"));
 //        assertThat(queryContext.getMessagesForm(), is("$testTable4Compile_filter"));
@@ -115,7 +115,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
         assertThat(table.getComponent().getTextWrap(), is(false));
-        //fixme delete
+        //fixme NNO-7302
 //        assertThat(table.getFiltersDefaultValuesQueryId(), is("test"));
     }
 
