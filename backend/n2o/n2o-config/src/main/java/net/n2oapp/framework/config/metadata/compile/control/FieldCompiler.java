@@ -188,7 +188,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void compileFilters(S source, CompileProcessor p) {
-        FiltersScope filtersScope = p.getScope(FiltersScope.class);
+        TableFiltersScope filtersScope = p.getScope(TableFiltersScope.class);
         if (filtersScope != null) {
             CompiledQuery query = p.getScope(CompiledQuery.class);
             if (query == null)
@@ -207,7 +207,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 link.setParam(filter.getParam());
                 link.setObserve(true);
                 filter.setLink(link);
-                filtersScope.addFilter(widgetScope.getDatasourceId(), filter);
+                filtersScope.addFilter(filter);
             });
         }
     }
