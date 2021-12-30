@@ -70,7 +70,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setValidations(initValidations(source, p));
-        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
+        if (!DefaultValuesMode.defaults.equals(compiled.getDefaultValuesMode()))
+            compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
