@@ -21,6 +21,8 @@ public class CopiedFieldScope {
     }
 
     public Set<String> getCopiedFields(String datasource) {
+        if (!datasourceCopiedFields.containsKey(datasource))
+            return Collections.emptySet();
         return Collections.unmodifiableSet(datasourceCopiedFields.get(datasource));
     }
 }

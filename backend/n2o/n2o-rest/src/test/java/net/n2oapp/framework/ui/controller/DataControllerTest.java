@@ -178,7 +178,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         body.put("id1", null);
 
-        SetDataResponse response = testOperation("/pageWithRequiredField/widget/create", pipeline, params, body);
+        SetDataResponse response = testOperation("/pageWithRequiredField/create", pipeline, params, body);
         assertThat(response.getMeta().getMessages().getForm(), is("pageWithRequiredField_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(1));
         assertThat(response.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
@@ -197,7 +197,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         body.put("id13", null);
 
-        SetDataResponse response = testOperation("/page/widget/create5", pipeline, params, body);
+        SetDataResponse response = testOperation("/page/create5", pipeline, params, body);
         assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(1));
         assertThat(response.getMeta().getMessages().getFields().get("id13").getField(), is("id13"));
@@ -214,7 +214,7 @@ public class DataControllerTest extends DataControllerTestBase {
         DataSet body = new DataSet();
         body.put("id1", null);
 
-        SetDataResponse response = testOperation("/testFieldVisibility/widget/create6", pipeline, params, body);
+        SetDataResponse response = testOperation("/testFieldVisibility/create6", pipeline, params, body);
         assertThat(response.getMeta().getMessages().getForm(), is("testFieldVisibility_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
         assertThat(response.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
@@ -236,7 +236,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("id1", new ArrayList<>());
         body.put("id2", new HashMap<>());
 
-        SetDataResponse response = testOperation("/testListControl/widget/create7", pipeline, params, body);
+        SetDataResponse response = testOperation("/testListControl/create7", pipeline, params, body);
         assertThat(response.getMeta().getMessages().getForm(), is("testListControl_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
         assertThat(response.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
@@ -259,7 +259,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("field2", "value2");
         body.put("field3", "value3");
 
-        SetDataResponse response = testOperation("/testOperationMapping/widget/create8", pipeline, params, body);
+        SetDataResponse response = testOperation("/testOperationMapping/create8", pipeline, params, body);
         assertThat(response.getData().size(), is(3));
         assertThat(response.getData().get("field1"), is("value11"));
         assertThat(response.getData().get("field3"), is("value33"));
@@ -273,7 +273,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("field2", "value2");
         body.put("param3", "value3");
 
-        response = testOperation("/testOperationMapping/widget/create8", pipeline, params, body);
+        response = testOperation("/testOperationMapping/create8", pipeline, params, body);
         assertThat(response.getData().get("field1"), nullValue());
         assertThat(response.getData().get("field3"), nullValue());
 
@@ -285,7 +285,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("field2", "value2");
         body.put("field3", "value3");
 
-        response = testOperation("/testOperationMapping/widget/create8", pipeline, params, body);
+        response = testOperation("/testOperationMapping/create8", pipeline, params, body);
         assertThat(response.getData().get("field2"), is("value2"));
     }
 
