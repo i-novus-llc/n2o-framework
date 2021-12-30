@@ -22,6 +22,7 @@ public class N2oForm extends N2oWidget {
 
     @Deprecated
     public void adapterV4() {
+        super.adapterV4();
         if (getSubmit() != null) {
             if (getDatasource() == null)
                 setDatasource(new N2oDatasource());
