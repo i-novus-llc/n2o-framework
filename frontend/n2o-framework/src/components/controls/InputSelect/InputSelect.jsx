@@ -490,7 +490,13 @@ class InputSelect extends React.Component {
                 {
                     isExpanded: true,
                 },
-                onOpen,
+                () => {
+                    const { inputFocus, input } = this.state
+
+                    if (inputFocus || input) {
+                        onOpen()
+                    }
+                },
             )
         }
     }
