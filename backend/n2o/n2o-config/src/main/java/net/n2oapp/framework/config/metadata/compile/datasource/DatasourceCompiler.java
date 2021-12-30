@@ -70,8 +70,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setValidations(initValidations(source, p));
-        if (!DefaultValuesMode.defaults.equals(compiled.getDefaultValuesMode()))
-            compiled.setProvider(initDataProvider(compiled, source, context, p, query));
+        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
@@ -130,7 +129,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
 
     private ClientDataProvider initDataProvider(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context,
                                                 CompileProcessor p, CompiledQuery query) {
-        if (source.getQueryId() == null)
+        if (source.getQueryId() == null || !DefaultValuesMode.defaults.equals(compiled.getDefaultValuesMode()))
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, p);

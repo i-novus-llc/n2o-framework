@@ -23,9 +23,12 @@ public class N2oForm extends N2oWidget {
 
     @Deprecated
     public void adapterV5() {
+        if (getQueryId() != null) {
+            initDatasource();
+            getDatasource().setSize(1);
+        }
         if (getSubmit() != null) {
-            if (getDatasource() == null)
-                setDatasource(new N2oDatasource());
+            initDatasource();
             getDatasource().setSubmit(getSubmit());
             if (getDatasource().getSubmit().getRefreshWidgetId() != null) {
                 getDatasource().getSubmit().setRefreshDatasources(
@@ -36,5 +39,10 @@ public class N2oForm extends N2oWidget {
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());
         }
+    }
+
+    private void initDatasource() {
+        if (getDatasource() == null)
+            setDatasource(new N2oDatasource());
     }
 }
