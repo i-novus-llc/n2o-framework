@@ -344,9 +344,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-       /*
-        fixme
-        BindLink link = page.getDatasources().get("testMultiColumn_main").getProvider().getQueryMapping().get("table_name");
+        BindLink link = page.getDatasources().get("testMultiColumn_table").getProvider().getQueryMapping().get("table_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
 
@@ -357,7 +355,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(0).getChildren(), nullValue());
         assertThat(headers.get(1).getId(), is("test3"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
-        assertThat(headers.get(1).getChildren(), nullValue());*/
+        assertThat(headers.get(1).getChildren(), nullValue());
     }
 
     @Test
