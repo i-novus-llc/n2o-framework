@@ -136,7 +136,6 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(drawerContext.getUpload(), is(UploadType.query));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_update"));

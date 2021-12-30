@@ -34,7 +34,10 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
+import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
@@ -67,7 +70,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setValidations(initValidations(source, p));
-        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
+        if (!DefaultValuesMode.defaults.equals(compiled.getDefaultValuesMode()))
+            compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
@@ -207,7 +211,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                         //фильтр из родительского маршрута
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
-                        String globalDsId = CompileUtil.generateWidgetId(pageScope.getPageId(), preFilter.getDatasource());
+                        String pageId = p.cast(preFilter.getRefPageId(), pageScope.getPageId());
+                        String globalDsId = CompileUtil.generateWidgetId(pageId, preFilter.getDatasource());
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
                         ModelLink link = new ModelLink(model, globalDsId);
                         link.setValue(prefilterValue);

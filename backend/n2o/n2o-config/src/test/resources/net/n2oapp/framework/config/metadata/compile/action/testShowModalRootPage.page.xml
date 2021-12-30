@@ -11,7 +11,7 @@
                                     has-header="false" class="n2o-custom-modal-dialog" backdrop="true" style="background:red"/>
                     </button>
                     <button id="update" model="resolve">
-                        <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg" master-field-id="secondId"
+                        <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg"
                                     upload="query" master-param="id"
                                     detail-field-id="id" submit-operation-id="update" route="/:id/update"
                                     unsaved-data-prompt-on-close="false">
