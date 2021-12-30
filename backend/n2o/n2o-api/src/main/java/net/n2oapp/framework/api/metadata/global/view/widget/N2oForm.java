@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
@@ -22,7 +21,7 @@ public class N2oForm extends N2oWidget {
     private Submit submit;
 
     @Deprecated
-    public void adapterV5() {
+    public void adapterV4() {
         if (getSubmit() != null) {
             if (getDatasource() == null)
                 setDatasource(new N2oDatasource());
