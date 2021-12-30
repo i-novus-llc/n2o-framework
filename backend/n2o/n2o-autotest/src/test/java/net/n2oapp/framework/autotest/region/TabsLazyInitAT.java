@@ -39,6 +39,7 @@ public class TabsLazyInitAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/lazy/test.query.xml"));
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7313
     @Test
     public void testLazyInit() {
         StandardPage page = open(StandardPage.class);
