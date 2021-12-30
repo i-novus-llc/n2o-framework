@@ -200,7 +200,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setFilterId(f.getFilterField());
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
-                SubModelQuery subModelQuery = findSubModelQuery(source.getId(), source.getDatasource(), p);
+                SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
@@ -218,11 +218,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param fieldId - идентификатор поля
      * @param p       - процессор сборки метаданных
      */
-    protected SubModelQuery findSubModelQuery(String fieldId, String datasource, CompileProcessor p) {
+    protected SubModelQuery findSubModelQuery(String fieldId, CompileProcessor p) {
         if (fieldId == null) return null;
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
-        if (subModelsScope != null && subModelsScope.get(datasource) != null) {
-            return subModelsScope.get(datasource).stream()
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (subModelsScope != null && widgetScope != null && subModelsScope.get(widgetScope.getDatasourceId()) != null) {
+            return subModelsScope.get(widgetScope.getDatasourceId()).stream()
                     .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
                     .findAny()
                     .orElse(null);
@@ -380,8 +381,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileCopied(S source, CompileProcessor p) {
         if (Boolean.TRUE.equals(source.getCopied())) {
             CopiedFieldScope scope = p.getScope(CopiedFieldScope.class);
-            if (scope != null) {
-                scope.addCopiedFields(source.getId(), source.getDatasource());
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            if (scope != null && widgetScope != null) {
+                scope.addCopiedFields(source.getId(), widgetScope.getDatasourceId());
             }
         }
     }
@@ -415,7 +417,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
-                    SubModelQuery subModelQuery = findSubModelQuery(control.getId(), source.getDatasource(), p);
+                    SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
                     ModelLink modelLink = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
                     if (defValue instanceof DefaultValues) {
                         Map<String, Object> values = ((DefaultValues) defValue).getValues();

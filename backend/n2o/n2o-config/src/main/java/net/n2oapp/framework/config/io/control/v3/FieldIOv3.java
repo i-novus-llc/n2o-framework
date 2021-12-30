@@ -42,7 +42,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
         p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModel.class);
         p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, N2oField.Page.class);
-        p.attribute(e, "ref-datasource", m::getDatasource, m::setDatasource);
+        p.attribute(e, "ref-datasource", m::getRefDatasource, m::setRefDatasource);
         p.attribute(e, "ref-field-id", m::getRefFieldId, m::setRefFieldId);
     }
 

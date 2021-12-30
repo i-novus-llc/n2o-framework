@@ -60,7 +60,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("id12", null);
         body.put("id13", null);
 
-        SetDataResponse result = testOperation("/page/widget/create", pipeline, params, body);
+        SetDataResponse result = testOperation("/page/create", pipeline, params, body);
         assertThat(result.getMeta().getMessages().getFields().size(), is(8));
         assertThat(result.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
         assertThat(result.getMeta().getMessages().getFields().get("id2").getField(), is("id2"));
@@ -95,7 +95,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("id11", null);
         body.put("id13", null);
 
-        SetDataResponse result = testOperation("/page/widget/create2", pipeline, params, body);
+        SetDataResponse result = testOperation("/page/create2", pipeline, params, body);
         assertThat(result.getMeta().getMessages().getFields().size(), is(6));
         assertThat(result.getMeta().getMessages().getFields().get("id2").getField(), is("id2"));
         assertThat(result.getMeta().getMessages().getFields().get("id3").getField(), is("id3"));
@@ -128,7 +128,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("id11", null);
         body.put("id13", null);
 
-        SetDataResponse response = testOperation("/page/widget/create3", pipeline, params, body);
+        SetDataResponse response = testOperation("/page/create3", pipeline, params, body);
         assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(1));
         assertThat(response.getMeta().getMessages().getFields().get("id7").getField(), is("id7"));
@@ -158,7 +158,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("id11", null);
         body.put("id13", null);
 
-        SetDataResponse result = testOperation("/page/widget/create4", pipeline, params, body);
+        SetDataResponse result = testOperation("/page/create4", pipeline, params, body);
         assertThat(result.getMeta().getMessages().getFields().size(), is(3));
         assertThat(result.getMeta().getMessages().getFields().containsKey("id9"), is(true));
         assertThat(result.getMeta().getMessages().getFields().containsKey("id10"), is(true));

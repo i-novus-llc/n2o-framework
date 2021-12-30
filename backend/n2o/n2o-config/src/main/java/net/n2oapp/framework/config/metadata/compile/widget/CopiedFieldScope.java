@@ -1,24 +1,26 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+
 import java.util.*;
 
 /**
  * Используется для сбора идентификаторов полей, данные которых необходимо копировать при upload=copy
  */
 public class CopiedFieldScope {
-    private Map<String, Set<String>> copiedFields;
+    private Map<String, Set<String>> datasourceCopiedFields = new StrictMap<>();
 
-    public void addCopiedFields(String id, String datasource) {
-        if (copiedFields == null) {
-            copiedFields = new HashMap<>();
-            copiedFields.put(datasource, new HashSet<>());
+    public void addCopiedFields(String id, String sourceDatasourceId) {
+        if (datasourceCopiedFields == null) {
+            datasourceCopiedFields = new HashMap<>();
+            datasourceCopiedFields.put(sourceDatasourceId, new HashSet<>());
         }
-        copiedFields.get(datasource).add(id);
+        if (!datasourceCopiedFields.containsKey(sourceDatasourceId))
+            datasourceCopiedFields.put(sourceDatasourceId, new LinkedHashSet<>());
+        datasourceCopiedFields.get(sourceDatasourceId).add(id);
     }
 
     public Set<String> getCopiedFields(String datasource) {
-        if (copiedFields == null || copiedFields.get(datasource) == null)
-            return null;
-        return Collections.unmodifiableSet(copiedFields.get(datasource));
+        return Collections.unmodifiableSet(datasourceCopiedFields.get(datasource));
     }
 }
