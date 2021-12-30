@@ -5,8 +5,11 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.control.*;
@@ -273,7 +276,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testFilterColumns() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml")
                 .get(new PageContext("testFilterColumns"));
-       /* fixme
+
 
         List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeaders();
         assertThat(columnHeaders.get(0), instanceOf(ColumnHeader.class));
@@ -300,7 +303,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(cells.get(0), instanceOf(N2oBadgeCell.class));
         assertThat(cells.get(0).getId(), is("name"));
         assertThat(cells.get(1), instanceOf(N2oTextCell.class));
-        assertThat(cells.get(1).getId(), is("age"));*/
+        assertThat(cells.get(1).getId(), is("age"));
     }
 
     @Test
