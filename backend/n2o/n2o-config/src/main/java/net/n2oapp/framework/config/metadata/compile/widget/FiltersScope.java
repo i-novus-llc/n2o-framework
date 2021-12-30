@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -15,7 +14,6 @@ import java.util.Optional;
  * Информация по фильтрам
  */
 @Getter
-@Deprecated
 public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
