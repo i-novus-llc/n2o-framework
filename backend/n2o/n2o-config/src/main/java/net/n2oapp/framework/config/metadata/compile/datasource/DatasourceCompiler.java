@@ -95,7 +95,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private void initDefaults(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
-
+        source.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() != null ? DefaultValuesMode.query : DefaultValuesMode.defaults));
     }
 
     private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
@@ -130,7 +130,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
 
     private ClientDataProvider initDataProvider(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context,
                                                 CompileProcessor p, CompiledQuery query) {
-        if (source.getQueryId() == null || !DefaultValuesMode.defaults.equals(compiled.getDefaultValuesMode()))
+        if (source.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, p);
