@@ -327,8 +327,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             item.setAction(actionsBar.getAction());
             if (item.getModel() == null)
                 item.setModel(actionsBar.getModel());
-            if (item.getWidgetId() == null)
-                item.setWidgetId(actionsBar.getWidgetId());
+            if (item.getDatasource() == null)
+                item.setDatasource(actionsBar.getDatasource());
             if (item.getLabel() == null)
                 item.setLabel(actionsBar.getLabel());
             if (item.getIcon() == null)
