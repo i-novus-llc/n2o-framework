@@ -147,7 +147,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
         String targetDS = source.getTargetDatasource();
-        if (pageScope != null && targetDS == null) {
+        if (pageScope != null && targetDS == null && currentWidgetId != null) {
             targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
         pageContext.setPageName(source.getPageName());
