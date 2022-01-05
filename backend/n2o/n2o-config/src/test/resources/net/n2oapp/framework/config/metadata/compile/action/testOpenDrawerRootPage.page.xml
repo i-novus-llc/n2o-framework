@@ -9,7 +9,7 @@
                                      submit-operation-id="create" submit-model="edit" route="/create"/>
                     </button>
                     <button id="update" model="resolve">
-                        <open-drawer page-id="testOpenDrawerPageSecondFlow" modal-size="lg" master-field-id="secondId"
+                        <open-drawer page-id="testOpenDrawerPageSecondFlow" modal-size="lg"
                                      upload="query" master-param="id"
                                      detail-field-id="id" submit-operation-id="update" route="/:id/update"
                                      unsaved-data-prompt-on-close="false" fixed-footer="true">

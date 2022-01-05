@@ -24,8 +24,7 @@ public class N2oForm extends N2oWidget {
     public void adapterV4() {
         super.adapterV4();
         if (getSubmit() != null) {
-            if (getDatasource() == null)
-                setDatasource(new N2oDatasource());
+            initDatasource();
             getDatasource().setSubmit(getSubmit());
             if (getDatasource().getSubmit().getRefreshWidgetId() != null) {
                 getDatasource().getSubmit().setRefreshDatasources(
@@ -36,5 +35,10 @@ public class N2oForm extends N2oWidget {
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());
         }
+    }
+
+    private void initDatasource() {
+        if (getDatasource() == null)
+            setDatasource(new N2oDatasource());
     }
 }

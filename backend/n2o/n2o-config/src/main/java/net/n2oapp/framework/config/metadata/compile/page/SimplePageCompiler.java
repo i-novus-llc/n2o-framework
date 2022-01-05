@@ -138,7 +138,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
 
     private void initPreFilters(PageContext context, N2oWidget widget) {
         if (context.getPreFilters() != null && !context.getPreFilters().isEmpty()) {
-            widget.addPreFilters(context.getPreFilters());
+            widget.getDatasource().addFilters(context.getPreFilters());
         }
     }
 

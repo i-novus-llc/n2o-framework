@@ -102,6 +102,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         Widget modalWidget = modalPage.getWidget();
         assertThat(modalPage.getDatasources().get(modalWidget.getDatasource()).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(modalPage.getDatasources().get(modalWidget.getDatasource()).getProvider(), nullValue());
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
@@ -152,7 +153,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(modalContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_update"));
