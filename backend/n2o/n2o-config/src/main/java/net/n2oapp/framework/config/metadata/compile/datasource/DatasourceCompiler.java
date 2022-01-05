@@ -71,7 +71,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setValidations(initValidations(source, p));
-        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
+        compiled.setProvider(initDataProvider(compiled, source, context, p, query, source.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
@@ -129,7 +129,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private ClientDataProvider initDataProvider(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context,
-                                                CompileProcessor p, CompiledQuery query) {
+                                                CompileProcessor p, CompiledQuery query, DefaultValuesMode defaultValuesMode) {
         if (source.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
@@ -140,7 +140,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(compiled, source, dataProvider, filters, p);
         p.addRoute(getQueryContext(compiled, source, context, p, url, filters, query));
-        return dataProvider;
+        return defaultValuesMode == DefaultValuesMode.defaults ? null : dataProvider;
     }
 
     private void initSearchBar(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
