@@ -39,7 +39,6 @@ public class TableSettingsGeneratorUtil {
         N2oButton filterButton = new N2oButton();
         filterButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.filter.description"));
         filterButton.setIcon("fa fa-filter");
-        filterButton.setWidgetId(widgetId);
         N2oPerform filterAction = new N2oPerform();
         filterAction.setType(p.resolve(property("n2o.api.action.filters.type"), String.class));
         Map<N2oNamespace, Map<String, String>> props = new HashMap<>();

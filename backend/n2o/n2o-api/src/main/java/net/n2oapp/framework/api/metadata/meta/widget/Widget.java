@@ -34,10 +34,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private String icon;
     @Deprecated
     private UploadType upload;
-    @Deprecated
     private String objectId;
-    @Deprecated
-    private String queryId;
     @Deprecated
     private String filtersDefaultValuesQueryId;
     @Deprecated

@@ -7,9 +7,11 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -23,6 +25,8 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -57,19 +61,19 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setSrc(source.getSrc());
         button.setRounded(source.getRounded());
         button.setValidate(compileValidate(source, p));
-        Action action = compileAction(source, context, p);
+        CompiledObject compiledObject = initObject(p, source);
+        Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);
         compileLink(button);
-        button.setConfirm(compileConfirm(source, action, p));
-        compileDependencies(source, button, context, p);
+        button.setConfirm(compileConfirm(source, action, p, compiledObject));
+        compileDependencies(source, button, context, p, compiledObject);
         return button;
     }
 
-    private CompiledObject.Operation getOperation(N2oButton source, CompileProcessor p, Action action) {
+    private CompiledObject.Operation getOperation(Action action, CompiledObject compiledObject) {
         CompiledObject.Operation operation = null;
         if (action != null) {
             if (action instanceof InvokeAction) {
-                CompiledObject compiledObject = getCompiledObject(p, ((InvokeAction) action).getObjectId(), source.getWidgetId());
 
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
@@ -131,9 +135,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return null;
     }
 
-    private CompiledObject getCompiledObject(CompileProcessor p, String objectId, String widgetId) {
-        if (objectId != null) {
-            return p.getCompiled(new ObjectContext(objectId));
+    private CompiledObject initObject(CompileProcessor p, N2oButton button) {
+        if (button.getDatasource() != null && p.getScope(DataSourcesScope.class) != null) {
+            N2oDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasource());
+            if (datasource.getObjectId() != null) {
+                return p.getCompiled(new ObjectContext(datasource.getObjectId()));
+            } else if (datasource.getQueryId() != null) {
+                CompiledQuery query = p.getCompiled(new QueryContext(datasource.getQueryId()));
+                return query.getObject();
+            }
         }
         return p.getScope(CompiledObject.class);
     }
@@ -152,16 +162,17 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private Confirm compileConfirm(N2oButton source,
                                    Action action,
-                                   CompileProcessor p) {
-        CompiledObject.Operation operation = getOperation(source, p, action);
+                                   CompileProcessor p, CompiledObject object) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
-                (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm())) {
+                (source.getConfirm() != null))
             return null;
-        }
+        CompiledObject.Operation operation = getOperation(action, object);
+        if (operation == null || operation.getConfirm() == null || !operation.getConfirm())
+            return null;
         Confirm confirm = new Confirm();
         confirm.setMode(source.getConfirmType());
-        confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
+        confirm.setText(p.cast(source.getConfirmText(), operation.getConfirmationText(), p.getMessage("n2o.confirm.text")));
+        confirm.setTitle(p.cast(source.getConfirmTitle(), operation.getFormSubmitLabel(), p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(source.getConfirmOkLabel());
         confirm.setCancelLabel(source.getConfirmCancelLabel());
         if (StringUtils.hasLink(confirm.getText())) {
@@ -180,31 +191,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return confirm;
     }
 
-    private Action compileAction(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
+    private Action compileAction(N2oButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
         N2oAction butAction = source.getAction();
         if (source.getAction() == null && source.getActionId() != null) {
             MetaActions metaActions = p.getScope(MetaActions.class);
             butAction = metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
         }
         if (butAction == null) return null;
-        CompiledObject compiledObject = getCompiledObject(p, butAction.getObjectId(), source.getWidgetId());
         butAction.setId(p.cast(butAction.getId(), source.getId()));
-        return p.compile(butAction, context, compiledObject, new ComponentScope(source));
-    }
-
-    private String initWidgetId(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getWidgetId() != null) {
-            return pageScope == null ? source.getWidgetId() : pageScope.getGlobalWidgetId(source.getWidgetId());//todo обсудить
-        }
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            return widgetScope.getClientWidgetId();
-        } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
-            return pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
-        } else {
-            throw new N2oException("Unknown widgetId for invoke action!");
-        }
+        return p.compile(butAction, context, object, new ComponentScope(source));
     }
 
     private String initDatasource(N2oButton source, CompileProcessor p) {
@@ -225,7 +220,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      * @param p       Процессор сборки метаданных
      */
     protected void compileDependencies(N2oButton source, PerformButton button,
-                                       CompileContext<?, ?> context, CompileProcessor p) {
+                                       CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
         PageScope pageScope = p.getScope(PageScope.class);
         String clientDatasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
         List<Condition> enabledConditions = new ArrayList<>();

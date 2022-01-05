@@ -107,7 +107,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //toolbars
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p,
-                pageScope, routeScope, pageRoutes, object, breadcrumb, metaActions, validationList);
+                pageScope, routeScope, pageRoutes, object, breadcrumb, metaActions, validationList, dataSourcesScope);
         return page;
     }
 
