@@ -38,13 +38,8 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
     @Test
     public void testWidgetV5adapterTransformer() {
         N2oCompileProcessor p = mock(N2oCompileProcessor.class);
-        PageScope pageScope = new PageScope();
-        HashMap<String, String> widgetIdSourceDatasourceMap = new HashMap<>();
-        widgetIdSourceDatasourceMap.put("f1", "ds1");
-        pageScope.setWidgetIdSourceDatasourceMap(widgetIdSourceDatasourceMap);
-        when(p.getScope(PageScope.class)).thenReturn(pageScope);
         N2oTable table = read("net/n2oapp/framework/config/metadata/transformer/testWidgetTransformer.widget.xml")
-                .merge().transform().get("testWidgetTransformer", N2oTable.class, p);
+                .merge().transform().get("testWidgetTransformer", N2oTable.class);
         assertThat(table.getDatasource().getQueryId(), is("test"));
         assertThat(table.getDatasource().getObjectId(), is("test"));
         assertThat(table.getDatasource().getDefaultValuesMode(), is(query));
@@ -64,14 +59,8 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
     @Test
     public void testFormV5adapterTransformer() {
-        N2oCompileProcessor p = mock(N2oCompileProcessor.class);
-        PageScope pageScope = new PageScope();
-        HashMap<String, String> widgetIdSourceDatasourceMap = new HashMap<>();
-        widgetIdSourceDatasourceMap.put("f1", "ds1");
-        pageScope.setWidgetIdSourceDatasourceMap(widgetIdSourceDatasourceMap);
-        when(p.getScope(PageScope.class)).thenReturn(pageScope);
         N2oForm form = read("net/n2oapp/framework/config/metadata/transformer/testFormTransformer.widget.xml")
-                .merge().transform().get("testFormTransformer", N2oForm.class, p);
+                .merge().transform().get("testFormTransformer", N2oForm.class);
         assertThat(form.getDatasource().getQueryId(), is("test"));
         assertThat(form.getDatasource().getSubmit().getOperationId(), is("save"));
         assertThat(form.getDatasource().getSubmit().getRoute(), is("/test"));

@@ -21,9 +21,13 @@ public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
     private String parentPageId;
+    @Deprecated
     private String parentWidgetId;
+    @Deprecated
     private String failAlertWidgetId;
+    @Deprecated
     private String successAlertWidgetId;
+    @Deprecated
     private String messagesForm;
     private RedirectSaga redirect;
     private RefreshSaga refresh;
