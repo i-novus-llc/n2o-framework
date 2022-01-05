@@ -163,16 +163,17 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     private Confirm compileConfirm(N2oButton source,
                                    Action action,
                                    CompileProcessor p, CompiledObject object) {
-        if ((source.getConfirm() == null || !source.getConfirm()) &&
-                (source.getConfirm() != null))
-            return null;
+        boolean needConfirm = (source.getConfirm() != null && source.getConfirm());
         CompiledObject.Operation operation = getOperation(action, object);
-        if (operation == null || operation.getConfirm() == null || !operation.getConfirm())
+        if (!needConfirm) {
+            needConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
+        }
+        if (!needConfirm)
             return null;
         Confirm confirm = new Confirm();
         confirm.setMode(source.getConfirmType());
-        confirm.setText(p.cast(source.getConfirmText(), operation.getConfirmationText(), p.getMessage("n2o.confirm.text")));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), operation.getFormSubmitLabel(), p.getMessage("n2o.confirm.title")));
+        confirm.setText(p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text")));
+        confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(source.getConfirmOkLabel());
         confirm.setCancelLabel(source.getConfirmCancelLabel());
         if (StringUtils.hasLink(confirm.getText())) {
