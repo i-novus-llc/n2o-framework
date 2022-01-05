@@ -142,6 +142,7 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.shouldNotHaveScrollbar();
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7315
     @Test
     public void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
