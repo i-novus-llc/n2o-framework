@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -20,6 +22,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -101,6 +104,13 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private String initLocalDatasource(N2oInvokeAction source, CompileContext<?,?> context, CompileProcessor p) {
         if (source.getDatasource() != null)
             return source.getDatasource();
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            N2oButton button = componentScope.unwrap(N2oButton.class);
+            if (button != null && button.getDatasource() != null) {
+                return button.getDatasource();
+            }
+        }
         String widgetId = initWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null && widgetId != null)

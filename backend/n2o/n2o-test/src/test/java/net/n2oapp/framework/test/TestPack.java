@@ -110,7 +110,8 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
         actionContext.setMessagesForm("testForm");
         actionContext.setFailAlertWidgetId("testForm");
-        actionContext.setParentWidgetId("testDialog_main");
+        actionContext.setParentSourceDatasourceId("testForm");
+        actionContext.setParentClientWidgetId("testDialog_main");
         actionContext.setParentPageId("testDialog");
         return actionContext;
     }

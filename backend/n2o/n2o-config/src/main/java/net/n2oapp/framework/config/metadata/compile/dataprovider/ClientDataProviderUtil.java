@@ -210,7 +210,8 @@ public class ClientDataProviderUtil {
             PageScope pageScope = p.getScope(PageScope.class);
             if (pageScope != null)
                 actionContext.setParentPageId(pageScope.getPageId());
-            actionContext.setParentWidgetId(actionContextData.getParentWidgetId());
+            actionContext.setParentClientWidgetId(actionContextData.getParentWidgetId());
+            actionContext.setParentSourceDatasourceId(source.getDatasourceId());
             actionContext.setFailAlertWidgetId(actionContextData.getFailAlertWidgetId());
             actionContext.setMessagesForm(actionContextData.getMessagesForm());
             actionContext.setSuccessAlertWidgetId(actionContextData.getSuccessAlertWidgetId());

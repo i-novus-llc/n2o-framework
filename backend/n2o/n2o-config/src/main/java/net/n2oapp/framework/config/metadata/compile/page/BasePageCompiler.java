@@ -132,7 +132,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
                     .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
-        pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(N2oMetadata::getId,
                         w -> w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId())));

@@ -21,8 +21,8 @@ public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
     private String parentPageId;
-    @Deprecated
-    private String parentWidgetId;
+    private String parentClientWidgetId;
+    private String parentSourceDatasourceId;
     @Deprecated
     private String failAlertWidgetId;
     @Deprecated
