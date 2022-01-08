@@ -30,13 +30,13 @@ public class DemoApplicationTest {
     @Test
     public void pageWelcome() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/clients?size=10&page=1&sorting.birthday=ASC", Map.class);
+        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/?size=10&page=1&sorting.birthday=ASC", Map.class);
         assertThat(result.get("list"), notNullValue());
         assertThat((Integer) result.get("count"), greaterThan(1));
         List<Map<?, ?>> list = (List<Map<?, ?>>) result.get("list");
         assertThat(list.size(), greaterThan(0));
 
-        result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/1/contacts?size=10&page=1&individualId=1", Map.class);
+        result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/contacts?size=10&page=1&contacts_individualId=1", Map.class);
         assertThat(result.get("list"), notNullValue());
         assertThat((Integer) result.get("count"), greaterThan(1));
         list = (List<Map<?, ?>>) result.get("list");
@@ -46,7 +46,7 @@ public class DemoApplicationTest {
     @Test
     public void pageProto() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/proto/clients", Map.class);
+        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/proto/", Map.class);
         assertThat(result.get("list"), notNullValue());
         List<Map<?, ?>> list = (List<Map<?, ?>>) result.get("list");
         assertThat(list.size(), greaterThan(0));
