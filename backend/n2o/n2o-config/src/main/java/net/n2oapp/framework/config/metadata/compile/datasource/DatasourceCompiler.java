@@ -238,7 +238,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     private void initFiltersScope(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope == null) return;
-        Map<String, Filter> filterMap = filters.stream().collect(Collectors.toMap(Filter::getFilterId, f -> f));
+        Map<String, Filter> filterMap = filters.stream().collect(Collectors.toMap(Filter::getFilterId, f -> f, (f1, f2) -> f2));
         filtersScope.getFilters(source.getId()).stream().filter(f -> !filterMap.containsKey(f.getFilterId())).forEach(filters::add);
     }
 
