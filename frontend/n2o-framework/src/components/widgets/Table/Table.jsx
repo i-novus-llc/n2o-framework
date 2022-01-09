@@ -53,19 +53,17 @@ const ReduxCell = withColumn(TableCell)
  * const headers = [
  *  {
  *  id: "id",
- *  label: "ID",
- *  sortable: false,
+ *  label: "ID",,
  *  component: FilteredHeader
  *  },
  *  {
  *  id: "name",
  *  label: "Имя",
- *  sortable: true,
+ *  sortingParam: "name",
  *  component: TextHeader
  *  },
  *  {
  *  id: "vip",
- *  sortable: false,
  *  component: IconHeader,
  *    componentProps: {
  *      icon: "plus"

@@ -6,7 +6,7 @@ describe('<Sorter />', () => {
     it('проверяет работы вызова callback при смене сортировки', () => {
         const onSort = jest.fn()
         const wrapper = mount(
-            <Sorter sortDirection="NONE" columnKey="test" onSort={onSort}>
+            <Sorter sortDirection="NONE" sortingParam="test" onSort={onSort}>
         Лейбл
             </Sorter>,
         )

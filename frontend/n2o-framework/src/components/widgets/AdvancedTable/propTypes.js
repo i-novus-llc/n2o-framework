@@ -13,7 +13,7 @@ export const WidgetTableTypes = {
         id: PropTypes.string.isRequired,
         conditions: PropTypes.any, // TODO fill
         label: PropTypes.string,
-        sortable: PropTypes.bool,
+        sortingParam: PropTypes.string,
         src: PropTypes.string.isRequired,
     })),
     rowSelection: PropTypes.oneOf(['none', 'active', 'radio', 'checkbox']),
