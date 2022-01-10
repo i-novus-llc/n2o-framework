@@ -9,7 +9,9 @@
                 </columns>
                 <toolbar>
                     <button id="update">
-                        <open-page page-id="testDynamic?{id}" route="/update2"/>
+                        <open-page page-id="testDynamic?{id}" route="/second/:second_id/update">
+                            <path-param name="second_id" value="{id}"/>
+                        </open-page>
                     </button>
                 </toolbar>
             </table>

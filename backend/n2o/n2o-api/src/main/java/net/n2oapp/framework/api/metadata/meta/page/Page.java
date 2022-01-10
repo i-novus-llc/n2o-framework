@@ -27,6 +27,7 @@ public class Page extends Component {
     private PageRoutes routes;
     @JsonProperty
     private Toolbar toolbar;
+    @Deprecated
     private CompiledObject object;
     @JsonProperty
     private List<Breadcrumb> breadcrumb;

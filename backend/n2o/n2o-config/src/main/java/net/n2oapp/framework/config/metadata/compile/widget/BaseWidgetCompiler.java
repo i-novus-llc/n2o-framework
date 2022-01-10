@@ -153,6 +153,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
         }
         compiled.setDatasource(pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId);
+        compiled.setObjectId(datasource.getObjectId());
         return datasource;
     }
 
@@ -232,8 +233,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
                 mi.setModel(action.getModel());
-            if (mi.getWidgetId() == null)
-                mi.setWidgetId(action.getWidgetId());
+            if (mi.getDatasource() == null)
+                mi.setDatasource(action.getDatasource());
             if (mi.getLabel() == null)
                 mi.setLabel(action.getLabel());
             if (mi.getIcon() == null)

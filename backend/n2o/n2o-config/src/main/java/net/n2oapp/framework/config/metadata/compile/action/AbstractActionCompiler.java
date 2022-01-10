@@ -89,7 +89,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
                 targetWidgetId = ((PageContext) context).getResultWidgetId();
             } else {
-                throw new N2oException("Unknown widgetId for invoke action!");
+                return null;
             }
         }
         return targetWidgetId;

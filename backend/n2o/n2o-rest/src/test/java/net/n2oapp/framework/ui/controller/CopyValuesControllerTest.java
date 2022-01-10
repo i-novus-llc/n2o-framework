@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.route.N2oRouter;
@@ -66,6 +67,7 @@ public class CopyValuesControllerTest {
         builder.packs(
                 new N2oSourceTypesPack(),
                 new N2oDataProvidersPack(),
+                new N2oPagesPack(),
                 new N2oQueriesPack(),
                 new N2oWidgetsPack(),
                 new N2oFieldSetsPack(),
@@ -85,9 +87,9 @@ public class CopyValuesControllerTest {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
                 "net/n2oapp/framework/ui/controller/testCopy.query.xml",
-                "net/n2oapp/framework/ui/controller/testCopy.widget.xml"
+                "net/n2oapp/framework/ui/controller/testCopy.page.xml"
         );
-        pipeline.get(new WidgetContext("testCopy"));
+        pipeline.get(new PageContext("testCopy"));
         return pipeline;
     }
 
@@ -96,9 +98,8 @@ public class CopyValuesControllerTest {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"1"});
-        GetDataResponse response = testQuery("/testCopy", pipeline, params);
+        GetDataResponse response = testQuery("/testCopy/main", pipeline, params);
         assertThat(response.getList().size(), is(1));
-        assertThat(response.getList().get(0).size(), is(3));
         assertThat(response.getList().get(0).get("id"), is(1L));
         assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
         assertThat(response.getList().get(0).get("org.name"), is("org1"));

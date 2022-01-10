@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
@@ -55,7 +56,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
         listControl.setEnabledFieldId(source.getEnabledFieldId());
-        initSubModel(source, listControl.getData(), p.getScope(SubModelsScope.class));
+        initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
     }
 
@@ -111,11 +112,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         return field;
     }
 
-    private void initSubModel(S source, List<Map<String, Object>> data, SubModelsScope scope) {
-        if (scope == null)
+    private void initSubModel(S source, List<Map<String, Object>> data, CompileProcessor p) {
+        SubModelsScope scope = p.getScope(SubModelsScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (scope == null || widgetScope == null)
             return;
         if (source.getQueryId() != null || data != null)
-            scope.add(createSubModel(source, data), source.getDatasource());
+            scope.add(createSubModel(source, data), widgetScope.getDatasourceId());
     }
 
     protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data) {

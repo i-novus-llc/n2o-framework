@@ -42,7 +42,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
                 payload.setPageId(((PageContext) context).getClientPageId());
                 payload.setPrompt(p.cast(((PageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
             } else {
-                payload.setPageId(((DialogContext) context).getParentWidgetId());
+                payload.setPageId(((DialogContext) context).getParentPageId());
             }
             closeAction.setPayload(payload);
             return closeAction;

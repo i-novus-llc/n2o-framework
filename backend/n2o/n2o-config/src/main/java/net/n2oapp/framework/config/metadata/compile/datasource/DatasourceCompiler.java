@@ -52,6 +52,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 @Component
 public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
     private static final String SPREAD_OPERATOR = "*.";
+    public static final String SORTING = "sorting.";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -70,7 +71,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setValidations(initValidations(source, p));
-        compiled.setProvider(initDataProvider(compiled, source, context, p, query));
+        compiled.setProvider(initDataProvider(compiled, source, context, p, query, source.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         return compiled;
@@ -94,7 +95,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private void initDefaults(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
-
+        source.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() != null ? DefaultValuesMode.query : DefaultValuesMode.defaults));
     }
 
     private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
@@ -128,8 +129,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private ClientDataProvider initDataProvider(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context,
-                                                CompileProcessor p, CompiledQuery query) {
-        if (source.getQueryId() == null || !DefaultValuesMode.defaults.equals(compiled.getDefaultValuesMode()))
+                                                CompileProcessor p, CompiledQuery query, DefaultValuesMode defaultValuesMode) {
+        if (source.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, p);
@@ -138,8 +139,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         List<Filter> filters = initFilters(compiled, source, p, query);
         compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(compiled, source, dataProvider, filters, p);
-        p.addRoute(getQueryContext(compiled, source, context, p, url, filters));
-        return dataProvider;
+        p.addRoute(getQueryContext(compiled, source, context, p, url, filters, query));
+        return defaultValuesMode == DefaultValuesMode.defaults ? null : dataProvider;
     }
 
     private void initSearchBar(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
@@ -237,7 +238,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     private void initFiltersScope(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope == null) return;
-        Map<String, Filter> filterMap = filters.stream().collect(Collectors.toMap(Filter::getFilterId, f -> f));
+        Map<String, Filter> filterMap = filters.stream().collect(Collectors.toMap(Filter::getFilterId, f -> f, (f1, f2) -> f2));
         filtersScope.getFilters(source.getId()).stream().filter(f -> !filterMap.containsKey(f.getFilterId())).forEach(filters::add);
     }
 
@@ -272,7 +273,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                                          CompileContext<?, ?> context,
                                          CompileProcessor p,
                                          String route,
-                                         List<Filter> filters) {
+                                         List<Filter> filters,
+                                         CompiledQuery query) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
         ValidationList validationList = p.getScope(ValidationList.class);
         List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.filter);
@@ -291,7 +293,16 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         CopiedFieldScope copiedFieldScope = p.getScope(CopiedFieldScope.class);
         if (copiedFieldScope != null)
             queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getId()));
+        queryContext.setSortingMap(initSortingMap(query, p));
         return queryContext;
+    }
+
+    private Map<String, String> initSortingMap(CompiledQuery query, CompileProcessor p) {
+        Map<String, String> sortingMap = new HashMap<>();
+        for (N2oQuery.Field sortingField : query.getSortingFields()) {
+            sortingMap.put(SORTING + RouteUtil.normalizeParam(sortingField.getId()), sortingField.getId());
+        }
+        return sortingMap;
     }
 
     private ClientDataProvider initSubmit(N2oDatasource source, Datasource compiled, CompiledObject compiledObject,
@@ -450,7 +461,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                         routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
                     });
             for (N2oQuery.Field field : query.getSortingFields()) {
-                String sortParam = RouteUtil.normalizeParam("sorting." + source.getId() + "_" + field.getId());
+                String sortParam = RouteUtil.normalizeParam(SORTING + source.getId() + "_" + field.getId());
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
                 ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
                 routes.addQueryMapping(sortParam, onGet, onSet);

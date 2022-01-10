@@ -8,11 +8,11 @@
     <regions>
         <panel place="topLeft">
             <table id="widgetId" object-id="testObjectAccessTransformer">
-                <toolbar>
-                    <button id="create">
-                        <invoke operation-id="create" widget-id="widgetId"/>
-                    </button>
-                </toolbar>
+<!--                <toolbar>-->
+<!--                    <button id="create">-->
+<!--                        <invoke operation-id="create" widget-id="widgetId"/>-->
+<!--                    </button>-->
+<!--                </toolbar>-->
             </table>
         </panel>
     </regions>

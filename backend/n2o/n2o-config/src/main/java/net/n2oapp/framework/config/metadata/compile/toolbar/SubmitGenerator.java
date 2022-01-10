@@ -34,11 +34,7 @@ public class SubmitGenerator implements ButtonGenerator {
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
         if (!(context instanceof PageContext))
             throw new IllegalStateException("Need PageContext");
-        String widgetId = toolbar.getTargetWidgetId();
-        if (widgetId == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
-        }
+        String datasource = toolbar.getDatasource();
         PageContext pageContext = (PageContext) context;
 
         N2oButton saveButton = new N2oButton();
@@ -53,7 +49,7 @@ public class SubmitGenerator implements ButtonGenerator {
             case copy: {
                 N2oCopyAction copyAction = new N2oCopyAction();
                 copyAction.setSourceModel(pageContext.getCopyModel());
-                copyAction.setSourceWidgetId(pageContext.getCopyWidgetId());
+                copyAction.setSourceDatasource(pageContext.getCopyDatasource());
                 copyAction.setSourceDatasource(pageContext.getCopyDatasource());
                 copyAction.setSourceFieldId(pageContext.getCopyFieldId());
                 copyAction.setTargetModel(pageContext.getTargetModel());
@@ -86,7 +82,7 @@ public class SubmitGenerator implements ButtonGenerator {
             break;
         }
         saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
-        saveButton.setWidgetId(widgetId);
+        saveButton.setDatasource(datasource);
         saveButton.setAction(action);
         saveButton.setDatasource(toolbar.getDatasource());
         saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));

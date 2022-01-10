@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table query-id="testTable4SortableCompile"
+           object-id="utBlank" selection="radio">
+
+        <columns>
+            <column text-field-id="id" width="100"/>
+            <column id="col" text-field-id="col_id" label="col_label"/>
+            <column text-field-id="name" sorting-field-id="id"/>
+            <column text-field-id="comments" />
+            <column text-field-id="notInQuery" label="notInQueryLabel"/>
+            <column text-field-id="type">
+                <toolbar>
+                    <sub-menu show-toggle-icon="false">
+                        <menu-item/>
+                    </sub-menu>
+                </toolbar>
+            </column>
+        </columns>
+
+    </table>
+</simple-page>

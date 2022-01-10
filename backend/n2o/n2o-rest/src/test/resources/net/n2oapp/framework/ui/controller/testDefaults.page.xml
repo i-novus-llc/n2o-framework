@@ -1,0 +1,12 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form
+          default-values-query-id="testDefaults" upload="defaults">
+        <fields>
+            <input-text id="id"/>
+            <input-text id="name"/>
+        </fields>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
+    </form>
+</simple-page>

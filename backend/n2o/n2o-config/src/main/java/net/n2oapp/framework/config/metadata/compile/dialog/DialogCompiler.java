@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -46,21 +45,19 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
             source.getToolbar().getAllActions().stream()
                     .filter(N2oInvokeAction.class::isInstance)
                     .forEach(act -> ((N2oInvokeAction) act).setDoubleCloseOnSuccess(true));
-            // dialog parentWidgetId as all menu item's widgetId
-            String btnWidgetId = context.getParentWidgetId().substring(context.getParentPageId().length() + 1);//todo нечеткая логика вычисления parent widget id
             Arrays.stream(source.getToolbar().getItems()).filter(N2oButton.class::isInstance)
-                    .forEach(mi -> ((N2oButton) mi).setWidgetId(btnWidgetId));
+                    .forEach(mi -> ((N2oButton) mi).setDatasource(context.getParentSourceDatasourceId()));
 
             ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(
                     p.resolve(property("n2o.api.dialog.toolbar.place"), String.class));
-            WidgetScope widgetScope = new WidgetScope();
-            widgetScope.setClientWidgetId(context.getClientWidgetId());
+//            WidgetScope widgetScope = new WidgetScope();
+//            widgetScope.setClientWidgetId(context.getParentWidgetId());
             ParentRouteScope pageRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p),
                     context.getPathRouteMapping(), context.getQueryRouteMapping());
             PageScope pageScope = new PageScope();
             pageScope.setPageId(context.getParentPageId());
 
-            Toolbar toolbar = p.compile(source.getToolbar(), context, new IndexScope(), widgetScope, object,
+            Toolbar toolbar = p.compile(source.getToolbar(), context, new IndexScope(), object,
                     pageRouteScope, toolbarPlaceScope, pageScope);
             dialog.setToolbar(toolbar);
         }

@@ -111,7 +111,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
 
     @Deprecated
     public void adapterV4() {
-        if (getQueryId() != null || getPreFilters() != null ||
+        if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
                 getUpload() != null || getDependsOn() != null || getDependencyCondition() != null) {
             N2oDatasource datasource = new N2oDatasource();

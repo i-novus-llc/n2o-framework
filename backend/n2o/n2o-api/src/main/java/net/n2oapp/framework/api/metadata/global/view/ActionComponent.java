@@ -26,4 +26,12 @@ public abstract class ActionComponent implements Serializable, IdAware, ModelAwa
     @Deprecated
     private String widgetId;
     private String datasource;
+
+    public String getWidgetId() {
+        return datasource;
+    }
+
+    public void setWidgetId(String widgetId) {
+        this.datasource = widgetId;
+    }
 }

@@ -107,7 +107,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //toolbars
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p,
-                pageScope, routeScope, pageRoutes, object, breadcrumb, metaActions, validationList);
+                pageScope, routeScope, pageRoutes, object, breadcrumb, metaActions, validationList, dataSourcesScope);
         return page;
     }
 
@@ -132,7 +132,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
                     .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
-        pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(N2oMetadata::getId,
                         w -> w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId())));
@@ -327,8 +326,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             item.setAction(actionsBar.getAction());
             if (item.getModel() == null)
                 item.setModel(actionsBar.getModel());
-            if (item.getWidgetId() == null)
-                item.setWidgetId(actionsBar.getWidgetId());
+            if (item.getDatasource() == null)
+                item.setDatasource(actionsBar.getDatasource());
             if (item.getLabel() == null)
                 item.setLabel(actionsBar.getLabel());
             if (item.getIcon() == null)

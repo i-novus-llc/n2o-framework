@@ -35,6 +35,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         form.setName(context);
         form.setRefId("formForTestDynamic");
         form.setQueryId("testDynamic?Dummy");
+        form.adapterV4();
         page.setWidget(form);
 
 
@@ -80,6 +81,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
 
         toolbar.setItems(new ToolbarItem[]{create, update});
         table.setToolbars(new N2oToolbar[]{toolbar});
+        table.adapterV4();
 
         return Arrays.asList(n2oObject, query, table, page);
     }

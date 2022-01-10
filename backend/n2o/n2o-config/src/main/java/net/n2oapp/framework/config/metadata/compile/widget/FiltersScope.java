@@ -14,7 +14,6 @@ import java.util.Optional;
  * Информация по фильтрам
  */
 @Getter
-@Deprecated
 public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
