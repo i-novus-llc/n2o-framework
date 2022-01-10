@@ -161,8 +161,10 @@ public abstract class AbstractController {
         for (String key : sortingMap.keySet()) {
             String fieldId = sortingMap.get(key);
             String value = data.getString(key);
-            Direction direction = value != null ? Direction.valueOf(value.toUpperCase()) : Direction.ASC;
-            sortings.add(new Sorting(fieldId, direction));
+            if (value != null) {
+                Direction direction = Direction.valueOf(value.toUpperCase());
+                sortings.add(new Sorting(fieldId, direction));
+            }
         }
         return sortings;
     }
