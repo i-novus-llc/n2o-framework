@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -240,8 +241,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
     private CompiledObject getObject(N2oInvokeAction source, CompileProcessor p) {
-        CompiledObject compiledObject = source.getObjectId() == null ? p.getScope(CompiledObject.class) :
-                p.getCompiled(new ObjectContext(source.getObjectId()));
+        String objectId = null;
+        if (source.getObjectId() != null) {
+            objectId = source.getObjectId();
+        }
+        if (objectId == null && source.getDatasource() != null) {
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            objectId = dataSourcesScope.get(source.getDatasource()).getObjectId();
+        }
+        CompiledObject compiledObject = objectId == null ? p.getScope(CompiledObject.class) :
+                p.getCompiled(new ObjectContext(objectId));
         if (compiledObject == null)
             throw new N2oException(String.format("For compilation action [%s] is necessary object!", source.getId()));
         return compiledObject;
