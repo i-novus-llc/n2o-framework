@@ -151,7 +151,7 @@
             </list>
         </panel>
         <panel place="right" title="${card}">
-            <form id="form" ref-id="ProtoClient" route="/form/:client_id/card"
+            <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" query-id="ProtoClient"
                   depends-on="clients" master-field-id="id" detail-field-id="id"/>
         </panel>
     </right>
