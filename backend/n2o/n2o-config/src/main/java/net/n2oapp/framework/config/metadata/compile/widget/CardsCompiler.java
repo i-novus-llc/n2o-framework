@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -10,8 +11,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -38,20 +37,15 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     @Override
     public Cards compile(N2oCards source, CompileContext<?, ?> context, CompileProcessor p) {
         Cards cards = new Cards();
-        CompiledObject object = getObject(source, p);
-        compileWidget(cards, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(cards, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(cards.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(cards, source, context, p, null, widgetRoute, null, null, object);
+        N2oDatasource datasource = initInlineDatasource(cards, source, p);
+        CompiledObject object = getObject(source, datasource, p);
+        compileBaseWidget(cards, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
-        widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(cards.getId());
-        MetaActions widgetActions = initMetaActions(source);
-        compileToolbarAndAction(cards, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
+        widgetScope.setDatasourceId(source.getDatasourceId());
+        MetaActions widgetActions = initMetaActions(source, p);
+        compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);
 
         if (source.getContent() != null)
             cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));

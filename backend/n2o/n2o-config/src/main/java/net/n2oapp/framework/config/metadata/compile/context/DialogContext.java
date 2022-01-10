@@ -16,15 +16,20 @@ public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
      * Идентификатор родительской страницы
      */
     private String parentPageId;
+    /**
+     * Идентификатор родительского источника данных
+     */
+    private String parentSourceDatasourceId;
 
     /**
-     * Идентификатор родительского виджета, откуда вызывается действие
+     * Идентификатор родительского виджета
      */
-    private String parentWidgetId;
+    private String parentClientWidgetId;
 
     /**
      * Идентификатор клиентского виджета
      */
+    @Deprecated
     private String clientWidgetId;
 
     /**

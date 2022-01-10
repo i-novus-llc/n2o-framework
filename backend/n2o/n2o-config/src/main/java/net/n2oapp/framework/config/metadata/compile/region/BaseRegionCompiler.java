@@ -1,15 +1,16 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +38,18 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return id.toString();
     }
 
-    protected List<Compiled> initContent(SourceComponent[] items, IndexScope index, PageWidgetsScope pageWidgetsScope,
-                                         PageContext context, CompileProcessor p) {
+    protected List<Compiled> initContent(SourceComponent[] items,
+                                         PageContext context,
+                                         CompileProcessor p,
+                                         Source source) {
         if (items == null || items.length == 0)
             return null;
 
         List<Compiled> content = new ArrayList<>();
+        ComponentScope componentScope = new ComponentScope(source);
         BasePageUtil.resolveRegionItems(items,
-                item -> content.add(p.compile(item, context, p, index)),
-                item -> pageWidgetsScope.getWidgets().keySet().stream()
-                        .filter(k -> k.endsWith((item).getId())).findFirst().ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
+                item -> content.add(p.compile(item, context, componentScope)),
+                item -> content.add(p.compile(item, context, componentScope)));
         return content;
     }
 }

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <actions>
+            <action id="test">
+                <a href="http://example.com"/>
+            </action>
+        </actions>
+        <fields>
+            <image id="testId" src="testSrc" depends-on="name,type" label="testLabel"
+                   url="{Url}" data="data:image/jpeg;base64{image}" title="{title}" description="{Description}"
+                   shape="circle" action-id="test"
+                   text-position="top" width="500px">
+                <statuses>
+                    <status
+                            src="testSrc"
+                            field-id="status1"
+                            icon="{icon1}"
+                            place="topRight"
+                    />
+                    <status field-id="id"/>
+                </statuses>
+            </image>
+            <image id="testId2"/>
+        </fields>
+    </form>
+</simple-page>

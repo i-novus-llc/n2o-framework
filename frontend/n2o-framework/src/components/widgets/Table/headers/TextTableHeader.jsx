@@ -12,20 +12,19 @@ import {
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
- * @reactProps {string} id - id столбца
- * @reactProps {boolean} sortable - можно ли сортировать столбец
- * @reactProps {string} soring
+ * @reactProps {string} [sortingParam] - параметр сортировки
+ * @reactProps {string} soring - текущее направление сортировки
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
 class TextTableHeader extends React.PureComponent {
     render() {
-        const { id, sortable, sorting, label, setSorting, style } = this.props
+        const { sortingParam, sorting, label, setSorting, style } = this.props
 
         return (
             <span className="n2o-advanced-table-header-title" style={style}>
-                {sortable ? (
-                    <Sorter sorting={sorting} columnKey={id} onSort={setSorting}>
+                {sortingParam ? (
+                    <Sorter sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
                         {label}
                     </Sorter>
                 ) : (
@@ -37,8 +36,7 @@ class TextTableHeader extends React.PureComponent {
 }
 
 TextTableHeader.propTypes = {
-    id: PropTypes.string,
-    sortable: PropTypes.bool,
+    sortingParam: PropTypes.string,
     sorting: PropTypes.string,
     label: PropTypes.string,
     setSorting: PropTypes.func,

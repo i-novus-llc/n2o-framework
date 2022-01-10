@@ -45,15 +45,12 @@
         <field id="gender.id" domain="integer">
             <select/>
             <filters>
-                <in filter-id="gender*.id"/>
+                <in filter-id="genders*.id"/>
             </filters>
         </field>
 
         <field id="gender.name" domain="string">
             <select/>
-            <filters>
-                <in filter-id="gender*.name"/>
-            </filters>
         </field>
     </fields>
 </query>

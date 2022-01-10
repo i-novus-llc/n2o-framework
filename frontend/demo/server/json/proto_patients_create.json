@@ -226,8 +226,7 @@
                 }
               ]
             },
-            "validate": true,
-            "validatedWidgetId": "proto_create_main",
+            "validate": ["proto_create_main"],
             "color": "primary"
           },
           {

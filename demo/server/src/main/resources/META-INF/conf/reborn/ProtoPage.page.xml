@@ -5,7 +5,7 @@
         <button id="create2" widget-id="clients" description="${client.add}"
                 color="primary" label="${client.add}" icon="fa fa-plus"
                 model="filter">
-            <open-page page-id="ProtoClient" route="/create2"
+            <open-page page-id="ProtoClient" route="/clients/create2"
                        submit-operation-id="create" upload="defaults"
                        redirect-url-after-submit="../:id"/>
         </button>
@@ -15,7 +15,7 @@
             <table id="clients" name="${clients.table.name}" query-id="ProtoClient" size="10" selection="checkbox" route="/">
                 <actions>
                     <action id="update_birthday">
-                        <invoke operation-id="update"/>
+                        <invoke operation-id="update" route="/clients/update_birthday"/>
                     </action>
                 </actions>
                 <pagination/>
@@ -23,7 +23,7 @@
                     <column text-field-id="surname">
                         <link>
                             <open-page page-id="ProtoClient" submit-operation-id="update"
-                                       page-name="${clients.card}: {id}" route="/:id/surname">
+                                       page-name="${clients.card}: {id}" route="/clients/:id/surname">
                                 <path-param name="id" value="{id}"/>
                             </open-page>
                         </link>
@@ -31,14 +31,14 @@
                     <column text-field-id="name">
                         <link>
                             <show-modal page-id="ProtoClient" submit-operation-id="update"
-                                        page-name="${clients.card}: {id}" route="/:id/name">
+                                        page-name="${clients.card}: {id}" route="/clients/:id/name">
                                 <path-param name="id" value="{id}"/>
                             </show-modal>
                         </link>
                     </column>
                     <column text-field-id="patrName">
                         <link visible="{name!='Мария'}"
-                              url="/{id}/update2" target="application"/>
+                              url="/clients/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
                         <edit action-id="update_birthday" format="date DD.MM.YYYY">
@@ -50,7 +50,7 @@
                     </column>
                     <column text-field-id="vip">
                         <checkbox enabled="{name!='Мария'}">
-                            <invoke operation-id="update"/>
+                            <invoke operation-id="update" route="/clients/update_vip"/>
                         </checkbox>
                     </column>
                     <column text-field-id="">
@@ -82,32 +82,32 @@
                 <toolbar place="topLeft">
                     <button id="create" label="${create}" description="${create}" icon="fa fa-plus" model="filter">
                         <show-modal page-id="ProtoClient" submit-operation-id="create"
-                                    upload="defaults" focus-after-submit="true"
+                                    upload="defaults"
                                     redirect-url-after-submit="../:id/update2"/>
                     </button>
                     <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
-                        <show-modal page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
-                                    page-name="${clients.card}: {id}" route="/:id/update_client">
+                        <show-modal page-id="ProtoClient" submit-operation-id="update"
+                                    page-name="${clients.card}: {id}" route="/clients/:id/update_client">
                             <path-param name="id" value="{id}"/>
                         </show-modal>
                     </button>
                     <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash" type="text">
-                        <invoke operation-id="delete"/>
+                        <invoke operation-id="delete" route="/clients/delete"/>
                     </button>
                 </toolbar>
                 <toolbar place="topRight">
                     <button id="update2" type="icon" color="light" label="${update}" icon="fa fa-edit"
                             visible="{name != 'Мария'}"
                             description="${button.update2.description}">
-                        <open-page page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
-                                   page-name="${clients.card}: {id}" route="/:id/update2">
+                        <open-page page-id="ProtoClient" submit-operation-id="update"
+                                   page-name="${clients.card}: {id}" route="/clients/:id/update2">
                             <path-param name="id" value="{id}"/>
                         </open-page>
                     </button>
                     <button id="view" label="${view}" color="info" icon="fa fa-book"
                             enabled="{name != 'Анна'}" tooltip-position="right"
                             description="${button.view.description}">
-                        <show-modal page-id="ProtoClientView" route="/:id/view">
+                        <show-modal page-id="ProtoClientView" route="/clients/:id/view">
                             <path-param name="id" value="{id}"/>
                         </show-modal>
                     </button>
@@ -151,7 +151,7 @@
             </list>
         </panel>
         <panel place="right" title="${card}">
-            <form id="form" ref-id="ProtoClient" route="/:client_id/card"
+            <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" query-id="ProtoClient"
                   depends-on="clients" master-field-id="id" detail-field-id="id"/>
         </panel>
     </right>

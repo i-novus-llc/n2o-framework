@@ -30,7 +30,7 @@ function getNextDirection(direction) {
  * @reactProps {element} children - Потомки компонента, которые будут обернуты
  * @reactProps {string} title - подска при наведение
  * @reactProps {string} sorting - текущее направление сортировки (ASC, DESC, NONE)
- * @reactProps {number} columnKey - идентификатор колонки
+ * @reactProps {string} sortingParam - параметр сортировки
  * @reactProps {function} onSort - callback вызывается при смене сортировки
  * @example
  * <Sorter title="Hello"
@@ -51,10 +51,10 @@ export class Sorter extends React.Component {
      */
     handleClick(e) {
         e.preventDefault()
-        const { sorting, columnKey, onSort } = this.props
+        const { sorting, sortingParam, onSort } = this.props
         const direction = getNextDirection(sorting)
 
-        onSort(columnKey, direction)
+        onSort(sortingParam, direction)
     }
 
     render() {
@@ -81,7 +81,7 @@ Sorter.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
     sorting: PropTypes.oneOf(Object.values(SORT_DIRECTION)),
-    columnKey: PropTypes.string,
+    sortingParam: PropTypes.string,
     onSort: PropTypes.func,
 }
 

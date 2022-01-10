@@ -9,5 +9,5 @@
       badge-color-field-id="test"
       ajax="true" datasource="ds1"
       checkboxes="true"
-      multi-select="false" fetch-on-init="true" >
+      multi-select="false">
 </tree>

@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.metadata.compile.control.*;
 public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oControlsV2IOPack());
+        b.packs(new N2oControlsV2IOPack(), new N2oControlsV3IOPack());
         b.compilers(new InputTextCompiler(),
                 new InputMoneyCompiler(),
                 new DatePickerCompiler(),

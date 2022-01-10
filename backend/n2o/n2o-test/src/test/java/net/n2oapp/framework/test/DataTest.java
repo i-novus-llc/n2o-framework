@@ -52,9 +52,9 @@ public class DataTest {
 
             Map<String, Object> result = mapper.readValue(e.getResponseBodyAsByteArray(), Map.class);
             Map<String, Object> dialog = (Map<String, Object>) ((Map<String, Object>) result.get("meta")).get("dialog");
-            assert dialog.get("title").equals("Registration accept");
-            assert dialog.get("text").equals("Are you sure?");
-            assert ((HashMap<String, Object>)((ArrayList)((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size() == 2;
+            assertThat(dialog.get("title"), is("Registration accept"));
+            assertThat(dialog.get("text"), is("Are you sure?"));
+            assertThat(((HashMap<String, Object>)((ArrayList)((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size(), is(2));
         }
     }
 
@@ -249,18 +249,6 @@ public class DataTest {
         for (DataSet data : result.getList()) {
             assertThat(data.get("individualId"), is(1));
         }
-    }
-
-    @Test
-    public void selectedId() {
-        RestTemplate restTemplate = new RestTemplate();
-        String queryPath = "/n2o/data/test/select";
-        String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc&selectedId=2";
-        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        GetDataResponse result = response.getBody();
-        assertThat(result.getList().size(), is(10));
-        assertThat(result.getList().get(0).get("id"), is(2));
     }
 
     @Test

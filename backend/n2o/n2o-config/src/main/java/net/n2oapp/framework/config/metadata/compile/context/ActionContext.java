@@ -21,9 +21,13 @@ public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
     private String parentPageId;
-    private String parentWidgetId;
+    private String parentClientWidgetId;
+    private String parentSourceDatasourceId;
+    @Deprecated
     private String failAlertWidgetId;
+    @Deprecated
     private String successAlertWidgetId;
+    @Deprecated
     private String messagesForm;
     private RedirectSaga redirect;
     private RefreshSaga refresh;
@@ -60,12 +64,6 @@ public class ActionContext extends ObjectContext {
     public void setRefresh(RefreshSaga refresh) {
         if (refresh == null)
             return;
-        this.refresh = new RefreshSaga();
-        if (refresh.getOptions() != null && refresh.getOptions().getWidgetId() != null) {
-            RefreshSaga.Options options = new RefreshSaga.Options();
-            options.setWidgetId(refresh.getOptions().getWidgetId());
-            this.refresh.setOptions(options);
-        }
-        this.refresh.setType(refresh.getType());
+        this.refresh = refresh;
     }
 }

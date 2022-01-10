@@ -7,32 +7,32 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
  * Модель на клиенте
  */
 public enum ReduxModel implements IdAware {
-    RESOLVE {
+    resolve {
         @Override
         public String getId() {
             return "resolve";
         }
-    }, FILTER() {
+    }, filter() {
         @Override
         public String getId() {
             return "filter";
         }
-    }, SELECTED() {
+    }, selected() {
         @Override
         public String getId() {
             return "selected";
         }
-    }, EDIT() {
+    }, edit() {
         @Override
         public String getId() {
             return "edit";
         }
-    }, MULTI() {
+    }, multi() {
         @Override
         public String getId() {
             return "multi";
         }
-    }, DATASOURCE() {
+    }, datasource() {
         @Override
         public String getId() {
             return "datasource";

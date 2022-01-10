@@ -1,15 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
-    <form id="form" object-id="testCell">
-        <fields>
-            <input-text id="test">
-                <submit message-on-fail="true" operation-id="update" refresh-on-success="true" refresh-widget-id="test">
-                    <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>
-                    <path-param name="name2" ref-model="filter" ref-widget-id="id2"/>
-                    <header-param name="name3" value="{a}" ref-widget-id="id3"/>
-                    <form-param id="name4" value="{b}" ref-model="filter"/>
-                </submit>
-            </input-text>
-        </fields>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form id="form" object-id="testCell">
+            <fields>
+                <input-text id="test">
+                    <submit message-on-fail="true" operation-id="update" refresh-on-success="true"
+                            refresh-widget-id="test">
+                        <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>
+                        <path-param name="name2" ref-model="filter" ref-widget-id="id2"/>
+                        <header-param name="name3" value="{a}" ref-widget-id="id3"/>
+                        <form-param id="name4" value="{b}" ref-model="filter"/>
+                    </submit>
+                </input-text>
+            </fields>
+        </form>
+        <form id="test"/>
+        <form id="id1"/>
+        <form id="id2"/>
+        <form id="id3"/>
+    </regions>
+</page>

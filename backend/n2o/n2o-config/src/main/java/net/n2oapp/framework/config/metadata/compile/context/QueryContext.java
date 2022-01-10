@@ -20,8 +20,11 @@ public class QueryContext extends BaseCompileContext<CompiledQuery, N2oQuery> {
     private List<Filter> filters;
     private UploadType upload;
     private List<Validation> validations;
+    @Deprecated
     private String failAlertWidgetId;
+    @Deprecated
     private String successAlertWidgetId;
+    @Deprecated
     private String messagesForm;
     private Integer querySize;
     private Map<String, String> sortingMap;

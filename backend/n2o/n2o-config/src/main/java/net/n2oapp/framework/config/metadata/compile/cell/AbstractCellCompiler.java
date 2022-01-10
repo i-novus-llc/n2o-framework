@@ -49,9 +49,11 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
             N2oAction n2oAction = source.getN2oAction();
             if (source.getActionId() != null) {
                 MetaActions actions = p.getScope(MetaActions.class);
-                ActionsBar actionsBar = actions.get(source.getActionId());
-                if (actionsBar != null && actionsBar.getAction() != null)
-                    n2oAction = actionsBar.getAction();
+                if (actions.containsKey(source.getActionId())) {
+                    ActionsBar actionsBar = actions.get(source.getActionId());
+                    if (actionsBar != null && actionsBar.getAction() != null)
+                        n2oAction = actionsBar.getAction();
+                }
             }
             Action action = null;
             if (n2oAction != null) {

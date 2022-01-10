@@ -27,8 +27,8 @@ import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
 export function validateField(field, model, validationList) {
     const errors = []
 
-    validationList.filter((validation) => {
-        if (typeof validation.type !== 'function') {
+    const validations = validationList.filter((validation) => {
+        if (typeof presets[validation.type] !== 'function') {
             // eslint-disable-next-line no-console
             console.warn(`Validation error: not found preset for type="${validation.type}", field="${field}"`)
 
@@ -40,8 +40,7 @@ export function validateField(field, model, validationList) {
         return true
     })
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const validation of validationList) {
+    for (const validation of validations) {
         const validationFunction = presets[validation.type]
 
         if (!validationFunction(field, model, validation)) {

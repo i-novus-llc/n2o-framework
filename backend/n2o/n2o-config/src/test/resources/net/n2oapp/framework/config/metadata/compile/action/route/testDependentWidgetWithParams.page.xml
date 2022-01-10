@@ -14,7 +14,8 @@
                     <button widget-id="main">
                         <open-drawer
                                 page-id="openDrawerPage"
-                                route="/:version/btn1">
+                                route="/:test_main_id/detail/:version/btn1">
+                            <path-param name="test_main_id" value="{id}"/>
                             <path-param name="version" value="{version}"/>
                             <query-param name="number" value="{number}"/>
                         </open-drawer>

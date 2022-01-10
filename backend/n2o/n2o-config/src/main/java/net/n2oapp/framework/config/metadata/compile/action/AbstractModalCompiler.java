@@ -6,19 +6,24 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.modal.AbstractModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.ModalPayload;
+import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawerPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.CloseSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
 /**
  * Компиляция абстрактного действия открытия окна
  */
-public abstract class AbstractModalCompiler<D extends AbstractModal, S extends N2oAbstractPageAction> extends AbstractOpenPageCompiler<D, S> {
+public abstract class AbstractModalCompiler<D extends AbstractModal<? extends ModalPayload>, S extends N2oAbstractPageAction>
+        extends AbstractOpenPageCompiler<D, S> {
 
     public void compileModal(S source, D compiled, CompileContext<?, ?> context, CompileProcessor p) {
         compiled.setObjectId(source.getObjectId());
@@ -59,9 +64,7 @@ public abstract class AbstractModalCompiler<D extends AbstractModal, S extends N
         compiled.getMeta().setOnClose(new CloseSaga());
 
         RefreshSaga refreshSaga = new RefreshSaga();
-        refreshSaga.setType(RefreshSaga.Type.widget);
-        refreshSaga.getOptions().setWidgetId(
-                p.cast(context.getRefreshClientWidgetId(), context.getParentClientWidgetId()));
+        refreshSaga.setDatasources(context.getRefreshClientDataSources());
         compiled.getMeta().getOnClose().setRefresh(refreshSaga);
     }
 }

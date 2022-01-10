@@ -1,5 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit'
-import get from 'lodash/get'
+import { createSlice } from '@reduxjs/toolkit'
 
 import { MODEL_PREFIX, SORT_DIRECTION } from '../../core/datasource/const'
 
@@ -92,16 +91,16 @@ const datasource = createSlice({
             },
         },
 
-        dataRequest: {
-            prepare(id, options = {}) {
+        DATA_REQUEST: {
+            prepare(datasource, options = {}) {
                 return ({
-                    payload: { id, options },
+                    payload: { datasource, options },
                 })
             },
             reducer(state, action) {
-                const { id } = action.payload
+                const { datasource } = action.payload
 
-                state[id].loading = true
+                state[datasource].loading = true
             },
         },
 
@@ -176,7 +175,6 @@ const datasource = createSlice({
                 state[id].count = count
             },
         },
-
         changeSize: {
             prepare(id, size) {
                 return ({
@@ -191,29 +189,40 @@ const datasource = createSlice({
         },
 
         startValidate: {
-            prepare(id, prefix = MODEL_PREFIX.active) {
+            prepare(id, fields, prefix = MODEL_PREFIX.active) {
                 return ({
-                    payload: { id, prefix },
+                    payload: { id, prefix, fields },
                 })
             },
-            // eslint-disable-next-line no-unused-vars
             reducer(state, action) {
-                // nothing
+                const { id, fields } = action.payload
+                const datasource = state[id]
+                const fieldList = fields?.length ? fields : Object.keys(datasource.validation || {})
+
+                datasource.errors = datasource.errors || {}
+
+                fieldList.forEach((field) => { datasource.errors[field] = undefined })
             },
         },
 
         failValidate: {
-            prepare(id, fields /* , prefix = MODEL_PREFIX.active*/) {
+            prepare(id, fields, meta /* , prefix = MODEL_PREFIX.active*/) {
                 return ({
                     payload: { id, fields },
+                    meta,
                 })
             },
             // eslint-disable-next-line no-unused-vars
             reducer(state, action) {
-                // nothing
+                const { id, fields } = action.payload
+                const datasource = state[id]
+
+                datasource.errors = {
+                    ...(datasource.errors || {}),
+                    ...fields,
+                }
             },
         },
-
         setActiveModel: {
             prepare(id, model) {
                 return ({
@@ -225,7 +234,6 @@ const datasource = createSlice({
                 // nothing
             },
         },
-
         setFilter: {
             prepare(id, model) {
                 return ({
@@ -237,7 +245,6 @@ const datasource = createSlice({
                 // nothing
             },
         },
-
         setSourceModel: {
             prepare(id, model) {
                 return ({
@@ -249,7 +256,6 @@ const datasource = createSlice({
                 // nothing
             },
         },
-
         setMultiModel: {
             prepare(id, model) {
                 return ({
@@ -270,9 +276,9 @@ export default datasource.reducer
 export const {
     register,
     remove,
-    addComponent,
-    removeComponent,
-    dataRequest,
+    addWidget,
+    removeWidget,
+    DATA_REQUEST: dataRequest,
     resolveRequest,
     rejectRequest,
     setActiveModel,

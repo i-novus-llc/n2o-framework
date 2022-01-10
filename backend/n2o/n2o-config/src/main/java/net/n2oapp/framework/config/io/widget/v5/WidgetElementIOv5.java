@@ -31,11 +31,9 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "name", m::getName, m::setName);
-        p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "visible", m::getVisible, m::setVisible);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
-        p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
         p.attributeBoolean(e, "auto-focus", m::getAutoFocus, m::setAutoFocus);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);

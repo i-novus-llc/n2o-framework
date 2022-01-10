@@ -3,14 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCalendar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.Calendar;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarWidgetComponent;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -36,19 +35,13 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
     @Override
     public Calendar compile(N2oCalendar source, CompileContext<?, ?> context, CompileProcessor p) {
         Calendar calendar = new Calendar();
-
-        CompiledObject object = getObject(source, p);
-        compileWidget(calendar, source, context, p, object);
-        ParentRouteScope widgetRoute = initWidgetRouteScope(calendar, context, p);
-        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
-        if (pageRoutesScope != null) {
-            pageRoutesScope.put(calendar.getId(), widgetRoute);
-        }
-        compileDataProviderAndRoutes(calendar, source, context, p, null, widgetRoute, null, null, object);
+        N2oDatasource datasource = initInlineDatasource(calendar, source, p);
+        CompiledObject object = getObject(source, datasource, p);
+        compileBaseWidget(calendar, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
-        widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(calendar.getId());
+        widgetScope.setDatasourceId(source.getDatasourceId());
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));

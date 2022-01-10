@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table query-id="testActionContext">
+        <actions>
+            <action id="test" model="filter">
+                <invoke operation-id="create" close-on-success="false" refresh-widget-id="testW"
+                        refresh-on-success="true"/>
+            </action>
+        </actions>
+        <toolbar>
+            <button id="test1">
+                <invoke operation-id="create" optimistic="true"/>
+            </button>
+            <button id="test2" action-id="test"/>
+        </toolbar>
+    </table>
+</simple-page>

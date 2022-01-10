@@ -124,8 +124,7 @@
                   }
                 ]
               },
-              "validate": true,
-              "validatedWidgetId": "proto_update2_main",
+              "validate": ["proto_update2_main"],
               "color": "primary",
               "title": "Сохранить"
             },
@@ -425,8 +424,7 @@
                 }
               ]
             },
-            "validate": true,
-            "validatedWidgetId": "proto_update2_main",
+            "validate": ["proto_update2_main"],
             "color": "primary"
           },
           {

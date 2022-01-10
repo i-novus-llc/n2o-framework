@@ -8,23 +8,16 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -99,12 +92,13 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
 
         if (source.getModel() == null)
-            source.setModel(ReduxModel.RESOLVE);
+            source.setModel(ReduxModel.resolve);
 
         if (source.getValidate() != null) {
-            button.setValidate(source.getValidate().getValue());
-            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
-                button.setValidatedWidgetId(initWidgetId(source, context, p));
+//            fixme
+//            button.setValidate(source.getValidate().getValue());
+//            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
+//                button.setValidatedWidgetId(initWidgetId(source, context, p));
         }
     }
 
@@ -129,7 +123,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         if (StringUtils.isJs(confirm.getText())) {
             String widgetId = initWidgetId(source, context, p);
             ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, widgetId).getBindLink());
+            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, widgetId).getBindLink());
         }
         button.setConfirm(confirm);
     }

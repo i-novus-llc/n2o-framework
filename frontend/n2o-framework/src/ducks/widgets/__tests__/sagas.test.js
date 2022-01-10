@@ -69,16 +69,6 @@ describe('Проверка саги widgets', () => {
             expect(dispatched[0].payload.args[0].search).toBe('q=qqq&name=Sergey')
         })
     })
-    it('clearForm должен вызвать сброс формы', () => {
-        const gen = clearForm({
-            payload: {
-                key: 'testForm',
-            },
-        })
-        const value = gen.next()
-
-        expect(value.value.type).toBe('PUT')
-    })
 
     it('Должен произойти clearOnDisable', () => {
         const action = {

@@ -11,12 +11,7 @@ import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.widget.v4.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.region.CustomRegionCompiler;
-import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
-import net.n2oapp.framework.config.metadata.compile.toolbar.SubmenuCompiler;
-import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
-import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -44,9 +39,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.ios(new SimplePageElementIOv3(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(),
                 new ButtonIO(), new JavaDataProviderIOv1())
-                .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(),
-                        new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler())
-                .packs(new N2oObjectsPack(), new N2oActionsPack())
+                .packs(new N2oObjectsPack(), new N2oAllPagesPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
                 .propertySources("application-test.properties");
     }
@@ -63,16 +56,16 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
-        assertThat(page.getRoutes().getList().size(), is(2));
+        assertThat(page.getRoutes().getList().size(), is(1));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
-        assertThat(page.getRoutes().getList().get(1).getPath(), is("/test/route/:test_route_main_id"));
         assertThat(route("/test/route", Page.class), notNullValue());
     }
 
     @Test
     public void testCompileWithNonExistentAction() {
         try {
-            compile("net/n2oapp/framework/config/metadata/compile/page/testCompileWithNonExistentAction.page.xml")
+            compile("net/n2oapp/framework/config/metadata/compile/page/testCompileWithNonExistentAction.page.xml",
+                    "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
                     .get(new PageContext("testCompileWithNonExistentAction"));
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is("Value by id = 'nonExistentOperation' not found"));

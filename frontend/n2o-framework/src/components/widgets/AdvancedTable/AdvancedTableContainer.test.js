@@ -28,7 +28,6 @@ const props = {
             {
                 src: 'TextTableHeader',
                 id: 'name',
-                sortable: false,
                 label: 'Имя',
                 width: '50px',
             },
@@ -61,9 +60,9 @@ describe('<AdvancedTableContainer />', () => {
         expect(wrapper.find(AdvancedTableContainer).state().columns[0].id).toBe(
             'name',
         )
-        expect(
-            wrapper.find(AdvancedTableContainer).state().columns[0].sortable,
-        ).toBe(false)
+        // expect(
+        //     wrapper.find(AdvancedTableContainer).state().columns[0].sortable,
+        // ).toBe(false)
         expect(wrapper.find(AdvancedTableContainer).state().columns[0].width).toBe(
             '50px',
         )

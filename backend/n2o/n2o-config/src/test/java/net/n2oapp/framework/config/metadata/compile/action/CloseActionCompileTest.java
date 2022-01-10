@@ -17,9 +17,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 public class CloseActionCompileTest extends SourceCompileTestBase {
 
@@ -39,6 +40,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     public void closeModal() throws Exception {
         ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
         context.setClientPageId("p_w_a");
+        context.setRefreshClientDataSources(Arrays.asList("p_w"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
         CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();
@@ -47,7 +49,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
         assertThat(( testAction.getMeta()).getRefresh(), is(nullValue()));
         CloseAction testCloseRefreshAction = (CloseAction) page.getWidget().getToolbar().getButton("testCloseRefresh").getAction();
-        assertThat(( testCloseRefreshAction.getMeta()).getRefresh().getType(), is(RefreshSaga.Type.widget));
+        assertThat(( testCloseRefreshAction.getMeta()).getRefresh().getDatasources(), hasItem("p_w"));
 
     }
 

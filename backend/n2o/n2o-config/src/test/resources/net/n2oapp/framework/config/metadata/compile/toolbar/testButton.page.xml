@@ -7,7 +7,7 @@
     </regions>
 
     <toolbar>
-        <button id="btn1" label="delete" color="danger" icon="fa fa-trash" type="text"
+        <button id="btn1" label="delete" color="danger" icon="fa fa-trash" type="text" widget-id="table"
                 tooltip-position="right" class="Button" style="color:red;" description="hint">
             <invoke operation-id="delete"/>
         </button>

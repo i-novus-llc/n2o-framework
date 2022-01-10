@@ -1,0 +1,8 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <chart>
+        <bars>
+            <bar field-id="test1" label="name" color="#8884d8" has-label="true"/>
+            <bar field-id="test2"/>
+        </bars>
+    </chart>
+</simple-page>

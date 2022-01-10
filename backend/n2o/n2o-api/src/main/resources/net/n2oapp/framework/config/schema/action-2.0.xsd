@@ -45,7 +45,7 @@
         <xs:annotation>
             <xs:documentation>Действия</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="src" type="xs:string" use="optional">
+        <xs:attribute name="type" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Реализация действия.</xs:documentation>
             </xs:annotation>
@@ -105,12 +105,6 @@
                     <xs:annotation>
                         <xs:documentation>URL действия. По умолчанию вычисляется на основании идентификаторов страницы,
                             виджета и действия.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="focus-after-submit" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поставить фокус в текущем виджете на запись, которую вернёт операция объекта
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -873,7 +867,7 @@
                 <xs:annotation>
                     <xs:documentation>Кастомное действие.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="xs:string" use="optional">
+                <xs:attribute name="type" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Тип действия.
                         </xs:documentation>

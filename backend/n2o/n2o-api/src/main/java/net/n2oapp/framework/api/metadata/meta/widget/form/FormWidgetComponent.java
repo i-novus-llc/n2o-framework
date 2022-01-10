@@ -20,6 +20,7 @@ public class FormWidgetComponent extends WidgetComponent {
     @JsonProperty
     private List<FieldSet> fieldsets;
     @JsonProperty
+    @Deprecated
     private Map<String, List<Validation>> validation;
     @JsonProperty
     private String modelPrefix;

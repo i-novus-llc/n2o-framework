@@ -136,15 +136,6 @@ public abstract class AbstractController {
         return new DataSet((Map<? extends String, ?>) body);
     }
 
-    private void prepareSelectedId(QueryRequestInfo requestInfo) {
-        String selectedId = requestInfo.getData().getString("selectedId");
-        if (requestInfo.getQuery() == null) return;
-        if (selectedId == null) return;
-        N2oQuery.Field fieldPK = requestInfo.getQuery().getFieldsMap().get(N2oQuery.Field.PK);
-        String domain = fieldPK != null ? fieldPK.getDomain() : null;
-        requestInfo.setSelectedId(environment.getDomainProcessor().doDomainConversion(domain, selectedId));
-    }
-
     private N2oPreparedCriteria prepareCriteria(CompiledQuery query, DataSet data, QueryContext queryCtx) {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         Integer page = data.getInteger("page");
@@ -165,14 +156,15 @@ public abstract class AbstractController {
 
     private List<Sorting> getSortings(DataSet data, Map<String, String> sortingMap) {
         List<Sorting> sortings = new ArrayList<>();
-        DataSet sortingsData = data.getDataSet("sorting");
-        if (sortingsData == null)
+        if (sortingMap == null)
             return sortings;
-        for (String key : sortingsData.flatKeySet()) {
-            String fieldId = sortingMap == null || !sortingMap.containsKey(key) ? key : sortingMap.get(key);
-            String value = sortingsData.getString(key);
-            Direction direction = value != null ? Direction.valueOf(value.toUpperCase()) : Direction.ASC;
-            sortings.add(new Sorting(fieldId, direction));
+        for (String key : sortingMap.keySet()) {
+            String fieldId = sortingMap.get(key);
+            String value = data.getString(key);
+            if (value != null) {
+                Direction direction = Direction.valueOf(value.toUpperCase());
+                sortings.add(new Sorting(fieldId, direction));
+            }
         }
         return sortings;
     }
@@ -218,7 +210,6 @@ public abstract class AbstractController {
         requestInfo.setFailAlertWidgetId(queryCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
         requestInfo.setSize(requestInfo.getCriteria().getSize());
-        prepareSelectedId(requestInfo);
         return requestInfo;
     }
 

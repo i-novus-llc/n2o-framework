@@ -75,10 +75,10 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     private ClientDataProvider initDataProvider(S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String id = widgetScope != null ? widgetScope.getWidgetId() : source.getId();
-        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), id, p.getScope(CompiledObject.class), p);
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), source.getId(),
+                p.getScope(CompiledObject.class), p);
         dataProvider.setSubmitForm(false);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {
             dataProvider.getActionContextData().setParentWidgetId(widgetScope.getClientWidgetId());
             dataProvider.getActionContextData().setSuccessAlertWidgetId(widgetScope.getClientWidgetId());

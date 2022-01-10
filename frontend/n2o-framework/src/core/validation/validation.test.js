@@ -12,7 +12,6 @@ import {
     integer,
     minLength,
     maxLength,
-    match,
 } from './presets'
 
 const validConfig = {

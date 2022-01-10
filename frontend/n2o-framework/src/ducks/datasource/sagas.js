@@ -52,4 +52,12 @@ export default () => [
         yield watchDependencies(action, prevState)
         prevState = yield select()
     }),
+    takeEvery(action => action.meta?.refresh?.datasources, function* refrashSage({ meta }) {
+        const { refresh } = meta
+        const { datasources } = refresh
+
+        for (const datasource of datasources) {
+            yield put(dataRequest(datasource))
+        }
+    }),
 ]

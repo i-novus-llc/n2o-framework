@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
       name="Моя таблица" src="testSrc" icon="testIcon" class="testClass"
-      mode="two-models" fetch-on-init="false" unsaved-data-prompt="true"
+      mode="two-models" unsaved-data-prompt="true"
       style="margin-left:10px;width:300px" datasource="ds1">
     <toolbar>
         <button style="margin-left:10px;width:300px"/>

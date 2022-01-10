@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">\
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
+    <regions>
+        <table id="table" datasource="ds1">
+            <toolbar>
+                <button id="copyInWidget">
+                    <copy/>
+                </button>
+            </toolbar>
+        </table>
+        <form id="form"/>
+    </regions>
+    <toolbar>
+        <button id="copyInPage" datasource="ds1">
+            <copy />
+        </button>
+        <button id="copyInPage2">
+            <copy mode="replace"
+                  source-datasource="ds1"
+                  source-model="filter"
+                  source-field-id="sourceId"
+                  target-datasource="ds2"
+                  target-model="resolve"
+                  target-field-id="targetId"/>
+        </button>
+    </toolbar>
+</page>

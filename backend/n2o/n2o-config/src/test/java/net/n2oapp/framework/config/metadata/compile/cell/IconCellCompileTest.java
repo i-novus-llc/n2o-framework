@@ -3,10 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.cell.v2.IconCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
@@ -37,10 +38,10 @@ public class IconCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testIconCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testIconCell.widget.xml")
-                .get(new WidgetContext("testIconCell"));
-
-        N2oIconCell cell = (N2oIconCell) table.getComponent().getCells().get(0);
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testIconCell.page.xml")
+                .get(new PageContext("testIconCell"));
+        Table table = (Table) page.getWidget();
+                N2oIconCell cell = (N2oIconCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("icon"));
         assertThat(cell.getIconType(), is(IconType.icon));

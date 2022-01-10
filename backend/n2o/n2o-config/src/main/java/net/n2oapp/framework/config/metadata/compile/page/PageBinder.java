@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.util.BindUtil;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     public D bindPage(D page, BindProcessor p, List<Widget<?>> widgets) {
         if (widgets != null)
             widgets.forEach(p::bind);
-
+        bindDatasources(page, p);
         if (page.getRoutes() != null) {
             Map<String, BindLink> pathMappings = new HashMap<>();
             page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));
@@ -99,6 +100,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget<?> w : widgets)
+                //fixme delete
                 if (w.getFilters() != null && w.getFiltersDefaultValuesQueryId() != null) {
                     DataSet data = p.executeQuery(w.getFiltersDefaultValuesQueryId());
                     if (data != null) {
@@ -116,7 +118,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             link.setValue(value);
             link.setParam(link.getDatasource() + "_" + f.getFilterId());
             f.setLink(link);
-            models.add(ReduxModel.FILTER, widgetId, f.getFilterId(), f.getLink());
+            models.add(ReduxModel.filter, widgetId, f.getFilterId(), f.getLink());
         }
     }
 
@@ -134,5 +136,14 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     models.add(link.getSubModelLink(), resolvedSubModelLink);
                 }
         );
+    }
+
+    private void bindDatasources(D page, BindProcessor p) {
+        if (page.getDatasources() != null) {
+            page.getDatasources().values().stream().filter(ds -> ds.getProvider() != null)
+                    .forEach(ds -> BindUtil.bindDataProvider(ds.getProvider(), p));
+            page.getDatasources().values().stream().filter(ds -> ds.getSubmit() != null)
+                    .forEach(ds -> BindUtil.bindDataProvider(ds.getSubmit(), p));
+        }
     }
 }

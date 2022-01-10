@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.CustomField;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -12,7 +13,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
@@ -41,8 +41,9 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
 
     @Test
     public void testField() {
-        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.widget.xml");
-        Form form = (Form) pipeline.get(new WidgetContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
+        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml");
+        SimplePage page = (SimplePage) pipeline.get(new PageContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
+        Form form = (Form) page.getWidget();
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getUrl(), Matchers.is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(field.getPathMapping().size(), Matchers.is(2));
@@ -63,14 +64,14 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         CustomField field = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(((InvokeAction)((ButtonField)field.getControl()).getAction()).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/1/form/w1/greeting"));
+                is("n2o/data/p/w/1/form/greeting"));
         ButtonField field1 = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
-        assertThat(((InvokeAction)field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w1/greeting"));
+        assertThat(((InvokeAction)field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
         InvokeAction invokeAction = (InvokeAction) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0)
                 .getFields().get(0).getToolbar()[0].getButtons().get(0).getAction();
-        assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w1/greeting"));
+        assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(((InvokeAction)((ToolbarCell)table.getComponent().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
-                        .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w2/greeting"));
+                        .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
     }
 }

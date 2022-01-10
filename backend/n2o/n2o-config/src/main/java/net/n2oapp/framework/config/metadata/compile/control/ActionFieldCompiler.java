@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.control.ActionField;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
+import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 
 public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oField> extends FieldCompiler<D, S> {
 
@@ -61,9 +61,7 @@ public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oFi
 
     protected CompiledObject getCompiledObject(CompileProcessor p, String objectId) {
         if (objectId != null) {
-            WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-            if (widgetObjectScope != null && widgetObjectScope.containsKey(objectId))
-                return widgetObjectScope.getObject(objectId);
+            return p.getCompiled(new ObjectContext(objectId));
         }
         return p.getScope(CompiledObject.class);
     }

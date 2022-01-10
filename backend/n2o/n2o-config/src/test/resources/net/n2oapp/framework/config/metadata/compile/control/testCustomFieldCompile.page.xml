@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             xmlns:test="http://n2oapp.net/framework/config/schema/testAttrs">
+    <form>
+        <fields>
+            <field id="testId" src="testSrc" depends-on="name,type"
+                   label="testLabel" description="testDescription"
+                   test:sendEmailUrl="/send/email"
+                   test:sendCodeUrl="/send/code"
+                   test:codeVerified="{emailSender.status=='send'}">
+                <controls>
+                    <control id="ctrl" src="MyControl"/>
+                </controls>
+            </field>
+
+            <field id="testId2" no-label="true">
+                <controls>
+                    <search-buttons id="sbId"/>
+                    <text id="textId"/>
+                </controls>
+            </field>
+
+            <field id="testId3">
+                <controls>
+                    <field id="testId31">
+                        <controls>
+                            <input-text id="inputTextId"/>
+                        </controls>
+                    </field>
+                </controls>
+            </field>
+
+        </fields>
+    </form>
+</simple-page>

@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.config.io.control.v2.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.v4.FieldsetIOv4;
-import net.n2oapp.framework.config.io.widget.v4.WidgetElementIOv4;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +29,7 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
         p.attribute(e, "default-values-query-id", f::getDefaultValuesQueryId, f::setDefaultValuesQueryId);
         p.anyChildren(e, "fields", f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
         p.child(e, null, "submit", f::getSubmit, f::setSubmit, Submit.class, this::submit);
+        f.adapterV4();
     }
 
     private void submit(Element e, Submit t, IOProcessor p) {

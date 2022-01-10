@@ -28,18 +28,14 @@ public class CloseGenerator implements ButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        String widgetId = toolbar.getTargetWidgetId();
-        if (widgetId == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
-        }
+        String datasource = toolbar.getDatasource();
         N2oButton closeButton = new N2oButton();
         closeButton.setId(GenerateType.close.name());
         closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
         N2oCloseAction cancelAction = new N2oCloseAction();
         cancelAction.setId(GenerateType.close.name());
-        closeButton.setWidgetId(widgetId);
-        closeButton.setModel(ReduxModel.FILTER);
+        closeButton.setDatasource(datasource);
+        closeButton.setModel(ReduxModel.filter);
         if (context instanceof PageContext) {
             cancelAction.setRefreshOnClose(((PageContext) context).getRefreshOnClose());
         }

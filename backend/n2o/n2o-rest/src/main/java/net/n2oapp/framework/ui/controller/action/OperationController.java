@@ -107,7 +107,8 @@ public class OperationController extends SetController {
         context.setPathRouteMapping(actionContext.getPathRouteMapping());
         context.setQueryRouteMapping(actionContext.getQueryRouteMapping());
         context.setParentPageId(actionContext.getParentPageId());
-        context.setParentWidgetId(actionContext.getParentWidgetId());
+        context.setParentSourceDatasourceId(actionContext.getParentSourceDatasourceId());
+        context.setParentClientWidgetId(actionContext.getParentClientWidgetId());
         context.setClientWidgetId(actionContext.getSuccessAlertWidgetId());
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());

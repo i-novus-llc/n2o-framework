@@ -30,10 +30,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
@@ -50,7 +47,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     protected List<N2oPreFilter> initPreFilters(N2oAbstractPageAction source, String actionRoute, String parentWidgetId, CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
-        ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
+        ReduxModel model = getModelFromComponentScope(p);
         String widgetId = parentWidgetId;
         PageScope pageScope = p.getScope(PageScope.class);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
@@ -67,14 +64,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             filter.setType(FilterType.eq);
             filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
-            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
+            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.resolve.equals(model)) {
                 List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
                 String masterIdParam = actionRouteParams.isEmpty() ? null : actionRouteParams.get(0);
                 filter.setParam(p.cast(source.getMasterParam(), masterIdParam, createGlobalParam(filter.getFieldId(), p)));
             } else {
                 filter.setParam(p.cast(source.getMasterParam(), createGlobalParam(filter.getFieldId(), p)));
             }
-            filter.setModel(ReduxModel.RESOLVE);
+            filter.setModel(ReduxModel.resolve);
             if (pageScope != null) {
                 filter.setRefPageId(pageScope.getPageId());
             }
@@ -105,7 +102,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         validatePathAndRoute(source.getRoute(), source.getPathParams(), routeScope);
         String pageId = source.getPageId();
-        ReduxModel actionDataModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
+        ReduxModel actionDataModel = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
 
@@ -143,19 +140,15 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, widgetIdQueryIdMap, p);
 
         String parentRoute = normalize(route);
-        if (widgetScope != null && Boolean.TRUE.equals(widgetScope.getHasIdInParentRoute())) {
-            List<String> pathParams = RouteUtil.getPathParams(actionRoute);
-            if (!pathParams.isEmpty())
-                parentRoute = normalize(parentRoute + "/:" + pathParams.get(0));
-        }
         route = normalize(route + actionRoute);
-
         PageContext pageContext = constructContext(pageId, route);
-        if (pageScope != null) {
-            if (pageScope.getWidgetIdClientDatasourceMap() != null)
-                pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
-            if (pageScope.getTabIds() != null)
-                pageContext.setParentTabIds(pageScope.getTabIds());
+        if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
+            pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
+        if (pageScope != null && pageScope.getTabIds() != null)
+            pageContext.setParentTabIds(pageScope.getTabIds());
+        String targetDS = source.getTargetDatasource();
+        if (pageScope != null && targetDS == null && currentWidgetId != null) {
+            targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
@@ -165,31 +158,33 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyWidgetId(source.getCopyWidgetId());
+        pageContext.setCopyDatasource(source.getCopyDatasource());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
-        pageContext.setTargetWidgetId(source.getTargetWidgetId());
+        pageContext.setTargetDatasourceId(targetDS);
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
         pageContext.setUpload(source.getUpload());
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
-        pageContext.setParentClientPageId(pageScope != null ? pageScope.getPageId() : null);
+        pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
-        if (source.getRefreshWidgetId() != null && pageScope != null) {
-            pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
+        if (source.getRefreshDatasources() != null) {
+            pageContext.setRefreshClientDataSources(Arrays.stream(source.getRefreshDatasources())
+                    .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+        }
+        if(pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(parentWidgetId));
+            if (datasourceId != null)
+                pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
-        if (source.getSubmitOperationId() != null
-                && source.getRedirectUrlAfterSubmit() == null
-                && Boolean.TRUE.equals(source.getFocusAfterSubmit())) {
-            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? normalize(routeScope.getUrl() + normalize(colon("id"))) : null);
-            pageContext.setRedirectTargetOnSuccessSubmit(Target.application);
-        } else if (source.getRedirectUrlAfterSubmit() != null) {
+        if (source.getRedirectUrlAfterSubmit() != null) {
             pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
             pageContext.setRedirectTargetOnSuccessSubmit(p.cast(source.getRedirectTargetAfterSubmit(),
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
@@ -199,7 +194,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
         // при наличии route или при filter модели не добавляем queryMapping
-        if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
+        if (source.getRoute() == null && !ReduxModel.filter.equals(actionDataModel))
             queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, p));
         initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope,
                 actionModelWidgetId, widgetIdQueryIdMap, p);
@@ -325,7 +320,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         .collect(Collectors.toMap(N2oParam::getName, param -> {
                             String widgetId = param.getRefWidgetId();
                             ModelLink link = Redux.linkParam(param, p);
-                            if (ReduxModel.RESOLVE.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
+                            if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
                                     && widgetIdQueryIdMap != null
                                     && widgetIdQueryIdMap.get(widgetId) != null)
                                 link.setSubModelQuery(new SubModelQuery(widgetIdQueryIdMap.get(widgetId)));
@@ -347,7 +342,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             actionRoute = normalize(source.getId());
             // генерация маршрута для динамической страницы с моделью resolve
             boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
-            if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+            if (isDynamicPage && actionModelLink != null && ReduxModel.resolve.equals(actionModelLink.getModel())) {
                 String masterIdParam = actionModelLink.getDatasource() + "_id";
                 String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
                 pathMapping.put(masterIdParam, actionModelLink);

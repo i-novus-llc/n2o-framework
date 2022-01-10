@@ -45,7 +45,12 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор виджета источника
      */
+    @Deprecated
     private String copyWidgetId;
+    /**
+     * Идентификатор источника данных из которого будут копироваться данные
+     */
+    private String copyDatasource;
     /**
      * Идентификатор копируемого поля источника
      */
@@ -55,9 +60,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private ReduxModel targetModel;
     /**
-     * Идентификатор целевого виджета
+     * Идентификатор источника данных, в который будут скопированы данные
      */
-    private String targetWidgetId;
+    private String targetDatasourceId;
     /**
      * Идентификатор поля целевого виджета, в которое будут скопированы данные
      */
@@ -81,6 +86,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Родительский виджет (клиентский), в котором находилось действие
      */
+    @Deprecated
     private String parentClientWidgetId;
     /**
      * Родительская страница (клиентский), в которой находилось действие
@@ -99,9 +105,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean refreshOnSuccessSubmit;
     /**
-     * Идентификатор виджета, который необходимо обновить после успешной отправки формы
+     * Идентификаторы источников данных, которые необходимо обновить после успешной отправки формы
      */
-    private String refreshClientWidgetId;
+    private List<String> refreshClientDataSources;
     /**
      * Обновить данные родительского виджета после закрытия страницы
      */

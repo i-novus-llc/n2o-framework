@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <tree
+          query-id="utBlank"
+          parent-field-id="test"
+          has-children-field-id="test"
+          value-field-id="test"
+          label-field-id="test"
+          icon-field-id="test"
+          image-field-id="test"
+          badge-field-id="test"
+          badge-color-field-id="test"
+          ajax="true"
+          expand-button="false"
+          checkboxes="true"
+          multi-select="false">
+    </tree>
+</simple-page>

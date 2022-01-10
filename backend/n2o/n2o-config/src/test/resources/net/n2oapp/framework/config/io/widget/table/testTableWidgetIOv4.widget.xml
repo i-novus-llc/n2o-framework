@@ -3,7 +3,7 @@
        xmlns:ctr="http://n2oapp.net/framework/config/schema/control-2.0"
        name="Моя таблица" query-id="stub" src="testSrc"
        object-id="stub" icon="testIcon" class="testClass" route="testRoute" selection="radio" master-param="uid"
-       fetch-on-init="true" table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
+       table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
        checkboxes="true" check-on-select="false">
 <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true" src="MyTableHeader" class="my-table-header" style="color: red">

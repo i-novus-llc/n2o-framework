@@ -12,9 +12,12 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Collections;
 import java.util.List;
+
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 public abstract class AbstractButtonGenerator implements ButtonGenerator {
 
@@ -24,14 +27,17 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
         button.setLabel(p.getMessage(action.getLabel()));
         button.setIcon(action.getIcon());
         if (action.isContext()) {
-            button.setModel(ReduxModel.RESOLVE);
+            button.setModel(ReduxModel.resolve);
         } else {
-            button.setModel(ReduxModel.FILTER);
+            button.setModel(ReduxModel.filter);
         }
         switch (action) {
             case delete: {
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
                 invokeAction.setOperationId(action.name());
+                WidgetScope widgetScope = p.getScope(WidgetScope.class);
+                String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
+                invokeAction.setRoute(normalize("/"+ widgetId + "/delete"));
                 button.setConfirm(true);
                 button.setAction(invokeAction);
             }
@@ -44,8 +50,10 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
                 modal.setSubmitOperationId(action.name());
                 modal.setUpload(action.getUpload());
-                modal.setFocusAfterSubmit(true);
                 modal.setCloseAfterSubmit(true);
+                WidgetScope widgetScope = p.getScope(WidgetScope.class);
+                String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
+                modal.setRoute(normalize("/"+ widgetId + "/create"));
                 button.setAction(modal);
             }
             break;
@@ -57,15 +65,16 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
                 modal.setMasterFieldId(N2oQuery.Field.PK);
                 modal.setDetailFieldId(N2oQuery.Field.PK);
-                String paramName = button.getWidgetId() + "_" + N2oQuery.Field.PK;
-                modal.setRoute("/:" + paramName + "/update");
+                WidgetScope widgetScope = p.getScope(WidgetScope.class);
+                String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
+                String paramName = widgetId + "_" + N2oQuery.Field.PK;
+                modal.setRoute(normalize("/" + widgetId + "/:" + paramName + "/update"));
                 N2oPathParam pathParam = new N2oPathParam();
                 pathParam.setName(paramName);
                 pathParam.setValue(Placeholders.ref(N2oQuery.Field.PK));
                 modal.setPathParams(new N2oPathParam[]{pathParam});
                 modal.setSubmitOperationId(action.name());
                 modal.setUpload(action.getUpload());
-                modal.setFocusAfterSubmit(true);
                 modal.setCloseAfterSubmit(true);
                 button.setAction(modal);
             }

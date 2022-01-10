@@ -2,7 +2,7 @@ import { runSaga } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 import { touch } from 'redux-form'
 
-import { removeMessage, addTouched, copyAction } from '../sagas'
+import { addTouched, copyAction, clearForm } from '../sagas'
 
 const state = {
     models: {
@@ -35,31 +35,6 @@ const state = {
 }
 
 describe('Проверка саги formPlugin', () => {
-    it('Сообщение не должно удалиться', () => {
-        const genEmptyObject = removeMessage({})
-        expect(genEmptyObject.next().value.type).toEqual('SELECT')
-        expect(genEmptyObject.next().value).toEqual(undefined)
-        expect(genEmptyObject.next().done).toEqual(true)
-
-        const genWithoutForm = removeMessage({
-            meta: {
-                field: {},
-            },
-        })
-        expect(genWithoutForm.next().value.type).toEqual('SELECT')
-        expect(genWithoutForm.next().value).toEqual(undefined)
-        expect(genWithoutForm.next().done).toEqual(true)
-
-        const genWithoutField = removeMessage({
-            meta: {
-                form: {},
-            },
-        })
-        expect(genWithoutField.next().value.type).toEqual('SELECT')
-        expect(genWithoutField.next().value).toEqual(undefined)
-        expect(genWithoutField.next().done).toEqual(true)
-    })
-
     it('Проверка вызова touch при добавлении сообщения', () => {
         const testData = {
             payload: {
@@ -74,6 +49,17 @@ describe('Проверка саги formPlugin', () => {
             put(touch(testData.payload.form, testData.payload.name)),
         )
         expect(genAddMessage.next().done).toEqual(true)
+    })
+
+    it('clearForm должен вызвать сброс формы', () => {
+        const gen = clearForm({
+            payload: {
+                key: 'testForm',
+            },
+        })
+        const value = gen.next()
+
+        expect(value.value.type).toBe('PUT')
     })
 
     describe('копирование mode = merge', () => {

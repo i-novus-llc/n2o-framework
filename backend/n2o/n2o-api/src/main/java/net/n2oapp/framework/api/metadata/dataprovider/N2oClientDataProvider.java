@@ -28,7 +28,9 @@ public class N2oClientDataProvider implements Serializable {
     private N2oParam[] headerParams;
     private N2oParam[] queryParams;
     private ReduxModel targetModel;
-    private String targetWidgetId;
+    @Deprecated private String targetWidgetId;
+    private String globalDatasourceId;
+    private String datasourceId;
     private RequestMethod method;
     private String quickSearchParam;
     private Boolean optimistic;
@@ -36,25 +38,29 @@ public class N2oClientDataProvider implements Serializable {
     private ActionContextData actionContextData;
     private Integer size;
     private SubmitOn autoSubmitOn;
-    private String datasourceId;
 
     @Getter
     @Setter
     public static class ActionContextData implements Serializable {
+        private CompiledObject.Operation operation;
         private String objectId;
         private String operationId;
         private String route;
         private RedirectSaga redirect;
         private RefreshSaga refresh;
+        @Deprecated
         private String parentWidgetId;
+        @Deprecated
         private String failAlertWidgetId;
+        @Deprecated
         private String successAlertWidgetId;
-        private String messagesForm;
+
         private boolean messageOnSuccess;
         private boolean messageOnFail;
+        @Deprecated
+        private String messagesForm;
         private MessagePosition messagePosition;
         private MessagePlacement messagePlacement;
-        private CompiledObject.Operation operation;
     }
 }
 

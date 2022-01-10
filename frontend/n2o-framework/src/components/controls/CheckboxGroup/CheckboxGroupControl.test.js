@@ -61,7 +61,7 @@ describe('Работа с reduxForm', () => {
         expect(toMathInCollection(actions, focus('Page_Form', 'testControl'))).toBe(
             true,
         )
-        expect(getField(store)).toEqual({ visited: true, active: true })
+        expect(getField(store)).toEqual({ visited: true, active: true, touched: true })
 
         wrapper
             .find('input[type="checkbox"]')

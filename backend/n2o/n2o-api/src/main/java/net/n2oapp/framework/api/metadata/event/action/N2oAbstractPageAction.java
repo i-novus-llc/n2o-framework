@@ -44,23 +44,16 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
     private ReduxModel copyModel;
-    @Deprecated
-    private String copyWidgetId;
     private String copyDatasource;
     private String copyFieldId;
     private ReduxModel targetModel;
-    @Deprecated
-    private String targetWidgetId;
     private String targetDatasource;
     private CopyMode copyMode;
     private Boolean createMore;
-    private Boolean focusAfterSubmit;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
-    @Deprecated
-    private String refreshWidgetId;
     private String[] refreshDatasources;
     //on resolve
     private String labelFieldId;
@@ -118,5 +111,35 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
         if (this.params == null)
             this.params = new N2oParam[0];
         this.params = ArrayUtils.addAll(this.params, queryParams);
+    }
+
+    @Deprecated
+    public String getRefreshWidgetId() {
+        return refreshDatasources == null ? null : refreshDatasources[0];
+    }
+
+    @Deprecated
+    public void setRefreshWidgetId(String refreshWidgetId) {
+        this.refreshDatasources = new String[]{refreshWidgetId};
+    }
+
+    @Deprecated
+    public String getTargetWidgetId() {
+        return targetDatasource;
+    }
+
+    @Deprecated
+    public void setTargetWidgetId(String targetWidgetId) {
+        this.targetDatasource = targetWidgetId;
+    }
+
+    @Deprecated
+    public String getCopyWidgetId() {
+        return copyDatasource;
+    }
+
+    @Deprecated
+    public void setCopyWidgetId(String copyWidgetId) {
+        this.copyDatasource = copyWidgetId;
     }
 }

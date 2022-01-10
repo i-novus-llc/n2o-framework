@@ -35,6 +35,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         form.setName(context);
         form.setRefId("formForTestDynamic");
         form.setQueryId("testDynamic?Dummy");
+        form.adapterV4();
         page.setWidget(form);
 
 
@@ -66,20 +67,21 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         create.setId("create");
         N2oShowModal showModal = new N2oShowModal();
         showModal.setPageId("testDynamic?Dummy");
-        create.setModel(ReduxModel.FILTER);
+        create.setModel(ReduxModel.filter);
         create.setAction(showModal);
 
         N2oButton update = new N2oButton();
         update.setId("update");
         N2oShowModal updShowModal = new N2oShowModal();
         updShowModal.setPageId("testDynamic?Dummy");
-        update.setModel(ReduxModel.RESOLVE);
+        update.setModel(ReduxModel.resolve);
         update.setAction(updShowModal);
 
 
 
         toolbar.setItems(new ToolbarItem[]{create, update});
         table.setToolbars(new N2oToolbar[]{toolbar});
+        table.adapterV4();
 
         return Arrays.asList(n2oObject, query, table, page);
     }

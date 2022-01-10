@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -73,8 +72,9 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCheckboxGroupTypes() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroupTypes.widget.xml")
-                .get(new WidgetContext("testCheckboxGroupTypes", "/test"));
+        SimplePage page =(SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroupTypes.page.xml")
+                .get(new PageContext("testCheckboxGroupTypes", "/test"));
+        Form form = (Form) page.getWidget();
         CheckboxGroup checkboxGroup = (CheckboxGroup) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl();
         assertThat(checkboxGroup.getType().getId(), is("default"));
