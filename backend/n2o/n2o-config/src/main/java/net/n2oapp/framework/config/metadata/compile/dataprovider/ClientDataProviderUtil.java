@@ -54,9 +54,9 @@ public class ClientDataProviderUtil {
                 RequestMethod.PUT == compiled.getMethod() ||
                 RequestMethod.DELETE == compiled.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
-            pathMapping.putAll(compileParams(compiled.getPathParams(), context, p, targetModel, targetWidget));
-            dataProvider.setFormMapping(compileParams(compiled.getFormParams(), context, p, targetModel, targetWidget));
-            dataProvider.setHeadersMapping(compileParams(compiled.getHeaderParams(), context, p, targetModel, targetWidget));
+            pathMapping.putAll(compileParams(compiled.getPathParams(), context, p, targetModel, targetWidget, compiled.getGlobalDatasourceId()));
+            dataProvider.setFormMapping(compileParams(compiled.getFormParams(), context, p, targetModel, targetWidget, compiled.getGlobalDatasourceId()));
+            dataProvider.setHeadersMapping(compileParams(compiled.getHeaderParams(), context, p, targetModel, targetWidget, compiled.getGlobalDatasourceId()));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
             if (context.getPathRouteMapping() != null)
@@ -71,7 +71,7 @@ public class ClientDataProviderUtil {
         }
 
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, compiled.getUrl()));
-        dataProvider.setQueryMapping(compileParams(compiled.getQueryParams(), context, p, targetModel, targetWidget));
+        dataProvider.setQueryMapping(compileParams(compiled.getQueryParams(), context, p, targetModel, targetWidget, compiled.getGlobalDatasourceId()));
         dataProvider.setQuickSearchParam(compiled.getQuickSearchParam());
         dataProvider.setSize(compiled.getSize());
 
@@ -103,21 +103,22 @@ public class ClientDataProviderUtil {
     public static String getClientWidgetIdByComponentScope(CompileProcessor p) {
         String widgetId = getWidgetIdByComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope != null && widgetId != null) {
-                return pageScope.getGlobalWidgetId(widgetId);
-            }
+        if (pageScope != null && widgetId != null) {
+            return pageScope.getGlobalWidgetId(widgetId);
+        }
         return null;
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        CompileProcessor p, ReduxModel model, String targetWidgetId) {
+                                                        CompileProcessor p, ReduxModel model, String targetWidgetId,
+                                                        String targetDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {
-                link = getModelLink(p, model, targetWidgetId, param);
+                link = getModelLink(p, model, targetWidgetId, targetDatasourceId, param);
             } else {
                 link = getModelLinkByParam(context, param);
             }
@@ -127,7 +128,8 @@ public class ClientDataProviderUtil {
         return result;
     }
 
-    private static ModelLink getModelLink(CompileProcessor p, ReduxModel model, String targetWidgetId, N2oParam param) {
+    private static ModelLink getModelLink(CompileProcessor p, ReduxModel model, String targetWidgetId,
+                                          String targetDatasourceId, N2oParam param) {
         ModelLink link;
         Object value = param.getValueList() != null ? param.getValueList() :
                 ScriptProcessor.resolveExpression(param.getValue());
@@ -135,7 +137,9 @@ public class ClientDataProviderUtil {
             PageScope pageScope = p.getScope(PageScope.class);
             String datasourceId;
             if (param.getDatasource() == null) {
-                datasourceId = getDatasourceIdByWidget(p, targetWidgetId, param, pageScope);
+                datasourceId = targetDatasourceId == null ?
+                        getDatasourceIdByWidget(p, targetWidgetId, param, pageScope)
+                        : targetDatasourceId;
             } else {
                 String pageId = param.getRefPageId();
                 if (param.getRefPageId() == null && pageScope != null)
@@ -181,7 +185,7 @@ public class ClientDataProviderUtil {
     }
 
     public static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
-                                          String url, CompileProcessor p) {
+                                         String url, CompileProcessor p) {
         if (source.getActionContextData() != null) {
             N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
             ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);
@@ -200,7 +204,7 @@ public class ClientDataProviderUtil {
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             if (componentScope == null
                     || componentScope.unwrap(N2oButton.class) == null
-                    || componentScope.unwrap(N2oButton.class).getValidate() )  {
+                    || componentScope.unwrap(N2oButton.class).getValidate()) {
                 ValidationList validationList = p.getScope(ValidationList.class);
                 if (validationList != null)
                     actionContext.setValidations(validationList.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
@@ -258,8 +262,6 @@ public class ClientDataProviderUtil {
                 targetWidgetId = widgetScope.getClientWidgetId();
             } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null && pageScope != null) {
                 targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
-            } else {
-                throw new N2oException("Unknown widgetId for invoke action!");
             }
         }
         return targetWidgetId;

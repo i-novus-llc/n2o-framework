@@ -161,6 +161,10 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                     preFilters.add(masterFilter);
                     datasource.setFilters(preFilters.toArray(new N2oPreFilter[0]));
                 }
+                if (datasource.getFilters() != null) {
+                    for (N2oPreFilter filter : datasource.getFilters())
+                        filter.setDatasource(getDependsOn());
+                }
             }
             datasource.setSize(getSize());
             if (getDependencyCondition() != null) {
