@@ -10,4 +10,4 @@ net.n2oapp.framework.boot.N2oMongoAutoConfiguration,\
 net.n2oapp.framework.boot.N2oAccessAutoConfiguration,\
 net.n2oapp.framework.boot.N2oCamundaAutoConfiguration,\
 net.n2oapp.framework.boot.N2oRouteRepositoryAutoConfiguration,\
-net.n2oapp.framework.boot.websocket.N2oWebSocketAutoConfiguration
+net.n2oapp.framework.boot.N2oWebSocketAutoConfiguration

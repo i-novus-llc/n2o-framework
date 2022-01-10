@@ -1,5 +1,6 @@
-package net.n2oapp.framework.boot.websocket;
+package net.n2oapp.framework.boot;
 
+import net.n2oapp.framework.boot.websocket.UserHandshakeHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
