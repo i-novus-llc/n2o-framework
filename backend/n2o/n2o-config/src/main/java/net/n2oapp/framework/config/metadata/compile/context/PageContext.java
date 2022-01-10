@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
@@ -127,11 +128,18 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Источник данных виджета при открытии страницы
      */
+    @Deprecated
     private UploadType upload;
     /**
      * Список предустановленных фильтраций для основного виджета
      */
+    @Deprecated
     private List<N2oPreFilter> preFilters;
+    /**
+     * Список источников данных открываемой страницы
+     */
+    private List<N2oDatasource> datasources;
+
 
     /**
      * Клиентский идентификатор страницы

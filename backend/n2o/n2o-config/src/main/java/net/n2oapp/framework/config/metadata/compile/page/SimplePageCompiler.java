@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -121,6 +122,14 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     private Map<String, Datasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
                                                     CompileProcessor p, Object ... scopes) {
         Map<String, Datasource> compiledDatasources = new StrictMap<>();
+        if (context.getDatasources() != null) {
+            for (N2oDatasource ctxDs : context.getDatasources()) {
+                if (dataSourcesScope.containsKey(ctxDs.getId()))
+                    dataSourcesScope.put(ctxDs.getId(), p.merge(dataSourcesScope.get(ctxDs.getId()), ctxDs));
+                else
+                    dataSourcesScope.put(ctxDs.getId(), ctxDs);
+            }
+        }
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
                 Datasource compiled = p.compile(ds, context, scopes);

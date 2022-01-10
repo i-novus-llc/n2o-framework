@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
@@ -59,8 +60,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String labelFieldId;
     private String targetFieldId;
     private String valueFieldId;
-
-    //todo rename to resultWidgetId
+    @Deprecated
     private String resultContainerId;
     @Deprecated
     private N2oPreFilter[] preFilters;
@@ -81,6 +81,25 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String minWidth;
     @Deprecated
     private String maxWidth;
+
+    public void adaptV1() {
+        if (upload != null) {
+            N2oDatasource datasource = new N2oDatasource();
+            datasource.setId("main");
+            switch (upload) {
+                case query:
+                    datasource.setDefaultValuesMode(DefaultValuesMode.query);
+                    break;
+                case defaults:
+                    datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                    break;
+                case copy:
+                    datasource.setDefaultValuesMode(DefaultValuesMode.merge);
+                    break;
+            }
+            datasources = new N2oDatasource[]{datasource};
+        }
+    }
 
     @Override
     public String getOperationId() {

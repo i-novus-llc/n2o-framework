@@ -150,6 +150,14 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private Map<String, Datasource> compileDataSources(PageContext context,
                                                        CompileProcessor p, DataSourcesScope dataSourcesScope, Object... scopes) {
         Map<String, Datasource> compiledDataSources = new HashMap<>();
+        if (context.getDatasources() != null) {
+            for (N2oDatasource ctxDs : context.getDatasources()) {
+                if (dataSourcesScope.containsKey(ctxDs.getId()))
+                    dataSourcesScope.put(ctxDs.getId(), p.merge(dataSourcesScope.get(ctxDs.getId()), ctxDs));
+                else
+                    dataSourcesScope.put(ctxDs.getId(), ctxDs);
+            }
+        }
         for (N2oDatasource ds : dataSourcesScope.values()) {
             Datasource compiled = p.compile(ds, context, scopes);
             compiledDataSources.put(compiled.getId(), compiled);
