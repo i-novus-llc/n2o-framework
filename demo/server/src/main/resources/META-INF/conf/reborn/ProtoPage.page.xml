@@ -137,7 +137,7 @@
                         <text/>
                     </body>
                     <extra>
-                        <toolbar generate="update,delete"/>
+                        <toolbar generate="update,delete"/> 
                     </extra>
                 </content>
                 <toolbar>

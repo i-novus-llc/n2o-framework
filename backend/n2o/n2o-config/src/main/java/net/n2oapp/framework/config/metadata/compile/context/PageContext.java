@@ -123,11 +123,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean unsavedDataPromptOnClose;
     /**
-     * Источник данных виджета при открытии страницы
-     */
-    @Deprecated
-    private UploadType upload;
-    /**
      * Список источников данных открываемой страницы
      */
     private List<N2oDatasource> datasources;

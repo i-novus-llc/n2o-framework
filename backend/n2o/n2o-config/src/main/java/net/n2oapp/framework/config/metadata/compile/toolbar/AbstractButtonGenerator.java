@@ -53,7 +53,9 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setObjectId(object.getId());
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
                 modal.setSubmitOperationId(action.name());
-                modal.setUpload(action.getUpload());
+                N2oDatasource datasource = new N2oDatasource();
+                datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                modal.setDatasources(new N2oDatasource[] { datasource });
                 modal.setCloseAfterSubmit(true);
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
