@@ -10,13 +10,17 @@ import { eventChannel } from 'redux-saga'
 
 export function subscribeMetadata(emitter, updater, dataSourceId, source) {
     return response => {
-        const metadata = JSON.parse(response.body) || {}
-        const responseKeys = Object.keys(metadata)
+        if (response.body) {
+            const metadata = JSON.parse(response.body) || {}
+            const responseKeys = Object.keys(metadata)
 
-        if (responseKeys.length) {
-            for (const fieldKey of responseKeys) {
-                emitter(updater(source, dataSourceId, fieldKey, metadata[fieldKey]))
+            if (responseKeys.length) {
+                for (const fieldKey of responseKeys) {
+                    emitter(updater(source, dataSourceId, fieldKey, metadata[fieldKey]))
+                }
             }
+        } else {
+            return {}
         }
     }
 }
@@ -74,7 +78,7 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
     // const destination = get(state, `${source}.${dataSourceId}.provider.destination`)
     /*FIXME bring it back*/
 
-    const destination = '/user/exchange/default/message.count' /*FIXME for debugging remove it and return destination from dataSource*/
+    const destination = '/topic/notif/count' /*FIXME for debugging remove it and return destination from dataSource*/
     const needAnOpenChannel = connectedComponents.length > 0 /* FIXME isStompProvider check will be added */
 
     try {

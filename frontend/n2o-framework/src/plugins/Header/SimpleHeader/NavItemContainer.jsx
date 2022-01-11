@@ -13,12 +13,19 @@ import colors from '../../../constants/colors'
 import { renderBadge } from '../../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 
+const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
+
+NavItemIcon.propTypes = {
+    icon: PropTypes.string,
+}
+
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
  * @param {boolean} props.active  - active (применять || нет active class)
  */
+
 const NavItemContainer = ({
     item,
     type,
@@ -27,9 +34,6 @@ const NavItemContainer = ({
     direction,
     active,
 }) => {
-    // eslint-disable-next-line react/prop-types
-    const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
-
     const getInnerLink = (item, className) => (
         <NavLink
             exact

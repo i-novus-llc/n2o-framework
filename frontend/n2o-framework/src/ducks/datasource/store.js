@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
+import get from 'lodash/get'
 
 import { MODEL_PREFIX, SORT_DIRECTION } from '../../core/datasource/const'
 
@@ -291,4 +292,6 @@ export const {
     changePage,
     changeCount,
     changeSize,
+    addComponent,
+    removeComponent,
 } = datasource.actions

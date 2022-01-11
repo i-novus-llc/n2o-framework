@@ -15,6 +15,7 @@ import {
 } from '../../ducks/datasource/store'
 import { FETCH_TYPE } from '../widget/const'
 import { DataSourceContext } from '../widget/context'
+import { dataSourceModelsSelector } from '../../ducks/datasource/selectors'
 
 import { WithDataSourceTypes } from './propTypes'
 
@@ -57,6 +58,7 @@ export const WithDataSource = (Component) => {
         useEffect(() => {
             if (visible !== prevVisible) {
                 switchRegistration(visible)
+
                 fetchData()
             }
         }, [visible, prevVisible, switchRegistration, fetchData])
@@ -69,6 +71,10 @@ export const WithDataSource = (Component) => {
     }
 
     Register.propTypes = WithDataSourceTypes
+
+    const mapStateToProps = (state, { datasource }) => ({
+        models: datasource ? dataSourceModelsSelector(datasource)(state) : {},
+    })
 
     const mapDispatchToProps = (dispatch,
         {
@@ -87,6 +93,7 @@ export const WithDataSource = (Component) => {
 
         return {
             addComponent: () => addComponentToSource(),
+            removeComponent: () => removeComponentFromSource(),
             switchRegistration: visible => (visible ? addComponentToSource() : removeComponentFromSource()),
             fetchData(options, force) {
                 if (
@@ -119,5 +126,5 @@ export const WithDataSource = (Component) => {
         }
     }
 
-    return connect(null, mapDispatchToProps)(Register)
+    return connect(mapStateToProps, mapDispatchToProps)(Register)
 }
