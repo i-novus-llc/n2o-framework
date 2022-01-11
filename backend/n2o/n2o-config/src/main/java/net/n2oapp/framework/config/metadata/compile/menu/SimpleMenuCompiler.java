@@ -50,7 +50,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         HeaderItem compiled = new HeaderItem();
         source.setId(p.cast(source.getId(), "mi" + idx.get()));
         compiled.setId(source.getId());
-        compiled.setTitle(p.resolveJS(source.getName()));
+        compiled.setTitle(source.getName());
         compiled.setIcon(source.getIcon());
         compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(source.getImageShape());
