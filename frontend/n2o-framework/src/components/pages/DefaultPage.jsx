@@ -9,7 +9,7 @@ import PageTitle from '../core/PageTitle'
 import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb'
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../buttons/Toolbar'
-import { register } from '../../ducks/datasource/store'
+import { register, remove } from '../../ducks/datasource/store'
 
 /**
  * Стандартное наполнение страницы
@@ -39,6 +39,13 @@ function DefaultPage({
         Object.entries(datasources).forEach(([id, config]) => {
             dispatch(register(id, config))
         })
+
+        // eslint-disable-next-line consistent-return
+        return () => {
+            Object.keys(datasources).forEach((id) => {
+                dispatch(remove(id))
+            })
+        }
     }, [datasources, dispatch])
 
     return (
