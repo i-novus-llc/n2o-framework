@@ -6,8 +6,7 @@
                 color="primary" label="${client.add}" icon="fa fa-plus"
                 model="filter">
             <open-page page-id="ProtoClient" route="/clients/create2"
-                       submit-operation-id="create" upload="defaults"
-                       redirect-url-after-submit="../:id"/>
+                       submit-operation-id="create" upload="defaults"/>
         </button>
     </toolbar>
     <left width="60%">
@@ -83,7 +82,7 @@
                     <button id="create" label="${create}" description="${create}" icon="fa fa-plus" model="filter">
                         <show-modal page-id="ProtoClient" submit-operation-id="create"
                                     upload="defaults"
-                                    redirect-url-after-submit="../:id/update2"/>
+                                    redirect-url-after-submit="../clients/:id/update2"/>
                     </button>
                     <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
                         <show-modal page-id="ProtoClient" submit-operation-id="update"
