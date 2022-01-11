@@ -317,10 +317,15 @@ const FileUploaderControl = (WrappedComponent) => {
                 onStart,
                 uploadRequest,
             } = this.props
+
+            const { files: preparedFilesFromState } = this.state
             const url = this.resolveUrl(uploadUrl)
 
             this.setState({
-                uploading: reduce(files, (acc, { id, error }) => ({ ...acc, [id]: !error }), {}),
+                uploading: reduce(
+                    preparedFilesFromState, (acc, { id, error }) => ({ ...acc, [id]: !error }),
+                    {},
+                ),
             })
 
             files.forEach((file) => {
