@@ -195,7 +195,6 @@ export const ConfigContainer = compose(
         ...rest,
         ...(getFromConfig && {
             ...getFromConfig('menu'),
-            datasource: getFromConfig('datasource'),
         }),
     })),
 )(MenuContainer)

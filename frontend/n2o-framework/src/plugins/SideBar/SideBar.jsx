@@ -13,6 +13,8 @@ import {
 import { withTranslation } from 'react-i18next'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
+import { WithDataSource } from '../../core/datasource/WithDataSource'
+import { resolveItem } from '../../utils/propsResolver'
 
 import { SidebarItemContainer } from './SidebarItemContainer'
 
@@ -93,6 +95,8 @@ export function SideBar({
     onMouseLeave,
     side = 'left',
     isStaticView,
+    models,
+    datasource,
 }) {
     const sidebarRef = useRef()
 
@@ -117,19 +121,23 @@ export function SideBar({
     const isMiniView = (defaultState === sidebarView.mini && !currentVisible) ||
         (toggledState === sidebarView.mini && currentVisible)
 
-    const renderItems = items => map(items, (item, key) => (
-        <SidebarItemContainer
-            key={key}
-            item={item}
-            activeId={activeId}
-            sidebarOpen={isStaticView || currentVisible}
-            defaultState={defaultState}
-            toggledState={toggledState}
-            showContent={showContent}
-            isMiniView={isMiniView}
-            isStaticView={isStaticView}
-        />
-    ))
+    const renderItems = items => map(items, (item, key) => {
+        const resolvedItem = datasource ? resolveItem(item, models.datasource) : item
+
+        return (
+            <SidebarItemContainer
+                key={key}
+                item={resolvedItem}
+                activeId={activeId}
+                sidebarOpen={isStaticView || currentVisible}
+                defaultState={defaultState}
+                toggledState={toggledState}
+                showContent={showContent}
+                isMiniView={isMiniView}
+                isStaticView={isStaticView}
+            />
+        )
+    })
 
     return (
         <aside
@@ -207,8 +215,10 @@ SideBar.propTypes = {
     className: PropTypes.string,
     menu: PropTypes.object,
     extraMenu: PropTypes.object,
+    models: PropTypes.object,
     defaultState: PropTypes.string,
     toggledState: PropTypes.string,
+    datasource: PropTypes.string,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     isStaticView: PropTypes.bool,
@@ -242,4 +252,5 @@ export default compose(
             }
         },
     }),
+    WithDataSource,
 )(SideBar)

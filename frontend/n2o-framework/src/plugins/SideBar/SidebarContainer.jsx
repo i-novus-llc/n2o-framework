@@ -109,6 +109,9 @@ class SidebarContainer extends React.Component {
                 isStaticView={isStaticView}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
+                /* FIXME remove it */
+                id="SideBar"
+                datasource="main"
             />
         )
     }
