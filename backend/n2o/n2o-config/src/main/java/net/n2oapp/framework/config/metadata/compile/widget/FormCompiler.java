@@ -53,14 +53,10 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
         CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), new CopiedFieldScope());
-        WidgetParamScope paramScope = null;
-        if (datasource != null && DefaultValuesMode.defaults.equals(datasource.getDefaultValuesMode()))
-            paramScope = new WidgetParamScope();
+        WidgetParamScope paramScope = new WidgetParamScope();
         ValidationScope validationScope = null;
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
-        if (datasource != null) {
-            validationScope = new ValidationScope(datasource, ReduxModel.resolve, validationList);
-        }
+        validationScope = new ValidationScope(datasource, ReduxModel.resolve, validationList);
          form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                  widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.resolve, form.getId(), models),

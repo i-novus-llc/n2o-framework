@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.event.N2oEventBus;
 import net.n2oapp.framework.api.event.N2oStoppedEvent;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.watchdir.WatchDir;
 import org.slf4j.Logger;
@@ -84,6 +85,7 @@ public class ConfigStarter {
         startMonitoringXml();
         wasRunning = true;
         eventBus.publish(new N2oStartedEvent(this));
+        ScriptProcessor.getScriptEngine();//warmup
         logger.info("N2O was started");
     }
 

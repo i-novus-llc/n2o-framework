@@ -16,6 +16,7 @@
                     <button id="withParam" model="resolve">
                         <!-- Есть параметр в пути -->
                         <open-page page-id="testOpenPageRoutePage" detail-field-id="detailId"
+                                   master-param="detailId"
                                    route="/:masterId/detail/:detailId/open1">
                             <path-param name="masterId" value="{id}" ref-widget-id="master"/>
                             <path-param name="detailId" value="{id}"/>

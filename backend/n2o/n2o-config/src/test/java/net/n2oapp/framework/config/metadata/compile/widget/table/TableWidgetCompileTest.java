@@ -154,7 +154,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(headers.get(0).getLabel(), is("id_name"));
         assertThat(headers.get(0).getSortable(), is(true));
-        assertThat(headers.get(0).getSortingParam(), is("sorting.id"));
+        assertThat(headers.get(0).getSortingParam(), is("id"));
 
         assertThat(headers.get(1).getId(), is("col"));
         assertThat(headers.get(1).getLabel(), is("col_label"));
@@ -163,7 +163,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(2).getId(), is("name"));
         assertThat(headers.get(2).getLabel(), is("name"));
         assertThat(headers.get(2).getSortable(), is(true));
-        assertThat(headers.get(2).getSortingParam(), is("sorting.id"));
+        assertThat(headers.get(2).getSortingParam(), is("id"));
 
         assertThat(headers.get(3).getId(), is("comments"));
         assertThat(headers.get(3).getLabel(), is("comments"));

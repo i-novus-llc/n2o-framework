@@ -5,6 +5,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
@@ -92,7 +93,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/create", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(modalContext.getUpload(), is(UploadType.defaults));
+        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_create"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
@@ -147,21 +148,23 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));
-        assertThat(modalContext.getPreFilters().size(), is(1));
-        assertThat(modalContext.getPreFilters().get(0).getDatasource(), is("main"));
-        assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
-        assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
-        assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(modalContext.getUpload(), is(UploadType.query));
+        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        N2oPreFilter[] filters = modalContext.getDatasources().get(0).getFilters();
+        assertThat(filters.length, is(1));
+        assertThat(filters[0].getDatasource(), is("main"));
+        assertThat(filters[0].getRefPageId(), is("p"));
+        assertThat(filters[0].getFieldId(), is(N2oQuery.Field.PK));
+        assertThat(filters[0].getType(), is(FilterType.eq));
+        assertThat(filters[0].getModel(), is(ReduxModel.resolve));
+
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_update"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidget();
         Datasource ds = modalPage.getDatasources().get(modalWidget.getDatasource());
         assertThat(ds.getProvider().getQueryMapping().size(), is(0));
-        assertThat(ds.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
-        assertThat(ds.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
+        assertThat(ds.getProvider().getPathMapping().get("id").getParam(), is("id"));
+        assertThat(ds.getProvider().getPathMapping().get("id").normalizeLink(), is("models.resolve['p_main'].id"));
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
         DataSet data = new DataSet();
         data.put("id", 222);
@@ -267,14 +270,16 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(modalContext.getPreFilters().size(), is(1));
-        assertThat(modalContext.getPreFilters().get(0).getDatasource(), is("main"));
-        assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
-        assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
-        assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(modalContext.getPreFilters().get(0).getValue(), is("{id}"));
-        assertThat(modalContext.getUpload(), is(UploadType.query));
+        assertThat(modalContext.getDatasources().size(), is(1));
+        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        N2oPreFilter[] filters = modalContext.getDatasources().get(0).getFilters();
+        assertThat(filters.length, is(1));
+        assertThat(filters[0].getDatasource(), is("main"));
+        assertThat(filters[0].getRefPageId(), is("p"));
+        assertThat(filters[0].getFieldId(), is(N2oQuery.Field.PK));
+        assertThat(filters[0].getType(), is(FilterType.eq));
+        assertThat(filters[0].getModel(), is(ReduxModel.resolve));
+        assertThat(filters[0].getValue(), is("{id}"));
 
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_updateWithPrefilters"));

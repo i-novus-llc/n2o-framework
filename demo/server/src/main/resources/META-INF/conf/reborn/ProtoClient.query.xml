@@ -44,7 +44,7 @@
             </filters>
         </field>
         <field id="url" domain="string">
-            <select mapping="'/#/' + ['id'] +'/surname'">i.id</select>
+            <select mapping="'/#/clients/' + ['id'] +'/surname'">i.id</select>
         </field>
         <field id="surname" domain="string" name="Фамилия">
             <expression>i.surname</expression>

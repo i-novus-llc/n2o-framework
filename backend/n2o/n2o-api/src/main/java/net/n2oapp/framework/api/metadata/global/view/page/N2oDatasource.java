@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+
 public class N2oDatasource implements Source {
 
     private String id;

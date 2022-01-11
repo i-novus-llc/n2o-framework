@@ -428,7 +428,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         PageContext context = (PageContext) route("/page/defaultValue", Page.class);
         SimplePage openPage = (SimplePage) read().compile().get(context);
         Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
-        assertThat(queryMapping.size(), is(4));
+        assertThat(queryMapping.size(), is(4)); //у 4 полей на странице testDefaultValue есть param, они добавились в page routes
         ReduxAction onGet = queryMapping.get("name").getOnGet();
         UpdateModelPayload payload = (UpdateModelPayload) onGet.getPayload();
         assertThat(payload.getPrefix(), is("resolve"));
@@ -471,7 +471,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         context = (PageContext) route("/page/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);
         queryMapping = openPage.getRoutes().getQueryMapping();
-        assertThat(queryMapping.size(), is(0));
+        assertThat(queryMapping.size(), is(4));//у 4 полей на странице testDefaultValue есть param, они добавились в page routes, даже когда datasource формы в режиме query
 
         context = (PageContext) route("/page/testPreFilter", Page.class);
         openPage = (SimplePage) read().compile().get(context);

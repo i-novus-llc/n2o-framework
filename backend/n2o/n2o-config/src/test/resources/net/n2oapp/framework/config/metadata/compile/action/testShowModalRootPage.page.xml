@@ -5,7 +5,7 @@
                 <toolbar>
                     <button id="create" model="filter">
                         <show-modal page-id="testShowModalPage" modal-size="sm"
-                                    scrollable="true" detail-field-id="id"
+                                    scrollable="true"
                                     upload="defaults" refresh-widget-id="second" type="drawer"
                                     submit-operation-id="create" submit-model="edit" route="/create"
                                     has-header="false" class="n2o-custom-modal-dialog" backdrop="true" style="background:red"/>
@@ -19,7 +19,7 @@
                         </show-modal>
                     </button>
                     <button id="createFocus" model="filter">
-                        <show-modal page-id="testShowModalPage" detail-field-id="id"
+                        <show-modal page-id="testShowModalPage"
                                     submit-operation-id="create" route="/createFocus"/>
                     </button>
                     <button id="updateFocusOld" model="resolve">
