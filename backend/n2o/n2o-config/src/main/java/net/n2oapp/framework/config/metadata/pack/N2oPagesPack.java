@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.pack;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.datasource.N2oDatasourceMerger;
 import net.n2oapp.framework.config.metadata.compile.page.*;
 
 /**
@@ -20,5 +21,6 @@ public class N2oPagesPack implements MetadataPack<N2oApplicationBuilder> {
                 new SearchablePageCompiler(),
                 new DatasourceCompiler());
         b.binders(new SimplePageBinder(), new StandardPageBinder());
+        b.mergers(new N2oDatasourceMerger());
     }
 }

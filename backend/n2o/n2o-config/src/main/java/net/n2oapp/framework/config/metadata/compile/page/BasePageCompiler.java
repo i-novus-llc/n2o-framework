@@ -95,8 +95,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 copiedFieldScope, dataSourcesScope, metaActions, filtersScope, index));
 
         //datasources
-        Map<String, Datasource> compiledDataSources = compileDataSources(context, p, dataSourcesScope,
-                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope, pageScope,
+        Map<String, Datasource> compiledDataSources = compileDataSources(context, p,
+                dataSourcesScope, pageScope,
+                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope,
                 searchBarScope, filtersScope);
         page.setDatasources(compiledDataSources);
 
@@ -148,10 +149,24 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private Map<String, Datasource> compileDataSources(PageContext context,
-                                                       CompileProcessor p, DataSourcesScope dataSourcesScope, Object... scopes) {
+                                                       CompileProcessor p,
+                                                       DataSourcesScope dataSourcesScope,
+                                                       PageScope pageScope,
+                                                       Object... scopes) {
         Map<String, Datasource> compiledDataSources = new HashMap<>();
+        if (context.getDatasources() != null) {
+            for (N2oDatasource ctxDs : context.getDatasources()) {
+                String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
+                if (dataSourcesScope.containsKey(dsId))
+                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
+                else {
+                    ctxDs.setId(dsId);//todo нужно клонировать ctxDs
+                    dataSourcesScope.put(dsId, ctxDs);
+                }
+            }
+        }
         for (N2oDatasource ds : dataSourcesScope.values()) {
-            Datasource compiled = p.compile(ds, context, scopes);
+            Datasource compiled = p.compile(ds, context, pageScope, scopes);
             compiledDataSources.put(compiled.getId(), compiled);
         }
         return compiledDataSources;

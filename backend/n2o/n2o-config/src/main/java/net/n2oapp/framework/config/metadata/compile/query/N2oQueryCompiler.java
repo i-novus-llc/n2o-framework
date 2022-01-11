@@ -50,7 +50,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setUniques(initSeparators(source.getUniques(), p));
         query.setCounts(initSeparators(source.getCounts(), p));
         query.setValidations(context.getValidations());
-        List<N2oQuery.Field> fields = Arrays.asList(source.getFields());
+        List<N2oQuery.Field> fields = source.getFields() != null ? Arrays.asList(source.getFields()) : List.of();
         fields = initDefaultFields(fields);
         fields = initDefaultFilters(fields, p);
         fields = initDefaultMapping(fields);

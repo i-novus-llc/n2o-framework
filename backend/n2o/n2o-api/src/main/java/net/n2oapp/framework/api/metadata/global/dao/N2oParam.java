@@ -55,11 +55,13 @@ public class N2oParam implements Serializable {
      */
     private String refPageId;
 
-    public N2oParam(String name, String value, String refWidgetId, ReduxModel refModel, String refPageId) {
-        this.name = name;
-        this.value = value;
-        this.refWidgetId = refWidgetId;
-        this.model = refModel;
-        this.refPageId = refPageId;
+
+    public N2oParam(N2oParam param) {
+        this.name = param.name;
+        this.value = param.value;
+        this.refWidgetId = param.refWidgetId;
+        this.model = param.model;
+        this.refPageId = param.refPageId;
+        this.datasource = param.datasource;
     }
 }

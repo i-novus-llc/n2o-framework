@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Процессор сборки метаданных
@@ -160,6 +161,22 @@ public interface CompileProcessor {
                     return (T) defaultValue;
                 }
             }
+        return null;
+    }
+
+    /**
+     * Привести значение к значению по умолчанию, если оно null.
+     * Если первое значение по умолчанию тоже null, берется следующее и т.д.
+     *
+     * @param value                Исходное значение
+     * @param defaultValueFunction Значения по умолчанию, получаемое через функцию
+     * @param <T>                  Тип значения
+     * @return Значение приведенное к значению по умолчанию
+     */
+    @SuppressWarnings("unchecked")
+    default <T> T cast(T value, Supplier<T> defaultValueFunction) {
+        if (value != null) return value;
+        if (defaultValueFunction != null) return defaultValueFunction.get();
         return null;
     }
 }

@@ -79,7 +79,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
         PageContext drawerContext = (PageContext) route("/p/create", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(drawerContext.getUpload(), is(UploadType.defaults));
+        assertThat(drawerContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_create"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -136,7 +136,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(drawerContext.getUpload(), is(UploadType.query));
+        assertThat(drawerContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_update"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -240,7 +240,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
-        assertThat(drawerContext.getUpload(), is(UploadType.query));
+        assertThat(drawerContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
 
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_updateWithPrefilters"));

@@ -38,8 +38,9 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attribute(e, "route", op::getRoute, op::setRoute);
         p.childrenByEnum(e, "pre-filters", op::getPreFilters, op::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
-        p.children(e, null, "query-param", op::getQueryParams, op::setQueryParams, N2oQueryParam.class, this::param);
-        p.children(e, null, "path-param", op::getPathParams, op::setPathParams, N2oPathParam.class, this::param);
+        p.children(e, null, "query-param", op::getQueryParams, op::addQueryParams, N2oQueryParam.class, this::param);
+        p.children(e, null, "path-param", op::getPathParams, op::addPathParams, N2oPathParam.class, this::param);
+        op.adaptV1();
     }
 
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
