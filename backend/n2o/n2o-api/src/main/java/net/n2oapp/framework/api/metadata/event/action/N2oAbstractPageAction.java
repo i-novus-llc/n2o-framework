@@ -85,7 +85,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     public void adaptV1() {
         if (upload != null) {
             N2oDatasource datasource = new N2oDatasource();
-            datasource.setId("main");
             switch (upload) {
                 case query:
                     datasource.setDefaultValuesMode(DefaultValuesMode.query);

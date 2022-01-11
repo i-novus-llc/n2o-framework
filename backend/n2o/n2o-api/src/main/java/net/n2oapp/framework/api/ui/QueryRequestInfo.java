@@ -13,6 +13,7 @@ public class QueryRequestInfo extends RequestInfo {
     private CompiledQuery query;
     private N2oPreparedCriteria criteria;
     private DataSet data;
+    @Deprecated
     private UploadType upload;
     private int size;
 

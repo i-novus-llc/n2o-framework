@@ -92,7 +92,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/create", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(modalContext.getUpload(), is(UploadType.defaults));
+        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_create"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
@@ -153,7 +153,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(modalContext.getUpload(), is(UploadType.query));
+        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_update"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
@@ -274,7 +274,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(modalContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{id}"));
-        assertThat(modalContext.getUpload(), is(UploadType.query));
+        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
 
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_updateWithPrefilters"));

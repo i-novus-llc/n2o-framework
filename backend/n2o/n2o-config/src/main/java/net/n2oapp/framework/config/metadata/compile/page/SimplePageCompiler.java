@@ -87,9 +87,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
         ValidationList validationList = new ValidationList();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
-        if (context.getUpload() != null && widget.getDatasource() != null) {
-            widget.getDatasource().setDefaultValuesMode(DefaultValuesMode.values()[context.getUpload().ordinal()]);
-        }
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         FiltersScope filtersScope = new FiltersScope();
@@ -122,14 +119,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     private Map<String, Datasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
                                                     CompileProcessor p, Object ... scopes) {
         Map<String, Datasource> compiledDatasources = new StrictMap<>();
-        if (context.getDatasources() != null) {
-            for (N2oDatasource ctxDs : context.getDatasources()) {
-                if (dataSourcesScope.containsKey(ctxDs.getId()))
-                    dataSourcesScope.put(ctxDs.getId(), p.merge(dataSourcesScope.get(ctxDs.getId()), ctxDs));
-                else
-                    dataSourcesScope.put(ctxDs.getId(), ctxDs);
-            }
-        }
+        initContextDatasource(dataSourcesScope, context, p);
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
                 Datasource compiled = p.compile(ds, context, scopes);
@@ -137,6 +127,19 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             });
         }
         return compiledDatasources;
+    }
+
+    private void initContextDatasource(DataSourcesScope dataSourcesScope, PageContext context, CompileProcessor p) {
+        if (context.getDatasources() != null) {
+            for (N2oDatasource ctxDs : context.getDatasources()) {
+                String dsId = ctxDs.getId() != null ? ctxDs.getId() : MAIN_WIDGET_ID;
+                if (dataSourcesScope.containsKey(dsId)) {
+                    ctxDs.setId(dsId);//todo нужно клонировать ctxDs
+                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
+                } else
+                    dataSourcesScope.put(ctxDs.getId(), ctxDs);
+            }
+        }
     }
 
     private PageRoutes initRoute(String pageRoute) {

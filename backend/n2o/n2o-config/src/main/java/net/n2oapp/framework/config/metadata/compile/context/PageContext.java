@@ -180,9 +180,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.redirectUrlOnSuccessSubmit = context.redirectUrlOnSuccessSubmit;
         this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
         this.unsavedDataPromptOnClose = context.unsavedDataPromptOnClose;
-        this.upload = context.upload;
         this.clientPageId = context.clientPageId;
         this.preFilters = context.preFilters;
+        this.datasources = context.datasources;
     }
 
     public void setBreadcrumbs(List<Breadcrumb> breadcrumbs) {
