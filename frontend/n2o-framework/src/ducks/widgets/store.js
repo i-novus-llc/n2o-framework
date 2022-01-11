@@ -398,8 +398,8 @@ const widgetSlice = createSlice({
              * @param {string} action.type
              * @param {{widgetId: string}} action.payload
              */
-            reducer(state, action) {
-                delete state[action.payload]
+            reducer(state, { payload }) {
+                delete state[payload.widgetId]
             },
         },
     },
