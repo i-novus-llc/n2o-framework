@@ -2,8 +2,11 @@ package net.n2oapp.framework.api.metadata.event.action;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -16,6 +19,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.List;
+
+import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 
 /**
  * Абстрактное действие открытия страницы
@@ -82,21 +88,80 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private String maxWidth;
 
+    @Deprecated
     public void adaptV1() {
-        if (upload != null) {
+        if (getUpload() != null || getDetailFieldId() != null) {
             N2oDatasource datasource = new N2oDatasource();
-            switch (upload) {
-                case query:
-                    datasource.setDefaultValuesMode(DefaultValuesMode.query);
-                    break;
-                case defaults:
-                    datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
-                    break;
-                case copy:
-                    datasource.setDefaultValuesMode(DefaultValuesMode.merge);
-                    break;
+
+            if (getUpload() != null) {
+                switch (getUpload()) {
+                    case query:
+                        datasource.setDefaultValuesMode(DefaultValuesMode.query);
+                        break;
+                    case defaults:
+                        datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                        break;
+                    case copy:
+                        datasource.setDefaultValuesMode(DefaultValuesMode.merge);
+                        break;
+                }
             }
+
+            if (getDetailFieldId() != null && !UploadType.defaults.equals(getUpload())) {
+                N2oPreFilter filter = new N2oPreFilter();
+                filter.setFieldId(getDetailFieldId());
+                filter.setType(FilterType.eq);
+                String param = getMasterParam();
+                if (param == null && getRoute() != null && getRoute().contains(":")) {
+                    if (getRoute().indexOf(":") != getRoute().lastIndexOf(":"))
+                        throw new N2oException(String.format("Невозможно определить параметр для detail-field-id в пути %s, необходимо задать master-param", getRoute()));
+                    param = getRoute().substring(getRoute().indexOf(":") + 1, getRoute().lastIndexOf("/"));
+                }
+                if (param == null) {
+                    param = "$widgetId_" + getDetailFieldId();
+                }
+                if (getRoute() != null && getRoute().contains(":" + param)) {
+                    N2oPathParam pathParam = new N2oPathParam();
+                    pathParam.setName(param);
+                    pathParam.setDatasource(filter.getDatasource());
+                    pathParam.setModel(filter.getModel());
+                    pathParam.setValue(filter.getValueAttr());
+                    boolean exists = false;
+                    if (getPathParams() != null) {
+                        for (N2oPathParam oldPathParam : getPathParams()) {
+                            if (oldPathParam.getName().equals(param)) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!exists)
+                        addPathParams(new N2oPathParam[]{pathParam});
+                } else if (!ReduxModel.filter.equals(filter.getModel())) {
+                    N2oQueryParam queryParam = new N2oQueryParam();
+                    queryParam.setName(param);
+                    queryParam.setDatasource(filter.getDatasource());
+                    queryParam.setModel(filter.getModel());
+                    queryParam.setValue(filter.getValueAttr());
+                    boolean exists = false;
+                    if (getQueryParams() != null) {
+                        for (N2oQueryParam oldQueryParam : getQueryParams()) {
+                            if (oldQueryParam.getName().equals(param)) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!exists)
+                        addQueryParams(new N2oQueryParam[]{queryParam});
+                }
+                filter.setParam(param);
+                filter.setValueAttr(Placeholders.ref(getMasterFieldId() != null ? getMasterFieldId() : PK));
+                datasource.addFilters(List.of(filter));
+            }
+
             datasources = new N2oDatasource[]{datasource};
+
         }
     }
 
@@ -119,13 +184,13 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
         return Arrays.stream(this.params).filter(p -> p instanceof N2oQueryParam).toArray(N2oQueryParam[]::new);
     }
 
-    public void setPathParams(N2oPathParam[] pathParams) {
+    public void addPathParams(N2oPathParam[] pathParams) {
         if (this.params == null)
             this.params = new N2oParam[0];
         this.params = ArrayUtils.addAll(this.params, pathParams);
     }
 
-    public void setQueryParams(N2oQueryParam[] queryParams) {
+    public void addQueryParams(N2oQueryParam[] queryParams) {
         if (this.params == null)
             this.params = new N2oParam[0];
         this.params = ArrayUtils.addAll(this.params, queryParams);

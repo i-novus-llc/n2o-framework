@@ -21,7 +21,6 @@
                         model="filter">
                     <show-modal src="src"
                                 master-field-id="testId1"
-                                detail-field-id="testId2"
                                 page-id="pageId"
                                 object-id="objectId"
                                 page-name="pageName"
@@ -30,8 +29,7 @@
                                 close-after-submit="true"
                                 redirect-target-after-submit="application"
                                 redirect-url-after-submit="testUrl"
-                                route="/route"
-                                upload="query"/>
+                                route="/route"/>
                 </button>
             </toolbar>
 

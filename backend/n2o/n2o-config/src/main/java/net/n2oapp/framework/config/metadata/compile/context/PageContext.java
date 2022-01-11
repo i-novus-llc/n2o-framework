@@ -13,10 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -131,11 +128,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     @Deprecated
     private UploadType upload;
     /**
-     * Список предустановленных фильтраций для основного виджета
-     */
-    @Deprecated
-    private List<N2oPreFilter> preFilters;
-    /**
      * Список источников данных открываемой страницы
      */
     private List<N2oDatasource> datasources;
@@ -181,7 +173,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
         this.unsavedDataPromptOnClose = context.unsavedDataPromptOnClose;
         this.clientPageId = context.clientPageId;
-        this.preFilters = context.preFilters;
         this.datasources = context.datasources;
     }
 
@@ -190,5 +181,15 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
             this.breadcrumbs = Collections.unmodifiableList(breadcrumbs);
         else
             this.breadcrumbs = null;
+    }
+
+    @Deprecated
+    public List<N2oPreFilter> getPreFilters() {
+        List<N2oPreFilter> filters = new ArrayList<>();
+        if (datasources != null)
+            for (N2oDatasource datasource : datasources) {
+                filters.addAll(Arrays.asList(datasource.getFilters()));
+            }
+        return filters;
     }
 }

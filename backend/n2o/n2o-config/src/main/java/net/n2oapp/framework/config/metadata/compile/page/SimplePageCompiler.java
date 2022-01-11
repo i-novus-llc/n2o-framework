@@ -79,7 +79,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         PageRoutes routes = initRoute(pageRoute);
-        initPreFilters(context, widget);
         Models models = new Models();
         page.setModels(models);
         WidgetScope widgetScope = new WidgetScope();
@@ -146,12 +145,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         PageRoutes routes = new PageRoutes();
         routes.addRoute(new PageRoutes.Route(pageRoute));
         return routes;
-    }
-
-    private void initPreFilters(PageContext context, N2oWidget widget) {
-        if (context.getPreFilters() != null && !context.getPreFilters().isEmpty()) {
-            widget.getDatasource().addFilters(context.getPreFilters());
-        }
     }
 
     private Toolbar compileToolbar(PageContext context, CompileProcessor p, String datasourceId, Object... scopes) {
