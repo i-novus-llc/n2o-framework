@@ -71,7 +71,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         initDatasource(compiled, source, context, p);
         initDefaults(source, context, p);
         PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setId(pageScope.getClientDatasourceId(source.getId()));
+        compiled.setId(pageScope != null ? pageScope.getClientDatasourceId(source.getId()) : source.getId());
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
