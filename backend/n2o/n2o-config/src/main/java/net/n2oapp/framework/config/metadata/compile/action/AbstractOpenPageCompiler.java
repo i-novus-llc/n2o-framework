@@ -106,49 +106,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
     }
 
-    protected List<N2oPreFilter> initPreFilters(N2oAbstractPageAction source, String actionRoute, String parentWidgetId, CompileProcessor p) {
-        List<N2oPreFilter> preFilters = new ArrayList<>();
-        ReduxModel model = getModelFromComponentScope(p);
-        PageScope pageScope = p.getScope(PageScope.class);
-
-        if (source.getDetailFieldId() != null) {
-            N2oPreFilter filter = new N2oPreFilter();
-            filter.setFieldId(p.cast(source.getDetailFieldId(), PK));
-            filter.setType(FilterType.eq);
-            filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
-            filter.setRefWidgetId(parentWidgetId);
-            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.resolve.equals(model)) {
-                List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
-                String masterIdParam = actionRouteParams.isEmpty() ? null : actionRouteParams.get(0);
-                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, createGlobalParam(filter.getFieldId(), p)));
-            } else {
-                filter.setParam(p.cast(source.getMasterParam(), createGlobalParam(filter.getFieldId(), p)));
-            }
-            filter.setModel(ReduxModel.resolve);
-            if (pageScope != null) {
-                filter.setRefPageId(pageScope.getPageId());
-            }
-            preFilters.add(filter);
-        }
-        if (source.getPreFilters() != null) {
-            for (N2oPreFilter preFilter : source.getPreFilters()) {
-                N2oPreFilter filter = new N2oPreFilter();
-                filter.setFieldId(preFilter.getFieldId());
-                filter.setParam(p.cast(preFilter.getParam(), createGlobalParam(filter.getFieldId(), p)));
-                filter.setType(preFilter.getType());
-                filter.setValueAttr(preFilter.getValueAttr());
-                filter.setValuesAttr(preFilter.getValuesAttr());
-                filter.setRefWidgetId(p.cast(preFilter.getRefWidgetId(), parentWidgetId));
-                filter.setModel(p.cast(preFilter.getModel(), model));
-                if (pageScope != null) {
-                    filter.setRefPageId(pageScope.getPageId());
-                }
-                preFilters.add(filter);
-            }
-        }
-        return preFilters;
-    }
-
     protected abstract PageContext constructContext(String pageId, String route);
 
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
@@ -210,7 +167,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
-        pageContext.setCopyWidgetId(source.getCopyWidgetId());
         pageContext.setCopyDatasource(source.getCopyDatasource());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
@@ -408,23 +364,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageRoute.setIsOtherPage(true);
             pageRoutes.addRoute(pageRoute);
         }
-    }
-
-
-    private Map<String, ModelLink> initPreFilterParams(List<N2oPreFilter> preFilters,
-                                                       Map<String, ModelLink> pathParams,
-                                                       CompileProcessor p) {
-        return preFilters == null ? null :
-                preFilters.stream().filter(f -> f.getParam() != null && !pathParams.containsKey(f.getParam()))
-                        .collect(Collectors.toMap(N2oPreFilter::getParam, pf -> Redux.linkParam(pf, p)));
-    }
-
-    private String createGlobalParam(String param, CompileProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope == null || widgetScope.getClientWidgetId() == null) {
-            return param;
-        }
-        return widgetScope.getClientWidgetId() + "_" + param;
     }
 
     /**

@@ -41,11 +41,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private ReduxModel copyModel;
     /**
-     * Идентификатор виджета источника
-     */
-    @Deprecated
-    private String copyWidgetId;
-    /**
      * Идентификатор источника данных из которого будут копироваться данные
      */
     private String copyDatasource;
@@ -149,26 +144,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
 
     public PageContext(String sourcePageId, String route) {
         super(route, sourcePageId, N2oPage.class, Page.class);
-    }
-
-    public PageContext(PageContext context) {
-        super(context);
-        this.breadcrumbs = context.breadcrumbs;
-        this.submitOperationId = context.submitOperationId;
-        this.submitModel = context.submitModel;
-        this.submitLabel = context.submitLabel;
-        this.resultWidgetId = context.resultWidgetId;
-        this.parentRoute = context.parentRoute;
-        this.parentClientWidgetId = context.parentClientWidgetId;
-        this.pageName = context.pageName;
-        this.closeOnSuccessSubmit = context.closeOnSuccessSubmit;
-        this.refreshOnSuccessSubmit = context.refreshOnSuccessSubmit;
-        this.refreshOnClose = context.refreshOnClose;
-        this.redirectUrlOnSuccessSubmit = context.redirectUrlOnSuccessSubmit;
-        this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
-        this.unsavedDataPromptOnClose = context.unsavedDataPromptOnClose;
-        this.clientPageId = context.clientPageId;
-        this.datasources = context.datasources;
     }
 
     public void setBreadcrumbs(List<Breadcrumb> breadcrumbs) {
