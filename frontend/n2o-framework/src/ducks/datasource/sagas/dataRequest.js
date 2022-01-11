@@ -3,7 +3,6 @@ import {
     put,
     select,
 } from 'redux-saga/effects'
-import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
@@ -18,6 +17,7 @@ import {
     rejectRequest,
     resolveRequest,
 } from '../store'
+import { makeGetModelByPrefixSelector } from '../../models/selectors'
 
 import { fetch } from './fetch'
 
@@ -53,11 +53,16 @@ export function* dataRequest({ payload }) {
 
         const response = yield fetch(id, resolvedProvider)
 
-        yield put(changeCount(id, response.count))
-        yield put(setModel(MODEL_PREFIX.source, id, response.list))
-        if (isEmpty(response.list)) {
+        const aciveModel = yield select(makeGetModelByPrefixSelector(MODEL_PREFIX.active, id))
+
+        // Если есть активная модель и её нету в новом списке - убираем активную модель
+        if (aciveModel && !response.list?.some(({ id }) => aciveModel.id === id)) {
             yield put(setModel(MODEL_PREFIX.active, id, null))
         }
+
+        yield put(changeCount(id, response.count))
+        yield put(setModel(MODEL_PREFIX.source, id, response.list))
+
         if (response.page && response.page !== query.page) {
             yield put(changePage(id, response.page))
         }
