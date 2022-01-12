@@ -27,7 +27,7 @@ const webSocketConfig = {
     updater: updateModel,
     source: 'datasource',
     connected: 'components',
-    wsUrl: 'https://yandex.mr:32448/sandbox/ws',
+    wsUrl: '/n2o/ws',
 }
 
 export default function generateSagas(dispatch, config) {

@@ -75,11 +75,10 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
 
     const connectedComponents = state[source][dataSourceId][connected] || []
     const isStompProvider = get(state, `${source}.${dataSourceId}.provider.type`) === 'stomp'
-    // const destination = get(state, `${source}.${dataSourceId}.provider.destination`)
-    /*FIXME bring it back*/
+    /* user prefix for private messages */
+    const destination = '/user/' + get(state, `${source}.${dataSourceId}.provider.destination`)
 
-    const destination = '/topic/notif/count' /*FIXME for debugging remove it and return destination from dataSource*/
-    const needAnOpenChannel = connectedComponents.length > 0 /* FIXME isStompProvider check will be added */
+    const needAnOpenChannel = connectedComponents.length > 0 && isStompProvider
 
     try {
         const stompClient = yield call(connectionWS, wsUrl)
