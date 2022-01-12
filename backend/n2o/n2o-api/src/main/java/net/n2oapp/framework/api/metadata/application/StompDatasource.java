@@ -16,16 +16,9 @@ import java.util.Map;
 public class StompDatasource extends AbstractDatasource {
 
     @JsonProperty
-    private NotificationCounter notifCount;
-
-    @Getter
-    @Setter
-    public static class NotificationCounter {
-        @JsonProperty
-        private Provider provider;
-        @JsonProperty
-        private List<Map<String, Object>> values;
-    }
+    private Provider provider;
+    @JsonProperty
+    private List<Map<String, Object>> values;
 
     @Getter
     @Setter
