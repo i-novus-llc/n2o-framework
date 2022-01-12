@@ -176,9 +176,9 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             return ((DatasourceIdAware)source).getDatasource();
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
-            N2oButton button = componentScope.unwrap(N2oButton.class);
-            if (button != null && button.getDatasource() != null) {
-                return button.getDatasource();
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
+                return datasourceIdAware.getDatasource();
             }
         }
         String widgetId = initWidgetId(context, p);
