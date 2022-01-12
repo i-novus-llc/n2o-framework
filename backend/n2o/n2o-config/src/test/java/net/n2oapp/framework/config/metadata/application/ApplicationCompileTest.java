@@ -68,16 +68,16 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(datasource, notNullValue());
 
         datasource = application.getDatasources().get("taskCount");
-        assertThat(((StompDatasource) datasource).getNotifCount().getProvider().getType(), is("stomp"));
-        assertThat(((StompDatasource) datasource).getNotifCount().getProvider().getDestination(), is("/task/count"));
-        assertThat(((StompDatasource) datasource).getNotifCount().getValues(), nullValue());
+        assertThat(((StompDatasource) datasource).getProvider().getType(), is("stomp"));
+        assertThat(((StompDatasource) datasource).getProvider().getDestination(), is("/task/count"));
+        assertThat(((StompDatasource) datasource).getValues(), nullValue());
 
         datasource = application.getDatasources().get("notifCount");
-        assertThat(((StompDatasource) datasource).getNotifCount().getProvider().getType(), is("stomp"));
-        assertThat(((StompDatasource) datasource).getNotifCount().getProvider().getDestination(), is("/notif/count"));
-        assertThat(((StompDatasource) datasource).getNotifCount().getValues(), notNullValue());
-        assertThat(((StompDatasource) datasource).getNotifCount().getValues().get(0), is(Map.of("count", 0)));
-        assertThat(((StompDatasource) datasource).getNotifCount().getValues().get(1), is(Map.of("notifCount", "99+")));
+        assertThat(((StompDatasource) datasource).getProvider().getType(), is("stomp"));
+        assertThat(((StompDatasource) datasource).getProvider().getDestination(), is("/notif/count"));
+        assertThat(((StompDatasource) datasource).getValues(), notNullValue());
+        assertThat(((StompDatasource) datasource).getValues().get(0), is(Map.of("count", 0)));
+        assertThat(((StompDatasource) datasource).getValues().get(1), is(Map.of("notifCount", "99+")));
     }
 
 }

@@ -27,15 +27,9 @@ public class StompDatasourceCompiler extends BaseDatasourceCompiler<N2oStompData
     public StompDatasource compile(N2oStompDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StompDatasource compiled = new StompDatasource();
         initDatasource(compiled, source, context, p);
-        compiled.setNotifCount(initNotifCount(source));
+        compiled.setProvider(initProvider(source));
+        compiled.setValues(initValues(source));
         return compiled;
-    }
-
-    private StompDatasource.NotificationCounter initNotifCount(N2oStompDatasource source) {
-        StompDatasource.NotificationCounter notifCount = new StompDatasource.NotificationCounter();
-        notifCount.setProvider(initProvider(source));
-        notifCount.setValues(initValues(source));
-        return notifCount;
     }
 
     private StompDatasource.Provider initProvider(N2oStompDatasource source) {
