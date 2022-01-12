@@ -31,13 +31,13 @@ function DefaultPage({
     disabled,
     dispatch,
 }) {
-    const { style, className, datasources } = metadata
+    const { style, className, datasources, id: pageId } = metadata
 
     useLayoutEffect(() => {
         if (!datasources || isEmpty(datasources)) { return }
 
         Object.entries(datasources).forEach(([id, config]) => {
-            dispatch(register(id, config))
+            dispatch(register(id, { pageId, ...config }))
         })
 
         // eslint-disable-next-line consistent-return
@@ -46,7 +46,7 @@ function DefaultPage({
                 dispatch(remove(id))
             })
         }
-    }, [datasources, dispatch])
+    }, [datasources, dispatch, pageId])
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>

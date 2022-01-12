@@ -18,7 +18,10 @@ import {
     resolveRequest,
 } from '../store'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { getLocation, rootPageSelector } from '../../global/store'
+import { makePageRoutesByIdSelector } from '../../pages/selectors'
 
+import { routesQueryMapping } from './routesQueryMapping'
 import { fetch } from './fetch'
 
 export function* dataRequest({ payload }) {
@@ -26,7 +29,7 @@ export function* dataRequest({ payload }) {
 
     try {
         const state = yield select()
-        const { provider, size, sorting, page, widgets } = yield select(dataSourceByIdSelector(id))
+        const { provider, size, sorting, page, widgets, pageId } = yield select(dataSourceByIdSelector(id))
 
         if (!widgets.length) {
             return
@@ -36,6 +39,15 @@ export function* dataRequest({ payload }) {
             yield put(rejectRequest(id))
 
             return
+        }
+
+        const currentPageId = pageId || (yield select(rootPageSelector))
+        const routes = yield select(makePageRoutesByIdSelector(currentPageId))
+
+        if (routes?.queryMapping) {
+            const location = yield select(getLocation)
+
+            yield* routesQueryMapping(state, routes, location)
         }
 
         const query = {
