@@ -52,7 +52,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setId(source.getId());
         compiled.setTitle(source.getName());
         compiled.setIcon(source.getIcon());
-        compiled.setImageSrc(source.getImage());
+        compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(source.getImageShape());
         compiled.setDatasource(source.getDatasource());
         if (source instanceof N2oSimpleMenu.MenuItem) {
@@ -66,8 +66,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void menuItem(N2oSimpleMenu.MenuItem source, HeaderItem compiled, CompileProcessor p, ApplicationContext context) {
-        compiled.setBadge(p.resolve(source.getBadge()));
-        compiled.setBadgeColor(source.getBadgeColor());
+        compiled.setBadge(p.resolveJS(source.getBadge()));
+        compiled.setBadgeColor(p.resolveJS(source.getBadgeColor()));
         compiled.setType("link");
         compiled.setPageId(initPageId(source.getAction()));
         if (source.getName() == null)
