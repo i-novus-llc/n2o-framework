@@ -46,7 +46,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getId(), is("notif"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
-        assertThat(menuItem.getBadge(), is(2));
+        assertThat(menuItem.getBadge(), is("2"));
         assertThat(menuItem.getBadgeColor(), is("warning"));
         assertThat(menuItem.getDatasource(), is("ds1"));
         assertThat(menuItem.getHref(), is("/login"));
