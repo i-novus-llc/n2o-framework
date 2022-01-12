@@ -137,8 +137,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
         ModelLink queryMappingModelLink = queryMapping.get("number");
-        assertThat(queryMappingModelLink.getBindLink(), is("models.resolve['test_main']"));
-        assertThat(queryMappingModelLink.getValue(), is("`number`"));
+        assertThat(queryMappingModelLink.normalizeLink(), is("models.resolve['test_main'].number"));
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(2));

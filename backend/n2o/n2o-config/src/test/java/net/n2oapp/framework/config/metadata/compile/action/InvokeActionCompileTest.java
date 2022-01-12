@@ -142,8 +142,6 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(context.getValidations().get(0), instanceOf(MandatoryValidation.class));
         assertThat(context.getValidations().get(1), instanceOf(ConditionValidation.class));
         assertThat(context.getValidations().get(2), instanceOf(ConstraintValidation.class));
-        assertThat(context.getFailAlertWidgetId(), is("route_testActionContext"));
-        assertThat(context.getSuccessAlertWidgetId(), is("route_testActionContext"));
 
         compile("net/n2oapp/framework/config/metadata/compile/action/testNotValidateAction.page.xml")
                 .get(new PageContext("testNotValidateAction", "/p"));

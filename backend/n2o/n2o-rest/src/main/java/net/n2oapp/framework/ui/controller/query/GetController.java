@@ -48,7 +48,7 @@ public abstract class GetController implements ControllerTypeAware {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
             throw e;
         } catch (Exception e) {
-            throw new N2oException(e, requestInfo.getFailAlertWidgetId());
+            throw new N2oException(e);
         }
         dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
         return pageData;

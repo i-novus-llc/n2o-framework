@@ -41,15 +41,14 @@ public class N2oClientDataProviderUtil {
      */
     public static N2oClientDataProvider initFromField(N2oPreFilter[] preFilters, String queryId, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(queryId);
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         CompiledQuery query = p.getCompiled(queryContext);
         p.addRoute(prepareQueryContextForRouteRegister(query));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        if (modelsScope != null) {
-            dataProvider.setTargetModel(modelsScope.getModel());
-            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
-            queryContext.setFailAlertWidgetId(modelsScope.getWidgetId());
+        if (widgetScope != null) {
+            dataProvider.setTargetModel(widgetScope.getModel());
+            dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
         }
         dataProvider.setUrl(query.getRoute());
 
@@ -98,7 +97,8 @@ public class N2oClientDataProviderUtil {
         dataProvider.setMethod(RequestMethod.POST);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         dataProvider.setUrl(p.cast(submit.getRoute(), widgetScope.getDatasourceId()));
-        dataProvider.setTargetModel(ReduxModel.resolve);
+        dataProvider.setTargetModel(widgetScope.getModel());
+        dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());
@@ -111,6 +111,7 @@ public class N2oClientDataProviderUtil {
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
         actionContextData.setMessagePosition(submit.getMessagePosition());
         actionContextData.setMessagePlacement(submit.getMessagePlacement());
+        actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());

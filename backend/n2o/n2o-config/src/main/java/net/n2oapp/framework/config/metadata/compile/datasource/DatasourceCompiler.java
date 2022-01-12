@@ -314,8 +314,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         submitProvider.setSubmitForm(p.cast(source.getSubmit().getSubmitAll(), true));
         submitProvider.setGlobalDatasourceId(compiled.getId());
         submitProvider.setDatasourceId(source.getId());
-        submitProvider.getActionContextData().setSuccessAlertWidgetId(source.getSubmit().getMessageWidgetId());
-        submitProvider.getActionContextData().setFailAlertWidgetId(source.getSubmit().getMessageWidgetId());
+        submitProvider.getActionContextData().setMessagesForm(source.getSubmit().getMessageWidgetId());
         return compileSubmit(submitProvider, context, p);
     }
 

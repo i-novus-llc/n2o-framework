@@ -62,8 +62,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     private void initDefaultsParam(N2oParam param, CompileContext<?, ?> context, CompileProcessor p, S source) {
         param.setModel(p.cast(param.getModel(), () -> getModelFromComponentScope(p)));
-        param.setRefWidgetId(p.cast(param.getRefWidgetId(), () -> initWidgetId(p)));
-        param.setDatasource(p.cast(param.getDatasource(), initLocalDatasource(source, context, p)));
+        param.setDatasource(p.cast(param.getDatasource(), () -> getLocalDatasource(p)));
+        if (param.getDatasource() == null)
+            throw new N2oException(String.format("datasource is not undefined for param %s of action %s", param.getName(), source.getId()));
         param.setRefPageId(p.cast(param.getRefPageId(), () -> {
             PageScope pageScope = p.getScope(PageScope.class);
             if (pageScope != null)
@@ -89,7 +90,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (datasource.getFilters() != null) {
             for (N2oPreFilter filter : datasource.getFilters()) {
                 filter.setModel(p.cast(filter.getModel(), () -> getModelFromComponentScope(p)));
-                filter.setRefWidgetId(p.cast(filter.getRefWidgetId(), () -> initWidgetId(p)));
+                filter.setDatasource(p.cast(filter.getRefWidgetId(), () -> getLocalDatasource(p)));
                 filter.setRefPageId(p.cast(filter.getRefPageId(), () -> {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
@@ -178,6 +179,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
+        String localDatasourceId = p.cast(source.getDatasource(), () -> getLocalDatasource(p));
+        pageContext.setParentLocalDatasourceId(localDatasourceId);
+        pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));

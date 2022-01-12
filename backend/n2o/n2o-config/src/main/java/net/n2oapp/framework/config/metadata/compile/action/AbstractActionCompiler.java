@@ -7,11 +7,8 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -76,24 +73,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
             } else {
                 throw new N2oException("Unknown widgetId for invoke action!");
-            }
-        }
-        return targetWidgetId;
-    }
-
-    /**
-     * Инициализация целевого виджета действия
-     */
-    protected String initWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = getWidgetIdByComponentScope(p);
-        if (targetWidgetId == null) {
-            if (widgetScope != null) {
-                targetWidgetId = widgetScope.getWidgetId();
-            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
-                targetWidgetId = ((PageContext) context).getResultWidgetId();
-            } else {
-                return null;
             }
         }
         return targetWidgetId;
@@ -166,14 +145,10 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация локального источника данных действия
      *
-     * @param source  Исходного действие
-     * @param context Контекст сборки
      * @param p       Процессор сборки
      * @return Локальный источник данных действия
      */
-    protected String initLocalDatasource(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source instanceof DatasourceIdAware && ((DatasourceIdAware)source).getDatasource() != null)
-            return ((DatasourceIdAware)source).getDatasource();
+    protected String getLocalDatasource(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
@@ -181,11 +156,10 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 return datasourceIdAware.getDatasource();
             }
         }
-        String widgetId = initWidgetId(context, p);
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && widgetId != null)
-            return pageScope.getWidgetIdSourceDatasourceMap().get(widgetId);
-        throw new N2oException("datasource is not undefined for action " + source.getId());
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getDatasourceId();
+        return null;
     }
 
     /**

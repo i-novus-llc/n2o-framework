@@ -28,8 +28,6 @@ public class N2oClientDataProvider implements Serializable {
     private N2oParam[] headerParams;
     private N2oParam[] queryParams;
     private ReduxModel targetModel;
-    @Deprecated
-    private String targetWidgetId;
     private String globalDatasourceId;
     private String datasourceId;
     private RequestMethod method;
@@ -51,14 +49,9 @@ public class N2oClientDataProvider implements Serializable {
         private RefreshSaga refresh;
         @Deprecated
         private String parentWidgetId;
-        @Deprecated
-        private String failAlertWidgetId;
-        @Deprecated
-        private String successAlertWidgetId;
 
         private boolean messageOnSuccess;
         private boolean messageOnFail;
-        @Deprecated
         private String messagesForm;
         private MessagePosition messagePosition;
         private MessagePlacement messagePlacement;

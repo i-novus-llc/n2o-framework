@@ -27,7 +27,9 @@ public class ActionContext extends ObjectContext {
     private String failAlertWidgetId;
     @Deprecated
     private String successAlertWidgetId;
-    @Deprecated
+    /**
+     * Форма, в которой находятся валидации
+     */
     private String messagesForm;
     private RedirectSaga redirect;
     private RefreshSaga refresh;

@@ -57,10 +57,6 @@ public class N2oException extends RuntimeException {
         super(cause);
     }
 
-    public N2oException(Throwable cause, String alertKey) {
-        super(cause);
-    }
-
     public N2oException(String message) {
         super(message);
     }
