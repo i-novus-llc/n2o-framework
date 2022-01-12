@@ -28,6 +28,7 @@ function TilesWidget(props) {
         models,
         setPage,
         page,
+        loading,
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
@@ -55,6 +56,7 @@ function TilesWidget(props) {
             {...pagination}
             className={className}
             style={style}
+            loading={loading}
         >
             <TilesContainer
                 {...props}

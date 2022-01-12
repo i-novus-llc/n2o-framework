@@ -15,6 +15,7 @@ function TreeWidget(props) {
         disabled,
         className,
         style,
+        loading,
     } = props
 
     return (
@@ -25,6 +26,7 @@ function TreeWidget(props) {
             toolbar={toolbar}
             className={className}
             style={style}
+            loading={loading}
         >
             <TreeContainer
                 {...props}

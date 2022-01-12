@@ -13,7 +13,7 @@ import { AdvancedTableWidgetTypes } from './propTypes'
 
 const AdvancedTable = (props) => {
     const {
-        id, disabled, toolbar, datasource, className, setPage,
+        id, disabled, toolbar, datasource, className, setPage, loading,
         style, paging, filter, table, setFilter, models, size, count, page,
     } = props
     const { resolveProps } = useContext(FactoryContext)
@@ -49,6 +49,7 @@ const AdvancedTable = (props) => {
             style={style}
             setFilter={setFilter}
             filterModel={models.filter}
+            loading={loading}
             {...pagination}
         >
             <AdvancedTableContainer

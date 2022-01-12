@@ -35,6 +35,7 @@ function ChartWidget(props) {
         filter,
         className,
         style,
+        loading,
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
@@ -52,6 +53,7 @@ function ChartWidget(props) {
             className={className}
             style={style}
             datasource={datasource}
+            loading={loading}
         >
             <div className="n2o-chart-widget">
                 <Component {...chart} data={models.datasource} />

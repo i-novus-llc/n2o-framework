@@ -39,6 +39,7 @@ function ListWidget(props) {
         models,
         page,
         setPage,
+        loading,
     } = props
     const { place = 'bottomLeft' } = paging
     const pagination = {
@@ -67,6 +68,7 @@ function ListWidget(props) {
             {...pagination}
             className={className}
             style={style}
+            loading={loading}
         >
             <ListContainer
                 {...props}
