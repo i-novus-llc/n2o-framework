@@ -81,7 +81,7 @@ class ListContainer extends React.Component {
     }
 
     renderCell(section) {
-        const { id } = this.props
+        const { id, datasource } = this.props
 
         if (!section) { return }
 
@@ -90,6 +90,7 @@ class ListContainer extends React.Component {
             <ReduxCell
                 {...section}
                 widgetId={id}
+                datasource={datasource}
                 positionFixed={false}
                 modifiers={{}}
             />
@@ -172,6 +173,7 @@ class ListContainer extends React.Component {
 
 ListContainer.propTypes = {
     id: PropTypes.string,
+    datasource: PropTypes.string,
     toolbar: PropTypes.object,
     disabled: PropTypes.bool,
     pageId: PropTypes.string,
