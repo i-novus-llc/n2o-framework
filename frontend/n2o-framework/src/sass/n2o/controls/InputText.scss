@@ -51,3 +51,7 @@
 .n2o-input-text__suffix {
     margin-left: $input-padding-x;
 }
+
+.n2o-input.form-control.n2o-input-text {
+    text-overflow: ellipsis;
+}
