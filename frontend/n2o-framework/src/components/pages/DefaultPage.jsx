@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
@@ -33,7 +33,7 @@ function DefaultPage({
 }) {
     const { style, className, datasources } = metadata
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!datasources || isEmpty(datasources)) { return }
 
         Object.entries(datasources).forEach(([id, config]) => {

@@ -68,6 +68,8 @@ export function* dataRequest({ payload }) {
         }
         yield put(resolveRequest(id, response))
     } catch (err) {
+        yield put(setModel(MODEL_PREFIX.source, id, []))
+        yield put(setModel(MODEL_PREFIX.active, id, null))
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)
         yield put(

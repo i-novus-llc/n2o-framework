@@ -81,6 +81,13 @@ const datasource = createSlice({
             reducer(state, action) {
                 const { datasource } = action.payload
 
+                if (!state[datasource]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Attempt to request data from a non-existent source: ${datasource}`)
+
+                    return
+                }
+
                 state[datasource].loading = true
             },
         },
@@ -107,6 +114,8 @@ const datasource = createSlice({
             // eslint-disable-next-line sonarjs/no-identical-functions
             reducer(state, action) {
                 const { id } = action.payload
+
+                if (!state[id]) { return }
 
                 state[id].loading = false
             },
