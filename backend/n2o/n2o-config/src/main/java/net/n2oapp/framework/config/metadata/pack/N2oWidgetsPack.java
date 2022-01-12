@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.pack;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.N2oButtonGeneratorFactory;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.table.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;

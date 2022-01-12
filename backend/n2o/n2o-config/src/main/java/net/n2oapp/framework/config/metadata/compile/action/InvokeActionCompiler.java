@@ -102,22 +102,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return null;
     }
 
-    private String initLocalDatasource(N2oInvokeAction source, CompileContext<?,?> context, CompileProcessor p) {
-        if (source.getDatasource() != null)
-            return source.getDatasource();
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            N2oButton button = componentScope.unwrap(N2oButton.class);
-            if (button != null && button.getDatasource() != null) {
-                return button.getDatasource();
-            }
-        }
-        String widgetId = initWidgetId(context, p);
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && widgetId != null)
-            return pageScope.getWidgetIdSourceDatasourceMap().get(widgetId);
-        throw new N2oException("datasource is not undefined for action " + source.getId());
-    }
 
     private MetaSaga initFailMeta(InvokeAction compiled, N2oInvokeAction source,
                                   CompileContext<?, ?> context, CompileProcessor p) {

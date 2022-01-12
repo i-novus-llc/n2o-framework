@@ -2,12 +2,16 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -157,6 +161,31 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 for (N2oParam queryParam : queryParams)
                     queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, defaultClientWidgetId, defaultModel, p));
         }
+    }
+
+    /**
+     * Инициализация локального источника данных действия
+     *
+     * @param source  Исходного действие
+     * @param context Контекст сборки
+     * @param p       Процессор сборки
+     * @return Локальный источник данных действия
+     */
+    protected String initLocalDatasource(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source instanceof DatasourceIdAware && ((DatasourceIdAware)source).getDatasource() != null)
+            return ((DatasourceIdAware)source).getDatasource();
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            N2oButton button = componentScope.unwrap(N2oButton.class);
+            if (button != null && button.getDatasource() != null) {
+                return button.getDatasource();
+            }
+        }
+        String widgetId = initWidgetId(context, p);
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope != null && widgetId != null)
+            return pageScope.getWidgetIdSourceDatasourceMap().get(widgetId);
+        throw new N2oException("datasource is not undefined for action " + source.getId());
     }
 
     /**

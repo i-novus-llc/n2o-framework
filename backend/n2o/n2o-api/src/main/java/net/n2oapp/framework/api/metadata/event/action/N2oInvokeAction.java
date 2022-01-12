@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.event.action;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
@@ -16,7 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
  */
 @Getter
 @Setter
-public class N2oInvokeAction extends N2oAbstractAction {
+public class N2oInvokeAction extends N2oAbstractAction implements DatasourceIdAware {
     private String operationId;
     private String datasource;
     @Deprecated
