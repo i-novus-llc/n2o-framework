@@ -61,11 +61,7 @@ function* connectionWS(wsUrl) {
     // yield take(requestConfigSuccess.type)
     /*FIXME bring it back it awaits config json*/
 
-    const user = yield select(userConfigSelector) || {}
-    const { webSocketSessionid: token } = user
-    const finalWsUrl = token ? `${wsUrl}?wsid=${token}` : wsUrl
-
-    const socket = yield new SockJS(finalWsUrl)
+    const socket = yield new SockJS(wsUrl)
 
     return Stomp.over(socket)
 }
@@ -74,9 +70,10 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
     const state = yield select()
 
     const connectedComponents = state[source][dataSourceId][connected] || []
+
     const isStompProvider = get(state, `${source}.${dataSourceId}.provider.type`) === 'stomp'
     /* user prefix for private messages */
-    const destination = '/user/' + get(state, `${source}.${dataSourceId}.provider.destination`)
+    const destination = '/user' + get(state, `${source}.${dataSourceId}.provider.destination`)
 
     const needAnOpenChannel = connectedComponents.length > 0 && isStompProvider
 
@@ -113,9 +110,8 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
 }
 
 
-export function* wsSagaWorker(config) {
+export  function* wsSagaWorker(config) {
     const { observables, updater, source, connected, wsUrl } = config
-
     yield takeEvery(observables, ({ payload }) => connectionExecutor({
         ...payload,
         updater,

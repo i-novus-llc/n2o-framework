@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import cx from 'classnames'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import NavItem from 'reactstrap/lib/NavItem'
 import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
@@ -12,6 +13,8 @@ import DropdownItem from 'reactstrap/lib/DropdownItem'
 import colors from '../../../constants/colors'
 import { renderBadge } from '../../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
+import { WithDataSource } from '../../../core/datasource/WithDataSource'
+import { resolveItem } from '../../../utils/propsResolver'
 
 const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
 
@@ -27,13 +30,38 @@ NavItemIcon.propTypes = {
  */
 
 const NavItemContainer = ({
-    item,
+    itemProps,
     type,
     sidebarOpen,
     options,
     direction,
     active,
+    datasources,
+    models,
 }) => {
+    const { datasource } = itemProps
+
+    const getFromSource = (props, datasources, datasource, models) => {
+        if (!datasource) {
+            return props
+        }
+
+        if (!isEmpty(models.datasource)) {
+            return resolveItem(props, models.datasource)
+        }
+
+        if (datasources[datasource]) {
+            const defaultFromDataSource = get(datasources, `${datasource}.values`, [])
+            const model = defaultFromDataSource.reduce((acc, value) => ({ ...acc, ...value }), {})
+
+            return resolveItem(itemProps, model)
+        }
+
+        return props
+    }
+
+    const item = getFromSource(itemProps, datasources, datasource, models)
+
     const getInnerLink = (item, className) => (
         <NavLink
             exact
@@ -211,4 +239,4 @@ NavItemContainer.defaultProps = {
     direction: 'bottom',
 }
 
-export default NavItemContainer
+export default WithDataSource(NavItemContainer)

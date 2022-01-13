@@ -27,7 +27,8 @@ import { register } from '../../ducks/datasource/store'
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
 function Application(props) {
-    const { ready, loading, render, locale, datasources, registerDatasorces, ...config } = props
+    const { ready, loading, render, locale, menu, registerDatasorces, ...config } = props
+    const { datasources } = menu
 
     useEffect(() => {
         if (isEmpty(datasources)) { return }
@@ -35,7 +36,7 @@ function Application(props) {
         Object.entries(datasources).forEach(([id, config]) => {
             registerDatasorces(id, config)
         })
-    }, [])
+    }, [datasources, registerDatasorces])
 
     numeral.locale(locale)
 
@@ -56,6 +57,7 @@ Application.propTypes = {
     render: PropTypes.func,
     locale: PropTypes.string,
     datasources: PropTypes.object,
+    menu: PropTypes.object,
     registerDatasorces: PropTypes.func,
 }
 

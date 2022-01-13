@@ -12,8 +12,6 @@ import NavbarToggler from 'reactstrap/lib/NavbarToggler'
 import Collapse from 'reactstrap/lib/Collapse'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
-import { WithDataSource } from '../../../core/datasource/WithDataSource'
-import { resolveItem } from '../../../utils/propsResolver'
 
 import NavItemContainer from './NavItemContainer'
 import { Logo } from './Logo'
@@ -21,6 +19,7 @@ import { SidebarSwitcher } from './SidebarSwitcher'
 
 /**
  * Хедер-плагин
+ * @param {Object} props - пропсы
  * @param {string|element} props.brand - брэнд
  * @param {string|element} props.brandImage - изображение брэнда
  * @param {array} props.items - элементы навбар-меню (левое меню)
@@ -32,8 +31,6 @@ import { SidebarSwitcher } from './SidebarSwitcher'
  * @param {boolean} props.className - css-класс
  * @param {boolean} props.style - объект стиля
  * @example
- * @param item
- * @param dataSourceModel
  */
 
 class SimpleHeader extends React.Component {
@@ -70,8 +67,7 @@ class SimpleHeader extends React.Component {
             sidebarOpen,
             className,
             search,
-            models,
-            datasource,
+            datasources,
         } = this.props
 
         const { items } = menu
@@ -92,14 +88,15 @@ class SimpleHeader extends React.Component {
             const { href } = item
             const active = pathname.includes(href)
 
-            const resolvedItem = datasource ? resolveItem(item, models.datasource) : item
-
             return (
                 <NavItemContainer
                     key={i}
-                    item={resolvedItem}
+                    itemProps={item}
                     active={active}
                     options={options}
+                    datasource={item.datasource}
+                    id={item.id}
+                    datasources={datasources}
                 />
             )
         })
@@ -224,10 +221,9 @@ SimpleHeader.propTypes = {
     menu: menuType,
     extraMenu: menuType,
     sidebarSwitcher: PropTypes.object,
-    models: PropTypes.object,
+    datasources: PropTypes.object,
     toggleSidebar: PropTypes.func,
     sidebarOpen: PropTypes.bool,
-    datasource: PropTypes.string,
 }
 
 SimpleHeader.defaultProps = {
@@ -242,7 +238,7 @@ SimpleHeader.defaultProps = {
     localeSelect: false,
 }
 
-export default withResizeDetector(WithDataSource(SimpleHeader), {
+export default withResizeDetector(SimpleHeader, {
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 100,

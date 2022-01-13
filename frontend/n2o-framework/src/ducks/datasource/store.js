@@ -1,5 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit'
-import get from 'lodash/get'
+import { createSlice } from '@reduxjs/toolkit'
 
 import { MODEL_PREFIX, SORT_DIRECTION } from '../../core/datasource/const'
 
@@ -18,24 +17,9 @@ const datasource = createSlice({
             reducer(state, action) {
                 const { id, initProps } = action.payload
 
-                /* FIXME for debugging, remove and return
-                 *   state[id] = {
+                state[id] = {
                     ...DataSource.defaultState,
-                    ...initProps,}
-                 */
-                const components = get(current(state), `${id}.components`, [])
-
-                if (components.length) {
-                    state[id] = {
-                        ...state[id],
-                        ...initProps,
-                        components,
-                    }
-                } else {
-                    state[id] = {
-                        ...DataSource.defaultState,
-                        ...initProps,
-                    }
+                    ...initProps,
                 }
             },
         },
