@@ -40,6 +40,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setSidebar(initSidebar(source.getSidebar(), header, context, p));
         application.setFooter(initFooter(source.getFooter(), p));
         application.setDatasources(initDatasources(source.getDatasources(), context, p));
+        application.setWsPrefix(p.resolve(property("n2o.ws.endpoint"), String.class));
 
         return application;
     }
