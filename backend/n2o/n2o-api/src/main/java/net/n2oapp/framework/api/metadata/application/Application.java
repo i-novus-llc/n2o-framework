@@ -31,7 +31,7 @@ public class Application implements Compiled {
     private Map<String, AbstractDatasource> datasources;
 
     @JsonProperty
-    private String wsId;
+    private String wsPrefix;
 
     @Getter
     @Setter

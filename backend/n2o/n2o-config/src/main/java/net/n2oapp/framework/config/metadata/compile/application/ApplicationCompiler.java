@@ -40,6 +40,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setSidebar(initSidebar(source.getSidebar(), header, context, p));
         application.setFooter(initFooter(source.getFooter(), p));
         application.setDatasources(initDatasources(source.getDatasources(), context, p));
+        application.setWsPrefix(
+                application.getDatasources() != null ? p.resolve(property("n2o.config.ws.endpoint"), String.class) : null);//TODO если будем отправлять не только stomp-datasources нужно изменить проверку
 
         return application;
     }
