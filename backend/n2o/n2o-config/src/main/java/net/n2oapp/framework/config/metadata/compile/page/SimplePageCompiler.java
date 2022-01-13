@@ -81,7 +81,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         PageRoutes routes = initRoute(pageRoute);
         Models models = new Models();
         page.setModels(models);
-        WidgetScope widgetScope = new WidgetScope();
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
         ValidationList validationList = new ValidationList();
@@ -89,7 +88,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         FiltersScope filtersScope = new FiltersScope();
-        Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs,
+        Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
                 validationList, models, pageRoutesScope, dataSourcesScope, filtersScope, copiedFieldScope);
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);

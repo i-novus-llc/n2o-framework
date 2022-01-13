@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
@@ -81,6 +80,14 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     @Deprecated
     private String parentClientWidgetId;
+    /**
+     * Родительский глобальный источник данных, в котором находилось действие
+     */
+    private String parentGlobalDatasourceId;
+    /**
+     * Родительский локальный источник данных, в котором находилось действие
+     */
+    private String parentLocalDatasourceId;
     /**
      * Родительская страница (клиентский), в которой находилось действие
      */

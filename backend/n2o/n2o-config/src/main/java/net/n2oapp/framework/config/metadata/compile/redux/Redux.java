@@ -4,17 +4,12 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.util.CompileUtil;
-
-import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 
 /**
  * Взаимодействие c Redux моделями
@@ -156,60 +151,16 @@ public abstract class Redux {
         return new ReduxAction("n2o/regions/SET_ACTIVE_REGION_ENTITY", setActiveRegionEntityPayload);
     }
 
-    /**
-     * Создание modelLink для префильтра
-     *
-     * @param preFilter
-     * @return
-     */
-    public static ModelLink linkParam(N2oPreFilter preFilter, CompileProcessor p) {
-        Object value;
-        if (preFilter.getValues() == null) {
-            value = ScriptProcessor.resolveExpression(preFilter.getValue());
-        } else {
-            value = ScriptProcessor.resolveArrayExpression(preFilter.getValues());
-        }
-        if (StringUtils.isJs(value)) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            String widgetId = CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
-            ModelLink link = new ModelLink(preFilter.getModel(),
-                    getDatasourceId(pageScope, widgetId));
-            link.setValue(value);
-            return link;
-        } else {
-            return new ModelLink(value);
-        }
-    }
-
     public static ModelLink linkParam(N2oParam param, CompileProcessor p) {
         Object value = ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
             PageScope pageScope = p.getScope(PageScope.class);
-            String widgetId = CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId());
             ModelLink link = new ModelLink(param.getModel(),
-                    getDatasourceId(pageScope, widgetId));
+                    pageScope == null ? param.getDatasource() : pageScope.getClientDatasourceId(param.getDatasource()));
             link.setValue(value);
             return link;
         } else {
             return new ModelLink(value);
         }
-    }
-
-    public static ModelLink linkQuery(String clientWidgetId, String fieldId, String queryId) {
-        ModelLink link = new ModelLink(ReduxModel.resolve, clientWidgetId, fieldId);
-        if (PK.equals(fieldId) && queryId != null)
-            link.setSubModelQuery(new SubModelQuery(queryId));
-        return link;
-    }
-
-    /**
-     * Получение идентификатора источника данных
-     * @param pageScope     информация о странице
-     * @param widgetId      иденитификатор виджета
-     * @return      идентификатор источника данных
-     */
-    private static String getDatasourceId(PageScope pageScope, String widgetId) {
-        return pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ?
-                widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
     }
 }

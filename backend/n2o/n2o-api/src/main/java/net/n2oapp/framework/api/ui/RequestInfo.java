@@ -20,7 +20,9 @@ public class RequestInfo {
     private UserContext user;
     private Map<String, Object> attributes;
     private DataSet queryData;
+    @Deprecated
     private String failAlertWidgetId;
+    @Deprecated
     private String successAlertWidgetId;
     private String messagesForm;
     private MessagePosition messagePosition;

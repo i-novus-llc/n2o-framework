@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.control;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
@@ -12,13 +13,13 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType
 
 @Getter
 @Setter
-public class N2oButtonField extends N2oActionField implements ModelAware, WidgetIdAware {
+public class N2oButtonField extends N2oActionField implements ModelAware, DatasourceIdAware {
     private String title;
     private String titleFieldId;
     private String icon;
     private String iconFieldId;
     private LabelType type;
-    private String widgetId;
+    private String datasource;
     private ReduxModel model;
     private String color;
     private ValidateType validate;
@@ -31,4 +32,14 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Widget
     private String confirmTitle;
     private String confirmOkLabel;
     private String confirmCancelLabel;
+
+    @Deprecated
+    public String getWidgetId() {
+        return datasource;
+    }
+
+    @Deprecated
+    public void setWidgetId(String widgetId) {
+        this.datasource = widgetId;
+    }
 }

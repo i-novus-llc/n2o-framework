@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 public abstract class StandardFieldCompiler<D extends Control, S extends N2oStandardField> extends FieldCompiler<StandardField<D>, S> {
 
     protected StandardField<D> compileStandardField(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         StandardField<D> field = new StandardField<>();
         if (control.getSrc() == null)
             control.setSrc(source.getSrc());
@@ -81,8 +82,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {
             dataProvider.getActionContextData().setParentWidgetId(widgetScope.getClientWidgetId());
-            dataProvider.getActionContextData().setSuccessAlertWidgetId(widgetScope.getClientWidgetId());
-            dataProvider.getActionContextData().setFailAlertWidgetId(widgetScope.getClientWidgetId());
+            dataProvider.getActionContextData().setMessagesForm(widgetScope.getClientWidgetId());
         }
 
         ClientDataProvider clientDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
