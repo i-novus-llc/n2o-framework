@@ -195,6 +195,11 @@
         text-overflow: ellipsis;
     }
 
+    .n2o-input-items > .valueText,
+    input[disabled] {
+        padding-right: $input-padding-x;
+    }
+
     .n2o-input-items > textarea,
     input {
         width: auto;
