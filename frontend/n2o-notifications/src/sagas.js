@@ -58,19 +58,22 @@ export function* createSocketChannel(stompClient, needAnOpenChannel, destination
     })
 }
 
-function* connectionWS(wsUrl) {
+function* connectionWS() {
     // yield take(requestConfigSuccess.type)
     /*FIXME bring it back it awaits config json*/
     const menu = yield select(menuSelector)
     const { wsPrefix } = menu
 
-    const finalWsUrl = wsPrefix ? `/${wsPrefix}${wsUrl}` : wsUrl
-    const socket = yield new SockJS(finalWsUrl)
+    if (wsPrefix) {
+        const socket = yield new SockJS(wsPrefix)
 
-    return Stomp.over(socket)
+        return Stomp.over(socket)
+    }
+
+    return null
 }
 
-function* connectionExecutor({ dataSourceId, componentId, updater, source, connected, wsUrl }) {
+function* connectionExecutor({ dataSourceId, componentId, updater, source, connected }) {
     const state = yield select()
 
     const connectedComponents = state[source][dataSourceId][connected] || []
@@ -82,7 +85,7 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
     const needAnOpenChannel = connectedComponents.length > 0 && isStompProvider
 
     try {
-        const stompClient = yield call(connectionWS, wsUrl)
+        const stompClient = yield call(connectionWS)
 
         const socketChannel = yield call(
             createSocketChannel,
@@ -104,24 +107,23 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
                 console.error('socketChannel error: ', error)
 
                 socketChannel.close()
-                call(wsSagaWorker, dataSourceId, componentId, updater, source, connected, wsUrl)
+                call(wsSagaWorker, dataSourceId, componentId, updater, source, connected)
             }
 
         }
     } catch (e) {
-        console.log('connectionExecutor error: ', e)
+        /**/
     }
 }
 
 
-export  function* wsSagaWorker(config) {
-    const { observables, updater, source, connected, wsUrl } = config
+export function* wsSagaWorker(config) {
+    const { observables, updater, source, connected } = config
     yield takeEvery(observables, ({ payload }) => connectionExecutor({
         ...payload,
         updater,
         source,
         connected,
-        wsUrl,
     }))
 }
 
