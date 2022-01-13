@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 import cx from 'classnames'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import merge from 'lodash/merge'
 import NavItem from 'reactstrap/lib/NavItem'
 import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown'
 import DropdownToggle from 'reactstrap/lib/DropdownToggle'
@@ -39,22 +40,22 @@ const NavItemContainer = ({
     datasources,
     models,
 }) => {
-    const { datasource } = itemProps
+    const datasource = get(itemProps, 'datasource')
 
     const getFromSource = (props, datasources, datasource, models) => {
         if (!datasource) {
             return props
         }
 
+        const defaultFromDataSource = get(datasources, `${datasource}.values`, [])
+        const initialModel = defaultFromDataSource.reduce((acc, value) => ({ ...acc, ...value }), {})
+
         if (!isEmpty(models.datasource)) {
-            return resolveItem(props, models.datasource)
+            return merge(resolveItem(itemProps, initialModel), resolveItem(props, models.datasource))
         }
 
         if (datasources[datasource]) {
-            const defaultFromDataSource = get(datasources, `${datasource}.values`, [])
-            const model = defaultFromDataSource.reduce((acc, value) => ({ ...acc, ...value }), {})
-
-            return resolveItem(itemProps, model)
+            return resolveItem(itemProps, initialModel)
         }
 
         return props
@@ -240,3 +241,5 @@ NavItemContainer.defaultProps = {
 }
 
 export default WithDataSource(NavItemContainer)
+
+export { NavItemContainer }

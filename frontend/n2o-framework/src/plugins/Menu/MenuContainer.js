@@ -141,7 +141,7 @@ export class MenuContainer extends React.Component {
         const { header, location, datasources = {} } = this.props
 
         if (!header) {
-            return this.props
+            return { ...this.props, datasources }
         }
 
         const headerProps = {

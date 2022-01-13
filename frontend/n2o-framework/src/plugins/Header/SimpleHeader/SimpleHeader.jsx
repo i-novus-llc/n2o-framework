@@ -13,6 +13,7 @@ import Collapse from 'reactstrap/lib/Collapse'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 
+// eslint-disable-next-line import/no-named-as-default
 import NavItemContainer from './NavItemContainer'
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
