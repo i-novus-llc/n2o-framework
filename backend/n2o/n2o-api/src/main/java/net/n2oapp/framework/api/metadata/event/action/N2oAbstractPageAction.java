@@ -90,7 +90,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     @Deprecated
     public void adaptV1() {
-        if (getUpload() != null || getDetailFieldId() != null) {
+        if (getUpload() != null || getDetailFieldId() != null || getPreFilters() != null) {
             N2oDatasource datasource = new N2oDatasource();
 
             if (getUpload() != null) {
@@ -158,6 +158,10 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 filter.setParam(param);
                 filter.setValueAttr(Placeholders.ref(getMasterFieldId() != null ? getMasterFieldId() : PK));
                 datasource.addFilters(List.of(filter));
+            }
+
+            if (preFilters != null) {
+                datasource.addFilters(Arrays.asList(preFilters));
             }
 
             datasources = new N2oDatasource[]{datasource};

@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -434,5 +435,21 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         SimplePage createPage = (SimplePage) routeAndGet("/p/create", Page.class);
         Datasource datasource = createPage.getDatasources().get("p_create_modal");
         assertThat(datasource.getProvider(), nullValue());
+    }
+
+    /**
+     * Проверяет, что show-modal pre-filters пробрасываются на модальную страницу
+     */
+    @Test
+    public void testShowModalPreFilters() {
+        PageContext pageContext = new PageContext("testShowModalPreFilters", "/p");
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalPreFilters.page.xml")
+                .get(pageContext);
+
+        SimplePage page = (SimplePage) routeAndGet("/p/create", Page.class);
+        ClientDataProvider provider = page.getDatasources().get("p_create_modal").getProvider();
+        assertThat(provider, notNullValue());
+        assertThat(provider.getQueryMapping().get("modal_id").normalizeLink(), is("models.resolve['p_form'].id"));
+        assertThat(provider.getQueryMapping().get("modal_name").getValue(), is(123));
     }
 }
