@@ -18,14 +18,6 @@ const setup = (propOverrides) => {
 }
 
 describe('<TimePicker />', () => {
-    it('проверка дефолтного рендера и проверка открытия popup', () => {
-        const { wrapper } = setup()
-        expect(wrapper.find('.n2o-pop-up')).toHaveLength(0)
-        wrapper.setState({ open: true })
-        expect(wrapper.find('.n2o-pop-up')).toHaveLength(1)
-        expect(wrapper).toMatchSnapshot()
-    })
-
     it('проверка установки значения', () => {
         const { wrapper } = setup({
             value: '10:20:30',
