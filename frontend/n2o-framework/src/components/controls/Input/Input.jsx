@@ -120,6 +120,7 @@ class Input extends React.Component {
                 readOnly={readOnly}
                 {...restProps}
                 onChange={this.handleChange}
+                title={value}
             />
         )
     }
