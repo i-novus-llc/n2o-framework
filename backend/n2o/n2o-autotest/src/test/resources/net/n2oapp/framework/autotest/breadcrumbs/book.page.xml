@@ -6,7 +6,7 @@
         </columns>
         <toolbar>
             <button label="Open">
-                <a href="/main/:reader_id/reader" target="application">
+                <a href="/:reader_id/reader" target="application">
                     <path-param name="reader_id" value="{id}"/>
                 </a>
             </button>
