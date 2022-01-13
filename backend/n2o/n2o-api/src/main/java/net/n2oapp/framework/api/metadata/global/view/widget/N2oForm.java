@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 
 /**
@@ -38,6 +39,7 @@ public class N2oForm extends N2oWidget {
                         new String[]{getId()});//не учитываются datasource у виджета в 7.19
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());
+            getDatasource().getSubmit().setSubmitOn(SubmitOn.change);
         }
     }
 }
