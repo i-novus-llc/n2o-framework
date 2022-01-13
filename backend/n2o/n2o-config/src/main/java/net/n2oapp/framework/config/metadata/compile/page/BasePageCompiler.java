@@ -8,10 +8,7 @@ import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
-import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.*;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
@@ -34,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
@@ -84,7 +82,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
-        DataSourcesScope dataSourcesScope = initDataSourcesScope(source);
+        DataSourcesScope dataSourcesScope = initDataSourcesScope(source, sourceWidgets, p);
         MetaActions metaActions = initMetaActions(source);
         FiltersScope filtersScope = new FiltersScope();
 
@@ -112,10 +110,26 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return page;
     }
 
-    private DataSourcesScope initDataSourcesScope(S source) {
+    private DataSourcesScope initDataSourcesScope(S source, List<N2oWidget> sourceWidgets, CompileProcessor p) {
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         if (source.getDatasources() != null)
             Stream.of(source.getDatasources()).forEach(ds -> dataSourcesScope.put(ds.getId(), ds));
+        for (N2oWidget widget : sourceWidgets) {
+            if (widget.getDatasourceId() == null) {
+                N2oDatasource datasource;
+                String datasourceId = CompileUtil.generateSourceDatasourceId(widget.getId());
+                if (widget.getDatasource() == null) {
+                    datasource = new N2oDatasource();
+                    datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                } else {
+                    datasource = widget.getDatasource();
+                    widget.setDatasource(null);
+                }
+                datasource.setId(datasourceId);
+                widget.setDatasourceId(datasourceId);
+                dataSourcesScope.put(datasourceId, datasource);
+            }
+        }
         return dataSourcesScope;
     }
 
