@@ -85,7 +85,7 @@ export default function propsResolver(
 }
 
 export const resolveItem = (item, model) => {
-    if (isEmpty(model) || !Object.keys(model).some(key => item[key])) {
+    if (isEmpty(model)) {
         return item
     }
 

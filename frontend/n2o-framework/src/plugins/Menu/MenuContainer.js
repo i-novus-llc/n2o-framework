@@ -138,7 +138,7 @@ export class MenuContainer extends React.Component {
 
     mapRenderProps() {
         const { items, extraItems } = this.state
-        const { header, location } = this.props
+        const { header, location, datasources = {} } = this.props
 
         if (!header) {
             return this.props
@@ -147,6 +147,7 @@ export class MenuContainer extends React.Component {
         const headerProps = {
             header: {
                 ...header,
+                datasources,
                 location,
                 menu: {
                     items: filter(items, i => !i.items || !isEmpty(i.items)),
@@ -154,9 +155,6 @@ export class MenuContainer extends React.Component {
                 extraMenu: {
                     items: filter(extraItems, i => !i.items || !isEmpty(i.items)),
                 },
-                //* * FIXME mock to header
-                datasource: 'main',
-                id: 'SimpleHeader',
             },
         }
 
@@ -179,6 +177,7 @@ MenuContainer.propTypes = {
     authProvider: PropTypes.any,
     header: PropTypes.object,
     location: PropTypes.object,
+    datasources: PropTypes.object,
 }
 
 MenuContainer.defaultProps = {
