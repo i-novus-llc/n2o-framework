@@ -115,7 +115,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
         return modelRequest
     }
 
-    const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model)
+    const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model || {})
 
     return yield call(
         fetchSaga,

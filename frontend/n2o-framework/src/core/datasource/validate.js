@@ -16,7 +16,7 @@ import { validateField } from './validateField'
  * @param {Function} dispatch
  * @returns {boolean}
  */
-export const validate = (
+export const validate = async (
     state,
     datasourceId,
     dispatch,
@@ -24,18 +24,18 @@ export const validate = (
 ) => {
     const validation = dataSourceValidationSelector(datasourceId)(state)
     const models = dataSourceModelsSelector(datasourceId)(state)
-    const model = models[MODEL_PREFIX.active]
+    const model = models[MODEL_PREFIX.active] || {}
     const entries = Object.entries(validation)
 
     const allMessages = {}
 
-    entries.forEach(([field, validationList]) => {
-        const messages = validateField(field, model, validationList || [])
+    for (const [field, validationList] of entries) {
+        const messages = await validateField(field, model, validationList || [])
 
         if (messages?.length) {
             allMessages[field] = messages
         }
-    })
+    }
 
     const invalid = Object.values(allMessages).some(messages => messages.some(message => (
         message.severity === VALIDATION_SEVERITY.danger || message.severity === VALIDATION_SEVERITY.warning
