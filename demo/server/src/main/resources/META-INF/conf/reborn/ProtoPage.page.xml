@@ -117,7 +117,7 @@
     </left>
     <right>
         <panel place="right" title="${contacts}">
-            <list id="contacts" detail-field-id="individualId" depends-on="clients"
+            <list id="contacts" detail-field-id="individualId" depends-on="clients" route="/contacts/:client_id/list"
                   name="contacts" query-id="ProtoContacts" visible="{name != 'Мария'}">
                 <content>
                     <left-top>
