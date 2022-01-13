@@ -64,9 +64,13 @@ function* connectionWS() {
     const menu = yield select(menuSelector)
     const { wsPrefix } = menu
 
-    const socket = yield new SockJS(wsPrefix)
+    if (wsPrefix) {
+        const socket = yield new SockJS(wsPrefix)
 
-    return Stomp.over(socket)
+        return Stomp.over(socket)
+    }
+
+    return null
 }
 
 function* connectionExecutor({ dataSourceId, componentId, updater, source, connected }) {
@@ -108,12 +112,12 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
 
         }
     } catch (e) {
-        console.log('connectionExecutor error: ', e)
+        /**/
     }
 }
 
 
-export  function* wsSagaWorker(config) {
+export function* wsSagaWorker(config) {
     const { observables, updater, source, connected } = config
     yield takeEvery(observables, ({ payload }) => connectionExecutor({
         ...payload,
