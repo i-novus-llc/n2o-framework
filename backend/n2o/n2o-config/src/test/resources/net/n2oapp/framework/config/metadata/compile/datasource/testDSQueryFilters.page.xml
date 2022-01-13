@@ -8,7 +8,7 @@
         </datasource>
         <datasource id="ds2" query-id="testDatasourceCompile" >
             <filters>
-                <eq field-id="id" datasource="ds3" model="resolve" value="{id}"/> <!-- ссылка на другой источник данных -->
+                <eq field-id="id" datasource="ds3" model="resolve" value="{id}" required="true"/> <!-- ссылка на другой источник данных -->
             </filters>
         </datasource>
         <datasource id="ds3"/>

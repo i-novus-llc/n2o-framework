@@ -103,6 +103,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds3");
         link.setValue("`id`");
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("ds2_id", link));
+        assertThat(ds.getProvider().getQueryMapping().get("ds2_id").isRequired(), is(true));
         query = routeAndGet("/p/w/a/ds2", CompiledQuery.class);
         assertThat(query.getParamToFilterIdMap(), hasEntry("ds2_id", "id"));
     }
