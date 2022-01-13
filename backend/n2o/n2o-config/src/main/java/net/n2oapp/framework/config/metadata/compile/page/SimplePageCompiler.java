@@ -96,7 +96,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         compileComponent(page, source, context, p);
         Map<String, Widget<?>> compiledWidgets = new HashMap<>();
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
-        page.setDatasources(initDatasources(dataSourcesScope, context, p, validationList, routes,
+        page.setDatasources(initDatasources(dataSourcesScope, context, p, widget.getId(), validationList, routes,
                 pageRouteScope, pageScope, filtersScope, copiedFieldScope));
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
@@ -115,9 +115,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     }
 
     private Map<String, Datasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
-                                                    CompileProcessor p, Object ... scopes) {
+                                                    CompileProcessor p, String widgetId, Object ... scopes) {
         Map<String, Datasource> compiledDatasources = new StrictMap<>();
-        initContextDatasource(dataSourcesScope, context, p);
+        initContextDatasource(dataSourcesScope, context, p, widgetId);
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
                 Datasource compiled = p.compile(ds, context, scopes);
@@ -127,10 +127,10 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         return compiledDatasources;
     }
 
-    private void initContextDatasource(DataSourcesScope dataSourcesScope, PageContext context, CompileProcessor p) {
+    private void initContextDatasource(DataSourcesScope dataSourcesScope, PageContext context, CompileProcessor p, String widgetId) {
         if (context.getDatasources() != null) {
             for (N2oDatasource ctxDs : context.getDatasources()) {
-                String dsId = ctxDs.getId() != null ? ctxDs.getId() : MAIN_WIDGET_ID;
+                String dsId = ctxDs.getId() != null ? ctxDs.getId() : widgetId;
                 if (dataSourcesScope.containsKey(dsId)) {
                     ctxDs.setId(dsId);//todo нужно клонировать ctxDs
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));

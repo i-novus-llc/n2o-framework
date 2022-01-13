@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -26,6 +27,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -116,12 +119,12 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(submitPayload.getDatasource(), is("p_create_main"));
+        assertThat(submitPayload.getDatasource(), is("p_create_modal"));
         assertThat(submitPayload.getModel(), is(ReduxModel.edit));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("p_second"));
         assertThat(meta.getSuccess().getModalsToClose(), is(1));
-        assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
+        assertThat(meta.getFail().getMessageWidgetId(), is("p_create_modal"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
 
@@ -309,7 +312,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
-        assertThat(modalPage.getDatasources().get(modalPage.getWidget().getDatasource()).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/main"));
+        assertThat(modalPage.getDatasources().get(modalPage.getWidget().getDatasource()).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
         submit = (InvokeAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));
     }
@@ -338,7 +341,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
         assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.resolve.getId()));
-        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_main"));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_modal"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
         assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
@@ -415,5 +418,21 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .getToolbar().getButton("modal2").getAction()).getMeta();
         assertThat(meta.getOnClose(), notNullValue());
         assertThat(meta.getOnClose().getRefresh().getDatasources(), hasItem("p_form"));
+    }
+
+    /**
+     * Проверяет, что show-modal upload=defaults пробрасывается на модальную страницу и убирает создание dataProvider у datasource
+     */
+    @Test
+    public void createUploadDefaults() {
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDefaults.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testShowModalOnClose.page.xml")
+                .get(new PageContext("testShowModalDefaults", "/p"));
+        PageContext modalCtx = (PageContext) route("/p/create", Page.class);
+        assertThat(modalCtx.getDatasources().size(), is(1));
+        assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        SimplePage createPage = (SimplePage) routeAndGet("/p/create", Page.class);
+        Datasource datasource = createPage.getDatasources().get("p_create_modal");
+        assertThat(datasource.getProvider(), nullValue());
     }
 }
