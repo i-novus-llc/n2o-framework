@@ -101,11 +101,11 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getModel(), is(ReduxModel.edit));
-        assertThat(submitPayload.getDatasource(), is("p_create_main"));
+        assertThat(submitPayload.getDatasource(), is("p_create_modal"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("p_second"));
         assertThat(meta.getSuccess().getModalsToClose(), notNullValue());
-        assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
+        assertThat(meta.getFail().getMessageWidgetId(), is("p_create_modal"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
 
@@ -246,13 +246,13 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getId(), is("p_updateWithPrefilters"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
         Datasource datasource = drawerPage.getDatasources().get(drawerPage.getWidget().getId());
-        assertThat(datasource.getProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/main"));
+        assertThat(datasource.getProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/modal"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(datasource.getProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(datasource.getProvider().getQueryMapping().get("name").getValue(), is("`name`"));
-        assertThat(datasource.getProvider().getQueryMapping().get("main_secondId").getParam(), is("main_secondId"));
-        assertThat(datasource.getProvider().getQueryMapping().get("main_secondId").getValue(), is(1));
+        assertThat(datasource.getProvider().getQueryMapping().get("modal_secondId").getParam(), is("modal_secondId"));
+        assertThat(datasource.getProvider().getQueryMapping().get("modal_secondId").getValue(), is(1));
         List<AbstractButton> buttons = drawerPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
         assertThat(buttons.get(0).getId(), is("submit"));
@@ -273,7 +273,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
-        assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/main"));
+        assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
         submit = (InvokeAction) drawerPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("id")));
     }
