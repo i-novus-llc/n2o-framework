@@ -219,6 +219,17 @@ const datasource = createSlice({
                 // nothing
             },
         },
+        setEditModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.edit },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
+        },
         setFilter: {
             prepare(id, model) {
                 return ({
@@ -267,6 +278,7 @@ export const {
     resolveRequest,
     rejectRequest,
     setActiveModel,
+    setEditModel,
     setFilter,
     setSourceModel,
     setMultiModel,

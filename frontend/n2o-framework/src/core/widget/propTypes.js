@@ -85,6 +85,7 @@ export const widgetMethodsProps = {
     fetchData: PropTypes.func,
     setFilter: PropTypes.func,
     setResolve: PropTypes.func,
+    setEdit: PropTypes.func,
     setSelected: PropTypes.func,
     setSorting: PropTypes.func,
     setPage: PropTypes.func,

@@ -45,8 +45,8 @@ Form.propTypes = {
     disabled: PropTypes.bool,
     form: PropTypes.shape({
         fieldsets: PropTypes.array,
-        validation: PropTypes.object,
         prompt: PropTypes.bool,
+        modelPrefix: PropTypes.oneOf(['resolve', 'edit']),
     }),
     autoSubmit: PropTypes.bool,
 }

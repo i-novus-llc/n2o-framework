@@ -17,6 +17,7 @@ import {
     dataRequest,
     remove,
     setActiveModel,
+    setEditModel,
     setFilter,
     setMultiModel,
     setSorting,
@@ -75,7 +76,7 @@ export function* dataRequesWrapper(action) {
 let prevState = {}
 
 export default () => [
-    takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel], resolveModelsSaga),
+    takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel, setEditModel], resolveModelsSaga),
     takeEvery([setFilter, setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequesWrapper),
     takeEvery(startValidate, validateSaga),
