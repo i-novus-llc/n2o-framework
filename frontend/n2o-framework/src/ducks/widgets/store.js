@@ -190,7 +190,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isEnabled = true
+                state[widgetId].disabled = false
             },
         },
 
@@ -220,38 +220,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isEnabled = false
-            },
-        },
-
-        DISABLE_ON_FETCH: {
-            /**
-             * @param {string} widgetId
-             * @return {{payload: {widgetId: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
-                return ({
-                    payload: { widgetId },
-                })
-            },
-
-            /**
-             * Сделать виджет заблокированым
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {{widgetId: string}} action.payload
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isEnabled = false
+                state[widgetId].disabled = true
             },
         },
 
@@ -416,7 +385,6 @@ export const {
     HIDE: hideWidget,
     ENABLE: enableWidget,
     DISABLE: disableWidget,
-    DISABLE_ON_FETCH: disableWidgetOnFetch,
     CHANGE_FILTER_VISIBILITY: changeFiltersVisibility,
     RESET_STATE: resetWidgetState,
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,

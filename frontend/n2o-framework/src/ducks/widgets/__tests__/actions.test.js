@@ -16,7 +16,6 @@ import {
     resetWidgetState,
     setWidgetMetadata,
     setActive,
-    disableWidgetOnFetch,
 } from '../store'
 
 const widgetId = ' widgetId'
@@ -179,13 +178,6 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена setActive', () => {
         it('Возвращает правильный payload', () => {
             const action = setActive(widgetId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-        })
-    })
-
-    describe('Проверка disabledWidgetOnFetch', () => {
-        it('Генирирует правильный payload', () => {
-            const action = disableWidgetOnFetch(widgetId)
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })

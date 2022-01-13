@@ -6,7 +6,6 @@ import widgets, {
     hideWidget,
     enableWidget,
     disableWidget,
-    disableWidgetOnFetch,
     setActive,
     changeFiltersVisibility,
     toggleWidgetFilters,
@@ -38,7 +37,7 @@ describe('Тесты widget reducer', () => {
                                 type: 'includes',
                             },
                             isActive: true,
-                            isEnabled: true,
+                            disabled: false,
                             isFilterVisible: false,
                             page: 2,
                             pageId: 'page-id-2',
@@ -65,10 +64,10 @@ describe('Тесты widget reducer', () => {
                     type: 'includes',
                 },
                 isActive: true,
-                isEnabled: true,
+                disabled: false,
                 isFilterVisible: false,
                 isInit: true,
-                isLoading: false,
+                loading: false,
                 isResolved: false,
                 isVisible: true,
                 page: 2,
@@ -180,7 +179,7 @@ describe('Тесты widget reducer', () => {
             ),
         ).toEqual({
             widget: {
-                isEnabled: true,
+                disabled: false,
             },
         })
     })
@@ -200,27 +199,7 @@ describe('Тесты widget reducer', () => {
             ),
         ).toEqual({
             widget: {
-                isEnabled: false,
-            },
-        })
-    })
-
-    it('Проверка DISABLE_ON_FETCH', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: disableWidgetOnFetch.type,
-                    payload: {
-                        widgetId: 'widget'
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isEnabled: false,
+                disabled: true,
             },
         })
     })

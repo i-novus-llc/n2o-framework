@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import {
     makeWidgetVisibleSelector,
-    makeWidgetEnabledSelector,
+    makeWidgetDisabledSelector,
     makeWidgetIsInitSelector,
 } from '../ducks/widgets/selectors'
 import { registerDependency } from '../actions/dependency'
@@ -57,7 +57,7 @@ export const dependency = (WrappedComponent) => {
         }
 
         render() {
-            const { isVisible, isEnabled } = this.props
+            const { isVisible, disabled } = this.props
 
             const initMetadata = {
                 metadata: {
@@ -71,7 +71,7 @@ export const dependency = (WrappedComponent) => {
                     {isVisible ? (
                         <WrappedComponent
                             {...this.props}
-                            disabled={!isEnabled}
+                            disabled={disabled}
                             visible={isVisible}
                         />
                     ) : null}
@@ -83,14 +83,14 @@ export const dependency = (WrappedComponent) => {
     UniversalDependency.propTypes = {
         isInit: PropTypes.bool,
         isVisible: PropTypes.bool,
-        isEnabled: PropTypes.bool,
+        disabled: PropTypes.bool,
         models: PropTypes.object,
     }
 
     const mapStateToProps = (state, props) => ({
         isInit: makeWidgetIsInitSelector(props.id)(state, props),
         isVisible: makeWidgetVisibleSelector(props.id)(state, props),
-        isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
+        disabled: makeWidgetDisabledSelector(props.id)(state, props),
     })
 
     const mapDispatchToProps = (dispatch, ownProps) => {

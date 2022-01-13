@@ -14,7 +14,7 @@ import merge from 'deepmerge'
 
 import { START_INVOKE } from '../constants/actionImpls'
 import {
-    makeDatasourceIdSelector,
+    widgetsSelector,
 } from '../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
 import { validate as validateDatasource } from '../core/datasource/validate'
@@ -24,10 +24,12 @@ import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
-import { disableWidgetOnFetch, enableWidget } from '../ducks/widgets/store'
+import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 
 import fetchSaga from './fetch'
+
+// TODO перенести инвок в datassource
 
 export function* validate({ dispatch, validate }) {
     if (!validate?.length) { return true }
@@ -36,14 +38,10 @@ export function* validate({ dispatch, validate }) {
     let valid = true
 
     for (const datasourceId of validate) {
-        const datasource = yield select(
-            makeDatasourceIdSelector(datasourceId),
-        )
-
         valid = valid && (yield call(
             validateDatasource,
             state,
-            datasource,
+            datasourceId,
             dispatch,
             true,
         ))
@@ -148,15 +146,16 @@ export function* handleInvoke(apiProvider, action) {
         datasource,
         model: modelPrefix,
         dataProvider,
-        widgetId,
         pageId,
     } = action.payload
 
     const state = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
-    // fixme убрать ".toLowerCase()", когда бекенд начнёт присылать нормально
-    const model = yield select(makeGetModelByPrefixSelector(modelPrefix.toLowerCase(), datasource))
+    const model = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
+    const widgets = Object.entries(yield select(widgetsSelector))
+        .filter(([, widget]) => (widget.datasource === datasource))
+        .map(([key]) => key)
 
     try {
         if (!dataProvider) {
@@ -164,12 +163,13 @@ export function* handleInvoke(apiProvider, action) {
         }
         if (pageId && !optimistic) {
             yield put(disablePage(pageId))
+            for (const buttonId of buttonIds) {
+                yield put(changeButtonDisabled(pageId, buttonId, true))
+            }
         }
-        if (widgetId && !optimistic) {
-            yield put(disableWidgetOnFetch(widgetId))
-
-            for (let index = 0; index <= buttonIds.length - 1; index += 1) {
-                yield put(changeButtonDisabled(pageId, buttonIds[index], true))
+        if (widgets.length && !optimistic) {
+            for (const id of widgets) {
+                yield put(disableWidget(id))
             }
         }
         const response = optimistic
@@ -185,24 +185,25 @@ export function* handleInvoke(apiProvider, action) {
                 setModel(modelPrefix, datasource, optimistic ? model : response.data),
             )
         }
-        yield put(successInvoke(widgetId, meta))
+        yield put(successInvoke(datasource, meta))
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
         yield* handleFailInvoke(
             action.meta.fail || {},
-            widgetId,
+            datasource,
             err.json && err.json.meta ? err.json.meta : {},
         )
     } finally {
         if (pageId) {
             yield put(enablePage(pageId))
+            for (const buttonId of buttonIds) {
+                yield put(changeButtonDisabled(pageId, buttonId, false))
+            }
         }
-        if (widgetId) {
-            yield put(enableWidget(widgetId))
-
-            for (let index = 0; index <= buttonIds.length - 1; index += 1) {
-                yield put(changeButtonDisabled(pageId, buttonIds[index], false))
+        if (widgets.length) {
+            for (const id of widgets) {
+                yield put(enableWidget(id))
             }
         }
     }

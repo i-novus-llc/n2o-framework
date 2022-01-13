@@ -41,13 +41,13 @@ export function startInvoke(
 
 /**
  * Экшен удачного завершения инвока
- * @param widgetId
+ * @param datasource
  * @param meta
  */
-export function successInvoke(widgetId, meta) {
+export function successInvoke(datasource, meta) {
     return createActionHelper(SUCCESS_INVOKE)(
         {
-            widgetId,
+            datasource,
         },
         meta,
     )
@@ -55,13 +55,13 @@ export function successInvoke(widgetId, meta) {
 
 /**
  * Экшен неудачного завершения инвока
- * @param widgetId
+ * @param datasource
  * @param meta
  */
-export function failInvoke(widgetId, meta) {
+export function failInvoke(datasource, meta) {
     return createActionHelper(FAIL_INVOKE)(
         {
-            widgetId,
+            datasource,
         },
         meta,
     )
