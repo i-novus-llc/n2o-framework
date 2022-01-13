@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import {
     requestConfigSuccess,
     userConfigSelector,
+    menuSelector,
 } from 'n2o-framework/lib/ducks/global/store'
 import { eventChannel } from 'redux-saga'
 
@@ -60,8 +61,11 @@ export function* createSocketChannel(stompClient, needAnOpenChannel, destination
 function* connectionWS(wsUrl) {
     // yield take(requestConfigSuccess.type)
     /*FIXME bring it back it awaits config json*/
+    const menu = yield select(menuSelector)
+    const { wsPrefix } = menu
 
-    const socket = yield new SockJS(wsUrl)
+    const finalWsUrl = wsPrefix ? `/${wsPrefix}${wsUrl}` : wsUrl
+    const socket = yield new SockJS(finalWsUrl)
 
     return Stomp.over(socket)
 }
