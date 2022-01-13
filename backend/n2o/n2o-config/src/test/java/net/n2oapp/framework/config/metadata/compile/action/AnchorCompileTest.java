@@ -71,7 +71,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
                 .getToolbar().getButton("secWgt").getAction();
 
-        assertThat(linkSecond.getUrl(), is("/page/test/:minPrice"));
+        assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getTarget(), is(Target.newWindow));
         assertThat(linkSecond.getPathMapping().size(), is(1));
         assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
@@ -103,14 +103,5 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link3.getTarget(), is(Target.application));
         assertThat(link3.getPathMapping().size(), is(0));
         assertThat(link3.getQueryMapping().size(), is(0));
-
-        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
-                .getToolbar().getButton("secWgt").getAction();
-
-        assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
-        assertThat(linkSecond.getTarget(), is(Target.newWindow));
-        assertThat(linkSecond.getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_ds1']"));
-        assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
     }
 }
