@@ -103,6 +103,8 @@ public class FormAT extends AutoTestBase {
         tooltip.shouldNotBeExist();
     }
 
+
+    //https://jira.i-novus.ru/browse/NNO-7339
     @Test
     public void testMode() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
