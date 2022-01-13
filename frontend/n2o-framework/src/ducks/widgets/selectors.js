@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
 import { FORM, TABLE } from '../../components/widgets/widgetTypes'
-import { dataSourceCountSelector, dataSourceLoadingSelector, dataSourcePageSelector, dataSourceSizeSelector } from '../datasource/selectors'
+import { dataSourceCountSelector, dataSourcePageSelector, dataSourceSizeSelector } from '../datasource/selectors'
 
 /*
   Базовые селекторы

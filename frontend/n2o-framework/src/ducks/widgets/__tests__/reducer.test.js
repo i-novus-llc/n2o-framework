@@ -1,6 +1,5 @@
 import widgets, {
     registerWidget,
-    dataRequestWidget,
     resolveWidget,
     showWidget,
     hideWidget,
@@ -38,6 +37,7 @@ describe('Тесты widget reducer', () => {
                             },
                             isActive: true,
                             disabled: false,
+                            loading: false,
                             isFilterVisible: false,
                             page: 2,
                             pageId: 'page-id-2',
@@ -80,26 +80,6 @@ describe('Тесты widget reducer', () => {
                 validation: {},
                 error: null,
                 visible: true,
-            },
-        })
-    })
-
-    it('Проверка DATA_REQUEST', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: dataRequestWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isLoading: true,
             },
         })
     })

@@ -1,6 +1,5 @@
 import {
     registerWidget,
-    dataRequestWidget,
     resolveWidget,
     removeWidget,
     showWidget,
@@ -19,22 +18,14 @@ import {
 } from '../store'
 
 const widgetId = ' widgetId'
-const modelId = 'modelId'
 const initProps = {
     disabled: false,
     visible: true,
 }
-const json = JSON.stringify({
-    data: {
-        a: 1,
-        b: 2,
-    },
-})
 const err = {
     text: 'Not found',
     status: 404,
 }
-const errResponse = JSON.stringify(err)
 const resolveModel = {
     data: {
         a: 1,
@@ -42,11 +33,6 @@ const resolveModel = {
     },
 }
 const alertKey = 'alertKey'
-const fieldKey = 'name'
-const sortDirection = 'ASC'
-const page = 'Page_Table'
-const count = 5
-const size = 'lg'
 const pageId = 'Page_id'
 const metadata = {
     toolbar: {},
@@ -58,14 +44,6 @@ describe('Тесты экшенов widgets', () => {
             const action = registerWidget(widgetId, initProps)
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.initProps).toEqual(initProps)
-        })
-    })
-
-    describe('Проверка экшена dataRequestWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = dataRequestWidget(widgetId, modelId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.modelId).toEqual(modelId)
         })
     })
 

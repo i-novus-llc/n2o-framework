@@ -42,37 +42,6 @@ const widgetSlice = createSlice({
             },
         },
 
-        DATA_REQUEST: {
-            /**
-             * @param {string} widgetId
-             * @param {string} modelId
-             * @param {object} options
-             * @return {{payload: WidgetsStore.dataRequestWidgetPayload}}
-             */
-            prepare(widgetId, modelId, options = {}) {
-                return ({
-                    payload: { widgetId, options, modelId },
-                })
-            },
-
-            /**
-             * Запрос за данными
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {Columns.dataRequestWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = true
-            },
-        },
-
         RESOLVE: {
             /**
              * @param {string} widgetId
@@ -379,7 +348,6 @@ export default widgetSlice.reducer
 // Actions
 export const {
     REGISTER: registerWidget,
-    DATA_REQUEST: dataRequestWidget,
     RESOLVE: resolveWidget,
     SHOW: showWidget,
     HIDE: hideWidget,
