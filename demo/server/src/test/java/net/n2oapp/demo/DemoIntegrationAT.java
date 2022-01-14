@@ -123,8 +123,8 @@ public class DemoIntegrationAT {
         protoPage.searchClients();
 
         protoPage.tableShouldHaveSize(2);
-        protoPage.tableCellShouldHaveText(0, 1, "Кручинина");
-        protoPage.tableCellShouldHaveText(1, 1, "Мишин");
+        protoPage.tableCellShouldHaveText(1, "Кручинина");
+        protoPage.tableCellShouldHaveText(1, "Мишин");
     }
 
     /**

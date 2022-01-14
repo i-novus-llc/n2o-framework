@@ -16,6 +16,10 @@ import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.notNullValue;
+
 /**
  * Страница "Список контактов" ProtoPage.page.xml
  */
@@ -41,6 +45,10 @@ public class ProtoPage {
 
     public void tableCellShouldHaveText(int row, int col, String text) {
         getTable().columns().rows().row(row).cell(col).textShouldHave(text);
+    }
+
+    public void tableCellShouldHaveText(int col, String text) {
+        assertThat(getTable().columns().rows().columnTexts(col), hasItem(text));
     }
 
     public void tableShouldSelectedRow(int row) {
