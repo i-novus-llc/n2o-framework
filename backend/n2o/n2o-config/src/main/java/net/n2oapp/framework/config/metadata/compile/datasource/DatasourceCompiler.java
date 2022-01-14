@@ -77,10 +77,10 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
-        compiled.setValidations(initValidations(source, p));
         compiled.setProvider(initDataProvider(compiled, source, context, p, query, source.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
+        compiled.setValidations(initValidations(source, p));
         return compiled;
     }
 
@@ -233,6 +233,8 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
                         link.setParam(filter.getParam());
                         filter.setLink(link);
                     }
+                    if (preFilter.getRequired() != null)
+                        filter.getLink().setRequired(preFilter.getRequired());
                     filters.add(filter);
                 } else {
                     throw new N2oException("Pre-filter " + preFilter + " not found in query " + query.getId());
@@ -323,8 +325,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         submitProvider.setSubmitForm(p.cast(source.getSubmit().getSubmitAll(), true));
         submitProvider.setGlobalDatasourceId(compiled.getId());
         submitProvider.setDatasourceId(source.getId());
-        submitProvider.getActionContextData().setSuccessAlertWidgetId(source.getSubmit().getMessageWidgetId());
-        submitProvider.getActionContextData().setFailAlertWidgetId(source.getSubmit().getMessageWidgetId());
+        submitProvider.getActionContextData().setMessagesForm(source.getSubmit().getMessageWidgetId());
         return compileSubmit(submitProvider, context, p);
     }
 

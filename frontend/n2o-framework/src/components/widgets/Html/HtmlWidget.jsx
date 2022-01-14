@@ -28,6 +28,7 @@ function Widget(props) {
         url,
         html,
         models,
+        loading,
     } = props
 
     return (
@@ -36,6 +37,7 @@ function Widget(props) {
             toolbar={toolbar}
             className={className}
             style={style}
+            loading={loading}
         >
             <Html
                 url={url}

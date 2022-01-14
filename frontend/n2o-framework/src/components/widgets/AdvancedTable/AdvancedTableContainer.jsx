@@ -51,12 +51,17 @@ class AdvancedTableContainer extends React.Component {
     componentDidUpdate(prevProps) {
         const {
             models: prevModels,
+            sorting: prevSorting,
         } = prevProps
-        const { models, registredColumns } = this.props
+        const { models, registredColumns, sorting } = this.props
         const { datasource } = models
         const { datasource: prevDatasource } = prevModels
 
-        if (!isEqual(prevDatasource, datasource) || !isEqual(prevProps.registredColumns, registredColumns)) {
+        if (
+            !isEqual(prevDatasource, datasource) ||
+            !isEqual(prevProps.registredColumns, registredColumns) ||
+            !isEqual(sorting, prevSorting)
+        ) {
             this.setState({
                 data: this.mapData(datasource),
                 columns: this.mapColumns(),
@@ -187,7 +192,7 @@ class AdvancedTableContainer extends React.Component {
                     columnId: header.id,
                     widgetId,
                     as: 'div',
-                    sorting: sorting?.[header.sortingParams],
+                    sorting: sorting?.[header.sortingParam],
                     needRender,
                     setSorting,
                 }),

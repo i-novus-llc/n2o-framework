@@ -16,6 +16,7 @@ const initialState = {
     filter: {},
     multi: {}, // selected
     resolve: {},
+    edit: {},
 }
 
 const modelsSlice = createSlice({

@@ -1,0 +1,41 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="btn1">
+            <show-modal page-id="testDatasourceMergerModal1" route="/modal1">
+                <datasources>
+                    <datasource id="main"
+                                query-id="testDatasourceMerger"
+                                object-id="testDatasourceMerger"
+                                route="/test2"
+                                default-values-mode="query"
+                                size="20">
+                        <filters>
+                            <eq field-id="id" value="2"/>
+                        </filters>
+                        <submit operation-id="test2" route="/test2"/>
+                    </datasource>
+                </datasources>
+            </show-modal>
+        </button>
+        <button id="btn2">
+            <open-page page-id="testDatasourceMergerModal2" route="/modal2">
+                <datasources>
+                    <datasource id="ds2"
+                                query-id="testDatasourceMerger"
+                                object-id="testDatasourceMerger"
+                                route="/test2"
+                                default-values-mode="query"
+                                size="20">
+                        <filters>
+                            <eq field-id="id" value="2"/>
+                        </filters>
+                        <dependencies>
+                            <fetch on="ds1"/>
+                        </dependencies>
+                        <submit operation-id="test" route="/test2"/>
+                    </datasource>
+                </datasources>
+            </open-page>
+        </button>
+    </toolbar>
+</page>

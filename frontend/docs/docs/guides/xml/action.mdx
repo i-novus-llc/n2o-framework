@@ -28,6 +28,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |---------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
 |page-id                          |Ссылка на страницу                  |Страница, которая будет открыта поверх текущей                                                                                      |                                                           |
 |object-id                        |string                              |Идентификатор объекта                                                                                                               |                                                           |
+|target                           |application, newWindow              |Сценарий действия открытия страницы `newWindow` - в новой вкладке, `application` - в текущем приложении                             |application                                                |
 |route                            |Строка                              |URL действия                                                                                                                        |Формируется из идентификаторов страницы, виджета и действия|
 |upload                           |query, defaults, copy, resolve      |Источник данных мастер виджета при открытии страницы                                                                                |query                                                      |
 |page-name                        |Строка                              |Наименование страницы                                                                                                               |                                                           |
@@ -48,7 +49,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
   page-id="employee"
   submit-operation-id="create"
   model="filters"
-  upload="defaults">
+  upload="defaults"
+  target="application">
   ...
 </open-page>
 ```

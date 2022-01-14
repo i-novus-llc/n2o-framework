@@ -21,7 +21,7 @@
                            route="/:page_test_id/masterDetail"
                            master-field-id="masterId"
                            detail-field-id="detailId"
-                           master-param="detailId">
+                           master-param="page_test_id">
                         <path-param name="page_test_id" value="{id}"/>
                         <query-param name="name" value="{name}" ref-model="filter"/>
                         <query-param name="secondName" value="test"/>

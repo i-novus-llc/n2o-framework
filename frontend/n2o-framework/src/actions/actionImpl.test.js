@@ -1,34 +1,31 @@
 import { START_INVOKE } from '../constants/actionImpls'
+import { MODEL_PREFIX } from '../core/datasource/const'
 
 import { startInvoke } from './actionImpl'
 
-/**
- * @deprecated
- */
-
-const widgetId = 'Widget_Id'
+const datasource = 'datasource_id'
 const dataProvider = {
     url: '/n2o/test',
     pathMapping: {},
     queryMapping: {},
 }
-const data = {}
-const modelLink = 'modelLink'
+const page_id = 'page_id'
+const model = MODEL_PREFIX.active
 
 describe('Тесты для экшена actionImpl', () => {
     it('Генирирует правильное событие', () => {
-        const action = startInvoke(widgetId, dataProvider, data, modelLink)
+        const action = startInvoke(datasource, dataProvider, model, page_id)
         expect(action.type).toEqual(START_INVOKE)
     })
     it('Проверяет правильность возвращаемых данных', () => {
-        const action = startInvoke(widgetId, dataProvider, data, modelLink)
-        expect(action.payload.widgetId).toEqual(widgetId)
+        const action = startInvoke(datasource, dataProvider, model, page_id)
+        expect(action.payload.datasource).toEqual(datasource)
         expect(action.payload.dataProvider).toEqual(dataProvider)
-        expect(action.payload.data).toEqual(data)
-        expect(action.payload.modelLink).toEqual(modelLink)
+        expect(action.payload.model).toEqual(model)
+        expect(action.payload.pageId).toEqual(page_id)
     })
     it('Проверяет правильность меты', () => {
-        const action = startInvoke(widgetId, dataProvider, data, modelLink)
+        const action = startInvoke(datasource, dataProvider, model, page_id, { refresh: true })
         expect(action.meta.refresh).toEqual(true)
     })
 })

@@ -3,9 +3,6 @@ import { mount } from 'enzyme'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 
-import { setModel } from '../../ducks/models/store'
-import { dataRequestWidget } from '../../ducks/widgets/store'
-
 import WidgetFilters from './WidgetFilters'
 
 const mockStore = configureMockStore()
@@ -41,51 +38,4 @@ describe('<WidgetFilters />', () => {
         const { wrapper } = setup()
         expect(wrapper.find(WidgetFilters).exists()).toBeTruthy()
     })
-    // FIXME проверить что не так и расскоментировать
-
-    // it('searchOnChange', async () => {
-    //     const { wrapper, store } = setup(
-    //         {
-    //             models: {
-    //                 filter: {
-    //                     test: 6,
-    //                 },
-    //             },
-    //         },
-    //         {
-    //             fieldsets: [],
-    //             widgetId: 'test',
-    //             modelId: 'test',
-    //             searchOnChange: true,
-    //         },
-    //     )
-    //     expect(
-    //         wrapper
-    //             .find('ReduxForm')
-    //             .at(1)
-    //             .props().form,
-    //     ).toBe('test_filter')
-
-    //     wrapper
-    //         .find('ReduxForm')
-    //         .at(1)
-    //         .props()
-    //         .onChange('test')
-
-    //     expect(store.getActions()[0]).toEqual({
-    //         meta: {
-    //             form: 'test_filter',
-    //             keepDirty: false,
-    //             keepValues: undefined,
-    //             updateUnregisteredFields: false,
-    //         },
-    //         payload: 6,
-    //         type: '@@redux-form/INITIALIZE',
-    //     })
-    //     expect(store.getActions()[1]).toEqual(setModel('filter', 'test', 'test'))
-    //     await delay(2000)
-    //     expect(store.getActions()[4]).toEqual(
-    //         dataRequestWidget('test', 'test', { page: 1 }),
-    //     )
-    // })
 })

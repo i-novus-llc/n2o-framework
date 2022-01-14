@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="name"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+            <validations white-list="uniqueName"/>
+        </operation>
+    </operations>
+
+    <validations>
+        <condition id="uniqueName" severity="danger" on="name"
+                   message="Имя {name} уже существует">
+            <![CDATA[
+                    name != 'test'
+            ]]>
+        </condition>
+    </validations>
+</object>
+
+

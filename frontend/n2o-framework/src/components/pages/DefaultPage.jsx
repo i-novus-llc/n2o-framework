@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
@@ -9,7 +9,7 @@ import PageTitle from '../core/PageTitle'
 import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb'
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../buttons/Toolbar'
-import { register } from '../../ducks/datasource/store'
+import { register, remove } from '../../ducks/datasource/store'
 
 /**
  * Стандартное наполнение страницы
@@ -31,15 +31,22 @@ function DefaultPage({
     disabled,
     dispatch,
 }) {
-    const { style, className, datasources } = metadata
+    const { style, className, datasources, id: pageId } = metadata
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!datasources || isEmpty(datasources)) { return }
 
         Object.entries(datasources).forEach(([id, config]) => {
-            dispatch(register(id, config))
+            dispatch(register(id, { pageId, ...config }))
         })
-    }, [datasources, dispatch])
+
+        // eslint-disable-next-line consistent-return
+        return () => {
+            Object.keys(datasources).forEach((id) => {
+                dispatch(remove(id))
+            })
+        }
+    }, [datasources, dispatch, pageId])
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>

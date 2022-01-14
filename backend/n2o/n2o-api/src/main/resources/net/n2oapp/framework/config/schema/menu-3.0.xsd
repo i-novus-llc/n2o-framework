@@ -18,6 +18,16 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ref-id">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src">
+            <xs:annotation>
+                <xs:documentation>Реализация меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="dropdownMenuDef">
@@ -59,6 +69,11 @@
                 <xs:documentation>Форма изображения</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="menuItemDef">
@@ -114,6 +129,11 @@
                 <xs:documentation>Форма изображения</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="pageDef">

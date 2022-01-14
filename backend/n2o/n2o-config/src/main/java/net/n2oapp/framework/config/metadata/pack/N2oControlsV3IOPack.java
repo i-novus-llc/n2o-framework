@@ -6,8 +6,6 @@ import net.n2oapp.framework.config.io.control.v3.*;
 import net.n2oapp.framework.config.io.control.v3.interval.DateIntervalIOv3;
 import net.n2oapp.framework.config.io.control.v3.list.*;
 import net.n2oapp.framework.config.io.control.v3.plain.*;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
-import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 

@@ -3,8 +3,7 @@ import {
     makeWidgetByIdSelector,
     makeWidgetIsInitSelector,
     makeWidgetVisibleSelector,
-    makeWidgetEnabledSelector,
-    makeWidgetLoadingSelector,
+    makeWidgetDisabledSelector,
     makeWidgetSizeSelector,
     makeWidgetCountSelector,
     makeWidgetSortingSelector,
@@ -43,7 +42,7 @@ const state = {
             datasorce: 'ds1',
             isInit: true,
             isVisible: true,
-            isEnabled: true,
+            disabled: false,
             pageId: '_',
             isFilterVisible: true,
             isActive: true,
@@ -72,14 +71,9 @@ describe('Проверка селекторов widgets', () => {
             state.widgets.widget1.isVisible,
         )
     })
-    it('makeWidgetEnabledSelector должен вернуть enabled по id', () => {
-        expect(makeWidgetEnabledSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.isEnabled,
-        )
-    })
-    it('makeWidgetLoadingSelector должен вернуть loading по id', () => {
-        expect(makeWidgetLoadingSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.isLoading,
+    it('makeWidgetDisabledSelector должен вернуть enabled по id', () => {
+        expect(makeWidgetDisabledSelector('widget1')(state)).toEqual(
+            state.widgets.widget1.disabled,
         )
     })
     it('makeWidgetSizeSelector должен вернуть size по id', () => {

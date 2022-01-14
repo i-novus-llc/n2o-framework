@@ -46,7 +46,7 @@ public abstract class SetController implements ControllerTypeAware {
             responseInfo.prepare(inDataSet);
             throw e;
         } catch (Exception exception) {
-            throw new N2oException(exception, requestInfo.getFailAlertWidgetId());
+            throw new N2oException(exception);
         }
         dataProcessingStack.processActionResult(requestInfo, responseInfo, resDataSet);
         responseInfo.prepare(inDataSet);

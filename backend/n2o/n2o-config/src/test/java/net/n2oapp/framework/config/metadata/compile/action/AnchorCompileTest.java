@@ -20,8 +20,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -73,7 +71,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
                 .getToolbar().getButton("secWgt").getAction();
 
-        assertThat(linkSecond.getUrl(), is("/page/test/:minPrice"));
+        assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getTarget(), is(Target.newWindow));
         assertThat(linkSecond.getPathMapping().size(), is(1));
         assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));

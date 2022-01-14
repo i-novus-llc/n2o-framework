@@ -2,25 +2,18 @@ import {
     put,
     select,
     takeEvery,
-    take,
-    fork,
-    cancel,
-    all,
 } from 'redux-saga/effects'
-import { push, LOCATION_CHANGE } from 'connected-react-router'
+import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import toPairs from 'lodash/toPairs'
 import flow from 'lodash/flow'
 import keys from 'lodash/keys'
-import has from 'lodash/has'
 import { reset, touch } from 'redux-form'
 import { batchActions } from 'redux-batched-actions'
 
 import { addFieldMessage } from '../ducks/form/store'
-import { metadataRequest } from '../ducks/pages/store'
-import { dataRequestWidget } from '../ducks/widgets/store'
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
@@ -70,68 +63,6 @@ export function* redirectEffect(action) {
     }
 }
 
-function* fetchFlow(options, action) {
-    const state = yield select()
-
-    const rootPageId = get(state, 'global.rootPageId')
-    const meta = get(action, 'meta')
-    const redirectPath = get(action, 'meta.redirect.path')
-
-    // eslint-disable-next-line sonarjs/no-one-iteration-loop
-    while (true) {
-        yield take([LOCATION_CHANGE])
-
-        if (has(meta, 'alert')) {
-            return yield put(dataRequestWidget(options.widgetId, options.modelId || options.widgetId, options.options))
-        }
-
-        return yield all([
-            put(metadataRequest(rootPageId, rootPageId, redirectPath)),
-            put(dataRequestWidget(options.widgetId, options.modelId || options.widgetId, options.options)),
-        ])
-    }
-}
-
-export function* refreshEffect(action) {
-    let lastTask
-
-    try {
-        const { type, options } = action.meta.refresh
-
-        switch (type) {
-            case 'widget':
-                if (
-                    action.meta.redirect &&
-                    action.meta.redirect.target === 'application'
-                ) {
-                    if (lastTask) {
-                        yield cancel(lastTask)
-                    }
-
-                    lastTask = yield fork(fetchFlow, options, action)
-                } else {
-                    yield put(
-                        dataRequestWidget(options.widgetId, options.modelId || options.widgetId, {
-                            ...options.options,
-                            withoutSelectedId: action.meta.withoutSelectedId,
-                        }),
-                    )
-                }
-
-                break
-            case 'metadata':
-                yield put(metadataRequest(...options))
-
-                break
-            default:
-                break
-        }
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e)
-    }
-}
-
 export function* messagesFormEffect({ meta }) {
     try {
         const formID = get(meta, 'messages.form', false)
@@ -176,7 +107,6 @@ export const metaSagas = [
         alertEffect,
     ),
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
-    takeEvery(action => action.meta && action.meta.refresh, refreshEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.messages, messagesFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),

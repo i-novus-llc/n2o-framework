@@ -13,29 +13,21 @@ import java.util.Map;
 public class ModelsScope {
 
     private ReduxModel model;
-    private String widgetId;
+    private String globalDatasource;
     private Models models;
 
-    public ModelsScope(ReduxModel model, String widgetId, Models models) {
+    public ModelsScope(ReduxModel model, String globalDatasource, Models models) {
         this.model = model;
-        this.widgetId = widgetId;
+        this.globalDatasource = globalDatasource;
         this.models = models;
     }
 
     public void add(String field, ModelLink link) {
-        models.add(model, widgetId, field, link);
+        models.add(model, globalDatasource, field, link);
     }
 
     public void addAll(Map<String, ModelLink> modelLinks) {
-        modelLinks.forEach((k, v) -> models.add(model, widgetId, k, v));
-    }
-
-    public String getWidgetId() {
-        return widgetId;
-    }
-
-    public ReduxModel getModel() {
-        return model;
+        modelLinks.forEach((k, v) -> models.add(model, globalDatasource, k, v));
     }
 
     public boolean hasModels() {

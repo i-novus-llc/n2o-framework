@@ -69,8 +69,13 @@ export function getParams(mapping, state) {
 
     each(mapping, (options, key) => {
         const value = linkResolver(state, options)
+        const { required } = options
 
         params[key] = !isNil(value) ? value : undefined
+
+        if (required && isNil(value)) {
+            throw new Error(`DataProvider error: "${key}" is required`)
+        }
     })
 
     return params

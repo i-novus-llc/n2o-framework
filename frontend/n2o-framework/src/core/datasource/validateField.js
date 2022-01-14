@@ -24,7 +24,7 @@ import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
  * @param {Validation[]} validationList
  * @return {ValidationResult[]}
  */
-export function validateField(field, model, validationList) {
+export async function validateField(field, model, validationList) {
     const errors = []
 
     const validations = validationList.filter((validation) => {
@@ -43,11 +43,18 @@ export function validateField(field, model, validationList) {
     for (const validation of validations) {
         const validationFunction = presets[validation.type]
 
-        if (!validationFunction(field, model, validation)) {
-            errors.push({
-                text: validation.text,
-                severity: validation.severity,
-            })
+        try {
+            const valid = await validationFunction(field, model, validation)
+
+            if (!valid) {
+                errors.push({
+                    text: validation.text,
+                    severity: validation.severity,
+                })
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.warn(`validate error: ${error.message}`)
         }
     }
 

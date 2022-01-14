@@ -13,12 +13,14 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.v2.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.page.v2.StandardPageElementIOv2;
@@ -33,6 +35,7 @@ import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -194,8 +197,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getOperationId(), is("test"));
         assertThat(context.isMessageOnFail(), is(true));
         assertThat(context.isMessageOnSuccess(), is(false));
-        assertThat(context.getSuccessAlertWidgetId(), is("form"));
-        assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getMessagesForm(), is("form"));
         assertThat(context.getRefresh().getDatasources(), hasItem("form"));
 
         ClientDataProvider dataProvider = page.getDatasources().get(form.getDatasource()).getSubmit();
@@ -243,6 +245,11 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) detailPage.getWidget();
         assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getPathMapping().size(), is(1));
         assertThat(detailPage.getDatasources().get(form.getDatasource()).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/main"));
+        AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
+        assertThat(closeBtn, notNullValue());
+        assertThat(closeBtn.getConfirm(), nullValue());
+        assertThat(closeBtn.getAction(), instanceOf(CloseAction.class));
+        assertThat(closeBtn.getValidate(), nullValue());
     }
 
     @Test

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.datasource.DatasourceIO;
 import org.jdom2.Element;
 
 /**
@@ -31,7 +32,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
         p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
         p.attribute(e, "route", op::getRoute, op::setRoute);
-        p.children(e, "datasources", "datasource", op::getDatasources,op::setDatasources, N2oDatasource::new, this::datasource);
+        p.children(e, "datasources", "datasource", op::getDatasources,op::setDatasources, N2oDatasource::new, new DatasourceIO());
         p.anyChildren(e, "params", op::getParams, op::setParams,
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)
@@ -43,14 +44,6 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
-    }
-
-    private void datasource(Element e, N2oDatasource a, IOProcessor p) {
-        p.attribute(e, "id", a::getId, a::setId);
-        p.attribute(e, "query-id", a::getQueryId, a::setQueryId);
-        p.attribute(e, "object-id", a::getObjectId, a::setObjectId);
-        p.attributeEnum(e, "default-values-mode", a::getDefaultValuesMode, a::setDefaultValuesMode, DefaultValuesMode.class);
-        p.attributeInteger(e, "size", a::getSize, a::setSize);
     }
 
 }

@@ -15,7 +15,7 @@ function CardsWidget(props) {
         id: widgetId,
         datasource,
         toolbar, disabled, className,
-        style, filter, paging,
+        style, filter, paging, loading,
         cards, verticalAlign, height,
         size, count, models, page, setPage,
     } = props
@@ -45,6 +45,7 @@ function CardsWidget(props) {
             {...pagination}
             className={className}
             style={style}
+            loading={loading}
         >
             <CardsContainer
                 {...props}

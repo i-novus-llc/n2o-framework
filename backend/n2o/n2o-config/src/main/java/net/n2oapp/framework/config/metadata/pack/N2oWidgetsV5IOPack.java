@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
-import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
+import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 import net.n2oapp.framework.config.io.widget.v4.CardsWidgetIOV4;
 import net.n2oapp.framework.config.io.widget.v4.TilesWidgetIOV4;
 import net.n2oapp.framework.config.io.widget.v5.ChartWidgetIOv5;
@@ -22,8 +22,8 @@ public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder> {
                 new TreeElementIOv5(),
                 new ChartWidgetIOv5(),
                 new CalendarWidgetIOv5(),
-                new ButtonIO(),
-                new SubmenuIO(),
+                new ButtonIOv2(),
+                new SubmenuIOv2(),
                 new TilesWidgetIOV4(),
                 new CardsWidgetIOV4());
     }

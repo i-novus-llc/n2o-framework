@@ -7,6 +7,9 @@
             <invocation/>
             <validations white-list="valid"/>
         </operation>
+        <operation id="delete">
+            <invocation/>
+        </operation>
     </operations>
     <validations>
         <condition severity="danger" id="valid" server-moment="after-success-query" message="Fail name">name=='test'</condition>
