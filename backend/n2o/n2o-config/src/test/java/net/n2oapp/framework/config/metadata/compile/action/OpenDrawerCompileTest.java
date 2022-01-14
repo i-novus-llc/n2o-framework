@@ -155,9 +155,6 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getToolbar().getButton("mi0").getAction();
         assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/mi0"));
         assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
-
-        QueryContext queryContext = (QueryContext) route("/p/123/update", CompiledQuery.class);
-        assertThat(queryContext.getValidations().size(), is(1));
     }
 
     @Test

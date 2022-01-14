@@ -178,9 +178,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         ShowModal showModal = (ShowModal) modalPage.getWidget().getToolbar().getButton("mi0").getAction();
         assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/mi0"));
         assertThat(modalPage.getDatasources().get(modalPage.getWidget().getDatasource()).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
-
-        QueryContext queryContext = (QueryContext) route("/p/123/update", CompiledQuery.class);
-        assertThat(queryContext.getValidations().size(), is(1));
     }
 
     @Test
