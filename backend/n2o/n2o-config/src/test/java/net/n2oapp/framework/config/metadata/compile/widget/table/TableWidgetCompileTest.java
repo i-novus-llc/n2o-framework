@@ -249,7 +249,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
                 .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/main", CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters", CompiledQuery.class));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("genders*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("genders*.id"));
@@ -411,4 +411,17 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
     }
+
+
+    @Test
+    public void testDataProviderRoute() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testDatasourceRoute.page.xml")
+                .get(new PageContext("testDatasourceRoute"));
+
+        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(1);
+        assertThat(table.getDataProvider().getUrl(), is("n2o/data/testDatasourceRoute/main/report"));
+        assertThat(table.getDataProvider().getQueryMapping().size(), is(1));
+        assertThat(table.getDataProvider().getPathMapping().size(), is(0));
+    }
+
 }

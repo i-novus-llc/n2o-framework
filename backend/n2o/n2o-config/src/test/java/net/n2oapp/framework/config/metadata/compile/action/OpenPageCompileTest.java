@@ -11,6 +11,8 @@ import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -24,6 +26,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -533,5 +536,19 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(provider.getUrl(), is("n2o/data/testBind/main"));
         assertThat(provider.getQueryMapping().size(), is(1));
         assertThat(provider.getQueryMapping().get("name").getValue(), is("test"));
+    }
+
+    @Test
+    public void link() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testSimpleOpenPage.page.xml")
+                .get(new PageContext("testSimpleOpenPage"));
+        Toolbar toolbar =  page.getWidget().getToolbar();
+        LinkAction link = (LinkAction) toolbar.getButton("id1").getAction();
+        assertThat(link.getUrl(), is("/testSimpleOpenPage/id1"));
+        assertThat(link.getTarget(), is(Target.application));
+
+        link = (LinkAction) toolbar.getButton("id2").getAction();
+        assertThat(link.getUrl(), is("#/testSimpleOpenPage/view"));
+        assertThat(link.getTarget(), is(Target.newWindow));
     }
 }

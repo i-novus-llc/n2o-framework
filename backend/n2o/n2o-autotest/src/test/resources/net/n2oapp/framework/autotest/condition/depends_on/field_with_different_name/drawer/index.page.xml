@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Зависимость от поля с другим именем в дровере">
+    <table id="table" query-id="data">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="region.name"/>
+        </columns>
+        <toolbar>
+            <button id="sb" label="Фильтр" model="filter">
+                <open-drawer page-id="modal"
+                             closable="false"
+                             upload="defaults"
+                             submit-action-type="copy"
+                             submit-label="Применить"
+                             copy-mode="replace"
+                             target-model="filter"/>
+            </button>
+        </toolbar>
+        <filters search-on-change="true">
+            <row>
+                <hidden id="region"/>
+                <input-text id="regionFilter" label="Значение из поля дровера" enabled="false">
+                    <dependencies>
+                        <set-value on="region">
+                            var result = "";
+                            if (typeof region != 'undefined' &amp;&amp; region != null) {
+                            result=region.name;
+                            } else {
+                            result=null;
+                            }
+                            return result;
+                        </set-value>
+                    </dependencies>
+                </input-text>
+            </row>
+        </filters>
+    </table>
+</simple-page>
