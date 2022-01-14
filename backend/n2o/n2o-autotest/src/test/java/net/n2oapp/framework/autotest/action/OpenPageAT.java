@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.action;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -17,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 /**
  * Автотест для действия открытия страницы
  */
@@ -31,6 +34,7 @@ public class OpenPageAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        headless = false;
     }
 
     @Override
