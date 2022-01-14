@@ -31,10 +31,12 @@
 .n2o-page__left-right-layout {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     .n2o-page__left,
     .n2o-page__right {
-        width: 49%;
+        min-width: max-content;
+        flex-grow: 1;
     }
 
     .n2o-page__left + .n2o-page__right {

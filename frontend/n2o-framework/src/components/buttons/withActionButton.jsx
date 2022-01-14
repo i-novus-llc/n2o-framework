@@ -111,13 +111,19 @@ export default function withActionButton(options = {}) {
                     return true
                 }
 
-                return validate.map(datasourceId => validateDatasource(
-                    store.getState(),
-                    datasourceId,
-                    dispatch,
-                    true,
-                )).reduce((current, prev) => current && prev)
-            };
+                let valid = true
+
+                for (const datasourceId of validate) {
+                    valid = valid && validateDatasource(
+                        store.getState(),
+                        datasourceId,
+                        dispatch,
+                        true,
+                    )
+                }
+
+                return valid
+            }
 
             handleClick = async (e) => {
                 e.persist()

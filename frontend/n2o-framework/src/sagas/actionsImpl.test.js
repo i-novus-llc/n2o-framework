@@ -85,7 +85,6 @@ describe('Проверка саги actionsImpl', () => {
                 refresh: true,
             },
             payload: {
-                widgetId: '__patients',
                 datasource: '__patients',
                 model: 'resolve',
                 dataProvider: {
@@ -119,16 +118,16 @@ describe('Проверка саги actionsImpl', () => {
                 },
             },
         }
-        const widgetId = 'testId'
+        const datasource = 'testId'
         const err = {
             meta: {
                 value: 'value',
             },
         }
-        const gen = handleFailInvoke(action.meta.fail, widgetId, err.meta)
+        const gen = handleFailInvoke(action.meta.fail, datasource, err.meta)
         const meta = merge(action.meta.fail, err.meta)
         expect(gen.next().value.payload.action).toEqual(
-            put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta)).payload.action,
+            put(createActionHelper(FAIL_INVOKE)({ datasource }, meta)).payload.action,
         )
         expect(gen.next().done).toEqual(true)
     })

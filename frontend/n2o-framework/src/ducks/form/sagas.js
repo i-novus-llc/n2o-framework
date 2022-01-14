@@ -13,9 +13,12 @@ import {
     modelsSelector,
 } from '../models/selectors'
 import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../widgets/selectors'
+import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { regionsSelector } from '../regions/store'
 import { failValidate, startValidate } from '../datasource/store'
+import { startInvoke } from '../../actions/actionImpl'
+import { MODEL_PREFIX } from '../../core/datasource/const'
 
 import { formsSelector } from './selectors'
 import { addMessage } from './constants'
@@ -142,6 +145,26 @@ export function* clearForm(action) {
     yield put(reset(action.payload.key))
 }
 
+/* TODO перенести в саги datasource
+ * как вариант, чтобы не искать какая форма и событие вызывает автосейв можно сделать
+ * autoSubmit: { action: ReduxAction, condition: expressionString(datasource, action) }
+ */
+const needAutosubmit = (submit, type) => submit && (
+    (type === actionTypes.CHANGE && submit.autoSubmitOn === 'change') ||
+    (type === actionTypes.BLUR && submit.autoSubmitOn === 'blur')
+)
+
+export function* autoSubmitForm({ meta, type }) {
+    const { form } = meta
+    const datasourceId = yield select(makeDatasourceIdSelector(form))
+    const datasource = yield select(dataSourceByIdSelector(datasourceId))
+    const submit = datasource?.submit
+
+    if (needAutosubmit(submit, type)) {
+        yield put(startInvoke(datasourceId, submit, MODEL_PREFIX.active, datasource.pageId))
+    }
+}
+
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
@@ -174,5 +197,9 @@ export const formPluginSagas = [
             yield put(startValidate(datasource, [field]))
         }
     }),
+    debounce(400, [
+        actionTypes.CHANGE,
+        actionTypes.BLUR,
+    ], autoSubmitForm),
     debounce(100, addMessage, setFocus),
 ]

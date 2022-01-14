@@ -66,16 +66,14 @@ export function* dataRequest({ payload }) {
 
         const response = yield fetch(id, resolvedProvider)
 
-        // Костыль, чтобы новые данные подхватились компонентами
-        yield put(setModel(MODEL_PREFIX.source, id, []))
-
         const aciveModel = yield select(makeGetModelByPrefixSelector(MODEL_PREFIX.active, id))
 
         // Если есть активная модель и её нету в новом списке - убираем активную модель
         if (
-            aciveModel && !response.list?.some(model => isEqual(model, aciveModel))
+            !aciveModel ||
+            (aciveModel && !response.list?.some(model => isEqual(model, aciveModel)))
         ) {
-            yield put(setModel(MODEL_PREFIX.active, id, null))
+            yield put(setModel(MODEL_PREFIX.active, id, response.list[0]))
         }
 
         yield put(changeCount(id, response.count))

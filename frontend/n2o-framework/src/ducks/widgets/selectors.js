@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
 import { FORM, TABLE } from '../../components/widgets/widgetTypes'
-import { dataSourceCountSelector, dataSourceLoadingSelector, dataSourcePageSelector, dataSourceSizeSelector } from '../datasource/selectors'
+import { dataSourceCountSelector, dataSourcePageSelector, dataSourceSizeSelector } from '../datasource/selectors'
 
 /*
   Базовые селекторы
@@ -51,12 +51,12 @@ export const makeWidgetVisibleSelector = widgetId => createSelector(
 )
 
 /**
- * Селектор-генератор для получения свойства виджета - isEnabled
+ * Селектор-генератор для получения свойства виджета - disabled
  * @param widgetId
  */
-export const makeWidgetEnabledSelector = widgetId => createSelector(
+export const makeWidgetDisabledSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isEnabled,
+    widgetState => widgetState.disabled,
 )
 
 // region from datasource
@@ -66,12 +66,6 @@ const makeDatasourceSelector = (widgetId, makeSelector) => (state) => {
 
     return makeSelector(soueceId)(state)
 }
-
-/**
- * Селектор-генератор для получения свойства виджета - isLoading
- * @param widgetId
- */
-export const makeWidgetLoadingSelector = widgetId => makeDatasourceSelector(widgetId, dataSourceLoadingSelector)
 
 /**
  * Селектор-генератор для получения свойства виджета - size

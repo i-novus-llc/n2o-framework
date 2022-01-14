@@ -127,10 +127,7 @@ export const defaultApiProvider = {
             ),
         ].join(''),
         { signal: abortSignal },
-    ).catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error(error)
-    }),
+    ),
     [FETCH_VALUE]: ({ url, headers }, abortSignal) => request(url, { headers, signal: abortSignal }),
     [CHANGE_LOCALE]: (locale, abortSignal) => request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
         method: 'POST',

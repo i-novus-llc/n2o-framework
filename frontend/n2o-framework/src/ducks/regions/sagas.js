@@ -17,9 +17,9 @@ import { getLocation, rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { routesQueryMapping } from '../datasource/sagas/routesQueryMapping'
-import { makeModelIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
-import { dataRequestWidget } from '../widgets/store'
+import { makeDatasourceIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
 import { addMessage, removeMessage } from '../form/constants'
+import { dataRequest } from '../datasource/store'
 
 import { setActiveRegion, regionsSelector, setTabInvalid } from './store'
 import { MAP_URL } from './constants'
@@ -170,11 +170,10 @@ function* lazyFetch(id) {
             }
         })
 
-        // eslint-disable-next-line no-restricted-syntax
         for (const widgetId of idsToFetch) {
-            const modelId = yield select(makeModelIdSelector(widgetId))
+            const datasource = yield select(makeDatasourceIdSelector(widgetId))
 
-            yield put(dataRequestWidget(widgetId, modelId))
+            yield put(dataRequest(datasource))
         }
 
         idsToFetch.length = 0

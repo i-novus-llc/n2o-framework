@@ -1,34 +1,14 @@
-import React from 'react'
 import { runSaga } from 'redux-saga'
 
-import { dataRequestWidget } from '../ducks/widgets/store'
 import { addFieldMessage } from '../ducks/form/store'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 
 import {
-    refreshEffect,
     alertEffect,
     redirectEffect,
     messagesFormEffect,
     clearFormEffect,
 } from './meta'
-
-const setupRefresh = () => {
-    const meta = {
-        refresh: {
-            type: 'widget',
-            options: {
-                widgetId: 'widgetId',
-                options: {},
-            },
-        },
-    }
-    const refresh = refreshEffect({ meta })
-    return {
-        meta,
-        refresh,
-    }
-}
 
 const setupAlertEffect = () => {
     const meta = {
@@ -144,22 +124,6 @@ describe('Сага для перехвата меты, сайд-эффектов
             )
             expect(gen.value.payload.action.payload.alerts[0].severity).toEqual(
                 meta.alert.messages[0].severity,
-            )
-        })
-    })
-
-    describe('Проверяет сагу refreshEffect', () => {
-        it('Проверяет диспатч экшена обновления данных', () => {
-            const { refresh } = setupRefresh()
-            const { value } = refresh.next()
-            expect(value.payload.action.type).toEqual(dataRequestWidget.type)
-        })
-
-        it('Проверяет payload саги refreshEffect', () => {
-            const { refresh, meta } = setupRefresh()
-            const { value } = refresh.next()
-            expect(value.payload.action.payload.widgetId).toEqual(
-                meta.refresh.options.widgetId,
             )
         })
     })

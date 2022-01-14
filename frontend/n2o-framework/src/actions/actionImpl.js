@@ -7,33 +7,27 @@ import {
 import createActionHelper from './createActionHelper'
 
 /**
- * @deprecated
- */
-
-/**
  * Экшен начала инвока
- * @param widgetId
+ * @param datasource
  * @param dataProvider
- * @param data
- * @param modelLink
+ * @param model
+ * @param pageId
  * @param meta
  * @param needResolve
  */
 export function startInvoke(
-    widgetId,
+    datasource,
     dataProvider,
-    data,
-    modelLink,
-    meta = { refresh: true },
-    needResolve = true,
+    model,
+    pageId,
+    meta = {},
 ) {
     return createActionHelper(START_INVOKE)(
         {
-            widgetId,
+            datasource,
             dataProvider,
-            data,
-            modelLink,
-            needResolve,
+            model,
+            pageId,
         },
         meta,
     )
@@ -41,13 +35,13 @@ export function startInvoke(
 
 /**
  * Экшен удачного завершения инвока
- * @param widgetId
+ * @param datasource
  * @param meta
  */
-export function successInvoke(widgetId, meta) {
+export function successInvoke(datasource, meta) {
     return createActionHelper(SUCCESS_INVOKE)(
         {
-            widgetId,
+            datasource,
         },
         meta,
     )
@@ -55,13 +49,13 @@ export function successInvoke(widgetId, meta) {
 
 /**
  * Экшен неудачного завершения инвока
- * @param widgetId
+ * @param datasource
  * @param meta
  */
-export function failInvoke(widgetId, meta) {
+export function failInvoke(datasource, meta) {
     return createActionHelper(FAIL_INVOKE)(
         {
-            widgetId,
+            datasource,
         },
         meta,
     )
