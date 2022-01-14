@@ -7,10 +7,14 @@
             <column text-field-id="name"/>
         </columns>
         <toolbar>
-            <button id="create" label="Создать" model="filter">
-                <show-modal page-id="testShowModalPage" upload="defaults"
-                            submit-operation-id="create"
-                            redirect-url-after-submit="/:id/update">
+            <button id="update" model="filter">
+                <!-- open simple page -->
+                <show-modal page-id="testShowModalPage" upload="defaults">
+                </show-modal>
+            </button>
+            <button id="update2" model="filter">
+                <!-- open standard page -->
+                <show-modal page-id="testShowModalPage2" upload="defaults">
                 </show-modal>
             </button>
         </toolbar>

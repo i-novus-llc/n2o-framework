@@ -339,8 +339,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(ds.getProvider().getQueryMapping().get("surname").getBindLink(), is("models.filter['page_test']"));
         assertThat(ds.getProvider().getQueryMapping().get("secondName").getValue(), is("test"));
         assertThat(ds.getProvider().getQueryMapping().get("secondName").getBindLink(), nullValue());
-        assertThat(ds.getProvider().getPathMapping().get("page_test_id").getValue(), is("`id`"));
-        assertThat(ds.getProvider().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(ds.getProvider().getPathMapping().get("page_test_id").normalizeLink(), is("models.resolve['page_test'].masterId"));
 
         PageContext detailContext = (PageContext) route("/page/gender/masterDetail", Page.class);
         assertThat(detailContext.getQueryRouteMapping().size(), is(3));

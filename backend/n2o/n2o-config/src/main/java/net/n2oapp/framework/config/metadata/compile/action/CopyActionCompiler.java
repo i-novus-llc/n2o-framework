@@ -37,7 +37,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
 
         PageScope pageScope = p.getScope(PageScope.class);
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
-                pageScope.getClientDatasourceId(source.getSourceDatasource()),
+                pageScope != null ? pageScope.getClientDatasourceId(source.getSourceDatasource()) : source.getSourceDatasource(),
                 source.getSourceModel().getId(), source.getSourceFieldId());
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
                 getDatasourceId(source, p),

@@ -29,6 +29,11 @@ public class N2oSimplePage extends N2oPage {
 
     @Override
     public String getObjectId() {
-        return widget != null ? widget.getObjectId() : null;
+        return widget != null ? widget.getDatasource() != null ? widget.getDatasource().getObjectId() : null : null;
+    }
+
+    @Override
+    public void setObjectId(String objectId) {
+        throw new UnsupportedOperationException();
     }
 }

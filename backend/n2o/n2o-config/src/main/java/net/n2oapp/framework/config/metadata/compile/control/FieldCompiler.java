@@ -533,7 +533,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return defaultValue;
     }
 
-    private String initLocalDatasourceId(CompileProcessor p) {
+    protected String initLocalDatasourceId(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
