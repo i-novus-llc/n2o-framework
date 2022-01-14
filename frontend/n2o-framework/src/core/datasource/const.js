@@ -22,6 +22,7 @@ export const MODEL_PREFIX = {
     selected: 'multi',
     source: 'datasource',
     filter: 'filter',
+    edit: 'edit',
 }
 
 /**

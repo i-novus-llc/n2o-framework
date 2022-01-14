@@ -9,7 +9,6 @@ import {
     withHandlers,
     shouldUpdate,
     mapProps,
-    branch,
 } from 'recompose'
 import { getFormValues } from 'redux-form'
 import isBoolean from 'lodash/isBoolean'
@@ -30,8 +29,6 @@ import {
 } from '../../../../ducks/form/selectors'
 import { registerFieldExtra } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
-
-import withAutoSave from './withAutoSave'
 
 const INDEX_PLACEHOLDER = 'index'
 
@@ -258,10 +255,6 @@ export default (Field) => {
                 }
                 : model,
         })),
-        branch(
-            ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
-            withAutoSave,
-        ),
         shouldUpdate(
             (props, nextProps) => !isEqual(props.model, nextProps.model) ||
         props.isInit !== nextProps.isInit ||

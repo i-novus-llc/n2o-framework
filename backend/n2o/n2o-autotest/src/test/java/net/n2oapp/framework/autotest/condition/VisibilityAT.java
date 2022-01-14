@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
+import net.n2oapp.framework.autotest.api.component.field.Field;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -128,4 +129,19 @@ public class VisibilityAT extends AutoTestBase {
         type2Input.shouldNotExists();
     }
 
+    @Test
+    public void testVisibilityAndDependencyVisibility() {
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
+
+        Fields fields = page.regions().region(3, SimpleRegion.class).content().widget(FormWidget.class).fields();
+        Field field = fields.field("Should be visible");
+        field.shouldExists();
+        field.shouldBeVisible();
+
+        field = fields.field("Should be hidden");
+        field.shouldNotExists();
+        field.shouldBeHidden();
+    }
 }

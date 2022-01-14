@@ -11,6 +11,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -32,6 +34,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -440,5 +443,21 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2", Page.class);
         Datasource datasource1 = modalPage2.getDatasources().get("p_update2_main");
         assertThat(datasource1.getProvider(), nullValue());
+    }
+
+    /**
+     * Проверяет, что show-modal pre-filters пробрасываются на модальную страницу
+     */
+    @Test
+    public void testShowModalPreFilters() {
+        PageContext pageContext = new PageContext("testShowModalPreFilters", "/p");
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalPreFilters.page.xml")
+                .get(pageContext);
+
+        SimplePage page = (SimplePage) routeAndGet("/p/create", Page.class);
+        ClientDataProvider provider = page.getDatasources().get("p_create_modal").getProvider();
+        assertThat(provider, notNullValue());
+        assertThat(provider.getQueryMapping().get("modal_id").normalizeLink(), is("models.resolve['p_form'].id"));
+        assertThat(provider.getQueryMapping().get("modal_name").getValue(), is(123));
     }
 }

@@ -15,6 +15,7 @@ export const dataSourceModelsSelector = sourceId => createSelector(
     modelsSelector,
     modelsList => ({
         [MODEL_PREFIX.active]: modelsList[MODEL_PREFIX.active][sourceId],
+        [MODEL_PREFIX.edit]: modelsList[MODEL_PREFIX.edit][sourceId],
         [MODEL_PREFIX.source]: modelsList[MODEL_PREFIX.source][sourceId] || [],
         [MODEL_PREFIX.selected]: modelsList[MODEL_PREFIX.selected][sourceId] || [],
         [MODEL_PREFIX.filter]: modelsList[MODEL_PREFIX.filter][sourceId] || {},

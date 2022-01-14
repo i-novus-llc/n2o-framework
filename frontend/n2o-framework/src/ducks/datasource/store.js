@@ -81,6 +81,13 @@ const datasource = createSlice({
             reducer(state, action) {
                 const { datasource } = action.payload
 
+                if (!state[datasource]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Attempt to request data from a non-existent source: ${datasource}`)
+
+                    return
+                }
+
                 state[datasource].loading = true
             },
         },
@@ -107,6 +114,8 @@ const datasource = createSlice({
             // eslint-disable-next-line sonarjs/no-identical-functions
             reducer(state, action) {
                 const { id } = action.payload
+
+                if (!state[id]) { return }
 
                 state[id].loading = false
             },
@@ -210,6 +219,17 @@ const datasource = createSlice({
                 // nothing
             },
         },
+        setEditModel: {
+            prepare(id, model) {
+                return ({
+                    payload: { id, model, prefix: MODEL_PREFIX.edit },
+                })
+            },
+            // eslint-disable-next-line no-unused-vars
+            reducer(state, action) {
+                // nothing
+            },
+        },
         setFilter: {
             prepare(id, model) {
                 return ({
@@ -258,6 +278,7 @@ export const {
     resolveRequest,
     rejectRequest,
     setActiveModel,
+    setEditModel,
     setFilter,
     setSourceModel,
     setMultiModel,

@@ -20,6 +20,7 @@ function CalendarWidget(props) {
         style,
         filter,
         calendar,
+        loading,
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
@@ -33,6 +34,7 @@ function CalendarWidget(props) {
             filter={resolvedFilter}
             className={className}
             style={style}
+            loading={loading}
         >
             <CalendarContainer
                 {...props}

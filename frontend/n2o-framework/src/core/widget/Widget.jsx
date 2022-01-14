@@ -13,6 +13,7 @@ import {
     changeSize,
     addWidget,
     removeWidget,
+    setEditModel,
 } from '../../ducks/datasource/store'
 import { registerDependency } from '../../actions/dependency'
 
@@ -35,6 +36,7 @@ export const WidgetHOC = (WidgetComponent) => {
             fetchData,
             setFilter,
             setResolve,
+            setEdit,
             setSelected,
             setSorting,
             setPage,
@@ -59,8 +61,8 @@ export const WidgetHOC = (WidgetComponent) => {
         }, [id, datasource, visible, prevVisible, fetchData, dispatch])
 
         const methods = useMemo(
-            () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize }),
-            [fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize],
+            () => ({ fetchData, setFilter, setResolve, setEdit, setSelected, setSorting, setPage, setSize }),
+            [fetchData, setFilter, setResolve, setEdit, setSelected, setSorting, setPage, setSize],
         )
 
         return (
@@ -127,6 +129,9 @@ export const WidgetHOC = (WidgetComponent) => {
         },
         setResolve(model) {
             dispatch(setActiveModel(datasource, model))
+        },
+        setEdit(model) {
+            dispatch(setEditModel(datasource, model))
         },
         setSelected(models) {
             dispatch(setMultiModel(datasource, models))

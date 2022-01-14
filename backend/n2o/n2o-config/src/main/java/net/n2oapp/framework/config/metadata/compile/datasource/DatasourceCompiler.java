@@ -70,10 +70,10 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
-        compiled.setValidations(initValidations(source, p));
         compiled.setProvider(initDataProvider(compiled, source, context, p, query, source.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
+        compiled.setValidations(initValidations(source, p));
         return compiled;
     }
 
@@ -224,6 +224,8 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
                         link.setParam(filter.getParam());
                         filter.setLink(link);
                     }
+                    if (preFilter.getRequired() != null)
+                        filter.getLink().setRequired(preFilter.getRequired());
                     filters.add(filter);
                 } else {
                     throw new N2oException("Pre-filter " + preFilter + " not found in query " + query.getId());

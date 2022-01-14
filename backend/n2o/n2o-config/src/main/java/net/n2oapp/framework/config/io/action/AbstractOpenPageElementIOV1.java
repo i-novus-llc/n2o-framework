@@ -21,6 +21,7 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         super.io(e, op, p);
         p.attribute(e, "page-id", op::getPageId, op::setPageId);
         p.attribute(e, "page-name", op::getPageName, op::setPageName);
+        p.attributeEnum(e, "target", op::getTarget, op::setTarget, Target.class);
         p.attribute(e, "submit-operation-id", op::getSubmitOperationId, op::setSubmitOperationId);
         p.attribute(e, "submit-label", op::getSubmitLabel, op::setSubmitLabel);
         p.attributeEnum(e, "submit-model", op::getSubmitModel, op::setSubmitModel, ReduxModel.class);

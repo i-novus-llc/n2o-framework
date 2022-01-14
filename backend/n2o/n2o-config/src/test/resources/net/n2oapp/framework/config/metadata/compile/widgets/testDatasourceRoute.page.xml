@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form id="main">
+            <fields>
+                <input-text id="id"/>
+            </fields>
+        </form>
+        <table id="w1" query-id="testTable4Compile" depends-on="main" master-field-id="id"
+               detail-field-id="type" route="/report">
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>
