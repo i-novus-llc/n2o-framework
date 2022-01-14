@@ -283,6 +283,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithResolveModel.getQueryMapping().size(), is(1));
         assertThat(actionWithResolveModel.getQueryMapping().containsKey("test_form_id"), is(true));
+        assertThat(actionWithResolveModel.getQueryMapping().get("test_form_id").normalizeLink(), is("models.resolve['test_form'].id"));
 
         LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn8").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn8"));
