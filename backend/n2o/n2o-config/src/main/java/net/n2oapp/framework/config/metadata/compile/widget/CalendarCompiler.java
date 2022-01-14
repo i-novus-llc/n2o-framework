@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -10,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.calendar.Calendar;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarWidgetComponent;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -38,10 +40,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         N2oDatasource datasource = initInlineDatasource(calendar, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(calendar, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope();
-        widgetScope.setWidgetId(source.getId());
-        widgetScope.setClientWidgetId(calendar.getId());
-        widgetScope.setDatasourceId(source.getDatasourceId());
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));

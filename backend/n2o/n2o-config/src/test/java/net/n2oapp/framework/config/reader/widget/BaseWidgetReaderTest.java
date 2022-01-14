@@ -74,7 +74,6 @@ public abstract class BaseWidgetReaderTest {
         assert openPage.getMasterFieldId().equals("id");
         assert openPage.getDetailFieldId().equals("id");
         assert openPage.getContainerId().equals("test");
-        assert openPage.getResultContainerId().equals("test");
         assert openPage.getRefreshOnClose().equals(true);
         assert openPage.getWidth().equals("100");
         assert openPage.getPreFilters()[0].getFieldId().equals("id");
@@ -89,7 +88,6 @@ public abstract class BaseWidgetReaderTest {
         assert showModal.getMasterFieldId().equals("id");
         assert showModal.getDetailFieldId().equals("id");
         assert showModal.getContainerId().equals("test");
-        assert showModal.getResultContainerId().equals("test");
         assert showModal.getRefreshOnClose().equals(true);
         assert showModal.getWidth().equals("100");
         assert showModal.getPreFilters()[0].getFieldId().equals("id");

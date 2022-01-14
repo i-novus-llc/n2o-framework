@@ -26,7 +26,7 @@ const setupImageCell = (propsOverride) => {
     const props = { ...defaultProps, ...propsOverride }
 
     const wrapper = mount(
-        <Provider store={configureMockStore()({ models: { datasource: {}, resolve: {}, multi: {}, filter: {} } })}>
+        <Provider store={configureMockStore()({ models: { datasource: {}, resolve: {}, multi: {}, filter: {}, edit: {} } })}>
             <ImageCell {...props} />
         </Provider>,
     )
@@ -54,7 +54,7 @@ const setupImageCellWithTooltip = (propsOverride) => {
     const props = { ...defaultPropsWithTooltip, ...propsOverride }
 
     const wrapper = mount(
-        <Provider store={configureMockStore()({ models: { datasource: {}, resolve: {}, multi: {}, filter: {} } })}>
+        <Provider store={configureMockStore()({ models: { datasource: {}, resolve: {}, multi: {}, filter: {}, edit: {} } })}>
             <ImageCell {...props} />
         </Provider>,
     )

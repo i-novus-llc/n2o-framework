@@ -42,37 +42,6 @@ const widgetSlice = createSlice({
             },
         },
 
-        DATA_REQUEST: {
-            /**
-             * @param {string} widgetId
-             * @param {string} modelId
-             * @param {object} options
-             * @return {{payload: WidgetsStore.dataRequestWidgetPayload}}
-             */
-            prepare(widgetId, modelId, options = {}) {
-                return ({
-                    payload: { widgetId, options, modelId },
-                })
-            },
-
-            /**
-             * Запрос за данными
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {Columns.dataRequestWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = true
-            },
-        },
-
         RESOLVE: {
             /**
              * @param {string} widgetId
@@ -190,7 +159,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isEnabled = true
+                state[widgetId].disabled = false
             },
         },
 
@@ -220,38 +189,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isEnabled = false
-            },
-        },
-
-        DISABLE_ON_FETCH: {
-            /**
-             * @param {string} widgetId
-             * @return {{payload: {widgetId: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
-                return ({
-                    payload: { widgetId },
-                })
-            },
-
-            /**
-             * Сделать виджет заблокированым
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {{widgetId: string}} action.payload
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isEnabled = false
+                state[widgetId].disabled = true
             },
         },
 
@@ -398,8 +336,8 @@ const widgetSlice = createSlice({
              * @param {string} action.type
              * @param {{widgetId: string}} action.payload
              */
-            reducer(state, action) {
-                delete state[action.payload]
+            reducer(state, { payload }) {
+                delete state[payload.widgetId]
             },
         },
     },
@@ -410,13 +348,11 @@ export default widgetSlice.reducer
 // Actions
 export const {
     REGISTER: registerWidget,
-    DATA_REQUEST: dataRequestWidget,
     RESOLVE: resolveWidget,
     SHOW: showWidget,
     HIDE: hideWidget,
     ENABLE: enableWidget,
     DISABLE: disableWidget,
-    DISABLE_ON_FETCH: disableWidgetOnFetch,
     CHANGE_FILTER_VISIBILITY: changeFiltersVisibility,
     RESET_STATE: resetWidgetState,
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,

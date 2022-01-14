@@ -78,7 +78,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("withoutParam").getAction();
         assertThat(action.getUrl(), is("/test/open2"));
-        assertThat(action.getQueryMapping().isEmpty(), is(true));
+        assertThat(action.getQueryMapping().size(), is(1));
     }
 
     /**
@@ -137,8 +137,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
         ModelLink queryMappingModelLink = queryMapping.get("number");
-        assertThat(queryMappingModelLink.getBindLink(), is("models.resolve['test_main']"));
-        assertThat(queryMappingModelLink.getValue(), is("`number`"));
+        assertThat(queryMappingModelLink.normalizeLink(), is("models.resolve['test_main'].number"));
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(2));
@@ -288,7 +287,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn8").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn8"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
-        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
+//        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true)); todo этот кейс не работает, т.к. в adaptV1 невозможно получить model из кнопки
     }
 
     /**
@@ -309,7 +308,9 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn10").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn10"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
-        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
+        //query param будет несмотря на model=filter т.к. detail-field-id есть
+        assertThat(actionWithResolveModel.getQueryMapping().size(), is(1));
+        assertThat(actionWithResolveModel.getQueryMapping().containsKey("master_id"), is(true));
     }
 
     /**

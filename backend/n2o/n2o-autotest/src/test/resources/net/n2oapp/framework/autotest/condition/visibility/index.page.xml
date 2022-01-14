@@ -126,5 +126,21 @@
                 </fields>
             </form>
         </region>
+        <region>
+            <form>
+                <fields>
+                    <input-text id="name1" visibile="false" label="Should be visible">
+                        <dependencies>
+                            <visibility>true</visibility>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="name2" visibile="true" label="Should be hidden">
+                        <dependencies>
+                            <visibility>false</visibility>
+                        </dependencies>
+                    </input-text>
+                </fields>
+            </form>
+        </region>
     </regions>
 </page>

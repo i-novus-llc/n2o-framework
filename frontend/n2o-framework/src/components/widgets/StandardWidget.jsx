@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { pure } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
 // eslint-disable-next-line import/no-named-as-default
 import WidgetAlerts from './WidgetAlerts'
@@ -70,7 +71,7 @@ class StandardWidget extends React.Component {
     }
 
     render() {
-        const { widgetId, disabled, filter, className, style, children } = this.props
+        const { widgetId, disabled, filter, className, style, children, loading } = this.props
 
         const classes = classNames([
             className,
@@ -98,9 +99,10 @@ class StandardWidget extends React.Component {
                         </div>
                     </div>
                     <div>
-                        <div />
-                        <div>{children}</div>
-                        <div />
+                        <Spinner loading={loading} type="cover">
+                            {children}
+                        </Spinner>
+
                     </div>
                     <div className="d-flex justify-content-between">
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
@@ -160,6 +162,7 @@ StandardWidget.propTypes = {
         PropTypes.node,
     ]),
     children: PropTypes.node,
+    loading: PropTypes.bool,
 }
 
 export default pure(StandardWidget)

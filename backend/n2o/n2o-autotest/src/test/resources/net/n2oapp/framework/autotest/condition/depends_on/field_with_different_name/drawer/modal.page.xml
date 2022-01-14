@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <input-select id="region" label="Регион" ref-page="parent"
+            ref-model="filter">
+                <default-value id="{region.id}" name="{region.name}"/>
+                <options>
+                    <option id="1" name="region1"/>
+                    <option id="2" name="region2"/>
+                </options>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>

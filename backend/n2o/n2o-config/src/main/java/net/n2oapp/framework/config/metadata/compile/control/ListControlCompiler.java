@@ -75,17 +75,17 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getParam() == null) return;
         String id = control.getId() + ".id";
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
+        WidgetScope modelsScope = p.getScope(WidgetScope.class);
         if (modelsScope != null) {
             ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
-            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
+            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getGlobalDatasourceId(), modelsScope.getModel(), id,
                     colon(source.getParam()));
             paramScope.addQueryMapping(source.getParam(), onGet, onSet);
         }
     }
 
-    protected ModelLink compileLinkOnSet(StandardField<T> control, S source, ModelsScope modelsScope) {
-        ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
+    protected ModelLink compileLinkOnSet(StandardField<T> control, S source, WidgetScope widgetScope) {
+        ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), control.getId());
         onSet.setParam(source.getParam());
         onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
         onSet.setValue("`id`");

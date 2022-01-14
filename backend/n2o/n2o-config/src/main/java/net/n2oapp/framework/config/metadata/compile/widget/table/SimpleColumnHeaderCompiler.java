@@ -106,7 +106,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             boolean sortable = !query.getFieldsMap().get(source.getSortingFieldId()).getNoSorting();
             header.setSortable(sortable);
             if (sortable) {
-                header.setSortingParam(DatasourceCompiler.SORTING + RouteUtil.normalizeParam(source.getSortingFieldId()));
+                header.setSortingParam(RouteUtil.normalizeParam(source.getSortingFieldId()));
             }
         }
 

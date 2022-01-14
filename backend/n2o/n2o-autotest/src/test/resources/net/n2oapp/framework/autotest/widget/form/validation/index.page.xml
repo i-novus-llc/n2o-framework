@@ -1,22 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Тестирование валидации форм">
+    <datasources>
+        <datasource id="ds1" object-id="test"/>
+        <datasource id="ds2" object-id="test"/>
+        <datasource id="ds3" object-id="test"/>
+    </datasources>
     <regions>
-        <form id="form" object-id="test">
+        <form id="form">
             <toolbar>
                 <button label="Валидировать форму"
-                        validate="widget"
-                        widget-id="form1"
+                        datasource="ds1"
                         disable-on-empty-model="false">
                     <invoke operation-id="save"/>
                 </button>
                 <button label="Валидировать страницу"
-                        validate="page"
+                        datasource="ds1"
+                        validate-datasources="ds1,ds2,ds3"
                         disable-on-empty-model="false">
                     <invoke operation-id="save">
-                        <form-param id="name1" value="{name}" ref-widget-id="form1"/>
-                        <form-param id="name2" value="{name}" ref-widget-id="form2"/>
-                        <form-param id="name3" value="{name}" ref-widget-id="form3"/>
+                        <form-param id="name1" value="{name}" datasource="ds1"/>
+                        <form-param id="name2" value="{name}" datasource="ds2"/>
+                        <form-param id="name3" value="{name}" datasource="ds3"/>
                     </invoke>
                 </button>
             </toolbar>
@@ -24,21 +29,21 @@
 
         <tabs>
             <tab name="form1">
-                <form id="form1">
+                <form id="form1" datasource="ds1">
                     <fields>
                         <input-text id="name" label="form1.name" required="true"/>
                     </fields>
                 </form>
             </tab>
             <tab name="form2">
-                <form id="form2">
+                <form id="form2" datasource="ds2">
                     <fields>
                         <input-text id="name" label="form2.name" required="true"/>
                     </fields>
                 </form>
             </tab>
             <tab name="form3">
-                <form id="form3">
+                <form id="form3" datasource="ds3">
                     <fields>
                         <input-text id="name" label="form3.name" required="true"/>
                     </fields>

@@ -15,7 +15,7 @@ export function* validate({ payload }) {
     const { id, fields } = payload
     const validation = yield select(dataSourceValidationSelector(id))
     const models = yield select(dataSourceModelsSelector(id))
-    const model = models[MODEL_PREFIX.active]
+    const model = models[MODEL_PREFIX.active] || {}
     let entries = Object.entries(validation)
 
     if (fields?.length) {
@@ -24,13 +24,13 @@ export function* validate({ payload }) {
 
     const allMessages = {}
 
-    entries.forEach(([field, validationList]) => {
-        const messages = validateField(field, model, validationList || [])
+    for (const [field, validationList] of entries) {
+        const messages = yield validateField(field, model, validationList || [])
 
         if (messages?.length) {
             allMessages[field] = messages
         }
-    })
+    }
 
     const invalid = Object.values(allMessages).some(messages => messages.some(message => (
         message.severity === VALIDATION_SEVERITY.danger || message.severity === VALIDATION_SEVERITY.warning

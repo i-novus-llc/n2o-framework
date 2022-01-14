@@ -1,44 +1,38 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Создание записи">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Создание записи">
+    <datasources>
+        <datasource id="ds1" object-id="test"/>
+    </datasources>
     <toolbar>
-        <button id="create" widget-id="main" label="Сохранить" validate="page" visible="{typeof id == 'undefined' || id == null}">
-            <invoke operation-id="create" object-id="test" close-on-success="true"/>
+        <button id="create" datasource="ds1" label="Сохранить" visible="{typeof id == 'undefined' || id == null}">
+            <invoke operation-id="create" datasource="ds1" close-on-success="true"/>
         </button>
-        <button id="update" widget-id="main" label="Сохранить" validate="page" visible="{id!=null}">
-            <invoke operation-id="update" object-id="test" close-on-success="true"/>
+        <button id="update" widget-id="main" datasource="ds1" label="Сохранить" visible="{id!=null}">
+            <invoke operation-id="update" datasource="ds1" close-on-success="true"/>
         </button>
     </toolbar>
     <regions>
         <region>
-            <form id="main" name="Клиент" datasource="ds1" query-id="test">
+            <form id="main" name="Клиент" datasource="ds1">
                 <fields>
                     <input-text id="name" label="Имя" required="true"/>
                     <input-text id="surname" label="Фамилия"/>
                 </fields>
-                <pre-filters>
-                    <eq field-id="id" param="id"/>
-                </pre-filters>
             </form>
         </region>
         <tabs>
             <tab name="Адрес">
-                <form id="address" datasource="ds1" query-id="test">
+                <form id="address" datasource="ds1">
                     <fields>
                         <input-text id="address" label="Адрес"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" param="id"/>
-                    </pre-filters>
                 </form>
             </tab>
             <tab name="Организация">
-                <form id="org" datasource="ds1" query-id="test">
+                <form id="org" datasource="ds1">
                     <fields>
                         <input-text id="org" label="Название организации" required="true"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" param="id"/>
-                    </pre-filters>
                 </form>
             </tab>
         </tabs>

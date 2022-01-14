@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тест открытия модального окна с upload=defaults">
+    <table query-id="testShowModal">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+        <toolbar>
+            <button id="create" label="Создать" model="filter">
+                <show-modal page-id="testShowModalPage" upload="defaults"
+                            submit-operation-id="create"
+                            redirect-url-after-submit="/:id/update">
+                </show-modal>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

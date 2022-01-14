@@ -52,5 +52,11 @@
         <field id="gender.name" domain="string">
             <select/>
         </field>
+
+        <field id="type" domain="integer">
+            <filters>
+                <eq filter-id="type"/>
+            </filters>
+        </field>
     </fields>
 </query>

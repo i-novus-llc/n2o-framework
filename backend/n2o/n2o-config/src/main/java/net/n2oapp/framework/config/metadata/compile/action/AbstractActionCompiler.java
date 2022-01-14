@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -77,24 +78,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         return targetWidgetId;
     }
 
-    /**
-     * Инициализация целевого виджета действия
-     */
-    protected String initWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = getWidgetIdByComponentScope(p);
-        if (targetWidgetId == null) {
-            if (widgetScope != null) {
-                targetWidgetId = widgetScope.getWidgetId();
-            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
-                targetWidgetId = ((PageContext) context).getResultWidgetId();
-            } else {
-                return null;
-            }
-        }
-        return targetWidgetId;
-    }
-
     protected ReduxModel getModelFromComponentScope(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
@@ -157,6 +140,26 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 for (N2oParam queryParam : queryParams)
                     queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, defaultClientWidgetId, defaultModel, p));
         }
+    }
+
+    /**
+     * Инициализация локального источника данных действия
+     *
+     * @param p       Процессор сборки
+     * @return Локальный источник данных действия
+     */
+    protected String getLocalDatasource(CompileProcessor p) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
+                return datasourceIdAware.getDatasource();
+            }
+        }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getDatasourceId();
+        return null;
     }
 
     /**

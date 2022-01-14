@@ -25,6 +25,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -58,10 +59,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         CompiledQuery query = getQuery(source, datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(table, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope();
-        widgetScope.setClientWidgetId(table.getId());
-        widgetScope.setWidgetId(source.getId());
-        widgetScope.setDatasourceId(source.getDatasourceId());
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p.getScope(PageScope.class));
         SubModelsScope subModelsScope = new SubModelsScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.filter, validationList);
@@ -70,7 +68,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (filtersScope != null)
             tableFiltersScope = new TableFiltersScope(datasource.getId(), filtersScope);
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.filter, table.getId(), p.getScope(Models.class)), subModelsScope,
+                new ModelsScope(ReduxModel.filter, widgetScope.getGlobalDatasourceId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope));
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);

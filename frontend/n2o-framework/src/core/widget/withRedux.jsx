@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import {
     registerWidget,
+    removeWidget,
     setActive,
 } from '../../ducks/widgets/store'
 import {
@@ -30,6 +31,7 @@ export const withRedux = (WidgetComponent) => {
             const { id, dispatch } = this.props
 
             dispatch(removeAllAlerts(id))
+            dispatch(removeWidget(id))
         }
 
         render() {

@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
@@ -15,7 +16,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public abstract class ActionComponent implements Serializable, IdAware, ModelAware, WidgetIdAware {
+public abstract class ActionComponent implements Source, IdAware, ModelAware, WidgetIdAware {
     private String id;
     private String label;
     private String icon;

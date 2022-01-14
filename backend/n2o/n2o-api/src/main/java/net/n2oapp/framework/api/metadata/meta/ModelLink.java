@@ -35,11 +35,17 @@ public class ModelLink extends BindLink {
     @Setter
     private String param;
     /**
-     * Может лои значение параметра (param) или ссылки (value) измениться на текущей странице?
+     * Может ли значение параметра (param) или ссылки (value) измениться на текущей странице?
      */
     @Setter
     @JsonProperty
     private boolean observe = false;
+    /**
+     * Является ли значение параметра обязательным
+     */
+    @Setter
+    @JsonProperty
+    private boolean required = false;
 
     public ModelLink() {
     }

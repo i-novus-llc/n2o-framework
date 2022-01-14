@@ -9,8 +9,6 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -22,13 +20,13 @@ import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -79,7 +77,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         super.initDefaults(source, context, p);
         source.setDoubleCloseOnSuccess(p.cast(source.getDoubleCloseOnSuccess(), false));
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
-        source.setDatasource(initLocalDatasource(source, context, p));
+        source.setDatasource(p.cast(source.getDatasource(), () -> getLocalDatasource(p)));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasources(initRefreshDatasources(source, p));
@@ -101,22 +99,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return null;
     }
 
-    private String initLocalDatasource(N2oInvokeAction source, CompileContext<?,?> context, CompileProcessor p) {
-        if (source.getDatasource() != null)
-            return source.getDatasource();
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            N2oButton button = componentScope.unwrap(N2oButton.class);
-            if (button != null && button.getDatasource() != null) {
-                return button.getDatasource();
-            }
-        }
-        String widgetId = initWidgetId(context, p);
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && widgetId != null)
-            return pageScope.getWidgetIdSourceDatasourceMap().get(widgetId);
-        throw new N2oException("datasource is not undefined for action " + source.getId());
-    }
 
     private MetaSaga initFailMeta(InvokeAction compiled, N2oInvokeAction source,
                                   CompileContext<?, ?> context, CompileProcessor p) {
@@ -223,9 +205,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContextData.setOperationId(source.getOperationId());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
         actionContextData.setParentWidgetId(metaSaga.getSuccess().getMessageWidgetId());
-        actionContextData.setFailAlertWidgetId(metaSaga.getFail().getMessageWidgetId());
         actionContextData.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
-        actionContextData.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
         actionContextData.setMessageOnSuccess(source.getMessageOnSuccess());
         actionContextData.setMessageOnFail(source.getMessageOnFail());
         actionContextData.setMessagePosition(source.getMessagePosition());
@@ -240,8 +220,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
     private CompiledObject getObject(N2oInvokeAction source, CompileProcessor p) {
-        CompiledObject compiledObject = source.getObjectId() == null ? p.getScope(CompiledObject.class) :
-                p.getCompiled(new ObjectContext(source.getObjectId()));
+        String objectId = null;
+        if (source.getObjectId() != null) {
+            objectId = source.getObjectId();
+        }
+        if (objectId == null && source.getDatasource() != null) {
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            objectId = dataSourcesScope.get(source.getDatasource()).getObjectId();
+        }
+        CompiledObject compiledObject = objectId == null ? p.getScope(CompiledObject.class) :
+                p.getCompiled(new ObjectContext(objectId));
         if (compiledObject == null)
             throw new N2oException(String.format("For compilation action [%s] is necessary object!", source.getId()));
         return compiledObject;

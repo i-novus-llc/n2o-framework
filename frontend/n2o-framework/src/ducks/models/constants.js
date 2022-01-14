@@ -5,4 +5,5 @@ export const PREFIXES = {
     multi: 'multi',
     resolve: 'resolve',
     datasource: 'datasource',
+    edit: 'edit',
 }

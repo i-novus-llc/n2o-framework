@@ -9,7 +9,7 @@ import FactoryProvider from '../../../../../../core/factory/FactoryProvider'
 import createFactoryConfig from '../../../../../../core/factory/createFactoryConfig'
 
 const mockStore = configureMockStore()
-const store = mockStore({ models: { datasource: {}, resolve: {}, multi: {}, filter: {} } })
+const store = mockStore({ models: { datasource: {}, resolve: {}, multi: {}, filter: {}, edit: {} } })
 
 const setup = (propOverrides = {}) => {
     const props = { ...propOverrides }

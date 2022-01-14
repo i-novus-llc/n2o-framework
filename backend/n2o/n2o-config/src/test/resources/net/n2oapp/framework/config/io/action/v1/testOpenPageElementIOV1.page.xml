@@ -4,17 +4,17 @@
         <action model="filter">
             <open-page src="test"
                        page-id="test"
+                       target="newWindow"
                        submit-operation-id="create"
                        submit-model="resolve"
                        submit-label="Отправить"
                        page-name="test"
-                       detail-field-id="test"
                        master-field-id="test"
                        redirect-url-after-submit="/test"
                        route="/test"
                        close-after-submit="true"
-                       redirect-target-after-submit="application"
-                       upload="query">
+                       redirect-target-after-submit="application"             >
+                <!--                       upload="query" detail-field-id="test"  deprecated-->
                     <path-param name="test2" ref-model="filter" ref-widget-id="main" value="{id}"/>
                     <query-param name="test" ref-model="filter" ref-widget-id="main" value="{id}"/>
             </open-page>

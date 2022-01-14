@@ -52,8 +52,6 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
     private ClientDataProvider initDataProvider(N2oSearchBar source, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
         QueryContext queryContext = new QueryContext(source.getQueryId());
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
         p.addRoute(prepareQueryContextForRouteRegister(query));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + query.getRoute());

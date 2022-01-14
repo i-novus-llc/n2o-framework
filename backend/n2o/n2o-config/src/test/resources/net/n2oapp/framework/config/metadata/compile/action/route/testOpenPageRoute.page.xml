@@ -16,7 +16,7 @@
                 <open-page page-id="testOpenPageRoutePage" route="/update" master-param="id"/>
             </button>
             <button id="btn4" model="filter">
-                <open-page page-id="testOpenPageRoutePage" route="/update" detail-field-id="id"/>
+                <open-page page-id="testOpenPageRoutePage" route="/update"/>
             </button>
 
             <!-- без route с master-param -->

@@ -5,6 +5,7 @@ const METHODS = {
     fetchData() {},
     setFilter(filterModel) {},
     setResolve(model) {},
+    setEdit(model) {},
     setSelected(models) {},
     setSorting(sorting) {},
     setPage(page) {},

@@ -75,6 +75,7 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
         tableWidget.columns().rows().row(0).cell(1).textShouldHave("Цой");
         tableWidget.columns().rows().row(0).cell(2).textShouldHave("г.Казань, ул.Качалова, д.75");
         tableWidget.columns().rows().row(0).cell(3).textShouldHave("Ай-новус");
+        tableWidget.columns().rows().row(0).click();
 
         StandardButton updateButton = tableWidget.toolbar().topLeft().button("Изменить");
         updateButton.shouldExists();

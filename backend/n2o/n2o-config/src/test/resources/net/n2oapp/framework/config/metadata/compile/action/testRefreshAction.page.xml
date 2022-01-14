@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
     <regions>
         <form id="testForm" datasource="ds1"/>
         <form id="testTable" datasource="ds2">
@@ -8,17 +12,17 @@
                     <refresh/>
                 </button>
                 <button id="btn2">
-                    <refresh widget-id="testForm"/>
+                    <refresh datasource="ds1"/>
                 </button>
             </toolbar>
         </form>
     </regions>
     <toolbar>
-        <button id="btn3" widget-id="testForm">
+        <button id="btn3" datasource="ds1">
             <refresh/>
         </button>
-        <button id="btn4" widget-id="testForm">
-            <refresh widget-id="testTable"/>
+        <button id="btn4" datasource="ds1">
+            <refresh datasource="ds2"/>
         </button>
     </toolbar>
 </page>

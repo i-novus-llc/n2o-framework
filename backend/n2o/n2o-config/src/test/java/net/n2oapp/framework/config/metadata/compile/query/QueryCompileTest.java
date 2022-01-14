@@ -125,6 +125,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
 
         pipeline.get(new PageContext("testSubModel"));
+        CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
        /*
         fixme списковые поля переезжают на datasource
         CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
