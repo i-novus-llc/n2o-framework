@@ -14,7 +14,8 @@ import { withTranslation } from 'react-i18next'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
 
-import { SidebarItemContainer } from './SidebarItemContainer'
+// eslint-disable-next-line import/no-named-as-default
+import SidebarItemContainer from './SidebarItemContainer'
 
 /**
  * Sidebar
