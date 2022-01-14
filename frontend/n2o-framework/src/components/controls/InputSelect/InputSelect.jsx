@@ -495,7 +495,13 @@ class InputSelect extends React.Component {
                 {
                     isExpanded: true,
                 },
-                onOpen,
+                () => {
+                    const { inputFocus, input } = this.state
+
+                    if (inputFocus || input) {
+                        onOpen()
+                    }
+                },
             )
         }
     }
@@ -603,7 +609,6 @@ class InputSelect extends React.Component {
                     </DropdownToggle>
 
                     <DropdownMenu
-                        key={stateValue + options.length}
                         className={classNames('n2o-input-select__menu', {
                             'n2o-input-select__menu--autosize': popupAutoSize,
                         })}

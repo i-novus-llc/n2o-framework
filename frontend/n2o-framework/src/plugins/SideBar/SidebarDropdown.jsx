@@ -59,6 +59,14 @@ function SidebarDropdown({
                 {icon && renderIcon(icon, title, type, sidebarOpen, true)}
                 {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
                 <span className={classNames('n2o-sidebar__item-title', { mini: isMiniView, visible: showContent })}>{title}</span>
+                <i className={classNames(
+                    'align-self-center w-100 d-flex justify-content-end',
+                    {
+                        'fa fa-angle-down': isOpen,
+                        'fa fa-angle-right': !isOpen,
+                    },
+                )}
+                />
             </div>
             {isOpen && (<div className={subItemsClass}>{children}</div>
             )}

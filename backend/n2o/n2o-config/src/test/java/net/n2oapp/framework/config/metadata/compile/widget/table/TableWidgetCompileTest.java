@@ -411,4 +411,5 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
     }
+
 }

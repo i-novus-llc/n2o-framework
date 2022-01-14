@@ -1,4 +1,3 @@
-import { runSaga } from 'redux-saga'
 import isEmpty from 'lodash/isEmpty'
 import isNumber from 'lodash/isNumber'
 import isUndefined from 'lodash/isUndefined'
@@ -9,8 +8,7 @@ import isObject from 'lodash/isObject'
 import get from 'lodash/get'
 
 import evalExpression from '../../utils/evalExpression'
-import fetchSaga from '../../sagas/fetch'
-import { FETCH_VALIDATE } from '../api'
+import { defaultApiProvider, FETCH_VALIDATE } from '../api'
 
 /**
  * Валидация того, что email
@@ -68,23 +66,14 @@ export function condition(fieldId, values, options = {}) {
  * @param fieldId
  * @param values
  * @param options
- * @param dispatch
  * @returns {boolean|*}
  */
-export async function constraint(fieldId, values, options, dispatch) {
+export function constraint(fieldId, values, options) {
     if (!isEmpty(values[fieldId])) {
-        // eslint-disable-next-line no-return-await
-        return await runSaga(
-            {
-                dispatch,
-            },
-            fetchSaga,
-            FETCH_VALIDATE,
-            { validationKey: options.validationKey },
-        ).toPromise()
+        return defaultApiProvider[FETCH_VALIDATE](options)
     }
 
-    return Promise.reject()
+    return Promise.reject(new Error('is empty value'))
 }
 
 /**

@@ -2,11 +2,10 @@ class WidgetResolver {
     static get defaultState() {
         return ({
             isInit: false,
-            isEnabled: true,
             isVisible: true,
             visible: true,
             fetch: 'always',
-            isLoading: false,
+            disabled: false,
             isResolved: false,
             isFilterVisible: true,
             isActive: false,

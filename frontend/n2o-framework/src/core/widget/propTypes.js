@@ -28,6 +28,7 @@ export const widgetInitialTypes = {
     className: PropTypes.string,
     style: PropTypes.any,
     autoFocus: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
 /**

@@ -36,7 +36,7 @@ public class DemoApplicationTest {
         List<Map<?, ?>> list = (List<Map<?, ?>>) result.get("list");
         assertThat(list.size(), greaterThan(0));
 
-        result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/contacts?size=10&page=1&contacts_individualId=1", Map.class);
+        result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/contacts/1/list?size=10&page=1", Map.class);
         assertThat(result.get("list"), notNullValue());
         assertThat((Integer) result.get("count"), greaterThan(1));
         list = (List<Map<?, ?>>) result.get("list");
