@@ -587,6 +587,7 @@ public class DemoIntegrationAT {
         protoPage.getSurnameFilter().val("Маркин");
         protoPage.searchClients();
         protoPage.tableCellShouldHaveText(0, 1, "Маркин");
+        protoPage.contactsListShouldHaveSize(0);
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
         modalProtoContacts.shouldHaveTitle("Контакты");
@@ -599,8 +600,8 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
-        protoPage.tableShouldHaveSize(1);
 
+        protoPage.contactsListShouldHaveSize(1);
         protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
     }
 
@@ -613,6 +614,7 @@ public class DemoIntegrationAT {
         protoPage.getSurnameFilter().val("Маркин");
         protoPage.searchClients();
         protoPage.tableCellShouldHaveText(0, 1, "Маркин");
+        protoPage.contactsListShouldHaveSize(1);
         protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
 
         ProtoContacts modalProtoContacts = protoPage.editContact(0);
@@ -627,7 +629,6 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
-        protoPage.tableShouldHaveSize(1);
 
         protoPage.contactsListShouldHaveText(0, "+7 (888) 888-88-88");
     }

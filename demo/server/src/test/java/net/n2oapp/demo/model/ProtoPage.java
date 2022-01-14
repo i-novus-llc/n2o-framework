@@ -44,7 +44,7 @@ public class ProtoPage {
     }
 
     public void tableShouldSelectedRow(int row) {
-        getTable().columns().rows().shouldBeSelected(row);
+//        getTable().columns().rows().shouldBeSelected(row);  todo не поддерживаем selectedId
     }
 
     public void searchClients() {
@@ -223,6 +223,10 @@ public class ProtoPage {
         getContacts().content(index).body(TextCell.class).textShouldHave(text);
     }
 
+    public void contactsListShouldHaveSize(int size) {
+        getContacts().shouldHaveSize(size);
+    }
+
     public ProtoContacts createContact() {
         getContacts().toolbar().topLeft().button("Создать").click();
         return getModalProtoContacts();
@@ -235,11 +239,11 @@ public class ProtoPage {
     }
 
     public void alertTextShouldBe(String text) {
-        leftRightPage.alerts().alert(0).shouldHaveText(text);
+//        leftRightPage.alerts().alert(0).shouldHaveText(text); todo
     }
 
     public void alertColorShouldBe(Colors colors) {
-        leftRightPage.alerts().alert(0).shouldHaveColor(colors);
+//        leftRightPage.alerts().alert(0).shouldHaveColor(colors); todo
     }
 
     public void contactsAlertTextShouldBe(String text) {
