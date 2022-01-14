@@ -138,10 +138,10 @@ export class MenuContainer extends React.Component {
 
     mapRenderProps() {
         const { items, extraItems } = this.state
-        const { header, location, datasources = {} } = this.props
+        const { header, location, sidebar, datasources = {} } = this.props
 
-        if (!header) {
-            return { ...this.props, datasources }
+        if (!header && !sidebar) {
+            return { ...this.props }
         }
 
         const headerProps = {
@@ -155,6 +155,11 @@ export class MenuContainer extends React.Component {
                 extraMenu: {
                     items: filter(extraItems, i => !i.items || !isEmpty(i.items)),
                 },
+            },
+            sidebar: {
+                ...sidebar,
+                datasources,
+                location,
             },
         }
 
@@ -177,6 +182,7 @@ MenuContainer.propTypes = {
     authProvider: PropTypes.any,
     header: PropTypes.object,
     location: PropTypes.object,
+    sidebar: PropTypes.object,
     datasources: PropTypes.object,
 }
 

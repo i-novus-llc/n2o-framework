@@ -17,6 +17,25 @@ import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemI
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { resolveItem } from '../../../utils/propsResolver'
 
+export const getFromSource = (props, datasources, datasource, models) => {
+    if (!datasource) {
+        return props
+    }
+
+    const defaultFromDataSource = get(datasources, `${datasource}.values`, [])
+    const initialModel = defaultFromDataSource.reduce((acc, value) => ({ ...acc, ...value }), {})
+
+    if (models && !isEmpty(models.datasource)) {
+        return merge(resolveItem(props, initialModel), resolveItem(props, models.datasource))
+    }
+
+    if (datasources[datasource]) {
+        return resolveItem(props, initialModel)
+    }
+
+    return props
+}
+
 const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
 
 NavItemIcon.propTypes = {
@@ -41,25 +60,6 @@ const NavItemContainer = ({
     models,
 }) => {
     const datasource = get(itemProps, 'datasource')
-
-    const getFromSource = (props, datasources, datasource, models) => {
-        if (!datasource) {
-            return props
-        }
-
-        const defaultFromDataSource = get(datasources, `${datasource}.values`, [])
-        const initialModel = defaultFromDataSource.reduce((acc, value) => ({ ...acc, ...value }), {})
-
-        if (!isEmpty(models.datasource)) {
-            return merge(resolveItem(itemProps, initialModel), resolveItem(props, models.datasource))
-        }
-
-        if (datasources[datasource]) {
-            return resolveItem(itemProps, initialModel)
-        }
-
-        return props
-    }
 
     const item = getFromSource(itemProps, datasources, datasource, models)
 
