@@ -70,7 +70,6 @@ public class DemoIntegrationAT {
      * Проверка работы фильтра по полу
      */
     @Test
-    @Order(2)
     public void testFilterByGender() {
         protoPage.genderFilterCheck("Женский");
         protoPage.genderFilterShouldBeUnchecked("Мужской");
@@ -94,13 +93,13 @@ public class DemoIntegrationAT {
 
         protoPage.searchClients();
         protoPage.getGenderColumnShouldHaveTexts(Collections.emptyList());
+        protoPage.resetFilter();
     }
 
     /**
      * Проверка работы фильтра по фамилии и имени
      */
     @Test
-    @Order(3)
     public void testFilterByNameAndSurname() {
         protoPage.getSurnameFilter().shouldBeEnabled();
         protoPage.getFirstNameFilter().shouldBeEnabled();
@@ -111,6 +110,7 @@ public class DemoIntegrationAT {
         protoPage.tableShouldHaveSize(1);
         protoPage.tableCellShouldHaveText(0, 1, "Лапаева");
         protoPage.tableCellShouldHaveText(0, 2, "Вера");
+        protoPage.resetFilter();
     }
 
     /**
@@ -125,6 +125,7 @@ public class DemoIntegrationAT {
         protoPage.tableShouldHaveSize(2);
         protoPage.tableCellShouldHaveText(1, "Кручинина");
         protoPage.tableCellShouldHaveText(1, "Мишин");
+        protoPage.resetFilter();
     }
 
     /**
@@ -187,22 +188,69 @@ public class DemoIntegrationAT {
         protoPage.currentPageShouldBe("2");
         protoPage.tableShouldHavePage("1");
         protoPage.tableShouldHavePage("3");
+
+        protoPage.selectPage("1");
     }
 
     /**
-     * Проверка работы ячейки Фамилия   (4я строка)
+     * Проверка работы ячейки VIP (2 строка)
      */
     @Test
-    public void testSurnameCell() {
-        ProtoClient clientCard = protoPage.clickSurnameCell(4);
+    public void testVipCellUpdate() {
+        int row = 1;
+        protoPage.vipCellShouldBeChecked(row);
+        protoPage.setVipCellNotChecked(row);
+        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
+        protoPage.vipCellShouldNotBeChecked(row);
+        protoPage.setVipCellChecked(row);
+        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
+        protoPage.vipCellShouldBeChecked(row);
+    }
+
+    /**
+     * Проверка редактирования даты в таблице (3 строка)
+     */
+    @Test
+    public void testCellBirthdayUpdate() {
+        int row = 2;
+        String testDate = "01.01.1984";
+        String exDate = protoPage.getBirthdayCell(row).val();
+
+        protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
+        protoPage.clickBirthdayCell(row);
+        protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
+        protoPage.getBirthdayCell(row).val(testDate);
+        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.getBirthdayCell(row).shouldHaveValue(testDate);
+
+        protoPage.clickBirthdayCell(row);
+        protoPage.getBirthdayCell(row).val(exDate);
+        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
+    }
+
+    /**
+     * Проверка работы ячейки Фамилия   (4 строка)
+     */
+    @Test
+    public void testSurnameCellUpdate() {
+        int row = 3;
+        String surname = protoPage.getSurname(row);
+        String name = protoPage.getName(row);
+        String patronomic = protoPage.getPatronomic(row);
+        String birthday = protoPage.getBirthdayCell(row).val();
+        String gender = protoPage.getGender(row);
+
+        ProtoClient clientCard = protoPage.clickSurnameCell(row);
         clientCard.shouldHaveTitle("Карточка клиента");
 
-        clientCard.surname().shouldHaveValue("Вольваков");
-        clientCard.firstName().shouldHaveValue("Вениамин");
-        clientCard.patronymic().shouldHaveValue("Тихонович");
-        clientCard.genderRadioGroup().shouldBeChecked("Мужской");
-        clientCard.birthdayShouldHaveValue("04.06.1932");
-        clientCard.getVIP().shouldBeChecked();
+        clientCard.surname().shouldHaveValue(surname);
+        clientCard.firstName().shouldHaveValue(name);
+        clientCard.patronymic().shouldHaveValue(patronomic);
+        clientCard.genderRadioGroup().shouldBeChecked(gender);
+        clientCard.birthdayShouldHaveValue(birthday);
 
         clientCard.surname().val("Сергеев");
         clientCard.firstName().val("Николай");
@@ -212,58 +260,69 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Сергеев");
-        protoPage.tableShouldSelectedRow(4);
-        protoPage.tableCellShouldHaveText(4, 1, "Сергеев");
-        protoPage.tableCellShouldHaveText(4, 2, "Николай");
-        protoPage.tableCellShouldHaveText(4, 3, "Петрович");
+        protoPage.tableShouldSelectedRow(row);
+        protoPage.tableCellShouldHaveText(row, 1, "Сергеев");
+        protoPage.tableCellShouldHaveText(row, 2, "Николай");
+        protoPage.tableCellShouldHaveText(row, 3, "Петрович");
     }
 
     /**
-     * Проверка работы ячейки Имя
+     * Проверка работы ячейки Имя (5 строка)
      */
     @Test
-    public void testNameCell() {
-        protoPage.getSurnameHeader().click();
-        ProtoClient modalClientCard = protoPage.clickNameCell(1);
+    public void testNameCellUpdate() {
+        int row = 4;
+        String surname = protoPage.getSurname(row);
+        String name = protoPage.getName(row);
+        String patronomic = protoPage.getPatronomic(row);
+        String gender = protoPage.getGender(row);
+        String birthday = protoPage.getBirthdayCell(row).val();
 
+        ProtoClient modalClientCard = protoPage.clickNameCell(row);
         modalClientCard.shouldHaveTitle("Карточка клиента:");
 
-        modalClientCard.surname().shouldHaveValue("Александрин");
-        modalClientCard.firstName().shouldHaveValue("Иннокентий");
-        modalClientCard.patronymic().shouldHaveValue("Игнатиевич");
-        modalClientCard.genderRadioGroup().shouldBeChecked("Мужской");
-        modalClientCard.birthdayShouldHaveValue("11.04.1994");
-        modalClientCard.getVIP().shouldBeChecked();
+        modalClientCard.surname().shouldHaveValue(surname);
+        modalClientCard.firstName().shouldHaveValue(name);
+        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.genderRadioGroup().shouldBeChecked(gender);
+        modalClientCard.birthdayShouldHaveValue(birthday);
 
         modalClientCard.surname().val("Александринкин");
         modalClientCard.firstName().val("Иннокентута");
-        modalClientCard.patronymic().val("Игнатиевичя");
+        modalClientCard.patronymic().val("Игнатиевич");
+        modalClientCard.gender().check("Мужской");
         modalClientCard.save();
 
         protoPage.shouldDialogClosed("Карточка клиента:");
         protoPage.shouldBeClientsPage();
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Александринкин");
-        protoPage.tableShouldSelectedRow(1);
-        protoPage.tableCellShouldHaveText(1, 1, "Александринкин");
-        protoPage.tableCellShouldHaveText(1, 2, "Иннокентута");
-        protoPage.tableCellShouldHaveText(1, 3, "Игнатиевичя");
+        protoPage.tableShouldSelectedRow(row);
+        protoPage.tableCellShouldHaveText(row, 1, "Александринкин");
+        protoPage.tableCellShouldHaveText(row, 2, "Иннокентута");
+        protoPage.tableCellShouldHaveText(row, 3, "Игнатиевич");
     }
 
     /**
-     * Проверка работы ячейки Отчество  (7я строка)
+     * Проверка работы ячейки Отчество  (6я строка)
      */
     @Test
-    public void testPatronymicCell() {
-        ProtoClient clientCard = protoPage.clickPatronymicCell(7);
+    public void testPatronymicCellUpdate() {
+        int row = 5;
+        String surname = protoPage.getSurname(row);
+        String name = protoPage.getName(row);
+        String patronomic = protoPage.getPatronomic(row);
+        String gender = protoPage.getGender(row);
+        String birthday = protoPage.getBirthdayCell(row).val();
+
+        ProtoClient clientCard = protoPage.clickPatronymicCell(row);
         clientCard.shouldHaveTitle("Карточка клиента");
 
-        clientCard.surname().shouldHaveValue("Иванова");
-        clientCard.firstName().shouldHaveValue("Зинаида");
-        clientCard.patronymic().shouldHaveValue("Виталиевна");
-        clientCard.genderRadioGroup().shouldBeChecked("Женский");
-        clientCard.birthdayShouldHaveValue("11.09.1933");
-        clientCard.getVIP().shouldBeChecked();
+        clientCard.surname().shouldHaveValue(surname);
+        clientCard.firstName().shouldHaveValue(name);
+        clientCard.patronymic().shouldHaveValue(patronomic);
+        clientCard.genderRadioGroup().shouldBeChecked(gender);
+        clientCard.birthdayShouldHaveValue(birthday);
 
         clientCard.surname().val("Сергеева");
         clientCard.firstName().val("Анастасия");
@@ -273,56 +332,133 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Сергеева");
-        protoPage.tableShouldSelectedRow(7);
-        protoPage.tableCellShouldHaveText(7, 1, "Сергеева");
-        protoPage.tableCellShouldHaveText(7, 2, "Анастасия");
-        protoPage.tableCellShouldHaveText(7, 3, "Михайловна");
+        protoPage.tableShouldSelectedRow(row);
+        protoPage.tableCellShouldHaveText(row, 1, "Сергеева");
+        protoPage.tableCellShouldHaveText(row, 2, "Анастасия");
+        protoPage.tableCellShouldHaveText(row, 3, "Михайловна");
     }
 
     /**
-     * Проверка работы ячейки VIP
+     * Проверка изменения клиента через модальное окно
      */
     @Test
-    public void testVipCell() {
-        protoPage.vipCellShouldBeChecked(2);
-        protoPage.setVipCellNotChecked(2);
+    public void testUpdateClient() {
+        int row = 6;
+        String surname = protoPage.getSurname(row);
+        String name = protoPage.getName(row);
+        String patronomic = protoPage.getPatronomic(row);
+        String gender = protoPage.getGender(row);
+        String birthday = protoPage.getBirthdayCell(row).val();
+
+        protoPage.selectClient(row);
+
+        ProtoClient modalClientCard = protoPage.editClientFromTableToolBar();
+        modalClientCard.shouldHaveTitle("Карточка клиента:");
+
+        modalClientCard.surname().shouldHaveValue(surname);
+        modalClientCard.firstName().shouldHaveValue(name);
+        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.birthdayShouldHaveValue(birthday);
+        modalClientCard.genderRadioGroup().shouldBeChecked(gender);
+
+        modalClientCard.surname().val("Жуков");
+        modalClientCard.firstName().val("Геннадий");
+        modalClientCard.patronymic().val("Юрьевич");
+        modalClientCard.gender().check("Мужской");
+        modalClientCard.birthdayValue("02.05.1930");
+        modalClientCard.save();
+
+        protoPage.shouldDialogClosed("Карточка клиента:");
+        protoPage.shouldBeClientsPage();
         protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
-        protoPage.vipCellShouldNotBeChecked(2);
-        protoPage.setVipCellChecked(2);
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
-        protoPage.vipCellShouldBeChecked(2);
+        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Жуков");
+        protoPage.tableShouldSelectedRow(row);
+        protoPage.tableCellShouldHaveText(row, 1, "Жуков");
+        protoPage.tableCellShouldHaveText(row, 2, "Геннадий");
+        protoPage.tableCellShouldHaveText(row, 3, "Юрьевич");
+        protoPage.tableCellShouldHaveText(row, 4, "02.05.1930");
+        protoPage.tableCellShouldHaveText(row, 5, "Мужской");
     }
 
     /**
-     * Проверка редактирования даты в таблице
+     * Проверка изменения клиента через меню в ячейке
      */
     @Test
-    public void testTableEditBirthday() {
-        String testDate = "01.01.1800";
-        String exDate = protoPage.getBirthdayCell(0).val();
+    public void testUpdateClientFromToolbarCell() {
+        int row = 7;
+        String surname = protoPage.getSurname(row);
+        String name = protoPage.getName(row);
+        String patronomic = protoPage.getPatronomic(row);
+        String gender = protoPage.getGender(row);
+        String birthday = protoPage.getBirthdayCell(row).val();
 
-        protoPage.getBirthdayCell(0).shouldHaveValue(exDate);
-        protoPage.clickBirthdayCell(0);
-        protoPage.getBirthdayCell(0).shouldHaveValue(exDate);
-        protoPage.getBirthdayCell(0).val(testDate);
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Плюхина");
-        protoPage.getBirthdayCell(0).shouldHaveValue(testDate);
+        ProtoClient modalClientCard = protoPage.editClientFromTableCell(row);
+        modalClientCard.shouldHaveTitle("Клиент - Изменение");
 
-        protoPage.clickBirthdayCell(0);
-        protoPage.getBirthdayCell(0).val(exDate);
+        modalClientCard.surname().shouldHaveValue(surname);
+        modalClientCard.firstName().shouldHaveValue(name);
+        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.genderRadioGroup().shouldBeChecked(gender);
+        modalClientCard.birthdayShouldHaveValue(birthday);
+
+        modalClientCard.surname().val("Ивановна");
+        modalClientCard.firstName().val("Александра");
+        modalClientCard.patronymic().val("Петровна");
+        modalClientCard.gender().check("Женский");
+        modalClientCard.save();
+
+        protoPage.shouldDialogClosed("Клиент - Изменение");
+        protoPage.shouldBeClientsPage();
         protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Плюхина");
-        protoPage.getBirthdayCell(0).shouldHaveValue(exDate);
+        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Иванова");
+        protoPage.tableShouldSelectedRow(row);
+        protoPage.tableCellShouldHaveText(row, 1, "Ивановна");
+        protoPage.tableCellShouldHaveText(row, 2, "Александра");
+        protoPage.tableCellShouldHaveText(row, 3, "Петровна");
+        protoPage.tableCellShouldHaveText(row, 4, birthday);
+        protoPage.tableCellShouldHaveText(row, 5, "Женский");
     }
+
+    /**
+     * Просмотр клиента через модальное окно (1я строка)
+     */
+    @Test
+    public void testViewClient() {
+        int row = 2;
+        String surname = protoPage.getSurname(row);
+        String name = protoPage.getName(row);
+        String patronomic = protoPage.getPatronomic(row);
+        String gender = protoPage.getGender(row);
+        String birthday = protoPage.getBirthdayCell(row).val();
+
+        protoPage.selectClient(row);
+        ProtoClient modalClientCard = protoPage.clickView();
+        modalClientCard.shouldHaveTitle("Просмотр клиента");
+
+        modalClientCard.surname().shouldHaveValue(surname);
+        modalClientCard.firstName().shouldHaveValue(name);
+        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.birthdayShouldHaveValue(birthday);
+//        modalClientCard.gender().shouldHaveValue(gender); todo not work in disabled mode
+
+        modalClientCard.surname().shouldBeDisabled();
+        modalClientCard.firstName().shouldBeDisabled();
+        modalClientCard.patronymic().shouldBeDisabled();
+        modalClientCard.birthdayShouldBeDisabled();
+//        modalClientCard.gender().shouldBeDisabled(); todo not work in disabled mode
+        modalClientCard.getVIP().shouldBeDisabled();
+
+        modalClientCard.close();
+
+        protoPage.shouldDialogClosed("Просмотр клиента");
+    }
+
 
     /**
      * Проверка создания клиента
      */
     @Test
-    public void testAddClient() {
+    public void testPageCreateClient() {
         ProtoClient clientCard = protoPage.addClient();
         clientCard.shouldHaveTitle("Карточка клиента");
         clientCard.patronymic().shouldHaveValue("Тест");
@@ -337,7 +473,10 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Клиент 'Гадойбоев' создан");
-        protoPage.tableShouldSelectedRow(0);
+
+        protoPage.getSurnameFilter().val("Гадойбоев");
+        protoPage.searchClients();
+
         protoPage.tableCellShouldHaveText(0, 1, "Гадойбоев");
         protoPage.tableCellShouldHaveText(0, 2, "Муминджон");
         protoPage.tableCellShouldHaveText(0, 3, "Джамшутович");
@@ -350,11 +489,11 @@ public class DemoIntegrationAT {
      * Проверка создания клиента через модальное окно
      */
     @Test
-    public void testCreateClient() {
+    public void testModalCreateClient() {
         ProtoClient modalClientCard = protoPage.createClient();
         modalClientCard.shouldHaveTitle("Карточка клиента");
         modalClientCard.patronymic().shouldHaveValue("Тест");
-        modalClientCard.surname().val("Иванов");
+        modalClientCard.surname().val("Иконов");
         modalClientCard.firstName().val("Алексей");
         modalClientCard.patronymic().val("Петрович");
         modalClientCard.genderRadioGroup().check("Мужской");
@@ -366,17 +505,19 @@ public class DemoIntegrationAT {
 
         ProtoClient clientCard = protoPage.getProtoClient();
         clientCard.shouldHaveTitle("Карточка клиента");
-        clientCard.surname().shouldHaveValue("Иванов");
+        clientCard.surname().shouldHaveValue("Иконов");
         clientCard.firstName().shouldHaveValue("Алексей");
         clientCard.patronymic().shouldHaveValue("Петрович");
         clientCard.genderRadioGroup().shouldBeChecked("Мужской");
         clientCard.birthdayShouldHaveValue("17.01.2020");
         clientCard.getVIP().shouldBeChecked();
         clientCard.close();
-
         protoPage.shouldBeClientsPage();
-        protoPage.tableShouldSelectedRow(0);
-        protoPage.tableCellShouldHaveText(0, 1, "Иванов");
+
+        protoPage.getSurnameFilter().val("Иконов");
+        protoPage.searchClients();
+
+        protoPage.tableCellShouldHaveText(0, 1, "Иконов");
         protoPage.tableCellShouldHaveText(0, 2, "Алексей");
         protoPage.tableCellShouldHaveText(0, 3, "Петрович");
         protoPage.tableCellShouldHaveText(0, 4, "17.01.2020");
@@ -385,149 +526,24 @@ public class DemoIntegrationAT {
     }
 
     /**
-     * Проверка изменения клиента через модальное окно  (3я строка)
-     */
-    @Test
-    public void testUpdateClient() {
-        protoPage.selectClient(3);
-
-        protoPage.tableCellShouldHaveText(3, 1, "Сиянкин");
-        protoPage.tableCellShouldHaveText(3, 2, "Мир");
-        protoPage.tableCellShouldHaveText(3, 3, "Григориевич");
-        protoPage.tableCellShouldHaveText(3, 4, "02.05.1930");
-        protoPage.tableCellShouldHaveText(3, 5, "Мужской");
-        protoPage.vipCellShouldBeChecked(3);
-
-        ProtoClient modalClientCard = protoPage.editClientFromTableToolBar();
-        modalClientCard.shouldHaveTitle("Карточка клиента:");
-
-        modalClientCard.surname().shouldHaveValue("Сиянкин");
-        modalClientCard.firstName().shouldHaveValue("Мир");
-        modalClientCard.patronymic().shouldHaveValue("Григориевич");
-        modalClientCard.birthdayShouldHaveValue("02.05.1930");
-        modalClientCard.genderRadioGroup().shouldBeChecked("Мужской");
-        modalClientCard.getVIP().shouldBeChecked();
-
-        modalClientCard.surname().val("Жуков");
-        modalClientCard.firstName().val("Геннадий");
-        modalClientCard.patronymic().val("Юрьевич");
-        modalClientCard.save();
-
-        protoPage.shouldDialogClosed("Карточка клиента:");
-        protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Жуков");
-        protoPage.tableShouldSelectedRow(3);
-        protoPage.tableCellShouldHaveText(3, 1, "Жуков");
-        protoPage.tableCellShouldHaveText(3, 2, "Геннадий");
-        protoPage.tableCellShouldHaveText(3, 3, "Юрьевич");
-        protoPage.tableCellShouldHaveText(3, 4, "02.05.1930");
-        protoPage.tableCellShouldHaveText(3, 5, "Мужской");
-        protoPage.vipCellShouldBeChecked(3);
-    }
-
-    /**
-     * Проверка изменения клиента через меню в ячейке (2я строка)
-     */
-    @Test
-    public void testUpdateClientFromToolbarCell() {
-        protoPage.tableCellShouldHaveText(2, 1, "Пищикова");
-        protoPage.tableCellShouldHaveText(2, 2, "Нина");
-        protoPage.tableCellShouldHaveText(2, 3, "Никитевна");
-        protoPage.tableCellShouldHaveText(2, 4, "10.05.1929");
-        protoPage.tableCellShouldHaveText(2, 5, "Женский");
-        protoPage.vipCellShouldBeChecked(2);
-
-        ProtoClient modalClientCard = protoPage.editClientFromTableCell(2);
-        modalClientCard.shouldHaveTitle("Клиент - Изменение");
-
-        modalClientCard.surname().shouldHaveValue("Пищикова");
-        modalClientCard.firstName().shouldHaveValue("Нина");
-        modalClientCard.patronymic().shouldHaveValue("Никитевна");
-        modalClientCard.genderRadioGroup().shouldBeChecked("Женский");
-        modalClientCard.birthdayShouldHaveValue("10.05.1929");
-        modalClientCard.getVIP().shouldBeChecked();
-
-        modalClientCard.surname().val("Иванова");
-        modalClientCard.firstName().val("Александра");
-        modalClientCard.patronymic().val("Петровна");
-        modalClientCard.save();
-
-        protoPage.shouldDialogClosed("Клиент - Изменение");
-        protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Иванова");
-        protoPage.tableShouldSelectedRow(2);
-        protoPage.tableCellShouldHaveText(2, 1, "Иванова");
-        protoPage.tableCellShouldHaveText(2, 2, "Александра");
-        protoPage.tableCellShouldHaveText(2, 3, "Петровна");
-        protoPage.tableCellShouldHaveText(2, 4, "10.05.1929");
-        protoPage.tableCellShouldHaveText(2, 5, "Женский");
-        protoPage.vipCellShouldBeChecked(2);
-    }
-
-    /**
-     * Просмотр клиента через модальное окно (1я строка)
-     */
-    @Test
-    public void testViewClient() {
-        protoPage.selectClient(1);
-
-        protoPage.tableCellShouldHaveText(1, 1, "Маркин");
-        protoPage.tableCellShouldHaveText(1, 2, "Семен");
-        protoPage.tableCellShouldHaveText(1, 3, "Демьянович");
-        protoPage.tableCellShouldHaveText(1, 4, "25.03.1929");
-        protoPage.tableCellShouldHaveText(1, 5, "Мужской");
-        protoPage.vipCellShouldNotBeChecked(1);
-
-        ProtoClient modalClientCard = protoPage.viewClientFromTableToolBar();
-        modalClientCard.shouldHaveTitle("Просмотр клиента");
-
-        modalClientCard.surname().shouldHaveValue("Маркин");
-        modalClientCard.firstName().shouldHaveValue("Семен");
-        modalClientCard.patronymic().shouldHaveValue("Демьянович");
-        modalClientCard.birthdayShouldHaveValue("25.03.1929");
-        modalClientCard.gender().shouldSelected("Мужской");
-        modalClientCard.getVIP().shouldBeEmpty();
-
-        modalClientCard.surname().shouldBeDisabled();
-        modalClientCard.firstName().shouldBeDisabled();
-        modalClientCard.patronymic().shouldBeDisabled();
-        modalClientCard.birthdayShouldBeDisabled();
-        modalClientCard.gender().shouldBeDisabled();
-        modalClientCard.getVIP().shouldBeDisabled();
-
-        modalClientCard.close();
-
-        protoPage.shouldDialogClosed("Просмотр клиента");
-        protoPage.shouldBeClientsPage();
-        protoPage.tableShouldSelectedRow(1);
-    }
-
-    /**
      * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
      */
     @Test
-    @Order(4)
     public void testTableInPlaceDelete() {
+        int row = 8;
         protoPage.tableShouldHaveSize(10);
         int count = protoPage.getClientsCount();
         List<String> surnames = protoPage.getSurnameColumn();
 
-        protoPage.deleteClientFromTableCell(8);
+        protoPage.deleteClientFromTableCell(row);
 
         protoPage.shouldBeDialog("Предупреждение");
-        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(8));
+        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(row));
         protoPage.acceptDialog("Предупреждение");
 
         protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Клиент " + surnames.get(8) + " удален");
+        protoPage.alertTextShouldBe("Клиент " + surnames.get(row) + " удален");
         protoPage.clientsCountShouldBe(count - 1);
-        List<String> nSurnames = protoPage.getSurnameColumn();
-        for (int i = 0; i < 8; i++) {
-            assertThat(surnames.get(i), is(nSurnames.get(i)));
-        }
-        assertThat(surnames.get(9), is(nSurnames.get(8)));
     }
 
     /**
@@ -535,25 +551,21 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testTableRowDelete() {
+        int row = 8;
         protoPage.tableShouldHaveSize(10);
         int count = protoPage.getClientsCount();
         List<String> surnames = protoPage.getSurnameColumn();
 
-        protoPage.selectClient(8);
+        protoPage.selectClient(row);
         protoPage.deleteClientFromTableToolBar();
 
         protoPage.shouldBeDialog("Предупреждение");
-        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(8));
+        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(row));
         protoPage.acceptDialog("Предупреждение");
 
         protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Клиент " + surnames.get(8) + " удален");
+        protoPage.alertTextShouldBe("Клиент " + surnames.get(row) + " удален");
         protoPage.clientsCountShouldBe(count - 1);
-        List<String> nSurnames = protoPage.getSurnameColumn();
-        for (int i = 0; i < 8; i++) {
-            assertThat(surnames.get(i), is(nSurnames.get(i)));
-        }
-        assertThat(surnames.get(9), is(nSurnames.get(8)));
     }
 
     /**
@@ -561,19 +573,22 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testMasterDetail() {
-        protoPage.selectClient(6);
-        protoPage.tableCellShouldHaveText(6, 1, "Чуканова");
-        protoPage.contactsListShouldHaveText(0, "3333333");
-        protoPage.getSurnameCard().shouldHaveValue("Чуканова");
-        protoPage.getFirstnameCard().shouldHaveValue("Изольда");
-        protoPage.getGenderCard().shouldBeChecked("Женский");
+        protoPage.selectClient(1);
+        protoPage.tableCellShouldHaveText(1, 1, "Яблочкин");
+        protoPage.contactsListShouldHaveSize(1);
+        protoPage.contactsListShouldHaveText(0, "+79047610032");
+        protoPage.getSurnameCard().shouldHaveValue("Яблочкин");
+        protoPage.getFirstnameCard().shouldHaveValue("Федот");
+        protoPage.getGenderCard().shouldBeChecked("Мужской");
         protoPage.getVIPCard().shouldBeChecked();
 
-        protoPage.selectClient(5);
-        protoPage.tableCellShouldHaveText(5, 1, "Дуванова");
-        protoPage.contactsListShouldHaveText(0, "+7950267859");
-        protoPage.getSurnameCard().shouldHaveValue("Дуванова");
-        protoPage.getFirstnameCard().shouldHaveValue("Ольга");
+        protoPage.selectClient(0);
+        protoPage.tableCellShouldHaveText(0, 1, "Михалёва");
+        protoPage.contactsListShouldHaveSize(2);
+        protoPage.contactsListShouldHaveText(0, "+79655000000");
+        protoPage.contactsListShouldHaveText(1, "aa@example.com");
+        protoPage.getSurnameCard().shouldHaveValue("Михалёва");
+        protoPage.getFirstnameCard().shouldHaveValue("Эмма");
         protoPage.getGenderCard().shouldBeChecked("Женский");
         protoPage.getVIPCard().shouldBeChecked();
     }
@@ -582,8 +597,7 @@ public class DemoIntegrationAT {
      * Проверка создания контакта
      */
     @Test
-    @Order(5)
-    public void testCreateContact() {
+    public void testContactCrud() {
         protoPage.getSurnameFilter().val("Маркин");
         protoPage.searchClients();
         protoPage.tableCellShouldHaveText(0, 1, "Маркин");
@@ -603,21 +617,8 @@ public class DemoIntegrationAT {
 
         protoPage.contactsListShouldHaveSize(1);
         protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
-    }
 
-    /**
-     * Проверка редактирования контакта после testCreateContact!
-     */
-    @Test
-    @Order(6)
-    public void testEditContact() {
-        protoPage.getSurnameFilter().val("Маркин");
-        protoPage.searchClients();
-        protoPage.tableCellShouldHaveText(0, 1, "Маркин");
-        protoPage.contactsListShouldHaveSize(1);
-        protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
-
-        ProtoContacts modalProtoContacts = protoPage.editContact(0);
+        modalProtoContacts = protoPage.editContact(0);
         modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.shouldHaveContactType("Мобильный телефон");
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (999) 999-99-99");
@@ -631,6 +632,9 @@ public class DemoIntegrationAT {
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
 
         protoPage.contactsListShouldHaveText(0, "+7 (888) 888-88-88");
+
+        protoPage.deleteContact(0);
+        protoPage.contactsListShouldHaveSize(0);
     }
 
     private boolean isSorted(List<String> list, Boolean dir) {

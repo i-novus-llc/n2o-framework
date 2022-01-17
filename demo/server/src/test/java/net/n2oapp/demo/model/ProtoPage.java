@@ -170,6 +170,22 @@ public class ProtoPage {
         return getTableCell(row, 4, EditCell.class).control(DateInput.class);
     }
 
+    public String getSurname(int row) {
+        return getTableCell(row, 1, LinkCell.class).element().text();
+    }
+
+    public String getName(int row) {
+        return getTableCell(row, 2, LinkCell.class).element().text();
+    }
+
+    public String getPatronomic(int row) {
+        return getTableCell(row, 3, LinkCell.class).element().text();
+    }
+
+    public String getGender(int row) {
+        return getTableCell(row, 5, BadgeCell.class).element().text();
+    }
+
     public ProtoClient addClient() {
         leftRightPage.toolbar().topRight().button("Добавить клиента").click();
         return getProtoClient();
@@ -202,7 +218,7 @@ public class ProtoPage {
         return getModalProtoClient();
     }
 
-    public ProtoClient viewClientFromTableToolBar() {
+    public ProtoClient clickView() {
         getTable().toolbar().topRight().button("Просмотр").click();
         return getModalProtoClient();
     }
@@ -244,6 +260,12 @@ public class ProtoPage {
         ListCell cell = getContacts().content(index).extra(ListCell.class);
         cell.element().$$(".btn").findBy(Condition.text("Изменить")).click();
         return getModalProtoContacts();
+    }
+
+    public void deleteContact(int index) {
+        ListCell cell = getContacts().content(index).extra(ListCell.class);
+        cell.element().$$(".btn").findBy(Condition.text("Удалить")).click();
+        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").click("Да");
     }
 
     public void alertTextShouldBe(String text) {
