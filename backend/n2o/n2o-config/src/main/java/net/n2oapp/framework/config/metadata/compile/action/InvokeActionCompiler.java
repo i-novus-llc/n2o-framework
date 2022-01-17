@@ -226,14 +226,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
                 String objectId = dataSourcesScope.get(source.getDatasource()).getObjectId();
-                if (objectId == null && dataSourcesScope.get(source.getDatasource()).getQueryId() != null) {
+                if (objectId != null) {
+                    compiledObject = p.getCompiled(new ObjectContext(objectId));
+                } else if (dataSourcesScope.get(source.getDatasource()).getQueryId() != null) {
                     CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(source.getDatasource()).getQueryId()));
                     compiledObject = query.getObject();
-                } else {
-                    compiledObject = p.getCompiled(new ObjectContext(objectId));
                 }
             }
         }
+        if (compiledObject == null)
+            compiledObject = p.getScope(CompiledObject.class);
         if (compiledObject == null)
             throw new N2oException(String.format("For compilation action [%s] is necessary object!", source.getId()));
         return compiledObject;
