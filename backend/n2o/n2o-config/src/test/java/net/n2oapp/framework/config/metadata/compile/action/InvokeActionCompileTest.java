@@ -20,7 +20,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -291,6 +292,11 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction2.getPayload().getModel(), is(ReduxModel.resolve));
         assertThat(testAction2.getPayload().getDatasource(), is("testInvokeActionDatasource_outer"));
         assertThat(testAction2.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test2"));
+
+        InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test").getAction();
+        assertThat(testAction.getPayload().getModel(), is(ReduxModel.resolve));
+        assertThat(testAction.getPayload().getDatasource(), is("testInvokeActionDatasource_outer"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test"));
     }
 
 }
