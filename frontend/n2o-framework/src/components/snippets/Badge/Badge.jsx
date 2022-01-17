@@ -7,7 +7,7 @@ export const renderBadge = ({
     icon,
     title,
 }) => (
-    badge && (title
+    (badge || typeof badge === 'number') && (title
         ? (
             <span
                 className={
