@@ -226,7 +226,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         }
         if (objectId == null && source.getDatasource() != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            objectId = dataSourcesScope.get(source.getDatasource()).getObjectId();
+            objectId = dataSourcesScope != null ? dataSourcesScope.get(source.getDatasource()).getObjectId() : null;
         }
         CompiledObject compiledObject = objectId == null ? p.getScope(CompiledObject.class) :
                 p.getCompiled(new ObjectContext(objectId));
