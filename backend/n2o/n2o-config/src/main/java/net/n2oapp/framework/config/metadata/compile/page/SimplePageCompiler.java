@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
@@ -31,7 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
 import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -88,8 +87,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         FiltersScope filtersScope = new FiltersScope();
+        SubModelsScope subModelsScope = new SubModelsScope();
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
-                validationList, models, pageRoutesScope, dataSourcesScope, filtersScope, copiedFieldScope);
+                validationList, models, pageRoutesScope, dataSourcesScope, filtersScope, copiedFieldScope, subModelsScope);
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
         page.setRoutes(routes);
@@ -97,7 +97,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         Map<String, Widget<?>> compiledWidgets = new HashMap<>();
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         page.setDatasources(initDatasources(dataSourcesScope, context, p, widget.getId(), validationList, routes,
-                pageRouteScope, pageScope, filtersScope, copiedFieldScope));
+                pageRouteScope, pageScope, filtersScope, copiedFieldScope, subModelsScope));
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
         if (objectId != null) {
