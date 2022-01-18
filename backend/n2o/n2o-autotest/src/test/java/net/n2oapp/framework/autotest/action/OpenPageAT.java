@@ -41,6 +41,7 @@ public class OpenPageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7378
     @Test
     public void testFilterState() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),

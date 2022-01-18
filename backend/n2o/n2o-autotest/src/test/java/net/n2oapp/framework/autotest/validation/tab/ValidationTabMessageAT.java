@@ -49,6 +49,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/test.object.xml"));
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7363
     @Test
     public void testValidationTabMessageInModal() {
         StandardPage page = open(StandardPage.class);
@@ -96,6 +97,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7363
     @Test
     public void testValidationTabMessageInPage() {
         StandardPage page = open(StandardPage.class);
