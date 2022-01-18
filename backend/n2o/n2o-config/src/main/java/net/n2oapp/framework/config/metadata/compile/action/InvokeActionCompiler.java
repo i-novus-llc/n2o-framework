@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -21,10 +22,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
-import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.*;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -95,7 +93,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (source.getRefreshDatasources() != null)
             return source.getRefreshDatasources();
         if (source.getDatasource() != null)
-            return new String[] {source.getDatasource()};
+            return new String[]{source.getDatasource()};
         return null;
     }
 
@@ -220,16 +218,24 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
     private CompiledObject getObject(N2oInvokeAction source, CompileProcessor p) {
-        String objectId = null;
+        CompiledObject compiledObject = null;
         if (source.getObjectId() != null) {
-            objectId = source.getObjectId();
+            compiledObject = p.getCompiled(new ObjectContext(source.getObjectId()));
         }
-        if (objectId == null && source.getDatasource() != null) {
+        if (compiledObject == null && source.getDatasource() != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            objectId = dataSourcesScope != null ? dataSourcesScope.get(source.getDatasource()).getObjectId() : null;
+            if (dataSourcesScope != null) {
+                String objectId = dataSourcesScope.get(source.getDatasource()).getObjectId();
+                if (objectId != null) {
+                    compiledObject = p.getCompiled(new ObjectContext(objectId));
+                } else if (dataSourcesScope.get(source.getDatasource()).getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(source.getDatasource()).getQueryId()));
+                    compiledObject = query.getObject();
+                }
+            }
         }
-        CompiledObject compiledObject = objectId == null ? p.getScope(CompiledObject.class) :
-                p.getCompiled(new ObjectContext(objectId));
+        if (compiledObject == null)
+            compiledObject = p.getScope(CompiledObject.class);
         if (compiledObject == null)
             throw new N2oException(String.format("For compilation action [%s] is necessary object!", source.getId()));
         return compiledObject;

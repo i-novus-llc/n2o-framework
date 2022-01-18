@@ -3,6 +3,11 @@
     <datasources>
         <datasource id="outer" query-id="testActionContext"/>
     </datasources>
+    <toolbar>
+        <button id="test">
+            <invoke operation-id="update" datasource="outer"/>
+        </button>
+    </toolbar>
     <regions>
         <form id="main">
             <datasource query-id="testActionContext"/>
