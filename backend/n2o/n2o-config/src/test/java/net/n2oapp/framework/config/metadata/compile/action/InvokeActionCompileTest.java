@@ -64,7 +64,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModel(), is(ReduxModel.filter));
         assertThat(testAction.getPayload().getDatasource(), is("w_main"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test2"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_testW"));
