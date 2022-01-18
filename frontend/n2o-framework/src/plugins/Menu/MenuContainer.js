@@ -146,7 +146,7 @@ export class MenuContainer extends React.Component {
           if (!header && !sidebar) {
               return this.props
           }
-          console.log('Yo!!!', this.props)
+
           const withSecurityProps = (props, items, extraItems, type) => ({
               [type]: {
                   ...props,
