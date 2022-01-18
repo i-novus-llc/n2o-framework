@@ -10,6 +10,7 @@ import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 import find from 'lodash/find'
+import forOwn from 'lodash/forOwn'
 
 import evalExpression from '../utils/evalExpression'
 import { SET } from '../constants/models'
@@ -127,33 +128,18 @@ function* watchRegister(entities, { type, payload }) {
  */
 export function prepareEntity(entities, payload, type) {
     const { conditions } = payload
-    const handledModelLinks = {}
+    const linksBuffer = []
 
-    // collect conditions objects grouping by modelLink
-    keys(conditions).forEach((conditionType) => { // conditionType -- enabled, visible, etc(?)
-        conditions[conditionType].forEach((conditionItem) => {
-            const { modelLink } = conditionItem
+    forOwn(conditions, condition => map(condition, ({ modelLink }) => {
+        if (!linksBuffer.includes(modelLink)) {
+            const entityData = get(entities, [type, modelLink], [])
+            const modelLinks = [...entityData, payload]
 
-            if (!handledModelLinks[modelLink]) {
-                handledModelLinks[modelLink] = { [conditionType]: [] }
-            }
-            if (!handledModelLinks[modelLink][conditionType]) {
-                handledModelLinks[modelLink][conditionType] = []
-            }
-            handledModelLinks[modelLink][conditionType].push(conditionItem)
-        })
-    })
+            set(entities, [type, modelLink], modelLinks)
 
-    // iterate through modelLinks groups and set data to entity
-    keys(handledModelLinks).forEach((modelLink) => {
-        const currentModelLinkConditions = get(entities, [type, modelLink])
-
-        if (Array.isArray(currentModelLinkConditions)) {
-            currentModelLinkConditions.push({ ...payload, conditions: handledModelLinks[modelLink] })
-        } else {
-            set(entities, [type, modelLink], [{ ...payload, conditions: handledModelLinks[modelLink] }])
+            linksBuffer.push(modelLink)
         }
-    })
+    }))
 
     return entities
 }
