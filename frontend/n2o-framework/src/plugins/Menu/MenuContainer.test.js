@@ -28,7 +28,7 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             },
-            'items',
+            'headerItems',
         )
 
         await wrapper.instance().checkItem(
@@ -42,10 +42,10 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             },
-            'items',
+            'headerItems',
         )
         expect(wrapper.state()).toEqual({
-            items: [
+            headerItems: [
                 {
                     id: 'test1',
                     href: '/google.com',
@@ -57,7 +57,9 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             ],
-            extraItems: [],
+            headerExtraItems: [],
+            sidebarItems: [],
+            sidebarExtraItems: [],
         })
     })
 
@@ -84,7 +86,7 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             },
-            'extraItems',
+            'headerExtraItems',
         )
 
         await wrapper.instance().checkItem(
@@ -98,10 +100,10 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             },
-            'extraItems',
+            'headerExtraItems',
         )
         expect(wrapper.state()).toEqual({
-            extraItems: [
+            headerExtraItems: [
                 {
                     id: 'test1',
                     href: '/google.com',
@@ -113,7 +115,9 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             ],
-            items: [],
+            headerItems: [],
+            sidebarItems: [],
+            sidebarExtraItems: [],
         })
     })
 
@@ -184,7 +188,7 @@ describe('Проверка MenuContainer', () => {
     it('Правильно удаляет пустые dropdown', () => {
         const wrapper = setup({header: {}})
         wrapper.setState({
-            items: [
+            headerItems: [
                 {
                     id: 'menuItem0',
                     label: 'ссылка',
