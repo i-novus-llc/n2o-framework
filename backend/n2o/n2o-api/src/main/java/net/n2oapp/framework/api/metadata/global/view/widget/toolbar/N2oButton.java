@@ -89,9 +89,17 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     public static class Dependency implements Source {
         private String value;
         private String datasource;
-        @Deprecated
-        private String refWidgetId;
         private ReduxModel model;
+
+        @Deprecated
+        public String getRefWidgetId() {
+            return datasource;
+        }
+
+        @Deprecated
+        public void setRefWidgetId(String refWidgetId) {
+            this.datasource = refWidgetId;
+        }
     }
 
     @Getter
