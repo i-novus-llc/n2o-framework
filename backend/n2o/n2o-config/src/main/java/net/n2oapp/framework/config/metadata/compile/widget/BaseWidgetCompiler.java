@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -27,10 +28,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
@@ -143,6 +141,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
+        compileActions(source, context, p, widgetActions, widgetScope, object, validationList);
         compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationList);
     }
 
@@ -161,6 +160,16 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     }
                 }
             });
+        }
+    }
+
+    private void compileActions(S source, CompileContext<?,?> context, CompileProcessor p, MetaActions widgetActions,
+                                WidgetScope widgetScope, CompiledObject object, ValidationList validationList) {
+        if (source.getActions() != null) {
+            for (ActionsBar a : source.getActions()) {
+                a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
+                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationList, new ComponentScope(a));
+            }
         }
     }
 
