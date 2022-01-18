@@ -29,5 +29,9 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         p.safeStreamOf(page.getToolbars())
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(action -> p.validate(action, scope)));
         p.safeStreamOf(page.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), scope));
+
+        p.checkIdsUnique(page.getDatasources(),
+                "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
+        p.safeStreamOf(page.getDatasources()).forEach(p::validate);
     }
 }

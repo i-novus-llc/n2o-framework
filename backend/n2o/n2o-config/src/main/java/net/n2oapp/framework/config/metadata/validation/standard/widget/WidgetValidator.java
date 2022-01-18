@@ -48,6 +48,10 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             p.checkIdsUnique(menuItems, "Кнопка '{0}' встречается более чем один раз в виджете '" + n2oWidget.getId() + "'!");
         }
 
+        if (n2oWidget.getDatasource() != null) {
+
+        }
+
         checkPrefiltersValidation(n2oWidget, query);
         p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
     }
