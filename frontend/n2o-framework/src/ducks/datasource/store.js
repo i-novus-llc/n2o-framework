@@ -175,9 +175,10 @@ const datasource = createSlice({
         },
 
         startValidate: {
-            prepare(id, fields, prefix = MODEL_PREFIX.active) {
+            prepare(id, fields, prefix = MODEL_PREFIX.active, meta = {}) {
                 return ({
                     payload: { id, prefix, fields },
+                    meta,
                 })
             },
             reducer(state, action) {
