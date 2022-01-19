@@ -119,7 +119,7 @@ class PanelRegion extends React.Component {
         const { tabs } = this.state
         const isInvisible = every(
             content,
-            item => getWidgetProps(item.id).isVisible === false,
+            item => getWidgetProps(item.id).visible === false,
         )
 
         return (

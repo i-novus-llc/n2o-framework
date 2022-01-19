@@ -20,10 +20,14 @@ export const withRedux = (WidgetComponent) => {
     class ConnectedWidget extends Component {
         componentDidMount() {
             const { dispatch, ...props } = this.props
-            const { isInit, id } = props
+            const { isInit, id, dependency, visible: propsVisible } = props
+            const visible = typeof propsVisible === 'undefined' ? true : propsVisible
 
             if (!isInit) {
-                dispatch(registerWidget(id, props))
+                dispatch(registerWidget(id, {
+                    ...props,
+                    visible: dependency?.visible?.length ? false : visible,
+                }))
             }
         }
 
