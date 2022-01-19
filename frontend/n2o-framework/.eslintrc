@@ -12,6 +12,7 @@
   "rules": {
     // without ";"
     "semi": ["error", "never"],
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     // Цикломатическая сложность, надо плавно понижать до 10
     "complexity": ["error", { "max": 20 }],
     // Символ переноса строки в коде
