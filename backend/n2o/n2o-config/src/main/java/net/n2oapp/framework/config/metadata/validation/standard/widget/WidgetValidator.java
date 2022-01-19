@@ -14,6 +14,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,7 +31,6 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
     @Override
     public void validate(N2oWidget n2oWidget, SourceProcessor p) {
-        N2oQuery query = checkQueryExists(n2oWidget, p);
         checkObjectExists(n2oWidget, p);
 
         if (n2oWidget.getToolbars() != null) {
@@ -48,12 +50,16 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             p.checkIdsUnique(menuItems, "Кнопка '{0}' встречается более чем один раз в виджете '" + n2oWidget.getId() + "'!");
         }
 
-        if (n2oWidget.getDatasource() != null) {
-
+        if (n2oWidget.getDatasourceId() != null) {
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            checkDatasource(n2oWidget, dataSourcesScope);
         }
-
-        checkPrefiltersValidation(n2oWidget, query);
         p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
+    }
+
+    private void checkDatasource(N2oWidget n2oWidget, DataSourcesScope scope) {
+        ValidationUtils.checkForExistsDatasource(n2oWidget.getDatasourceId(), scope,
+                String.format("Виджет '%s' сылается на несуществующий источник данных '%s'", n2oWidget.getId(), n2oWidget.getDatasourceId()));
     }
 
     /**
@@ -62,60 +68,61 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * @param n2oWidget Виджет
      * @param query     Выборка виджета
      */
-    private void checkPrefiltersValidation(N2oWidget n2oWidget, N2oQuery query) {
-        if (n2oWidget.getPreFilters() != null) {
-            if (query == null)
-                throw new N2oMetadataValidationException(
-                        String.format("Виджет '%s' имеет префильтры, но не задана выборка", n2oWidget.getId()));
-            if (query.getFields() == null)
-                throw new N2oMetadataValidationException(
-                        String.format("Виджет '%s' имеет префильтры, но в выборке '%s' нет fields!", n2oWidget.getId(), query.getId()));
-
-            for (N2oPreFilter preFilter : n2oWidget.getPreFilters()) {
-                if (preFilter.getValue() != null && preFilter.getParam() != null && (!Boolean.TRUE.equals(preFilter.getRoutable()))) {
-                    throw new N2oMetadataValidationException(
-                            String.format("В префильтре по полю '%s' указан value и param, но при этом routable=false, что противоречит логике работы префильтров!",
-                                    preFilter.getFieldId() == null ? "" : preFilter.getFieldId()));
-                }
-                N2oQuery.Field exField = null;
-                for (N2oQuery.Field field : query.getFields()) {
-                    if (preFilter.getFieldId().equals(field.getId())) {
-                        exField = field;
-                        break;
-                    }
-                }
-                if (exField == null)
-                    throw new N2oMetadataValidationException(
-                            String.format("В выборке '%s' нет field '%s'!", query.getId() == null ? "" : query.getId(), preFilter.getFieldId()));
-
-                if (exField.getFilterList() == null)
-                    throw new N2oMetadataValidationException(
-                            String.format("В выборке '%s' field '%s' не содержит фильтров!", query.getId() == null ? "" : query.getId(), preFilter.getFieldId()));
-
-                N2oQuery.Filter exFilter = null;
-                for (N2oQuery.Filter filter : exField.getFilterList()) {
-                    if (preFilter.getType() == filter.getType()) {
-                        exFilter = filter;
-                        break;
-                    }
-                }
-                if (exFilter == null)
-                    throw new N2oMetadataValidationException(
-                            String.format("В выборке '%s' field '%s' не содержит фильтр типа '%s'!",
-                                    query.getId() == null ? "" : query.getId(),
-                                    preFilter.getFieldId(),
-                                    preFilter.getType()));
-
-                if (n2oWidget.getDependsOn() == null && n2oWidget.getDetailFieldId() == null &&
-                        preFilter.getRefWidgetId() == null && StringUtils.hasLink(preFilter.getValue())) {
-                    throw new N2oMetadataValidationException(
-                            String.format("В виджете '%s' значение префильтра '%s' является ссылкой, но зависимость для нее не прописана!",
-                                    n2oWidget.getId() == null ? "" : n2oWidget.getId(),
-                                    preFilter.getFieldId()));
-                }
-            }
-        }
-    }
+//    @Deprecated
+//    private void checkPrefiltersValidation(N2oWidget n2oWidget, N2oQuery query) {
+//        if (n2oWidget.getPreFilters() != null) {
+//            if (query == null)
+//                throw new N2oMetadataValidationException(
+//                        String.format("Виджет '%s' имеет префильтры, но не задана выборка", n2oWidget.getId()));
+//            if (query.getFields() == null)
+//                throw new N2oMetadataValidationException(
+//                        String.format("Виджет '%s' имеет префильтры, но в выборке '%s' нет fields!", n2oWidget.getId(), query.getId()));
+//
+//            for (N2oPreFilter preFilter : n2oWidget.getPreFilters()) {
+//                if (preFilter.getValue() != null && preFilter.getParam() != null && (!Boolean.TRUE.equals(preFilter.getRoutable()))) {
+//                    throw new N2oMetadataValidationException(
+//                            String.format("В префильтре по полю '%s' указан value и param, но при этом routable=false, что противоречит логике работы префильтров!",
+//                                    preFilter.getFieldId() == null ? "" : preFilter.getFieldId()));
+//                }
+//                N2oQuery.Field exField = null;
+//                for (N2oQuery.Field field : query.getFields()) {
+//                    if (preFilter.getFieldId().equals(field.getId())) {
+//                        exField = field;
+//                        break;
+//                    }
+//                }
+//                if (exField == null)
+//                    throw new N2oMetadataValidationException(
+//                            String.format("В выборке '%s' нет field '%s'!", query.getId() == null ? "" : query.getId(), preFilter.getFieldId()));
+//
+//                if (exField.getFilterList() == null)
+//                    throw new N2oMetadataValidationException(
+//                            String.format("В выборке '%s' field '%s' не содержит фильтров!", query.getId() == null ? "" : query.getId(), preFilter.getFieldId()));
+//
+//                N2oQuery.Filter exFilter = null;
+//                for (N2oQuery.Filter filter : exField.getFilterList()) {
+//                    if (preFilter.getType() == filter.getType()) {
+//                        exFilter = filter;
+//                        break;
+//                    }
+//                }
+//                if (exFilter == null)
+//                    throw new N2oMetadataValidationException(
+//                            String.format("В выборке '%s' field '%s' не содержит фильтр типа '%s'!",
+//                                    query.getId() == null ? "" : query.getId(),
+//                                    preFilter.getFieldId(),
+//                                    preFilter.getType()));
+//
+//                if (n2oWidget.getDependsOn() == null && n2oWidget.getDetailFieldId() == null &&
+//                        preFilter.getRefWidgetId() == null && StringUtils.hasLink(preFilter.getValue())) {
+//                    throw new N2oMetadataValidationException(
+//                            String.format("В виджете '%s' значение префильтра '%s' является ссылкой, но зависимость для нее не прописана!",
+//                                    n2oWidget.getId() == null ? "" : n2oWidget.getId(),
+//                                    preFilter.getFieldId()));
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Проверка существования выборки, используемой виджетом, и возврат идентификатора выборки

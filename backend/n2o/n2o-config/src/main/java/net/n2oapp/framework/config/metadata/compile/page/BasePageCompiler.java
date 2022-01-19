@@ -180,7 +180,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             }
         }
         for (N2oDatasource ds : dataSourcesScope.values()) {
-            Datasource compiled = p.compile(ds, context, pageScope, scopes);
+            Datasource compiled = p.compile(ds, context, pageScope, dataSourcesScope, scopes);
             compiledDataSources.put(compiled.getId(), compiled);
         }
         return compiledDataSources;

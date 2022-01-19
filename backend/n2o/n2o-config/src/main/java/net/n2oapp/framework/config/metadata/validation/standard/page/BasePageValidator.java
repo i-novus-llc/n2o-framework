@@ -32,6 +32,5 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         p.checkIdsUnique(page.getDatasources(),
                 "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
-        p.safeStreamOf(page.getDatasources()).forEach(p::validate);
     }
 }
