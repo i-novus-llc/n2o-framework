@@ -42,4 +42,24 @@ public class InvokeActionValidateTest extends SourceValidationTestBase {
         validate("/net/n2oapp/framework/config/metadata/validation/action/testInvokeActionValidationRefreshNonexistentWidget.page.xml");
 
     }
+
+    @Test
+    public void testExistentDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testExistentDatasource.page.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testNonExistentDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testNonExistentDatasource.page.xml");
+    }
+
+    @Test
+    public void testExistentRefreshDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testExistentRefreshDatasource.page.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testNonExistentRefreshDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testNonExistentRefreshDatasource.page.xml");
+    }
 }

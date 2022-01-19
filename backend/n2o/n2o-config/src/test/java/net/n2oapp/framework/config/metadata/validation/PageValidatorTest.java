@@ -56,4 +56,11 @@ public class PageValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml");
     }
 
+    @Test
+    public void testDatasourcesIdUnique() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique");
+        validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml");
+    }
+
 }

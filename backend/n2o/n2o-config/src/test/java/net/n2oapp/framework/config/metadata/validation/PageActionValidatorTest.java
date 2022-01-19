@@ -109,4 +109,24 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationRefreshExistentWidget.page.xml");
     }
 
+    @Test
+    public void testPageActionValidationExistentDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationExistentDatasource.page.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testPageActionValidationNonExistentDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationNonExistentDatasource.page.xml");
+    }
+
+    @Test
+    public void testPageActionValidationTargetExistentDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationTargetExistentDatasource.page.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testPageActionValidationTargetNonExistentDatasource() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationTargetExistentDatasource.page.xml");
+    }
+
 }

@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.validation;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -135,5 +136,13 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     @Test
     public void testQueryParams() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters8.widget.xml");
+    }
+
+    @Test
+    public void testDatasourceExistence() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Виджет 'w1' сылается на несуществующий источник данных 'ds1'");
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.page.xml"));
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testDatasourceExistence.widget.xml");
     }
 }
