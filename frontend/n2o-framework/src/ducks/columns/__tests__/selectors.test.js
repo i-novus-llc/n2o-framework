@@ -24,7 +24,7 @@ describe('Проверка селекторов columns', () => {
             state.columns.testKey,
         )
     })
-    it('isVisibleSelector должен вернуть isVisible по key и id', () => {
+    it('isVisibleSelector должен вернуть visible по key и id', () => {
         expect(isVisibleSelector('testKey', 'columnId')(state)).toEqual(
             state.columns.testKey.columnId.visible,
         )
