@@ -75,18 +75,15 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         source.setRefModel(p.cast(source.getRefModel(),
                 Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 ReduxModel.resolve));
+        initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
+        initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
+        initCondition(source, source::getRequired, new N2oField.RequiringDependency(), b -> source.setRequired(b.toString()), "true".equals(source.getRequired()));
     }
 
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compileComponent(field, source, context, p);
 
         field.setId(source.getId());
-
-        compileCondition(source, source::getVisible, new N2oField.VisibilityDependency(), field::setVisible, !"false".equals(source.getVisible()));
-        compileCondition(source, source::getEnabled, new N2oField.EnablingDependency(), field::setEnabled, !"false".equals(source.getEnabled()));
-        compileCondition(source, source::getRequired, new N2oField.RequiringDependency(), field::setRequired, "true".equals(source.getRequired()));
-
-        compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
@@ -94,21 +91,25 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
+        field.setVisible(p.resolve(source.getVisible(), Boolean.class));
+        field.setEnabled(p.resolve(source.getEnabled(), Boolean.class));
+        field.setRequired(p.resolve(source.getRequired(), Boolean.class));
+        compileFieldToolbar(field, source, context, p);
         compileDependencies(field, source, context, p);
     }
 
-    private void compileCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
-                                  Consumer<Boolean> conditionSetter, Boolean defaultValue) {
+    private void initCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
+                               Consumer<Boolean> conditionSetter, Boolean defaultValue) {
         if (StringUtils.isLink(conditionGetter.get())) {
-            conditionSetter.accept(false);
             Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
+            conditionSetter.accept(false);
         } else if (conditionGetter.get() != null) {
-            conditionSetter.accept(defaultValue);
             dependency.setValue(conditionGetter.get());
             source.addDependency(dependency);
+            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }
