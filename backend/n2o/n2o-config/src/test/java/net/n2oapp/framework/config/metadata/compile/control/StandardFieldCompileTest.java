@@ -406,4 +406,14 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field4.getDependencies().get(2).getOn(), is(Arrays.asList("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(2).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
     }
+
+    @Test
+    public void testEnablingConditionValidations() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
+                .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
+        List<Validation> validations = page.getDatasources().get("p_form").getValidations().get("joe");
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("foo==1"));
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("bar==2"));
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("buz==3"));
+    }
 }

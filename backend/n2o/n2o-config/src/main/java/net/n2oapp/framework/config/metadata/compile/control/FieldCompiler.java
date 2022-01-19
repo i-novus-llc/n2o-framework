@@ -255,7 +255,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
     protected void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
         List<Validation> validations = new ArrayList<>();
-        Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
+        Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
         validations.addAll(initRequiredValidation(field, source, p, visibilityConditions));
         validations.addAll(initInlineValidations(field, source, context, p, visibilityConditions));
         ValidationScope validationScope = p.getScope(ValidationScope.class);
@@ -317,11 +317,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         }
         if (validations.getInlineValidations() != null) {
-            List<String> enablingConditions = new ArrayList<>();
+            List<String> fieldVisibilityConditions = new ArrayList<>();
             if (source.getDependencies() != null) {
                 for (N2oField.Dependency dependency : source.getDependencies()) {
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
-                        enablingConditions.add(dependency.getValue());
+                        fieldVisibilityConditions.add(dependency.getValue());
                 }
             }
             for (N2oValidation v : validations.getInlineValidations()) {
@@ -330,10 +330,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 MomentScope momentScope = p.getScope(MomentScope.class);
                 if (momentScope != null)
                     compiledValidation.setMoment(momentScope.getMoment());
-                if ("false".equals(source.getVisible())) {
-                    continue;
-                } else if (!enablingConditions.isEmpty()) {
-                    compiledValidation.addEnablingConditions(enablingConditions);
+                if (!fieldVisibilityConditions.isEmpty()) {
+                    compiledValidation.addEnablingConditions(fieldVisibilityConditions);
                 }
                 compiledValidation.addEnablingConditions(visibilityConditions);
                 result.add(compiledValidation);
