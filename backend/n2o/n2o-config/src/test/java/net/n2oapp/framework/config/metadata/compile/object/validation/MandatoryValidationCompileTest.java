@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.object.validation;
 
-import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -15,6 +14,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -45,15 +45,12 @@ public class MandatoryValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
         assertThat(validations.get(0).getMessage(), is("message"));
-        assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
         assertThat(validations.get(0).getFieldId(), is("field1"));
-        assertThat(((MandatoryValidation) validations.get(0)).getExpressionOn(), is("field1"));
-        assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("field1 != null"));
+        assertThat(validations.get(0).getEnablingConditions(), hasItem("field2 != null"));
 
         assertThat(validations.get(1).getId(), is("man2"));
         assertThat(validations.get(1).getSeverity(), is(SeverityType.info));
         assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMoment.afterSuccessOperation));
-        assertThat(((MandatoryValidation) validations.get(1)).getEnablingExpression(), is("field1 != null"));
     }
 }

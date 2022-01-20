@@ -149,9 +149,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void mandatory(Element e, N2oMandatory t, IOProcessor p) {
         validation(e, t, p);
-        p.text(e, t::getExpression, t::setExpression);
-        p.attribute(e, "on", t::getExpressionOn, t::setExpressionOn);
-        p.attribute(e, "src", t::getSrc, t::setSrc);
     }
 
     private void dialog(Element e, N2oValidationDialog t, IOProcessor p) {

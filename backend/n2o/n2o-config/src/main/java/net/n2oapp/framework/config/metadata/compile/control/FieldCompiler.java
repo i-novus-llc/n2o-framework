@@ -164,33 +164,33 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private ControlDependency compileControlDependency(Field field, N2oField.Dependency d, CompileProcessor p) {
+    private ControlDependency compileControlDependency(Field field, N2oField.Dependency source, CompileProcessor p) {
         ControlDependency dependency = new ControlDependency();
-        if (d instanceof N2oField.EnablingDependency)
+        if (source instanceof N2oField.EnablingDependency)
             dependency.setType(ValidationType.enabled);
-        else if (d instanceof N2oField.RequiringDependency)
+        else if (source instanceof N2oField.RequiringDependency)
             dependency.setType(ValidationType.required);
-        else if (d instanceof N2oField.VisibilityDependency) {
+        else if (source instanceof N2oField.VisibilityDependency) {
             dependency.setType(ValidationType.visible);
-            Boolean isResettable = p.cast(((N2oField.VisibilityDependency) d).getReset(),
+            Boolean isResettable = p.cast(((N2oField.VisibilityDependency) source).getReset(),
                     p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
                 reset.setType(ValidationType.reset);
-                reset.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                addToField(reset, field, d, p);
+                reset.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
+                addToField(reset, field, source, p);
             }
-        } else if (d instanceof N2oField.SetValueDependency)
+        } else if (source instanceof N2oField.SetValueDependency)
             dependency.setType(ValidationType.setValue);
-        else if (d instanceof N2oField.FetchDependency)
+        else if (source instanceof N2oField.FetchDependency)
             dependency.setType(ValidationType.fetch);
-        else if (d instanceof N2oField.ResetDependency) {
+        else if (source instanceof N2oField.ResetDependency) {
             dependency.setType(ValidationType.reset);
-            if (d.getValue() == null) {
-                d.setValue(String.valueOf(Boolean.TRUE));
+            if (source.getValue() == null) {
+                source.setValue(String.valueOf(Boolean.TRUE));
             }
         }
-        dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+        dependency.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
         return dependency;
     }
 
@@ -273,8 +273,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(requiredMessage), field.getId());
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
-            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
             mandatory.addEnablingConditions(visibilityConditions);
+            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
             result.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
@@ -289,8 +289,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                             N2oField.VisibilityDependency.class
                     )
             );
-            mandatory.setEnablingExpression(ScriptProcessor.resolveFunction(
-                    ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class))));
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
                 result.add(mandatory);
             }
@@ -395,7 +393,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 for (Class clazz : types) {
                     if (dependency.getClass().equals(clazz)) {
-                        result.add(dependency.getValue());
+                        result.add(ScriptProcessor.resolveFunction(dependency.getValue()));
                     }
                 }
             }
