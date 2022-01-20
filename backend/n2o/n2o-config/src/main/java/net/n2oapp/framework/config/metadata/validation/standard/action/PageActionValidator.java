@@ -14,6 +14,8 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 /**
  * Валидатор действия открытия страницы
  */
@@ -43,11 +45,13 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         }
 
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        if (source.getDatasource() != null)
-            checkDatasource(source, dataSourcesScope);
+        checkDatasource(source, dataSourcesScope);
+        checkTargetDatasource(source, dataSourcesScope);
 
-        if (source.getTargetDatasource() != null) {
-            checkTargetDatasource(source, dataSourcesScope);
+        if (source.getDatasources() != null) {
+            DataSourcesScope actionDatasourceScope = new DataSourcesScope(dataSourcesScope);
+            Arrays.stream(source.getDatasources()).forEach(datasource -> actionDatasourceScope.put(datasource.getId(), datasource));
+            Arrays.stream(source.getDatasources()).forEach(datasource -> p.validate(datasource, actionDatasourceScope));
         }
     }
 
@@ -57,10 +61,12 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
      * @param dataSourcesScope Скоуп источников данных
      */
     private void checkDatasource(N2oAbstractPageAction source, DataSourcesScope dataSourcesScope) {
-        String openPage = ValidationUtils.getIdOrEmptyString(source.getId());
-        ValidationUtils.checkForExistsDatasource(source.getDatasource(), dataSourcesScope,
-                String.format("Действие открытия сотраницы %s сылается на несуществующий источник данных '%s'",
-                        openPage, source.getDatasource()));
+        if (source.getDatasource() != null) {
+            String openPage = ValidationUtils.getIdOrEmptyString(source.getPageId());
+            ValidationUtils.checkForExistsDatasource(source.getDatasource(), dataSourcesScope,
+                    String.format("Действие открытия сотраницы %s сылается на несуществующий источник данных '%s'",
+                            openPage, source.getDatasource()));
+        }
     }
 
     /**
@@ -69,10 +75,12 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
      * @param dataSourcesScope Скоуп источников данных
      */
     private void checkTargetDatasource(N2oAbstractPageAction source, DataSourcesScope dataSourcesScope) {
-        String openPage = ValidationUtils.getIdOrEmptyString(source.getId());
-        ValidationUtils.checkForExistsDatasource(source.getTargetDatasource(), dataSourcesScope,
-                String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несущетсвующий источник данных '%s'",
-                        openPage, source.getTargetDatasource()));
+        if (source.getTargetDatasource() != null) {
+            String openPage = ValidationUtils.getIdOrEmptyString(source.getPageId());
+            ValidationUtils.checkForExistsDatasource(source.getTargetDatasource(), dataSourcesScope,
+                    String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несущетсвующий источник данных '%s'",
+                            openPage, source.getTargetDatasource()));
+        }
     }
 
     @Override

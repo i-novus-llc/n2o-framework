@@ -37,10 +37,12 @@ public final class ValidationUtils {
      * @param msg              Сообщение об ошибке
      */
     public static void checkForExistsDatasource(String dsId, DataSourcesScope dataSourcesScope, String msg) {
-        try {
-            dataSourcesScope.get(dsId);
-        } catch (IllegalArgumentException e) {
-            throw new N2oMetadataValidationException(msg);
+        if (dataSourcesScope != null) {
+            try {
+                dataSourcesScope.get(dsId);
+            } catch (IllegalArgumentException e) {
+                throw new N2oMetadataValidationException(msg);
+            }
         }
     }
 

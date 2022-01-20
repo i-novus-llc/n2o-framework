@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -8,14 +7,11 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 /**
  * Валидатор исходного источника данных
@@ -32,11 +28,11 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
     public void validate(N2oDatasource datasource, SourceProcessor p) {
         if (datasource.getObjectId() != null)
             checkForExistsObject(datasource, p);
-
+        N2oQuery query = checkQueryExists(datasource, p);
         DataSourcesScope scope = p.getScope(DataSourcesScope.class);
         checkDependencies(datasource, scope);
         checkSubmit(datasource, scope);
-        checkPrefilters(datasource, scope, p);
+        checkPrefilters(datasource, query, scope, p);
     }
 
     /**
@@ -85,12 +81,12 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
     /**
      * Проверка валидации префильтров источника данных
      * @param datasource Источник данных
+     * @param query
      * @param scope      Скоуп источников данных
      * @param p          Процессор исходных метаданных
      */
-    private void checkPrefilters(N2oDatasource datasource, DataSourcesScope scope, SourceProcessor p) {
+    private void checkPrefilters(N2oDatasource datasource, N2oQuery query, DataSourcesScope scope, SourceProcessor p) {
         if (datasource.getFilters() != null) {
-            N2oQuery query = checkQueryExists(datasource, p);
             if (query == null)
                 throw new N2oMetadataValidationException(
                         String.format("Источник данных '%s' имеет префильтры, но не задана выборка", datasource.getId()));
