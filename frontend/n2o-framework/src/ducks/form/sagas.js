@@ -1,4 +1,4 @@
-import { takeEvery, put, select, debounce } from 'redux-saga/effects'
+import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
 import { touch, actionTypes, focus, reset } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
@@ -142,6 +142,12 @@ function* setFocus({ payload }) {
 }
 
 export function* clearForm(action) {
+    /*
+    * FIXME: ХАК для быстрого фикса. Разобраться
+    * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
+    * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
+    */
+    yield delay(50)
     yield put(reset(action.payload.key))
 }
 
