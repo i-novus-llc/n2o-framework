@@ -5,12 +5,12 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.20.5</version>
+        <version>7.20.6-SNAPSHOT</version>
     </parent>
 
     <groupId>net.n2oapp.criteria</groupId>
     <artifactId>criteria</artifactId>
-    <version>7.20.5</version>
+    <version>7.20.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>criteria</name>
 
