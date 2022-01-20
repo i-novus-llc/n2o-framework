@@ -69,7 +69,6 @@ describe('Тесты widget reducer', () => {
                 isInit: true,
                 loading: false,
                 isResolved: false,
-                isVisible: true,
                 page: 2,
                 pageId: 'page-id-2',
                 size: 20,
@@ -119,7 +118,7 @@ describe('Тесты widget reducer', () => {
             ),
         ).toEqual({
             widget: {
-                isVisible: true,
+                visible: true,
             },
         })
     })
@@ -139,7 +138,7 @@ describe('Тесты widget reducer', () => {
             ),
         ).toEqual({
             widget: {
-                isVisible: false,
+                visible: false,
             },
         })
     })

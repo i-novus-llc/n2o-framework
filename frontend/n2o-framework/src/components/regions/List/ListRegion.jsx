@@ -51,7 +51,7 @@ class ListRegion extends React.Component {
         ])
 
         const isVisible = every(content, meta => get(getWidgetProps(meta.id), 'datasource') === undefined) ||
-                some(content, meta => get(getWidgetProps(meta.id), 'isVisible'))
+                some(content, meta => get(getWidgetProps(meta.id), 'visible'))
 
         return (
             <div
