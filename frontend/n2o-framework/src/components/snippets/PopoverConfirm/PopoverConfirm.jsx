@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import Popover from 'reactstrap/lib/Popover'
-import PopoverHeader from 'reactstrap/lib/PopoverHeader'
-import PopoverBody from 'reactstrap/lib/PopoverBody'
-import Button from 'reactstrap/lib/Button'
-import ButtonGroup from 'reactstrap/lib/ButtonGroup'
+import { Popover, PopoverHeader, PopoverBody, Button, ButtonGroup } from 'reactstrap'
 import classNames from 'classnames'
 
 /**

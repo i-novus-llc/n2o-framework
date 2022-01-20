@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { pure } from 'recompose'
-import Row from 'reactstrap/lib/Row'
+import { Row } from 'reactstrap'
 
 // eslint-disable-next-line import/no-cycle
 import { FieldsetCol } from './FieldsetCol'

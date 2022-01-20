@@ -466,7 +466,7 @@ describe('Сага для для наблюдения за изменением 
                     closeButton: false,
                     label: 'Ошибка',
                     severity: 'danger',
-                    text: 'Cannot read property \'search\' of undefined',
+                    text: expect.any(String),
                 },
             })
         })

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import has from 'lodash/has'
-import Badge from 'reactstrap/lib/Badge'
+import { Badge } from 'reactstrap'
 // components
 
 // fns

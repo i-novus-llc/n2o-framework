@@ -1,13 +1,8 @@
 import React from 'react';
-import Collapse from 'reactstrap/lib/Collapse';
-import Navbar from 'reactstrap/lib/Navbar';
-import NavbarToggler from 'reactstrap/lib/NavbarToggler';
-import Nav from 'reactstrap/lib/Nav';
-import NavItem from 'reactstrap/lib/NavItem';
-import Button from 'reactstrap/lib/Button';
+import { Collapse, Navbar, NavbarToggler, Nav, NavItem, Button } from 'reactstrap';
 
-import SideBar from 'n2o-framework/lib//plugins/SideBar/SideBar';
-import Icon from 'n2o-framework/lib//components/snippets/Icon/Icon';
+import SideBar from 'n2o-framework/lib/plugins/SideBar/SideBar';
+import Icon from 'n2o-framework/lib/components/snippets/Icon/Icon';
 
 class Template extends React.Component {
   constructor(props) {
