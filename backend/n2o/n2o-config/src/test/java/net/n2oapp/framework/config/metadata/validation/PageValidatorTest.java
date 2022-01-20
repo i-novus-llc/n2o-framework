@@ -7,7 +7,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,7 +31,7 @@ public class PageValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
-        builder.validators(new PageValidator(), new StandardPageValidator(), new BasePageValidator());
+        builder.validators(new PageValidator(), new BasePageValidator());
     }
 
     @Test

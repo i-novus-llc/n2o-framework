@@ -39,30 +39,6 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяется, что виджет ссылается на несуществующую выборку
-     */
-    @Test
-    public void testNonExistentQueryId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Виджет testNonExistentQueryId ссылается на несуществующую выборку nonExistentQueryId");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testNonExistentQueryId.widget.xml");
-
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Виджет testNonExistentQueryId ссылается на несуществующую выборку nonExistentQueryId");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testNonExistentQueryId2.widget.xml");
-    }
-
-    /**
-     * Проверяется, что виджет ссылается на несуществующий объект
-     */
-    @Test
-    public void testNonExistentObjectId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Виджет testNonExistentObjectId ссылается на несуществующий объект nonExistentObjectId");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testNonExistentObjectId.widget.xml");
-    }
-
-    /**
      * Проверяется, уникальность кнопок тулбара виджета
      */
     @Test
@@ -70,16 +46,6 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Кнопка id2 встречается более чем один раз в виджете testUniqueMenuItemsId!");
         validate("net/n2oapp/framework/config/metadata/validation/widget/testUniqueMenuItemsId.widget.xml");
-    }
-
-    /**
-     * Проверяется, что в виджете значение префильтра 'name' является ссылкой, но зависимость для нее не прописана
-     */
-    @Test
-    public void testRequiredReferenceForPrefilters() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В виджете 'testWidgetPreFilters' значение префильтра 'name' является ссылкой, но зависимость для нее не прописана!");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters.widget.xml");
     }
 
     /**
@@ -91,58 +57,10 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяется, что для префильтра в виджете указана выборка
-     */
-    @Test
-    public void testRequiredReferenceForPrefiltersQuery() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Виджет 'testWidgetPreFilters3' имеет префильтры, но не задана выборка");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters3.widget.xml");
-    }
-
-    /**
-     * Проверяется, что для префильтра в выборке есть соответствующий field
-     */
-    @Test
-    public void testRequiredReferenceForPrefiltersQueryField() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В выборке 'utBlank' нет field 'notExist'");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters5.widget.xml");
-    }
-
-    /**
-     * Проверяется, что для префильтра в выборке есть фильтр соответствующего типа
-     */
-    @Test
-    public void testRequiredReferenceForPrefiltersQueryFieldFilterType() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В выборке 'utBlank' field 'name' не содержит фильтр типа 'notEq'!");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters6.widget.xml");
-    }
-
-    /**
-     * Проверяются префильтры на корректность использования routable
-     */
-    @Test
-    public void testPreFilterRoutable() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В префильтре по полю 'name' указан value и param, но при этом routable=false, что противоречит логике работы префильтров!");
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters7.widget.xml");
-    }
-
-    /**
      * Проверяется, что учитываются параметры выборки
      */
     @Test
     public void testQueryParams() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters8.widget.xml");
-    }
-
-    @Test
-    public void testDatasourceExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Виджет 'w1' сылается на несуществующий источник данных 'ds1'");
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.page.xml"));
-        validate("net/n2oapp/framework/config/metadata/validation/widget/testDatasourceExistence.widget.xml");
     }
 }

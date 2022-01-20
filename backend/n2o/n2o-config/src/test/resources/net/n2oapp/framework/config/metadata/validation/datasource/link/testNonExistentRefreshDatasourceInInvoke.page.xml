@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <actions>
         <action>
-            <open-page page-id="testPageActionValidationExistentDatasource" datasource="ds1"/>
+            <invoke operation-id="create" refresh-datasources="ds1"/>
         </action>
     </actions>
 </page>

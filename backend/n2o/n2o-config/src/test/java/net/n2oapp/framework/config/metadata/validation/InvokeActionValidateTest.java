@@ -7,7 +7,6 @@ import net.n2oapp.framework.config.metadata.validation.standard.action.InvokeAct
 import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -28,7 +27,7 @@ public class InvokeActionValidateTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack());
         builder.validators(new WidgetValidator(), new PageValidator(), new PageActionValidator(), new BasePageValidator(),
-                new TableValidator(), new StandardPageValidator(), new InvokeActionValidator());
+                new TableValidator(), new InvokeActionValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/page/PageAction/blankWidget.widget.xml"));
     }
 
@@ -41,25 +40,5 @@ public class InvokeActionValidateTest extends SourceValidationTestBase {
     public void testRefreshRefreshNonexistentWidget() {
         validate("/net/n2oapp/framework/config/metadata/validation/action/testInvokeActionValidationRefreshNonexistentWidget.page.xml");
 
-    }
-
-    @Test
-    public void testExistentDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/testExistentDatasource.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testNonExistentDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/testNonExistentDatasource.page.xml");
-    }
-
-    @Test
-    public void testExistentRefreshDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/testExistentRefreshDatasource.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testNonExistentRefreshDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/testNonExistentRefreshDatasource.page.xml");
     }
 }
