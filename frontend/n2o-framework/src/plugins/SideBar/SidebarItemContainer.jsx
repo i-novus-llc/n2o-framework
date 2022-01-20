@@ -73,21 +73,22 @@ export function SidebarItemContainer({
     const renderLink = item => (linkType === OUTER_LINK_TYPE
         ? renderOuterLink(item)
         : renderInnerLink(item))
+
+    const renderCurrentTitle = (isMiniView, icon, title) => {
+        if (isMiniView) {
+            if (icon) {
+                return null
+            }
+
+            return title.substring(0, 1)
+        }
+
+        return title
+    }
+
     // eslint-disable-next-line react/prop-types
     const renderOuterLink = ({ href, title, icon }) => {
         const id = generateId()
-
-        const renderCurrentTitle = (isMiniView, icon, title) => {
-            if (isMiniView) {
-                if (icon) {
-                    return null
-                }
-
-                return title.substring(0, 1)
-            }
-
-            return title
-        }
 
         return (
             <a id={id} className="n2o-sidebar__item" href={href}>
@@ -127,7 +128,7 @@ export function SidebarItemContainer({
                             },
                         )}
                     >
-                        {isMiniView && !icon ? title.substring(0, 1) : title}
+                        {renderCurrentTitle(isMiniView, icon, title)}
                     </span>
                 </NavLink>
                 {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
