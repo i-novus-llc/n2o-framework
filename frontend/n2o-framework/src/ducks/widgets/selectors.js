@@ -42,12 +42,12 @@ export const makeDatasourceIdSelector = widgetId => createSelector(
 )
 
 /**
- * Селектор-генератор для получения свойства виджета - isVisible
+ * Селектор-генератор для получения свойства виджета - visible
  * @param widgetId
  */
 export const makeWidgetVisibleSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isVisible,
+    widgetState => widgetState.visible,
 )
 
 /**

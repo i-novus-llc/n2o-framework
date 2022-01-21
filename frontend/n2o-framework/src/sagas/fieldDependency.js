@@ -25,14 +25,13 @@ import {
     setRequired,
     unsetRequired,
     setLoading,
-    addFieldMessage,
-    removeFieldMessage,
     registerFieldExtra,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
-import * as presets from '../core/validation/presets'
+import { startValidate } from '../ducks/datasource/store'
+import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 
 import fetchSaga from './fetch'
 
@@ -156,43 +155,15 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'reRender': {
-            const state = yield select()
-            const fieldValidationList = get(state, [
-                'widgets',
-                formName,
-                'validation',
-                fieldName,
+            const datasource = yield select(makeDatasourceIdSelector(formName))
+            const form = yield select(makeWidgetByIdSelector(formName))
+            const model = get(form, [
+                'form',
+                'modelPrefix',
             ])
-            const currentMessage = get(field, ['message', 'text'])
-            let i = 0
 
-            while (i < fieldValidationList.length) {
-                const fieldValidation = fieldValidationList[i]
-                const { type } = fieldValidation
-
-                if (type === 'condition' && presets[type]) {
-                    const isValid = presets[type](fieldName, values, fieldValidation)
-
-                    if (!isValid) {
-                        if (fieldValidation.text !== currentMessage) {
-                            const message = {
-                                severity: fieldValidation.severity,
-                                text: fieldValidation.text,
-                            }
-
-                            yield put(addFieldMessage(formName, fieldName, message))
-                        }
-
-                        break
-                    }
-                }
-
-                i += 1
-            }
-
-            if (i === fieldValidationList.length && currentMessage) {
-                yield put(removeFieldMessage(formName, fieldName))
-            }
+            yield delay(50)
+            yield put(startValidate(datasource, [fieldName], model, { touched: true }))
 
             break
         }

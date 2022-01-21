@@ -11,7 +11,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oMandatory extends N2oValidation {
-    private String expression;
-    private String expressionOn;
-    private String src;
 }

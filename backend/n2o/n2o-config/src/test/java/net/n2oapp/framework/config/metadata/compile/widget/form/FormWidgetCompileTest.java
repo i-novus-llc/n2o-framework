@@ -138,11 +138,12 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(10).getSide(), is(nullValue()));
 
         validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testField3");
-        assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
+        assertThat(validations.get(0).getEnablingConditions(), hasItem("testField2 == 'test'"));
+        assertThat(validations.get(0).getEnablingConditions(), hasItem("testField3 == 'test'"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
         validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testField4");
-        assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(function(){return typeof testField != 'undefined' && testField != null && testField == 2})()"));
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("(function(){return typeof testField != 'undefined' && testField != null && testField == 2})()"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
         validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.begin");
