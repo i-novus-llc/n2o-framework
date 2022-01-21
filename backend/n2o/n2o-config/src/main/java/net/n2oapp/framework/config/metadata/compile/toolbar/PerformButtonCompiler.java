@@ -24,7 +24,6 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -103,6 +102,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
+        if (source.getAction() == null)
+            return p.cast(source.getValidate(), false);
         return p.cast(source.getValidate(), datasource != null || source.getValidateDatasources() != null);
     }
 
