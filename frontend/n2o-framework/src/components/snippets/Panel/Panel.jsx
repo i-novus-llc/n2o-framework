@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Card from 'reactstrap/lib/Card'
-import Collapse from 'reactstrap/lib/Collapse'
+import { Card, Collapse } from 'reactstrap'
 import classNames from 'classnames'
 
 import panelStyles from './panelStyles'

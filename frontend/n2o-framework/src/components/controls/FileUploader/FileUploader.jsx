@@ -2,7 +2,7 @@ import React from 'react'
 import Dropzone from 'react-dropzone'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 import PropTypes from 'prop-types'
 
 import FileUploaderList from './FileUploaderList'

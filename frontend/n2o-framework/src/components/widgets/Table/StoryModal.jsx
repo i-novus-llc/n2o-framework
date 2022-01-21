@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Row from 'reactstrap/lib/Row'
-import Col from 'reactstrap/lib/Col'
+import { Row, Col } from 'reactstrap'
 
 import controls from '../../controls'
 import ReduxForm from '../Form/ReduxForm'

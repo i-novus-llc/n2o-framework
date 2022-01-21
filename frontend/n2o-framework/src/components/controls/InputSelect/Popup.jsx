@@ -1,7 +1,6 @@
 import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import Dropdown from 'reactstrap/lib/Dropdown'
+import { DropdownMenu, Dropdown } from 'reactstrap'
 import classNames from 'classnames'
 import { pure } from 'recompose'
 

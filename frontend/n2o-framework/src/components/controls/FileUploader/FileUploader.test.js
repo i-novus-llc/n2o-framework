@@ -15,7 +15,6 @@ const props = {
     name: 'avatar',
     disabled: false,
     uploadUrl: '/n2o/data',
-    deleteUrl: '/n2o/data/delete',
     autoUpload: true,
     showSize: true,
     multi: false,
@@ -378,8 +377,8 @@ describe('FileUploader Тесты', () => {
             files: [
                 {
                     customId: 1,
-                    name: 'test.name',
-                    size: 1,
+                    customName: 'test.name',
+                    customSize: 1,
                 },
             ],
             onBlur,

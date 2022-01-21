@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import get from 'lodash/get'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 import { compose, setDisplayName } from 'recompose'
 import { Link } from 'react-router-dom'
 
