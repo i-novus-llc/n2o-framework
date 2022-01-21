@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Progress from 'reactstrap/lib/Progress'
+import { Progress } from 'reactstrap'
 
 import withTooltip from '../../withTooltip'
 

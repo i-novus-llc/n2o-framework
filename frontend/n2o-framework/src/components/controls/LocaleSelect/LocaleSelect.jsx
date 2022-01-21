@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
 import map from 'lodash/map'
 import classNames from 'classnames'
-import Dropdown from 'reactstrap/lib/Dropdown'
-import DropdownToggle from 'reactstrap/lib/DropdownToggle'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import localeSelectContainer from './LocaleSelectContainer'
 

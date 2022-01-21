@@ -3,7 +3,7 @@ import uniqueId from 'lodash/uniqueId'
 import has from 'lodash/has'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import Badge from 'reactstrap/lib/Badge'
+import { Badge } from 'reactstrap'
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
 import { Icon } from '../../snippets/Icon/Icon'

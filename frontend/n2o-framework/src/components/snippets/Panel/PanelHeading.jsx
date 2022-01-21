@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CardHeader from 'reactstrap/lib/CardHeader'
+import { CardHeader } from 'reactstrap'
 
 /**
  * Компонент шапки для {@link Panel}

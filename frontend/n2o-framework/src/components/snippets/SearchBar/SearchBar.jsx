@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { batchActions } from 'redux-batched-actions'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 import {
     compose,
     withState,

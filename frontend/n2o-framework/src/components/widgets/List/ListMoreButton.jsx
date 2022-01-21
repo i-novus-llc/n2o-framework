@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 import PropTypes from 'prop-types'
 
 ListMoreButton.propTypes = {

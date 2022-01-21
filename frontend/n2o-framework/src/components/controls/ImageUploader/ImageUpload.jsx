@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 import ImageUploaderList from './ImageUploaderList'
 

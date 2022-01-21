@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { DropdownItem } from 'reactstrap'
 
 export default () => {
     const { t } = useTranslation()
