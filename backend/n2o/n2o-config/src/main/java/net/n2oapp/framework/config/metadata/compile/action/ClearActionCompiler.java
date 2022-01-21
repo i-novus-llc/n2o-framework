@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -8,6 +7,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oClearAction;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -28,7 +28,8 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         ClearAction clearAction = new ClearAction();
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
-        clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{ReduxModel.edit.getId()}));
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{widgetScope.getModel().getId()}));
         String widgetId = initClientWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         clearAction.getPayload().setKey(pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
