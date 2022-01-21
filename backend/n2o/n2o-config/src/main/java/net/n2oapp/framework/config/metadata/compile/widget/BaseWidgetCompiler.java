@@ -272,6 +272,18 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
         PageScope pageScope = p.getScope(PageScope.class);
+        if (source.getVisible() != null) {
+            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
+            if (StringUtils.isJs(condition)) {
+                DependencyCondition visibilityCondition = new DependencyCondition();
+                List<DependencyCondition> visible = new ArrayList<>();
+                visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
+                visible.add(visibilityCondition);
+                dependency.setVisible(visible);
+            } else if (condition instanceof Boolean) {
+                compiled.setVisible((Boolean) condition);
+            }
+        }
         if (source.getDependencies() != null) {
             List<DependencyCondition> visibleConditions = new ArrayList<>();
             List<DependencyCondition> enableConditions = new ArrayList<>();
@@ -294,18 +306,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 dependency.setVisible(visibleConditions);
             if (!enableConditions.isEmpty())
                 dependency.setEnable(enableConditions);
-        }
-        if (source.getVisible() != null) {
-            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
-            if (StringUtils.isJs(condition)) {
-                DependencyCondition visibilityCondition = new DependencyCondition();
-                List<DependencyCondition> visible = new ArrayList<>();
-                visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
-                visible.add(visibilityCondition);
-                dependency.setVisible(visible);
-            } else if (condition instanceof Boolean) {
-                compiled.setVisible((Boolean) condition);
-            }
         }
 
         if (!dependency.isEmpty()) {
