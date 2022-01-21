@@ -3,10 +3,9 @@ package net.n2oapp.framework.config.metadata.validation.standard.button;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -23,23 +22,23 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
 
     @Override
     public void validate(N2oButton source, SourceProcessor p) {
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        checkDatasource(source, dataSourcesScope);
-        checkValidateDatasource(source, dataSourcesScope);
+        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
+        checkDatasource(source, datasourceIdsScope);
+        checkValidateDatasource(source, datasourceIdsScope);
 
         if (source.getAction() != null)
-            p.validate(source.getAction(), dataSourcesScope);
+            p.validate(source.getAction(), datasourceIdsScope);
     }
 
     /**
      * Проверка существования источника данных для кнопки
      * @param source            Исходная модель кнопки
-     * @param dataSourcesScope  Скоуп источников данных
+     * @param datasourceIdsScope  Скоуп источников данных
      */
-    private void checkDatasource(N2oButton source, DataSourcesScope dataSourcesScope) {
+    private void checkDatasource(N2oButton source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getDatasource() != null) {
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
-            ValidationUtils.checkForExistsDatasource(source.getDatasource(), dataSourcesScope,
+            ValidationUtils.checkForExistsDatasource(source.getDatasource(), datasourceIdsScope,
                     String.format("Кнопка %s ссылается на несуществующий источник данных '%s'",
                             button, source.getDatasource()));
         }
@@ -48,13 +47,13 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
     /**
      * Проверка существования валидируемых источников данных
      * @param source            Исходная модель кнопки
-     * @param dataSourcesScope  Скоуп источников данных
+     * @param datasourceIdsScope  Скоуп источников данных
      */
-    private void checkValidateDatasource(N2oButton source, DataSourcesScope dataSourcesScope) {
+    private void checkValidateDatasource(N2oButton source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getValidateDatasources() != null) {
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
             for (String validateDs : source.getValidateDatasources()) {
-                ValidationUtils.checkForExistsDatasource(validateDs, dataSourcesScope,
+                ValidationUtils.checkForExistsDatasource(validateDs, datasourceIdsScope,
                         String.format("Атрибут \"validate-datasources\" кнопки %s содержит несуществующий источник данных '%s'",
                                 button, validateDs));
             }

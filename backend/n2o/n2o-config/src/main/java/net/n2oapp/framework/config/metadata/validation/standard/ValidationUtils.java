@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 
 /**
  * Утилиты проверки метаданных
@@ -32,12 +32,12 @@ public final class ValidationUtils {
     /**
      * Проверка существования источника данных в скоупе
      * @param dsId             Идентификатор проверямого источника данных
-     * @param dataSourcesScope Скоуп источников данных
+     * @param datasourceIdsScope Скоуп источников данных
      * @param msg              Сообщение об ошибке
      */
-    public static void checkForExistsDatasource(String dsId, DataSourcesScope dataSourcesScope, String msg) {
-        if (dataSourcesScope != null) {
-            if (!dataSourcesScope.containsKey(dsId))
+    public static void checkForExistsDatasource(String dsId, DatasourceIdsScope datasourceIdsScope, String msg) {
+        if (datasourceIdsScope != null) {
+            if (!datasourceIdsScope.contains(dsId))
                 throw new N2oMetadataValidationException(msg);
         }
     }

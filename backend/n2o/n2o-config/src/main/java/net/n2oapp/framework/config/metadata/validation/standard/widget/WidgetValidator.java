@@ -1,22 +1,16 @@
 package net.n2oapp.framework.config.metadata.validation.standard.widget;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -32,10 +26,10 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
     @Override
     public void validate(N2oWidget n2oWidget, SourceProcessor p) {
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         if (n2oWidget.getDatasource() != null) {
-            setDatasourceId(n2oWidget);
-            p.validate(n2oWidget.getDatasource(), dataSourcesScope);
+            WidgetScope widgetScope = new WidgetScope(n2oWidget.getId(), null, null, null);
+            p.validate(n2oWidget.getDatasource(), widgetScope, datasourceIdsScope);
         }
 
         if (n2oWidget.getToolbars() != null) {
@@ -51,12 +45,12 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                     }
                 }
             }
-            p.safeStreamOf(menuItems).forEach(menuItem -> p.validate(menuItem, dataSourcesScope));
+            p.safeStreamOf(menuItems).forEach(menuItem -> p.validate(menuItem, datasourceIdsScope));
             p.checkIdsUnique(menuItems, "Кнопка '{0}' встречается более чем один раз в виджете '" + n2oWidget.getId() + "'!");
         }
 
         if (n2oWidget.getDatasourceId() != null) {
-            checkDatasource(n2oWidget, dataSourcesScope);
+            checkDatasource(n2oWidget, datasourceIdsScope);
         }
         p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
     }
@@ -66,17 +60,9 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * @param n2oWidget Виджет
      * @param scope     Скоуп источников данных
      */
-    private void checkDatasource(N2oWidget n2oWidget, DataSourcesScope scope) {
+    private void checkDatasource(N2oWidget n2oWidget, DatasourceIdsScope scope) {
         ValidationUtils.checkForExistsDatasource(n2oWidget.getDatasourceId(), scope,
                 String.format("Виджет '%s' сылается на несуществующий источник данных '%s'", n2oWidget.getId(), n2oWidget.getDatasourceId()));
-    }
-
-    /**
-     * Установка значения id для валдиции внутреннего источника данных виджета
-     * @param n2oWidget Виджет
-     */
-    private void setDatasourceId(N2oWidget n2oWidget) {
-        n2oWidget.getDatasource().setId(ValidationUtils.getIdOrEmptyString(n2oWidget.getId()) + "_inline");
     }
 
     @Override
