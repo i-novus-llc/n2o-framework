@@ -295,6 +295,19 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (!enableConditions.isEmpty())
                 dependency.setEnable(enableConditions);
         }
+        if (source.getVisible() != null) {
+            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
+            if (StringUtils.isJs(condition)) {
+                DependencyCondition visibilityCondition = new DependencyCondition();
+                List<DependencyCondition> visible = new ArrayList<>();
+                visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
+                visible.add(visibilityCondition);
+                dependency.setVisible(visible);
+            } else if (condition instanceof Boolean) {
+                compiled.setVisible((Boolean) condition);
+            }
+        }
+
         if (!dependency.isEmpty()) {
             compiled.setDependency(dependency);
         }
