@@ -26,8 +26,7 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
 
     @Override
     public void validate(N2oDatasource datasource, SourceProcessor p) {
-        if (datasource.getObjectId() != null)
-            checkForExistsObject(datasource, p);
+        checkForExistsObject(datasource, p);
         N2oQuery query = checkQueryExists(datasource, p);
         DataSourcesScope scope = p.getScope(DataSourcesScope.class);
         checkDependencies(datasource, scope);

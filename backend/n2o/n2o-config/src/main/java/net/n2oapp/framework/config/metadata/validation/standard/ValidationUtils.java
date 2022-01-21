@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.validation.standard;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 
@@ -38,11 +37,8 @@ public final class ValidationUtils {
      */
     public static void checkForExistsDatasource(String dsId, DataSourcesScope dataSourcesScope, String msg) {
         if (dataSourcesScope != null) {
-            try {
-                dataSourcesScope.get(dsId);
-            } catch (IllegalArgumentException e) {
+            if (!dataSourcesScope.containsKey(dsId))
                 throw new N2oMetadataValidationException(msg);
-            }
         }
     }
 

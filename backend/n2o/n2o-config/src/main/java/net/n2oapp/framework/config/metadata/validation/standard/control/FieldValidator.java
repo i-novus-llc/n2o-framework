@@ -58,7 +58,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                 if (!StringUtils.isLink(interval.getBegin()) && !StringUtils.isLink(interval.getEnd()))
                     throw new N2oMetadataValidationException(
                             String.format("У поля %s default-value не является ссылкой", source.getId()));
-            } else if (!StringUtils.isLink(source.getDefaultValue()) && source.getRefDatasource() == null) {
+            } else if (!StringUtils.isLink(source.getDefaultValue()) && !N2oField.Page.THIS.equals(source.getRefPage())) {
                 throw new N2oMetadataValidationException(
                         String.format("У поля %s атрибут default-value не является ссылкой или не задан: %s",
                                 source.getId(), source.getDefaultValue()));
