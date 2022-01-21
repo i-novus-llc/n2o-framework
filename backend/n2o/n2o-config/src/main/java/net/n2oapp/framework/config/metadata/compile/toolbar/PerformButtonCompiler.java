@@ -265,10 +265,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     /**
      * Получение условия доступности кнопки при пустой модели
      *
-     * @param source         Исходная модель кнопки
-     * @param clientDatasource     Идентификатор источника данных, к которому относится кнопка
-     * @param componentScope Родительский компонент
-     * @param p              Процессор сборки метаданных
+     * @param source           Исходная модель кнопки
+     * @param clientDatasource Идентификатор источника данных, к которому относится кнопка
+     * @param componentScope   Родительский компонент
+     * @param p                Процессор сборки метаданных
      * @return Условие доступности кнопки при пустой модели
      */
     private Condition enabledByEmptyModelCondition(N2oButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
@@ -329,7 +329,14 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.resolve);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
-        condition.setModelLink(new ModelLink(refModel, clientDatasource, null).getBindLink());
+        String datasource;
+        if (dependency.getDatasource() != null) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            datasource = pageScope == null ? dependency.getDatasource() : pageScope.getClientDatasourceId(dependency.getDatasource());
+        } else {
+            datasource = clientDatasource;
+        }
+        condition.setModelLink(new ModelLink(refModel, datasource, null).getBindLink());
         if (dependency instanceof N2oButton.EnablingDependency)
             condition.setMessage(((N2oButton.EnablingDependency) dependency).getMessage());
 

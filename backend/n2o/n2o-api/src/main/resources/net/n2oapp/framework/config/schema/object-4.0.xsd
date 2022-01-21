@@ -444,17 +444,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="validationDefinition">
-                <xs:attribute name="on" type="xs:string">
+                <xs:attribute name="field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поля, от которых зависит условие валидации.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="src" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Путь к js файлу, который содержит условие валидации.
-                            Если не задан, необходимо задать условие в теле.
-                        </xs:documentation>
+                        <xs:documentation>Поле, которое должно быть обязательно заполнено.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

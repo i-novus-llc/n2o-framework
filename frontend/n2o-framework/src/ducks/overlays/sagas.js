@@ -6,7 +6,6 @@ import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
 import { makePageWidgetsByIdSelector } from '../pages/selectors'
-import { makeDatasourceIdSelector } from '../widgets/selectors'
 import { dataRequest } from '../datasource/store'
 
 import { CLOSE } from './constants'
@@ -84,10 +83,11 @@ function* onCloseEffects() {
             const { refresh } = onCloseHandlers[name]
 
             if (refresh) {
-                const widgetId = get(refresh, 'options.widgetId')
-                const datasource = yield select(makeDatasourceIdSelector(widgetId))
+                const { datasources } = refresh
 
-                yield put(dataRequest(datasource))
+                for (const datasource of datasources) {
+                    yield put(dataRequest(datasource))
+                }
             }
 
             delete onCloseHandlers[name]
