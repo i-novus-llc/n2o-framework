@@ -64,10 +64,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private CopyMode copyMode;
     /**
-     * Главный виджет открываемой страницы
-     */
-    private String resultWidgetId;
-    /**
      * Маршрут родителя
      */
     private String parentRoute;
