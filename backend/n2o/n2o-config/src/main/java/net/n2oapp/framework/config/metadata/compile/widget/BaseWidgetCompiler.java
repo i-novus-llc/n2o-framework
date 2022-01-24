@@ -277,7 +277,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (StringUtils.isJs(condition)) {
                 DependencyCondition visibilityCondition = new DependencyCondition();
                 List<DependencyCondition> visible = new ArrayList<>();
-                visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
+                visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
                 visible.add(visibilityCondition);
                 dependency.setVisible(visible);
             } else if (condition instanceof Boolean) {
@@ -290,9 +290,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             for (N2oDependency dep : source.getDependencies()) {
                 DependencyCondition condition = new DependencyCondition();
                 String value = p.resolveJS(dep.getValue());
-                condition.setCondition(StringUtils.isJs(value) ?
-                        value.substring(1, value.length() - 1)
-                        : value);
+                condition.setCondition(StringUtils.unwrapJs(value));
                 ModelLink link = new ModelLink(dep.getModel(), pageScope == null ? dep.getDatasource() :
                         pageScope.getClientDatasourceId(dep.getDatasource()));
                 condition.setOn(link.getBindLink());
