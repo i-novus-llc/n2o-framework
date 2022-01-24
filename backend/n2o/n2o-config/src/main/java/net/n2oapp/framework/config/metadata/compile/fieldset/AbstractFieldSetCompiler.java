@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -8,12 +9,14 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Компиляции абстрактного филдсета
@@ -60,7 +63,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         List<FieldSet.Row> rows = new ArrayList<>();
         for (SourceComponent item : source.getItems()) {
             if (item instanceof N2oFieldsetRow) {
-                rows.add(p.compile(item, context));
+                rows.add(p.compile(item, context, scope));
             } else {
                 N2oFieldsetRow newRow = new N2oFieldsetRow();
                 newRow.setItems(new SourceComponent[]{item});
@@ -72,8 +75,13 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
 
     private FieldSetVisibilityScope initVisibilityScope(S source, CompileProcessor p) {
         FieldSetVisibilityScope scope = new FieldSetVisibilityScope(p.getScope(FieldSetVisibilityScope.class));
-        if (source.getVisible() != null)
-            scope.add(source.getVisible());
+        if (source.getVisible() != null && !Objects.equals(source.getVisible(), "true")) {
+            String value = p.resolveJS(source.getVisible());
+            if (StringUtils.isJs(value))
+                scope.add(StringUtils.unwrapJs(value));
+            else
+                scope.add(value);
+        }
         return scope;
     }
 }

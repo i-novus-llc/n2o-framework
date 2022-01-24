@@ -1,10 +1,11 @@
-import { takeEvery, put, select, debounce } from 'redux-saga/effects'
+import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
 import { touch, actionTypes, focus, reset } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
+import { isEmpty } from 'lodash'
 
 import { tabTraversal } from '../regions/sagas'
 import { setModel, copyModel, clearModel } from '../models/store'
@@ -142,6 +143,12 @@ function* setFocus({ payload }) {
 }
 
 export function* clearForm(action) {
+    /*
+    * FIXME: ХАК для быстрого фикса. Разобраться
+    * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
+    * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
+    */
+    yield delay(50)
     yield put(reset(action.payload.key))
 }
 
@@ -149,18 +156,16 @@ export function* clearForm(action) {
  * как вариант, чтобы не искать какая форма и событие вызывает автосейв можно сделать
  * autoSubmit: { action: ReduxAction, condition: expressionString(datasource, action) }
  */
-const needAutosubmit = (submit, type) => submit && (
-    (type === actionTypes.CHANGE && submit.autoSubmitOn === 'change') ||
-    (type === actionTypes.BLUR && submit.autoSubmitOn === 'blur')
-)
-
-export function* autoSubmitForm({ meta, type }) {
-    const { form } = meta
+export function* autoSubmit({ meta }) {
+    const { form, field } = meta
     const datasourceId = yield select(makeDatasourceIdSelector(form))
     const datasource = yield select(dataSourceByIdSelector(datasourceId))
-    const submit = datasource?.submit
 
-    if (needAutosubmit(submit, type)) {
+    if (!datasource) { return }
+
+    const submit = datasource.submit || datasource.fieldsSubmit?.[field]
+
+    if (!isEmpty(submit)) {
         yield put(startInvoke(datasourceId, submit, MODEL_PREFIX.active, datasource.pageId))
     }
 }
@@ -199,7 +204,7 @@ export const formPluginSagas = [
     }),
     debounce(400, [
         actionTypes.CHANGE,
-        actionTypes.BLUR,
-    ], autoSubmitForm),
+        // actionTypes.BLUR,
+    ], autoSubmit),
     debounce(100, addMessage, setFocus),
 ]

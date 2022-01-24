@@ -58,7 +58,7 @@ class TabRegion extends React.Component {
         const { getWidgetProps } = this.props
         const widgetProps = getWidgetProps(id)
 
-        return get(widgetProps, 'isVisible')
+        return get(widgetProps, 'visible')
     }
 
     atLeastOneVisibleWidget(content) {

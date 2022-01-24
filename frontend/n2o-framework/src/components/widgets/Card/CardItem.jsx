@@ -6,12 +6,7 @@ import extend from 'lodash/extend'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
 import uniqueId from 'lodash/uniqueId'
-import Card from 'reactstrap/lib/Card'
-import CardImg from 'reactstrap/lib/CardImg'
-import CardText from 'reactstrap/lib/CardText'
-import CardBody from 'reactstrap/lib/CardBody'
-import CardTitle from 'reactstrap/lib/CardTitle'
-import CardSubtitle from 'reactstrap/lib/CardSubtitle'
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap'
 
 /**
  * Карточка

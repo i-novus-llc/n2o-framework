@@ -2,11 +2,7 @@ import React, { Component } from 'react'
 import { pure } from 'recompose'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
-import Dropdown from 'reactstrap/lib/Dropdown'
-import DropdownToggle from 'reactstrap/lib/DropdownToggle'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import Badge from 'reactstrap/lib/Badge'
-import Button from 'reactstrap/lib/Button'
+import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstrap'
 
 import { MODIFIERS } from '../../controls/DatePicker/utils'
 

@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -20,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -93,17 +93,13 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 .getFilters().size(), is(1));
 
         //Условия видимости виджетов
-       /*
-       fixme
-       assertThat(panel.getVisible(), is(true));
         assertThat(detail.getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(detail.getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
-        //проверим что у кнопки delete родительский pathmapping скопировался
+       /* fixme //проверим что у кнопки delete родительский pathmapping скопировался
         assertThat(((InvokeAction) panel.getToolbar().getButton("delete").getAction()).getPayload().getDataProvider().getPathMapping()
                         .get("testStandardPageDependency_master_id").getBindLink(),
                 is("models.resolve['testStandardPageDependency_master'].id"));*/
-
     }
 
     @Test

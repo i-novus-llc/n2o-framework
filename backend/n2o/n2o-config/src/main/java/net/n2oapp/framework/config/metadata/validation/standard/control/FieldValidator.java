@@ -67,10 +67,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param list Списковое поле
      */
     private void checkListFieldDefaultValues(N2oListField list) {
-        if (list.getDefValue() == null)
-            throw new N2oMetadataValidationException(
-                    String.format("У поля %s default-value не задан", list.getId()));
-        if (list.getDefValue().values().stream().filter(StringUtils::isLink).findFirst().isEmpty())
+        if (list.getDefValue() != null && list.getDefValue().values().stream().filter(StringUtils::isLink).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
                     String.format("У поля %s default-value не является ссылкой", list.getId()));
     }

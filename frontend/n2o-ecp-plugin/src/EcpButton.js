@@ -5,12 +5,7 @@ import split from "lodash/split";
 import get from "lodash/get";
 import first from "lodash/first";
 
-import Modal from "reactstrap/lib/Modal";
-import ModalHeader from "reactstrap/lib/ModalHeader";
-import ModalBody from "reactstrap/lib/ModalBody";
-import ModalFooter from "reactstrap/lib/ModalFooter";
-import Button from "reactstrap/lib/Button";
-import InputSelect from "n2o-framework/lib/components/controls/InputSelect/InputSelect";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import Alerts from "n2o-framework/lib/components/snippets/Alerts/Alerts";
 import Collapse, {
   Panel

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import BaseSpinner from 'reactstrap/lib/Spinner'
+import { Spinner as BaseSpinner } from 'reactstrap'
 import classNames from 'classnames'
 import eq from 'lodash/eq'
 import values from 'lodash/values'

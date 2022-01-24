@@ -74,6 +74,7 @@ public class ValidationMessageAT extends AutoTestBase {
         textAreaField.control(TextArea.class).shouldBeEnabled();
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7384
     @Test
     public void testConditionValidation() {
         StandardPage page = open(StandardPage.class);

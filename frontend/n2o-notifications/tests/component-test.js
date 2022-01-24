@@ -1,13 +1,10 @@
 import React from "react";
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import { Notifications } from "../src/Notifications";
 import { Counter } from "../src/Counter";
-import Toast from "reactstrap/lib/Toast";
-import ToastBody from "reactstrap/lib/ToastBody";
-import ToastHeader from "reactstrap/lib/ToastHeader";
-import Badge from "reactstrap/lib/Badge";
+import { Toast, ToastBody, ToastHeader, Badge } from 'reactstrap'
 
 describe("Компоненты", () => {
   describe("Notifications", () => {

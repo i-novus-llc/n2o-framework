@@ -99,7 +99,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isVisible = true
+                state[widgetId].visible = true
             },
         },
 
@@ -129,7 +129,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isVisible = false
+                state[widgetId].visible = false
             },
         },
 

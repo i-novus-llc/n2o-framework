@@ -2,9 +2,9 @@
 <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <validations>
         <mandatory id="man1" severity="danger" message="message" side="client,server"
-                   server-moment="after-fail-operation" enabled="false" on="field1" field-id="field1">
+                   server-moment="after-fail-operation" enabled="{field2 != null}" field-id="field1">
             field1 != null
         </mandatory>
-        <mandatory id="man2" severity="info" src="net/n2oapp/framework/config/metadata/compile/object/validation/testMandatoryValidation.js"/>
+        <mandatory id="man2" severity="info" field-id="field1"/>
     </validations>
 </object>

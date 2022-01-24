@@ -45,14 +45,9 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getText(), is("`'Hello, '+username`"));
         assertThat(field.getFormat(), is("formatTest"));
         assertThat(field.getClassName(), is("testClass"));
+        assertThat(field.getVisible(), is(false));
 
-        assertThat(field.getDependencies().size(), is(2));
         ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(),is(ValidationType.visible));
-        assertThat(dependency.getOn().isEmpty(), is(true));
-        assertThat(dependency.getExpression(), is("false"));
-
-        dependency = field.getDependencies().get(1);
         assertThat(dependency.getType(),is(ValidationType.reRender));
         assertThat(dependency.getOn().get(0), is("type"));
         assertThat(dependency.getExpression(), nullValue());

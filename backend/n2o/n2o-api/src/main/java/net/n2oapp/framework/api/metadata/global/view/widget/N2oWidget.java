@@ -168,10 +168,11 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                 }
             }
             datasource.setSize(getSize());
-            if (getDependencyCondition() != null) {
+            if (getDependencyCondition() != null || getVisible() != null) {
                 N2oVisibilityDependency visibilityDependency = new N2oVisibilityDependency();
-                visibilityDependency.setValue(getDependencyCondition());
-                if (getDependsOn() != null) {
+                String condition = getDependencyCondition() == null ? getVisible() : getDependencyCondition();
+                visibilityDependency.setValue(condition);
+                if (getDependsOn() != null ) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
                 visibilityDependency.setModel(ReduxModel.resolve);

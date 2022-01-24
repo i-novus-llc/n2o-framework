@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ListGroup from 'reactstrap/lib/ListGroup'
-import ListGroupItem from 'reactstrap/lib/ListGroupItem'
+import { ListGroup, ListGroupItem } from 'reactstrap'
 
 import { mapToNumOrStr } from '../../utils'
 

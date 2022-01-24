@@ -59,7 +59,6 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
     }
 
     private void dependency(Element e, N2oDependency t, IOProcessor p) {
-        p.attributeArray(e, "on", ",", t::getOn, t::setOn);
         p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
