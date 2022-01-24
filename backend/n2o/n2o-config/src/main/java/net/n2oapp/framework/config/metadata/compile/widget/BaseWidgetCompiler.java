@@ -269,23 +269,22 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
+
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
+        List<DependencyCondition> visibleConditions = new ArrayList<>();
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getVisible() != null) {
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
                 DependencyCondition visibilityCondition = new DependencyCondition();
-                List<DependencyCondition> visible = new ArrayList<>();
                 visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
-                visible.add(visibilityCondition);
-                dependency.setVisible(visible);
+                visibleConditions.add(visibilityCondition);
             } else if (condition instanceof Boolean) {
                 compiled.setVisible((Boolean) condition);
             }
         }
         if (source.getDependencies() != null) {
-            List<DependencyCondition> visibleConditions = new ArrayList<>();
             List<DependencyCondition> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
                 DependencyCondition condition = new DependencyCondition();
@@ -300,11 +299,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     enableConditions.add(condition);
                 }
             }
-            if (!visibleConditions.isEmpty())
-                dependency.setVisible(visibleConditions);
             if (!enableConditions.isEmpty())
                 dependency.setEnable(enableConditions);
         }
+
+        if (!visibleConditions.isEmpty())
+            dependency.setVisible(visibleConditions);
 
         if (!dependency.isEmpty()) {
             compiled.setDependency(dependency);
