@@ -91,7 +91,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         controller = buildController(dataProcessingStack);
         response = controller.getData("/page/main", null, null);
 
-//        assertThat(response.getMeta().getMessages().getForm(), is("page_main"));//todo NNO-7304
+        assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
 
         assertThat(response.getMeta().getMessages().getFields().get("field1").getText(), is("message1"));

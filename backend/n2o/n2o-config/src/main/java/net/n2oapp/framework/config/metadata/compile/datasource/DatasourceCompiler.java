@@ -284,9 +284,7 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
         queryContext.setFilters(filters);
         if (source.getDefaultValuesMode() != null)
             queryContext.setUpload(UploadType.values()[source.getDefaultValuesMode().ordinal()]);
-//        queryContext.setFailAlertWidgetId(getFailAlertWidget(compiled));fixme
-//        queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(compiled));
-//        queryContext.setMessagesForm(getMessagesForm(compiled));
+        queryContext.setMessagesForm(compiled.getId());
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
         if (subModelsScope != null) {
             queryContext.setSubModelQueries(subModelsScope.get(source.getId()));

@@ -213,7 +213,7 @@ public class ValidationProcessorTest {
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory, condition));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -237,7 +237,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -272,7 +272,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -306,7 +306,7 @@ public class ValidationProcessorTest {
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         try {
             processor.validate(info, beforeOperation);
@@ -338,7 +338,7 @@ public class ValidationProcessorTest {
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
 
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         //enabled == null - валидация должна сработать
         List<FailInfo> fails = processor.validate(info, beforeOperation);
@@ -382,7 +382,7 @@ public class ValidationProcessorTest {
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
 
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -433,7 +433,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3, mandatory4));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(2));
@@ -462,7 +462,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -492,7 +492,7 @@ public class ValidationProcessorTest {
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(constraint1));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
 
         //invocation parameter с атрибутом required=true, датасет содержит такой ключ, поэтому валидация должна сработать

@@ -12,8 +12,8 @@ public class ObjectValidationInfo extends ValidationInfo {
     private String objectId;
 
     public ObjectValidationInfo(String objectId, List<Validation> validations,
-                                DataSet dataSet, String failAlertWidgetId, String messageForm) {
-        super(dataSet, validations, messageForm, failAlertWidgetId);
+                                DataSet dataSet, String messageForm) {
+        super(dataSet, validations, messageForm);
         this.objectId = objectId;
     }
 }
