@@ -1,7 +1,7 @@
 {
   "name": "n2o-frontend",
   "private": true,
-  "version": "7.16.0",
+  "version": "7.17.23",
   "workspaces": [
     "n2o-framework",
     "n2o-auth",
