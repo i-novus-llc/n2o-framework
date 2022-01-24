@@ -95,11 +95,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         //Условия видимости виджетов
         assertThat(detail.getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(detail.getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
-
-       /* fixme //проверим что у кнопки delete родительский pathmapping скопировался
-        assertThat(((InvokeAction) panel.getToolbar().getButton("delete").getAction()).getPayload().getDataProvider().getPathMapping()
-                        .get("testStandardPageDependency_master_id").getBindLink(),
-                is("models.resolve['testStandardPageDependency_master'].id"));*/
     }
 
     @Test
