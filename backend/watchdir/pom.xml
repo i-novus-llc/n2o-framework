@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.20.6</version>
+        <version>7.20.7-SNAPSHOT</version>
     </parent>
 
     <groupId>net.n2oapp.watchdir</groupId>
