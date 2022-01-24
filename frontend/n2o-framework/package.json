@@ -131,7 +131,7 @@
     "react-text-mask": "5.4.3",
     "react-textarea-autosize": "7.0.4",
     "react-virtualized": "^9.21.0",
-    "reactstrap": "^9.0.1",
+    "reactstrap": "8.10.1-popper2-beta.0",
     "recharts": "^1.6.2",
     "recompose": "0.30.0",
     "redux": "3.6.0",
