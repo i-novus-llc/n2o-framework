@@ -81,7 +81,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
         compileComponent(field, source, context, p);
 
         field.setId(source.getId());
