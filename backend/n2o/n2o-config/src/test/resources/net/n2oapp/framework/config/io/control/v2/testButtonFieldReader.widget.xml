@@ -5,7 +5,7 @@
                 tooltip-position="right" src="test" rounded="true" type="textAndIcon"
                 visible="true" enabled="false" class="class" style="color: red" widget-id="test" action-id="act"
                 confirm="true" confirm-cancel-label="cancel" confirm-ok-label="ok" confirm-text="text"
-                confirm-title="title" confirm-type="popover" validate="widget">
+                confirm-title="title" confirm-type="popover" validate="true">
             <a href="https://google.com?q={name}"/>
         </button>
     </fields>
