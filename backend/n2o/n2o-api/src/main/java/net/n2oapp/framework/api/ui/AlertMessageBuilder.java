@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.ui;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.*;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
@@ -48,7 +49,7 @@ public class AlertMessageBuilder {
     public ResponseMessage buildMessage(RequestInfo requestInfo, SeverityType severityType) {
         ResponseMessage message = constructMessage(severityType);
         if (requestInfo.getMessagePlacement() != null)
-            message.setPlacement(Placement.valueOf(requestInfo.getMessagePlacement().name()));
+            message.setPlacement(MessagePlacement.valueOf(requestInfo.getMessagePlacement().name()));
         return message;
     }
 
@@ -83,7 +84,7 @@ public class AlertMessageBuilder {
         ResponseMessage message = new ResponseMessage();
         message.setSeverityType(severityType);
         if (propertyResolver != null) {
-            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement", Placement.class));
+            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement", MessagePlacement.class));
             if (severityType != null) {
                 Integer timeout = Integer.parseInt(
                         propertyResolver.getProperty(String.format("n2o.api.message.%s.timeout", severityType.getId())));

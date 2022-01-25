@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Стандартное сообщение N2O
@@ -23,15 +25,15 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String text;
     @JsonProperty
-    private Style style;
-    @JsonProperty
     private Integer timeout;
     @JsonProperty
     private Boolean closeButton;
     @JsonProperty
     private String href;
     @JsonProperty
-    private Placement placement;
+    private MessagePlacement placement;
+    @JsonProperty
+    private Map<String, String> style;
     @JsonProperty
     private List<String> stacktrace;
     @JsonProperty
