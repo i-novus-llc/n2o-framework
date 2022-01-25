@@ -288,12 +288,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             List<DependencyCondition> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
                 DependencyCondition condition = new DependencyCondition();
-                String value = p.resolveJS(dep.getValue());
-                condition.setCondition(StringUtils.unwrapJs(value));
+                String unwrapped = StringUtils.unwrapJs(dep.getValue());
+                condition.setCondition(unwrapped);
                 ModelLink link = new ModelLink(dep.getModel(), pageScope == null ? dep.getDatasource() :
                         pageScope.getClientDatasourceId(dep.getDatasource()));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
+                    findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
                     visibleConditions.add(condition);
                 } else if (dep instanceof N2oEnablingDependency) {
                     enableConditions.add(condition);
@@ -373,5 +374,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     widgetQuery, widgetScope, fieldSetScope, indexScope, scopes));
         }
         return fieldSets;
+    }
+
+    private Optional<DependencyCondition> findByCondition(List<DependencyCondition> dependencies, String condition) {
+        if (dependencies == null)
+            return Optional.empty();
+        return dependencies.stream()
+                .filter(dependencyCondition -> condition.equals(dependencyCondition.getCondition())).findFirst();
     }
 }
