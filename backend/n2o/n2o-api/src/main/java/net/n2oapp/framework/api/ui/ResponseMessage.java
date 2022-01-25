@@ -38,8 +38,6 @@ public class ResponseMessage implements Serializable {
     private List<String> stacktrace;
     @JsonProperty
     private Long timestamp;
-    @JsonProperty
-    private Object data;
 
     public void setSeverityType(SeverityType severity) {
         this.color = severity != null ? severity.getId() : null;

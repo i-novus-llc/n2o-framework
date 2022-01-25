@@ -62,7 +62,6 @@ public class AlertMessageBuilder {
     public ResponseMessage buildSuccessMessage(String successText, RequestInfo requestInfo, DataSet data) {
         ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
         message.setText(StringUtils.resolveLinks(successText, data));
-        message.setData(data);
         return message;
     }
 

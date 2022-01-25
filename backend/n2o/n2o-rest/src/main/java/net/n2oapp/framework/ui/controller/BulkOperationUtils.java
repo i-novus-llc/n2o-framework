@@ -73,15 +73,12 @@ public class BulkOperationUtils {
         ResponseMessage message = new ResponseMessage();
         if (choice.getErrorIdsCount() == 0) {
             message.setText("net.n2oapp.framework.ui.dialogs.bulk.successAll");
-            message.setData(Arrays.asList(operation.getName(), choice.getIdsCount()));
             message.setSeverityType(SeverityType.success);
         } else if (choice.getErrorIdsCount() == choice.getIdsCount()) {
             message.setText("net.n2oapp.framework.ui.dialogs.bulk.failAll");
-            message.setData(Arrays.asList(operation.getName(), choice.getIdsCount()));
             message.setSeverityType(SeverityType.danger);
         } else {
             message.setText("net.n2oapp.framework.ui.dialogs.bulk.success");
-            message.setData(Arrays.asList(operation.getName(), choice.getSuccessIdsCount(), choice.getIdsCount()));
             message.setSeverityType(SeverityType.info);
         }
         return message;
