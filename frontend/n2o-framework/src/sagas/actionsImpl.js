@@ -27,6 +27,7 @@ import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { MODEL_PREFIX } from '../core/datasource/const'
+import { failValidate } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
 
@@ -194,11 +195,24 @@ export function* handleInvoke(apiProvider, action) {
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
+
+        const errorMeta = err?.json?.meta
+
         yield* handleFailInvoke(
             action.meta.fail || {},
             datasource,
-            err.json && err.json.meta ? err.json.meta : {},
+            errorMeta,
         )
+
+        if (errorMeta.messages) {
+            const fieds = {}
+
+            for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
+                fieds[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            yield put(failValidate(datasource, fieds))
+        }
     } finally {
         if (pageId) {
             yield put(enablePage(pageId))

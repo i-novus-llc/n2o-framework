@@ -149,7 +149,7 @@ export const formPluginSagas = [
         actionTypes.BLUR,
         setRequired.type,
         unsetRequired.type,
-    ], function* validateSage({ meta }) {
+    ], function* validateSaga({ meta }) {
         const { form, field } = meta
         const datasource = yield select(makeDatasourceIdSelector(form))
         const currentFormPrefix = yield select(makeFormModelPrefixSelector(form))
@@ -162,7 +162,7 @@ export const formPluginSagas = [
     }),
     debounce(400, [
         actionTypes.CHANGE,
-        actionTypes.BLUR,
+        // actionTypes.BLUR,
     ], autoSubmit),
     debounce(100, setTabInvalid, setFocus),
 ]
