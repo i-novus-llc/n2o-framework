@@ -47,7 +47,9 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
                     .filter(N2oInvokeAction.class::isInstance)
                     .forEach(act -> ((N2oInvokeAction) act).setDoubleCloseOnSuccess(true));
             // dialog parentWidgetId as all menu item's widgetId
-            String btnWidgetId = context.getParentWidgetId().substring(context.getParentPageId().length() + 1);
+            String btnWidgetId = context.getParentWidgetId().startsWith(context.getParentPageId() + "_") ?
+                    context.getParentWidgetId().substring(context.getParentPageId().length() + 1) :
+                    context.getParentWidgetId();
             Arrays.stream(source.getToolbar().getItems()).filter(N2oButton.class::isInstance)
                     .forEach(mi -> ((N2oButton) mi).setWidgetId(btnWidgetId));
 
