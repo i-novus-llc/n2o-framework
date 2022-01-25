@@ -132,7 +132,7 @@ public class DataControllerTest extends DataControllerTestBase {
         assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(1));
         assertThat(response.getMeta().getMessages().getFields().get("id7").getField(), is("id7"));
-        assertThat(response.getMeta().getMessages().getFields().get("id7").getSeverity(), is(SeverityType.danger.getId()));
+        assertThat(response.getMeta().getMessages().getFields().get("id7").getColor(), is(SeverityType.danger.getId()));
     }
 
     /**

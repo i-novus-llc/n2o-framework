@@ -47,10 +47,8 @@ public class AlertMessageBuilder {
 
     public ResponseMessage buildMessage(RequestInfo requestInfo, SeverityType severityType) {
         ResponseMessage message = constructMessage(severityType);
-        if (requestInfo.getMessagePosition() != null)
-            message.setPosition(requestInfo.getMessagePosition().name());
         if (requestInfo.getMessagePlacement() != null)
-            message.setPlacement(requestInfo.getMessagePlacement().name());
+            message.setPlacement(Placement.valueOf(requestInfo.getMessagePlacement().name()));
         return message;
     }
 
@@ -85,8 +83,7 @@ public class AlertMessageBuilder {
         ResponseMessage message = new ResponseMessage();
         message.setSeverityType(severityType);
         if (propertyResolver != null) {
-            message.setPosition(propertyResolver.getProperty("n2o.api.message.position"));
-            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement"));
+            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement", Placement.class));
             if (severityType != null) {
                 Integer timeout = Integer.parseInt(
                         propertyResolver.getProperty(String.format("n2o.api.message.%s.timeout", severityType.getId())));

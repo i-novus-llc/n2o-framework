@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.exception.SeverityType;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Стандартное сообщение N2O
@@ -17,32 +16,31 @@ import java.util.Map;
 public class ResponseMessage implements Serializable {
     @JsonProperty
     private String field;
-    @JsonProperty("label")
-    private String title;
     @JsonProperty
-    private String severity;
+    private String header;
+    @JsonProperty
+    private String color;
     @JsonProperty
     private String text;
+    @JsonProperty
+    private Style style;
     @JsonProperty
     private Integer timeout;
     @JsonProperty
     private Boolean closeButton;
     @JsonProperty
-    private String position;
+    private String href;
     @JsonProperty
-    private String placement;
-    @JsonProperty
-    private Boolean loader = false;
-    @JsonProperty
-    private Boolean animate = false;
-    @JsonProperty
-    private Map<String, String> choice;
+    private Placement placement;
     @JsonProperty
     private List<String> stacktrace;
+    @JsonProperty
+    private Long timestamp;
     @JsonProperty
     private Object data;
 
     public void setSeverityType(SeverityType severity) {
-        this.severity = severity != null ? severity.getId() : null;
+        this.color = severity != null ? severity.getId() : null;
     }
+
 }
