@@ -67,6 +67,8 @@ public class TableSelectionAT extends AutoTestBase {
         modal.close();
     }
 
+
+    //wait https://jira.i-novus.ru/browse/NNO-7424
     @Test
     public void testNoneSelection() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/index.page.xml"));
