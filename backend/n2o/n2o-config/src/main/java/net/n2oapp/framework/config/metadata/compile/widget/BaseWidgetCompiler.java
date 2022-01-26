@@ -258,32 +258,44 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
+
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
+        List<DependencyCondition> visibleConditions = new ArrayList<>();
         PageScope pageScope = p.getScope(PageScope.class);
+        if (source.getVisible() != null) {
+            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
+            if (StringUtils.isJs(condition)) {
+                DependencyCondition visibilityCondition = new DependencyCondition();
+                visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
+                visibleConditions.add(visibilityCondition);
+            } else if (condition instanceof Boolean) {
+                compiled.setVisible((Boolean) condition);
+            }
+        }
         if (source.getDependencies() != null) {
-            List<DependencyCondition> visibleConditions = new ArrayList<>();
             List<DependencyCondition> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
                 DependencyCondition condition = new DependencyCondition();
-                String value = p.resolveJS(dep.getValue());
-                condition.setCondition(StringUtils.isJs(value) ?
-                        value.substring(1, value.length() - 1)
-                        : value);
+                String unwrapped = StringUtils.unwrapJs(dep.getValue());
+                condition.setCondition(unwrapped);
                 ModelLink link = new ModelLink(dep.getModel(), pageScope == null ? dep.getDatasource() :
                         pageScope.getClientDatasourceId(dep.getDatasource()));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
+                    findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
                     visibleConditions.add(condition);
                 } else if (dep instanceof N2oEnablingDependency) {
                     enableConditions.add(condition);
                 }
             }
-            if (!visibleConditions.isEmpty())
-                dependency.setVisible(visibleConditions);
             if (!enableConditions.isEmpty())
                 dependency.setEnable(enableConditions);
         }
+
+        if (!visibleConditions.isEmpty())
+            dependency.setVisible(visibleConditions);
+
         if (!dependency.isEmpty()) {
             compiled.setDependency(dependency);
         }
@@ -351,5 +363,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     widgetQuery, widgetScope, fieldSetScope, indexScope, scopes));
         }
         return fieldSets;
+    }
+
+    private Optional<DependencyCondition> findByCondition(List<DependencyCondition> dependencies, String condition) {
+        if (dependencies == null)
+            return Optional.empty();
+        return dependencies.stream()
+                .filter(dependencyCondition -> condition.equals(dependencyCondition.getCondition())).findFirst();
     }
 }
