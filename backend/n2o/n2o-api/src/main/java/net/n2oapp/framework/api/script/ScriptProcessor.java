@@ -645,7 +645,7 @@ public class ScriptProcessor {
 
 
     private static boolean isNeedMoment(String script) {
-        return momentFuncs.stream().anyMatch(f -> script.contains(f));
+        return momentFuncs.stream().anyMatch(script::contains);
     }
 
     private static Map<Object, String> resolveSwitchCases(Map<?, String> cases) {

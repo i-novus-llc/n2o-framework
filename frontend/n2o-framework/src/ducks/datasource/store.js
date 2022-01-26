@@ -264,6 +264,24 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
+        setFieldSubmit: {
+            prepare(id, field, dataProvider) {
+                return ({
+                    payload: { id, field, dataProvider },
+                })
+            },
+            reducer(state, action) {
+                const { id, field, dataProvider } = action.payload
+                const datasource = state[id]
+
+                if (!datasource.fieldsSubmit) {
+                    datasource.fieldsSubmit = {}
+                }
+
+                datasource.fieldsSubmit[field] = dataProvider
+            },
+        },
     },
 })
 
@@ -289,4 +307,5 @@ export const {
     changePage,
     changeCount,
     changeSize,
+    setFieldSubmit,
 } = datasource.actions

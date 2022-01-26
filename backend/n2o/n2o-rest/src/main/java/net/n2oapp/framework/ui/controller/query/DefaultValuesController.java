@@ -29,12 +29,9 @@ public abstract class DefaultValuesController extends GetController {
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         try {
             DataSet defaultModel = extractDefaultModel(requestInfo, responseInfo);
-            return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
+            return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getMessagesForm());
         } catch (N2oException e) {
-            String widgetId = requestInfo.getFailAlertWidgetId() == null
-                    ? requestInfo.getMessagesForm()
-                    : requestInfo.getFailAlertWidgetId();
-            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), widgetId);
+            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), requestInfo.getMessagesForm());
             response.setStatus(e.getHttpStatus());
             return response;
         }

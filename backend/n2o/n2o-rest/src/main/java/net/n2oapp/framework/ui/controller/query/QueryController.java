@@ -36,12 +36,9 @@ public class QueryController extends GetController {
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         try {
             CollectionPage<DataSet> collectionPage = executeQuery(requestInfo, responseInfo);
-            return new GetDataResponse(collectionPage, responseInfo, requestInfo.getSuccessAlertWidgetId());
+            return new GetDataResponse(collectionPage, responseInfo, requestInfo.getMessagesForm());
         } catch (N2oException e) {
-            String widgetId = requestInfo.getFailAlertWidgetId() == null
-                    ? requestInfo.getMessagesForm()
-                    : requestInfo.getFailAlertWidgetId();
-            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), widgetId);
+            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), requestInfo.getMessagesForm());
             response.setStatus(e.getHttpStatus());
             logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
             return response;

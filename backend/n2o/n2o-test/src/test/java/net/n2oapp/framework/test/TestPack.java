@@ -102,14 +102,12 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         ActionContext actionContext = new ActionContext("testActionContext", "create", "/test/invoke/action");
         actionContext.setValidations(createValidations());
         actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
         return actionContext;
     }
 
     private ActionContext getTestDialogActionContext() {
         ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
         actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
         actionContext.setParentSourceDatasourceId("testForm");
         actionContext.setParentClientWidgetId("testDialog_main");
         actionContext.setParentPageId("testDialog");
@@ -119,7 +117,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private ActionContext getTestInsertMongodbContext(String operationId, String route) {
         ActionContext actionContext = new ActionContext("testMongodbCRUD", operationId, route);
         actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
         return actionContext;
     }
 

@@ -57,9 +57,10 @@ describe('Проверка саги formPlugin', () => {
                 key: 'testForm',
             },
         })
-        const value = gen.next()
+        const delay = gen.next()
+        const clear = gen.next()
 
-        expect(value.value.type).toBe('PUT')
+        expect(clear.value.type).toBe('PUT')
     })
 
     describe('копирование mode = merge', () => {

@@ -114,6 +114,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         if (source.getDatasources() != null)
             Stream.of(source.getDatasources()).forEach(ds -> dataSourcesScope.put(ds.getId(), ds));
+        addInlineDatasourcesToScope(sourceWidgets, dataSourcesScope);
+        return dataSourcesScope;
+    }
+
+    @Deprecated
+    private void addInlineDatasourcesToScope(List<N2oWidget> sourceWidgets, DataSourcesScope dataSourcesScope) {
         for (N2oWidget widget : sourceWidgets) {
             if (widget.getDatasourceId() == null) {
                 N2oDatasource datasource;
@@ -130,7 +136,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 dataSourcesScope.put(datasourceId, datasource);
             }
         }
-        return dataSourcesScope;
     }
 
     private PageScope initPageScope(S source, D page, PageContext context, List<N2oWidget> sourceWidgets, N2oWidget resultWidget) {
@@ -139,10 +144,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (context.getParentTabIds() != null) {
             pageScope.setTabIds(context.getParentTabIds());
         }
-        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
-            pageScope.setObjectId(source.getObjectId());
-            pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
-        }
+        pageScope.setObjectId(source.getObjectId());
+        pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
         if (!CollectionUtils.isEmpty(sourceWidgets))
             pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
                     .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
@@ -168,6 +171,15 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                        PageScope pageScope,
                                                        Object... scopes) {
         Map<String, Datasource> compiledDataSources = new HashMap<>();
+        initContextDatasource(context, p, dataSourcesScope, pageScope);
+        for (N2oDatasource ds : dataSourcesScope.values()) {
+            Datasource compiled = p.compile(ds, context, pageScope, scopes);
+            compiledDataSources.put(compiled.getId(), compiled);
+        }
+        return compiledDataSources;
+    }
+
+    private void initContextDatasource(PageContext context, CompileProcessor p, DataSourcesScope dataSourcesScope, PageScope pageScope) {
         if (context.getDatasources() != null) {
             for (N2oDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
@@ -179,11 +191,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 }
             }
         }
-        for (N2oDatasource ds : dataSourcesScope.values()) {
-            Datasource compiled = p.compile(ds, context, pageScope, scopes);
-            compiledDataSources.put(compiled.getId(), compiled);
-        }
-        return compiledDataSources;
     }
 
     @Deprecated
@@ -292,16 +299,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private N2oWidget initResultWidget(PageContext context, List<N2oWidget> sourceWidgets) {
-        String resultWidgetId = context.getResultWidgetId();
-        if (resultWidgetId != null) {
-            for (N2oWidget sourceWidget : sourceWidgets) {
-                if (resultWidgetId.equals(sourceWidget.getId()))
-                    return sourceWidget;
-            }
-            throw new N2oException("Widget " + resultWidgetId + " not found!");
-        } else {
-            return !sourceWidgets.isEmpty() ? sourceWidgets.get(0) : null;
-        }
+        return !sourceWidgets.isEmpty() ? sourceWidgets.get(0) : null;
     }
 
     private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p,

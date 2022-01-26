@@ -34,8 +34,12 @@ export async function validateField(field, model, validationList) {
 
             return false
         }
-        if (typeof validation.enabled === 'boolean') { return validation.enabled }
-        if (typeof validation.enabled === 'string') { return evalExpression(validation.enabled, model) }
+
+        const conditions = validation.enablingConditions
+
+        if (conditions?.length) {
+            return conditions.every(conditions => evalExpression(conditions, model))
+        }
 
         return true
     })

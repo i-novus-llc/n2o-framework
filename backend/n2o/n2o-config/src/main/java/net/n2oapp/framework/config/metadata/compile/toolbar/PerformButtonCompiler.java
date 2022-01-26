@@ -24,7 +24,6 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -234,9 +233,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
-        Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
-        if (emptyModelCondition != null)
-            enabledConditions.add(emptyModelCondition);
+        if (source.getDatasource() != null) {
+            Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
+            if (emptyModelCondition != null)
+                enabledConditions.add(emptyModelCondition);
+        }
 
         if (!enabledConditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, enabledConditions);

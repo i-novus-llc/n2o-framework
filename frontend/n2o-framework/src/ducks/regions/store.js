@@ -75,9 +75,9 @@ const regionsSlice = createSlice({
             },
         },
         SET_TAB_INVALID: {
-            prepare(regionId, tabId, invalid) {
+            prepare(regionId, tabId, invalid, validation) {
                 return ({
-                    payload: { regionId, tabId, invalid },
+                    payload: { regionId, tabId, invalid, validation },
                 })
             },
 
