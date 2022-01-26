@@ -45,6 +45,7 @@ public class RefFieldModelAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/model/field/test.query.xml"));
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7428
     @Test
     public void refFieldModelTest() {
         SimplePage page = open(SimplePage.class);
