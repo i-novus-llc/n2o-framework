@@ -16,8 +16,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 
 /**
  * Автотест для проверки значений по умолчанию фильтров таблицы
@@ -70,7 +70,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     //todo https://jira.i-novus.ru/browse/NNO-7302
-    @Ignore
+    @Disabled
     @Test
     public void testDefaultValuesQueryId() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/index.page.xml"),
@@ -100,7 +100,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     //todo https://jira.i-novus.ru/browse/NNO-7302
-    @Ignore
+    @Disabled
     @Test
     public void testPriority() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/index.page.xml"),
