@@ -5,6 +5,7 @@ import { compose, withHandlers, getContext } from 'recompose'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
+import isNumber from 'lodash/isNumber'
 import pick from 'lodash/pick'
 import forOwn from 'lodash/forOwn'
 import omit from 'lodash/omit'
@@ -125,7 +126,7 @@ class AdvancedTableContainer extends React.Component {
             [filter.id]: filter.value,
         }
         forOwn(this.filterValue, (v, k) => {
-            if (!v || isEmpty(v)) { delete this.filterValue[k] }
+            if (!isNumber(v) && isEmpty(v)) { delete this.filterValue[k] }
         })
         onSetFilter({ ...this.filterValue })
         onFetch()
