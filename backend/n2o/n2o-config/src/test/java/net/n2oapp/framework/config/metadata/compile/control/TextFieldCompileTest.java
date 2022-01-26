@@ -48,6 +48,11 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getVisible(), is(false));
 
         ControlDependency dependency = field.getDependencies().get(0);
+        assertThat(dependency.getType(),is(ValidationType.visible));
+        assertThat(dependency.getExpression(), is("false"));
+        assertThat(dependency.getApplyOnInit(), is(true));
+
+        dependency = field.getDependencies().get(1);
         assertThat(dependency.getType(),is(ValidationType.reRender));
         assertThat(dependency.getOn().get(0), is("type"));
         assertThat(dependency.getExpression(), nullValue());
