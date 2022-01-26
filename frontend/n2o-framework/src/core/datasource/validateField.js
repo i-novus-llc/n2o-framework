@@ -1,4 +1,4 @@
-import evalExpression from '../../utils/evalExpression'
+import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import * as presets from '../validation/presets'
 
 import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
@@ -51,8 +51,11 @@ export async function validateField(field, model, validationList) {
             const valid = await validationFunction(field, model, validation)
 
             if (!valid) {
+                const expression = parseExpression(validation.text)
+                const text = expression ? evalExpression(expression, model) : validation.text
+
                 errors.push({
-                    text: validation.text,
+                    text,
                     severity: validation.severity,
                 })
             }
