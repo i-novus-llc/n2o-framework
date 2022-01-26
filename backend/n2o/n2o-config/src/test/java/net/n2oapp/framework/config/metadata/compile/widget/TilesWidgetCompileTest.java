@@ -77,7 +77,7 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getPaging().getSize(), is(5));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
-        //fixme assertThat(page.getDatasources().get(tiles.getDatasource()).getProvider().getSize(), is(5));
+        assertThat(page.getDatasources().get(tiles.getDatasource()).getProvider().getSize(), is(5));
 
         tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(tiles.getSrc(), is("TilesWidget"));

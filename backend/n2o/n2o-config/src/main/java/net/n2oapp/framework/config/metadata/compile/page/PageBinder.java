@@ -100,7 +100,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget<?> w : widgets)
-                //fixme delete
+                //fixme NNO-7302 delete
                 if (w.getFilters() != null && w.getFiltersDefaultValuesQueryId() != null) {
                     DataSet data = p.executeQuery(w.getFiltersDefaultValuesQueryId());
                     if (data != null) {

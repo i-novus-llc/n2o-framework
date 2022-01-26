@@ -15,7 +15,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -80,14 +79,14 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(withEmptySelect.getSortingMapping(), nullValue());
     }
 
-//    @Test
-//    public void testEmptyBody() {
-//        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
-//                .get(new QueryContext("testEmptyBody"));
-//        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
-//        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
-//        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
-//    }
+    @Test
+    public void testEmptyBody() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
+                .get(new QueryContext("testEmptyBody"));
+        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
+        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
+        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
+    }
 
     @Test
     public void testFieldNames() {
@@ -123,16 +122,12 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
-
         pipeline.get(new PageContext("testSubModel"));
-        CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
-       /*
-        fixme списковые поля переезжают на datasource
         CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
         CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
-        assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));*/
+        assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
     }
 
 
@@ -140,8 +135,6 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
                 .get(new QueryContext("testRequiredFilters"));
-
-
         assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
         assertThat(query.getValidations().get(0).getId(), is("test"));
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));

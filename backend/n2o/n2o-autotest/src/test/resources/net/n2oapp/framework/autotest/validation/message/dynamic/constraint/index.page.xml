@@ -6,6 +6,7 @@
             <input-text id="name" label="Имя">
                 <validations white-list="uniqueName"/>
             </input-text>
+            <input-text id="next" label="Следующее поле"/>
         </fields>
         <toolbar place="bottomLeft">
             <button id="create" label="Создать">
