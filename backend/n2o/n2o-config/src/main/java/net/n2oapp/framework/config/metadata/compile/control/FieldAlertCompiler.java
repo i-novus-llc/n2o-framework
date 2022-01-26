@@ -4,7 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAlert;
-import net.n2oapp.framework.api.metadata.meta.control.Alert;
+import net.n2oapp.framework.api.metadata.meta.control.FieldAlert;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -13,15 +14,19 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция поля для вывода оповещения
  */
 @Component
-public class AlertCompiler extends FieldCompiler<Alert, N2oAlert> {
+public class FieldAlertCompiler extends FieldCompiler<FieldAlert, N2oAlert> {
 
     @Override
-    public Alert compile(N2oAlert source, CompileContext<?, ?> context, CompileProcessor p) {
-        Alert alert = new Alert();
-        alert.setText(p.resolveJS(source.getText().trim()));
+    public FieldAlert compile(N2oAlert source, CompileContext<?, ?> context, CompileProcessor p) {
+        FieldAlert alert = new FieldAlert();
+        if (source.getText() != null)
+            alert.setText(p.resolveJS(source.getText().trim()));
+        alert.setTitle(p.resolveJS(source.getTitle()));
+        alert.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        alert.setColor(source.getColor());
+        alert.setHref(source.getHref());
         alert.setHeader(p.resolveJS(source.getHeader()));
         alert.setFooter(p.resolveJS(source.getFooter()));
-        alert.setColor(source.getColor());
         alert.setFade(p.cast(source.getFade(), p.resolve(property("n2o.api.control.alert.fade"), Boolean.class)));
         alert.setTag(source.getTag());
         compileField(alert, source, context, p);

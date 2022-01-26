@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование положения сообщения об ошибке/успехе
  */
-public class AlertPositionAT extends AutoTestBase {
+public class FieldAlertPositionAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

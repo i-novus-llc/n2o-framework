@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.Alert;
+import net.n2oapp.framework.api.metadata.meta.control.FieldAlert;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -14,9 +14,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование компиляции {@link AlertCompiler}
+ * Тестирование компиляции {@link FieldAlertCompiler}
  */
-public class AlertCompileTest extends SourceCompileTestBase {
+public class FieldAlertCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -36,13 +36,14 @@ public class AlertCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testAlertFieldCompile.page.xml")
                 .get(new PageContext("testAlertFieldCompile"));
         Form form = (Form) page.getWidget();
-        Alert field = (Alert)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        FieldAlert field = (FieldAlert)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         assertThat(field.getSrc(), is("AlertField"));
         assertThat(field.getText(), is("`'Text '+message`"));
-        assertThat(field.getHeader(), is("`'Header '+message`"));
-        assertThat(field.getFooter(), is("`'Footer '+message`"));
-
+        assertThat(field.getTitle(), is("`'Title '+message`"));
+        assertThat(field.getStyle().get("background"), is("blue"));
+        assertThat(field.getColor(), is("info"));
+        assertThat(field.getHref(), is("http://example.org"));
     }
 
 }

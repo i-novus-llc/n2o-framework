@@ -14,12 +14,11 @@ public class AlertIOv3 extends PlainFieldIOv3<N2oAlert> {
     @Override
     public void io(Element e, N2oAlert m, IOProcessor p) {
         super.io(e, m, p);
-        p.text(e, m::getText, m::setText);
-        p.attribute(e, "header", m::getHeader, m::setHeader);
-        p.attribute(e, "footer", m::getFooter, m::setFooter);
+        p.attribute(e, "title", m::getTitle, m::setTitle);
+        p.attribute(e, "text", m::getText, m::setText);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
+        p.attribute(e, "href", m::getHref, m::setHref);
         p.attribute(e, "color", m::getColor, m::setColor);
-        p.attributeBoolean(e, "fade", m::getFade, m::setFade);
-        p.attribute(e, "tag", m::getTag, m::setTag);
     }
 
     @Override
