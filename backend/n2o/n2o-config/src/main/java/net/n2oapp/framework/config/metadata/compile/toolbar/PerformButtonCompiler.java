@@ -235,9 +235,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
-        Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
-        if (emptyModelCondition != null)
-            enabledConditions.add(emptyModelCondition);
+        if (source.getDatasource() != null) {
+            Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
+            if (emptyModelCondition != null)
+                enabledConditions.add(emptyModelCondition);
+        }
 
         if (!enabledConditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, enabledConditions);

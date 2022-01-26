@@ -141,7 +141,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             meta.setRefresh(new RefreshSaga());
             if (!closeOnSuccess && source.getRefreshDatasources() != null) {
                 PageScope pageScope = p.getScope(PageScope.class);
-                meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
+                if (pageScope != null)
+                    meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
                         .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
             } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientDataSources() != null)
                 meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { compose, withHandlers, withState, lifecycle } from 'recompose'
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
+import { UncontrolledTooltip } from 'reactstrap'
 
 import { id } from '../../../utils/id'
 

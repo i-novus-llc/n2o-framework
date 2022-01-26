@@ -76,7 +76,6 @@ public class N2oValidationModule implements DataProcessing {
                 requestInfo.getObject().getId(),
                 requestInfo.getOperation().getValidationList(),
                 dataSet,
-                requestInfo.getFailAlertWidgetId(),
                 requestInfo.getMessagesForm()
         );
     }
@@ -98,7 +97,6 @@ public class N2oValidationModule implements DataProcessing {
                 requestInfo.getQuery().getObject(),
                 requestInfo.getQuery().getValidations(),
                 result,
-                requestInfo.getFailAlertWidgetId(),
                 requestInfo.getMessagesForm()
         );
     }

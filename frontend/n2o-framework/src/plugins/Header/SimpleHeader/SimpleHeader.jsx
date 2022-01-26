@@ -6,10 +6,7 @@ import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
-import Navbar from 'reactstrap/lib/Navbar'
-import Nav from 'reactstrap/lib/Nav'
-import NavbarToggler from 'reactstrap/lib/NavbarToggler'
-import Collapse from 'reactstrap/lib/Collapse'
+import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 

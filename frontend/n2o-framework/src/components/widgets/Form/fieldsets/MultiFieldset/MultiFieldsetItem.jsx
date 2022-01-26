@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 function MultiFieldsetItem({
     fields,

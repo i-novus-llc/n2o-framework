@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers, pure, getContext, mapProps } from 'recompose'
-import Col from 'reactstrap/lib/Col'
+import { Col } from 'reactstrap'
 import get from 'lodash/get'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonGroup from 'reactstrap/lib/ButtonGroup'
-import Button from 'reactstrap/lib/Button'
+import { ButtonGroup, Button } from 'reactstrap'
 import { useTranslation } from 'react-i18next'
 
 function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset }) {

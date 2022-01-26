@@ -54,7 +54,7 @@ public class N2oModal extends N2oComponent implements Modal {
 
     @Override
     public void close() {
-        element().$(".modal-header .close").click();
+        element().$(".modal-header [aria-label=\"Close\"]").click();
     }
 
     @Override

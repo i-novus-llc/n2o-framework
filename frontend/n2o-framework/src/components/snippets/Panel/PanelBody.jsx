@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CardBody from 'reactstrap/lib/CardBody'
-import TabContent from 'reactstrap/lib/TabContent'
+import { CardBody, TabContent } from 'reactstrap'
 
 /**
  * Компонент тела {@link Panel}

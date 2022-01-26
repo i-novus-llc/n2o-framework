@@ -121,25 +121,22 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             confirm.setText(text);
         }
         if (StringUtils.isJs(confirm.getText())) {
-            String widgetId = initWidgetId(source, context, p);
+            String datasource = initGlobalDatasourceId(source, context, p);
             ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, widgetId).getBindLink());
+            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, datasource).getBindLink());
         }
         button.setConfirm(confirm);
     }
 
-    protected String initWidgetId(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initGlobalDatasourceId(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getWidgetId() != null) {
-            return pageScope == null ? source.getWidgetId() : pageScope.getGlobalWidgetId(source.getWidgetId());
+        if (source.getDatasource() != null) {
+            return pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
         }
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            return widgetScope.getClientWidgetId();
-        } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
-            return pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
-        } else {
-            throw new N2oException("Unknown widgetId for invoke action!");
-        }
+        String datasourceId = initLocalDatasourceId(p);
+        if (datasourceId != null)
+            return pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId;
+        else
+            throw new N2oException(String.format("Unknown datasource for submit in field %s!", source.getId()));
     }
 }

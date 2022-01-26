@@ -3,21 +3,17 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "packages": [
-    "demo",
     "n2o-auth",
-    "n2o-framework",
     "n2o-notifications",
+    "n2o-ecp-plugin",
+    "n2o-framework",
     "n2o-simple-project",
-    "n2o-ecp-plugin"
+    "demo"
   ],
   "ignoreChanges": [
     "**/node_modules/**",
-    "demo/build",
-    "n2o-auth/lib",
-    "n2o-ecp-plugin/lib",
-    "n2o-framework/dist",
-    "n2o-framework/lib",
-    "n2o-notifications/lib",
-    "n2o-simple-project/build"
+    "**/build/**",
+    "**/dist/**",
+    "**/lib/**"
   ]
 }

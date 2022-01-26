@@ -5,15 +5,8 @@ import {
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
-import map from 'lodash/map'
-import get from 'lodash/get'
-import toPairs from 'lodash/toPairs'
-import flow from 'lodash/flow'
-import keys from 'lodash/keys'
-import { reset, touch } from 'redux-form'
-import { batchActions } from 'redux-batched-actions'
+import { reset } from 'redux-form'
 
-import { addFieldMessage } from '../ducks/form/store'
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
@@ -63,27 +56,6 @@ export function* redirectEffect(action) {
     }
 }
 
-export function* messagesFormEffect({ meta }) {
-    try {
-        const formID = get(meta, 'messages.form', false)
-        const fields = get(meta, 'messages.fields', false)
-        const putBatchActions = flow([batchActions, put])
-
-        if (formID && fields) {
-            const serializeData = map(
-                toPairs(fields),
-                ([name, ...message]) => addFieldMessage(formID, name, ...message),
-            )
-
-            yield put(touch(formID, ...keys(fields)))
-            yield putBatchActions(serializeData)
-        }
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e)
-    }
-}
-
 export function* clearFormEffect(action) {
     yield put(reset(action.meta.clearForm))
 }
@@ -108,6 +80,5 @@ export const metaSagas = [
     ),
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
-    takeEvery(action => action.meta && action.meta.messages, messagesFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
 ]

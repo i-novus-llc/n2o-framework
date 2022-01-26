@@ -40,8 +40,8 @@
                                     <goal>install-node-and-yarn</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v14.17.3</nodeVersion>
-                                    <yarnVersion>v1.6.0</yarnVersion>
+                                    <nodeVersion>v16.13.1</nodeVersion>
+                                    <yarnVersion>v1.22.11</yarnVersion>
                                 </configuration>
                             </execution>
 
@@ -106,30 +106,6 @@
                                     <arguments>run test</arguments>
                                 </configuration>
                             </execution>
-
-                            <execution>
-                                <id>yarn run docs</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <environmentVariables>
-                                        <max_old_space_size>4096</max_old_space_size>
-                                    </environmentVariables>
-                                    <arguments>run docs</arguments>
-                                </configuration>
-                            </execution>
-
-                            <!--<execution>-->
-                            <!--<id>npm run release</id>-->
-                            <!--<phase>deploy</phase>-->
-                            <!--<goals>-->
-                            <!--<goal>npm</goal>-->
-                            <!--</goals>-->
-                            <!--<configuration>-->
-                            <!--<arguments>run release &#45;&#45; &#45;&#45;repo-version ${project.version}</arguments>-->
-                            <!--</configuration>-->
-                            <!--</execution>-->
                         </executions>
                     </plugin>
                 </plugins>

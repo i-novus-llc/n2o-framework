@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1" query-id="utDs">
+            <filters>
+                <eq field-id="id" datasource="ds2"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+</page>

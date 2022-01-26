@@ -1,34 +1,35 @@
 {
-	"name": "n2o-auth",
-	"version": "7.20.0",
-	"description": "Пакеты для работы с N2O Security",
-    "homepage": "https://n2oapp.net/",
-    "repository": {
-      "type": "git",
-      "url": "git@github.com:i-novus-llc/n2o-framework.git",
-      "directory": "frontend/n2o-auth"
-    },
-    "main": "lib/index.js",
-	"files": [
-		"lib"
-	],
-	"scripts": {
-		"build": "nwb build-web-module",
-		"clean": "nwb clean-module",
-		"prepublishOnly": "yarn run build",
-		"test": "nwb test",
-		"test:coverage": "nwb test --coverage",
-		"test:watch": "nwb test --server"
-	},
-	"dependencies": {
-		"n2o-framework": "7.20.0"
-	},
-	"devDependencies": {
-		"chai": "^4.2.0",
-		"mocha": "^6.2.2",
-		"nwb": "0.25.0"
-	},
-	"author": "I-Novus LLC<n2o@i-novus.ru>",
-	"license": "Apache-2.0",
-	"gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd"
+  "name": "n2o-auth",
+  "version": "7.20.0",
+  "description": "Пакеты для работы с N2O Security",
+  "homepage": "https://n2oapp.net/",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:i-novus-llc/n2o-framework.git",
+    "directory": "frontend/n2o-auth"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "nwb build-web-module",
+    "clean": "nwb clean-module",
+    "prepublishOnly": "yarn run build",
+    "test": "nwb test",
+    "test:coverage": "nwb test --coverage",
+    "test:watch": "nwb test --server"
+  },
+  "dependencies": {
+    "n2o-framework": "7.20.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "nwb": "0.25.0"
+  },
+  "author": "I-Novus LLC<n2o@i-novus.ru>",
+  "license": "Apache-2.0",
+  "gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd"
 }

@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
-import Button from 'reactstrap/lib/Button'
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
+import { Button, UncontrolledTooltip } from 'reactstrap'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'

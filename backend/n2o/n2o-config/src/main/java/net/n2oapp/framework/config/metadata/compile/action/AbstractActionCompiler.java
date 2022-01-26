@@ -63,14 +63,12 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * Инициализация целевого виджета действия
      */
     protected String initClientWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = getClientWidgetIdByComponentScope(p);
+        String targetWidgetId = getClientWidgetIdByComponentScope(p); //widget in component's link
         if (targetWidgetId == null) {
             if (widgetScope != null) {
+                //current widget
                 targetWidgetId = widgetScope.getClientWidgetId();
-            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
-                targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
             } else {
                 throw new N2oException("Unknown widgetId for invoke action!");
             }
@@ -94,7 +92,10 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     protected String getPageId(CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        return pageScope.getPageId();
+        if (pageScope != null)
+            return pageScope.getPageId();
+        else
+            return null;
     }
 
     /**
