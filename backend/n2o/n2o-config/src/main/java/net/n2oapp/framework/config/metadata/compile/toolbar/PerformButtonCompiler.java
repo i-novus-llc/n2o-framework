@@ -102,6 +102,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
+        if (source.getAction() == null)
+            return p.cast(source.getValidate(), false);
         return p.cast(source.getValidate(), datasource != null || source.getValidateDatasources() != null);
     }
 
