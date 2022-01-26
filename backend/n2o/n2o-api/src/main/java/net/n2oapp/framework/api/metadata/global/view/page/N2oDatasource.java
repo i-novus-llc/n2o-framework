@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oDatasource implements Source {
+public class N2oDatasource implements Source, IdAware {
 
     private String id;
     private String queryId;

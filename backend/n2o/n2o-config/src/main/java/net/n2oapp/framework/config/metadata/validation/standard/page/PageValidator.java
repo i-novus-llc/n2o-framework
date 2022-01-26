@@ -31,7 +31,6 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
 
         PageScope scope = new PageScope();
         scope.setWidgetIds(p.safeStreamOf(page.getWidgets()).map(N2oMetadata::getId).collect(Collectors.toSet()));
-        p.safeStreamOf(page.getWidgets()).forEach(widget -> p.validate(widget, scope));
         checkForExistsDependsOnWidget(page, scope, p);
     }
 

@@ -7,22 +7,20 @@ import includes from 'lodash/includes'
 import merge from 'lodash/merge'
 import { isEmpty } from 'lodash'
 
-import { tabTraversal } from '../regions/sagas'
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../widgets/selectors'
+import { makeDatasourceIdSelector, makeWidgetByIdSelector, makeFormModelPrefixSelector } from '../widgets/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
-import { regionsSelector } from '../regions/store'
+import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate } from '../datasource/store'
 import { startInvoke } from '../../actions/actionImpl'
 import { MODEL_PREFIX } from '../../core/datasource/const'
 
 import { formsSelector } from './selectors'
-import { addMessage } from './constants'
 import {
     setRequired,
     unsetRequired,
@@ -88,58 +86,15 @@ export function* copyAction({ payload }) {
     yield put(setModel(target.prefix, target.key, newModel))
 }
 
+/* it uses in tabs region */
 function* setFocus({ payload }) {
-    const { form, name: fieldName, asyncValidating } = payload
+    const { validation } = payload
+    const { form, fields, blurValidation } = validation
 
-    if (asyncValidating === fieldName) {
-        return
+    if (!blurValidation) {
+        /* set focus to first invalid field */
+        yield put(focus(form, Object.keys(fields)[0]))
     }
-
-    const regions = yield select(regionsSelector)
-    const forms = yield select(formsSelector)
-
-    if (Object.values(forms).some(form => form.active)) {
-        return
-    }
-
-    const allTabs = Object.values(regions)
-        .filter(region => region.tabs)
-        .map(({ tabs }) => tabs)
-
-    for (const tabs of allTabs) {
-        const isTargetFormInTabs = yield tabTraversal(null, tabs, null, form)
-
-        if (isTargetFormInTabs) {
-            let fieldName = ''
-
-            const firstInvalidForm = tabs
-                .find(({ invalid }) => invalid)
-                .content
-                .find(({ id }) => {
-                    const { registeredFields } = forms[id]
-
-                    return Object.keys(registeredFields).some((currentFieldName) => {
-                        const { message } = registeredFields[currentFieldName]
-
-                        if (message) {
-                            fieldName = currentFieldName
-
-                            return true
-                        }
-
-                        return false
-                    })
-                })
-
-            if (firstInvalidForm.id) {
-                yield put(focus(firstInvalidForm.id, fieldName))
-
-                return
-            }
-        }
-    }
-
-    yield put(focus(form, fieldName))
 }
 
 export function* clearForm(action) {
@@ -194,17 +149,20 @@ export const formPluginSagas = [
         actionTypes.BLUR,
         setRequired.type,
         unsetRequired.type,
-    ], function* validateSage({ meta }) {
+    ], function* validateSaga({ meta }) {
         const { form, field } = meta
         const datasource = yield select(makeDatasourceIdSelector(form))
+        const currentFormPrefix = yield select(makeFormModelPrefixSelector(form))
 
         if (datasource) {
-            yield put(startValidate(datasource, [field]))
+            /* blurValidation is used in the setFocus saga,
+             this is needed to observing the field validation type */
+            yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
         }
     }),
     debounce(400, [
         actionTypes.CHANGE,
         // actionTypes.BLUR,
     ], autoSubmit),
-    debounce(100, addMessage, setFocus),
+    debounce(100, setTabInvalid, setFocus),
 ]
