@@ -34,27 +34,44 @@ public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware
      * @param p      Процессор исходных метаданных
      */
     private void checkWhiteListValidation(N2oForm source, SourceProcessor p) {
-        for (SourceComponent item : source.getItems()) {
-            if (item instanceof N2oField) {
-                N2oField.Validations validations = ((N2oField) item).getValidations();
-                if (validations != null && validations.getWhiteList() != null) {
-                    checkDatasource(source);
-                    DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-                    checkDatasourceObject(source, dataSourcesScope.get(source.getDatasourceId()));
+        if (source.getItems() != null) {
+            for (SourceComponent item : source.getItems()) {
+                if (item instanceof N2oField) {
+                    N2oField.Validations validations = ((N2oField) item).getValidations();
+                    if (validations != null && validations.getWhiteList() != null) {
+                        if (source.getDatasource() != null) {
+                            checkInlineDatasource(source);
+                            break;
+                        }
+                        checkDatasource(source, p);
+                    }
                 }
             }
         }
     }
 
     /**
-     * Проверка наличия ссылки на источник данных у формы
+     * Проверка внутреннего источника данных формы
      * @param source Форма
      */
-    private void checkDatasource(N2oForm source) {
+    private void checkInlineDatasource(N2oForm source) {
+        checkDatasourceObject(source, source.getDatasource());
+    }
+
+    /**
+     * Проверка наличия ссылки на источник данных у формы
+     * @param source Форма
+     * @param p      Процессор исходных метаданных
+     */
+    private void checkDatasource(N2oForm source, SourceProcessor p) {
         if (source.getDatasourceId() == null)
             throw new N2oMetadataValidationException(
-                    String.format("Для компиляции формы %s необходимо указать источник данных", source.getId())
+                    String.format("Для компиляции формы %s необходимо указать атрибут datasource или ввести внутренний источник данных",
+                            source.getId())
             );
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if (dataSourcesScope != null)
+            checkDatasourceObject(source, dataSourcesScope.get(source.getDatasourceId()));
     }
 
     /**
@@ -66,7 +83,7 @@ public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware
         if (datasource.getObjectId() == null)
             throw new N2oMetadataValidationException(
                     String.format("Для компиляции формы %s необходимо указать объект источника данных %s",
-                            source.getId(), source.getDatasourceId())
+                            source.getId(), ValidationUtils.getIdOrEmptyString(source.getDatasourceId()))
             );
     }
 
