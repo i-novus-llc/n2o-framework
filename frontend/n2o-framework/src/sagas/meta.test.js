@@ -1,7 +1,7 @@
 import { runSaga } from 'redux-saga'
 
-import { addFieldMessage } from '../ducks/form/store'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 import {
     alertEffect,
@@ -89,7 +89,7 @@ describe('Сага для перехвата меты, сайд-эффектов
             const { alert, meta } = setupAlertEffect()
             let gen = alert.next()
             gen = alert.next()
-            expect(gen.value.payload.action.payload.key).toEqual(meta.alert.alertKey)
+            expect(gen.value.payload.action.payload.key).toEqual(GLOBAL_KEY)
             expect(gen.value.payload.action.payload.alerts[0].closeButton).toEqual(
                 meta.alert.messages[0].closeButton,
             )
