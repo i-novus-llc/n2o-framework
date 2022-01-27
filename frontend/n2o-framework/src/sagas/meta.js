@@ -16,14 +16,14 @@ import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 export function* alertEffect(action) {
     try {
-        const { alertKey = GLOBAL_KEY, messages, stacked } = action.meta.alert
+        const { messages, stacked } = action.meta.alert
 
-        if (!stacked) { yield put(removeAllAlerts(alertKey)) }
+        if (!stacked) { yield put(removeAllAlerts(GLOBAL_KEY)) }
         const alerts = isArray(messages)
             ? messages.map(message => ({ ...message, id: message.id || id() }))
             : [{ ...messages, id: messages.id || id() }]
 
-        yield put(addMultiAlerts(alertKey, alerts))
+        yield put(addMultiAlerts(GLOBAL_KEY, alerts))
     } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e)
