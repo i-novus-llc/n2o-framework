@@ -59,13 +59,12 @@ export function* tabTraversal(action, tabs, regionId, form, param = null, option
 }
 
 function* switchTab(action) {
-    const state = yield select()
-    const regions = regionsSelector(state)
-    const tabsRegions = filter(values(regions), region => region.tabs)
-
     const { type, meta } = action
 
     if (type === actionTypes.TOUCH) {
+        const regions = yield select(regionsSelector)
+        const tabsRegions = filter(values(regions), region => region.tabs)
+
         const { form } = meta
 
         for (const { tabs, regionId } of tabsRegions) {
@@ -73,6 +72,10 @@ function* switchTab(action) {
             yield mapUrl(regionId)
         }
     }
+
+    const state = yield select()
+    const regions = yield select(regionsSelector)
+    const tabsRegions = filter(values(regions), region => region.tabs)
 
     const auth = authSelector(state)
     const userPermissions = get(auth, 'permissions')
