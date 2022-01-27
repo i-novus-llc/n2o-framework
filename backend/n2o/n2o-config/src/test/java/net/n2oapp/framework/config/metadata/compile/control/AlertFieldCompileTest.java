@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.FieldAlert;
+import net.n2oapp.framework.api.metadata.meta.control.AlertField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции {@link FieldAlertCompiler}
  */
-public class FieldAlertCompileTest extends SourceCompileTestBase {
+public class AlertFieldCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -36,7 +36,7 @@ public class FieldAlertCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testAlertFieldCompile.page.xml")
                 .get(new PageContext("testAlertFieldCompile"));
         Form form = (Form) page.getWidget();
-        FieldAlert field = (FieldAlert)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        AlertField field = (AlertField)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         assertThat(field.getSrc(), is("AlertField"));
         assertThat(field.getText(), is("`'Text '+message`"));

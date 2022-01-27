@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тесты {@link AlertMessageBuilder}
  */
-public class FieldAlertMessageBuilderTest {
+public class AlertMessageBuilderTest {
     @Test
     public void testAnyException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);

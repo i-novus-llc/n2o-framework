@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента alert
  */
-public class FieldAlertAT extends AutoTestBase {
+public class AlertFieldAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

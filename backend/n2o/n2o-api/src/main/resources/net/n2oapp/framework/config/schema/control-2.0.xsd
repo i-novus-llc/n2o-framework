@@ -829,14 +829,19 @@
     <xs:complexType name="controlAlertDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="header" type="xs:string">
+                <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст заголовка.</xs:documentation>
+                        <xs:documentation>Текст заголовка оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="footer" type="xs:string">
+                <xs:attribute name="text" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст нижней части.</xs:documentation>
+                        <xs:documentation>Текст оповещения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="color" type="xs:string">
@@ -844,14 +849,9 @@
                         <xs:documentation>Цвет оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="fade" type="xs:boolean" default="true">
+                <xs:attribute name="href" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Включение плавного отображения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="tag" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Тэг.</xs:documentation>
+                        <xs:documentation>Ссылка для перехода при клике по оповещению.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class FieldAlert extends Field {
+public class AlertField extends Field {
     @JsonProperty
     private String text;
     @JsonProperty
@@ -19,15 +19,7 @@ public class FieldAlert extends Field {
     @JsonProperty
     private String href;
     @JsonProperty
-    private String header;
-    @JsonProperty
-    private String footer;
-    @JsonProperty
     private String color;
-    @JsonProperty
-    private Boolean fade;
-    @JsonProperty
-    private String tag;
     @JsonProperty
     private Map<String, String> style;
 }

@@ -844,12 +844,12 @@
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль отображения оповещения.</xs:documentation>
+                        <xs:documentation>Стиль оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="color" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Цвет отображения оповещения.</xs:documentation>
+                        <xs:documentation>Цвет оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="href" type="xs:string">
