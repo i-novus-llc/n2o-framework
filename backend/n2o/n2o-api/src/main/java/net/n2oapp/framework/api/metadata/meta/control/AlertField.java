@@ -4,22 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
  * Клиентская модель поля для вывода оповещения
  */
 @Getter
 @Setter
-public class Alert extends Field {
+public class AlertField extends Field {
     @JsonProperty
     private String text;
     @JsonProperty
-    private String header;
+    private  String title;
     @JsonProperty
-    private String footer;
+    private String href;
     @JsonProperty
     private String color;
     @JsonProperty
-    private Boolean fade;
-    @JsonProperty
-    private String tag;
+    private Map<String, String> style;
 }
