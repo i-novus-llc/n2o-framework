@@ -19,7 +19,7 @@ public class FieldAlertCompiler extends FieldCompiler<AlertField, N2oAlert> {
         AlertField alert = new AlertField();
         if (source.getText() != null)
             alert.setText(p.resolveJS(source.getText().trim()));
-        alert.setTitle(p.resolveJS(source.getHeader()));
+        alert.setTitle(p.resolveJS(source.getTitle()));
         alert.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         alert.setColor(source.getColor());
         alert.setHref(source.getHref());
