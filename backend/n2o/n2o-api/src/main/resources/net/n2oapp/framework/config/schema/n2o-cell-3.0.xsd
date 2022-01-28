@@ -122,7 +122,6 @@
                     <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="execute-query" type="acn:executeQueryDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:any namespace="##other" processContents="strict">
                         <xs:annotation>
@@ -238,7 +237,6 @@
                     <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="execute-query" type="acn:executeQueryDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:any namespace="##other" processContents="strict">
                         <xs:annotation>
@@ -699,7 +697,6 @@
                     <xs:element name="invoke" type="acn:invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="close" type="acn:closeDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="set-value" type="acn:setValueDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="execute-query" type="acn:executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
                     <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="open-drawer" type="acn:openDrawerDefinition" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="copy" type="acn:copyDefinition" minOccurs="0" maxOccurs="1"/>
