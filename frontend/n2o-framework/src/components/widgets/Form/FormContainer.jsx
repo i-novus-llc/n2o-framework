@@ -12,6 +12,8 @@ import { MODEL_PREFIX } from '../../../core/datasource/const'
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
 
+const fakeInitial = {}
+
 export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, props) => getFormValues(props.id)(state) || {},
 })
@@ -55,8 +57,8 @@ class Container extends React.Component {
         } else if (!isEqual(activeModel, prevModel) && !isEqual(activeModel, reduxFormValues)) {
             // поменялась активная модель и она отличается от того что в форме (copyActyon / setValue-dependency) - обновляем данные в форме
             // костыль для того чтобы редакс-форма подхватила новую модель, даже если она совпадает с предыдущим initialValues
-            this.setState({ initialValues: {} })
-        } else if (isEmpty(initialValues) && !isEqual(activeModel, initialValues)) {
+            this.setState({ initialValues: fakeInitial })
+        } else if (initialValues === fakeInitial) {
             this.setState({ initialValues: cloneDeep(activeModel) })
         }
     }
