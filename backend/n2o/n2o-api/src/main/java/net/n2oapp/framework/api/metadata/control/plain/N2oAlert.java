@@ -12,6 +12,8 @@ public class N2oAlert extends N2oPlainField {
     private String header;
     private String text;
     private String style;
+    private String cssClass;
     private String href;
     private String color;
+    private Boolean closeButton;
 }

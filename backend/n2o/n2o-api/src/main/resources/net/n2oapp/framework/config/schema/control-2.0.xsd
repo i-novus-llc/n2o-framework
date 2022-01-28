@@ -844,6 +844,11 @@
                         <xs:documentation>Стиль оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс оповещения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="color" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Цвет оповещения.</xs:documentation>
@@ -852,6 +857,11 @@
                 <xs:attribute name="href" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Ссылка для перехода при клике по оповещению.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-button" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Наличие кнопки закрытия оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

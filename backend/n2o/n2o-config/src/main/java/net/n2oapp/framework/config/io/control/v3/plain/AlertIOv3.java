@@ -17,8 +17,10 @@ public class AlertIOv3 extends PlainFieldIOv3<N2oAlert> {
         p.attribute(e, "title", m::getHeader, m::setHeader);
         p.attribute(e, "text", m::getText, m::setText);
         p.attribute(e, "style", m::getStyle, m::setStyle);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "href", m::getHref, m::setHref);
         p.attribute(e, "color", m::getColor, m::setColor);
+        p.attributeBoolean(e, "close-button", m::getCloseButton, m::setCloseButton);
     }
 
     @Override
