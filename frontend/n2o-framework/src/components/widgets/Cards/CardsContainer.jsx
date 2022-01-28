@@ -19,6 +19,7 @@ export default compose(
             dispatch,
             align,
             height,
+            datasource,
         }) => ({
             className,
             id,
@@ -28,6 +29,7 @@ export default compose(
             dispatch,
             align,
             height,
+            datasource,
         }),
     ),
 )(CardsContainer)

@@ -25,6 +25,7 @@ export default compose(
             tileHeight,
             setResolve,
             dispatch,
+            datasource,
         }) => ({
             className,
             id: widgetId,
@@ -37,6 +38,7 @@ export default compose(
             tileHeight,
             onResolve: setResolve,
             dispatch,
+            datasource,
         }),
     ),
 )(TilesContainer)
