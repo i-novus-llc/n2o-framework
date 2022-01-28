@@ -580,7 +580,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("name", "test");
         SimplePage openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/page/show/main"));
+        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/page/show"));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().size(), is(1));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().get("name").isConst(), is(true));
 
@@ -589,7 +589,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testBindOpenPageShow", "/testBind"));
         context = (PageContext) route("/testBind", Page.class);
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/testBind/main"));
+        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/testBind"));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().size(), is(1));
         assertThat(openPage.getWidget().getDataProvider().getQueryMapping().get("name").getValue(), is("test"));
     }

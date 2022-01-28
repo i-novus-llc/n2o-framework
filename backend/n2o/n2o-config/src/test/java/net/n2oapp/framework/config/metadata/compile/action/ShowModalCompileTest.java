@@ -213,11 +213,11 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
         ShowModal showModal = (ShowModal) modalPage.getWidget().getActions().get("menuItem0");
         assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/menuItem0"));
-        assertThat(modalPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/update/main"));
+        assertThat(modalPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/update"));
 //        submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
 //        assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));// :p_main_id заменяется на этапе биндинга
 
-        QueryContext queryContext = (QueryContext) route("/p/123/update/main", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/p/123/update", CompiledQuery.class);
         assertThat(queryContext.getValidations().size(), is(1));
     }
 
@@ -376,8 +376,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
-        assertThat(modalPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/main"));
-        submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
+        assertThat(modalPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters"));
+        submit = (InvokeAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));
     }
 
