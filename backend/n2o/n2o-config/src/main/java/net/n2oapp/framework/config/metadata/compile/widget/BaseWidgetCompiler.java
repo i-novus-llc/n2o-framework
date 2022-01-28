@@ -178,14 +178,16 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
 
     private String getDatasourceRoute(D compiled, S source, CompileProcessor p) {
-        String datasource = p.cast(source.getDatasource(), source.getId());
-        String route = normalize(datasource);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null &&
-                source.getDetailFieldId() != null) {
-            //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-            String selectedId = normalizeParam(p.cast(compiled.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
-            route = normalize(colon(selectedId)) + normalize(datasource);
+        String route = source.getRoute();
+        if (route == null) {
+            String datasource = p.cast(source.getDatasource(), source.getId());
+            route = normalize(datasource);
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null && source.getDetailFieldId() != null) {
+                //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
+                String selectedId = normalizeParam(p.cast(compiled.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
+                route = normalize(colon(selectedId)) + route;
+            }
         }
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         if (parentRouteScope != null) {
