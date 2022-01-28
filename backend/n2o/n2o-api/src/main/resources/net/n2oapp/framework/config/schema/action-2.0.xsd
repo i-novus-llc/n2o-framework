@@ -34,7 +34,7 @@
             <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
-            <xs:element name="alert" type="alertDefinition"/>
+            <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>

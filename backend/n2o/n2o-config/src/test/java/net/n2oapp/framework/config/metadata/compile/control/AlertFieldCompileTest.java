@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование компиляции {@link FieldAlertCompiler}
+ * Тестирование компиляции {@link AlertFieldCompiler}
  */
 public class AlertFieldCompileTest extends SourceCompileTestBase {
 

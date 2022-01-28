@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Компиляция поля для вывода оповещения
  */
 @Component
-public class FieldAlertCompiler extends FieldCompiler<AlertField, N2oAlertField> {
+public class AlertFieldCompiler extends FieldCompiler<AlertField, N2oAlertField> {
 
     @Override
     public AlertField compile(N2oAlertField source, CompileContext<?, ?> context, CompileProcessor p) {
