@@ -313,6 +313,14 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 
 ### Репликация маршрутизации
 
+Адреса маршрутов страниц, выборок и операций регистрируются по мере работы приложения и сохраняются в памяти N2O сервера.
+При горизонтальном масштабировании серверов необходимо реплицировать эту информацию,
+иначе при переадресации запросов на новый сервер некоторые адреса не будут открываться с ошибкой 404.
+
+Существует два способа репликации:
+- Через jdbc
+- Через Redis
+
 #### Репликации роутов через jdbc
 
 1. Задайте настройку `n2o.config.register.store-type=jdbc`.
@@ -335,16 +343,16 @@ context binary
 1. Задайте настройку `n2o.config.register.store-type=redis.
 2. Настройте RedisTemplate с помощью Jedis или Lettuce:
 
-```java title="Jedis"
+````js title="Jedis"
 @Bean
 JedisConnectionFactory redisConnectionFactory() {
     JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
     ...
     return connectionFactory;
 }
-```
+````
 
-```java title="Lettuce"
+```js title="Lettuce"
 @Bean
 LettuceConnectionFactory redisConnectionFactory() {
     LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory();
@@ -353,7 +361,7 @@ LettuceConnectionFactory redisConnectionFactory() {
 }
 ```
 
-```
+````js
 @Bean
 public RedisTemplate redisTemplate() {
     RedisTemplate template = new RedisTemplate<>();
@@ -361,6 +369,6 @@ public RedisTemplate redisTemplate() {
 	...
     return template;
 }
-```
+````
 
 3. Для изменения ключа, по которому будут сохраняться пути, необходимо задать настройку `n2o.config.register.redis.key=routes`.
