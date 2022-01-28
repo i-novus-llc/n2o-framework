@@ -19,7 +19,7 @@ public class AlertFieldCompiler extends FieldCompiler<AlertField, N2oAlertField>
         AlertField alert = new AlertField();
         if (source.getText() != null)
             alert.setText(p.resolveJS(source.getText().trim()));
-        alert.setTitle(p.resolveJS(source.getHeader()));
+        alert.setTitle(p.resolveJS(source.getTitle()));
         alert.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         alert.setClassName(source.getCssClass());
         alert.setCloseButton(p.cast(source.getCloseButton(), false));

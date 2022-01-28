@@ -14,7 +14,7 @@ public class AlertIOv3 extends PlainFieldIOv3<N2oAlertField> {
     @Override
     public void io(Element e, N2oAlertField m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "title", m::getHeader, m::setHeader);
+        p.attribute(e, "title", m::getTitle, m::setTitle);
         p.attribute(e, "text", m::getText, m::setText);
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
