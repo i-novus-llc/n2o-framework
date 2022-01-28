@@ -11,7 +11,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 **Библиотека компонентов**
 
 ```
-http://n2oapp.net/framework/config/schema/page-3.0
+http://n2oapp.net/framework/config/schema/page-4.0
 ```
 
 ## Виды страниц {#pages}
@@ -24,7 +24,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
     <form>...</form>
 </simple-page>
@@ -57,9 +57,11 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |------------|---------------------------------|--------------------------------------------------------------|--------------------------------------|
 |src         |Строка                           |Реализация страницы                                           |                                      |
 |name        |Строка                           |Наименование страницы                                         |                                      |
+|title       |Строка                           |Заголовок страницы                                            |                                      |
+|html-title  |Строка                           |Заголовок вкладки браузера                                    |Наименование страницы                 |
 |route       |Строка                           |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                            |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id   |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
+|show-title  |true false                       |Показывать заголовок страницы?                                |false                                 |
 
 **Тело**
 
@@ -69,11 +71,12 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
     <regions>...</regions>
     <actions>...</actions>
     <toolbar>...</toolbar>
+    <datasources>...</datasources>
 </page>
 ```
 
@@ -89,9 +92,11 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |------------|---------------------------|--------------------------------------------------------------|--------------------------------------|
 |src         |Строка                     |Реализация страницы                                           |                                      |
 |name        |Строка                     |Наименование страницы                                         |                                      |
+|title       |Строка                     |Заголовок страницы                                            |                                      |
+|html-title  |Строка                     |Заголовок вкладки браузера                                    |Наименование страницы                 |
 |route       |Строка                     |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                      |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id   |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
+|show-title  |true false                 |Показывать заголовок страницы?                                |false                                 |
 
 **Тело**
 
@@ -101,8 +106,9 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
+    <datasources>...</datasources>
     <actions>...</actions>
     <toolbar>...</toolbar>
     <left>...</left>
@@ -142,9 +148,11 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |-----------------|---------------------------|--------------------------------------------------------------|--------------------------------------|
 |src              |Строка                     |Реализация страницы                                           |                                      |
 |name             |Строка                     |Наименование страницы                                         |                                      |
+|title            |Строка                     |Заголовок страницы                                            |                                      |
+|html-title       |Строка                     |Заголовок вкладки браузера                                    |Наименование страницы                 |
 |route            |Строка                     |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size       |sm lg                      |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id        |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
+|show-title       |true false                 |Показывать заголовок страницы?                                |false                                 |
 |scroll-top-button|true false                 |Показывается ли кнопка скролла в начало страницы              |false                                 |
 
 **Тело**
@@ -155,8 +163,9 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
+    <datasources>...</datasources>
     <actions>...</actions>
     <toolbar>...</toolbar>
     <top>...</top>
@@ -202,9 +211,11 @@ http://n2oapp.net/framework/config/schema/page-3.0
 |------------|---------------------------|--------------------------------------------------------------|--------------------------------------|
 |src         |Строка                     |Реализация страницы                                           |                                      |
 |name        |Строка                     |Наименование страницы                                         |                                      |
+|title       |Строка                     |Заголовок страницы                                            |                                      |
+|html-title  |Строка                     |Заголовок вкладки браузера                                    |Наименование страницы                 |
 |route       |Строка                     |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                      |Размер модального окна, если страница открыта в модальном окне|                                      |
-|object-id   |Ссылка на [объект](../xml/object)|Главный объект страницы                                       |                                      |
+|show-title  |true false                 |Показывать заголовок страницы?                                |false                                 |
 
 **Тело**
 
@@ -214,7 +225,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
     <search-bar/>
     <regions>...</regions>
@@ -231,23 +242,91 @@ http://n2oapp.net/framework/config/schema/page-3.0
 
 **Атрибуты**
 
-|Наименование    |Тип   |Описание                                             |Значение по умолчанию                                     |
-|----------------|------|-----------------------------------------------------|----------------------------------------------------------|
-|class           |Строка|CSS класс стилей                                     |                                                          |
-|placeholder     |Строка|Подсказка для ввода                                  |                                                          |
-|search-widget-id|Строка|Идентификатор виджета для которого производится поиск|Главный виджет страницы                                   |
-|search-filter-id|Строка|Идентификатор фильтра                                |                                                          |
-|search-param    |Строка|Параметр поиска                                      |Идентификатор виджета + Идентификатор фильтра (table_name)|
+|Наименование    |Тип   |Описание                                                    |Значение по умолчанию                                     |
+|----------------|------|------------------------------------------------------------|----------------------------------------------------------|
+|class           |Строка|CSS класс стилей                                            |                                                          |
+|placeholder     |Строка|Подсказка для ввода                                         |                                                          |
+|datasource      |Строка|Идентификатор источника данных, в котором производится поиск|Главный виджет страницы                                   |
+|search-filter-id|Строка|Идентификатор фильтра                                       |                                                          |
+|search-param    |Строка|Параметр поиска                                             |Идентификатор виджета + Идентификатор фильтра (table_name)|
 
 **Пример**
 
 ```xml
-<search-bar button-label="Искать" search-widget-id="main" search-filter-id="name"/>
+<search-bar button-label="Искать" datasource="main" search-filter-id="name"/>
 ```
 
-#### &lt;actions&gt; {#actions}
+## Источники данных {#datasources}
 
-Действия страницы.
+**Пример**
+
+```xml
+<datasources>
+  <datasource id="ds1">...</datasource>
+  <datasource id="ds2">...</datasource>
+  <datasource id="ds3">...</datasource>
+</datasource>
+```
+
+### &lt;datasource&gt; {#datasource}
+
+Источник данных
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
+|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
+|id                  |Строка                 |Идентификатор источника данных                                        |                      |
+|query-id            |Строка                 |Идентификатор выборки, на основе которой происходит получение данных  |                      |
+|object-id           |Строка                 |Идентификатор объекта                                                 |                      |
+|default-values-mode |defaults, query, merge |Подстановка значений по умолчанию.<br/>defaults - значения по умолчанию заполняются данными прописанными в полях<br/>query - значения по умолчанию заполняются данными из запроса<br/>merge - значения по умолчанию заполняются путем мержа данных прописанных в полях и полученных из запроса(полученные из запроса в приоритете) |query|
+|size                |Число                  |Размер выборки                                                        |10                    |
+|route               |Строка                 |URL получения данных                                                  |true                  |
+
+**Тело**
+
+[Предустановленная фильтрация](../xml/base#pre-filters) <br/>
+[Отправка полей на сервер при их изменении](../xml/action#submit) <br/>
+[Зависимости источника данных](#ds_dependencies)
+
+**Пример**
+
+```xml
+<datasource id="ds1">
+  <filters>
+    <eq field-id="id" value={id}/>
+    ...
+  </filters>
+  <submit>
+    ...
+  </submit>
+  <dependencies>
+    <fetch on="ds2"/>
+    ...
+  </dependencies>
+</datasource>
+```
+
+#### Зависимости источника данных {#ds_dependencies}
+
+##### Обновление данных при изменении зависимых источников данных &lt;fetch&gt;
+
+**Атрибуты**
+
+|Наименование|Тип                             |Описание                          |Значение по умолчанию|
+|------------|--------------------------------|----------------------------------|---------------------|
+|on          |Строка                          |Иденитификатор источника данных   |                     |
+|model       |filter,resolve,edit,datasource  |Модель источника данных           |resolve              |
+
+**Пример**
+
+```xml
+<dependencies>
+    <fetch on="ds2" model="filter"/>
+</dependencies>
+```
+
+## Действия на странице {#actions}
 
 **Атрибуты**
 
@@ -265,20 +344,23 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </actions>
 ```
 
-##### &lt;action&gt; {#action}
+### &lt;action&gt; {#action}
 
-Действие над страницей.
+Действие на странице.
 
 **Атрибуты**
 
-|Наименование|Тип                                      |Описание              |Значение по умолчанию                                                                                        |
-|------------|-----------------------------------------|----------------------|-------------------------------------------------------------------------------------------------------------|
-|id          |Строка                                   |Идентификатор действия|                                                                                                             |
-|name        |Строка                                   |Наименование          |Вычисляется по операции объекта                                                                              |
-|icon        |[CSS класс](http://fontawesome.io/icons/)|Иконка действия       |Вычисляется, если `id` действия из списка стандартных действий.                                              |
-|hotkey      |Сочетание клавиш                         |Горячая клавиша вызова|Вычисляется, если `id` действия из списка стандартных действий. Например, для `save` горячая клавиша `Enter`.|
-|visible     |true false                               |Видимость действия    |true                                                                                                         |
-|enabled     |true false                               |Доступность действия  |true
+|Наименование|Тип                                      |Описание                                                 |Значение по умолчанию                                                                                        |
+|------------|-----------------------------------------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+|id          |Строка                                   |Идентификатор действия                                   |                                                                                                             |
+|name        |Строка                                   |Наименование                                             |Вычисляется по операции объекта                                                                              |
+|route       |Строка                                   |URL действия                                             |Формируется из идентификатора действия                                                                       |
+|icon        |[CSS класс](http://fontawesome.io/icons/)|Иконка действия                                          |Вычисляется, если `id` действия из списка стандартных действий.                                              |
+|hotkey      |Сочетание клавиш                         |Горячая клавиша вызова                                   |Вычисляется, если `id` действия из списка стандартных действий. Например, для `save` горячая клавиша `Enter`.|
+|visible     |true false                               |Видимость действия                                       |true                                                                                                         |
+|enabled     |true false                               |Доступность действия                                     |true                                                                                                         |
+|model       |resolve filter edit multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
+|datasource  |true false                               |Идентификатор источника данных для выполнения действия   |true                                                                                                         |
 
 **Тело**
 
@@ -296,9 +378,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </action>
 ```
 
-#### &lt;toolbar&gt; {#toolbar}
-
-Меню управляющих кнопок страницы.
+## Меню управляющих кнопок страницы {#toolbar}
 
 **Атрибуты**
 
@@ -317,15 +397,15 @@ http://n2oapp.net/framework/config/schema/page-3.0
 </toolbar>
 ```
 
-##### &lt;button&gt;
+### &lt;button&gt;
 
 [Кнопка](../xml/widget#button_in_widget)
 
-##### &lt;sub-menu&gt;
+### &lt;sub-menu&gt;
 
 [Кнопка с выпадающим меню](../xml/widget#sub-menu_in_widget)
 
-##### &lt;group&gt;
+### &lt;group&gt;
 
 [Группа кнопок](../xml/widget#group)
 
@@ -335,7 +415,7 @@ http://n2oapp.net/framework/config/schema/page-3.0
 **Библиотека компонентов**
 
 ```
-http://n2oapp.net/framework/config/schema/region-2.0
+http://n2oapp.net/framework/config/schema/region-3.0
 ```
 
 ### Базовые свойства {#Basic_properties}
