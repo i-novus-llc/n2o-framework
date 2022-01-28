@@ -1178,6 +1178,11 @@
                         <xs:documentation>Стиль оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс оповещения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="color" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Цвет оповещения.</xs:documentation>
@@ -1211,7 +1216,9 @@
         <xs:annotation>
             <xs:documentation>Тип места расположения оповещения.</xs:documentation>
         </xs:annotation>
-        <xs:restriction base="messagePlacement">
+        <xs:restriction>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
             <xs:enumeration value="topLeft"/>
             <xs:enumeration value="topRight"/>
             <xs:enumeration value="bottomLeft"/>

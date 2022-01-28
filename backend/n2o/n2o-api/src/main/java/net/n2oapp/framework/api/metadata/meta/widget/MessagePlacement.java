@@ -9,10 +9,10 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 public enum MessagePlacement implements IdAware {
     top("top"),
     bottom("bottom"),
-    topLeft("top-left"),
-    topRight("top-right"),
-    bottomLeft("bottom-left"),
-    bottomRight("bottom-right");
+    topLeft("topLeft"),
+    topRight("topRight"),
+    bottomLeft("bottomLeft"),
+    bottomRight("bottomRight");
 
     private String name;
 

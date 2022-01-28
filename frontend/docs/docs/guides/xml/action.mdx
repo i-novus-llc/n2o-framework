@@ -557,6 +557,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |title        |Строка                                             |Текст заголовка оповещения                  |                     |
 |text         |Строка                                             |Текст оповещения                            |                     |
 |style        |Строка                                             |Стиль оповещения                            |                     |
+|style        |Строка                                             |CSS класс оповещения                        |                     |
 |color        |Строка                                             |Цвет оповещения                             |                     |
 |href         |Строка                                             |Ссылка для перехода при клике по оповещению |                     |
 |close-button |true false                                         |Наличие кнопки закрытия оповещения          |true                 |
@@ -566,7 +567,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Пример**
 
 ```xml
-<alert title="title" text="text" style=""
+<alert title="title" text="text" style="width:90%" class="css-on-action"
                close-button="true" placement="top" color="info"
                timeout="5000" href="http://example.org"/>
 ```

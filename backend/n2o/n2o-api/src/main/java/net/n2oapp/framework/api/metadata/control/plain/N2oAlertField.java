@@ -8,11 +8,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oAlert extends N2oPlainField {
+public class N2oAlertField extends N2oPlainField {
     private String header;
     private String text;
-    private String style;
-    private String cssClass;
     private String href;
     private String color;
     private Boolean closeButton;
