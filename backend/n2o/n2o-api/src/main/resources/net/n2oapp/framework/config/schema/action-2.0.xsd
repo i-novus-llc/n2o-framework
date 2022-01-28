@@ -1200,7 +1200,7 @@
                 </xs:attribute>
                 <xs:attribute name="timeout" type="xs:integer" default="5000">
                     <xs:annotation>
-                        <xs:documentation>Время показа оповещения.</xs:documentation>
+                        <xs:documentation>Длительность показа оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
