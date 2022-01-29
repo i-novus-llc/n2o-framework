@@ -23,25 +23,25 @@ description: ""
 Значения по умолчанию для настроек определяются в файле `application.properties` в ресурсах приложения.
 Значения задаются в виде "ключ=значение":
 
-```
+```js title="application.properties"
 myapp.url=https://n2oapp.net/framework
 ```
 
 Можно использовать SpEL выражение:
 
-```
+```js title="application.properties"
 myapp.number=#{T(java.lang.Math).random() * 100.0}
 ```
 
 В SpEL выражениях есть доступ к системным настройкам Java:
 
-```
+```js title="application.properties"
 myapp.path=#{systemProperties['user.home']}
 ```
 
 Или к настройкам окружения:
 
-```
+```js title="application.properties"
 myapp.path=#{envProperties['HOME']}
 ```
 
@@ -71,7 +71,7 @@ myapp.path=#{envProperties['HOME']}
 Настройки клиента задаются в формате `json` в файле `META-INF/config.json`
 в ресурсах приложения:
 
-```json title="Настройки клиента"
+```json title="META-INF/config.json"
 {
   "projectName": "MyApp"
 }
@@ -79,7 +79,7 @@ myapp.path=#{envProperties['HOME']}
 ```
 В значениях json можно вставлять [настройки N2O](#Server_settings_files) через "доллар" и фигурные скобки:
 
-```json
+```json title="META-INF/config.json"
 {
   "version": "${project.version}"
 }
@@ -87,7 +87,7 @@ myapp.path=#{envProperties['HOME']}
 
 Или можно вставлять значения [контекста пользователя](../manual/context):
 
-```json
+```json title="META-INF/config.json"
 {
   "user" : {
     "username": "#{username}"
