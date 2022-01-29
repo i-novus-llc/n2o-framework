@@ -74,7 +74,8 @@ const config = {
 ```
 
 :::note
-Для кастомизации `header` `footer` `sidebar` необходимо в свойство `templates` конфигурационного объекта, передать кастомные компоненты.
+Для кастомизации `header` `footer` `sidebar` необходимо в свойство `templates` конфигурационного объекта,
+передать кастомные компоненты.
 
 Пример описывающий как реализовать данную возможность:
 
@@ -105,8 +106,9 @@ export function CustomSidebar(config) {
 ```
 Имена переданных в N2O компонентов `header` `footer` `sidebar` задаются с помощью атрибута src в application.xml
 
-```xml {2-4} title="Пример application.xml"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="index">
+```xml {3-5} title="Пример application.xml"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+             welcome-page-id="index">
     <header src="CustomHeader" />
     <sidebar src="CustomSidebar" />
     <footer src="CustomFooter" />
@@ -166,9 +168,9 @@ const config = {
 
 Переданные в N2O компоненты можно использовать в конфигурациях с помощью атрибута `src`:
 
-```xml title="Подключение кастомного компонента"
+```xml {3} title="Подключение кастомного компонента"
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              src="HelloPage">
     ...
 </simple-page>
