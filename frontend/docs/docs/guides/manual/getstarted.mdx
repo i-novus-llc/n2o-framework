@@ -24,7 +24,6 @@ description: ""
 - [IntelliJ IDEA](http://www.jetbrains.com/idea/download/)
 
 :::note
-
 В качестве сервера баз данных можно использовать встроенную БД H2,
 что вполне достаточно для исследования возможностей фреймворка и прототипирования интерфейсов.
 Для создания реальных приложений рекомендуется установить и использовать в проекте какую-либо из полноценных СУБД, например, PostgreSQL.
@@ -33,7 +32,7 @@ description: ""
 
 ### Создание проекта
 
-Для сборки проектов на N2O Framework используется система сборки Maven и библиотека Spring Boot 2.1.1.RELEASE.
+Для сборки проектов на N2O Framework используется система сборки Maven и библиотека Spring Boot.
 
 Создайте папку проекта, например: `/myproject`
 
@@ -85,15 +84,15 @@ description: ""
 
 ```xml
 <properties>
-  <n2o.version>7.19.0</n2o.version>
+    <n2o.version>7.21.0</n2o.version>
 </properties>
 
 <dependencies>
-  <dependency>
-    <groupId>net.n2oapp.framework</groupId>
-    <artifactId>n2o-spring-boot-starter</artifactId>
-    <version>${n2o.version}</version>
-  </dependency>
+    <dependency>
+        <groupId>net.n2oapp.framework</groupId>
+        <artifactId>n2o-spring-boot-starter</artifactId>
+        <version>${n2o.version}</version>
+    </dependency>
 </dependencies>
 ```
 Эта библиотека зарегистрирует REST сервисы, необходимые для работы клиента N2O.
@@ -101,7 +100,7 @@ description: ""
 В папке проекта `/src/main/java/com/example/myproject` создайте
 java класс `Application.java` с методом `main`:
 
-```java
+````js
 package com.example.myproject;
 
 import org.springframework.boot.SpringApplication;
@@ -113,24 +112,22 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 }
-```
+````
 
 В папку `/src/main/resources/` добавьте файл конфигурации Spring Boot приложения `application.properties`
 с настройками кодировки UTF-8 для http запросов:
 
-```
+````js
 server.servlet.encoding.force-response=true
 server.servlet.encoding.force=true
-```
+````
 
 Структура папок внутри проекта будет выглядеть следующим образом:
 
 ![](./images/dirs.png)
 
 :::tip
-
 Более полную информацию о сборке Spring Boot приложений можно прочитать [здесь](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
-
 :::
 
 #### Подключение N2O клиента
@@ -146,29 +143,29 @@ server.servlet.encoding.force=true
 
 В корне проекта выполните команду:
 
-```
+````
 npm init react-app frontend
-```
+````
 Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, включая index.js.
 
 Перейдите в папку `/frontend`:
 
-```
+````
 cd frontend
-```
+````
 
 Затем установите библиотеку `n2o-framework`:
 
-```
+````
 yarn add n2o-framework
-```
+````
 
 Далее необходимо удалить лишние файлы, созданные после инициализации. Удалите файлы `App.css`, `App.js`, `App.test.js`, `logo.svg`,
 `reportWebVitals.js`.
 
 Отредактируйте файл `/frontend/src/index.js`. Он должен выглядеть следующим образом:
 
-```jsx
+````jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import N2O from 'n2o-framework';
@@ -191,21 +188,21 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-```
+````
 
 Теперь N2O React проект готов.
 
 Для сборки проекта в папке `/frontend` выполните команду:
 
-```
+````
 yarn
-```
+````
 
 А затем:
 
-```
+````
 yarn build
-```
+````
 
 В результате в папке `/frontend/build` появится `index.html` и другие статические ресурсы.
 
@@ -239,9 +236,7 @@ yarn build
 Теперь N2O сервер будет раздавать статические ресурсы собранные в React проекте в папке `/frontend/build`.
 
 :::tip
-
 Более полную информацию о сборке React приложений можно прочитать [здесь](https://reactjs.org/docs/create-a-new-react-app.html)
-
 :::
 
 ##### Подключение готового N2O React проекта
@@ -263,9 +258,9 @@ yarn build
 
 В корне проекта выполните команду:
 
-```
+````
 mvn clean package
-```
+````
 
 В результате появится папка `/target`, в которой будет лежать исполняемый
 jar файл со встроенным WEB сервером, названный в формате `[artifactId]-[version].jar`.
@@ -273,9 +268,9 @@ jar файл со встроенным WEB сервером, названный 
 
 Запустите сервер из корневой папки командой:
 
-```
+````
 java -jar target/myproject-1.0.jar
-```
+````
 В консоли должна будет отобразиться строка `N2O was started`.
 Приложение можно будет открыть в браузере по адресу `http://localhost:8080`.
 
@@ -294,11 +289,11 @@ java -jar target/myproject-1.0.jar --n2o.project.path=/home/myProject
 
 При старте сервера будет произведено сканирование директорий из которых N2O Framework будет брать XML файлы:
 
-```
+````
 n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: [/home/myProject/src/main/resources/META-INF/conf]
 net.n2oapp.watchdir.WatchDir             : WatchDir is started.
 n.n2oapp.framework.config.ConfigStarter  : N2O was started
-```
+````
 
 
 ### Плагин для Intellij IDEA
@@ -320,9 +315,9 @@ n.n2oapp.framework.config.ConfigStarter  : N2O was started
 В папке `/META-INF/conf` создайте файл главной страницы приложения `index.page.xml`
 с формой и одним единственным текстовым полем `hello`:
 
-```xml
+````xml
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Моя первая страница">
     <form>
         <fields>
@@ -330,7 +325,7 @@ n.n2oapp.framework.config.ConfigStarter  : N2O was started
         </fields>
     </form>
 </simple-page>
-```
+````
 
 Если был настроен [моментальный подхват изменений](#Instant_pickup_of_changes),
 то просто обновите страницу браузера `http://localhost:8080/`, если нет - просто пересоберите и перезапустите сервер:
@@ -338,7 +333,5 @@ n.n2oapp.framework.config.ConfigStarter  : N2O was started
 ![](./images/index-ac3c3.png)
 
 :::tip
-
 Другие примеры простых приложений на N2O Framework находятся здесь: https://github.com/i-novus-llc/n2o-framework/tree/master/examples
-
 :::
