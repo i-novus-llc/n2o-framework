@@ -9,21 +9,35 @@ N2O разделяет шаблон и данные.
 
 ### Динамические свойства {#Dynamic_properties}
 
-#### Вычисляемые значения атрибутов
+#### Вычисляемые значения атрибутов {#Property_resolver}
 
-Некоторые атрибуты в компонентах можно задавать через javaScript выражения:
+Некоторые атрибуты в компонентах можно задавать через ссылки или javaScript выражения:
 
-```xml title="Доступность чекбокса по условию"
-<column label="Активность">
-    <!-- "{status == 'open'}" выражение над строкой таблицы -->
-    <checkbox enabled="{status == 'open'}"/>
-</column>
-```
-
-```xml title="Иконка в таблице по данным строки"
+```xml {3} title="Иконка в таблице по данным строки"
 <column label="Тип">
     <!-- "{iconClass}" ссылка на поле выборки -->
     <icon class="{iconClass}"/>
+</column>
+```
+
+```xml {10} title="Заголовок поля по значению другого поля"
+<radio-group id="contactType"
+             label="Тип контакта">
+    <options>
+        <option id="1" name="Мобильный телефон"/>
+        <option id="2" name="Электронная почта"/>
+    </options>
+</radio-group>
+
+<input-text id="contactValue"
+            label="{contactType.name}"/>
+<!-- Заголовок поменяется при выборе типа контакта -->
+```
+
+```xml {3} title="Доступность чекбокса по условию"
+<column label="Активность">
+    <!-- "{status == 'open'}" выражение над строкой таблицы -->
+    <checkbox enabled="`status == 'open'`"/>
 </column>
 ```
 
