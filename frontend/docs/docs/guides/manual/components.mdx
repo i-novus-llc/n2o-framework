@@ -389,7 +389,7 @@ __*Виды основных виджетов*__
 ```xml title="Источник данных над которым произойдет действие кнопки"
 <page>
   <toolbar>
-    <button datasource-id="main">...</button>
+    <button datasource="main">...</button>
   </toolbar>
 </page>
 ```
@@ -471,16 +471,18 @@ __*Виды кнопок*__
 
 __*Виды действий*__
 
-|Вид               |Redux действие             |Описание                                                                          |
-|------------------|---------------------------|----------------------------------------------------------------------------------|
-|&lt;invoke&gt;    |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                     |
-|&lt;show-modal&gt;|n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                              |
-|&lt;open-page&gt; |                           |[Открытие вложенной страницы](../xml/action#open-page)                            |
-|&lt;close&gt;     |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)|
-|&lt;refresh&gt;   |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
-|&lt;clear&gt;     |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                     |
-|&lt;copy&gt;      |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)         |
-|&lt;print&gt;     |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
+|Вид                 |Redux действие             |Описание                                                                            |
+|--------------------|---------------------------|------------------------------------------------------------------------------------|
+|&lt;invoke&gt;      |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                       |
+|&lt;show-modal&gt;  |n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                                |
+|&lt;open-drawer&gt; |n2o/overlays/INSERT_DRAWER |[Открытие выдвижной панели](../xml/action#open-drawer)                              |
+|&lt;open-page&gt;   |                           |[Открытие вложенной страницы](../xml/action#open-page)                              |
+|&lt;a&gt;           |                           |[Открытие ссылки](../xml/action#a)                                                  |
+|&lt;close&gt;       |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)  |
+|&lt;refresh&gt;     |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
+|&lt;clear&gt;       |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                       |
+|&lt;copy&gt;        |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
+|&lt;print&gt;       |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
 
 Действие можно задать внутри кнопки:
 
@@ -603,7 +605,7 @@ __*Мульти-филдсеты*__
 
 ![](./images/form.png)
 
-```xml
+```xml title="Поля в форме"
 <form>
     <fields>
         <input-text id="name" label="Наименование"/>
@@ -615,7 +617,7 @@ __*Мульти-филдсеты*__
 
 ![](./images/fieldset.png)
 
-```xml title=""
+```xml title="Поля в филдсете"
 <line>
     <input-text id="name" label="Наименование"/>
 </line>
