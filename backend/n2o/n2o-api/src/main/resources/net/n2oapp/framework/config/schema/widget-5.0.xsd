@@ -4,7 +4,7 @@
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
-           xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
+           xmlns:cell="http://n2oapp.net/framework/config/schema/cell-3.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
            xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
