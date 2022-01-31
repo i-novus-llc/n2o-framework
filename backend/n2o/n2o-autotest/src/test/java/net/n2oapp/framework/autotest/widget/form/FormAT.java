@@ -43,6 +43,7 @@ public class FormAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7442
     @Test
     public void testForm() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/index.page.xml"),
@@ -103,9 +104,7 @@ public class FormAT extends AutoTestBase {
         // у кнопки2 не должно быть подсказки, т.к. не указан description
         tooltip.shouldNotBeExist();
     }
-
-
-    @Disabled //https://jira.i-novus.ru/browse/NNO-7339
+    
     @Test
     public void testMode() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
