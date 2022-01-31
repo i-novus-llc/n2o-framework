@@ -1,4 +1,4 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
         <status id="status" text="Task completed" color="success" text-position="left"/>
     </fields>

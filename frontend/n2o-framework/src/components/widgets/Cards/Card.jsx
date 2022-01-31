@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import CardsCell from './CardsCell'
 
-export function Card({ card, model, index, id, onResolve, dispatch, alignStyle }) {
+export function Card({ card, model, index, id, onResolve, dispatch, alignStyle, datasource }) {
     const { content = [], col } = card
 
     return (
@@ -30,6 +30,7 @@ export function Card({ card, model, index, id, onResolve, dispatch, alignStyle }
                             model={model}
                             onResolve={onResolve}
                             dispatch={dispatch}
+                            datasource={datasource}
                             {...component}
                         />
                     </div>
@@ -47,4 +48,5 @@ Card.propTypes = {
     onResolve: PropTypes.func,
     dispatch: PropTypes.func,
     alignStyle: PropTypes.object,
+    datasource: PropTypes.string,
 }

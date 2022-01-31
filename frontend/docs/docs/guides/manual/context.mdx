@@ -9,7 +9,7 @@ description: ""
 
 К контексту пользователя существует быстрый доступ из некоторых мест в XML через "решётку" и фигурные скобки:
 
-```xml
+```xml title="Контекст в значении по умолчанию поля"
 <input-text id="login" default-value="#{username}"/>
 ```
 
@@ -20,63 +20,36 @@ __*Места применения контекста в XML*__
 |*/[control]/@default-value                                |Значение по умолчанию [поля ввода](../manual/defaultvalue#Default_field_values) |
 |/query/fields/field/filters/[filter-type]/@default-value  |Значение по умолчанию [фильтра выборки](../manual/data#Selection_filters)       |
 |/query/fields/field/select/@default-value                 |Значение по умолчанию [поля выборки](../manual/data#Selection_fields)           |
-|/object/actions/action/in-parameters/param/@default-value |Значение по умолчанию [входящего параметра](../manual/data#Object_operations) операции |
-|/object/actions/action/out-parameters/param/@default-value|Значение по умолчанию [исходящего параметра](../manual/data#Object_operations) операции|
-|*/pre-filters/[filter-type]/@value                        |Значение [предустановленного фильтра](../manual/filters#pre-filters)                    |
-|*/pre-fields/[filter-type]/@value                         |Значение [предустановленного поля](../manual/filters#Preset_fields)                    |
+|/object/operations/operation/in/field/@default-value      |Значение по умолчанию [входящего параметра](../manual/data#Object_operations) операции |
+|/object/operations/operation/out/field/@default-value     |Значение по умолчанию [исходящего параметра](../manual/data#Object_operations) операции|
+|*/filters/[filter-type]/@value                            |Значение [предустановленного фильтра](../manual/filters#pre-filters)                    |
 |/access/*/object-access/[filter-type]/@value              |Значение [фильтра доступа](../manual/security#Access_scheme)                           |
 
 В случае, когда значение контекста отсутствует, возвращается `null`.
 Если логика приложения не допускает `null` контекст, можно сделать его обязательным, добавив восклицательный знак в конце:
 
-```xml title="бязательный контекст"
+```xml title="Обязательный контекст в значении по умолчанию поля"
 <input-text id="name" default-value="#{firstName!}"/>
 ```
 
 ### Подключение
 
-Контекст подключается автоматически после интеграции с системой аутентификации Spring Security.
+Для подключения контекста необходимо задать Spring бин `ContextEngine`.
+В N2O существует 2 реализации контекста:
+- `ConcurrentMapContextEngine` - контекст на основе ConcurrentHashMap (подключен по умолчанию)
+- `SessionContextEngine` - контекст на основе сессии приложения
 
-:::note
+Можно подключить свою реализацию контекста на основе текущей системы аутентификации:
 
-Например, в случае интеграции со Spring Security, все поля объекта `UserDetails` становятся доступны в XML.
-
-:::
-
-Можно сконфигурировать подключение вручную с помощью модульного контекста:
-
-```xml title="Подключение модульного контекста в Maven"
-<dependency>
-  <groupId>net.n2oapp.framework</groupId>
-  <artifactId>n2o-context</artifactId>
-  <version>{version}</version>
-</dependency>
-```
-
-Модульный контекст позволяет определять параметры контекста в любом jar модуле и получать их значения по первому требованию.
-Подключение делается с помощью интерфейса `ContextProvider` зарегистрированного в качестве Spring бина.
-
-```java
-/**
-* Провайдер одного значения контекста
-**/
-public class MyContextProvider
-    implements RootOneValueContextProvider {
-
-    /**
-    * @return Значение параметра контекста
-    **/
+````js title="Пример реализации контекста при OAuth аутентификации"
+@Component
+class OAuthContextEngine extends SessionContextEngine {
     @Override
-    public Object getValue() {
-        return "myvalue";
-    }
-
-    /**
-    * @return Название параметра контекста
-    **/
-    @Override
-    public String getParam() {
-        return "myparam";
+    public Object get(String name) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String, Object> attributes = ((DefaultOidcUser)principal).getAttributes();
+        Object value = attributes.get(name);
+        return value != null ? value : super.get(name);
     }
 }
-```
+````
