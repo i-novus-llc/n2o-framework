@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -104,7 +105,7 @@ public class FormAT extends AutoTestBase {
     }
 
 
-    //https://jira.i-novus.ru/browse/NNO-7339
+    @Disabled //https://jira.i-novus.ru/browse/NNO-7339
     @Test
     public void testMode() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
