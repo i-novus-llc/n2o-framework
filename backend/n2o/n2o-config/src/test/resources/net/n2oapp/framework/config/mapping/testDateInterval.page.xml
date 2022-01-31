@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <date-interval id="test"
+                           date-format="DD/MM/YYYY"
+                           time-format="HH:mm:ss"
+                           min="2012-12-05T00:00:00"
+                           max="2021-12-15T00:00:00"
+                           placeholder="Введите дату"
+                           utc="false">
+            </date-interval>
+        </fields>
+    </form>
+</simple-page>

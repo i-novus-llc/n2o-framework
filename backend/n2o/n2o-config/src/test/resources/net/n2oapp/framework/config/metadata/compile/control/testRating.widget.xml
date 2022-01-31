@@ -1,5 +1,0 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
-    <fields>
-        <rating id="testId" half="false" max="5" show-tooltip="true"/>
-    </fields>
-</form>

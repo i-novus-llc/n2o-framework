@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
-import net.n2oapp.framework.config.metadata.validation.standard.IdValidationUtils;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +18,8 @@ import java.util.HashMap;
 public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>, SourceClassAware {
 
     @Override
-    public void validate(N2oMultiFieldSet source, ValidateProcessor p) {
-        IdValidationUtils.checkIds(source.getItems(), p);
+    public void validate(N2oMultiFieldSet source, SourceProcessor p) {
+        ValidationUtils.checkIds(source.getItems(), p);
         validateItems(source, p);
     }
 
@@ -27,9 +27,9 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
      * Валидация внутренних элементов
      *
      * @param source Филдсет
-     * @param p      Процессор валидации метаданных
+     * @param p      Процессор исходных метаданных
      */
-    private void validateItems(N2oMultiFieldSet source, ValidateProcessor p) {
+    private void validateItems(N2oMultiFieldSet source, SourceProcessor p) {
         FieldsScope fieldsScope = p.getScope(FieldsScope.class);
         HashMap fields = new HashMap(fieldsScope);
 

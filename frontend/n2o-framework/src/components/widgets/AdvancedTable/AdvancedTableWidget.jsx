@@ -1,200 +1,76 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import values from 'lodash/values'
+import React, { useContext, useMemo } from 'react'
+import { omit } from 'lodash'
 
-import { getN2OPagination } from '../Table/N2OPagination'
-import { pagingType } from '../../snippets/Pagination/types'
-import StandardWidget from '../StandardWidget'
+import { N2OPagination } from '../Table/N2OPagination'
+import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
-import { dependency } from '../../../core/dependency'
+import { WidgetHOC } from '../../../core/widget/Widget'
+import { FactoryContext } from '../../../core/factory/context'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableContainer from './AdvancedTableContainer'
+import { AdvancedTableWidgetTypes } from './propTypes'
 
-/**
- * Компонент AdvancedTableWidget
- * @param pageId - id страницы
- * @param widgetId - id виджета
- * @param toolbar - тулбар таблицы
- * @param dataProvider
- * @param bordered - флаг таблицы с боредарми
- * @param rowClick - действие клика по строке
- * @param paging - объект пагинации
- * @param multiHeader - флаг использования многоуровненвого заголовка
- * @param scroll - объект скролла для таблицы
- * @param expandable - флаг использования контента в подстроке
- * @param useFixedHeader - флаг использования фиксированного заголовка
- * @param tableSize - размер таблицы
- * @param rowSelection - флаг использования чекбоксов для мульти селекта
- * @param rowClass - expression цвет строки
- */
-class AdvancedTableWidget extends Component {
-    getWidgetProps() {
-        const {
-            toolbar,
-            dataProvider,
-            placeholder,
-            children,
-            table,
-        } = this.props
-        const {
-            className,
-            headers,
-            cells,
-            sorting,
-            hasFocus,
-            hasSelect,
-            autoFocus,
-            rowSelection,
-            autoCheckboxOnSelect,
-            tableSize,
-            useFixedHeader,
-            expandable,
-            scroll,
-            onFetch,
-            multiHeader,
-            bordered,
-            rowClick,
-            expandedFieldId,
-            rows,
-            rowClass,
-            width,
-            height,
-            textWrap,
-        } = table
-        const { resolveProps } = this.context
-
-        return {
-            headers: values(resolveProps(headers)),
-            cells: values(resolveProps(cells)),
-            sorting,
-            toolbar,
-            hasFocus,
-            hasSelect,
-            autoFocus,
-            dataProvider,
-            placeholder,
-            children,
-            rowSelection,
-            autoCheckboxOnSelect,
-            tableSize,
-            useFixedHeader,
-            expandable,
-            scroll,
-            onFetch,
-            multiHeader,
-            rows,
-            bordered,
-            rowClick,
-            expandedFieldId,
-            rowClass,
-            className,
-            width,
-            height,
-            textWrap,
-        }
+const AdvancedTable = (props) => {
+    const {
+        id, disabled, toolbar, datasource, className, setPage, loading,
+        style, paging, filter, table, setFilter, models, size, count, page,
+    } = props
+    const { resolveProps } = useContext(FactoryContext)
+    const { place = 'bottomLeft' } = paging
+    const pagination = {
+        [place]: (
+            <N2OPagination
+                {...paging}
+                size={size}
+                count={count}
+                activePage={page}
+                datasource={models.datasource}
+                setPage={setPage}
+            />
+        ),
     }
 
-    prepareFilters() {
-        const { resolveProps } = this.context
-        const { filter } = this.props
+    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
+    const resolvedTable = useMemo(() => ({
+        ...table,
+        cells: table.cells.map(cell => resolveProps(cell)),
+        headers: table.headers.map(header => resolveProps(header)),
+    }), [table, resolveProps])
 
-        return resolveProps(
-            filter,
-            StandardFieldset,
-        )
-    }
-
-    render() {
-        const {
-            id: widgetId,
-            datasource: modelId = widgetId,
-            toolbar,
-            disabled,
-            table: { fetchOnInit, size },
-            pageId,
-            paging,
-            className,
-            style,
-            children,
-        } = this.props
-
-        const { place = 'bottomLeft' } = paging
-
-        return (
-            <StandardWidget
-                disabled={disabled}
-                widgetId={widgetId}
-                modelId={modelId}
-                toolbar={toolbar}
-                filter={this.prepareFilters()}
-                {...getN2OPagination(paging, place, widgetId, modelId)}
-                className={className}
-                style={style}
-            >
-                <AdvancedTableContainer
-                    widgetId={widgetId}
-                    modelId={modelId}
-                    pageId={pageId}
-                    size={size}
-                    page={1}
-                    fetchOnInit={fetchOnInit}
-                    {...this.getWidgetProps()}
-                >
-                    {children}
-                </AdvancedTableContainer>
-            </StandardWidget>
-        )
-    }
+    return (
+        <WidgetLayout
+            disabled={disabled}
+            widgetId={id}
+            datasource={datasource}
+            toolbar={toolbar}
+            filter={resolvedFilter}
+            className={className}
+            style={style}
+            setFilter={setFilter}
+            filterModel={models.filter}
+            loading={loading}
+            {...pagination}
+        >
+            <AdvancedTableContainer
+                {...props}
+                {...resolvedTable}
+            />
+        </WidgetLayout>
+    )
 }
 
-AdvancedTableWidget.contextTypes = {
-    resolveProps: PropTypes.func,
+AdvancedTable.propTypes = AdvancedTableWidgetTypes
+
+// FIXME удалить костыль
+const OmitProps = Component => (props) => {
+    const omited = omit(props, [])
+
+    omited.table = omit(omited.table, ['sorting', 'size'])
+
+    return (
+        <Component {...omited} />
+    )
 }
 
-AdvancedTableWidget.defaultProps = {
-    toolbar: {},
-    filter: {},
-    bordered: false,
-    expandFieldId: 'expandedContent',
-}
-
-AdvancedTableWidget.propTypes = {
-    hasFocus: PropTypes.bool,
-    placeholder: PropTypes.string,
-    className: PropTypes.string,
-    id: PropTypes.string,
-    datasource: PropTypes.string,
-    disabled: PropTypes.bool,
-    style: PropTypes.any,
-    filter: PropTypes.any,
-    children: PropTypes.any,
-    pageId: PropTypes.string.isRequired,
-    toolbar: PropTypes.object,
-    dataProvider: PropTypes.object,
-    table: PropTypes.shape({
-        size: PropTypes.number,
-        fetchOnInit: PropTypes.bool,
-        hasSelect: PropTypes.bool,
-        className: PropTypes.string,
-        style: PropTypes.object,
-        autoFocus: PropTypes.bool,
-        sorting: PropTypes.object,
-        headers: PropTypes.array,
-        cells: PropTypes.array,
-    }),
-    bordered: PropTypes.bool,
-    rowClick: PropTypes.object,
-    paging: pagingType,
-    multiHeader: PropTypes.bool,
-    scroll: PropTypes.object,
-    expandable: PropTypes.bool,
-    useFixedHeader: PropTypes.bool,
-    tableSize: PropTypes.string,
-    rowSelection: PropTypes.bool,
-    autoCheckboxOnSelect: PropTypes.bool,
-    rowClass: PropTypes.string,
-    expandFieldId: PropTypes.string,
-}
-
-export default dependency(AdvancedTableWidget)
+export const AdvancedTableWidget = OmitProps(WidgetHOC(AdvancedTable))

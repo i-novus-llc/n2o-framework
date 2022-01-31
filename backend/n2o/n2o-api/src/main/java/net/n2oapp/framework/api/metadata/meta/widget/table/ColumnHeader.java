@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.meta.widget.table;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,8 +30,11 @@ public class ColumnHeader implements IdAware, Compiled, JsonPropertiesAware {
     private String icon;
     @JsonProperty
     private String src;
-    @JsonProperty
+//    @JsonProperty
+    @Deprecated
     private Boolean sortable;
+    @JsonProperty
+    private String sortingParam;
     @JsonProperty
     private Boolean resizable;
     @JsonProperty

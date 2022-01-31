@@ -39,6 +39,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testAnchor() {
+        //Root page
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
         Toolbar toolbar = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
@@ -50,48 +51,22 @@ public class AnchorCompileTest extends SourceCompileTestBase {
 
 
         LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("id2").getAction();
-        assertThat(link2.getUrl(), is("/page/widget/test2/:param1/:param2?param3=:param3"));
+        assertThat(link2.getUrl(), is("/page/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getTarget(), is(Target.application));
         assertThat(link2.getPathMapping().size(), is(2));
         assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
         assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(link2.getQueryMapping().size(), is(1));
         assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
-        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/widget/test2/:param1/:param2?param3=:param3");
+        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/test2/:param1/:param2?param3=:param3");
         assertThat(anchor.getIsOtherPage(), is(true));
 
         LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getAction();
         assertThat(link3.getUrl(), is("http://google.com"));
         assertThat(link3.getTarget(), is(Target.self));
-
-        PageContext modalContext = (PageContext) route("/page/widget/id4", Page.class);
-        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
-        link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();
-        assertThat(link1.getUrl(), is("/page/widget/id4/widget2/test"));
-        assertThat(link1.getTarget(), is(Target.application));
-        assertThat(link1.getPathMapping().size(), is(0));
-        assertThat(link1.getQueryMapping().size(), is(0));
-
-        link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getAction();
-        assertThat(link2.getUrl(), is("/page/widget/id4/widget2/test2/:param1/:param2?param3=:param3"));
-        assertThat(link2.getTarget(), is(Target.application));
-        assertThat(link2.getPathMapping().size(), is(2));
-        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.resolve['page_widget_id4_test']"));
-        assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_widget_id4_test']"));
-        assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
-        assertThat(link2.getQueryMapping().size(), is(1));
-        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_widget_id4_test']"));
-        assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
-
-        link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getAction();
-        assertThat(link3.getUrl(), is("/page/widget/test3"));
-        assertThat(link3.getTarget(), is(Target.application));
-        assertThat(link3.getPathMapping().size(), is(0));
-        assertThat(link3.getQueryMapping().size(), is(0));
 
         LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
                 .getToolbar().getButton("secWgt").getAction();
@@ -99,7 +74,34 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getTarget(), is(Target.newWindow));
         assertThat(linkSecond.getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_ds1']"));
+        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
+
+        //Modal page
+        PageContext modalContext = (PageContext) route("/page/id4", Page.class);
+        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
+        link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();
+        assertThat(link1.getUrl(), is("/page/id4/test"));
+        assertThat(link1.getTarget(), is(Target.application));
+        assertThat(link1.getPathMapping().size(), is(0));
+        assertThat(link1.getQueryMapping().size(), is(0));
+
+        link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getAction();
+        assertThat(link2.getUrl(), is("/page/id4/test2/:param1/:param2?param3=:param3"));
+        assertThat(link2.getTarget(), is(Target.application));
+        assertThat(link2.getPathMapping().size(), is(2));
+        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
+        assertThat(link2.getQueryMapping().size(), is(1));
+        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
+
+        link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getAction();
+        assertThat(link3.getUrl(), is("/test3"));
+        assertThat(link3.getTarget(), is(Target.application));
+        assertThat(link3.getPathMapping().size(), is(0));
+        assertThat(link3.getQueryMapping().size(), is(0));
     }
 }

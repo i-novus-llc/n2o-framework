@@ -9,7 +9,7 @@
       badge-color-field-id="test"
       ajax="true"
       checkboxes="true"
-      multi-select="false" fetch-on-init="true" >
+      multi-select="false" >
 
     <pre-filters>
         <eq field-id="field" value="value" ref-widget-id="widgetId" param="param" ref-model="filter" required="true"/>

@@ -28,7 +28,7 @@ export function CalendarEvent({
     event,
     accessors,
     cellColorAccessor,
-    onResolve,
+    setResolve,
     onSelectEvent,
     dispatch,
 }) {
@@ -41,7 +41,7 @@ export function CalendarEvent({
     const disabled = get(event, 'disabled', false)
 
     const handleClick = () => {
-        onResolve({ id: get(event, 'id') })
+        setResolve({ id: get(event, 'id') })
         dispatch(onSelectEvent)
     }
 
@@ -71,7 +71,7 @@ CalendarEvent.propTypes = {
     event: PropTypes.object,
     accessors: PropTypes.object,
     cellColorAccessor: PropTypes.any,
-    onResolve: PropTypes.func,
+    setResolve: PropTypes.func,
     onSelectEvent: PropTypes.func,
     dispatch: PropTypes.func,
 }

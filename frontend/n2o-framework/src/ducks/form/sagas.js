@@ -1,98 +1,30 @@
-import { takeEvery, put, select, debounce } from 'redux-saga/effects'
-import { touch, change, actionTypes, focus } from 'redux-form'
+import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
+import { touch, actionTypes, focus, reset } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
-import isEmpty from 'lodash/isEmpty'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
-import isArray from 'lodash/isArray'
-import isFunction from 'lodash/isFunction'
+import { isEmpty } from 'lodash'
 
-import { tabTraversal } from '../regions/sagas'
-import { setModel, copyModel } from '../models/store'
+import { setModel, copyModel, clearModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { getWidgetFieldValidation } from '../widgets/selectors'
+import { makeDatasourceIdSelector, makeWidgetByIdSelector, makeFormModelPrefixSelector } from '../widgets/selectors'
+import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
-import * as validationPresets from '../../core/validation/presets'
-import { regionsSelector } from '../regions/store'
+import { setTabInvalid } from '../regions/store'
+import { failValidate, startValidate } from '../datasource/store'
+import { startInvoke } from '../../actions/actionImpl'
+import { MODEL_PREFIX } from '../../core/datasource/const'
 
-import { formsSelector, makeFormByName, messageSelector } from './selectors'
-import { addMessage } from './constants'
+import { formsSelector } from './selectors'
 import {
-    removeFieldMessage,
     setRequired,
     unsetRequired,
 } from './store'
-
-export function* removeMessage(action) {
-    const state = yield select()
-
-    const formName = get(action, 'meta.form')
-    const fieldName = get(action, 'meta.field')
-
-    if (formName && fieldName) {
-        const message = yield select(messageSelector(formName, fieldName))
-
-        const fieldValidation = getWidgetFieldValidation(
-            state,
-            formName,
-            fieldName,
-        )
-
-        if (message && (!fieldValidation || isEmpty(fieldValidation))) {
-            yield put(removeFieldMessage(formName, fieldName))
-        }
-    }
-}
-
-function* checkFieldValidation({ meta }) {
-    const formName = meta.form
-    const fieldName = meta.field
-    const state = yield select()
-    const formMessage = messageSelector(formName, fieldName)(state)
-    const widgetValidation = getWidgetFieldValidation(state, formName, fieldName)
-
-    if (!isArray(widgetValidation)) {
-        return
-    }
-
-    let isValidResult = true
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const validationOption of widgetValidation) {
-        if (validationOption.multi) {
-            // ToDo: Делаю пока только для формы
-            // eslint-disable-next-line no-continue
-            continue
-        }
-
-        const validationFunction = validationPresets[validationOption.type]
-
-        if (isFunction(validationFunction)) {
-            const { values } = makeFormByName(formName)(state)
-            const isValid = validationFunction(
-                fieldName,
-                values,
-                validationOption,
-                () => {},
-            )
-
-            if (!isValid) {
-                isValidResult = false
-
-                break
-            }
-        }
-    }
-
-    if (isValidResult && formMessage) {
-        yield put(removeFieldMessage(formName, fieldName))
-    }
-}
 
 export function* addTouched({ payload: { form, name } }) {
     yield put(touch(form, name))
@@ -151,73 +83,86 @@ export function* copyAction({ payload }) {
             : sourceModel
     }
 
-    const value = get(newModel, target.field)
-
-    yield put(change(target.key, target.field, typeof value === 'undefined' ? null : value))
     yield put(setModel(target.prefix, target.key, newModel))
 }
 
+/* it uses in tabs region */
 function* setFocus({ payload }) {
-    const { form, name: fieldName, asyncValidating } = payload
+    const { validation } = payload
+    const { form, fields, blurValidation } = validation
 
-    if (asyncValidating === fieldName) {
-        return
+    if (!blurValidation) {
+        /* set focus to first invalid field */
+        yield put(focus(form, Object.keys(fields)[0]))
     }
+}
 
-    const regions = yield select(regionsSelector)
-    const forms = yield select(formsSelector)
+export function* clearForm(action) {
+    /*
+    * FIXME: ХАК для быстрого фикса. Разобраться
+    * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
+    * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
+    */
+    yield delay(50)
+    yield put(reset(action.payload.key))
+}
 
-    if (Object.values(forms).some(form => form.active)) {
-        return
+/* TODO перенести в саги datasource
+ * как вариант, чтобы не искать какая форма и событие вызывает автосейв можно сделать
+ * autoSubmit: { action: ReduxAction, condition: expressionString(datasource, action) }
+ */
+export function* autoSubmit({ meta }) {
+    const { form, field } = meta
+    const datasourceId = yield select(makeDatasourceIdSelector(form))
+    const datasource = yield select(dataSourceByIdSelector(datasourceId))
+
+    if (!datasource) { return }
+
+    const submit = datasource.submit || datasource.fieldsSubmit?.[field]
+
+    if (!isEmpty(submit)) {
+        yield put(startInvoke(datasourceId, submit, MODEL_PREFIX.active, datasource.pageId))
     }
-
-    const allTabs = Object.values(regions)
-        .filter(region => region.tabs)
-        .map(({ tabs }) => tabs)
-
-    for (const tabs of allTabs) {
-        const isTargetFormInTabs = yield tabTraversal(null, tabs, null, form)
-
-        if (isTargetFormInTabs) {
-            let fieldName = ''
-
-            const firstInvalidForm = tabs
-                .find(({ invalid }) => invalid)
-                .content
-                .find(({ id }) => {
-                    const { registeredFields } = forms[id]
-
-                    return Object.keys(registeredFields).some((currentFieldName) => {
-                        const { message } = registeredFields[currentFieldName]
-
-                        if (message) {
-                            fieldName = currentFieldName
-
-                            return true
-                        }
-
-                        return false
-                    })
-                })
-
-            if (firstInvalidForm.id) {
-                yield put(focus(firstInvalidForm.id, fieldName))
-
-                return
-            }
-        }
-    }
-
-    yield put(focus(form, fieldName))
 }
 
 export const formPluginSagas = [
-    takeEvery(
-        [actionTypes.START_ASYNC_VALIDATION, actionTypes.CHANGE],
-        removeMessage,
-    ),
-    takeEvery([setRequired.type, unsetRequired.type], checkFieldValidation),
+    takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
     takeEvery(copyModel.type, copyAction),
-    debounce(100, addMessage, setFocus),
+    takeEvery(failValidate, function* touchOnFailValidate({ payload, meta }) {
+        if (!meta?.touched) { return }
+
+        const { id: datasource, fields } = payload
+        const keys = Object.keys(fields)
+        const forms = yield select(formsSelector)
+
+        for (const formName of Object.keys(forms)) {
+            const widget = yield select(makeWidgetByIdSelector(formName))
+
+            if (datasource === widget?.datasource) {
+                yield put(touch(formName, ...keys))
+            }
+        }
+    }),
+    debounce(100, [
+        actionTypes.CHANGE,
+        actionTypes.BLUR,
+        setRequired.type,
+        unsetRequired.type,
+    ], function* validateSaga({ meta }) {
+        const { form, field } = meta
+        const datasource = yield select(makeDatasourceIdSelector(form))
+        const currentFormPrefix = yield select(makeFormModelPrefixSelector(form))
+
+        if (datasource) {
+            /* blurValidation is used in the setFocus saga,
+             this is needed to observing the field validation type */
+            yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
+        }
+    }),
+    debounce(400, [
+        actionTypes.CHANGE,
+        // actionTypes.BLUR,
+    ], autoSubmit),
+    debounce(100, setTabInvalid, setFocus),
 ]

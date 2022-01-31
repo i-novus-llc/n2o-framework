@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table object-id="test">
+        <actions>
+            <action id="testAction">
+                <invoke operation-id="test"/>
+            </action>
+        </actions>
+        <columns>
+            <column text-field-id="test">
+                <rating max="10" half="true" show-tooltip="true" readonly="false" action-id="testAction"/>
+            </column>
+            <column text-field-id="test2">
+                <rating/>
+            </column>
+            <column text-field-id="test3">
+                <rating readonly="false">
+                    <invoke operation-id="test"/>
+                </rating>
+            </column>
+        </columns>
+    </table>
+</simple-page>

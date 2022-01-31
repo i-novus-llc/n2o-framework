@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action model="filter">
+            <show-modal src="test"
+                        page-id="test"
+                        submit-operation-id="create" submit-label="Отправить"
+                        refresh-on-close="false" refresh-datasources="testWidget"
+                        modal-size="lg" scrollable="true"
+                        submit-model="resolve"
+                        copy-model="edit" copy-datasource="table" copy-field-id="test"
+                        submit-action-type="copy" target-model="resolve" target-datasource="table"
+                        target-field-id="test" copy-mode="replace"
+                        has-header="false" class="n2o-custom-modal-dialog" backdrop="static" style="background : red">
+                <params>
+                    <path-param name="par1" value="{par1}" datasource="ds1" model="resolve"/>
+                    <path-param name="par2" value="{par2}" datasource="ds2" model="resolve"/>
+                </params>
+                <datasources>
+                    <datasource id="ds" query-id="test">
+                        <filters>
+                            <eq field-id="id" value="1"/>
+                        </filters>
+                    </datasource>
+                </datasources>
+            </show-modal>
+        </action>
+    </actions>
+</page>

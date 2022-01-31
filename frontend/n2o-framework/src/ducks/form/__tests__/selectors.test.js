@@ -12,6 +12,19 @@ import {
 } from '../selectors'
 
 const state = {
+    datasource: {
+        formName: {
+            errors: {
+                field1: [{ message: 'test' }],
+                field2: [{ message: 'message' }],
+            }
+        }
+    },
+    widgets: {
+        formName: {
+            datasource: 'formName'
+        }
+    },
     form: {
         formName: {
             registeredFields: {
@@ -19,7 +32,6 @@ const state = {
                     visible: true,
                     disabled: false,
                     isInit: true,
-                    message: 'test',
                     dependency: 'some dependency',
                     filter: 'field filter',
                     loading: true,
@@ -28,7 +40,6 @@ const state = {
                     visible: false,
                     disabled: true,
                     isInit: false,
-                    message: 'message',
                     loading: false,
                 },
             },
@@ -66,7 +77,7 @@ describe('Проверка селекторов formPlugin', () => {
     })
     it('messageSelector должен вернуть message поля', () => {
         expect(messageSelector('formName', 'field1')(state)).toEqual(
-            state.form.formName.registeredFields.field1.message,
+            state.datasource.formName.errors.field1[0],
         )
     })
     it('dependencySelector должен вернуть dependency поля', () => {

@@ -29,7 +29,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
         p.attribute(e, "action-id", b::getActionId, b::setActionId);
-        p.attributeEnum(e, "validate", b::getValidate, b::setValidate, ValidateType.class);
+        p.attribute(e, "validate", b::getValidateString, b::setValidateString);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
 
@@ -55,7 +55,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }
 

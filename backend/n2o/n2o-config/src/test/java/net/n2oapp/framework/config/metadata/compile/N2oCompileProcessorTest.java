@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -46,19 +45,19 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     public void testResolveLink() {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> routeInfos = new HashMap<>();
-        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        ModelLink value = new ModelLink(ReduxModel.resolve, "widgetId");
         value.setValue("`testField`");
         routeInfos.put("paramName", value);
         context.setQueryRouteMapping(routeInfos);
         DataSet data = new DataSet();
         data.put("paramName", "testValue");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        ModelLink testML = new ModelLink(ReduxModel.resolve, "widgetId");
         testML.setValue("`testField`");
         //проверяем, что заменился линк
         BindLink resultLink = processor.resolveLink(testML);
         assertThat(resultLink.getValue(), is("testValue"));
-        testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        testML = new ModelLink(ReduxModel.resolve, "widgetId");
         resultLink = processor.resolveLink(testML);
         //проверяем, что замена не произошла
         assertThat(resultLink.getBindLink(), is("models.resolve['widgetId']"));
@@ -81,7 +80,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         data.put("types", List.of("1", "2"));
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
 
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "filters");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "filters");
         link.setValue("`types.map(function(t){return t.id})`");
         link.setParam("types");
         SubModelQuery subModelQuery = new SubModelQuery("query1");
@@ -115,7 +114,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         data.put("types", "1");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
 
-        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "filters");
+        ModelLink link = new ModelLink(ReduxModel.resolve, "filters");
         link.setValue("`types.map(function(t){return t.id})`");
         link.setParam("types");
         SubModelQuery subModelQuery = new SubModelQuery("query1");
@@ -135,7 +134,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     public void testResolveText() {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> queryMapping = new HashMap<>();
-        ModelLink nameLink = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        ModelLink nameLink = new ModelLink(ReduxModel.resolve, "widgetId");
         nameLink.setFieldValue("name");
         queryMapping.put("param", nameLink);
         context.setQueryRouteMapping(queryMapping);
@@ -144,28 +143,28 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
 
         // совпадают модель и виджет
-        String resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId"));
+        String resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.resolve, "widgetId"));
         assertThat(resultText, is("Hello, Joe"));
 
         // совпадают модель и виджет и поле
-        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name"));
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.resolve, "widgetId", "name"));
         assertThat(resultText, is("Hello, Joe"));
 
         // не совпадает поле (главное чтобы совпал виджет и модель)
-        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name2"));
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.resolve, "widgetId", "name2"));
         assertThat(resultText, is("Hello, Joe"));
 
         // не совпадает виджет
-        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.resolve, "otherWidgetId"));
         assertThat(resultText, is("Hello, {name}"));
 
         // не совпадает модель
-        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.FILTER, "widgetId"));
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.filter, "widgetId"));
         assertThat(resultText, is("Hello, {name}"));
 
         // нет данных (на null или пустую строку не заменяется)
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());
-        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name"));
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.resolve, "widgetId", "name"));
         assertThat(resultText, is("Hello, {name}"));
     }
 
@@ -201,7 +200,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
 
         PageContext context = new PageContext("test");
         Map<String, ModelLink> queryMapping = new HashMap<>();
-        ModelLink linkId = new ModelLink(ReduxModel.RESOLVE, "widget1", "id");
+        ModelLink linkId = new ModelLink(ReduxModel.resolve, "widget1", "id");
         linkId.setSubModelQuery(new SubModelQuery("query1"));
         queryMapping.put("param_id", linkId);
         context.setQueryRouteMapping(queryMapping);
@@ -246,9 +245,9 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         data = new DataSet();
         data.put("param1", "testValue");
         pathParams = new HashMap<>();
-        pathParams.put("param1", new ModelLink(ReduxModel.RESOLVE, "wgt", "field1"));
+        pathParams.put("param1", new ModelLink(ReduxModel.resolve, "wgt", "field1"));
         queryParams = new HashMap<>();
-        queryParams.put("param2", new ModelLink(ReduxModel.RESOLVE, "wgt", "field2"));
+        queryParams.put("param2", new ModelLink(ReduxModel.resolve, "wgt", "field2"));
         context = new PageContext("test");
         context.setQueryRouteMapping(queryParams);
         context.setPathRouteMapping(pathParams);
@@ -264,9 +263,9 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         data = new DataSet();
         data.put("param2", "testValue2");
         pathParams = new HashMap<>();
-        pathParams.put("param1", new ModelLink(ReduxModel.RESOLVE, "wgt", "field1"));
+        pathParams.put("param1", new ModelLink(ReduxModel.resolve, "wgt", "field1"));
         queryParams = new HashMap<>();
-        queryParams.put("param2", new ModelLink(ReduxModel.RESOLVE, "wgt", "field2"));
+        queryParams.put("param2", new ModelLink(ReduxModel.resolve, "wgt", "field2"));
         context = new PageContext("test");
         context.setQueryRouteMapping(queryParams);
         context.setPathRouteMapping(pathParams);
@@ -282,12 +281,12 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         PageContext context = new PageContext("test");
 
         Map<String, ModelLink> routeInfos = new HashMap<>();
-        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        ModelLink value = new ModelLink(ReduxModel.resolve, "widgetId");
         value.setValue("`versionId`");
         routeInfos.put("versionId", value);
         context.setQueryRouteMapping(routeInfos);
         Map<String, ModelLink> pathRouteInfos = new HashMap<>();
-        ModelLink pathValue = new ModelLink(ReduxModel.RESOLVE, "widgetId", "id");
+        ModelLink pathValue = new ModelLink(ReduxModel.resolve, "widgetId", "id");
         pathRouteInfos.put("w_id", pathValue);
         context.setPathRouteMapping(pathRouteInfos);
 
@@ -297,14 +296,14 @@ public class N2oCompileProcessorTest extends N2oTestBase {
 
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
         // все необходимые данные есть и плейсхолдер заменился заменился
-        ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        ModelLink testML = new ModelLink(ReduxModel.resolve, "widgetId");
         String resultText = processor.resolveUrl("http://page/widget/:w_id/action?versionId=:versionId", testML);
         assertThat(resultText, is("http://page/widget/1/action?versionId=2"));
         // нет подходящего по widgetId
-        resultText = processor.resolveUrl("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
+        resultText = processor.resolveUrl("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.resolve, "otherWidgetId"));
         assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
         // нет подходящего по model
-        resultText = processor.resolveText("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.FILTER, "widgetId"));
+        resultText = processor.resolveText("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.filter, "widgetId"));
         assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
         // нет подходящего значения в data
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());

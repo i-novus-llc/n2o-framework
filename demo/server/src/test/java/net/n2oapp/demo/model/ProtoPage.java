@@ -16,6 +16,10 @@ import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.notNullValue;
+
 /**
  * Страница "Список контактов" ProtoPage.page.xml
  */
@@ -43,8 +47,12 @@ public class ProtoPage {
         getTable().columns().rows().row(row).cell(col).textShouldHave(text);
     }
 
+    public void tableCellShouldHaveText(int col, String text) {
+        assertThat(getTable().columns().rows().columnTexts(col), hasItem(text));
+    }
+
     public void tableShouldSelectedRow(int row) {
-        getTable().columns().rows().shouldBeSelected(row);
+//        getTable().columns().rows().shouldBeSelected(row);  todo не поддерживаем selectedId
     }
 
     public void searchClients() {
@@ -162,6 +170,22 @@ public class ProtoPage {
         return getTableCell(row, 4, EditCell.class).control(DateInput.class);
     }
 
+    public String getSurname(int row) {
+        return getTableCell(row, 1, LinkCell.class).element().text();
+    }
+
+    public String getName(int row) {
+        return getTableCell(row, 2, LinkCell.class).element().text();
+    }
+
+    public String getPatronomic(int row) {
+        return getTableCell(row, 3, LinkCell.class).element().text();
+    }
+
+    public String getGender(int row) {
+        return getTableCell(row, 5, BadgeCell.class).element().text();
+    }
+
     public ProtoClient addClient() {
         leftRightPage.toolbar().topRight().button("Добавить клиента").click();
         return getProtoClient();
@@ -194,7 +218,7 @@ public class ProtoPage {
         return getModalProtoClient();
     }
 
-    public ProtoClient viewClientFromTableToolBar() {
+    public ProtoClient clickView() {
         getTable().toolbar().topRight().button("Просмотр").click();
         return getModalProtoClient();
     }
@@ -223,6 +247,10 @@ public class ProtoPage {
         getContacts().content(index).body(TextCell.class).textShouldHave(text);
     }
 
+    public void contactsListShouldHaveSize(int size) {
+        getContacts().shouldHaveSize(size);
+    }
+
     public ProtoContacts createContact() {
         getContacts().toolbar().topLeft().button("Создать").click();
         return getModalProtoContacts();
@@ -234,20 +262,26 @@ public class ProtoPage {
         return getModalProtoContacts();
     }
 
+    public void deleteContact(int index) {
+        ListCell cell = getContacts().content(index).extra(ListCell.class);
+        cell.element().$$(".btn").findBy(Condition.text("Удалить")).click();
+        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").click("Да");
+    }
+
     public void alertTextShouldBe(String text) {
-        leftRightPage.alerts().alert(0).shouldHaveText(text);
+//        leftRightPage.alerts().alert(0).shouldHaveText(text); todo
     }
 
     public void alertColorShouldBe(Colors colors) {
-        leftRightPage.alerts().alert(0).shouldHaveColor(colors);
+//        leftRightPage.alerts().alert(0).shouldHaveColor(colors); todo
     }
 
     public void contactsAlertTextShouldBe(String text) {
-        getContacts().alerts().alert(0).shouldHaveText(text);
+//        getContacts().alerts().alert(0).shouldHaveText(text); todo
     }
 
     public void contactsAlertColorShouldBe(Colors colors) {
-        getContacts().alerts().alert(0).shouldHaveColor(colors);
+//        getContacts().alerts().alert(0).shouldHaveColor(colors); todo
     }
 
     public InputText getSurnameCard() {

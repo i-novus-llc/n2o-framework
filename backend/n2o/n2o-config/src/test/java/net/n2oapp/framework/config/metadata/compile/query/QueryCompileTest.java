@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -14,7 +15,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -79,22 +79,22 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(withEmptySelect.getSortingMapping(), nullValue());
     }
 
-//    @Test
-//    public void testEmptyBody() {
-//        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
-//                .get(new QueryContext("testEmptyBody"));
-//        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
-//        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
-//        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
-//    }
+    @Test
+    public void testEmptyBody() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
+                .get(new QueryContext("testEmptyBody"));
+        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
+        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
+        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
+    }
 
     @Test
     public void testFieldNames() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml",
-                "net/n2oapp/framework/config/metadata/compile/query/testQuery.widget.xml");
-        Form form = (Form) pipeline.get(new WidgetContext("testQuery"));
-
+                "net/n2oapp/framework/config/metadata/compile/query/testQuery.page.xml");
+        SimplePage page = (SimplePage) pipeline.get(new PageContext("testQuery"));
+        Form form = (Form) page.getWidget();
         //label филда приходит из query
         assertThat(form.getComponent().getFieldsets()
                 .get(0).getRows().get(0).getCols().get(0).getFields().get(0).getLabel(), is("f1"));
@@ -122,7 +122,6 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
-
         pipeline.get(new PageContext("testSubModel"));
         CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
         CompiledQuery query = pipeline.get((QueryContext) compile);
@@ -136,8 +135,6 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
                 .get(new QueryContext("testRequiredFilters"));
-
-
         assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
         assertThat(query.getValidations().get(0).getId(), is("test"));
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));

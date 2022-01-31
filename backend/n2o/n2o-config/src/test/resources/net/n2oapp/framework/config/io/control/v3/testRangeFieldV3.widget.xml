@@ -1,0 +1,12 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <interval-field id="range">
+            <begin>
+                <input-text id="begin" domain="integer" min="0"/>
+            </begin>
+            <end>
+                <input-text id="end" domain="integer" max="10"/>
+            </end>
+        </interval-field>
+    </fields>
+</form>

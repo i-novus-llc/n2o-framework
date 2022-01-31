@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <alert id="alert" header="Header {message}" footer="Footer {message}">Text {message}</alert>
+        </fields>
+    </form>
+</simple-page>

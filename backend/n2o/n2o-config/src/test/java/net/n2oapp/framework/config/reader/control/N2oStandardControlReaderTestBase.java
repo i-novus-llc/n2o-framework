@@ -65,9 +65,7 @@ public abstract class N2oStandardControlReaderTestBase {
 
     private void assertQuery(N2oListField field) {
         assert field.getQueryId().equals("query");
-        assert field.getDetailFieldId().equals("id");
         assert field.getLabelFieldId().equals("id");
-        assert field.getMasterFieldId().equals("id");
         assert field.getSearchFilterId().equals("id");
         assert field.getValueFieldId().equals("id");
         assert field.getPreFilters().length == 1;
@@ -131,7 +129,6 @@ public abstract class N2oStandardControlReaderTestBase {
         assert showModal.getMinWidth().equals("100");
         assert showModal.getPageName().equals("test");
         assert !showModal.getRefreshOnClose();
-        assert showModal.getResultContainerId().equals("test");
         assert showModal.getTargetFieldId().equals("id");
         assert showModal.getValueFieldId().equals("id");
         assert showModal.getWidth().equals("100");
@@ -150,7 +147,6 @@ public abstract class N2oStandardControlReaderTestBase {
         assert showModal.getMinWidth().equals("100");
         assert showModal.getPageName().equals("test");
         assert !showModal.getRefreshOnClose();
-        assert showModal.getResultContainerId().equals("test");
         assert showModal.getTargetFieldId().equals("id");
         assert showModal.getValueFieldId().equals("id");
         assert showModal.getWidth().equals("100");

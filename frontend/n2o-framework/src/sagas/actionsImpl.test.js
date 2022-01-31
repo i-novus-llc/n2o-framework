@@ -4,6 +4,10 @@ import merge from 'lodash/merge'
 import fetchMock from 'fetch-mock'
 
 import {
+    FETCH_START,
+    FETCH_END,
+} from '../constants/fetch'
+import {
     FAIL_INVOKE,
     START_INVOKE,
     SUCCESS_INVOKE,
@@ -33,6 +37,11 @@ const dataProvider = {
 }
 
 const state = {
+    widgets: {
+        __patients: {
+            datasource: '__patients',
+        },
+    },
     models: {
         resolve: {
             __patients: {
@@ -51,6 +60,14 @@ describe('Проверка саги actionsImpl', () => {
         const fakeStore = {
             dispatch: action => dispatched.push(action),
             getState: () => ({
+                datasource: {
+                    __patients: {}
+                },
+                widgets: {
+                    __patients: {
+                        datasource: '__patients',
+                    },
+                },
                 models: {
                     resolve: {
                         __patients: {
@@ -68,9 +85,8 @@ describe('Проверка саги actionsImpl', () => {
                 refresh: true,
             },
             payload: {
-                widgetId: '__patients',
-                modelId: '__patients',
-                modelLink: null,
+                datasource: '__patients',
+                model: 'resolve',
                 dataProvider: {
                     url: '/test',
                     optimistic: true,
@@ -89,15 +105,9 @@ describe('Проверка саги actionsImpl', () => {
         })
 
         await runSaga(fakeStore, handleInvoke, apiProvider, action)
-        expect(dispatched[1].payload).toEqual({
-            prefix: 'resolve',
-            key: '__patients',
-            model: {
-                id: 1,
-                vip: false,
-            },
-        })
-        expect(dispatched[3].type).toBe(SUCCESS_INVOKE)
+        expect(dispatched[0].type).toBe(FETCH_START)
+        expect(dispatched[1].type).toBe(SUCCESS_INVOKE)
+        expect(dispatched[2].type).toBe(FETCH_END)
     })
 
     it('Проверка генератора handleFetchInvoke', () => {
@@ -108,16 +118,16 @@ describe('Проверка саги actionsImpl', () => {
                 },
             },
         }
-        const widgetId = 'testId'
+        const datasource = 'testId'
         const err = {
             meta: {
                 value: 'value',
             },
         }
-        const gen = handleFailInvoke(action.meta.fail, widgetId, err.meta)
+        const gen = handleFailInvoke(action.meta.fail, datasource, err.meta)
         const meta = merge(action.meta.fail, err.meta)
         expect(gen.next().value.payload.action).toEqual(
-            put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta)).payload.action,
+            put(createActionHelper(FAIL_INVOKE)({ datasource }, meta)).payload.action,
         )
         expect(gen.next().done).toEqual(true)
     })
@@ -127,13 +137,13 @@ describe('Проверка саги actionsImpl', () => {
             getState: () => ({}),
         }
         const options = {
-            validate: true,
+            validate: [],
             dispatch: () => {},
         }
 
         const promise = await runSaga(fakeStore, validate, options).toPromise()
         const result = await Promise.resolve(promise)
-        expect(result).toEqual(false)
+        expect(result).toEqual(true)
     })
 
     it('Проверка генератора fetchInvoke', async () => {
@@ -149,7 +159,7 @@ describe('Проверка саги actionsImpl', () => {
                 id: 12345,
             },
             {},
-            { payload: 1 },
+            { payload: { widgetId: '__patients' } },
         ).toPromise()
         const result = await Promise.resolve(promise)
         expect(result).toEqual({

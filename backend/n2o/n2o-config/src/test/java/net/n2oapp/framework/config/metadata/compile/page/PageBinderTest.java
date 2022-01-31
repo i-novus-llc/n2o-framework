@@ -9,17 +9,21 @@ import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -61,10 +65,10 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Test
     public void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
-        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
+        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "page_master"));
         context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
-        ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
+        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "page_master");
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
@@ -91,10 +95,10 @@ public class PageBinderTest extends SourceCompileTestBase {
         }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
 
         PageContext context = new PageContext("testPageBinders", "/page/:id_param/view");
-        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
+        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "page_master"));
         context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
-        ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master", "id");
+        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "page_master", "id");
         modelLink.setSubModelQuery(new SubModelQuery("query1"));
         context.setPathRouteMapping(Collections.singletonMap("id_param", modelLink));
         context.setParentModelLink(modelLink);
@@ -106,10 +110,10 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Test
     public void pageBreadcrumbResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
-        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
+        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "page_master"));
         context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
-        ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
+        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "page_master");
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         context.setBreadcrumbs(singletonList(new Breadcrumb("prev", "/page")));
@@ -205,8 +209,8 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setParentClientPageId("_");
         context.setParentClientWidgetId("table");
         context.setParentRoute("/table/:id");
-        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "table", "id"));
-        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModel.RESOLVE, "table", "id")));
+        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "table", "id"));
+        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModel.resolve, "table", "id")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.query.xml")
                 .get(context, data);
@@ -224,6 +228,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение моделей фильтров через выборку
      */
     @Test
+    @Ignore //todo NNO-7302
     public void defaultValuesQueryTest() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         PageContext context = new PageContext("testDefValQuery", "table");
@@ -255,5 +260,19 @@ public class PageBinderTest extends SourceCompileTestBase {
         //Разрешится значение из запроса, т.к. оно самое приоритетное
         name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test3"));
+    }
+
+    /**
+     * Проверка резолва ссылок в datasource
+     */
+    @Test
+    public void autoSubmit() {
+        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testDatasourceRouteBinder.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml");
+        PageContext context = new PageContext("testDatasourceRouteBinder", "/p/w/:param0/form");
+        SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
+        assertThat(page.getDatasources().get("p_w_form_main").getSubmit().getUrl(), containsString("/p/w/1/form"));
+        assertThat(page.getDatasources().get("p_w_form_main").getProvider().getUrl(), containsString("/p/w/1/form"));
     }
 }

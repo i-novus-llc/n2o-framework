@@ -5,7 +5,7 @@
                   visible="false" description="desc" generate="crud" icon="icon" show-toggle-icon="false"
                   src="src" style="color: red" tooltip-position="right" type="icon">
             <menu-item id="btn" label="label" widget-id="table" model="resolve" icon="icon" color="primary"
-                visible="true" enabled="true" validate="widget" action-id="test" class="test" style="test"
+                visible="true" enabled="true" action-id="test" class="test" style="test"
                 description="desc" tooltip-position="right" disable-on-empty-model="false"
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
                 confirm-cancel-label="cancel" type="icon" rounded="true" src="test">

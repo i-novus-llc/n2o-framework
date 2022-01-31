@@ -10,7 +10,6 @@ import fieldsets from '../../components/widgets/Form/fields'
 import fields from '../../components/widgets/Form/fieldsets'
 import actions from '../../impl/actions'
 import exportModal from '../../components/widgets/Table/ExportModal'
-import storyModal from '../../components/widgets/Table/StoryModal'
 // eslint-disable-next-line import/no-named-as-default
 import ToggleColumn from '../../components/buttons/ToggleColumn/ToggleColumn'
 import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize'
@@ -26,7 +25,6 @@ const index = {
     ...actions,
     ...controls,
     exportModal,
-    storyModal,
     ToggleColumn,
     ChangeSize,
     NotFoundFactory,

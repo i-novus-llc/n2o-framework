@@ -1,0 +1,18 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <file-upload id="test"
+                     multi="true"
+                     ajax="false"
+                     show-size="false"
+                     upload-url="/url"
+                     delete-url="/url"
+                     value-field-id="test"
+                     label-field-id="test"
+                     message-field-id="test"
+                     url-field-id="test"
+                     request-param="test"
+                     accept=".img,.png">
+            <default-value id="1" url="/1" filename="1.txt"/>
+        </file-upload>
+    </fields>
+</form>

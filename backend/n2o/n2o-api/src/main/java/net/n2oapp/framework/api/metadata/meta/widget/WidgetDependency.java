@@ -15,15 +15,14 @@ import java.util.List;
 @Getter
 @Setter
 public class WidgetDependency implements Compiled {
-    /**
-     * Ссылки на модели, при изменении которых будет срабатывать зависимость master/detail
-     */
+
     @JsonProperty
-    private List<DependencyCondition> fetch;
+    private List<DependencyCondition> enable;
+
     @JsonProperty
     private List<DependencyCondition> visible;
 
     public boolean isEmpty() {
-        return fetch == null && visible == null;
+        return visible == null && enable == null;
     }
 }

@@ -6,11 +6,12 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.cell.EditCell;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
-import net.n2oapp.framework.config.io.widget.table.cell.EditCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.EditCellElementIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.control.InputTextCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -44,15 +45,15 @@ public class EditCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCompileEditCell() {
-        WidgetContext context = new WidgetContext("testEditCell", "main/:id/open");
-        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "main"));
+        PageContext context = new PageContext("testEditCell", "main/:id/open");
+        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "main"));
         Map<String, ModelLink> mapping = new HashMap<>();
-        mapping.put("id", new ModelLink(ReduxModel.RESOLVE, "main", "id"));
+        mapping.put("id", new ModelLink(ReduxModel.resolve, "main", "id"));
         context.setPathRouteMapping(mapping);
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testEditCell.widget.xml",
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testEditCell.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/cell/testEditCell.object.xml")
                 .get(context);
-
+        Table table = (Table) page.getWidget();
         EditCell cell = (EditCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("EditableCell"));
         assertThat(cell.getFormat(), is("formatTest"));
@@ -64,8 +65,8 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getEditFieldId(), is("itIdTest"));
 
         assertThat(cell.getAction(), notNullValue());
-        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/test1"));
-        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.RESOLVE, "main", "id")));
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/actionTest"));
+        assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.resolve, "main", "id")));
 
         cell = (EditCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));

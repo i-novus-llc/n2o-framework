@@ -16,10 +16,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TestPack implements MetadataPack<N2oApplicationBuilder> {
@@ -48,6 +45,9 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         ArrayList<Filter> filters = new ArrayList<>();
         createFilter(filters, "id");
         queryContext.setFilters(filters);
+        HashMap<String, String> sortingMap = new HashMap<>();
+        sortingMap.put("sorting.value", "value");
+        queryContext.setSortingMap(sortingMap);
         return queryContext;
     }
 
@@ -102,15 +102,14 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         ActionContext actionContext = new ActionContext("testActionContext", "create", "/test/invoke/action");
         actionContext.setValidations(createValidations());
         actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
         return actionContext;
     }
 
     private ActionContext getTestDialogActionContext() {
         ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
         actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
-        actionContext.setParentWidgetId("testDialog_main");
+        actionContext.setParentSourceDatasourceId("testForm");
+        actionContext.setParentClientWidgetId("testDialog_main");
         actionContext.setParentPageId("testDialog");
         return actionContext;
     }
@@ -118,7 +117,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private ActionContext getTestInsertMongodbContext(String operationId, String route) {
         ActionContext actionContext = new ActionContext("testMongodbCRUD", operationId, route);
         actionContext.setMessagesForm("testForm");
-        actionContext.setFailAlertWidgetId("testForm");
         return actionContext;
     }
 

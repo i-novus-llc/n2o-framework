@@ -1,0 +1,22 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <actions>
+        <action id="testAction">
+            <a href="https://i-novus.ru/"/>
+        </action>
+    </actions>
+    <fields>
+        <input-text id="testInput">
+            <toolbar>
+                <button>
+                    <invoke operation-id="testInvoke"/>
+                </button>
+                <sub-menu>
+                    <menu-item>
+                        <a href="https://i-novus.ru/"/>
+                    </menu-item>
+                    <menu-item action-id="testAction"/>
+                </sub-menu>
+            </toolbar>
+        </input-text>
+    </fields>
+</form>

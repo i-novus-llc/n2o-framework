@@ -19,7 +19,7 @@ import { Tab } from './Tab'
 
 /**
  * Регион Таб
- * @reactProps {array} tabs - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {array} tabs - массив из объектов, которые описывают виджет {id, name, opened, pageId, widget}
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} resolveVisibleDependency - резол видимости таба
@@ -58,7 +58,7 @@ class TabRegion extends React.Component {
         const { getWidgetProps } = this.props
         const widgetProps = getWidgetProps(id)
 
-        return get(widgetProps, 'isVisible')
+        return get(widgetProps, 'visible')
     }
 
     atLeastOneVisibleWidget(content) {

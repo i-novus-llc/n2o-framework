@@ -50,8 +50,9 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setLists(initSeparators(source.getLists(), p));
         query.setUniques(initSeparators(source.getUniques(), p));
         query.setCounts(initSeparators(source.getCounts(), p));
-        query.setValidations(context.getValidations());
-        List<N2oQuery.Field> fields = Arrays.asList(source.getFields());
+        if (context.getValidations() != null && !context.getValidations().isEmpty())
+            query.setValidations(context.getValidations());
+        List<N2oQuery.Field> fields = source.getFields() != null ? Arrays.asList(source.getFields()) : List.of();
         fields = initDefaultFields(fields);
         fields = initDefaultFilters(fields, p);
         fields = initDefaultMapping(fields);
@@ -310,7 +311,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return result;
     }
 
-    private static  Map<String, N2oQuery.Field> initFieldsMap(List<N2oQuery.Field> fields, String id) {
+    private static Map<String, N2oQuery.Field> initFieldsMap(List<N2oQuery.Field> fields, String id) {
         Map<String, N2oQuery.Field> result = new StrictMap<>("Field '%s' in query '" + id + "' not found");
         for (N2oQuery.Field field : fields) {
             result.put(field.getId(), field);

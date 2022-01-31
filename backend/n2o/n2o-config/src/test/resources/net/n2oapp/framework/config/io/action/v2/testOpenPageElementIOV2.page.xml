@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action model="filter">
+            <open-page src="test"
+                       page-id="test"
+                       submit-operation-id="create"
+                       submit-model="resolve"
+                       submit-label="Отправить"
+                       page-name="test"
+                       redirect-url-after-submit="/test"
+                       route="/test"
+                       close-after-submit="true"
+                       redirect-target-after-submit="application">
+                <params>
+                    <path-param name="test2" model="filter" datasource="main" value="{id}"/>
+                    <query-param name="test3" value="{name}"/>
+                </params>
+                <datasources>
+                    <datasource id="ds1" default-values-mode="query" object-id="o1" query-id="q1"/>
+                </datasources>
+            </open-page>
+        </action>
+    </actions>
+</page>

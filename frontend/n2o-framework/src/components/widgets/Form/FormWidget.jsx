@@ -1,109 +1,58 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import values from 'lodash/values'
 
-import StandardWidget from '../StandardWidget'
-// eslint-disable-next-line import/no-named-as-default
-import dependency from '../../../core/dependency'
+import WidgetLayout from '../StandardWidget'
+import { widgetPropTypes } from '../../../core/widget/propTypes'
+import { WidgetHOC } from '../../../core/widget/Widget'
+import { FactoryContext } from '../../../core/factory/context'
 
 import FormContainer from './FormContainer'
 import Fieldsets from './fieldsets'
 
-/**
- * Виджет формы
- * @reactProps {string} pageId - id страницы
- * @reactProps {string} id - id виджета
- * @reactProps {object} toolbar
- * @reactProps {boolean} disabled
- * @reactProps {object} form
- * @reactProps {boolean} form.fetchOnInit - фетчить / не фетчить данные при инициализации
- * @reactProps {number} form.size - размер выборки
- * @reactProps {array} form.fieldsets
- * @reactProps {object} form.validation
- * @reactProps {object} form.prompt - флаг включения обработки выхода с несохраненной формы
- */
-class FormWidget extends React.Component {
-    /**
-     * Замена src на компонент с помощью resolveProps
-     */
-    getWidgetProps() {
-        const { resolveProps } = this.context
-        const { form, toolbar, placeholder, dataProvider, autoSubmit } = this.props
+export const Form = (props) => {
+    const { id, disabled, toolbar, datasource, className, style, form, loading } = props
+    const { resolveProps } = useContext(FactoryContext)
+    const resolvedForm = useMemo(() => ({
+        ...form,
+        fieldsets: values(
+            resolveProps(form.fieldsets, Fieldsets.StandardFieldset),
+        ),
+    }), [form, resolveProps])
 
-        return {
-            fieldsets: values(
-                resolveProps(form.fieldsets, Fieldsets.StandardFieldset),
-            ),
-            toolbar,
-            placeholder,
-            validation: form.validation,
-            fetchOnInit: form.fetchOnInit,
-            modelPrefix: form.modelPrefix,
-            dataProvider,
-            prompt: form.prompt,
-            autoFocus: form.autoFocus,
-            autoSubmit,
-        }
-    }
-
-    render() {
-        const {
-            id: widgetId,
-            datasource: modelId = widgetId,
-            disabled,
-            toolbar,
-            pageId,
-            className,
-            style,
-        } = this.props
-
-        return (
-            <StandardWidget
-                disabled={disabled}
-                widgetId={widgetId}
-                toolbar={toolbar}
-                className={className}
-                style={style}
-                modelId={modelId}
-            >
-                <FormContainer
-                    widgetId={widgetId}
-                    pageId={pageId}
-                    modelId={modelId}
-                    {...this.getWidgetProps()}
-                />
-            </StandardWidget>
-        )
-    }
+    return (
+        <WidgetLayout
+            disabled={disabled}
+            widgetId={id}
+            toolbar={toolbar}
+            className={className}
+            style={style}
+            datasource={datasource}
+            loading={loading}
+        >
+            <FormContainer
+                {...props}
+                form={resolvedForm}
+            />
+        </WidgetLayout>
+    )
 }
 
-FormWidget.defaultProps = {
-    toolbar: {},
-}
-
-FormWidget.propTypes = {
+Form.propTypes = {
+    ...widgetPropTypes,
     className: PropTypes.string,
     style: PropTypes.object,
-    containerId: PropTypes.string,
-    pageId: PropTypes.string,
-    visible: PropTypes.bool,
     disabled: PropTypes.bool,
-    toolbar: PropTypes.object,
     form: PropTypes.shape({
-        fetchOnInit: PropTypes.bool,
         fieldsets: PropTypes.array,
-        validation: PropTypes.object,
         prompt: PropTypes.bool,
+        modelPrefix: PropTypes.oneOf(['resolve', 'edit']),
     }),
-    placeholder: PropTypes.string,
-    dataProvider: PropTypes.object,
     autoSubmit: PropTypes.bool,
-    id: PropTypes.string.isRequired,
-    datasource: PropTypes.string,
 }
 
-FormWidget.contextTypes = {
-    resolveProps: PropTypes.func,
+Form.contextTypes = {
+    store: PropTypes.object,
 }
 
-export default dependency(FormWidget)
+export const FormWidget = WidgetHOC(Form)

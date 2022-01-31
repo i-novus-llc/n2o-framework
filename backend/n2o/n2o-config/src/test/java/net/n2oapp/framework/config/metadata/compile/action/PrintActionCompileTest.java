@@ -53,50 +53,51 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
 
         PrintAction print2 = (PrintAction) toolbar.getButton("id2").getAction();
 
-        assertThat(print2.getPayload().getUrl(), is("/page/widget/test2/:param1/:param2?param3=:param3"));
+        assertThat(print2.getPayload().getUrl(), is("/page/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
-        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.filter['page_ds2']"));
+        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_ds1']"));
+        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(print2.getPayload().getQueryMapping().size(), is(1));
-        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.filter['page_ds2']"));
+        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
-        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/widget/test2/:param1/:param2?param3=:param3");
+        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/test2/:param1/:param2?param3=:param3");
         assertThat(anchor.getIsOtherPage(), is(true));
 
         PrintAction print3 = (PrintAction) toolbar.getButton("id3").getAction();
         assertThat(print3.getPayload().getUrl(), is("http://google.com"));
 
-        PageContext modalContext = (PageContext) route("/page/widget/id4", Page.class);
+        PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getToolbar().getButton("secWgt").getAction();
+
+        assertThat(linkSecond.getPayload().getUrl(), is("/page/test/:minPrice"));
+        assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
+        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
+        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
+
+        //Modal page
+        PageContext modalContext = (PageContext) route("/page/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         print = (PrintAction) modalPage.getWidget().getToolbar().getButton("id1").getAction();
-        assertThat(print.getPayload().getUrl(), is("/page/widget/id4/widget2/test"));
+        assertThat(print.getPayload().getUrl(), is("/page/id4/test"));
         assertThat(print.getPayload().getPathMapping().size(), is(0));
         assertThat(print.getPayload().getQueryMapping().size(), is(0));
 
         print2 = (PrintAction) modalPage.getWidget().getToolbar().getButton("id2").getAction();
-        assertThat(print2.getPayload().getUrl(), is("/page/widget/id4/widget2/test2/:param1/:param2?param3=:param3"));
+        assertThat(print2.getPayload().getUrl(), is("/page/id4/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
-        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_widget_id4_test']"));
+        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_id4_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_widget_id4_test']"));
+        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_id4_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(print2.getPayload().getQueryMapping().size(), is(1));
-        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_widget_id4_test']"));
+        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         print3 = (PrintAction) modalPage.getWidget().getToolbar().getButton("id3").getAction();
-        assertThat(print3.getPayload().getUrl(), is("/page/widget/test3"));
+        assertThat(print3.getPayload().getUrl(), is("/test3"));
         assertThat(print3.getPayload().getPathMapping().size(), is(0));
         assertThat(print3.getPayload().getQueryMapping().size(), is(0));
-
-        PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getToolbar().getButton("secWgt").getAction();
-
-        assertThat(linkSecond.getPayload().getUrl(), is("/page/second/test/:minPrice"));
-        assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_ds1']"));
-        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
     }
 }

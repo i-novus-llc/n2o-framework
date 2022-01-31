@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
 import { makePageWidgetsByIdSelector } from '../pages/selectors'
-import { refreshEffect } from '../../sagas/meta'
+import { dataRequest } from '../datasource/store'
 
 import { CLOSE } from './constants'
 import {
@@ -83,7 +83,11 @@ function* onCloseEffects() {
             const { refresh } = onCloseHandlers[name]
 
             if (refresh) {
-                yield refreshEffect({ meta: { refresh } })
+                const { datasources } = refresh
+
+                for (const datasource of datasources) {
+                    yield put(dataRequest(datasource))
+                }
             }
 
             delete onCloseHandlers[name]

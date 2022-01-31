@@ -12,7 +12,6 @@ import {
     integer,
     minLength,
     maxLength,
-    match,
 } from './presets'
 
 const validConfig = {
@@ -129,14 +128,6 @@ describe('Проверка пресетов', () => {
         })
         it('не валидное значение', () => {
             expect(maxLength('test', { test: '12345' }, { max: 3 })).toBe(false)
-        })
-    })
-    describe('Проверка match пресета', () => {
-        it('валидное значение', () => {
-            expect(match('test', { test: 'test' }, { field: 'test' })).toBe(true)
-        })
-        it('не валидное значение', () => {
-            expect(match('test', { test: 'test1' }, { field: 'test' })).toBe(false)
         })
     })
 })

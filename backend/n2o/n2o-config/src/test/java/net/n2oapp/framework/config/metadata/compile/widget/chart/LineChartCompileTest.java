@@ -1,13 +1,15 @@
 package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
-import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.chart.charts.LineChartIOv4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.page.v2.SimplePageElementIOv2;
+import net.n2oapp.framework.config.io.widget.v4.ChartWidgetIOv4;
+import net.n2oapp.framework.config.io.widget.v4.charts.LineChartIOv4;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.ChartCompiler;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,15 +32,14 @@ public class LineChartCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.compilers(new SimplePageCompiler(), new ChartCompiler(), new LineChartCompiler());
-        builder.ios(new SimplePageElementIOv2(), new ChartWidgetIOv4(), new LineChartIOv4());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oChartsPack(), new N2oAllDataPack());
     }
 
     @Test
     public void testLineChart() {
-        Chart chart = (Chart) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testLineChartCompile.widget.xml")
-                .get(new WidgetContext("testLineChartCompile"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testLineChartCompile.page.xml")
+                .get(new PageContext("testLineChartCompile"));
+        Chart chart = (Chart) page.getWidget();
         LineChart lineChart = (LineChart) chart.getComponent();
         assertThat(lineChart.getSrc(), is("LineChart"));
         assertThat(lineChart.getType(), is(ChartType.line));

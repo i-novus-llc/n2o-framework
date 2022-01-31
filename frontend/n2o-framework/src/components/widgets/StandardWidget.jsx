@@ -4,10 +4,21 @@ import classNames from 'classnames'
 import { pure } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
+import { Spinner } from '../snippets/Spinner/Spinner'
 
-// eslint-disable-next-line import/no-named-as-default
-import WidgetAlerts from './WidgetAlerts'
 import WidgetFilters from './WidgetFilters'
+
+const PLACES = {
+    top: 'top',
+    left: 'left',
+    right: 'right',
+    topLeft: 'topLeft',
+    topRight: 'topRight',
+    topCenter: 'topCenter',
+    bottomLeft: 'bottomLeft',
+    bottomRight: 'bottomRight',
+    bottomCenter: 'bottomCenter',
+}
 
 /**
  * Виджет таблица
@@ -20,7 +31,7 @@ import WidgetFilters from './WidgetFilters'
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter, modelId } = this.props
+        const { widgetId, toolbar, filter, setFilter, filterModel } = this.props
         const { [place]: propsPlace } = this.props
 
         if (propsPlace && React.isValidElement(propsPlace)) {
@@ -32,31 +43,33 @@ class StandardWidget extends React.Component {
         }
 
         switch (place) {
-            case 'left':
-                return <WidgetFilters widgetId={widgetId} modelId={modelId} {...filterProps} />
-            case 'top':
-                return <WidgetFilters widgetId={widgetId} modelId={modelId} {...filterProps} />
-            case 'topLeft':
-                return <Toolbar toolbar={toolbar.topLeft} entityKey={widgetId} />
-            case 'topRight':
-                return <Toolbar toolbar={toolbar.topRight} entityKey={widgetId} />
-            case 'topCenter':
-                return <Toolbar toolbar={toolbar.topCenter} entityKey={widgetId} />
-            case 'bottomLeft':
-                return <Toolbar toolbar={toolbar.bottomLeft} entityKey={widgetId} />
-            case 'bottomRight':
-                return <Toolbar toolbar={toolbar.bottomRight} entityKey={widgetId} />
-            case 'bottomCenter':
-                return <Toolbar toolbar={toolbar.bottomCenter} entityKey={widgetId} />
-            case 'right':
-                return <WidgetFilters widgetId={widgetId} modelId={modelId} {...filterProps} />
+            case PLACES.top:
+            case PLACES.left:
+            case PLACES.right: {
+                return (
+                    <WidgetFilters
+                        widgetId={widgetId}
+                        setFilter={setFilter}
+                        filterModel={filterModel}
+                        {...filterProps}
+                    />
+                )
+            }
+            case PLACES.topLeft:
+            case PLACES.topRight:
+            case PLACES.topCenter:
+            case PLACES.bottomLeft:
+            case PLACES.bottomRight:
+            case PLACES.bottomCenter: {
+                return <Toolbar toolbar={toolbar[place]} entityKey={widgetId} />
+            }
             default:
                 break
         }
     }
 
     render() {
-        const { widgetId, disabled, filter, className, style, children } = this.props
+        const { disabled, filter, className, style, children, loading } = this.props
 
         const classes = classNames([
             className,
@@ -66,37 +79,37 @@ class StandardWidget extends React.Component {
 
         return (
             <div className={classes} style={style}>
-                {filter.filterPlace === 'left' && this.renderSection('left')}
+                {filter.filterPlace === PLACES.left && this.renderSection(PLACES.left)}
                 <div className="n2o-standard-widget-layout-center">
                     <div>
-                        {filter.filterPlace === 'top' && this.renderSection('top')}
-                        <WidgetAlerts widgetId={widgetId} />
+                        {filter.filterPlace === PLACES.top && this.renderSection(PLACES.top)}
                     </div>
                     <div className="d-flex justify-content-between">
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
-                            {this.renderSection('topLeft')}
+                            {this.renderSection(PLACES.topLeft)}
                         </div>
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--center">
-                            {this.renderSection('topCenter')}
+                            {this.renderSection(PLACES.topCenter)}
                         </div>
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
-                            {this.renderSection('topRight')}
+                            {this.renderSection(PLACES.topRight)}
                         </div>
                     </div>
                     <div>
-                        <div />
-                        <div>{children}</div>
-                        <div />
+                        <Spinner loading={loading} type="cover">
+                            {children}
+                        </Spinner>
+
                     </div>
                     <div className="d-flex justify-content-between">
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
-                            {this.renderSection('bottomLeft')}
+                            {this.renderSection(PLACES.bottomLeft)}
                         </div>
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--center">
-                            {this.renderSection('bottomCenter')}
+                            {this.renderSection(PLACES.bottomCenter)}
                         </div>
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
-                            {this.renderSection('bottomRight')}
+                            {this.renderSection(PLACES.bottomRight)}
                         </div>
                     </div>
                     <div>
@@ -104,7 +117,7 @@ class StandardWidget extends React.Component {
                     </div>
                 </div>
                 <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
-                    {filter.filterPlace === 'right' && this.renderSection('right')}
+                    {filter.filterPlace === PLACES.right && this.renderSection(PLACES.right)}
                 </div>
             </div>
         )
@@ -120,9 +133,10 @@ StandardWidget.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     widgetId: PropTypes.string,
-    modelId: PropTypes.string,
     toolbar: PropTypes.object,
     filter: PropTypes.object,
+    filterModel: PropTypes.object,
+    setFilter: PropTypes.func,
     disabled: PropTypes.bool,
     left: PropTypes.element,
     top: PropTypes.element,
@@ -145,6 +159,7 @@ StandardWidget.propTypes = {
         PropTypes.node,
     ]),
     children: PropTypes.node,
+    loading: PropTypes.bool,
 }
 
 export default pure(StandardWidget)

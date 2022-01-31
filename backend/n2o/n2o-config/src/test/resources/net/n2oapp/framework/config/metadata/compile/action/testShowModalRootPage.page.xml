@@ -5,13 +5,13 @@
                 <toolbar>
                     <button id="create" model="filter">
                         <show-modal page-id="testShowModalPage" modal-size="sm"
-                                    scrollable="true" detail-field-id="id"
+                                    scrollable="true"
                                     upload="defaults" refresh-widget-id="second" type="drawer"
                                     submit-operation-id="create" submit-model="edit" route="/create"
                                     has-header="false" class="n2o-custom-modal-dialog" backdrop="true" style="background:red"/>
                     </button>
                     <button id="update" model="resolve">
-                        <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg" master-field-id="secondId"
+                        <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg"
                                     upload="query" master-param="id"
                                     detail-field-id="id" submit-operation-id="update" route="/:id/update"
                                     unsaved-data-prompt-on-close="false">
@@ -19,17 +19,17 @@
                         </show-modal>
                     </button>
                     <button id="createFocus" model="filter">
-                        <show-modal page-id="testShowModalPage" focus-after-submit="true" detail-field-id="id"
+                        <show-modal page-id="testShowModalPage"
                                     submit-operation-id="create" route="/createFocus"/>
                     </button>
                     <button id="updateFocusOld" model="resolve">
-                        <show-modal page-id="testShowModalPage2" focus-after-submit="true" detail-field-id="secondId"
+                        <show-modal page-id="testShowModalPage2" detail-field-id="secondId"
                                     submit-operation-id="update" route="/:p_main_id/updateFocus">
                             <path-param name="p_main_id" value="{id}"/>
                         </show-modal>
                     </button>
                     <button id="updateByPathParams" model="resolve">
-                        <show-modal page-id="testShowModalPageByParams" focus-after-submit="true"
+                        <show-modal page-id="testShowModalPageByParams"
                                     submit-operation-id="update" route="/:main_id/updateByPathParams">
                             <path-param name="main_id" value="{id}"/>
                         </show-modal>

@@ -5,14 +5,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChart;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
-import net.n2oapp.framework.config.io.region.CustomRegionIOv1;
-import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.chart.charts.LineChartIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.CustomRegionCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.ChartCompiler;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,8 +27,7 @@ public class StandardChartCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.compilers(new StandardPageCompiler(), new CustomRegionCompiler(), new ChartCompiler(), new LineChartCompiler());
-        builder.ios(new StandardPageElementIOv2(), new CustomRegionIOv1(), new ChartWidgetIOv4(), new LineChartIOv4());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oChartsPack(), new N2oAllDataPack());
     }
 
     @Test

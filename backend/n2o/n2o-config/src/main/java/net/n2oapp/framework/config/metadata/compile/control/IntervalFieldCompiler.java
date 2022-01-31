@@ -45,24 +45,8 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField
         subField.setId(owner.getId() + postId);
         StandardField<C> standardField = p.compile(subField, context);
         standardField.getControl().setId(fieldId);
-        getValidations(owner, standardField);
         if (standardField.getDependencies() != null)
             standardField.getDependencies().forEach(owner::addDependency);
         return standardField.getControl();
-    }
-
-    private void getValidations(IntervalField<C> owner, StandardField<C> standardField) {
-        if (standardField.getClientValidations() != null && !standardField.getClientValidations().isEmpty()) {
-            if (owner.getClientValidations() == null) {
-                owner.setClientValidations(new ArrayList<>());
-            }
-            owner.getClientValidations().addAll(standardField.getClientValidations());
-        }
-        if (standardField.getServerValidations() != null && !standardField.getServerValidations().isEmpty()) {
-            if (owner.getServerValidations() == null) {
-                owner.setServerValidations(new ArrayList<>());
-            }
-            owner.getServerValidations().addAll(standardField.getServerValidations());
-        }
     }
 }

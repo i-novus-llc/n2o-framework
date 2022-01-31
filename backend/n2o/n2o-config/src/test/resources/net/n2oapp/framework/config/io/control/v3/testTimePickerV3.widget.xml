@@ -1,0 +1,7 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <time-picker id="testId" src="timePicker"
+                     prefix="From: " time-format="hh:mm" format="digit"
+                     default-value="00:00:00" mode="hours,minutes"/>
+    </fields>
+</form>

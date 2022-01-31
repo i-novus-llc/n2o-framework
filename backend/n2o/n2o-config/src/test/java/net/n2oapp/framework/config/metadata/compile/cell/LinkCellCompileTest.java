@@ -4,10 +4,11 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.LinkCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.LinkCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -40,9 +41,9 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testLinkCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testLinkCell.widget.xml")
-                .get(new WidgetContext("testLinkCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testLinkCell.page.xml")
+                .get(new PageContext("testLinkCell"));
+        Table table = (Table) page.getWidget();
         N2oLinkCell cell = (N2oLinkCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("LinkCell"));
         assertThat(cell.getId(), is("test1"));

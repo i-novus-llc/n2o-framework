@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <code-editor id="code1" label="test" min-lines="10" max-lines="20" language="html"/>
+            <code-editor id="code2"/>
+        </fields>
+    </form>
+</simple-page>

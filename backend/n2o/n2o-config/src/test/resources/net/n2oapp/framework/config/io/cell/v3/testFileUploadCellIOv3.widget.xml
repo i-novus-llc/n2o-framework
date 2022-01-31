@@ -1,0 +1,13 @@
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <columns>
+        <column text-field-id="test1">
+            <file-upload multi="true" ajax="true"
+                         upload-url="/uploadDoc" delete-url="/deleteDoc"
+                         value-field-id="id" label-field-id="name"
+                         message-field-id="message" url-field-id="/downloadDoc"
+                         request-param="file" show-size="true"
+                         accept="jpg,doc" label="label"
+                         delete-icon="deleteIcon" upload-icon="uploadIcon"/>
+        </column>
+    </columns>
+</table>

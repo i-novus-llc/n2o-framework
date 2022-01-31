@@ -28,20 +28,22 @@ const props = {
             {
                 src: 'TextTableHeader',
                 id: 'name',
-                sortable: false,
                 label: 'Имя',
                 width: '50px',
             },
         ]),
     ),
-    datasource: [
-        {
-            id: 1,
-            name: 'first name',
-        },
-    ],
+    models: {
+        datasource: [
+            {
+                id: 1,
+                name: 'first name',
+            },
+        ],
+    },
     sorting: {},
-    onSort: () => {},
+    setSorting: () => {},
+    setFilter: () => {},
 }
 
 const setup = propsOverride => mount(
@@ -58,9 +60,9 @@ describe('<AdvancedTableContainer />', () => {
         expect(wrapper.find(AdvancedTableContainer).state().columns[0].id).toBe(
             'name',
         )
-        expect(
-            wrapper.find(AdvancedTableContainer).state().columns[0].sortable,
-        ).toBe(false)
+        // expect(
+        //     wrapper.find(AdvancedTableContainer).state().columns[0].sortable,
+        // ).toBe(false)
         expect(wrapper.find(AdvancedTableContainer).state().columns[0].width).toBe(
             '50px',
         )
@@ -94,15 +96,13 @@ describe('<AdvancedTableContainer />', () => {
     })
 
     it('правильно отрабатывает фильтрация', () => {
-        const onSetFilter = sinon.spy()
-        const onFetch = sinon.spy()
+        const setFilter = sinon.spy()
 
         const wrapper = setupShallow({
             filters: {
                 name: 'Sergey',
             },
-            onSetFilter,
-            onFetch,
+            setFilter,
         })
 
         wrapper.instance().handleSetFilter({
@@ -110,9 +110,8 @@ describe('<AdvancedTableContainer />', () => {
             value: 'Ivan',
         })
 
-        expect(wrapper.instance().filterValue).toEqual({ name: 'Ivan' })
-        expect(onSetFilter.calledOnce).toBe(true)
-        expect(onSetFilter.getCall(0).args[0]).toEqual({ name: 'Ivan' })
-        expect(onFetch.calledOnce).toBe(true)
+        // expect(wrapper.instance().filterValue).toEqual({ name: 'Ivan' })
+        expect(setFilter.calledOnce).toBe(true)
+        expect(setFilter.getCall(0).args[0]).toEqual({ name: 'Ivan' })
     })
 })

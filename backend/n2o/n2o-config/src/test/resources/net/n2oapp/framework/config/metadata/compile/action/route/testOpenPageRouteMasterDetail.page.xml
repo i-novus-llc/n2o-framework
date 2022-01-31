@@ -8,8 +8,7 @@
                 </columns>
             </table>
             <table id="detail" query-id="testOpenPageRoute"
-                   detail-field-id="detailId" depends-on="master"
-                   route="/:masterId/detail">
+                   detail-field-id="detailId" depends-on="master">
                 <columns>
                     <column text-field-id="id"/>
                 </columns>
@@ -17,7 +16,9 @@
                     <button id="withParam" model="resolve">
                         <!-- Есть параметр в пути -->
                         <open-page page-id="testOpenPageRoutePage" detail-field-id="detailId"
-                                   route="/:detailId/open1">
+                                   master-param="detailId"
+                                   route="/:masterId/detail/:detailId/open1">
+                            <path-param name="masterId" value="{id}" ref-widget-id="master"/>
                             <path-param name="detailId" value="{id}"/>
                         </open-page>
                     </button>

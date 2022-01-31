@@ -15,7 +15,7 @@ import { RegionContent } from '../RegionContent'
 
 /**
  * Регион Панель
- * @reactProps containers {array} - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps containers {array} - массив из объектов, которые описывают виджет {id, name, opened, pageId, widget}
  * @reactProps className (string) - имя класса для родительского элементаs
  * @reactProps style (object) - стили для родительского элемента
  * @reactProps color (string) - стиль для панели
@@ -120,7 +120,7 @@ class PanelRegion extends React.Component {
         const { tabs } = this.state
         const isInvisible = every(
             content,
-            item => getWidgetProps(item.id).isVisible === false,
+            item => getWidgetProps(item.id).visible === false,
         )
 
         return (

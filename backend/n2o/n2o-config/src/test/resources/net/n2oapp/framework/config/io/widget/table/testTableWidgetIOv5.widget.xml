@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       name="Моя таблица" src="testSrc" datasource="ds1"
+       icon="testIcon" class="testClass" selection="radio" visible="true"
+       table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
+       checkboxes="true" check-on-select="false">
+    <datasource query-id="qtest" object-id="otest" default-values-mode="query" size="10">
+        <submit operation-id="update" refresh-datasources="ds1" auto-submit-on="blur" submit-all="true"
+                refresh-on-success="true" message-widget-id="w1" message-on-success="true" message-on-fail="true"
+                message-placement="top" message-position="fixed" route="route"/>
+        <filters>
+            <in field-id="test" datasource="ds1" model="datasource" values="12" required="true" param="test" routable="true"/>
+        </filters>
+    </datasource>
+    <columns>
+        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true"
+                src="MyTableHeader" class="my-table-header" style="color: red">
+            <toolbar generate="update,delete">
+                <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
+                    <menu-item style="margin-left:10px;width:300px">
+                        <invoke operation-id="testId" route="route" src="src"
+                                redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
+                    </menu-item>
+                </sub-menu>
+                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true"
+                        confirm-type="popover">
+                    <invoke operation-id="testId" route="route" src="src"
+                            redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
+                </button>
+                <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
+                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"/>
+                </sub-menu>
+            </toolbar>
+        </column>
+        <column text-field-id="testDependencies">
+            <text/>
+            <dependencies>
+                <visibility datasource="master" model="resolve">type == 1</visibility>
+            </dependencies>
+        </column>
+        <column text-field-id="testDependencies">
+            <dependencies>
+                <visibility model="resolve" datasource="tableWidget"/>
+            </dependencies>
+            <text/>
+        </column>
+
+        <filter-column text-field-id="test" label="label">
+            <filter>
+                <input-text id="name" label="label"/>
+            </filter>
+            <cell>
+                <text format="test" visible="true"/>
+            </cell>
+        </filter-column>
+        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red">
+            <column text-field-id="test1">
+                <cell>
+                    <close src="test"/>
+                </cell>
+            </column>
+            <multi-column>
+                <column text-field-id="test2"/>
+                <column text-field-id="test3"/>
+            </multi-column>
+            <filter-column text-field-id="test4">
+                <filter>
+                    <input-text id="name" label="label"/>
+                </filter>
+                <cell>
+                    <text format="test" visible="true"/>
+                </cell>
+            </filter-column>
+            <column text-field-id="test5"/>
+        </multi-column>
+    </columns>
+    <rows class="test">
+        <switch value-field-id="gender.id">
+            <case value="1">Мужской</case>
+            <case value="2">Женский</case>
+            <default>Неопределенный</default>
+        </switch>
+    </rows>
+    <pagination src="test" first="false" show-single-page="false"
+                last="false" next="false" prev="false" show-count="false" layout="bordered" prev-label="prev"
+                prev-icon="fa fa-angle-left" next-label="next" next-icon="fa fa-angle-right" first-label="first"
+                first-icon="fa fa-angle-double-left" last-label="last" last-icon="fa fa-angle-double-right"
+                max-pages="5"
+                class="class" style="style" place="bottomLeft">
+    </pagination>
+    <filters place="left" search-on-change="true" datasource="test">
+        <input-text id="test"/>
+        <set src="test">
+            <input-text id="test"/>
+        </set>
+    </filters>
+    <actions>
+        <action id="test" default="false" enabled="false" icon="test" name="test"
+                visible="false">
+            <close src="test"/>
+        </action>
+    </actions>
+    <toolbar place="bottomLeft">
+        <button action-id="test1" datasource="ds1" class="test" icon="test" label="test" type="icon" tooltip-position="bottom">
+            <close src="test"/>
+        </button>
+        <button action-id="test2" class="test" icon="test" label="test" type="icon">
+            <close src="test"/>
+        </button>
+        <sub-menu>
+            <menu-item datasource="ds1" action-id="test1" icon="test" label="test" class="test"/>
+            <menu-item action-id="test2" icon="test" label="test" class="test" tooltip-position="left"/>
+            <menu-item action-id="test3" icon="test" label="test" class="test"/>
+        </sub-menu>
+        <group>
+            <button action-id="test3" class="test" icon="test" label="test" type="icon" datasource="ds1">
+                <close src="test"/>
+            </button>
+            <sub-menu show-toggle-icon="true">
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+            <sub-menu>
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+     <toolbar place="topLeft">
+         <button action-id="test1" class="test" icon="test" label="test" type="icon"
+                 confirm-type="popover" datasource="ds1">
+             <close src="test"/>
+             <dependencies>
+                 <visibility datasource="ds1" model="datasource">type==1</visibility>
+             </dependencies>
+         </button>
+         <button action-id="test2" class="test" icon="test" label="test" type="icon">
+             <close src="test"/>
+         </button>
+         <sub-menu>
+             <menu-item action-id="test1" icon="test" label="test" class="test"/>
+             <menu-item action-id="test2" icon="test" label="test" class="test"/>
+             <menu-item action-id="test3" icon="test" label="test" class="test"/>
+         </sub-menu>
+         <group>
+             <button action-id="test3" class="test" icon="test" label="test" type="icon">
+                 <dependencies>
+                     <enabling model="filter" datasource="test">condition1</enabling>
+                     <visibility model="filter" datasource="test">condition2</visibility>
+                 </dependencies>
+                 <close src="test"/>
+             </button>
+             <button enabled="false" visible="false"/>
+             <sub-menu style="margin-left:10px;width:300px">
+                 <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
+                     <close src="test"/>
+                     <dependencies>
+                         <enabling model="resolve">condition1</enabling>
+                         <visibility datasource="test">condition2</visibility>
+                     </dependencies>
+                 </menu-item>
+                 <menu-item action-id="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>
+                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
+             </sub-menu>
+             <sub-menu>
+                 <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                 <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
+             </sub-menu>
+         </group>
+     </toolbar>
+</table>
+
+
+
+
+

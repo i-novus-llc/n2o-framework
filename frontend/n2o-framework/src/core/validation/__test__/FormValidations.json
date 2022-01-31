@@ -27,7 +27,6 @@
       }
     },
     "form": {
-      "fetchOnInit": false,
       "filterDefaultValues": {
         "fetch": [
           {

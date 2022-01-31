@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table query-id="testActionContext">
+        <actions>
+            <action id="test" model="filter">
+                <invoke operation-id="create" close-on-success="false" route="/:ppName1/create"
+                        refresh-widget-id="testW" refresh-on-success="true">
+                    <header-param name="hpName1" value="hpValue1"/>
+                    <path-param name="ppName1" value="ppValue1"/>
+                    <form-param id="fpName1" value="fpValue1"/>
+                </invoke>
+            </action>
+        </actions>
+        <toolbar>
+            <button action-id="test"/>
+            <button id="test2">
+                <invoke operation-id="update" optimistic="true" submit-form="false" route="/:ppName2/update">
+                    <header-param name="hpName2" value="hpValue2"/>
+                    <path-param name="ppName2" value="ppValue2"/>
+                    <form-param id="fpGender.id" value="1"/>
+                </invoke>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

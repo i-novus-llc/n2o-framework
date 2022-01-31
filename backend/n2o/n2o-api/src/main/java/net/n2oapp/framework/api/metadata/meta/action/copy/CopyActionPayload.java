@@ -30,9 +30,10 @@ public class CopyActionPayload implements ActionPayload {
         @JsonProperty
         String field;
 
-        public ClientModel(String key, String prefix) {
+        public ClientModel(String key, String prefix, String field) {
             this.prefix = prefix;
             this.key = key;
+            this.field = field;
         }
     }
 }

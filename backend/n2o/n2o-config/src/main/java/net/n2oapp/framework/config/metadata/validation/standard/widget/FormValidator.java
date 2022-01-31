@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
-import net.n2oapp.framework.config.metadata.validation.standard.IdValidationUtils;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware {
 
     @Override
-    public void validate(N2oForm source, ValidateProcessor p) {
-        IdValidationUtils.checkIds(source.getItems(), p);
+    public void validate(N2oForm source, SourceProcessor p) {
+        ValidationUtils.checkIds(source.getItems(), p);
         FieldsScope scope = new FieldsScope();
         p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item, scope));
         p.safeStreamOf(source.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));

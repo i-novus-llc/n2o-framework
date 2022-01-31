@@ -2,10 +2,11 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.CheckboxCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.CheckboxCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -37,9 +38,9 @@ public class CheckboxCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCheckboxCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testCheckboxCell.widget.xml")
-                .get(new WidgetContext("testCheckboxCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testCheckboxCell.page.xml")
+                .get(new PageContext("testCheckboxCell"));
+        Table table = (Table) page.getWidget();
         N2oCheckboxCell cell = (N2oCheckboxCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("CheckboxCell"));
         assertThat(cell.getEnabled(), nullValue());

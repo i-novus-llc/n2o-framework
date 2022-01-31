@@ -35,25 +35,36 @@ public class N2oParam implements Serializable {
     private Object valueList;
 
     /**
-     * Идентификатор виджета на странице, на который ссылается параметр
+     * Идентификатор источника данных на странице, на который ссылается параметр
      */
-    private String refWidgetId;
+    private String datasource;
 
     /**
      * Модель виджета, на который ссылается параметр
      */
-    private ReduxModel refModel;
+    private ReduxModel model;
 
     /**
      * Идентификатор страницы, на которую ссылается параметр
      */
     private String refPageId;
 
-    public N2oParam(String name, String value, String refWidgetId, ReduxModel refModel, String refPageId) {
-        this.name = name;
-        this.value = value;
-        this.refWidgetId = refWidgetId;
-        this.refModel = refModel;
-        this.refPageId = refPageId;
+
+    public N2oParam(N2oParam param) {
+        this.name = param.name;
+        this.value = param.value;
+        this.model = param.model;
+        this.refPageId = param.refPageId;
+        this.datasource = param.datasource;
+    }
+
+    @Deprecated
+    public String getRefWidgetId() {
+        return datasource;
+    }
+
+    @Deprecated
+    public void setRefWidgetId(String refWidgetId) {
+        this.datasource = refWidgetId;
     }
 }

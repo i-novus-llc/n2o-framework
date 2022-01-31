@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { connect } from 'react-redux'
 
-import { changeSizeWidget, dataRequestWidget } from '../../../ducks/widgets/store'
-import { makeModelIdSelector, makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
+import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
+import { WidgetContext } from '../../../core/widget/context'
+
+const SIZES = [5, 10, 20, 50]
 
 /**
  * Дропдаун для выбора размера(size) виджета
@@ -13,68 +15,34 @@ import { makeModelIdSelector, makeWidgetSizeSelector } from '../../../ducks/widg
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-class ChangeSize extends React.Component {
-    constructor(props) {
-        super(props)
-        this.sizes = [5, 10, 20, 50]
-        this.resize = this.resize.bind(this)
-    }
+function ChangeSize({ size: currentSize }) {
+    const { setSize } = useContext(WidgetContext)
 
-    /**
-     * изменение размера
-     * @param size
-     */
-    resize(size) {
-        const { dispatch, entityKey, modelId } = this.props
+    const items = SIZES.map((size, i) => (
+        <DropdownItem toggle={false} onClick={() => setSize(size)}>
+            <span className="n2o-dropdown-check-container">
+                {currentSize === size && <i className="fa fa-check" aria-hidden="true" />}
+            </span>
+            <span>{size}</span>
+        </DropdownItem>
+    ))
 
-        dispatch(changeSizeWidget(entityKey, size))
-        dispatch(dataRequestWidget(entityKey, modelId, { size, page: 1 }))
-    }
-
-    /**
-     * рендер меню
-     * @param sizes
-     */
-    renderSizeDropdown(sizes) {
-        const { size } = this.props
-
-        return sizes.map((s, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <DropdownItem key={index} toggle={false} onClick={() => this.resize(s)}>
-                <span className="n2o-dropdown-check-container">
-                    {size === s && <i className="fa fa-check" aria-hidden="true" />}
-                </span>
-                <span>{s}</span>
-            </DropdownItem>
-        ))
-    }
-
-    /**
-     * базовый рендер
-     * @returns {*}
-     */
-    render() {
-        return (
-            <UncontrolledButtonDropdown>
-                <DropdownToggle caret>
-                    <i className="fa fa-list" />
-                </DropdownToggle>
-                <DropdownMenu>{this.renderSizeDropdown(this.sizes)}</DropdownMenu>
-            </UncontrolledButtonDropdown>
-        )
-    }
+    return (
+        <UncontrolledButtonDropdown>
+            <DropdownToggle caret>
+                <i className="fa fa-list" />
+            </DropdownToggle>
+            <DropdownMenu>{items}</DropdownMenu>
+        </UncontrolledButtonDropdown>
+    )
 }
 
 ChangeSize.propTypes = {
     size: PropTypes.number,
-    entityKey: PropTypes.string,
-    modelId: PropTypes.string,
-    dispatch: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({
     size: makeWidgetSizeSelector(props.entityKey)(state),
-    modelId: makeModelIdSelector(props.entityKey)(state),
 })
 
 export { ChangeSize }

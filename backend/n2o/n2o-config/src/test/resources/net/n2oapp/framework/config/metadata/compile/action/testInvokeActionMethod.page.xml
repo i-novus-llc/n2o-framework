@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table
+            query-id="testActionContext">
+        <actions>
+            <action id="testDefault" model="filter">
+                <invoke operation-id="create"/>
+            </action>
+            <action id="testPut">
+                <invoke operation-id="update" method="PUT" route="/:id">
+                    <path-param name="id" value="{id}"/>
+                </invoke>
+            </action>
+            <action id="testDelete">
+                <invoke operation-id="delete" method="DELETE"/>
+            </action>
+        </actions>
+        <toolbar>
+            <button action-id="testDefault"/>
+            <button action-id="testPut"/>
+            <button action-id="testDelete"/>
+        </toolbar>
+    </table>
+</simple-page>

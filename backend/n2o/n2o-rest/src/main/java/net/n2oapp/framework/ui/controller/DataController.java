@@ -76,8 +76,7 @@ public class DataController extends AbstractController {
     private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response) {
         if (requestInfo.getRefresh() != null) {
             RefreshSaga resolvedRefresh = new RefreshSaga();
-            resolvedRefresh.setType(requestInfo.getRefresh().getType());
-            resolvedRefresh.getOptions().setWidgetId(requestInfo.getRefresh().getOptions().getWidgetId());
+            resolvedRefresh.setDatasources(requestInfo.getRefresh().getDatasources());
 
             if (response.getMeta() == null) response.setMeta(new MetaSaga());
             response.getMeta().setRefresh(resolvedRefresh);

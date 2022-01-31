@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile;
 
-import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
@@ -16,19 +15,16 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
-import org.apache.commons.collections.map.HashedMap;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -43,7 +39,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 /**
  * Реализация процессора сборки метаданных
  */
-public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
+public class N2oCompileProcessor implements CompileProcessor, BindProcessor, SourceProcessor {
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
     private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
@@ -159,9 +155,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
-        Object[] flattedScopes = Arrays.stream(scopes)
-                .filter(Objects::nonNull)
-                .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o)).toArray();
+        Object[] flattedScopes = flatScopes(scopes);
         return compilePipeline.get(source, context, new N2oCompileProcessor(this, flattedScopes));
     }
 
@@ -238,7 +232,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @Override
     public Object resolve(Object value) {
         if (value instanceof String)
-            return resolve((String)value);
+            return resolve((String) value);
         return value;
     }
 
@@ -246,7 +240,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @Override
     public <T> T resolve(Object value, Class<T> clazz) {
         if (value instanceof String)
-            return resolve((String)value, clazz);
+            return resolve((String) value, clazz);
         return (T) value;
     }
 
@@ -446,19 +440,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <T extends SourceMetadata> T getOrNull(String id, Class<T> metadataClass) {
-        if (id == null)
-            return null;
-        if (!env.getMetadataRegister().contains(id, metadataClass))
-            return null;
-        try {
-            return getSource(id, metadataClass);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
     public <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass) {
         if (id == null)
             return null;
@@ -542,6 +523,18 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             return value;
         } else
             return null;
+    }
+
+
+    private Object[] flatScopes(Object[] scopes) {
+        if (Stream.of(scopes).filter(Objects::nonNull).anyMatch(o -> o.getClass().isArray()))
+            return flatScopes(Stream.of(scopes)
+                    .filter(Objects::nonNull)
+                    .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o))
+                    .filter(Objects::nonNull).toArray());
+        else
+            return scopes;
+
     }
 
     private boolean isBinding() {

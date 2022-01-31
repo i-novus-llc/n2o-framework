@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
+import net.n2oapp.framework.config.io.control.v2.plain.InputTextIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.control.InputTextCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -63,6 +63,6 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
         assertThat(buttons.size(), is(1));
         assertThat(buttons.get(0), instanceOf(Submenu.class));
         Submenu submenu = (Submenu) buttons.get(0);
-        assertThat(submenu.getSubMenu().get(0).getUrl(), is("/testFieldToolbarCompile/testForm/n2o.i-novus.ru"));
+        assertThat(submenu.getSubMenu().get(0).getUrl(), is("/testFieldToolbarCompile/n2o.i-novus.ru"));
     }
 }

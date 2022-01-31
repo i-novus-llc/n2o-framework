@@ -73,7 +73,6 @@ const defaultMeta = {
           }
         ],
         validation: {},
-        fetchOnInit: false
       }
     }
   },

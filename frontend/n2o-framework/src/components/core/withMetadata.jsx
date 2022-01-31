@@ -9,7 +9,6 @@ import filter from 'lodash/filter'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import pick from 'lodash/pick'
 
 import {
     metadataRequest,
@@ -40,14 +39,14 @@ const withMetadata = (Component) => {
 
             if (
                 isEqual(metadata, prevProps.metadata) &&
-        !isEmpty(metadata) &&
-        this.shouldGetPageMetadata(prevProps)
+                !isEmpty(metadata) &&
+                this.shouldGetPageMetadata(prevProps)
             ) {
                 reset(prevProps.pageId)
                 this.fetchMetadata()
             } else if (
                 this.isEqualPageId(prevProps) &&
-        !this.isEqualPageUrl(prevProps)
+                !this.isEqualPageUrl(prevProps)
             ) {
                 routeMap(pageId)
                 if (error) {
@@ -83,11 +82,13 @@ const withMetadata = (Component) => {
                 const isNewPage = find(findedRoutes, route => route.isOtherPage)
 
                 return (
-                    (isNewPage ||
-            (this.isEqualPageId(prevProps) &&
-              !this.isEqualPageUrl(prevProps) &&
-              isEmpty(findedRoutes))) &&
-          !state.silent
+                    (
+                        isNewPage || (
+                            this.isEqualPageId(prevProps) &&
+                            !this.isEqualPageUrl(prevProps) &&
+                            isEmpty(findedRoutes)
+                        )
+                    ) && !state.silent
                 )
             }
 
@@ -104,24 +105,6 @@ const withMetadata = (Component) => {
             const { pageUrl } = this.props
 
             return pageUrl === prevProps.pageUrl
-        }
-
-        isEqualLocation(prevProps) {
-            const { location } = this.props
-
-            return isEqual(location, prevProps.location)
-        }
-
-        getPropsToPass() {
-            return pick(this.props, [
-                'pageId',
-                'metadata',
-                'loading',
-                'error',
-                'getMetadata',
-                'reset',
-                'routeMap',
-            ])
         }
 
         render() {

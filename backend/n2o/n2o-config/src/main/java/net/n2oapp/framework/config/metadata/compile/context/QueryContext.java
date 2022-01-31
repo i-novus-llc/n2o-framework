@@ -20,8 +20,6 @@ public class QueryContext extends BaseCompileContext<CompiledQuery, N2oQuery> {
     private List<Filter> filters;
     private UploadType upload;
     private List<Validation> validations;
-    private String failAlertWidgetId;
-    private String successAlertWidgetId;
     private String messagesForm;
     private Integer querySize;
     private Map<String, String> sortingMap;

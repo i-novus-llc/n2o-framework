@@ -1,0 +1,14 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <input-text id="testId" length="10" min="1" max="-1" measure="cm"
+                    step="2" style="margin-left:10px;width:300px" param="main_id"
+                    ref-model="filter"
+                    ref-page="parent"
+                    ref-datasource="main" ref-field-id="field"
+        >
+            <dependencies>
+                <visibility>testId2 === true</visibility>
+            </dependencies>
+        </input-text>
+    </fields>
+</form>

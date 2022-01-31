@@ -8,27 +8,23 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -99,13 +95,34 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
 
         if (source.getModel() == null)
-            source.setModel(ReduxModel.RESOLVE);
+            source.setModel(ReduxModel.resolve);
 
-        if (source.getValidate() != null) {
-            button.setValidate(source.getValidate().getValue());
-            if (ValidateType.WIDGET.getValue().equals(button.getValidate()))
-                button.setValidatedWidgetId(initWidgetId(source, context, p));
+        String datasource = initDatasource(source, p);
+        button.setValidate(compileValidate(source, p, datasource));
+    }
+
+    private List<String> compileValidate(N2oButtonField source, CompileProcessor p, String datasource) {
+        if (!p.cast(source.getValidate(), datasource != null || source.getValidateDatasources() != null))
+            return null;
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (source.getValidateDatasources() != null)
+            return Stream.of(source.getValidateDatasources())
+                    .map(ds -> pageScope != null ? pageScope.getClientDatasourceId(ds) : ds)
+                    .collect(Collectors.toList());
+        if (datasource != null) {
+            String ds = pageScope == null ? datasource : pageScope.getClientDatasourceId(datasource);
+            return Arrays.asList(ds);
         }
+        throw new N2oException(String.format("validate-datasources is not defined in button [%s]", source.getId()));
+    }
+
+    private String initDatasource(N2oButtonField source, CompileProcessor p) {
+        if (source.getDatasource() != null)
+            return source.getDatasource();
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getDatasourceId();
+        return null;
     }
 
     private void initConfirm(ButtonField button, N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
@@ -127,25 +144,22 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             confirm.setText(text);
         }
         if (StringUtils.isJs(confirm.getText())) {
-            String widgetId = initWidgetId(source, context, p);
+            String datasource = initGlobalDatasourceId(source, context, p);
             ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, widgetId).getBindLink());
+            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, datasource).getBindLink());
         }
         button.setConfirm(confirm);
     }
 
-    protected String initWidgetId(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initGlobalDatasourceId(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getWidgetId() != null) {
-            return pageScope == null ? source.getWidgetId() : pageScope.getGlobalWidgetId(source.getWidgetId());
+        if (source.getDatasource() != null) {
+            return pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
         }
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            return widgetScope.getClientWidgetId();
-        } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
-            return pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
-        } else {
-            throw new N2oException("Unknown widgetId for invoke action!");
-        }
+        String datasourceId = initLocalDatasourceId(p);
+        if (datasourceId != null)
+            return pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId;
+        else
+            throw new N2oException(String.format("Unknown datasource for submit in field %s!", source.getId()));
     }
 }

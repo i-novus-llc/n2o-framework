@@ -585,7 +585,6 @@ export default [
           },
           "children": "collapse",
           "table": {
-            "fetchOnInit": true,
             "autoFocus": true,
             "size": 10,
             "hasFocus": true,

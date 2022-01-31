@@ -13,7 +13,7 @@ import { RegionContent } from '../RegionContent'
 
 /**
  * Регион Лист
- * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, widget}
  * @reactProps {bool} expand - флаг открыт ли при загрузке (default = true)
  * @reactProps {bool} hasSeparator - есть ли разделительная линия (default = true)
  * @reactProps {string} pageId - идентификатор страницы
@@ -51,7 +51,7 @@ class ListRegion extends React.Component {
         ])
 
         const isVisible = every(content, meta => get(getWidgetProps(meta.id), 'datasource') === undefined) ||
-                some(content, meta => get(getWidgetProps(meta.id), 'isVisible'))
+                some(content, meta => get(getWidgetProps(meta.id), 'visible'))
 
         return (
             <div

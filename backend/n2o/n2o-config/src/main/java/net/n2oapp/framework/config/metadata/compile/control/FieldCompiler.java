@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -28,6 +29,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
@@ -55,16 +58,32 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return "n2o.api.field.src";
     }
 
+    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        source.setRefPage(p.cast(source.getRefPage(), N2oField.Page.THIS));
+        source.setRefDatasource(p.cast(source.getRefDatasource(), () -> {
+            if (source.getRefPage().equals(N2oField.Page.THIS)) {
+                return initLocalDatasourceId(p);
+            } else if (source.getRefPage().equals(N2oField.Page.PARENT)) {
+                if (context instanceof PageContext) {
+                    return ((PageContext) context).getParentLocalDatasourceId();
+                } else {
+                    throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
+                }
+            }
+            return null;
+        }));
+        source.setRefModel(p.cast(source.getRefModel(),
+                Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
+                ReduxModel.resolve));
+        initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
+        initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
+        initCondition(source, source::getRequired, new N2oField.RequiringDependency(), b -> source.setRequired(b.toString()), "true".equals(source.getRequired()));
+    }
+
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compileComponent(field, source, context, p);
 
         field.setId(source.getId());
-
-        compileCondition(source, source::getVisible, new N2oField.VisibilityDependency(), field::setVisible, !"false".equals(source.getVisible()));
-        compileCondition(source, source::getEnabled, new N2oField.EnablingDependency(), field::setEnabled, !"false".equals(source.getEnabled()));
-        compileCondition(source, source::getRequired, new N2oField.RequiringDependency(), field::setRequired, "true".equals(source.getRequired()));
-
-        compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
@@ -72,21 +91,25 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
+        field.setVisible(p.resolve(source.getVisible(), Boolean.class));
+        field.setEnabled(p.resolve(source.getEnabled(), Boolean.class));
+        field.setRequired(p.resolve(source.getRequired(), Boolean.class));
+        compileFieldToolbar(field, source, context, p);
         compileDependencies(field, source, context, p);
     }
 
-    private void compileCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
-                                  Consumer<Boolean> conditionSetter, Boolean defaultValue) {
+    private void initCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
+                               Consumer<Boolean> conditionSetter, Boolean defaultValue) {
         if (StringUtils.isLink(conditionGetter.get())) {
-            conditionSetter.accept(false);
             Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
+            conditionSetter.accept(false);
         } else if (conditionGetter.get() != null) {
-            conditionSetter.accept(defaultValue);
             dependency.setValue(conditionGetter.get());
             source.addDependency(dependency);
+            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }
@@ -141,33 +164,33 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private ControlDependency compileControlDependency(Field field, N2oField.Dependency d, CompileProcessor p) {
+    private ControlDependency compileControlDependency(Field field, N2oField.Dependency source, CompileProcessor p) {
         ControlDependency dependency = new ControlDependency();
-        if (d instanceof N2oField.EnablingDependency)
+        if (source instanceof N2oField.EnablingDependency)
             dependency.setType(ValidationType.enabled);
-        else if (d instanceof N2oField.RequiringDependency)
+        else if (source instanceof N2oField.RequiringDependency)
             dependency.setType(ValidationType.required);
-        else if (d instanceof N2oField.VisibilityDependency) {
+        else if (source instanceof N2oField.VisibilityDependency) {
             dependency.setType(ValidationType.visible);
-            Boolean isResettable = p.cast(((N2oField.VisibilityDependency) d).getReset(),
+            Boolean isResettable = p.cast(((N2oField.VisibilityDependency) source).getReset(),
                     p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
                 reset.setType(ValidationType.reset);
-                reset.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                addToField(reset, field, d, p);
+                reset.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
+                addToField(reset, field, source, p);
             }
-        } else if (d instanceof N2oField.SetValueDependency)
+        } else if (source instanceof N2oField.SetValueDependency)
             dependency.setType(ValidationType.setValue);
-        else if (d instanceof N2oField.FetchDependency)
+        else if (source instanceof N2oField.FetchDependency)
             dependency.setType(ValidationType.fetch);
-        else if (d instanceof N2oField.ResetDependency) {
+        else if (source instanceof N2oField.ResetDependency) {
             dependency.setType(ValidationType.reset);
-            if (d.getValue() == null) {
-                d.setValue(String.valueOf(Boolean.TRUE));
+            if (source.getValue() == null) {
+                source.setValue(String.valueOf(Boolean.TRUE));
             }
         }
-        dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+        dependency.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
         return dependency;
     }
 
@@ -187,7 +210,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void compileFilters(S source, CompileProcessor p) {
-        FiltersScope filtersScope = p.getScope(FiltersScope.class);
+        TableFiltersScope filtersScope = p.getScope(TableFiltersScope.class);
         if (filtersScope != null) {
             CompiledQuery query = p.getScope(CompiledQuery.class);
             if (query == null)
@@ -200,7 +223,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
-                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 link.setParam(filter.getParam());
@@ -220,8 +243,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected SubModelQuery findSubModelQuery(String fieldId, CompileProcessor p) {
         if (fieldId == null) return null;
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
-        if (subModelsScope != null) {
-            return subModelsScope.stream()
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (subModelsScope != null && widgetScope != null && subModelsScope.get(widgetScope.getDatasourceId()) != null) {
+            return subModelsScope.get(widgetScope.getDatasourceId()).stream()
                     .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
                     .findAny()
                     .orElse(null);
@@ -230,24 +254,31 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
-        List<Validation> serverValidations = new ArrayList<>();
-        List<Validation> clientValidations = new ArrayList<>();
-        Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
+        List<Validation> validations = new ArrayList<>();
+        Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
+        validations.addAll(initRequiredValidation(field, source, p, visibilityConditions));
+        validations.addAll(initInlineValidations(field, source, context, p, visibilityConditions));
+        ValidationScope validationScope = p.getScope(ValidationScope.class);
+        if (validationScope != null)
+            validationScope.addAll(validations);
+    }
+
+    private List<Validation> initRequiredValidation(Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
+        List<Validation> result = new ArrayList<>();
         MomentScope momentScope = p.getScope(MomentScope.class);
-        String REQUIRED_MESSAGE = momentScope != null
+        String requiredMessage = momentScope != null
                 && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
         if ("true".equals(source.getRequired())) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
+            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(requiredMessage), field.getId());
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
-            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
             mandatory.addEnablingConditions(visibilityConditions);
-            serverValidations.add(mandatory);
-            clientValidations.add(mandatory);
+            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
+            result.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
+            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(requiredMessage), field.getId());
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
@@ -258,79 +289,63 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                             N2oField.VisibilityDependency.class
                     )
             );
-            mandatory.setEnablingExpression(ScriptProcessor.resolveFunction(
-                    ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class))));
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
-                serverValidations.add(mandatory);
-                clientValidations.add(mandatory);
+                result.add(mandatory);
             }
         }
-        CompiledObject object = p.getScope(CompiledObject.class);
-        initInlineValidations(field, source, serverValidations, clientValidations, object, context, visibilityConditions, p);
-        field.setServerValidations(serverValidations.isEmpty() ? null : serverValidations);
-        field.setClientValidations(clientValidations.isEmpty() ? null : clientValidations);
+        return result;
     }
 
-    private void initInlineValidations(Field field,
+    private List<Validation> initInlineValidations(Field field,
                                        S source,
-                                       List<Validation> serverValidations,
-                                       List<Validation> clientValidations,
-                                       CompiledObject object,
-                                       CompileContext<?, ?> context,
-                                       Set<String> visibilityConditions,
-                                       CompileProcessor p) {
+                                       CompileContext<?, ?> context, CompileProcessor p,
+                                       Set<String> visibilityConditions) {
 
+        List<Validation> result = new ArrayList<>();
         N2oField.Validations validations = source.getValidations();
-        if (validations == null) return;
+        if (validations == null) return result;
         if (validations.getWhiteList() != null) {
             for (String validation : validations.getWhiteList()) {
-                initWhiteListValidation(field.getId(),
+                Validation compiledValidation = initWhiteListValidation(field.getId(),
                         validation,
-                        source,
-                        serverValidations, clientValidations, object, visibilityConditions);
+                        source, p,
+                        visibilityConditions);
+                if (compiledValidation != null)
+                    result.add(compiledValidation);
             }
         }
         if (validations.getInlineValidations() != null) {
-            List<String> enablingConditions = new ArrayList<>();
+            List<String> fieldVisibilityConditions = new ArrayList<>();
             if (source.getDependencies() != null) {
                 for (N2oField.Dependency dependency : source.getDependencies()) {
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
-                        enablingConditions.add(dependency.getValue());
+                        fieldVisibilityConditions.add(dependency.getValue());
                 }
             }
-            ArrayList<Validation> objectValidations = new ArrayList<>();
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);
                 MomentScope momentScope = p.getScope(MomentScope.class);
                 if (momentScope != null)
                     compiledValidation.setMoment(momentScope.getMoment());
-                if ("false".equals(source.getVisible())) {
-                    continue;
-                } else if (!enablingConditions.isEmpty()) {
-                    compiledValidation.addEnablingConditions(enablingConditions);
+                if (!fieldVisibilityConditions.isEmpty()) {
+                    compiledValidation.addEnablingConditions(fieldVisibilityConditions);
                 }
                 compiledValidation.addEnablingConditions(visibilityConditions);
-                objectValidations.add(compiledValidation);
-                serverValidations.add(compiledValidation);
-                if (compiledValidation.getSide() == null || compiledValidation.getSide().contains("client"))
-                    clientValidations.add(compiledValidation);
+                result.add(compiledValidation);
             }
-            if (object != null)
-                object.getValidations().addAll(objectValidations);
         }
+        return result;
     }
 
-    private void initWhiteListValidation(String fieldId,
+    private Validation initWhiteListValidation(String fieldId,
                                          String refId,
                                          S source,
-                                         List<Validation> serverValidations,
-                                         List<Validation> clientValidations,
-                                         CompiledObject object,
+                                         CompileProcessor p,
                                          Set<String> visibilityConditions) {
-        if (object == null) {
-            throw new N2oException(String.format("Field %s have validation reference, but haven't object!", fieldId));
-        }
+        CompiledObject object = p.getScope(CompiledObject.class);
+        if (object == null)
+            return null;
         Validation objectValidation = null;
         if (object.getValidationsMap() != null && object.getValidationsMap().containsKey(refId)) {
             objectValidation = object.getValidationsMap().get(refId);
@@ -357,7 +372,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             validation = new MandatoryValidation((MandatoryValidation) objectValidation);
         }
         if (validation == null)
-            return;
+            return null;
         List<String> enablingConditions = new ArrayList<>();
         if (source.getDependencies() != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
@@ -369,14 +384,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         validation.setFieldId(fieldId);
         validation.addEnablingConditions(enablingConditions);
         validation.addEnablingConditions(visibilityConditions);
-        if (validation.getSide() == null || validation.getSide().equals("client,server")) {
-            serverValidations.add(validation);
-            clientValidations.add(validation);
-        } else if (validation.getSide().equals("client")) {
-            clientValidations.add(validation);
-        } else if (validation.getSide().equals("server")) {
-            serverValidations.add(validation);
-        }
+        return validation;
     }
 
     private List<String> collectConditions(S source, Class... types) {
@@ -385,7 +393,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 for (Class clazz : types) {
                     if (dependency.getClass().equals(clazz)) {
-                        result.add(dependency.getValue());
+                        result.add(ScriptProcessor.resolveFunction(dependency.getValue()));
                     }
                 }
             }
@@ -396,8 +404,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileCopied(S source, CompileProcessor p) {
         if (Boolean.TRUE.equals(source.getCopied())) {
             CopiedFieldScope scope = p.getScope(CopiedFieldScope.class);
-            if (scope != null) {
-                scope.addCopiedFields(source.getId());
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            if (scope != null && widgetScope != null) {
+                scope.addCopiedFields(source.getId(), widgetScope.getDatasourceId());
             }
         }
     }
@@ -425,14 +434,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defValue = ScriptProcessor.resolveExpression((String) defValue);
                 }
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
+                    ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
                     if (source.getRefFieldId() == null)
                         defaultValue.setValue(defValue);
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-                    ModelLink modelLink = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
+                    ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                     if (defValue instanceof DefaultValues) {
                         Map<String, Object> values = ((DefaultValues) defValue).getValues();
                         if (values != null) {
@@ -447,18 +456,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
-                    String param = source.getParam() != null ?
-                            source.getParam() :
-                            defaultValues.getWidgetId() + "_" + control.getId();
-                    modelLink.setParam(param);
-                    defaultValues.add(control.getId(), modelLink);
-                }
-            } else {
-                if (source.getRefPage() != null || source.getRefWidgetId() != null || source.getRefFieldId() != null) {
-                    ModelLink modelLink = getDefaultValueModelLink(source, control.getId(), defaultValues, context, p);
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
+            } else if (source.getRefFieldId() != null) {
+                ModelLink modelLink = getDefaultValueModelLink(source, context, p);
+                modelLink.setParam(source.getParam());
+                defaultValues.add(control.getId(), modelLink);
             }
         }
     }
@@ -483,11 +487,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      */
     protected void compileParams(D control, S source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getParam() != null) {
-            ModelsScope modelsScope = p.getScope(ModelsScope.class);
-            if (modelsScope != null) {
-                ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            if (widgetScope != null) {
+                ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), control.getId());
                 onSet.setParam(source.getParam());
-                ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), control.getId(),
+                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getGlobalDatasourceId(), widgetScope.getModel(), control.getId(),
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);
             }
@@ -497,20 +501,28 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     /**
      * Получение модели для дефолтного значения поля
      *
-     * @param source            Исходная модель поля
-     * @param fieldId           Идентификатор поля
-     * @param defaultModelScope Информация о значениях по умолчанию модели
-     * @param context           Контекст сборки метаданных
-     * @param p                 Процессор сборки метаданных
+     * @param source Исходная модель поля
+     * @param p      Процессор сборки метаданных
      * @return Модель для дефолтного значения поля
      */
-    private ModelLink getDefaultValueModelLink(S source, String fieldId, ModelsScope defaultModelScope, CompileContext<?, ?> context, CompileProcessor p) {
-        String datasource = getDefaultValueLinkDatasourceId(source, fieldId, defaultModelScope.getWidgetId(), context, p);
+    private ModelLink getDefaultValueModelLink(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        String globalDatasourceId = null;
+        switch (source.getRefPage()) {
+            case THIS:
+                globalDatasourceId = pageScope != null ? pageScope.getClientDatasourceId(source.getRefDatasource()) : source.getRefDatasource();
+                break;
+            case PARENT:
+                if (context instanceof PageContext) {
+                    globalDatasourceId = CompileUtil.generateDatasourceId(((PageContext)context).getParentClientPageId(), source.getRefDatasource());
+                } else
+                    throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
+        }
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), datasource, source.getRefFieldId());
+            defaultValue = new ModelLink(source.getRefModel(), globalDatasourceId, source.getRefFieldId());
         } else {
-            defaultValue = new ModelLink(p.cast(source.getRefModel(), defaultModelScope.getModel(), ReduxModel.RESOLVE), datasource);
+            defaultValue = new ModelLink(source.getRefModel(), globalDatasourceId);
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
@@ -520,35 +532,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return defaultValue;
     }
 
-
-    /**
-     * Получение идентификатора источника данных, на который будет ссылаться модель для дефолтного значения поля
-     *
-     * @param source          Исходная модель поля
-     * @param fieldId         Идентификатор поля
-     * @param defaultWidgetId Идентификатор виджета по умолчанию
-     * @param context         Контекст сборки метаданных
-     * @param p               Процессор сборки метаданных
-     * @return                Идентификатор источника данных
-     */
-    private String getDefaultValueLinkDatasourceId(S source, String fieldId, String defaultWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
-        String datasourceId;
-        if (N2oField.Page.PARENT.equals(source.getRefPage())) {
-            //todo избавиться при переходе к отдельному datasource
-            if (context instanceof PageContext) {
-                datasourceId = source.getRefWidgetId() == null ?
-                        ((PageContext) context).getParentClientWidgetId() :
-                        CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(),
-                                source.getRefWidgetId());
-            } else {
-                throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", fieldId));
+    protected String initLocalDatasourceId(CompileProcessor p) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null) {
+                return datasourceIdAware.getDatasource();
             }
-        } else {
-            PageScope scope = p.getScope(PageScope.class);
-            datasourceId = source.getRefWidgetId() == null ?
-                    scope.getWidgetIdDatasourceMap().get(defaultWidgetId) :
-                    scope.getWidgetIdDatasourceMap().get(scope.getGlobalWidgetId(source.getRefWidgetId()));
         }
-        return datasourceId;
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getDatasourceId();
+        return null;
     }
 }

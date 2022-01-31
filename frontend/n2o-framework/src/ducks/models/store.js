@@ -12,15 +12,11 @@ import { setIn } from '../../tools/helpers'
 import { COPY, PREFIXES } from './constants'
 
 const initialState = {
-    /* Модели от сервера */
     datasource: {},
-    /* Модели для клиента */
-    select: {},
     filter: {},
-    multi: {},
+    multi: {}, // selected
     resolve: {},
     edit: {},
-    selectionType: {},
 }
 
 const modelsSlice = createSlice({
@@ -191,7 +187,9 @@ const modelsSlice = createSlice({
             const { prefixes, key, exclude } = action.payload
 
             prefixes.forEach((prefix) => {
-                state[prefix][key] = pick(state[prefix][key], [exclude])
+                if (state[prefix]?.[key]) {
+                    state[prefix][key] = pick(state[prefix][key], [exclude])
+                }
             })
         },
         MERGE: {

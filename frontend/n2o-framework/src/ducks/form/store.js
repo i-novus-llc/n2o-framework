@@ -555,6 +555,15 @@ const formSlice = createSlice({
                 set(state, `initial[${field}]`, action.payload.value)
             }
         },
+        [actionTypes.FOCUS](state, action) {
+            const { field } = action.meta
+
+            if (!field) {
+                return
+            }
+
+            set(state, `fields[${field}].touched`, true)
+        },
     },
 })
 

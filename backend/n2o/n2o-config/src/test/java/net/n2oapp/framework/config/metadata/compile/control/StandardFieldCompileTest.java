@@ -18,7 +18,6 @@ import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -26,17 +25,16 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -61,10 +59,10 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testDependencies() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
-                .get(new WidgetContext("testStandardField"));
-
+                .get(new PageContext("testStandardField"));
+        Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getDependencies().size(), is(10));
 
@@ -110,10 +108,10 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testToolbar() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
-                .get(new WidgetContext("testStandardField"));
-
+                .get(new PageContext("testStandardField"));
+        Form form = (Form) page.getWidget();
         Group[] toolbar = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0)
                 .getToolbar();
 
@@ -128,24 +126,24 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(button.getAction(), instanceOf(InvokeAction.class));
         InvokeAction action = (InvokeAction) button.getAction();
         assertThat(action.getOperationId(), is("update"));
-        assertThat(action.getPayload().getModelLink(), is("models.filter['$testStandardField']"));
+        assertThat(action.getPayload().getDatasource(), is("testStandardField_form"));
     }
 
     @Test
     public void testValidations() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
+        PageContext pageContext = new PageContext("testStandardField");
+        pageContext.setSubmitOperationId("update");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
-                .get(new WidgetContext("testStandardField"));
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(2).getFields().get(0);
+                .get(pageContext);
 
-        List<Validation> clientValidations = field.getClientValidations();
+        List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations().get("test3");
         assertThat(clientValidations.size(), is(2));
 
         ConstraintValidation validation = (ConstraintValidation) clientValidations.get(0);
         assertThat(validation.getId(), is("val1"));
         assertThat(validation.getMessage(), is("Message"));
         assertThat(validation.getSeverity(), is(SeverityType.danger));
-        assertThat(validation.getSide(), is("client"));
         assertThat(validation.getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(validation.getRequiredFields().size(), is(1));
         assertThat(validation.getRequiredFields().contains("param"), is(true));
@@ -164,13 +162,13 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation2.getSeverity(), is(SeverityType.warning));
         assertThat(validation2.getSide(), is("client,server"));
 
-
-        List<Validation> serverValidations = field.getServerValidations();
-        assertThat(serverValidations.size(), is(3));
-
-        assertThat(serverValidations.get(0), is(validation));
-        assertThat(serverValidations.get(1), is(validation2));
-        MandatoryValidation validation3 = (MandatoryValidation) serverValidations.get(2);
+        ActionContext actionContext = (ActionContext)route("/testStandardField/submit", CompiledObject.class);
+        List<Validation> serverValidations = actionContext.getValidations();
+        assertThat(serverValidations.size(), is(4));
+        assertThat(serverValidations.get(0).getFieldId(), is("test1"));
+        assertThat(serverValidations.get(1), is(validation));
+        assertThat(serverValidations.get(2), is(validation2));
+        MandatoryValidation validation3 = (MandatoryValidation) serverValidations.get(3);
         assertThat(validation3.getId(), is("val3"));
         assertThat(validation3.getMessage(), is("Message"));
         assertThat(validation3.getSeverity(), is(SeverityType.danger));
@@ -180,18 +178,21 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInlineValidations() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.widget.xml")
-                .get(new WidgetContext("testStandardFieldInlineValidations"));
-        List<Field> fields = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields();
-
-        List<Validation> clientValidations = fields.get(0).getClientValidations();
+        PageContext pageContext = new PageContext("testStandardFieldInlineValidations");
+        pageContext.setSubmitOperationId("update");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
+                "net/n2oapp/framework/config/mapping/testCell.object.xml")
+                .get(pageContext);
+        pageContext.setSubmitOperationId("update");
+        List<Validation> clientValidations = page.getDatasources().get("testStandardFieldInlineValidations_form").getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(clientValidations.get(0).getMessage(), is("Только Казань"));
         assertThat(clientValidations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(((ConditionValidation) clientValidations.get(0)).getExpression(), is("city=='Казань'"));
 
-        List<Validation> serverValidations = fields.get(0).getServerValidations();
+        ActionContext actionContext = (ActionContext)route("/testStandardFieldInlineValidations/submit", CompiledObject.class);
+        List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(1));
         assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(serverValidations.get(0).getMessage(), is("Только Казань"));
@@ -202,21 +203,19 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSubmit() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmit"));
-        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = ((Form) page.getRegions().get("single").get(0).getContent().get(3)).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         ActionContext context = (ActionContext) route("/testStandardFieldSubmit/a/b/c", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("update"));
         assertThat(context.isMessageOnFail(), is(true));
         assertThat(context.isMessageOnSuccess(), is(false));
-        assertThat(context.getParentWidgetId(), is("testStandardFieldSubmit_form"));
-        assertThat(context.getSuccessAlertWidgetId(), is("testStandardFieldSubmit_form"));
-        assertThat(context.getFailAlertWidgetId(), is("testStandardFieldSubmit_form"));
-        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
-        assertThat(context.getRefresh().getOptions().getWidgetId(), is("form"));
+        assertThat(context.getParentClientWidgetId(), is("testStandardFieldSubmit_form"));
+        assertThat(context.getMessagesForm(), is("testStandardFieldSubmit_form"));
+        assertThat(context.getRefresh().getDatasources(), hasItem("form"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
@@ -231,21 +230,21 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getModel(), is(ReduxModel.resolve));
         assertThat(link.getDatasource(), is("testStandardFieldSubmit_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmit_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_form']"));
     }
@@ -255,36 +254,42 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testSubmitInDependentWidget.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testSubmitInDependentWidget"));
-        StandardField field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
+        //поле из первой формы
+        StandardField field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-
         assertThat(field.getDataProvider(), notNullValue());
-        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form/table/:testSubmitInDependentWidget_table_id/w1"));
-        assertThat(field.getDataProvider().getPathMapping(), notNullValue());
-        assertThat(field.getDataProvider().getPathMapping().containsKey("testSubmitInDependentWidget_table_id"), is(true));
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form"));
+        assertThat(field.getDataProvider().getPathMapping().size(), is(0));
+        assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
+        // поле из второй формы
+        field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
+                .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        assertThat(field.getDataProvider(), notNullValue());
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/w1"));
+        assertThat(field.getDataProvider().getPathMapping().size(), is(0));
+        assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
     }
 
     @Test
     public void testSubmitWithoutRoute() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmitWithoutRoute"));
-        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = ((Form) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getFieldsets()
+                .get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
-        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute/form", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("update"));
         assertThat(context.isMessageOnFail(), is(true));
         assertThat(context.isMessageOnSuccess(), is(false));
-        assertThat(context.getSuccessAlertWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
-        assertThat(context.getFailAlertWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
-        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
-        assertThat(context.getRefresh().getOptions().getWidgetId(), is("test"));
+        assertThat(context.getMessagesForm(), is("testStandardFieldSubmitWithoutRoute_form"));
+        assertThat(context.getRefresh().getDatasources(), Matchers.hasItem("test"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(false));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute/form"));
 
         assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
@@ -294,21 +299,21 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_id2']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getModel(), is(ReduxModel.resolve));
         assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_id3"));
         assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmitWithoutRoute_id3']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getModel(), is(ReduxModel.filter));
         assertThat(link.getDatasource(), is("testStandardFieldSubmitWithoutRoute_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_form']"));
     }
@@ -400,5 +405,15 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field4.getDependencies().get(2).getType(), is(ValidationType.required));
         assertThat(field4.getDependencies().get(2).getOn(), is(Arrays.asList("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(2).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
+    }
+
+    @Test
+    public void testEnablingConditionValidations() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
+                .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
+        List<Validation> validations = page.getDatasources().get("p_form").getValidations().get("joe");
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("foo==1"));
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("bar==2"));
+        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("buz==3"));
     }
 }

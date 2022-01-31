@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.route.N2oRouter;
@@ -67,6 +68,7 @@ public class DefaultValuesControllerTest {
                 new N2oSourceTypesPack(),
                 new N2oDataProvidersPack(),
                 new N2oQueriesPack(),
+                new N2oPagesPack(),
                 new N2oWidgetsPack(),
                 new N2oFieldSetsPack(),
                 new N2oControlsPack(),
@@ -84,9 +86,9 @@ public class DefaultValuesControllerTest {
     private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipelineForQuery() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
-                "net/n2oapp/framework/ui/controller/testDefaults.widget.xml"
+                "net/n2oapp/framework/ui/controller/testDefaults.page.xml"
         );
-        pipeline.get(new WidgetContext("testDefaults"));
+        pipeline.get(new PageContext("testDefaults"));
         return pipeline;
     }
 
@@ -95,7 +97,7 @@ public class DefaultValuesControllerTest {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"2"});
-        GetDataResponse response = testQuery("/testDefaults", pipeline, params);
+        GetDataResponse response = testQuery("/testDefaults/main", pipeline, params);
         assertThat(response.getList().size(), is(1));
         assertThat(response.getList().get(0).size(), is(2));
         assertThat(response.getList().get(0).get("id"), is(2L));

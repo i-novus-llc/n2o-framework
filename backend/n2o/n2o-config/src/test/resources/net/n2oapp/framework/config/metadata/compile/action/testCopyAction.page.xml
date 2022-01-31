@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <regions>
         <region>
-            <form id="table1" datasource="ds1">
+            <table id="table1">
                 <actions>
                     <action id="test">
                         <copy source-model="edit" target-model="filter"/>
@@ -17,12 +17,12 @@
                               target-model="edit" target-widget-id="table2" target-field-id="dictionary.id"/>
                     </button>
                 </toolbar>
-            </form>
+            </table>
             <table id="table2"/>
         </region>
     </regions>
     <toolbar>
-        <button widget-id="table1">
+        <button id="pageBtn" widget-id="table1">
             <copy target-page-id="page" target-widget-id="form"/>
         </button>
     </toolbar>

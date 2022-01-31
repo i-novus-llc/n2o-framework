@@ -11,6 +11,7 @@ import { Card } from './Card'
  * @reactProps {array} data - данные объектов cell
  * @reactProps {number} id - id виджета
  * @reactProps {string} align - позиция элементов по горизонтали
+ * @reactProps {string} datasource - datasource key
  */
 export function Cards(props) {
     const {
@@ -22,6 +23,7 @@ export function Cards(props) {
         dispatch,
         align,
         height,
+        datasource,
     } = props
 
     if (!data?.length || !cards?.length) {
@@ -52,6 +54,7 @@ export function Cards(props) {
                             dispatch={dispatch}
                             onResolve={onResolve}
                             alignStyle={{ justifyContent: getJustifyContent(align) }}
+                            datasource={datasource}
                         />
                     ))}
                 </div>
@@ -91,6 +94,7 @@ Cards.propTypes = {
     height: PropTypes.string,
     onResolve: PropTypes.func,
     dispatch: PropTypes.func,
+    datasource: PropTypes.string,
 }
 
 export default Cards

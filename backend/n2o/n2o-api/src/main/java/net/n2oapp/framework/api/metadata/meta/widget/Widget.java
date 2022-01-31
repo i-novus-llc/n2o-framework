@@ -24,27 +24,27 @@ import java.util.Set;
 public abstract class Widget<T extends WidgetComponent> extends Component {
     @JsonProperty
     private String id;
-    private String route;
     /**
      * Наименование path параметра идентификатора родительского виджета
      */
+    @Deprecated
     private String masterParam;
-    /**
-     * Ссылка на идентификатор родительского виджета
-     */
-    private ModelLink masterLink;
     private String name;
     @JsonProperty
     private String icon;
+    @Deprecated
     private UploadType upload;
     private String objectId;
-    private String queryId;
+    @Deprecated
     private String filtersDefaultValuesQueryId;
+    @Deprecated
     private List<Filter> filters;
     protected T component;
     private Set<String> notCopiedFields;
+    @Deprecated
     private List<Validation> validations = new ArrayList<>();
     @JsonProperty
+    @Deprecated
     private ClientDataProvider dataProvider;
     @JsonProperty
     private String datasource;
@@ -62,6 +62,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
         this.component = component;
     }
 
+    @Deprecated
     public Filter getFilter(String filterId) {
         if (filters == null)
             return null;
@@ -69,6 +70,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
                 .orElseThrow(() -> new N2oException("Filter " + filterId + " not found"));
     }
 
+    @Deprecated
     public boolean containsFilter(String filterId) {
         return filters != null && filters.stream().anyMatch(f -> f.getFilterId().equals(filterId));
     }

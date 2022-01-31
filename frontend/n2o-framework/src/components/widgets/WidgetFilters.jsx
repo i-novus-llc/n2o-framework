@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getFormValues, reset } from 'redux-form'
-import { batchActions } from 'redux-batched-actions'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import difference from 'lodash/difference'
@@ -12,10 +11,6 @@ import debounce from 'lodash/debounce'
 import { createStructuredSelector } from 'reselect'
 
 import { Filter } from '../snippets/Filter/Filter'
-import { dataRequestWidget } from '../../ducks/widgets/store'
-import { PREFIXES } from '../../ducks/models/constants'
-import { setModel, removeModel } from '../../ducks/models/store'
-import { makeGetFilterModelSelector } from '../../ducks/models/selectors'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
@@ -24,8 +19,8 @@ import { FILTER_DELAY } from '../../constants/time'
 import { flatFields } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
 
-function generateFormName(props) {
-    return `${props.widgetId}_filter`
+function generateFormName(widgetId) {
+    return `${widgetId}_filter`
 }
 
 /**
@@ -38,7 +33,6 @@ function generateFormName(props) {
  * @reactProps {object} filterModel
  * @reactProps {function} fetchWidget
  * @reactProps {function} clearFilterModel
- * @reactProps {function} setFilterModel
  * @reactProps {function} reduxFormFilter
  */
 class WidgetFilters extends React.Component {
@@ -47,7 +41,7 @@ class WidgetFilters extends React.Component {
         this.state = {
             defaultValues: props.filterModel,
         }
-        this.formName = generateFormName(props)
+        this.formName = generateFormName(props.widgetId)
         this.handleChangeModel = this.handleChangeModel.bind(this)
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
@@ -83,8 +77,6 @@ class WidgetFilters extends React.Component {
 
     handleChangeModel(values) {
         const {
-            widgetId,
-            setFilterModel,
             searchOnChange,
             dispatch,
             validation,
@@ -92,7 +84,6 @@ class WidgetFilters extends React.Component {
         const { store } = this.context
         const state = store.getState()
 
-        setFilterModel(widgetId, values)
         validateField(validation, this.formName, state, true)(values, dispatch)
         if (searchOnChange) {
             this.debouncedHandleFilter()
@@ -100,16 +91,14 @@ class WidgetFilters extends React.Component {
     }
 
     handleFilter() {
-        this.validateAndFetch({ page: 1 })
+        this.validateAndFetch()
     }
 
     handleReset() {
         const {
             fieldsets,
             blackResetList,
-            widgetId,
             reduxFormFilter,
-            setFilterModel,
             resetFilterModel,
         } = this.props
         const newReduxForm = { ...reduxFormFilter }
@@ -127,24 +116,23 @@ class WidgetFilters extends React.Component {
             },
             () => {
                 resetFilterModel(this.formName)
-                setFilterModel(widgetId, newReduxForm)
-                this.validateAndFetch()
+                this.validateAndFetch(newReduxForm)
             },
         )
     }
 
-    validateAndFetch(options) {
-        const { widgetId, fetchWidget, validation, dispatch } = this.props
+    validateAndFetch(newValues) {
+        const { setFilter, validation, dispatch, reduxFormFilter } = this.props
         const { store } = this.context
         const state = store.getState()
-        const values = getFormValues(`${widgetId}_filter`)(state)
+        const values = newValues || reduxFormFilter
 
         validateField(validation, this.formName, state, true)(
             values,
             dispatch,
         ).then((hasError) => {
             if (!hasError) {
-                fetchWidget(widgetId, options)
+                setFilter(values)
             }
         })
     }
@@ -188,9 +176,8 @@ WidgetFilters.propTypes = {
     blackResetList: PropTypes.array,
     filterModel: PropTypes.object,
     validation: PropTypes.object,
-    setFilterModel: PropTypes.func,
     reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    fetchWidget: PropTypes.func,
+    setFilter: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
     dispatch: PropTypes.func,
@@ -211,20 +198,13 @@ WidgetFilters.childContextTypes = {
 }
 
 const mapStateToProps = createStructuredSelector({
-    filterModel: (state, props) => makeGetFilterModelSelector(props.widgetId)(state, props),
     visible: (state, props) => makeWidgetFilterVisibilitySelector(props.widgetId)(state, props),
-    reduxFormFilter: (state, props) => getFormValues(generateFormName(props))(state) || {},
+    reduxFormFilter: (state, props) => getFormValues(generateFormName(props.widgetId))(state) || {},
 })
 
-const mapDispatchToProps = (dispatch, { modelId }) => ({
+const mapDispatchToProps = dispatch => ({
     dispatch,
-    setFilterModel: (widgetId, data) => dispatch(setModel(PREFIXES.filter, modelId, data)),
-    fetchWidget: (widgetId, options) => dispatch(dataRequestWidget(widgetId, modelId, options)),
-    clearFilterModel: () => dispatch(removeModel(PREFIXES.filter, modelId)),
     resetFilterModel: formName => dispatch(reset(formName)),
-    resetFilter: formName => dispatch(
-        batchActions([removeModel(PREFIXES.filter, modelId), reset(formName)]),
-    ),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)

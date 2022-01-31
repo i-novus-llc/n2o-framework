@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <list query-id="utBlank" object-id="utBlank" size="5">
+        <toolbar>
+            <button>
+                <invoke operation-id="delete"/>
+            </button>
+        </toolbar>
+        <content>
+
+            <left-top text-field-id="test"/>
+
+            <header text-field-id="test">
+                <progress color="test"/>
+            </header>
+
+            <sub-header>
+                <checkbox enabled="{name!='Мария'}"/>
+            </sub-header>
+
+            <body>
+                <badge visible="{1 == 2}"/>
+            </body>
+
+            <right-top text-field-id="rightTopId">
+                <link>
+                    <a href="test"/>
+                </link>
+            </right-top>
+
+            <right-bottom>
+                <icon class="test"/>
+            </right-bottom>
+
+            <extra>
+                <toolbar>
+                    <button>
+                        <invoke operation-id="create"/>
+                    </button>
+                </toolbar>
+            </extra>
+        </content>
+        <pagination prev="true" next="true" show-single-page="false" first="true" last="true" show-count="true"
+                    src="pagingSrc"/>
+    </list>
+</simple-page>

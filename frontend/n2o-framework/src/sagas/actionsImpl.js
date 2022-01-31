@@ -3,64 +3,53 @@ import {
     fork,
     put,
     select,
-    takeEvery,
     throttle,
 } from 'redux-saga/effects'
-import { getFormValues } from 'redux-form'
 import isFunction from 'lodash/isFunction'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import merge from 'deepmerge'
-import values from 'lodash/values'
-import map from 'lodash/map'
-import assign from 'lodash/assign'
-import isEmpty from 'lodash/isEmpty'
-import some from 'lodash/some'
 
 import { START_INVOKE } from '../constants/actionImpls'
 import {
-    makeFormModelPrefixSelector,
-    makeModelIdSelector,
-    makeWidgetValidationSelector,
+    widgetsSelector,
 } from '../ducks/widgets/selectors'
-import { getModelSelector, selectionTypeSelector } from '../ducks/models/selectors'
-import { validateField } from '../core/validation/createValidator'
+import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
+import { validate as validateDatasource } from '../core/datasource/validate'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
-import { disableWidgetOnFetch, enableWidget } from '../ducks/widgets/store'
+import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
+import { MODEL_PREFIX } from '../core/datasource/const'
+import { failValidate } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
 
-/**
- * @deprecated
- */
+// TODO перенести инвок в datassource
 
-export function* validate(options) {
-    const isTouched = true
+export function* validate({ dispatch, validate }) {
+    if (!validate?.length) { return true }
+
     const state = yield select()
-    const validationConfig = yield select(
-        makeWidgetValidationSelector(options.validatedWidgetId),
-    )
-    const values = (yield select(getFormValues(options.validatedWidgetId))) || {}
+    let valid = true
 
-    return options.validate &&
-    (yield call(
-        validateField(
-            validationConfig,
-            options.validatedWidgetId,
+    for (const datasourceId of validate) {
+        valid = valid && (yield call(
+            validateDatasource,
             state,
-            isTouched,
-        ),
-        values,
-        options.dispatch,
-    ))
+            datasourceId,
+            dispatch,
+            true,
+        ))
+    }
+
+    return valid
 }
 
 /**
@@ -78,17 +67,16 @@ export function* handleAction(factories, action) {
             actionFunc = actionResolver(actionSrc, factories)
         }
         const state = yield select()
-        const notValid = yield validate(options)
+        const valid = yield validate(options)
 
-        if (notValid) {
+        if (!valid) {
             // eslint-disable-next-line no-console
-            console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`)
-        } else {
-            yield actionFunc &&
-        call(actionFunc, {
-            ...options,
-            state,
-        })
+            console.log(`DataSources "${options.valid}" is not valid.`)
+        } else if (actionFunc) {
+            yield call(actionFunc, {
+                ...options,
+                state,
+            })
         }
     } catch (err) {
         // eslint-disable-next-line no-console
@@ -101,21 +89,10 @@ export function* handleAction(factories, action) {
  * @param dataProvider
  * @param model
  * @param apiProvider
- * @param action
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider, action) {
+export function* fetchInvoke(dataProvider, model, apiProvider) {
     const state = yield select()
-    const selectionType = yield select(selectionTypeSelector)
-    const { widgetId } = action.payload
-    // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
-    const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
-    const multi = get(state, 'models.multi')
-    const multiModel = multi?.[modelId] || []
-    const widget = get(state, `widgets.${widgetId}`)
-    const hasMultiModel = some(values(multi), model => !isEmpty(model))
-
-    const needResolve = get(widget, 'modelPrefix') === 'resolve'
 
     const submitForm = get(dataProvider, 'submitForm', true)
     const {
@@ -124,28 +101,23 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
         headersParams,
     } = yield dataProviderResolver(state, dataProvider)
 
-    const isSelectionTypeCheckbox = selectionType[widgetId] === 'checkbox'
-
-    const createModelRequest = () => {
-        if (isSelectionTypeCheckbox && hasMultiModel) {
-            const ids = multiModel.map(i => i.id)
-
-            if (needResolve) {
-                return { ...model, ids }
-            }
-
-            return map(multiModel, modelElement => ({ ...modelElement, ...formParams }))
+    const createModelRequest = ({ id, ...data }) => {
+        const modelRequest = {
+            id,
+            ...formParams,
         }
-        const ids = get(model, 'ids')
-        const requestIds = Array.isArray(ids) ? ids : [ids]
 
-        return ids
-            ? assign({}, model, { ids: requestIds }, formParams)
-            : assign({}, model, formParams)
+        if (submitForm) {
+            return {
+                ...data,
+                ...modelRequest,
+            }
+        }
+
+        return modelRequest
     }
 
-    const modelRequest = createModelRequest()
-    const formParamsRequest = isSelectionTypeCheckbox ? [formParams] : formParams
+    const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model || {})
 
     return yield call(
         fetchSaga,
@@ -155,11 +127,9 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
             baseQuery: {},
             baseMethod: dataProvider.method,
             headers: headersParams,
-            model: submitForm ? modelRequest : formParamsRequest,
+            model: modelRequest,
         },
         apiProvider,
-        action,
-        state,
     )
 }
 
@@ -175,17 +145,19 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
 // eslint-disable-next-line complexity
 export function* handleInvoke(apiProvider, action) {
     const {
-        modelLink,
-        widgetId,
-        pageId,
+        datasource,
+        model: modelPrefix,
         dataProvider,
-        data,
-        needResolve = true,
+        pageId,
     } = action.payload
 
     const state = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
+    const model = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
+    const widgets = Object.entries(yield select(widgetsSelector))
+        .filter(([, widget]) => (widget.datasource === datasource))
+        .map(([key]) => key)
 
     try {
         if (!dataProvider) {
@@ -193,70 +165,70 @@ export function* handleInvoke(apiProvider, action) {
         }
         if (pageId && !optimistic) {
             yield put(disablePage(pageId))
-        }
-        if (widgetId && !optimistic) {
-            yield put(disableWidgetOnFetch(widgetId))
-
-            for (let index = 0; index <= buttonIds.length - 1; index += 1) {
-                yield put(changeButtonDisabled(pageId, buttonIds[index], true))
+            for (const buttonId of buttonIds) {
+                yield put(changeButtonDisabled(pageId, buttonId, true))
             }
         }
-        let model = data || {}
-
-        if (modelLink) {
-            model = yield select(getModelSelector(modelLink))
+        if (widgets.length && !optimistic) {
+            for (const id of widgets) {
+                yield put(disableWidget(id))
+            }
         }
         const response = optimistic
-            ? yield fork(fetchInvoke, dataProvider, model, apiProvider, action)
-            : yield call(fetchInvoke, dataProvider, model, apiProvider, action)
+            ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
+            : yield call(fetchInvoke, dataProvider, model, apiProvider)
 
         const meta = merge(action.meta.success || {}, response.meta || {})
-        const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId))
         const { submitForm } = dataProvider
-        const needRedirectOrCloseModal = meta.redirect || meta.modalsToClose
 
-        if (
-            (needResolve && (optimistic || !needRedirectOrCloseModal)) ||
-            (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm)
-        ) {
-            // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
-            const modelId = action.payload.modelId || (yield select(makeModelIdSelector(widgetId)))
+        if (!optimistic && submitForm) {
+            // TODO узнать можно ли вообще отказаться от setModel в инвоке, если после него всё равно будет запрос на обновление данных
+            const newModel = modelPrefix === MODEL_PREFIX.selected ? response.data?.$list : response.data
 
-            yield put(
-                setModel(modelPrefix, modelId, optimistic ? model : response.data),
-            )
+            if (!isEqual(model, newModel)) {
+                yield put(
+                    setModel(modelPrefix, datasource, newModel),
+                )
+            }
         }
-        yield put(successInvoke(widgetId, { ...meta }))
+        yield put(successInvoke(datasource, meta))
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
+
+        const errorMeta = err?.json?.meta
+
         yield* handleFailInvoke(
             action.meta.fail || {},
-            widgetId,
-            err.json && err.json.meta ? err.json.meta : {},
+            datasource,
+            errorMeta,
         )
+
+        if (errorMeta.messages) {
+            const fieds = {}
+
+            for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
+                fieds[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            yield put(failValidate(datasource, fieds))
+        }
     } finally {
         if (pageId) {
             yield put(enablePage(pageId))
+            for (const buttonId of buttonIds) {
+                yield put(changeButtonDisabled(pageId, buttonId, false))
+            }
         }
-        if (widgetId) {
-            yield put(enableWidget(widgetId))
-
-            for (let index = 0; index <= buttonIds.length - 1; index += 1) {
-                yield put(changeButtonDisabled(pageId, buttonIds[index], false))
+        if (widgets.length) {
+            for (const id of widgets) {
+                yield put(enableWidget(id))
             }
         }
     }
 }
 
-// eslint-disable-next-line require-yield
-export function* handleDummy() {
-    // eslint-disable-next-line no-alert
-    alert('AHOY!')
-}
-
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
-    takeEvery('n2o/button/Dummy', handleDummy),
 ]

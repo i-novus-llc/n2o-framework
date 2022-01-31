@@ -3,14 +3,12 @@ import {
     makeWidgetByIdSelector,
     makeWidgetIsInitSelector,
     makeWidgetVisibleSelector,
-    makeWidgetEnabledSelector,
-    makeWidgetLoadingSelector,
+    makeWidgetDisabledSelector,
     makeWidgetSizeSelector,
     makeWidgetCountSelector,
     makeWidgetSortingSelector,
     makeWidgetFilterVisibilitySelector,
     makeWidgetValidationSelector,
-    makeSelectedIdSelector,
     makeIsActiveSelector,
     makeWidgetPageSelector,
     makeWidgetPageIdSelector,
@@ -20,31 +18,35 @@ import {
 } from '../selectors'
 
 const state = {
-    widgets: {
-        widget1: {
-            isInit: true,
-            isVisible: true,
-            isEnabled: true,
-            isLoading: true,
+    datasorce: {
+        ds1: {
+            loading: true,
             size: 10,
             count: 100,
             page: 1,
-            pageId: '_',
             sorting: {
                 name: 'DESC',
             },
-            isFilterVisible: true,
             validation: {
                 some: 'value',
             },
-            selectedId: 2,
-            isActive: true,
-            type: 'table',
-            dataProvider: {
+            provider: {
                 url: 'test',
                 pathMapping: {},
                 queryMapping: {},
             },
+        }
+    },
+    widgets: {
+        widget1: {
+            datasorce: 'ds1',
+            isInit: true,
+            visible: true,
+            disabled: false,
+            pageId: '_',
+            isFilterVisible: true,
+            isActive: true,
+            type: 'table',
         },
         widget2: {},
     },
@@ -66,17 +68,12 @@ describe('Проверка селекторов widgets', () => {
     })
     it('makeWidgetVisibleSelector должен вернуть visible по id', () => {
         expect(makeWidgetVisibleSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.isVisible,
+            state.widgets.widget1.visible,
         )
     })
-    it('makeWidgetEnabledSelector должен вернуть enabled по id', () => {
-        expect(makeWidgetEnabledSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.isEnabled,
-        )
-    })
-    it('makeWidgetLoadingSelector должен вернуть loading по id', () => {
-        expect(makeWidgetLoadingSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.isLoading,
+    it('makeWidgetDisabledSelector должен вернуть enabled по id', () => {
+        expect(makeWidgetDisabledSelector('widget1')(state)).toEqual(
+            state.widgets.widget1.disabled,
         )
     })
     it('makeWidgetSizeSelector должен вернуть size по id', () => {
@@ -102,11 +99,6 @@ describe('Проверка селекторов widgets', () => {
     it('makeWidgetValidationSelector должен вернуть validation по id', () => {
         expect(makeWidgetValidationSelector('widget1')(state)).toEqual(
             state.widgets.widget1.validation,
-        )
-    })
-    it('makeSelectedIdSelector должен вернуть selectedId по id', () => {
-        expect(makeSelectedIdSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.selectedId,
         )
     })
     it('makeIsActiveSelector должен вернуть isActive по id', () => {

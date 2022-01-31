@@ -4,10 +4,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
-import net.n2oapp.framework.config.io.widget.*;
-import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
+import net.n2oapp.framework.config.io.widget.v4.*;
 
 public class N2oWidgetsIOPack implements MetadataPack<XmlIOBuilder> {
     @Override

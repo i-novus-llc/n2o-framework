@@ -23,9 +23,9 @@ public class DateIntervalJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void tabsDateInterval() {
-        check("net/n2oapp/framework/config/mapping/testDateInterval.widget.xml",
+        check("net/n2oapp/framework/config/mapping/testDateInterval.page.xml",
                 "components/controls/DatePicker/DateInterval.meta.json")
-                .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
+                .cutXml("widget.form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .exclude("src", "id", "openOnFocus", "value", "defaultValue", "outputFormat", "placeholder", "readOnly", "popupPlacement", "disabled", "locale", "value", "timeFormat", "defaultTime") /// TODO: ждем, когда будет реализовано на сервере
                 .assertEquals();
     }

@@ -14,7 +14,6 @@
       "filterDefaultValues": {},
       "src": "InputCellWidgetExample",
       "table": {
-        "fetchOnInit": false,
         "size": 10,
         "autoFocus": true,
         "hasFocus": true,

@@ -14,7 +14,7 @@ const setup = propsOverride => mount(
     <Provider store={store}>
         <CalendarContainer
             level={WIDGETS}
-            {...metadata.Page_Calendar}
+            {...metadata.Page_Calendar.calendar}
             {...propsOverride}
             id="Page_Calendar"
         />

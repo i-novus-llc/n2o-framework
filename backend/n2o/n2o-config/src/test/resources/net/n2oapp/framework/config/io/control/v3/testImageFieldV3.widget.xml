@@ -1,0 +1,22 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <image id="photo"
+               url="{image}"
+               data="data:image/jpeg;base64{image}"
+               title="{label}"
+               text-position="left"
+               shape="circle"
+               width="400px"
+               action-id="test"
+        >
+            <statuses>
+                <status
+                        src="testSrc"
+                        field-id="status"
+                        icon="{icon}"
+                        place="topLeft"
+                />
+            </statuses>
+        </image>
+    </fields>
+</form>

@@ -2,9 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.dependency;
 
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.control.CheckboxGroupCompiler;
 import net.n2oapp.framework.config.metadata.compile.control.InputSelectCompiler;
 import net.n2oapp.framework.config.metadata.compile.control.RadioGroupCompiler;
@@ -13,9 +14,9 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Тест на автоматическое добавление fetch для radio-group и checkbox-group
@@ -37,9 +38,9 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testFetchDependence() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/dependency/testFetchDependency.widget.xml")
-                .get(new WidgetContext("testFetchDependency"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testFetchDependency.page.xml")
+                .get(new PageContext("testFetchDependency"));
+        Form form = (Form) page.getWidget();
         Field checkboxGrp1 = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp1.getId(), is("chb1"));
         assertThat(checkboxGrp1.getDependencies().size(), is(1));

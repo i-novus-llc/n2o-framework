@@ -2,10 +2,11 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.RatingCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.RatingCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -37,9 +38,9 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRatingCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testRatingCell.widget.xml")
-                .get(new WidgetContext("testRatingCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testRatingCell.page.xml")
+                .get(new PageContext("testRatingCell"));
+        Table table = (Table) page.getWidget();
         N2oRatingCell cell = (N2oRatingCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("RatingCell"));
         assertThat(cell.getHalf(), is(true));

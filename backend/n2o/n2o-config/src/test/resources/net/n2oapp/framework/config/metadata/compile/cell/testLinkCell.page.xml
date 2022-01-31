@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table>
+        <columns>
+            <column text-field-id="test1">
+                <link/>
+            </column>
+            <column text-field-id="test2">
+                <link icon="iconTest2"/>
+            </column>
+            <column text-field-id="test3">
+                <link icon="iconTest3" type="icon"/>
+            </column>
+            <column text-field-id="test4">
+                <link icon="{id}" type="iconAndText"/>
+            </column>
+            <column text-field-id="test5">
+                <link url="/test/{uid}" target="newWindow"/>
+            </column>
+            <column text-field-id="test6">
+                <link action-id="update"/>
+            </column>
+            <column text-field-id="test7">
+                <link>
+                    <close/>
+                </link>
+            </column>
+        </columns>
+    </table>
+</simple-page>

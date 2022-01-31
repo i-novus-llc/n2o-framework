@@ -9,9 +9,11 @@ public interface SourceTransformerFactory extends MetadataFactory<SourceTransfor
 
     /**
      * Трансформировать исходные метаданные
+     *
      * @param source Исходные метаданные
+     * @param p      Процессор исходных метаданных
      * @return Трансформированные исходные метаданные
      */
-    <S> S transform(S source);
+    <S> S transform(S source, SourceProcessor p);
 
 }

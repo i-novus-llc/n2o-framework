@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oActionCell;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
-import net.n2oapp.framework.config.metadata.validation.standard.IdValidationUtils;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 public class TableValidator implements SourceValidator<N2oTable>, SourceClassAware {
 
     @Override
-    public void validate(N2oTable source, ValidateProcessor p) {
-        IdValidationUtils.checkIds(source.getFilters(), p);
+    public void validate(N2oTable source, SourceProcessor p) {
+        ValidationUtils.checkIds(source.getFilters(), p);
         if (source.getRows() != null && source.getRows().getRowClick() != null)
             p.validate(source.getRows().getRowClick().getAction());
         p.safeStreamOf(source.getColumns()).filter(abstractColumn -> abstractColumn instanceof N2oSimpleColumn).

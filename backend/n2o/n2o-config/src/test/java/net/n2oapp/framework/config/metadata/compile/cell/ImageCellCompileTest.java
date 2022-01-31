@@ -1,13 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.ImageCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.ImageCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -39,9 +40,9 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testImageCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testImageCell.widget.xml")
-                .get(new WidgetContext("testImageCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testImageCell.page.xml")
+                .get(new PageContext("testImageCell"));
+        Table table = (Table) page.getWidget();
         N2oImageCell cell = (N2oImageCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getShape(), is(ImageShape.rounded));

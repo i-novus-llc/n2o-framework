@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <!--должен добавится один <fetch on="type"/> -->
+            <checkbox-group id="chb1">
+                <pre-filters>
+                    <eq field-id="testFieldId1" value="{type}"/>
+                    <eq field-id="testFieldId2" value="{type}"/>
+                </pre-filters>
+            </checkbox-group>
+
+            <!--не должен добавиться новый <fetch on="type"/> -->
+            <checkbox-group id="chb2">
+                <pre-filters>
+                    <eq field-id="testFieldId2" value="{type}"/>
+                </pre-filters>
+                <dependencies>
+                    <fetch on="type"/>
+                </dependencies>
+            </checkbox-group>
+
+            <!--не должен добавиться <fetch on=.../> -->
+            <checkbox-group id="chb3"/>
+
+            <!--должен добавится <fetch on="type, type2"/> -->
+            <radio-group id="rg1">
+                <pre-filters>
+                    <eq field-id="testFieldId3" value="{type}"/>
+                    <eq field-id="testFieldId3a" value="{type2}"/>
+                </pre-filters>
+            </radio-group>
+
+            <!--не должен добавиться новый <fetch on=.../> -->
+            <radio-group id="rg2">
+                <pre-filters>
+                    <eq field-id="testFieldId4" value="{type}"/>
+                </pre-filters>
+                <dependencies>
+                    <fetch on="testFieldId4"/>
+                </dependencies>
+            </radio-group>
+
+            <!--не должен добавиться <fetch on=.../> -->
+            <radio-group id="rg3"/>
+
+            <!--не должен добавиться <fetch on=.../> -->
+            <input-select id="is1">
+                <pre-filters>
+                    <eq field-id="testFieldId5" value="{type}"/>
+                </pre-filters>
+            </input-select>
+
+            <!--не должен изменится <fetch on=.../> -->
+            <input-select id="is2">
+                <pre-filters>
+                    <eq field-id="testFieldId5" value="{type}"/>
+                </pre-filters>
+                <dependencies>
+                    <fetch on="testFetchOn"/>
+                </dependencies>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>

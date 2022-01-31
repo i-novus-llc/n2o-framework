@@ -4,15 +4,14 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -43,13 +42,13 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testListWidget() {
-        ListWidget listWidget = (ListWidget) compile(
-                "net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetCompile.widget.xml",
+        SimplePage page = (SimplePage) compile(
+                "net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetCompile.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
-                .get(new WidgetContext("testListWidgetCompile"));
-
-        assertThat(listWidget.getId(), is("$testListWidgetCompile"));
+                .get(new PageContext("testListWidgetCompile"));
+        ListWidget listWidget = (ListWidget) page.getWidget();
+        assertThat(listWidget.getId(), is("testListWidgetCompile_main"));
         assertThat(listWidget.getList().get("leftTop").getSrc(), is("TextCell"));
 
         assertThat(listWidget.getList().get("header").getSrc(), is("ProgressBarCell"));
@@ -82,7 +81,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(listWidget.getPaging().getSize(), is(5));
         assertThat(listWidget.getPaging().getSrc(), is("pagingSrc"));
 
-        assertThat(listWidget.getDataProvider().getSize(), is(5));
+        assertThat(page.getDatasources().get(listWidget.getDatasource()).getProvider().getSize(), is(5));
     }
 
     @Test

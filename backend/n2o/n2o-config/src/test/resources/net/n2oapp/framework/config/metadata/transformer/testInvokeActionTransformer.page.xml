@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table route="/test" object-id="utBlank">
+        <filters>
+            <input-text id="id"/>
+        </filters>
+        <toolbar>
+            <button id="withRoute">
+                <invoke operation-id="delete" route="/delete"/>
+            </button>
+            <button>
+                <invoke operation-id="delete"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

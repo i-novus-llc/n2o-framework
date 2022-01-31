@@ -16,10 +16,10 @@ import { makePageRoutesByIdSelector } from '../pages/selectors'
 import { getLocation, rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
-import { routesQueryMapping } from '../widgets/sagas/routesQueryMapping'
-import { makeModelIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
-import { dataRequestWidget } from '../widgets/store'
-import { addMessage, removeMessage } from '../form/constants'
+import { routesQueryMapping } from '../datasource/sagas/routesQueryMapping'
+import { makeDatasourceIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
+import { failValidate, startValidate, dataRequest } from '../datasource/store'
+import { dataSourceErrors } from '../datasource/selectors'
 
 import { setActiveRegion, regionsSelector, setTabInvalid } from './store'
 import { MAP_URL } from './constants'
@@ -36,20 +36,20 @@ function* mapUrl(value) {
     }
 }
 
-export function* tabTraversal(action, tabs, regionId, form, param = null) {
+export function* tabTraversal(action, tabs, regionId, form, param = null, options = {}) {
     let isTargetFormInTabs = false
 
     for (const { content, id: tabId } of tabs) {
-        for (const { id, tabs } of content) {
-            if (tabs) {
-                return tabTraversal(action, tabs, regionId, form, param)
+        for (const { id, tabs: childrenTabs } of content) {
+            if (childrenTabs) {
+                return tabTraversal(action, childrenTabs, regionId, form, param)
             }
 
             if (id === form) {
                 isTargetFormInTabs = true
 
                 if (action) {
-                    yield put(action(regionId, tabId, param))
+                    yield put(action(regionId, tabId, param, options))
                 }
             }
         }
@@ -59,13 +59,12 @@ export function* tabTraversal(action, tabs, regionId, form, param = null) {
 }
 
 function* switchTab(action) {
-    const state = yield select()
-    const regions = regionsSelector(state)
-    const tabsRegions = filter(values(regions), region => region.tabs)
-
     const { type, meta } = action
 
-    if (type === actionTypes.FOCUS) {
+    if (type === actionTypes.TOUCH) {
+        const regions = yield select(regionsSelector)
+        const tabsRegions = filter(values(regions), region => region.tabs)
+
         const { form } = meta
 
         for (const { tabs, regionId } of tabsRegions) {
@@ -73,6 +72,10 @@ function* switchTab(action) {
             yield mapUrl(regionId)
         }
     }
+
+    const state = yield select()
+    const regions = yield select(regionsSelector)
+    const tabsRegions = filter(values(regions), region => region.tabs)
 
     const auth = authSelector(state)
     const userPermissions = get(auth, 'permissions')
@@ -170,11 +173,10 @@ function* lazyFetch(id) {
             }
         })
 
-        // eslint-disable-next-line no-restricted-syntax
         for (const widgetId of idsToFetch) {
-            const modelId = yield select(makeModelIdSelector(widgetId))
+            const datasource = yield select(makeDatasourceIdSelector(widgetId))
 
-            yield put(dataRequestWidget(widgetId, modelId))
+            yield put(dataRequest(datasource))
         }
 
         idsToFetch.length = 0
@@ -236,26 +238,38 @@ export function* checkIdBeforeLazyFetch() {
     }
 }
 
-function* validateTabs({ payload, type }) {
-    const { form } = payload
-    const { regions = {} } = yield select()
+function* validateTabs({ payload, meta }) {
+    const { id } = payload
+    const { blurValidation = false } = meta
+
+    const { regions = {}, widgets = {} } = yield select()
+    const errors = yield select(dataSourceErrors(id)) || {}
+
+    const form = find(Object.keys(widgets), widgetId => get(widgets, `${widgetId}.datasource`) === id)
 
     if (!form || isEmpty(regions)) {
         return
     }
 
-    const invalid = type === addMessage
+    const invalid = Object.values(errors).some(error => error)
 
     const tabsRegions = Object.values(regions)
         .filter(region => region.tabs)
 
     for (const { tabs, regionId } of tabsRegions) {
-        yield tabTraversal(setTabInvalid, tabs, regionId, form, invalid)
+        yield tabTraversal(
+            setTabInvalid,
+            tabs,
+            regionId,
+            form,
+            invalid,
+            { ...payload, blurValidation, form },
+        )
     }
 }
 
 export default [
     takeEvery(MAP_URL, mapUrl),
-    takeEvery([METADATA_SUCCESS, actionTypes.FOCUS], switchTab),
-    takeEvery([addMessage, removeMessage], validateTabs),
+    takeEvery([METADATA_SUCCESS, actionTypes.TOUCH], switchTab),
+    takeEvery([failValidate, startValidate], validateTabs),
 ]

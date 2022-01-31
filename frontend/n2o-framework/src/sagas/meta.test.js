@@ -1,46 +1,13 @@
-import React from 'react'
 import { runSaga } from 'redux-saga'
 
-import { dataRequestWidget } from '../ducks/widgets/store'
-import { addFieldMessage } from '../ducks/form/store'
-import { UPDATE_WIDGET_DEPENDENCY } from '../constants/dependency'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 import {
-    closeModalEffect,
-    refreshEffect,
     alertEffect,
     redirectEffect,
-    messagesFormEffect,
-    updateWidgetDependencyEffect,
     clearFormEffect,
 } from './meta'
-
-const setupCloseModal = () => closeModalEffect({
-    payload: {
-        widgetId: 'widget',
-    },
-    meta: {
-        modalsToClose: 1,
-    },
-})
-
-const setupRefresh = () => {
-    const meta = {
-        refresh: {
-            type: 'widget',
-            options: {
-                widgetId: 'widgetId',
-                options: {},
-            },
-        },
-    }
-    const refresh = refreshEffect({ meta })
-    return {
-        meta,
-        refresh,
-    }
-}
 
 const setupAlertEffect = () => {
     const meta = {
@@ -63,54 +30,6 @@ const setupAlertEffect = () => {
         meta,
         alert,
     }
-}
-
-const setupRedirectEffect = () => {
-    const meta = {
-        redirect: {
-            path: '/n2o/data/1',
-            pathMapping: {},
-            queryMapping: {},
-            target: 'application',
-        },
-    }
-    const redirect = redirectEffect({
-        meta,
-    })
-    return {
-        meta,
-        redirect,
-    }
-}
-
-const setupMessageFormEffect = () => {
-    const meta = {
-        'messages.form': 'Page_Form',
-        'messages.fields': [
-            {
-                name: 'field1',
-                message: {
-                    severity: 'success',
-                    text: 'Успешное действие',
-                },
-            },
-        ],
-    }
-    const messageForm = messagesFormEffect({
-        meta,
-    })
-    return {
-        meta,
-        messageForm,
-    }
-}
-
-const setupUpdateWidgetDependencyEffect = () => {
-    const meta = {
-        widgetId: 'testWidget',
-    }
-
-    return updateWidgetDependencyEffect({ meta })
 }
 
 describe('Сага для перехвата меты, сайд-эффектов из меты', () => {
@@ -170,7 +89,7 @@ describe('Сага для перехвата меты, сайд-эффектов
             const { alert, meta } = setupAlertEffect()
             let gen = alert.next()
             gen = alert.next()
-            expect(gen.value.payload.action.payload.key).toEqual(meta.alert.alertKey)
+            expect(gen.value.payload.action.payload.key).toEqual(GLOBAL_KEY)
             expect(gen.value.payload.action.payload.alerts[0].closeButton).toEqual(
                 meta.alert.messages[0].closeButton,
             )
@@ -183,75 +102,6 @@ describe('Сага для перехвата меты, сайд-эффектов
             expect(gen.value.payload.action.payload.alerts[0].severity).toEqual(
                 meta.alert.messages[0].severity,
             )
-        })
-    })
-
-    describe('Проверяет сагу refreshEffect', () => {
-        it('Проверяет диспатч экшена обновления данных', () => {
-            const { refresh } = setupRefresh()
-            const { value } = refresh.next()
-            expect(value.payload.action.type).toEqual(dataRequestWidget.type)
-        })
-
-        it('Проверяет payload саги refreshEffect', () => {
-            const { refresh, meta } = setupRefresh()
-            const { value } = refresh.next()
-            expect(value.payload.action.payload.widgetId).toEqual(
-                meta.refresh.options.widgetId,
-            )
-        })
-    })
-
-    describe('Проверяет сагу messagesFormEffect', () => {
-        it('Проверка диспатча саги messagesFormEffect', () => {
-            const { messageForm } = setupMessageFormEffect()
-            let gen = messageForm.next()
-            gen = messageForm.next()
-            expect(gen.value.payload.action.payload[0].type).toEqual(
-                addFieldMessage.type,
-            )
-        })
-
-        it('Проверка payload саги messageFormEffect', () => {
-            const { messageForm, meta } = setupMessageFormEffect()
-            let gen = messageForm.next()
-            gen = messageForm.next()
-            expect(gen.value.payload.action.payload[0].payload.form).toEqual(
-                meta['messages.form'],
-            )
-            expect(
-                gen.value.payload.action.payload[0].payload.message.severity,
-            ).toEqual(meta['messages.fields'].severity)
-            expect(gen.value.payload.action.payload[0].payload.message.text).toEqual(
-                meta['messages.fields'].text,
-            )
-        })
-
-        describe('Проверяет сагу updateWidgetDependencyEffect', () => {
-            it('Проверка диспатча саги', () => {
-                const gen = setupUpdateWidgetDependencyEffect()
-                expect(gen.next().value.payload.action.type).toEqual(
-                    UPDATE_WIDGET_DEPENDENCY,
-                )
-                expect(gen.next().done).toEqual(true)
-            })
-
-            it('Проверка payload саги', () => {
-                const gen = setupUpdateWidgetDependencyEffect()
-                expect(gen.next().value.payload.action.payload).toEqual({
-                    widgetId: 'testWidget',
-                })
-                expect(gen.next().done).toEqual(true)
-            })
-
-            it('Проверка вызова всей цепочки', async () => {
-                const dispatched = []
-                const fakeStore = {
-                    getState: () => ({}),
-                    dispatch: action => dispatched.push(action),
-                }
-                await runSaga(fakeStore, updateWidgetDependencyEffect, 'testWidget')
-            })
         })
     })
 })

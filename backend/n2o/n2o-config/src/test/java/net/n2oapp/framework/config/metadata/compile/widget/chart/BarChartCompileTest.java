@@ -1,13 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
-import net.n2oapp.framework.api.metadata.meta.widget.chart.*;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.BarChart;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.BarChartItem;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
-import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.chart.charts.BarChartIOv4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.ChartCompiler;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,15 +30,14 @@ public class BarChartCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.compilers(new SimplePageCompiler(), new ChartCompiler(), new BarChartCompiler());
-        builder.ios(new SimplePageElementIOv2(), new ChartWidgetIOv4(), new BarChartIOv4());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oChartsPack(), new N2oAllDataPack());
     }
 
     @Test
     public void testBarChart() {
-        Chart chart = (Chart) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testBarChartCompile.widget.xml")
-                .get(new WidgetContext("testBarChartCompile"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testBarChartCompile.page.xml")
+                .get(new PageContext("testBarChartCompile"));
+        Chart chart = (Chart) page.getWidget();
         BarChart barChart = (BarChart) chart.getComponent();
         assertThat(barChart.getSrc(), is("BarChart"));
         assertThat(barChart.getType(), is(ChartType.bar));

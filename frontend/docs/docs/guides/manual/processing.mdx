@@ -7,7 +7,8 @@ description: ""
 
 ### Процессинг данных {#Data_processing}
 
-С помощью процессинга данных можно изменить входные или выходные параметры действия, фильтрацию и поля выборки, обработать ошибки или добавить сообщения.
+С помощью процессинга данных можно изменить входные или выходные параметры действия,
+фильтрацию и поля выборки, обработать ошибки или добавить сообщения.
 
 #### Точки входа
 
@@ -42,7 +43,7 @@ __*Точки входа процессинга данных*__
 
 Для процессинга данных на Java нужно реализовать интерфейс `DataProcessing`.
 
-```java title="Аудит действия и выборки на Java"
+````js title="Аудит действия и выборки на Java"
 @Component
 public class MyAuditModule implements DataProcessing {
 
@@ -79,7 +80,7 @@ public class MyAuditModule implements DataProcessing {
     }
 
 }
-```
+````
 
 ### Трансформаторы {#Transformers}
 
@@ -92,60 +93,132 @@ public class MyAuditModule implements DataProcessing {
 
 ![](./images/processing-94c18.png)
 
-На первом этапе (`Source`) метаданные считываются из исходных файлов (.xml или .groovy) в Java объекты (`N2oMetadata`), [валидируются](../manual/configs#Validating_configurations) и складываются в кэш первого уровня.
+На первом этапе метаданные считываются из исходных файлов (.xml или .groovy) в Java объекты (`Source`),
+[валидируются](../manual/configs#Validating_configurations) и складываются в кэш первого уровня.
 
-На втором этапе (`Compile`) собираются в связанную структуру (`CompiledMetadata`) и складываются в кэш второго уровня.
+На втором этапе метаданные собираются в связанную структуру (`Compiled`) и складываются в кэш второго уровня.
 
-:::warning
+#### Трансформаторы исходных метаданных
 
-Трансформировать *CompiledMetadata* объекты не всегда удобно, т.к. они в основном unmodified.
-Зато удобно анализировать, т.к. у них есть ссылочная связность между зависимыми метаданными.
+Чтобы сделать трансформацию исходной метаданной, необходимо реализовать интерфейс `SourceTransformer`
+и задать его в качестве Spring Bean:
 
-:::
-
-На третьем этапе (`Client`) преобразуются в вид, удобный для клиента (`ClientMetadata`), кэшируются на третьем уровне, и отправляются клиенту в виде `Json`.
-
-__*Точки входа трансформации*__
-
-|Точка входа              |Описание                                    |
-|-------------------------|--------------------------------------------|
-|BeforeValidateTransformer|После чтения, перед валидацией              |
-|AfterValidateTransformer |После валидации, перед первым кэшированием  |
-|BeforeCompileTransformer |После первого кэширования, перед компиляцией|
-|AfterCompileTransformer  |После компиляции, перед вторым кэшированием |
-|BeforeMapTransformer     |После второго кэширования, перед маппингом  |
-|AfterMapTransformer      |После маппинга, перед третьим кэшированием  |
-
-#### Трансформаторы через Java
-
-Чтобы сделать трансформацию на Java, необходимо реализовать интерфейс `SourceTransformer` или `CompileTransformer` или
-`ClientTransformer`, и задать его в качестве Spring Bean.
-
-```java title="Трансформация действий в процессинге"
-public class MyPageTransformer
-  implements SourceTransformer<N2oPage, RootCompileContext> {
+```js title="Трансформация исходной страницы"
+@Component
+class MySourcePageTransformer implements SourceTransformer<N2oPage>, SourceClassAware {
 
     /**
-      * Трансформация перед валидацией метаданной
-      * @param page метаданная перед трансформацией
-      * @param context контекст трансформации
-      * @return метаданная после транформации
-      */
-    public N2oPage transformAfterValidate(N2oPage page, RootCompileContext context) {
-      ... //изменяем страницу
-      return page;
+     * Получить класс исходной метаданной
+     * @return Класс исходной метаданной
+     */
+    public Class<N2oPage> getSourceClass() {
+        return N2oPage.class;
     }
 
-    public Class<N2oPage> getMetadataClass() {
-      return N2oPage.class;
+    /**
+     * Трансформировать исходные метаданные
+     *
+     * @param source Исходные метаданные
+     * @param p      Процессор исходных метаданных
+     * @return Трансформированные исходные метаданные
+     */
+    public N2oPage transform(N2oPage source, SourceProcessor p) {
+        ... //изменяем страницу
+        return source;
     }
 
-    public Class<RootCompileContext> getContextClass() {
-      return RootCompileContext.class;
+    /**
+     * Подходит ли исходная метаданная для трансформации?
+     *
+     * @param source Исходные метаданные
+     * @return true - подходит, false - не подходит
+     */
+    public boolean matches(N2oPage source) {
+        ... //определяем подходит ли для трансформации страница
+        return true;
     }
 }
 ```
 
-#### Трансформаторы через XML
+#### Трансформаторы собранных метаданных
 
-Трансформаторы можно задать через XML файл `[id].transform.xml`.
+Чтобы сделать трансформацию собранной метаданной, необходимо реализовать интерфейс `CompileTransformer`
+и задать его в качестве Spring Bean:
+
+```js title="Трансформация собранной страницы"
+@Component
+class MyCompiledPageTransformer implements CompileTransformer<StandardPage, PageContext>, CompiledClassAware {
+
+    /**
+     * Получить класс собранной метаданной
+     * @return Класс собранной метаданной
+     */
+    public Class<StandardPage> getCompiledClass();
+        return StandardPage.class;
+    }
+
+    /**
+     * Трансформировать собранные метаданные
+     *
+     * @param compiled Собранные метаданные
+     * @param context  Контекст сборки
+     * @return Трансформированные собранные метаданные
+     */
+    public StandardPage transform(StandardPage compiled, PageContext context, CompileProcessor p);
+        ... //изменяем страницу
+        return compiled;
+    }
+
+    /**
+     * Подходит ли собранная метаданная для трансформации?
+     *
+     * @param compiled Собранные метаданные
+     * @param context  Контекст сборки
+     * @return true - подходит, false - не подходит
+     */
+    public boolean matches(StandardPage compiled, PageContext context) {
+        ... //определяем подходит ли для трансформации страница
+        return true;
+    }
+}
+```
+:::important
+Трансформировать *Compiled* объекты не всегда удобно, т.к. они в основном unmodified.
+Зато удобно анализировать, т.к. у них есть ссылочная связность между зависимыми метаданными.
+:::
+
+### Связывание данных {#Binding}
+
+На последнем этапе, перед самой отправкой клиенту, происходит процесс связывания метаданных с данными
+находящимися в URL адресе страницы. Этот этап не кешируется и выполняется для каждого клиента.
+На этом этапе разрешаются ссылки на контекст пользователя и ссылки на параметры родительских страниц.
+
+Для создания своего связывания с данными необходимо реализовать интерфейс `MetadataBinder`
+и задать его в качестве Spring Bean:
+
+```js title="Связывание с данными страницы"
+@Component
+class MyPageBinder implements MetadataBinder<StandardPage>, CompiledClassAware {
+    /**
+     * Получить класс собранной метаданной
+     * @return Класс собранной метаданной
+     */
+    @Override
+    public Class<StandardPage> getCompiledClass() {
+        return StandardPage.class;
+    }
+
+    /**
+     * Связать метаданные с данными
+     * @param compiled Собранные метаданные
+     * @param p Процессор связывания
+     * @return Связанные метаданные с данными
+     */
+    @Override
+    public StandardPage bind(StandardPage compiled, BindProcessor p) {
+        ... //связывание с данными страницы
+        return compiled;
+    }
+}
+
+````

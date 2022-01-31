@@ -105,12 +105,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="focus-after-submit" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поставить фокус в текущем виджете на запись, которую вернёт операция объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="close-after-submit" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после успешного выполнения операции объекта</xs:documentation>

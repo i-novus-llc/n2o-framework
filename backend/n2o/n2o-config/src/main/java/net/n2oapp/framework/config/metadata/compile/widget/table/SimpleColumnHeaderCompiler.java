@@ -15,9 +15,11 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -71,7 +73,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
             String widgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), tableId);
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+            condition.setModelLink(new ModelLink(ReduxModel.filter, widgetId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());
             }
@@ -83,7 +85,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String refWidgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(),
                         p.cast(visibility.getRefWidgetId(), tableId));
-                ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
+                ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
@@ -100,8 +102,12 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         } else {
             header.setLabel(source.getLabelName());
         }
-        if (query != null && query.getFieldsMap().containsKey(header.getId())) {
-            header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
+        if (query != null && query.getFieldsMap().containsKey(source.getSortingFieldId())) {
+            boolean sortable = !query.getFieldsMap().get(source.getSortingFieldId()).getNoSorting();
+            header.setSortable(sortable);
+            if (sortable) {
+                header.setSortingParam(RouteUtil.normalizeParam(source.getSortingFieldId()));
+            }
         }
 
         header.setProperties(p.mapAttributes(source));

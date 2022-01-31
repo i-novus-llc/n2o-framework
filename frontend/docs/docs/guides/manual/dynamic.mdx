@@ -9,21 +9,35 @@ N2O разделяет шаблон и данные.
 
 ### Динамические свойства {#Dynamic_properties}
 
-#### Вычисляемые значения атрибутов
+#### Вычисляемые значения атрибутов {#Property_resolver}
 
-Некоторые атрибуты в компонентах можно задавать через javaScript выражения:
+Некоторые атрибуты в компонентах можно задавать через ссылки или javaScript выражения:
 
-```xml title="Доступность чекбокса по условию"
-<column label="Активность">
-  <checkbox enabled="{status == 'open'}"/>
-  <!-- "{status == 'open'}" выражение над строкой таблицы -->
+```xml {3} title="Иконка в таблице по данным строки"
+<column label="Тип">
+    <!-- "{iconClass}" ссылка на поле выборки -->
+    <icon class="{iconClass}"/>
 </column>
 ```
 
-```xml title="Иконка в таблице по данным строки"
-<column label="Тип">
-  <icon class="{iconClass}"/>
-  <!-- "{iconClass}" ссылка на поле выборки -->
+```xml {10} title="Заголовок поля по значению другого поля"
+<radio-group id="contactType"
+             label="Тип контакта">
+    <options>
+        <option id="1" name="Мобильный телефон"/>
+        <option id="2" name="Электронная почта"/>
+    </options>
+</radio-group>
+
+<input-text id="contactValue"
+            label="{contactType.name}"/>
+<!-- Заголовок поменяется при выборе типа контакта -->
+```
+
+```xml {3} title="Доступность чекбокса по условию"
+<column label="Активность">
+    <!-- "{status == 'open'}" выражение над строкой таблицы -->
+    <checkbox enabled="`status == 'open'`"/>
 </column>
 ```
 
@@ -33,7 +47,7 @@ N2O разделяет шаблон и данные.
 
 ```xml title="Форматирование значения столбца таблицы"
 <column label="ФИО">
-  <text format="{firstName} {lastName} ({positionName})"/>
+    <text format="{firstName} {lastName} ({positionName})"/>
 </column>
 ```
 
@@ -41,39 +55,24 @@ N2O разделяет шаблон и данные.
 
 Некоторые вложенные метаданные можно переключать в зависимости от данных с помощью элемента `switch`:
 
-```xml
+```xml title="Переключатель ячейки столбца таблицы"
 <column>
-  <switch value-field-id="type">
-    <case value="type1">
-        <badge.../>
-        <!-- Значок, если type == type1 -->
-    </case>
-    <case value="type2">
-        <icon.../>
-        <!-- Иконка, если type == type2 -->
-    </case>
-    ...
-    <default>
-        <text/>
-        <!-- Текст, в остальных случаях -->
-    </default>
-  </switch>
+    <switch value-field-id="type">
+        <case value="type1">
+            <!-- Значок, если type == type1 -->
+            <badge.../>
+        </case>
+        <case value="type2">
+            <!-- Иконка, если type == type2 -->
+            <icon.../>
+        </case>
+        ...
+        <default>
+            <!-- Текст, в остальных случаях -->
+            <text/>
+        </default>
+    </switch>
 </column>
-```
-
-```xml title="Переключаемый виджет"
-<simple-page>
-  <switch value-field-id="code">
-    <case value="org">
-      <table ref-id="organizations"/>
-      <!-- Таблица организаций, если code == 'org' -->
-    </case>
-    <case value="dep">
-      <table ref-id="departments"/>
-      <!-- Таблица отделов, если code == 'dep' -->
-    </case>
-  </switch>
-</simple-page>
 ```
 
 ### Динамические ссылки на метаданные
@@ -81,71 +80,43 @@ N2O разделяет шаблон и данные.
 В некоторых местах можно ссылаться на разные метаданные в зависимости от данных:
 
 ```xml title="Динамическая ссылка на страницу"
-<action>
-  <open-page page-id="{tableName}" model="resolve"/>
-  <!-- {tableName} ссылка на поле в выделенной записи таблицы -->
-</action>
+<button>
+    <!-- {tableName} ссылка на поле в текущей модели данных -->
+    <open-page page-id="{tableName}"/>
+</button>
 ```
-
-```xml title="Динамическая ссылка на виджет"
-<simple-page>
-  <form ref-id="{type}"/>
-  <!-- {type} ссылка на поле в модели фильтров -->
-</simple-page>
-```
-
-:::warning
-
-Виджеты, которые открываются параметризованной ссылкой, должны иметь некоторые общие черты.
-Например, если задана Master Detail фильтрация, то все виджеты должны иметь одно и то же поле *detail-field-id*.
-
-:::
 
 ### Параметризованные метаданные
-
-В динамических интерфейсах часто шаблон интерфейса генерируется по данным.
-Например, генерируется имя виджета или страницы, генерируется столько столбцов таблицы, сколько их пришло в данных.
 
 В N2O можно загружать разные метаданные по одному и тому же источнику (например, xml файлу), используя параметры.
 Параметры задаются в идентификаторе метаданной после знака "вопрос":
 
 ```
-id?params
+id?param1=value1&param2=value2
 ```
 
 :::important
-
 Параметры не могут содержать зарезервированные символы URI, такие как *&?/#;* и другие.
 Либо такие символы должны быть закодированы (UriEncode).
-
 :::
 
-Параметры могут быть константами или динамическими.
+Параметры могут быть константными:
 
 ```xml title="Пример параметризации с константными значениями"
-<form>
-    <input-select label="Организация" query-id="refbook?table=organization">
-...
-    <input-select label="Подразделение" query-id="refbook?table=department">
-  ...
-</form>
+<fields>
+    <select label="Организация" query-id="refbook?table=organization"/>
+    <select label="Подразделение" query-id="refbook?table=department"/>
+</fields>
 ```
+Чтобы использовать параметр необходимо вставить его код в знак `$` и фигурные скобки `${param}`, аналогично [настройкам](setting#Xml):
 
-```xml
-<!-- refbook.query.xml -->
+```xml title="refbook.query.xml"
 <query>
-  <list>
-    <sql>select * from refbook r where r.table=${table}</sql>
-  </list>
+    <list>
+        <sql>select * from ${table}</sql>
+    </list>
+    ...
 </query>
-```
-
-Параметры можно задавать динамически используя ссылку на данные:
-
-```xml title="Динамически параметризованная выборка"
-<table query-id="refbook?table={table_name}">
-  <!-- {table_name} ссылка на поле в модели фильтров таблицы -->
-</table>
 ```
 
 ### Генерация метаданных
@@ -153,7 +124,7 @@ id?params
 В N2O метаданные можно сгенерировать в момент их первой загрузки с помощью провайдеров на языке java.
 Для этого необходимо создать реализацию интерфейса `DynamicMetadataProvider`, и зарегистрировать её в качестве Spring Bean.
 
-```java title="Реализация провайдера метаданных на Java"
+````js title="Реализация провайдера метаданных на Java"
 @Service
 public class MyTableProvider implements DynamicMetadataProvider {
     /**
@@ -180,13 +151,12 @@ public class MyTableProvider implements DynamicMetadataProvider {
     }
 
 }
-```
+````
 
 Чтобы сослаться на такую метаданную,
 необходимо в качестве идентификатора метаданной указать код провайдера,
-а чтобы задать динамические свойства, использовать динамические параметры:
+а параметры передать после знака `?`:
 
-```xml title="Ссылка на провайдер таблицы с динамическим параметром"
-<table ref-id="myTableProvider?{table_name}"/>
-<!-- {table_name} ссылка на поле в модели фильтров -->
-```
+````xml title="Ссылка на провайдер"
+<table ref-id="myTableProvider?param=123"/>
+````

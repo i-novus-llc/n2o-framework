@@ -938,7 +938,6 @@
         "filterPlace": "left"
       },
       "table": {
-        "fetchOnInit": true,
         "size": 10,
         "autoFocus": true,
         "hasFocus": true,
@@ -1211,7 +1210,6 @@
         "filterPlace": "top"
       },
       "table": {
-        "fetchOnInit": false,
         "size": 10,
         "autoFocus": true,
         "hasFocus": true,
@@ -1375,8 +1373,7 @@
             ]
           }
         ],
-        "validation": {},
-        "fetchOnInit": false
+        "validation": {}
       }
     }
   },

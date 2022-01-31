@@ -21,7 +21,7 @@ public class N2oFormParam extends N2oParam {
         this.id = id;
         setValue(value);
         setRefWidgetId(refWidgetId);
-        setRefModel(refModel);
+        setModel(refModel);
         setRefPageId(refPageId);
     }
 

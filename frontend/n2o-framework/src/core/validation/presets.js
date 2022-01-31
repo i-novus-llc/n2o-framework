@@ -1,6 +1,4 @@
-import { runSaga } from 'redux-saga'
 import isEmpty from 'lodash/isEmpty'
-import toString from 'lodash/toString'
 import isNumber from 'lodash/isNumber'
 import isUndefined from 'lodash/isUndefined'
 import isNull from 'lodash/isNull'
@@ -10,8 +8,7 @@ import isObject from 'lodash/isObject'
 import get from 'lodash/get'
 
 import evalExpression from '../../utils/evalExpression'
-import fetchSaga from '../../sagas/fetch'
-import { FETCH_VALIDATE } from '../api'
+import { defaultApiProvider, FETCH_VALIDATE } from '../api'
 
 /**
  * Валидация того, что email
@@ -22,7 +19,7 @@ import { FETCH_VALIDATE } from '../api'
 export function email(fieldId, values) {
     return (
         isString(values[fieldId]) &&
-    /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,4}$/i.test(values[fieldId])
+        /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,4}$/i.test(values[fieldId])
     )
 }
 
@@ -69,23 +66,14 @@ export function condition(fieldId, values, options = {}) {
  * @param fieldId
  * @param values
  * @param options
- * @param dispatch
  * @returns {boolean|*}
  */
-export async function constraint(fieldId, values, options, dispatch) {
+export function constraint(fieldId, values, options) {
     if (!isEmpty(values[fieldId])) {
-        // eslint-disable-next-line no-return-await
-        return await runSaga(
-            {
-                dispatch,
-            },
-            fetchSaga,
-            FETCH_VALIDATE,
-            { validationKey: options.validationKey },
-        ).toPromise()
+        return defaultApiProvider[FETCH_VALIDATE](options)
     }
 
-    return Promise.reject()
+    return Promise.reject(new Error('is empty value'))
 }
 
 /**
@@ -93,6 +81,7 @@ export async function constraint(fieldId, values, options, dispatch) {
  * @param fieldId
  * @param values
  * @returns {boolean}
+ * @deprecated
  */
 export function integer(fieldId, values) {
     const v = values[fieldId]
@@ -120,17 +109,4 @@ export function minLength(fieldId, values, options) {
  */
 export function maxLength(fieldId, values, options) {
     return isString(values[fieldId]) && values[fieldId].length < options.max
-}
-
-/**
- * Соответствие поля значению из метаданных
- * @param fieldId
- * @param values
- * @param options
- * @returns {boolean}
- */
-export function match(fieldId, values, options) {
-    return (
-        values[fieldId] && toString(values[fieldId]) === toString(options.field)
-    )
 }

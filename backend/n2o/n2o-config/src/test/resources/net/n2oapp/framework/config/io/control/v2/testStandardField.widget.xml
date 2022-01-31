@@ -21,18 +21,15 @@
                         model="filter">
                     <show-modal src="src"
                                 master-field-id="testId1"
-                                detail-field-id="testId2"
                                 page-id="pageId"
                                 object-id="objectId"
                                 page-name="pageName"
                                 submit-operation-id="operationId"
                                 modal-size="lg"
                                 close-after-submit="true"
-                                focus-after-submit="false"
                                 redirect-target-after-submit="application"
                                 redirect-url-after-submit="testUrl"
-                                route="/route"
-                                upload="query"/>
+                                route="/route"/>
                 </button>
             </toolbar>
 

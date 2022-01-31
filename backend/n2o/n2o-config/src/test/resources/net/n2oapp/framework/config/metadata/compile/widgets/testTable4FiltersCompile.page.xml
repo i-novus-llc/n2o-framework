@@ -8,7 +8,7 @@
                 <filters place="left">
                     <input-text id="name" required="true" default-value="test"/>
                     <date-interval id="birthday" />
-                    <input-select id="gender" query-id="testTable4Compile"/>
+                    <input-select id="genders" query-id="testTable4Compile" type="checkboxes"/>
                     <search-buttons id="sb" search-label="searchLabel" reset-label="resetLabel" />
                 </filters>
                 <columns>

@@ -2,10 +2,11 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.TooltipListCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.TooltipListCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
@@ -36,9 +37,9 @@ public class TooltipListCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testTooltipListCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testTooltipListCell.widget.xml")
-                .get(new WidgetContext("testTooltipListCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testTooltipListCell.page.xml")
+                .get(new PageContext("testTooltipListCell"));
+        Table table = (Table) page.getWidget();
         N2oTooltipListCell cell = (N2oTooltipListCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ListTextCell"));
         assertThat(cell.getFieldKey(), is("test1"));

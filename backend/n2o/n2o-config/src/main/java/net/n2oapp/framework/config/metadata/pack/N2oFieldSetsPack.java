@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.StandardFieldBinder;
 public class N2oFieldSetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oFieldSetsIOPack());
+        b.packs(new N2oFieldSetsIOPack(), new N2oFieldSetsV5IOPack());
         b.compilers(new SetFieldSetCompiler(),
                 new LineFieldSetCompiler(),
                 new MultiFieldSetCompiler(),

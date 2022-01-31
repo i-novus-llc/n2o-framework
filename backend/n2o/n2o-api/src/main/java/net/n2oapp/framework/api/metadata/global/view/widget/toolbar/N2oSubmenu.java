@@ -16,7 +16,6 @@ public class N2oSubmenu extends N2oAbstractButton implements GroupItem {
     private String[] generate;
     private Boolean showToggleIcon;
     private N2oButton[] menuItems;
-    private Boolean visible;
 
     @Override
     public List<N2oAction> getActions() {

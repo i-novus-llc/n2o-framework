@@ -1,50 +1,31 @@
 import {
     registerWidget,
-    dataRequestWidget,
-    dataSuccessWidget,
-    dataFailWidget,
     resolveWidget,
     removeWidget,
     showWidget,
     hideWidget,
     enableWidget,
     disableWidget,
-    loadingWidget,
-    unloadingWidget,
     alertAddWidget,
     alertRemoveWidget,
-    sortByWidget,
-    changePageWidget,
-    changeCountWidget,
-    changeSizeWidget,
     showWidgetFilters,
     hideWidgetFilters,
     changeFiltersVisibility,
     toggleWidgetFilters,
     resetWidgetState,
     setWidgetMetadata,
-    setTableSelectedId,
     setActive,
-    disableWidgetOnFetch,
 } from '../store'
 
 const widgetId = ' widgetId'
-const modelId = 'modelId'
 const initProps = {
     disabled: false,
     visible: true,
 }
-const json = JSON.stringify({
-    data: {
-        a: 1,
-        b: 2,
-    },
-})
 const err = {
     text: 'Not found',
     status: 404,
 }
-const errResponse = JSON.stringify(err)
 const resolveModel = {
     data: {
         a: 1,
@@ -52,13 +33,7 @@ const resolveModel = {
     },
 }
 const alertKey = 'alertKey'
-const fieldKey = 'name'
-const sortDirection = 'ASC'
-const page = 'Page_Table'
-const count = 5
-const size = 'lg'
 const pageId = 'Page_id'
-const selectedId = 'selectedId'
 const metadata = {
     toolbar: {},
 }
@@ -69,30 +44,6 @@ describe('Тесты экшенов widgets', () => {
             const action = registerWidget(widgetId, initProps)
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.initProps).toEqual(initProps)
-        })
-    })
-
-    describe('Проверка экшена dataRequestWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = dataRequestWidget(widgetId, modelId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.modelId).toEqual(modelId)
-        })
-    })
-
-    describe('Проверка экшена dataSuccessWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = dataSuccessWidget(widgetId, json)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.query).toEqual(json)
-        })
-    })
-
-    describe('Проверка экшена dataFailWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = dataFailWidget(widgetId, err, errResponse)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.err).toEqual(err)
         })
     })
 
@@ -139,20 +90,6 @@ describe('Тесты экшенов widgets', () => {
         })
     })
 
-    describe('Проверка экшена loadingWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = loadingWidget(widgetId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-        })
-    })
-
-    describe('Проверка экшена unloadingWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = unloadingWidget(widgetId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-        })
-    })
-
     describe('Проверка экшена alertAddWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = alertAddWidget(widgetId, alertKey)
@@ -166,39 +103,6 @@ describe('Тесты экшенов widgets', () => {
             const action = alertRemoveWidget(widgetId, alertKey)
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.alertKey).toEqual(alertKey)
-        })
-    })
-
-    describe('Проверка экшена sortByWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = sortByWidget(widgetId, fieldKey, sortDirection)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.fieldKey).toEqual(fieldKey)
-            expect(action.payload.sortDirection).toEqual(sortDirection)
-        })
-    })
-
-    describe('Проверка экшена changePageWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = changePageWidget(widgetId, page)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.page).toEqual(page)
-        })
-    })
-
-    describe('Проверка экшена changeCountWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = changeCountWidget(widgetId, count)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.count).toEqual(count)
-        })
-    })
-
-    describe('Проверка экшена changeSizeWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = changeSizeWidget(widgetId, size)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.size).toEqual(size)
         })
     })
 
@@ -249,24 +153,9 @@ describe('Тесты экшенов widgets', () => {
         })
     })
 
-    describe('Проверка экшена setTableSelectedId', () => {
-        it('Возвращает правильный payload', () => {
-            const action = setTableSelectedId(widgetId, selectedId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.value).toEqual(selectedId)
-        })
-    })
-
     describe('Проверка экшена setActive', () => {
         it('Возвращает правильный payload', () => {
             const action = setActive(widgetId)
-            expect(action.payload.widgetId).toEqual(widgetId)
-        })
-    })
-
-    describe('Проверка disabledWidgetOnFetch', () => {
-        it('Генирирует правильный payload', () => {
-            const action = disableWidgetOnFetch(widgetId)
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })

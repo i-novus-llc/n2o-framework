@@ -38,6 +38,7 @@ public class N2oPreFilter implements Source {
     /**
      * Виджет, который нужно фильтровать
      */
+    @Deprecated
     private String targetWidgetId;
     /**
      * Наименование параметра в адресе маршрута
@@ -52,13 +53,13 @@ public class N2oPreFilter implements Source {
      */
     private String refPageId;
     /**
-     * Идентификатор виджета на странице, на который ссылается фильтр
+     * Идентификатор источника данных на странице, на который ссылается фильтр
      */
-    private String refWidgetId;
+    private String datasource;
     /**
      * Модель виджета, на который ссылается фильтр
      */
-    private ReduxModel refModel;
+    private ReduxModel model;
 
     /**
      * Список значений фильтра
@@ -107,14 +108,24 @@ public class N2oPreFilter implements Source {
         return getRef() != null;
     }
 
+    @Deprecated
+    public String getRefWidgetId() {
+        return datasource;
+    }
+
+    @Deprecated
+    public void setRefWidgetId(String refWidgetId) {
+        this.datasource = refWidgetId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof N2oPreFilter)) return false;
         N2oPreFilter that = (N2oPreFilter) o;
         return Objects.equals(fieldId, that.fieldId) &&
-                Objects.equals(refWidgetId, that.refWidgetId) &&
-                refModel == that.refModel &&
+                Objects.equals(datasource, that.datasource) &&
+                model == that.model &&
                 type == that.type;
     }
 
@@ -129,7 +140,7 @@ public class N2oPreFilter implements Source {
 
     @Override
     public int hashCode() {
-        return Objects.hash(fieldId, refWidgetId, refModel, type);
+        return Objects.hash(fieldId, datasource, model, type);
     }
 
     public String[] getValues() {

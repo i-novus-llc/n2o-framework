@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form>
+        <fields>
+            <row>
+                <input-text id="test1" length="15" class="n2o" style="padding-top: 0; page-break-before: avoid;"
+                            label="InputNumber" default-value="15" measure="cm"
+                            placeholder="Введите текст" help="testHelp"
+                            label-class="testLabelClass" depends-on="name,type"/>
+                <input-text id="test1_1" length="15" domain="integer"
+                            max="555" min="0" step="0.01" default-value="15"
+                            label="InputNumber" label-class="testLabelClass" no-label="true" no-label-block="true"/>
+            </row>
+            <input-text id="test2" domain="long" measure="cm"/>
+            <input-text id="test3" domain="numeric" precision="2"/>
+            <input-text id="test4" domain="short"/>
+            <input-text id="test5" domain="integer"/>
+            <input-text id="test6" domain="integer[]"/>
+            <input-text id="test7" domain="numeric" step="0.00"/>
+        </fields>
+    </form>
+</simple-page>

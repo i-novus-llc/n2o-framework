@@ -61,7 +61,7 @@ public class AlertPositionAT extends AutoTestBase {
         Alerts.Alert alert = page.alerts().alert(0);
         alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(Colors.SUCCESS);
-        alert.shouldHavePosition(Alerts.Alert.Position.RELATIVE);
+        alert.shouldHavePosition(Alerts.Alert.Position.FIXED);
 
         // fail
         toolbar.button("Ошибка валидации").click();
@@ -78,7 +78,7 @@ public class AlertPositionAT extends AutoTestBase {
 
         Toolbar modalToolbar = modal.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft();
         modalToolbar.button("Успех").click();
-        Alerts.Alert modalAlert = modal.content(SimplePage.class).alerts().alert(0);
+        Alerts.Alert modalAlert = page.alerts().alert(0);
         modalAlert.shouldHaveText("Данные сохранены");
         modalAlert.shouldHaveColor(Colors.SUCCESS);
         modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);

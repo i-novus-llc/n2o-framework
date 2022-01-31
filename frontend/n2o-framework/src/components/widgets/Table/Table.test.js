@@ -52,17 +52,15 @@ const setup = (propOverrides) => {
         },
     ]
     const headers = [
-        { id: 'name', component: TextTableHeader, sortable: false, label: 'Имя' },
+        { id: 'name', component: TextTableHeader, label: 'Имя' },
         {
             id: 'surname',
             component: TextTableHeader,
-            sortable: false,
             label: 'Фамилия',
         },
         {
             id: 'birthday',
             component: TextTableHeader,
-            sortable: false,
             sorting: 'ASC',
             label: 'Дата рождения',
         },

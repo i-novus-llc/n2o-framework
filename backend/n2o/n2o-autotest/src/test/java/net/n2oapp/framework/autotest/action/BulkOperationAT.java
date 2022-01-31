@@ -44,6 +44,7 @@ public class BulkOperationAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7382
     @Test
     public void bulkOperationTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
@@ -94,6 +95,7 @@ public class BulkOperationAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(2);
     }
 
+    //wait https://jira.i-novus.ru/browse/NNO-7382
     @Test
     public void bulkOperationStringIdsTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/index.page.xml"),

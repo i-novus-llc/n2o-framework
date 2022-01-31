@@ -9,6 +9,16 @@ import java.util.function.Function;
  */
 public class CompileUtil {
 
+    public static String generateSourceDatasourceId(String widgetId) {
+        return widgetId;
+    }
+
+    public static String generateDatasourceId(String pageId, String localDatasourceId) {
+        if ("_".equals(pageId))
+            return localDatasourceId;
+        return pageId + "_" + localDatasourceId;
+    }
+
     public static String generateWidgetId(String pageId, String localWidgetId) {
         if ("_".equals(pageId))
             return localWidgetId;

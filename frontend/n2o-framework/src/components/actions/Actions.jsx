@@ -121,7 +121,6 @@ class Actions extends React.Component {
             confirm,
             actions,
             resolve,
-            button.validatedWidgetId,
             button.validate,
             options,
         )
@@ -248,8 +247,7 @@ class Actions extends React.Component {
         confirm,
         actions,
         resolve,
-        validatedWidgetId,
-        validate = true,
+        validate,
         options = {},
     ) {
         if (confirm) {
@@ -257,7 +255,7 @@ class Actions extends React.Component {
         } else {
             const { pageId } = this.props
 
-            resolve(actions[actionId].src, validatedWidgetId, {
+            resolve(actions[actionId].src, {
                 ...actions[actionId].options,
                 actionId,
                 buttonId: id,
@@ -442,9 +440,9 @@ Actions.propTypes = {
  * @param dispatch
  */
 const mapDispatchToProps = dispatch => ({
-    resolve: (actionSrc, validatedWidgetId, options) => {
+    resolve: (actionSrc, options) => {
         dispatch(
-            callActionImpl(actionSrc, { ...options, dispatch, validatedWidgetId }),
+            callActionImpl(actionSrc, { ...options, dispatch }),
         )
     },
     resolveWidget: (widgetId, model) => dispatch(resolveWidget(widgetId, model)),

@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
@@ -41,9 +42,11 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
 
     @Getter
     @Setter
-    public static class ColumnVisibility implements Source {
+    public static class ColumnVisibility implements Source, DatasourceIdAware {
         private String value;
+        private String datasource;
+        @Deprecated
         private String refWidgetId;
-        private ReduxModel refModel;
+        private ReduxModel model;
     }
 }

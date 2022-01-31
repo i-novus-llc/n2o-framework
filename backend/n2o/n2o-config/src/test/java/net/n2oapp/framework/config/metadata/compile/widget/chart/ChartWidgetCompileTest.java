@@ -1,11 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.chart.charts.PieChartIOv4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.compile.widget.ChartCompiler;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,21 +25,19 @@ public class ChartWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.compilers(new ChartCompiler(), new PieChartCompiler());
-        builder.ios(new ChartWidgetIOv4(), new PieChartIOv4());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oChartsPack(), new N2oAllDataPack());
     }
 
     @Test
     public void testChart() {
-        Chart chart = (Chart) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testChartCompile.widget.xml")
-                .get(new WidgetContext("testChartCompile"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testChartCompile.page.xml")
+                .get(new PageContext("testChartCompile"));
+        Chart chart = (Chart) page.getWidget();
         assertThat(chart.getSrc(), is("ChartWidget"));
         assertThat(chart.getName(), is("testChart"));
         assertThat(chart.getComponent().getWidth(), is(600));
         assertThat(chart.getComponent().getHeight(), is(400));
         assertThat(chart.getComponent().getSize(), is(20));
-        assertThat(chart.getRoute(), is("/test"));
         assertThat(chart.getName(), is("testChart"));
         assertThat(chart.getIcon(), is("icon"));
         assertThat(chart.getStyle().size(), is(1));

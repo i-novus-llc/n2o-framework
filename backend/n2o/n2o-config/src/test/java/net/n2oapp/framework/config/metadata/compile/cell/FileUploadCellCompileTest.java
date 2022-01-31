@@ -1,17 +1,19 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.meta.cell.FileUploadCell;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.cell.FileUploadCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.io.cell.v2.FileUploadCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции ячейки загрузки файлов
@@ -35,9 +37,9 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testCompileFileUploadCell() {
-        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testFileUploadCell.widget.xml")
-                .get(new WidgetContext("testFileUploadCell"));
-
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testFileUploadCell.page.xml")
+                .get(new PageContext("testFileUploadCell"));
+        Table table = (Table) page.getWidget();
         FileUploadCell cell = (FileUploadCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("FileUploadCell"));
         assertThat(cell.getCssClass(), nullValue());

@@ -20,10 +20,9 @@ import java.util.Map;
 @NoArgsConstructor
 public class MandatoryValidation extends Validation {
     protected Field field;
-    @JsonProperty("expression")
-    private String enablingExpression;
-    private String expressionOn;
 
+    //лучше создавать N2oMandatoryValidation и скомпилировать
+    @Deprecated
     public MandatoryValidation(String id, String message, String fieldId) {
         setId(id);
         setMessage(message);
@@ -34,8 +33,7 @@ public class MandatoryValidation extends Validation {
 
     public MandatoryValidation(MandatoryValidation v) {
         super(v);
-        this.enablingExpression = v.getEnablingExpression();
-        this.expressionOn = v.getExpressionOn();
+        this.field = v.getField();
     }
 
 

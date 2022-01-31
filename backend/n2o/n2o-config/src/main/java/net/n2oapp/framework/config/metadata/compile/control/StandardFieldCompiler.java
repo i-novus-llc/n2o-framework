@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 public abstract class StandardFieldCompiler<D extends Control, S extends N2oStandardField> extends FieldCompiler<StandardField<D>, S> {
 
     protected StandardField<D> compileStandardField(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         StandardField<D> field = new StandardField<>();
         if (control.getSrc() == null)
             control.setSrc(source.getSrc());
@@ -75,14 +76,13 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     private ClientDataProvider initDataProvider(S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String id = widgetScope != null ? widgetScope.getWidgetId() : source.getId();
-        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), id, p.getScope(CompiledObject.class), p);
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), source.getId(),
+                p.getScope(CompiledObject.class), p);
         dataProvider.setSubmitForm(false);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {
             dataProvider.getActionContextData().setParentWidgetId(widgetScope.getClientWidgetId());
-            dataProvider.getActionContextData().setSuccessAlertWidgetId(widgetScope.getClientWidgetId());
-            dataProvider.getActionContextData().setFailAlertWidgetId(widgetScope.getClientWidgetId());
+            dataProvider.getActionContextData().setMessagesForm(widgetScope.getClientWidgetId());
         }
 
         ClientDataProvider clientDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);

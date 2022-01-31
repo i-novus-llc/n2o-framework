@@ -19,6 +19,7 @@ public class PerformCompiler extends AbstractActionCompiler<Perform, N2oPerform>
 
     @Override
     public Perform compile(N2oPerform source, CompileContext<?,?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         Perform action = new Perform(p.mapAttributes(source));
         action.setType(source.getType());
         compileAction(action, source, p);

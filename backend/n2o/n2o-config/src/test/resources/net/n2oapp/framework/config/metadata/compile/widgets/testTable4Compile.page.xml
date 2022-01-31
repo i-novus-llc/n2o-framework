@@ -1,0 +1,52 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table query-id="testTable4Compile"
+           object-id="utBlank" fetch-on-init="false" checkboxes="true" check-on-select="true"
+           height="200px" width="400px" text-wrap="false">
+        <actions>
+            <action id="testAction">
+                <invoke operation-id="update"/>
+            </action>
+            <action id="testAction3">
+                <invoke operation-id="update"/>
+            </action>
+            <action id="testAction2">
+                <invoke operation-id="update"/>
+            </action>
+        </actions>
+        <toolbar>
+            <button icon="icon" label="label" action-id="testAction" class="className" type="iconAndText"
+                    style="padding-top: 0; page-break-before: avoid;"/>
+            <sub-menu style="padding-top: 0; page-break-before: avoid;">
+                <menu-item action-id="testAction2" style="padding-top: 0; page-break-before: avoid;"/>
+            </sub-menu>
+            <button id="but">
+                <invoke operation-id="update"/>
+            </button>
+        </toolbar>
+        <toolbar place="bottomRight">
+            <group>
+                <button action-id="testAction3"/>
+            </group>
+        </toolbar>
+        <pre-filters>
+            <in field-id="name" values="{nameValues}"/>
+        </pre-filters>
+        <columns>
+            <column text-field-id="id" hide-on-blur="true" src="MyTableHeader" class="my-table-header"
+                    style="color: red">
+                <text format="password" style="margin-left:10px">
+                    <switch value-field-id="test">
+                        <case value="1">css1</case>
+                        <case value="2">css2</case>
+                        <default>css3</default>
+                    </switch>
+                </text>
+            </column>
+            <column text-field-id="name"/>
+        </columns>
+        <rows class="red"/>
+        <filters place="left" default-values-query-id="test">
+            <input-text id="name" required="true"/>
+        </filters>
+    </table>
+</simple-page>

@@ -20,19 +20,19 @@ public class ToolbarAccessTransformer extends BaseAccessTransformer<Toolbar, Com
     }
 
     @Override
-    public Toolbar transform(Toolbar compiled, CompileContext context, CompileProcessor p) {
+    public Toolbar transform(Toolbar compiled, CompileContext<?, ?> context, CompileProcessor p) {
         for (List<Group> groupList : compiled.values()) {
             for (Group group : groupList) {
                 for (AbstractButton b : group.getButtons()) {
                     if (b.getAction() != null) {
                         transfer(b.getAction(), b);
-                    } else if (b instanceof Submenu && ((Submenu)b).getSubMenu() != null) {
-                        for (PerformButton menuItem : ((Submenu)b).getSubMenu()) {
+                    } else if (b instanceof Submenu && ((Submenu) b).getSubMenu() != null) {
+                        for (PerformButton menuItem : ((Submenu) b).getSubMenu()) {
                             if (menuItem.getAction() != null) {
                                 transfer(menuItem.getAction(), menuItem);
                             }
                         }
-                        merge(b, ((Submenu)b).getSubMenu());
+                        merge(b, ((Submenu) b).getSubMenu());
                     }
                 }
             }

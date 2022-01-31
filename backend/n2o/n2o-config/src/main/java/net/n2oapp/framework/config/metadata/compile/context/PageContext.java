@@ -4,18 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -43,9 +40,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private ReduxModel copyModel;
     /**
-     * Идентификатор виджета источника
+     * Идентификатор источника данных из которого будут копироваться данные
      */
-    private String copyWidgetId;
+    private String copyDatasource;
     /**
      * Идентификатор копируемого поля источника
      */
@@ -55,9 +52,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private ReduxModel targetModel;
     /**
-     * Идентификатор целевого виджета
+     * Идентификатор источника данных, в который будут скопированы данные
      */
-    private String targetWidgetId;
+    private String targetDatasourceId;
     /**
      * Идентификатор поля целевого виджета, в которое будут скопированы данные
      */
@@ -66,10 +63,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Тип слияния при копировании данных
      */
     private CopyMode copyMode;
-    /**
-     * Главный виджет открываемой страницы
-     */
-    private String resultWidgetId;
     /**
      * Маршрут родителя
      */
@@ -81,7 +74,16 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Родительский виджет (клиентский), в котором находилось действие
      */
+    @Deprecated
     private String parentClientWidgetId;
+    /**
+     * Родительский глобальный источник данных, в котором находилось действие
+     */
+    private String parentGlobalDatasourceId;
+    /**
+     * Родительский локальный источник данных, в котором находилось действие
+     */
+    private String parentLocalDatasourceId;
     /**
      * Родительская страница (клиентский), в которой находилось действие
      */
@@ -99,9 +101,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean refreshOnSuccessSubmit;
     /**
-     * Идентификатор виджета, который необходимо обновить после успешной отправки формы
+     * Идентификаторы источников данных, которые необходимо обновить после успешной отправки формы
      */
-    private String refreshClientWidgetId;
+    private List<String> refreshClientDataSources;
     /**
      * Обновить данные родительского виджета после закрытия страницы
      */
@@ -119,13 +121,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean unsavedDataPromptOnClose;
     /**
-     * Источник данных виджета при открытии страницы
+     * Список источников данных открываемой страницы
      */
-    private UploadType upload;
-    /**
-     * Список предустановленных фильтраций для основного виджета
-     */
-    private List<N2oPreFilter> preFilters;
+    private List<N2oDatasource> datasources;
+
 
     /**
      * Клиентский идентификатор страницы
@@ -150,31 +149,20 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         super(route, sourcePageId, N2oPage.class, Page.class);
     }
 
-    public PageContext(PageContext context) {
-        super(context);
-        this.breadcrumbs = context.breadcrumbs;
-        this.submitOperationId = context.submitOperationId;
-        this.submitModel = context.submitModel;
-        this.submitLabel = context.submitLabel;
-        this.resultWidgetId = context.resultWidgetId;
-        this.parentRoute = context.parentRoute;
-        this.parentClientWidgetId = context.parentClientWidgetId;
-        this.pageName = context.pageName;
-        this.closeOnSuccessSubmit = context.closeOnSuccessSubmit;
-        this.refreshOnSuccessSubmit = context.refreshOnSuccessSubmit;
-        this.refreshOnClose = context.refreshOnClose;
-        this.redirectUrlOnSuccessSubmit = context.redirectUrlOnSuccessSubmit;
-        this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
-        this.unsavedDataPromptOnClose = context.unsavedDataPromptOnClose;
-        this.upload = context.upload;
-        this.clientPageId = context.clientPageId;
-        this.preFilters = context.preFilters;
-    }
-
     public void setBreadcrumbs(List<Breadcrumb> breadcrumbs) {
         if (breadcrumbs != null)
             this.breadcrumbs = Collections.unmodifiableList(breadcrumbs);
         else
             this.breadcrumbs = null;
+    }
+
+    @Deprecated
+    public List<N2oPreFilter> getPreFilters() {
+        List<N2oPreFilter> filters = new ArrayList<>();
+        if (datasources != null)
+            for (N2oDatasource datasource : datasources) {
+                filters.addAll(Arrays.asList(datasource.getFilters()));
+            }
+        return filters;
     }
 }

@@ -1,5 +1,4 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
-import isEmpty from 'lodash/isEmpty'
 
 import WidgetResolver from './WidgetResolver'
 import { ALERT_ADD, ALERT_REMOVE, SET_WIDGET_METADATA } from './constants'
@@ -31,123 +30,15 @@ const widgetSlice = createSlice({
              */
             reducer(state, action) {
                 const { widgetId, initProps, preInit } = action.payload
-                let smartState = {}
                 const currentState = state[widgetId] || {}
-
-                if (!isEmpty(currentState)) {
-                    smartState = {
-                        selectedId: currentState.selectedId ? currentState.selectedId : null,
-                    }
-
-                    if (!isEmpty(currentState.sorting)) {
-                        smartState.sorting = currentState.sorting
-                    }
-                }
 
                 state[widgetId] = {
                     ...WidgetResolver.defaultState,
                     ...currentState,
                     ...initProps,
-                    ...smartState,
-                    modelId: initProps.modelId || widgetId,
                     isInit: !preInit,
                     type: initProps.type,
                 }
-            },
-        },
-
-        DATA_REQUEST: {
-            /**
-             * @param {string} widgetId
-             * @param {string} modelId
-             * @param {object} options
-             * @return {{payload: WidgetsStore.dataRequestWidgetPayload}}
-             */
-            prepare(widgetId, modelId, options = {}) {
-                return ({
-                    payload: { widgetId, options, modelId },
-                })
-            },
-
-            /**
-             * Запрос за данными
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {Columns.dataRequestWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = true
-            },
-        },
-
-        DATA_SUCCESS: {
-            /**
-             * @param {string} widgetId
-             * @param {object} json
-             * @return {{payload: WidgetsStore.dataSuccessWidgetPayload, meta: object}}
-             */
-            prepare(widgetId, json) {
-                return ({
-                    payload: { widgetId, query: json },
-                    meta: json.meta,
-                })
-            },
-
-            /**
-             * Вспомогательный экшен. Успешный запрос за данными
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {Columns.dataSuccessWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = false
-            },
-        },
-
-        DATA_FAIL: {
-            /**
-             * @param {string} widgetId
-             * @param {object} err
-             * @param {object} meta
-             * @return {{payload: WidgetsStore.dataFailWidgetPayload, meta: object}}
-             */
-            prepare(widgetId, err, meta) {
-                return ({
-                    payload: { widgetId, err },
-                    meta,
-                })
-            },
-
-            /**
-             * Вспомогательный экшен. Ошибка при запросе за данными.
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {Columns.dataFailWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, err = true } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = false
-                state[widgetId].error = err
             },
         },
 
@@ -208,7 +99,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isVisible = true
+                state[widgetId].visible = true
             },
         },
 
@@ -238,7 +129,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isVisible = false
+                state[widgetId].visible = false
             },
         },
 
@@ -268,7 +159,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isEnabled = true
+                state[widgetId].disabled = false
             },
         },
 
@@ -298,228 +189,7 @@ const widgetSlice = createSlice({
                     state[widgetId] = WidgetResolver.defaultState
                 }
 
-                state[widgetId].isEnabled = false
-            },
-        },
-
-        DISABLE_ON_FETCH: {
-            /**
-             * @param {string} widgetId
-             * @return {{payload: {widgetId: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
-                return ({
-                    payload: { widgetId },
-                })
-            },
-
-            /**
-             * Сделать виджет заблокированым
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {{widgetId: string}} action.payload
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isEnabled = false
-            },
-        },
-
-        LOADING: {
-            /**
-             * @param {string} widgetId
-             * @return {{payload: {widgetId: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
-                return ({
-                    payload: { widgetId },
-                })
-            },
-
-            /**
-             * Активировать анимацию загрузки у виджета
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {{widgetId: string}} action.payload
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = true
-            },
-        },
-
-        UNLOADING: {
-            /**
-             * @param {string} widgetId
-             * @return {{payload: {widgetId: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
-                return ({
-                    payload: { widgetId },
-                })
-            },
-
-            /**
-             * Деактивировать анимацию загрузки у виджета
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {{widgetId: string}} action.payload
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isLoading = false
-            },
-        },
-
-        SORT_BY: {
-            /**
-             * @param {string} widgetId
-             * @param {string} fieldKey
-             * @param {string} sortDirection
-             * @return {{payload: WidgetsStore.sortByWidgetPayload}}
-             */
-            prepare(widgetId, fieldKey, sortDirection) {
-                return ({
-                    payload: { widgetId, fieldKey, sortDirection },
-                })
-            },
-
-            /**
-             * Соритровка по полю
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.sortByWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, fieldKey, sortDirection } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                if (sortDirection === 'NONE') {
-                    state[widgetId].sorting = {}
-                } else {
-                    state[widgetId].sorting = { [fieldKey]: sortDirection }
-                }
-            },
-        },
-
-        CHANGE_SIZE: {
-            /**
-             * @param {string} widgetId
-             * @param {string} size
-             * @return {{payload: WidgetsStore.changeSizeWidgetPayload}}
-             */
-            prepare(widgetId, size) {
-                return ({
-                    payload: { widgetId, size },
-                })
-            },
-
-            /**
-             * Меняет размер выборки виджета
-             * Этот параметр используется при запросах на сервер
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.changeSizeWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, size } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].size = size
-            },
-        },
-
-        CHANGE_PAGE: {
-            /**
-             * @param {string} widgetId
-             * @param {string} page
-             * @return {{payload: WidgetsStore.changePageWidgetPayload}}
-             */
-            prepare(widgetId, page) {
-                return ({
-                    payload: { widgetId, page },
-                })
-            },
-
-            /**
-             * Меняет номер страницы виджета
-             * Этот параметр используется при запросах на сервер
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.changePageWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, page } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].page = page
-            },
-        },
-
-        CHANGE_COUNT: {
-            /**
-             * @param {string} widgetId
-             * @param {number} count
-             * @return {{payload: WidgetsStore.changeCountWidgetPayload}}
-             */
-            prepare(widgetId, count) {
-                return ({
-                    payload: { widgetId, count },
-                })
-            },
-
-            /**
-             * Меняет номер страницы виджета
-             * Этот параметр используется при запросах на сервер
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.changeCountWidgetPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, count } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].count = count
+                state[widgetId].disabled = true
             },
         },
 
@@ -613,36 +283,6 @@ const widgetSlice = createSlice({
             },
         },
 
-        CHANGE_SELECTED_ID: {
-            /**
-             * @param {string} widgetId
-             * @param {string} selectedId
-             * @return {{payload: WidgetsStore.setTableSelectedIdPayload}}
-             */
-            prepare(widgetId, selectedId) {
-                return ({
-                    payload: { widgetId, value: selectedId },
-                })
-            },
-
-            /**
-             * Изменить выбранную запись в виджете
-             * @param {WidgetsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {WidgetsStore.setTableSelectedIdPayload} action.payload
-             */
-            reducer(state, action) {
-                const { widgetId, value } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].selectedId = WidgetResolver.resolveSelectedId(value)
-            },
-        },
-
         SET_ACTIVE: {
             /**
              * @param {string} widgetId
@@ -696,8 +336,8 @@ const widgetSlice = createSlice({
              * @param {string} action.type
              * @param {{widgetId: string}} action.payload
              */
-            reducer(state, action) {
-                delete state[action.payload]
+            reducer(state, { payload }) {
+                delete state[payload.widgetId]
             },
         },
     },
@@ -708,23 +348,12 @@ export default widgetSlice.reducer
 // Actions
 export const {
     REGISTER: registerWidget,
-    DATA_REQUEST: dataRequestWidget,
-    DATA_SUCCESS: dataSuccessWidget,
-    DATA_FAIL: dataFailWidget,
     RESOLVE: resolveWidget,
     SHOW: showWidget,
     HIDE: hideWidget,
     ENABLE: enableWidget,
     DISABLE: disableWidget,
-    DISABLE_ON_FETCH: disableWidgetOnFetch,
-    LOADING: loadingWidget,
-    UNLOADING: unloadingWidget,
-    SORT_BY: sortByWidget,
-    CHANGE_SIZE: changeSizeWidget,
-    CHANGE_PAGE: changePageWidget,
-    CHANGE_COUNT: changeCountWidget,
     CHANGE_FILTER_VISIBILITY: changeFiltersVisibility,
-    CHANGE_SELECTED_ID: setTableSelectedId,
     RESET_STATE: resetWidgetState,
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,
     REMOVE: removeWidget,

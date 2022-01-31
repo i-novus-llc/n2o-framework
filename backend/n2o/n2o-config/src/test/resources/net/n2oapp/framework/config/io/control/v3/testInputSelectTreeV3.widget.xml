@@ -1,0 +1,12 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <input-select-tree id="testId" label-field-id="testId" checking-strategy="child" query-id="queryId"
+                           parent-field-id="testId" value-field-id="testId" icon-field-id="testId"
+                           has-children-field-id="testId" max-tag-text-length="20"
+                           enabled-field-id="testId" search-filter-id="testId">
+            <filters>
+                <contains field-id="testId" value="value"/>
+            </filters>
+        </input-select-tree>
+    </fields>
+</form>

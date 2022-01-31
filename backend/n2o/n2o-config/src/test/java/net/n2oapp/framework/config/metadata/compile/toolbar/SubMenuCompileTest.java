@@ -2,7 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -37,13 +38,13 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSubMenu() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testSubMenu.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testSubMenu.page.xml")
                 .get(new PageContext("testSubMenu"));
 
-        Submenu subMenu = (Submenu) page.getToolbar().getButton("subMenu0");
+        Submenu subMenu = (Submenu) ((Table)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("mi0");
         assertThat(subMenu.getSrc(), is("DropdownButton"));
         assertThat(subMenu.getShowToggleIcon(), is(false));
-        assertThat(subMenu.getVisible(), is(false));
+        assertThat(subMenu.getVisible().toString(), is("false"));
 
         List<PerformButton> items = subMenu.getSubMenu();
         assertThat(items.size(), is(2));
@@ -58,7 +59,7 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(updateBtn.getConditions().get(ValidationType.enabled).size(), is(1));
 
 
-        subMenu = (Submenu) page.getToolbar().getButton("subMenu3");
+        subMenu = (Submenu) ((Table)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getSubMenu(), nullValue());
     }

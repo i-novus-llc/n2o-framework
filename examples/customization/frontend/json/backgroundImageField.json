@@ -44,8 +44,7 @@
             ]
           }
         ],
-        "validation": {},
-        "fetchOnInit": false
+        "validation": {}
       }
     }
   },

@@ -1,0 +1,41 @@
+<input-select xmlns="http://n2oapp.net/framework/config/schema/control-3.0"
+              id="testId"
+              class="testClass"
+              src="testSrc"
+              required="true"
+              copied="true"
+              description="testDescription"
+              enabled="false"
+              label="testLabel"
+              visible="false"
+              query-id="testQueryId"
+              label-field-id="testLabel"
+              search-filter-id="testSearch"
+              group-field-id="testGroup"
+              image-field-id="testImage"
+              icon-field-id="testIcon"
+              format="testFormat"
+              cache="true"
+              sort-field-id="sortFieldId"
+              size="10"
+              status-field-id="testStatus">
+    <default-value id="1" name="testName" isTest="true"/>
+    <options>
+        <option id="1" name="testName1" isTest="true" />
+        <option id="2" name="testName2" isTest="false" />
+    </options>
+    <filters>
+        <eq field-id="test" value="1" datasource="ds1" model="resolve"/>
+        <contains field-id="test" value="1" values="1,2,3"/>
+        <in field-id="test" value="1" values="1,2,3"/>
+        <isNotNull field-id="test"/>
+        <isNull field-id="test"/>
+        <less field-id="test" value="1"/>
+        <like field-id="test" value="1"/>
+        <likeStart field-id="test" value="1"/>
+        <more field-id="test" value="1"/>
+        <notEq field-id="test" value="1"/>
+        <notIn field-id="test" value="1" values="1,2,3"/>
+        <overlaps field-id="test" value="1" values="1,2,3"/>
+    </filters>
+</input-select>

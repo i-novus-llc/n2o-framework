@@ -39,11 +39,21 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String param;
     private ReduxModel refModel;
     private Page refPage;
-    private String refWidgetId;
+    private String refDatasource;
     private String refFieldId;
 
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
+
+    @Deprecated
+    public String getRefWidgetId() {
+        return refDatasource;
+    }
+
+    @Deprecated
+    public void setRefWidgetId(String refWidgetId) {
+        this.refDatasource = refWidgetId;
+    }
 
     /**
      * Добавление зависимости к списку зависимостей поля

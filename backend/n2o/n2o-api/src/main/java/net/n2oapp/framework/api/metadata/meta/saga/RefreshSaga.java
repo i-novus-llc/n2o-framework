@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Информация об обновлении компонентов после действия
@@ -14,28 +15,5 @@ import java.io.Serializable;
 @Setter
 public class RefreshSaga implements Compiled {
     @JsonProperty
-    private Type type;
-    @JsonProperty
-    private Options options;
-
-    public RefreshSaga() {
-        this.options = new Options();
-    }
-
-    /**
-     * Тип компонента
-     */
-    public enum Type {
-        widget
-    }
-
-    /**
-     * Настройки обновления
-     */
-    @Getter
-    @Setter
-    public static class Options implements Serializable {
-        @JsonProperty
-        private String widgetId;
-    }
+    private List<String> datasources;
 }

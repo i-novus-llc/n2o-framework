@@ -19,10 +19,7 @@ import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static net.n2oapp.framework.api.exception.SeverityType.*;
 import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMoment.*;
@@ -94,87 +91,104 @@ public class ValidationProcessorTest {
 
         Collections.shuffle(validations);
 
-        ValidationUtil.sort(validations);
+        Iterator<Validation> iterator = Validator.newBuilder().addValidations(validations).build().iterator();
 
-        assertThat(validations.get(0).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(0).getType(), is("required"));
-        assertThat(validations.get(0).isForField(), is(true));
-        assertThat(validations.get(1).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(1).getType(), is("condition"));
-        assertThat(validations.get(1).isForField(), is(true));
-        assertThat(validations.get(2).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(2).getType(), is("constraint"));
-        assertThat(validations.get(2).isForField(), is(true));
-
-        assertThat(validations.get(3).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(3).getType(), is("required"));
-        assertThat(validations.get(3).isForField(), is(false));
-        assertThat(validations.get(4).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(4).getType(), is("condition"));
-        assertThat(validations.get(4).isForField(), is(false));
-        assertThat(validations.get(5).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(5).getType(), is("constraint"));
-        assertThat(validations.get(5).isForField(), is(false));
-
-        assertThat(validations.get(6).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(6).getType(), is("required"));
-        assertThat(validations.get(6).isForField(), is(true));
-        assertThat(validations.get(7).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(7).getType(), is("condition"));
-        assertThat(validations.get(7).isForField(), is(true));
-        assertThat(validations.get(8).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(8).getType(), is("constraint"));
-        assertThat(validations.get(8).isForField(), is(true));
-
-        assertThat(validations.get(9).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(9).getType(), is("required"));
-        assertThat(validations.get(9).isForField(), is(false));
-        assertThat(validations.get(10).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(10).getType(), is("condition"));
-        assertThat(validations.get(10).isForField(), is(false));
-        assertThat(validations.get(11).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(11).getType(), is("constraint"));
-        assertThat(validations.get(11).isForField(), is(false));
-
-        assertThat(validations.get(12).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(12).getType(), is("required"));
-        assertThat(validations.get(12).isForField(), is(true));
-        assertThat(validations.get(13).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(13).getType(), is("condition"));
-        assertThat(validations.get(13).isForField(), is(true));
-        assertThat(validations.get(14).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(14).getType(), is("constraint"));
-        assertThat(validations.get(14).isForField(), is(true));
-
-        assertThat(validations.get(15).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(15).getType(), is("required"));
-        assertThat(validations.get(15).isForField(), is(false));
-        assertThat(validations.get(16).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(16).getType(), is("condition"));
-        assertThat(validations.get(16).isForField(), is(false));
-        assertThat(validations.get(17).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(17).getType(), is("constraint"));
-        assertThat(validations.get(17).isForField(), is(false));
-
-        assertThat(validations.get(18).getSeverity(), is(SeverityType.success));
-        assertThat(validations.get(18).getType(), is("required"));
-        assertThat(validations.get(18).isForField(), is(true));
-        assertThat(validations.get(19).getSeverity(), is(SeverityType.success));
-        assertThat(validations.get(19).getType(), is("condition"));
-        assertThat(validations.get(19).isForField(), is(true));
-        assertThat(validations.get(20).getSeverity(), is(SeverityType.success));
-        assertThat(validations.get(20).getType(), is("constraint"));
-        assertThat(validations.get(20).isForField(), is(true));
-
-        assertThat(validations.get(21).getSeverity(), is(SeverityType.success));
-        assertThat(validations.get(21).getType(), is("required"));
-        assertThat(validations.get(21).isForField(), is(false));
-        assertThat(validations.get(22).getSeverity(), is(SeverityType.success));
-        assertThat(validations.get(22).getType(), is("condition"));
-        assertThat(validations.get(22).isForField(), is(false));
-        assertThat(validations.get(23).getSeverity(), is(SeverityType.success));
-        assertThat(validations.get(23).getType(), is("constraint"));
-        assertThat(validations.get(23).isForField(), is(false));
+        Validation validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(true));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getType(), is("required"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getType(), is("condition"));
+        assertThat(validation.isForField(), is(false));
+        validation = iterator.next();
+        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getType(), is("constraint"));
+        assertThat(validation.isForField(), is(false));
 
 
     }
@@ -199,7 +213,7 @@ public class ValidationProcessorTest {
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory, condition));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -223,7 +237,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -258,7 +272,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -292,7 +306,7 @@ public class ValidationProcessorTest {
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         try {
             processor.validate(info, beforeOperation);
@@ -324,7 +338,7 @@ public class ValidationProcessorTest {
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
 
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         //enabled == null - валидация должна сработать
         List<FailInfo> fails = processor.validate(info, beforeOperation);
@@ -368,7 +382,7 @@ public class ValidationProcessorTest {
         DataSet dataSet = new DataSet();
         dataSet.put("email", "person_mail.com");
 
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -419,7 +433,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3, mandatory4));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(2));
@@ -448,7 +462,7 @@ public class ValidationProcessorTest {
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
@@ -478,7 +492,7 @@ public class ValidationProcessorTest {
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(constraint1));
-        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
 
         //invocation parameter с атрибутом required=true, датасет содержит такой ключ, поэтому валидация должна сработать

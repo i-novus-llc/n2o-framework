@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -61,21 +62,22 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     @Override
     protected void compileParams(StandardField<DateInterval> control, N2oDateInterval source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getBeginParam() == null && source.getEndParam() == null) return;
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        if (modelsScope == null) return;
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope == null)
+            return;
         if (source.getBeginParam() != null) {
             String fieldId = control.getId() + ".begin";
-            ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), fieldId);
+            ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), fieldId);
             onSet.setParam(source.getBeginParam());
-            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), fieldId,
+            ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getGlobalDatasourceId(), widgetScope.getModel(), fieldId,
                     colon(source.getBeginParam()));
             paramScope.addQueryMapping(source.getBeginParam(), onGet, onSet);
         }
         if (source.getEndParam() != null) {
             String fieldId = control.getId() + ".end";
-            ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), fieldId);
+            ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), fieldId);
             onSet.setParam(source.getEndParam());
-            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), fieldId,
+            ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getGlobalDatasourceId(), widgetScope.getModel(), fieldId,
                     colon(source.getEndParam()));
             paramScope.addQueryMapping(source.getEndParam(), onGet, onSet);
         }

@@ -1,0 +1,13 @@
+<date-interval xmlns="http://n2oapp.net/framework/config/schema/control-3.0"
+            id="testId"
+            class="testClass"
+            src="testSrc"
+            required="true"
+            copied="true"
+            description="testDescription"
+            enabled="false"
+            label="testLabel"
+            visible="false">
+    <default-value begin="01.01.2019"
+                   end="31.12.2019"/>
+</date-interval>

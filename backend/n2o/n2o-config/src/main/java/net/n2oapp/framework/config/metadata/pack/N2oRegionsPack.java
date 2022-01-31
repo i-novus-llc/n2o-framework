@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.metadata.compile.region.*;
 public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oRegionsV1IOPack(), new N2oRegionsV2IOPack());
+        b.packs(new N2oRegionsV1IOPack(), new N2oRegionsV2IOPack(), new N2oRegionsV3IOPack());
         b.compilers(new TabsRegionCompiler(),
                 new NoneRegionCompiler(),
                 new PanelRegionCompiler(),

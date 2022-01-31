@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Compiled;
 
 import java.io.Serializable;
 
@@ -13,12 +14,6 @@ import java.io.Serializable;
 @Setter
 public class SearchablePage extends StandardPage {
     @JsonProperty
-    private String searchModelPrefix;
-    @JsonProperty
-    private String searchWidgetId;
-    @JsonProperty
-    private String searchModelKey;
-    @JsonProperty
     private SearchBar searchBar;
 
 
@@ -27,7 +22,11 @@ public class SearchablePage extends StandardPage {
      */
     @Getter
     @Setter
-    public static class SearchBar implements Serializable {
+    public static class SearchBar implements Compiled {
+        @JsonProperty
+        private String fieldId;
+        @JsonProperty
+        private String datasource;
         @JsonProperty
         private String className;
         @JsonProperty
