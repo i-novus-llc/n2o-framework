@@ -1,4 +1,4 @@
-<calendar xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
+<calendar xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
           id="workCalendar" height="500px"
           default-date="2020-04-29T00:00:00" default-view="week" views="month,day,agenda"
           min-time="08:00:00" max-time="20:00:00" mark-days-off="false"
