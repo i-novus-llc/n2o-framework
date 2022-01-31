@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-cell-3.0"
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/cell-3.0"
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
