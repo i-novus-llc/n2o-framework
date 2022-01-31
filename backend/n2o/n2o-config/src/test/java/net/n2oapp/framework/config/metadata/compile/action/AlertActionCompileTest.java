@@ -41,7 +41,7 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         ResponseMessage message = ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getMeta().getAlert().getMessages().get(0);
         assertThat(message.getTitle(), is("title"));
         assertThat(message.getText(), is("text"));
-        assertThat(message.getTimeout(), is(5000));
+        assertThat(message.getTimeout(), is(3000));
         assertThat(message.getPlacement(), is(MessagePlacement.top));
         assertThat(message.getCloseButton(), is(true));
 
@@ -54,6 +54,6 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         assertThat(message.getStyle().get("width"), is("90%"));
         assertThat(message.getHref(), is("http://example.org"));
         assertThat(message.getColor(), is("info"));
-        assertThat(message.getTimeout(), is(3000));
+        assertThat(message.getTimeout(), is(5000));
     }
 }

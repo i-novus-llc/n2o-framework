@@ -8,7 +8,7 @@
                    style="background:blue"
                    class="css-on-field"
                    color="info"
-                   href="http://example.org"/>
+                   href="http://example.org/{id}"/>
         </fields>
     </form>
 </simple-page>

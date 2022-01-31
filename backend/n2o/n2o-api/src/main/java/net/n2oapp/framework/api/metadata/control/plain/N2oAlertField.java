@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oAlertField extends N2oPlainField {
-    private String header;
+    private String title;
     private String text;
     private String href;
     private String color;

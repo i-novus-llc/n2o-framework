@@ -1203,7 +1203,7 @@
                         <xs:documentation>Расположение оповещения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="timeout" type="xs:integer" default="5000">
+                <xs:attribute name="timeout" type="xs:integer" default="3000">
                     <xs:annotation>
                         <xs:documentation>Длительность показа оповещения.</xs:documentation>
                     </xs:annotation>

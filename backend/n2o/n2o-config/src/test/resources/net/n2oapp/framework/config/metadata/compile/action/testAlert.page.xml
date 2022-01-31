@@ -6,7 +6,7 @@
         </button>
         <button id="alert">
             <alert title="Title {message}" text="Text {message}" placement="bottomRight" close-button="false"
-                   class="css-on-action" style="width:90%" href="http://example.org" color="info" timeout="3000"/>
+                   class="css-on-action" style="width:90%" href="http://example.org" color="info" timeout="5000"/>
         </button>
     </toolbar>
 </page>

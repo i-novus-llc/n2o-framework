@@ -24,7 +24,7 @@ public class AlertFieldCompiler extends FieldCompiler<AlertField, N2oAlertField>
         alert.setClassName(source.getCssClass());
         alert.setCloseButton(p.cast(source.getCloseButton(), false));
         alert.setColor(source.getColor());
-        alert.setHref(source.getHref());
+        alert.setHref(p.resolveJS(source.getHref()));
         compileField(alert, source, context, p);
         return alert;
     }
