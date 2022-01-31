@@ -7,9 +7,9 @@
                 <option name="test1"/>
                 <option name="test55"/>
             </options>
-            <pre-filters>
+            <filters>
                 <eq field-id="id" value="{id}"/>
-            </pre-filters>
+            </filters>
         </auto-complete>
     </fields>
 </form>

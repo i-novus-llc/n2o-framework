@@ -4,9 +4,9 @@
                            parent-field-id="testId" value-field-id="testId" icon-field-id="testId"
                            detail-field-id="testId" has-children-field-id="testId" max-tag-text-length="20"
                            master-field-id="testId" enabled-field-id="testId" search-filter-id="testId">
-            <pre-filters>
+            <filters>
                 <contains field-id="testId" value="value"/>
-            </pre-filters>
+            </filters>
         </input-select-tree>
     </fields>
 </form>

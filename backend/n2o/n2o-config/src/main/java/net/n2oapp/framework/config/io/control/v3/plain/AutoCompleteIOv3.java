@@ -25,7 +25,7 @@ public class AutoCompleteIOv3 extends PlainFieldIOv3<N2oAutoComplete> {
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
-        p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
+        p.childrenByEnum(e, "filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
     }
