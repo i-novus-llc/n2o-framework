@@ -8,9 +8,120 @@ description: ""
 - [Sass](https://sass-lang.com/)
 - [React](https://reactjs.org/)
 
-### Подключение
+### Настройка окружения
 
-Перед тем как подключить кастомизацию к проекту необходимо создать React приложение c N2O Framework (описывается в разделе [Создание проекта](getstarted/#самостоятельное-создание-n2o-react-проекта)).
+Для кастомизации вам потребуется установить следующее программное обеспечение:
+- [NodeJS 14](https://nodejs.org/ru/download/)
+- [npm](https://docs.npmjs.com/)
+- [yarn](https://yarnpkg.com/getting-started/)
+
+
+### Создание React проекта
+
+Перед тем как подключить кастомизацию необходимо создать React проект c N2O Framework.
+
+Сборка React проекта выполняется менеджером пакетов yarn.
+
+В корне N2O проекта выполните команду:
+
+````
+npm init react-app frontend
+````
+Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, включая index.js.
+
+Перейдите в папку `/frontend`:
+
+````
+cd frontend
+````
+
+Затем установите библиотеку `n2o-framework`:
+
+````
+yarn add n2o-framework
+````
+
+Далее необходимо удалить лишние файлы, созданные после инициализации. Удалите файлы `App.css`, `App.js`, `App.test.js`, `logo.svg`,
+`reportWebVitals.js`.
+
+Отредактируйте файл `/frontend/src/index.js`. Он должен выглядеть следующим образом:
+
+````jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import N2O from 'n2o-framework';
+import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
+import { authProvider } from 'n2o-auth';
+
+import 'n2o-framework/dist/n2o.css';
+import './index.css';
+
+const config = {
+  security: {
+    authProvider,
+    externalLoginUrl: '/'
+  }
+};
+
+ReactDOM.render(
+  <React.StrictMode>
+    <N2O {...createFactoryConfig(config)} />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+````
+
+Теперь N2O React проект готов.
+
+Для сборки проекта в папке `/frontend` выполните команду:
+
+````
+yarn
+````
+
+А затем:
+
+````
+yarn build
+````
+
+В результате в папке `/frontend/build` появится `index.html` и другие статические ресурсы.
+
+Чтобы подключить статические ресурсы к N2O серверу,
+в файле `pom.xml` в разделе `<plugins>` добавьте `maven-resources-plugin`:
+
+```xml
+<plugin>
+    <artifactId>maven-resources-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>Copy frontend build</id>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>target/classes/public</outputDirectory>
+                <overwrite>true</overwrite>
+                <resources>
+                    <resource>
+                        <directory>${project.basedir}/frontend/build</directory>
+                    </resource>
+                </resources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+Теперь N2O сервер будет раздавать статические ресурсы собранные в React проекте в папке `/frontend/build`.
+
+:::tip
+Более полную информацию о сборке React приложений можно прочитать [здесь](https://reactjs.org/docs/create-a-new-react-app.html)
+:::
+
+
+### Подключение кастомизаций
 
 Кастомизации передаются в N2O с помощью конфигурационного объекта:
 
@@ -74,7 +185,8 @@ const config = {
 ```
 
 :::note
-Для кастомизации `header` `footer` `sidebar` необходимо в свойство `templates` конфигурационного объекта, передать кастомные компоненты.
+Для кастомизации `header` `footer` `sidebar` необходимо в свойство `templates` конфигурационного объекта,
+передать кастомные компоненты.
 
 Пример описывающий как реализовать данную возможность:
 
@@ -105,8 +217,9 @@ export function CustomSidebar(config) {
 ```
 Имена переданных в N2O компонентов `header` `footer` `sidebar` задаются с помощью атрибута src в application.xml
 
-```xml {2-4} title="Пример application.xml"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="index">
+```xml {3-5} title="Пример application.xml"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+             welcome-page-id="index">
     <header src="CustomHeader" />
     <sidebar src="CustomSidebar" />
     <footer src="CustomFooter" />
@@ -166,9 +279,9 @@ const config = {
 
 Переданные в N2O компоненты можно использовать в конфигурациях с помощью атрибута `src`:
 
-```xml title="Подключение кастомного компонента"
+```xml {3} title="Подключение кастомного компонента"
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              src="HelloPage">
     ...
 </simple-page>

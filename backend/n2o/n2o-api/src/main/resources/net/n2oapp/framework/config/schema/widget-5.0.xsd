@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/widget-5.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"

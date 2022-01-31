@@ -11,7 +11,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 **Библиотека компонентов**
 
 ```
-http://n2oapp.net/framework/config/schema/widget-4.0
+http://n2oapp.net/framework/config/schema/widget-5.0
 ```
 
 ### Базовые свойства {#Basic_properties}
@@ -33,8 +33,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 |style                  |CSS свойство                             |Стиль виджета                                                             |                                                                                       |
 |name                   |Строка                                   |Наименование виджета                                                      |                                                                                       |
 |icon                   |[CSS класс](http://fontawesome.io/icons/)|Иконка виджета                                                            |                                                                                       |
-|query-id               |Ссылка на [выборку](../xml/query)        |Выборка виджета                                                           |                                                                                       |
-|object-id              |Ссылка на [объект](../xml/object)        |Объект виджета                                                            |Объект выборки виджета                                                                 |
+|datasource             |Идентификатор [источника данных](../xml/query)        |Выборка виджета                                                           |                                                                                       |
 |default-values-query-id|Ссылка на [выборку](../xml/query)        |Выборка виджета, используемая для получения значений по умолчанию         |                                                                                       |
 |size                   |Число                                    |Количество записей, которое отображает виджет                             |10                                                                                     |
 |fetch-on-init          |true false                               |Настройка получения данных виджета при инициализации                      |true, если у виджета есть выборка и он независимый                                     |
