@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+    name="Условие доступности для кнопки">
+    <regions>
+        <form id="savingForm" object-id="test">
+            <toolbar place="bottomLeft">
+                <button id="save" label="Сохранить" disable-on-empty-model="false">
+                    <invoke operation-id="none"/>
+                </button>
+            </toolbar>
+        </form>
+        <form id="buttonForm">
+            <toolbar place="bottomLeft">
+                <button id="disabledButton" label="Подписать">
+                    <dependencies>
+                        <enabling ref-model="resolve" ref-widget-id="refForm">false</enabling>
+                    </dependencies>
+                </button>
+            </toolbar>
+        </form>
+        <form id="refForm"/>
+    </regions>
+</page>

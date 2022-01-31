@@ -5,6 +5,8 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -36,12 +38,12 @@ public class ButtonEnabledAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
     public void testEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -82,5 +84,29 @@ public class ButtonEnabledAT extends AutoTestBase {
         subMenu.click();
         item1.shouldBeDisabled();
         item2.shouldBeDisabled();
+    }
+
+    @Test
+    public void testEnabledDependency() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled_dependency/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/enabled_dependency/test.object.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Условие доступности для кнопки");
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        StandardButton savingButton = form.toolbar().bottomLeft().button("Сохранить");
+        savingButton.shouldBeEnabled();
+
+        form = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+        StandardButton disabledButton = form.toolbar().bottomLeft().button("Подписать");
+        disabledButton.shouldBeDisabled();
+
+        form = page.regions().region(0, SimpleRegion.class).content().widget(2, FormWidget.class);
+        form.shouldExists();
+
+        savingButton.click();
+        disabledButton.shouldBeDisabled();
     }
 }
