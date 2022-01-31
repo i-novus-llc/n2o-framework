@@ -1,0 +1,101 @@
+---
+title: Миграция с 7.20 на 7.21
+description: ""
+---
+### Изменения в XML API {#changes-xml-api}
+
+- Появились новые схемы `page-4.0`, `widget-5.0`, `toolbar-2.0`, `datasource-1.0`, `action-2.0`, `region-3.0`,
+`button-2.0`, `n2o-cell-3.0`, `fieldset-5.0`, `control-3.0`.
+Чтобы перейти на новые схемы, нужно:
+-- Найти все места указания `query-id` и `object-id` и заменить на использование `datasource`. Источники данных прописываются на странице.
+
+- Атрибут `datasource` из `widget-4.0` удален. Если нужен один датасурс на несколько виджетов, необходимо использовать схему `page-4.0`
+- Из действий удалены атрибуты `focus-after-submit` и `selectedId`. Функционал выбора строк упразднен.
+- Атрибут validate=page у кнопки упразднен, для всех кнопок действует проверка только текущей формы,
+если необходимо проверить несколько форм, следует использовать атрибут `validate-datasources`, в котором перечисляется список
+источников данных для валидации.
+- Упразднен атрибут `fetch-on-init`
+- У виджетов упразднен атрибут route, теперь все пути строятся от страницы и становятся абсолютно прозрачными
+
+### Изменения в Java API
+
+
+### Изменения функциональности
+
+- Упразденны `depends-on` зависимости между виджетами.
+- Изменилось формирование route для open-page (потому что больше нет зависимостей между виджетами)
+
+*Пример как работало раньше*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+  <regions>
+      <region>
+          <form id="main">
+              <fields>
+                  <input-text id="version"/>
+                  <input-text id="number"/>
+              </fields>
+          </form>
+
+          <form id="dependent" depends-on="main" detail-field-id="id">
+              <fields>
+                  <button widget-id="main">
+                      <open-drawer
+                              page-id="openDrawerPage"
+                              route="/:version/btn1">
+                          <path-param name="version" value="{version}"/>
+                          <query-param name="number" value="{number}"/>
+                      </open-drawer>
+                  </button>
+              </fields>
+          </form>
+      </region>
+  </regions>
+</page>
+```
+
+Url открываемой страницы был: `/:test_main_id/dependent/:version/btn1`, теперь будет просто: `/:version/btn1`
+
+Чтобы получить url как раньше необходимо написать следующее:
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+  <regions>
+      <region>
+          <form id="main">
+              <fields>
+                  <input-text id="version"/>
+                  <input-text id="number"/>
+              </fields>
+          </form>
+
+          <form id="dependent" depends-on="main" detail-field-id="id">
+              <fields>
+                  <button widget-id="main">
+                      <open-drawer
+                              page-id="openDrawerPage"
+                              route="/:test_main_id/detail/:version/btn1">
+                          <path-param name="test_main_id" value="{id}"/>
+                          <path-param name="version" value="{version}"/>
+                          <query-param name="number" value="{number}"/>
+                      </open-drawer>
+                  </button>
+              </fields>
+          </form>
+      </region>
+  </regions>
+</page>
+```
+
+** !ЗАМЕЧАНИЕ:** В связи с изменением формирвоания route, необходимо проверить все страницы где много
+виджетов с похожими кнопками и проверить что их url не стали пересекаться. В местах использования динамических
+метаданных проверить, что у виджетов на одной странице роуты кнопок разные(иначе будет падать с ошибкой, что такой роут уже зарегистрирован).
+
+- Удален функционал, что валидации из операции проставляются в запрос за данными (раньше при открытии формы в валидации запроса
+добавлялись валидации операции submit).
+- Фукнционал fetch-on-init больше не поддерживается, загружать данные или нет на стороне фронта будет определяться
+- Виджет для submit-operation-id при открытии модального окна или новой страницы, раньше вычислялся как первый независимый виджет на странице,
+ теперь будет вычисляется как первого попавшийся виджет на странице.
+- Сообщения внутри виджета больше не будут отображаться. Все сообщения будут отображаться на странице.
