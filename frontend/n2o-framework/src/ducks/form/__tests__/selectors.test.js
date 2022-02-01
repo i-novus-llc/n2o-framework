@@ -15,13 +15,18 @@ const state = {
     datasource: {
         formName: {
             errors: {
-                field1: [{ message: 'test' }],
-                field2: [{ message: 'message' }],
+                'resolve': {
+                    field1: [{ message: 'test' }],
+                    field2: [{ message: 'message' }],
+                }
             }
         }
     },
     widgets: {
         formName: {
+            from: {
+                modelPrefix: 'resolve',
+            },
             datasource: 'formName'
         }
     },
@@ -77,7 +82,7 @@ describe('Проверка селекторов formPlugin', () => {
     })
     it('messageSelector должен вернуть message поля', () => {
         expect(messageSelector('formName', 'field1')(state)).toEqual(
-            state.datasource.formName.errors.field1[0],
+            state.datasource.formName.errors.resolve.field1[0],
         )
     })
     it('dependencySelector должен вернуть dependency поля', () => {
