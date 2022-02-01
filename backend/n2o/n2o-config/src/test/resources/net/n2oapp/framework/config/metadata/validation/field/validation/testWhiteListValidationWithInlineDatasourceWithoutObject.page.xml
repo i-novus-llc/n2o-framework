@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <form id="main">
+            <datasource/>
+            <fields>
+                <input-text id="name">
+                    <validations white-list="uniqueName"/>
+                </input-text>
+            </fields>
+        </form>
+    </regions>
+</page>

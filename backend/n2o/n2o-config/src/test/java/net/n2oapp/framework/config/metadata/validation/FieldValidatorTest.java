@@ -4,9 +4,14 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.DatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,8 +35,9 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.validators(new FormValidator(), new FieldValidator());
+        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(),
+                new DatasourceValidator(), new FormValidator(), new FieldValidator());
     }
 
     @Test
@@ -72,5 +78,35 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     @Test
     public void testDefaultValue() {
         validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValue.widget.xml");
+    }
+
+    /**
+     * Проверяется наличие источника данных виджета для поля c white-list валидацией
+     */
+    @Test
+    public void testWhiteListValidationWithoutDatasource() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Для компиляции поля name необходимо указать атрибут datasource или ввести внутренний источник данных виджета main");
+        validate("net/n2oapp/framework/config/metadata/validation/field/validation/testWhiteListValidationWithoutDatasource.page.xml");
+    }
+
+    /**
+     * Проверяется наличие объекта источника данных виджета для поля c white-list валидацией
+     */
+    @Test
+    public void testWhiteListValidationWithDatasourceWithoutObject() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Для компиляции поля name виджета main необходимо указать объект источника данных ds1");
+        validate("net/n2oapp/framework/config/metadata/validation/field/validation/testWhiteListValidationWithDatasourceWithoutObject.page.xml");
+    }
+
+    /**
+     * Проверяется наличие объекта внутреннего источника данных виджета для поля c white-list валидацией
+     */
+    @Test
+    public void testWhiteListValidationWithInlineDatasourceWithoutObject() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Для компиляции поля name виджета main необходимо указать объект источника данных ");
+        validate("net/n2oapp/framework/config/metadata/validation/field/validation/testWhiteListValidationWithInlineDatasourceWithoutObject.page.xml");
     }
 }

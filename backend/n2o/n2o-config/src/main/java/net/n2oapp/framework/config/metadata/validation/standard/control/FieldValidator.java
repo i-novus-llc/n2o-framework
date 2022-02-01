@@ -7,9 +7,12 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
@@ -37,6 +40,9 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         checkDependencies(source);
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         checkRefDatasource(source, datasourceIdsScope);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            checkWhiteListValidation(source, widgetScope, p);
     }
 
     /**
@@ -104,6 +110,65 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
                             source.getId(), source.getRefDatasource()));
         }
+    }
+
+    /**
+     * Проверка наличия ссылки на корректный источник данных у виджета при наличии white-list валидации на поле
+     * @param source      Поле с white-list валидацией
+     * @param widgetScope Скоуп виджета, в котором находится поле
+     * @param p           Процессор исходных метаданных
+     */
+    private void checkWhiteListValidation(N2oField source, WidgetScope widgetScope, SourceProcessor p) {
+        N2oField.Validations validations = source.getValidations();
+        if (validations != null && validations.getWhiteList() != null) {
+            if (widgetScope.getInLineDatasource() != null) {
+                checkInlineDatasource(source, widgetScope);
+                return;
+            }
+            checkDatasource(source, widgetScope, p);
+        }
+    }
+
+    /**
+     * Проверка внутреннего источника данных у виджета, в котором находится поле
+     * @param source      Поле
+     * @param widgetScope Скоуп виджета, в котором находится поле
+     */
+    private void checkInlineDatasource(N2oField source, WidgetScope widgetScope) {
+        checkDatasourceObject(source, widgetScope.getInLineDatasource(), widgetScope);
+    }
+
+    /**
+     * Проверка наличия ссылки на источник данных у виджета, в котором находится поле
+     * @param source      Поле
+     * @param widgetScope Скоуп виджета, в котором находится поле
+     * @param p           Процессор исходных метаданных
+     */
+    private void checkDatasource(N2oField source, WidgetScope widgetScope, SourceProcessor p) {
+        if (widgetScope.getDatasourceId() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Для компиляции поля %s необходимо указать атрибут datasource или ввести внутренний источник данных виджета %s",
+                            ValidationUtils.getIdOrEmptyString(source.getId()),
+                            ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()))
+            );
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if (dataSourcesScope != null)
+            checkDatasourceObject(source, dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
+    }
+
+    /**
+     * Проверка наличия атрибута object у указанного в виджете источника данных
+     * @param source      Поле
+     * @param datasource  Источник данных
+     * @param widgetScope Скоуп виджета, в котором находится поле
+     */
+    private void checkDatasourceObject(N2oField source, N2oDatasource datasource, WidgetScope widgetScope) {
+        if (datasource.getObjectId() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Для компиляции поля %s виджета %s необходимо указать объект источника данных %s",
+                            ValidationUtils.getIdOrEmptyString(source.getId()),
+                            ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()),
+                            ValidationUtils.getIdOrEmptyString(datasource.getId())));
     }
 
     @Override
