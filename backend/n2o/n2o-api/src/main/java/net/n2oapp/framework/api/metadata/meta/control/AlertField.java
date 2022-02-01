@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Map;
-
 /**
  * Клиентская модель поля для вывода оповещения
  */
@@ -21,5 +19,5 @@ public class AlertField extends Field {
     @JsonProperty
     private String color;
     @JsonProperty
-    private Map<String, String> style;
+    private Boolean closeButton;
 }

@@ -4,6 +4,8 @@
                title="title"
                text="text"
                style="background:blue"
+               class="css-on-field"
+               close-button="true"
                color="info"
                href="http://example.org"/>
     </fields>
