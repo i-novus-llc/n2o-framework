@@ -1,4 +1,4 @@
-import evalExpression from '../../utils/evalExpression'
+import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import * as presets from '../validation/presets'
 
 import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
@@ -34,8 +34,12 @@ export async function validateField(field, model, validationList) {
 
             return false
         }
-        if (typeof validation.enabled === 'boolean') { return validation.enabled }
-        if (typeof validation.enabled === 'string') { return evalExpression(validation.enabled, model) }
+
+        const conditions = validation.enablingConditions
+
+        if (conditions?.length) {
+            return conditions.every(conditions => evalExpression(conditions, model))
+        }
 
         return true
     })
@@ -47,8 +51,11 @@ export async function validateField(field, model, validationList) {
             const valid = await validationFunction(field, model, validation)
 
             if (!valid) {
+                const expression = parseExpression(validation.text)
+                const text = expression ? evalExpression(expression, model) : validation.text
+
                 errors.push({
-                    text: validation.text,
+                    text,
                     severity: validation.severity,
                 })
             }

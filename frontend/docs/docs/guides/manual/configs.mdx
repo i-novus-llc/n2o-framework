@@ -21,18 +21,9 @@ description: ""
 ```
 [id].[type].[ext]
 ```
-
-`id`
-
-Уникальный идентификатор метаданной в рамках типа
-
-`type`
-
-Тип конфигурации
-
-`ext`
-
-Способ задания метаданной (`.xml` или `.groovy`)
+- `id` - Уникальный идентификатор метаданной в рамках типа
+- `type` - Тип конфигурации
+- `ext` - Способ задания метаданной (`.xml` или `.groovy`)
 
 ### Типы конфигураций
 
@@ -43,13 +34,13 @@ __*Типы конфигураций*__
 
 |Тип          |Описание             |XML Схема                                                 |Java класс     |
 |-------------|---------------------|----------------------------------------------------------|---------------|
-|page         |Страница             |http://n2oapp.net/framework/config/schema/page-3.0        |N2oPage        |
-|widget       |Виджет               |http://n2oapp.net/framework/config/schema/widget-4.0      |N2oWidget      |
+|page         |Страница             |http://n2oapp.net/framework/config/schema/page-4.0        |N2oPage        |
+|widget       |Виджет               |http://n2oapp.net/framework/config/schema/widget-5.0      |N2oWidget      |
 |object       |Объект               |http://n2oapp.net/framework/config/schema/object-4.0      |N2oObject      |
 |query        |Выборка              |http://n2oapp.net/framework/config/schema/query-4.0       |N2oQuery       |
-|fieldset     |Филдсет              |http://n2oapp.net/framework/config/schema/fieldset-4.0    |N2oFieldSet    |
-|application  |Структура приложения |http://n2oapp.net/framework/config/schema/application-1.0 |N2oApplication |
-|menu         |Меню                 |http://n2oapp.net/framework/config/schema/menu-1.0        |N2oSimpleMenu  |
+|fieldset     |Филдсет              |http://n2oapp.net/framework/config/schema/fieldset-5.0    |N2oFieldSet    |
+|application  |Структура приложения |http://n2oapp.net/framework/config/schema/application-2.0 |N2oApplication |
+|menu         |Меню                 |http://n2oapp.net/framework/config/schema/menu-3.0        |N2oSimpleMenu  |
 |access       |Схема доступа        |http://n2oapp.net/framework/config/schema/access-2.0      |N2oAccessSchema|
 
 ### Структура XML файла
@@ -65,15 +56,13 @@ __*Типы конфигураций*__
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
-  ...
+    ...
 </object>
 ```
 
 :::note
-
 В наименовании схемы содержится её версия.
 Это позволяет схемам эволюционировать с полным сохранением обратной совместимости.
-
 :::
 
 ### Структура Groovy файла
@@ -84,9 +73,9 @@ __*Типы конфигураций*__
 
 ```xml
 <dependency>
-  <groupId>org.codehaus.groovy</groupId>
-  <artifactId>groovy-all</artifactId>
-  <version>2.5.7</version>
+    <groupId>org.codehaus.groovy</groupId>
+    <artifactId>groovy-all</artifactId>
+    <version>2.5.7</version>
 </dependency>
 ```
 
@@ -117,19 +106,17 @@ page.widget.name = 'Моя страница на groovy'
 Внутри некоторых XML элементов разрешается вставлять элементы из другой схемы:
 
 ```xml
-<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0"
-     xmlns:ctrl="http://n2oapp.net/framework/config/schema/control-2.0">
-  <ctrl:input-text>...</ctrl:input-text>
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+     xmlns:ctrl="http://n2oapp.net/framework/config/schema/control-3.0">
+    <ctrl:input-text>...</ctrl:input-text>
 </set>
 ```
 
 Такие места называются местами подключения библиотек компонентов.
 
-:::warning
-
+:::note
 В схеме элемента, допускающего библиотеки расширения, должен стоять элемент:
 *&lt;xs:any namespace="##other"/&gt;*
-
 :::
 
 ### Вложенные конфигурации
@@ -140,12 +127,12 @@ page.widget.name = 'Моя страница на groovy'
 
 ```xml
 <simple-page>
-  <!-- Вложенный виджет -->
-  <table>
-    <!-- Элементы вложенного виджета -->
-    <columns>...</columns>
-    ...
-  </table>
+    <!-- Вложенный виджет -->
+    <table>
+        <!-- Элементы вложенного виджета -->
+        <columns>...</columns>
+        ...
+    </table>
 </simple-page>
 ```
 
@@ -153,7 +140,7 @@ page.widget.name = 'Моя страница на groovy'
 
 ```xml
 <simple-page>
-  <table ref-id="myTable"/><!-- Ссылка на внешний виджет -->
+    <table ref-id="myTable"/><!-- Ссылка на внешний виджет -->
 </simple-page>
 ```
 
@@ -163,9 +150,10 @@ page.widget.name = 'Моя страница на groovy'
 
 ```xml
 <simple-page>
-  <table ref-id="myTable" name="Моя таблица">
-    <!-- свойство name, заданное здесь, переопределит name, заданный в myTable -->
-  </table>
+    <table ref-id="myTable"
+           name="Моя таблица">
+        <!-- свойство name, заданное здесь, переопределит name, заданный в myTable -->
+    </table>
 </simple-page>
 ```
 
@@ -186,19 +174,17 @@ page.widget.name = 'Моя страница на groovy'
 
 ```xml title="Подключение схемы расширений"
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-  xmlns:ext="http://myproject.net/config/schema/ext-props-1.0"
-  ext:prop1="value1"
-  ext:prop2="value2">
-  ...
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ext="http://myproject.net/config/schema/ext-props-1.0"
+      ext:prop1="value1"
+      ext:prop2="value2">
+    ...
 </page>
 ```
 
-:::warning
-
+:::note
 В схеме элемента, допускающего расширения, должен стоять атрибут:
 *&lt;xs:anyAttribute/&gt;*
-
 :::
 
 Расширенные свойства считываются автоматически в свойство `properties`.
@@ -206,27 +192,54 @@ page.widget.name = 'Моя страница на groovy'
 
 ### Плейсхолдеры
 
+Плейсхолдеры - это ссылки в метаданных на какие-либо значения,
+которые должны быть разрешены на различных этапах жизненного цикла приложения.
+
+
+#### Ссылки на настройки
+
 В любых значениях атрибутов и элементов XML можно использовать плейсхолдер `${property}`,
-где `property` - это ссылка на [настройки и локализацию](../manual/setting).
+где property - это ссылка на [настройки и локализацию](../manual/setting).
 
-В некоторых атрибутах и элементах (как правило в `value` и `default-value`) допускается использование:
+#### Ссылки на контекст
+В некоторых атрибутах и элементах (как правило в value и default-value) допускается использование
+плейсхолдера `#{context}`, где context - это название свойства в [контексте пользователя](context).
 
-1. плейсхолдер `#{context}`, где `context` - это название свойства в [контексте текущего пользователя](../manual/context)
-`default-value="#{username}"`;
+#### Ссылки на данные
 
-2. плейсхолдер json объекта, только помещенного в двойные фигурные скобки `{{"id":"1", "name":"Ivan"}}`;
+Во многих [свойствах визуальных компонентов](dynamic#Property_resolver) (таких как поля, ячейки, филдсеты),
+а так же в атрибутах `value` в [фильтрах](filters#Values_link),
+можно использовать ссылки на данные заданные через плейсхолдер `{link}`,
+где link - ссылка на поле в текущей модели данных.
 
-3. плейсхолдер c js выражением `{moment()}`;
+:::note
+Ссылка на конкретную модель данных задается в паре с дополнительными атрибутами `datasource` и `model`.
+:::
 
-4. плейсхолдер для задания значений в атрибутах `{field}` через ссылку на значение другого поля
-`default-value="{field}"`, завязав таким образом [метаданные на данные](../manual/dynamic);
+#### JavaScript выражения
 
-5. плейсхолдер для экранирования типа значения атрибутов.
-Тип значения вычисляется по самому значению, например, поле `name` в `<option id="i1" name="true"/>`
-будет автоматически приведено к Boolean.
-Чтобы иметь возможность привести значение к строке, добавьте в начало и конец `'` символ экранирования: `"'true'"` -> `"true"`; `"'123'"` -> `"123"`.
-Чтобы экранировать произвольное количество одинарных кавычек в начале и конце, добавьте перед ними символ `'`:
-`"'''123'''"` -> `"''123''"`.
+Во многих свойствах визуальных компонентов (таких как поля, ячейки, филдсеты),
+так же как и в случае с ссылками на данные,
+можно задавать JavaScript выражения через плейсхолдер "обратные кавычки":
+```
+`js expression`
+```
+
+#### Экранирование строк
+
+В некоторых случаях N2O приходится автоматически приводить значения к типу.
+Например, в элементах `option`:
+```xml
+<option id="1" name="true"/>
+<!-- id будет приведен к числовому типу,
+     name будет приведет к булевому типу -->
+```
+Иногда требуется избежать автоматического приведения к типу и оставить значение строкой.
+Для этого можно использовать плейсхолдер "одинарная кавычка" `'string'`.
+
+:::note
+Для экранирования одинарной кавычки нужно вставить перед ней еще одну одинарную кавычку `"''123''"`.
+:::
 
 ### Валидация конфигураций {#Validating_configurations}
 
@@ -238,13 +251,18 @@ page.widget.name = 'Моя страница на groovy'
 
 За валидацию отвечают java классы реализующие интерфейс `SourceValidator<T>`.
 
-```java
+```js title="Валидация страницы"
 @Component
 class MyPageValidator implements SourceValidator<N2oPage> {
-  @Override
-  public void validate(N2oPage source,
-                       ValidateProcessor p) {
-     ...
-  }
+    /**
+     * Валидировать исходную метаданную
+     * @param source Исходная метаданная
+     * @throws N2oMetadataValidationException Иключение при ошибке валидации
+     */
+    @Override
+    public void validate(N2oPage source,
+                         ValidateProcessor p) {
+        ... //проверки валидности
+    }
 }
 ```

@@ -26,8 +26,6 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
-        p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
 
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
@@ -40,8 +38,6 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
-        p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
         p.children(e, "pre-filters", "pre-filter", m::getPreFilters, m::setPreFilters, N2oPreFilter::new, this::prefilters);

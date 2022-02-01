@@ -41,7 +41,7 @@ const state = {
         widget1: {
             datasorce: 'ds1',
             isInit: true,
-            isVisible: true,
+            visible: true,
             disabled: false,
             pageId: '_',
             isFilterVisible: true,
@@ -68,7 +68,7 @@ describe('Проверка селекторов widgets', () => {
     })
     it('makeWidgetVisibleSelector должен вернуть visible по id', () => {
         expect(makeWidgetVisibleSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.isVisible,
+            state.widgets.widget1.visible,
         )
     })
     it('makeWidgetDisabledSelector должен вернуть enabled по id', () => {

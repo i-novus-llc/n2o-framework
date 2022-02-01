@@ -10,7 +10,7 @@ import {
 import get from 'lodash/get'
 import map from 'lodash/map'
 import classNames from 'classnames'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 import { REGIONS } from '../../../core/factory/factoryLevels'
 // eslint-disable-next-line import/no-named-as-default

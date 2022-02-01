@@ -66,29 +66,25 @@ public class OperationController extends SetController {
             response.setDialog(compileDialog(e.getDialog(), requestInfo));
         } else {
             if (requestInfo.isMessageOnFail()) {
-                String widgetId = requestInfo.getFailAlertWidgetId() == null
-                        ? requestInfo.getMessagesForm()
-                        : requestInfo.getFailAlertWidgetId();
-                response.addResponseMessages(messageBuilder.buildMessages(e, requestInfo), widgetId);
+                response.addResponseMessages(messageBuilder.buildMessages(e, requestInfo), requestInfo.getMessagesForm());
             }
         }
         response.setStatus(e.getHttpStatus());
         return response;
     }
 
-
     private SetDataResponse constructSuccessSetDataResponse(DataSet data,
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse();
-        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.isStackedMessages());
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getMessagesForm(), responseInfo.isStackedMessages());
         response.setData(data);
         if (responseInfo.getDialog() != null)
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));
         else if (requestInfo.isMessageOnSuccess())
             response.addResponseMessage(
                     messageBuilder.buildSuccessMessage(requestInfo.getOperation().getSuccessText(), requestInfo, data),
-                    requestInfo.getSuccessAlertWidgetId());
+                    requestInfo.getMessagesForm());
         return response;
     }
 
@@ -109,7 +105,6 @@ public class OperationController extends SetController {
         context.setParentPageId(actionContext.getParentPageId());
         context.setParentSourceDatasourceId(actionContext.getParentSourceDatasourceId());
         context.setParentClientWidgetId(actionContext.getParentClientWidgetId());
-        context.setClientWidgetId(actionContext.getSuccessAlertWidgetId());
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);

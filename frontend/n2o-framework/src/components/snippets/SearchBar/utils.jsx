@@ -1,9 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import isString from 'lodash/isString'
-import NavLink from 'reactstrap/lib/NavLink'
-import NavItem from 'reactstrap/lib/NavItem'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { NavLink, NavItem, DropdownItem } from 'reactstrap'
 import { BrowserRouter } from 'react-router-dom'
 
 const iconInPopUpClassName = (icon, directionIconsInPopUp) => classNames(icon, {

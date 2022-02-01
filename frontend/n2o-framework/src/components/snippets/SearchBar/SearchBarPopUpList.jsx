@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import classNames from 'classnames'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { RenderLink, renderDivider, itemInSearchBarClassName } from './utils'
 

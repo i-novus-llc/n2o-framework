@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,7 +45,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/test.query.xml"));
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7312
+    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7443
     @Test
     public void testPathParam() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
@@ -99,8 +100,6 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         modal.shouldNotExists();
     }
 
-
-    //wait https://jira.i-novus.ru/browse/NNO-7312
     @Test
     public void testQueryParams() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/index.page.xml"),

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
+import { DropdownMenu } from 'reactstrap'
 import cx from 'classnames'
 
 import { registerButton, removeAllButtons } from '../../ducks/toolbar/store'

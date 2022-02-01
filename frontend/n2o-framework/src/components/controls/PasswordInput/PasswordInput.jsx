@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, withState, withHandlers, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 import Input from '../Input/Input'
 

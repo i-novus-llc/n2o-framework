@@ -25,7 +25,7 @@ describe('<GlobalAlerts />', () => {
     it('компонент должен отрисоваться', () => {
         const wrapper = setup()
 
-        expect(wrapper.find('.n2o-global-alerts').exists()).toBeTruthy()
+        expect(wrapper.find('.n2o-alerts-container').exists()).toBeTruthy()
     })
 
     it('должны отрисоваться два алерта', () => {

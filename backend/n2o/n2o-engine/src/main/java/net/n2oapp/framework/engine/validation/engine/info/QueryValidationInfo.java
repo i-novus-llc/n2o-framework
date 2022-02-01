@@ -13,8 +13,8 @@ public class QueryValidationInfo extends ValidationInfo {
     private CompiledObject object;
 
     public QueryValidationInfo(CompiledObject object, List<Validation> validations,
-                               DataSet dataSet, String failAlertWidgetId, String messageForm) {
-        super(dataSet, validations, messageForm, failAlertWidgetId);
+                               DataSet dataSet, String messageForm) {
+        super(dataSet, validations, messageForm);
         this.object = object;
     }
 }

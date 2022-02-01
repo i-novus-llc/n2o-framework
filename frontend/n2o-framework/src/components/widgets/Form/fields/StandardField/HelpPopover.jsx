@@ -1,7 +1,6 @@
 import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
-import UncontrolledPopover from 'reactstrap/lib/UncontrolledPopover'
-import PopoverBody from 'reactstrap/lib/PopoverBody'
+import { UncontrolledPopover, PopoverBody } from 'reactstrap'
 
 import { id } from '../../../../../utils/id'
 

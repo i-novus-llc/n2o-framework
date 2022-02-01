@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -168,10 +169,13 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                 }
             }
             datasource.setSize(getSize());
-            if (getDependencyCondition() != null) {
+            if (getDependencyCondition() != null || getVisible() != null) {
                 N2oVisibilityDependency visibilityDependency = new N2oVisibilityDependency();
-                visibilityDependency.setValue(getDependencyCondition());
-                if (getDependsOn() != null) {
+                if (getDependencyCondition() == null)
+                    visibilityDependency.setValue(StringUtils.unwrapLink(getVisible()));
+                else
+                    visibilityDependency.setValue(getDependencyCondition());
+                if (getDependsOn() != null ) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
                 visibilityDependency.setModel(ReduxModel.resolve);

@@ -24,8 +24,8 @@
         <option id="1" name="testName1" isTest="true" />
         <option id="2" name="testName2" isTest="false" />
     </options>
-    <pre-filters>
-        <eq field-id="test" value="1"/>
+    <filters>
+        <eq field-id="test" value="1" datasource="ds1" model="resolve"/>
         <contains field-id="test" value="1" values="1,2,3"/>
         <in field-id="test" value="1" values="1,2,3"/>
         <isNotNull field-id="test"/>
@@ -37,5 +37,5 @@
         <notEq field-id="test" value="1"/>
         <notIn field-id="test" value="1" values="1,2,3"/>
         <overlaps field-id="test" value="1" values="1,2,3"/>
-    </pre-filters>
+    </filters>
 </input-select>

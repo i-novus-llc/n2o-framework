@@ -50,36 +50,36 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
         FormWidget form = page.widget(FormWidget.class);
 
         StandardField firstName = fields.field("First name");
-        InputText input = firstName.control(InputText.class);
-        input.val("1");
+        InputText input1 = firstName.control(InputText.class);
+        input1.val("test");
+
+        StandardField middleName = fields.field("Middle name");
+        InputText input2 = middleName.control(InputText.class);
+        input2.val("test");
 
         StandardField lastName = fields.field("Last name");
-        InputText input2 = lastName.control(InputText.class);
-        input2.val("1");
+        InputText input3 = lastName.control(InputText.class);
+        input3.val("test");
 
         form.toolbar().bottomLeft().button("Create").click();
-        firstName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
-        lastName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
+        firstName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
+        middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
-        input.clear();
+        input1.clear();
         firstName.shouldHaveValidationMessage(Condition.empty);
-        lastName.shouldHaveValidationMessage(Condition.empty);
+        middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
-        form.toolbar().bottomLeft().button("Create").click();
-        firstName.shouldHaveValidationMessage(Condition.text("Имя  уже существует"));
-        lastName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
-
-        input.val("2");
+        input1.val("name");
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.empty);
-        lastName.shouldHaveValidationMessage(Condition.text("Имя 1 уже существует"));
+        middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
         input2.clear();
-        lastName.shouldHaveValidationMessage(Condition.empty);
-        input2.val("2");
+        middleName.shouldHaveValidationMessage(Condition.empty);
+        input2.val("name");
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.empty);
-        lastName.shouldHaveValidationMessage(Condition.empty);
+        middleName.shouldHaveValidationMessage(Condition.empty);
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
     }
 }

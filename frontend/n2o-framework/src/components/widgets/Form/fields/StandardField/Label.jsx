@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BootstrapLabel from 'reactstrap/lib/Label'
+import { Label as BootstrapLabel } from 'reactstrap'
 import cx from 'classnames'
 
 import HelpPopover from './HelpPopover'

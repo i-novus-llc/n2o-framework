@@ -9,8 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
-import java.io.Serializable;
-
 /**
  * Абстрактная модель компонента вызывающего действие
  */

@@ -23,7 +23,7 @@ description: ""
 
 #### Способы валидаций
 
-Существует два главных способа валидаций:
+Существует два основных способа валидаций:
 
 - Проверка входных данных по условиям
 - Проверка целостности данных на уровне БД
@@ -36,20 +36,18 @@ description: ""
 
 ```xml title="Валидация по условию"
 <validations>
-  <condition id="checkAdult"
-    message="Запрещено для детей. Ваш возраст {age}, что меньше 18."
-    on="age">
-    age >= 18
-  </condition>
+    <condition id="checkAdult"
+               message="Запрещено для детей. Ваш возраст {age}, что меньше 18."
+               field-id="age">age >= 18</condition>
 </validations>
 ```
 
 Атрибут `id` задаёт идентификатор валидации в объекте.
 В дальнейшем, через `id` на валидацию можно будет сослаться в тех местах,
-где она должна сработать или появиться сообщение.
+где она должна сработать.
 
-Само условие записывается на языке javaScript в теле элемента `<condition>`.
-Атрибутом `on` можно перечислить поля от которых зависит условие.
+В теле элемента `<condition>` задается условие на языке javaScript.
+Атрибутом `field-id` можно задать поле, под которым появится сообщение валидации.
 
 Если условие будет верным (вернёт `true`), то валидация пройдёт успешно.
 Если же будет не верным (вернёт `false`), то появится сообщение `message`.
@@ -58,6 +56,7 @@ description: ""
 Ссылки записываются в фигурных скобках.
 
 ##### Проверка целостности данных на уровне БД
+
 Чтобы проверить целостность данных,
 необходимо сделать запрос к источнику данных
 с помощью [провайдеров](../manual/data#Data_providers).
@@ -67,20 +66,20 @@ description: ""
 ```xml title="Валидация с запросом к провайдеру данных"
 <validations>
   <constraint id="checkUniqueName"
-    message="Пользователь с таким именем уже существует в системе"
-    result="[0].cnt == 0">
-    <invocation>
-      <sql>
-          SELECT count(1) as cnt
-          FROM user
-          WHERE username = :username
-      </sql>
-    </invocation>
-    <in>
-      <field id="username"/>
-      <field id="id"/>
-    </in>
-  </constraint>
+              message="Пользователь с таким именем уже существует в системе"
+              result="[0].cnt == 0">
+        <invocation>
+            <sql>
+                  SELECT count(1) as cnt
+                  FROM user
+                  WHERE username = :username
+            </sql>
+        </invocation>
+        <in>
+            <field id="username"/>
+            <field id="id"/>
+        </in>
+    </constraint>
 </validations>
 ```
 
@@ -104,33 +103,24 @@ description: ""
 
 ```xml title="Обязательность заполнения входящего параметра операции"
 <operation>
-  ...
-  <in>
-    <field id="name" required="true"/>
-  </in>
+    <in>
+        <field id="name" required="true"/>
+    </in>
 </operation>
 ```
 
 В этом случае для поля выполняется стандартная проверка заполненности и
 выводится сообщение.
 
-Если требуется выполнить не стандартную проверку
-или вывести не стандартное сообщение, можно создать специальную валидацию `<mandatory>`:
+Если требуется вывести не стандартное сообщение, можно создать специальную валидацию `<mandatory>`:
 
 ```xml title="Валидация обязательности заполнения"
 <validations>
-  <mandatory id="requiredName"
-    field-id="name"
-    message="Поле должно быть заполнено и не должно состоять из одних пробелов">
-    name != null &amp;&amp; name.trim() != ''
-  </mandatory>
+    <mandatory id="requiredName"
+               field-id="name"
+               message="Имя должно быть заполнено"/>
 </validations>
 ```
-
-В теле `mandatory` на языке JavaScript задаётся проверка заполненности поля.
-Если тело не задано, то по умолчанию будут выполнены
-стандартные проверки над `field-id`, такие как:
-проверка на undefined, на null, на пустую строку, на наличие id, на пустой список.
 
 #### Серьезность валидации
 
@@ -140,8 +130,8 @@ __*Уровни серьёзности валидаций*__
 
 |Уровень|Описание                                                                                            |Цвет сообщения|
 |-------|----------------------------------------------------------------------------------------------------|--------------|
-|danger |Прерывает выполнение действий. Или предупреждает о том, что действие не было выполнено успешно.     |Красный       |
-|warning|Выводит диалог "Вы уверены?" перед действием. Или предупреждает об отклонениях в прошедшем действии.|Желтый        |
+|danger |Прерывает выполнение действий.                                                                      |Красный       |
+|warning|Предупреждает об отклонениях в прошедшем действии.                                                  |Желтый        |
 |info   |Информирует об особенностях прошедших или будущих действий.                                         |Голубой       |
 |success|Даёт положительную обратную связь.                                                                  |Зеленый       |
 
@@ -149,9 +139,9 @@ __*Уровни серьёзности валидаций*__
 
 ```xml title="Серьезность валидации"
 <validations>
-  <condition level="warning">
-    ...
-  </condition>
+    <condition level="warning">
+        ...
+    </condition>
 </validations>
 ```
 
@@ -176,9 +166,9 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Момент валидации на сервере"
 <validations>
-  <condition server-moment="before-query">
-    ...
-  </condition>
+    <condition server-moment="before-query">
+        ...
+    </condition>
 </validations>
 ```
 
@@ -190,14 +180,14 @@ __*Серверные моменты вызова валидации*__
 Валидацию можно выключить полностью или при определенных условиях.
 За это отвечает атрибут `enabled`.
 
-Атрибут `enabled` принимает true или false,
-или булево выражение javaScript записанное в фигурных скобках:
+Атрибут `enabled` принимает `true` или `false`,
+или выражение javaScript записанное в фигурных скобках:
 
 ```xml title="Обязательность заполнения по условию"
 <validations>
-  <mandatory id="requiredMaidenNameForWomen"
-    field-id="maidenName"
-    enabled="{gender == 'woman'}"/>
+    <mandatory id="requiredMaidenNameForWomen"
+               field-id="maidenName"
+               enabled="{gender == 'woman'}"/>
 </validations>
 ```
 
@@ -210,8 +200,7 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Ограничение валидаций операции по белому списку"
 <operation id="delete">
-  ...
-  <validations white-list="checkDependencies"/>
+    <validations white-list="checkDependencies"/>
 </operation>
 ```
 
@@ -219,8 +208,7 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Ограничение валидаций операции по черному списку"
 <operation id="create">
-  ...
-  <validations black-list="checkDependencies"/>
+    <validations black-list="checkDependencies"/>
 </operation>
 ```
 
@@ -230,11 +218,10 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Вложенная валидация в операции"
 <operation>
-  ...
-  <validations>
-      <condition>...</condition>
-      <constraint>...</constraint>
-  </validations>
+    <validations>
+        <condition>...</condition>
+        <constraint>...</constraint>
+    </validations>
 </operation>
 ```
 
@@ -243,7 +230,7 @@ __*Серверные моменты вызова валидации*__
 
 ### Валидация с диалогом выбора
 
-В N2o есть возможность использовать диалоги для подтверждения действий пользователя.
+В N2O есть возможность использовать диалоги для подтверждения действий пользователя.
 Это особенно полезно в ситуациях, когда мы хотим убедиться, что пользователь
 точно уверен в выполняемом действии.
 
@@ -264,7 +251,6 @@ __*Серверные моменты вызова валидации*__
 <operation id="create">
     <invocation>...</invocation>
     <in>
-        ...
         <!-- параметр для отключения вызова диалога -->
         <field id="validated" param="validated"/>
     </in>
@@ -315,7 +301,8 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Валидация объекта прикрепленная к полю"
 <validations>
-  <condition id="checkAdult" field-id="age">...</condition>
+    <condition id="checkAdult"
+               field-id="age">...</condition>
 </validations>
 ```
 
@@ -324,7 +311,7 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Список валидаций прикрепленных к полю"
 <input-text id="age">
-  <validations white-list="checkAdult"/>
+    <validations white-list="checkAdult"/>
 </input-text>
 ```
 
@@ -334,7 +321,6 @@ __*Серверные моменты вызова валидации*__
 
 ```xml title="Вложенная валидация в поле"
 <input-text>
-  ...
   <validations>
       <condition>...</condition>
       <constraint>...</constraint>
@@ -355,9 +341,9 @@ N2O умеет считывать аннотации с bean сущностей 
 
 ```xml title="Maven зависимость для интеграции с Bean Validation"
 <dependency>
-  <groupId>net.n2oapp.framework</groupId>
-  <artifactId>n2o-validation</artifactId>
-  <version>${n2o.version}</version>
+    <groupId>net.n2oapp.framework</groupId>
+    <artifactId>n2o-validation</artifactId>
+    <version>${n2o.version}</version>
 </dependency>
 ```
 

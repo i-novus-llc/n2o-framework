@@ -27,8 +27,8 @@ public class ProtoClient extends BaseSimplePage {
         return getFields().field("Имя").control(InputText.class);
     }
 
-    public Select gender() {
-        return getFields().field("Пол").control(Select.class);
+    public RadioGroup gender() {
+        return getFields().field("Пол").control(RadioGroup.class);
     }
 
     public InputText patronymic() {

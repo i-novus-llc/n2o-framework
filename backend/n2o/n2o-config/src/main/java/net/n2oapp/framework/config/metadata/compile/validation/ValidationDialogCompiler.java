@@ -22,7 +22,7 @@ public class ValidationDialogCompiler extends InvocationValidationCompiler<Valid
     @Override
     public ValidationDialog compile(N2oValidationDialog source, CompileContext<?, ?> context, CompileProcessor p) {
         ValidationDialog validation = new ValidationDialog();
-        compileInvocationValidation(validation, source);
+        compileInvocationValidation(validation, source, p);
 
         N2oDialog n2oDialog = new N2oDialog(source.getId());
         n2oDialog.setDescription(source.getMessage());

@@ -36,19 +36,20 @@ const config = {
  *
  */
 class ReduxField extends React.Component {
-    /**
-   *Базовый рендер
-   */
     constructor(props) {
         super(props)
 
         this.setRef = this.setRef.bind(this)
-        this.Field = compose(
+        const Field = compose(
             withProps(() => ({
                 setReRenderRef: props.setReRenderRef,
             })),
             withFieldContainer,
         )(props.component)
+
+        // фикс для проброса валидации через redux-field, который ожидает function/function[], а мы используем это как string[] для валидации датасурсов
+        // eslint-disable-next-line react/destructuring-assignment, react/prop-types
+        this.Field = props => (<Field {...props} validate={this.props.validate} />)
     }
 
     setRef(el) {
@@ -64,6 +65,7 @@ class ReduxField extends React.Component {
                 {...this.props}
                 component={this.Field}
                 setRef={this.setRef}
+                validate={undefined}
             />
         )
     }

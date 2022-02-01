@@ -1,4 +1,4 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
         <number-picker id="testId" src="src" min="1" max="3" step="1" default-value="4"/>
         <number-picker id="testId2"/>

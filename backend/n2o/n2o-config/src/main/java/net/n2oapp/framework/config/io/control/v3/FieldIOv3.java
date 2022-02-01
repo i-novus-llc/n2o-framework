@@ -62,7 +62,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "query-id", t::getQueryId, t::setQueryId);
         p.attribute(e, "value-field-id", t::getValueFieldId, t::setValueFieldId);
         p.attributeInteger(e, "size", t::getSize, t::setSize);
-        p.childrenByEnum(e, "pre-filters", t::getPreFilters, t::setPreFilters, N2oPreFilter::getType,
+        p.childrenByEnum(e, "filters", t::getPreFilters, t::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
     }
 
@@ -73,7 +73,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.attributeBoolean(e, "reset-on-change", pf::getResetOnChange, pf::setResetOnChange);
         p.attribute(e, "datasource", pf::getDatasource, pf::setDatasource);
-        p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
         p.attribute(e, "param", pf::getParam, pf::setParam);
     }

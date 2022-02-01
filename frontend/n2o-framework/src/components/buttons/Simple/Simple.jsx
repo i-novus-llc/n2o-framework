@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from 'reactstrap/lib/Button'
-import Badge from 'reactstrap/lib/Badge'
+import { Button, Badge } from 'reactstrap'
 import cn from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'

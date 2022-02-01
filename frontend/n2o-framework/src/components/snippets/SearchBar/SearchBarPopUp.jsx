@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dropdown from 'reactstrap/lib/Dropdown'
-import DropdownToggle from 'reactstrap/lib/DropdownToggle'
+import { Dropdown, DropdownToggle } from 'reactstrap'
 
 import { SearchBarPopUpList } from './SearchBarPopUpList'
 

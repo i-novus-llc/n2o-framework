@@ -25,21 +25,21 @@ __*Атрибуты доступа*__
 Атрибуты доступа подключается дополнительной xsd схемой: `http://n2oapp.net/framework/config/schema/security-1.0`.
 
 ```xml title="Ограничение доступа к кнопке с помощью атрибутов"
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
   xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
-  ...
-  <button sec:authenticated="true"/>
-  ...
+    ...
+    <button sec:authenticated="true"/>
+    ...
 </page>
 ```
 
 ```xml title="Ограничение доступа к странице с помощью атрибутов"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
              xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
     <header class="inverse" title="N2O">
-      ...
-      <page sec:roles="admin, user"/>
-      ...
+        ...
+        <menu-item sec:roles="admin, user"/>
+        ...
     </header>
 </application>
 ```
@@ -70,16 +70,14 @@ __*Атрибуты доступа*__
 
 ```xml title="Ограничение доступа к странице с помощью атрибутов"
 <access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
-  <role id="admin">
-    <object-access
-      object-id="something"
-      operations="*"/>
-  </role>
+    <role id="admin">
+        <object-access object-id="something"
+                       operations="*"/>
+    </role>
 </access>
 ```
 
 Идентификатор схемы доступа определяется настройкой `n2o.access.id`.
-
 В схеме описываются права пользователя с привязкой к точкам доступа.
 
 Точками доступа называются правила, задающие доступность компонентов и данных.
@@ -102,7 +100,7 @@ __*Точки доступа*__
 
 ```xml title="Права доступа к объекту"
 <authenticated>
-  <object-access object-id="person"/>
+    <object-access object-id="person"/>
 </authenticated>
 ```
 
@@ -111,7 +109,9 @@ __*Точки доступа*__
 Атрибут `operations` задаёт право выполнять указанные операции объекта.
 Если указан знак `*` (звёздочка), позволяется выполнять любые операции.
 
+:::note
 Если есть право на выполнение операций объекта, то на чтение объекта доступ даётся автоматически.
+:::
 
 #### Фильтрация доступа к объекту
 
@@ -120,14 +120,14 @@ __*Точки доступа*__
 
 ```xml title="Фильтры доступа к объекту"
 <permit-all>
-  <object-filters object-id="contract">
-    <!-- Доступны договоры только созданные мной -->
-    <eq id="onlyMyself"
-      field-id="creator" value="#{username}"/>
-    <!-- Доступны договоры моей организации -->
-    <eq id="onlyMyOrg"
-      field-id="org" value="#{orgId}"/>
-  </object-filters>
+    <object-filters object-id="contract">
+        <!-- Доступны договоры только созданные мной -->
+        <eq id="onlyMyself"
+            field-id="creator" value="#{username}"/>
+        <!-- Доступны договоры моей организации -->
+        <eq id="onlyMyOrg"
+            field-id="org" value="#{orgId}"/>
+    </object-filters>
 </permit-all>
 ```
 
@@ -138,12 +138,12 @@ __*Точки доступа*__
 
 ```xml title="Удаление фильтров доступа"
 <permission id="MyContracts">
-  <!-- Действует фильтр onlyMyself и onlyMyOrg -->
-  <object-access object-id="contract"/>
+    <!-- Действует фильтр onlyMyself и onlyMyOrg -->
+    <object-access object-id="contract"/>
 </permission>
 <permission id="MyOrgContracts">
-  <!-- Действует фильтр onlyMyOrg -->
-  <object-access object-id="contract" remove-filters="onlyMyself"/>
+    <!-- Действует фильтр onlyMyOrg -->
+    <object-access object-id="contract" remove-filters="onlyMyself"/>
 </permission>
 ```
 
@@ -156,7 +156,7 @@ __*Точки доступа*__
 
 ```xml title="Правила доступа к ссылке"
 <authenticated>
-  <url-access url-pattern="/persons/*"/>
+    <url-access url-pattern="/persons/*"/>
 </authenticated>
 ```
 
@@ -167,6 +167,6 @@ __*Точки доступа*__
 
 ```xml title="Правила доступа к ссылке"
 <authenticated>
-  <page-access page-id="persons"/>
+    <page-access page-id="persons"/>
 </authenticated>
 ```
