@@ -4,6 +4,7 @@ import {
     select,
 } from 'redux-saga/effects'
 import get from 'lodash/get'
+import { isEqual } from 'lodash'
 
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 import { setModel } from '../../models/store'
@@ -19,6 +20,7 @@ import {
 } from '../store'
 import { getLocation, rootPageSelector } from '../../global/store'
 import { makePageRoutesByIdSelector } from '../../pages/selectors'
+import { makeGetModelByPrefixSelector } from '../../models/selectors'
 
 import { routesQueryMapping } from './routesQueryMapping'
 import { fetch } from './fetch'
@@ -63,6 +65,13 @@ export function* dataRequest({ payload }) {
         )
 
         const response = yield fetch(id, resolvedProvider)
+
+        const oldData = yield select(makeGetModelByPrefixSelector(MODEL_PREFIX.source, id))
+
+        // фикс, чтобы компонентам долетало, что данные обновились
+        if (isEqual(oldData, response.list)) {
+            yield put(setModel(MODEL_PREFIX.source, id, []))
+        }
 
         yield put(changeCount(id, response.count))
         yield put(setModel(MODEL_PREFIX.source, id, response.list))

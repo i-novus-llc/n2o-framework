@@ -33,9 +33,10 @@ class Container extends React.Component {
     }
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
-        const { models, reduxFormValues } = this.props
+        const { models, reduxFormValues, form, setResolve } = this.props
         const { initialValues } = this.state
         const { datasource } = models
+        const { modelPrefix } = form
         const activeModel = this.getActiveModel(models)
         const prevModel = this.getActiveModel(prevModels)
 
@@ -46,6 +47,9 @@ class Container extends React.Component {
                 : datasource[0]
 
             this.updateActiveModel(model)
+            if (modelPrefix === MODEL_PREFIX.edit) {
+                setResolve(model)
+            }
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
             !isEqual(reduxFormValues, activeModel)
