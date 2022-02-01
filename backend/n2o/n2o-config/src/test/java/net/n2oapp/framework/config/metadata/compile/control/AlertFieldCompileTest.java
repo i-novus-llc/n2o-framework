@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование компиляции {@link FieldAlertCompiler}
+ * Тестирование компиляции {@link AlertFieldCompiler}
  */
 public class AlertFieldCompileTest extends SourceCompileTestBase {
 
@@ -36,14 +36,16 @@ public class AlertFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testAlertFieldCompile.page.xml")
                 .get(new PageContext("testAlertFieldCompile"));
         Form form = (Form) page.getWidget();
-        AlertField field = (AlertField)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        AlertField alertField = (AlertField)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
-        assertThat(field.getSrc(), is("AlertField"));
-        assertThat(field.getText(), is("`'Text '+message`"));
-        assertThat(field.getTitle(), is("`'Title '+message`"));
-        assertThat(field.getStyle().get("background"), is("blue"));
-        assertThat(field.getColor(), is("info"));
-        assertThat(field.getHref(), is("http://example.org"));
+        assertThat(alertField.getSrc(), is("AlertField"));
+        assertThat(alertField.getText(), is("`'Text '+message`"));
+        assertThat(alertField.getTitle(), is("`'Title '+message`"));
+        assertThat(alertField.getStyle().get("background"), is("blue"));
+        assertThat(alertField.getClassName(), is("css-on-field"));
+        assertThat(alertField.getColor(), is("info"));
+        assertThat(alertField.getHref(), is("`'http://example.org/'+id`"));
+        assertThat(alertField.getCloseButton(), is(false));
     }
 
 }

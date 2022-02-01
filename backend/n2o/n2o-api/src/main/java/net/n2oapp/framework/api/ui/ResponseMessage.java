@@ -19,9 +19,11 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String field;
     @JsonProperty
-    private String header;
+    private String title;
     @JsonProperty
     private String color;
+    @JsonProperty
+    private String className;
     @JsonProperty
     private String text;
     @JsonProperty
