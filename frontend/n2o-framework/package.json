@@ -56,7 +56,6 @@
     "lint": "yarn eslint && yarn stylelint"
   },
   "dependencies": {
-    "n2o-notifications": "7.20.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
     "@fontsource/exo-2": "^4.3.0",

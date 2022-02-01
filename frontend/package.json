@@ -15,7 +15,6 @@
     "build": "lerna run build",
     "build:n2o": "lerna run --scope n2o-framework build",
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --scope n2o-ecp-plugin --parallel build",
-    "build:ws": "lerna run  --scope n2o-notifications --parallel build",
     "build:projects": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
     "build:all": "yarn run build:libs&&yarn run build:projects",
     "version:patch": "lerna version patch --no-git-tag-version --no-push --yes",

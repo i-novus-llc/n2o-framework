@@ -20,8 +20,6 @@ import toolbarSagas from './ducks/toolbar/sagas'
 import { addComponent, removeComponent } from './ducks/datasource/store'
 import { updateModel } from './ducks/models/store'
 
-/* FIXME remove mock wsUrl */
-
 const webSocketConfig = {
     observables: [addComponent, removeComponent],
     updater: updateModel,

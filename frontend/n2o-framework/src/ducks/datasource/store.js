@@ -300,8 +300,6 @@ export default datasource.reducer
 export const {
     register,
     remove,
-    addWidget,
-    removeWidget,
     DATA_REQUEST: dataRequest,
     resolveRequest,
     rejectRequest,
