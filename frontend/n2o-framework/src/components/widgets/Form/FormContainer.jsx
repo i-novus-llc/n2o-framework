@@ -33,18 +33,19 @@ class Container extends React.Component {
     }
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
-        const { models, reduxFormValues, setEdit, form } = this.props
+        const { models, reduxFormValues } = this.props
         const { initialValues } = this.state
         const { datasource } = models
-        const { modelPrefix } = form
         const activeModel = this.getActiveModel(models)
         const prevModel = this.getActiveModel(prevModels)
 
         if (!isEqual(datasource, prevModels.datasource)) {
-            // Поменялись данные с сервера, обновляем активную модель (меняем только edit модель, resolve обновится датасурсами)
-            if (modelPrefix === MODEL_PREFIX.edit) {
-                setEdit(cloneDeep(datasource?.[0]))
-            }
+            // если предыдущий список пустой, и есть активная модель, то это defaultValues и надо их мержить
+            const model = isEmpty(prevModels.datasource) && activeModel
+                ? { ...datasource[0], ...activeModel }
+                : datasource[0]
+
+            this.updateActiveModel(model)
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
             !isEqual(reduxFormValues, activeModel)
