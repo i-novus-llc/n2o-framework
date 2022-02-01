@@ -2,8 +2,10 @@ package net.n2oapp.framework.config.metadata.validation;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
-import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
