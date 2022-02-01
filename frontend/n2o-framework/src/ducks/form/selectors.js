@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
 import { dataSourceFieldError } from '../datasource/selectors'
-import { makeDatasourceIdSelector } from '../widgets/selectors'
+import { makeDatasourceIdSelector, makeFormModelPrefixSelector } from '../widgets/selectors'
 
 /**
  * селектор для редакс-форм
@@ -62,13 +62,14 @@ export const isInitSelector = (formName, fieldName) => createSelector(
 
 export const messageSelector = (formName, fieldName) => createSelector(
     makeDatasourceIdSelector(formName),
+    makeFormModelPrefixSelector(formName),
     state => state,
-    (datasourceId, state) => {
+    (datasourceId, prefix, state) => {
         if (!datasourceId) {
             return undefined
         }
 
-        return dataSourceFieldError(datasourceId, fieldName)(state)?.[0]
+        return dataSourceFieldError(datasourceId, prefix, fieldName)(state)?.[0]
     },
 )
 

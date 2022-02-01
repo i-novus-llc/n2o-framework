@@ -6,16 +6,16 @@ import { isEmpty } from 'lodash'
 
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../selectors'
 import {
-    MODEL_PREFIX, VALIDATION_SEVERITY,
+    VALIDATION_SEVERITY,
 } from '../../../core/datasource/const'
 import { failValidate } from '../store'
 import { validateField } from '../../../core/datasource/validateField'
 
 export function* validate({ payload, meta }) {
-    const { id, fields } = payload
+    const { id, fields, prefix } = payload
     const validation = yield select(dataSourceValidationSelector(id))
     const models = yield select(dataSourceModelsSelector(id))
-    const model = models[MODEL_PREFIX.active] || {}
+    const model = models[prefix] || {}
     let entries = Object.entries(validation)
 
     if (fields?.length) {
@@ -37,7 +37,7 @@ export function* validate({ payload, meta }) {
     )))
 
     if (!isEmpty(allMessages)) {
-        yield put(failValidate(id, allMessages, meta))
+        yield put(failValidate(id, allMessages, prefix, meta))
     }
 
     return !invalid
