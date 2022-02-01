@@ -11,7 +11,7 @@ import {
 import { failValidate } from '../store'
 import { validateField } from '../../../core/datasource/validateField'
 
-export function* validate({ payload }) {
+export function* validate({ payload, meta }) {
     const { id, fields } = payload
     const validation = yield select(dataSourceValidationSelector(id))
     const models = yield select(dataSourceModelsSelector(id))
@@ -37,7 +37,7 @@ export function* validate({ payload }) {
     )))
 
     if (!isEmpty(allMessages)) {
-        yield put(failValidate(id, allMessages))
+        yield put(failValidate(id, allMessages, meta))
     }
 
     return !invalid

@@ -279,7 +279,7 @@
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="query-id" type="xs:string">
                     <xs:annotation>
@@ -1190,7 +1190,7 @@
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="query-id" type="xs:string">
                     <xs:annotation>
@@ -1656,16 +1656,6 @@
                         <xs:documentation>Наличие дочерних элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="master-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор master поля.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="detail-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор detail поля.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор узла дерева.</xs:documentation>
@@ -1849,7 +1839,7 @@
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
                 <xs:sequence>
-                    <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0"/>
+                    <xs:element name="filters" type="preFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="query-id" type="xs:string" use="required">
                     <xs:annotation>
@@ -2014,7 +2004,7 @@
                 <xs:documentation>Идентификатор источника данных, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="ref-model" type="clientModel">
+        <xs:attribute name="model" type="clientModel">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>

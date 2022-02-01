@@ -183,9 +183,10 @@ const datasource = createSlice({
         },
 
         startValidate: {
-            prepare(id, fields, prefix = MODEL_PREFIX.active) {
+            prepare(id, fields, prefix = MODEL_PREFIX.active, meta = {}) {
                 return ({
                     payload: { id, prefix, fields },
+                    meta,
                 })
             },
             reducer(state, action) {
@@ -272,6 +273,24 @@ const datasource = createSlice({
                 // nothing
             },
         },
+
+        setFieldSubmit: {
+            prepare(id, field, dataProvider) {
+                return ({
+                    payload: { id, field, dataProvider },
+                })
+            },
+            reducer(state, action) {
+                const { id, field, dataProvider } = action.payload
+                const datasource = state[id]
+
+                if (!datasource.fieldsSubmit) {
+                    datasource.fieldsSubmit = {}
+                }
+
+                datasource.fieldsSubmit[field] = dataProvider
+            },
+        },
     },
 })
 
@@ -281,8 +300,6 @@ export default datasource.reducer
 export const {
     register,
     remove,
-    addWidget,
-    removeWidget,
     DATA_REQUEST: dataRequest,
     resolveRequest,
     rejectRequest,
@@ -299,4 +316,5 @@ export const {
     changeSize,
     addComponent,
     removeComponent,
+    setFieldSubmit,
 } = datasource.actions

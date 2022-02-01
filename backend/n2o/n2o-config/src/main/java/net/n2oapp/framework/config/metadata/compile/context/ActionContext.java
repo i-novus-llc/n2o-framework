@@ -23,10 +23,6 @@ public class ActionContext extends ObjectContext {
     private String parentPageId;
     private String parentClientWidgetId;
     private String parentSourceDatasourceId;
-    @Deprecated
-    private String failAlertWidgetId;
-    @Deprecated
-    private String successAlertWidgetId;
     /**
      * Форма, в которой находятся валидации
      */

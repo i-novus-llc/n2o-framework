@@ -39,6 +39,7 @@ module.exports = {
                 'guides/xml/query',
                 'guides/xml/dataprovider',
                 'guides/xml/menu',
+                'guides/xml/button',
                 'guides/xml/access',
                 'guides/xml/accesspoint',
                 'guides/xml/processing',
@@ -49,6 +50,7 @@ module.exports = {
             type: 'category',
             label: 'Миграция',
             items: [
+                'guides/migration/to_7_21',
                 'guides/migration/to_7_20',
                 'guides/migration/to_7_19',
                 'guides/migration/to_7_18',

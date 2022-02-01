@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import map from 'lodash/map'
 import classNames from 'classnames'
-import Breadcrumb from 'reactstrap/lib/Breadcrumb'
-import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem'
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import PropTypes from 'prop-types'
 
 function DefaultBreadcrumb({ items }) {

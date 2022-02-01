@@ -12,6 +12,7 @@ import {
     setFilter as setDataSourceFilter,
     setMultiModel,
     setSorting as setDataSourceSorting,
+    setEditModel,
 } from '../../ducks/datasource/store'
 import { FETCH_TYPE } from '../widget/const'
 import { DataSourceContext } from '../widget/context'
@@ -31,7 +32,6 @@ export const WithDataSource = (Component) => {
     const Register = (props) => {
         const {
             visible,
-            addComponent,
             switchRegistration,
             setFilter,
             setResolve,
@@ -48,12 +48,6 @@ export const WithDataSource = (Component) => {
             () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize }),
             [fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize],
         )
-
-        /* FIXME for debugging, remove temp useEffect with addComponent() */
-
-        useEffect(() => {
-            addComponent()
-        }, [addComponent])
 
         useEffect(() => {
             if (visible !== prevVisible) {
@@ -110,6 +104,9 @@ export const WithDataSource = (Component) => {
             },
             setResolve(model) {
                 dispatch(setActiveModel(dataSourceId, model))
+            },
+            setEdit(model) {
+                dispatch(setEditModel(dataSourceId, model))
             },
             setSelected(models) {
                 dispatch(setMultiModel(dataSourceId, models))

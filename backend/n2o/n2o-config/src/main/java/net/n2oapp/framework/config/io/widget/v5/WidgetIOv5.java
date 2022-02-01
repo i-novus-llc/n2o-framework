@@ -9,7 +9,7 @@ import org.jdom2.Namespace;
  * Интерфейс  виджета версии 5.0
  */
 public interface WidgetIOv5 extends NamespaceUriAware, BaseElementClassAware<N2oWidget> {
-    Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/n2o-widget-5.0");
+    Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/widget-5.0");
 
     @Override
     default String getNamespaceUri() {

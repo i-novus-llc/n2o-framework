@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -67,6 +68,8 @@ public class TableSelectionAT extends AutoTestBase {
         modal.close();
     }
 
+
+    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7424
     @Test
     public void testNoneSelection() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/index.page.xml"));

@@ -6,8 +6,6 @@ import { pure } from 'recompose'
 import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 
-// eslint-disable-next-line import/no-named-as-default
-import WidgetAlerts from './WidgetAlerts'
 import WidgetFilters from './WidgetFilters'
 
 const PLACES = {
@@ -71,7 +69,7 @@ class StandardWidget extends React.Component {
     }
 
     render() {
-        const { widgetId, disabled, filter, className, style, children, loading } = this.props
+        const { disabled, filter, className, style, children, loading } = this.props
 
         const classes = classNames([
             className,
@@ -85,7 +83,6 @@ class StandardWidget extends React.Component {
                 <div className="n2o-standard-widget-layout-center">
                     <div>
                         {filter.filterPlace === PLACES.top && this.renderSection(PLACES.top)}
-                        <WidgetAlerts widgetId={widgetId} />
                     </div>
                     <div className="d-flex justify-content-between">
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">

@@ -7,9 +7,10 @@
             <input-text id="name" label="First name">
                 <validations white-list="uniqueName"/>
             </input-text>
-            <input-text id="name2" label="Last name">
+            <input-text id="name2" label="Middle name">
                 <validations white-list="uniqueName2"/>
             </input-text>
+            <input-text id="name3" label="Last name"/>
         </fields>
         <toolbar place="bottomLeft">
             <button id="create" label="Create">

@@ -49,13 +49,6 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testDefaultValueNotNullForList() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("У поля field1 default-value не задан");
-        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForList.widget.xml");
-    }
-
-    @Test
     public void testDefaultValueNotNullForInterval() {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("У поля field1 default-value не задан");

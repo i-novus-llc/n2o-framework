@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0">
+<list xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <content>
         <left-top text-field-id="test">
             <image data="testUrl1"/>

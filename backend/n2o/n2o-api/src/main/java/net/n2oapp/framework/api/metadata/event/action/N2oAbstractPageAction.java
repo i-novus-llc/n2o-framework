@@ -35,6 +35,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String datasource;
     @Deprecated
     private Target target;
+    @Deprecated
     private UploadType upload;
     @Deprecated
     private String masterFieldId;
@@ -112,6 +113,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(getDetailFieldId());
                 filter.setType(FilterType.eq);
+                filter.setValueAttr(Placeholders.ref(getMasterFieldId() != null ? getMasterFieldId() : PK));
                 String param = getMasterParam();
                 if (param == null && getRoute() != null && getRoute().contains(":")) {
                     if (getRoute().indexOf(":") != getRoute().lastIndexOf(":"))
@@ -157,7 +159,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                         addQueryParams(new N2oQueryParam[]{queryParam});
                 }
                 filter.setParam(param);
-                filter.setValueAttr(Placeholders.ref(getMasterFieldId() != null ? getMasterFieldId() : PK));
                 datasource.addFilters(List.of(filter));
             }
 

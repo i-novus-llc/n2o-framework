@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Input from 'reactstrap/lib/Input'
+import { Input } from 'reactstrap'
 
 /**
  * N2OSelectInput

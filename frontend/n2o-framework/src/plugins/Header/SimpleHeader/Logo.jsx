@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import NavbarBrand from 'reactstrap/lib/NavbarBrand'
+import { NavbarBrand } from 'reactstrap'
 
 import { NavbarBrandContent } from './NavbarBrandContent'
 

@@ -6,9 +6,10 @@ import { NavLink } from 'react-router-dom'
 
 import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
 import { id as generateId } from '../../utils/id'
-import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
 import { renderBadge } from '../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
+import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
+import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
 import { WithDataSource } from '../../core/datasource/WithDataSource'
 
 // eslint-disable-next-line import/no-cycle
@@ -55,6 +56,15 @@ export const renderIcon = (icon, title, type, sidebarOpen, subItems) => {
  * @returns {*}
  * @constructor
  */
+
+const ItemHOC = ({ children, needTooltip, hint }) => {
+    if (needTooltip) {
+        return <Tooltip label={children} placement="right" hint={hint} />
+    }
+
+    return children
+}
+
 export function SidebarItemContainer({
     className,
     itemProps,
@@ -82,21 +92,21 @@ export function SidebarItemContainer({
         ? renderOuterLink(item)
         : renderInnerLink(item))
 
+    const renderCurrentTitle = (isMiniView, icon, title) => {
+        if (isMiniView) {
+            if (icon) {
+                return null
+            }
+
+            return title.substring(0, 1)
+        }
+
+        return title
+    }
+
     // eslint-disable-next-line react/prop-types
     const renderOuterLink = ({ href, title, icon, imageSrc, imageShape }) => {
         const id = generateId()
-
-        const renderCurrentTitle = (isMiniView, icon, title) => {
-            if (isMiniView) {
-                if (icon) {
-                    return null
-                }
-
-                return title.substring(0, 1)
-            }
-
-            return title
-        }
 
         return (
             <a id={id} className="n2o-sidebar__item" href={href}>
@@ -111,7 +121,6 @@ export function SidebarItemContainer({
                 >
                     {renderCurrentTitle(isMiniView, icon, title)}
                 </span>
-                {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
                 {renderBadge(item)}
             </a>
         )
@@ -120,7 +129,7 @@ export function SidebarItemContainer({
     const renderInnerLink = ({ href, title, icon, imageSrc, imageShape }) => {
         const id = generateId()
 
-        return (
+        const Component = () => (
             <>
                 <NavLink
                     exact
@@ -139,12 +148,17 @@ export function SidebarItemContainer({
                             },
                         )}
                     >
-                        {isMiniView && !icon ? title.substring(0, 1) : title}
+                        {renderCurrentTitle(isMiniView, icon, title)}
                     </span>
                     {renderBadge(item)}
                 </NavLink>
-                {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
             </>
+        )
+
+        return (
+            <ItemHOC needTooltip={isMiniView} hint={title}>
+                <Component />
+            </ItemHOC>
         )
     }
 
@@ -162,6 +176,7 @@ export function SidebarItemContainer({
                 >
                     {map(items, (item, i) => (
                         <div
+                            key={i}
                             className={classNames(
                                 'n2o-sidebar__sub-item',
                                 `n2o-sidebar__sub-item--level-${level}`,

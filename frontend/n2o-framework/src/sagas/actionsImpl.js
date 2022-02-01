@@ -26,6 +26,8 @@ import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
+import { MODEL_PREFIX } from '../core/datasource/const'
+import { failValidate } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
 
@@ -178,22 +180,39 @@ export function* handleInvoke(apiProvider, action) {
 
         const meta = merge(action.meta.success || {}, response.meta || {})
         const { submitForm } = dataProvider
-        const needRedirectOrCloseModal = meta.redirect || meta.modalsToClose
 
-        if (!needRedirectOrCloseModal && !isEqual(model, response.data) && submitForm) {
-            yield put(
-                setModel(modelPrefix, datasource, optimistic ? model : response.data),
-            )
+        if (!optimistic && submitForm) {
+            // TODO узнать можно ли вообще отказаться от setModel в инвоке, если после него всё равно будет запрос на обновление данных
+            const newModel = modelPrefix === MODEL_PREFIX.selected ? response.data?.$list : response.data
+
+            if (!isEqual(model, newModel)) {
+                yield put(
+                    setModel(modelPrefix, datasource, newModel),
+                )
+            }
         }
         yield put(successInvoke(datasource, meta))
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
+
+        const errorMeta = err?.json?.meta
+
         yield* handleFailInvoke(
             action.meta.fail || {},
             datasource,
-            err.json && err.json.meta ? err.json.meta : {},
+            errorMeta,
         )
+
+        if (errorMeta.messages) {
+            const fieds = {}
+
+            for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
+                fieds[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            yield put(failValidate(datasource, fieds))
+        }
     } finally {
         if (pageId) {
             yield put(enablePage(pageId))

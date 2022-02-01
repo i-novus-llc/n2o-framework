@@ -47,8 +47,6 @@ function ImageField(props) {
         action,
     } = props
 
-    const isEmptyModel = isEmpty(model)
-
     const hasStatuses = !isEmpty(statuses)
     const hasInfo = title || description
 
@@ -59,7 +57,7 @@ function ImageField(props) {
         description,
     }
 
-    const resolveProps = isEmptyModel
+    const resolveProps = isEmpty(model)
         ? defaultImageProps
         : propsResolver(defaultImageProps, model)
 

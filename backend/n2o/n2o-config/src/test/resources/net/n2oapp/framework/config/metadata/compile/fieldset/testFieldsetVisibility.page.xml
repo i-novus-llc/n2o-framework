@@ -19,7 +19,7 @@
                 <set label="fieldset2" visible="{fieldset2Condition}">
                     <input-text id="id4">
                         <dependencies>
-                            <visibility>{id4Condition}</visibility>
+                            <visibility>id4Condition</visibility>
                         </dependencies>
                         <validations>
                             <mandatory id="id4" severity="danger" server-moment="before-operation"/>

@@ -25,6 +25,7 @@
             </filters>
         </field>
         <field id="individualId" domain="integer">
+            <select mapping="['indiv_id']">ic.indiv_id as indiv_id</select>
             <filters>
                 <eq filter-id="individualId">ic.indiv_id = :individualId</eq>
             </filters>

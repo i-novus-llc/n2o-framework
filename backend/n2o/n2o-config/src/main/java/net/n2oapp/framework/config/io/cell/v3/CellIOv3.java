@@ -9,7 +9,7 @@ import org.jdom2.Namespace;
  * Интерфейс ячейки
  */
 public interface CellIOv3 extends NamespaceUriAware, BaseElementClassAware<N2oCell> {
-    Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/n2o-cell-3.0");
+    Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/cell-3.0");
 
     @Override
     default String getNamespaceUri() {

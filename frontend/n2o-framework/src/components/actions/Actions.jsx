@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ButtonToolbar from 'reactstrap/lib/ButtonToolbar'
-import ButtonGroup from 'reactstrap/lib/ButtonGroup'
-import Button from 'reactstrap/lib/Button'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { ButtonToolbar, ButtonGroup, Button, DropdownMenu, DropdownItem } from 'reactstrap'
 import { compose, setDisplayName } from 'recompose'
 import get from 'lodash/get'
 

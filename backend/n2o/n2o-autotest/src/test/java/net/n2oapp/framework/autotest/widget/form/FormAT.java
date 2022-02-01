@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,6 +43,7 @@ public class FormAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7442
     @Test
     public void testForm() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/index.page.xml"),
@@ -102,9 +104,7 @@ public class FormAT extends AutoTestBase {
         // у кнопки2 не должно быть подсказки, т.к. не указан description
         tooltip.shouldNotBeExist();
     }
-
-
-    //https://jira.i-novus.ru/browse/NNO-7339
+    
     @Test
     public void testMode() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),

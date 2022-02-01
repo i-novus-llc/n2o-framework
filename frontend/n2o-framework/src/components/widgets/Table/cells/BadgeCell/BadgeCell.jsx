@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import Badge from 'reactstrap/lib/Badge'
+import { Badge } from 'reactstrap'
 
 import Text from '../../../../snippets/Text/Text'
 import withTooltip from '../../withTooltip'

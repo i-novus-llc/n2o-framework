@@ -1,4 +1,4 @@
-<tiles xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-5.0"
+<tiles xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
        id="tiles_id" datasource="test" cols-sm="2" cols-md="3" cols-lg="5" height="450" width="300">
     <content>
         <block text-field-id="id1" tooltip-field-id="tooltip" class="test" style="color:red">
