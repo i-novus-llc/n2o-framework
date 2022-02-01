@@ -4,7 +4,7 @@ import values from 'lodash/values'
 
 import WidgetLayout from '../StandardWidget'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
-import { WidgetHOC } from '../../../core/widget/Widget'
+import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
 
 import FormContainer from './FormContainer'

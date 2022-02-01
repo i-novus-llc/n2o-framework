@@ -14,7 +14,8 @@ import { withTranslation } from 'react-i18next'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
 
-import { SidebarItemContainer } from './SidebarItemContainer'
+// eslint-disable-next-line import/no-named-as-default
+import SidebarItemContainer from './SidebarItemContainer'
 
 /**
  * Sidebar
@@ -93,6 +94,7 @@ export function SideBar({
     onMouseLeave,
     side = 'left',
     isStaticView,
+    datasources,
 }) {
     const sidebarRef = useRef()
 
@@ -120,7 +122,7 @@ export function SideBar({
     const renderItems = items => map(items, (item, key) => (
         <SidebarItemContainer
             key={key}
-            item={item}
+            itemProps={item}
             activeId={activeId}
             sidebarOpen={isStaticView || currentVisible}
             defaultState={defaultState}
@@ -128,6 +130,8 @@ export function SideBar({
             showContent={showContent}
             isMiniView={isMiniView}
             isStaticView={isStaticView}
+            datasources={datasources}
+            datasource={item.datasource}
         />
     ))
 
@@ -207,6 +211,7 @@ SideBar.propTypes = {
     className: PropTypes.string,
     menu: PropTypes.object,
     extraMenu: PropTypes.object,
+    datasources: PropTypes.object,
     defaultState: PropTypes.string,
     toggledState: PropTypes.string,
     onMouseEnter: PropTypes.func,

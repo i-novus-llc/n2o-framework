@@ -29,6 +29,8 @@ public class HeaderItem implements Compiled, PropertiesAware {
     private String imageSrc;
     @JsonProperty
     private ImageShape imageShape;
+    @JsonProperty
+    private String datasource;
     @JsonProperty("items")
     private ArrayList<HeaderItem> subItems;
     @JsonProperty("type")

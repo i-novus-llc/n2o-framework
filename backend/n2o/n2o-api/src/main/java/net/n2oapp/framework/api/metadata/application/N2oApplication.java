@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.application;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
@@ -42,6 +43,11 @@ public class N2oApplication extends N2oMetadata {
      * Подвал приложения
      */
     private N2oFooter footer;
+
+    /**
+     * Источники данных
+     */
+    private N2oAbstractDatasource[] datasources;
 
     @Override
     public String getPostfix() {

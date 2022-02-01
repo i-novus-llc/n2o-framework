@@ -16,4 +16,3 @@ public class ApplicationIOv2Test {
         assert tester.check("net/n2oapp/framework/config/metadata/application/applicationIOv2.application.xml");
     }
 }
-

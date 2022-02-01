@@ -45,6 +45,7 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
     private void menuItem(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "datasource", m::getDatasource, m::setDatasource);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "badge", m::getBadge, m::setBadge);
         p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);

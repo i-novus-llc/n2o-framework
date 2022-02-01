@@ -70,6 +70,11 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>net.n2oapp.routing</groupId>
             <artifactId>routing-datasource</artifactId>
             <optional>true</optional>

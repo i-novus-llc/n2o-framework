@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import WidgetLayout from '../StandardWidget'
-import { WidgetHOC } from '../../../core/widget/Widget'
+import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 
 import TreeContainer from './container/TreeContainer'

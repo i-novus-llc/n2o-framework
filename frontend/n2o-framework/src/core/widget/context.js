@@ -12,4 +12,4 @@ const METHODS = {
     setSize(size) {},
 }
 
-export const WidgetContext = createContext(METHODS)
+export const DataSourceContext = createContext(METHODS)

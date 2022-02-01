@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { WidgetHOC } from '../../../core/widget/Widget'
+import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'

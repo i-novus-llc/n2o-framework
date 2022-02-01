@@ -9,7 +9,11 @@
             label="testLabel"
             visible="false"
             placeholder="test"
-            default-value="testDefValue">
+            default-value="testDefValue"
+            ref-datasource="ds1"
+            ref-model="resolve"
+            ref-page="parent"
+            ref-field-id="field">
 
     <dependencies>
         <enabling on="type">type.id == 1</enabling>

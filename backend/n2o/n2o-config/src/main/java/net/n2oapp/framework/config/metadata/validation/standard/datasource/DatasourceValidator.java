@@ -105,12 +105,6 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
                     ValidationUtils.checkForExistsDatasource(preFilter.getDatasource(), scope,
                             String.format("В префильтре по полю %s указан несуществующий источник данных '%s'",
                                     fieldId, preFilter.getDatasource()));
-
-                if (preFilter.getValue() != null && preFilter.getParam() != null && (!Boolean.TRUE.equals(preFilter.getRoutable()))) {
-                    throw new N2oMetadataValidationException(
-                            String.format("В префильтре по полю %s указан value и param, но при этом routable=false, что противоречит логике работы префильтров!",
-                                    fieldId));
-                }
                 N2oQuery.Field exField = null;
                 for (N2oQuery.Field field : query.getFields()) {
                     if (preFilter.getFieldId().equals(field.getId())) {

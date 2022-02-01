@@ -3,6 +3,7 @@ import { pure } from 'recompose'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstrap'
+import isNumber from 'lodash/isNumber'
 
 import { MODIFIERS } from '../../controls/DatePicker/utils'
 
@@ -54,7 +55,7 @@ class AdvancedTableFilter extends Component {
     onResetFilter() {
         const { value } = this.state
 
-        if (!isEmpty(value)) {
+        if (isNumber(value) || !isEmpty(value)) {
             const { id, onFilter } = this.props
 
             this.setState({ value: '' }, () => onFilter({ id, value: '' }))
@@ -97,7 +98,7 @@ class AdvancedTableFilter extends Component {
                   <DropdownToggle tag="div">
                       <Button color="link" size="sm">
                           <i className="fa fa-filter" />
-                          {!isEmpty(value) && (
+                          {(isNumber(value) || !isEmpty(value)) && (
                               <Badge
                                   className="n2o-advanced-table-filter-badge"
                                   color="primary"

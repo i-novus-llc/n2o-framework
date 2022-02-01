@@ -111,16 +111,6 @@ public class DatasourceValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяются префильтры на корректность использования routable
-     */
-    @Test
-    public void testValueAndParamWithRoutableFalse() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В префильтре по полю id указан value и param, но при этом routable=false, что противоречит логике работы префильтров!");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testValueAndParamWithRoutableFalse.page.xml");
-    }
-
-    /**
      * Проверяется, что для префильтра в выборке есть соответствующее поле
      */
     @Test

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import get from 'lodash/get'
@@ -12,8 +12,9 @@ import {
     withHandlers,
 } from 'recompose'
 import numeral from 'numeral'
-
 import 'numeral/locales/ru'
+import isEmpty from 'lodash/isEmpty'
+
 import { Spinner } from '../snippets/Spinner/Spinner'
 import {
     requestConfig as requestConfigAction,
@@ -21,18 +22,27 @@ import {
     registerLocales,
     globalSelector,
 } from '../../ducks/global/store'
+import { register } from '../../ducks/datasource/store'
 
-// eslint-disable-next-line import/no-named-as-default
-import GlobalAlerts from './GlobalAlerts'
+import { GlobalAlertsConnected } from './GlobalAlerts'
 
 function Application(props) {
-    const { ready, loading, render, locale, ...config } = props
+    const { ready, loading, render, locale, menu, registerDatasorces, ...config } = props
+    const { datasources } = menu
+
+    useEffect(() => {
+        if (isEmpty(datasources)) { return }
+
+        Object.entries(datasources).forEach(([id, config]) => {
+            registerDatasorces(id, config)
+        })
+    }, [datasources, registerDatasorces])
 
     numeral.locale(locale)
 
     return (
         <>
-            <GlobalAlerts />
+            <GlobalAlertsConnected />
             <Spinner type="cover" loading={loading}>
                 {ready && render(config)}
             </Spinner>
@@ -46,6 +56,9 @@ Application.propTypes = {
     realTimeConfig: PropTypes.bool,
     render: PropTypes.func,
     locale: PropTypes.string,
+    datasources: PropTypes.object,
+    menu: PropTypes.object,
+    registerDatasorces: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -56,6 +69,7 @@ const mapDispatchToProps = dispatch => ({
     setReady: bindActionCreators(setReadyAction, dispatch),
     requestConfig: bindActionCreators(requestConfigAction, dispatch),
     registerLocales: locales => dispatch(registerLocales(locales)),
+    registerDatasorces: (id, config) => dispatch(register(id, config)),
 })
 
 export default compose(

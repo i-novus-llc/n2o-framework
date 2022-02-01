@@ -5,10 +5,10 @@ description: ""
 
 Настройки N2O делятся на настройки клиента, настройки сервера и сообщения локализации.
 
-### Использование в XML
+### Использование в XML {#Xml}
 
-В любом месте XML файла можно обратиться к настройке через "доллар"
-и фигурные скобки: `${property}`, где `property` название настройки.
+В любом месте XML файла можно обратиться к настройке через знак `$`
+и фигурные скобки: `${property}`, где `property` - код настройки.
 
 ```xml title="Использование настройки в элементе XML"
 <name>${prop}</name>
@@ -20,79 +20,74 @@ description: ""
 
 ### Файлы настроек сервера {#Server_settings_files}
 
-Значения по умолчанию настройки определяются в файлах `META-INF/n2o.properties`
-в ресурсах любого модуля проекта.
+Значения по умолчанию для настроек определяются в файле `application.properties` в ресурсах приложения.
 Значения задаются в виде "ключ=значение":
 
-```
-my.url=https://n2oapp.net/framework
+```js title="application.properties"
+myapp.url=https://n2oapp.net/framework
 ```
 
 Можно использовать SpEL выражение:
 
-```
-my.number=#{T(java.lang.Math).random() * 100.0}
+```js title="application.properties"
+myapp.number=#{T(java.lang.Math).random() * 100.0}
 ```
 
 В SpEL выражениях есть доступ к системным настройкам Java:
 
-```
-my.path=#{systemProperties['user.home']}
+```js title="application.properties"
+myapp.path=#{systemProperties['user.home']}
 ```
 
 Или к настройкам окружения:
 
-```
-my.path=#{envProperties['HOME']}
+```js title="application.properties"
+myapp.path=#{envProperties['HOME']}
 ```
 
 Значения можно переопределить на [нескольких уровнях](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html).
 
 ### Файлы локализации
 
-Файлы локализации хранятся как Resource Bundle,
-в properties формате в ресурсах любого модуля проекта.
+Файлы локализации [хранятся](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization)
+как Resource Bundle в properties формате в ресурсах приложения.
 По умолчанию базовое имя файла `messages.properties`.
 Базовые имена файлов можно переопределить через настройку `spring.messages.basename`.
 
 Чтобы задать сообщения на другом языке, нужно добавить к базовому имени файла локаль.
 Например, `messages_en.properties`.
 Использовать сообщения локализации можно в любом месте XML файлов конфигураций,
-точно так же, как и N2O настройки.
+точно так же, как и настройки.
 
 Стандартные message bundle N2O лежат в `n2o_api_messages`, `n2o_config_messages`, `n2o_rest_messages`.
 Для добавления дополнительных или переопределения стандартных необходимо переопределить настройку `spring.messages.basename`.
 
-### Настройки локализации
-
-Управлять локализацией можно следующими настройками:
-
-`n2o.i18n.enabled` - доступность переключения языка (по умолчанию `false`)
-
-`n2o.i18n.default-locale` - локаль по умолчанию
+Текущая локаль приложения задается стандартными средствами Spring.
+Поддержку локализации в N2O можно выключить настройкой `n2o.i18n.enabled`.
+Задать локаль по умолчанию можно через настройку `n2o.i18n.default-locale`.
 
 ### Файлы настроек клиента
 
-Настройки клиента задаются в формате `json` в файлах `META-INF/config.json`
-в ресурсах любого модуля проекта:
+Настройки клиента задаются в формате `json` в файле `META-INF/config.json`
+в ресурсах приложения:
 
-```json title="Настройки клиента"
+```json title="META-INF/config.json"
 {
-  "name": "Joe"
+  "projectName": "MyApp"
 }
 
 ```
 В значениях json можно вставлять [настройки N2O](#Server_settings_files) через "доллар" и фигурные скобки:
 
-```json
+```json title="META-INF/config.json"
 {
-  "src": "${myprops.src}"
+  "version": "${project.version}"
 }
 ```
 
 Или можно вставлять значения [контекста пользователя](../manual/context):
 
-```json
+```json title="META-INF/config.json"
 {
   "user" : {
     "username": "#{username}"
