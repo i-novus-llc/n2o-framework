@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
-import Badge from 'reactstrap/lib/Badge'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { Badge, DropdownItem } from 'reactstrap'
 
 import CheckboxN2o from '../Checkbox/CheckboxN2O'
 import { Icon } from '../../snippets/Icon/Icon'

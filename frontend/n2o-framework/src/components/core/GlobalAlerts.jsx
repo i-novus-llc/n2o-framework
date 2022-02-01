@@ -24,13 +24,11 @@ export function GlobalAlerts({ alerts, onDismiss }) {
         className: 'd-inline-flex mb-0 p-2 mw-100',
         details: alert.stacktrace,
         animate: true,
-        position: 'relative',
+        position: 'fixed',
     }))
 
     return (
-        <div className="n2o-global-alerts d-flex justify-content-center">
-            <Alerts alerts={mapAlertsProps()} />
-        </div>
+        <Alerts alerts={mapAlertsProps()} />
     )
 }
 

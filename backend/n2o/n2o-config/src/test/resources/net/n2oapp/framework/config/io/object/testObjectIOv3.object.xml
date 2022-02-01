@@ -47,6 +47,6 @@
                 <sql>select 1</sql>
             </invocation>
         </constraint>
-        <mandatory id="id4" severity="success" message="test" src="/test" on="test"/>
+        <mandatory id="id4" severity="success" message="test"/>
     </validations>
 </object>

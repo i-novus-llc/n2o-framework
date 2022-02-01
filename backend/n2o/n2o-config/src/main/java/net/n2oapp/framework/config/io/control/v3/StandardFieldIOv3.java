@@ -71,9 +71,6 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
 
     private void mandatory(Element e, N2oMandatory t, IOProcessor p) {
         validation(e, t, p);
-        p.text(e, t::getExpression, t::setExpression);
-        p.attribute(e, "on", t::getExpressionOn, t::setExpressionOn);
-        p.attribute(e, "src", t::getSrc, t::setSrc);
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {

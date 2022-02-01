@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 export function DropdownCustomItem({ color, ...rest }) {
     return <Button {...rest} className="dropdown-item-btn" />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import Card from 'reactstrap/lib/Card'
+import { Card } from 'reactstrap'
 
 import Panel from './Panel'
 import PanelShortHand from './PanelShortHand'

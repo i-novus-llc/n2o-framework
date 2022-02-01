@@ -1,9 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import UncontrolledButtonDropdown from 'reactstrap/lib/UncontrolledButtonDropdown'
-import DropdownToggle from 'reactstrap/lib/DropdownToggle'
-import DropdownMenu from 'reactstrap/lib/DropdownMenu'
-import DropdownItem from 'reactstrap/lib/DropdownItem'
+import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'

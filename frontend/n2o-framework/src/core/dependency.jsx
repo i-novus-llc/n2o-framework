@@ -50,14 +50,14 @@ export const dependency = (WrappedComponent) => {
                     pageId,
                     dataProvider,
                     modelPrefix,
-                    isVisible: hasVisibleDeps ? false : defaultVisible,
+                    visible: hasVisibleDeps ? false : defaultVisible,
                 })
                 registerDependency(dependency)
             }
         }
 
         render() {
-            const { isVisible, disabled } = this.props
+            const { visible, disabled } = this.props
 
             const initMetadata = {
                 metadata: {
@@ -68,11 +68,11 @@ export const dependency = (WrappedComponent) => {
 
             return (
                 <InitMetadataContext.Provider value={initMetadata}>
-                    {isVisible ? (
+                    {visible ? (
                         <WrappedComponent
                             {...this.props}
                             disabled={disabled}
-                            visible={isVisible}
+                            visible={visible}
                         />
                     ) : null}
                 </InitMetadataContext.Provider>
@@ -82,14 +82,14 @@ export const dependency = (WrappedComponent) => {
 
     UniversalDependency.propTypes = {
         isInit: PropTypes.bool,
-        isVisible: PropTypes.bool,
+        visible: PropTypes.bool,
         disabled: PropTypes.bool,
         models: PropTypes.object,
     }
 
     const mapStateToProps = (state, props) => ({
         isInit: makeWidgetIsInitSelector(props.id)(state, props),
-        isVisible: makeWidgetVisibleSelector(props.id)(state, props),
+        visible: makeWidgetVisibleSelector(props.id)(state, props),
         disabled: makeWidgetDisabledSelector(props.id)(state, props),
     })
 

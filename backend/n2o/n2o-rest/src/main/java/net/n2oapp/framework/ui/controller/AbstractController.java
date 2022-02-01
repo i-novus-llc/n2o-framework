@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -94,8 +93,6 @@ public abstract class AbstractController {
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
         requestInfo.setMessagePosition(actionCtx.getMessagePosition());
         requestInfo.setMessagePlacement(actionCtx.getMessagePlacement());
-        requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
-        requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         return requestInfo;
     }
@@ -206,8 +203,6 @@ public abstract class AbstractController {
         requestInfo.setData(data);
         requestInfo.setUpload(queryCtx.getUpload() != null ? queryCtx.getUpload() : UploadType.query);
         requestInfo.setCriteria(prepareCriteria(requestInfo.getQuery(), data, queryCtx));
-        requestInfo.setSuccessAlertWidgetId(queryCtx.getSuccessAlertWidgetId());
-        requestInfo.setFailAlertWidgetId(queryCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
         requestInfo.setSize(requestInfo.getCriteria().getSize());
         return requestInfo;

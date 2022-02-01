@@ -428,15 +428,21 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void createUploadDefaults() {
-        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDefaults.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/action/testShowModalOnClose.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDefaults.page.xml")
                 .get(new PageContext("testShowModalDefaults", "/p"));
-        PageContext modalCtx = (PageContext) route("/p/create", Page.class);
+        PageContext modalCtx = (PageContext) route("/p/update", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
         assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
-        SimplePage createPage = (SimplePage) routeAndGet("/p/create", Page.class);
-        Datasource datasource = createPage.getDatasources().get("p_create_modal");
+        SimplePage modalPage = (SimplePage) routeAndGet("/p/update", Page.class);
+        Datasource datasource = modalPage.getDatasources().get("p_update_modal");
         assertThat(datasource.getProvider(), nullValue());
+
+        modalCtx = (PageContext) route("/p/update2", Page.class);
+        assertThat(modalCtx.getDatasources().size(), is(1));
+        assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2", Page.class);
+        Datasource datasource1 = modalPage2.getDatasources().get("p_update2_main");
+        assertThat(datasource1.getProvider(), nullValue());
     }
 
     /**

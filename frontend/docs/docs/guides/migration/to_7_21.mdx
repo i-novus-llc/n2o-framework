@@ -1,0 +1,116 @@
+---
+title: Миграция с 7.20 на 7.21
+description: ""
+---
+### Изменения в XML API {#changes-xml-api}
+
+- Появились новые схемы `page-4.0`, `widget-5.0`, `toolbar-2.0`, `datasource-1.0`, `action-2.0`, `region-3.0`,
+`button-2.0`, `cell-3.0`, `fieldset-5.0`, `control-3.0`.
+Чтобы перейти на новые схемы, нужно в виджетах атрибуты `query-id` и `object-id` перенести в элемент `<datasource>`
+внутри виджета или создать его на странице.
+Префильтры виджета `<pre-filters>` перенести в `<datasource>` с именем `<filters>`.
+
+- У виджетов упразднен атрибут `route`, теперь все пути вложенных и модальных страниц строятся от корня страницы.
+Если на странице несколько виджетов открывающих вложенные (`<open-page>`) или модальные страницы (`<show-modal>`),
+рекомендуется изменить их `route` так, чтобы они не совпадали.
+Если у `route` виджета использовался параметр пути, то необходимо эти параметры пути скопировать в действия вызова страниц и окон.
+
+- Атрибут `datasource` в `page-3.0` удален.
+Если нужен один датасурс на несколько виджетов, необходимо использовать схему `page-4.0` с элементом `<datasources>`.
+
+- Атрибут `validate="page"` у `<button>` упразднен.
+Для всех кнопок действует проверка только текущей формы,
+если необходимо проверить несколько форм, следует использовать атрибут `validate-datasources`,
+в котором перечисляется список источников данных для валидации.
+
+- Если у `<button>` задан атрибут `widget-id`, то после успешного выполнения `invoke`
+обновится именно тот виджет, который указанный в атрибуте, а не виджет, в котором находится кнопка.
+Чтобы этого избежать, нужно во всех кнопках,
+где указан widget-id указать refresh-widget-id равный виджету, в котором находится кнопка.
+
+- Упразднен атрибут `fetch-on-init`.
+Теперь он вычисляется автоматически.
+
+### Изменения в Java API
+
+- В `N2o*` классах добавились `@Deprecated` свойства.
+Например, в `N2oWidget` поля `queryId` и `objectId`.
+В этих классах появились методы `adaptV*()`, которые мигрируют устаревшие поля в новые структуры.
+Нужно либо вызвать их, либо перейти на новую структуру самостоятельно, не используя deprecated свойства.
+
+### Изменения функциональности
+
+- Возможность фокуса на только что созданной записи упразднена.
+Удален атрибут `focus-after-submit`.
+Рекомендуется использовать редирект на карточку редактирования сразу после создания записи с помощью атрибута `redirect-url-after-submit`.
+
+- Сообщения внутри виджета больше не будут отображаться. Все сообщения будут отображаться на странице.
+
+- Изменилось формирование route для open-page (потому что больше нет зависимостей между виджетами)
+
+*Пример как работало раньше*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+  <regions>
+      <region>
+          <form id="main">
+              <fields>
+                  <input-text id="version"/>
+                  <input-text id="number"/>
+              </fields>
+          </form>
+
+          <form id="dependent" depends-on="main" detail-field-id="id">
+              <fields>
+                  <button widget-id="main">
+                      <open-drawer
+                              page-id="openDrawerPage"
+                              route="/:version/btn1">
+                          <path-param name="version" value="{version}"/>
+                          <query-param name="number" value="{number}"/>
+                      </open-drawer>
+                  </button>
+              </fields>
+          </form>
+      </region>
+  </regions>
+</page>
+```
+
+Url открываемой страницы был: `/:test_main_id/dependent/:version/btn1`, теперь будет просто: `/:version/btn1`
+
+Чтобы получить url как раньше необходимо написать следующее:
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+  <regions>
+      <region>
+          <form id="main">
+              <fields>
+                  <input-text id="version"/>
+                  <input-text id="number"/>
+              </fields>
+          </form>
+
+          <form id="dependent" depends-on="main" detail-field-id="id">
+              <fields>
+                  <button widget-id="main">
+                      <open-drawer
+                              page-id="openDrawerPage"
+                              route="/:test_main_id/detail/:version/btn1">
+                          <path-param name="test_main_id" value="{id}"/>
+                          <path-param name="version" value="{version}"/>
+                          <query-param name="number" value="{number}"/>
+                      </open-drawer>
+                  </button>
+              </fields>
+          </form>
+      </region>
+  </regions>
+</page>
+```
+
+- Удален функционал, что валидации из операции проставляются в запрос за данными (раньше при открытии формы в валидации запроса
+добавлялись валидации операции submit).

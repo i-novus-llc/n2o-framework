@@ -32,8 +32,6 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private String labelFieldId;
     private String valueFieldId;
     private String sortFieldId;
-    private String masterFieldId;
-    private String detailFieldId;
     private String format;
     private Map<String, String> defValue;
     private String statusFieldId;

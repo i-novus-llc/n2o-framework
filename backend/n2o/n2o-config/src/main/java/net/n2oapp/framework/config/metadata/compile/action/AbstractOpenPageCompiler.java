@@ -204,9 +204,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
         }
         pageContext.setPathRouteMapping(pathMapping);
-        // при наличии route или при filter модели не добавляем queryMapping
-//        if (source.getRoute() == null && !ReduxModel.filter.equals(actionDataModel))
-//            queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, p)); fixme кажется не нужно, после появления datasources
         initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope,
                 actionModelWidgetId, widgetIdQueryIdMap, p);
         pageContext.setQueryRouteMapping(queryMapping);

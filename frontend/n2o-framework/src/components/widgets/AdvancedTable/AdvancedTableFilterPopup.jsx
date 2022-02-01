@@ -1,7 +1,7 @@
 import React from 'react'
 import { pure } from 'recompose'
 import PropTypes from 'prop-types'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 import assign from 'lodash/assign'
 
 import InputText from '../../controls/InputText/InputText'

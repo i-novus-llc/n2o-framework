@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BaseTable from 'reactstrap/lib/Table'
+import { Table as BaseTable } from 'reactstrap'
 
 import { mapToNumOrStr } from '../../utils'
 

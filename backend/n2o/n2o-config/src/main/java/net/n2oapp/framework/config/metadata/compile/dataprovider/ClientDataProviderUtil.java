@@ -148,21 +148,6 @@ public class ClientDataProviderUtil {
         return link;
     }
 
-    private static String getDatasourceIdByWidget(CompileProcessor p, String targetWidgetId, N2oParam param, PageScope pageScope) {
-        String datasourceId;
-        String widgetId = null;
-        if (param.getRefWidgetId() != null) {
-            String pageId = param.getRefPageId();
-            if (param.getRefPageId() == null && pageScope != null)
-                pageId = pageScope.getPageId();
-            widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
-        }
-        String resultWidgetId = p.cast(widgetId, targetWidgetId);
-        datasourceId = pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
-                ? resultWidgetId : pageScope.getWidgetIdClientDatasourceMap().get(resultWidgetId);
-        return datasourceId;
-    }
-
     private static ModelLink getModelLinkByParam(CompileContext<?, ?> context, N2oParam param) {
         ModelLink link = null;
         if (context.getPathRouteMapping() != null && context.getPathRouteMapping().containsKey(param.getValueParam())) {
@@ -232,31 +217,6 @@ public class ClientDataProviderUtil {
             actionContext.setOperationMapping(operationMapping);
             p.addRoute(actionContext);
         }
-    }
-
-    /**
-     * Инициализация целевого виджета
-     */
-    private static String initTargetWidget(CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = null;
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                targetWidgetId = pageScope == null ?
-                        widgetIdAware.getWidgetId() : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());//todo обсудить
-            }
-        }
-        if (targetWidgetId == null) {
-            if (widgetScope != null) {
-                targetWidgetId = widgetScope.getClientWidgetId();
-            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null && pageScope != null) {
-                targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
-            }
-        }
-        return targetWidgetId;
     }
 
     /**

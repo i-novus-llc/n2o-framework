@@ -27,12 +27,6 @@ public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
     private String parentClientWidgetId;
 
     /**
-     * Идентификатор клиентского виджета
-     */
-    @Deprecated
-    private String clientWidgetId;
-
-    /**
      * Идентификатор объекта, в котором находится операция
      */
     private String objectId;

@@ -35,7 +35,7 @@ public abstract class ListFieldIOv3<T extends N2oListField> extends StandardFiel
         p.attributeInteger(e, "size", m::getSize, m::setSize);
         p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::defaultValue);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
-        p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
+        p.childrenByEnum(e, "filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
         p.attribute(e, "status-field-id", m::getStatusFieldId, m::setStatusFieldId);
     }

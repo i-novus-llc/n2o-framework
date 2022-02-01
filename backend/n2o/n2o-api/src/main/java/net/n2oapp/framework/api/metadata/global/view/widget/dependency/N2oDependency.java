@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.Source;
 @Getter
 @Setter
 public class N2oDependency implements Source {
-    private String[] on;
     private ReduxModel model;
     private String value;
     private String datasource;

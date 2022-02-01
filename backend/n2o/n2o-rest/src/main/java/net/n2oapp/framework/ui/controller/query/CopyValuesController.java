@@ -33,7 +33,7 @@ public class CopyValuesController extends DefaultValuesController {
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         DataSet defaultModel = extractCopyModel(requestInfo, responseInfo);
-        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
+        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getMessagesForm());
     }
 
     protected DataSet extractCopyModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {

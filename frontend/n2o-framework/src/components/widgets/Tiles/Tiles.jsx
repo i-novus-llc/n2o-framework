@@ -18,6 +18,7 @@ import TilesCell from './TilesCell'
  * @reactProps {number} id - id виджета
  * @reactProps {string} tileWidth - ширина ввиджета
  * @reactProps {string} tileHeight - высота виджета
+ * @reactProps {string} datasource - datasource key
  */
 
 function Tiles(props) {
@@ -34,6 +35,7 @@ function Tiles(props) {
         tileHeight,
         onResolve,
         dispatch,
+        datasource,
     } = props
     const col = calcCols(colsSm, colsMd, colsLg, width)
 
@@ -50,6 +52,7 @@ function Tiles(props) {
                         model={element}
                         onResolve={onResolve}
                         dispatch={dispatch}
+                        datasource={datasource}
                         {...cell}
                     />
                 ))}
@@ -105,6 +108,7 @@ Tiles.propTypes = {
     width: PropTypes.number,
     onResolve: PropTypes.func,
     dispatch: PropTypes.func,
+    datasource: PropTypes.string,
 }
 
 Tiles.defaultProps = {
