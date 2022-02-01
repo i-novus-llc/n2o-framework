@@ -8,7 +8,7 @@ import first from 'lodash/first'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 import Popup from '../InputSelect/Popup'
 import PopupList from '../InputSelect/PopupList'

@@ -1,12 +1,11 @@
 import { runSaga } from 'redux-saga'
 
-import { addFieldMessage } from '../ducks/form/store'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 import {
     alertEffect,
     redirectEffect,
-    messagesFormEffect,
     clearFormEffect,
 } from './meta'
 
@@ -30,28 +29,6 @@ const setupAlertEffect = () => {
     return {
         meta,
         alert,
-    }
-}
-
-const setupMessageFormEffect = () => {
-    const meta = {
-        'messages.form': 'Page_Form',
-        'messages.fields': [
-            {
-                name: 'field1',
-                message: {
-                    severity: 'success',
-                    text: 'Успешное действие',
-                },
-            },
-        ],
-    }
-    const messageForm = messagesFormEffect({
-        meta,
-    })
-    return {
-        meta,
-        messageForm,
     }
 }
 
@@ -112,7 +89,7 @@ describe('Сага для перехвата меты, сайд-эффектов
             const { alert, meta } = setupAlertEffect()
             let gen = alert.next()
             gen = alert.next()
-            expect(gen.value.payload.action.payload.key).toEqual(meta.alert.alertKey)
+            expect(gen.value.payload.action.payload.key).toEqual(GLOBAL_KEY)
             expect(gen.value.payload.action.payload.alerts[0].closeButton).toEqual(
                 meta.alert.messages[0].closeButton,
             )
@@ -124,32 +101,6 @@ describe('Сага для перехвата меты, сайд-эффектов
             )
             expect(gen.value.payload.action.payload.alerts[0].severity).toEqual(
                 meta.alert.messages[0].severity,
-            )
-        })
-    })
-
-    describe('Проверяет сагу messagesFormEffect', () => {
-        it('Проверка диспатча саги messagesFormEffect', () => {
-            const { messageForm } = setupMessageFormEffect()
-            let gen = messageForm.next()
-            gen = messageForm.next()
-            expect(gen.value.payload.action.payload[0].type).toEqual(
-                addFieldMessage.type,
-            )
-        })
-
-        it('Проверка payload саги messageFormEffect', () => {
-            const { messageForm, meta } = setupMessageFormEffect()
-            let gen = messageForm.next()
-            gen = messageForm.next()
-            expect(gen.value.payload.action.payload[0].payload.form).toEqual(
-                meta['messages.form'],
-            )
-            expect(
-                gen.value.payload.action.payload[0].payload.message.severity,
-            ).toEqual(meta['messages.fields'].severity)
-            expect(gen.value.payload.action.payload[0].payload.message.text).toEqual(
-                meta['messages.fields'].text,
             )
         })
     })

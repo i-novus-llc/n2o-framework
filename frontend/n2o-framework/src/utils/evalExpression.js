@@ -22,6 +22,55 @@ export function parseExpression(value) {
 }
 
 /**
+ * Получение глобального контекста
+ */
+export function getGlobal() {
+    // eslint-disable-next-line no-undef
+    if (typeof globalThis !== 'undefined') { return globalThis }
+    // eslint-disable-next-line no-restricted-globals
+    if (typeof self !== 'undefined') { return self }
+    if (typeof window !== 'undefined') { return window }
+    if (typeof global !== 'undefined') { return global }
+
+    return (function getThis() { return this }())
+}
+
+/**
+ * Получение обёртки над глобальым контекстом для контроля доступа к пропертям
+ */
+export const createGlobalContext = (() => {
+    let context
+    const allowList = ['undefined', 'null', 'NaN', 'Infinity',
+        // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
+        'location', 'history', 'navigator',
+    ]
+    const selfKeys = ['window', 'self', 'global', 'globalThis']
+
+    return function createGlobalContext() {
+        if (context) { return context }
+
+        const self = getGlobal()
+
+        context = new Proxy(self, {
+            has() { return true },
+            set() { return false },
+            get(key) {
+                if (typeof self[key] === 'function' || allowList.includes(key)) {
+                    return self[key]
+                }
+                if (selfKeys.includes(key)) {
+                    return context
+                }
+
+                return undefined
+            },
+        })
+
+        return context
+    }
+})()
+
+/**
  * Создает функцию из текста
  * @param args {String[]} - массив имен переменных
  * @param code {String} - код для выполнения
@@ -34,15 +83,16 @@ export function createContextFn(args, code) {
     if (!fooCache[key]) {
         // eslint-disable-next-line no-new-func
         fooCache[key] = new Function(
-            windowKeys,
-            `return function (${joinedArgs}) { return (${code}) }`,
-        )()
+            'globalContext',
+            `with(globalContext) {
+                return function (${joinedArgs}) { return (${code}) }
+            }`,
+        )(createGlobalContext())
     }
 
     return fooCache[key]
 }
 
-const windowKeys = Object.keys(window).filter(v => !v.includes('-'))
 const fooCache = {}
 
 // eslint-disable-next-line consistent-return

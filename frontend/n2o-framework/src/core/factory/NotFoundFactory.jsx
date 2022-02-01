@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Alert from 'reactstrap/lib/Alert'
+import { Alert } from 'reactstrap'
 
 export function NotFoundFactory({ src, level }) {
     /* eslint-disable react/jsx-one-expression-per-line */

@@ -11,13 +11,10 @@ public abstract class ValidationInfo {
     private DataSet dataSet;
     private List<Validation> validations;
     private String messageForm;
-    private String failAlertWidgetId;
 
-
-    public ValidationInfo(DataSet dataSet, List<Validation> validations, String messageForm, String failAlertWidgetId) {
+    public ValidationInfo(DataSet dataSet, List<Validation> validations, String messageForm) {
         this.dataSet = dataSet;
         this.validations = validations;
         this.messageForm = messageForm;
-        this.failAlertWidgetId = failAlertWidgetId;
     }
 }

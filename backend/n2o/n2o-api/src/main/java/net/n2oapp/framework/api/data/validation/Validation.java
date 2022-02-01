@@ -34,11 +34,10 @@ public abstract class Validation implements Compiled {
     private String side;
 
     private Boolean enabled;
+    @JsonProperty
     private List<String> enablingConditions;
 
     private String fieldId;
-    private N2oFieldCondition fieldVisibilityCondition;
-    private String fieldSetVisibilityCondition;
 
     public Validation(Validation validation) {
         this.id = validation.getId();

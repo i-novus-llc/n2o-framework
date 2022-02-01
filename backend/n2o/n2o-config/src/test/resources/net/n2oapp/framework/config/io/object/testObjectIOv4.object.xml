@@ -91,7 +91,7 @@
                 <sql>select 1</sql>
             </invocation>
         </constraint>
-        <mandatory id="id4" severity="success" message="test" src="/test" on="test" enabled="{type=='type2'}"/>
+        <mandatory id="id4" severity="success" message="test" enabled="{type=='type2'}" field-id="field1"/>
         <dialog id="id5" server-moment="after-success-operation" message="message"
                 enabled="false" size="sm" result="name=='Ivan'">
             <invocation>

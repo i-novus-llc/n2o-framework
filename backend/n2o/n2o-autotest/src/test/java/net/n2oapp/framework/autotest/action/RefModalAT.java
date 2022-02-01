@@ -21,6 +21,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -88,6 +89,7 @@ public class RefModalAT extends AutoTestBase {
         street.shouldHaveValue("Качалова");
     }
 
+    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7418
     @Test
     public void refParentModalFromFiltersTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/index.page.xml"),

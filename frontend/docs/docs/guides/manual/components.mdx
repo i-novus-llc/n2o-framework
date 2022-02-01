@@ -19,8 +19,8 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура приложения"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
-        welcome-page-id="index">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+             welcome-page-id="index">
   <header>
     ...
   <header>
@@ -40,7 +40,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура шапки"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <header title="Мое приложение">
       <nav>
         ...
@@ -58,7 +58,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура бооковой панели"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <sidebar title="Мое приложение">
       <nav>
         ...
@@ -76,7 +76,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура подвала"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <footer left-text="N2O ${n2o.version}"/>
 </application>
 ```
@@ -87,10 +87,14 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Меню навигации в отдельном файле"
 <?xml version='1.0' encoding='UTF-8'?>
-<nav xmlns="http://n2oapp.net/framework/config/schema/menu-2.0">
-  <page page-id="menu1" label="Первая страница"/>
-  <page page-id="menu2" label="Вторая страница"/>
-  ...
+<nav xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
+    <menu-item id="mi1" name="Первая страница">
+        <open-page page-id="menu1"/>
+    </menu-item>
+    <menu-item id="mi2" name="Вторая страница">
+        <open-page page-id="menu2"/>
+    </menu-item>
+    ...
 </nav>
 ```
 
@@ -98,17 +102,25 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Меню навигации в приложении"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <header title="Мое приложение">
         <nav>
-          <page page-id="menu1" label="Первая страница"/>
-          <page page-id="menu2" label="Вторая страница"/>
+              <menu-item id="mi1" name="Первая страница">
+                  <open-page page-id="menu1"/>
+              </menu-item>
+              <menu-item id="mi2" name="Вторая страница">
+                  <open-page page-id="menu2"/>
+              </menu-item>
         </nav>
     </header>
     <sidebar title="Мое приложение">
         <extra-menu>
-          <page page-id="menu1" label="Первая страница"/>
-          <page page-id="menu2" label="Вторая страница"/>
+              <menu-item id="mi1" name="Первая страница">
+                  <open-page page-id="menu1"/>
+              </menu-item>
+              <menu-item id="mi2" name="Вторая страница">
+                  <open-page page-id="menu2"/>
+              </menu-item>
         </extra-menu>
     </sidebar>
 </application>
@@ -119,7 +131,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Ссылка на меню навигации"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
     <header title="Мое приложение">
         <nav ref-id="myMenu"/>
     <sidebar title="Мое приложение">
@@ -132,9 +144,8 @@ N2O - компонентно-ориентированный фреймворк.
 
 |Вид                     |Описание                       |
 |------------------------|-------------------------------|
-|`<page>`                |Ссылка на страницу N2O         |
-|`<a>`                   |Ссылка на произвольную страницу|
-|`<sub-menu>`            |Вложенное меню                 |
+|`<menu-item>`           |Ссылка на страницу             |
+|`<dropdown-menu>`       |Вложенное меню                 |
 
 ### Страница
 
@@ -146,7 +157,7 @@ N2O - компонентно-ориентированный фреймворк.
 занимающий всё свободное пространство.
 
 ```xml title="Простая страница"
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
   name="Моя страница">
   <form>...</form><!-- Виджет -->
 </simple-page>
@@ -159,7 +170,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Стандартная страница"
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
   name="Моя страница">
   <regions>
     <!-- Регионы -->
@@ -171,7 +182,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Страница с разметкой регионов "слева и справа""
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Моя страница">
   <left>
     <panel>...</panel>
@@ -186,7 +197,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Страница с разметкой регионов "сверху, слева и справа""
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Моя страница">
   <top>
     <panel>...</panel>
@@ -204,7 +215,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Страница с поисковой строкой"
 <?xml version='1.0' encoding='UTF-8'?>
-<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Моя страница">
   <search-bar search-filter-id="name" search-param="name"/>
   <regions>
@@ -259,7 +270,7 @@ __*Виды регионов*__
 
 ```xml title="Виджет в отдельном файле"
 <?xml version='1.0' encoding='UTF-8'?>
-<table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
        name="Моя таблица">
     ...
 </table>
@@ -269,7 +280,7 @@ __*Виды регионов*__
 
 ```xml title="Виджет внутри страницы"
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
   <table name="Моя таблица">
       ...
   </table>
@@ -280,7 +291,7 @@ __*Виды регионов*__
 
 ```xml title="Виджет внутри региона"
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
   <regions>
     <table name="Моя таблица">
           ...
@@ -309,13 +320,13 @@ __*Виды основных виджетов*__
 
 ```xml title="Виджет таблица"
 <?xml version='1.0' encoding='UTF-8'?>
-<table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя таблица"
-  query-id="table">
-  <columns>
-    <column text-field-id="firstName" label="Имя"/>
-    <column text-field-id="lastName" label="Фамилия"/>
-  </columns>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       name="Моя таблица"
+       query-id="table">
+      <columns>
+            <column text-field-id="firstName" label="Имя"/>
+            <column text-field-id="lastName" label="Фамилия"/>
+      </columns>
 </table>
 ```
 
@@ -330,35 +341,18 @@ __*Виды основных виджетов*__
 
 ```xml title="Виджет форма"
 <?xml version='1.0' encoding='UTF-8'?>
-<form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя форма">
-  <fields>
-    <input-text id="firstName" label="Имя"/>
-    <input-text id="lastName" label="Фамилия"/>
-  </fields>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+      name="Моя форма">
+    <fields>
+        <input-text id="firstName" label="Имя"/>
+        <input-text id="lastName" label="Фамилия"/>
+    </fields>
 </form>
 ```
 
 ![](./images/widget_form.png)
 
 Поля формы задаются внутри элемента `<fields>`.
-
-#### Автоматическое сохранение данных формы
-
-В N2O есть возможность автоматически сохранять данные формы без необходимости
-нажатия кнопки. Для этого используется действие формы `<submit>`.
-
-```xml title="Автоматическое сохранение формы"
-<?xml version='1.0' encoding='UTF-8'?>
-<form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-      name="Моя форма">
-  <fields>
-    <input-text id="firstName" label="Имя"/>
-    <input-text id="lastName" label="Фамилия"/>
-  </fields>
-  <submit operation-id="update"/>
-</form>
-```
 
 ### Кнопки и действия {#Buttons_and_Actions}
 
@@ -390,12 +384,12 @@ __*Виды основных виджетов*__
     </toolbar>
 </page>
 ```
-В этом случае в кнопках необходимо уточнить над каким виджетом они выполняют действия:
+В этом случае в кнопках необходимо уточнить над каким [источником данных](data#Datasources) они выполняют действия:
 
-```xml title="Виджет над которым произойдет действие кнопки"
+```xml title="Источник данных над которым произойдет действие кнопки"
 <page>
   <toolbar>
-    <button widget-id="main">...</button>
+    <button datasource="main">...</button>
   </toolbar>
 </page>
 ```
@@ -412,9 +406,7 @@ __*Виды основных виджетов*__
 ```
 
 :::note
-
 Местоположение панели кнопок зависит от реализации React компонента страницы и виджета.
-
 :::
 
 Кнопки можно соединять в группы:
@@ -479,16 +471,18 @@ __*Виды кнопок*__
 
 __*Виды действий*__
 
-|Вид               |Redux действие             |Описание                                                                          |
-|------------------|---------------------------|----------------------------------------------------------------------------------|
-|&lt;invoke&gt;    |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                     |
-|&lt;show-modal&gt;|n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                              |
-|&lt;open-page&gt; |                           |[Открытие вложенной страницы](../xml/action#open-page)                            |
-|&lt;close&gt;     |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)|
-|&lt;refresh&gt;   |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
-|&lt;clear&gt;     |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                     |
-|&lt;copy&gt;      |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)         |
-|&lt;print&gt;     |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
+|Вид                 |Redux действие             |Описание                                                                            |
+|--------------------|---------------------------|------------------------------------------------------------------------------------|
+|&lt;invoke&gt;      |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                       |
+|&lt;show-modal&gt;  |n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                                |
+|&lt;open-drawer&gt; |n2o/overlays/INSERT_DRAWER |[Открытие выдвижной панели](../xml/action#open-drawer)                              |
+|&lt;open-page&gt;   |                           |[Открытие вложенной страницы](../xml/action#open-page)                              |
+|&lt;a&gt;           |                           |[Открытие ссылки](../xml/action#a)                                                  |
+|&lt;close&gt;       |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)  |
+|&lt;refresh&gt;     |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
+|&lt;clear&gt;       |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                       |
+|&lt;copy&gt;        |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
+|&lt;print&gt;       |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
 
 Действие можно задать внутри кнопки:
 
@@ -504,9 +498,8 @@ __*Виды действий*__
 <table>
   <actions>
     <action id="create" label="Создать">
-      <show-modal
-        page-id="myForm"
-        submit-operation-id="create"/>
+      <show-modal page-id="myForm"
+                  submit-operation-id="create"/>
     </action>
   </actions>
 </table>
@@ -527,7 +520,7 @@ __*Виды действий*__
 
 ```xml title="Филдсет отдельным файлом"
 <?xml version='1.0' encoding='UTF-8'?>
-<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0">
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0">
   ...
 </set>
 ```
@@ -591,9 +584,13 @@ __*Мульти-филдсеты*__
 ```xml
 <form>
     <fields>
-        <multi-set id="members" children-label="Участник {index}" add-label="Добавить участника"
-                   can-remove-all="true" remove-all-label="Удалить всех участников" can-copy="true">
-            ...
+        <multi-set id="members"
+                   children-label="Участник {index}"
+                   add-label="Добавить участника"
+                   can-remove-all="true"
+                   remove-all-label="Удалить всех участников"
+                   can-copy="true">
+                ...
         </multi-set>
     </fields>
 </form>
@@ -608,11 +605,11 @@ __*Мульти-филдсеты*__
 
 ![](./images/form.png)
 
-```xml
+```xml title="Поля в форме"
 <form>
-  <fields>
-    <input-text id="name" label="Наименование"/>
-  </fields>
+    <fields>
+        <input-text id="name" label="Наименование"/>
+    </fields>
 </form>
 ```
 
@@ -620,9 +617,9 @@ __*Мульти-филдсеты*__
 
 ![](./images/fieldset.png)
 
-```xml title=""
+```xml title="Поля в филдсете"
 <line>
-  <input-text id="name" label="Наименование"/>
+    <input-text id="name" label="Наименование"/>
 </line>
 ```
 
@@ -688,10 +685,10 @@ __*Основные виды полей*__
 ```xml title="Переключаемые ячейки"
 <switch value-field-id="type">
     <case value="type1">
-        <badge.../>
+        <badge .../>
     </case>
     <case value="type2">
-        <icon.../>
+        <icon .../>
     </case>
     ...
     <default>

@@ -36,7 +36,7 @@ public class ValidationProcessor {
         List<FailInfo> fails = validator.validate();
         List<FailInfo> failsWithDanger = getFailsWithDanger(fails);
         if (!failsWithDanger.isEmpty()) {
-            throwDangerException(failsWithDanger, info.getFailAlertWidgetId(), info.getMessageForm());
+            throwDangerException(failsWithDanger, info.getMessageForm(), info.getMessageForm());
         }
         return fails;
     }

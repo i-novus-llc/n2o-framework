@@ -15,10 +15,14 @@ import java.util.List;
 @Getter
 @Setter
 public class WidgetDependency implements Compiled {
+
+    @JsonProperty
+    private List<DependencyCondition> enable;
+
     @JsonProperty
     private List<DependencyCondition> visible;
 
     public boolean isEmpty() {
-        return visible == null;
+        return visible == null && enable == null;
     }
 }

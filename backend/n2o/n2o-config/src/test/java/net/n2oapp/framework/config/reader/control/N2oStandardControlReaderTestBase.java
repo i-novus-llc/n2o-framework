@@ -65,9 +65,7 @@ public abstract class N2oStandardControlReaderTestBase {
 
     private void assertQuery(N2oListField field) {
         assert field.getQueryId().equals("query");
-        assert field.getDetailFieldId().equals("id");
         assert field.getLabelFieldId().equals("id");
-        assert field.getMasterFieldId().equals("id");
         assert field.getSearchFilterId().equals("id");
         assert field.getValueFieldId().equals("id");
         assert field.getPreFilters().length == 1;

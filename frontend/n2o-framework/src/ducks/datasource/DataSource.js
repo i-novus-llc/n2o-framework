@@ -9,7 +9,7 @@ export class DataSource {
             page: 1,
             loading: false,
             sorting: {},
-            submit: {},
+            submit: null,
             errors: {},
         })
     }

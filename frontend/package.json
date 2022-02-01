@@ -1,14 +1,14 @@
 {
   "name": "n2o-frontend",
   "private": true,
-  "version": "7.18.0",
+  "version": "7.20.0",
   "workspaces": [
-    "n2o-framework",
     "n2o-auth",
-    "demo",
-    "n2o-simple-project",
     "n2o-notifications",
-    "n2o-ecp-plugin"
+    "n2o-ecp-plugin",
+    "n2o-framework",
+    "n2o-simple-project",
+    "demo"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -17,6 +17,7 @@
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --scope n2o-ecp-plugin --parallel build",
     "build:ws": "lerna run  --scope n2o-notifications --parallel build",
     "build:projects": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
+    "build:all": "yarn run build:libs&&yarn run build:projects",
     "version:patch": "lerna version patch --no-git-tag-version --no-push --yes",
     "version:minor": "lerna version minor --no-git-tag-version --no-push --yes",
     "version:major": "lerna version major --no-git-tag-version --no-push --yes",
@@ -24,42 +25,25 @@
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
     "compile:lib:watch": "lerna run --stream --scope n2o-framework compile:lib:watch",
     "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
-    "docs": "lerna run --scope n2o-framework esdoc",
-    "esdoc:n2o": "lerna run --scope n2o-framework esdoc",
     "prepare": "lerna bootstrap",
     "release": "lerna publish from-package --no-git-tag-version --no-push --yes",
     "release:local": "lerna publish from-package --no-git-tag-version --no-push --yes --registry=https://npm.i-novus.ru",
     "start:demo": "lerna run --scope n2o-demo-client start",
     "start:notify": "lerna run --scope n2o-notifications start",
     "start:simple": "lerna run --scope n2o-simple-project start",
+    "lint": "lerna run --scope n2o-framework lint",
     "test": "lerna run --scope n2o-framework test",
     "test:n2o": "lerna run --scope n2o-framework test",
     "test:n2o:generate-output": "lerna run --scope n2o-framework test:generate-output",
     "test:n2o:hook": "lerna run --scope n2o-framework test:hook",
-    "lint": "lerna run --scope n2o-framework lint",
     "docs:install": "cd docs&&yarn install",
     "docs:start": "cd docs&&yarn run start",
     "docs:build": "cd docs&&yarn run build"
   },
-  "dependencies": {
-    "@babel/core": "^7.14.6",
-    "babel-loader": "^8.0.6",
-    "yarn": "^1.22.0"
-  },
   "devDependencies": {
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
-    "execa": "^3.4.0",
-    "express": "^4.15.3",
-    "http-proxy-middleware": "^0.20.0",
-    "identity-obj-proxy": "^3.0.0",
     "lerna": "3.18.3",
-    "mocha": "^6.2.3",
-    "node-sass": "^4.9.2",
-    "npm-cli-login": "^1.0.0",
-    "npm-registry-client": "^8.6.0",
-    "react-addons-test-utils": "15.4.2",
-    "react-test-renderer": "^16.0.0",
-    "rimraf": "^2.6.1"
+    "node-sass": "^6.0.1"
   }
 }

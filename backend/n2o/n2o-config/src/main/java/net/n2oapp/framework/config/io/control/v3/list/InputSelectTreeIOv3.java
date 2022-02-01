@@ -23,8 +23,6 @@ public class InputSelectTreeIOv3 extends ListFieldIOv3<N2oInputSelectTree> {
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
-        p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
     }
 

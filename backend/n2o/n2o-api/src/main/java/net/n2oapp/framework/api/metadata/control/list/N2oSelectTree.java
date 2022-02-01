@@ -34,8 +34,6 @@ public class N2oSelectTree extends N2oListField implements N2oSingleListField, N
         setQueryId(nodes.getQueryId());
         setIconFieldId(nodes.getIconFieldId());
         setValueFieldId(nodes.getValueFieldId());
-        setMasterFieldId(nodes.getMasterFieldId());
-        setDetailFieldId(nodes.getDetailFieldId());
         setSearchFilterId(nodes.getSearchFilterId());
         setEnabledFieldId(nodes.getEnabledFieldId());
         setPreFilters(nodes.getPreFilters());
@@ -50,8 +48,6 @@ public class N2oSelectTree extends N2oListField implements N2oSingleListField, N
         nodes.setQueryId(getQueryId());
         nodes.setIconFieldId(getIconFieldId());
         nodes.setValueFieldId(getValueFieldId());
-        nodes.setMasterFieldId(getMasterFieldId());
-        nodes.setDetailFieldId(getDetailFieldId());
         nodes.setSearchFilterId(getSearchFilterId());
         nodes.setEnabledFieldId(getEnabledFieldId());
         nodes.setPreFilters(getPreFilters());

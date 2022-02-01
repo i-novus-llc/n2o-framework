@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Компиляция колонки филдсета
@@ -31,7 +33,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         column.setSize(source.getSize());
         column.setVisible(ScriptProcessor.resolveExpression(source.getVisible()));
-
+        FieldSetVisibilityScope scope = initVisibilityScope(source, p);
         if (source.getItems() != null && source.getItems().length > 0) {
             boolean onlyFields = true;
             for (SourceComponent item : source.getItems())
@@ -43,7 +45,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
             if (onlyFields) {
                 List<Field> compiledFields = new ArrayList<>();
                 for (SourceComponent field : source.getItems())
-                    compiledFields.add(p.compile(field, context));
+                    compiledFields.add(p.compile(field, context, scope));
                 column.setFields(compiledFields);
             } else {
                 List<FieldSet> fieldSets = new ArrayList<>();
@@ -64,7 +66,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                         newFieldSet.setItems(fieldSetItems.toArray(items));
                         fieldSet = newFieldSet;
                     }
-                    fieldSets.add(p.compile(fieldSet, context));
+                    fieldSets.add(p.compile(fieldSet, context, scope));
                 }
                 column.setFieldsets(fieldSets);
             }
@@ -75,5 +77,17 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oFieldsetColumn.class;
+    }
+
+    private FieldSetVisibilityScope initVisibilityScope(N2oFieldsetColumn source, CompileProcessor p) {
+        FieldSetVisibilityScope scope = new FieldSetVisibilityScope(p.getScope(FieldSetVisibilityScope.class));
+        if (source.getVisible() != null && !Objects.equals(source.getVisible(), "true")) {
+            String value = p.resolveJS(source.getVisible());
+            if (StringUtils.isJs(value))
+                scope.add(StringUtils.unwrapJs(value));
+            else
+                scope.add(value);
+        }
+        return scope;
     }
 }

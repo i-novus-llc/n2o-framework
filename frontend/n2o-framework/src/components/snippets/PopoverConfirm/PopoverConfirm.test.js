@@ -11,17 +11,6 @@ const props = {
 
 const setupComponent = propsOverride => shallow(<PopoverConfirm {...props.component} {...propsOverride} />)
 
-if (global.document) {
-    document.createRange = () => ({
-        setStart: () => {},
-        setEnd: () => {},
-        commonAncestorContainer: {
-            nodeName: 'BODY',
-            ownerDocument: document,
-        },
-    })
-}
-
 describe('Тесты PopoverConfirm', () => {
     it('Отрисовывается, если передан header', () => {
         const wrapper = setupComponent()

@@ -185,30 +185,30 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         validation = validations.get(2);
         assertThat(validation.getId(), is("id2"));
         assertThat(validation.getEnablingConditions().size(), is(1));
-        assertThat(validation.getEnablingConditions().get(0), is("{fieldset1Condition}"));
+        assertThat(validation.getEnablingConditions().get(0), is("fieldset1Condition"));
 
         validation = validations.get(3);
         assertThat(validation.getId(), is("id3"));
         assertThat(validation.getEnablingConditions().size(), is(1));
-        assertThat(validation.getEnablingConditions().get(0), is("{fieldset1Condition}"));
+        assertThat(validation.getEnablingConditions().get(0), is("fieldset1Condition"));
 
         validation = validations.get(4);
         assertThat(validation.getId(), is("id4"));
         assertThat(validation.getEnablingConditions().size(), is(3));
-        assertThat(validation.getEnablingConditions().get(0), is("{id4Condition}"));
-        assertThat(validation.getEnablingConditions().get(1), is("{fieldset2Condition}"));
-        assertThat(validation.getEnablingConditions().get(2), is("{fieldset1Condition}"));
+        assertThat(validation.getEnablingConditions(), hasItem("id4Condition"));
+        assertThat(validation.getEnablingConditions(), hasItem("fieldset2Condition"));
+        assertThat(validation.getEnablingConditions(), hasItem("fieldset1Condition"));
 
         validation = validations.get(5);
         assertThat(validation.getId(), is("id5Required2"));
         assertThat(validation.getEnablingConditions().size(), is(2));
-        assertThat(validation.getEnablingConditions().get(0), is("{fieldset3Condition}"));
-        assertThat(validation.getEnablingConditions().get(1), is("{fieldset1Condition}"));
+        assertThat(validation.getEnablingConditions(), hasItem("fieldset3Condition"));
+        assertThat(validation.getEnablingConditions(), hasItem("fieldset1Condition"));
 
         validation = validations.get(6);
         assertThat(validation.getId(), is("id5IsNotNull"));
         assertThat(validation.getEnablingConditions().size(), is(2));
-        assertThat(validation.getEnablingConditions().get(0), is("{fieldset3Condition}"));
-        assertThat(validation.getEnablingConditions().get(1), is("{fieldset1Condition}"));
+        assertThat(validation.getEnablingConditions(), hasItem("fieldset3Condition"));
+        assertThat(validation.getEnablingConditions(), hasItem("fieldset1Condition"));
     }
 }

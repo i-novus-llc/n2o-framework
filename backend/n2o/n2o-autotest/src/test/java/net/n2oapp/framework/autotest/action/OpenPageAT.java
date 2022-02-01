@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,6 +42,7 @@ public class OpenPageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7378
     @Test
     public void testFilterState() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),
@@ -150,7 +152,7 @@ public class OpenPageAT extends AutoTestBase {
         Selenide.switchTo().window(1);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Вторая страница");
-        page.urlShouldMatches(getBaseUrl() + "/#/main/1/open");
+        page.urlShouldMatches(getBaseUrl() + "/#/1/open");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
