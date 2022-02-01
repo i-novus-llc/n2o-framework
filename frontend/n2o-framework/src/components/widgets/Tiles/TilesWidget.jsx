@@ -7,6 +7,7 @@ import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { FactoryContext } from '../../../core/factory/context'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 import TilesContainer from './TilesContainer'
 
@@ -78,4 +79,4 @@ TilesWidget.propTypes = {
     height: PropTypes.number,
 }
 
-export default WidgetHOC(TilesWidget)
+export default WidgetHOC(WithActiveModel(TilesWidget))

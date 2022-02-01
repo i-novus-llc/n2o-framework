@@ -8,6 +8,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 import ListContainer from './ListContainer'
 
@@ -109,4 +110,4 @@ ListWidget.defaultProps = {
     hasSelect: false,
 }
 
-export default WidgetHOC(ListWidget)
+export default WidgetHOC(WithActiveModel(ListWidget))
