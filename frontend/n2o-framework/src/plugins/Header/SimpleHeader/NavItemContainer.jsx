@@ -3,11 +3,40 @@ import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import cx from 'classnames'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import merge from 'lodash/merge'
 import { NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import colors from '../../../constants/colors'
 import { renderBadge } from '../../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
+import { WithDataSource } from '../../../core/datasource/WithDataSource'
+import { resolveItem } from '../../../utils/propsResolver'
+
+export const getFromSource = (props, datasources, datasource, models) => {
+    if (!datasource) {
+        return props
+    }
+
+    const defaultFromDataSource = get(datasources, `${datasource}.values`, [])
+    const initialModel = defaultFromDataSource.reduce((acc, value) => ({ ...acc, ...value }), {})
+
+    if (models && !isEmpty(models.datasource)) {
+        return merge(resolveItem(props, initialModel), resolveItem(props, models.datasource))
+    }
+
+    if (datasources[datasource]) {
+        return resolveItem(props, initialModel)
+    }
+
+    return props
+}
+
+const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
+
+NavItemIcon.propTypes = {
+    icon: PropTypes.string,
+}
 
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
@@ -15,16 +44,20 @@ import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemI
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
  * @param {boolean} props.active  - active (применять || нет active class)
  */
+
 const NavItemContainer = ({
-    item,
+    itemProps,
     type,
     sidebarOpen,
     options,
     direction,
     active,
+    datasources,
+    models,
 }) => {
-    // eslint-disable-next-line react/prop-types
-    const NavItemIcon = ({ icon }) => <i className={cx('mr-1', icon)} />
+    const datasource = get(itemProps, 'datasource')
+
+    const item = getFromSource(itemProps, datasources, datasource, models)
 
     const getInnerLink = (item, className) => (
         <NavLink
@@ -203,4 +236,6 @@ NavItemContainer.defaultProps = {
     direction: 'bottom',
 }
 
-export default NavItemContainer
+export default WithDataSource(NavItemContainer)
+
+export { NavItemContainer }

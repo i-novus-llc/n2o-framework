@@ -49,7 +49,7 @@ const mapDispatchToProps = dispatch => ({
     onDismiss: alertId => dispatch(removeAlert(GLOBAL_KEY, alertId)),
 })
 
-export default connect(
+export const GlobalAlertsConnected = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(GlobalAlerts)

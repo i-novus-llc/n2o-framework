@@ -3,6 +3,24 @@
              navigation-layout="fullSizeSidebar"
              navigation-layout-fixed="true"
              welcome-page-id="test">
+    <datasources>
+        <datasource id="ds1" query-id="test" size="5" route="/:id/data">
+            <dependencies>
+                <fetch on="ds1"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id" value="3"/>
+            </filters>
+        </datasource>
+        <stomp-datasource id="taskCount" destination="/task/count"/>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                <value count="0"/>
+                <value notifCount="1"/>
+            </values>
+        </stomp-datasource>
+    </datasources>
+
     <header
             sidebar-icon="fa fa-bars"
             sidebar-toggled-icon="fa fa-bars"

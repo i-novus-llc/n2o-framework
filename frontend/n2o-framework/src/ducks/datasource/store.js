@@ -23,6 +23,7 @@ const datasource = createSlice({
                 }
             },
         },
+
         remove: {
             prepare(id) {
                 return ({
@@ -34,40 +35,43 @@ const datasource = createSlice({
             },
         },
 
-        addWidget: {
-            prepare(id, widgetId) {
+        addComponent: {
+            prepare(dataSourceId, componentId) {
                 return ({
-                    payload: { widgetId, id },
+                    payload: { dataSourceId, componentId },
                 })
             },
+
             reducer(state, action) {
-                const { widgetId, id } = action.payload
-                const datasource = state[id] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
+                const { dataSourceId, componentId } = action.payload
 
-                if (datasource.widgets.includes(widgetId)) {
-                    return
-                }
+                const datasource = state[dataSourceId] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
 
-                state[id] = {
+                if (datasource.components.includes(componentId)) { return }
+
+                state[dataSourceId] = {
                     ...datasource,
-                    widgets: [...datasource.widgets, widgetId],
+                    components: [...datasource.components, componentId],
                 }
             },
         },
-        removeWidget: {
+
+        removeComponent: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(id, widgetId) {
+            prepare(dataSourceId, componentId) {
                 return ({
-                    payload: { widgetId, id },
+                    payload: { dataSourceId, componentId },
                 })
             },
-            reducer(state, action) {
-                const { widgetId, id } = action.payload
-                const datasource = state[id]
 
-                state[id] = {
+            reducer(state, action) {
+                const { dataSourceId, componentId } = action.payload
+
+                const datasource = state[dataSourceId]
+
+                state[dataSourceId] = {
                     ...datasource,
-                    widgets: datasource.widgets.filter(widget => widget !== widgetId),
+                    components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
                 }
             },
         },
@@ -91,6 +95,7 @@ const datasource = createSlice({
                 state[datasource].loading = true
             },
         },
+
         resolveRequest: {
             prepare(id, json) {
                 return ({
@@ -104,6 +109,7 @@ const datasource = createSlice({
                 state[id].loading = false
             },
         },
+
         rejectRequest: {
             prepare(id, err, meta) {
                 return ({
@@ -137,6 +143,7 @@ const datasource = createSlice({
                 }
             },
         },
+
         changePage: {
             prepare(id, page) {
                 return ({
@@ -149,6 +156,7 @@ const datasource = createSlice({
                 state[id].page = page
             },
         },
+
         changeCount: {
             prepare(id, count) {
                 return ({
@@ -191,6 +199,7 @@ const datasource = createSlice({
                 fieldList.forEach((field) => { datasource.errors[field] = undefined })
             },
         },
+
         failValidate: {
             prepare(id, fields, meta /* , prefix = MODEL_PREFIX.active*/) {
                 return ({
@@ -291,8 +300,6 @@ export default datasource.reducer
 export const {
     register,
     remove,
-    addWidget,
-    removeWidget,
     DATA_REQUEST: dataRequest,
     resolveRequest,
     rejectRequest,
@@ -307,5 +314,7 @@ export const {
     changePage,
     changeCount,
     changeSize,
+    addComponent,
+    removeComponent,
     setFieldSubmit,
 } = datasource.actions

@@ -4,12 +4,12 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
 import { makeGetResolveModelSelector } from '../../../../../ducks/models/selectors'
-import { WidgetContext } from '../../../../../core/widget/context'
+import { DataSourceContext } from '../../../../../core/widget/context'
 
 export default (EditableCell) => {
     function EditableCellWithActions(props) {
         const { model } = props
-        const { setResolve } = useContext(WidgetContext)
+        const { setResolve } = useContext(DataSourceContext)
         const resolveWrappet = useCallback(() => setResolve(model), [setResolve, model])
 
         return <EditableCell {...props} onResolve={resolveWrappet} />

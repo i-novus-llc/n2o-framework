@@ -141,7 +141,7 @@ export class MenuContainer extends React.Component {
 
       mapRenderProps = () => {
           const { headerItems, headerExtraItems, sidebarItems, sidebarExtraItems } = this.state
-          const { header, sidebar, location } = this.props
+          const { header, sidebar, location, datasources = {} } = this.props
 
           if (!header && !sidebar) {
               return this.props
@@ -150,6 +150,7 @@ export class MenuContainer extends React.Component {
           const withSecurityProps = (props, items, extraItems, type) => ({
               [type]: {
                   ...props,
+                  datasources,
                   location,
                   menu: {
                       items: filter(items, i => !i.items || !isEmpty(i.items)),
@@ -179,8 +180,9 @@ MenuContainer.propTypes = {
     user: PropTypes.any,
     authProvider: PropTypes.any,
     header: PropTypes.object,
-    sidebar: PropTypes.object,
     location: PropTypes.object,
+    sidebar: PropTypes.object,
+    datasources: PropTypes.object,
     headerItems: PropTypes.array,
     headerExtraItems: PropTypes.array,
     sidebarItems: PropTypes.array,

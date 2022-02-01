@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
-import { WidgetHOC } from '../../../core/widget/Widget'
+import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 

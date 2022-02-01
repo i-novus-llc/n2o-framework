@@ -1,5 +1,6 @@
 import defaultTo from 'lodash/defaultTo'
 import { all } from 'redux-saga/effects'
+import { sagas as wsSaga } from 'n2o-notifications'
 
 import pagesSagas from './ducks/pages/sagas'
 import widgetsSagas from './ducks/widgets/sagas'
@@ -16,6 +17,15 @@ import { widgetDependencySagas } from './sagas/widgetDependency'
 import regionsSagas from './ducks/regions/sagas'
 import { overlaysSagas } from './ducks/overlays/sagas'
 import toolbarSagas from './ducks/toolbar/sagas'
+import { addComponent, removeComponent } from './ducks/datasource/store'
+import { updateModel } from './ducks/models/store'
+
+const webSocketConfig = {
+    observables: [addComponent, removeComponent],
+    updater: updateModel,
+    source: 'datasource',
+    connected: 'components',
+}
 
 export default function generateSagas(dispatch, config) {
     return function* rootSaga() {
@@ -36,6 +46,7 @@ export default function generateSagas(dispatch, config) {
             ...regionsSagas,
             ...toolbarSagas,
             ...defaultTo(config.customSagas, []),
+            ...wsSaga(webSocketConfig),
         ])
     }
 }

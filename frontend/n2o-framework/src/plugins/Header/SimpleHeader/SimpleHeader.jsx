@@ -10,6 +10,7 @@ import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 
+// eslint-disable-next-line import/no-named-as-default
 import NavItemContainer from './NavItemContainer'
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
@@ -64,6 +65,7 @@ class SimpleHeader extends React.Component {
             sidebarOpen,
             className,
             search,
+            datasources,
         } = this.props
 
         const { items } = menu
@@ -87,9 +89,12 @@ class SimpleHeader extends React.Component {
             return (
                 <NavItemContainer
                     key={i}
-                    item={item}
+                    itemProps={item}
                     active={active}
                     options={options}
+                    datasource={item.datasource}
+                    id={item.id}
+                    datasources={datasources}
                 />
             )
         })
@@ -214,6 +219,7 @@ SimpleHeader.propTypes = {
     menu: menuType,
     extraMenu: menuType,
     sidebarSwitcher: PropTypes.object,
+    datasources: PropTypes.object,
     toggleSidebar: PropTypes.func,
     sidebarOpen: PropTypes.bool,
 }

@@ -3,6 +3,7 @@ import isFunction from 'lodash/isFunction'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
 import merge from 'lodash/merge'
+import isEmpty from 'lodash/isEmpty'
 
 import evalExpression, { parseExpression } from './evalExpression'
 
@@ -81,4 +82,12 @@ export default function propsResolver(
     }
 
     return props
+}
+
+export const resolveItem = (item, model) => {
+    if (isEmpty(model)) {
+        return item
+    }
+
+    return propsResolver(item, model)
 }
