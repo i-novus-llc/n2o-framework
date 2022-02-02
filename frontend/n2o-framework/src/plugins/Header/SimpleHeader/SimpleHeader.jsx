@@ -95,6 +95,7 @@ class SimpleHeader extends React.Component {
                     datasource={item.datasource}
                     id={item.id}
                     datasources={datasources}
+                    visible
                 />
             )
         })

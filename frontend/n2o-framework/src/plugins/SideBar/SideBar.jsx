@@ -132,6 +132,7 @@ export function SideBar({
             isStaticView={isStaticView}
             datasources={datasources}
             datasource={item.datasource}
+            visible
         />
     ))
 
