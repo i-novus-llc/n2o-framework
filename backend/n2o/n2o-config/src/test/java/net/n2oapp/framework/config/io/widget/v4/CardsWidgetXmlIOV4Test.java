@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class CardsWidgetXmlIOV4Test {
     @Test
-    public void testTilesXmlIOV4() {
+    public void testCardsXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new CardsWidgetIOV4())
                 .addPack(new N2oCellsIOPack());
