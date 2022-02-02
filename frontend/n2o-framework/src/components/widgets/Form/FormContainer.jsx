@@ -48,7 +48,7 @@ class Container extends React.Component {
         if (!isEqual(datasource, prevModels.datasource)) {
             // если предыдущий список пустой, и есть активная модель, то это defaultValues и надо их мержить
             const model = isEmpty(prevModels.datasource) && activeModel
-                ? { ...datasource[0], ...activeModel }
+                ? { ...activeModel, ...datasource[0] }
                 : datasource[0]
 
             this.updateActiveModel(model)
