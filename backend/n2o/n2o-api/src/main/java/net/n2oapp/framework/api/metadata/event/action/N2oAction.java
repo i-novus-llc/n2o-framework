@@ -24,5 +24,6 @@ public interface N2oAction extends Source, SrcAware, IdAware, NamespaceUriAware,
 
     @Deprecated
     default String getOperationId() { return null; }
+    @Deprecated
     default String getObjectId() { return null; }
 }

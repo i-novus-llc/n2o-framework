@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
@@ -28,8 +27,6 @@ public class N2oInvokeAction extends N2oAbstractAction implements DatasourceIdAw
     private Boolean refreshOnSuccess;
     private String confirmationText;
     private String bulkConfirmationText;
-    @Deprecated
-    private RefreshPolity refreshPolity;
     private String route;
     private String redirectUrl;
     private Target redirectTarget;
