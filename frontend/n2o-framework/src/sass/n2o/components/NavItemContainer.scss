@@ -19,3 +19,11 @@ span.n2o-badge-dot {
     height: 0.75rem;
     width: 0.75rem;
 }
+
+.badge,
+.n2o-nav-image {
+    min-width: 1.375rem;
+    min-height: 1.375rem;
+    justify-content: center;
+    align-items: center;
+}
