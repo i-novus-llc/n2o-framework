@@ -42,11 +42,6 @@ export const AlertTypes = {
      */
     visible: PropTypes.bool,
     /**
-     * Позиционирование алерта
-     */
-    // eslint-disable-next-line react/no-unused-prop-types
-    position: PropTypes.string,
-    /**
      * Кнопка tooltip
      */
     help: PropTypes.string,
@@ -64,4 +59,20 @@ export const AlertTypes = {
      * временная точка отправки уведомления на клиент
      */
     timestamp: PropTypes.number,
+    /**
+     * Используется в филде id form
+     */
+    form: PropTypes.string,
+    /**
+     * id
+     */
+    id: PropTypes.string,
+    /**
+     * Используется в филде redux dispatch onClose
+     */
+    dispatch: PropTypes.func,
+    /**
+     * custom onClose заменяет onDismiss
+     */
+    onClose: PropTypes.func,
 }

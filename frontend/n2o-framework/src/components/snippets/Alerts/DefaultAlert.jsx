@@ -24,6 +24,7 @@ export const DefaultAlert = ({
     detailsVisible,
     togglingDetails,
     formattingDetails,
+    onClose = null,
 }) => {
     const closeIconClasses = classNames(
         'close n2o-alert-close n2o-alert-close__icon',
@@ -32,7 +33,13 @@ export const DefaultAlert = ({
 
     const batchedActionToClose = (e) => {
         e.preventDefault()
-        onDismiss()
+
+        if (onClose) {
+            /* custom onClose this is used id AlertField */
+            onClose()
+        } else {
+            onDismiss()
+        }
     }
 
     const batchedActionToToggling = (e) => {
@@ -47,6 +54,7 @@ export const DefaultAlert = ({
                 [`alert-${color}`]: color,
                 'n2o-alert--animated': animate,
                 'with-details': stacktrace,
+                'with-link': href,
             })}
             style={style}
         >
@@ -60,6 +68,7 @@ export const DefaultAlert = ({
                         <h4>{title}</h4>
                     </div>
                 )}
+                {(title && text) && <hr />}
                 <div className="n2o-alert-body">
                     <div className="n2o-alert-body-text white-space-pre-line">
                         {text}
