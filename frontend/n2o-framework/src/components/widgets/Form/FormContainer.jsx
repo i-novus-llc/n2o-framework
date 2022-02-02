@@ -18,6 +18,11 @@ export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, props) => getFormValues(props.id)(state) || {},
 })
 
+/*
+ * FIXME: Разобраться с edit модулью формы
+ * a) дефолтные значения всегда почему-то приходят в resolve модели
+ * б) зависимость от edit формы всегда приходит на resolve модель
+ */
 class Container extends React.Component {
     constructor(props) {
         super(props)
@@ -47,6 +52,7 @@ class Container extends React.Component {
                 : datasource[0]
 
             this.updateActiveModel(model)
+            // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
             if (modelPrefix === MODEL_PREFIX.edit) {
                 setResolve(model)
             }
