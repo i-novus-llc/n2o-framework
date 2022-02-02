@@ -33,15 +33,15 @@ describe('<Alert />', () => {
     })
 
     it('проверяет тогл деталей сообщения', () => {
-        const { wrapper } = setup({ details: 'test details' })
+        const { wrapper } = setup({ stacktrace: 'test details' })
         expect(wrapper.find('.n2o-alert-body details')).toHaveLength(0)
         wrapper
-            .find('.n2o-alert-body .details-label')
+            .find('.n2o-alert-body .details-title')
             .at(0)
             .simulate('click')
         expect(wrapper.find('.n2o-alert-body .details')).toHaveLength(1)
         wrapper
-            .find('.n2o-alert-body .details-label')
+            .find('.n2o-alert-body .details-title')
             .at(0)
             .simulate('click')
         expect(wrapper.find('.n2o-alert-body .details')).toHaveLength(0)
