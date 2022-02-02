@@ -92,9 +92,9 @@ export function SidebarItemContainer({
         ? renderOuterLink(item)
         : renderInnerLink(item))
 
-    const renderCurrentTitle = (isMiniView, icon, title) => {
+    const renderCurrentTitle = (isMiniView, icon, title, imageSrc) => {
         if (isMiniView) {
-            if (icon) {
+            if (icon || imageSrc) {
                 return null
             }
 
@@ -112,15 +112,18 @@ export function SidebarItemContainer({
             <a id={id} className="n2o-sidebar__item" href={href}>
                 {!imageSrc && icon && renderIcon(icon, title, type, sidebarOpen)}
                 {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                <span className={classNames(
-                    'n2o-sidebar__item__title',
-                    {
-                        none: isMiniView && icon,
-                    },
+                {title && (
+                    <span className={classNames(
+                        'n2o-sidebar__item__title',
+                        {
+                            none: isMiniView && icon,
+                        },
+                    )}
+                    >
+                        {renderCurrentTitle(isMiniView, icon, title, imageSrc)}
+                    </span>
                 )}
-                >
-                    {renderCurrentTitle(isMiniView, icon, title)}
-                </span>
+                {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
                 {renderBadge(item)}
             </a>
         )
@@ -140,16 +143,18 @@ export function SidebarItemContainer({
                 >
                     {icon && renderIcon(icon, title, type, sidebarOpen)}
                     {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                    <span
-                        className={classNames(
-                            'n2o-sidebar__item-title',
-                            {
-                                visible: isStaticView ? true : showContent,
-                            },
-                        )}
-                    >
-                        {renderCurrentTitle(isMiniView, icon, title)}
-                    </span>
+                    {title && (
+                        <span
+                            className={classNames(
+                                'n2o-sidebar__item-title',
+                                {
+                                    visible: isStaticView ? true : showContent,
+                                },
+                            )}
+                        >
+                            {renderCurrentTitle(isMiniView, icon, title, imageSrc)}
+                        </span>
+                    )}
                     {renderBadge(item)}
                 </NavLink>
             </>
