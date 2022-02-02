@@ -20,6 +20,22 @@
     flex-direction: column;
 }
 
+.with-link.alert-success:hover {
+    color: $alert-success-hover-text-color;
+}
+
+.with-link.alert-warning:hover {
+    color: $alert-warning-hover-text-color;
+}
+
+.with-link.alert-danger:hover {
+    color: $alert-danger-hover-text-color;
+}
+
+.with-link.alert-info-:hover {
+    color: $alert-info-hover-text-color;
+}
+
 .n2o-alerts--absolute {
     position: absolute;
     display: flex;
@@ -31,6 +47,7 @@
 .n2o-alert {
     display: flex;
     align-items: baseline;
+    border-radius: 2px;
 
     .n2o-popover {
         margin-right: 0.5rem;

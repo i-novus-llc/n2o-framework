@@ -1,102 +1,59 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Alert } from 'reactstrap'
+
+import { AlertTypes } from '../../../../snippets/Alerts/AlertsTypes'
+import { DefaultAlert } from '../../../../snippets/Alerts/DefaultAlert'
+import { hideField } from '../../../../../ducks/form/store'
 
 /**
  * Компонент - AlertField формы
- * @reactProps {boolean} visible - флаг видимости
+ * @reactProps {string} title - заголовок алерта
  * @reactProps {string} text - текст алерта
- * @reactProps {string} header - заголовок алерта
- * @reactProps {string} footer - нижняя часть алерта
+ * @reactProps {object} style - стили алерта
  * @reactProps {string} className - css-класс для поля
  * @reactProps {string} color - цвет поля
- * @reactProps {string} tag - тэг алерта
- * @reactProps {bool} fade - плавное отображение
- * @reactProps {object} style - стили алерта
+ * @reactProps {boolean} closeButton - отобразить кнопку закрытия
+ * @reactProps {string} href - href onClick по Alert
+ * @reactProps {string} form - form id
+ * @reactProps {string} id  - alert id / field id in form
+ * @reactProps {function} dispatch - redux dispatch
+ * @reactProps {boolean} visible - флаг видимости
  * @return {node|null}
- * @example
- * <AlertField visible={true}
- *             text='Alert!'
- *             color='warning'
- *             fade={true} />
  */
 
-const AlertField = ({
-    visible,
-    header,
+export function AlertField({
+    title,
     text,
-    footer,
     style,
     className,
-    ...rest
-}) => (visible ? (
-    <Alert
-        isOpen={visible}
-        className={classNames('n2o-alert-field n2o-snippet', className)}
-        {...rest}
-        style={style}
-    >
-        {header ? (
-            <>
-                <h4 className="n2o-alert-field-header">{header}</h4>
-                <hr />
-            </>
-        ) : null}
-        <div className="n2o-alert-field-text">{text}</div>
-        {footer ? (
-            <>
-                <hr />
-                <div className="n2o-alert-field-footer">{footer}</div>
-            </>
-        ) : null}
-    </Alert>
-) : null)
+    color,
+    closeButton,
+    href,
+    form,
+    id,
+    dispatch,
+    visible = true,
+}) {
+    const onClose = () => dispatch(hideField(form, id))
 
-AlertField.propTypes = {
-    /**
-   * Флаг видимости алерта
-   */
-    visible: PropTypes.bool,
-    /**
-   * Заголовок алерта
-   */
-    header: PropTypes.string,
-    /**
-   * Текст алерта
-   */
-    text: PropTypes.string,
-    /**
-   * Нижняя часть алерта
-   */
-    footer: PropTypes.string,
-    /**
-   * Класс алерта
-   */
-    className: PropTypes.string,
-    /**
-   * Цвет алерта
-   */
-    style: PropTypes.object,
-    /**
-   * Стили алерта
-   */
-    color: PropTypes.string,
-    /**
-   * Тэг алерта
-   */
-    tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-    /**
-   * Плавность алерта
-   */
-    fade: PropTypes.bool,
+    if (!visible) {
+        return null
+    }
+
+    return (
+        <DefaultAlert
+            title={title}
+            text={text}
+            style={style}
+            className={classNames('n2o-alert-field', className)}
+            color={color}
+            onClose={closeButton && onClose}
+            closeButton={closeButton}
+            href={href}
+        />
+    )
 }
 
-AlertField.defaultProps = {
-    visible: true,
-    header: '',
-    text: '',
-    footer: '',
-}
+AlertField.propTypes = AlertTypes
 
 export default AlertField

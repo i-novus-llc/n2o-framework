@@ -303,6 +303,12 @@ $cards-item-padding: 5px !default;
 $mobile-max-width: 767px;
 $tablet-max-width: 1023px;
 
+//Alert
+$alert-success-hover-text-color: #062b1a;
+$alert-warning-hover-text-color: #4e3a02;
+$alert-danger-hover-text-color: #6a171e;
+$alert-info-hover-text-color: #043f4b;
+
 // Custom
 // TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
 // Эти переменные появились тут в 7.16. В 7.15 были объявлены в sass/n2o/controls/InputTreeSelect.old.scss

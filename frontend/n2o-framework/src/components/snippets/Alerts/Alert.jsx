@@ -28,11 +28,11 @@ function Alert(props) {
 
     const {
         loader,
-        title = 'Alert title', /* FIXME remove it */
+        title,
         text,
-        color = 'danger', /* FIXME remove it */
-        href = 'https://www.bugs.org/', /* FIXME remove it */
-        timestamp = 1643637296, /* FIXME remove it */
+        color,
+        href,
+        timestamp,
         closeButton,
         className,
         style,
@@ -103,7 +103,7 @@ function Alert(props) {
 
 Alert.defaultProps = {
     text: '',
-    title: 'Alert title', /* FIXME remove it */
+    title: '',
     color: 'danger',
     details: '',
     closeButton: true,
