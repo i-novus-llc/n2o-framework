@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Вторая страница">
+    <regions>
+        <form id="main" query-id="test">
+            <fields>
+                <input-text id="id" label="Идентификатор выбранной ранее записи"/>
+                <input-text id="name" label="Имя выбранной ранее записи"/>
+            </fields>
+            <pre-filters>
+                <eq field-id="id" param="id"/>
+            </pre-filters>
+        </form>
+
+        <table id="w1" query-id="detail" depends-on="main" master-field-id="id"
+               detail-field-id="type" route="/report">
+            <columns>
+                <column text-field-id="surname" label="Имя"/>
+                <column text-field-id="type" label="Тип (должен совпадать с идентификатором выбранной ранее записи)"/>
+            </columns>
+        </table>
+    </regions>
+</page>
