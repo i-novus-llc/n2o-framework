@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.widget.masterdetail;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -19,6 +18,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для master-detail фильтрации
+ */
 public class MasterDetailAT extends AutoTestBase {
 
     @BeforeAll
@@ -29,7 +31,6 @@ public class MasterDetailAT extends AutoTestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
-        Configuration.headless = false;
         super.setUp();
     }
 
