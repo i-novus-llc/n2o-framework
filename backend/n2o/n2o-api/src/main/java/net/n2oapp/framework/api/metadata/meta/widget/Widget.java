@@ -21,6 +21,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private String name;
     @JsonProperty
     private String icon;
+    //need for access transformer
     private String objectId;
     @Deprecated
     private String filtersDefaultValuesQueryId;
