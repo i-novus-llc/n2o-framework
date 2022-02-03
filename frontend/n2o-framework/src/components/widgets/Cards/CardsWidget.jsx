@@ -7,6 +7,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 import CardsContainer from './CardsContainer'
 
@@ -65,4 +66,4 @@ CardsWidget.propTypes = {
     verticalAlign: PropTypes.string,
 }
 
-export default WidgetHOC(CardsWidget)
+export default WidgetHOC(WithActiveModel(CardsWidget))

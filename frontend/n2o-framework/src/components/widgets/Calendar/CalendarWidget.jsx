@@ -6,6 +6,7 @@ import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 // eslint-disable-next-line import/no-named-as-default
 import CalendarContainer from './CalendarContainer'
@@ -49,4 +50,4 @@ CalendarWidget.propTypes = {
     calendar: PropTypes.any,
 }
 
-export default WidgetHOC(CalendarWidget)
+export default WidgetHOC(WithActiveModel(CalendarWidget))
