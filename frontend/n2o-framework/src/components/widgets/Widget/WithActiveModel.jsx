@@ -17,7 +17,7 @@ export function WithActiveModel(Widget) {
             if (
                 !isEqual(datasource, prevSource) && (
                     !resolve ||
-                    (resolve && datasource.some(model => isEqual(model, resolve)))
+                    (resolve && !datasource.some(model => isEqual(model, resolve)))
                 )
             ) {
                 setResolve(datasource[0])
