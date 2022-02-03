@@ -92,6 +92,7 @@
     "query-string": "5.1.1",
     "rc-collapse": "~1.10.0",
     "rc-drawer": "^3.0.2",
+    "javascript-time-ago": "^2.3.11",
     "rc-slider": "^8.6.11",
     "rc-switch": "~1.8.0",
     "rc-table": "6.4.3",

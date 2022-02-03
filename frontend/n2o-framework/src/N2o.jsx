@@ -5,6 +5,9 @@ import pick from 'lodash/pick'
 import { compose, withContext, defaultProps, withProps } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import './i18n'
+import TimeAgo from 'javascript-time-ago'
+import ru from 'javascript-time-ago/locale/ru.json'
+import en from 'javascript-time-ago/locale/en.json'
 
 import packageJson from '../package.json'
 
@@ -60,11 +63,25 @@ class N2o extends Component {
 
         const config = this.generateConfig()
 
+        TimeAgo.addDefaultLocale(ru)
+        const localesConfig = {
+            ru: {
+                prefix: 'ru-Ru',
+                meta: ru,
+            },
+            en: {
+                prefix: 'en-En',
+                meta: en,
+            },
+        }
+
         return (
             <Provider store={this.store}>
                 <SecurityProvider {...security}>
                     <Application
                         i18n={i18n}
+                        TimeAgo={TimeAgo}
+                        localesConfig={localesConfig}
                         locales={locales}
                         customLocales={customLocales}
                         realTimeConfig={realTimeConfig}
