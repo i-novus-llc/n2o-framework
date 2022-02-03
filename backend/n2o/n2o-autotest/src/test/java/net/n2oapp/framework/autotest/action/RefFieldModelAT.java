@@ -18,7 +18,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,7 +45,6 @@ public class RefFieldModelAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/model/field/test.query.xml"));
     }
 
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7416
     @Test
     public void refFieldModelTest() {
         SimplePage page = open(SimplePage.class);
