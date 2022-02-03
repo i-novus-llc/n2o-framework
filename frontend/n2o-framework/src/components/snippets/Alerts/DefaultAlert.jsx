@@ -86,7 +86,7 @@ export const DefaultAlert = ({
                     )}
                 </div>
             </div>
-            <span>{timestamp}</span>
+            {timestamp && <span>{timestamp}</span>}
             {defaultTo(closeButton, true) && (
                 <div className={closeIconClasses} onClick={batchedActionToClose}>×</div>
             )}
