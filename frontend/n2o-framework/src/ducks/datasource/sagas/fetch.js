@@ -32,7 +32,7 @@ export function* fetch(datasource, provider) {
     if (cached) {
         // Если новый запрос идентичен текущему, возвращаем результат текущего
         if (isEqual(provider, cached.provider)) {
-            return yield call(() => cached.request)
+            return yield call(() => Promise.reject(new Error('cancel duplicate request')))
         }
 
         // Если новые фильтры, то текущий запрос уже не актуален - отменяем его
