@@ -74,4 +74,7 @@ const OmitProps = Component => (props) => {
     )
 }
 
-export const AdvancedTableWidget = OmitProps(WidgetHOC(WithActiveModel(AdvancedTable)))
+export const AdvancedTableWidget = OmitProps(WidgetHOC(WithActiveModel(
+    AdvancedTable,
+    props => props.table?.hasSelect,
+)))
