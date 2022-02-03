@@ -3,7 +3,6 @@
   "version": "7.21.0",
   "description": "Плагин упрощающий работу с Крипто-Про в N2O-7",
   "homepage": "https://n2oapp.net/",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:i-novus-llc/n2o-framework.git",
