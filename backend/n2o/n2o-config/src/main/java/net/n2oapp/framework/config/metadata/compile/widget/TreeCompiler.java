@@ -55,7 +55,8 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     @Override
     protected N2oDatasource initInlineDatasource(Tree compiled, N2oTree source, CompileProcessor p) {
         N2oDatasource datasource = super.initInlineDatasource(compiled, source, p);
-        datasource.setSize(p.resolve(property("n2o.api.widget.tree.size"), Integer.class));
+        if (datasource.getSize() == null)
+            datasource.setSize(p.resolve(property("n2o.api.widget.tree.size"), Integer.class));
         return datasource;
     }
 }
