@@ -45,8 +45,16 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     public static class ColumnVisibility implements Source, DatasourceIdAware {
         private String value;
         private String datasource;
-        @Deprecated
-        private String refWidgetId;
         private ReduxModel model;
+
+        @Deprecated
+        public String getRefWidgetId() {
+            return datasource;
+        }
+
+        @Deprecated
+        public void setRefWidgetId(String refWidgetId) {
+            this.datasource = refWidgetId;
+        }
     }
 }
