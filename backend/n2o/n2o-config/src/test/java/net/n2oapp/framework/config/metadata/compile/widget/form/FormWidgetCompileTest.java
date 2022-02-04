@@ -26,6 +26,7 @@ import net.n2oapp.framework.config.io.page.v2.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.page.v2.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
 import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
+import net.n2oapp.framework.config.io.page.v4.SimplePageElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -60,7 +61,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack())
-                .ios(new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv2(), new StandardPageElementIOv2())
+                .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv2(), new StandardPageElementIOv2())
                 .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new DatasourceCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
@@ -260,5 +261,14 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormAsFilter"));
         assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getBindLink(), is("models.resolve['testFormAsFilter_filters'].period"));
         assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getValue(), is("`id`"));
+    }
+
+    @Test
+    public void testInlineDatasource() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormInlineDatasource.page.xml")
+                .get(new PageContext("testFormInlineDatasource"));
+
+        assertThat(page.getDatasources().size(), is(1));
+        assertThat(page.getDatasources().get("testFormInlineDatasource_main").getSize(), is(1));
     }
 }
