@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="op1" confirm="false">
+            <invocation/>
+        </operation>
+        <operation id="op2" confirm="true" confirm-text="Текст подтверждения из операции объекта">
+            <invocation/>
+        </operation>
+    </operations>
+</object>

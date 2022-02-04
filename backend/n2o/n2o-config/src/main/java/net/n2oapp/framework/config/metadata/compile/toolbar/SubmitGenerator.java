@@ -76,7 +76,8 @@ public class SubmitGenerator implements ButtonGenerator {
 
                 CompiledObject compiledObject = p.getScope(CompiledObject.class);
                 if (compiledObject != null && compiledObject.getOperations().containsKey(pageContext.getSubmitOperationId())) {
-                    saveButton.setConfirm(compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getConfirm());
+                    Boolean confirm = compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getConfirm();
+                    saveButton.setConfirm(confirm != null ? confirm.toString() : null);
                     if (submitLabel == null) {
                         submitLabel = compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getFormSubmitLabel();
                     }

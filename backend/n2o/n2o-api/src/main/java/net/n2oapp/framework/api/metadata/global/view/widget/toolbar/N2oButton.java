@@ -25,7 +25,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, WidgetIdA
     private String visible;
     private String enabled;
 
-    private Boolean confirm;
+    private String confirm;
     private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
