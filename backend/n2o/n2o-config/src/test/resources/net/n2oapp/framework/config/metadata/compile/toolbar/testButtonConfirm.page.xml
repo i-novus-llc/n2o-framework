@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form object-id="testButtonConfirm">
+        <toolbar>
+            <button id="btn1"/>
+            <button id="btn2" confirm="true" confirm-text="{id === '1' ? 'id is 1' : 'id is 2'}" confirm-cancel-label="Отмена"
+                    confirm-ok-label="Ок" confirm-title="Подтвердить действие" confirm-type="popover"/>
+            <button id="btn3" confirm="{id === '1'|| id === '2'}">
+                <invoke operation-id="op1"/>
+            </button>
+            <button id="btn4" confirm="false">
+                <invoke operation-id="op2"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

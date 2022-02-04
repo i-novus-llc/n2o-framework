@@ -32,11 +32,11 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
             case delete: {
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
                 invokeAction.setOperationId(action.name());
-                button.setConfirm(true);
+                button.setConfirm("true");
                 button.setAction(invokeAction);
             }
             break;
-            case create:{
+            case create: {
                 N2oShowModal modal = new N2oShowModal();
                 CompiledObject object = p.getScope(CompiledObject.class);
                 modal.setPageId(object.getId());
