@@ -6,6 +6,7 @@ import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableContainer from './AdvancedTableContainer'
@@ -73,4 +74,7 @@ const OmitProps = Component => (props) => {
     )
 }
 
-export const AdvancedTableWidget = OmitProps(WidgetHOC(AdvancedTable))
+export const AdvancedTableWidget = OmitProps(WidgetHOC(WithActiveModel(
+    AdvancedTable,
+    props => props.table?.hasSelect,
+)))

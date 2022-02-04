@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -489,11 +490,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return ((Number) m.get(field)).longValue() < ((Number) pattern).longValue();
                         }
                         if (pattern instanceof LocalDate) {
-                            LocalDate date = LocalDate.parse(m.get(field).toString());
+                            LocalDate date = parseToLocalDate(m.get(field).toString());
                             return date.isEqual((ChronoLocalDate) pattern) || date.isBefore((ChronoLocalDate) pattern);
                         }
                         if (pattern instanceof LocalDateTime) {
-                            LocalDateTime dateTime = LocalDateTime.parse(m.get(field).toString());
+                            LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
                             return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isBefore((ChronoLocalDateTime<?>) pattern);
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) < 0;
@@ -514,11 +515,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return ((Long) ((Number) m.get(field)).longValue()).compareTo(((Number) pattern).longValue()) > 0;
                         }
                         if (pattern instanceof LocalDate) {
-                            LocalDate date = LocalDate.parse(m.get(field).toString());
+                            LocalDate date = parseToLocalDate(m.get(field).toString());
                             return date.isEqual((ChronoLocalDate) pattern) || date.isAfter((ChronoLocalDate) pattern);
                         }
                         if (pattern instanceof LocalDateTime) {
-                            LocalDateTime dateTime = LocalDateTime.parse(m.get(field).toString());
+                            LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
                             return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isAfter((ChronoLocalDateTime<?>) pattern);
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) > 0;
@@ -671,5 +672,33 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private boolean fileExistsOnDisk(String filename) {
         return pathOnDisk != null &&
                 new File(getFullPathOnDisk(filename)).isFile();
+    }
+
+    /**
+     * Переводит строковое представление даты в LocalDate
+     * @param strDate Строковое представление даты в формате ISO_LOCAL_DATE
+     * @return        Переменную типа LocalDate, соответствующую строковому представлению даты, при неверном формате
+     * строкового представления выбрасывается N2oException
+     */
+    private LocalDate parseToLocalDate(String strDate) {
+        try {
+            return LocalDate.parse(strDate);
+        } catch (DateTimeParseException e) {
+            throw new N2oException("Формат даты, используемый в json, не соответствует ISO_LOCAL_DATE", e);
+        }
+    }
+
+    /**
+     * Переводит строковое представление даты и времени в LocalDateTime
+     * @param strDateTime Строковое представление даты и времени в формате ISO_LOCAL_DATE_TIME
+     * @return            Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
+     * строкового представления выбрасывается N2oException
+     */
+    private LocalDateTime parseToLocalDateTime(String strDateTime) {
+        try {
+            return LocalDateTime.parse(strDateTime);
+        } catch (DateTimeParseException e) {
+            throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
+        }
     }
 }
