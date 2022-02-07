@@ -32,6 +32,10 @@ public interface TabsRegion extends Region {
 
         void shouldNotBeActive();
 
+        void shouldBeInvalid();
+
+        void shouldBeValid();
+
         void scrollUp();
 
         void scrollDown();
