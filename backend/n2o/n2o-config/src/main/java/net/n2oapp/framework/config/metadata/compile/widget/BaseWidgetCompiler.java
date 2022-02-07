@@ -63,14 +63,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
         compileAutoFocus(source, compiled, p);
-        if (compiled.getComponent() != null) {
-            compiled.getComponent().setAutoFocus(initAutoFocus(source, p));
-        }
         compileDependencies(compiled, source, p);
-    }
-
-    private Boolean initAutoFocus(S source, CompileProcessor p) {
-        return p.cast(source.getAutoFocus(), p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), true);
     }
 
     private String initSrc(S source, CompileProcessor p) {
