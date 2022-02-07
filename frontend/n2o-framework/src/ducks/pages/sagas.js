@@ -218,11 +218,12 @@ export function* getMetadata(apiProvider, action) {
         if (rootPage) {
             yield put(changeRootPage(pageId))
         }
+
         yield put(
             metadataFail(
                 pageId,
                 {
-                    label: err.status ? err.status : 'Ошибка',
+                    title: err.status ? err.status : 'Ошибка',
                     text: err.message,
                     closeButton: false,
                     severity: 'danger',
