@@ -34,13 +34,13 @@ describe('<GlobalAlerts />', () => {
         expect(wrapper.find('Alert').length).toBe(2)
         expect(
             wrapper
-                .find('.n2o-alert-body-text')
+                .find('.n2o-alert-segment__text')
                 .first()
                 .text(),
         ).toBe('first text')
         expect(
             wrapper
-                .find('.n2o-alert-body-text')
+                .find('.n2o-alert-segment__text')
                 .last()
                 .text(),
         ).toBe('second text')
@@ -53,7 +53,7 @@ describe('<GlobalAlerts />', () => {
         })
 
         wrapper
-            .find('.n2o-alert-close')
+            .find('.n2o-alert-segment__icon-close')
             .first()
             .simulate('click')
 

@@ -1,10 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import defaultTo from 'lodash/defaultTo'
-
-import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
 
 import { AlertTypes } from './AlertsTypes'
+import { AlertSection } from './AlertSection'
 
 export const DefaultAlert = ({
     title,
@@ -15,22 +13,14 @@ export const DefaultAlert = ({
     closeButton,
     className,
     style,
-    icon,
-    stacktrace,
-    onDismiss,
-    help,
+    stacktrace = null,
     animate,
+    onDismiss,
     t,
-    detailsVisible,
-    togglingDetails,
-    formattingDetails,
+    stacktraceVisible,
+    togglingStacktrace,
     onClose = null,
 }) => {
-    const closeIconClasses = classNames(
-        'close n2o-alert-close n2o-alert-close__icon',
-        { 'with-details': stacktrace },
-    )
-
     const batchedActionToClose = (e) => {
         e.preventDefault()
 
@@ -44,53 +34,52 @@ export const DefaultAlert = ({
 
     const batchedActionToToggling = (e) => {
         e.preventDefault()
-        togglingDetails()
+        togglingStacktrace()
     }
 
+    const needToDivide = (title && text) || !!(text && (timestamp || closeButton))
+
     return (
-        <a
-            href={href}
-            className={classNames('n2o-alert', 'alert', className, {
-                [`alert-${color}`]: color,
-                'n2o-alert--animated': animate,
-                'with-details': stacktrace,
-                'with-link': href,
-            })}
+        <div
+            className={classNames(
+                'alert n2o-alert',
+                className, {
+                    [`alert-${color}`]: color,
+                    'n2o-alert--animated': animate,
+                    'with-details': stacktrace,
+                    'with-link': href,
+                },
+            )}
             style={style}
         >
-            <div className="n2o-alert-help">
-                {help && <HelpPopover help={help} />}
-            </div>
-            <div className="n2o-alert-body-container">
-                {title && (
-                    <div className="n2o-alert-header">
-                        {icon && <i className={icon} />}
-                        <h4>{title}</h4>
-                    </div>
+            <a
+                href={href}
+                className={classNames(
+                    {
+                        [`alert-${color}`]: color,
+                        'n2o-alert__with-link': href,
+                    },
                 )}
-                {(title && text) && <hr />}
-                <div className="n2o-alert-body">
-                    <div className="n2o-alert-body-text white-space-pre-line">
-                        {text}
-                    </div>
-                    {stacktrace && (
-                        <a
-                            className="alert-link details-title"
-                            onClick={batchedActionToToggling}
-                        >
-                            {detailsVisible ? t('hide') : t('details')}
-                        </a>
-                    )}
-                    {detailsVisible && (
-                        <div className="details">{formattingDetails(stacktrace)}</div>
-                    )}
-                </div>
-            </div>
-            {timestamp && <span>{timestamp}</span>}
-            {defaultTo(closeButton, true) && (
-                <div className={closeIconClasses} onClick={batchedActionToClose}>×</div>
-            )}
-        </a>
+            >
+                <AlertSection
+                    text={title}
+                    timestamp={timestamp}
+                    closeButton={closeButton}
+                    onClick={batchedActionToClose}
+                    textClassName="n2o-alert-segment__title"
+                />
+                {
+                    needToDivide && <hr className="w-100 n2o-alert__divider" />
+                }
+                <AlertSection text={text} textClassName="n2o-alert-segment__text" />
+                <AlertSection
+                    onClick={batchedActionToToggling}
+                    stacktraceVisible={stacktraceVisible}
+                    stacktrace={stacktrace}
+                    t={t}
+                />
+            </a>
+        </div>
     )
 }
 

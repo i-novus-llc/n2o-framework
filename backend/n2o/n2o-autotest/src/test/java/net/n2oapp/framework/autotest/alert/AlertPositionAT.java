@@ -61,13 +61,12 @@ public class AlertPositionAT extends AutoTestBase {
         Alerts.Alert alert = page.alerts().alert(0);
         alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(Colors.SUCCESS);
-        alert.shouldHavePosition(Alerts.Alert.Position.FIXED);
+        alert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
 
         // fail
         toolbar.button("Ошибка валидации").click();
         alert.shouldHaveText("Ошибка");
         alert.shouldHaveColor(Colors.DANGER);
-        alert.shouldHavePosition(Alerts.Alert.Position.FIXED);
         alert.shouldHavePlacement(Alerts.Alert.Placement.BOTTOM);
 
         // in modal
@@ -81,20 +80,13 @@ public class AlertPositionAT extends AutoTestBase {
         Alerts.Alert modalAlert = page.alerts().alert(0);
         modalAlert.shouldHaveText("Данные сохранены");
         modalAlert.shouldHaveColor(Colors.SUCCESS);
-        modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);
         modalAlert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
 
         modalToolbar.button("Ошибка валидации").click();
         modalAlert.shouldHaveText("Ошибка в модальном окне");
         modalAlert.shouldHaveColor(Colors.DANGER);
-        modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);
         modalAlert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
-
-        // alert in parent page don't disappear after close modal
         modal.close();
-        alert = page.alerts().alert(0);
-        alert.shouldExists();
-        alert.shouldHaveText("Ошибка");
 
         // fail with stacktrace
         toolbar.button("Ошибка со стектрейсом").click();
@@ -103,7 +95,6 @@ public class AlertPositionAT extends AutoTestBase {
         modalAlert.shouldHaveColor(Colors.DANGER);
         modalAlert.shouldHaveStacktrace();
         modalAlert.shouldHaveText("Произошла внутренняя ошибка");
-        modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);
         modalAlert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
     }
 }

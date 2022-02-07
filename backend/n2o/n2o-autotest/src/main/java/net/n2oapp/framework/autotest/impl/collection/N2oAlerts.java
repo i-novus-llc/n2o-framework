@@ -30,11 +30,6 @@ public class N2oAlerts extends N2oComponentsCollection implements Alerts {
         }
 
         @Override
-        public void shouldHavePosition(Position position) {
-            element().parent().should(Condition.cssClass(position.name("n2o-alerts--")));
-        }
-
-        @Override
         public void shouldHavePlacement(Placement placement) {
             element().parent().should(Condition.cssClass(placement.name().toLowerCase()));
         }

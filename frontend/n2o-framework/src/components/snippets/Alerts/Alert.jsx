@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { withTranslation } from 'react-i18next'
 
 import { LoaderAlert } from './LoaderAlert'
@@ -10,22 +10,17 @@ import { AlertTypes } from './AlertsTypes'
  * @reactProps {string} title - лейбл алерта
  * @reactProps {string} text - текст алерта
  * @reactProps {string} color - тип алерта: 'info', 'danger', 'warning' или 'success'.
- * @reactProps {string} details - подробности, находятся под текстом, показываются (скрываются) по клику на выделенный текст
+ * @reactProps {string} stacktrace - подробности, находятся под текстом, показываются (скрываются) по клику на выделенный текст
  * @reactProps {boolean} closeButton - отображать кнопку скрытия алерта или нет
  * @reactProps {boolean} onDismiss - выполняется при скрытии алерта
  * @reactProps {boolean} className - css-класс
  * @reactProps {number} style -  объект css стилей
- * @reactProps {number} icon - css-класс для иконки(иконка находится перед лейбелом )
  * @reactProps {boolean} visible - флаг видимости
- * @reactProps {string} position - настройка позиционирования
- * @reactProps {string} help - текст для Popover
  * @reactProps {boolean} animate - флаг включения анимации при появлении
  * @example <Alert onDismiss={this.onDismiss} title='Сообщение' text={this.text} />
  */
 
 function Alert(props) {
-    const [detailsVisible, setDetailsVisible] = useState(false)
-
     const {
         loader,
         title,
@@ -38,26 +33,24 @@ function Alert(props) {
         style,
         animate,
         t,
-        icon,
         stacktrace,
         onDismiss,
-        help,
     } = props
 
-    const togglingDetails = () => setDetailsVisible(!detailsVisible)
+    const [stacktraceVisible, setStacktraceVisible] = useState(false)
+    const togglingStacktrace = useCallback(() => setStacktraceVisible(!stacktraceVisible), [stacktraceVisible])
 
-    const formattingDetails = (stacktrace) => {
+    const formattingDetails = useCallback((stacktrace) => {
+        if (!stacktrace) {
+            return null
+        }
+
         if (Array.isArray(stacktrace)) {
-            return stacktrace.map(detail => (
-                <>
-                    {detail}
-                    <br />
-                </>
-            ))
+            return stacktrace.join('\r\n')
         }
 
         return stacktrace
-    }
+    }, [])
 
     const { visible } = props
 
@@ -88,19 +81,15 @@ function Alert(props) {
             closeButton={closeButton}
             className={className}
             style={style}
-            icon={icon}
-            stacktrace={stacktrace}
+            stacktrace={formattingDetails(stacktrace)}
             onDismiss={onDismiss}
-            help={help}
             animate={animate}
             t={t}
-            detailsVisible={detailsVisible}
-            togglingDetails={togglingDetails}
-            formattingDetails={formattingDetails}
+            stacktraceVisible={stacktraceVisible}
+            togglingStacktrace={togglingStacktrace}
         />
     )
 }
-
 Alert.defaultProps = {
     text: '',
     title: '',
