@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -27,8 +26,6 @@ public class Page extends Component {
     private PageRoutes routes;
     @JsonProperty
     private Toolbar toolbar;
-    @Deprecated
-    private CompiledObject object;
     @JsonProperty
     private List<Breadcrumb> breadcrumb;
     @JsonProperty

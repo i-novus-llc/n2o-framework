@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.control.interval;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.control.properties.PopupPlacement;
 
 /**
  * Компонент ввода интервала дат
@@ -10,10 +9,6 @@ import net.n2oapp.framework.api.metadata.control.properties.PopupPlacement;
 @Getter
 @Setter
 public class N2oDateInterval extends N2oSimpleIntervalField {
-
-    @Deprecated
-    private PopupPlacement popupPlacement;
-
     private String dateFormat;
     private String timeFormat;
     private String beginDefaultTime;

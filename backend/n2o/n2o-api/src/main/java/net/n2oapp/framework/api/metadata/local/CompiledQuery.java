@@ -40,8 +40,6 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private Map<String, String> displayValues;
     private List<String> selectExpressions; // fieldId - select body
     private List<String> joinExpressions;
-    @Deprecated
-    private boolean processable;
     protected String id;
 
     private Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new StrictMap<>(); //[fieldId : [filterType : filterId]]

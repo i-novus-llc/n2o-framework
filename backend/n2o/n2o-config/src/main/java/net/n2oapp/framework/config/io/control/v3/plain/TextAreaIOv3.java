@@ -14,10 +14,6 @@ public class TextAreaIOv3 extends PlainFieldIOv3<N2oTextArea> {
     @Override
     public void io(Element e, N2oTextArea m, IOProcessor p) {
         super.io(e, m, p);
-        p.read(e, m, (el, mo) -> {
-            if (el.getAttribute("rows") != null)
-                mo.setRows(Integer.parseInt(el.getAttributeValue("rows")));
-        });  //deprecated
         p.attributeInteger(e, "min-rows", m::getMinRows, m::setMinRows);
         p.attributeInteger(e, "max-rows", m::getMaxRows, m::setMaxRows);
     }

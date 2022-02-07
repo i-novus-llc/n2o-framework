@@ -3,14 +3,12 @@ package net.n2oapp.framework.api.metadata.meta.widget.table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Абстрактная реализация клиентской модели таблицы
@@ -49,9 +47,6 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         private List<String> blackResetList;
         @JsonProperty
         private N2oTable.FilterPosition filterPlace;
-        @JsonProperty
-        @Deprecated
-        private Map<String, List<Validation>> validation;
         @JsonProperty
         private Boolean hideButtons;
         @JsonProperty

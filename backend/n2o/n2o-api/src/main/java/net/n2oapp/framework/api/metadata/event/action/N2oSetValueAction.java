@@ -10,18 +10,32 @@ import lombok.Setter;
 @Setter
 public class N2oSetValueAction extends N2oAbstractAction {
     private String expression;
-    @Deprecated
     private String targetFieldId;
 
     private String to;
-    @Deprecated
-    private String sourceWidget;
     private String sourceDatasource;
     private String sourceModel;
-    @Deprecated
-    private String targetWidget;
     private String targetDatasource;
     private String targetModel;
     private MergeMode mergeMode;
 
+    @Deprecated
+    public String getSourceWidget() {
+        return sourceDatasource;
+    }
+
+    @Deprecated
+    public void setSourceWidget(String sourceWidget) {
+        this.sourceDatasource = sourceWidget;
+    }
+
+    @Deprecated
+    public String getTargetWidget() {
+        return targetDatasource;
+    }
+
+    @Deprecated
+    public void setTargetWidget(String targetWidget) {
+        this.targetDatasource = targetWidget;
+    }
 }

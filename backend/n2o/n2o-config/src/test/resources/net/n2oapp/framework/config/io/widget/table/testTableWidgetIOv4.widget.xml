@@ -5,8 +5,9 @@
        object-id="stub" icon="testIcon" class="testClass" route="testRoute" selection="radio" master-param="uid"
        table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
        checkboxes="true" check-on-select="false">
-<columns>
-        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true" src="MyTableHeader" class="my-table-header" style="color: red">
+    <columns>
+        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true"
+                src="MyTableHeader" class="my-table-header" style="color: red">
             <toolbar generate="update,delete">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">
@@ -79,18 +80,18 @@
                 first-icon="fa fa-angle-double-left" last-label="last" last-icon="fa fa-angle-double-right" max-pages="5"
                 class="class" style="style" place="bottomLeft">
     </pagination>
-    <filters place="left" search-on-change="true" default-values-query-id="test">
-        <ctr:input-text id="test"/>
-        <set src="test">
-            <ctr:input-text id="test"/>
-        </set>
-    </filters>
-    <actions>
-        <action id="test" default="false" enabled="false" icon="test" name="test"
-                visible="false">
-            <close src="test"/>
-        </action>
-    </actions>
+      <filters place="left" search-on-change="true" default-values-query-id="test">
+          <ctr:input-text id="test"/>
+          <set src="test">
+              <ctr:input-text id="test"/>
+          </set>
+      </filters>
+      <actions>
+          <action id="test" default="false" enabled="false" icon="test" name="test"
+                  visible="false">
+              <close src="test"/>
+          </action>
+      </actions>
     <pre-filters>
         <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>
