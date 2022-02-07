@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +21,9 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
 
     @Override
     public void validate(N2oSimplePage source, SourceProcessor p) {
+        DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
         if (source.getWidget() != null)
-            p.validate(source.getWidget());
+            datasourceIdsScope.add(source.getWidget().getId());
+            p.validate(source.getWidget(), datasourceIdsScope);
     }
 }
