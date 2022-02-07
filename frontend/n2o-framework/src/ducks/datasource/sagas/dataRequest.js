@@ -18,9 +18,9 @@ import {
     rejectRequest,
     resolveRequest,
 } from '../store'
-import { makeGetModelByPrefixSelector } from '../../models/selectors'
 import { getLocation, rootPageSelector } from '../../global/store'
 import { makePageRoutesByIdSelector } from '../../pages/selectors'
+import { makeGetModelByPrefixSelector } from '../../models/selectors'
 
 import { routesQueryMapping } from './routesQueryMapping'
 import { fetch } from './fetch'
@@ -66,14 +66,11 @@ export function* dataRequest({ payload }) {
 
         const response = yield fetch(id, resolvedProvider)
 
-        const aciveModel = yield select(makeGetModelByPrefixSelector(MODEL_PREFIX.active, id))
+        const oldData = yield select(makeGetModelByPrefixSelector(MODEL_PREFIX.source, id))
 
-        // Если есть активная модель и её нету в новом списке - убираем активную модель
-        if (
-            !aciveModel ||
-            (aciveModel && !response.list?.some(model => isEqual(model, aciveModel)))
-        ) {
-            yield put(setModel(MODEL_PREFIX.active, id, response.list[0]))
+        // фикс, чтобы компонентам долетало, что данные обновились
+        if (isEqual(oldData, response.list)) {
+            yield put(setModel(MODEL_PREFIX.source, id, []))
         }
 
         yield put(changeCount(id, response.count))
@@ -84,8 +81,6 @@ export function* dataRequest({ payload }) {
         }
         yield put(resolveRequest(id, response))
     } catch (err) {
-        yield put(setModel(MODEL_PREFIX.source, id, []))
-        yield put(setModel(MODEL_PREFIX.active, id, null))
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)
         yield put(

@@ -4,7 +4,7 @@
             <nav>
                 <menu-item id="profile"
                        image="images/candidate2.jpg"
-                       image-shape="circle"
+                       image-shape="square"
                        name="Профиль"
                        badge="3"
                        badge-color="danger">

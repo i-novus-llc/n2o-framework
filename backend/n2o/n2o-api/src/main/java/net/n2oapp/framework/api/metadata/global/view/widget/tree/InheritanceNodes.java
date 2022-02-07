@@ -4,10 +4,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
 import java.io.Serializable;
 
-/**
- * @author dfirstov
- * @since 10.02.2015
- */
 @Deprecated
 public class InheritanceNodes implements Serializable {
     private String parentFieldId;

@@ -66,7 +66,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setBreadcrumb(breadcrumb);
 
         CompiledObject object = initObject(source, p);
-        page.setObject(object);
         page.setClassName(source.getCssClass());
         page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileComponent(page, source, context, p);

@@ -38,9 +38,9 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private Dependency[] dependencies;
 
     @Deprecated
-    private N2oButtonCondition[] enablingConditions;
+    private String enablingCondition;
     @Deprecated
-    private N2oButtonCondition[] visibilityConditions;
+    private String visibilityCondition;
 
     @Deprecated
     public String getWidgetId() {
@@ -71,7 +71,8 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
             case "false":
                 this.validate = false;
                 break;
-            default: throw new UnsupportedOperationException(String.format("validate is [%s] unsupported", validate));
+            default:
+                throw new UnsupportedOperationException(String.format("validate is [%s] unsupported", validate));
         }
     }
 
@@ -109,38 +110,6 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     }
 
     public static class VisibilityDependency extends Dependency {
-    }
-
-    @Deprecated
-    public String getEnablingCondition() {
-        if (this.getEnablingConditions() == null) return null;
-        return this.getEnablingConditions()[0].getExpression();
-    }
-
-    @Deprecated
-    public void setEnablingCondition(String expression) {
-        if (this.getEnablingConditions() == null) {
-            N2oButtonCondition condition = new N2oButtonCondition();
-            condition.setExpression(expression);
-            N2oButtonCondition[] conditions = new N2oButtonCondition[]{condition};
-            this.setEnablingConditions(conditions);
-        }
-    }
-
-    @Deprecated
-    public String getVisibilityCondition() {
-        if (this.getVisibilityConditions() == null) return null;
-        return this.getVisibilityConditions()[0].getExpression();
-    }
-
-    @Deprecated
-    public void setVisibilityCondition(String expression) {
-        if (this.getVisibilityConditions() == null) {
-            N2oButtonCondition condition = new N2oButtonCondition();
-            condition.setExpression(expression);
-            N2oButtonCondition[] conditions = new N2oButtonCondition[]{condition};
-            this.setVisibilityConditions(conditions);
-        }
     }
 }
 

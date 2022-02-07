@@ -4,12 +4,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
-import net.n2oapp.framework.config.io.widget.v4.CardsWidgetIOV4;
-import net.n2oapp.framework.config.io.widget.v4.TilesWidgetIOV4;
-import net.n2oapp.framework.config.io.widget.v5.ChartWidgetIOv5;
-import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.io.widget.v5.*;
-import net.n2oapp.framework.config.io.widget.v5.TableElementIOV5;
 
 public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder> {
     @Override
@@ -24,7 +19,7 @@ public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder> {
                 new CalendarWidgetIOv5(),
                 new ButtonIOv2(),
                 new SubmenuIOv2(),
-                new TilesWidgetIOV4(),
-                new CardsWidgetIOV4());
+                new TilesWidgetIOV5(),
+                new CardsWidgetIOV5());
     }
 }

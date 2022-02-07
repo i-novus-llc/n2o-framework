@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -85,7 +84,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled //todo убрать аннотацию после решения NNO-7186
     @Test
     public void headerMenuItemWithImageAndBadge() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/app.application.xml"));
@@ -106,7 +104,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница профиля");
+        page.breadcrumb().titleShouldHaveText("Тест");
     }
 
     @Test
@@ -236,7 +234,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.circle);
+        menuItem.imageShouldHaveShape(ImageShape.square);
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
@@ -244,7 +242,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.circle);
+        menuItem.imageShouldHaveShape(ImageShape.square);
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");

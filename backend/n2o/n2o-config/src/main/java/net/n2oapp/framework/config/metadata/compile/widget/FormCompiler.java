@@ -4,7 +4,6 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
@@ -19,6 +18,8 @@ import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция виджета форма
@@ -69,7 +70,14 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
 
     private Boolean initPrompt(N2oForm source, CompileProcessor p) {
         return p.cast(source.getPrompt(),
-                p.resolve(Placeholders.property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
+                p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
     }
 
+    @Override
+    protected N2oDatasource initInlineDatasource(Form compiled, N2oForm source, CompileProcessor p) {
+        N2oDatasource datasource = super.initInlineDatasource(compiled, source, p);
+        if (datasource.getSize() == null)
+            datasource.setSize(p.resolve(property("n2o.api.widget.form.size"), Integer.class));
+        return datasource;
+    }
 }

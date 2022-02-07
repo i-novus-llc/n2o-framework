@@ -156,17 +156,6 @@ public interface BindProcessor {
      * @param link Ссылка
      * @return Значение параметра
      */
-    @Deprecated(since = "7.18.0")
-    default Object getLinkValue(ModelLink link) {
-        return resolveLink(link);
-    }
-
-    /**
-     * Получение значения параметра из адресной строки по ссылке
-     *
-     * @param link Ссылка
-     * @return Значение параметра
-     */
     Object resolveLinkValue(ModelLink link);
 
     /**

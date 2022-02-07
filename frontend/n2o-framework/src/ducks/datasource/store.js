@@ -190,30 +190,30 @@ const datasource = createSlice({
                 })
             },
             reducer(state, action) {
-                const { id, fields } = action.payload
+                const { id, fields, prefix } = action.payload
                 const datasource = state[id]
                 const fieldList = fields?.length ? fields : Object.keys(datasource.validation || {})
 
-                datasource.errors = datasource.errors || {}
+                datasource.errors[prefix] = datasource.errors[prefix] || {}
 
-                fieldList.forEach((field) => { datasource.errors[field] = undefined })
+                fieldList.forEach((field) => { datasource.errors[prefix][field] = undefined })
             },
         },
 
         failValidate: {
-            prepare(id, fields, meta /* , prefix = MODEL_PREFIX.active*/) {
+            prepare(id, fields, prefix = MODEL_PREFIX.active, meta) {
                 return ({
-                    payload: { id, fields },
+                    payload: { id, fields, prefix },
                     meta,
                 })
             },
             // eslint-disable-next-line no-unused-vars
             reducer(state, action) {
-                const { id, fields } = action.payload
+                const { id, fields, prefix } = action.payload
                 const datasource = state[id]
 
-                datasource.errors = {
-                    ...(datasource.errors || {}),
+                datasource.errors[prefix] = {
+                    ...(datasource.errors[prefix] || {}),
                     ...fields,
                 }
             },

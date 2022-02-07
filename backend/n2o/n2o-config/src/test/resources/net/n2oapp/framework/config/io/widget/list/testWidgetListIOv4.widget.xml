@@ -28,8 +28,8 @@
             <cell src="custom"/>
         </extra>
     </content>
-    <pagination next="true" prev="true" last="true" first="false"
-                hide-single-page="true" show-count="false"/>
+    <pagination next="true" prev="true" last="true" first="false" show-single-page="true"
+                show-count="false"/>
     <rows>
         <click enabled="true">
             <a href="https://www.google.com/"/>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import WidgetLayout from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 import TreeContainer from './container/TreeContainer'
 
@@ -59,4 +60,4 @@ TreeWidget.propTypes = {
     placeholder: PropTypes.string,
 }
 
-export default WidgetHOC(TreeWidget)
+export default WidgetHOC(WithActiveModel(TreeWidget))

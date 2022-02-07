@@ -20,7 +20,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,7 +49,6 @@ public class ValidationTabMessageAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/test.object.xml"));
     }
 
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7363
     @Test
     public void testValidationTabMessageInModal() {
         StandardPage page = open(StandardPage.class);
@@ -67,13 +65,14 @@ public class ValidationTabMessageAT extends AutoTestBase {
         Fields fields = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");
         InputText inputText = field.control(InputText.class);
-        inputText.val("");
+        inputText.val("unique");
+        inputText.clear();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
-        button.click();
 
         TabsRegion tabs = modal.content(StandardPage.class).regions().region(1, TabsRegion.class);
+        tabs.tab(1).click();
         tabs.tab(1).shouldBeActive();
 
         // check tabs switch
@@ -83,14 +82,19 @@ public class ValidationTabMessageAT extends AutoTestBase {
 
         fields = tabs.tab(1).content().widget(FormWidget.class).fields();
         field = fields.field("Название организации");
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         inputText = field.control(InputText.class);
+        inputText.val("test");
+        inputText.clear();
+        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         inputText.val("test");
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
         tabs.tab(0).click();
         button.click();
 
-        tabs.tab(1).shouldBeActive();
+        tabs.tab(0).shouldBeActive();
+        tabs.tab(0).shouldBeValid();
+        tabs.tab(1).shouldBeInvalid();
+        tabs.tab(1).click();
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
@@ -98,7 +102,6 @@ public class ValidationTabMessageAT extends AutoTestBase {
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
     }
 
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7363
     @Test
     public void testValidationTabMessageInPage() {
         StandardPage page = open(StandardPage.class);
@@ -115,13 +118,14 @@ public class ValidationTabMessageAT extends AutoTestBase {
         Fields fields = newPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");
         InputText inputText = field.control(InputText.class);
-        inputText.val("");
+        inputText.val("test");
+        inputText.clear();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
-        button.click();
 
         TabsRegion tabs = newPage.regions().region(1, TabsRegion.class);
+        tabs.tab(1).click();
         tabs.tab(1).shouldBeActive();
 
         // check tabs switch
@@ -131,14 +135,19 @@ public class ValidationTabMessageAT extends AutoTestBase {
 
         fields = tabs.tab(1).content().widget(FormWidget.class).fields();
         field = fields.field("Название организации");
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         inputText = field.control(InputText.class);
+        inputText.val("test");
+        inputText.clear();
+        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         inputText.val("test");
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
         tabs.tab(0).click();
         button.click();
 
-        tabs.tab(1).shouldBeActive();
+        tabs.tab(0).shouldBeValid();
+        tabs.tab(1).shouldBeInvalid();
+        tabs.tab(1).click();
+
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
