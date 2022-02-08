@@ -6,9 +6,27 @@ import net.n2oapp.framework.autotest.Colors;
  * Компонент предупреждения для автотестирования
  */
 public interface Alert extends Snippet {
+
     void shouldHaveColor(Colors color);
 
-    void footerShouldHaveText(String text);
+    void shouldHaveTitle(String text);
 
-    void headerShouldHaveText(String text);
+    void shouldHaveUrl(String url);
+
+    void shouldHaveCloseButton();
+
+    void shouldHavePlacement(Placement placement);
+
+    void shouldHaveStacktrace();
+
+    void shouldHaveTimestamp(String timestamp);
+
+    enum Placement {
+        top,
+        bottom,
+        topLeft,
+        topRight,
+        bottomLeft,
+        bottomRight
+    }
 }

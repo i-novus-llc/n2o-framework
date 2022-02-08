@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Всплывающие уведомления">
+    <form>
+        <toolbar place="topLeft">
+            <button label="Простое уведомление" disable-on-empty-model="false">
+                <alert title="Простое уведомление"
+                       text="Привет, мир!"
+                       color="light" placement="topLeft"/>
+            </button>
+            <button label="Уведомление с таймаутом" disable-on-empty-model="false">
+                <alert title="Уведомление с таймаутом"
+                       text="Это сообщение пропадет через 2 секунды"
+                       timeout="2000" color="warning" placement="topRight"/>
+            </button>
+            <button label="Кликабельное уведомление" disable-on-empty-model="false">
+                <alert title="Кликабельное уведомление"
+                       text="Нажмите на сообщение для перехода по ссылке"
+                       href="http://example.org" color="success" placement="bottomRight"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

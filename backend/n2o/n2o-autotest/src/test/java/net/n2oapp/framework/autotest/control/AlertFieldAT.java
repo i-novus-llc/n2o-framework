@@ -10,11 +10,12 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 /**
- * Автотест для компонента alert
+ * Автотест для компонента поля alert
  */
 
 public class AlertFieldAT extends AutoTestBase {
@@ -28,6 +29,7 @@ public class AlertFieldAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        headless = false;
     }
 
     @Override
@@ -36,7 +38,6 @@ public class AlertFieldAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
 
-    @Disabled //fixme it waits NNO-7400
     @Test
     public void testAlert() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/alert/index.page.xml"),
@@ -49,8 +50,9 @@ public class AlertFieldAT extends AutoTestBase {
         alert.shouldExists();
 
         alert.shouldHaveText("Read this message!");
-        alert.headerShouldHaveText("Warning");
-        alert.footerShouldHaveText("System message");
+        alert.shouldHaveTitle("Warning");
         alert.shouldHaveColor(Colors.WARNING);
+        alert.shouldHaveUrl("http://example.org/");
+        alert.shouldHaveCloseButton();
     }
 }
