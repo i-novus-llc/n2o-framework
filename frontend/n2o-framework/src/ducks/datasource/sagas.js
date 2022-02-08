@@ -7,7 +7,6 @@ import {
 } from 'redux-saga/effects'
 
 import { clearModel, copyModel, removeAllModel, removeModel, setModel } from '../models/store'
-import { MODEL_PREFIX } from '../../core/datasource/const'
 
 import { dataRequest as dataRequestSaga } from './sagas/dataRequest'
 import { validate as validateSaga } from './sagas/validate'
@@ -31,10 +30,6 @@ export function* resolveModelsSaga({ payload }) {
     const { id, model, prefix } = payload
 
     yield put(setModel(prefix, id, model))
-
-    if (prefix === MODEL_PREFIX.filter) {
-        yield put(dataRequest(id, { page: 1 }))
-    }
 }
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
@@ -77,7 +72,7 @@ let prevState = {}
 
 export default () => [
     takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel, setEditModel], resolveModelsSaga),
-    takeEvery([setFilter, setSorting, changePage, changeSize], runDataRequest),
+    takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequesWrapper),
     takeEvery(startValidate, validateSaga),
     takeEvery(remove, removeSaga),

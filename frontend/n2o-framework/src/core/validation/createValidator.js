@@ -102,6 +102,7 @@ function getMultiFields(registeredFields, fieldId) {
  * @param {Object} state
  * @param {boolean} isTouched
  * @return {Function}
+ * @deprecated
  */
 export const validateField = (
     validationConfig,
@@ -110,6 +111,9 @@ export const validateField = (
     isTouched = false,
 ) => (values, dispatch) => validate(validationConfig, formName, state, isTouched, values, dispatch)
 
+/**
+ * @deprecated
+ */
 export const getStoreValidator = (
     validationConfig,
     formName,
@@ -135,6 +139,7 @@ export const getStoreValidator = (
  * @param {Object} values
  * @param {Function} dispatch
  * @return {Promise<boolean>} has error
+ * @deprecated
  */
 export function validate(
     validationConfig,

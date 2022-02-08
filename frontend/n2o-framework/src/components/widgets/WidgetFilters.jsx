@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getFormValues, reset } from 'redux-form'
 import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
@@ -16,7 +15,7 @@ import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
 import { FILTER_DELAY } from '../../constants/time'
 
-import { flatFields } from './Form/utils'
+import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
 
 function generateFormName(widgetId) {
@@ -42,7 +41,6 @@ class WidgetFilters extends React.Component {
             defaultValues: props.filterModel,
         }
         this.formName = generateFormName(props.widgetId)
-        this.handleChangeModel = this.handleChangeModel.bind(this)
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.validateAndFetch = this.validateAndFetch.bind(this)
@@ -53,7 +51,6 @@ class WidgetFilters extends React.Component {
         return {
             _widgetFilter: {
                 formName: this.formName,
-                changeModel: this.handleChangeModel,
                 filter: this.handleFilter,
                 reset: this.handleReset,
             },
@@ -61,32 +58,27 @@ class WidgetFilters extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { filterModel, reduxFormFilter } = this.props
+        const { filterModel, reduxFormFilter, setFilter, validation, searchOnChange, dispatch } = this.props
         const { defaultValues } = this.state
+
+        if (isEqual(reduxFormFilter, filterModel)) { return }
 
         if (
             !isEqual(prevProps.filterModel, filterModel) &&
-            !isEqual(filterModel, defaultValues) &&
-            !isEqual(filterModel, reduxFormFilter)
+            !isEqual(filterModel, defaultValues)
         ) {
-            this.setState(() => ({
+            this.setState({
                 defaultValues: filterModel,
-            }))
-        }
-    }
+            })
+        } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
+            const { store } = this.context
+            const state = store.getState()
 
-    handleChangeModel(values) {
-        const {
-            searchOnChange,
-            dispatch,
-            validation,
-        } = this.props
-        const { store } = this.context
-        const state = store.getState()
-
-        validateField(validation, this.formName, state, true)(values, dispatch)
-        if (searchOnChange) {
-            this.debouncedHandleFilter()
+            setFilter(reduxFormFilter)
+            validateField(validation, this.formName, state, true)(reduxFormFilter, dispatch)
+            if (searchOnChange) {
+                this.debouncedHandleFilter()
+            }
         }
     }
 
@@ -100,6 +92,7 @@ class WidgetFilters extends React.Component {
             blackResetList,
             reduxFormFilter,
             resetFilterModel,
+            setFilter,
         } = this.props
         const newReduxForm = { ...reduxFormFilter }
         const toReset = difference(
@@ -116,13 +109,14 @@ class WidgetFilters extends React.Component {
             },
             () => {
                 resetFilterModel(this.formName)
+                setFilter(newReduxForm)
                 this.validateAndFetch(newReduxForm)
             },
         )
     }
 
     validateAndFetch(newValues) {
-        const { setFilter, validation, dispatch, reduxFormFilter } = this.props
+        const { validation, dispatch, reduxFormFilter, fetchData } = this.props
         const { store } = this.context
         const state = store.getState()
         const values = newValues || reduxFormFilter
@@ -132,20 +126,35 @@ class WidgetFilters extends React.Component {
             dispatch,
         ).then((hasError) => {
             if (!hasError) {
-                setFilter(values)
+                fetchData({ page: 1 })
             }
         })
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { fieldsets } = props
+        const resolved = Object.values(propsResolver(fieldsets) || {})
+
+        if (isEqual(resolved, state.fieldsets)) {
+            return null
+        }
+
+        const fields = getFieldsKeys(resolved)
+
+        return {
+            fieldsets: resolved,
+            fields,
+        }
+    }
+
     render() {
         const {
-            fieldsets,
             visible,
             hideButtons,
             validation,
             filterModel,
         } = this.props
-        const { defaultValues } = this.state
+        const { defaultValues, fieldsets, fields } = this.state
 
         return (
             <Filter
@@ -156,11 +165,9 @@ class WidgetFilters extends React.Component {
             >
                 <ReduxForm
                     form={this.formName}
-                    fieldsets={propsResolver(
-                        fieldsets,
-                        !isEmpty(filterModel) ? filterModel : defaultValues,
-                    )}
-                    onChange={this.handleChangeModel}
+                    fieldsets={fieldsets}
+                    fields={fields}
+                    activeModel={filterModel}
                     initialValues={defaultValues}
                     validation={validation}
                 />
@@ -178,6 +185,7 @@ WidgetFilters.propTypes = {
     validation: PropTypes.object,
     reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     setFilter: PropTypes.func,
+    fetchData: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
     dispatch: PropTypes.func,
