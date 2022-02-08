@@ -31,7 +31,7 @@ const PLACES = {
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter, setFilter, filterModel } = this.props
+        const { widgetId, toolbar, filter, setFilter, filterModel, fetchData } = this.props
         const { [place]: propsPlace } = this.props
 
         if (propsPlace && React.isValidElement(propsPlace)) {
@@ -50,6 +50,7 @@ class StandardWidget extends React.Component {
                     <WidgetFilters
                         widgetId={widgetId}
                         setFilter={setFilter}
+                        fetchData={fetchData}
                         filterModel={filterModel}
                         {...filterProps}
                     />
@@ -137,6 +138,7 @@ StandardWidget.propTypes = {
     filter: PropTypes.object,
     filterModel: PropTypes.object,
     setFilter: PropTypes.func,
+    fetchData: PropTypes.func,
     disabled: PropTypes.bool,
     left: PropTypes.element,
     top: PropTypes.element,
