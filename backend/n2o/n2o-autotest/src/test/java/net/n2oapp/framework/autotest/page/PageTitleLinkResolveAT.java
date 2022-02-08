@@ -44,8 +44,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/test.query.xml"));
     }
-
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7443
+    
     @Test
     public void testPathParam() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
@@ -74,6 +73,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         open.breadcrumb().clickLink("Start page");
 
         page.breadcrumb().titleShouldHaveText("Start page");
+        table.columns().rows().row(2).click();
         tableToolbar.button("Modal").click();
 
         // test title in modal
@@ -93,6 +93,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
         // test title in modal (opened from dependent widget)
         page.breadcrumb().titleShouldHaveText("Start page");
+        table.columns().rows().row(1).click();
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
         modal.shouldHaveTitle("Page name=test2 type=type1");
