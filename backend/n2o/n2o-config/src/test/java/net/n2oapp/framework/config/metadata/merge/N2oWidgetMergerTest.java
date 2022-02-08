@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Abstrac
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
 import net.n2oapp.framework.config.io.widget.v4.TableElementIOV4;
+import net.n2oapp.framework.config.io.widget.v5.TableElementIOV5;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
@@ -40,7 +41,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack())
-                .ios(new FormElementIOV4(), new TableElementIOV4())
+                .ios(new FormElementIOV4(), new TableElementIOV4(), new TableElementIOV5())
                 .compilers(new FormCompiler(), new TableCompiler())
                 .mergers(new N2oWidgetMerger<>(), new N2oFormMerger(), new N2oTableMerger());
     }
@@ -94,6 +95,44 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
         assertThat(table.getSearchOnChange(), is(true));
         assertThat(table.getFiltersDefaultValuesQueryId(), is("test"));
+        assertThat(table.getFilterPosition(), is(N2oTable.FilterPosition.left));
+
+        AbstractColumn[] columns = table.getColumns();
+        assertThat(columns.length, is(2));
+        assertThat(columns[0].getTextFieldId(), is("test2"));
+        assertThat(columns[1].getTextFieldId(), is("test1"));
+
+        SourceComponent[] filters = table.getFilters();
+        assertThat(columns.length, is(2));
+        assertThat(((N2oInputSelect) filters[0]).getId(), is("test2"));
+        assertThat(((N2oInputText) filters[1]).getId(), is("test1"));
+
+        N2oPagination pagination = table.getPagination();
+        assertThat(pagination.getFirst(), is(true));
+        assertThat(pagination.getLast(), is(true));
+        assertThat(pagination.getPrev(), is(true));
+        assertThat(pagination.getNext(), is(true));
+        assertThat(pagination.getShowSinglePage(), is(true));
+        assertThat(pagination.getShowCount(), is(true));
+
+        N2oRow rows = table.getRows();
+        assertThat(rows.getRowClick().getActionId(), is("actionId"));
+    }
+
+    @Test
+    public void testMergeTableV5() {
+        N2oTable table = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentTableV5Merger.widget.xml",
+                "net/n2oapp/framework/config/metadata/local/merger/widget/childTableV5Merger.widget.xml")
+                .get("parentTableV5Merger", N2oTable.class);
+        assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
+        assertThat(table.getHeight(), is("100px"));
+        assertThat(table.getWidth(), is("200px"));
+        assertThat(table.getTextWrap(), is(true));
+        assertThat(table.getTableSize(), is(Size.lg));
+        assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
+        assertThat(table.getSearchOnChange(), is(true));
+        assertThat(table.getDatasourceId(), is("ds"));
+        assertThat(table.getFiltersDatasourceId(), is("ds_filter"));
         assertThat(table.getFilterPosition(), is(N2oTable.FilterPosition.left));
 
         AbstractColumn[] columns = table.getColumns();

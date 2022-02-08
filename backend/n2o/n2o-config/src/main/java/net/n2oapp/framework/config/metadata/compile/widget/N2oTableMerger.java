@@ -22,7 +22,10 @@ public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
         addIfNotNull(source, override, N2oTable::setColumns, N2oTable::getColumns);
         addIfNotNull(source, override, N2oTable::setFilters, N2oTable::getFilters);
         setIfNotNull(source::setSearchOnChange, override::getSearchOnChange);
-        setIfNotNull(source::setFiltersDefaultValuesQueryId, override::getFiltersDefaultValuesQueryId);
+        setIfNotNull(source::setDatasource, override::getDatasource);
+        setIfNotNull(source::setDatasourceId, override::getDatasourceId);
+        setIfNotNull(source::setFiltersDatasource, override::getFiltersDatasource);
+        setIfNotNull(source::setFiltersDatasourceId, override::getFiltersDatasourceId);
         setIfNotNull(source::setFilterPosition, override::getFilterPosition);
         return source;
     }

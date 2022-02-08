@@ -12,7 +12,8 @@ public class N2oTable extends N2oAbstractTable {
     private FilterPosition filterPosition;
     private Boolean filterOpened;
     private SourceComponent[] filters;
-    private String filtersDatasource;
+    private String filtersDatasourceId;
+    private N2oDatasource filtersDatasource;
     @Deprecated
     private String filtersDefaultValuesQueryId;
     private Boolean searchOnChange;
@@ -33,5 +34,15 @@ public class N2oTable extends N2oAbstractTable {
     public enum ChildrenToggle {
         collapse,   // свернутый
         expand      // раскрытый
+    }
+
+    @Deprecated
+    public void adapterV4() {
+        super.adapterV4();
+        if (getFiltersDefaultValuesQueryId() != null) {
+            N2oDatasource datasource = new N2oDatasource();
+            setFiltersDatasource(datasource);
+            datasource.setQueryId(getFiltersDefaultValuesQueryId());
+        }
     }
 }
