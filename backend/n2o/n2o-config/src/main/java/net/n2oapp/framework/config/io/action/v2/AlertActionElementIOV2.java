@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Чтение/запись действия оповещения версии 2.0
+ * Чтение/запись действия уведомления версии 2.0
  */
 @Component
 public class AlertActionElementIOV2 extends AbstractActionElementIOV2<N2oAlertAction> {
@@ -22,6 +22,7 @@ public class AlertActionElementIOV2 extends AbstractActionElementIOV2<N2oAlertAc
         p.attribute(e, "color", a::getColor, a::setColor);
         p.attribute(e, "style", a::getStyle, a::setStyle);
         p.attribute(e, "class", a::getCssClass, a::setCssClass);
+        p.attribute(e, "time", a::getTime, a::setTime);
         p.attributeBoolean(e, "close-button", a::getCloseButton, a::setCloseButton);
         p.attributeInteger(e, "timeout", a::getTimeout, a::setTimeout);
         p.attributeEnum(e, "placement", a::getPlacement, a::setPlacement, MessagePlacement.class);

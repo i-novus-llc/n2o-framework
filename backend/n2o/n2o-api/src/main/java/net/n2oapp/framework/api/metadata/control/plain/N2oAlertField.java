@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент вывода оповещения
+ * Компонент вывода уведомления
  */
 @Getter
 @Setter

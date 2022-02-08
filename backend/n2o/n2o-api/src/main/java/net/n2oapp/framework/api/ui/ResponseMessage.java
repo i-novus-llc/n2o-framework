@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private List<String> stacktrace;
     @JsonProperty
-    private Long timestamp;
+    private LocalDateTime timestamp;
 
     public void setSeverityType(SeverityType severity) {
         this.color = severity != null ? severity.getId() : null;

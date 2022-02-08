@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель поля для вывода оповещения
+ * Клиентская модель поля для вывода уведомления
  */
 @Getter
 @Setter

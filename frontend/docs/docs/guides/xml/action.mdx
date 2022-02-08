@@ -517,20 +517,21 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 |Наименование |Тип                                                |Описание                                    |Значение по умолчанию|
 |-------------|---------------------------------------------------|--------------------------------------------|---------------------|
-|title        |Строка                                             |Текст заголовка оповещения                  |                     |
-|text         |Строка                                             |Текст оповещения                            |                     |
-|style        |Строка                                             |Стиль оповещения                            |                     |
-|class        |Строка                                             |CSS класс оповещения                        |                     |
-|color        |Строка                                             |Цвет оповещения                             |                     |
-|href         |Строка                                             |Ссылка для перехода при клике по оповещению |                     |
-|close-button |true false                                         |Наличие кнопки закрытия оповещения          |true                 |
-|placement    |top bottom topLeft topRight bottomLeft bottomRight |Расположение оповещения                     |top                  |
-|timeout      |Целое число                                        |Длительность показа оповещения              |3000                 |
+|title        |Строка                                             |Текст заголовка уведомления                 |                     |
+|text         |Строка                                             |Текст уведомления                           |                     |
+|style        |Строка                                             |Стиль уведомления                           |                     |
+|class        |Строка                                             |CSS класс уведомления                       |                     |
+|color        |Строка                                             |Цвет уведомления                            |secondary            |
+|href         |Строка                                             |Ссылка для перехода при клике по уведомлению|                     |
+|close-button |true false                                         |Наличие кнопки закрытия уведомления         |true                 |
+|placement    |top bottom topLeft topRight bottomLeft bottomRight |Расположение уведомления                    |top                  |
+|timeout      |Целое число                                        |Длительность показа уведомления             |3000                 |
+|time         |Строка                                             |Время отправки уведомления                  |                     |
 
 **Пример**
 
 ```xml
 <alert title="title" text="text" style="width:90%" class="css-on-action"
                close-button="true" placement="top" color="info"
-               timeout="5000" href="http://example.org"/>
+               timeout="5000" time="2022-02-02T12:15:23" href="http://example.org"/>
 ```
