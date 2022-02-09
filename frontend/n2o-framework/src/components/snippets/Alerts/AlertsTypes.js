@@ -76,7 +76,7 @@ export const AlertTypes = {
      */
     onClose: PropTypes.func,
     /**
-     * func for timestamp
+     * флаг для AlertField
      */
-    getTimeAgo: PropTypes.func,
+    isField: PropTypes.bool,
 }

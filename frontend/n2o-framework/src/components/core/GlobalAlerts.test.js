@@ -35,7 +35,7 @@ describe('<GlobalAlerts />', () => {
         expect(
             wrapper
                 .find('.n2o-alert-segment__text')
-                .first()
+                .at(1)
                 .text(),
         ).toBe('first text')
         expect(

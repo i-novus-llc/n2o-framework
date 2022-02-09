@@ -7,7 +7,7 @@ import { AlertSection } from './AlertSection'
 export const DefaultAlert = ({
     title,
     text,
-    color,
+    color: propsColor,
     href,
     timestamp,
     closeButton,
@@ -20,7 +20,10 @@ export const DefaultAlert = ({
     stacktraceVisible,
     togglingStacktrace,
     onClose = null,
+    isField = false,
 }) => {
+    const color = propsColor || 'secondary'
+
     const batchedActionToClose = (e) => {
         e.preventDefault()
 
@@ -37,7 +40,12 @@ export const DefaultAlert = ({
         togglingStacktrace()
     }
 
-    const needToDivide = (title && text) || !!(text && (timestamp || closeButton))
+    const currentTitle = isField ? (title || text) : title
+    const currentText = (isField && !title) ? null : text
+
+    const titleSegmentClassName = title ? 'n2o-alert-segment__title' : 'n2o-alert-segment__text'
+
+    const needToDivide = (currentTitle && currentText) || !!(currentText && (timestamp || closeButton))
 
     return (
         <div
@@ -62,16 +70,16 @@ export const DefaultAlert = ({
                 )}
             >
                 <AlertSection
-                    text={title}
+                    text={currentTitle}
                     timestamp={timestamp}
                     closeButton={closeButton}
                     onClick={batchedActionToClose}
-                    textClassName="n2o-alert-segment__title"
+                    textClassName={titleSegmentClassName}
                 />
                 {
                     needToDivide && <hr className="w-100 n2o-alert__divider" />
                 }
-                <AlertSection text={text} textClassName="n2o-alert-segment__text" />
+                <AlertSection text={currentText} textClassName="n2o-alert-segment__text" />
                 <AlertSection
                     onClick={batchedActionToToggling}
                     stacktraceVisible={stacktraceVisible}

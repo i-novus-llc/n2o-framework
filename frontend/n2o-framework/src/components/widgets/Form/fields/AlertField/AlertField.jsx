@@ -26,7 +26,7 @@ export function AlertField({
     text,
     style,
     className,
-    color,
+    color = 'secondary',
     closeButton,
     href,
     form,
@@ -50,6 +50,7 @@ export function AlertField({
             onClose={closeButton && onClose}
             closeButton={closeButton}
             href={href}
+            isField
         />
     )
 }
