@@ -29,10 +29,15 @@ export const AlertSection = ({
     textClassName,
     t,
 }) => (
-    <div className="n2o-alert-segment w-100 d-flex flex-row flex-nowrap justify-content-end">
+    <div className="n2o-alert-segment w-100 d-flex flex-row flex-nowrap">
         <TextSegment text={text} className={textClassName} />
         <TimeStampSegment timestamp={timestamp} text={text} />
-        <CloseButtonSegment closeButton={closeButton} onClick={onClick} />
+        <CloseButtonSegment
+            closeButton={closeButton}
+            onClick={onClick}
+            text={text}
+            timestamp={timestamp}
+        />
         <StacktraceSegment
             stacktrace={stacktrace}
             onClick={onClick}

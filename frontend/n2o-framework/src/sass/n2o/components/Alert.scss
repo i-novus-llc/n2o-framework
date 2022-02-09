@@ -14,14 +14,24 @@
     }
 }
 
+.alert {
+    padding: 10px !important;
+    margin-bottom: 1.25rem;
+    border: 1px solid transparent;
+}
+
 .n2o-alert--animated {
     animation-name: alertAnimation;
     animation-duration: 0.8s;
 }
 
 .n2o-alert.alert-light {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    color: $dark;
+    border: 1px solid #dedede;
+}
+
+.n2o-alert.n2o-alert-field.alert-primary {
+    color: $alert-primary-text-color;
+    background-color: $alert-primary-body-color;
 }
 
 .n2o-alert-loader {
@@ -59,6 +69,11 @@
     display: flex;
     flex-flow: column;
     border-radius: 2px;
+    transition: 0.3s ease;
+
+    .n2o-alert__divider {
+        margin: 10px 0 10px 0;
+    }
 }
 
 .n2o-alerts {
@@ -69,7 +84,7 @@
     z-index: 1200;
 
     .n2o-alert__divider {
-        margin: 0.5rem 0 0.5rem 0;
+        margin: 10px 0 10px 0;
     }
 }
 
@@ -80,18 +95,31 @@
         font-weight: bold;
     }
 
+    .n2o-alert-segment__text {
+        max-width: fit-content;
+    }
+
     .n2o-alert-segment__timestamp {
+        justify-self: flex-end;
+        word-break: break-all;
         font-weight: lighter;
+        opacity: 0.5;
     }
 
     .n2o-alert-segment__icon-container {
+        justify-self: flex-end;
         width: 10%;
+        min-height: 21px;
 
         .n2o-alert-segment__icon-close {
             margin-top: 0.35rem;
             font-size: 12px;
             cursor: pointer;
         }
+    }
+
+    .n2o-alert-segment__icon-container.text-empty {
+        width: 6%;
     }
 
     .n2o-alert-segment__stacktrace-container {
@@ -165,34 +193,122 @@
     transform: translate(-15px, -15px);
 }
 
-.alert-border-info {
-    border: 1px solid darken($info, 20%);
+.n2o-alert__with-link {
+    transition: 0.3s ease;
 }
 
-.alert-border-danger {
-    border: 1px solid darken($danger, 20%);
+.alert-primary,
+.alert-primary:hover {
+    color: $alert-primary-text-color;
+    background-color: $alert-primary-body-color;
 }
 
-.alert-border-success {
-    border: 1px solid darken($success, 20%);
+.alert-secondary,
+.alert-secondary:hover {
+    color: $alert-secondary-text-color;
+    background-color: $alert-secondary-body-color;
 }
 
-.alert-border-warning {
-    border: 1px solid darken($warning, 20%);
+.alert-success,
+.alert-success:hover {
+    color: $alert-success-text-color;
+    background-color: $alert-success-body-color;
 }
 
-.n2o-alert__with-link.alert-success:hover {
-    color: $alert-success-hover-text-color;
+.alert-danger,
+.alert-danger:hover {
+    color: $alert-danger-text-color;
+    background-color: $alert-danger-body-color;
 }
 
-.n2o-alert__with-link.alert-warning:hover {
-    color: $alert-warning-hover-text-color;
+.alert-warning,
+.alert-warning:hover {
+    color: $alert-warning-text-color;
+    background-color: $alert-warning-body-color;
 }
 
-.n2o-alert__with-link.alert-danger:hover {
-    color: $alert-danger-hover-text-color;
+.alert-info,
+.alert-info:hover {
+    color: $alert-info-text-color;
+    background-color: $alert-info-body-color;
 }
 
-.n2o-alert__with-link.alert-info-:hover {
-    color: $alert-info-hover-text-color;
+.alert-light,
+.alert-light:hover {
+    color: $alert-light-text-color;
+    background-color: $alert-light-body-color;
+}
+
+.alert-dark,
+.alert-dark:hover {
+    color: $alert-dark-text-color;
+    background-color: $alert-dark-body-color;
+}
+
+.with-link:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+}
+
+.alert-primary.with-link:hover {
+    background-color: darken($alert-primary-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-primary-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-secondary.with-link:hover {
+    background-color: darken($alert-secondary-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-secondary-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-success.with-link:hover {
+    background-color: darken($alert-success-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-success-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-danger.with-link:hover {
+    background-color: darken($alert-danger-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-danger-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-warning.with-link:hover {
+    background-color: darken($alert-warning-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-warning-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-info.with-link:hover {
+    background-color: darken($alert-info-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-info-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-light.with-link:hover {
+    background-color: darken($alert-light-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-light-body-color, $alert-hover-darken);
+    }
+}
+
+.alert-dark.with-link:hover {
+    background-color: darken($alert-dark-body-color, $alert-hover-darken);
+
+    .n2o-alert__with-link {
+        background-color: darken($alert-dark-body-color, $alert-hover-darken);
+    }
 }
