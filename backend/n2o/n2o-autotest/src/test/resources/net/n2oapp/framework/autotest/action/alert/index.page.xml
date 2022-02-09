@@ -5,18 +5,17 @@
         <toolbar place="topLeft">
             <button label="Простое уведомление" disable-on-empty-model="false">
                 <alert title="Простое уведомление"
-                       text="Привет, мир!"
-                       color="light" placement="topLeft"/>
+                       text="Привет, мир!" placement="topLeft"/>
             </button>
             <button label="Уведомление с таймаутом" disable-on-empty-model="false">
                 <alert title="Уведомление с таймаутом"
                        text="Это сообщение пропадет через 2 секунды"
-                       timeout="2000" color="warning" placement="topRight"/>
+                       timeout="2000" color="info" placement="topRight"/>
             </button>
             <button label="Кликабельное уведомление" disable-on-empty-model="false">
                 <alert title="Кликабельное уведомление"
                        text="Нажмите на сообщение для перехода по ссылке"
-                       href="http://example.org" color="success" placement="bottomRight"/>
+                       href="http://example.org" color="warning" placement="bottomRight"/>
             </button>
         </toolbar>
     </form>

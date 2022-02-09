@@ -48,17 +48,17 @@ public class AlertActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testSimpleAlert() {
+    public void testSimpleAlert() throws InterruptedException {
         toolbar.topLeft().button("Простое уведомление").click();
 
         Alert alert = page.alerts().alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
         alert.shouldHaveText("Привет, мир!");
-        alert.shouldHaveColor(Colors.LIGHT);
+        alert.shouldHaveColor(Colors.SECONDARY);
         alert.shouldHavePlacement(Alert.Placement.topLeft);
-        alert.shouldHaveTimestamp("Только что");
         alert.shouldHaveCloseButton();
+        alert.shouldHaveTimeout(3000);
     }
 
     @Test
@@ -68,26 +68,23 @@ public class AlertActionAT extends AutoTestBase {
         Alert alert = page.alerts().alert(0);
         alert.shouldHaveTitle("Уведомление с таймаутом");
         alert.shouldHaveText("Это сообщение пропадет через 2 секунды");
-        alert.shouldHaveColor(Colors.WARNING);
+        alert.shouldHaveColor(Colors.INFO);
         alert.shouldHavePlacement(Alert.Placement.topRight);
-        alert.shouldHaveTimestamp("Только что");
         alert.shouldHaveCloseButton();
-        alert.shouldExists();
-        Thread.sleep(2000);
-        alert.shouldNotExists();
+        alert.shouldHaveTimeout(2000);
     }
 
     @Test
-    public void testAlertUrl() {
+    public void testAlertUrl() throws InterruptedException {
         toolbar.topLeft().button("Кликабельное уведомление").click();
 
         Alert alert = page.alerts().alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Кликабельное уведомление");
         alert.shouldHaveText("Нажмите на сообщение для перехода по ссылке");
-        alert.shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveColor(Colors.WARNING);
         alert.shouldHavePlacement(Alert.Placement.bottomRight);
-        alert.shouldHaveTimestamp("Только что");
         alert.shouldHaveCloseButton();
+        alert.shouldHaveTimeout(8000);
     }
 }

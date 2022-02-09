@@ -56,4 +56,11 @@ public class N2oAlert extends N2oSnippet implements Alert {
     public void shouldHaveTimestamp(String timestamp) {
         element().$(".n2o-alert-segment__timestamp").shouldHave(Condition.text(timestamp));
     }
+
+    @Override
+    public void shouldHaveTimeout(Integer timeout) throws InterruptedException {
+        this.shouldExists();
+        Thread.sleep(timeout);
+        this.shouldNotExists();
+    }
 }

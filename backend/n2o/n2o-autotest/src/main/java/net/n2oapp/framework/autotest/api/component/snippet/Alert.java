@@ -21,6 +21,8 @@ public interface Alert extends Snippet {
 
     void shouldHaveTimestamp(String timestamp);
 
+    void shouldHaveTimeout(Integer timeout) throws InterruptedException;
+
     enum Placement {
         top,
         bottom,
