@@ -27,7 +27,7 @@ import { register } from '../../ducks/datasource/store'
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
 function Application(props) {
-    const { ready, loading, render, locale, localesConfig, TimeAgo, menu, registerDatasorces, ...config } = props
+    const { ready, loading, render, locale, menu, registerDatasorces, ...config } = props
     const { datasources } = menu
 
     useEffect(() => {
@@ -40,15 +40,9 @@ function Application(props) {
 
     numeral.locale(locale)
 
-    const timeAgo = new TimeAgo(localesConfig[locale].prefix)
-
-    /* getTimeAgo(timestamp) высчитывает время от timestamp до Date.now()
-       example getTimeAgo(timestamp) => 10 минут назад*/
-    const getTimeAgo = timestamp => (timestamp ? timeAgo.format(new Date(timestamp)) : null)
-
     return (
         <>
-            <GlobalAlertsConnected getTimeAgo={getTimeAgo} />
+            <GlobalAlertsConnected />
             <Spinner type="cover" loading={loading}>
                 {ready && render(config)}
             </Spinner>
@@ -65,8 +59,6 @@ Application.propTypes = {
     datasources: PropTypes.object,
     menu: PropTypes.object,
     registerDatasorces: PropTypes.func,
-    localesConfig: PropTypes.object,
-    TimeAgo: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -112,15 +104,10 @@ export default compose(
                 customLocales,
                 registerLocales,
                 addCustomLocales,
-                locale,
-                TimeAgo,
-                localesConfig,
             } = this.props
 
             addCustomLocales()
             registerLocales(keys({ ...locales, ...customLocales }))
-
-            TimeAgo.addDefaultLocale(localesConfig[locale].meta)
 
             if (realTimeConfig) {
                 requestConfig()
@@ -129,12 +116,10 @@ export default compose(
             }
         },
         componentDidUpdate(prevProps) {
-            const { locale, i18n, TimeAgo, localesConfig } = this.props
+            const { locale, i18n } = this.props
 
             if (prevProps.locale !== locale) {
                 i18n.changeLanguage(locale)
-
-                TimeAgo.addLocale(localesConfig[locale].meta)
             }
         },
     }),

@@ -30,10 +30,10 @@ export const TimeStampSegment = ({ timestamp, text }) => {
 
     return (
         <section className={classNames(
-            'w-50 n2o-alert-segment__timestamp d-flex align-items-start',
+            'n2o-alert-segment__timestamp d-flex align-items-start justify-content-end text-right',
             {
-                'w-100 justify-content-start': !text,
-                'justify-content-end text-right': text,
+                'w-50': text,
+                'w-100': !text,
             },
         )}
         >
@@ -47,13 +47,20 @@ TimeStampSegment.propTypes = {
     text: PropTypes.string,
 }
 
-export const CloseButtonSegment = ({ closeButton, onClick }) => {
+export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp }) => {
     if (!closeButton) {
         return null
     }
 
     return (
-        <section className="n2o-alert-segment__icon-container d-flex justify-content-end">
+        <section className={classNames(
+            'n2o-alert-segment__icon-container d-flex justify-content-end',
+            {
+                'text-empty': !text,
+                'w-100': !text && !timestamp,
+            },
+        )}
+        >
             <i
                 onClick={onClick}
                 className="fa fa-close n2o-alert-segment__icon-close d-flex align-items-start"
@@ -65,6 +72,8 @@ export const CloseButtonSegment = ({ closeButton, onClick }) => {
 CloseButtonSegment.propTypes = {
     closeButton: PropTypes.bool,
     onClick: PropTypes.func,
+    text: PropTypes.string,
+    timestamp: PropTypes.string,
 }
 
 export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }) => {
