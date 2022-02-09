@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение, запись компонента вывода оповещения версии 3.0
+ * Чтение, запись компонента вывода уведомления версии 3.0
  */
 @Component
 public class AlertIOv3 extends PlainFieldIOv3<N2oAlertField> {

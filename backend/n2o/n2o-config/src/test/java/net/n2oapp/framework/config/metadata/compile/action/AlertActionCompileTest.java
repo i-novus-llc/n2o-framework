@@ -12,6 +12,8 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -55,5 +57,6 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         assertThat(message.getHref(), is("http://example.org"));
         assertThat(message.getColor(), is("info"));
         assertThat(message.getTimeout(), is(5000));
+        assertThat(message.getTimestamp(), is(LocalDateTime.parse("2022-02-02T12:15:23")));
     }
 }

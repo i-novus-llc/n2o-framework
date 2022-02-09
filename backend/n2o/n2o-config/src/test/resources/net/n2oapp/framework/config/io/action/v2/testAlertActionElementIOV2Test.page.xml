@@ -3,7 +3,7 @@
     <actions>
         <action>
             <alert title="title" text="text" placement="bottomRight" close-button="false"
-                class="css-on-action" style="width:90%" href="http://example.org" color="info" timeout="3000"/>
+                class="css-on-action" style="width:90%" time="2022-02-02T12:15:23" href="http://example.org" color="info" timeout="3000"/>
         </action>
     </actions>
 </page>
