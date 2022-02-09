@@ -64,7 +64,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         message.setPlacement(p.cast(source.getPlacement(), p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
         message.setTimeout(p.cast(source.getTimeout(),
                 p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getColor())), Integer.class)));
-        message.setTimestamp(initTimeStamp(source));
+        message.setTime(initTimeStamp(source));
         return message;
     }
 
