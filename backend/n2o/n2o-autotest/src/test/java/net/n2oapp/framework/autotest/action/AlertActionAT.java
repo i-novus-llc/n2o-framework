@@ -13,12 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 public class AlertActionAT extends AutoTestBase {
-
-    private StandardWidget.WidgetToolbar toolbar;
-    private SimplePage page;
 
     @BeforeAll
     public static void beforeClass() {
@@ -29,12 +24,6 @@ public class AlertActionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        headless = false;
-
-        page = open(SimplePage.class);
-        page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Всплывающие уведомления");
-        toolbar = page.widget(FormWidget.class).toolbar();
     }
 
     @Override
@@ -48,9 +37,14 @@ public class AlertActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testSimpleAlert() throws InterruptedException {
-        toolbar.topLeft().button("Простое уведомление").click();
+    public void testAlertAction() throws InterruptedException {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
 
+        page.breadcrumb().titleShouldHaveText("Всплывающие уведомления");
+        StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
+
+        toolbar.topLeft().button("Простое уведомление").click();
         Alert alert = page.alerts().alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
@@ -59,26 +53,18 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHavePlacement(Alert.Placement.topLeft);
         alert.shouldHaveCloseButton();
         alert.shouldHaveTimeout(3000);
-    }
 
-    @Test
-    public void testAlertTimeOut() throws InterruptedException {
         toolbar.topLeft().button("Уведомление с таймаутом").click();
-
-        Alert alert = page.alerts().alert(0);
+        alert = page.alerts().alert(0);
         alert.shouldHaveTitle("Уведомление с таймаутом");
         alert.shouldHaveText("Это сообщение пропадет через 2 секунды");
         alert.shouldHaveColor(Colors.INFO);
         alert.shouldHavePlacement(Alert.Placement.topRight);
         alert.shouldHaveCloseButton();
         alert.shouldHaveTimeout(2000);
-    }
 
-    @Test
-    public void testAlertUrl() throws InterruptedException {
         toolbar.topLeft().button("Кликабельное уведомление").click();
-
-        Alert alert = page.alerts().alert(0);
+        alert = page.alerts().alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Кликабельное уведомление");
         alert.shouldHaveText("Нажмите на сообщение для перехода по ссылке");
