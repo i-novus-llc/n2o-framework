@@ -13,6 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для действия уведомления
+ */
 public class AlertActionAT extends AutoTestBase {
 
     @BeforeAll
