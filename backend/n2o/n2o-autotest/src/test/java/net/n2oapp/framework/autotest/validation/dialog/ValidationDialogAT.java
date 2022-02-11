@@ -46,7 +46,6 @@ public class ValidationDialogAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.object.xml"));
     }
 
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7442
     @Test
     public void testDialog() {
         SimplePage page = open(SimplePage.class);
