@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="defaultAlert">
+            <alert title="title" text="text"/>
+        </button>
+        <button id="alert">
+            <alert title="Title {message}" text="Text {message}" placement="bottomRight" close-button="false"
+                   class="css-on-action" style="width:90%" href="http://example.org" color="info" time="2022-02-02T12:15:23" timeout="5000"/>
+        </button>
+    </toolbar>
+</page>

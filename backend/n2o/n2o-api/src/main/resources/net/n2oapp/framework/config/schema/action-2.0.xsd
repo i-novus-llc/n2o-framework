@@ -15,6 +15,7 @@
     <xs:element name="perform" type="performDefinition"/>
     <xs:element name="print" type="printDefinition"/>
     <xs:element name="refresh" type="refreshDefinition"/>
+    <xs:element name="alert" type="alertDefinition"/>
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -31,6 +32,7 @@
             <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
+            <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -1122,4 +1124,77 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="alertDefinition">
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:annotation>
+                    <xs:documentation>Действие уведомления.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст заголовка уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string" default="secondary">
+                    <xs:annotation>
+                        <xs:documentation>Цвет уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="href" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка для перехода при клике по уведомлению.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-button" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Наличие кнопки закрытия уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="placement" type="alertPlacement" default="top">
+                    <xs:annotation>
+                        <xs:documentation>Расположение уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="timeout" type="xs:integer" default="3000">
+                    <xs:annotation>
+                        <xs:documentation>Длительность показа уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Время отправки уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="alertPlacement">
+        <xs:annotation>
+            <xs:documentation>Тип места расположения уведомления.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+            <xs:enumeration value="topLeft"/>
+            <xs:enumeration value="topRight"/>
+            <xs:enumeration value="bottomLeft"/>
+            <xs:enumeration value="bottomRight"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

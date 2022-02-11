@@ -5,21 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель поля для вывода оповещения
+ * Клиентская модель поля для вывода уведомления
  */
 @Getter
 @Setter
-public class Alert extends Field {
+public class AlertField extends Field {
     @JsonProperty
     private String text;
     @JsonProperty
-    private String header;
+    private  String title;
     @JsonProperty
-    private String footer;
+    private String href;
     @JsonProperty
     private String color;
     @JsonProperty
-    private Boolean fade;
-    @JsonProperty
-    private String tag;
+    private Boolean closeButton;
 }

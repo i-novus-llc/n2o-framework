@@ -1,44 +1,56 @@
 import React from 'react'
-import map from 'lodash/map'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+import moment from 'moment'
 
-// eslint-disable-next-line import/no-named-as-default
-import Alerts from '../snippets/Alerts/Alerts'
+import { Alerts } from '../snippets/Alerts/Alerts'
 import { GLOBAL_KEY } from '../../ducks/alerts/constants'
 import { alertsByKeySelector, removeAlert } from '../../ducks/alerts/store'
 
 /**
  * Глобальные алерты
- * @param {array} alerts - массив алертов
- * @param {function} onDismiss - функция закрытия
  * @returns {JSX.Element}
+ * @param isoTime
  */
-export function GlobalAlerts({ alerts, onDismiss }) {
-    const handleDismiss = alertId => alertId && onDismiss(alertId)
-    const mapAlertsProps = () => map(alerts, alert => ({
-        ...alert,
-        key: alert.id,
-        onDismiss: () => handleDismiss(alert.id),
-        className: 'd-inline-flex mb-0 p-2 mw-100',
-        details: alert.stacktrace,
-        animate: true,
-        position: 'fixed',
-    }))
+
+export function GlobalAlerts({ alerts = [], onDismiss }) {
+    const mappedAlerts = alerts.map((alert) => {
+        const { time, id } = alert
+
+        const getTimestamp = (time) => {
+            if (!time) {
+                return null
+            }
+
+            let timestamp = moment(time).fromNow()
+
+            if (timestamp === 'несколько секунд назад') {
+                timestamp = 'только что'
+            }
+
+            return timestamp
+        }
+
+        return {
+            ...alert,
+            key: id,
+            onDismiss: () => id && onDismiss(id),
+            timestamp: getTimestamp(time),
+            className: 'd-inline-flex mb-0 p-2 mw-100',
+            animate: true,
+            position: 'fixed',
+        }
+    })
 
     return (
-        <Alerts alerts={mapAlertsProps()} />
+        <Alerts alerts={mappedAlerts} />
     )
 }
 
 GlobalAlerts.propTypes = {
     alerts: PropTypes.array,
     onDismiss: PropTypes.func,
-}
-
-GlobalAlerts.defaultProps = {
-    alerts: [],
 }
 
 const mapStateToProps = createStructuredSelector({

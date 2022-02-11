@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +19,12 @@ import java.util.Map;
 public class ResponseMessage implements Serializable {
     @JsonProperty
     private String field;
-    @JsonProperty("label")
+    @JsonProperty
     private String title;
     @JsonProperty
-    private String severity;
+    private String color;
+    @JsonProperty
+    private String className;
     @JsonProperty
     private String text;
     @JsonProperty
@@ -28,21 +32,18 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private Boolean closeButton;
     @JsonProperty
-    private String position;
+    private String href;
     @JsonProperty
-    private String placement;
+    private MessagePlacement placement;
     @JsonProperty
-    private Boolean loader = false;
-    @JsonProperty
-    private Boolean animate = false;
-    @JsonProperty
-    private Map<String, String> choice;
+    private Map<String, String> style;
     @JsonProperty
     private List<String> stacktrace;
     @JsonProperty
-    private Object data;
+    private LocalDateTime time;
 
     public void setSeverityType(SeverityType severity) {
-        this.severity = severity != null ? severity.getId() : null;
+        this.color = severity != null ? severity.getId() : null;
     }
+
 }
