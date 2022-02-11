@@ -12,8 +12,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест для компонента поля alert
  */
@@ -29,7 +27,6 @@ public class AlertFieldAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        headless = false;
     }
 
     @Override

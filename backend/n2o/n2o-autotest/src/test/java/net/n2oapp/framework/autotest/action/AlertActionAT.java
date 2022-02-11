@@ -40,7 +40,7 @@ public class AlertActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testAlertAction() throws InterruptedException {
+    public void testAlertAction() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -55,7 +55,6 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHaveColor(Colors.SECONDARY);
         alert.shouldHavePlacement(Alert.Placement.topLeft);
         alert.shouldHaveCloseButton();
-        alert.shouldHaveTimeout(3000);
 
         toolbar.topLeft().button("Уведомление с таймаутом").click();
         alert = page.alerts().alert(0);
@@ -64,7 +63,7 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHaveColor(Colors.INFO);
         alert.shouldHavePlacement(Alert.Placement.topRight);
         alert.shouldHaveCloseButton();
-        alert.shouldHaveTimeout(2000);
+        alert.shouldNotExists();
 
         toolbar.topLeft().button("Кликабельное уведомление").click();
         alert = page.alerts().alert(0);
@@ -74,6 +73,5 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHaveColor(Colors.WARNING);
         alert.shouldHavePlacement(Alert.Placement.bottomRight);
         alert.shouldHaveCloseButton();
-        alert.shouldHaveTimeout(8000);
     }
 }
