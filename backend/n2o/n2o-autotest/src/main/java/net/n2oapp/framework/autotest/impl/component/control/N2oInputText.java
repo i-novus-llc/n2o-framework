@@ -26,13 +26,14 @@ public class N2oInputText extends N2oControl implements InputText {
     @Override
     public void val(String value) {
         inputElement().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        clear();
+        inputElement().sendKeys(value);
     }
 
     @Override
     public void clear() {
-        inputElement().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        inputElement().sendKeys(Keys.CONTROL + "a");
+        inputElement().sendKeys(Keys.BACK_SPACE);
     }
 
     @Override
