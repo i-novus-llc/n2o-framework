@@ -10,7 +10,6 @@ import InputAddon from './InputAddon'
  * InputSelectGroup
  * @reactProps {boolean} loading - флаг анимации загрузки
  * @reactProps {boolean} isExpanded - флаг видимости popUp
- * @reactProps {function} onButtonClick - callback при нажатии на кнопку
  * @reactProps {array} selected - список выбранных элементов
  * @reactProps {node} input
  * @reactProps {node} children - эдемент потомок компонента InputSelectGroup
@@ -32,14 +31,13 @@ function InputSelectGroup({
     multiSelect,
     iconFieldId,
     imageFieldId,
-    onButtonClick,
     selected,
     input,
     cleanable,
     children,
-    isInputInFocus,
+    inputFocus,
     onClearClick,
-    setIsExpanded,
+    hidePopUp,
     disabled,
     setSelectedItemsRef,
     withoutButtons,
@@ -54,10 +52,8 @@ function InputSelectGroup({
     const renderButton = loading => (
         <Spinner type="inline" loading={loading} size="sm">
             <i
+                onClick={hidePopUp}
                 className="fa fa-chevron-down"
-                onClick={() => {
-                    setIsExpanded(!isExpanded)
-                }}
                 aria-hidden="true"
             />
         </Spinner>
@@ -65,10 +61,13 @@ function InputSelectGroup({
 
     return (
         <div
-            className={classNames('n2o-input-container', 'form-control', className, {
-                disabled,
-            })}
-            onClick={onButtonClick}
+            className={classNames(
+                'n2o-input-container',
+                'form-control',
+                className, {
+                    disabled,
+                },
+            )}
         >
             <div className="n2o-input-items">
                 {displayAddon && (
@@ -86,7 +85,7 @@ function InputSelectGroup({
                     {(selected.length || input) && cleanable && (
                         <div
                             className={classNames('n2o-input-clear', {
-                                'input-in-focus': isInputInFocus,
+                                'input-in-focus': inputFocus,
                             })}
                             onClick={clearClickHandler}
                         >
@@ -105,17 +104,16 @@ function InputSelectGroup({
 InputSelectGroup.propTypes = {
     loading: PropTypes.bool,
     isExpanded: PropTypes.bool.isRequired,
-    onButtonClick: PropTypes.func,
     selected: PropTypes.array.isRequired,
     input: PropTypes.node,
     children: PropTypes.node,
-    isInputInFocus: PropTypes.node,
+    inputFocus: PropTypes.node,
     iconFieldId: PropTypes.string,
     imageFieldId: PropTypes.string,
     multiSelect: PropTypes.bool,
     disabled: PropTypes.bool,
     onClearClick: PropTypes.func,
-    setIsExpanded: PropTypes.func,
+    hidePopUp: PropTypes.func,
     cleanable: PropTypes.bool,
     withoutButtons: PropTypes.bool,
     setSelectedItemsRef: PropTypes.func,
@@ -127,8 +125,7 @@ InputSelectGroup.defaultProps = {
     multiSelect: false,
     loading: false,
     withoutButtons: false,
-    setIsExpanded: () => {},
-    onButtonClick: () => {},
+    hidePopUp: () => {},
 }
 
 export default InputSelectGroup
