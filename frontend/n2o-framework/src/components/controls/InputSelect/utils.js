@@ -114,3 +114,10 @@ export const isBottom = ({
     scrollTop,
     clientHeight,
 }) => Math.floor(scrollHeight - scrollTop) === clientHeight
+
+export const getValueArray = (value) => {
+    if (Array.isArray(value)) { return value }
+    if (value) { return [value] }
+
+    return []
+}
