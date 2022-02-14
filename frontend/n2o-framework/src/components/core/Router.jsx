@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Switch } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { pure } from 'recompose'
 import { useTranslation } from 'react-i18next'
 
 import history from '../../history'
 
-import Route from './Route'
 // eslint-disable-next-line import/no-named-as-default
 import Page from './Page'
 
