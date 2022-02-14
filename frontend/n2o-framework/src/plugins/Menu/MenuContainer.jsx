@@ -8,16 +8,10 @@ import filter from 'lodash/filter'
 import get from 'lodash/get'
 import toArray from 'lodash/toArray'
 import findIndex from 'lodash/findIndex'
-import { useNavigate } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import withSecurity from '../../core/auth/withSecurity'
 import { SECURITY_CHECK } from '../../core/auth/authTypes'
-
-const withRouter = Component => (props) => {
-    const history = useNavigate()
-
-    return (<Component history={history} {...props} />)
-}
 
 const initialItems = {
     headerItems: [],

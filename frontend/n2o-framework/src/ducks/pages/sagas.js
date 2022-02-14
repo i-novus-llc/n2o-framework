@@ -86,7 +86,7 @@ export function applyPlaceholders(key, obj, placeholders) {
 
 export function* pathMapping(location, routes) {
     const parsedPath = head(
-        compact(map(routes.list, route => matchPath(route, location.pathname))),
+        compact(map(routes.list, route => matchPath(location.pathname, route))),
     )
 
     if (parsedPath && !isEmpty(parsedPath.params)) {

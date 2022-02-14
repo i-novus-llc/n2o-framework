@@ -111,7 +111,7 @@
     "react-redux": "7.2.6",
     "react-resizable": "1.7.5",
     "react-resize-detector": "^5.2.0",
-    "react-router-dom": "6.2.1",
+    "react-router-dom": "5.2.0",
     "react-rte": "0.16.0",
     "react-syntax-highlighter": "^11.0.2",
     "react-text-mask": "5.4.3",
