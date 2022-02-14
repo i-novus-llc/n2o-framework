@@ -13,13 +13,7 @@ import Alert from '../../snippets/Alerts/Alert'
 import InputSelectGroup from './InputSelectGroup'
 import PopupList from './PopupList'
 import InputContent from './InputContent'
-
-const getValueArray = (value) => {
-    if (Array.isArray(value)) { return value }
-    if (value) { return [value] }
-
-    return []
-}
+import { getValueArray } from './utils'
 
 /**
  * InputSelect
@@ -62,6 +56,7 @@ class InputSelect extends React.Component {
     constructor(props) {
         super(props)
         const { value, options, labelFieldId, multiSelect } = this.props
+
         const valueArray = getValueArray(value)
         const input = value && !multiSelect ? value[labelFieldId] : ''
 
@@ -74,26 +69,6 @@ class InputSelect extends React.Component {
             options,
             input,
         }
-
-        this.hideOptionsList = this.hideOptionsList.bind(this)
-        this.handleItemSelect = this.handleItemSelect.bind(this)
-        this.removeSelectedItem = this.removeSelectedItem.bind(this)
-        this.setIsExpanded = this.setIsExpanded.bind(this)
-        this.handleClick = this.handleClick.bind(this)
-        this.clearSelected = this.clearSelected.bind(this)
-        this.setNewInputValue = this.setNewInputValue.bind(this)
-        this.setInputFocus = this.setInputFocus.bind(this)
-        this.setActiveValueId = this.setActiveValueId.bind(this)
-        this.handleValueChangeOnSelect = this.handleValueChangeOnSelect.bind(this)
-        this.handleValueChangeOnBlur = this.handleValueChangeOnBlur.bind(this)
-        this.handleDataSearch = this.handleDataSearch.bind(this)
-        this.handleElementClear = this.handleElementClear.bind(this)
-        this.onButtonClick = this.onButtonClick.bind(this)
-        this.onInputBlur = this.onInputBlur.bind(this)
-        this.onFocus = this.onFocus.bind(this)
-        this.setInputRef = this.setInputRef.bind(this)
-        this.addObjectToValue = this.addObjectToValue.bind(this)
-        this.toggle = this.toggle.bind(this)
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -124,7 +99,7 @@ class InputSelect extends React.Component {
      * @param activeValueId
      * @private
      */
-    setActiveValueId(activeValueId) {
+    setActiveValueId = (activeValueId) => {
         this.setState({ activeValueId })
     }
 
@@ -132,7 +107,7 @@ class InputSelect extends React.Component {
      * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить новое значение)
      * @private
      */
-    handleValueChangeOnBlur() {
+    handleValueChangeOnBlur = () => {
         const { value, input } = this.state
         const {
             onChange,
@@ -143,6 +118,7 @@ class InputSelect extends React.Component {
         } = this.props
 
         const findValue = find(value, [labelFieldId, input])
+
         const conditionForAddingAnObject = (resetOnBlur, input, options, value) => (
             !resetOnBlur &&
         input.split(' ').every(char => char === '') !== true &&
@@ -163,6 +139,7 @@ class InputSelect extends React.Component {
         if (!input && value.length) {
             onChange(this.getValue())
         }
+
         if (conditionForAddingAnObject(resetOnBlur, input, options, value)) {
             this.addObjectToValue()
         }
@@ -172,7 +149,7 @@ class InputSelect extends React.Component {
      * Обработка клика на инпут
      * @private
      */
-    handleClick() {
+    handleClick = () => {
         this.setState({
             inputFocus: true,
             isInputSelected: false,
@@ -184,7 +161,7 @@ class InputSelect extends React.Component {
      * @param item
      * @private
      */
-    handleValueChangeOnSelect(item) {
+    handleValueChangeOnSelect = (item) => {
         const { value } = this.state
         const { onChange, multiSelect, labelFieldId } = this.props
 
@@ -206,12 +183,19 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    getValue() {
+    getValue = () => {
         const { multiSelect } = this.props
         const { value } = this.state
-        const rObj = multiSelect ? value : value[0]
 
-        return rObj || null
+        if (!value) {
+            return null
+        }
+
+        if (multiSelect) {
+            return value
+        }
+
+        return value[0]
     }
 
     /**
@@ -220,7 +204,7 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    removeSelectedItem(item) {
+    removeSelectedItem = (item) => {
         const { onChange } = this.props
         const { value: stateValue } = this.state
         const value = stateValue.filter(i => i.id !== item.id)
@@ -233,9 +217,9 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    hideOptionsList() {
+    hidePopUp = () => {
         this.setInputFocus(false)
-        this.setIsExpanded(false)
+        this.setState({ isExpanded: false })
     }
 
     /**
@@ -243,7 +227,7 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    clearSelected() {
+    clearSelected = () => {
         const { onChange, onBlur } = this.props
 
         this.setState({ value: [], input: '' }, () => {
@@ -257,7 +241,7 @@ class InputSelect extends React.Component {
      * @param inputFocus
      * @private
      */
-    setInputFocus(inputFocus) {
+    setInputFocus = (inputFocus) => {
         this.setState({ inputFocus })
     }
 
@@ -266,19 +250,22 @@ class InputSelect extends React.Component {
      * @param isExpanded
      * @private
      */
-    setIsExpanded(isExpanded) {
-        const { disabled, onToggle, onClose, onOpen } = this.props
-        const { isExpanded: previousIsExpanded, inputFocus, input } = this.state
+    setIsExpanded = (isExpanded) => {
+        const { disabled, onToggle, onOpen } = this.props
 
-        if (!disabled && isExpanded !== previousIsExpanded) {
-            this.setState({ isExpanded })
-            onToggle(isExpanded)
-            if (isExpanded && (inputFocus || isEmpty(input))) {
-                onOpen()
-            } else {
-                onClose()
-            }
+        if (!isExpanded || disabled) {
+            return null
         }
+
+        this.setState({
+            isExpanded,
+            inputFocus: isExpanded,
+        },
+        onOpen)
+
+        onToggle(isExpanded)
+
+        return null
     }
 
     /**
@@ -286,7 +273,7 @@ class InputSelect extends React.Component {
      * @param isInputSelected
      * @private
      */
-    setSelected(isInputSelected) {
+    setSelected = (isInputSelected) => {
         this.setState({ isInputSelected })
     }
 
@@ -295,7 +282,7 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    handleDataSearch(input, delay = 400, callback) {
+    handleDataSearch = (input, delay = 400, callback) => {
         const { onSearch, filter, labelFieldId, options } = this.props
         const { value } = this.state
 
@@ -321,8 +308,8 @@ class InputSelect extends React.Component {
      * @param input
      * @private
      */
-    setNewInputValue(input) {
-        const { onInput, isExpanded } = this.props
+    setNewInputValue = (input) => {
+        const { onInput } = this.props
         const { input: stateInput } = this.state
         const onSetNewInputValue = (input) => {
             onInput(input)
@@ -330,9 +317,6 @@ class InputSelect extends React.Component {
         }
 
         if (stateInput !== input) {
-            if (!isExpanded) {
-                this.setIsExpanded(true)
-            }
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
         }
@@ -344,7 +328,7 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    handleItemSelect(item) {
+    handleItemSelect = (item) => {
         const {
             multiSelect,
             closePopupOnSelect,
@@ -354,9 +338,10 @@ class InputSelect extends React.Component {
             onChange,
             onBlur,
         } = this.props
+
         const selectCallback = () => {
             if (closePopupOnSelect) {
-                this.hideOptionsList()
+                this.hidePopUp()
             }
             onSelect(item)
             onChange(this.getValue())
@@ -385,7 +370,7 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    clearSearchField() {
+    clearSearchField = () => {
         this.setState({ input: '' }, this.handleDataSearch)
     }
 
@@ -393,7 +378,7 @@ class InputSelect extends React.Component {
      * Очищениеб сброс фокуса, выделенного значения
      * @private
      */
-    handleElementClear() {
+    handleElementClear = () => {
         const { disabled } = this.props
 
         if (!disabled) {
@@ -407,12 +392,12 @@ class InputSelect extends React.Component {
      * Обрабатывает клик за пределы компонента
      * вызывается библиотекой react-onclickoutside
      */
-    handleClickOutside() {
+    handleClickOutside = () => {
         const { resetOnBlur, onBlur } = this.props
         const { isExpanded } = this.state
 
         if (isExpanded) {
-            this.hideOptionsList()
+            this.hidePopUp()
 
             if (resetOnBlur) {
                 this.handleValueChangeOnBlur()
@@ -427,7 +412,7 @@ class InputSelect extends React.Component {
      * @private
      */
 
-    addObjectToValue() {
+    addObjectToValue = () => {
         const { multiSelect, labelFieldId } = this.props
         const {
             input: userInput,
@@ -449,7 +434,7 @@ class InputSelect extends React.Component {
         }
     }
 
-    onInputBlur() {
+    onInputBlur = () => {
         const { onBlur } = this.props
         const { isExpanded, value } = this.state
 
@@ -465,7 +450,7 @@ class InputSelect extends React.Component {
         }
     }
 
-    onFocus() {
+    onFocus = () => {
         const { openOnFocus } = this.props
 
         if (openOnFocus) {
@@ -473,37 +458,15 @@ class InputSelect extends React.Component {
         }
     }
 
-    onButtonClick() {
-        if (this.inputRef) {
-            this.inputRef.focus()
-        }
+    setInputRef = popperRef => (r) => {
+        this.inputRef = r
+        popperRef(r)
     }
 
-    setInputRef(popperRef) {
-        return (r) => {
-            this.inputRef = r
-            popperRef(r)
-        }
-    }
-
-    toggle() {
-        const { disabled, onOpen } = this.props
+    toggle = () => {
         const { isExpanded } = this.state
 
-        if (!isExpanded && !disabled) {
-            this.setState(
-                {
-                    isExpanded: true,
-                },
-                () => {
-                    const { inputFocus, input } = this.state
-
-                    if (inputFocus || input) {
-                        onOpen()
-                    }
-                },
-            )
-        }
+        this.setIsExpanded(!isExpanded)
     }
 
     /**
@@ -557,22 +520,24 @@ class InputSelect extends React.Component {
                     disabled,
                 })}
             >
-                <Dropdown isOpen={isExpanded} toggle={this.toggle}>
+                <Dropdown
+                    isOpen={isExpanded}
+                    toggle={this.toggle}
+                >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
                         <InputSelectGroup
                             isExpanded={isExpanded}
-                            setIsExpanded={this.setIsExpanded}
+                            hidePopUp={this.hidePopUp}
                             loading={loading}
                             selected={stateValue}
                             input={input}
                             iconFieldId={iconFieldId}
                             imageFieldId={imageFieldId}
                             multiSelect={multiSelect}
-                            isInputInFocus={inputFocus}
+                            inputFocus={inputFocus}
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
                             className={`${className} ${isExpanded ? 'focus' : ''}`}
-                            onButtonClick={this.onButtonClick}
                         >
                             <InputContent
                                 setRef={this.setInputRef}

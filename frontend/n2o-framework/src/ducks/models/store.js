@@ -9,7 +9,7 @@ import omit from 'lodash/omit'
 
 import { setIn } from '../../tools/helpers'
 
-import { COPY, PREFIXES } from './constants'
+import { COPY } from './constants'
 
 const initialState = {
     datasource: {},
@@ -235,13 +235,10 @@ const modelsSlice = createSlice({
              * @param {ModelsStore.removeAllModelPayload} action.payload
              */
             reducer(state, action) {
-                const { key: excludeKey } = action.payload
+                const { key } = action.payload
 
-                Object.keys(state).forEach((stateKey) => {
-                    if (stateKey === PREFIXES.filter) {
-                        return
-                    }
-                    delete state[stateKey][excludeKey]
+                Object.keys(state).forEach((prefix) => {
+                    delete state[prefix][key]
                 })
             },
         },
