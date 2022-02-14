@@ -328,7 +328,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="regionsAndWidgets">
-                <xs:attribute name="id" type="xs:string" use="required">
+                <xs:attribute name="id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор элемента меню</xs:documentation>
                     </xs:annotation>
@@ -348,8 +348,9 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDefinition" maxOccurs="unbounded"/>
+            <xs:element name="sub-menu" type="subMenuDefinition" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required">
+        <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор вложенного меню</xs:documentation>
             </xs:annotation>

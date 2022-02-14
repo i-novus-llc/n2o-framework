@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 
 /**
@@ -36,7 +37,7 @@ public class N2oScrollspyRegion extends N2oRegion {
 
     @Getter
     @Setter
-    public static abstract class AbstractMenuItem {
+    public static abstract class AbstractMenuItem implements Source {
         private String id;
         private String title;
     }

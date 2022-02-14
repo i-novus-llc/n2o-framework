@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <scrollspy
+                id="r1"
+                class="regionClass"
+                style="width: 500px"
+                src="ScrollSpy"
+                active="mi2"
+                placement="right"
+                title="regionTitle"
+                headlines="true"/>
+        <scrollspy/>
+    </regions>
+</page>
