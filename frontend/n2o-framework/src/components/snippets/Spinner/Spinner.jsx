@@ -29,9 +29,15 @@ export class Spinner extends Component {
             setTimeout(() => {
                 const { loading } = this.props
 
-                this.setState({ showSpinner: loading })
+                if (!this.unmounted) {
+                    this.setState({ showSpinner: loading })
+                }
             }, 1000)
         }
+    }
+
+    componentWillUnmount() {
+        this.unmounted = true
     }
 
     renderCoverSpiner() {

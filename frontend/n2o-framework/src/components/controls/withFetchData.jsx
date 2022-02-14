@@ -217,6 +217,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
             }
         }
 
+        componentWillUnmount() {
+            const { abortController } = this.state
+
+            if (abortController) {
+                abortController.abort()
+            }
+        }
+
         render() {
             const { setRef } = this.props
 
