@@ -45,7 +45,6 @@
     "react-data-grid": "^4.0.8",
     "react-dev-utils": "^10.2.1",
     "react-map-gl": "^3.2.5",
-    "react-router-dom": "4.3.1",
     "react-trend": "^1.2.4",
     "react-widgets": "^4.2.2",
     "react-widgets-moment": "^4.0.9",
