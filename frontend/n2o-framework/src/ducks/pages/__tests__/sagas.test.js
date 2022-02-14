@@ -345,6 +345,7 @@ describe('Сага для для наблюдения за изменением 
             const fakeStore = {
                 getState: () => ({
                     router: {
+                        action: 'push',
                         location: {
                             search: '?name=Sergey',
                         },
@@ -400,6 +401,7 @@ describe('Сага для для наблюдения за изменением 
             const fakeStore = {
                 getState: () => ({
                     router: {
+                        action: 'push',
                         location: {
                             search: '',
                         },
@@ -441,33 +443,6 @@ describe('Сага для для наблюдения за изменением 
             expect(dispatched[2].payload).toEqual({
                 pageId: 'test',
                 status: 200,
-            })
-        })
-
-        it('должен вызвать ошибку', async () => {
-            const dispatched = []
-            const fakeStore = {
-                getState: () => ({}),
-                dispatch: action => dispatched.push(action),
-            }
-            const action = {
-                payload: {
-                    pageId: 'errorPage',
-                },
-            }
-
-            await runSaga(fakeStore, getMetadata, undefined, action)
-            await delay(200)
-
-            expect(dispatched[0].type).toBe(metadataFail.type)
-            expect(dispatched[0].payload).toEqual({
-                pageId: 'errorPage',
-                err: {
-                    closeButton: false,
-                    label: 'Ошибка',
-                    severity: 'danger',
-                    text: expect.any(String),
-                },
             })
         })
     })

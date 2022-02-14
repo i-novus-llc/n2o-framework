@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { Field as ReduxFormField } from 'redux-form'
 import { compose, withProps } from 'recompose'
@@ -71,9 +71,7 @@ class ReduxField extends React.Component {
     }
 }
 
-ReduxField.contextTypes = {
-    store: PropTypes.object,
-}
+ReduxField.contextType = ReactReduxContext
 
 ReduxField.defaultProps = {
     component: StandardField,

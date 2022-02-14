@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
 import map from 'lodash/map'
@@ -122,9 +123,7 @@ export default config => (WrappedComponent) => {
         dependencySelector: setWatchDependency,
     }
 
-    ReRenderComponent.contextTypes = {
-        store: PropTypes.object,
-    }
+    ReRenderComponent.contextType = ReactReduxContext
 
     return ReRenderComponent
 }

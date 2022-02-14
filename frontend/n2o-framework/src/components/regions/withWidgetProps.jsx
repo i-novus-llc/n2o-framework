@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
@@ -100,9 +100,7 @@ function withGetWidget(WrappedComponent) {
         enableWidget: PropTypes.func,
     }
 
-    WithGetWidget.contextTypes = {
-        store: PropTypes.object,
-    }
+    WithGetWidget.contextType = ReactReduxContext
 
     const mapStateToProps = (state, props) => ({
         pages: pagesSelector(state),

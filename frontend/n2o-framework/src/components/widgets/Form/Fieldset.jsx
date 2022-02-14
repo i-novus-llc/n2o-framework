@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual'
 import each from 'lodash/each'
 import concat from 'lodash/concat'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -343,9 +343,7 @@ Fieldset.defaultProps = {
     component: 'div',
 }
 
-Fieldset.contextTypes = {
-    store: PropTypes.object,
-}
+Fieldset.contextType = ReactReduxContext
 
 const mapDispatchToProps = dispatch => bindActionCreators(
     {

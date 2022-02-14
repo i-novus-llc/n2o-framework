@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 import has from 'lodash/has'
@@ -245,7 +245,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         ]),
     }
 
-    WithFetchData.contextTypes = { store: PropTypes.object }
+    WithFetchData.contextType = ReactReduxContext
 
     WithFetchData.defaultProps = {
         caching: false,
