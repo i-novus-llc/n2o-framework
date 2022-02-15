@@ -1,0 +1,16 @@
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       ref-id="childTableV5Merger" selection="checkbox" height="100px" width="200px" text-wrap="true"
+       table-size="lg" children="expand" datasource="ds">
+    <filters search-on-change="true" datasource="ds_filter" place="left">
+        <input-text id="test1"/>
+    </filters>
+    <pagination first="true" last="true" show-single-page="true" next="true" prev="true" show-count="true"/>
+    <rows>
+        <click action-id="actionId"/>
+    </rows>
+    <columns>
+        <column text-field-id="test1">
+            <badge/>
+        </column>
+    </columns>
+</table>

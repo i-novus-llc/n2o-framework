@@ -47,7 +47,7 @@ public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
         p.attributeBoolean(e, "check-on-select", t::getCheckOnSelect, t::setCheckOnSelect);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
-        p.childAttribute(e, "filters", "datasource", t::getFiltersDatasource, t::setFiltersDatasource);
+        p.childAttribute(e, "filters", "datasource", t::getFiltersDatasourceId, t::setFiltersDatasourceId);
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
         p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
         p.attributeEnum(e, "children", t::getChildren, t::setChildren, N2oTable.ChildrenToggle.class);
