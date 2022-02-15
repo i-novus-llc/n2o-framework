@@ -13,7 +13,7 @@
         </fields>
         <actions>
             <action id="save">
-                <invoke operation-id="create" route="/:test">
+                <invoke operation-id="create" route="/:test" close-on-success="true">
                     <path-param name="test" value="testValue"/>
                 </invoke>
             </action>
