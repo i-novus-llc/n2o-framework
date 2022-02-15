@@ -51,7 +51,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Popover popover(String title) {
-        return new N2oPopover(element().$$(".popover .popover-header").findBy(Condition.text(title)).parent());
+        return new N2oPopover(element().$$(".popover .popover-header, .popover-body").findBy(Condition.text(title)).parent());
     }
 
     @Override

@@ -15,11 +15,12 @@ import evalExpression, {
 } from '../../../../../utils/evalExpression'
 import { resolveExpression } from '../../utils'
 import propsResolver from '../../../../../utils/propsResolver'
+import HelpPopover from '../../fields/StandardField/HelpPopover'
 
 import MultiFieldsetItem from './MultiFieldsetItem'
 
 function MultiFieldset({
-    name, enabled, visible, activeModel,
+    name, enabled, visible, activeModel, label, help,
     ...props
 }) {
     const [visibleState, setVisible] = useState(true)
@@ -34,6 +35,7 @@ function MultiFieldset({
 
     return (
         <div className="n2o-multi-fieldset">
+            {help && !label && <HelpPopover help={help} />}
             <MultiFieldsetItem
                 {...props}
                 parentName={name}
@@ -120,6 +122,8 @@ MultiFieldset.propTypes = {
     enabled: PropTypes.bool,
     visible: PropTypes.bool,
     activeModel: PropTypes.object,
+    label: PropTypes.string,
+    help: PropTypes.string,
 }
 
 export default enhance(MultiFieldset)

@@ -24,6 +24,8 @@ public abstract class FieldSet extends Component implements Compiled {
     @JsonProperty
     private String description;
     @JsonProperty
+    private String help;
+    @JsonProperty
     private LabelPosition labelPosition;
     @JsonProperty
     private Object labelWidth;

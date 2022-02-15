@@ -29,6 +29,7 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private String[] dependsOn;
     private String visible;
     private String enabled;
+    private String help;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Override

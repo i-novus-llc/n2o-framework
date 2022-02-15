@@ -5,10 +5,12 @@ import { Panel as BasePanel } from 'rc-collapse'
 import classNames from 'classnames'
 
 import Label from '../../widgets/Form/fields/StandardField/Label'
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
 
 /**
  * Панель Collapse
  * @param {string} header - Заголовок панели
+ * @param {string} help - Подсказка панели
  * @param {string} type - тип отображения панели( 'default', 'line', 'divider' )
  * @param {string} description - description под label
  * @param {boolean} showArrow - показать иконку
@@ -27,6 +29,7 @@ export const Panel = ({
     children,
     collapsible,
     description,
+    help,
     ...rest
 }) => (
     <BasePanel
@@ -40,6 +43,7 @@ export const Panel = ({
                 >
                     {header}
                 </span>
+                {help && <HelpPopover help={help} />}
                 {description && (
                     <Label
                         className="n2o-fieldset__description"
@@ -48,11 +52,22 @@ export const Panel = ({
                 )}
             </div>
         )}
-        className={classNames('n2o-collapse-panel', type, className, { 'with-description': description })}
-        headerClass={classNames('n2o-panel-header', headerClass, {
-            'n2o-disabled': !collapsible,
-            'with-description': description,
-        })}
+        className={classNames(
+            'n2o-collapse-panel',
+            type,
+            className,
+            {
+                'with-description': description,
+            },
+        )}
+        headerClass={classNames(
+            'n2o-panel-header',
+            headerClass,
+            {
+                'n2o-disabled': !collapsible,
+                'with-description': description,
+            },
+        )}
         {...rest}
     >
         {children}
@@ -96,6 +111,10 @@ Panel.propTypes = {
      * Флаг выключения возможности сворачивания
      */
     collapsible: PropTypes.bool,
+    /**
+     * Подсказка около label
+     */
+    help: PropTypes.string,
 }
 
 Panel.defaultProps = {
