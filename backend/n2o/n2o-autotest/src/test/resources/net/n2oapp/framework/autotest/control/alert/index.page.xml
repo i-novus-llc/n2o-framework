@@ -1,7 +1,7 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <alert title="Warning" color="warning" text="Read this message!"
+            <alert id="a1" title="Warning" color="warning" text="Read this message!"
                    close-button="true" href="http://example.org"/>
         </fields>
     </form>
