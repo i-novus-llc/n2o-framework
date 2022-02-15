@@ -837,11 +837,6 @@
                         <xs:documentation>Текст заголовка уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор поля.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="text" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Текст уведомления.</xs:documentation>
