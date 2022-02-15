@@ -161,6 +161,17 @@
     }
 }
 
+/* alternative behavior for line region when the alert is a field */
+.rc-collapse-content-box {
+    .col {
+        .n2o-alert-segment {
+            .n2o-alert-segment__text {
+                max-width: 100%;
+            }
+        }
+    }
+}
+
 .n2o-alerts.topLeft {
     left: 0;
     transform: translate(15px, 15px);
