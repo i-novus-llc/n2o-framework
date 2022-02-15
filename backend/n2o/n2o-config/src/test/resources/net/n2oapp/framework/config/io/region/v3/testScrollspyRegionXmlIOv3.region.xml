@@ -1,0 +1,34 @@
+<scrollspy xmlns="http://n2oapp.net/framework/config/schema/region-3.0"
+           id="r1"
+           class="regionClass"
+           style="width: 500px"
+           src="ScrollSpyRegion"
+           active="mi1"
+           title="regionTitle"
+           placement="right"
+           headlines="true">
+    <menu-item id="mi1" title="First item title in the list">
+        <tabs>
+            <tab>
+                <table/>
+            </tab>
+            <tab>
+                <table/>
+            </tab>
+        </tabs>
+        <form/>
+    </menu-item>
+    <menu-item id="mi2" title="Second item title in the list">
+        <table/>
+        <form/>
+    </menu-item>
+    <sub-menu id="mi3" title="Third item title in the list">
+        <menu-item id="mi4" title="Title">
+            <table/>
+            <form/>
+        </menu-item>
+        <menu-item id="mi5" title="Title">
+            <form/>
+        </menu-item>
+    </sub-menu>
+</scrollspy>
