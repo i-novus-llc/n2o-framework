@@ -148,5 +148,33 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         period.check("5 years");
         rows.shouldHaveSize(1);
     }
+
+    @Test
+    public void testFiltersDatasource() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        InputText filter = table.filters().fields().field("name").control(InputText.class);
+        TableWidget.Rows rows = table.columns().rows();
+
+        filter.shouldHaveValue("test3");
+        rows.shouldHaveSize(1);
+        rows.row(0).cell(1).textShouldHave("test3");
+
+        filter.val("4");
+        table.filters().toolbar().button("Найти").click();
+        rows.row(0).cell(1).textShouldHave("test4");
+
+        //todo NNO-7523 filter value should saved after refresh
+        /*Selenide.refresh();
+        rows.row(0).cell(1).textShouldHave("test4");
+
+        table.filters().toolbar().button("Сбросить").click();
+        rows.shouldHaveSize(4);
+        filter.shouldBeEmpty();*/
+    }
 }
 
