@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
+import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -55,7 +56,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     });
         }
 
-        collectFiltersToModels(page.getModels(), widgets, p);
+        collectFiltersToModels(page, widgets, p);
 
         if (page.getModels() != null) {
             //разрешение контекстных значений в моделях
@@ -93,35 +94,26 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     /**
      * Добавление значений фильтров таблицы из выборки в модели
      *
-     * @param models Модели
+     * @param page страница
      * @param widgets Виджеты
      * @param p Процессор связывания
      */
-    private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
+    private void collectFiltersToModels(D page, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget<?> w : widgets)
-                //fixme NNO-7302 delete
-                if (w.getFilters() != null && w.getFiltersDefaultValuesQueryId() != null) {
-                    DataSet data = p.executeQuery(w.getFiltersDefaultValuesQueryId());
+                if (w.getFiltersDatasourceId() != null) {
+                    Datasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
+                    DataSet data = p.executeQuery(filterDatasource.getQueryId());
                     if (data != null) {
-                        for (Filter filter : w.getFilters()) {
-                            addDefaultFilterValueLinkToModels(models, w.getId(), filter, data, p);
-                        }
+                        data.forEach((k, v) -> {
+                            //todo NNO-7523   && !p.canResolveParam(f.getParam())
+                            if (v != null) {
+                                page.getModels().add(ReduxModel.filter, w.getDatasource(), k, new ModelLink(v));
+                            }
+                        });
                     }
                 }
     }
-
-    private void addDefaultFilterValueLinkToModels(Models models, String widgetId, Filter f, DataSet data, BindProcessor p) {
-        Object value = data.get(f.getFilterId());
-        if (value != null && !p.canResolveParam(f.getParam())) {
-            ModelLink link = new ModelLink(f.getLink());
-            link.setValue(value);
-            link.setParam(link.getDatasource() + "_" + f.getFilterId());
-            f.setLink(link);
-            models.add(ReduxModel.filter, widgetId, f.getFilterId(), f.getLink());
-        }
-    }
-
 
     private void resolveLinks(Models models, BindProcessor p) {
         new HashSet<>(models.entrySet()).stream().filter(e -> !e.getValue().isConst()).forEach(e -> {
