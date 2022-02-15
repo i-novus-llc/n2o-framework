@@ -62,7 +62,9 @@ export function* checkPrompt(action) {
 }
 
 export function* closeOverlays({ meta }) {
-    yield put(destroyOverlays(meta.modalsToClose))
+    if (meta.modalsToClose) {
+        yield put(destroyOverlays(meta.modalsToClose))
+    }
 }
 
 function* onCloseEffects() {
