@@ -268,6 +268,10 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     return connect(
         null,
         mapDispatchToProps,
+        null,
+        {
+            pure: false,
+        },
     )(WithFetchData)
 }
 
