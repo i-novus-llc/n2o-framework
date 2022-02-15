@@ -127,25 +127,32 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (redirect) {
             if (context instanceof ModalPageContext || context instanceof DialogContext)
                 meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
-            meta.setRedirect(new RedirectSaga());
-
-            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-            meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
-            meta.getRedirect().setTarget(source.getRedirectTarget());
-            meta.getRedirect().setServer(true);
+            if (context instanceof DialogContext) {
+                meta.setRedirect(((DialogContext) context).getParentRedirect());
+            } else {
+                meta.setRedirect(new RedirectSaga());
+                ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+                meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
+                meta.getRedirect().setTarget(source.getRedirectTarget());
+                meta.getRedirect().setServer(true);
+            }
         }
     }
 
     private void initRefreshOnClose(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean closeOnSuccess) {
         if (source.getRefreshOnSuccess()) {
-            meta.setRefresh(new RefreshSaga());
-            if (!closeOnSuccess && source.getRefreshDatasources() != null) {
-                PageScope pageScope = p.getScope(PageScope.class);
-                if (pageScope != null)
-                    meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
-                        .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
-            } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientDataSources() != null)
-                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
+            if (context instanceof DialogContext) {
+                meta.setRefresh(((DialogContext) context).getParentRefresh());
+            } else {
+                meta.setRefresh(new RefreshSaga());
+                if (!closeOnSuccess && source.getRefreshDatasources() != null) {
+                    PageScope pageScope = p.getScope(PageScope.class);
+                    if (pageScope != null)
+                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
+                                .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSources() != null)
+                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
+            }
         }
     }
 
@@ -203,6 +210,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContextData.setObjectId(compiledObject.getId());
         actionContextData.setOperationId(source.getOperationId());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
+        actionContextData.setRefresh(metaSaga.getSuccess().getRefresh());
         actionContextData.setParentWidgetId(metaSaga.getSuccess().getMessageWidgetId());
         actionContextData.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
         actionContextData.setMessageOnSuccess(source.getMessageOnSuccess());

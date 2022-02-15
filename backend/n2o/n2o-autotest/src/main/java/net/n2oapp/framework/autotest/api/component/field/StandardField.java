@@ -26,4 +26,5 @@ public interface StandardField extends Field {
     void shouldHaveDescription(Condition condition);
 
     void shouldHaveValidationMessage(Condition condition);
+
 }

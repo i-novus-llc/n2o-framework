@@ -44,6 +44,7 @@ const props = {
     sorting: {},
     setSorting: () => {},
     setFilter: () => {},
+    fetchData: () => {},
 }
 
 const setup = propsOverride => mount(
