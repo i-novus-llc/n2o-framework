@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
 /**
  * Филдсет для автотестирования
  */
-public interface FieldSet extends Component {
+public interface FieldSet extends Component, Help {
     void shouldBeEmpty();
 
     @Deprecated

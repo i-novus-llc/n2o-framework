@@ -105,6 +105,11 @@
                         <xs:documentation>Список полей, от которых зависит филдсет.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="help" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подсказка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>

@@ -1,8 +1,23 @@
 .n2o-fieldset {
-    // margin-bottom: 15px;
-
     .col:empty {
         display: none;
+    }
+
+    .n2o-fieldset__label-container,
+    .n2o-multi-fieldset,
+    .n2o-panel-header {
+        .n2o-popover {
+            .n2o-popover-btn {
+                border: 0;
+                background-color: transparent;
+            }
+
+            button,
+            button:active,
+            button:focus {
+                outline: none;
+            }
+        }
     }
 
     .n2o-fieldset__label-container {
