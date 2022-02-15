@@ -45,7 +45,6 @@ function Router({ embeddedRouting, children }) {
         )
     }
 
-    // noinspection JSCheckFunctionSignatures
     return (
         <ConnectedRouter history={history}>
             <Switch>
