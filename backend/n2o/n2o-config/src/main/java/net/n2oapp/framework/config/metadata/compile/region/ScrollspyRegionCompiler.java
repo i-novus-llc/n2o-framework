@@ -27,6 +27,16 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
     }
 
     @Override
+    protected String createId(String regionPlace, CompileProcessor p) {
+        return createId(regionPlace, "scrollspy", p);
+    }
+
+    @Override
+    protected String getSrcProperty() {
+        return "n2o.api.region.scrollspy.src";
+    }
+
+    @Override
     public ScrollspyRegion compile(N2oScrollspyRegion source, PageContext context, CompileProcessor p) {
         ScrollspyRegion region = new ScrollspyRegion();
         build(region, source, p);
@@ -69,16 +79,5 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
     private void initElement(ScrollspyElement element, N2oScrollspyRegion.AbstractMenuItem item, CompileProcessor p) {
         element.setId(p.cast(item.getId(), createId("element", p)));
         element.setTitle(item.getTitle());
-    }
-
-
-    @Override
-    protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "scrollspy", p);
-    }
-
-    @Override
-    protected String getSrcProperty() {
-        return "n2o.api.region.scrollspy.src";
     }
 }

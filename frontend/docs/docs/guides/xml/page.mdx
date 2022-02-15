@@ -577,10 +577,6 @@ http://n2oapp.net/framework/config/schema/region-3.0
 
 |Наименование|Тип       |Описание                                   |Значение по умолчанию|
 |------------|----------|-------------------------------------------|---------------------|
-|id          |Строка    |Идентификатор региона                      |                     |
-|class       |Строка    |CSS класс панели                           |                     |
-|style       |Строка    |Стиль панели                               |                     |
-|src         |Строка    |Реализация региона                         |                     |
 |active      |Строка    |Активный блок по умолчанию                 |                     |
 |title       |Строка    |Общий некликабельный заголовок меню        |                     |
 |placement   |left right|Расположение меню                          |left                 |
@@ -589,11 +585,7 @@ http://n2oapp.net/framework/config/schema/region-3.0
 **Пример**
 
 ```xml
-<scrollspy id="r1"
-            class="regionClass"
-            style="width: 500px"
-            src="ScrollSpyRegion"
-            active="mi1"
+<scrollspy active="mi1"
             title="regionTitle"
             placement="right"
             headlines="true">
@@ -663,3 +655,4 @@ http://n2oapp.net/framework/config/schema/region-3.0
 **Тело**
 
 Список [элементов меню](#menu-item)
+Список [вложенных меню](#sub-menu)
