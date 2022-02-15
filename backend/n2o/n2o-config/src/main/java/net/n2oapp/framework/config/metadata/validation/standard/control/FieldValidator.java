@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
@@ -53,6 +54,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param p           Процессор исходных метаданных
      */
     private void checkIdExistence(N2oField source, WidgetScope widgetScope, SourceProcessor p) {
+        if (source instanceof N2oButtonField)
+            return;
         p.checkIdExistence(source, String.format(
                 "Для компиляции виджета %s необходимо задать идентификаторы для всех полей",
                 widgetScope != null ? ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()) : ""
