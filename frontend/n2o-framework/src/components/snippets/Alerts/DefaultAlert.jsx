@@ -1,4 +1,5 @@
 import React from 'react'
+import omit from 'lodash/omit'
 import classNames from 'classnames'
 
 import { AlertTypes } from './AlertsTypes'
@@ -47,6 +48,15 @@ export const DefaultAlert = ({
 
     const needToDivide = (currentTitle && currentText) || !!(currentText && (timestamp || closeButton))
 
+    /* this is necessary for custom text colors or font-sizes */
+    const getSectionStyle = (style) => {
+        if (!style) {
+            return null
+        }
+
+        return omit(style, ['width', 'height', 'padding', 'margin', 'backgroundColor'])
+    }
+
     return (
         <div
             className={classNames(
@@ -75,6 +85,7 @@ export const DefaultAlert = ({
                     closeButton={closeButton}
                     onClick={batchedActionToClose}
                     textClassName={titleSegmentClassName}
+                    style={getSectionStyle(style)}
                 />
                 {
                     needToDivide && <hr className="w-100 n2o-alert__divider" />
