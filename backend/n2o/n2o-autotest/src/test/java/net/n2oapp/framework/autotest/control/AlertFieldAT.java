@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента поля alert
  */
-
 public class AlertFieldAT extends AutoTestBase {
 
     @BeforeAll
@@ -50,6 +49,8 @@ public class AlertFieldAT extends AutoTestBase {
         alert.shouldHaveTitle("Warning");
         alert.shouldHaveColor(Colors.WARNING);
         alert.shouldHaveUrl("http://example.org/");
-        alert.shouldHaveCloseButton();
+        alert.closeButton().shouldExists();
+        alert.closeButton().click();
+        alert.shouldNotExists();
     }
 }

@@ -47,31 +47,40 @@ public class AlertActionAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Всплывающие уведомления");
         StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
 
-        toolbar.topLeft().button("Простое уведомление").click();
+        toolbar.topLeft().button("Тестирование теста и заголовка").click();
         Alert alert = page.alerts().alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
         alert.shouldHaveText("Привет, мир!");
         alert.shouldHaveColor(Colors.SECONDARY);
         alert.shouldHavePlacement(Alert.Placement.topLeft);
-        alert.shouldHaveCloseButton();
+        alert.closeButton().shouldExists();
 
-        toolbar.topLeft().button("Уведомление с таймаутом").click();
+        toolbar.topLeft().button("Тестирование таймаута").click();
         alert = page.alerts().alert(0);
-        alert.shouldHaveTitle("Уведомление с таймаутом");
-        alert.shouldHaveText("Это сообщение пропадет через 2 секунды");
         alert.shouldHaveColor(Colors.INFO);
         alert.shouldHavePlacement(Alert.Placement.topRight);
-        alert.shouldHaveCloseButton();
+        alert.closeButton().shouldNotExists();
         alert.shouldNotExists();
 
-        toolbar.topLeft().button("Кликабельное уведомление").click();
+        toolbar.topLeft().button("Тестирование кнопки закрыть").click();
+        alert = page.alerts().alert(0);
+        alert.shouldHaveColor(Colors.LIGHT);
+        alert.shouldHavePlacement(Alert.Placement.bottomRight);
+        alert.closeButton().shouldExists();
+        alert.closeButton().click();
+        alert.shouldNotExists();
+
+        toolbar.topLeft().button("Тестирование ссылки").click();
         alert = page.alerts().alert(0);
         alert.shouldExists();
-        alert.shouldHaveTitle("Кликабельное уведомление");
-        alert.shouldHaveText("Нажмите на сообщение для перехода по ссылке");
         alert.shouldHaveColor(Colors.WARNING);
-        alert.shouldHavePlacement(Alert.Placement.bottomRight);
-        alert.shouldHaveCloseButton();
+        alert.shouldHavePlacement(Alert.Placement.bottomLeft);
+        alert.closeButton().shouldNotExists();
+        alert.shouldHaveText("Ссылка");
+        alert.shouldHaveUrl(getBaseUrl() + "/#/test");
+        alert.click();
+        page.shouldExists();
+        page.breadcrumb().titleByIndexShouldHaveText("Тест", 1);
     }
 }

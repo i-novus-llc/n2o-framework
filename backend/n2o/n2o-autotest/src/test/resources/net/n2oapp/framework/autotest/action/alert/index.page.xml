@@ -2,20 +2,23 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Всплывающие уведомления">
     <form>
+        <actions>
+            <action id="openPage">
+                <open-page page-id="test" route="/test"/>
+            </action>
+        </actions>
         <toolbar place="topLeft">
-            <button label="Простое уведомление" disable-on-empty-model="false">
-                <alert title="Простое уведомление"
-                       text="Привет, мир!" placement="topLeft"/>
+            <button label="Тестирование теста и заголовка" disable-on-empty-model="false">
+                <alert title="Простое уведомление" text="Привет, мир!" placement="topLeft"/>
             </button>
-            <button label="Уведомление с таймаутом" disable-on-empty-model="false">
-                <alert title="Уведомление с таймаутом"
-                       text="Это сообщение пропадет через 2 секунды"
-                       timeout="2000" color="info" placement="topRight"/>
+            <button label="Тестирование таймаута" disable-on-empty-model="false">
+                <alert timeout="2000" color="info" placement="topRight" close-button="false"/>
             </button>
-            <button label="Кликабельное уведомление" disable-on-empty-model="false">
-                <alert title="Кликабельное уведомление"
-                       text="Нажмите на сообщение для перехода по ссылке"
-                       href="http://example.org" color="warning" placement="bottomRight"/>
+            <button label="Тестирование кнопки закрыть" disable-on-empty-model="false">
+                <alert timeout="8000" color="light" placement="bottomRight"/>
+            </button>
+            <button label="Тестирование ссылки" disable-on-empty-model="false">
+                <alert text="Ссылка" href="#/test" color="warning" placement="bottomLeft" close-button="false"/>
             </button>
         </toolbar>
     </form>
