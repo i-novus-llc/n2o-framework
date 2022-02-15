@@ -120,14 +120,14 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         CompiledObject.Operation operation = getOperation(action, object);
         boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
         if (source.getConfirm() != null) {
-            Object confirmCondition = p.resolveJS(source.getConfirm(), Boolean.class);
-            if (confirmCondition instanceof Boolean) {
-                if (!((Boolean) confirmCondition || operationConfirm))
+            Object condition = p.resolveJS(source.getConfirm(), Boolean.class);
+            if (condition instanceof Boolean) {
+                if (!((Boolean) condition || operationConfirm))
                     return null;
                 return initConfirm(source, p, operation, true);
             }
-            if (confirmCondition instanceof String) {
-                return initConfirm(source, p, operation, confirmCondition);
+            if (condition instanceof String) {
+                return initConfirm(source, p, operation, condition);
             }
         }
         if (operationConfirm)
@@ -135,17 +135,17 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return null;
     }
 
-    private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object confirmCondition) {
+    private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
         confirm.setMode(source.getConfirmType());
-        confirm.setText(p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(source.getConfirmOkLabel());
         confirm.setCancelLabel(source.getConfirmCancelLabel());
-        confirm.setText(initExpression(confirm.getText()));
-        confirm.setConfirmCondition(initConfirmCondition(confirmCondition));
+        confirm.setText(initExpression(
+                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
+        confirm.setCondition(initConfirmCondition(condition));
 
-        if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getConfirmCondition())) {
+        if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
@@ -153,10 +153,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return confirm;
     }
 
-    private String initConfirmCondition(Object confirmCondition) {
-        if (confirmCondition instanceof Boolean)
+    private String initConfirmCondition(Object condition) {
+        if (condition instanceof Boolean)
             return Placeholders.js(Boolean.toString(true));
-        return initExpression((String) confirmCondition);
+        return initExpression((String) condition);
     }
 
     private String initExpression(String attr) {

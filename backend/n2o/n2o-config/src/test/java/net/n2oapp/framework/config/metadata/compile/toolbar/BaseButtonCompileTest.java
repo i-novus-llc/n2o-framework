@@ -71,27 +71,30 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm, nullValue());
 
         confirm = page.getWidget().getToolbar().getButton("btn2").getConfirm();
-        assertThat(confirm.getConfirmCondition(), is("`true`"));
+        assertThat(confirm.getCondition(), is("`true`"));
         assertThat(confirm.getText(), is("`'' + this.id === '1' ? 'id is 1' : 'id is 2' + ''`"));
         assertThat(confirm.getTitle(), is("Подтвердить действие"));
         assertThat(confirm.getOkLabel(), is("Ок"));
         assertThat(confirm.getCancelLabel(), is("Отмена"));
         assertThat(confirm.getMode(), is(ConfirmType.popover));
+        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
 
         confirm = page.getWidget().getToolbar().getButton("btn3").getConfirm();
-        assertThat(confirm.getConfirmCondition(), is("`id === '1'|| id === '2'`"));
+        assertThat(confirm.getCondition(), is("`id === '1'|| id === '2'`"));
         assertThat(confirm.getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
         assertThat(confirm.getTitle(), is("Предупреждение"));
         assertThat(confirm.getOkLabel(), is("Да"));
         assertThat(confirm.getCancelLabel(), is("Нет"));
         assertThat(confirm.getMode(), is(ConfirmType.modal));
+        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
 
         confirm = page.getWidget().getToolbar().getButton("btn4").getConfirm();
-        assertThat(confirm.getConfirmCondition(), is("`true`"));
+        assertThat(confirm.getCondition(), is("`true`"));
         assertThat(confirm.getText(), is("Текст подтверждения из операции объекта"));
         assertThat(confirm.getTitle(), is("Предупреждение"));
         assertThat(confirm.getOkLabel(), is("Да"));
         assertThat(confirm.getCancelLabel(), is("Нет"));
         assertThat(confirm.getMode(), is(ConfirmType.modal));
+        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
     }
 }
