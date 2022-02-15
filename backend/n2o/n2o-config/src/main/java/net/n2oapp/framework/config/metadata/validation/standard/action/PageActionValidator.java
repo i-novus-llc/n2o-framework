@@ -56,15 +56,15 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
 
     /**
      * Проверка существования источника данных, на который ссылается действие открытия страницы
-     * @param source           Действие открытия страницы
+     * @param source             Действие открытия страницы
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getDatasource() != null) {
             String openPage = ValidationUtils.getIdOrEmptyString(source.getPageId());
             ValidationUtils.checkForExistsDatasource(source.getDatasource(), datasourceIdsScope,
-                    String.format("Действие открытия сотраницы %s сылается на несуществующий источник данных '%s'",
-                            openPage, source.getDatasource()));
+                    String.format("Действие открытия страницы %s ссылается на несуществующий источник данных '%s'",
+                            ValidationUtils.getIdOrEmptyString(openPage), source.getDatasource()));
         }
     }
 
@@ -77,7 +77,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         if (source.getTargetDatasource() != null) {
             String openPage = ValidationUtils.getIdOrEmptyString(source.getPageId());
             ValidationUtils.checkForExistsDatasource(source.getTargetDatasource(), datasourceIdsScope,
-                    String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несущетсвующий источник данных '%s'",
+                    String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несуществующий источник данных '%s'",
                             openPage, source.getTargetDatasource()));
         }
     }
