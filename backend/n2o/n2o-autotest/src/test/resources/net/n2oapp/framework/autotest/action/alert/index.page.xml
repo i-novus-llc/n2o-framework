@@ -8,7 +8,7 @@
             </action>
         </actions>
         <toolbar place="topLeft">
-            <button label="Тестирование теста и заголовка" disable-on-empty-model="false">
+            <button label="Тестирование текста и заголовка" disable-on-empty-model="false">
                 <alert title="Простое уведомление" text="Привет, мир!" placement="topLeft"/>
             </button>
             <button label="Тестирование таймаута" disable-on-empty-model="false">
@@ -18,7 +18,7 @@
                 <alert timeout="8000" color="light" placement="bottomRight"/>
             </button>
             <button label="Тестирование ссылки" disable-on-empty-model="false">
-                <alert text="Ссылка" href="#/test" color="warning" placement="bottomLeft" close-button="false"/>
+                <alert href="#/test" color="warning" placement="bottomLeft"/>
             </button>
         </toolbar>
     </form>

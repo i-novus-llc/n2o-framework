@@ -47,7 +47,7 @@ public class AlertActionAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Всплывающие уведомления");
         StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
 
-        toolbar.topLeft().button("Тестирование теста и заголовка").click();
+        toolbar.topLeft().button("Тестирование текста и заголовка").click();
         Alert alert = page.alerts().alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
@@ -76,8 +76,7 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldExists();
         alert.shouldHaveColor(Colors.WARNING);
         alert.shouldHavePlacement(Alert.Placement.bottomLeft);
-        alert.closeButton().shouldNotExists();
-        alert.shouldHaveText("Ссылка");
+        alert.closeButton().shouldExists();
         alert.shouldHaveUrl(getBaseUrl() + "/#/test");
         alert.click();
         page.shouldExists();
