@@ -3,7 +3,6 @@
   "version": "7.20.0",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:i-novus-llc/n2o-framework.git",
@@ -84,6 +83,7 @@
     "lodash": "^4.17.15",
     "moment": "2.20.1",
     "n2o-auth": "7.20.0",
+    "n2o-notifications": "7.20.0",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
     "print-js": "1.5.0",

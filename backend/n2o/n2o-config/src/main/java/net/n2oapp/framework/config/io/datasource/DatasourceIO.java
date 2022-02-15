@@ -18,7 +18,7 @@ import org.jdom2.Element;
 /**
  * Чтение\запись источника данных
  */
-public class DatasourceIO implements TypedElementIO<N2oDatasource> {
+public class DatasourceIO extends AbstractDatasourceIO<N2oDatasource> implements TypedElementIO<N2oDatasource> {
 
     @Override
     public Class<N2oDatasource> getElementClass() {
@@ -32,7 +32,7 @@ public class DatasourceIO implements TypedElementIO<N2oDatasource> {
 
     @Override
     public void io(Element e, N2oDatasource ds, IOProcessor p) {
-        p.attribute(e, "id", ds::getId, ds::setId);
+        super.io(e, ds, p);
         p.attribute(e, "query-id", ds::getQueryId, ds::setQueryId);
         p.attribute(e, "object-id", ds::getObjectId, ds::setObjectId);
         p.attributeEnum(e, "default-values-mode", ds::getDefaultValuesMode, ds::setDefaultValuesMode, DefaultValuesMode.class);

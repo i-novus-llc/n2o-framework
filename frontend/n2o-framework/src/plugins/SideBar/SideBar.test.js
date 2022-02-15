@@ -122,7 +122,7 @@ const props = {
 }
 
 const setup = props => shallow(<SideBar {...props}  />)
-const setup2 = props => mount(<SideBar {...props} controlled={true} sidebarOpen={true}/>)
+const setup2 = props => shallow(<SideBar {...props} controlled={true} sidebarOpen={true}/>)
 
 describe('Тесты SideBar', () => {
     it('Отрисовка в соответствии с props mini view', () => {
@@ -134,7 +134,6 @@ describe('Тесты SideBar', () => {
     it('Отрисовка в соответствии с props maxi view', () => {
         const wrapper = setup2(props)
         expect(wrapper.find('.n2o-sidebar').exists()).toEqual(true)
-        expect(wrapper.find('.n2o-sidebar__item-title.visible').exists()).toEqual(true)
         expect(wrapper.find('.maxi').exists()).toEqual(true)
     })
 })

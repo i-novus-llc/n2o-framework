@@ -3,7 +3,7 @@ export class DataSource {
         return ({
             provider: {},
             validations: {},
-            widgets: [],
+            components: [],
             dependencies: [],
             size: 0,
             page: 1,

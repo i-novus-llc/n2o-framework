@@ -5,7 +5,6 @@
   "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0",
   "homepage": "https://n2oapp.net/",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:i-novus-llc/n2o-framework.git",
@@ -30,7 +29,6 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "n2o-framework": "7.20.0",
     "net": "^1.0.2",
     "sockjs-client": "^1.3.0",
     "stompjs": "^2.3.3"

@@ -47,5 +47,6 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getHasCheckboxes(), is(true));
         assertThat(tree.getMultiselect(), is(false));
         assertThat(page.getDatasources().get(tree.getDatasource()).getProvider().getUrl(), is("n2o/data/testTreeCompile/main"));
+        assertThat(page.getDatasources().get(tree.getDatasource()).getSize(), is(200));
     }
 }

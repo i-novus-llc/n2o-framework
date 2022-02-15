@@ -61,12 +61,12 @@ export const dataSourceProviderSelector = sourceId => createSelector(
     state => state.provider,
 )
 
-export const dataSourceErrors = sourceId => createSelector(
+export const dataSourceErrors = (sourceId, prefix = MODEL_PREFIX.active) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => state.errors,
+    state => (state.errors[prefix] || {}),
 )
 
-export const dataSourceFieldError = (sourceId, field) => createSelector(
-    dataSourceErrors(sourceId),
+export const dataSourceFieldError = (sourceId, prefix, field) => createSelector(
+    dataSourceErrors(sourceId, prefix),
     errors => errors[field],
 )

@@ -12,10 +12,17 @@ import { MODEL_PREFIX } from '../../../core/datasource/const'
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
 
+const fakeInitial = {}
+
 export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, props) => getFormValues(props.id)(state) || {},
 })
 
+/*
+ * FIXME: Разобраться с edit модулью формы
+ * a) дефолтные значения всегда почему-то приходят в resolve модели
+ * б) зависимость от edit формы всегда приходит на resolve модель
+ */
 class Container extends React.Component {
     constructor(props) {
         super(props)
@@ -31,7 +38,7 @@ class Container extends React.Component {
     }
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
-        const { models, reduxFormValues, setEdit, form } = this.props
+        const { models, reduxFormValues, form, setResolve } = this.props
         const { initialValues } = this.state
         const { datasource } = models
         const { modelPrefix } = form
@@ -39,9 +46,15 @@ class Container extends React.Component {
         const prevModel = this.getActiveModel(prevModels)
 
         if (!isEqual(datasource, prevModels.datasource)) {
-            // Поменялись данные с сервера, обновляем активную модель (меняем только edit модель, resolve обновится датасурсами)
+            // если предыдущий список пустой, и есть активная модель, то это defaultValues и надо их мержить
+            const model = isEmpty(prevModels.datasource) && activeModel
+                ? { ...activeModel, ...datasource[0] }
+                : datasource[0]
+
+            this.updateActiveModel(model)
+            // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
             if (modelPrefix === MODEL_PREFIX.edit) {
-                setEdit(cloneDeep(datasource?.[0]))
+                setResolve(model)
             }
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
@@ -55,8 +68,8 @@ class Container extends React.Component {
         } else if (!isEqual(activeModel, prevModel) && !isEqual(activeModel, reduxFormValues)) {
             // поменялась активная модель и она отличается от того что в форме (copyActyon / setValue-dependency) - обновляем данные в форме
             // костыль для того чтобы редакс-форма подхватила новую модель, даже если она совпадает с предыдущим initialValues
-            this.setState({ initialValues: {} })
-        } else if (isEmpty(initialValues) && !isEqual(activeModel, initialValues)) {
+            this.setState({ initialValues: fakeInitial })
+        } else if (initialValues === fakeInitial) {
             this.setState({ initialValues: cloneDeep(activeModel) })
         }
     }

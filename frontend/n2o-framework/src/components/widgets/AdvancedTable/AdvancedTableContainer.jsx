@@ -90,7 +90,7 @@ class AdvancedTableContainer extends React.Component {
     }
 
     handleSetFilter(filterData) {
-        const { setFilter, models } = this.props
+        const { setFilter, models, fetchData } = this.props
         const { filter } = models
 
         const newFilter = {
@@ -103,6 +103,7 @@ class AdvancedTableContainer extends React.Component {
         }
 
         setFilter(newFilter)
+        fetchData()
     }
 
     mapHeaders = (headers, isChild = false) => map(headers, (header) => {

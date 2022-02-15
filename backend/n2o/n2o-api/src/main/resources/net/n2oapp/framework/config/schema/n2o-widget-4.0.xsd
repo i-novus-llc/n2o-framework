@@ -71,7 +71,7 @@
                 <xs:documentation>Настройка получения данных виджета при инициализации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="auto-focus" type="xs:boolean" default="true">
+        <xs:attribute name="auto-focus" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation>Автоматическая установка фокуса на виджете.</xs:documentation>
             </xs:annotation>

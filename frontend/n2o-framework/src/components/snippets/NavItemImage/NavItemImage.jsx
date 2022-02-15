@@ -8,7 +8,7 @@ export const NavItemImage = ({
     title,
 }) => (
     <img
-        className={cx(`mr-2 ${{
+        className={cx(`mr-2 n2o-nav-image ${{
             circle: 'rounded-circle',
             rounded: 'rounded',
         }[imageShape] || ''}`)}

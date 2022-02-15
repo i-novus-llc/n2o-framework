@@ -1,14 +1,11 @@
 package net.n2oapp.framework.api.metadata.control.list;
 
-import net.n2oapp.framework.api.metadata.control.ShowModalPageFromClassifier;
-
 /**
  * User: iryabov
  * Date: 05.02.13
  * Time: 19:00
  */
 public class N2oClassifier extends N2oSingleListFieldAbstract {
-    private ShowModalPageFromClassifier showModal;
     private String queryId;
     private String valueFieldId;
     private String labelFieldId;
@@ -36,14 +33,6 @@ public class N2oClassifier extends N2oSingleListFieldAbstract {
         return labelFieldId;
     }
 
-    public ShowModalPageFromClassifier getShowModal() {
-        return showModal;
-    }
-
-    public void setShowModal(ShowModalPageFromClassifier showModal) {
-        this.showModal = showModal;
-    }
-
     public Boolean getSearchAsYouType() {
         return searchAsYouType;
     }
@@ -66,10 +55,6 @@ public class N2oClassifier extends N2oSingleListFieldAbstract {
 
     public void setWordWrap(Boolean wordWrap) {
         this.wordWrap = wordWrap;
-    }
-
-    private boolean hasShowModal() {
-        return !mode.equals(Mode.quick) && getShowModal() != null;
     }
 
     public enum Mode {

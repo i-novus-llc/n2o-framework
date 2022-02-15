@@ -11,6 +11,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция виджета дерево
  */
@@ -48,5 +50,13 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
         return tree;
+    }
+
+    @Override
+    protected N2oDatasource initInlineDatasource(Tree compiled, N2oTree source, CompileProcessor p) {
+        N2oDatasource datasource = super.initInlineDatasource(compiled, source, p);
+        if (datasource.getSize() == null)
+            datasource.setSize(p.resolve(property("n2o.api.widget.tree.size"), Integer.class));
+        return datasource;
     }
 }

@@ -105,6 +105,8 @@ public class OperationController extends SetController {
         context.setParentPageId(actionContext.getParentPageId());
         context.setParentSourceDatasourceId(actionContext.getParentSourceDatasourceId());
         context.setParentClientWidgetId(actionContext.getParentClientWidgetId());
+        context.setParentRedirect(actionContext.getRedirect());
+        context.setParentRefresh(actionContext.getRefresh());
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);

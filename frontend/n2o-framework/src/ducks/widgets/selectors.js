@@ -151,6 +151,6 @@ export const isAnyTableFocusedSelector = createSelector(
 // region others
 export const makeFormModelPrefixSelector = formName => createSelector(
     makeWidgetByIdSelector(formName),
-    widgetState => widgetState.modelPrefix || 'resolve',
+    widgetState => widgetState.form?.modelPrefix || 'resolve',
 )
 // endregion others

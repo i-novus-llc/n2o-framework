@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
@@ -69,26 +68,11 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String targetFieldId;
     private String valueFieldId;
     @Deprecated
-    private String resultContainerId;
-    @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
     private N2oDatasource[] datasources;
-
-    @Deprecated
-    private RefreshPolity refreshPolity;
-    @Deprecated
-    private String containerId;
-    @Deprecated
-    private Boolean refreshDependentContainer;
-    @Deprecated
-    private Boolean modalDictionary;
     @Deprecated
     private String width;
-    @Deprecated
-    private String minWidth;
-    @Deprecated
-    private String maxWidth;
 
     @Deprecated
     public void adaptV1() {

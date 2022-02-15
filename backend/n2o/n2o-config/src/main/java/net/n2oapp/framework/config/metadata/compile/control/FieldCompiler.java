@@ -223,7 +223,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
-                ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientWidgetId());
+                ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getGlobalDatasourceId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 link.setParam(filter.getParam());

@@ -28,7 +28,10 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
@@ -49,8 +52,11 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
+/**
+ * Компиляция источника данных
+ */
 @Component
-public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDatasource, CompileContext<?, ?>> {
+public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Datasource>  {
     private static final String SPREAD_OPERATOR = "*.";
     public static final String SORTING = "sorting.";
 
@@ -62,9 +68,10 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     @Override
     public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
+        initDatasource(compiled, source, context, p);
         initDefaults(source, context, p);
         PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setId(pageScope.getClientDatasourceId(source.getId()));
+        compiled.setId(pageScope != null ? pageScope.getClientDatasourceId(source.getId()) : source.getId());
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
@@ -99,8 +106,10 @@ public class DatasourceCompiler implements BaseSourceCompiler<Datasource, N2oDat
     }
 
     private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
-        List<DependencyCondition> fetch = new ArrayList<>();
         PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope == null)
+            return null;
+        List<DependencyCondition> fetch = new ArrayList<>();
         String pageId = pageScope.getPageId();
         if (source.getDependencies() != null) {
             for (N2oDatasource.Dependency d : source.getDependencies()) {

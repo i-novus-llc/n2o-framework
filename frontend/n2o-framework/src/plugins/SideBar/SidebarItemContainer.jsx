@@ -4,11 +4,13 @@ import classNames from 'classnames'
 import map from 'lodash/map'
 import { NavLink } from 'react-router-dom'
 
+import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
 import { id as generateId } from '../../utils/id'
 import { renderBadge } from '../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
 import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
 import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
+import { WithDataSource } from '../../core/datasource/WithDataSource'
 
 // eslint-disable-next-line import/no-cycle
 import SidebarDropdown from './SidebarDropdown'
@@ -65,14 +67,18 @@ const ItemHOC = ({ children, needTooltip, hint }) => {
 
 export function SidebarItemContainer({
     className,
-    item,
+    itemProps,
     activeId,
     sidebarOpen,
     showContent,
     isMiniView,
     isStaticView,
     level = 1,
+    datasources,
+    datasource,
+    models,
 }) {
+    const item = getFromSource(itemProps, datasources, datasource, models)
     const { type, linkType, items = [] } = item
 
     const renderItem = type => (
@@ -86,9 +92,9 @@ export function SidebarItemContainer({
         ? renderOuterLink(item)
         : renderInnerLink(item))
 
-    const renderCurrentTitle = (isMiniView, icon, title) => {
+    const renderCurrentTitle = (isMiniView, icon, title, imageSrc) => {
         if (isMiniView) {
-            if (icon) {
+            if (icon || imageSrc) {
                 return null
             }
 
@@ -106,15 +112,18 @@ export function SidebarItemContainer({
             <a id={id} className="n2o-sidebar__item" href={href}>
                 {!imageSrc && icon && renderIcon(icon, title, type, sidebarOpen)}
                 {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                <span className={classNames(
-                    'n2o-sidebar__item__title',
-                    {
-                        none: isMiniView && icon,
-                    },
+                {title && (
+                    <span className={classNames(
+                        'n2o-sidebar__item__title',
+                        {
+                            none: isMiniView && icon,
+                        },
+                    )}
+                    >
+                        {renderCurrentTitle(isMiniView, icon, title, imageSrc)}
+                    </span>
                 )}
-                >
-                    {renderCurrentTitle(isMiniView, icon, title)}
-                </span>
+                {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
                 {renderBadge(item)}
             </a>
         )
@@ -134,16 +143,18 @@ export function SidebarItemContainer({
                 >
                     {icon && renderIcon(icon, title, type, sidebarOpen)}
                     {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                    <span
-                        className={classNames(
-                            'n2o-sidebar__item-title',
-                            {
-                                visible: isStaticView ? true : showContent,
-                            },
-                        )}
-                    >
-                        {renderCurrentTitle(isMiniView, icon, title)}
-                    </span>
+                    {title && (
+                        <span
+                            className={classNames(
+                                'n2o-sidebar__item-title',
+                                {
+                                    visible: isStaticView ? true : showContent,
+                                },
+                            )}
+                        >
+                            {renderCurrentTitle(isMiniView, icon, title, imageSrc)}
+                        </span>
+                    )}
                     {renderBadge(item)}
                 </NavLink>
             </>
@@ -204,7 +215,7 @@ export function SidebarItemContainer({
     )
 }
 SidebarItemContainer.propTypes = {
-    item: PropTypes.object,
+    itemProps: PropTypes.object,
     activeId: PropTypes.string,
     level: PropTypes.number,
     className: PropTypes.string,
@@ -212,6 +223,9 @@ SidebarItemContainer.propTypes = {
     showContent: PropTypes.bool,
     isMiniView: PropTypes.bool,
     isStaticView: PropTypes.bool,
+    datasources: PropTypes.object,
+    datasource: PropTypes.string,
+    models: PropTypes.object,
 }
 
-export default SidebarItemContainer
+export default WithDataSource(SidebarItemContainer)

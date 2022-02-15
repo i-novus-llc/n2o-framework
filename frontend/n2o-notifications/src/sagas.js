@@ -1,101 +1,130 @@
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
-import { take, call, fork, select, put } from "redux-saga/effects";
-import isEmpty from 'lodash/isEmpty';
-import eq from 'lodash/eq';
+import SockJS from 'sockjs-client'
+import Stomp from 'stompjs'
+import { take, call, fork, select, put, takeEvery } from 'redux-saga/effects'
+import get from 'lodash/get'
 import {
-  requestConfigSuccess,
-  userConfigSelector,
-  localizationSelector
-} from "n2o-framework/lib/ducks/global/store";
-import { eventChannel } from "redux-saga";
-import { setCounter, add } from "./actions";
+    requestConfigSuccess,
+    userConfigSelector,
+    menuSelector,
+} from 'n2o-framework/lib/ducks/global/store'
+import { eventChannel } from 'redux-saga'
 
-const DEV_SERVER_URL = "/ws/?access_token=";
+export function subscribeMetadata(emitter, updater, dataSourceId, source) {
+    return response => {
+        if (response.body) {
+            const metadata = JSON.parse(response.body) || {}
+            const responseKeys = Object.keys(metadata)
 
-const getServerURL = url =>
-  eq(process.env.NODE_ENV, "development") ? DEV_SERVER_URL : url;
-
-export function* connectWS() {
-  yield take(requestConfigSuccess.type);
-  const user = yield select(userConfigSelector);
-  const messagesURLs = yield select(localizationSelector);
-  if (!isEmpty(user) && user.token && !isEmpty(messagesURLs)) {
-    const socket = yield new SockJS(
-      getServerURL(messagesURLs.wsUrl) + user.token
-    );
-    return Stomp.over(socket);
-  }
-  throw new Error("Not access token or not message url");
-}
-
-export function subscribeMessage(emit) {
-  return msg => {
-    const message = JSON.parse(msg.body);
-    emit(add(message.id, message));
-  };
-}
-
-export function subscribeMessageCount(emit) {
-  return msg => {
-    const message = JSON.parse(msg.body);
-    emit(setCounter(message.id || "all", message.count));
-  };
-}
-
-export function* createSocketChannel(stompClient) {
-  const messagesURLs = yield select(localizationSelector);
-  return eventChannel(emitter => {
-    stompClient.connect(
-      {},
-      frame => {
-        console.log("Connected: " + frame);
-
-        //Подписка на личные сообщения
-        stompClient.subscribe(
-          messagesURLs.subscribeUrl,
-          subscribeMessage(emitter)
-        );
-
-        //Подписка на счетчик
-        stompClient.subscribe(
-          messagesURLs.subscribeCountUrl,
-          subscribeMessageCount(emitter)
-        );
-
-        stompClient.send(messagesURLs.getCountUrl);
-      },
-      errorCallback => {
-        console.log(errorCallback);
-      }
-    );
-
-    // unsubscribe function
-    const unsubscribe = () => {
-      stompClient.disconnect();
-    };
-
-    return unsubscribe;
-  });
-}
-
-export function* socketSaga() {
-  try {
-    const stompClient = yield call(connectWS);
-    const socketChannel = yield call(createSocketChannel, stompClient);
-    while (true) {
-      try {
-        const action = yield take(socketChannel);
-        yield put(action);
-      } catch (err) {
-        console.error("socket error:", err);
-        socketChannel.close();
-        call(socketSaga);
-      }
+            if (responseKeys.length) {
+                for (const fieldKey of responseKeys) {
+                    emitter(updater(source, dataSourceId, fieldKey, metadata[fieldKey]))
+                }
+            }
+        } else {
+            return {}
+        }
     }
-  } catch (e) {
-    console.error(e);
-  }
 }
 
-export const sagas = [fork(socketSaga)];
+export function* createSocketChannel(stompClient, needAnOpenChannel, destination, updater, dataSourceId, source) {
+    return eventChannel(emitter => {
+        // unsubscribe function
+        const unsubscribe = () => {
+            stompClient.disconnect()
+        }
+
+        stompClient.connect({}, frame => {
+                console.log('Connected: ' + frame)
+
+                if (needAnOpenChannel) {
+                    // subscribe to the update source from destination
+                    stompClient.subscribe(
+                        destination,
+                        subscribeMetadata(emitter, updater, dataSourceId, source),
+                    )
+                } else {
+                    return unsubscribe()
+                }
+
+                stompClient.send(destination)
+            },
+
+            errorCallback => {
+                console.log(errorCallback)
+            },
+        )
+
+        return unsubscribe
+    })
+}
+
+function* connectionWS() {
+    // yield take(requestConfigSuccess.type)
+    /*FIXME bring it back it awaits config json*/
+    const menu = yield select(menuSelector)
+    const { wsPrefix } = menu
+
+    if (wsPrefix) {
+        const socket = yield new SockJS(wsPrefix)
+
+        return Stomp.over(socket)
+    }
+
+    return null
+}
+
+function* connectionExecutor({ dataSourceId, componentId, updater, source, connected }) {
+    const state = yield select()
+
+    const connectedComponents = state[source][dataSourceId][connected] || []
+
+    const isStompProvider = get(state, `${source}.${dataSourceId}.provider.type`) === 'stomp'
+    /* user prefix for private messages */
+    const destination = '/user' + get(state, `${source}.${dataSourceId}.provider.destination`)
+
+    const needAnOpenChannel = connectedComponents.length > 0 && isStompProvider
+
+    try {
+        const stompClient = yield call(connectionWS)
+
+        const socketChannel = yield call(
+            createSocketChannel,
+            stompClient,
+            needAnOpenChannel,
+            destination,
+            updater,
+            dataSourceId,
+            source,
+        )
+
+        while (true) {
+            try {
+                const action = yield take(socketChannel)
+
+                //event that updates the source
+                yield put(action)
+            } catch (error) {
+                console.error('socketChannel error: ', error)
+
+                socketChannel.close()
+                call(wsSagaWorker, dataSourceId, componentId, updater, source, connected)
+            }
+
+        }
+    } catch (e) {
+        /**/
+    }
+}
+
+
+export function* wsSagaWorker(config) {
+    const { observables, updater, source, connected } = config
+    yield takeEvery(observables, ({ payload }) => connectionExecutor({
+        ...payload,
+        updater,
+        source,
+        connected,
+    }))
+}
+
+export const sagas = (config) => [fork(wsSagaWorker, config)]

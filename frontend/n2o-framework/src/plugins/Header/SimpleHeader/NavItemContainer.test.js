@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import NavItemContainer from './NavItemContainer'
+import { NavItemContainer } from './NavItemContainer'
 
 const setup = props => mount(
     <Router>
@@ -13,7 +13,7 @@ describe('Тесты NavItemContainer', () => {
     it('Dropdown', () => {
         const wrapper = setup({
             sidebarOpen: false,
-            item: {
+            itemProps: {
                 id: '2131',
                 title: 'test',
                 type: 'dropdown',
@@ -24,7 +24,7 @@ describe('Тесты NavItemContainer', () => {
     })
     it('Link', () => {
         const wrapper = setup({
-            item: {
+            itemProps: {
                 id: '2131',
                 label: 'test',
                 type: 'link',
@@ -35,7 +35,7 @@ describe('Тесты NavItemContainer', () => {
     })
     it('Text', () => {
         const wrapper = setup({
-            item: {
+            itemProps: {
                 type: 'text',
                 label: 'test',
             },
@@ -44,7 +44,7 @@ describe('Тесты NavItemContainer', () => {
     })
     it('target = _blank', () => {
         const wrapper = setup({
-            item: {
+            itemProps: {
                 id: '2131',
                 label: 'test',
                 type: 'link',

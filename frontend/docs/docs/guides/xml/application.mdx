@@ -38,7 +38,124 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 **Тело**
 
-Шапка(header), боковая панель, подвал(footer)
+[Источник данных](../xml/application#datasource), [Шапка(header)](../xml/application#header), [Боковая панель](../xml/application#sidebar), [Подвал(footer)](../xml/application#footer)
+
+### Источники данных (&lt;datasources&gt;) {#datasources}
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        ...
+    </datasources>
+</application>
+```
+
+**Тело**
+
+[Стандартный источник данных](../xml/application#datasource), [STOMP-источник данных](../xml/application#stomp-datasource)
+
+### Стандартный источник данных (&lt;datasource&gt;)
+
+**Атрибуты**
+
+|Наименование |Тип            |Описание                                                             |Значение по умолчанию|
+|-------------|---------------|---------------------------------------------------------------------|---------------------|
+|id           |Строка         |Идентификатор источника данных                                       |                     |
+|query-id     |Строка         |Идентификатор выборки, на основе которой происходит получение данных |                     |
+|size         |Строка         |Размер выборки                                                       |10                   |
+|route        |Строка         |URL получения данных                                                 |                     |
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+</application>
+```
+
+**Тело**
+
+[Предустановленная фильтрация](../manual/filters#pre-filters), [Зависимости источника данных](../xml/application#dependencies)
+
+### Зависимости источника данных (&lt;dependencies&gt;)
+
+**Пример**
+
+```xml
+<datasource id="ds1">
+  <dependencies>
+    ...
+  </dependencies>
+</datasource>
+
+```
+
+**Тело**
+
+[Обновление модели компонента при изменении зависимых полей](../xml/field#fetch)
+
+### STOMP-источник данных (&lt;stomp-datasource&gt;) {#stomp-datasource}
+
+**Атрибуты**
+
+|Наименование |Тип            |Описание                                                 |Значение по умолчанию|
+|-------------|---------------|---------------------------------------------------------|---------------------|
+|id           |Строка         |Идентификатор источника данных                           |                     |
+|destination  |Строка         |Место назначения                                         |                     |
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                ...
+            </values>
+        </stomp-datasource>
+    </datasources>
+</application>
+
+```
+
+**Тело**
+
+[Значения на момент инициализации](../xml/application#values)
+
+### Значения на момент инициализации (&lt;values&gt;)
+
+**Пример**
+
+```xml
+<stomp-datasource id="notifCount" destination="/notif/count">
+    <values>
+        ...
+    </values>
+</stomp-datasource>
+```
+
+**Тело**
+
+[Инициализирующее значение](../xml/application#value)
+
+### Инициализирующее значение(имя атрибута задается пользователем) (&lt;value&gt;)
+
+**Пример**
+
+```xml
+<stomp-datasource id="notifCount" destination="/notif/count">
+    <values>
+        <value count="0"/>
+    </values>
+</stomp-datasource>
+```
 
 ### Шапка (&lt;header&gt;)
 

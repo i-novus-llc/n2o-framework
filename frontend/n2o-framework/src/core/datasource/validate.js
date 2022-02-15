@@ -42,7 +42,7 @@ export const validate = async (
     )))
 
     if (!isEmpty(allMessages)) {
-        dispatch(failValidate(datasourceId, allMessages, { touched }))
+        dispatch(failValidate(datasourceId, allMessages, MODEL_PREFIX.active, { touched }))
     }
 
     return !invalid

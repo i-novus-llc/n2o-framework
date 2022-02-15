@@ -4,8 +4,9 @@ import { omit } from 'lodash'
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
-import { WidgetHOC } from '../../../core/widget/Widget'
+import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
+import { WithActiveModel } from '../Widget/WithActiveModel'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableContainer from './AdvancedTableContainer'
@@ -13,7 +14,7 @@ import { AdvancedTableWidgetTypes } from './propTypes'
 
 const AdvancedTable = (props) => {
     const {
-        id, disabled, toolbar, datasource, className, setPage, loading,
+        id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
         style, paging, filter, table, setFilter, models, size, count, page,
     } = props
     const { resolveProps } = useContext(FactoryContext)
@@ -48,6 +49,7 @@ const AdvancedTable = (props) => {
             className={className}
             style={style}
             setFilter={setFilter}
+            fetchData={fetchData}
             filterModel={models.filter}
             loading={loading}
             {...pagination}
@@ -73,4 +75,7 @@ const OmitProps = Component => (props) => {
     )
 }
 
-export const AdvancedTableWidget = OmitProps(WidgetHOC(AdvancedTable))
+export const AdvancedTableWidget = OmitProps(WidgetHOC(WithActiveModel(
+    AdvancedTable,
+    props => props.table?.hasSelect,
+)))
