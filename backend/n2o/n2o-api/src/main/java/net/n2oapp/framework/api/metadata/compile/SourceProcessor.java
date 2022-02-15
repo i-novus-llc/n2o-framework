@@ -144,6 +144,15 @@ public interface SourceProcessor {
     }
 
     /**
+     * Проверка, что у метаданной задан идентификатор
+     * @param metadata     Валидируемая метаданная
+     * @param errorMessage Сообщение об ошибке
+     */
+    default void checkIdExistence(IdAware metadata, String errorMessage) {
+        checkNotNull(metadata.getId(), errorMessage);
+    }
+
+    /**
      * Проверить уникальность идентификаторов в массиве
      * @param list Массив значений
      * @param errorMessage Сообщение в случае не уникальности
