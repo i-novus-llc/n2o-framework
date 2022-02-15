@@ -16,7 +16,6 @@ public class N2oRadioGroup extends N2oSingleListFieldAbstract implements Inlinea
 
     public enum RadioGroupType implements IdAware {
         defaultType("default"),
-        @Deprecated n2o("n2o"),
         btn("btn"),
         tabs("tabs");
 

@@ -73,11 +73,9 @@ public abstract class BaseWidgetReaderTest {
         assert openPage.getOperationId().equals("create");
         assert openPage.getMasterFieldId().equals("id");
         assert openPage.getDetailFieldId().equals("id");
-        assert openPage.getContainerId().equals("test");
         assert openPage.getRefreshOnClose().equals(true);
         assert openPage.getWidth().equals("100");
         assert openPage.getPreFilters()[0].getFieldId().equals("id");
-        assert openPage.getPreFilters()[0].getTargetWidgetId().equals("test");
         assert openPage.getPreFilters()[0].getValue().equals("{test}");
 
         N2oLinkCell linkCell3 = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[5]).getCell();
@@ -87,11 +85,9 @@ public abstract class BaseWidgetReaderTest {
         assert showModal.getOperationId().equals("create");
         assert showModal.getMasterFieldId().equals("id");
         assert showModal.getDetailFieldId().equals("id");
-        assert showModal.getContainerId().equals("test");
         assert showModal.getRefreshOnClose().equals(true);
         assert showModal.getWidth().equals("100");
         assert showModal.getPreFilters()[0].getFieldId().equals("id");
-        assert showModal.getPreFilters()[0].getTargetWidgetId().equals("test");
         assert showModal.getPreFilters()[0].getValue().equals("{test}");
 
         assert table.getFilterOpened().equals(true);

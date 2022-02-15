@@ -26,8 +26,6 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String[] dependsOn;
     private String label;
     private String labelClass;
-    @Deprecated
-    private String labelStyle;
     private String description;
     private String help;
     private String domain;

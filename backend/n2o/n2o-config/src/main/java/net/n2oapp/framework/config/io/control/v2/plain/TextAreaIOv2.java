@@ -16,8 +16,8 @@ public class TextAreaIOv2 extends PlainFieldIOv2<N2oTextArea> {
         super.io(e, m, p);
         p.read(e, m, (el, mo) -> {
             if (el.getAttribute("rows") != null)
-                mo.setRows(Integer.parseInt(el.getAttributeValue("rows")));
-        });  //deprecated
+                mo.setMaxRows(Integer.parseInt(el.getAttributeValue("rows")));
+        }); //deprecated
         p.attributeInteger(e, "min-rows", m::getMinRows, m::setMinRows);
         p.attributeInteger(e, "max-rows", m::getMaxRows, m::setMaxRows);
     }

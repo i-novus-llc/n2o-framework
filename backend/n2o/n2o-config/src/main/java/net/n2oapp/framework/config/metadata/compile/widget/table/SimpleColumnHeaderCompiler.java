@@ -64,16 +64,17 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setResizable(source.getResizable());
         header.setFixed(source.getFixed());
 
-        String tableId = null;
+        String defaultDatasource = null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
-            tableId = widgetScope.getWidgetId();
+            defaultDatasource = widgetScope.getDatasourceId();
 
+        PageScope pageScope = p.getScope(PageScope.class);
         if (isLink(source.getVisible())) {
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
-            String widgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), tableId);
-            condition.setModelLink(new ModelLink(ReduxModel.filter, widgetId).getBindLink());
+            String datasourceId = pageScope.getClientDatasourceId(defaultDatasource);
+            condition.setModelLink(new ModelLink(ReduxModel.filter, datasourceId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());
             }
@@ -83,12 +84,12 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
-                String refWidgetId = CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(),
-                        p.cast(visibility.getRefWidgetId(), tableId));
+                String datasourceId = p.cast(visibility.getDatasource(), defaultDatasource);
+                String datasource = pageScope.getClientDatasourceId(datasourceId);
                 ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
-                condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
+                condition.setModelLink(new ModelLink(refModel, datasource).getBindLink());
                 if (!header.getConditions().containsKey(ValidationType.visible)) {
                     header.getConditions().put(ValidationType.visible, new ArrayList<>());
                 }
@@ -104,7 +105,6 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
         if (query != null && query.getFieldsMap().containsKey(source.getSortingFieldId())) {
             boolean sortable = !query.getFieldsMap().get(source.getSortingFieldId()).getNoSorting();
-            header.setSortable(sortable);
             if (sortable) {
                 header.setSortingParam(RouteUtil.normalizeParam(source.getSortingFieldId()));
             }

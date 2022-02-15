@@ -36,11 +36,6 @@ public class N2oPreFilter implements Source {
      */
     private FilterType type;
     /**
-     * Виджет, который нужно фильтровать
-     */
-    @Deprecated
-    private String targetWidgetId;
-    /**
      * Наименование параметра в адресе маршрута
      */
     private String param;

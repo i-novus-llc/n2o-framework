@@ -66,7 +66,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setAction(action);
         compileLink(button);
         button.setConfirm(compileConfirm(source, action, p, compiledObject));
-        compileDependencies(source, button, context, p, compiledObject);
+        compileDependencies(source, button, p);
         return button;
     }
 
@@ -244,20 +244,19 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      *
      * @param button  Клиентская модель кнопки
      * @param source  Исходная модель кнопки
-     * @param context Контекст сборки метаданных
      * @param p       Процессор сборки метаданных
      */
     protected void compileDependencies(N2oButton source, PerformButton button,
-                                       CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
+                                       CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String clientDatasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
         List<Condition> enabledConditions = new ArrayList<>();
 
-        if (source.getVisibilityConditions() != null)
+        if (source.getVisibilityCondition() != null)
             button.getConditions().put(ValidationType.visible,
-                    compileConditions(source.getVisibilityConditions(), source.getModel(), clientDatasource));
-        if (source.getEnablingConditions() != null)
-            enabledConditions.addAll(compileConditions(source.getEnablingConditions(), source.getModel(), clientDatasource));
+                    compileCondition(source.getVisibilityCondition(), source.getModel(), clientDatasource));
+        if (source.getEnablingCondition() != null)
+            enabledConditions.addAll(compileCondition(source.getEnablingCondition(), source.getModel(), clientDatasource));
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
@@ -318,14 +317,12 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return null;
     }
 
-    private List<Condition> compileConditions(N2oButtonCondition[] conditions, ReduxModel model, String clientDatasource) {
+    private List<Condition> compileCondition(String expression, ReduxModel model, String clientDatasource) {
         List<Condition> result = new ArrayList<>();
-        for (N2oButtonCondition n2oCondition : conditions) {
-            Condition condition = new Condition();
-            condition.setExpression(n2oCondition.getExpression().trim());
-            condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
-            result.add(condition);
-        }
+        Condition condition = new Condition();
+        condition.setExpression(expression.trim());
+        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
+        result.add(condition);
         return result;
     }
 

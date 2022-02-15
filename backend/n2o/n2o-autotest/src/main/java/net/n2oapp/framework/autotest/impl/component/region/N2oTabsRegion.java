@@ -89,6 +89,16 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
+        public void shouldBeInvalid() {
+            element().shouldHave(Condition.cssClass("invalid"));
+        }
+
+        @Override
+        public void shouldBeValid() {
+            element().shouldNotHave(Condition.cssClass("invalid"));
+        }
+
+        @Override
         public void scrollUp() {
             Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = 0");
         }

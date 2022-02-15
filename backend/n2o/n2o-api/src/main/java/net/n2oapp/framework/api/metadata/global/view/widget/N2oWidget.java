@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
@@ -77,7 +76,6 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oCounter counter;
-    private RefreshPolity refreshPolity;
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
