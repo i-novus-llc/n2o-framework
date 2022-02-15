@@ -22,6 +22,7 @@ import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
 import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
+import evalExpression, { parseExpression } from '../../utils/evalExpression'
 
 const ConfirmMode = {
     POPOVER: 'popover',
@@ -121,10 +122,13 @@ export default function withActionButton(options = {}) {
                 if (confirm) {
                     const { store } = this.context
                     const state = store.getState()
-                    const { modelLink, text } = confirm
-                    const resolvedText = linkResolver(state, { link: modelLink, value: text })
+                    const { modelLink, text, condition } = confirm
+                    const model = get(state, modelLink)
 
-                    return { ...confirm, text: resolvedText }
+                    const resolvedText = linkResolver(state, { link: modelLink, value: text })
+                    const resolvedConditions = condition ? evalExpression(parseExpression(condition), model) : true
+
+                    return { ...confirm, text: resolvedText, resolvedConditions }
                 }
             }
 
@@ -186,7 +190,10 @@ export default function withActionButton(options = {}) {
                     permittedUrl: url,
                 })
 
-                if (confirm && !this.isConfirm && shouldConfirm) {
+                const resolvedConfirmProps = this.mapConfirmProps(confirm) || {}
+                const { resolvedConditions } = resolvedConfirmProps
+
+                if (confirm && !this.isConfirm && shouldConfirm && resolvedConditions) {
                     this.lastEvent = e
                     this.lastEvent.preventDefault()
                     this.handleOpenConfirmModal()
@@ -252,6 +259,8 @@ export default function withActionButton(options = {}) {
 
                 const currentMessage = currentDisabled ? message || hint : hint
 
+                const resolvedConfirmProps = this.mapConfirmProps(confirm)
+
                 return (
                     <div id={this.generatedTooltipId}>
                         <SimpleTooltip
@@ -276,7 +285,7 @@ export default function withActionButton(options = {}) {
                             confirmMode === ConfirmMode.POPOVER
                                 ? (
                                     <PopoverConfirm
-                                        {...this.mapConfirmProps(confirm)}
+                                        {...resolvedConfirmProps}
                                         isOpen={confirmVisible}
                                         onConfirm={this.handleConfirm}
                                         onDeny={this.handleCloseConfirmModal}
@@ -289,7 +298,7 @@ export default function withActionButton(options = {}) {
                             confirmMode === ConfirmMode.MODAL
                                 ? (
                                     <ModalDialog
-                                        {...this.mapConfirmProps(confirm)}
+                                        {...resolvedConfirmProps}
                                         visible={confirmVisible}
                                         onConfirm={this.handleConfirm}
                                         onDeny={this.handleCloseConfirmModal}
