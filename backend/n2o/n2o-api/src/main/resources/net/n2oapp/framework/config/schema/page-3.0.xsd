@@ -260,7 +260,7 @@
                 <xs:documentation>Подсказка для ввода.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="search-widget-id" type="xs:string">
+        <xs:attribute name="search-widget-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор виджета для которого производится поиск.</xs:documentation>
             </xs:annotation>
