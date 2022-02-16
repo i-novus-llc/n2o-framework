@@ -6,6 +6,7 @@ import omit from 'lodash/omit'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
 
 import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
 import { registerButton, removeButton } from '../../ducks/toolbar/store'
@@ -126,9 +127,24 @@ export default function withActionButton(options = {}) {
                     const model = get(state, modelLink)
 
                     const resolvedText = linkResolver(state, { link: modelLink, value: text })
-                    const resolvedConditions = condition ? evalExpression(parseExpression(condition), model) : true
 
-                    return { ...confirm, text: resolvedText, resolvedConditions }
+                    const getResolvedCondition = (condition) => {
+                        if (isEmpty(condition)) {
+                            return true
+                        }
+
+                        if (typeof condition === 'boolean') {
+                            return condition
+                        }
+
+                        return evalExpression(parseExpression(condition), model)
+                    }
+
+                    return {
+                        ...confirm,
+                        text: resolvedText,
+                        resolvedConditions: getResolvedCondition(condition),
+                    }
                 }
             }
 
