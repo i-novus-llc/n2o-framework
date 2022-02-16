@@ -49,8 +49,12 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
 
         if (source.getDatasources() != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
-            Arrays.stream(source.getDatasources()).forEach(datasource -> actionDatasourceScope.add(datasource.getId()));
-            Arrays.stream(source.getDatasources()).forEach(datasource -> p.validate(datasource, actionDatasourceScope));
+            Arrays.stream(source.getDatasources())
+                    .filter(datasource -> datasource.getId() != null)
+                    .forEach(datasource -> actionDatasourceScope.add(datasource.getId()));
+            Arrays.stream(source.getDatasources())
+                    .filter(datasource -> datasource.getId() != null)
+                    .forEach(datasource -> p.validate(datasource, actionDatasourceScope));
         }
     }
 
