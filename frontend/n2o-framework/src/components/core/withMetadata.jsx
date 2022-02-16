@@ -73,7 +73,10 @@ const withMetadata = (Component) => {
                 location: { pathname, state = {} },
             } = this.props
 
-            if (!isEmpty(metadata) && !isEmpty(metadata.routes)) {
+            if (!isEmpty(metadata?.routes)) {
+                if (state?.silent) {
+                    return false
+                }
                 const findedRoutes = filter(metadata.routes.list, (route) => {
                     const re = pathToRegexp(route.path)
 
@@ -82,13 +85,12 @@ const withMetadata = (Component) => {
                 const isNewPage = find(findedRoutes, route => route.isOtherPage)
 
                 return (
+                    isNewPage ||
                     (
-                        isNewPage || (
-                            this.isEqualPageId(prevProps) &&
-                            !this.isEqualPageUrl(prevProps) &&
-                            isEmpty(findedRoutes)
-                        )
-                    ) && !state.silent
+                        this.isEqualPageId(prevProps) &&
+                        !this.isEqualPageUrl(prevProps) &&
+                        isEmpty(findedRoutes)
+                    )
                 )
             }
 
