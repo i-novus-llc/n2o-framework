@@ -20,7 +20,8 @@ import PageRegions from '../PageRegions'
 import SearchBar from '../../snippets/SearchBar/SearchBar'
 import { FILTER_DELAY } from '../../../constants/time'
 import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
-import { setFilter } from '../../../ducks/datasource/store'
+import { setFilter, dataRequest } from '../../../ducks/datasource/store'
+import { usePageRegister } from '../usePageRegister'
 
 function SearchablePage({
     id,
@@ -35,9 +36,12 @@ function SearchablePage({
     filterValue,
     withToolbar,
     initSearchValue,
+    dispatch,
 }) {
-    const { style, className } = metadata
+    const { style, className, datasources } = metadata
     const searchHandler = useMemo(() => debounce(onSearch, FILTER_DELAY), [onSearch])
+
+    usePageRegister(datasources, dispatch, pageId)
 
     return (
         <div
@@ -137,6 +141,7 @@ const enhance = compose(
 
             set(newModel, fieldId, value)
             dispatch(setFilter(datasource, newModel))
+            dispatch(dataRequest(datasource))
         },
     }),
     connect(mapStateToProps),
@@ -155,6 +160,7 @@ SearchablePage.propTypes = {
     regions: PropTypes.object,
     disabled: PropTypes.bool,
     onSearch: PropTypes.func,
+    dispatch: PropTypes.func,
     searchBar: PropTypes.object,
     filterValue: PropTypes.string,
     withToolbar: PropTypes.bool,
