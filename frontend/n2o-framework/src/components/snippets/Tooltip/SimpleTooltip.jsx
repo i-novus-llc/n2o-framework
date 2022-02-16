@@ -30,7 +30,7 @@ export const SimpleTooltip = ({ id, message, trigger, placement }) => {
             placement={placement}
             isOpen={tooltipOpen}
             toggle={toggle}
-            boundariesElement={N2O_ROOT}
+            boundariesElement={N2O_ROOT || 'window'}
         >
             {message}
         </Tooltip>
