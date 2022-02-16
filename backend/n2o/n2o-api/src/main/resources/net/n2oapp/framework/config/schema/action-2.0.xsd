@@ -78,11 +78,9 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
+                <xs:attribute name="object-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>
-                            Источник данных, на котором выполняется операция
-                        </xs:documentation>
+                        <xs:documentation>Идентификатор объекта для выполнения операции</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="submit-model" type="clientModel">
@@ -526,9 +524,9 @@
                     <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="datasource" type="xs:string">
+                <xs:attribute name="object-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Источник данных</xs:documentation>
+                        <xs:documentation>Идентификатор объекта для выполнения операции</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="operation-id" type="xs:string" use="required">

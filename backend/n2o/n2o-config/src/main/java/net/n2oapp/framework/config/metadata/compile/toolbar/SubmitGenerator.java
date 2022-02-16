@@ -68,7 +68,6 @@ public class SubmitGenerator implements ButtonGenerator {
                 invokeAction.setRedirectUrl(pageContext.getRedirectUrlOnSuccessSubmit());
                 invokeAction.setRefreshOnSuccess(pageContext.getRefreshOnSuccessSubmit());
                 invokeAction.setOperationId(pageContext.getSubmitOperationId());
-                invokeAction.setDatasource(toolbar.getDatasource());
                 CompiledObject compiledObject = p.getScope(CompiledObject.class);
                 if (compiledObject != null && compiledObject.getOperations().containsKey(pageContext.getSubmitOperationId())) {
                     saveButton.setConfirm(compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getConfirm());

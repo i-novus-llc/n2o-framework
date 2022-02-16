@@ -179,7 +179,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
-        String localDatasourceId = p.cast(source.getDatasource(), () -> getLocalDatasource(p));
+        String localDatasourceId = getLocalDatasource(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
         pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());

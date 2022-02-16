@@ -10,10 +10,10 @@
         <resource id="2" title="Meeting room"/>
     </resources>
     <action-on-select-slot>
-        <open-page page-id="createEvent" submit-operation-id="create" datasource="ds1" route="/create"/>
+        <open-page page-id="createEvent" submit-operation-id="create" object-id="test" route="/create"/>
     </action-on-select-slot>
     <action-on-select-event>
-        <show-modal datasource="ds1" page-id="eventForm" submit-operation-id="update" route="/update">
+        <show-modal object-id="test" page-id="eventForm" submit-operation-id="update" route="/update">
             <params>
                 <path-param name="id" datasource="ds2" value="{id}"/>
                 <query-param name="name" value="{name}"/>

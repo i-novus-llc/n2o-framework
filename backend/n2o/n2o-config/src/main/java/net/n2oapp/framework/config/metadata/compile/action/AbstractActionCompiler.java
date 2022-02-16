@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -158,6 +159,22 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             return widgetScope.getDatasourceId();
+        return null;
+    }
+
+    /**
+     * Инициализация идентификатора объекта
+     *
+     * @param p       Процессор сборки
+     * @return  идентификатор объекта
+     */
+    protected String getDefaultObjectId(CompileProcessor p) {
+        String datasourceId = getLocalDatasource(p);
+        if (datasourceId != null) {
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
+                return dataSourcesScope.get(datasourceId).getObjectId();
+        }
         return null;
     }
 
