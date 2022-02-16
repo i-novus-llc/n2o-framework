@@ -18,7 +18,7 @@
                 <alert timeout="8000" color="light" placement="bottomRight"/>
             </button>
             <button label="Тестирование ссылки" disable-on-empty-model="false">
-                <alert href="#/test" color="warning" placement="bottomLeft"/>
+                <alert text="Привет, мир!" href="#/test" color="warning" placement="bottomLeft"/>
             </button>
         </toolbar>
     </form>

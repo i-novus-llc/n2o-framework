@@ -78,6 +78,7 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHavePlacement(Alert.Placement.bottomLeft);
         alert.closeButton().shouldExists();
         alert.shouldHaveUrl(getBaseUrl() + "/#/test");
+        alert.shouldHaveText("Привет, мир!");
         alert.click();
         page.shouldExists();
         page.breadcrumb().titleByIndexShouldHaveText("Тест", 1);
