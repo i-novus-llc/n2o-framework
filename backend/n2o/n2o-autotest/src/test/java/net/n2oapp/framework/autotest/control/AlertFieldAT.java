@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для компонента alert
+ * Автотест для компонента поля alert
  */
-public class AlertAT extends AutoTestBase {
+public class AlertFieldAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -46,8 +46,11 @@ public class AlertAT extends AutoTestBase {
         alert.shouldExists();
 
         alert.shouldHaveText("Read this message!");
-        alert.headerShouldHaveText("Warning");
-        alert.footerShouldHaveText("System message");
+        alert.shouldHaveTitle("Warning");
         alert.shouldHaveColor(Colors.WARNING);
+        alert.shouldHaveUrl("http://example.org/");
+        alert.closeButton().shouldExists();
+        alert.closeButton().click();
+        alert.shouldNotExists();
     }
 }

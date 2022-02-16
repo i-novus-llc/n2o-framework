@@ -464,7 +464,7 @@ describe('Сага для для наблюдения за изменением 
                 pageId: 'errorPage',
                 err: {
                     closeButton: false,
-                    label: 'Ошибка',
+                    title: 'Ошибка',
                     severity: 'danger',
                     text: expect.any(String),
                 },

@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.reader.control.N2oStandardControlReaderTestBa
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
-public class N2oAlertXmlIOv2Test extends N2oStandardControlReaderTestBase {
+public class N2OAlertFieldXmlIOv2Test extends N2oStandardControlReaderTestBase {
 
     @Test
     public void test() {

@@ -227,7 +227,7 @@ public class MongodbDataProviderEngineTest {
         String fooResourceUrl = "http://localhost:" + appPort + queryPath;
         SetDataResponse response = restTemplate.postForObject(fooResourceUrl,
                 new Request(null, "test", 99, "1976-01-03T00:00:00", true, new Gender(1, "Men")), SetDataResponse.class);
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), CoreMatchers.is("success"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getColor(), CoreMatchers.is("success"));
         id = (String) response.getData().get("id");
         assertThat(id, notNullValue());
 
@@ -253,7 +253,7 @@ public class MongodbDataProviderEngineTest {
         String fooResourceUrl = "http://localhost:" + appPort + queryPath;
         SetDataResponse response = restTemplate.postForObject(fooResourceUrl,
                 new Request(id, "test22", 99, null, true, new Gender(2, "Women")), SetDataResponse.class);
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), CoreMatchers.is("success"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getColor(), CoreMatchers.is("success"));
 
         restTemplate = new RestTemplate();
         queryPath = "/n2o/data/test/mongodb";
@@ -276,7 +276,7 @@ public class MongodbDataProviderEngineTest {
         String fooResourceUrl = "http://localhost:" + appPort + queryPath;
         SetDataResponse response = restTemplate.postForObject(fooResourceUrl,
                 new Request(id, null, null, null, null, null), SetDataResponse.class);
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), CoreMatchers.is("success"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getColor(), CoreMatchers.is("success"));
 
         restTemplate = new RestTemplate();
         queryPath = "/n2o/data/test/mongodbCount";
