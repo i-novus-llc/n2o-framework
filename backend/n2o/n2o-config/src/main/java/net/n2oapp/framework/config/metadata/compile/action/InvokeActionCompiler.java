@@ -150,7 +150,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                     if (pageScope != null)
                         meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
                                 .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
-                } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientDataSources() != null)
+                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSources() != null)
                     meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
             }
         }

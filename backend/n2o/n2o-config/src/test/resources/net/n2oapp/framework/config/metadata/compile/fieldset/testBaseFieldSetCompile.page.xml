@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <fields>
+            <set label="{label}" help="This is {help}" description="description" field-label-location="left"
+                 field-label-align="right" field-label-width="30" visible="true" enabled="false"/>
+        </fields>
+    </form>
+</simple-page>

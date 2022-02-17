@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
 
@@ -30,6 +29,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
+        compiled.setHelp(p.resolveJS(source.getHelp()));
 
         if (source.getFieldLabelLocation() != null) {
             compiled.setLabelPosition(FieldSet.LabelPosition.map(source.getFieldLabelLocation(), source.getFieldLabelAlign()));

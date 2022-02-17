@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -27,6 +28,9 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.properties.test.TestUtil.assertOnException;
@@ -121,6 +125,18 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getPayload().getDataProvider().getPathMapping().size(), is(0));
+    }
+
+    @Test
+    public void refreshOnSucces() {
+        ModalPageContext context = new ModalPageContext("testRegisterActionContext", "/");
+        List<String> dataSources = Arrays.asList("ds1");
+        context.setRefreshClientDataSources(dataSources);
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
+                .get(context);
+        InvokeAction testAction = (InvokeAction) page.getWidget().getToolbar().getButton("save").getAction();
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getMeta().getSuccess().getRefresh().getDatasources(), is(dataSources));
     }
 
     @Test
