@@ -125,7 +125,7 @@ public class DataTest {
         } catch (HttpClientErrorException e) {
             GetDataResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), GetDataResponse.class);
             assertThat(resp.getMeta().getMessages().getForm(), is("testTable.filter"));
-            assertThat(resp.getMeta().getMessages().getFields().get("id").getSeverity(), is("danger"));
+            assertThat(resp.getMeta().getMessages().getFields().get("id").getColor(), is("danger"));
             assertThat(resp.getMeta().getMessages().getFields().get("id").getText(), is("id is required"));
         }
 
@@ -134,7 +134,7 @@ public class DataTest {
             restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         } catch (HttpClientErrorException e) {
             GetDataResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), GetDataResponse.class);
-            assertThat(resp.getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
+            assertThat(resp.getMeta().getAlert().getMessages().get(0).getColor(), is("danger"));
             assertThat(resp.getMeta().getAlert().getMessages().get(0).getText(), is("Name should be equals 'testName'"));
         }
 
@@ -207,14 +207,14 @@ public class DataTest {
         String queryPath = "/n2o/data/test/invoke/action";
         String fooResourceUrl = "http://localhost:" + port + queryPath;
         SetDataResponse response = restTemplate.postForObject(fooResourceUrl, new Request("1", "testName", "testSurname", new Date()), SetDataResponse.class);
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("success"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getColor(), is("success"));
 
         try {
             restTemplate.postForObject(fooResourceUrl, new Request(null, "testName", "testSurname", new Date()), SetDataResponse.class);
         } catch (HttpClientErrorException e) {
             SetDataResponse resp = mapper.readValue(e.getResponseBodyAsByteArray(), SetDataResponse.class);
             assertThat(resp.getMeta().getMessages().getForm(), is("testForm"));
-            assertThat(resp.getMeta().getMessages().getFields().get("id").getSeverity(), is("danger"));
+            assertThat(resp.getMeta().getMessages().getFields().get("id").getColor(), is("danger"));
             assertThat(resp.getMeta().getMessages().getFields().get("id").getText(), is("Id is null"));
         }
 
@@ -223,7 +223,7 @@ public class DataTest {
         } catch (HttpClientErrorException e) {
             SetDataResponse resp = mapper.readValue(e.getResponseBodyAsByteArray(), SetDataResponse.class);
             assertThat(resp.getMeta().getMessages().getForm(), is("testForm"));
-            assertThat(resp.getMeta().getMessages().getFields().get("name").getSeverity(), is("danger"));
+            assertThat(resp.getMeta().getMessages().getFields().get("name").getColor(), is("danger"));
             assertThat(resp.getMeta().getMessages().getFields().get("name").getText(), is("Name should be testName"));
         }
 
@@ -232,7 +232,7 @@ public class DataTest {
         } catch (HttpClientErrorException e) {
             SetDataResponse resp = mapper.readValue(e.getResponseBodyAsByteArray(), SetDataResponse.class);
             ResponseMessage responseMessage = resp.getMeta().getAlert().getMessages().get(0);
-            assertThat(responseMessage.getSeverity(), is("danger"));
+            assertThat(responseMessage.getColor(), is("danger"));
             assertThat(responseMessage.getText(), is("Surname should be equals 'testSurname'"));
         }
     }

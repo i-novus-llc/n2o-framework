@@ -20,31 +20,25 @@ const setup = (propOverrides) => {
 describe('<Alert />', () => {
     it('проверяет скрытие кнопки закрытия по closeButton', () => {
         let { wrapper } = setup({ closeButton: true })
-        expect(wrapper.find('.close.n2o-alert-close.n2o-alert-close__icon')).toHaveLength(1)
+        expect(wrapper.find('.n2o-alert-segment__icon-close')).toHaveLength(1)
         wrapper = setup({ closeButton: false }).wrapper
-        expect(wrapper.find('.close.n2o-alert-close.n2o-alert-close__icon')).toHaveLength(0)
+        expect(wrapper.find('.n2o-alert-segment__icon-close')).toHaveLength(0)
     })
 
     it('проверяет выполнение onDismiss при закрытии', () => {
         const onDismiss = sinon.spy()
         const { wrapper } = setup({ onDismiss, visible: true })
-        wrapper.find('.n2o-alert-close').simulate('click')
+        wrapper.find('.n2o-alert-segment__icon-close').simulate('click')
         expect(onDismiss.calledOnce).toEqual(true)
     })
 
-    it('проверяет тогл деталей сообщения', () => {
-        const { wrapper } = setup({ details: 'test details' })
-        expect(wrapper.find('.n2o-alert-body details')).toHaveLength(0)
-        wrapper
-            .find('.n2o-alert-body .details-label')
-            .at(0)
-            .simulate('click')
-        expect(wrapper.find('.n2o-alert-body .details')).toHaveLength(1)
-        wrapper
-            .find('.n2o-alert-body .details-label')
-            .at(0)
-            .simulate('click')
-        expect(wrapper.find('.n2o-alert-body .details')).toHaveLength(0)
+    it('проверяет тогл stacktrace area', () => {
+        const { wrapper } = setup({ stacktrace: 'stacktrace' })
+        expect(wrapper.find('.n2o-alert-segment__stacktrace-area.visible')).toHaveLength(0)
+        wrapper.find('.n2o-alert-segment__stacktrace-details-button').at(0).simulate('click')
+        expect(wrapper.find('.n2o-alert-segment__stacktrace-area.visible')).toHaveLength(1)
+        wrapper.find('.n2o-alert-segment__stacktrace-details-button').at(0).simulate('click')
+        expect(wrapper.find('.n2o-alert-segment__stacktrace-area.visible')).toHaveLength(0)
     })
 
     it('проверяет показан ли Alert', () => {

@@ -303,6 +303,27 @@ $cards-item-padding: 5px !default;
 $mobile-max-width: 767px;
 $tablet-max-width: 1023px;
 
+//Alert
+$alert-primary-body-color: #cce5ff;
+$alert-secondary-body-color: #e2e3e5;
+$alert-success-body-color: #d4edda;
+$alert-danger-body-color: #f8d7da;
+$alert-warning-body-color: #fff3cd;
+$alert-info-body-color: #d1ecf1;
+$alert-light-body-color: #fefefe;
+$alert-dark-body-color: #d6d8d9;
+
+$alert-primary-text-color: #004085;
+$alert-secondary-text-color: #383d41;
+$alert-success-text-color: #155724;
+$alert-danger-text-color: #721c24;
+$alert-warning-text-color: #856404;
+$alert-info-text-color: #0c5460;
+$alert-light-text-color: #818182;
+$alert-dark-text-color: #1b1e21;
+
+$alert-hover-darken: 5%;
+
 // Custom
 // TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
 // Эти переменные появились тут в 7.16. В 7.15 были объявлены в sass/n2o/controls/InputTreeSelect.old.scss

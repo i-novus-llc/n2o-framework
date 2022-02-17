@@ -154,7 +154,8 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
 
     private void initSearchBar(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
-        if (searchBarScope != null && searchBarScope.getDatasource().equals(source.getId())) {
+        if (searchBarScope != null && searchBarScope.getDatasource() != null &&
+                searchBarScope.getDatasource().equals(source.getId())) {
             if (filters.stream().noneMatch(f -> f.getFilterId().equals(searchBarScope.getFilterId())
                     || f.getParam().equals(searchBarScope.getParam()))) {
                 Filter searchBarFilter = new Filter();
