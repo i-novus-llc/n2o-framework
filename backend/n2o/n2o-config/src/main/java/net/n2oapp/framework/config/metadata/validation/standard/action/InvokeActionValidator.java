@@ -33,12 +33,13 @@ public class InvokeActionValidator implements SourceValidator<N2oInvokeAction>, 
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkRefreshDatasources(N2oInvokeAction source, DatasourceIdsScope datasourceIdsScope) {
-        for (String refreshDs : source.getRefreshDatasources()) {
-            String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
-            ValidationUtils.checkForExistsDatasource(refreshDs, datasourceIdsScope,
-                    String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",
-                            operation, refreshDs));
-        }
+        if (source.getRefreshDatasources() != null)
+            for (String refreshDs : source.getRefreshDatasources()) {
+                String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
+                ValidationUtils.checkForExistsDatasource(refreshDs, datasourceIdsScope,
+                        String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",
+                                operation, refreshDs));
+            }
     }
 
     @Override
