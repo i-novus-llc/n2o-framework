@@ -22,8 +22,9 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
     @Override
     public void validate(N2oSimplePage source, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
-        if (source.getWidget() != null)
+        if (source.getWidget() != null) {
             datasourceIdsScope.add(source.getWidget().getId());
             p.validate(source.getWidget(), datasourceIdsScope);
+        }
     }
 }

@@ -63,7 +63,7 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
-                    <xs:element name="datasources" type="datasourcesDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="datasources" type="inlineDatasourcesDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="page-name" type="xs:string">
                     <xs:annotation>
@@ -137,22 +137,20 @@
             </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="datasourcesDefinition">
-        <xs:complexContent>
+    <xs:complexType name="inlineDatasourcesDefinition">
             <xs:annotation>
                 <xs:documentation>Переопределение источников данных в открываемой странице.</xs:documentation>
             </xs:annotation>
             <xs:sequence>
-                <xs:element name="datasource" type="datasourceDefinition"/>
+                <xs:element name="datasource" type="inlineDatasourceDefinition"/>
             </xs:sequence>
-        </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="datasourceDefinition">
+    <xs:complexType name="inlineDatasourceDefinition">
             <xs:annotation>
                 <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
             </xs:annotation>
-            <xs:attribute name="id" type="xs:string" use="required">
+            <xs:attribute name="id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
                 </xs:annotation>
@@ -1085,6 +1083,7 @@
             <xs:enumeration value="edit"/>
             <xs:enumeration value="selected"/>
             <xs:enumeration value="datasource"/>
+            <xs:enumeration value="multi"/>
         </xs:restriction>
     </xs:simpleType>
 
