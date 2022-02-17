@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.io.event;
 
 import net.n2oapp.framework.api.metadata.application.N2oStompEvent;
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.action.v2.AlertActionElementIOV2;
+import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,6 @@ public class StompEventIO extends AbstractEventIO<N2oStompEvent>{
     public void io(Element e, N2oStompEvent m, IOProcessor p) {
         super.io(e, m, p);
         p.attribute(e, "destination", m::getDestination, m::setDestination);
-        p.child(e, null, "alert", m::getAlert, m::setAlert, new AlertActionElementIOV2());
+        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
     }
 }
