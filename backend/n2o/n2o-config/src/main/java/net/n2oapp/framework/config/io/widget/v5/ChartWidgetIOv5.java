@@ -18,7 +18,7 @@ public class ChartWidgetIOv5 extends WidgetElementIOv5<N2oChart> {
         super.io(e, c, p);
         p.attributeInteger(e, "width", c::getWidth, c::setWidth);
         p.attributeInteger(e, "height", c::getHeight, c::setHeight);
-        p.anyChild(e, null, c::getComponent, c::setComponent, p.anyOf(N2oAbstractChart.class), ChartIOv4.NAMESPACE);
+        p.anyChild(e, null, c::getComponent, c::setComponent, p.anyOf(N2oAbstractChart.class).ignore("datasource"), ChartIOv4.NAMESPACE);
     }
 
     @Override
