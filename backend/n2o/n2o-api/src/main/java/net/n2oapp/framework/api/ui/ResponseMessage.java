@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -27,13 +28,13 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String text;
     @JsonProperty
-    private String timeout;
+    private Integer timeout;
     @JsonProperty
     private Boolean closeButton;
     @JsonProperty
     private String href;
     @JsonProperty
-    private String placement;
+    private MessagePlacement placement;
     @JsonProperty
     private Map<String, String> style;
     @JsonProperty

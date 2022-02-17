@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -42,20 +43,20 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         ResponseMessage message = ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getMeta().getAlert().getMessages().get(0);
         assertThat(message.getTitle(), is("title"));
         assertThat(message.getText(), is("text"));
-        assertThat(message.getTimeout(), is("3000"));
-        assertThat(message.getPlacement(), is("top"));
+        assertThat(message.getTimeout(), is(3000));
+        assertThat(message.getPlacement(), is(MessagePlacement.top));
         assertThat(message.getCloseButton(), is(true));
 
         message = ((AlertAction) page.getToolbar().getButton("alert").getAction()).getMeta().getAlert().getMessages().get(0);
         assertThat(message.getTitle(), is("`'Title '+message`"));
         assertThat(message.getText(), is("`'Text '+message`"));
-        assertThat(message.getPlacement(), is("bottomRight"));
+        assertThat(message.getPlacement(), is(MessagePlacement.bottomRight));
         assertThat(message.getCloseButton(), is(false));
         assertThat(message.getClassName(), is("css-on-action"));
         assertThat(message.getStyle().get("width"), is("90%"));
         assertThat(message.getHref(), is("http://example.org"));
         assertThat(message.getColor(), is("info"));
-        assertThat(message.getTimeout(), is("5000"));
+        assertThat(message.getTimeout(), is(5000));
         assertThat(message.getTime(), is(LocalDateTime.parse("2022-02-02T12:15:23")));
     }
 }
