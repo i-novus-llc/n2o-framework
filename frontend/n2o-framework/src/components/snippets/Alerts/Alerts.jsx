@@ -5,18 +5,31 @@ import Alert from './Alert'
 
 /**
  * Маппер для Alert
- * placement supported ('top', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight')
+ * supported placements ['topLeft', 'top', 'topRight', 'bottomLeft', 'bottom', 'bottomRight']
  */
 
-export function Alerts({ alerts = [] }) {
-    const placement = alerts.length > 0 ? alerts[0].placement || 'top' : null
+function AlertsByPlacement({ alerts, placement }) {
+    return alerts.filter(({ placement: alertPlacement }) => alertPlacement === placement)
+        .map(alert => <Alert {...alert} />)
+}
 
+AlertsByPlacement.propTYpes = {
+    alerts: PropTypes.array,
+    placement: PropTypes.string,
+}
+
+export function Alerts({ alerts = [], placements }) {
     return (
         <div className="n2o-alerts-container">
-            {alerts.length > 0 && (
-                <div className={`n2o-alerts ${placement}`}>
-                    {alerts.map(alert => <Alert {...alert} />)}
-                </div>
+            {placements.map(
+                placement => (
+                    <section className={`n2o-alerts ${placement}`}>
+                        <AlertsByPlacement
+                            alerts={alerts}
+                            placement={placement}
+                        />
+                    </section>
+                ),
             )}
         </div>
     )
@@ -24,6 +37,7 @@ export function Alerts({ alerts = [] }) {
 
 Alerts.propTypes = {
     alerts: PropTypes.array,
+    placements: PropTypes.array,
 }
 
 export default Alerts
