@@ -1,6 +1,10 @@
 package net.n2oapp.framework.boot;
 
 import com.sun.security.auth.UserPrincipal;
+import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
+import net.n2oapp.framework.boot.stomp.WebSocketController;
+import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -41,5 +45,10 @@ public class N2oWebSocketAutoConfiguration implements WebSocketMessageBrokerConf
                 return new UserPrincipal(UUID.randomUUID().toString());
             }
         };
+    }
+
+    @Bean
+    public WebSocketController wsController(MetadataEnvironment environment) {
+        return new N2oWebSocketController(N2oPipelineSupport.readPipeline(environment), environment);
     }
 }

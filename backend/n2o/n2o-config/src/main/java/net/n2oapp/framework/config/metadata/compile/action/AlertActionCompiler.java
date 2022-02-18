@@ -6,8 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
-import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
+import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -35,20 +34,16 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         AlertAction alertAction = new AlertAction();
         alertAction.setType(p.resolve(property("n2o.api.action.alert.type"), String.class));
         compileAction(alertAction, source, p);
-        alertAction.setMeta(initMetaSaga(source, p));
+        alertAction.setPayload(initPayload(source, p));
         return alertAction;
     }
 
-    private MetaSaga initMetaSaga(N2oAlertAction source, CompileProcessor p) {
-        MetaSaga metaSaga = new MetaSaga();
-        metaSaga.setAlert(initAlertSaga(source, p));
-        return metaSaga;
-    }
-
-    private AlertSaga initAlertSaga(N2oAlertAction source, CompileProcessor p) {
-        AlertSaga alertSaga = new AlertSaga();
-        alertSaga.setMessages(Collections.singletonList(initMessage(source, p)));
-        return alertSaga;
+    private AlertActionPayload initPayload(N2oAlertAction source, CompileProcessor p) {
+        AlertActionPayload payload = new AlertActionPayload();
+        payload.setKey(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
+                p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
+        payload.setAlerts(Collections.singletonList(initMessage(source, p)));
+        return payload;
     }
 
     private ResponseMessage initMessage(N2oAlertAction source, CompileProcessor p) {
