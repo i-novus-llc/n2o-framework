@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <events>
+        <stomp-event id="showNotif" destination="/notifications">
+            <alert color="{color}" timeout="{timeout}" title="{title}" text="{text}" placement="{placement}"/>
+        </stomp-event>
+        <stomp-event id="showTask" destination="/task">
+            <alert color="primary" timeout="{timeout}" title="{title}" text="{text}" placement="topLeft"/>
+        </stomp-event>
+    </events>
+</application>

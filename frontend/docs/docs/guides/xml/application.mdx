@@ -30,6 +30,8 @@ http://n2oapp.net/framework/config/schema/application-2.0
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
     navigation-layout="fullSizeSidebar" navigation-layout-fixed="true" welcome-page-id="index">
+    <datasources>...</datasources>
+    <events>...</events>
     <header>...</header>
     <sidebar>...</sidebar>
     <footer>...</footer>
@@ -38,7 +40,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 **Тело**
 
-[Источник данных](../xml/application#datasource), [Шапка(header)](../xml/application#header), [Боковая панель](../xml/application#sidebar), [Подвал(footer)](../xml/application#footer)
+[Источники данных](../xml/application#datasources), [События](../xml/application#events), [Шапка(header)](../xml/application#header), [Боковая панель](../xml/application#sidebar), [Подвал(footer)](../xml/application#footer)
 
 ### Источники данных (&lt;datasources&gt;) {#datasources}
 
@@ -57,7 +59,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 [Стандартный источник данных](../xml/application#datasource), [STOMP-источник данных](../xml/application#stomp-datasource)
 
-### Стандартный источник данных (&lt;datasource&gt;)
+### Стандартный источник данных (&lt;datasource&gt;) {#datasource}
 
 **Атрибуты**
 
@@ -129,7 +131,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 [Значения на момент инициализации](../xml/application#values)
 
-### Значения на момент инициализации (&lt;values&gt;)
+### Значения на момент инициализации (&lt;values&gt;) {#values}
 
 **Пример**
 
@@ -145,7 +147,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 [Инициализирующее значение](../xml/application#value)
 
-### Инициализирующее значение(имя атрибута задается пользователем) (&lt;value&gt;)
+### Инициализирующее значение(имя атрибута задается пользователем) (&lt;value&gt;) {#value}
 
 **Пример**
 
@@ -157,7 +159,52 @@ http://n2oapp.net/framework/config/schema/application-2.0
 </stomp-datasource>
 ```
 
-### Шапка (&lt;header&gt;)
+### События (&lt;events&gt;) {#events}
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <events>
+        ...
+    </events>
+</application>
+```
+
+**Тело**
+
+[Событие, приходящее через STOMP протокол](../xml/application#stomp-event)
+
+
+### Событие, приходящее через STOMP протокол (&lt;stomp-event&gt;) {#stomp-event}
+
+**Атрибуты**
+
+|Наименование |Тип            |Описание                                                             |Значение по умолчанию|
+|-------------|---------------|---------------------------------------------------------------------|---------------------|
+|id           |Строка         |Идентификатор события                                                |                     |
+|destination  |Строка         |Место назначения                                                     |                     |
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <events>
+        <stomp-event id="ev1" destination="/notifications">
+            ...
+        </stomp-event>
+    </events>
+</application>
+```
+
+**Тело**
+
+[Действие оповещения](../xml/action#alert)
+
+
+### Шапка (&lt;header&gt;) {#header}
 
 **Атрибуты**
 
@@ -192,7 +239,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 <Sandbox height={300} projectId="uxcomponents_menu_header_on_top" showHeader />
 
-### Боковая панель (&lt;sidebar&gt;)
+### Боковая панель (&lt;sidebar&gt;) {#sidebar}
 
 **Атрибуты**
 
@@ -227,7 +274,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 <Sandbox height={400} projectId="uxcomponents_menu_sidebar_simple" showHeader />
 
-### Подвал (&lt;footer&gt;)
+### Подвал (&lt;footer&gt;) {#footer}
 
 **Атрибуты**
 

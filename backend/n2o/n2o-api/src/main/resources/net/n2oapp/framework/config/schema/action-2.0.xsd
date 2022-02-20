@@ -1164,12 +1164,12 @@
                         <xs:documentation>Наличие кнопки закрытия уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="placement" type="alertPlacement" default="top">
+                <xs:attribute name="placement" type="xs:string" default="top">
                     <xs:annotation>
                         <xs:documentation>Расположение уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="timeout" type="xs:integer" default="3000">
+                <xs:attribute name="timeout" type="xs:string" default="3000">
                     <xs:annotation>
                         <xs:documentation>Длительность показа уведомления.</xs:documentation>
                     </xs:annotation>
@@ -1183,17 +1183,4 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="alertPlacement">
-        <xs:annotation>
-            <xs:documentation>Тип места расположения уведомления.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction>
-            <xs:enumeration value="top"/>
-            <xs:enumeration value="bottom"/>
-            <xs:enumeration value="topLeft"/>
-            <xs:enumeration value="topRight"/>
-            <xs:enumeration value="bottomLeft"/>
-            <xs:enumeration value="bottomRight"/>
-        </xs:restriction>
-    </xs:simpleType>
 </xs:schema>
