@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -164,33 +165,58 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     private Confirm compileConfirm(N2oButton source,
                                    Action action,
                                    CompileProcessor p, CompiledObject object) {
-        boolean needConfirm = (source.getConfirm() != null && source.getConfirm());
         CompiledObject.Operation operation = getOperation(action, object);
-        if (!needConfirm) {
-            needConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
+        boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
+        if (source.getConfirm() != null) {
+            Object condition = p.resolveJS(source.getConfirm(), Boolean.class);
+            if (condition instanceof Boolean) {
+                if (!((Boolean) condition || operationConfirm))
+                    return null;
+                return initConfirm(source, p, operation, true);
+            }
+            if (condition instanceof String) {
+                return initConfirm(source, p, operation, condition);
+            }
         }
-        if (!needConfirm)
-            return null;
+        if (operationConfirm)
+            return initConfirm(source, p, operation, true);
+        return null;
+    }
+
+    private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
         confirm.setMode(source.getConfirmType());
-        confirm.setText(p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(source.getConfirmOkLabel());
         confirm.setCancelLabel(source.getConfirmCancelLabel());
-        if (StringUtils.hasLink(confirm.getText())) {
-            Set<String> links = StringUtils.collectLinks(confirm.getText());
-            String text = js("'" + confirm.getText() + "'");
-            for (String link : links) {
-                text = text.replace(ref(link), "' + this." + link + " + '");
-            }
-            confirm.setText(text);
-        }
-        if (StringUtils.isJs(confirm.getText())) {
+        confirm.setText(initExpression(
+                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
+        confirm.setCondition(initConfirmCondition(condition));
+
+        if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
         }
         return confirm;
+    }
+
+    private String initConfirmCondition(Object condition) {
+        if (condition instanceof Boolean)
+            return Placeholders.js(Boolean.toString(true));
+        return initExpression((String) condition);
+    }
+
+    private String initExpression(String attr) {
+        if (StringUtils.hasLink(attr)) {
+            Set<String> links = StringUtils.collectLinks(attr);
+            String text = js("'" + attr + "'");
+            for (String link : links) {
+                text = text.replace(ref(link), "' + this." + link + " + '");
+            }
+            return text;
+        }
+        return attr;
     }
 
     private Action compileAction(N2oButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
