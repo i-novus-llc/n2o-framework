@@ -209,7 +209,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (mi.getModel() == null)
                 mi.setModel(action.getModel());
             if (mi.getDatasourceId() == null)
-                mi.setDatasource(action.getDatasource());
+                mi.setDatasourceId(action.getDatasource());
             if (mi.getLabel() == null)
                 mi.setLabel(action.getLabel());
             if (mi.getIcon() == null)

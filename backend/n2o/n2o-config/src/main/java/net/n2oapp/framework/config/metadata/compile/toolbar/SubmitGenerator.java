@@ -81,9 +81,9 @@ public class SubmitGenerator implements ButtonGenerator {
             break;
         }
         saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
-        saveButton.setDatasource(datasource);
+        saveButton.setDatasourceId(datasource);
         saveButton.setAction(action);
-        saveButton.setDatasource(toolbar.getDatasourceId());
+        saveButton.setDatasourceId(toolbar.getDatasourceId());
         saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));
         saveButton.setValidate(true);
         return Collections.singletonList(saveButton);

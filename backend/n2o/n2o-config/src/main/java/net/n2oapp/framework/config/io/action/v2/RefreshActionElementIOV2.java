@@ -14,7 +14,7 @@ public class RefreshActionElementIOV2 extends AbstractActionElementIOV2<N2oRefre
     @Override
     public void io(Element e, N2oRefreshAction a, IOProcessor p) {
         super.io(e, a, p);
-        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasource);
+        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
     }
 
     @Override

@@ -144,7 +144,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             n2oToolbar.setGenerate(new String[]{GenerateType.submit.name(), GenerateType.close.name()});
-            n2oToolbar.setDatasource(datasourceId);
+            n2oToolbar.setDatasourceId(datasourceId);
             ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.page.toolbar.place"), String.class));
             CompiledObject object = null;
             if (pageScope.getObjectId() != null)

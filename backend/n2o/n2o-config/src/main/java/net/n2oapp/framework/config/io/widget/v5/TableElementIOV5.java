@@ -75,7 +75,7 @@ public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
     }
 
     private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
-        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasource);
+        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }

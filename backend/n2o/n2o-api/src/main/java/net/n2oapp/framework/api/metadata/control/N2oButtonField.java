@@ -16,7 +16,7 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private String icon;
     private String iconFieldId;
     private LabelType type;
-    private String datasource;
+    private String datasourceId;
     private ReduxModel model;
     private String color;
     private Boolean validate;
@@ -33,12 +33,12 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
 
     @Deprecated
     public String getWidgetId() {
-        return datasource;
+        return datasourceId;
     }
 
     @Deprecated
     public void setWidgetId(String widgetId) {
-        this.datasource = widgetId;
+        this.datasourceId = widgetId;
     }
 
     @Deprecated
