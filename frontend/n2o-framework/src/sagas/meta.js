@@ -6,24 +6,29 @@ import {
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
 import { reset } from 'redux-form'
+import get from 'lodash/get'
 
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
-import { GLOBAL_KEY } from '../ducks/alerts/constants'
+import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
 
 export function* alertEffect(action) {
     try {
         const { messages, stacked } = action.meta.alert
 
-        if (!stacked) { yield put(removeAllAlerts(GLOBAL_KEY)) }
         const alerts = isArray(messages)
             ? messages.map(message => ({ ...message, id: message.id || id() }))
             : [{ ...messages, id: messages.id || id() }]
 
-        yield put(addMultiAlerts(GLOBAL_KEY, alerts))
+        const alertsKey = get(alerts[0], STORE_KEY_PATH) || GLOBAL_KEY
+
+        /* !stacked 1 alert в каждом поддерживаемом placement  */
+        if (!stacked) { yield put(removeAllAlerts(alertsKey)) }
+
+        yield put(addMultiAlerts(alertsKey, alerts))
     } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e)

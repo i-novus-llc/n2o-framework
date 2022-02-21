@@ -64,6 +64,12 @@ const alertsSlice = createSlice({
              */
             reducer(state, action) {
                 const { key, alerts } = action.payload
+                const { meta } = action
+
+                /* action.meta в кнопке от бэка, перехватывается в alertEffect */
+                if (meta.alert) {
+                    return
+                }
 
                 if (state[key]) {
                     state[key] = state[key].concat(alerts)

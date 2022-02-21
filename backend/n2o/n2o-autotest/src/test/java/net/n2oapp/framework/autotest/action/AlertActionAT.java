@@ -39,8 +39,7 @@ public class AlertActionAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/alert/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/alert/test.page.xml"));
     }
-
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7565
+    @Disabled //FIXME поправить в конце работ над story/NNO-7104
     @Test
     public void testAlertAction() {
         SimplePage page = open(SimplePage.class);
