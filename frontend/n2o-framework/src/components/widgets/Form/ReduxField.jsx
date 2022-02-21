@@ -13,6 +13,7 @@ import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
 
 const config = {
+    // FIXME Непонятно почему зависимость 'fetch' реализована тут, отдельно от всех остальных. Надо свести всё в единое место
     onChange({ dependency }, dependencyType) {
         if (!this.controlRef) { return }
         const { _fetchData, size, labelFieldId } = this.controlRef.props

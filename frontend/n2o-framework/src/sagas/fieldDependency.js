@@ -202,12 +202,10 @@ export function* checkAndModify(
     ].includes(actionType)
     const isChangeAction = actionType === actionTypes.CHANGE
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const fieldId of Object.keys(fields)) {
         const field = fields[fieldId]
 
         if (field.dependency) {
-            // eslint-disable-next-line no-restricted-syntax
             for (const dep of field.dependency) {
                 if (
                     (isInitAction && dep.applyOnInit) ||
@@ -250,10 +248,10 @@ export function* resolveDependency(action) {
     }
 }
 
-export function* catchAction() {
-    yield takeEvery(actionTypes.INITIALIZE, resolveDependency)
-    yield takeEvery(registerFieldExtra.type, resolveDependency)
-    yield takeEvery(actionTypes.CHANGE, resolveDependency)
-}
-
-export const fieldDependencySagas = [catchAction]
+export const fieldDependencySagas = [
+    takeEvery([
+        actionTypes.INITIALIZE,
+        registerFieldExtra.type,
+        actionTypes.CHANGE,
+    ], resolveDependency),
+]

@@ -15,6 +15,8 @@ import { dataProviderResolver } from '../../core/dataProviderResolver'
  * HOC для работы с данными
  * @param WrappedComponent - оборачиваемый компонент
  * @param apiCaller - promise для вызова апи
+ *
+ * TODO разобраться почему нормально не вешается ref, необходимый для ReduxField, если оборачиваемый компонент функциональный, а не классовый
  */
 
 function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
