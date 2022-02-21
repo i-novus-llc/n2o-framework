@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -164,7 +165,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     private Confirm compileConfirm(N2oButton source,
                                    Action action,
                                    CompileProcessor p, CompiledObject object) {
-        boolean needConfirm = (source.getConfirm() != null && source.getConfirm());
         CompiledObject.Operation operation = getOperation(action, object);
         boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
         if (source.getConfirm() != null) {
