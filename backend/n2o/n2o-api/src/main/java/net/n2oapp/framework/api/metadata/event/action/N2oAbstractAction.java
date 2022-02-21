@@ -22,6 +22,9 @@ public abstract class N2oAbstractAction implements N2oAction {
     @JsonDeserialize(keyUsing = NameSpaceDeserializer.class)
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
+    /**
+     * Заглушка для десериализации действия в N2oWebSocketController
+     */
     public static class NameSpaceDeserializer extends KeyDeserializer {
         @Override
         public N2oNamespace deserializeKey(String s, DeserializationContext deserializationContext) throws IOException {

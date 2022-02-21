@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Реализация контроллера для отправки сообщений по web-socket
+ */
 public class N2oWebSocketController implements WebSocketController {
 
     private ReadPipeline pipeline;
