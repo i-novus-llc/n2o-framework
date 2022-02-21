@@ -3,10 +3,10 @@ package net.n2oapp.framework.autotest.alert;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -58,17 +58,16 @@ public class AlertPositionAT extends AutoTestBase {
 
         // success
         toolbar.button("Успех").click();
-        Alerts.Alert alert = page.alerts().alert(0);
+        Alert alert = page.alerts().alert(0);
         alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(Colors.SUCCESS);
-        alert.shouldHavePosition(Alerts.Alert.Position.FIXED);
+        alert.shouldHavePlacement(Alert.Placement.top);
 
         // fail
         toolbar.button("Ошибка валидации").click();
         alert.shouldHaveText("Ошибка");
         alert.shouldHaveColor(Colors.DANGER);
-        alert.shouldHavePosition(Alerts.Alert.Position.FIXED);
-        alert.shouldHavePlacement(Alerts.Alert.Placement.BOTTOM);
+        alert.shouldHavePlacement(Alert.Placement.bottom);
 
         // in modal
         toolbar.button("Успех/Ошибка в модальном окне").click();
@@ -78,23 +77,16 @@ public class AlertPositionAT extends AutoTestBase {
 
         Toolbar modalToolbar = modal.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft();
         modalToolbar.button("Успех").click();
-        Alerts.Alert modalAlert = page.alerts().alert(0);
+        Alert modalAlert = page.alerts().alert(0);
         modalAlert.shouldHaveText("Данные сохранены");
         modalAlert.shouldHaveColor(Colors.SUCCESS);
-        modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);
-        modalAlert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
+        modalAlert.shouldHavePlacement(Alert.Placement.top);
 
         modalToolbar.button("Ошибка валидации").click();
         modalAlert.shouldHaveText("Ошибка в модальном окне");
         modalAlert.shouldHaveColor(Colors.DANGER);
-        modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);
-        modalAlert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
-
-        // alert in parent page don't disappear after close modal
+        modalAlert.shouldHavePlacement(Alert.Placement.top);
         modal.close();
-        alert = page.alerts().alert(0);
-        alert.shouldExists();
-        alert.shouldHaveText("Ошибка");
 
         // fail with stacktrace
         toolbar.button("Ошибка со стектрейсом").click();
@@ -103,7 +95,6 @@ public class AlertPositionAT extends AutoTestBase {
         modalAlert.shouldHaveColor(Colors.DANGER);
         modalAlert.shouldHaveStacktrace();
         modalAlert.shouldHaveText("Произошла внутренняя ошибка");
-        modalAlert.shouldHavePosition(Alerts.Alert.Position.FIXED);
-        modalAlert.shouldHavePlacement(Alerts.Alert.Placement.TOP);
+        modalAlert.shouldHavePlacement(Alert.Placement.top);
     }
 }

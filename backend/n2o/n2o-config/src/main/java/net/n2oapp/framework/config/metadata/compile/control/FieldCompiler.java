@@ -459,7 +459,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
-            } else if (source.getRefFieldId() != null) {
+            } else if (N2oField.Page.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
                 ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                 modelLink.setParam(source.getParam());
                 defaultValues.add(control.getId(), modelLink);

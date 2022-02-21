@@ -81,13 +81,23 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     }
 
     /**
+     * Проверяется наличие идентификатора у поля
+     */
+    @Test
+    public void testIdExistence() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Для компиляции виджета testIdExistence необходимо задать идентификаторы для всех полей");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testIdExistence.widget.xml");
+    }
+
+    /**
      * Проверяется наличие источника данных виджета для поля c white-list валидацией
      */
     @Test
     public void testWhiteListValidationWithoutDatasource() {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Для компиляции поля name необходимо указать атрибут datasource или ввести внутренний источник данных виджета main");
-        validate("net/n2oapp/framework/config/metadata/validation/field/validation/testWhiteListValidationWithoutDatasource.page.xml");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithoutDatasource.page.xml");
     }
 
     /**
@@ -97,7 +107,7 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     public void testWhiteListValidationWithDatasourceWithoutObject() {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Для компиляции поля name виджета main необходимо указать объект источника данных ds1");
-        validate("net/n2oapp/framework/config/metadata/validation/field/validation/testWhiteListValidationWithDatasourceWithoutObject.page.xml");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithDatasourceWithoutObject.page.xml");
     }
 
     /**
@@ -107,6 +117,6 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     public void testWhiteListValidationWithInlineDatasourceWithoutObject() {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Для компиляции поля name виджета main необходимо указать объект источника данных ");
-        validate("net/n2oapp/framework/config/metadata/validation/field/validation/testWhiteListValidationWithInlineDatasourceWithoutObject.page.xml");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithInlineDatasourceWithoutObject.page.xml");
     }
 }

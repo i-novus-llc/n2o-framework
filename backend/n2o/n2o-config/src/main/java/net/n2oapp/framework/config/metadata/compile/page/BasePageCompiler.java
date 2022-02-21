@@ -120,7 +120,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     @Deprecated
     private void addInlineDatasourcesToScope(List<N2oWidget> sourceWidgets, DataSourcesScope dataSourcesScope) {
         for (N2oWidget widget : sourceWidgets) {
-            if (widget.getDatasourceId() == null) {
+            if (widget.getDatasourceId() == null && (widget.getRefId() == null || !DynamicUtil.isDynamic(widget.getRefId()))) {
                 N2oDatasource datasource;
                 String datasourceId = CompileUtil.generateSourceDatasourceId(widget.getId());
                 if (widget.getDatasource() == null) {

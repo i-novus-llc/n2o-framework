@@ -5,5 +5,9 @@ package net.n2oapp.framework.api.metadata.meta.widget;
  */
 public enum MessagePlacement {
     top,
-    bottom
+    bottom,
+    topLeft,
+    topRight,
+    bottomLeft,
+    bottomRight
 }

@@ -1,7 +1,12 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <alert id="alert" header="header" footer="footer" fade="false" color="info" tag="span">
-            Text
-        </alert>
+        <alert id="alert"
+               title="title"
+               text="text"
+               style="background:blue"
+               class="css-on-field"
+               close-button="true"
+               color="info"
+               href="http://example.org"/>
     </fields>
 </form>
