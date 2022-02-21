@@ -6,15 +6,16 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи ячейки со списком
+ * Тестирование чтения/записи ячейки загрузки файлов
  */
-public class ListCellXmlIOTest {
+public class FileUploadCellXmlIOv3Test {
+
     @Test
-    public void testListCell() {
+    public void testFileUploadCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new TableElementIOV5())
                 .addPack(new N2oCellsV3IOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testListCellIOv3.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testFileUploadCellIOv3.widget.xml");
     }
 }
