@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.Extractable;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.*;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -57,7 +56,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
 
-        List<N2oWidget> sourceWidgets = collectWidgets(items, p);
+        List<N2oWidget> sourceWidgets = collectWidgets(items);
         N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
 
         String pageName = p.cast(context.getPageName(), source.getName());
@@ -194,36 +193,16 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     @Deprecated
     //todo в целевой модели не должно требоваться собирать исходные ввиджеты в список, т.к. виджеты независимы друг от друга
-    protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
+    protected List<N2oWidget> collectWidgets(SourceComponent[] items) {
         List<N2oWidget> result = new ArrayList<>();
         if (items != null) {
             Map<String, Integer> ids = new HashMap<>();
-            addWidgets(items, result, ids, "w", p);
+            for (SourceComponent item : items) {
+                if (item instanceof Extractable)
+                    ((Extractable) item).extractInWidgetList(result, ids, "w");
+            }
         }
         return result;
-    }
-
-    private void addWidgets(SourceComponent[] items, List<N2oWidget> result,
-                            Map<String, Integer> ids, String prefix, CompileProcessor p) {
-        if (!ids.containsKey(prefix))
-            ids.put(prefix, 1);
-        for (SourceComponent item : items) {
-            if (item instanceof N2oWidget) {
-                N2oWidget widget = ((N2oWidget) item);
-                if (widget.getId() == null)
-                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
-                String refId = ((N2oWidget) item).getRefId();
-                if (refId != null && !DynamicUtil.isDynamic(refId))
-                    widget = (N2oWidget) p.merge(p.getSource(refId, N2oWidget.class), item);
-                result.add(widget);
-            } else if (item instanceof N2oTabsRegion) {
-                if (((N2oTabsRegion) item).getTabs() != null)
-                    for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
-                        if (tab.getContent() != null)
-                            addWidgets(tab.getContent(), result, ids, ((N2oTabsRegion) item).getAlias(), p);
-            } else if (item instanceof N2oRegion && ((N2oRegion) item).getContent() != null)
-                addWidgets(((N2oRegion) item).getContent(), result, ids, ((N2oRegion) item).getAlias(), p);
-        }
     }
 
     /**
