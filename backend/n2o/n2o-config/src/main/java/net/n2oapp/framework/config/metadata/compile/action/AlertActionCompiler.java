@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -42,7 +41,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         AlertActionPayload payload = new AlertActionPayload();
         payload.setKey(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
                 p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
-        payload.setAlerts(Collections.singletonList(initMessage(source, p)));
+        payload.setAlert(initMessage(source, p));
         return payload;
     }
 

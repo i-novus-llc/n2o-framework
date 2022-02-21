@@ -15,5 +15,5 @@ public class AlertActionPayload implements ActionPayload {
     @JsonProperty
     private MessagePlacement key;
     @JsonProperty
-    private List<ResponseMessage> alerts;
+    private ResponseMessage alert;
 }
