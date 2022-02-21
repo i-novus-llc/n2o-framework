@@ -352,8 +352,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             item.setAction(actionsBar.getAction());
             if (item.getModel() == null)
                 item.setModel(actionsBar.getModel());
-            if (item.getDatasource() == null)
-                item.setDatasource(actionsBar.getDatasource());
+            if (item.getDatasourceId() == null)
+                item.setDatasourceId(actionsBar.getDatasource());
             if (item.getLabel() == null)
                 item.setLabel(actionsBar.getLabel());
             if (item.getIcon() == null)
@@ -379,7 +379,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};
             n2oToolbar.setGenerate(generate);
             n2oToolbar.setTargetWidgetId(resultWidget != null ? resultWidget.getId() : null);
-            n2oToolbar.setDatasource(resultWidget.getDatasourceId());
+            n2oToolbar.setDatasourceId(resultWidget.getDatasourceId());
             if (source.getToolbars() == null) {
                 source.setToolbars(new N2oToolbar[0]);
             }

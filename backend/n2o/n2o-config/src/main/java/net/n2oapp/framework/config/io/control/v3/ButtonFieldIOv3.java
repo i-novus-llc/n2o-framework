@@ -24,7 +24,7 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
     public void io(Element e, N2oButtonField m, IOProcessor p) {
         super.io(e, m, p);
 
-        p.attribute(e, "datasource", m::getDatasource, m::setDatasource);
+        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "color", m::getColor, m::setColor);

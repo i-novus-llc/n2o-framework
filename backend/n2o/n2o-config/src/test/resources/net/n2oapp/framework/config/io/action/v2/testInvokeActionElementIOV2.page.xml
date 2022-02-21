@@ -5,7 +5,7 @@
             <invoke
                     src="test"
                     operation-id="update"
-                    datasource="testObject"
+                    object-id="testObject"
                     route="/test"
                     close-on-success="true"
                     refresh-on-success="false"

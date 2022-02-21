@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
@@ -25,9 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
@@ -81,8 +78,8 @@ public class ClientDataProviderUtil {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
-                return datasourceIdAware.getDatasource();
+            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
+                return datasourceIdAware.getDatasourceId();
             }
         }
         return null;

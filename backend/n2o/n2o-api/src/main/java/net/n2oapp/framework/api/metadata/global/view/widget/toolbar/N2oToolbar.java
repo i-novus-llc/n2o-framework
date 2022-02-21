@@ -19,7 +19,7 @@ public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceId
     private String[] generate;
     private ToolbarItem[] items;
     @Deprecated private String targetWidgetId;
-    private String datasource;
+    private String datasourceId;
 
     public N2oToolbar(String[] generate, ToolbarItem[] items) {
         this.generate = generate;

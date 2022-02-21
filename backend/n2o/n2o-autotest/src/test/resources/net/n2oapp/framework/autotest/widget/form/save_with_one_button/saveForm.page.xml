@@ -5,10 +5,10 @@
     </datasources>
     <toolbar>
         <button id="create" datasource="ds1" label="Сохранить" visible="{typeof id == 'undefined' || id == null}">
-            <invoke operation-id="create" datasource="ds1" close-on-success="true"/>
+            <invoke operation-id="create" close-on-success="true"/>
         </button>
         <button id="update" widget-id="main" datasource="ds1" label="Сохранить" visible="{id!=null}">
-            <invoke operation-id="update" datasource="ds1" close-on-success="true"/>
+            <invoke operation-id="update" close-on-success="true"/>
         </button>
     </toolbar>
     <regions>

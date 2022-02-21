@@ -208,8 +208,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
                 mi.setModel(action.getModel());
-            if (mi.getDatasource() == null)
-                mi.setDatasource(action.getDatasource());
+            if (mi.getDatasourceId() == null)
+                mi.setDatasourceId(action.getDatasource());
             if (mi.getLabel() == null)
                 mi.setLabel(action.getLabel());
             if (mi.getIcon() == null)

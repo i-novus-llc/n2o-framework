@@ -179,7 +179,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
-        String localDatasourceId = p.cast(source.getDatasource(), () -> getLocalDatasource(p));
+        String localDatasourceId = getLocalDatasource(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
         pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
@@ -187,8 +187,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
-        if (source.getRefreshDatasources() != null) {
-            pageContext.setRefreshClientDataSources(Arrays.stream(source.getRefreshDatasources())
+        pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
+        if ((pageContext.getRefreshOnSuccessSubmit() || pageContext.getRefreshOnClose()) &&
+                (source.getRefreshDatasources() != null || localDatasourceId != null)) {
+            String[] refreshDatasources = source.getRefreshDatasources() == null ?
+                    new String[] {localDatasourceId} : source.getRefreshDatasources();
+            pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
                     .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
         }
         if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {
@@ -196,7 +200,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             if (datasourceId != null)
                 pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
         }
-        pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
+
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
         if (source.getRedirectUrlAfterSubmit() != null) {
             pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
@@ -228,9 +232,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (componentScope != null) {
             String datasource;
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
-                datasource = pageScope == null ? datasourceIdAware.getDatasource()
-                        : pageScope.getClientDatasourceId(datasourceIdAware.getDatasource());
+            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
+                datasource = pageScope == null ? datasourceIdAware.getDatasourceId()
+                        : pageScope.getClientDatasourceId(datasourceIdAware.getDatasourceId());
             } else {
                 datasource = (pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null)
                         ? clientWidgetId
