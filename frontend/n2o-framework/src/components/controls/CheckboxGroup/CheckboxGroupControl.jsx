@@ -37,10 +37,6 @@ export class CheckboxGroupControl extends React.Component {
         })
     }
 
-    /**
-   * Рендер
-   */
-
     render() {
         const { data, labelFieldId, valueFieldId, type, isLoading } = this.props
 
