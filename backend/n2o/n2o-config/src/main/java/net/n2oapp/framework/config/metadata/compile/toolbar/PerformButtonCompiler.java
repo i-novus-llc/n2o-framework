@@ -130,15 +130,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (validate) {
             if (source.getValidateDatasources() != null)
                 return source.getValidateDatasources();
-            if (source.getDatasource() != null)
+            if (source.getDatasourceId() != null)
                 return new String[]{datasource};
         }
         return null;
     }
 
     private CompiledObject initObject(CompileProcessor p, N2oButton button) {
-        if (button.getDatasource() != null && p.getScope(DataSourcesScope.class) != null) {
-            N2oDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasource());
+        if (button.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
+            N2oDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
             if (datasource.getObjectId() != null) {
                 return p.getCompiled(new ObjectContext(datasource.getObjectId()));
             } else if (datasource.getQueryId() != null) {
@@ -186,7 +186,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             confirm.setText(text);
         }
         if (StringUtils.isJs(confirm.getText())) {
-            String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasource());
+            String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasourceId());
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
         }
@@ -205,8 +205,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private String initDatasource(N2oButton source, CompileProcessor p) {
-        if (source.getDatasource() != null)
-            return source.getDatasource();
+        if (source.getDatasourceId() != null)
+            return source.getDatasourceId();
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             return widgetScope.getDatasourceId();
@@ -223,7 +223,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     protected void compileDependencies(N2oButton source, PerformButton button,
                                        CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        String clientDatasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
+        String clientDatasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasourceId()) : source.getDatasourceId();
         List<Condition> enabledConditions = new ArrayList<>();
 
         if (source.getVisibilityCondition() != null)
@@ -234,7 +234,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
-        if (source.getDatasource() != null) {
+        if (source.getDatasourceId() != null) {
             Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
             if (emptyModelCondition != null)
                 enabledConditions.add(emptyModelCondition);

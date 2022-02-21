@@ -15,12 +15,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -84,7 +82,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
-                String datasourceId = p.cast(visibility.getDatasource(), defaultDatasource);
+                String datasourceId = p.cast(visibility.getDatasourceId(), defaultDatasource);
                 String datasource = pageScope.getClientDatasourceId(datasourceId);
                 ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();

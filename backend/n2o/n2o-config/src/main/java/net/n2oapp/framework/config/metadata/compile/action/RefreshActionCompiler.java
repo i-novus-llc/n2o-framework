@@ -28,7 +28,7 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
         compileAction(refreshAction, source, p);
         refreshAction.setType(p.resolve(property("n2o.api.action.refresh.type"), String.class));
         PageScope pageScope = p.getScope(PageScope.class);
-        String datasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
+        String datasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasourceId()) : source.getDatasourceId();
         ((RefreshPayload) refreshAction.getPayload()).setDatasource(datasource);
         return refreshAction;
     }
@@ -36,6 +36,6 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
     @Override
     protected void initDefaults(N2oRefreshAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setDatasource(p.cast(source.getDatasource(), getLocalDatasource(p)));
+        source.setDatasource(p.cast(source.getDatasourceId(), getLocalDatasource(p)));
     }
 }

@@ -117,8 +117,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     }
 
     private String initDatasource(N2oButtonField source, CompileProcessor p) {
-        if (source.getDatasource() != null)
-            return source.getDatasource();
+        if (source.getDatasourceId() != null)
+            return source.getDatasourceId();
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             return widgetScope.getDatasourceId();
@@ -153,8 +153,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
 
     protected String initGlobalDatasourceId(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getDatasource() != null) {
-            return pageScope != null ? pageScope.getClientDatasourceId(source.getDatasource()) : source.getDatasource();
+        if (source.getDatasourceId() != null) {
+            return pageScope != null ? pageScope.getClientDatasourceId(source.getDatasourceId()) : source.getDatasourceId();
         }
         String datasourceId = initLocalDatasourceId(p);
         if (datasourceId != null)

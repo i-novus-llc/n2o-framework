@@ -152,8 +152,8 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
-                return datasourceIdAware.getDatasource();
+            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
+                return datasourceIdAware.getDatasourceId();
             }
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);

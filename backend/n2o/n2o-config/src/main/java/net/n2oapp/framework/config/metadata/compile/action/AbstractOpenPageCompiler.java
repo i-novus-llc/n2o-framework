@@ -232,9 +232,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (componentScope != null) {
             String datasource;
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasource() != null) {
-                datasource = pageScope == null ? datasourceIdAware.getDatasource()
-                        : pageScope.getClientDatasourceId(datasourceIdAware.getDatasource());
+            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
+                datasource = pageScope == null ? datasourceIdAware.getDatasourceId()
+                        : pageScope.getClientDatasourceId(datasourceIdAware.getDatasourceId());
             } else {
                 datasource = (pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null)
                         ? clientWidgetId

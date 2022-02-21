@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -34,7 +33,7 @@ public class SubmitGenerator implements ButtonGenerator {
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
         if (!(context instanceof PageContext))
             throw new IllegalStateException("Need PageContext");
-        String datasource = toolbar.getDatasource();
+        String datasource = toolbar.getDatasourceId();
         PageContext pageContext = (PageContext) context;
 
         N2oButton saveButton = new N2oButton();
@@ -83,7 +82,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setDatasource(datasource);
         saveButton.setAction(action);
-        saveButton.setDatasource(toolbar.getDatasource());
+        saveButton.setDatasource(toolbar.getDatasourceId());
         saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));
         saveButton.setValidate(true);
         return Collections.singletonList(saveButton);
