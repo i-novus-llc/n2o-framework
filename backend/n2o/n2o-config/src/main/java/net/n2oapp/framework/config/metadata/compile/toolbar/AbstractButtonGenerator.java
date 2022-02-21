@@ -32,11 +32,9 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
             case delete: {
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
                 invokeAction.setOperationId(action.name());
-                WidgetScope widgetScope = p.getScope(WidgetScope.class);
-                String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
-                invokeAction.setRoute(normalize("/" + widgetId + "/delete"));
                 button.setConfirm("true");
                 button.setAction(invokeAction);
+
             }
             break;
             case create: {

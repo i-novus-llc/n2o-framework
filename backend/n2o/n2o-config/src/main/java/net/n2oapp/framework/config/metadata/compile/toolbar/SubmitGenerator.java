@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
