@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения и записи ячейки с кнопками
  */
-public class ToolbarCellXmlIOTest {
+public class ToolbarCellXmlIOv3Test {
     @Test
     public void testToolbarCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

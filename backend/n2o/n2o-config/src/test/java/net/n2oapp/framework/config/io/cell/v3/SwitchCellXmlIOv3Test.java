@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения и записи переключаемой ячейки
  */
-public class SwitchCellXmlIOTest {
+public class SwitchCellXmlIOv3Test {
     @Test
     public void testSwitchCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

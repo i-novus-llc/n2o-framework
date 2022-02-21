@@ -6,15 +6,15 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи ячейки с иконкой
+ * Тестирование чтения и записи ячейки с индикатором прогресса
  */
-public class IconCellXmlIOTest {
+public class ProgressBarCellXmlIOv3Test {
     @Test
-    public void testIconCell() {
+    public void testProgressBarCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new TableElementIOV5())
                 .addPack(new N2oCellsV3IOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testIconCellIOv3.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testProgressBarCellIOv3.widget.xml");
     }
 }

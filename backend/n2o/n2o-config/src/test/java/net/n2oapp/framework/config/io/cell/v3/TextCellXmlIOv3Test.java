@@ -6,15 +6,15 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтение и записи ячейки с тултипом и раскрывающимся текстовым списком
+ * Тестирование чтения и записи ячейки с текстом
  */
-public class TooltipListCellXmlIOTest {
+public class TextCellXmlIOv3Test {
     @Test
-    public void testTooltipListCell() {
+    public void testTextCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new TableElementIOV5())
                 .addPack(new N2oCellsV3IOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testTooltipListCellIOv3.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testTextCellIOv3.widget.xml");
     }
 }
