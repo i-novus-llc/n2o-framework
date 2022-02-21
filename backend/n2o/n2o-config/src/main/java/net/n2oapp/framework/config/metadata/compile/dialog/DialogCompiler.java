@@ -46,7 +46,7 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
                     .filter(N2oInvokeAction.class::isInstance)
                     .forEach(act -> ((N2oInvokeAction) act).setDoubleCloseOnSuccess(true));
             Arrays.stream(source.getToolbar().getItems()).filter(N2oButton.class::isInstance)
-                    .forEach(mi -> ((N2oButton) mi).setDatasource(context.getParentSourceDatasourceId()));
+                    .forEach(mi -> ((N2oButton) mi).setDatasourceId(context.getParentSourceDatasourceId()));
 
             ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(
                     p.resolve(property("n2o.api.dialog.toolbar.place"), String.class));

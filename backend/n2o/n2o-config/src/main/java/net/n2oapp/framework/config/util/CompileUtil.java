@@ -9,8 +9,8 @@ import java.util.function.Function;
  */
 public class CompileUtil {
 
-    public static String generateSourceDatasourceId(String widgetId) {
-        return widgetId;
+    public static String generateSourceDatasourceId(String datasourceId) {
+        return datasourceId;
     }
 
     public static String generateDatasourceId(String pageId, String localDatasourceId) {

@@ -101,7 +101,7 @@
                         <xs:documentation>Круглая форма кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="confirm" type="xs:boolean" default="false">
+                <xs:attribute name="confirm" type="xs:string" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
                     </xs:annotation>

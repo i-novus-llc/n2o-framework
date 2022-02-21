@@ -5,7 +5,7 @@
             <dependencies>
                 <enabling on="type">type.id == 1</enabling>
                 <enabling on="type2">type.id == 2</enabling>
-<!--                <visibility on="type" reset="false">type.id == 1</visibility>-->
+                <visibility on="type" reset="false">type.id == 1</visibility>
                 <set-value on="type">if (type.id == 1) return "Test";</set-value>
                 <requiring on="type">type.id == 1</requiring>
                 <reset on="type">type.id == 1</reset>
@@ -21,7 +21,7 @@
                         model="filter">
                     <show-modal src="src"
                                 page-id="pageId"
-                                datasource="objectId"
+                                object-id="objectId"
                                 page-name="pageName"
                                 submit-operation-id="operationId"
                                 modal-size="lg"

@@ -52,6 +52,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
         p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
         p.attributeEnum(e, "children", t::getChildren, t::setChildren, N2oTable.ChildrenToggle.class);
+        t.adapterV4();
     }
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {

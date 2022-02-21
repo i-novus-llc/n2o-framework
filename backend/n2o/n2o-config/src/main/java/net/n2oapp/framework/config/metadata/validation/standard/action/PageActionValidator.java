@@ -44,27 +44,12 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         }
 
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        checkDatasource(source, datasourceIdsScope);
         checkTargetDatasource(source, datasourceIdsScope);
 
         if (source.getDatasources() != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources()).forEach(datasource -> actionDatasourceScope.add(datasource.getId()));
             Arrays.stream(source.getDatasources()).forEach(datasource -> p.validate(datasource, actionDatasourceScope));
-        }
-    }
-
-    /**
-     * Проверка существования источника данных, на который ссылается действие открытия страницы
-     * @param source           Действие открытия страницы
-     * @param datasourceIdsScope Скоуп источников данных
-     */
-    private void checkDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getDatasource() != null) {
-            String openPage = ValidationUtils.getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getDatasource(), datasourceIdsScope,
-                    String.format("Действие открытия сотраницы %s сылается на несуществующий источник данных '%s'",
-                            openPage, source.getDatasource()));
         }
     }
 

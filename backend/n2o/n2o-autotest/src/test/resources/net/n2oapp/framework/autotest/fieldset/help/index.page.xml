@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Филдсеты и поля с подсказками">
+    <form>
+        <datasource query-id="test"/>
+        <fields>
+            <set help="{setHelp}">
+                <input-text id="series" label="Серия" help="{seriesHelp}"/>
+                <input-text id="number" label="Номер" help="{numberHelp}"/>
+            </set>
+            <line help="{lineHelp}">
+                <row>
+                    <input-select id="select" label="Выпадающий список"/>
+                    <input-select id="selectMulti" label="Множественный выбор" type="checkboxes"/>
+                </row>
+            </line>
+            <multi-set help="{multisetHelp}">
+                <row>
+                    <input-text id="name" label="Имя"/>
+                    <input-text id="age" label="Возраст"/>
+                </row>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

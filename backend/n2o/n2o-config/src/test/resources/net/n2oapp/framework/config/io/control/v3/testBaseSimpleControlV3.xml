@@ -34,7 +34,7 @@
                 model="filter">
             <show-modal src="src"
                         page-id="pageId"
-                        datasource="ds1"
+                        object-id="test"
                         page-name="pageName"
                         submit-operation-id="operationId"
                         modal-size="lg"

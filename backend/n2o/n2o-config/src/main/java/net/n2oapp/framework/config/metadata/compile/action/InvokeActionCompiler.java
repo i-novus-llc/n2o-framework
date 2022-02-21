@@ -57,7 +57,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(initClientDatasource(source.getDatasource(), p));
+        invokeAction.getPayload().setDatasource(initClientDatasource(getLocalDatasource(p), p));
         invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
@@ -75,7 +75,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         super.initDefaults(source, context, p);
         source.setDoubleCloseOnSuccess(p.cast(source.getDoubleCloseOnSuccess(), false));
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
-        source.setDatasource(p.cast(source.getDatasource(), () -> getLocalDatasource(p)));
+        source.setObjectId(p.cast(source.getObjectId(), () -> getDefaultObjectId(p)));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasources(initRefreshDatasources(source, p));
@@ -92,8 +92,9 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
         if (source.getRefreshDatasources() != null)
             return source.getRefreshDatasources();
-        if (source.getDatasource() != null)
-            return new String[]{source.getDatasource()};
+        String localDatasource = getLocalDatasource(p);
+        if (localDatasource != null)
+            return new String[]{localDatasource};
         return null;
     }
 
@@ -150,7 +151,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                     if (pageScope != null)
                         meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
                                 .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
-                } else if (closeOnSuccess && (context instanceof PageContext) && ((PageContext) context).getRefreshClientDataSources() != null)
+                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSources() != null)
                     meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
             }
         }
@@ -192,8 +193,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setId(source.getId());
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
-        dataProvider.setDatasourceId(source.getDatasource());
-        dataProvider.setGlobalDatasourceId(initClientDatasource(source.getDatasource(), p));
+        dataProvider.setDatasourceId(getLocalDatasource(p));
+        dataProvider.setGlobalDatasourceId(initClientDatasource(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());
@@ -231,14 +232,15 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (source.getObjectId() != null) {
             compiledObject = p.getCompiled(new ObjectContext(source.getObjectId()));
         }
-        if (compiledObject == null && source.getDatasource() != null) {
+        String localDatasource = getLocalDatasource(p);
+        if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
-                String objectId = dataSourcesScope.get(source.getDatasource()).getObjectId();
+                String objectId = dataSourcesScope.get(localDatasource).getObjectId();
                 if (objectId != null) {
                     compiledObject = p.getCompiled(new ObjectContext(objectId));
-                } else if (dataSourcesScope.get(source.getDatasource()).getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(source.getDatasource()).getQueryId()));
+                } else if (dataSourcesScope.get(localDatasource).getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(localDatasource).getQueryId()));
                     compiledObject = query.getObject();
                 }
             }

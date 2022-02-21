@@ -43,16 +43,6 @@ public class DatasourceLinkValidationTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяется, что источник данных, указанный в атрибуте действия открытия страницы, существует
-     */
-    @Test
-    public void testNonExistentDatasourceReferenceInOpenPage() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Действие открытия сотраницы utDsLinkBlank сылается на несуществующий источник данных 'ds1'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentDatasourceReferenceInOpenPage.page.xml");
-    }
-
-    /**
      * Проверяется, что в атрибуте target-datasource действия открытия модального окна указан существующий источник данных
      */
     @Test
@@ -60,16 +50,6 @@ public class DatasourceLinkValidationTest extends SourceValidationTestBase {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Атрибут \"target-datasource\" действия открытия страницы utDsLinkBlank ссылается на несущетсвующий источник данных 'ds1'");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentTargetDatasourceInShowModal.page.xml");
-    }
-
-    /**
-     * Проверяется, что действие invoke ссылается на существующий источник данных
-     */
-    @Test
-    public void testNonExistentDatasourceInInvoke() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Действие create ссылается на несуществующий источник данных 'ds1'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentDatasourceInInvoke.page.xml");
     }
 
     /**

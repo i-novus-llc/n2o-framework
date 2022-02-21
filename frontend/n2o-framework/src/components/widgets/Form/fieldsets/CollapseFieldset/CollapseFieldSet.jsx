@@ -12,6 +12,7 @@ function CollapseFieldSet({
     hasArrow,
     hasSeparator,
     description,
+    help,
 }) {
     const currentType = hasSeparator ? type : 'divider'
 
@@ -22,6 +23,7 @@ function CollapseFieldSet({
                 description={description}
                 type={currentType}
                 showArrow={hasArrow}
+                help={help}
                 forceRender
             >
                 {render(rows)}
@@ -39,6 +41,7 @@ CollapseFieldSet.propTypes = {
     hasSeparator: PropTypes.bool,
     render: PropTypes.func,
     description: PropTypes.string,
+    help: PropTypes.string,
 }
 
 CollapseFieldSet.defaultProps = {

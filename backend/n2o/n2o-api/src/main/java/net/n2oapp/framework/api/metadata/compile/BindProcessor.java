@@ -3,12 +3,9 @@ package net.n2oapp.framework.api.metadata.compile;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,7 +79,7 @@ public interface BindProcessor {
      * Заменить в тексте плейсхолдеры на значения и конвертировать в объект
      *
      * @param value значение для конвертации
-     * @param <T>         Тип значения
+     * @param <T>   Тип значения
      * @return значение
      */
     <T> T resolve(Object value, Class<T> clazz);

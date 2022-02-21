@@ -228,7 +228,6 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение моделей фильтров через выборку
      */
     @Test
-    @Ignore //todo NNO-7302
     public void defaultValuesQueryTest() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         PageContext context = new PageContext("testDefValQuery", "table");
@@ -251,6 +250,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         name = page.getModels().get("filter['table_main'].name");
         assertThat(name.getValue(), is("test2"));
 
+       /* todo NNO-7523
         doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
         page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
@@ -259,7 +259,7 @@ public class PageBinderTest extends SourceCompileTestBase {
 
         //Разрешится значение из запроса, т.к. оно самое приоритетное
         name = page.getModels().get("filter['table_main'].name");
-        assertThat(name.getValue(), is("test3"));
+        assertThat(name.getValue(), is("test3"));*/
     }
 
     /**

@@ -12,7 +12,9 @@ class HelpPopover extends React.Component {
         this.button = createRef()
     }
 
-  focusOnClick = () => {
+  focusOnClick = (e) => {
+      e.stopPropagation()
+      e.preventDefault()
       this.button.current.focus()
   };
 
