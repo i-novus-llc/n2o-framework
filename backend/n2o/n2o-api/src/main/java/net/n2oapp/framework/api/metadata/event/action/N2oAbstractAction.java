@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.event.action;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,13 +16,9 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oAbstractAction implements N2oAction {
-    @JsonProperty
     private String id;
-    @JsonProperty
     private String src;
-    @JsonProperty
     private String namespaceUri;
-    @JsonProperty
     @JsonDeserialize(keyUsing = NameSpaceDeserializer.class)
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
