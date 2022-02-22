@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.pipeline.ReadPipeline;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -79,7 +80,7 @@ public class N2oWebSocketController implements WebSocketController {
         if (application.getEvents() == null)
             throw new N2oStompException("В метаданной приложения не найдены события");
         for (N2oAbstractEvent event : application.getEvents()) {
-            if (event instanceof N2oStompEvent && destination.equals(((N2oStompEvent) event).getDestination()))
+            if (event instanceof N2oStompEvent && RouteUtil.normalize(destination).equals(((N2oStompEvent) event).getDestination()))
                 return ((N2oStompEvent) event).getAction();
         }
         throw new N2oStompException(String.format("В метаданной приложения не найдены события с указанным местом назначения %s", destination));
