@@ -16,6 +16,6 @@ public abstract class N2oAbstractAction implements N2oAction {
     private String id;
     private String src;
     private String namespaceUri;
-    @JsonIgnore
+    @JsonIgnore //todo добавить в io и метод для десериализации в N2oWebSocketController
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 }
