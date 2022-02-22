@@ -21,6 +21,15 @@
         </stomp-datasource>
     </datasources>
 
+    <events>
+        <stomp-event id="ev1" destination="/notifications">
+            <alert color="{color}" timeout="{timeout}" title="{title}" text="{text}" placement="{placement}" />
+        </stomp-event>
+        <stomp-event id="ev2" destination="/task">
+            <alert color="primary" timeout="{timeout}" title="{title}" text="{text}" placement="topLeft" />
+        </stomp-event>
+    </events>
+
     <header
             sidebar-icon="fa fa-bars"
             sidebar-toggled-icon="fa fa-bars"

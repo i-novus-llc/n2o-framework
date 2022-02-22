@@ -18,7 +18,8 @@ public class N2oAlertAction extends N2oAbstractAction {
     private String style;
     private String cssClass;
     private String time;
+    private String timeout;
+    private String placement;
     private Boolean closeButton;
-    private Integer timeout;
-    private MessagePlacement placement;
+
 }
