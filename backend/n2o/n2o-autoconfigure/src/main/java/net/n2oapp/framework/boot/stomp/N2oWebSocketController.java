@@ -15,7 +15,6 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,15 +24,15 @@ import java.util.Map;
 public class N2oWebSocketController implements WebSocketController {
 
     private ReadPipeline pipeline;
-
     private MetadataEnvironment environment;
-
+    private ObjectMapper mapper;
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    public N2oWebSocketController(ReadPipeline pipeline, MetadataEnvironment environment) {
+    public N2oWebSocketController(ReadPipeline pipeline, MetadataEnvironment environment, ObjectMapper mapper) {
         this.pipeline = pipeline;
         this.environment = environment;
+        this.mapper = mapper;
     }
 
     public void setPipeline(ReadPipeline pipeline) {
@@ -62,18 +61,16 @@ public class N2oWebSocketController implements WebSocketController {
         return p.compile(resolveLinks(stompAction, message), null);
     }
 
-    private N2oAction resolveLinks(Object stompAction, Object message) {
-        ObjectMapper mapper = new ObjectMapper();
+    private Object resolveLinks(Object stompAction, Object message) {
         Map<String, String> sourceMap = mapper.convertValue(stompAction, Map.class);
         Map<String, Object> messageActionMap = mapper.convertValue(message, Map.class);
-        Map<String, String> result = new HashMap<>();
         for (Map.Entry<String, String> attr : sourceMap.entrySet()) {
-            for (Map.Entry<String, Object> val : messageActionMap.entrySet()) {
-                if (attr.getValue() instanceof String && val.getKey().equals(StringUtils.unwrapLink(attr.getValue())))
-                    result.put(attr.getKey(), val.getValue() != null ? val.getValue().toString() : null);
+            if (StringUtils.isLink(attr.getValue())) {
+                String text = StringUtils.unwrapLink(attr.getValue());
+                sourceMap.put(attr.getKey(), messageActionMap.get(text) != null ? messageActionMap.get(text).toString() : null);
             }
         }
-        return (N2oAction) mapper.convertValue(result, stompAction.getClass());
+        return mapper.convertValue(sourceMap, stompAction.getClass());
     }
 
     private N2oAction getStompAction(String destination, N2oApplication application) {

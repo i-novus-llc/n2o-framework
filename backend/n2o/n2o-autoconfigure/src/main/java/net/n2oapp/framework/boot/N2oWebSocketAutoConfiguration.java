@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
@@ -49,6 +50,7 @@ public class N2oWebSocketAutoConfiguration implements WebSocketMessageBrokerConf
 
     @Bean
     public WebSocketController wsController(MetadataEnvironment environment) {
-        return new N2oWebSocketController(N2oPipelineSupport.readPipeline(environment), environment);
+        ObjectMapper mapper = new ObjectMapper();
+        return new N2oWebSocketController(N2oPipelineSupport.readPipeline(environment), environment, mapper);
     }
 }
