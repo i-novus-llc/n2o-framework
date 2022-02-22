@@ -30,7 +30,6 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
-    "moment": "^2.24.0",
     "n2o-auth": "7.20.0",
     "n2o-framework": "7.20.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
@@ -68,6 +67,7 @@
     "core-js": "^3.6.5"
   },
   "peerDependencies": {
+    "moment": "*",
     "react": "*",
     "react-dom": "*",
     "react-router-dom": "*",
