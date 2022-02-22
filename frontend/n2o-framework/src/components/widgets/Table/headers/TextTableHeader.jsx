@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers } from 'recompose'
-import { batchActions } from 'redux-batched-actions'
+import { batch } from 'react-redux'
 
 // eslint-disable-next-line import/no-named-as-default
 import Sorter from '../../../snippets/Sorter/Sorter'
@@ -46,12 +46,10 @@ TextTableHeader.propTypes = {
 const enhance = compose(
     withHandlers({
         toggleVisibility: ({ dispatch, widgetId, columnId }) => (visible) => {
-            dispatch(
-                batchActions([
-                    changeColumnVisibility(widgetId, columnId, visible),
-                    changeFrozenColumn(widgetId, columnId),
-                ]),
-            )
+            batch(() => {
+                dispatch(changeColumnVisibility(widgetId, columnId, visible))
+                dispatch(changeFrozenColumn(widgetId, columnId))
+            })
         },
     }),
     lifecycle({

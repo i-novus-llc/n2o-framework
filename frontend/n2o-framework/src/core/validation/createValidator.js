@@ -12,7 +12,6 @@ import compact from 'lodash/compact'
 import map from 'lodash/map'
 import has from 'lodash/has'
 import flatten from 'lodash/flatten'
-import { batchActions } from 'redux-batched-actions'
 
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { isPromise } from '../../tools/helpers'
@@ -242,8 +241,10 @@ export function validate(
             }
         })
 
-        if (messagesAction) {
-            dispatch(batchActions(messagesAction))
+        if (messagesAction?.length) {
+            for (const action of messagesAction) {
+                dispatch(action)
+            }
         }
 
         return hasError(errors)

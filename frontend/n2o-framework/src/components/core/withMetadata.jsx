@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { batchActions } from 'redux-batched-actions'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import { createStructuredSelector } from 'reselect'
@@ -144,7 +143,7 @@ const withMetadata = (Component) => {
             getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(metadataRequest(
                 pageId, rootPage, pageUrl, pageMapping,
             )),
-            reset: pageId => dispatch(batchActions([resetPage(pageId)])),
+            reset: pageId => dispatch(resetPage(pageId)),
             routeMap: pageId => dispatch(mapUrl(pageId)),
         }
     }
