@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose, lifecycle, withHandlers } from 'recompose'
-import { connect, batch } from 'react-redux'
+import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
 
@@ -53,10 +53,8 @@ const createRegionContainer = config => (WrappedComponent) => {
             changeActiveEntity: props => (value) => {
                 const { dispatch, id } = props
 
-                batch(() => {
-                    dispatch(setActiveRegion(id, value))
-                    dispatch(mapUrl(value))
-                })
+                dispatch(setActiveRegion(id, value))
+                dispatch(mapUrl(value))
             },
         }),
         lifecycle({
