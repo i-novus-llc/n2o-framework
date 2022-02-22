@@ -107,7 +107,7 @@ class SimpleHeader extends React.Component {
         }
 
         const navItems = mapItems(items)
-        const extraNavItems = mapItems(extraMenu.items, { right: true })
+        const extraNavItems = mapItems(extraMenu, { right: true })
 
         const simpleHeaderClassNames = classNames(
             'n2o-header',
