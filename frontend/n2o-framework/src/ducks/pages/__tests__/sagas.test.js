@@ -136,7 +136,7 @@ describe('Сага для для наблюдения за изменением 
 
             const value = gen.next()
             expect(value.value.type).toBe('PUT')
-            expect(value.value.payload.action.type).toBe('BATCHING_REDUCER.BATCH')
+            expect(value.value.payload.action).toEqual({ link: 'test.id' })
             expect(gen.next().done).toBeTruthy()
         })
     })
@@ -170,16 +170,21 @@ describe('Сага для для наблюдения за изменением 
                         },
                     },
                     queryMapping: {
-                        q: {
-                            link: 'model',
-                            value: '`q`',
+                        name: {
+                            get: {
+                                payload: "",
+                                type: "test",
+                            }
                         },
                     },
                 },
             )
             const value = gen.next()
             expect(value.value.type).toBe('PUT')
-            expect(value.value.payload.action.type).toBe('BATCHING_REDUCER.BATCH')
+            expect(value.value.payload.action).toEqual({
+                payload: "",
+                type: "test",
+            })
             expect(gen.next().done).toBeTruthy()
         })
     })
@@ -227,9 +232,11 @@ describe('Сага для для наблюдения за изменением 
                                         },
                                     },
                                     queryMapping: {
-                                        q: {
-                                            link: 'model',
-                                            value: '`q`',
+                                        name: {
+                                            get: {
+                                                payload: "",
+                                                type: "test",
+                                            }
                                         },
                                     },
                                 },
@@ -262,10 +269,12 @@ describe('Сага для для наблюдения за изменением 
                     },
                 },
                 queryMapping: {
-                    q: {
-                        link: 'model',
-                        value: '`q`',
-                    },
+                    name: {
+                        get: {
+                            payload: "",
+                            type: "test",
+                        }
+                    }
                 },
             })
             await delay(300)
@@ -317,10 +326,12 @@ describe('Сага для для наблюдения за изменением 
                                         },
                                     },
                                     queryMapping: {
-                                        q: {
-                                            link: 'model',
-                                            value: '`q`',
-                                        },
+                                        name: {
+                                            get: {
+                                                payload: "",
+                                                type: "test",
+                                            }
+                                        }
                                     },
                                 },
                             },
@@ -333,10 +344,11 @@ describe('Сага для для наблюдения за изменением 
             await runSaga(fakeStore, processUrl)
             await delay(300)
 
-            expect(dispatched[0].type).toBe('BATCHING_REDUCER.BATCH')
-            expect(dispatched[0].payload).toEqual([{ link: 'test.id' }])
-            expect(dispatched[1].type).toBe('BATCHING_REDUCER.BATCH')
-            expect(dispatched[1].payload).toEqual([])
+            expect(dispatched[0]).toEqual({ link: 'test.id' })
+            expect(dispatched[1]).toEqual({
+                payload: "",
+                type: "test",
+            })
         })
     })
     describe('тесты getMetadata', () => {

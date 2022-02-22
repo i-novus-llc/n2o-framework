@@ -122,7 +122,6 @@
     "recompose": "0.30.0",
     "redux": "4.1.2",
     "redux-actions": "2.6.5",
-    "redux-batched-actions": "0.5.0",
     "redux-form": "8.3.8",
     "redux-logger": "3.0.6",
     "redux-mock-store": "1.5.4",
