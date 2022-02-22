@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.Extractable;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oWidget extends N2oMetadata implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, Extractable {
+public abstract class N2oWidget extends N2oMetadata implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem {
     private String src;
     private String customize;
     private String name;
@@ -184,7 +184,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     }
 
     @Override
-    public void extractInWidgetList(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+    public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
         if (!ids.containsKey(prefix))
             ids.put(prefix, 1);
         if (getId() == null)

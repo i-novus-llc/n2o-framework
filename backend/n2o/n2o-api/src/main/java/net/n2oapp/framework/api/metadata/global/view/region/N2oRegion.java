@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.Extractable;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oRegion extends N2oComponent implements SourceMetadata, Extractable {
+public abstract class N2oRegion extends N2oComponent implements SourceMetadata, RegionItem {
     private String id;
     private String width;
     @Deprecated
@@ -33,11 +33,11 @@ public abstract class N2oRegion extends N2oComponent implements SourceMetadata, 
     }
 
     @Override
-    public void extractInWidgetList(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+    public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
         if (content != null) {
             for (SourceComponent component : content) {
-                if (component instanceof Extractable)
-                    ((Extractable) component).extractInWidgetList(result, ids, getAlias());
+                if (component instanceof RegionItem)
+                    ((RegionItem) component).collectWidgets(result, ids, getAlias());
             }
         }
     }

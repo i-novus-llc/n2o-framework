@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.Extractable;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class N2oTabsRegion extends N2oRegion implements Extractable {
+public class N2oTabsRegion extends N2oRegion implements RegionItem {
     private Boolean alwaysRefresh;
     private Boolean lazy;
     private String activeParam;
@@ -30,20 +30,20 @@ public class N2oTabsRegion extends N2oRegion implements Extractable {
 
     @Getter
     @Setter
-    public static class Tab implements Source, ExtensionAttributesAware, Extractable {
+    public static class Tab implements Source, ExtensionAttributesAware, RegionItem {
         private String id;
         private String name;
         private SourceComponent[] content;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
         @Override
-        public void extractInWidgetList(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+        public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
             if (content != null) {
                 if (!ids.containsKey(prefix))
                     ids.put(prefix, 1);
                 for (SourceComponent component : content) {
-                    if (component instanceof Extractable)
-                        ((Extractable) component).extractInWidgetList(result, ids, prefix);
+                    if (component instanceof RegionItem)
+                        ((RegionItem) component).collectWidgets(result, ids, prefix);
                 }
             }
         }
@@ -76,9 +76,9 @@ public class N2oTabsRegion extends N2oRegion implements Extractable {
     }
 
     @Override
-    public void extractInWidgetList(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+    public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
         if (tabs != null)
             for (Tab tab : tabs)
-                 tab.extractInWidgetList(result, ids, getAlias());
+                 tab.collectWidgets(result, ids, getAlias());
     }
 }

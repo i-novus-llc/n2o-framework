@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.Extractable;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
@@ -199,8 +199,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (items != null) {
             Map<String, Integer> ids = new HashMap<>();
             for (SourceComponent item : items) {
-                if (item instanceof Extractable)
-                    ((Extractable) item).extractInWidgetList(widgets, ids, "w");
+                if (item instanceof RegionItem)
+                    ((RegionItem) item).collectWidgets(widgets, ids, "w");
             }
         }
         return mergeNotDynamic(widgets, p);
