@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Extractable;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -56,7 +57,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
 
-        List<N2oWidget> sourceWidgets = collectWidgets(items);
+        List<N2oWidget> sourceWidgets = collectWidgets(items, p);
         N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
 
         String pageName = p.cast(context.getPageName(), source.getName());
@@ -193,14 +194,25 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     @Deprecated
     //todo в целевой модели не должно требоваться собирать исходные ввиджеты в список, т.к. виджеты независимы друг от друга
-    protected List<N2oWidget> collectWidgets(SourceComponent[] items) {
-        List<N2oWidget> result = new ArrayList<>();
+    protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
+        List<N2oWidget> widgets = new ArrayList<>();
         if (items != null) {
             Map<String, Integer> ids = new HashMap<>();
             for (SourceComponent item : items) {
                 if (item instanceof Extractable)
-                    ((Extractable) item).extractInWidgetList(result, ids, "w");
+                    ((Extractable) item).extractInWidgetList(widgets, ids, "w");
             }
+        }
+        return mergeNotDynamic(widgets, p);
+    }
+
+    private List<N2oWidget> mergeNotDynamic(List<N2oWidget> widgets, CompileProcessor p) {
+        List<N2oWidget> result = new ArrayList<>();
+        for (N2oWidget w : widgets) {
+            String refId = w.getRefId();
+            if (refId != null && !DynamicUtil.isDynamic(refId))
+                w = p.merge(p.getSource(refId, N2oWidget.class), w);
+            result.add(w);
         }
         return result;
     }
