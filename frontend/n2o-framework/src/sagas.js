@@ -36,7 +36,7 @@ export default function generateSagas(dispatch, config) {
             ...actionsImplSagas(config.apiProvider, config.factories),
             ...alertsSagas(config.messages),
             ...formPluginSagas,
-            ...fieldDependencySagas.map(saga => saga(dispatch)),
+            ...fieldDependencySagas,
             ...authSagas(config.security),
             ...metaSagas,
             ...globalSagas(config.apiProvider),

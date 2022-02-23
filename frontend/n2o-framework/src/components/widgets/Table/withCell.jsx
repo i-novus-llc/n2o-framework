@@ -1,35 +1,11 @@
-import React, { useCallback } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { useCallback, useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
-import { createStructuredSelector } from 'reselect'
 
-import { setActiveModel, setSourceModel } from '../../../ducks/datasource/store'
+import { setSourceModel } from '../../../ducks/datasource/store'
 import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
-
-const mapDispatchToProps = (dispatch, { datasource, allModels }) => bindActionCreators(
-    {
-        // TODO костыль для быстрого решения, по хорошему вынести в таблицу и ячейка ничего не должна знать о моделях
-        updateDatasource: (newModel) => {
-            const list = allModels.map((model) => {
-                if (model.id === newModel.id) {
-                    return newModel
-                }
-
-                return model
-            })
-
-            return setSourceModel(datasource, list)
-        },
-        setResolve: model => dispatch(setActiveModel(datasource, model)),
-    },
-    dispatch,
-)
-
-const mapStateToProps = createStructuredSelector({
-    allModels: (state, { datasource }) => dataSourceModelsSelector(datasource)(state).datasource,
-})
+import { DataSourceContext } from '../../../core/widget/context'
 
 /**
  * HOC для оборачивания Cell
@@ -37,18 +13,28 @@ const mapStateToProps = createStructuredSelector({
  * @param WrappedComponent
  * @returns {*}
  */
-
-// eslint-disable-next-line func-names
-export default function (WrappedComponent) {
+export default function WithCell(WrappedComponent) {
     function WithCellComponent({
-        setResolve,
-        updateDatasource,
         action: defaultAction,
         model,
         datasource,
-        dispatch,
         ...rest
     }) {
+        const dispatch = useDispatch()
+        const { setResolve } = useContext(DataSourceContext)
+        const list = useSelector(dataSourceModelsSelector(datasource)).datasource
+        const updateDatasource = useCallback((newModel) => {
+            // TODO костыль для быстрого решения, по хорошему вынести в таблицу и ячейка ничего не должна знать о моделях
+            const newList = list.map((model) => {
+                if (model.id === newModel.id) {
+                    return newModel
+                }
+
+                return model
+            })
+
+            return setSourceModel(datasource, newList)
+        }, [datasource, list])
         const callAction = useCallback((newModel) => {
             setResolve(newModel)
 
@@ -73,16 +59,11 @@ export default function (WrappedComponent) {
     }
 
     WithCellComponent.propTypes = {
-        setResolve: PropTypes.func,
         action: PropTypes.object,
         model: PropTypes.object,
-        datasource: PropTypes.string,
+        datasource: PropTypes.string.isRequired,
         dispatch: PropTypes.func,
-        updateDatasource: PropTypes.func,
     }
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(WithCellComponent)
+    return WithCellComponent
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 import xorBy from 'lodash/xorBy'
 import some from 'lodash/some'
 import isNull from 'lodash/isNull'
@@ -29,7 +29,6 @@ class CheckboxGroup extends React.Component {
      * @param e - событие
      * @private
      */
-
     onChange = (e) => {
         const { onChange, value, valueFieldId } = this.props
         const { value: newValue } = e.target
@@ -45,10 +44,6 @@ class CheckboxGroup extends React.Component {
 
     // eslint-disable-next-line eqeqeq
     isIncludes = (collection, object, key) => some(collection, item => item[key] == object[key])
-
-    /**
-     * Рендер
-     */
 
     render() {
         const {
@@ -80,17 +75,13 @@ class CheckboxGroup extends React.Component {
             return child.type && checkboxTypes.includes(child.type.displayName)
         }
 
-        const isBtn =
-      children &&
-      React.Children.map(children, child => child.type.displayName).includes(
-          'CheckboxButton',
-      )
+        const isBtn = children && React.Children.map(children, child => child.type.displayName).includes('CheckboxButton')
 
         return (
             <>
                 {visible !== false && (
                     <div
-                        className={cx('n2o-checkbox-group', className, {
+                        className={classNames('n2o-checkbox-group', className, {
                             [`btn-group${inline ? '' : '-vertical'}`]: isBtn,
                             'btn-group-toggle': isBtn,
                             'n2o-checkbox-inline': inline,
@@ -108,17 +99,11 @@ class CheckboxGroup extends React.Component {
 }
 
 CheckboxGroup.propTypes = {
-    /**
-     * Значение
-     */
     value: PropTypes.any,
     /**
      * Callback на изменение
      */
     onChange: PropTypes.func,
-    /**
-     * Флаг активности
-     */
     disabled: PropTypes.bool,
     /**
      * Флаг видимости
@@ -129,13 +114,7 @@ CheckboxGroup.propTypes = {
      * Флаг рендера в одну строку
      */
     inline: PropTypes.bool,
-    /**
-     * Стили
-     */
     style: PropTypes.object,
-    /**
-     * Класс
-     */
     className: PropTypes.string,
     valueFieldId: PropTypes.string,
     onBlur: PropTypes.func,
