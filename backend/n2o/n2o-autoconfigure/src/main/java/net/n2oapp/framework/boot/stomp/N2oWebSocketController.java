@@ -24,6 +24,7 @@ import java.util.Map;
  */
 public class N2oWebSocketController implements WebSocketController {
 
+    private static final String APPLICATION_DEFAULT_NAME = "default";
     private ReadPipeline pipeline;
     private MetadataEnvironment environment;
     private ObjectMapper mapper;
@@ -46,12 +47,14 @@ public class N2oWebSocketController implements WebSocketController {
 
     @Override
     public void convertAndSend(String destination, Object message) {
+        destination = RouteUtil.normalize(destination);
         messagingTemplate.convertAndSend(destination, initAction(destination, message));
     }
 
 
     @Override
     public void convertAndSendToUser(String user, String destination, Object message) {
+        destination = RouteUtil.normalize(destination);
         messagingTemplate.convertAndSendToUser(user, destination, initAction(destination, message));
     }
 
@@ -80,7 +83,7 @@ public class N2oWebSocketController implements WebSocketController {
         if (application.getEvents() == null)
             throw new N2oStompException("В метаданной приложения не найдены события");
         for (N2oAbstractEvent event : application.getEvents()) {
-            if (event instanceof N2oStompEvent && RouteUtil.normalize(destination).equals(((N2oStompEvent) event).getDestination()))
+            if (event instanceof N2oStompEvent && destination.equals(((N2oStompEvent) event).getDestination()))
                 return ((N2oStompEvent) event).getAction();
         }
         throw new N2oStompException(String.format("В метаданной приложения не найдены события с указанным местом назначения %s", destination));
@@ -93,10 +96,10 @@ public class N2oWebSocketController implements WebSocketController {
     private String getApplicationId(MetadataEnvironment environment) {
         List<SourceInfo> sourceInfos = environment.getMetadataRegister().find(N2oApplication.class);
         if (sourceInfos == null || sourceInfos.isEmpty())
-            return "default";
+            return APPLICATION_DEFAULT_NAME;
         return sourceInfos.stream()
                 .map(SourceInfo::getId)
-                .filter(s -> !"default".equals(s)).findFirst().orElse("default");
+                .filter(s -> !APPLICATION_DEFAULT_NAME.equals(s)).findFirst().orElse(APPLICATION_DEFAULT_NAME);
     }
 
 }
