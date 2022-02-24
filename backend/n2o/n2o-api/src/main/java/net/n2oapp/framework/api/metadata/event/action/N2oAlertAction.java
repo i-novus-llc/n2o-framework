@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.event.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 
 /**
  * Действие уведомления
