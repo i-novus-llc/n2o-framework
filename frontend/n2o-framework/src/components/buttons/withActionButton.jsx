@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { compose, withPropsOnChange } from 'recompose'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 
